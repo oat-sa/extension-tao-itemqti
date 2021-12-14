@@ -31,6 +31,8 @@ use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
  */
 class TextReaderExtendedAssetExtractorTest extends TestCase
 {
+    private const CONTENT_PREFIX = 'content-';
+
     /** @var TextReaderAssetExtractor */
     private $subject;
 
@@ -67,7 +69,7 @@ class TextReaderExtendedAssetExtractorTest extends TestCase
         $properties = [];
         for ($i = 0, $maxAssets = random_int($i, 10); $i < $maxAssets; $i++) {
             $dataUrl = "data:image/jpeg;base64," . uniqid('test', true);
-            $properties[TextReaderAssetExtractor::CONTENT_PREFIX . uniqid('test', true)] = $dataUrl;
+            $properties[self::CONTENT_PREFIX . uniqid('test', true)] = $dataUrl;
         }
 
         return new class($properties) extends CustomInteraction {
@@ -94,7 +96,7 @@ class TextReaderExtendedAssetExtractorTest extends TestCase
         $properties = [];
         $contentValues = ['http://localhost', 'file.ext'];
         for ($i = 0, $maxAssets = random_int($i, 10); $i < $maxAssets; $i++) {
-            $properties[TextReaderAssetExtractor::CONTENT_PREFIX . uniqid('test', true)] = $contentValues[$i % 2];
+            $properties[self::CONTENT_PREFIX . uniqid('test', true)] = $contentValues[$i % 2];
         }
 
         return new class($properties) extends CustomInteraction {

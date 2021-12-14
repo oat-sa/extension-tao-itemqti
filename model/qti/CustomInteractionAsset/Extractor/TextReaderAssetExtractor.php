@@ -33,7 +33,7 @@ use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 class TextReaderAssetExtractor implements AssetExtractorInterface
 {
     public const INTERACTION_IDENTIFIER = 'textReaderInteraction';
-    public const CONTENT_PREFIX = 'content-';
+    private const CONTENT_PREFIX = 'content-';
 
     /**
      * @inheritDoc

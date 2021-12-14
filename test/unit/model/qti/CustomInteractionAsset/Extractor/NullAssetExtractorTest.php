@@ -51,7 +51,7 @@ class NullAssetExtractorTest extends TestCase
         $properties = [];
         for ($i = 0, $maxAssets = random_int($i, 10); $i < $maxAssets; $i++) {
             $dataUrl = "data:image/jpeg;base64," . uniqid('test', true);
-            $properties[TextReaderAssetExtractor::CONTENT_PREFIX . uniqid('test', true)] = $dataUrl;
+            $properties[uniqid('test', true)] = $dataUrl;
         }
 
         return new class($properties) extends CustomInteraction {
@@ -78,7 +78,7 @@ class NullAssetExtractorTest extends TestCase
         $properties = [];
         $contentValues = ['http://localhost', 'file.ext'];
         for ($i = 0, $maxAssets = random_int($i, 10); $i < $maxAssets; $i++) {
-            $properties[TextReaderAssetExtractor::CONTENT_PREFIX . uniqid('test', true)] = $contentValues[$i % 2];
+            $properties[uniqid('test', true)] = $contentValues[$i % 2];
         }
 
         return new class($properties) extends CustomInteraction {
