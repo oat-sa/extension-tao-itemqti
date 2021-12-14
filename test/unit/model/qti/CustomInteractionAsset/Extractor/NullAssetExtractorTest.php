@@ -43,35 +43,59 @@ class NullAssetExtractorTest extends TestCase
         $this->assertEmpty($this->subject->extract($this->generateCustomInteractionWithProperties()));
         $this->assertEmpty($this->subject->extract($this->generateCustomInteractionPropertiesWithoutDataUrls()));
     }
-
+    /**
+     * @throws \Exception
+     */
     private function generateCustomInteractionWithProperties(): CustomInteraction
     {
-        return new class extends CustomInteraction{
+        $properties = [];
+        for ($i = 0, $maxAssets = random_int($i, 10); $i < $maxAssets; $i++) {
+            $dataUrl = "data:image/jpeg;base64," . uniqid('test', true);
+            $properties[TextReaderAssetExtractor::CONTENT_PREFIX . uniqid('test', true)] = $dataUrl;
+        }
+
+        return new class($properties) extends CustomInteraction {
+            /**
+             * @var array
+             */
+            private $properties;
+
+            public function __construct(array $properties)
+            {
+                parent::__construct();
+                $this->properties = $properties;
+            }
+
             public function getProperties()
             {
-                $properties = [];
-                for ($i = 0, $maxAssets = random_int($i, 10); $i < $maxAssets; $i++) {
-                    $dataUrl = "data:image/jpeg;base64," . uniqid('test', true);
-                    $properties[TextReaderAssetExtractor::CONTENT_PREFIX . uniqid('test', true)] = $dataUrl;
-                }
-
-                return $properties;
+                return $this->properties;
             }
         };
     }
 
     public function generateCustomInteractionPropertiesWithoutDataUrls(): CustomInteraction
     {
-        return new class extends CustomInteraction{
+        $properties = [];
+        $contentValues = ['http://localhost', 'file.ext'];
+        for ($i = 0, $maxAssets = random_int($i, 10); $i < $maxAssets; $i++) {
+            $properties[TextReaderAssetExtractor::CONTENT_PREFIX . uniqid('test', true)] = $contentValues[$i % 2];
+        }
+
+        return new class($properties) extends CustomInteraction {
+            /**
+             * @var array
+             */
+            private $properties;
+
+            public function __construct(array $properties)
+            {
+                parent::__construct();
+                $this->properties = $properties;
+            }
+
             public function getProperties()
             {
-                $properties = [];
-                $contentValues = ['http://localhost', 'file.ext'];
-                for ($i = 0, $maxAssets = random_int($i, 10); $i < $maxAssets; $i++) {
-                    $properties[TextReaderAssetExtractor::CONTENT_PREFIX . uniqid('test', true)] = $contentValues[$i % 2];
-                }
-
-                return $properties;
+                return $this->properties;
             }
         };
     }
