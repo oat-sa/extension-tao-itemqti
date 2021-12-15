@@ -14,24 +14,19 @@
         text-decoration: inherit;
     }
 
-    @include rtl {
-        .qti-flow-container {
-            p {
-                display: flex;
-                flex-wrap: wrap;
-            }
-        }
-    }
-
     .qti-hottext {
         display: inline-block;
         background: $uiClickableDefaultBg;
         color: $textColor;
-        margin-right: 5px;
+        padding: 0 5px;
         @include border-radius();
         position: relative;
         border-width: 0px !important;
         text-decoration: inherit;
+
+        @include rtl {
+            margin-right: 5px;
+        }
 
         &:hover {
             @extend %selectableHover;
@@ -42,19 +37,8 @@
         }
 
         .hottext-checkmark {
-            padding-left: 3px;
-            padding-right: 0;
+            padding: 0;
             width: 20px;
-            @include rtl {
-                padding-left: 0px;
-                padding-right: 3px;
-            }
-        }
-
-        .hottext-content {
-            @include rtl {
-                padding-left: 3px;
-            }
         }
 
         [class^="icon-"],
