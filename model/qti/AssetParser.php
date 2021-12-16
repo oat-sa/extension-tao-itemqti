@@ -368,6 +368,7 @@ class AssetParser
         $extractor = $extractorAllocator->allocateExtractor($interaction->getTypeIdentifier());
 
         foreach ($extractor->extract($interaction) as $asset) {
+            // `apip` type used as something common in reason that it's not possible do define a specific type,
             $this->addAsset('apip', $asset);
         }
     }
