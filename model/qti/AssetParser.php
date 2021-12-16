@@ -340,7 +340,9 @@ class AssetParser
             }
         }
 
-        $this->extractAdvancedCustomInteractionAssets($element);
+        if ($element instanceof CustomInteraction) {
+            $this->extractAdvancedCustomInteractionAssets($element);
+        }
     }
 
     private function getXmlProperties($properties)
