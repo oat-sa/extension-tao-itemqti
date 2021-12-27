@@ -140,7 +140,7 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
                     $qtiFile = $fileName;
                 } else {
                     if (!empty($fileName)) {
-                        $qtiResources[] = $fileName;
+                        $qtiResources[] = htmlspecialchars($fileName, ENT_QUOTES|ENT_XML1);
                     }
                 }
             }
