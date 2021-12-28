@@ -188,7 +188,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
             foreach ($attributeNodes as $node) {
                 if (isset($replacementList[$node->value])) {
-                    $node->value = $replacementList[$node->value];
+                    $node->value = htmlspecialchars($replacementList[$node->value], ENT_QUOTES|ENT_XML1);
                 }
             }
             foreach ($portableEntryNodes as $node) {
