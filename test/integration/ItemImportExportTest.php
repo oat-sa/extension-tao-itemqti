@@ -323,13 +323,7 @@ class ItemImportExportTest extends TaoPhpUnitTestRunner
 
         $report = $this->importService->importQTIPACKFile($path, $itemClass);
         $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $report->getType());
-        $items = [];
-        foreach ($report as $itemReport) {
-            $data = $itemReport->getData();
-            if (!is_null($data)) {
-                $items[] = $data;
-            }
-        }
+        $items = $this->getItemsByReport($report);
         $this->assertEquals(1, count($items));
         $item2 = current($items);
         $this->assertInstanceOf('\core_kernel_classes_Resource', $item);
@@ -374,13 +368,7 @@ class ItemImportExportTest extends TaoPhpUnitTestRunner
         $path = $this->createZipArchive($item)[0];
 
         $report = $this->importService->importQTIPACKFile($path, $itemClass);
-        $items = [];
-        foreach ($report as $itemReport) {
-            $data = $itemReport->getData();
-            if (!is_null($data)) {
-                $items[] = $data;
-            }
-        }
+        $items = $this->getItemsByReport($report);
 
         $item2 = $items[0];
 
@@ -396,6 +384,11 @@ class ItemImportExportTest extends TaoPhpUnitTestRunner
             $itemClass
         );
 
+        return $this->getItemsByReport($report)[0];
+    }
+
+    private function getItemsByReport($report)
+    {
         $items = [];
         foreach ($report as $itemReport) {
             $data = $itemReport->getData();
@@ -404,7 +397,7 @@ class ItemImportExportTest extends TaoPhpUnitTestRunner
             }
         }
 
-        return $items[0];
+        return $items;
     }
 
     private function getAssetSourceOfItem($item)
