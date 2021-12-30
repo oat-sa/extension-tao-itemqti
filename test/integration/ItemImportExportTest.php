@@ -26,19 +26,21 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\ImportService;
+use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\QtiItemCompiler;
 use \taoItems_models_classes_ItemsService;
 use \tao_models_classes_service_FileStorage;
 use \ZipArchive;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\ItemModel;
+use DOMDocument;
 
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 /**
  * test the item content access
  *
  */
-class ItemImportTest extends TaoPhpUnitTestRunner
+class ItemImportExportTest extends TaoPhpUnitTestRunner
 {
     /**
      * @var ImportService
@@ -361,6 +363,67 @@ class ItemImportTest extends TaoPhpUnitTestRunner
     {
         foreach (func_get_args() as $item) {
             $this->removeItem($item);
+        }
+    }
+
+    public function testExportTestWithAmpersandInTheTitleOfAsset()
+    {
+        $item = $this->importPackageWithAmpersandInTheTitleOfAsset();
+
+        $itemClass = $this->itemService->getRootClass();
+        $path = $this->createZipArchive($item)[0];
+
+        $report = $this->importService->importQTIPACKFile($path, $itemClass);
+        $items = [];
+        foreach ($report as $itemReport) {
+            $data = $itemReport->getData();
+            if (!is_null($data)) {
+                $items[] = $data;
+            }
+        }
+
+        $item2 = $items[0];
+
+        $this->assertEquals($this->getAssetSourceOfItem($item2), $this->getAssetSourceOfItem($item));
+    }
+
+    private function importPackageWithAmpersandInTheTitleOfAsset()
+    {
+        $itemClass = $this->itemService->getRootClass();
+
+        $report = $this->importService->importQTIPACKFile(
+            $this->getSamplePath('/package/QTI/package_with_ampersand.zip'),
+            $itemClass
+        );
+
+        $items = [];
+        foreach ($report as $itemReport) {
+            $data = $itemReport->getData();
+            if (!is_null($data)) {
+                $items[] = $data;
+            }
+        }
+
+        return $items[0];
+    }
+
+    private function getAssetSourceOfItem($item)
+    {
+        $xml = Service::singleton()->getXmlByRdfItem($item);
+
+        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom->preserveWhiteSpace = false;
+        $dom->formatOutput = true;
+        $dom->loadXML($xml);
+
+        $nodes = $dom->getElementsByTagName('object')->item(0);
+
+        $this->removeItem($item);
+
+        foreach ($nodes->attributes as $attributeNode) {
+            if ($attributeNode->nodeName === 'data') {
+                return $attributeNode->nodeValue;
+            }
         }
     }
 
