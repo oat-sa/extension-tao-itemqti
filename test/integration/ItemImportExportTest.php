@@ -171,14 +171,7 @@ class ItemImportExportTest extends TaoPhpUnitTestRunner
         );
         $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $report->getType());
 
-        $items = [];
-        foreach ($report as $itemReport) {
-            $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $itemReport->getType());
-            $data = $itemReport->getData();
-            if (!is_null($data)) {
-                $items[] = $data;
-            }
-        }
+        $items = $this->getItemsByReport($report);
         $this->assertEquals(2, count($items));
         $this->removeItem($items[1]);
 
@@ -191,14 +184,7 @@ class ItemImportExportTest extends TaoPhpUnitTestRunner
         $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/APIP/apip_v1p0_final.zip'), $itemClass);
         $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $report->getType());
 
-        $items = [];
-        foreach ($report as $itemReport) {
-            $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $itemReport->getType());
-            $data = $itemReport->getData();
-            if ($data !== null) {
-                $items[] = $data;
-            }
-        }
+        $items = $this->getItemsByReport($report);
         $this->assertCount(1, $items);
         $this->removeItem($items[0]);
     }
@@ -212,14 +198,7 @@ class ItemImportExportTest extends TaoPhpUnitTestRunner
         );
         $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $report->getType());
 
-        $items = [];
-        foreach ($report as $itemReport) {
-            $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $itemReport->getType());
-            $data = $itemReport->getData();
-            if (!is_null($data)) {
-                $items[] = $data;
-            }
-        }
+        $items = $this->getItemsByReport($report);
         $this->assertEquals(1, count($items));
         $item = \oat\taoQtiItem\model\qti\Service::singleton()->getDataItemByRdfItem($items[0], DEFAULT_LANG, false);
 
@@ -244,13 +223,7 @@ class ItemImportExportTest extends TaoPhpUnitTestRunner
             $itemClass
         );
 
-        $items = [];
-        foreach ($report as $itemReport) {
-            $data = $itemReport->getData();
-            if (!is_null($data)) {
-                $items[] = $data;
-            }
-        }
+        $items = $this->getItemsByReport($report);
         $this->assertEquals(1, count($items));
 
         $item = current($items);
@@ -362,17 +335,24 @@ class ItemImportExportTest extends TaoPhpUnitTestRunner
 
     public function testExportTestWithAmpersandInTheTitleOfAsset()
     {
-        $item = $this->importPackageWithAmpersandInTheTitleOfAsset();
+        list($items, $manifest) = $this->importPackageWithAmpersandInTheTitleOfAsset();
+        $item = $items[0];
 
-        $itemClass = $this->itemService->getRootClass();
-        $path = $this->createZipArchive($item)[0];
+        $path = $this->createZipArchive($item, $manifest)[0];
 
-        $report = $this->importService->importQTIPACKFile($path, $itemClass);
-        $items = $this->getItemsByReport($report);
+        $zipArchive = new ZipArchive();
+        $zipArchive->open($path);
 
-        $item2 = $items[0];
+        $folderToExtract = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid('test_with_ampersand');
+        $zipArchive->extractTo($folderToExtract);
 
-        $this->assertEquals($this->getAssetSourceOfItem($item2), $this->getAssetSourceOfItem($item));
+        $qtiFile = glob($folderToExtract . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . 'qti.xml')[0];
+        $xml2 = file_get_contents($qtiFile);
+
+        $xml = Service::singleton()->getXmlByRdfItem($item);
+
+        $this->assertEquals($xml2, $xml);
+        $this->removeItem($item);
     }
 
     private function importPackageWithAmpersandInTheTitleOfAsset()
@@ -384,13 +364,26 @@ class ItemImportExportTest extends TaoPhpUnitTestRunner
             $itemClass
         );
 
-        return $this->getItemsByReport($report)[0];
+        $zipArchive = new ZipArchive();
+        $zipArchive->open($this->getSamplePath('/package/QTI/package_with_ampersand.zip'));
+
+        $folderToExtract = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid('test_with_ampersand');
+        $zipArchive->extractTo($folderToExtract);
+
+        $manifestPath = glob($folderToExtract . DIRECTORY_SEPARATOR . 'imsmanifest.xml')[0];
+        $manifestContent = file_get_contents($manifestPath);
+
+        $manifest = new DOMDocument('1.0', 'UTF-8');
+        $manifest->loadXML($manifestContent);
+
+        return [$this->getItemsByReport($report), $manifest];
     }
 
     private function getItemsByReport($report)
     {
         $items = [];
         foreach ($report as $itemReport) {
+            $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $itemReport->getType());
             $data = $itemReport->getData();
             if (!is_null($data)) {
                 $items[] = $data;
@@ -400,27 +393,6 @@ class ItemImportExportTest extends TaoPhpUnitTestRunner
         return $items;
     }
 
-    private function getAssetSourceOfItem($item)
-    {
-        $xml = Service::singleton()->getXmlByRdfItem($item);
-
-        $dom = new DOMDocument('1.0', 'UTF-8');
-        $dom->preserveWhiteSpace = false;
-        $dom->formatOutput = true;
-        $dom->loadXML($xml);
-
-        $nodes = $dom->getElementsByTagName('object')->item(0);
-
-        $this->removeItem($item);
-
-        foreach ($nodes->attributes as $attributeNode) {
-            if ($attributeNode->nodeName === 'data') {
-                return $attributeNode->nodeValue;
-            }
-        }
-    }
-
-
     private function removeItem($item)
     {
         $this->itemService->deleteItem($item);
@@ -429,7 +401,6 @@ class ItemImportExportTest extends TaoPhpUnitTestRunner
 
     public function tearDown(): void
     {
-
         foreach ($this->exportedZips as $path) {
             if (file_exists($path)) {
                 $this->assertTrue(unlink($path));
