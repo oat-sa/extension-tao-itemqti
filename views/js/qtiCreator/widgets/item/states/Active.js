@@ -62,13 +62,11 @@ define([
                 const $itemBody = _widget.$container.find('.qti-itemBody');
                 if (rtl.includes(lang)) {
                     item.attr('dir', 'rtl');
-                    $itemBody.find('.grid-row').attr('dir', 'rtl');
+                    $itemBody.attr('dir', 'rtl');
                 } else {
                     item.attr('dir', 'ltr');
-                    $itemBody.find('.grid-row').attr('dir', 'ltr');
+                    $itemBody.attr('dir', 'ltr');
                 }
-                //need to update item body
-                item.body(contentHelper.getContent($itemBody));
             },
         });
 
@@ -85,11 +83,6 @@ define([
                 return data.text;
             }
         });
-
-        // set dir='rtl' if 'xml:lang' in rtl array
-        if (rtl.includes(item.attr('xml:lang'))) {
-            item.attr('dir', 'rtl');
-        }
 
     }, _.noop);
 
