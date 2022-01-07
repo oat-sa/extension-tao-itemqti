@@ -420,6 +420,7 @@ abstract class Element implements Exportable
         $variables['attributes'] = $this->getAttributeValues();
         if ($this instanceof FlowContainer) {
             $variables['body'] = $this->getBody()->toQTI();
+            $variables['bodyAttributes'] = $this->getBodyAttributes();
         }
 
         return $variables;
@@ -736,5 +737,22 @@ abstract class Element implements Exportable
             return DEBUG_MODE;
         }
         return false;
+    }
+
+    private function getBodyAttributes(): string
+    {
+        $body = $this->getBody();
+
+        if(!$body instanceof Element) {
+            return '';
+        }
+
+        $attributeValues = $body->getAttributeValues();
+        $bodyAttributes = [];
+        foreach ($attributeValues as $attributeName => $attributeValue) {
+            $bodyAttributes[] = sprintf('%s="%s"', $attributeName, $attributeValue);
+        }
+
+        return implode(" ", $bodyAttributes);
     }
 }
