@@ -74,7 +74,7 @@ define(['jquery', 'util/typeCaster'], function ($, typeCaster) {
             const $form = widget.$form;
             let $wrapper =
                 wrapType === 'inner'
-                    ? widget.$container.children('[data-html-editable]').children(`.${wrapperTextCls}`)
+                    ? widget.$container.children('[data-html-editable]').first(`.${wrapperTextCls}`)
                     : widget.$container.parent(`.${wrapperIncludeCls}`);
 
             if (!$wrapper.length) {
