@@ -48,6 +48,30 @@ define([
         hAlignRight:    'table-right'
     };
 
+    const toolbar = [
+        {
+            name: 'basicstyles',
+            items: ['Bold', 'Italic', 'Subscript', 'Superscript']
+        },
+        {
+            name: 'insert',
+            items: ['SpecialChar', 'TaoQtiTable', 'TaoTooltip']
+        },
+        {
+            name: 'links',
+            items: ['Link']
+        },
+        {
+            name: 'paragraph',
+            items: [
+                'JustifyLeft',
+                'JustifyCenter',
+                'JustifyRight',
+                'JustifyBlock'
+            ]
+        }
+    ];
+
     var TableStateActive = stateFactory.extend(Active, function create(){
         this.initForm();
         this.buildEditor();
@@ -143,7 +167,9 @@ define([
                 },
                 blur : function(){
                     _widget.changeState('sleep');
-                }
+                },
+                toolbarType: 'qtiTable',
+                toolbar
             });
         }
 

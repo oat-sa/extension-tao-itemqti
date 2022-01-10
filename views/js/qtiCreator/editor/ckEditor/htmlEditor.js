@@ -180,7 +180,7 @@ define([
                 },
                 configLoaded : function(e){
                     //@todo : do we really have to wait here to initialize the config?
-                    var toolbarType = '';
+                    var toolbarType = options.toolbarType || '';
                     if(options.toolbar && _.isArray(options.toolbar)){
                         ckConfig.toolbar = options.toolbar;
                     }else{
