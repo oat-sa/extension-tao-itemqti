@@ -23,7 +23,6 @@ namespace oat\taoQtiItem\test\unit\mode\qti\container;
 
 use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\qti\container\ContainerItemBody;
-use Psr\Log\LoggerInterface;
 
 class ContainerItemBodyTest extends TestCase
 {
