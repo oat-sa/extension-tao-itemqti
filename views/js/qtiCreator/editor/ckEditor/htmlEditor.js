@@ -258,6 +258,8 @@ define([
             toolbarType = 'qtiBlock';
         }else if($editableContainer.hasClass('qti-prompt-container') || $editableContainer.hasClass('widget-hottext')){
             toolbarType = 'qtiInline';
+        } else if ($editableContainer.hasClass('widget-table')) {
+            toolbarType = 'qtiTable';
         }
         return toolbarType;
     }
