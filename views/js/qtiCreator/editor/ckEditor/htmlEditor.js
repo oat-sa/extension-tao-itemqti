@@ -51,6 +51,7 @@ define([
      * @param {Boolean} [options.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
      * @param {String} [options.removePlugins] - a coma-separated list of plugins that should not be loaded: 'plugin1,plugin2,plugin3'
      * @param {Boolean} [options.autofocus] - automatically focus
+     * @returns {Object} CKEditor
      */
     function _buildEditor($editable, $editableContainer, options) {
         const widget = (options.data || {}).widget,
@@ -214,6 +215,8 @@ define([
      * Handle the placeholder for non-input elements.
      * To avoid CK nasty side-effects of using the placeholder attribute on non-input elements,
      * we handle the placeholder with css.
+     * @param {JQuery} $editable
+     * @param {Object} editor
      */
     function managePlaceholder($editable, editor) {
         if (!$editable.is('input')) {
@@ -227,6 +230,7 @@ define([
 
     /**
      * Toggle the placeholder class on the editable depending on its content
+     * @param {JQuery} $editable
      */
     function togglePlaceholder($editable) {
         const nonEmptyContent = ['img', 'table', 'math', 'object', 'printedVariable', '.tooltip-target'];
@@ -271,6 +275,7 @@ define([
      * Find an inner element by its data attribute name
      * @param {JQuery} $container
      * @param {String} dataAttribute
+     * @returns {JQuery} collection
      */
     function _find($container, dataAttribute) {
         let $collection;
@@ -289,6 +294,7 @@ define([
      * @param {Object} container
      * @param {JQuery} $container
      * @param {Object} options
+     * @returns {Object} widgets
      */
     function _rebuildWidgets(container, $container, options) {
         const widgets = {};
@@ -320,6 +326,7 @@ define([
      *
      * @param {JQuery} $container
      * @param {String} serial
+     * @returns {JQuery} $widget
      */
     function _findWidgetContainer($container, serial) {
         // re-query widget container to apply changes in case of deletion
@@ -427,13 +434,14 @@ define([
      */
     function _activateInnerWidget(containerWidget, innerWidget) {
         let listenToWidgetCreation;
+        const event = `widgetCreated.${innerWidget.serial}`;
 
         if (containerWidget && containerWidget.element && containerWidget.element.qtiClass) {
             listenToWidgetCreation = function () {
-                containerWidget.$container.on('widgetCreated.' + innerWidget.serial, function (e, widgets) {
+                containerWidget.$container.on(event, function (e, widgets) {
                     const targetWidget = widgets[innerWidget.serial];
                     if (targetWidget) {
-                        containerWidget.$container.off('widgetCreated.' + innerWidget.serial);
+                        containerWidget.$container.off(event);
                         //FIXME potential race condition ? (debounce the enclosing event handler ?)
                         _.delay(function () {
                             if (Element.isA(targetWidget.element, 'interaction')) {
@@ -471,6 +479,8 @@ define([
 
     /**
      * Special encoding of ouput html generated from ie8 : moved to xmlRenderer
+     * @param {String} encodedStr
+     * @returns {String} encodedStr
      */
     function _htmlEncode(encodedStr) {
         return encodedStr;
@@ -587,6 +597,7 @@ define([
          * Get the editor content
          *
          * @param {JQuery} $editable
+         * @returns {String}
          */
         getData: function ($editable) {
             const editor = $editable.data('editor');
