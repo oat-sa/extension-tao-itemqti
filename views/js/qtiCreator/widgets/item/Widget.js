@@ -22,6 +22,7 @@ define([
     'jquery',
     'core/promise',
     'util/url',
+    'util/locale',
     'taoQtiItem/qtiCreator/widgets/Widget',
     'taoQtiItem/qtiCreator/widgets/item/states/states',
     'taoQtiItem/qtiItem/core/Element',
@@ -39,6 +40,7 @@ define([
     $,
     Promise,
     urlUtil,
+    locale,
     Widget,
     states,
     Element,
@@ -94,6 +96,20 @@ define([
                     state: false,
                     xml: false
                 });
+
+                const item = this.element;
+                const $itemBody = this.$container.find('.qti-itemBody');
+                if(!item.bdy.attr('dir') && $itemBody.find('.grid-row[dir="rtl"]').length) {
+                    // old xml with dir='rtl' in div.grid-row should be updated
+                    item.bdy.attr('dir', 'rtl');
+                    $itemBody.find('.grid-row').removeAttr('dir');
+                    //need to update item body
+                    item.body(contentHelper.getContent($itemBody));
+                }
+                if (item.bdy.attr('dir')==='rtl') {
+                    // dir='rtl' should be set to itemBody
+                    $itemBody.attr('dir', 'rtl');
+                }
 
                 resolve();
             });

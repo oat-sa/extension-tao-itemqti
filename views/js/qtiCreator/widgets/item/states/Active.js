@@ -33,8 +33,9 @@ define([
         const item = _widget.element;
         const $form = _widget.$form;
         const areaBroker = this.widget.getAreaBroker();
-
+        const $itemBody = _widget.$container.find('.qti-itemBody');
         const rtl = locale.getConfig().rtl || [];
+
         //build form:
         $form.html(formTpl({
             serial : item.getSerial(),
@@ -59,13 +60,12 @@ define([
             timeDependent : formElement.getAttributeChangeCallback(),
             'xml:lang' : function langChange(i, lang){
                 item.attr('xml:lang', lang);
-                const $itemBody = _widget.$container.find('.qti-itemBody');
                 if (rtl.includes(lang)) {
-                    item.attr('dir', 'rtl');
+                    item.bdy.attr('dir', 'rtl');
                     $itemBody.attr('dir', 'rtl');
                 } else {
-                    item.attr('dir', 'ltr');
-                    $itemBody.attr('dir', 'ltr');
+                    item.bdy.removeAttr('dir');
+                    $itemBody.removeAttr('dir');
                 }
             },
         });
