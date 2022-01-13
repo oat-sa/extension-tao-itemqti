@@ -750,7 +750,9 @@ abstract class Element implements Exportable
         $attributeValues = $body->getAttributeValues();
         $bodyAttributes = [];
         foreach ($attributeValues as $attributeName => $attributeValue) {
-            $bodyAttributes[] = sprintf('%s="%s"', $attributeName, $attributeValue);
+            if (is_string($attributeValue)) {
+                $bodyAttributes[] = sprintf('%s="%s"', $attributeName, $attributeValue);
+            }
         }
 
         return implode(" ", $bodyAttributes);

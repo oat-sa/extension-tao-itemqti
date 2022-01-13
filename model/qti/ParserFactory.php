@@ -361,11 +361,11 @@ class ParserFactory
         }
     }
 
-    private function setContainerAttributes(Container $container, DOMElement $data)
+    private function setContainerAttributes(Container $container, DOMElement $data): void
     {
         $languageAttribute = $data->getAttribute('dir');
-        if(!empty($languageAttribute)) {
-            $container->setAttribute('dir',$languageAttribute);
+        if (!empty($languageAttribute)) {
+            $container->setAttribute('dir', $languageAttribute);
         }
     }
 
