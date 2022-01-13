@@ -26,7 +26,7 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function (_, tpl) {
         getData: function (item, data) {
             const defaultData = {
                 class: data.attributes.class || '',
-                dir: data.attributes.dir || '',
+                dir: item.bdy.attributes.dir || '',
                 responses: [],
                 outcomes: [],
                 stylesheets: [],
