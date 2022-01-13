@@ -743,7 +743,7 @@ abstract class Element implements Exportable
     {
         $body = $this->getBody();
 
-        if(!$body instanceof Element) {
+        if (!$body instanceof Element) {
             return '';
         }
 

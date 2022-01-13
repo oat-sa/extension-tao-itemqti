@@ -74,7 +74,6 @@ ITEM_QTI;
 
     public function testToQTIWithDirAttributeInItemBody(): void
     {
-
         $expectedItemQti = <<<ITEM_QTI
 <?xml version="1.0" encoding="UTF-8"?><assessmentItem
         xsi:schemaLocation=""
