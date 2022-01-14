@@ -361,6 +361,14 @@ class ParserFactory
         }
     }
 
+    private function setContainerAttributes(Container $container, DOMElement $data): void
+    {
+        $languageAttribute = $data->getAttribute('dir');
+        if (!empty($languageAttribute)) {
+            $container->setAttribute('dir', $languageAttribute);
+        }
+    }
+
     protected function parseContainerItemBody(DOMElement $data, ContainerItemBody $container)
     {
 
@@ -400,6 +408,7 @@ class ParserFactory
             }
         }
 
+        $this->setContainerAttributes($container, $data);
         $this->setContainerElements($container, $data, $bodyElements);
 
         return $this->parseContainerInteractive($data, $container);
