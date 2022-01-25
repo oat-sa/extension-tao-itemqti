@@ -21,17 +21,18 @@ define([
     'lodash',
     'i18n',
     'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiCreator/model/helper/invalidator'
-], function (validators, _, __, Element, invalidator) {
+    'taoQtiItem/qtiCreator/model/helper/invalidator',
+    'taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier'
+], function (validators, _, __, Element, invalidator, qtiIdentifier) {
     'use strict';
 
-    const _qtiIdPattern = /^[A-Za-z_][A-Za-z_0-9-]*$/u;
+    const _qtiIdPattern = qtiIdentifier.pattern;
     const typeToMessage = {
         item: __('Invalid identifier'),
         response: __('Invalid response identifier'),
         outcome: __('Invalid Outcome Declaration')
     };
-    const invalidIdentifier = __('Identifiers must start with a letter or an underscore and contain only letters, numbers, underscores ( _ ), or hyphens ( - ).');
+    const invalidIdentifier = qtiIdentifier.invalidQtiIdMessage;
     const validateIdentifier = (value, callback, options, type) => {
         if (typeof callback === 'function') {
             const valid = _qtiIdPattern.test(value);
