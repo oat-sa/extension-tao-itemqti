@@ -30,6 +30,7 @@ define(['jquery'], function ($) {
      */
     return function createShapePopups(paper, shape, $container, isResponsive) {
         const margin = 10;
+        const minWidth = 150;
         const $shape = $(shape.node);
         const $element = $('<div class="mapping-editor arrow-left-top"></div>');
         const boxOffset = $container.offset();
@@ -40,11 +41,19 @@ define(['jquery'], function ($) {
             let wfactor = paper.w / paper.width;
             width = Math.round(width / wfactor);
         }
+        const top = Math.max(offset.top - boxOffset.top - margin, 10);
+        let left = offset.left - boxOffset.left + width + margin;
+        if (left > paper.width - minWidth) {
+            // move popup to left
+            left = Math.max(offset.left - boxOffset.left - minWidth - margin, 10);
+            $element.removeClass('arrow-left-top');
+            $element.addClass('arrow-right-top');
+        }
         //style and attach the form
         $element
             .css({
-                top: offset.top - boxOffset.top - margin,
-                left: offset.left - boxOffset.left + width + margin
+                top,
+                left
             })
             .appendTo($container);
 
