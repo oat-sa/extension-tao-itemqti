@@ -19,12 +19,14 @@
 define(['module', 'i18n'], function (module, __) {
     'use strict';
 
-    const qtiIdPattern = module.config().qtiIdPattern || '^[a-zA-Z_][a-zA-Z0-9_.-]*$';
+    const qtiIdPattern = module.config().qtiIdPattern || '/^[a-zA-Z_][a-zA-Z0-9_.-]*$/u';
+    const [, patternContent, flags] = qtiIdPattern.match(/^\/(.+)\/(\w*)$/);
+
     const invalidQtiIdMessage = __(
         'Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - ).'
     );
     return {
-        pattern: new RegExp(qtiIdPattern),
+        pattern: new RegExp(patternContent, flags),
         invalidQtiIdMessage
     };
 });
