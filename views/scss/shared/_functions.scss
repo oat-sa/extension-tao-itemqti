@@ -7,6 +7,14 @@
     }
 }
 
+@mixin ltr {
+    @at-root {
+        #{selector-replace(&, $mainContainer, "[dir='ltr'] " + $mainContainer)} {
+            @content;
+        }
+    }
+}
+
 // IE10+ CSS styles go here
 @mixin ie11 {
     @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
