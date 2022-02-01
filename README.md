@@ -22,7 +22,10 @@ with a different pattern. Example:
 ENV_QTI_IDENTIFIER_VALIDATOR_PATTERN='/^[a-zA-Z_][a-zA-Z0-9_-]*$/u'
 ```
 This would mean that case the user tries to save or import an item with an identifier with dots, this would return an 
-error.
+error:
+
+<img width="1531" alt="Error Provided by ENV_QTI_IDENTIFIER_VALIDATOR_PATTERN environment variable" src="https://user-images.githubusercontent.com/11900046/151950352-ddffff4c-d402-4737-98b2-7ec60bb4a9a6.png">
+
 
 After that, please always run `taoUpdate` to make sure that all the configurations were successfully applied.
 
