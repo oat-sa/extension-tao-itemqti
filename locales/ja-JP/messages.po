@@ -1832,7 +1832,7 @@ msgid "words"
 msgstr "語数"
 
 msgid "Would you like to replace the alt text"
-msgstr "代替えテキストを変更"
+msgstr "代替テキストを置き換えますか"
 
 msgid "WYSIWYG editor"
 msgstr "WYSIWYGエディタ"
