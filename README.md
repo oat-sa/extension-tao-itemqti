@@ -13,7 +13,7 @@ extension to create QTI items for TAO
 ### QTI Identifier Validator Pattern - `ENV_QTI_IDENTIFIER_VALIDATOR_PATTERN`
 
 QTI Item identifiers by default are normalized strings that accepts everything in the pattern
-`/^[a-zA-Z_][a-zA-Z0-9_\\.-]*$/u`. If for some reason you want to change this behavior, it's 
+`/^[a-zA-Z_]{1}[a-zA-Z0-9_\\.-]{0,31}$/u`. If for some reason you want to change this behavior, it's 
 possible by using the environment variable `ENV_QTI_IDENTIFIER_VALIDATOR_PATTERN`
 with a different pattern. Example:
 
