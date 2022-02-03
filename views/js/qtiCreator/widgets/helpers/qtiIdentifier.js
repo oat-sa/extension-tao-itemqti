@@ -19,7 +19,7 @@
 define(['module', 'i18n'], function (module, __) {
     'use strict';
 
-    const qtiIdPattern = module.config().qtiIdPattern || '/^[a-zA-Z_]{1}[a-zA-Z0-9_-]{0,31}$/u';
+    const qtiIdPattern = module.config().qtiIdPattern || '/^[a-zA-Z_]{1}[a-zA-Z0-9_.-]{0,31}$/u';
     const [, patternContent, flags] = qtiIdPattern.match(/^\/(.+)\/(\w*)$/);
 
     const invalidQtiIdMessage = __(
