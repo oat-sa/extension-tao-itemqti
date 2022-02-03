@@ -19,7 +19,7 @@ with a different pattern. Example:
 
 ```shell script
 # Do not accept dots on the QTI Item identifier
-ENV_QTI_IDENTIFIER_VALIDATOR_PATTERN='/^[a-zA-Z_][a-zA-Z0-9_-]*$/u'
+ENV_QTI_IDENTIFIER_VALIDATOR_PATTERN='/^[a-zA-Z_]{1}[a-zA-Z0-9_-]{0,31}$/u'
 ```
 This would mean that case the user tries to save or import an item with an identifier with dots, this would return an 
 error:
