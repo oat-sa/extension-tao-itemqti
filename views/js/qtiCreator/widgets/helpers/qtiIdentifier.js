@@ -19,11 +19,11 @@
 define(['module', 'i18n'], function (module, __) {
     'use strict';
 
-    const qtiIdPattern = module.config().qtiIdPattern || '/^[a-zA-Z_][a-zA-Z0-9_.-]*$/u';
+    const qtiIdPattern = module.config().qtiIdPattern || '/^[a-zA-Z_]{1}[a-zA-Z0-9_-]{0,31}$/u';
     const [, patternContent, flags] = qtiIdPattern.match(/^\/(.+)\/(\w*)$/);
 
     const invalidQtiIdMessage = __(
-        'Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - ).'
+        'Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - ), and no more than 32 characters.'
     );
     return {
         pattern: new RegExp(patternContent, flags),
