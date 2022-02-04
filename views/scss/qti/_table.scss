@@ -2,6 +2,8 @@
 table {
     &.qti-table {
         border: 1px solid $websiteBorder;
+        display: table;
+        margin: 0 auto 0 0;
 
         &.table-center {
             display: table;
