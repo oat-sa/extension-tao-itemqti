@@ -27,6 +27,7 @@ define(['module', 'i18n'], function (module, __) {
     );
     return {
         pattern: new RegExp(patternContent, flags),
-        invalidQtiIdMessage
+        invalidQtiIdMessage,
+        maxQtiIdLength: 32
     };
 });
