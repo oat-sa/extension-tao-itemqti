@@ -30,7 +30,7 @@ define([
     const _generateIdentifier = function _generateIdentifier(uri) {
         const pos = uri.lastIndexOf('#');
         // identifier by default should be no more then 32
-        return uri.substr(pos + 1, qtiIdentifier.maxIdLength);
+        return uri.substr(pos + 1, qtiIdentifier.maxQtiIdLength);
     };
 
     const decodeHtml = function (str) {
