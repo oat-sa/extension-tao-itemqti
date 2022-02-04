@@ -24,8 +24,9 @@ define([
     'taoQtiItem/qtiCreator/helper/ckConfigurator',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/widgets/helpers/content',
-    'taoQtiItem/qtiCreator/widgets/helpers/deletingState'
-], function (_, __, $, CKEditor, Promise, ckConfigurator, Element, contentHelper, deletingHelper) {
+    'taoQtiItem/qtiCreator/widgets/helpers/deletingState',
+    'taoQtiItem/qtiCreator/editor/ckEditor/featureFlag'
+], function (_, __, $, CKEditor, Promise, ckConfigurator, Element, contentHelper, deletingHelper, featureFlag) {
     'use strict';
 
     const _defaults = {
@@ -265,7 +266,7 @@ define([
             $editableContainer.hasClass('widget-hottext')
         ) {
             toolbarType = 'qtiInline';
-        } else if ($editableContainer.hasClass('widget-table')) {
+        } else if ($editableContainer.hasClass('widget-table') && !featureFlag.disableCellAlignment) {
             toolbarType = 'qtiTable';
         }
         return toolbarType;
@@ -283,7 +284,7 @@ define([
         if ($container.data(dataAttribute)) {
             $collection = $container;
         } else {
-            $collection = $container.find('[data-' + dataAttribute + '=true]');
+            $collection = $container.find(`[data-${dataAttribute}=true]`);
         }
         return $collection;
     }
@@ -307,10 +308,10 @@ define([
 
             widgets[elt.serial] = widget.rebuild({
                 context: $container,
-                ready: function (widget) {
+                ready: function (widgetInner) {
                     if (options.restoreState) {
                         //restore current state
-                        widget.changeState(currentState);
+                        widgetInner.changeState(currentState);
                     }
                 }
             });
@@ -330,7 +331,7 @@ define([
      */
     function _findWidgetContainer($container, serial) {
         // re-query widget container to apply changes in case of deletion
-        return $($container.selector).find('.widget-box[data-serial=' + serial + ']');
+        return $($container.selector).find(`.widget-box[data-serial=${serial}]`);
     }
 
     /**
