@@ -225,6 +225,7 @@
     position: relative;
     margin-top: 18px;
     padding: 3px;
+    @extend %clearfix;
     &:first-child {
         margin-top: 0;
     }

@@ -1285,6 +1285,7 @@ img.dragging.ui-draggable-dragging {
 
 .widget-rubricBlock, .widget-textBlock {
     [data-html-editable] {
+        @extend %clearfix;
         min-height: 3rem;
     }
 }
