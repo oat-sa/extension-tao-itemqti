@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA
  *
  */
 define([
@@ -21,17 +21,18 @@ define([
     'lodash',
     'i18n',
     'taoQtiItem/qtiItem/core/Element',
-    'taoQtiItem/qtiCreator/model/helper/invalidator'
-], function (validators, _, __, Element, invalidator) {
+    'taoQtiItem/qtiCreator/model/helper/invalidator',
+    'taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier'
+], function (validators, _, __, Element, invalidator, qtiIdentifier) {
     'use strict';
 
-    const _qtiIdPattern = /^[A-Za-z_][A-Za-z_0-9-]*$/u;
+    const _qtiIdPattern = qtiIdentifier.pattern;
     const typeToMessage = {
         item: __('Invalid identifier'),
         response: __('Invalid response identifier'),
         outcome: __('Invalid Outcome Declaration')
     };
-    const invalidIdentifier = __('Identifiers must start with a letter or an underscore and contain only letters, numbers, underscores ( _ ), or hyphens ( - ).');
+    const invalidIdentifier = qtiIdentifier.invalidQtiIdMessage;
     const validateIdentifier = (value, callback, options, type) => {
         if (typeof callback === 'function') {
             const valid = _qtiIdPattern.test(value);
