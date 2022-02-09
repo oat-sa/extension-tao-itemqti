@@ -37,6 +37,7 @@
         // now that's pretty good specificity!
         &.add-option.empty > div > span[class^="icon-"] {
             @include font-size(50);
+            float: none;
         }
     }
 }
