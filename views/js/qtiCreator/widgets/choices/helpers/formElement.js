@@ -24,7 +24,7 @@ define(['jquery'], function ($) {
                 $shuffleToggle = $container.find('[data-role="shuffle-pin"]');
 
             const toggleVisibility = function (show) {
-                if (show === 'true') {
+                if (show === 'true' || show === true) {
                     $shuffleToggle.show();
                 } else {
                     $shuffleToggle.hide();
