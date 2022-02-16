@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "0.8.1",
-        "@oat-sa/tao-item-runner-qti": "0.29.1"
+        "@oat-sa/tao-item-runner-qti": "github:oat-sa/tao-item-runner-qti-fe#fix/TR-3112/support-IME-extended-text"
     }
 }
