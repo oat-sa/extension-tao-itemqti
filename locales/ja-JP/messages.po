@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2021.11\n"
-"PO-Revision-Date: 2022-02-17T09:30:22\n"
+"Project-Id-Version: TAO 2022.01\n"
+"PO-Revision-Date: 2022-02-17T10:36:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -224,10 +224,10 @@ msgstr "コンピュータを参照し、適切なファイルを選択してく
 msgid "Browse..."
 msgstr "参照..."
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "キャンセル"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "キャンセル"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -281,10 +281,10 @@ msgstr "選択問題"
 msgid "Choice Properties"
 msgstr "選択肢プロパティ"
 
-msgid "choices"
+msgid "Choices"
 msgstr "選択肢"
 
-msgid "Choices"
+msgid "choices"
 msgstr "選択肢"
 
 msgid "Choose the horizontal alignment for the table."
@@ -329,10 +329,10 @@ msgstr "記述制限"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "ビデオまたはオーディオファイルの再生パラメータ（オートスタート、ループ）を制御し、それが再生された回数を報告します"
 
-msgid "Correct"
+msgid "correct"
 msgstr "正解"
 
-msgid "correct"
+msgid "Correct"
 msgstr "正解"
 
 msgid "Cosinus"
@@ -713,9 +713,6 @@ msgstr "識別子"
 msgid "identifier already taken"
 msgstr "識別子は既に使用されています"
 
-msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, underscores ( _ ), or hyphens ( - )."
-msgstr ""
-
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr "設定する場合、受検者のレスポンスが有効となるような正規表現を指定します"
 
@@ -972,10 +969,10 @@ msgstr "最大文字数"
 msgid "Max plays count"
 msgstr "最大再生回数"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "最大単語数"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "最大単語数"
 
 msgid "Max. number of matches"
@@ -1072,10 +1069,10 @@ msgstr ""
 msgid "No value set"
 msgstr "何もセットされていません"
 
-msgid "none"
+msgid "None"
 msgstr "なし"
 
-msgid "None"
+msgid "none"
 msgstr "なし"
 
 msgid "None defined yet."
