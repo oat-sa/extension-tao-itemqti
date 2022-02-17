@@ -71,17 +71,17 @@ define([
     const _getAvailableListOfBaseTypes = function _getAvailableListOfBaseTypes(listOfBaseType) {
         return [
             {
-                label: 'string',
+                label: __('string'),
                 value: 'string',
                 selected: listOfBaseType === 'string'
             },
             {
-                label: 'integer',
+                label: __('integer'),
                 value: 'integer',
                 selected: listOfBaseType === 'integer'
             },
             {
-                label: 'float',
+                label: __('float'),
                 value: 'float',
                 selected: listOfBaseType === 'float'
             }

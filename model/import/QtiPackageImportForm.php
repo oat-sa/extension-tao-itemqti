@@ -63,11 +63,11 @@ class QtiPackageImportForm extends tao_helpers_form_FormContainer
 
         $submitElt = tao_helpers_form_FormFactory::getElement('import', 'Free');
         $submitElt->setValue('<a href="#" class="form-submitter btn-success small"><span class="icon-import"></span> ' . __('Import') . '</a>');
-        
+
 
         $this->form->setActions([$submitElt], 'bottom');
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see tao_helpers_form_FormContainer::initElements()
@@ -87,15 +87,15 @@ class QtiPackageImportForm extends tao_helpers_form_FormContainer
             tao_helpers_form_FormFactory::getValidator('FileSize', ['max' => SystemHelper::getFileUploadLimit()])
         ]);
         $this->form->addElement($fileElt);
-        
+
         $rollbackElt = tao_helpers_form_FormFactory::getElement('rollback', 'Checkbox');
-        $rollbackElt->setOptions(['error' => 'error', 'warning' => 'warning']);
+        $rollbackElt->setOptions(['error' => __('error'), 'warning' => __('warning')]);
         $rollbackElt->setDescription(__('Rollback on...'));
         $this->form->addElement($rollbackElt);
-        
+
         $this->form->createGroup('file', __('Import a QTI/APIP Content Package'), ['source', 'rollback']);
-        
-        
+
+
         $qtiSentElt = tao_helpers_form_FormFactory::getElement('import_sent_qti', 'Hidden');
         $qtiSentElt->setValue(1);
         $this->form->addElement($qtiSentElt);

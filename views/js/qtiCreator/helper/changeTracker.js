@@ -189,7 +189,7 @@ define([
                             {
                                 id: 'dontsave',
                                 type: 'regular',
-                                label: __('Don\'t save'),
+                                label: __("Don't save"),
                                 close: true
                             },
                             {

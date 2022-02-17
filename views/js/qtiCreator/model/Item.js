@@ -19,6 +19,7 @@
 define([
     'lodash',
     'context',
+    'i18n',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableContainer',
     'taoQtiItem/qtiItem/core/Item',
@@ -26,7 +27,7 @@ define([
     'taoQtiItem/qtiCreator/model/ResponseProcessing',
     'taoQtiItem/qtiCreator/model/variables/OutcomeDeclaration',
     'taoQtiItem/qtiCreator/model/feedbacks/ModalFeedback'
-], function(_, context, editable, editableContainer, Item, Stylesheet, ResponseProcessing, OutcomeDeclaration, ModalFeedback){
+], function(_, context, __, editable, editableContainer, Item, Stylesheet, ResponseProcessing, OutcomeDeclaration, ModalFeedback){
     "use strict";
     var methods = {};
     _.extend(methods, editable);
@@ -93,7 +94,7 @@ define([
 
             this.addModalFeedback(modalFeedback);
             modalFeedback.buildIdentifier(identifier);
-            modalFeedback.body('Some feedback text.');
+            modalFeedback.body(__('Some feedback text.'));
             if(response && response.qtiClass === 'responseDeclaration'){
                 modalFeedback.data('relatedResponse', response);
             }
