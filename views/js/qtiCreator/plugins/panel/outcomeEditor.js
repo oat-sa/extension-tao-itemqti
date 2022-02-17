@@ -327,7 +327,8 @@ define([
                         $outcomeContainer.remove();
                         item.remove('outcomes', $outcomeContainer.data('serial'));
                     })
-                    .on(`click${_ns}`, '.adder', function () {
+                    .on(`click${_ns}`, '.adder', function (e) {
+                        e.preventDefault();
                         //add new outcome
                         const newOutcome = new OutcomeDeclaration({
                             cardinality: 'single',
