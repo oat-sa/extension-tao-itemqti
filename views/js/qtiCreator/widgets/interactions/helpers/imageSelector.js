@@ -40,8 +40,7 @@ define([
             $type = $('input[name=type]', $form);
             options.title = options.title ?
                   options.title :
-                  __('Please select a background picture for your interaction from the resource manager.\
-                      You can add new files from your computer with the button "Add file(s)".');
+                  __('Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button "Add file(s)".');
 
         /**
          * Configure and launch the pre-configured instance of the resource manager

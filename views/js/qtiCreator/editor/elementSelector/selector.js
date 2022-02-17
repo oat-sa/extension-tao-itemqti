@@ -1,22 +1,23 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
     'tpl!taoQtiItem/qtiCreator/editor/elementSelector/tpl/popup',
     'tpl!taoQtiItem/qtiCreator/editor/elementSelector/tpl/content'
-], function($, _, popupTpl, contentTpl){
+], function($, _, __, popupTpl, contentTpl){
 
     var _ns = '.element-selector';
-    
+
     /**
      * Create an element selector reltive to the $anchor and contained in the $container
-     * 
+     *
      * @param {JQuery} $anchor
      * @param {JQuery} $container
      * @param {Array} interactions - the list of authorable interactions
      * @returns {Object} the new selector instance
      */
     function create($anchor, $container, interactions){
-        
+
         //anchor must be positioned in css
         var positions = _computePosition($anchor, $container);
         var $element = $(popupTpl({
@@ -25,7 +26,7 @@ define([
             content : _renderContent(interactions)
         }));
 
-        //only one 
+        //only one
         $anchor.find('.contextual-popup').remove();
 
         //style and attach the form
@@ -75,30 +76,30 @@ define([
             }
         };
     }
-    
+
     /**
      * Callback when the "done" button is clicked
-     * 
+     *
      * @param {JQuery} $element
      */
     function _done($element){
         $element.hide();
         $element.trigger('done' + _ns);
     }
-    
+
     /**
      * Callback when the "cancel" button is clicked
-     * 
+     *
      * @param {JQuery} $element
      */
     function _cancel($element){
         $element.hide();
         $element.trigger('cancel' + _ns);
     }
-    
+
     /**
      * Activate the panel defined by the groupName
-     * 
+     *
      * @param {JQuery} $container
      * @param {String} groupName
      */
@@ -106,10 +107,10 @@ define([
         var $trigger = $container.find('.group-list li[data-group-name="' + groupName + '"]');
         _activatePanel($container, $trigger);
     }
-    
+
     /**
      * Activate a panel by its trigger button in the navigation tab
-     * 
+     *
      * @param {JQuery} $container
      * @param {JQuery} $trigger
      */
@@ -121,10 +122,10 @@ define([
             $group.show().siblings('.element-group').hide();
         }
     }
-    
+
     /**
      * Activate an element identified by its qti class
-     * 
+     *
      * @param {JQuery} $container
      * @param {String} qtiClass
      */
@@ -132,10 +133,10 @@ define([
         var $trigger = $container.find('.element-list li[data-qti-class="' + qtiClass + '"]');
         _activateElement($container, $trigger);
     }
-    
+
     /**
      * Activate an element identified by its $trigger dom element
-     * 
+     *
      * @param {JQuery} $container
      * @param {JQuery} $trigger
      */
@@ -147,16 +148,16 @@ define([
             $container.trigger('selected' + _ns, [qtiClass, $trigger]);
         }
     }
-    
+
     /**
      * Calculate the position of the popup and arrow relative to the anchor and container elements
-     * 
+     *
      * @param {JQuery} $anchor
      * @param {JQuery} $container
      * @returns {Object} - Object containing the positioning data
      */
     function _computePosition($anchor, $container){
-        
+
         var popupWidth = 500;
         var arrowWidth = 6;
         var marginTop = 15;
@@ -168,7 +169,7 @@ define([
             left : -popupWidth / 2 + _anchor.w/2,
             w : popupWidth
         };
-        
+
         var offset = _anchor.left - _container.left;
         //do we have enough space on the left ?
         if(offset + marginLeft + _anchor.w/2 < _popup.w / 2){
@@ -187,7 +188,7 @@ define([
             arrow : _arrow
         };
     }
-    
+
     /**
      * Filter and format the raw authorable interactions array into useful data for this selector
      * @param {Array} interactions
@@ -207,16 +208,16 @@ define([
             }
             return false;
         });
-        block.tags[0] = 'Text Block';
+        block.tags[0] = __('Text Block');
         filtered.unshift(block);
         return filtered;
     }
-    
+
     /**
      * Render the content of the selector from the list of authorable interactions as data
-     * 
+     *
      * @param {Array} interactions
-     * @returns {String} 
+     * @returns {String}
      */
     function _renderContent(interactions){
 
