@@ -40,8 +40,11 @@ define([
         commonRenderer.destroy(interaction);
 
         //add a specific instruction
-        instructionMgr.appendInstruction(interaction, __('Please create areas that correspond to the response and associate them a score.\n' +
-                                                 'You can also position the target to the exact point as the correct response.'));
+        instructionMgr.appendInstruction(
+            interaction,
+            __('Please create areas that correspond to the response and associate them a score. You can also position the target to the exact point as the correct response.')
+        );
+
         interaction.responseMappingMode = true;
         if(_.isPlainObject(response.mapEntries)){
             response.mapEntries = _.values(response.mapEntries);
