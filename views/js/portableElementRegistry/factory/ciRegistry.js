@@ -18,9 +18,10 @@
  */
 define([
     'lodash',
+    'i18n',
     'taoQtiItem/portableElementRegistry/factory/factory',
     'taoQtiItem/qtiCreator/helper/qtiElements'
-], function (_, portableElementRegistry, qtiElements){
+], function (_, __, portableElementRegistry, qtiElements){
     'use strict';
 
     /**
@@ -43,7 +44,7 @@ define([
                         short : pciModel.short,
                         description : pciModel.description,
                         qtiClass : 'customInteraction.' + pciModel.typeIdentifier, //custom interaction is block type
-                        tags : _.union(['Custom Interactions'], pciModel.tags),
+                        tags : _.union([__('Custom Interactions')], pciModel.tags),
                         group : 'custom-interactions'
                     };
                 }
