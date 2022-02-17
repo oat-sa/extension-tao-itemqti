@@ -6,5 +6,5 @@
     <div class="outcomes">
         {{{listing}}}
     </div>
-    <a href="#" class="adder feedbackRule-add" data-testid="add-an-outcome">Add an outcome</a>
+    <a href="#" class="adder feedbackRule-add" data-testid="add-an-outcome">{{__ "Add an outcome"}}</a>
 </div>
