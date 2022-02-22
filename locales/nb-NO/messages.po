@@ -533,7 +533,7 @@ msgstr "Feil på oppgave %s"
 msgid "Error to export item %s: %s"
 msgstr "Feil ved eksport av element %s: %s"
 
-msgid "Euler\'s constant"
+msgid "Euler's constant"
 msgstr "Eulers konstante"
 
 msgid "Exponent"
