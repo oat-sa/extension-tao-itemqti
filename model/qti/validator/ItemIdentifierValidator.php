@@ -32,7 +32,7 @@ class ItemIdentifierValidator
     public const ENV_QTI_IDENTIFIER_VALIDATOR_PATTERN = 'ENV_QTI_IDENTIFIER_VALIDATOR_PATTERN';
 
     public const DEFAULT_PATTERN_PARAMETER_NAME = 'ItemIdentifierValidatorParameterName';
-    public const DEFAULT_PATTERN = '/^[a-zA-Z_]{1}[a-zA-Z0-9_\.-]{0,31}$/u';
+    public const DEFAULT_PATTERN = '/^[a-zA-Z_]{1}[a-zA-Z0-9_\.-]*$/u';
 
     /** @var string */
     private $pattern;

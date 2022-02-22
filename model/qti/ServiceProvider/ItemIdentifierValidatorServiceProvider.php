@@ -38,7 +38,7 @@ class ItemIdentifierValidatorServiceProvider implements ContainerServiceProvider
         /**
          * Please specify the QTI Identifier Validator Pattern that will be used to validate the item identifier
          * Ex: /^[a-zA-Z_]{1}[a-zA-Z0-9_-]{0,31}$/u
-         * The Default is /^[a-zA-Z_]{1}[a-zA-Z0-9_\\.-]{0,31}$/u
+         * The Default is /^[a-zA-Z_]{1}[a-zA-Z0-9_\\.-]*$/u
          */
         $parameters->set(
             ItemIdentifierValidator::DEFAULT_PATTERN_PARAMETER_NAME,
