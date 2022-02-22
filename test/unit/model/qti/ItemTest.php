@@ -51,7 +51,7 @@ class ItemTest extends TestCase
         $expectedItemQti = <<<ITEM_QTI
 <?xml version="1.0" encoding="UTF-8"?><assessmentItem
         xsi:schemaLocation=""
-     identifier="Item_1" title="" label="" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="2022.01">
+     identifier="Item_1" title="" label="" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="">
 
     
     
@@ -67,7 +67,7 @@ ITEM_QTI;
 
 
         $item = new Item();
-        $itemQti = $item->toQTI();
+        $itemQti = $this->removeToolVersionAttribute($item->toQTI());
 
         self::assertEquals($expectedItemQti, $itemQti);
     }
@@ -77,7 +77,7 @@ ITEM_QTI;
         $expectedItemQti = <<<ITEM_QTI
 <?xml version="1.0" encoding="UTF-8"?><assessmentItem
         xsi:schemaLocation=""
-     identifier="Item_1" title="" label="" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="2022.01">
+     identifier="Item_1" title="" label="" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="">
 
     
     
@@ -94,9 +94,19 @@ ITEM_QTI;
 
         $item = new Item();
         $item->getBody()->setAttribute('dir', 'rtl');
-        $itemQti = $item->toQTI();
+        $itemQti = $this->removeToolVersionAttribute($item->toQTI());
 
 
         self::assertEquals($expectedItemQti, $itemQti);
+    }
+
+    /**
+     * remove tool version because every release this value changes
+     * @param string $itemQti
+     * @return string
+     */
+    private function removeToolVersionAttribute(string $itemQti): string
+    {
+       return preg_replace('/toolVersion="[0-9]{4}\.[0-9]{2}"/u', 'toolVersion=""', $itemQti);
     }
 }
