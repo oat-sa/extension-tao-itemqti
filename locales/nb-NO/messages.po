@@ -464,7 +464,7 @@ msgstr "Redigere"
 msgid "edit choices"
 msgstr "redigere valg"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
 msgstr "Rediger matematisk uttrykk ved hjelp av LaTex type innstillingssystem, f.eks. e^{i \\ pi} = -1"
 
 msgid "Edit math expression using MathML"
