@@ -76,6 +76,11 @@ define([
                         const loader = new Loader().setClassesLocation(qtiClasses);
                         const itemData = data.itemData;
 
+                        if(data.itemData.attributes.identifier.length > qtiIdentifier.maxQtiIdLength) {
+                            // limit item id to 32 chars
+                            data.itemData.attributes.identifier = data.itemData.attributes.identifier.substr(0, qtiIdentifier.maxQtiIdLength);
+                        }
+
                         loader.loadItemData(itemData, function (loadedItem) {
                             //hack to fix #2652
                             if (loadedItem.isEmpty()) {
