@@ -30,7 +30,7 @@ define([
     const _generateIdentifier = function _generateIdentifier(uri) {
         const pos = uri.lastIndexOf('#');
         // identifier by default should be no more then 32
-        return uri.substr(pos + 1, qtiIdentifier.maxQtiIdLength);
+        return uri.substring(pos + 1, pos + 1 + qtiIdentifier.maxQtiIdLength);
     };
 
     const decodeHtml = function (str) {
@@ -78,7 +78,7 @@ define([
 
                         if(data.itemData.attributes.identifier.length > qtiIdentifier.maxQtiIdLength) {
                             // limit item id to 32 chars
-                            data.itemData.attributes.identifier = data.itemData.attributes.identifier.substr(0, qtiIdentifier.maxQtiIdLength);
+                            data.itemData.attributes.identifier = data.itemData.attributes.identifier.substring(0, qtiIdentifier.maxQtiIdLength);
                         }
 
                         loader.loadItemData(itemData, function (loadedItem) {
