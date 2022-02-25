@@ -50,7 +50,7 @@ class ItemIdentifierValidatorTest extends TestCase
 
     public function testValidationSuccessWithDifferentPattern(): void
     {
-        $subject = new ItemIdentifierValidator('/^[a-zA-Z_]{1}[a-zA-Z0-9_-]{0,31}$/u');
+        $subject = new ItemIdentifierValidator('/^[a-zA-Z_]{1}[a-zA-Z0-9_-]*$/u');
 
         $this->item->expects($this->once())
             ->method('getAttributeValue')
@@ -76,7 +76,7 @@ class ItemIdentifierValidatorTest extends TestCase
     {
         $this->expectException(common_exception_Error::class);
 
-        $subject = new ItemIdentifierValidator('/^[a-zA-Z_]{1}[a-zA-Z0-9_-]{0,31}$/u');
+        $subject = new ItemIdentifierValidator('/^[a-zA-Z_]{1}[a-zA-Z0-9_-]*$/u');
 
         $this->item->expects($this->once())
             ->method('getAttributeValue')
