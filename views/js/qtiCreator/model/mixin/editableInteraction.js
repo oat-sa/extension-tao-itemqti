@@ -148,28 +148,6 @@ define([
 
             //delete its response
             this.deleteResponse();
-
-            //when there is only one interaction remaining, its reponseIdentifier must be RESPONSE to be able to use one of the standard rp
-            if(_.size(interactions) === 2){
-                _.forEach(interactions, (interaction) => {
-
-                    var response = interaction.getResponseDeclaration();
-
-                    //find the other interaction, which will be the last remaining one
-                    if(response && interaction.serial !== serial && interaction.qtiClass !== 'endAttemptInteraction'){
-                        // rename interaction outcome
-                        if (perInteractionRp) {
-                            item.removeOutcome(`SCORE_${interaction.attributes.responseIdentifier}`);
-
-                            this.createOutcomeDeclarationIfNotExists('SCORE_RESPONSE');
-                        }
-
-
-                        interaction.attr('responseIdentifier', 'RESPONSE');
-                        response.id('RESPONSE');
-                    }
-                });
-            }
         }
     };
 
