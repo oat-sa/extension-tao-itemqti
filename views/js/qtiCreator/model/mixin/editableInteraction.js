@@ -26,29 +26,26 @@ define([
     'taoQtiItem/qtiCreator/model/variables/ResponseDeclaration',
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/model/helper/response'
-], function(_, Element, ResponseDeclaration, event, responseHelper){
+], function (_, Element, ResponseDeclaration, event, responseHelper) {
     'use strict';
 
-    var methods = {
-
+    const methods = {
         /**
          * Remove a choice from the interaction
          *
          * @param {string|choice} choice
          * @returns {object} this
          */
-        removeChoice : function removeChoice(choice){
-
-            var serial = '', c;
-            if(typeof(choice) === 'string'){
+        removeChoice: function removeChoice(choice) {
+            let serial = '';
+            if (typeof choice === 'string') {
                 serial = choice;
-            }else if(Element.isA(choice, 'choice')){
+            } else if (Element.isA(choice, 'choice')) {
                 serial = choice.getSerial();
             }
-            if(this.choices[serial]){
-
+            if (this.choices[serial]) {
                 //remove choice
-                c = this.choices[serial];
+                const c = this.choices[serial];
                 delete this.choices[serial];
 
                 //update the response
@@ -61,28 +58,28 @@ define([
         },
 
         createOutcomeDeclarationIfNotExists(outcomeIdentifier, buildIdentifier) {
-          const item = this.getRootElement();
-          let outcome = item.getOutcomeDeclaration(outcomeIdentifier);
+            const item = this.getRootElement();
+            let outcome = item.getOutcomeDeclaration(outcomeIdentifier);
 
-          if(!outcome){
-              outcome = item.createOutcomeDeclaration({
-                  cardinality : 'single',
-                  baseType : 'float'
-              });
+            if (!outcome) {
+                outcome = item.createOutcomeDeclaration({
+                    cardinality: 'single',
+                    baseType: 'float'
+                });
 
-              buildIdentifier
-                ? outcome.buildIdentifier(outcomeIdentifier, false)
-                : outcome.attr('identifier', outcomeIdentifier);
-          }
+                buildIdentifier
+                    ? outcome.buildIdentifier(outcomeIdentifier, false)
+                    : outcome.attr('identifier', outcomeIdentifier);
+            }
         },
 
-        createResponse : function createResponse(attrs, template){
+        createResponse: function createResponse(attrs, template) {
             const response = new ResponseDeclaration();
             const responseProcessing = this.rootElement.responseProcessing;
             const processingType = responseProcessing && responseProcessing.processingType;
             let item, renderer;
 
-            if(attrs){
+            if (attrs) {
                 response.attr(attrs);
             }
 
@@ -93,11 +90,7 @@ define([
 
             //assign responseIdentifier only after attaching it to the item to generate a unique id
             response.buildIdentifier('RESPONSE', false);
-            response.setTemplate(
-                processingType === 'custom'
-                    ? 'CUSTOM'
-                    : template || 'MATCH_CORRECT'
-            );
+            response.setTemplate(processingType === 'custom' ? 'CUSTOM' : template || 'MATCH_CORRECT');
             this.attr('responseIdentifier', response.id());
 
             //adding a response processing template require the outcome SCORE:
@@ -115,7 +108,7 @@ define([
 
             //set renderer
             renderer = this.getRenderer();
-            if(renderer){
+            if (renderer) {
                 response.setRenderer(renderer);
             }
 
@@ -124,21 +117,19 @@ define([
 
         /**
          * To be called before deleting the interaction
+         * @returns {Object} this - interaction
          */
-        deleteResponse : function deleteResponse(){
-
-            var response = this.getResponseDeclaration();
-            if(response){
+        deleteResponse: function deleteResponse() {
+            const response = this.getResponseDeclaration();
+            if (response) {
                 this.getRootElement().deleteResponseDeclaration(response);
             }
             this.removeAttr('responseIdentifier');
             return this;
         },
 
-        beforeRemove : function beforeRemove(){
+        beforeRemove: function beforeRemove() {
             const item = this.getRootElement();
-            const serial = this.serial,
-                interactions = item.getInteractions();
             const perInteractionRp = item.metaData.widget.options.perInteractionRp;
 
             // remove interaction outcome
