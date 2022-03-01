@@ -37,6 +37,9 @@ msgstr "--Hvilken som helst fil--"
 msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr "1 oppgave importert fra det gitte QTI/APIP XML-oppgavedokumentet."
 
+msgid "7-zip archive"
+msgstr "7-zip arkiv"
+
 msgid "A choice must be selected"
 msgstr "Du må gjøre et valg"
 
@@ -49,7 +52,7 @@ msgstr "En QTI-komponent støttes ikke. Systemet returnerte følgende feil: %s\n
 ""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
-msgstr "En rubrikkblokk identifiserer en del av en vurdering som representerer instruksjoner til en eller flere av aktørene som ser oppgaven. Selv om rubrikkblokker er definert som \"simple Blocks\", må de ikke inneholde oppgavetyper."
+msgstr "En boks identifiserer en del av en vurdering som representerer instruksjoner til en eller flere av aktørene som ser oppgaven. Selv om bokser er definert som \"simple Blocks\", må de ikke inneholde oppgavetyper."
 
 msgid "Adapt to screen size"
 msgstr "Tilpass til skjermstørrelsen"
@@ -61,7 +64,7 @@ msgid "Add a CSV file"
 msgstr "Legg til en CSV-fil"
 
 msgid "Add a modal feedback"
-msgstr "Legg til en modal tilbakemelding"
+msgstr "Legg til en tilbakemelding"
 
 msgid "Add a QTI/APIP XML Item Document"
 msgstr "Legg til et QTI/APIP XML-oppgavedokument"
@@ -161,6 +164,9 @@ msgstr "kobling av par par"
 msgid "at least"
 msgstr "minst"
 
+msgid "Audio Video Interleave"
+msgstr "Lyd og video sammen"
+
 msgid "Autostart"
 msgstr "Autostart"
 
@@ -173,26 +179,38 @@ msgstr "Bakgrunnsfarge"
 msgid "Base"
 msgstr "Utgangspunkt"
 
+msgid "Bitmap image"
+msgstr "Bitmap-bilde"
+
 msgid "Block"
-msgstr "Blokk"
+msgstr "Tekstboks"
 
 msgid "block"
-msgstr "blokk"
+msgstr "tekstboks"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
-msgstr "Blokken inneholder stimuliet til oppgaven, for eksempel tekst eller bilde. Det er også nødvendig for integrerte oppgavetyper."
+msgstr "Tekstboksen inneholder stimuliet til oppgaven, for eksempel tekst eller bilde. Det er også nødvendig for integrerte oppgavetyper."
 
 msgid "Block height (%)"
-msgstr "Blokkhøyde(%)"
+msgstr "Skrollhøyde(%)"
 
 msgid "Border color"
 msgstr "Kantfarge"
 
 msgid "Browse your computer and select the appropriate file."
-msgstr "Bla gjennom maskinen din og velg riktig fil."
+msgstr "Søk gjennom maskinen din og velg riktig fil."
 
 msgid "Browse..."
-msgstr "Bla gjennom..."
+msgstr "Søk..."
+
+msgid "C file"
+msgstr "C-fil"
+
+msgid "C++ file (.cpp)"
+msgstr "C++ fil (.cpp)"
+
+msgid "Calc speadsheet (Staroffice)"
+msgstr "Calc-regneark (Staroffice)"
 
 msgid "Cancel"
 msgstr "Avbryt"
@@ -218,6 +236,9 @@ msgstr "kan ikke laste inn QTI XML"
 msgid "Cannot locate the file \"%s"
 msgstr "Finner ikke filen \"%s"
 
+msgid "Cascading Style Sheets"
+msgstr "Stilark"
+
 msgid "Center"
 msgstr "Senter"
 
@@ -231,19 +252,19 @@ msgid "Choice"
 msgstr "Flervalg"
 
 msgid "Choice Image"
-msgstr "Flervalg Bilde"
+msgstr "Bilde i svaralternativ"
 
 msgid "Choice Interaction"
-msgstr "Oppgavetype flervalg"
+msgstr "Oppgavetype alternativer"
 
 msgid "Choice Properties"
-msgstr "Egenskaper for flervalg"
+msgstr "Egenskaper for alternativer"
 
 msgid "Choices"
-msgstr "Valg"
+msgstr "Alternativer"
 
 msgid "choices"
-msgstr "valg"
+msgstr "alternativ"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr "Velg den horisontale justeringen for tabellen."
@@ -277,6 +298,9 @@ msgstr "Fargevelger"
 
 msgid "Common Interactions"
 msgstr "Vanlige oppgavetyper"
+
+msgid "Compressed tar file"
+msgstr "Komprimert tar-fil"
 
 msgid "Constraints"
 msgstr "Begrensninger"
@@ -314,6 +338,9 @@ msgstr "Lag par ut fra en rekke valg."
 msgid "CSV content + metadata"
 msgstr "CSV-innhold + metadata"
 
+msgid "CSV file"
+msgstr "CSV-fil"
+
 msgid "Current value:"
 msgstr "Verdi:"
 
@@ -321,10 +348,13 @@ msgid "Currently conversion from MathML to LaTeX is not available. Editing MathM
 msgstr "Konvertering fra MathML til LaTeX er for tiden ikke mulig. LaTex-koden blir slettet hvis du redigerer MathML her."
 
 msgid "custom"
-msgstr "tilpasset"
+msgstr "egendefinert skåring"
 
 msgid "Custom Response Processing Mode"
-msgstr "Tilpasset responsprosesseringsmodus"
+msgstr "Egendefinert skåringsinnstilling"
+
+msgid "Database file"
+msgstr "Database-fil"
 
 msgid "default"
 msgstr "standard"
@@ -339,7 +369,7 @@ msgid "Define item language."
 msgstr "Definer oppgavespråk."
 
 msgid "define prompt"
-msgstr "definer ledetekst"
+msgstr "skriv inn en ledetekst"
 
 msgid "Define the correct response."
 msgstr "Definer riktig svar."
@@ -357,10 +387,10 @@ msgid "Defines the maximum magnitude of numeric outcome variables, the maximum m
 msgstr "Definerer maksimal størrelse på numeriske resultatvariabler, maksimum må være en positiv verdi og minimum kan være en negativ verdi."
 
 msgid "Delete"
-msgstr "Slette"
+msgstr "Slett"
 
 msgid "delete"
-msgstr "slette"
+msgstr "slett"
 
 msgid "Delete else statement"
 msgstr "Slett annet utsagn"
@@ -386,14 +416,17 @@ msgstr "Vis valgene enten horisontalt eller vertikalt"
 msgid "Divide"
 msgstr "Dele opp"
 
+msgid "Document templates (Staroffice)"
+msgstr "Dokumentmaler (Staroffice)"
+
 msgid "Don\'t save"
-msgstr ""
+msgstr "Ikke lagre"
 
 msgid "done"
-msgstr "utført"
+msgstr "ferdig"
 
 msgid "Done"
-msgstr "Utført"
+msgstr "Ferdig"
 
 msgid "Download"
 msgstr "Last ned"
@@ -432,7 +465,7 @@ msgid "edit choices"
 msgstr "redigere valg"
 
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr ""
+msgstr "Rediger matematisk uttrykk ved hjelp av LaTex type innstillingssystem, f.eks. e^{i \\ pi} = -1"
 
 msgid "Edit math expression using MathML"
 msgstr "Rediger matematisk uttrykk ved hjelp av MathML"
@@ -473,6 +506,9 @@ msgstr "End attempt"
 msgid "End Attempt Interaction"
 msgstr "Oppgavetype end attempt"
 
+msgid "Enhanced metafile"
+msgstr "Forbedret metafil"
+
 msgid "Enlarge font size"
 msgstr "Forstørr skriftstørrelse"
 
@@ -480,7 +516,7 @@ msgid "Enter a select MIME-type"
 msgstr "Skriv inn en valgt MIME-type"
 
 msgid "Enter choices…"
-msgstr "Gå til valg ..."
+msgstr "Gå til valg…"
 
 msgid "Enter tooltip content"
 msgstr "Gå til verktøykasseinhold"
@@ -497,8 +533,8 @@ msgstr "Feil på oppgave %s"
 msgid "Error to export item %s: %s"
 msgstr "Feil ved eksport av element %s: %s"
 
-msgid "Euler\'s constant"
-msgstr ""
+msgid "Euler's constant"
+msgstr "Eulers konstante"
 
 msgid "Exponent"
 msgstr "Eksponent"
@@ -563,8 +599,15 @@ msgstr "Oppgavetype filopplasting"
 msgid "Fill in the gaps on a picture with a set of image choices."
 msgstr "Fyll inn mellomrommene i et bilde med et gitt sett av bildevalg."
 
+msgid "Flash video"
+msgstr "Flash-video"
+
+msgid "Flowchart-based programming environment & TI Interactive Workbook"
+msgstr "Flytskjema-basert programmeringsmiljø og TI interaktiv arbeidsbok"
+
+#, fuzzy
 msgid "Font family"
-msgstr "Skriftfamilie"
+msgstr "Skrifttype"
 
 msgid "Font size"
 msgstr "Skriftstørrelse"
@@ -579,22 +622,28 @@ msgid "Gap"
 msgstr "Mellomrom"
 
 msgid "Gap Match"
-msgstr "Fyll inn ord"
+msgstr "Fyll inn bilde"
 
 msgid "Gap Match Interaction"
-msgstr "Oppgavetype fyll inn ord"
+msgstr "Oppgavetype fyll inn bilde"
+
+msgid "Geogebra data file"
+msgstr "Geogebra data-fil"
+
+msgid "GIF image"
+msgstr "GIF-bilde"
 
 msgid "Graphic Associate Interaction"
-msgstr "Grafiske oppgavetyper - kobling"
+msgstr "Grafisk oppgavetype - kobling"
 
 msgid "Graphic Gap Match Interaction"
-msgstr "Grafiske oppgavetyper - fyll inn bilde"
+msgstr "Grafisk oppgavetype - fyll inn bilde"
 
 msgid "Graphic Interactions"
-msgstr "Grafiske oppgavetyper"
+msgstr "Grafisk oppgavetype"
 
 msgid "Graphic Order Interaction"
-msgstr "Grafiske oppgavetyper - sortering"
+msgstr "Grafisk oppgavetype - sortering"
 
 msgid "Greater than or equal"
 msgstr "Større enn eller lik"
@@ -606,7 +655,7 @@ msgid "Height"
 msgstr "Høyde"
 
 msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
-msgstr "Her kan du gi poeng for manuell skåring, f.eks. av INNHOLD, GRAMATIKK, STAVNING"
+msgstr "Her kan du definere poeng for manuell skåring, f.eks. av INNHOLD, GRAMATIKK, STAVNING"
 
 msgid "Horizontal"
 msgstr "Horisontal"
@@ -631,6 +680,9 @@ msgstr "Hvordan det matematiske uttrykket skal redigeres"
 
 msgid "Human"
 msgstr "Menneskelig"
+
+msgid "Hypertext markup language"
+msgstr "Markeringsspråk for hypertekst"
 
 msgid "identical pair already exists"
 msgstr "identisk par eksisterer allerede"
@@ -699,13 +751,13 @@ msgid "Inline Choice Interaction"
 msgstr "Oppgavetype flervalg på linje"
 
 msgid "Inline Interactions"
-msgstr "Oppgavtype kortsvar"
+msgstr "Tekstboks med oppgavetyper"
 
 msgid "Inline interactions need to be inserted into a text block."
-msgstr "Interaksjonen kortsvar må settes inn i en tekstblokk."
+msgstr "Oppgavetypen må settes inn i en tekstboks."
 
 msgid "Interaction Background"
-msgstr "Oppgavetypebakgrunn"
+msgstr "Bakgrunn"
 
 msgid "Interaction Properties"
 msgstr "Egenskaper for oppgavetyper"
@@ -765,6 +817,12 @@ msgstr "Oppgavebredde"
 msgid "Items"
 msgstr "Oppgaver"
 
+msgid "Javascript code"
+msgstr "Jacascript kode"
+
+msgid "JPEG image"
+msgstr "JPEG-bilde"
+
 msgid "Label"
 msgstr "Navn"
 
@@ -817,7 +875,7 @@ msgid "Long interpretation"
 msgstr "Lang tolkning"
 
 msgid "Loop"
-msgstr "Løkke"
+msgstr "Loop"
 
 msgid "Lower Bound"
 msgstr "Nedre grense"
@@ -840,7 +898,7 @@ msgid "Manage items"
 msgstr "Administrere oppgaver"
 
 msgid "map response"
-msgstr "kartlegg svar"
+msgstr "avansert skåring"
 
 msgid "Mapping default"
 msgstr "Kartleggingsstandard"
@@ -852,7 +910,7 @@ msgid "Match"
 msgstr "Matrise"
 
 msgid "match correct"
-msgstr "match correct"
+msgstr "standard skåring"
 
 msgid "Match Interaction"
 msgstr "Oppgavetype matrise"
@@ -882,7 +940,7 @@ msgid "Max Words"
 msgstr "Maks antall ord"
 
 msgid "Max. number of matches"
-msgstr "Maks antall matcher"
+msgstr "Maks antall tilknytninger"
 
 msgid "Maximal score for this interaction."
 msgstr "Maksimal skår for denne oppgavetypen."
@@ -897,7 +955,7 @@ msgid "Maximum number of choices reached."
 msgstr "Maks antall valg er nådd."
 
 msgid "Media"
-msgstr "Media"
+msgstr "Mediebank"
 
 msgid "Media file path or YouTube video address"
 msgstr "Mediefilbane eller YouTube-videoadresse"
@@ -920,11 +978,41 @@ msgstr "Metadataimport krever en forekomst av DomManifest for å trekke ut metad
 msgid "Metadata service successfully registered."
 msgstr "Metadatatjenesten ble registrert."
 
+msgid "Microsoft Excel"
+msgstr "Microsoft Excel"
+
+msgid "Microsoft Office Document Imaging"
+msgstr "Microsoft Office Document Imaging"
+
+msgid "Microsoft Powerpoint"
+msgstr "Microsoft Powerpoint"
+
+msgid "Microsoft Project file"
+msgstr "Microsoft Project-fil"
+
+msgid "Microsoft Visio file"
+msgstr "Microsoft Visio-fil"
+
+msgid "Microsoft Word"
+msgstr "Microsoft Word"
+
+msgid "Microsoft Works file"
+msgstr "Microsoft Works-fil"
+
+msgid "Microsoft XPS file"
+msgstr "Microsoft XPS-fil"
+
+msgid "MIME encapsulation of aggregate HTML documents"
+msgstr "MIME-samling av aggregerte HTML-dokumenter"
+
 msgid "MIME-type"
 msgstr "MIME-type"
 
 msgid "Min"
 msgstr "Min"
+
+msgid "Mind mapping software application (free mind open source)"
+msgstr "Mind-mapping programvare (gratis åpen kildekode)"
 
 msgid "Minimal  score for this interaction."
 msgstr "Minimun poengsum for denne oppgavetypen."
@@ -933,13 +1021,25 @@ msgid "Modal feedback is shown to the candidate directly following response proc
 msgstr "Tilbakemelding vises for eleven rett etter responsprosessering."
 
 msgid "Modal Feedback Prop."
-msgstr "Modal Feedback Prop."
+msgstr "Tilbakemelding."
 
 msgid "modal feedback title"
-msgstr "modal feedback tittel"
+msgstr "tilbakemeldingstittel"
 
 msgid "Modal Feedbacks"
-msgstr "Modale tilbakemeldinger"
+msgstr "Tilbakemeldinger"
+
+msgid "MP4 video"
+msgstr "MP4-video"
+
+msgid "MPEG audio"
+msgstr "MPEG-lyd"
+
+msgid "MPEG video"
+msgstr "MPEG video"
+
+msgid "MPEG-4 audio file"
+msgstr "MPEG-4 lydfil"
 
 msgid "Multiply"
 msgstr "Multiplisere"
@@ -1004,6 +1104,21 @@ msgid "One or more QTI components are not supported by the system. The system re
 msgstr "En eller flere QTI-komponenter støttes ikke av systemet. Systemet returnerte følgende feil: %s\n"
 ""
 
+msgid "OpenDocument Database"
+msgstr "OpenDocument Database"
+
+msgid "OpenDocument Presentation"
+msgstr "OpenDocument presentasjon"
+
+msgid "OpenDocument spreadsheet document"
+msgstr "OpenDocument regnearkdokument"
+
+msgid "OpenDocument text document"
+msgstr "OpenDocument tekstdokument"
+
+msgid "OpenDocument Text Template"
+msgstr "OpenDocument tekstmal"
+
 msgid "Order"
 msgstr "Sortering"
 
@@ -1014,19 +1129,25 @@ msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Ordne områdene (hotspots) som vises på et bildet i riktig rekkefølge."
 
 msgid "Orientation"
-msgstr "Orienteringf"
+msgstr "Orientering"
 
 msgid "Outcome Declarations"
-msgstr "Resultat av erklæringene"
+msgstr "Skåringsvariabler"
 
 msgid "Pair scoring"
 msgstr "Skåring av par"
+
+msgid "Pascal file (.pas)"
+msgstr "Pascal fil (.pas)"
 
 msgid "Pattern"
 msgstr "Mønster"
 
 msgid "Pause"
 msgstr "Pause"
+
+msgid "PDF file"
+msgstr "PDF-fil"
 
 msgid "Pi"
 msgstr "Pi"
@@ -1102,6 +1223,9 @@ msgstr "Skriv inn riktig svar nedenfor."
 msgid "Please type the correct response in the box below."
 msgstr "Skriv inn riktig svar i boksen nedenfor."
 
+msgid "PNG image"
+msgstr "PNG-bilde"
+
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "Bærbar elementmodell %s ble ikke funnet. Nødvendig utvidelse kan mangle"
 
@@ -1124,7 +1248,7 @@ msgid "Preparing Metadata Values for target \"%s\"..."
 msgstr "Forbereder metadataverdier for målet \"%s\"..."
 
 msgid "Preview"
-msgstr "Forhåndsvisning"
+msgstr "Forhåndsvis"
 
 msgid "Preview the item"
 msgstr "Forhåndsvis oppgaven"
@@ -1173,6 +1297,15 @@ msgstr "QTI/APIP XML-oppgavedokument"
 
 msgid "Question"
 msgstr "Spørsmål"
+
+msgid "Quicktime video"
+msgstr "Quicktime-video"
+
+msgid "RAR archive"
+msgstr "RAR arkiv"
+
+msgid "RealMedia file"
+msgstr "RealMedia-fil"
 
 msgid "Recommendations"
 msgstr "Anbefalinger"
@@ -1250,22 +1383,25 @@ msgid "Response [\"%s\"] should be the only possible value \"%s\"."
 msgstr "Svar [\"%s\"] bør være den eneste mulige verdien \"%s\"."
 
 msgid "Response base type"
-msgstr "Svartype"
+msgstr "Skåringstype"
 
 msgid "Response identifier"
-msgstr "Svaridentifikator"
+msgstr "Skåringsidentifikator"
 
 msgid "Response processing"
-msgstr "Responsprosessering"
+msgstr "Skåringsinnstillinger"
 
 msgid "Response Properties"
-msgstr "Svaregenskaper"
+msgstr "Skåringsegenskaper"
 
 msgid "Rich text"
 msgstr "Rik tekst"
 
 msgid "Rich text + math"
 msgstr "Rik tekst + math"
+
+msgid "Rich Text Format file"
+msgstr "Rik Tekst Format-fil"
 
 msgid "right"
 msgstr "høyre"
@@ -1343,7 +1479,7 @@ msgid "Select if you want the outcome declaration to be processed by an external
 msgstr "Velg om du vil at resultatet skal behandles av et eksternt system eller en menneskelig skårer. Dette er typisk for oppgaver der elever blir spurt om å skrive et essay."
 
 msgid "Select image"
-msgstr "Velg bild"
+msgstr "Velg bilde"
 
 msgid "Select media file"
 msgstr "Velg media-fil"
@@ -1394,10 +1530,13 @@ msgid "Set the score for this response"
 msgstr "Sett poengsumm for dette svaret"
 
 msgid "Shape position"
-msgstr "Lag posisjon"
+msgstr "Sett posisjon"
 
 msgid "Shuffle choices"
-msgstr "Stokk om svaralternativene"
+msgstr "Tilfeldig rekkefølge for svaralternativer"
+
+msgid "Sibelius music notation"
+msgstr "Sibelius musikknotasjon"
 
 msgid "Sinus"
 msgstr "Sinus"
@@ -1423,6 +1562,9 @@ msgstr "standard"
 msgid "Step"
 msgstr "Steg"
 
+msgid "Storing digital video data on a computer game"
+msgstr "Lagring av digitale videodata på et dataspill"
+
 msgid "Style Editor"
 msgstr "Stileditor"
 
@@ -1430,7 +1572,7 @@ msgid "Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-appl
 msgstr "Stilark <b>%s </b> fjernet <br> Klikk <i> Legg til stilark </i> for å søke på nytt."
 
 msgid "Style Sheet Manager"
-msgstr "Style Sheet Manager"
+msgstr "Rediger stilark"
 
 msgid "Success"
 msgstr "Suksess"
@@ -1441,26 +1583,41 @@ msgstr "Kompilert \"%s"
 msgid "Successfully created item \"%s"
 msgstr "Opprettet oppgave %s"
 
+msgid "SVG image"
+msgstr "SVG-bilde"
+
 msgid "Table headings"
 msgstr "Tabelloverskrifter"
+
+msgid "Tagged image file"
+msgstr "Merket bildefil"
 
 msgid "TAO default styles"
 msgstr "TAO default styles"
 
+msgid "Tape Archive (TAR)"
+msgstr "Tape Archive (TAR)"
+
 msgid "Target Class Lookup for resource \"%s\"..."
 msgstr "Søk for ressursen \"%s\"..."
 
+msgid "TeX file"
+msgstr "TeX-fil"
+
 msgid "Text Block"
-msgstr "Tekstblokk"
+msgstr "Tekstboks"
 
 msgid "Text Block CSS Class"
-msgstr "Tekst blokk CSS mappe"
+msgstr "Tekstboks CSS mappe"
 
 msgid "Text Block Properties"
-msgstr "Tekst blokkegenskaper"
+msgstr "Tekstboks egenskaper"
 
 msgid "Text color"
 msgstr "Tekstfarge"
+
+msgid "Text document file format (Staroffice)"
+msgstr "Tekstdokument filformat (Staroffice)"
 
 msgid "Text Entry"
 msgstr "Skriv inn tekst"
@@ -1725,6 +1882,9 @@ msgstr "angre"
 msgid "Undo"
 msgstr "Angre"
 
+msgid "UNIX Compressed Archive File"
+msgstr "UNIX komprimert arkivfil"
+
 msgid "Unknown $key to register MetadataService instance"
 msgstr "Ukjent $-nøkkel for å registrere MetadataService-forekomst"
 
@@ -1749,11 +1909,26 @@ msgstr "Verdi"
 msgid "Vertical"
 msgstr "Vertikal"
 
+msgid "WAV audio"
+msgstr "WAV lyd"
+
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
 msgstr "Vi vil bruke patternMask for å utføre dette, slik at det blir i samsvar med IMS-standarden"
 
 msgid "Width"
 msgstr "Bredde"
+
+msgid "Windows help file"
+msgstr "Windows hjelpefil"
+
+msgid "Windows Media audio"
+msgstr "Windows Media-lyd"
+
+msgid "Windows Media file (metafile)"
+msgstr "Windows Media-fil (metafil)"
+
+msgid "Windows Media video"
+msgstr "Windows Media-video"
 
 msgid "words"
 msgstr "ord"
@@ -1761,8 +1936,14 @@ msgstr "ord"
 msgid "Would you like to replace the alt text"
 msgstr "Vil du bytte ut alt-teksten"
 
+msgid "Write Document"
+msgstr "Skriv dokument"
+
 msgid "WYSIWYG editor"
 msgstr "WYSIWYG editor"
+
+msgid "XML file"
+msgstr "XML-fil"
 
 msgid "Yes"
 msgstr "Ja"
@@ -1833,3 +2014,5 @@ msgstr "Du må lage"
 msgid "Your item has been saved"
 msgstr "Oppgaven din ble lagret"
 
+msgid "ZIP archive"
+msgstr "ZIP-arkiv"
