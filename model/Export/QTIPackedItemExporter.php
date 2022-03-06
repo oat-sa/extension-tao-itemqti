@@ -235,8 +235,14 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
         return $newManifest;
     }
 
+
     protected function itemContentPostProcessing($content)
     {
         return $content;
+    }
+
+    protected function getQTIVersion(): string
+    {
+        return '2p1';
     }
 }

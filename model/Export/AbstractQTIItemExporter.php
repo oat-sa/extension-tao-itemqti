@@ -66,6 +66,8 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
     abstract protected function itemContentPostProcessing($content);
 
+    abstract protected function getQTIVersion(): string;
+
     /**
      * Overriden export from QTI items.
      *
@@ -190,6 +192,10 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $report->setMessage($this->getExportErrorMessage(__('invalid QTI XML')));
             $report->setType(\common_report_Report::TYPE_ERROR);
         }
+
+        // Set the right qti version
+        $content = preg_replace('/(http:\/\/www\.imsglobal\.org.+?)qtiv(\w\w\w)/', '$1qtiv' . $this->getQTIVersion(), $content);
+        $content = preg_replace('/(http:\/\/www\.imsglobal\.org.+?)qti_v(\w\w\w)/', '$1qti_v' . $this->getQTIVersion(), $content);
 
         // Possibility to delegate (if necessary) some item content post-processing to sub-classes.
         $content = $this->itemContentPostProcessing($content);
