@@ -36,6 +36,7 @@ define([
     // Note: any change of this needs to be reflected in CSS
     var listStylePrefix = 'list-style-';
 
+    const NUMBER_OF_CHOICES_DEFINED ='NumberOfChoicesDefined';
     const allowedChoices = {
         none: {
             label: __('No Constraints'),
@@ -52,11 +53,11 @@ define([
         }, optionalMulti: {
             label: __('Optional Multiple choices'),
             minChoices: 0,
-            maxChoices: 'NumberOfChoicesDefined'
+            maxChoices: NUMBER_OF_CHOICES_DEFINED
         }, requiredSingleUpToLimit: {
             label: __('Required Single answer up to limit on Multiple choices'),
             minChoices: 1,
-            maxChoices: 'NumberOfChoicesDefined'
+            maxChoices: NUMBER_OF_CHOICES_DEFINED
         }, requiredAnswer: {
             label: __('Required Answer'),
             minChoices: 1,
@@ -79,6 +80,7 @@ define([
         var interaction   = widget.element;
         var currListStyle = getListStyle(interaction);
         var $choiceArea   = widget.$container.find('.choice-area');
+        let minMaxComponent = null;
 
         const choices = {};
         const minValue = _.parseInt(interaction.attr('minChoices'));
@@ -88,7 +90,7 @@ define([
         let isCustomSelected = false;
         Object.keys(allowedChoices).forEach(key => {
             let selected = false;
-            const maxChoices = allowedChoices[key].maxChoices === 'NumberOfChoicesDefined' ? numberOfChoices : allowedChoices[key].maxChoices;
+            const maxChoices = allowedChoices[key].maxChoices === NUMBER_OF_CHOICES_DEFINED ? numberOfChoices : allowedChoices[key].maxChoices;
             if(minValue === allowedChoices[key].minChoices && maxChoices === maxValue) {
                 selected = true;
                 isSelected = true;
@@ -109,26 +111,6 @@ define([
             horizontal : interaction.attr('orientation') === 'horizontal',
             eliminable : (/\beliminable\b/).test(interaction.attr('class'))
         }));
-
-        // min / max choices control, with sync values
-        const minMaxComponent = minMaxComponentFactory($form.find('.min-max-panel'), {
-            min : { value : isCustomSelected ? minValue || 0 : 0},
-            max : { value : isCustomSelected ? maxValue || 0 : 0},
-            upperThreshold : numberOfChoices
-        }).on('render', function(){
-            var self = this;
-
-            //when the number of choices changes we update the range
-            widget.on('choiceCreated choiceDeleted', function(data){
-                if(data.interaction.serial === interaction.serial){
-                    self.updateThresholds(1, _.size(interaction.getChoices()));
-                }
-            });
-
-            if (!isCustomSelected) {
-                minMaxComponent.hide();
-            }
-        });
 
         $form.find('[data-list-style]').liststyler( { selected: currListStyle })
             .on('stylechange.liststyler', function(e, data) {
@@ -178,11 +160,28 @@ define([
             if(value === 'custom') {
                 interactionParam.removeAttr('minChoices');
                 interactionParam.removeAttr('maxChoices');
-                minMaxComponent.show();
+                // min / max choices control, with sync values
+                minMaxComponent = minMaxComponentFactory($form.find('.min-max-panel'), {
+                    min : { value : isCustomSelected ? minValue || 0 : 0},
+                    max : { value : isCustomSelected ? maxValue || 0 : 0},
+                    upperThreshold : numberOfChoices
+                }).on('render', function(){
+                    var self = this;
+
+                    //when the number of choices changes we update the range
+                    widget.on('choiceCreated choiceDeleted', function(data){
+                        if(data.interaction.serial === interaction.serial){
+                            self.updateThresholds(1, _.size(interaction.getChoices()));
+                        }
+                    });
+                });
             } else {
-                minMaxComponent.hide();
+                if(minMaxComponent) {
+                    minMaxComponent.destroy();
+                    minMaxComponent = null;
+                }
                 interactionParam.attr('minChoices', allowedChoices[value].minChoices);
-                if(allowedChoices[value].maxChoices === 'NumberOfChoicesDefined') {
+                if(allowedChoices[value].maxChoices === NUMBER_OF_CHOICES_DEFINED) {
                     interactionParam.attr('maxChoices', _.size(interaction.getChoices()));
                 } else {
                     interactionParam.attr('maxChoices', allowedChoices[value].maxChoices);
