@@ -193,9 +193,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $report->setType(\common_report_Report::TYPE_ERROR);
         }
 
-        // Set the right qti version
-        $content = preg_replace('/(http:\/\/www\.imsglobal\.org.+?)qtiv(\w\w\w)/', '$1qtiv' . $this->getQTIVersion(), $content);
-        $content = preg_replace('/(http:\/\/www\.imsglobal\.org.+?)qti_v(\w\w\w)/', '$1qti_v' . $this->getQTIVersion(), $content);
+        $content = $this->setCorrectQTIVersion((string) $content);
 
         // Possibility to delegate (if necessary) some item content post-processing to sub-classes.
         $content = $this->itemContentPostProcessing($content);
@@ -211,6 +209,14 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         $report->setData(['portableAssets' => $portableAssets]);
 
         return $report;
+    }
+
+    protected function setCorrectQTIVersion(string $itemQTI): string
+    {
+        $processed = preg_replace('/(http:\/\/www\.imsglobal\.org\/xsd\/qti\/)qtiv(\wp\w)/', '$1qtiv' . $this->getQTIVersion(), $itemQTI);
+        $processed = preg_replace('/(http:\/\/www\.imsglobal\.org\/(xsd|question).+?)qti_v(\wp\w)/', '$1qti_v' . $this->getQTIVersion(), $processed);
+
+        return $processed;
     }
 
     /**
