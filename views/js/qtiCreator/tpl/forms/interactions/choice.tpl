@@ -11,9 +11,15 @@
 </div>
 
 <hr/>
-<div class="panel min-max-panel">
+<div class="panel">
     <h3>{{__ "Allowed choices"}}</h3>
+    <select name="allowed" class="select2" data-has-search="false">
+    	{{#each choices}}
+    		<option value="{{@key}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
+    	{{/each}}
+    </select>
 </div>
+<div class="panel min-max-panel"></div>
 <hr/>
 <div class="panel">
     <label>

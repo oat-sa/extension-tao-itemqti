@@ -19,6 +19,7 @@
 
 define([
     'lodash',
+    'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
@@ -26,7 +27,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/choice',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
     'ui/liststyler'
-], function(_, stateFactory, Question, formElement, minMaxComponentFactory, formTpl, sizeAdapter){
+], function(_, __, stateFactory, Question, formElement, minMaxComponentFactory, formTpl, sizeAdapter){
 
     'use strict';
 
@@ -34,6 +35,35 @@ define([
 
     // Note: any change of this needs to be reflected in CSS
     var listStylePrefix = 'list-style-';
+
+    const allowedChoices = {
+        none: {
+            label: __('No Constraints'),
+            minChoices: 0,
+            maxChoices: 0
+        }, optionalSingle: {
+            label: __('Optional Single choice'),
+            minChoices: 0,
+            maxChoices: 1
+        }, requiredSingle: {
+            label: __('Required Single choice'),
+            minChoices: 1,
+            maxChoices: 1
+        }, optionalMulti: {
+            label: __('Optional Multiple choices'),
+            minChoices: 0,
+            maxChoices: 'NumberOfChoicesDefined'
+        }, requiredSingleUpToLimit: {
+            label: __('Required Single answer up to limit on Multiple choices'),
+            minChoices: 1,
+            maxChoices: 'NumberOfChoicesDefined'
+        }, requiredAnswer: {
+            label: __('Required Answer'),
+            minChoices: 1,
+            maxChoices: 0
+        }, custom: {
+            label: __('Custom choices constraints')
+        }};
 
     function getListStyle(interaction) {
         var className = interaction.attr('class') || '',
@@ -50,17 +80,41 @@ define([
         var currListStyle = getListStyle(interaction);
         var $choiceArea   = widget.$container.find('.choice-area');
 
+        const choices = {};
+        const minValue = _.parseInt(interaction.attr('minChoices'));
+        const maxValue = _.parseInt(interaction.attr('maxChoices'));
+        const numberOfChoices = _.size(interaction.getChoices());
+        let isSelected = false;
+        let isCustomSelected = false;
+        Object.keys(allowedChoices).forEach(key => {
+            let selected = false;
+            const maxChoices = allowedChoices[key].maxChoices === 'NumberOfChoicesDefined' ? numberOfChoices : allowedChoices[key].maxChoices;
+            if(minValue === allowedChoices[key].minChoices && maxChoices === maxValue) {
+                selected = true;
+                isSelected = true;
+                if(key === 'custom') {
+                    isCustomSelected = true;
+                }
+            }
+            choices[key] = {label: allowedChoices[key].label, selected};
+        });
+        if(!isSelected) {
+            choices['custom'].selected = true;
+            isCustomSelected = true;
+        }
+
         $form.html(formTpl({
+            choices,
             shuffle : !!interaction.attr('shuffle'),
             horizontal : interaction.attr('orientation') === 'horizontal',
             eliminable : (/\beliminable\b/).test(interaction.attr('class'))
         }));
 
         // min / max choices control, with sync values
-        minMaxComponentFactory($form.find('.min-max-panel'), {
-            min : { value : _.parseInt(interaction.attr('minChoices')) || 0 },
-            max : { value : _.parseInt(interaction.attr('maxChoices')) || 0 },
-            upperThreshold : _.size(interaction.getChoices())
+        const minMaxComponent = minMaxComponentFactory($form.find('.min-max-panel'), {
+            min : { value : isCustomSelected ? minValue || 0 : 0},
+            max : { value : isCustomSelected ? maxValue || 0 : 0},
+            upperThreshold : numberOfChoices
         }).on('render', function(){
             var self = this;
 
@@ -70,6 +124,10 @@ define([
                     self.updateThresholds(1, _.size(interaction.getChoices()));
                 }
             });
+
+            if (!isCustomSelected) {
+                minMaxComponent.hide();
+            }
         });
 
         $form.find('[data-list-style]').liststyler( { selected: currListStyle })
@@ -107,12 +165,28 @@ define([
         callbacks.shuffle = formElement.getAttributeChangeCallback();
 
         //data change for orientation, change also the current css class
-        callbacks.orientation = function(interaction, value){
-            interaction.attr('orientation', value);
+        callbacks.orientation = function(interactionParam, value){
+            interactionParam.attr('orientation', value);
             if(value === 'horizontal'){
                 $choiceArea.addClass('horizontal');
             } else {
                 $choiceArea.removeClass('horizontal');
+            }
+        };
+
+        callbacks.allowed = function(interactionParam, value){
+            if(value === 'custom') {
+                interactionParam.removeAttr('minChoices');
+                interactionParam.removeAttr('maxChoices');
+                minMaxComponent.show();
+            } else {
+                minMaxComponent.hide();
+                interactionParam.attr('minChoices', allowedChoices[value].minChoices);
+                if(allowedChoices[value].maxChoices === 'NumberOfChoicesDefined') {
+                    interactionParam.attr('maxChoices', _.size(interaction.getChoices()));
+                } else {
+                    interactionParam.attr('maxChoices', allowedChoices[value].maxChoices);
+                }
             }
         };
 
