@@ -81,28 +81,33 @@ define([
         var currListStyle = getListStyle(interaction);
         var $choiceArea   = widget.$container.find('.choice-area');
         let minMaxComponent = null;
+        let selectedCase = '';
 
         const choices = {};
         const minValue = _.parseInt(interaction.attr('minChoices'));
         const maxValue = _.parseInt(interaction.attr('maxChoices'));
         const numberOfChoices = _.size(interaction.getChoices());
-        let isSelected = false;
-        let isCustomSelected = false;
+
+        // min / max choices control, with sync values
+        const createMinMaxComponent = (min = 0, max = 0) => minMaxComponentFactory($form.find('.min-max-panel'), {
+            min : { value : min },
+            max : { value : max },
+            upperThreshold : numberOfChoices
+        });
+
         Object.keys(allowedChoices).forEach(key => {
             let selected = false;
             const maxChoices = allowedChoices[key].maxChoices === NUMBER_OF_CHOICES_DEFINED ? numberOfChoices : allowedChoices[key].maxChoices;
             if(minValue === allowedChoices[key].minChoices && maxChoices === maxValue) {
                 selected = true;
-                isSelected = true;
-                if(key === 'custom') {
-                    isCustomSelected = true;
-                }
+                selectedCase = key;
             }
             choices[key] = {label: allowedChoices[key].label, selected};
         });
-        if(!isSelected) {
+
+        if(!selectedCase) {
             choices['custom'].selected = true;
-            isCustomSelected = true;
+            selectedCase = 'custom';
         }
 
         $form.html(formTpl({
@@ -111,6 +116,10 @@ define([
             horizontal : interaction.attr('orientation') === 'horizontal',
             eliminable : (/\beliminable\b/).test(interaction.attr('class'))
         }));
+        // create minMaxComponent after form will be set in DOM
+        if(selectedCase === 'custom') {
+            minMaxComponent = createMinMaxComponent(minValue || 0, maxValue || 0);
+        }
 
         $form.find('[data-list-style]').liststyler( { selected: currListStyle })
             .on('stylechange.liststyler', function(e, data) {
@@ -157,24 +166,11 @@ define([
         };
 
         callbacks.allowed = function(interactionParam, value){
+            selectedCase = value;
             if(value === 'custom') {
                 interactionParam.removeAttr('minChoices');
                 interactionParam.removeAttr('maxChoices');
-                // min / max choices control, with sync values
-                minMaxComponent = minMaxComponentFactory($form.find('.min-max-panel'), {
-                    min : { value : isCustomSelected ? minValue || 0 : 0},
-                    max : { value : isCustomSelected ? maxValue || 0 : 0},
-                    upperThreshold : numberOfChoices
-                }).on('render', function(){
-                    var self = this;
-
-                    //when the number of choices changes we update the range
-                    widget.on('choiceCreated choiceDeleted', function(data){
-                        if(data.interaction.serial === interaction.serial){
-                            self.updateThresholds(1, _.size(interaction.getChoices()));
-                        }
-                    });
-                });
+                minMaxComponent = createMinMaxComponent();
             } else {
                 if(minMaxComponent) {
                     minMaxComponent.destroy();
@@ -188,6 +184,17 @@ define([
                 }
             }
         };
+
+        //when the number of choices changes we update the range
+        widget.on('choiceCreated choiceDeleted', function(data){
+            if(data.interaction.serial === interaction.serial){
+                if(selectedCase === 'custom') {
+                    minMaxComponent.updateThresholds(1, _.size(interaction.getChoices()));
+                } else if(allowedChoices[selectedCase].maxChoices === NUMBER_OF_CHOICES_DEFINED) {
+                    interaction.attr('maxChoices', _.size(interaction.getChoices()));
+                }
+            }
+        });
 
         formElement.setChangeCallbacks($form, interaction, callbacks);
 
