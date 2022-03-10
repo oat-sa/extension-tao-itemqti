@@ -6,8 +6,7 @@ define([
     'lodash'
 ], function($, stateFactory, QuestionState, formElement, _){
     'use strict';
-
-    var ChoiceStateQuestion = stateFactory.extend(QuestionState, function initStateQuestion(){
+    const ChoiceStateQuestion = stateFactory.extend(QuestionState, function initStateQuestion(){
         this.buildEditor();
     }, function exitStateQuestion(){
         this.destroyEditor();
@@ -15,7 +14,7 @@ define([
 
     ChoiceStateQuestion.prototype.createToolbar = function(){
 
-        var _widget = this.widget,
+        const _widget = this.widget,
             $toolbar = _widget.$container.find('td:last');
 
         //set toolbar button behaviour:
@@ -27,7 +26,7 @@ define([
 
     ChoiceStateQuestion.prototype.buildEditor = function(){
 
-        var _widget = this.widget;
+        const _widget = this.widget;
 
         _widget.$container.find('.editable-content')
             .attr('contentEditable', true)
@@ -51,6 +50,9 @@ define([
                     _widget.changeState('question');
                 }
 
+            }).on('input.qti-widget', function(){
+                // clean format of paste text
+                $(this).html($(this).text());
             });
     };
 
