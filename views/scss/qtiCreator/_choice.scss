@@ -4,16 +4,20 @@
     .real-label input[disabled] ~ [class^="icon-"]{
         cursor:pointer !important;
     }
-    .choice-area .label-content{
-        display: block;
+    .choice-area {
+        .label-content {
+            display: block;
+        }
+
+        .mini-tlb {
+            @include rtl {
+                right: auto;
+                left: -38px;
+            }
+        }
     }
     .mini-tlb {
         right: -38px;
-
-        @include rtl {
-            right: auto;
-            left: -38px;
-        }
 
         &[data-edit=answer]{
             width: 38px;
