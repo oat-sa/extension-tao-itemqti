@@ -54,7 +54,7 @@ define([
                 serial : interaction.serial,
                 attributes : interaction.attributes,
                 choices : [],
-               dir: dir
+                dir: dir
             };
 
         _.each(interaction.getChoices(), function(choice){
