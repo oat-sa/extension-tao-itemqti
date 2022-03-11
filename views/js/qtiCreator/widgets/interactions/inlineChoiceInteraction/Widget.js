@@ -29,8 +29,8 @@ define([
 
     InlineChoiceInteractionWidget.renderChoice = function(choice, shuffleChoice){
 
-        const dir = choice.getRootElement().getBody().getAttributes().dir
-        let tplData = {
+        const dir = choice.getRootElement().getBody().getAttributes().dir,
+            tplData = {
             tag : choice.qtiClass,
             serial : choice.serial,
             attributes : choice.attributes,
@@ -45,10 +45,10 @@ define([
 
     InlineChoiceInteractionWidget.renderInteraction = function(){
 
-        let _this = this,
+        const _this = this,
             interaction = this.element,
             shuffleChoice = interaction.attr('shuffle'),
-            dir = this.element.getRootElement().getBody().getAttributes().dir
+            dir = this.element.getRootElement().getBody().getAttributes().dir,
             tplData = {
                 tag : interaction.qtiClass,
                 serial : interaction.serial,
