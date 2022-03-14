@@ -24,6 +24,9 @@
             @include simple-border();
             border-color: #ddd !important;
             min-width: 80px;
+            .mini-tlb{
+                top: -85%;
+            }
         }
     }
 
