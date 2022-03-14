@@ -177,7 +177,7 @@ msgid "Arrange a list of choices in the correct order."
 msgstr "正しい順序で選択項目のリストを並べます"
 
 msgid "Associate"
-msgstr "画像線つなぎ"
+msgstr "組合せ"
 
 msgid "Associate Interaction"
 msgstr "組合せ問題"
@@ -645,22 +645,22 @@ msgid "Gap"
 msgstr "選択肢"
 
 msgid "Gap Match"
-msgstr "画像D&D"
+msgstr "穴埋め"
 
 msgid "Gap Match Interaction"
 msgstr "穴埋め問題"
 
 msgid "Graphic Associate Interaction"
-msgstr "画像線つなぎ"
+msgstr "画像組み合わせ"
 
 msgid "Graphic Gap Match Interaction"
-msgstr "画像ドラッグ&ドロップ"
+msgstr "画像穴埋め"
 
 msgid "Graphic Interactions"
 msgstr "グラフィック"
 
 msgid "Graphic Order Interaction"
-msgstr "画像オーダー"
+msgstr "画像並び替え"
 
 msgid "Greater than or equal"
 msgstr "以上"
@@ -1099,7 +1099,7 @@ msgstr "1つ以上のQTIコンポーネントがシステムでサポートさ�
 ""
 
 msgid "Order"
-msgstr "画像オーダー"
+msgstr "並べ替え"
 
 msgid "Order Interaction"
 msgstr "並べ替え問題"
