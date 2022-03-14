@@ -1,23 +1,34 @@
 <div class="panel">
-    <label>
-        <input name="shuffle" type="checkbox" {{#if shuffle}}checked="checked"{{/if}}/>
-        <span class="icon-checkbox"></span>
-        {{__ "Shuffle choices"}}
+    <label class="smaller-prompt">
+        <input type="radio" name="type" value="single" {{#equal type "single"}}checked{{/equal}} />
+        <span class="icon-radio"></span>
+        {{__ 'Single choice'}}
     </label>
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">
-        {{__ 'If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be "shuffled" of "fixed" individually.'}}
-    </span>
+    <br>
+    <label class="smaller-prompt">
+        <input type="radio" name="type" value="multiple" {{#equal type "multiple"}}checked{{/equal}} />
+        <span class="icon-radio"></span>
+        {{__ 'Multiple choices'}}
+    </label>
 </div>
-
-<hr/>
 <div class="panel">
-    <h3>{{__ "Allowed choices"}}</h3>
-    <select name="allowed" class="select2" data-has-search="false">
-    	{{#each choices}}
-    		<option value="{{@key}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
-    	{{/each}}
-    </select>
+    <label class="smaller-prompt">
+        <input type="radio" name="constraints" value="none" {{#equal constraints "none"}}checked{{/equal}} />
+        <span class="icon-radio"></span>
+        {{__ 'None'}}
+    </label>
+    <br>
+    <label class="smaller-prompt">
+        <input type="radio" name="constraints" value="required" {{#equal constraints "required"}}checked{{/equal}} />
+        <span class="icon-radio"></span>
+        {{__ 'Answer required'}}
+    </label>
+    <br>
+    <label class="smaller-prompt">
+        <input type="radio" name="constraints" value="other" {{#equal constraints "other"}}checked{{/equal}} {{#equal type "single"}}disabled{{/equal}} />
+        <span class="icon-radio"></span>
+        {{__ 'Other constraints'}}
+    </label>
 </div>
 <div class="panel min-max-panel"></div>
 <hr/>
@@ -32,10 +43,18 @@
         {{__ 'If this box is checked the student will be able to eliminate choices.'}}
     </span>
 </div>
-
+<div class="panel">
+    <label>
+        <input name="shuffle" type="checkbox" {{#if shuffle}}checked="checked"{{/if}}/>
+        <span class="icon-checkbox"></span>
+        {{__ "Shuffle choices"}}
+    </label>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+    <span class="tooltip-content">
+        {{__ 'If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be "shuffled" of "fixed" individually.'}}
+    </span>
+</div>
 <hr/>
-
-
 <div class="panel">
     <h3>{{__ "List Style"}}</h3>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>

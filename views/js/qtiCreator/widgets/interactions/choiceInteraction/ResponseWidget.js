@@ -83,6 +83,7 @@ define([
                 ResponseWidget.createScoreWidgets(widget);
                 ResponseWidget.createCorrectWidgets(widget);
             }else{
+                instructionMgr.appendInstruction(widget.element, __('Please define the correct response below.'));
                 ResponseWidget.createCorrectWidgets(widget);
             }
 

@@ -45,7 +45,7 @@ define([
             toggler: true,
 
             //default help message
-            helpMessage:   __('The minimum number of choices that the candidate is required to select to form a valid response.')
+            helpMessage:   __('The minimum number of choices that the candidate is required to select to form a valid response.'),
         },
         max : {
             //name of the max field
@@ -59,7 +59,6 @@ define([
 
             //default help message
             helpMessage:   __('The maximum number of choices that the candidate is required to select to form a valid response.'),
-
         },
 
         //Minimum threshold for both
@@ -84,6 +83,8 @@ define([
      * @param {Number} [setUpConfig.min.value] - the initial value (should be in range). 0 means disabled.
      * @param {Boolean} [setUpConfig.min.toggler] - allow to enable/disable the field
      * @param {String} [setUpConfig.min.helpMessage] - the message in the field tooltip
+     * @param {Number} [setUpConfig.min.lowerThreshold] - lower bound range
+     * @param {Number} [setUpConfig.min.upperThreshold] - upper bound range
      * @param {Object} [setUpConfig.max] - configure the max field (see setUpConfig.min)
      * @param {Number} [setUpConfig.lowerThreshold] - lower bound range for both fields
      * @param {Number} [setUpConfig.upperThreshold] - upper bound range for both fields
@@ -176,9 +177,11 @@ define([
             setValue : function setValue(field, value){
                 var config = this.getConfig();
                 var intValue = _.parseInt(value);
+                const lowerThreshold = config[field].lowerThreshold ? config[field].lowerThreshold : config.lowerThreshold;
+                const upperThreshold = config[field].upperThreshold ? config[field].upperThreshold : config.upperThreshold;
 
                 if ( isFieldSupported(field) && _.isNumber(intValue) &&
-                     intValue >= config.lowerThreshold && intValue <= config.upperThreshold ) {
+                     intValue >= lowerThreshold && intValue <= upperThreshold ) {
 
                     if ( this.is('rendered') && controls[field].input.val() !== `${intValue}` ) {
                         return controls[field].input.val(intValue).trigger('change');
@@ -215,26 +218,43 @@ define([
              * @param {Number} upper - the upper bound threshold of both fields
              * @returns {minMax} chains
              */
-            updateThresholds : function updateThresholds(lower, upper) {
+            updateThresholds : function updateThresholds(lower, upper, field) {
                 var config = this.getConfig();
                 var fieldOptions;
                 if(_.isNumber(lower) && _.isNumber(upper) && upper >= lower) {
-                    config.lowerThreshold = _.parseInt(lower);
-                    config.upperThreshold = _.parseInt(upper);
+                    if (!field) {
+                        config.lowerThreshold = _.parseInt(lower);
+                        config.upperThreshold = _.parseInt(upper);
 
-                    if(this.is('rendered')){
-                        fieldOptions = {
-                            min : config.lowerThreshold,
-                            max : config.upperThreshold,
-                        };
+                        if(this.is('rendered')){
+                            fieldOptions = {
+                                min : config.lowerThreshold,
+                                max : config.upperThreshold,
+                            };
 
-                        controls.min.input.incrementer('options', fieldOptions);
-                        if(this.isFieldEnabled('min')){
-                            controls.min.input.keyup();
+                            controls.min.input.incrementer('options', fieldOptions);
+                            if(this.isFieldEnabled('min')){
+                                controls.min.input.keyup();
+                            }
+                            controls.max.input.incrementer('options', fieldOptions);
+                            if(this.isFieldEnabled('max')){
+                                controls.max.input.keyup();
+                            }
                         }
-                        controls.max.input.incrementer('options', fieldOptions);
-                        if(this.isFieldEnabled('max')){
-                            controls.max.input.keyup();
+                    } else if(field === 'min' || field === 'max'){
+                        config[field].lowerThreshold = _.parseInt(lower);
+                        config[field].upperThreshold = _.parseInt(upper);
+
+                        if(this.is('rendered')){
+                            fieldOptions = {
+                                min : config[field].lowerThreshold,
+                                max : config[field].upperThreshold,
+                            };
+
+                            controls[field].input.incrementer('options', fieldOptions);
+                            if(this.isFieldEnabled(field)){
+                                controls[field].input.keyup();
+                            }
                         }
                     }
                 }
