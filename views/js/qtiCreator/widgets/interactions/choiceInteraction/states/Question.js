@@ -30,10 +30,27 @@ define([
 ], function (_, __, stateFactory, Question, formElement, minMaxComponentFactory, formTpl, sizeAdapter) {
     'use strict';
 
-    var ChoiceInteractionStateQuestion = stateFactory.extend(Question);
+    const exitState = function exitState(){
+        const widget = this.widget;
+        const interaction = widget.element;
+        const $choiceArea = widget.$container.find('.choice-area');
+        const choiceCount = _.size(interaction.getChoices());
+        const realCount = $choiceArea.find('.qti-choice:visible').length;
+        if (choiceCount !== realCount) {
+            // widget is closed while undo phase of removing choice
+            if (interaction.attr('maxChoices') > realCount) {
+                interaction.attr('maxChoices', realCount);
+            }
+            if (interaction.attr('minChoices') > realCount - 1) {
+                interaction.attr('minChoices', Math.max(0, realCount - 1));
+            }
+        }
+    };
+
+    const ChoiceInteractionStateQuestion = stateFactory.extend(Question, () => {}, exitState);
 
     // Note: any change of this needs to be reflected in CSS
-    var listStylePrefix = 'list-style-';
+    const listStylePrefix = 'list-style-';
 
     const allowedChoices = [
         {
@@ -69,19 +86,19 @@ define([
     const DEFAULT_MAX = 2;
 
     function getListStyle(interaction) {
-        var className = interaction.attr('class') || '',
-            listStyle = className.match(/\blist-style-[\w-]+/);
+        const className = interaction.attr('class') || '';
+        const listStyle = className.match(/\blist-style-[\w-]+/);
 
         return !_.isNull(listStyle) ? listStyle.pop().replace(listStylePrefix, '') : null;
     }
 
     ChoiceInteractionStateQuestion.prototype.initForm = function initForm(updateCardinality) {
-        var callbacks;
-        var widget = this.widget;
-        var $form = widget.$form;
-        var interaction = widget.element;
-        var currListStyle = getListStyle(interaction);
-        var $choiceArea = widget.$container.find('.choice-area');
+        let callbacks;
+        const widget = this.widget;
+        const $form = widget.$form;
+        const interaction = widget.element;
+        const currListStyle = getListStyle(interaction);
+        const $choiceArea = widget.$container.find('.choice-area');
         let minMaxComponent = null;
         let selectedCase = null;
         let type = '';
@@ -178,10 +195,18 @@ define([
             }
         };
 
+        const setAttrMaxMinChoices = (min, max) => {
+            interaction.attr('minChoices', min);
+            interaction.attr('maxChoices', max);
+        };
         const resetToSingleNone = () => {
             selectedCase = allowedChoices[0];
+            constraints = selectedCase.constraints;
+            type = selectedCase.type;
+            setAttrMaxMinChoices(selectedCase.minChoices, selectedCase.maxChoices);
             $form.find('[name="type"][value="single"]').attr('checked', true);
             $form.find('[name="constraints"][value="none"]').attr('checked', true);
+            $form.find('[name="constraints"][value="other"]').attr('disabled', true);
             deleteMinMax();
         };
 
@@ -192,8 +217,7 @@ define([
             if (!selectedCase) {
                 resetToSingleNone();
             }
-            interaction.attr('minChoices', selectedCase.minChoices);
-            interaction.attr('maxChoices', selectedCase.maxChoices);
+            setAttrMaxMinChoices(selectedCase.minChoices, selectedCase.maxChoices);
         };
 
 
@@ -211,8 +235,7 @@ define([
         callbacks.constraints = function (interactionParam, value) {
             constraints = value;
             if (constraints === 'other') {
-                interactionParam.attr('minChoices', DEFAULT_MIN);
-                interactionParam.attr('maxChoices', DEFAULT_MAX);
+                setAttrMaxMinChoices(DEFAULT_MIN, DEFAULT_MAX);
                 createMinMaxComponent(DEFAULT_MIN, DEFAULT_MAX);
             } else {
                 deleteMinMax();
@@ -224,15 +247,15 @@ define([
         widget.on('choiceCreated choiceDeleted', function (data) {
             if (data.interaction.serial === interaction.serial) {
                 const choiceCount = _.size(interaction.getChoices());
-                if (choiceCount <= 1) {
+                if (choiceCount <= 1 || $choiceArea.find('.qti-choice:visible').length <= 1) {
                     // multiple choices should be disabled
-                    $form.find('[name="type"][value="multiple"]').attr('disabled', true);
                     resetToSingleNone();
+                    $form.find('[name="type"][value="multiple"]').attr('disabled', true);
                 } else {
                     // multiple choices should be enabled
                     $form.find('[name="type"][value="multiple"]').removeAttr('disabled');
                 }
-                if (constraints === 'other') {
+                if (constraints === 'other' && minMaxComponent) {
                     minMaxComponent.updateThresholds(DEFAULT_MIN, choiceCount - 1, 'min');
                     minMaxComponent.updateThresholds(DEFAULT_MAX, choiceCount, 'max');
                 }
@@ -243,7 +266,7 @@ define([
 
         //modify the checkbox/radio input appearances
         widget.on('attributeChange', function (data) {
-            var $checkboxIcons = widget.$container.find('.real-label > span');
+            const $checkboxIcons = widget.$container.find('.real-label > span');
 
             if (data.element.serial === interaction.serial && data.key === 'maxChoices') {
                 if (parseInt(data.value) === 1) {
