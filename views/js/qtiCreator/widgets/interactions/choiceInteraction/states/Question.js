@@ -30,7 +30,7 @@ define([
 ], function (_, __, stateFactory, Question, formElement, minMaxComponentFactory, formTpl, sizeAdapter) {
     'use strict';
 
-    const exitState = function exitState(){
+    const exitState = function exitState() {
         const widget = this.widget;
         const interaction = widget.element;
         const $choiceArea = widget.$container.find('.choice-area');
@@ -105,8 +105,12 @@ define([
         let constraints = '';
 
         // minValue and maxValue - number or underfined
-        const minValue = interaction.attr('minChoices') ? _.parseInt(interaction.attr('minChoices')) : interaction.attr('minChoices');
-        const maxValue = interaction.attr('maxChoices') ? _.parseInt(interaction.attr('maxChoices')) : interaction.attr('maxChoices');
+        const minValue = interaction.attr('minChoices')
+            ? _.parseInt(interaction.attr('minChoices'))
+            : interaction.attr('minChoices');
+        const maxValue = interaction.attr('maxChoices')
+            ? _.parseInt(interaction.attr('maxChoices'))
+            : interaction.attr('maxChoices');
         const numberOfChoices = _.size(interaction.getChoices());
 
         // min / max choices control, with sync values
@@ -128,12 +132,12 @@ define([
                 selectedCase = allowedChoice;
             }
         });
-
         if (!selectedCase) {
             selectedCase = allowedChoices[allowedChoices.length - 1];
         }
         type = selectedCase.type;
         constraints = selectedCase.constraints;
+
         $form.html(
             formTpl({
                 type,
@@ -143,9 +147,16 @@ define([
                 eliminable: /\beliminable\b/.test(interaction.attr('class'))
             })
         );
+
         // create minMaxComponent after form will be set in DOM
         if (constraints === 'other') {
             createMinMaxComponent(minValue, maxValue);
+        }
+
+        // special case when a single choice is defined
+        // shall disable Multiple choices option on the radio-button group
+        if (numberOfChoices === 1) {
+            $form.find('[name="type"][value="multiple"]').attr('disabled', true);
         }
 
         $form
@@ -199,14 +210,15 @@ define([
             interaction.attr('minChoices', min);
             interaction.attr('maxChoices', max);
         };
+
         const resetToSingleNone = () => {
             selectedCase = allowedChoices[0];
             constraints = selectedCase.constraints;
             type = selectedCase.type;
             setAttrMaxMinChoices(selectedCase.minChoices, selectedCase.maxChoices);
-            $form.find('[name="type"][value="single"]').attr('checked', true);
-            $form.find('[name="constraints"][value="none"]').attr('checked', true);
-            $form.find('[name="constraints"][value="other"]').attr('disabled', true);
+            $form.find('[name="type"][value="single"]').prop('checked', true);
+            $form.find('[name="constraints"][value="none"]').prop('checked', true);
+            $form.find('[name="constraints"][value="other"]').prop('disabled', true);
             deleteMinMax();
         };
 
@@ -220,15 +232,14 @@ define([
             setAttrMaxMinChoices(selectedCase.minChoices, selectedCase.maxChoices);
         };
 
-
         callbacks.type = function (interactionParam, value) {
             type = value;
             setSelectedCase();
             if (type === 'single') {
-                $form.find('[name="constraints"][value="other"]').attr('disabled', true);
+                $form.find('[name="constraints"][value="other"]').prop('disabled', true);
                 deleteMinMax();
             } else {
-                $form.find('[name="constraints"][value="other"]').removeAttr('disabled');
+                $form.find('[name="constraints"][value="other"]').prop('disabled', false);
             }
         };
 
@@ -244,16 +255,19 @@ define([
         };
 
         //when the number of choices changes we update the range
-        widget.on('choiceCreated choiceDeleted', function (data) {
+        widget.on('choiceCreated choiceDeleted', function (data, e) {
             if (data.interaction.serial === interaction.serial) {
                 const choiceCount = _.size(interaction.getChoices());
-                if (choiceCount <= 1 || $choiceArea.find('.qti-choice:visible').length <= 1) {
+                if (
+                    choiceCount <= 1 ||
+                    ($choiceArea.find('.qti-choice:visible').length <= 1 && e.type === 'choiceDeleted')
+                ) {
                     // multiple choices should be disabled
                     resetToSingleNone();
-                    $form.find('[name="type"][value="multiple"]').attr('disabled', true);
+                    $form.find('[name="type"][value="multiple"]').prop('disabled', true);
                 } else {
                     // multiple choices should be enabled
-                    $form.find('[name="type"][value="multiple"]').removeAttr('disabled');
+                    $form.find('[name="type"][value="multiple"]').prop('disabled', false);
                 }
                 if (constraints === 'other' && minMaxComponent) {
                     minMaxComponent.updateThresholds(DEFAULT_MIN, choiceCount - 1, 'min');
