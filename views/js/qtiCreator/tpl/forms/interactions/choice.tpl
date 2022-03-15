@@ -12,35 +12,30 @@
     </label>
 </div>
 <div class="panel">
-    <label class="smaller-prompt">
-        <input type="radio" name="constraints" value="none" {{#equal constraints "none"}}checked{{/equal}} />
-        <span class="icon-radio"></span>
-        {{__ 'None'}}
-    </label>
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+    <h3>{{__ "Constraints"}}</h3>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
     <span class="tooltip-content">
-        {{__ 'TBD...'}}
+        {{__ 'Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)'}}
     </span>
-    <br>
-    <label class="smaller-prompt">
-        <input type="radio" name="constraints" value="required" {{#equal constraints "required"}}checked{{/equal}} />
-        <span class="icon-radio"></span>
-        {{__ 'Answer required'}}
-    </label>
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">
-        {{__ 'TBD...'}}
-    </span>
-    <br>
-    <label class="smaller-prompt">
-        <input type="radio" name="constraints" value="other" {{#equal constraints "other"}}checked{{/equal}} {{#equal type "single"}}disabled{{/equal}} />
-        <span class="icon-radio"></span>
-        {{__ 'Other constraints'}}
-    </label>
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">
-        {{__ 'TBD...'}}
-    </span>
+    <div>
+        <label class="smaller-prompt">
+            <input type="radio" name="constraints" value="none" {{#equal constraints "none"}}checked{{/equal}} />
+            <span class="icon-radio"></span>
+            {{__ 'None'}}
+        </label>
+        <br>
+        <label class="smaller-prompt">
+            <input type="radio" name="constraints" value="required" {{#equal constraints "required"}}checked{{/equal}} />
+            <span class="icon-radio"></span>
+            {{__ 'Answer required'}}
+        </label>
+        <br>
+        <label class="smaller-prompt">
+            <input type="radio" name="constraints" value="other" {{#equal constraints "other"}}checked{{/equal}} {{#equal type "single"}}disabled{{/equal}} />
+            <span class="icon-radio"></span>
+            {{__ 'Other constraints'}}
+        </label>
+    </div>
 </div>
 <div class="panel min-max-panel"></div>
 <hr/>
