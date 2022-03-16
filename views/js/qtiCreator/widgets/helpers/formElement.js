@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -279,11 +279,7 @@ define([
          * @param {Object} options
          * @returns {Object} the list of callbacks
          */
-        getMinMaxAttributeCallbacks: function (
-            attributeNameMin,
-            attributeNameMax,
-            options
-        ) {
+        getMinMaxAttributeCallbacks: function (attributeNameMin, attributeNameMax, options) {
             const callbacks = {};
             options = getAttrsOptions(options);
 
@@ -299,7 +295,10 @@ define([
                     updateResponseDeclaration(element, value, options.updateCardinality);
                 }
 
-                if (!value && (element.is('orderInteraction') || element.is('graphicOrderInteraction'))) {
+                if (
+                    (!value && (element.is('orderInteraction') || element.is('graphicOrderInteraction'))) ||
+                    (this.disabled && element.is('choiceInteraction'))
+                ) {
                     element[options.attrMethodNames.remove](name); //to be removed for order interactions
                 } else {
                     element[options.attrMethodNames.set](name, value); //required
@@ -319,11 +318,7 @@ define([
          * @param {Object} options
          * @returns {Object} the list of callbacks
          */
-        getLowerUpperAttributeCallbacks: function (
-            attributeNameLower,
-            attributeNameUpper,
-            options
-        ) {
+        getLowerUpperAttributeCallbacks: function (attributeNameLower, attributeNameUpper, options) {
             const callbacks = {};
             options = getAttrsOptions(options);
 
