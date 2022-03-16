@@ -439,7 +439,13 @@ define([
                             //set up the toggle handler
                             fieldControl.toggler.on('change', function () {
                                 if ($(this).prop('checked')) {
-                                    self.enableField(field, Math.max(1, self.getMinValue()));
+                                    self.enableField(
+                                        field,
+                                        Math.max(
+                                            fieldConfig.lowerThreshold || config.lowerThreshold || 1,
+                                            self.getMinValue()
+                                        )
+                                    );
                                 } else {
                                     self.disableField(field);
                                 }
