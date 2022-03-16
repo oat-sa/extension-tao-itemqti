@@ -30,7 +30,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicAssociateInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse', 
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm'
 ], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, scoringFormFactory){
 
@@ -46,10 +46,10 @@ define([
         var corrects  = _.values(response.getCorrect());
         var currentResponses =  _.size(response.getMapEntries()) === 0 ? corrects : _.keys(response.getMapEntries());
 
-        //really need to destroy before ? 
-        commonRenderer.resetResponse(interaction); 
+        //really need to destroy before ?
+        commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
-        
+
         if(!interaction.paper){
             return;
         }
@@ -59,7 +59,7 @@ define([
         interaction.responseMappingMode = true;
 
         //use the common Renderer
-        commonRenderer.render.call(interaction.getRenderer(), interaction);    
+        commonRenderer.render.call(interaction.getRenderer(), interaction);
 
 		//display the choices ids
         showChoicesId(interaction);
@@ -70,7 +70,7 @@ define([
         } else {
             updateForm(widget);
         }
-        
+
         //each response change leads to an update of the scoring form
         widget.$container.on('responseChange.qti-widget', function(e, data){
             var type  = response.attr('cardinality') === 'single' ? 'base' : 'list';
@@ -78,11 +78,11 @@ define([
             if(data && data.response &&  data.response[type]){
                pairs = _.invoke(data.response[type].pair, Array.prototype.join, ' ');
                entries = _.keys(response.getMapEntries());
-                
+
                //add new pairs from  the difference between the current entries and the given data
                _(pairs).difference(entries).forEach(interaction.pairScoringForm.addPair, interaction.pairScoringForm);
 
-                
+
                removePaths(interaction);
             }
         });
@@ -103,11 +103,11 @@ define([
     function exitMapState(){
         var widget = this.widget;
         var interaction = widget.element;
-        
+
         if(!interaction.paper){
             return;
         }
-        
+
         widget.$container.off('responseChange.qti-widget');
 
         if(interaction.pairScoringForm){
@@ -115,7 +115,7 @@ define([
         }
 
         //destroy the common renderer
-        commonRenderer.resetResponse(interaction); 
+        commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
         instructionMgr.removeInstructions(interaction);
 
@@ -150,7 +150,7 @@ define([
         var mappingChange = function mappingChange(){
             //set the current responses, either the mapEntries or the corrects if nothing else
             commonRenderer.setResponse(
-                interaction, 
+                interaction,
                 PciResponse.serialize(_.invoke(_.keys(response.getMapEntries()), String.prototype.split, ' '), interaction)
             );
         };
@@ -166,8 +166,8 @@ define([
 
         //set up the scoring form options
         var options = {
-            leftTitle : __('left'),
-            rightTitle : __('right'),
+            leftTitle : __('Select a left'),
+            rightTitle : __('Select a right'),
             type : 'pair',
             pairLeft : getPairValues,
             pairRight : getPairValues
@@ -177,10 +177,10 @@ define([
         if(entries){
             options.entries = _.transform(entries, function(result, value){
                 result[value] = mapEntries[value] !== undefined ? mapEntries[value] : response.mappingAttributes.defaultValue;
-            }, {}); 
+            }, {});
         }
 
-        //initialize the scoring form 
+        //initialize the scoring form
         interaction.pairScoringForm = scoringFormFactory(widget, options);
     }
 

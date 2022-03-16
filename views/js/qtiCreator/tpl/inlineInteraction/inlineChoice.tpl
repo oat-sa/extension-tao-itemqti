@@ -1,4 +1,4 @@
-<tr class="widget-box widget-inlineChoice qti-choice" data-edit="active" data-serial="{{serial}}">
+<tr class="widget-box widget-inlineChoice qti-choice" data-edit="active" data-serial="{{serial}}" {{#if dir}}dir="{{dir}}"{{/if}}>
     <td class="option"><div class="editable-content" contenteditable="true">{{body}}</div></td>
     <td class="mini-tlb">
         <span data-edit="question" class="tlb-button">

@@ -16,7 +16,7 @@
  * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA ;
  */
 
-define(['jquery', 'util/typeCaster'], function ($, typeCaster) {
+define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
     'use strict';
 
     const wrapperTextCls = 'custom-text-box';
@@ -26,32 +26,32 @@ define(['jquery', 'util/typeCaster'], function ($, typeCaster) {
     const options = [
         {
             value: '100',
-            name: 'Full height',
+            name: __('Full height'),
             class: 'tao-full-height'
         },
         {
             value: '75',
-            name: '3/4 of height',
+            name: __('3/4 of height'),
             class: 'tao-three-quarters-height'
         },
         {
             value: '66.6666',
-            name: '2/3 of height',
+            name: __('2/3 of height'),
             class: 'tao-two-thirds-height'
         },
         {
             value: '50',
-            name: 'Half height',
+            name: __('Half height'),
             class: 'tao-half-height'
         },
         {
             value: '33.3333',
-            name: '1/3 of height',
+            name: __('1/3 of height'),
             class: 'tao-third-height'
         },
         {
             value: '25',
-            name: '1/4 of height',
+            name: __('1/4 of height'),
             class: 'tao-quarter-height'
         }
     ];
@@ -74,14 +74,14 @@ define(['jquery', 'util/typeCaster'], function ($, typeCaster) {
             const $form = widget.$form;
             let $wrapper =
                 wrapType === 'inner'
-                    ? widget.$container.find('[data-html-editable]').children(`.${wrapperTextCls}`)
+                    ? widget.$container.children('[data-html-editable]').children(`.${wrapperTextCls}`)
                     : widget.$container.parent(`.${wrapperIncludeCls}`);
 
             if (!$wrapper.length) {
                 $wrapper =
                     wrapType === 'inner'
                         ? widget.$container
-                              .find('[data-html-editable]')
+                              .children('[data-html-editable]')
                               .wrapInner(`<div class="${wrapperTextCls}" />`)
                               .children()
                         : widget.$container.wrap(`<div class="${wrapperIncludeCls}" />`).parent();
@@ -89,7 +89,7 @@ define(['jquery', 'util/typeCaster'], function ($, typeCaster) {
 
             // add attr for curGen plugin itemScrolling
             $wrapper.attr('data-scrolling', value);
-            
+
             if (value) {
                 $form.find('.scrollingSelect').show()
                 // add class for keynavigation

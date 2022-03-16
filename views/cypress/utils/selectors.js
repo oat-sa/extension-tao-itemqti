@@ -14,11 +14,15 @@ export default {
     itemForm: 'form[action="/taoItems/Items/editItem"]',
     itemClassForm: 'form[action="/taoItems/Items/editClassLabel"]',
 
+    manageItems: '[data-testid="manage-items"]',
+
     previewItemButton: '[data-testid="preview-the-item"]',
     previewSubmitButton: '[data-control="submit"]',
 
     root: '[data-uri="http://www.tao.lu/Ontologies/TAOItem.rdf#Item"]',
-    resourceRelations: 'tao/ResourceRelations',
+    resourceRelationsUrl: 'tao/ResourceRelations',
 
     treeRenderUrl: 'taoItems/Items',
+    itemPreviewUrl: '**/taoQtiTestPreviewer/Previewer/getItem*',
+    itemSubmitUrl: '**/taoQtiTestPreviewer/Previewer/submitItem*'
 };

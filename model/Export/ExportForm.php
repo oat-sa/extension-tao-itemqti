@@ -82,9 +82,7 @@ abstract class ExportForm extends tao_helpers_form_FormContainer
 
         $exportElt = tao_helpers_form_FormFactory::getElement('export', 'Free');
         $exportElt->setValue(
-            '<a href="#" class="form-submitter btn-success small"><span class="icon-export"></span> ' . __(
-                'Export'
-            ) . '</a>'
+            '<a href="#" class="form-submitter btn-success small"><span class="icon-export"></span> ' . __('Export') . '</a>'
         );
 
         $this->form->setActions([$exportElt], 'bottom');

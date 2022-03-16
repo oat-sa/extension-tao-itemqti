@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2021.10\n"
-"PO-Revision-Date: 2021-10-14T09:22:16\n"
+"PO-Revision-Date: 2021-12-02T13:09:19\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-UE\n"
@@ -25,6 +25,9 @@ msgstr "  "
 msgid "%d characters allowed"
 msgstr "文字「％d」が許可されています"
 
+msgid "%d Item(s) of %d imported from the given IMS QTI Package."
+msgstr ""
+
 msgid "%d/%d"
 msgstr "%d/%d"
 
@@ -44,9 +47,7 @@ msgid "A human interpretation of the variable's value."
 msgstr "変数値の翻訳"
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr "QTIコンポーネントはサポートされていません。システムは次のエラーを返しました: %s\n"
-""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "ルーブリックブロックは、アイテムを表示する1つ以上のアクターへの指示を表す評価アイテムののitemBodyの一部を識別します。ルーブリックブロックはsimpleBlocks要素として定義されているのでインタラクションを含めることはできません。"
@@ -118,7 +119,7 @@ msgid "An error occured while parsing IMS QTI data."
 msgstr "QTIデータを解析中にエラーが発生しました"
 
 msgid "An error occurred at the level of the QTI model."
-msgstr "QTIモデルのレベルでエラーが発生しました"
+msgstr "QTI規格レベルでのエラーが発生しました"
 
 msgid "An optional link to an extended interpretation of the outcome variable."
 msgstr ""
@@ -136,9 +137,10 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "QTIアイテムパッケージのインポート中に予期しないエラーが発生しました。システムは次のエラーを返しました: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr "QTIアイテムパッケージのインポート中に予期しないエラーが発生しました。システムは次のエラーを返しました: %s\n"
-""
+
+msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
+msgstr ""
 
 msgid "APIP Content Package"
 msgstr "APIPコンテンツパッケージ"
@@ -161,6 +163,9 @@ msgstr "組合せ"
 msgid "at least"
 msgstr "最低"
 
+msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
+msgstr ""
+
 msgid "Autostart"
 msgstr "自動再生"
 
@@ -173,11 +178,11 @@ msgstr "背景色"
 msgid "Base"
 msgstr "ベース"
 
-msgid "Block"
-msgstr "文字ブロック"
-
 msgid "block"
 msgstr "ブロック"
+
+msgid "Block"
+msgstr "文字ブロック"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "文字ブロックは、テキストや画像などのコンテンツを表示します。文章中の穴埋め問題作成にも利用します。"
@@ -194,14 +199,23 @@ msgstr "コンピュータを参照し、適切なファイルを選択してく
 msgid "Browse..."
 msgstr "参照..."
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "キャンセル"
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "キャンセル"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr "この選択から穴埋めの選択肢を作成できません。確認してください。"
+
+msgid "Cannot create hottext from this selection."
+msgstr "この選択からホットテキストを作成することはできません。"
+
+msgid "Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words."
+msgstr ""
+
+msgid "Cannot create hottext from this selection. Please make sure the selection does not contain multiple lines."
+msgstr ""
 
 msgid "Cannot delete a variable currently used in response processing"
 msgstr "レスポンス処理で現在使用されている変数は削除できません"
@@ -216,10 +230,13 @@ msgid "cannot load QTI XML"
 msgstr "QTI XMLがロードできません"
 
 msgid "Cannot locate the file \"%s"
-msgstr "ファイル\ "
+msgstr "ファイル \"％sが見つかりません"
 
 msgid "Center"
 msgstr "センター"
+
+msgid "Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with."
+msgstr ""
 
 msgid "characters"
 msgstr ""
@@ -239,14 +256,17 @@ msgstr "操作の選択"
 msgid "Choice Properties"
 msgstr "選択肢プロパティ"
 
-msgid "Choices"
+msgid "choices"
 msgstr "選択肢"
 
-msgid "choices"
+msgid "Choices"
 msgstr "選択肢"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr "テーブルの水平方向の配置を選択します"
+
+msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
+msgstr ""
 
 msgid "Class successfully created."
 msgstr "クラスが作成されました。"
@@ -318,7 +338,7 @@ msgid "Current value:"
 msgstr "現在の値:"
 
 msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
-msgstr "現在、MathMLからのLaTeXへの変換は使用できません。ここではMathMLを編集、LaTeXコードは廃棄されます"
+msgstr "現在、MathMLからのLaTeXへの変換は使用できません。ここでMathMLを編集すると、LaTexのコードが破棄されます。"
 
 msgid "custom"
 msgstr "カスタム"
@@ -326,10 +346,10 @@ msgstr "カスタム"
 msgid "Custom Response Processing Mode"
 msgstr "カスタムレスポンス処理モード"
 
-msgid "default"
+msgid "Default"
 msgstr "デフォルト"
 
-msgid "Default"
+msgid "default"
 msgstr "デフォルト"
 
 msgid "Define correct response"
@@ -345,7 +365,7 @@ msgid "Define the correct response."
 msgstr "正解を設定"
 
 msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
-msgstr "有効なレスポンスを得るために、選択肢が受検者から選択されな​​ければならないかどうかを定義します。"
+msgstr "有効なレスポンスを得るために、選択肢が受検者から選択されな\u200B\u200Bければならないかどうかを定義します。"
 
 msgid "Define whether the item should be time dependent on delivery."
 msgstr "アイテムがデリバリにおいて時間制限に依存するかどうかを定義します"
@@ -356,10 +376,10 @@ msgstr "指定幅"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "数値型の結果変数の最大値を設定します。最大値は正の値、最小は負の値にすることができます。"
 
-msgid "Delete"
+msgid "delete"
 msgstr "削除"
 
-msgid "delete"
+msgid "Delete"
 msgstr "削除"
 
 msgid "Delete else statement"
@@ -432,7 +452,7 @@ msgid "edit choices"
 msgstr "選択肢を編集"
 
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr "LaTex形式で数式を編集します。例） e^{i \\pi} = -1"
+msgstr ""
 
 msgid "Edit math expression using MathML"
 msgstr "MathMLを利用して数式編集"
@@ -456,7 +476,7 @@ msgid "elements"
 msgstr "エレメント"
 
 msgid "Eliminate"
-msgstr "除外する"
+msgstr "除外"
 
 msgid "Enable Scrolling"
 msgstr ""
@@ -488,6 +508,12 @@ msgstr "Tips内容"
 msgid "Enter tooltip target"
 msgstr "Tipsリンク文字"
 
+msgid "Error in post rendering: %s"
+msgstr ""
+
+msgid "Error in template rendering: %s"
+msgstr ""
+
 msgid "Error on item %1$s : %2$s"
 msgstr "アイテム %1$s のエラー: %2$s。"
 
@@ -503,11 +529,14 @@ msgstr "オイラーの定義"
 msgid "Exponent"
 msgstr "指数"
 
+msgid "Export"
+msgstr ""
+
 msgid "Export APIP 1.0 Package"
 msgstr "APIP1.0パッケージをエクスポート"
 
 msgid "Export failed for the item \"%s\": %s"
-msgstr "アイテム\ "
+msgstr "アイテム \"％s\" のエクスポートに失敗しました：％s"
 
 msgid "Export metadata"
 msgstr "メタデータのエクスポート"
@@ -600,7 +629,7 @@ msgid "Greater than or equal"
 msgstr "以上"
 
 msgid "Guard for resource \"%s\"..."
-msgstr "リソース\ "
+msgstr "リソース \"％s\" のガード..."
 
 msgid "Height"
 msgstr "高さ"
@@ -644,6 +673,9 @@ msgstr "識別子"
 msgid "identifier already taken"
 msgstr "識別子は既に使用されています"
 
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, underscores ( _ ), or hyphens ( - )."
+msgstr ""
+
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr "設定する場合、受検者のレスポンスが有効となるような正規表現を指定します"
 
@@ -670,6 +702,15 @@ msgstr ""
 
 msgid "Import QTI ITEM into \"%s"
 msgstr "QTIアイテムを\"%s\"にインポート"
+
+msgid "IMS QTI Item referenced as \"%s\" cannot be imported."
+msgstr ""
+
+msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
+msgstr ""
+
+msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
+msgstr ""
 
 msgid "In Progress"
 msgstr "実施中"
@@ -702,7 +743,7 @@ msgid "Inline Interactions"
 msgstr ""
 
 msgid "Inline interactions need to be inserted into a text block."
-msgstr "インライン問題は、文字ブロックに挿入する必要があります"
+msgstr "インラインインタラクションは、文字ブロックに挿入する必要があります"
 
 msgid "Interaction Background"
 msgstr "問題の背景画像"
@@ -714,7 +755,7 @@ msgid "Interpretation"
 msgstr "翻訳"
 
 msgid "Invalid identifier"
-msgstr ""
+msgstr "無効な識別子です"
 
 msgid "Invalid Outcome Declaration"
 msgstr ""
@@ -723,7 +764,7 @@ msgid "invalid QTI XML"
 msgstr "無効なQTI XML"
 
 msgid "Invalid response identifier"
-msgstr ""
+msgstr "無効なレスポンス識別子"
 
 msgid "Invalid URL"
 msgstr ""
@@ -733,6 +774,9 @@ msgstr "この選択は正しい答えですか？"
 
 msgid "Is this pair the correct response?"
 msgstr "このペアは、正しい答えですか？"
+
+msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
+msgstr ""
 
 msgid "Item \"%s\" cannot be exported: %s"
 msgstr "アイテム \"%s\" をエクスポートできませんでした。"
@@ -747,15 +791,18 @@ msgid "Item \"%s\" is ready to be exported"
 msgstr "アイテム \"%s\" をエクスポートする準備ができました"
 
 msgid "Item cannot be saved."
-msgstr ""
+msgstr "アイテムを保存できません。"
 
 msgid "Item metadata successfully exported."
 msgstr "アイテムのメタデータは正常にエクスポートされました。"
 
-msgid "Item Properties"
-msgstr "アイテムプロパティ"
+msgid "Item metadata with identifier \"%s\" is not valid: "
+msgstr ""
 
 msgid "Item properties"
+msgstr "アイテムプロパティ"
+
+msgid "Item Properties"
 msgstr "アイテムプロパティ"
 
 msgid "Item width"
@@ -828,16 +875,14 @@ msgstr ""
 msgid "Lower than or equal"
 msgstr "以下"
 
-msgid "Malformed XML[%s]:\n"
-"%s"
-msgstr "不正な形式のXML[%s]:\n"
-""
-
-msgid "Manage Items"
-msgstr "アイテム管理"
+msgid "Malformed XML[%s]:\n%s"
+msgstr "不正な形式のXML[%s]:\n%s"
 
 #, tao-public
 msgid "Manage items"
+msgstr "アイテム管理"
+
+msgid "Manage Items"
 msgstr "アイテム管理"
 
 msgid "map response"
@@ -976,10 +1021,10 @@ msgstr ""
 msgid "No value set"
 msgstr "何もセットされていません"
 
-msgid "none"
+msgid "None"
 msgstr "なし"
 
-msgid "None"
+msgid "none"
 msgstr "なし"
 
 msgid "None defined yet."
@@ -1001,9 +1046,7 @@ msgid "one association pair"
 msgstr "１つの組み合わせ"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr "1つ以上のQTIコンポーネントがシステムでサポートされていません。システムは次のエラーを返しました：%s\n"
-""
 
 msgid "Order"
 msgstr "並び替え"
@@ -1036,18 +1079,16 @@ msgid "Plain text"
 msgstr "テキスト"
 
 msgid "Please add one or more gaps to the text in question mode."
-msgstr "少なくとも１つの穴埋めを作ってください"
+msgstr "少なくとも１つの穴埋めを作ってください。"
 
 msgid "Please create areas that correspond to the response and associate them a score.\n"
-""
 msgstr "解答に対応する範囲を作成し、スコアを設定してください。\n"
-""
 
 msgid "Please define association pairs and their scores below."
 msgstr "組合せとスコアを設定してください"
 
 msgid "Please define the correct association pairs below."
-msgstr "正しい組み合わせを設定してください"
+msgstr "正しい組合せを設定してください。"
 
 msgid "Please define the correct order in the box to the right."
 msgstr "右側のボックスに正しい順序を設定してください"
@@ -1081,6 +1122,9 @@ msgstr "正解を選択肢から選んでください"
 
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr "メディア（動画・音声）ファイルを選択してください。「ファイル追加」ボタンで追加できます。"
+
+msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
 
 msgid "Please select a shared stimulus file from the resource manager."
 msgstr "シェアードスティミュラスを選択してください"
@@ -1122,7 +1166,7 @@ msgid "Preparing CSS, please wait…"
 msgstr "CSS準備中、お待ちください..."
 
 msgid "Preparing Metadata Values for target \"%s\"..."
-msgstr "ターゲット\ "
+msgstr "ターゲット \"％s\" のメタデータ値を準備しています..."
 
 msgid "Preview"
 msgstr "プレビュー"
@@ -1165,6 +1209,9 @@ msgstr "QTIパッケージ2.1"
 
 msgid "QTI Package 2.2"
 msgstr "QTIパッケージ2.2"
+
+msgid "QTI-XML error at line %1$d \"%2$s\"."
+msgstr ""
 
 msgid "QTI/APIP Content Package"
 msgstr "QTI/APIP Content Package"
@@ -1289,10 +1336,10 @@ msgstr "アイテム保存"
 msgid "Scale size"
 msgstr "縮尺"
 
-msgid "score"
+msgid "Score"
 msgstr "スコア"
 
-msgid "Score"
+msgid "score"
 msgstr "スコア"
 
 msgid "Score range"
@@ -1415,6 +1462,9 @@ msgstr "スライダー問題"
 msgid "some text ..."
 msgstr "テキストを入力 ..."
 
+msgid "Something went wrong while destroying an interaction: %s"
+msgstr ""
+
 msgid "Square root"
 msgstr "平方根"
 
@@ -1440,9 +1490,7 @@ msgid "Successfully compiled \"%s"
 msgstr "\"%sのコンパイルが完了しました"
 
 msgid "Successfully created item \"%s"
-msgstr "アイテムの作成が完了しました：\"%s\"\"\n"
-"\n"
-"msgid "
+msgstr "アイテムの作成が完了しました：\"%s"
 
 msgid "Table headings"
 msgstr "表の見出し"
@@ -1451,7 +1499,7 @@ msgid "TAO default styles"
 msgstr "TAO標準スタイル"
 
 msgid "Target Class Lookup for resource \"%s\"..."
-msgstr "リソース\ "
+msgstr "リソース \"％s\" のターゲットクラスをルックアップ..."
 
 msgid "Text Block"
 msgstr "文字ブロック"
@@ -1519,6 +1567,24 @@ msgstr "レスポンス識別子：同じ識別子を，他のレスポンス識
 msgid "The IMS QTI Item could not be imported."
 msgstr "IMS QTIアイテムはインポートできませんでした"
 
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
+msgstr ""
+
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
 msgstr "IMSマニフェストファイルで、\"%s\"として参照されるQTIアイテムのロールバックが完了しました。"
 
@@ -1562,7 +1628,7 @@ msgid "The mapping indicator to use between field name and field value when disp
 msgstr "レコードのカーディナリティ変数を表示するときにフィールド名とフィールド値の間で使用するマッピングインジケーターです。 マッピングインジケーターが宣言されていない場合、\"=\"がデフォルトです。実装では、このデフォルトを個別設定またはロケール設定で上書きできます。"
 
 msgid "The mapping options are available when at least one map entry is defined."
-msgstr "採点方法の「部分点」は、準正答を設定したい場合に使用します。"
+msgstr "採点方法の「部分点」は、準正答などにスコアを設定したい場合に使用します。"
 
 msgid "The maximum number of association is unlimited."
 msgstr "組合せの最大数に制限はありません"
@@ -1649,9 +1715,7 @@ msgid "The upper bound of the slider"
 msgstr "スライダー最大値"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "QTIアイテムのインポートに失敗しました。エラー内容:%s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "QTIアイテムを含むZIPファイルを抽出できません"
@@ -1683,6 +1747,9 @@ msgstr "これは必須です"
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "このスタイルシートがサーバ上で見つかりません。この参照を削除してください"
 
+msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
+msgstr "この値は、スコアリング特性のガイドラインに沿っていません。TAO手動採点（TAO Manual Scoring）との互換性はありません。"
+
 msgid "Time dependent"
 msgstr "時間依存"
 
@@ -1707,6 +1774,9 @@ msgstr "トップ"
 msgid "Trigger the end of the item attempt."
 msgstr "アイテム試行終了トリガー"
 
+msgid "Unable to load item from the given data."
+msgstr ""
+
 msgid "Unable to process your request"
 msgstr "リクエストを処理できません"
 
@@ -1722,10 +1792,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr "％sを検証できません：％s"
 
-msgid "undo"
+msgid "Undo"
 msgstr "取り消し"
 
-msgid "Undo"
+msgid "undo"
 msgstr "取り消し"
 
 msgid "Unknown $key to register MetadataService instance"
@@ -1767,6 +1837,12 @@ msgstr "代替えテキストを変更"
 msgid "WYSIWYG editor"
 msgstr "WYSIWYGエディタ"
 
+msgid "XML error \"%1$s\"."
+msgstr ""
+
+msgid "XML error at line %1$d \"%2$s\"."
+msgstr ""
+
 msgid "Yes"
 msgstr "Yes"
 
@@ -1795,7 +1871,7 @@ msgid "You have deleted an element."
 msgstr "エレメントを削除しました"
 
 msgid "You may make as many association pairs as you want."
-msgstr "組み合わせを複数作ることができます。"
+msgstr "組合せを複数作ることができます。"
 
 msgid "You must select %1$d to %2$d choices."
 msgstr "少なくとも%1$d個，最大%2$d個まで選択してください"

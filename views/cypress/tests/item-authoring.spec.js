@@ -29,60 +29,52 @@ import {
     addGraphicInteractions,
     removeGraphicInteractions
 } from '../utils/authoring-add-interactions';
+import { getRandomNumber } from '../../../../tao/views/cypress/utils/helpers';
 
 describe('Item Authoring', () => {
-    const className = 'Test E2E class';
+    const className = `Test E2E class ${getRandomNumber()}`;
     const itemName = 'Test E2E item 1';
     /**
      * Log in
-     * Visit the page
+     * Visit Items page
      */
     before(() => {
-        cy.loginAsAdmin();
+        cy.setup(
+            selectors.treeRenderUrl,
+            selectors.editClassLabelUrl,
+            urls.items,
+            selectors.root
+        );
 
-        cy.intercept('POST', '**/edit*').as('edit');
-        cy.intercept('POST', `**/${selectors.editClassLabelUrl}`).as('editClassLabel');
-        cy.viewport(1000, 660);
-        cy.visit(urls.items);
-        cy.wait('@edit');
-
-        cy.get(selectors.root).then(root => {
-            if (root.find(`li[title="${className}"] a`).length) {
-                cy.deleteClassFromRoot(
-                    selectors.root,
-                    selectors.itemClassForm,
-                    selectors.deleteClass,
-                    selectors.deleteConfirm,
-                    className,
-                    selectors.deleteClassUrl,
-                    selectors.resourceRelations,
-                    false,
-                    true
-                );
-            }
-        });
+        cy.addClassToRoot(
+            selectors.root,
+            selectors.itemClassForm,
+            className,
+            selectors.editClassLabelUrl,
+            selectors.treeRenderUrl,
+            selectors.addSubClassUrl
+        );
+        cy.addNode(selectors.itemForm, selectors.addItem);
+        cy.renameSelectedNode(selectors.itemForm, selectors.editItemUrl, itemName);
     });
-
+    /**
+     * Visit Items page
+     * Delete e2e class
+     */
     after(() => {
         cy.intercept('POST', '**/edit*').as('edit');
         cy.visit(urls.items);
         cy.wait('@edit');
 
-        cy.get(selectors.root).then(root => {
-            if (root.find(`li[title="${className}"] a`).length) {
-                cy.deleteClassFromRoot(
-                    selectors.root,
-                    selectors.itemClassForm,
-                    selectors.deleteClass,
-                    selectors.deleteConfirm,
-                    className,
-                    selectors.deleteClassUrl,
-                    selectors.resourceRelations,
-                    false,
-                    true
-                );
-            }
-        });
+        cy.deleteClassFromRoot(
+            selectors.root,
+            selectors.itemClassForm,
+            selectors.deleteClass,
+            selectors.deleteConfirm,
+            className,
+            selectors.deleteClassUrl,
+            true
+        );
     });
 
     /**

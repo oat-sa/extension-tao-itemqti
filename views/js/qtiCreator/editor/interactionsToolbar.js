@@ -30,14 +30,14 @@ define([
 
     /**
      * String to identify a custom interaction from the authoring data
-     * 
+     *
      * @type String
      */
-    var _customInteractionTag = 'Custom Interactions';
+    var _customInteractionTag = __('Custom Interactions');
 
     /**
      * Interaction types that require a sub group in the toolbar
-     * 
+     *
      * @type Object
      */
     var _subgroups = {
@@ -69,7 +69,7 @@ define([
 
         return $section;
     }
-    
+
     function create($sidebar, interactions){
 
         _.each(interactions, function(interactionAuthoringData){
@@ -116,11 +116,11 @@ define([
     function enable($sidebar, interactionClass){
         hider.show($sidebar.find('li[data-qti-class="' + interactionClass + '"]'));
     }
-    
+
     function exists($sidebar, interactionClass){
         return !!$sidebar.find('li[data-qti-class="' + interactionClass + '"]').length;
     }
-    
+
     function add($sidebar, interactionAuthoringData){
 
         if(exists($sidebar, interactionAuthoringData.qtiClass)){
@@ -159,10 +159,10 @@ define([
             //the group does not exist yet : create a <section> for the group
             $group = addGroup($sidebar, groupId, groupLabel);
         }
-        
+
         let $interaction = $(insertInteractionTpl(tplData));
         $group.find('.tool-list').append($interaction);
-        
+
         return $interaction;
     }
 

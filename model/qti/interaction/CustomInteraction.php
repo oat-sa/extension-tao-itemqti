@@ -22,8 +22,8 @@
 
 namespace oat\taoQtiItem\model\qti\interaction;
 
+use DOMElement;
 use oat\taoQtiItem\model\qti\ParserFactory;
-use \DOMElement;
 use oat\taoQtiItem\model\qti\QtiNamespace;
 
 /**
@@ -67,6 +67,19 @@ abstract class CustomInteraction extends Interaction
     public static function getTemplateQti()
     {
         return static::getTemplatePath() . 'interactions/qti.customInteraction.tpl.php';
+    }
+
+    /**
+     * @return string
+     */
+    public function getTypeIdentifier()
+    {
+        return $this->typeIdentifier;
+    }
+
+    public function getProperties()
+    {
+        return [];
     }
 
     protected function getTemplateQtiVariables()

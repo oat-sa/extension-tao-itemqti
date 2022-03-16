@@ -95,6 +95,20 @@ define([
                     xml: false
                 });
 
+                const item = this.element;
+                const $itemBody = this.$container.find('.qti-itemBody');
+                if (!item.bdy.attr('dir') && $itemBody.find('.grid-row[dir="rtl"]').length) {
+                    // old xml with dir='rtl' in div.grid-row should be updated
+                    item.bdy.attr('dir', 'rtl');
+                    $itemBody.find('.grid-row').removeAttr('dir');
+                    //need to update item body
+                    item.body(contentHelper.getContent($itemBody));
+                }
+                if (item.bdy.attr('dir') === 'rtl') {
+                    // dir='rtl' should be set to itemBody
+                    $itemBody.attr('dir', 'rtl');
+                }
+
                 resolve();
             });
         });
@@ -213,11 +227,6 @@ define([
                 const itemWidget = $widget.data('widget');
                 const element = itemWidget.element;
                 const container = Element.isA(element, '_container') ? element : element.getBody();
-
-                if (element.attr('dir') === 'rtl') {
-                    // add dir='rtl' to new div.grid-row
-                    $placeholder.parent('.col-12').parent('.grid-row').attr('dir', 'rtl');
-                }
 
                 if (!element || !$editable.length) {
                     throw new Error('cannot create new element');

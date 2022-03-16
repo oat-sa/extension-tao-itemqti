@@ -118,6 +118,7 @@ define([
                     if (
                         !$.contains(container, e.target) &&
                         !$(e.target).parents('#feedback-box').length &&
+                        !$(e.target).parents('.outcome-container').length &&
                         !$(e.target).hasClass('icon-close') &&
                         this.hasChanged()
                     ) {
@@ -189,7 +190,7 @@ define([
                             {
                                 id: 'dontsave',
                                 type: 'regular',
-                                label: __('Don\'t save'),
+                                label: __("Don't save"),
                                 close: true
                             },
                             {

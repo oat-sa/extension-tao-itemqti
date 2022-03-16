@@ -31,12 +31,15 @@
 
         tbody {
             .mini-tlb {
+                position: absolute;
                 top: -1px;
-                right: calc(100% + 7px);
+                left: -7px;
+                right: auto;
+                transform: translateX(-100%);
 
                 @include rtl {
-                    right: auto;
-                    left: calc(100% + 7px);
+                    right: -7px;
+                    transform: translateX(100%);
                 }
             }
 

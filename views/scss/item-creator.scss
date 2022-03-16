@@ -1109,7 +1109,7 @@ img.dragging.ui-draggable-dragging {
         }
     }
 
-    .widget-inline{
+    .widget-inline, .widget-table{
         z-index: 20;
     }
 
@@ -1285,6 +1285,7 @@ img.dragging.ui-draggable-dragging {
 
 .widget-rubricBlock, .widget-textBlock {
     [data-html-editable] {
+        @extend %clearfix;
         min-height: 3rem;
     }
 }
@@ -1347,12 +1348,12 @@ img.dragging.ui-draggable-dragging {
 .select2-container .select2-choice>.select2-chosen {
     margin-right: 50px;
 }
-.select2-results .select2-result-label {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row-reverse;
-}
 .select2-result.rtl-lang {
+    .select2-result-label {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row-reverse;
+    }
     &.select2-highlighted {
         span.select2-match {
             &:after {

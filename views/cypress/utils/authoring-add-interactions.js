@@ -50,16 +50,22 @@ const undoSelector = '.feedback-info.popup a.undo';
 const closeUndoSelector = '.feedback-info.popup .icon-close';
 
 /**
- * Add A-Block and then all inline interactions on it
+ * Add A-Block
  */
-export function addBlockAndInlineInteractions() {
+ export function addABlock() {
     cy.log('ADDING A-BLOCK INTERACTION');
     const blockSelector = `[data-qti-class="${blockContainer}"]`;
     cy.dragAndDrop(blockSelector, dropSelector);
     // check that widget is initialized
     cy.getSettled(`${dropSelector} .widget-box.edit-active${blockSelector}`).should('exist');
     cy.log('A-BLOCK IS ADDED');
+}
 
+/**
+ * Add A-Block and then all inline interactions on it
+ */
+export function addBlockAndInlineInteractions() {
+    addABlock();
     for (const interaction in inlineInteractions) {
         cy.log('ADDING INTERACTION', interaction);
         const interactionSelector = `[data-qti-class="${inlineInteractions[interaction]}"]`;
@@ -75,12 +81,28 @@ export function addBlockAndInlineInteractions() {
 }
 
 /**
+ * Adds A block without inner inline interactions
+ */
+export function addAblock() {
+    const dropSelector = 'div.qti-itemBody.item-editor-drop-area';
+    cy.getSettled('.qti-item.item-editor-item.edit-active').should('exist');
+    // open inline interactions panel
+    cy.get('#sidebar-left-section-inline-interactions').click();
+    cy.log('ADDING A-BLOCK INTERACTION');
+    const blockSelector = `[data-qti-class="${blockContainer}"]`;
+    cy.dragAndDrop(blockSelector, dropSelector);
+    // check that widget is initialized
+    cy.getSettled(`${dropSelector} .widget-box.edit-active${blockSelector}`).should('exist');
+    cy.log('A-BLOCK IS ADDED');
+};
+
+/**
  * Removes interaction, undo and remove again
  * @param {String} deleteSelector - css selector of delete button
  * @param {String} interaction - interaction name
  * @param {String} interactionSelector - css selector of the interaction container
  */
-function removeInteraction(deleteSelector, interaction, interactionSelector) {
+export function removeInteraction(deleteSelector, interaction, interactionSelector) {
     cy.log('REMOVING INTERACTION', interaction);
     cy.get(deleteSelector).click({ force: true });
     cy.log(interaction, 'IS REMOVED');

@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA ;
  */
 define([
     'jquery',
@@ -24,11 +24,13 @@ define([
     'taoQtiItem/qtiItem/helper/itemScore',
     'util/url',
     'core/dataProvider/request',
-], function ($, _, Loader, Item, qtiClasses, itemScoreHelper, urlUtil, request) {
-    "use strict";
-    var _generateIdentifier = function _generateIdentifier(uri) {
-        var pos = uri.lastIndexOf('#');
-        return uri.substr(pos + 1);
+    'taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier'
+], function ($, _, Loader, Item, qtiClasses, itemScoreHelper, urlUtil, request, qtiIdentifier) {
+    'use strict';
+    const _generateIdentifier = function _generateIdentifier(uri) {
+        const pos = uri.lastIndexOf('#');
+        // identifier by default should be no more then 32
+        return uri.substring(pos + 1, pos + 1 + qtiIdentifier.maxQtiIdLength);
     };
 
     const decodeHtml = function (str) {
@@ -39,30 +41,27 @@ define([
             '&quot;': '"',
             '&#039;': "'"
         };
-        return str.replace(/&amp;|&lt;|&gt;|&quot;|&#039;/g, function(m) {
+        return str.replace(/&amp;|&lt;|&gt;|&quot;|&#039;/g, function (m) {
             return map[m];
         });
     };
 
-    var qtiNamespace = 'http://www.imsglobal.org/xsd/imsqti_v2p2';
+    const qtiNamespace = 'http://www.imsglobal.org/xsd/imsqti_v2p2';
 
-    var qtiSchemaLocation = {
+    const qtiSchemaLocation = {
         'http://www.imsglobal.org/xsd/imsqti_v2p2': 'http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd'
     };
 
     const languagesUrl = urlUtil.route('index', 'Languages', 'tao');
 
-    var creatorLoader = {
+    const creatorLoader = {
         loadItem: function loadItem(config, callback) {
-
             if (config.uri) {
                 const langList = request(languagesUrl);
                 // request doesn't handle empty response with 200 code. See: core/request.js:240
-                const itemRdf = request(config.itemDataUrl, { uri: config.uri }).catch(d => d)
+                const itemRdf = request(config.itemDataUrl, { uri: config.uri }).catch(d => d);
 
                 Promise.all([langList, itemRdf]).then(([languagesList, data]) => {
-                    var loader, itemData, newItem;
-
                     if (data.itemData) {
                         for (const response in data.itemData.responses) {
                             const newObject = {};
@@ -74,20 +73,17 @@ define([
                     }
 
                     if (data.itemData && data.itemData.qtiClass === 'assessmentItem') {
-
-                        loader = new Loader().setClassesLocation(qtiClasses);
-                        itemData = data.itemData;
+                        const loader = new Loader().setClassesLocation(qtiClasses);
+                        const itemData = data.itemData;
 
                         loader.loadItemData(itemData, function (loadedItem) {
-                            var namespaces;
-
                             //hack to fix #2652
                             if (loadedItem.isEmpty()) {
                                 loadedItem.body('');
                             }
 
                             // convert item to current QTI version
-                            namespaces = loadedItem.getNamespaces();
+                            const namespaces = loadedItem.getNamespaces();
                             namespaces[''] = qtiNamespace;
                             loadedItem.setNamespaces(namespaces);
                             loadedItem.setSchemaLocations(qtiSchemaLocation);
@@ -97,23 +93,23 @@ define([
                                 loadedItem.data('languagesList', languagesList);
                             }
 
-                            const { responseProcessing: { processingType } = {} } = loadedItem
+                            const { responseProcessing: { processingType } = {} } = loadedItem;
                             if (!config.perInteractionRp && processingType === 'templateDriven') {
                                 const {
                                     responses = {},
                                     responseProcessing: {
                                         data,
-                                        responseRules = [],
-                                    } = {},
-                                } = itemData
-                                const responseIdentifiers = []
+                                        responseRules = []
+                                    } = {}
+                                } = itemData;
+                                const responseIdentifiers = [];
 
                                 _.forOwn(responses, ({ identifier }) => {
-                                    responseIdentifiers.push(identifier)
+                                    responseIdentifiers.push(identifier);
                                 });
 
                                 const itemScoreRP = itemScoreHelper(responseIdentifiers);
-                                if (responseRules.some((responseRule) => _.isEqual(responseRule, itemScoreRP))) {
+                                if (responseRules.some(responseRule => _.isEqual(responseRule, itemScoreRP))) {
                                     loadedItem.responseProcessing.setProcessingType('custom', data);
                                 }
                             }
@@ -121,17 +117,16 @@ define([
                             callback(loadedItem, this.getLoadedClasses());
                         });
                     } else {
-
-                        newItem = new Item().id(_generateIdentifier(config.uri)).attr('title', config.label);
+                        const newItem = new Item().id(_generateIdentifier(config.uri)).attr('title', config.label);
 
                         newItem.createResponseProcessing();
 
                         //set default namespaces
                         newItem.setNamespaces({
                             '': qtiNamespace,
-                            'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-                            'm': 'http://www.w3.org/1998/Math/MathML'
-                        });//note : always add math element : since it has become difficult to know when a math element has been added to the item
+                            xsi: 'http://www.w3.org/2001/XMLSchema-instance',
+                            m: 'http://www.w3.org/1998/Math/MathML'
+                        }); //note : always add math element : since it has become difficult to know when a math element has been added to the item
 
                         //set default schema location
                         newItem.setSchemaLocations(qtiSchemaLocation);
@@ -146,7 +141,6 @@ define([
 
                         callback(newItem);
                     }
-
                 });
             }
         }
