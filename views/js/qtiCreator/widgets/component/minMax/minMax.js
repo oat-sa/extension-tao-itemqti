@@ -409,7 +409,7 @@ define([
                  * @returns {minMax} chains
                  */
                 disableToggler: function disableToggler(fromField) {
-                    if (isFieldSupported(fromField) && this.is('rendered')) {
+                    if (isFieldSupported(fromField) && this.is('rendered') && controls[fromField].toggler) {
                         controls[fromField].toggler.prop('disabled', true);
                     }
 
@@ -423,7 +423,7 @@ define([
                  * @returns {minMax} chains
                  */
                 enableToggler: function disableToggler(fromField) {
-                    if (isFieldSupported(fromField) && this.is('rendered')) {
+                    if (isFieldSupported(fromField) && this.is('rendered') && controls[fromField].toggler) {
                         controls[fromField].toggler.prop('disabled', false);
                     }
 
