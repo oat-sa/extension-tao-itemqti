@@ -295,10 +295,7 @@ define([
                     updateResponseDeclaration(element, value, options.updateCardinality);
                 }
 
-                if (
-                    (!value && (element.is('orderInteraction') || element.is('graphicOrderInteraction'))) ||
-                    (this.disabled && element.is('choiceInteraction'))
-                ) {
+                if (!value && (element.is('orderInteraction') || element.is('graphicOrderInteraction'))) {
                     element[options.attrMethodNames.remove](name); //to be removed for order interactions
                 } else {
                     element[options.attrMethodNames.set](name, value); //required
