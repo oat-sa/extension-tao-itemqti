@@ -400,7 +400,35 @@ define([
                     }
 
                     return this;
-                }
+                },
+
+                /**
+                 * disabe toggler
+                 *
+                 * @param {String} [fromField = min] - min or max, where the change comes from to update accordingly
+                 * @returns {minMax} chains
+                 */
+                disableToggler: function disableToggler(fromField) {
+                    if (isFieldSupported(fromField) && this.is('rendered')) {
+                        controls[fromField].toggler.prop('disabled', true);
+                    }
+
+                    return this;
+                },
+
+                /**
+                 * enable toggler
+                 *
+                 * @param {String} [fromField = min] - min or max, where the change comes from to update accordingly
+                 * @returns {minMax} chains
+                 */
+                enableToggler: function disableToggler(fromField) {
+                    if (isFieldSupported(fromField) && this.is('rendered')) {
+                        controls[fromField].toggler.prop('disabled', false);
+                    }
+
+                    return this;
+                },
             },
             defaultConfig
         )
