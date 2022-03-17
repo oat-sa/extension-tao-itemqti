@@ -190,7 +190,8 @@ define([
 
         //data change callbacks with the usual min/maxChoices
         callbacks = formElement.getMinMaxAttributeCallbacks('minChoices', 'maxChoices', {
-            updateCardinality: updateCardinality
+            updateCardinality: updateCardinality,
+            allowNull: true
         });
 
         //data change for shuffle
@@ -248,6 +249,10 @@ define([
             if (constraints === 'other') {
                 setAttrMaxMinChoices(DEFAULT_MIN, DEFAULT_MAX);
                 createMinMaxComponent(DEFAULT_MIN, DEFAULT_MAX);
+                minMaxComponent.on('render.choice-widget', () => {
+                    minMaxComponent.disableToggler('max');
+                    minMaxComponent.off('render.choice-widget');
+                });
             } else {
                 deleteMinMax();
                 setSelectedCase();
@@ -289,6 +294,27 @@ define([
                 } else {
                     //checkbox
                     $checkboxIcons.removeClass('icon-radio').addClass('icon-checkbox');
+                }
+            }
+            if (
+                data.element.serial === interaction.serial &&
+                (data.key === 'maxChoices' || data.key === 'minChoices') &&
+                constraints === 'other' &&
+                minMaxComponent
+            ) {
+                const min = _.parseInt(interaction.attr('minChoices'));
+                const max = _.parseInt(interaction.attr('maxChoices'));
+                // deny case minChoices = 1 and maxChoices = Disabled(0) because it simiar to Multiple choice Constraint: Answer required
+                if (min === 1 || min === 0) {
+                    minMaxComponent.disableToggler('max');
+                } else {
+                    minMaxComponent.enableToggler('max');
+                }
+                // deny case minChoices = Disabled(0) and maxChoices = Disabled(0) because it simiar to Multiple choice Constraint: None
+                if (max === 0) {
+                    minMaxComponent.disableToggler('min');
+                } else {
+                    minMaxComponent.enableToggler('min');
                 }
             }
         });

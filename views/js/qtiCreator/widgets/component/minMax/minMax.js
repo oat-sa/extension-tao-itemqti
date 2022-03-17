@@ -428,7 +428,7 @@ define([
                     }
 
                     return this;
-                },
+                }
             },
             defaultConfig
         )
