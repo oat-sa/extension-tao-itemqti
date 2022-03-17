@@ -135,7 +135,8 @@ define([
         const createMinMaxComponent = (min, max) => {
             minMaxComponent = minMaxComponentFactory($form.find('.min-max-panel'), {
                 min: { value: min, lowerThreshold: DEFAULT_MIN, upperThreshold: numberOfChoices - 1 },
-                max: { value: max, lowerThreshold: DEFAULT_MAX, upperThreshold: numberOfChoices }
+                max: { value: max, lowerThreshold: DEFAULT_MAX, upperThreshold: numberOfChoices },
+                hideTooltips: true
             }).after('render.choice-widget', () => {
                 checkOtherEdgeCases();
                 minMaxComponent.off('render.choice-widget');

@@ -93,6 +93,7 @@ define([
      * @param {Number} [setUpConfig.lowerThreshold] - lower bound range for both fields
      * @param {Number} [setUpConfig.upperThreshold] - upper bound range for both fields
      * @param {Boolean} [setUpConfig.syncValues] - update values if inconsistencies are detected
+     * @param {Boolean} [setUpConfig.hideTooltips] - hide tooltips
      * @returns {minMax} the configured component
      */
     return function minMaxFactory(container, setUpConfig) {
