@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>QTI Item Runner Renderer Strategies Test</title>
+        <script type="text/javascript" src="/environment/require.js"></script>
+        <script type="text/javascript">
+            require(['/environment/config.js'], function() {
+                require(['qunitEnv'], function() {
+                    // mock Client Config data:
+                    requirejs.config({
+                        paths: {
+                            'core/logger': '/test/runner/rendererStrategies/loggerMock'
+                        }
+                    });
+                    require(['taoQtiItem/test/runner/rendererStrategies/test'], function() {
+                        QUnit.config.reorder = false;
+                        QUnit.start();
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
+    </body>
+</html>

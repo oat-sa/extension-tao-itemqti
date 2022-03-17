@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>QTI Item Runtime Provider Test</title>
+        <script type="text/javascript" src="/environment/require.js"></script>
+        <script type="text/javascript">
+            require(['/environment/config.js'], function() {
+                require(['qunitEnv'], function() {
+                    // mock
+                    define('qtiInfoControlContext', [], () => {
+                        const picHooks = {};
+                        return {
+                            register: picHook => {
+                                picHooks[picHook.getTypeIdentifier()] = picHook;
+                            },
+                            createPciInstance: typeIdentifier => Object.create(picHooks[typeIdentifier])
+                        };
+                    });
+                    require(['taoQtiItem/test/runner/provider/test'], function() {
+                        QUnit.config.reorder = false;
+                        QUnit.start();
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture">
+            <div id="item-container"></div>
+        </div>
+
+        <div id="outside-container"></div>
+    </body>
+</html>
