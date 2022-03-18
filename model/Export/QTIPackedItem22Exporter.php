@@ -25,7 +25,6 @@ namespace oat\taoQtiItem\model\Export;
 
 class QTIPackedItem22Exporter extends QTIPackedItemExporter
 {
-    
     protected function renderManifest(array $options, array $qtiItemData)
     {
         $dir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
@@ -42,39 +41,14 @@ class QTIPackedItem22Exporter extends QTIPackedItemExporter
         
         return $newManifest;
     }
-    
+
     protected function itemContentPostProcessing($content)
     {
-        $content = str_replace(
-            'http://www.imsglobal.org/xsd/imsqti_v2p1',
-            'http://www.imsglobal.org/xsd/imsqti_v2p2',
-            $content
-        );
-        
-        $content = str_replace(
-            'http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd',
-            'http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2p1.xsd',
-            $content
-        );
-        
-        $content = str_replace(
-            'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct',
-            'http://www.imsglobal.org/question/qti_v2p2/rptemplates/match_correct',
-            $content
-        );
-        
-        $content = str_replace(
-            'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response',
-            'http://www.imsglobal.org/question/qti_v2p2/rptemplates/map_response',
-            $content
-        );
-        
-        $content = str_replace(
-            'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point',
-            'http://www.imsglobal.org/question/qti_v2p2/rptemplates/map_response_point',
-            $content
-        );
-        
         return $content;
+    }
+
+    protected function getQTIVersion(): string
+    {
+        return '2p2';
     }
 }
