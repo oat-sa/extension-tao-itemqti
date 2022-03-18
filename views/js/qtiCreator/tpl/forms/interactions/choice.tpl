@@ -37,7 +37,7 @@
         </label>
     </div>
 </div>
-<div class="panel min-max-panel"></div>
+<div class="panel min-max-panel choice-min-max"></div>
 <hr/>
 <div class="panel">
     <label>
