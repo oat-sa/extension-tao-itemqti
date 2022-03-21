@@ -1,14 +1,14 @@
 <div class="panel">
     <label class="smaller-prompt">
-        <input type="radio" name="type" value="single" {{#equal type "single"}}checked{{/equal}} />
+        <input type="radio" name="type" value="single" {{#equal type "single"}}checked{{/equal}} id="type-single"/>
         <span class="icon-radio"></span>
-        {{__ 'Single choice'}}
+        <label for="type-single">{{__ 'Single choice'}}</label>
     </label>
     <br>
     <label class="smaller-prompt">
-        <input type="radio" name="type" value="multiple" {{#equal type "multiple"}}checked{{/equal}} />
+        <input type="radio" name="type" value="multiple" {{#equal type "multiple"}}checked{{/equal}} id="type-multiple"/>
         <span class="icon-radio"></span>
-        {{__ 'Multiple choices'}}
+        <label for="type-multiple">{{__ 'Multiple choices'}}</label>
     </label>
 </div>
 <div class="panel">
@@ -19,21 +19,21 @@
     </span>
     <div>
         <label class="smaller-prompt">
-            <input type="radio" name="constraints" value="none" {{#equal constraints "none"}}checked{{/equal}} />
+            <input type="radio" name="constraints" value="none" {{#equal constraints "none"}}checked{{/equal}}  for="constraints-none"/>
             <span class="icon-radio"></span>
-            {{__ 'None'}}
+            <label for="constraints-none">{{__ 'None'}} </label>
         </label>
         <br>
         <label class="smaller-prompt">
-            <input type="radio" name="constraints" value="required" {{#equal constraints "required"}}checked{{/equal}} />
+            <input type="radio" name="constraints" value="required" {{#equal constraints "required"}}checked{{/equal}} id="constraints-required"/>
             <span class="icon-radio"></span>
-            {{__ 'Answer required'}}
+            <label for="constraints-required">{{__ 'Answer required'}}</label>
         </label>
         <br>
         <label class="smaller-prompt">
-            <input type="radio" name="constraints" value="other" {{#equal constraints "other"}}checked{{/equal}} {{#equal type "single"}}disabled{{/equal}} />
+            <input type="radio" name="constraints" value="other" {{#equal constraints "other"}}checked{{/equal}} {{#equal type "single"}}disabled{{/equal}} id="constraints-other"/>
             <span class="icon-radio"></span>
-            {{__ 'Other constraints'}}
+            <label for="constraints-other">{{__ 'Other constraints'}}</label>
         </label>
     </div>
 </div>
