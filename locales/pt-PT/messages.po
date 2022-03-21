@@ -35,13 +35,13 @@ msgid "%s metadata values found in source by extractor(s)."
 msgstr ""
 
 msgid "%s of %s characters maximum."
-msgstr ""
+msgstr "%s de %s caracteres, no máximo."
 
 msgid "%s of %s characters recommended."
-msgstr ""
+msgstr "%s de %s caracteres recomendado."
 
 msgid "%s of %s words maximum."
-msgstr ""
+msgstr "%s de %s palavras, no máximo."
 
 msgid "-- Any kind of file --"
 msgstr ""
