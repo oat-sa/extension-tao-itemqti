@@ -5,6 +5,12 @@
         right: -38px;
         top: 4px;
     }
+    .widget-math{
+        @include rtl {
+            margin-right: 2.15em;
+            margin-top: -0.15em;
+        }
+    }
 
     // Horizontal version
     &.qti-horizontal {
@@ -13,6 +19,13 @@
                 right: -1px;
                 top: -28px;
                 left: auto;
+            }
+        }
+        .widget-math{
+            @include rtl {
+                margin-right: 2.15em;
+                maring-left: 2em;
+                margin-top: -0.15em;
             }
         }
     }

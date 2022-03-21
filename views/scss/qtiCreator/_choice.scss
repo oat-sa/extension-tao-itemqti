@@ -10,6 +10,12 @@
         }
 
     }
+    .widget-math{
+        @include rtl {
+            margin-right: 2.15em;
+            margin-top: -0.15em;
+        }
+    }
     .mini-tlb {
         right: -38px;
 
@@ -33,6 +39,13 @@
         .mini-tlb {
             top: -28px;
             right: 0;
+        }
+        .widget-math{
+                @include rtl {
+                    margin-right: 2.15em;
+                    maring-left: 2em;
+                    margin-top: -0.15em;
+                }
         }
         .qti-choice.edit-choice {
             padding-top: 5px;
