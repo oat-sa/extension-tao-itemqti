@@ -9,12 +9,6 @@
             display: block;
         }
 
-        .mini-tlb {
-            @include rtl {
-                right: auto;
-                left: -38px;
-            }
-        }
     }
     .mini-tlb {
         right: -38px;
@@ -39,11 +33,6 @@
         .mini-tlb {
             top: -28px;
             right: 0;
-
-            @include rtl {
-                left: 0;
-                right: auto;
-            }
         }
         .qti-choice.edit-choice {
             padding-top: 5px;
