@@ -126,8 +126,14 @@ define([
                 // deny case minChoices = Disabled(0) and maxChoices = Disabled(0) because it simiar to Multiple choice Constraint: None
                 if (max === 0) {
                     minMaxComponent.disableToggler('min');
+                    // IF maxChoices = Disabled  THEN minChoices ≥ 2
+                    const choiceCount = _.size(interaction.getChoices());
+                    minMaxComponent.updateThresholds(DEFAULT_MIN + 1, choiceCount - 1, 'min');
                 } else {
                     minMaxComponent.enableToggler('min');
+                    // reset DEFAULT_MIN
+                    const choiceCount = _.size(interaction.getChoices());
+                    minMaxComponent.updateThresholds(DEFAULT_MIN, choiceCount - 1, 'min');
                 }
             }
         };
@@ -304,14 +310,17 @@ define([
         //modify the checkbox/radio input appearances
         widget.on('attributeChange', function (data) {
             const $checkboxIcons = widget.$container.find('.real-label > span');
+            const $checkboxInputs = widget.$container.find('.real-label > input');
 
             if (data.element.serial === interaction.serial && data.key === 'maxChoices') {
                 if (parseInt(data.value) === 1) {
                     //radio
                     $checkboxIcons.removeClass('icon-checkbox').addClass('icon-radio');
+                    $checkboxInputs.attr('type', 'radio');
                 } else {
                     //checkbox
                     $checkboxIcons.removeClass('icon-radio').addClass('icon-checkbox');
+                    $checkboxInputs.attr('type', 'checkbox');
                 }
             }
             if (
