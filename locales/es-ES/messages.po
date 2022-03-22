@@ -372,7 +372,7 @@ msgid "custom"
 msgstr ""
 
 msgid "Custom Interactions"
-msgstr ""
+msgstr "Interacciones personalizadas"
 
 msgid "Custom Response Processing Mode"
 msgstr "Modo de Procesamiento de respuesta personalizada"
