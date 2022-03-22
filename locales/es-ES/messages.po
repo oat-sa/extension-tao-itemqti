@@ -246,7 +246,7 @@ msgid "Cannot create hottext from this selection. Please make sure the selection
 msgstr "No se puede crear un texto activo a partir de los elementos seleccionados. Asegúrese de que la selección no contiene tanto palabras formateadas como palabras sin formatear."
 
 msgid "Cannot create hottext from this selection. Please make sure the selection does not contain multiple lines."
-msgstr ""
+msgstr "No se puede crear un texto activo a partir de los elementos seleccionados. Asegúrese de que la selección no contiene varias lineas."
 
 msgid "Cannot delete a variable currently used in response processing"
 msgstr ""
