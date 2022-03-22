@@ -93,7 +93,7 @@ msgid "Add a ZIP file containing QTI/APIP items"
 msgstr ""
 
 msgid "Add an outcome"
-msgstr ""
+msgstr "Añadir un resultado"
 
 msgid "Add another option"
 msgstr "Añadir otra opción"
