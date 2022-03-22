@@ -103,6 +103,7 @@ define([
         let selectedCase = null;
         let type = '';
         let constraints = '';
+        let prevValues = {};
 
         // minValue and maxValue - number or underfined
         const minValue = interaction.attr('minChoices')
@@ -117,28 +118,35 @@ define([
             if(constraints === 'other' && minMaxComponent) {
                 const min = _.parseInt(interaction.attr('minChoices'));
                 const max = _.parseInt(interaction.attr('maxChoices'));
+                const firstRender = typeof prevValues.min === 'undefined';
                 // deny case minChoices = 1 and maxChoices = Disabled(0) because it simiar to Multiple choice Constraint: Answer required
-                if (min === 1 || min === 0) {
+                if ((min === 1 || min === 0) && (firstRender || prevValues.min > 1)) {
                     minMaxComponent.disableToggler('max');
-                } else {
+                } else if (min > 1 && (firstRender || prevValues.min <= 1)) {
                     minMaxComponent.enableToggler('max');
                 }
                 // deny case minChoices = Disabled(0) and maxChoices = Disabled(0) because it simiar to Multiple choice Constraint: None
-                if (max === 0) {
+                if (max === 0 && (firstRender || prevValues.max > 0)) {
                     minMaxComponent.disableToggler('min');
+                    prevValues = {min, max}; // set before updateThresholds to prevent recursive call on update
                     // IF maxChoices = Disabled  THEN minChoices ≥ 2
                     const choiceCount = _.size(interaction.getChoices());
                     minMaxComponent.updateThresholds(DEFAULT_MIN + 1, choiceCount - 1, 'min');
-                } else {
+                } else if (max > 0 && (firstRender || prevValues.max === 0)) {
                     minMaxComponent.enableToggler('min');
-                    // reset DEFAULT_MIN
-                    const choiceCount = _.size(interaction.getChoices());
-                    minMaxComponent.updateThresholds(DEFAULT_MIN, choiceCount - 1, 'min');
+                    if (!firstRender) {
+                        prevValues = {min, max}; // set before updateThresholds to prevent recursive call on update
+                        // reset DEFAULT_MIN
+                        const choiceCount = _.size(interaction.getChoices());
+                        minMaxComponent.updateThresholds(DEFAULT_MIN, choiceCount - 1, 'min');
+                    }
                 }
+                prevValues = {min, max};
             }
         };
         // min / max choices control, with sync values
         const createMinMaxComponent = (min, max) => {
+            prevValues = {};
             minMaxComponent = minMaxComponentFactory($form.find('.min-max-panel'), {
                 min: { value: min, lowerThreshold: DEFAULT_MIN, upperThreshold: numberOfChoices - 1 },
                 max: { value: max, lowerThreshold: DEFAULT_MAX, upperThreshold: numberOfChoices },
