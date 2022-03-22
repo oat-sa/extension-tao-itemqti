@@ -724,7 +724,7 @@ msgid "If the shuffle attribute is true then the delivery engine will randomize 
 msgstr "Si el atributo de selecciones aleatorias está activo, el motor de entrega presentará inicialmente las opciones en orden aleatorio. De todas formas, el orden de cada opción puede establecerse como \"aleatorio\" o \"fijo\" de manera individual."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
-msgstr ""
+msgstr "Si el atributo de selecciones aleatorias está activo, el motor de entrega presentará inicialmente las opciones en orden aleatorio. De todas formas, el orden de cada opción puede establecerse como “aleatorio” of “fijo” de manera individual"
 
 msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
 msgstr "Si la interacción cadena se une a una variable de respuesta numérico entonces el atributo base debe ser utilizado para establecer la base de número en el que interpretar el valor introducido por el participante."
