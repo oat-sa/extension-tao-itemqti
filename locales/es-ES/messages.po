@@ -111,7 +111,7 @@ msgid "Add new pairs"
 msgstr "Agregar nuevos pares"
 
 msgid "Add new row"
-msgstr ""
+msgstr "Añadir una fila"
 
 msgid "Add Style Sheet"
 msgstr "Añadir otra retroalimentación"
