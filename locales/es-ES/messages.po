@@ -196,7 +196,7 @@ msgid "at least"
 msgstr "al menos"
 
 msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
-msgstr "Intentando inyectar \"%s\" valores a \"%s\" con el inyector de metadatos \"%s\".""
+msgstr "Intentando inyectar \"%s\" valores a \"%s\" con el inyector de metadatos \"%s\"."
 
 msgid "Autostart"
 msgstr "Inicio automático"
@@ -242,6 +242,7 @@ msgstr ""
 
 msgid "Cannot create hottext from this selection."
 msgstr "No se puede crear un texto activo a partir de los elementos seleccionados"
+
 msgid "Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words."
 msgstr "No se puede crear un texto activo a partir de los elementos seleccionados. Asegúrese de que la selección no contiene tanto palabras formateadas como palabras sin formatear."
 
