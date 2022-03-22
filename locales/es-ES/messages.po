@@ -81,7 +81,7 @@ msgid "Add"
 msgstr "Adapatar a tamaño de pantalla"
 
 msgid "Add a CSV file"
-msgstr ""
+msgstr "Añadir un archivo CSV"
 
 msgid "Add a modal feedback"
 msgstr "Añadir una retroalimentación modal"
