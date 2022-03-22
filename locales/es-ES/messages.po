@@ -642,7 +642,7 @@ msgid "Fraction"
 msgstr ""
 
 msgid "Full height"
-msgstr ""
+msgstr "Altura completa"
 
 msgid "Gap"
 msgstr "Espacio libre"
