@@ -105,7 +105,7 @@ msgid "Add else feedback"
 msgstr "Añadir otra retroalimentación"
 
 msgid "Add new column"
-msgstr ""
+msgstr "Añadir una columna"
 
 msgid "Add new pairs"
 msgstr "Agregar nuevos pares"
