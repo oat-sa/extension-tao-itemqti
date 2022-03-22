@@ -19,7 +19,8 @@
 define([
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/sliderInteraction/states/states',
-], function(Widget, states){
+    'taoQtiItem/qtiCommonRenderer/renderers/interactions/SliderInteraction'
+], function(Widget, states, SliderInteraction){
 
     const SliderInteractionWidget = Widget.clone();
 
@@ -29,6 +30,14 @@ define([
 
         // Disable slider until response edition.
         this.$container.find('.qti-slider').attr('disabled', 'disabled');
+
+        // rerender Slider on dir change, because rtl/ltr done by js in render
+        const $itemBody = this.$container.closest('.qti-itemBody');
+        $itemBody.on('item-dir-changed', () => {
+            const interaction = this.element;
+            interaction.getContainer().find('.qti-slider,.qti-slider-values,.qti-slider-cur-value,.qti-slider-value').remove();
+            SliderInteraction.render(interaction);
+        });
     };
 
     return SliderInteractionWidget;

@@ -67,6 +67,7 @@ define([
                     item.bdy.removeAttr('dir');
                     $itemBody.removeAttr('dir');
                 }
+                $itemBody.trigger('item-dir-changed');
             },
         });
 
