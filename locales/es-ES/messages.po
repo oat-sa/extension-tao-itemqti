@@ -241,8 +241,7 @@ msgid "Cannot create gap from this selection. Please check that you do not have 
 msgstr ""
 
 msgid "Cannot create hottext from this selection."
-msgstr ""
-
+msgstr "No se puede crear un texto activo a partir de los elementos seleccionados"
 msgid "Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words."
 msgstr ""
 
