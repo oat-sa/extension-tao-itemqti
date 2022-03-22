@@ -5,9 +5,9 @@
         right: -38px;
         top: 4px;
     }
-    .widget-math{
+    .widget-math.edit-active{
         @include rtl {
-            margin-right: 2.15em;
+            margin-right: 2.25em;
             margin-top: -0.15em;
         }
     }
@@ -21,10 +21,9 @@
                 left: auto;
             }
         }
-        .widget-math{
+        .widget-math.edit-active{
             @include rtl {
-                margin-right: 2.15em;
-                maring-left: 2em;
+                margin-right: 2.25em;
                 margin-top: -0.15em;
             }
         }

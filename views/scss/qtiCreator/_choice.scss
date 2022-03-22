@@ -10,9 +10,9 @@
         }
 
     }
-    .widget-math{
+    .widget-math.edit-active{
         @include rtl {
-            margin-right: 2.15em;
+            margin-right: 2.25em;
             margin-top: -0.15em;
         }
     }
@@ -40,10 +40,9 @@
             top: -28px;
             right: 0;
         }
-        .widget-math{
+        .widget-math.edit-active{
                 @include rtl {
-                    margin-right: 2.15em;
-                    maring-left: 2em;
+                    margin-right: 2.25em;
                     margin-top: -0.15em;
                 }
         }
