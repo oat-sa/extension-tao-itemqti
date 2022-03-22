@@ -294,7 +294,7 @@ msgid "Choose the horizontal alignment for the table."
 msgstr ""
 
 msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
-msgstr ""
+msgstr "La clase existe, el recurso \"%s\" se almacenará en la clase RDFS \"%s\"."
 
 msgid "Class successfully created."
 msgstr ""
