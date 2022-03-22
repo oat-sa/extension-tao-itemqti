@@ -267,7 +267,7 @@ msgid "Center"
 msgstr ""
 
 msgid "Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with."
-msgstr ""
+msgstr "Cambiar el ancho del elemento. Por defecto el elemento tiene un ancho del 100% y se adapta al tamaño de cualquier pantalla. Tenga en cuenta que el ancho máximo por defecto es de 1024px, y también será cambiado al establecer un ancho personalizado"
 
 msgid "chars"
 msgstr "caracteres"
