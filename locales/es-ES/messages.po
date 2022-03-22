@@ -745,22 +745,22 @@ msgid "Import a QTI/APIP XML Item Document"
 msgstr ""
 
 msgid "Import item content and metadata from CSV file. Only choice interactions are supported."
-msgstr ""
+msgstr "Importar contenido del item y metadatos de un archivo CSV. Únicamente estás soportadas las interacciones de elección"
 
 msgid "Import QTI ITEM into \"%s"
-msgstr ""
+msgstr "importar Item QTI en \"%s"
 
 msgid "IMS QTI Item referenced as \"%s\" cannot be imported."
-msgstr ""
+msgstr "El item IMS QTI referenciado como \"%s\"  no puede ser importado."
 
 msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
-msgstr ""
+msgstr "El item IMS QTI referenciado como \"%s\" contiene un elemento portable y no puede ser importado."
 
 msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
-msgstr ""
+msgstr "El item IMS QTI referenciado como \"%s\" en el archivo Manifest IMS no pudo importarse."
 
 msgid "In Progress"
-msgstr ""
+msgstr "En progreso"
 
 msgid "In seconds. Delay during which the replay of the media is allowed. Once reached, the media is disabled and cannot be played anymore."
 msgstr ""
