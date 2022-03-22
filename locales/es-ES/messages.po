@@ -564,7 +564,7 @@ msgid "Exponent"
 msgstr ""
 
 msgid "Export"
-msgstr ""
+msgstr "Exportar"
 
 msgid "Export APIP 1.0 Package"
 msgstr "Exportar Paquete APIP 1.0"
