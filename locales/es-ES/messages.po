@@ -447,7 +447,7 @@ msgid "done"
 msgstr "hecho"
 
 msgid "Download"
-msgstr ""
+msgstr "Descargar"
 
 msgid "Download sample csv file"
 msgstr ""
