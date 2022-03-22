@@ -288,7 +288,7 @@ msgid "Choices"
 msgstr "Elecciones"
 
 msgid "choices"
-msgstr ""
+msgstr "elecciones"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
