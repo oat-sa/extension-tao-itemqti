@@ -627,7 +627,7 @@ msgid "Fill in the gaps on a picture with a set of image choices."
 msgstr "Llenar los espacios vacíos en una imagen con un conjunto de opciones de imágenes."
 
 msgid "float"
-msgstr ""
+msgstr "número decimal"
 
 msgid "Font family"
 msgstr "Familia tipográfica"
