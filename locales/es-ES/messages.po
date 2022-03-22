@@ -26,7 +26,7 @@ msgid "%d characters allowed"
 msgstr ""
 
 msgid "%d Item(s) of %d imported from the given IMS QTI Package."
-msgstr ""
+msgstr "Importados %d items de un total de %d para el paquete IMS QTI proporcionado"
 
 msgid "%d/%d"
 msgstr ""
