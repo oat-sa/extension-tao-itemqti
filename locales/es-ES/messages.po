@@ -540,16 +540,16 @@ msgid "Enter tooltip target"
 msgstr ""
 
 msgid "error"
-msgstr ""
+msgstr "error"
 
 msgid "Error in post rendering: %s"
-msgstr ""
+msgstr "Error en el post-renderizado: %s"
 
 msgid "Error in template rendering: %s"
-msgstr ""
+msgstr "Error en el renderizado de la plantilla: %s"
 
 msgid "Error on item %1$s : %2$s"
-msgstr ""
+msgstr "Error en el item %1$s : %2$s"
 
 msgid "Error on item %s"
 msgstr ""
