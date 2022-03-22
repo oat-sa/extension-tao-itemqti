@@ -172,7 +172,7 @@ msgid "An unexpected error occurred during the import of the QTI Item. The syste
 msgstr ""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
-msgstr ""
+msgstr "Se ha producido un error desconocido al importar el paquete IMS QTI con identificador: "
 
 msgid "APIP Content Package"
 msgstr ""
