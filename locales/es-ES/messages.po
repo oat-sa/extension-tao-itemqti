@@ -450,7 +450,7 @@ msgid "Download"
 msgstr "Descargar"
 
 msgid "Download sample csv file"
-msgstr ""
+msgstr "Descargar archivo CSV de ejemplo"
 
 msgid "Download this stylesheet"
 msgstr "Descargar esta hoja de estilos"
