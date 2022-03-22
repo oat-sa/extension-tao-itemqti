@@ -793,7 +793,7 @@ msgid "Inline interactions need to be inserted into a text block."
 msgstr "Interacciones Enlinea necesitan para ser insertado un bloque de texto."
 
 msgid "integer"
-msgstr ""
+msgstr "entero"
 
 msgid "Interaction Background"
 msgstr "Fondo de Interacción"
