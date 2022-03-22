@@ -673,7 +673,7 @@ msgid "Guard for resource \"%s\"..."
 msgstr ""
 
 msgid "Half height"
-msgstr ""
+msgstr "Media altura"
 
 msgid "Height"
 msgstr "Alto"
