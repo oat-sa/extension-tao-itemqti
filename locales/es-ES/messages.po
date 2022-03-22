@@ -360,7 +360,7 @@ msgid "Create pair(s) from a series of choices."
 msgstr "Crear par(es) de una serie de opciones."
 
 msgid "CSV content + metadata"
-msgstr ""
+msgstr "Contenido CSV y metadatos"
 
 msgid "Current value:"
 msgstr "Valor actual:"
