@@ -721,7 +721,7 @@ msgid "If given, the pattern mask specifies a regular expression that the candid
 msgstr "ya existe par idéntico"
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
-msgstr ""
+msgstr "Si el atributo de selecciones aleatorias está activo, el motor de entrega presentará inicialmente las opciones en orden aleatorio. De todas formas, el orden de cada opción puede establecerse como \"aleatorio\" o \"fijo\" de manera individual."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
 msgstr ""
