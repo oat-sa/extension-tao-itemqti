@@ -438,10 +438,10 @@ msgid "Divide"
 msgstr ""
 
 msgid "Don't save"
-msgstr ""
+msgstr "No guardar"
 
 msgid "Done"
-msgstr ""
+msgstr "Hecho"
 
 msgid "done"
 msgstr "hecho"
