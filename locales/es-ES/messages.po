@@ -196,7 +196,7 @@ msgid "at least"
 msgstr "al menos"
 
 msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
-msgstr ""
+msgstr "Intentando inyectar \"%s\" valores a \"%s\" con el inyector de metadatos \"%s\".""
 
 msgid "Autostart"
 msgstr "Inicio automático"
