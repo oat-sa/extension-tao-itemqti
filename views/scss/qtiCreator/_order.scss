@@ -14,7 +14,7 @@
             @include rtl {
                 margin-right: 6.3em;
                 left: -2.20em;
-                right: auto;
+                right: auto !important;
             }
         }
     }
@@ -37,6 +37,7 @@
             @include rtl {
                 margin-left: 2.25em;
                 span.mini-tlb {
+                    margin-top: -0.15em;
                     margin-right: 6.3em;
                     left: 0;
                     right: auto;
