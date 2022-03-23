@@ -35,13 +35,13 @@ msgid "%s metadata values found in source by extractor(s)."
 msgstr "Rastos %s metaduomenų reikšmės šaltinyje pagal .ekstraktorių."
 
 msgid "%s of %s characters maximum."
-msgstr ""
+msgstr "%s iš ne daugiau kaip %s simbolių."
 
 msgid "%s of %s characters recommended."
-msgstr ""
+msgstr "Rekomenduojama %s iš %s simbolių."
 
 msgid "%s of %s words maximum."
-msgstr ""
+msgstr "%s iš ne daugiau kaip %s žodžių."
 
 msgid "-- Any kind of file --"
 msgstr "-- Betkoks failas --"
