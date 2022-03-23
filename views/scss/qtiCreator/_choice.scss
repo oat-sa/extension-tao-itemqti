@@ -8,13 +8,22 @@
         .label-content {
             display: block;
         }
-
-    }
-    .widget-math.edit-active{
-        @include rtl {
-            margin-right: 2.25em;
-            margin-top: -0.15em;
+        .mini-tlb {
+            @include rtl {
+                right: auto;
+                left: -38px;
+            }
         }
+        .widget-math.edit-active{
+            span.mini-tlb{
+            @include rtl {
+                margin-right: 6.3em;
+                left: -2.20em;
+                right: auto;
+                 }
+            }
+    }
+
     }
     .mini-tlb {
         right: -38px;
@@ -39,11 +48,19 @@
         .mini-tlb {
             top: -28px;
             right: 0;
+            @include rtl {
+                right: auto;
+                left: -1px;
+            }
         }
         .widget-math.edit-active{
                 @include rtl {
-                    margin-right: 2.25em;
-                    margin-top: -0.15em;
+                margin-left: 2.25em;
+                span.mini-tlb {
+                        margin-right: 6.3em;
+                        left: -2.20em;
+                        right: auto;
+                    }
                 }
         }
         .qti-choice.edit-choice {
