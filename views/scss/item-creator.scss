@@ -1259,7 +1259,7 @@ img.dragging.ui-draggable-dragging {
         }
     }
     [data-html-editable] {
-        margin-right: 0px; //@todo value to be determined
+        margin-right: 2em;
         &[contenteditable=true]:focus {
             border: 1px dotted $info;
         }

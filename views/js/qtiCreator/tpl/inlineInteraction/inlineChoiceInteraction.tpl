@@ -8,7 +8,11 @@
             </colgroup>
             <tbody>
                 <tr>
-                    <td class="main-option"><div>-- {{__ "edit choices"}} --<span class="icon-down"></span></div></td>
+                    <td class="main-option" {{#if dir}}dir="{{dir}}"{{/if}}>
+                        <div>-- {{__ "edit choices"}} --
+                            <span class="icon-down"></span>
+                        </div>
+                    </td>
                     <td class="icon-title" data-edit="map">correct</td>
                     <td class="icon-title" data-edit="map">score</td>
                 </tr>

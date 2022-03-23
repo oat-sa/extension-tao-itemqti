@@ -89,6 +89,12 @@
         &:last{
             border-bottom: 1px $uiGeneralContentBorder solid;
         }
+        &[dir="rtl"]{
+           .icon-down{
+              right: 90%;
+               margin-top: 3%;
+           }
+        }
     }
     
     .main-option {

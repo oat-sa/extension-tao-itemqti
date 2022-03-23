@@ -62,7 +62,7 @@
     "minimum-stability": "dev",
     "require": {
         "ext-simplexml": "*",
-        "oat-sa/lib-tao-qti": "7.3.1",
+        "oat-sa/lib-tao-qti": " 7.3.2",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
         "naneau/semver": "~0.0.7",
         "oat-sa/generis" : ">=14.4.0",
@@ -72,6 +72,12 @@
     "autoload": {
         "psr-4": {
             "oat\\taoQtiItem\\": ""
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "oat-sa/oatbox-extension-installer": true,
+            "oat-sa/composer-npm-bridge": true
         }
     }
 }
