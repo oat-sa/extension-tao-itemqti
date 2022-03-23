@@ -30,7 +30,7 @@ define([
         // Disable slider until response edition.
         this.$container.find('.qti-slider').attr('disabled', 'disabled');
 
-        // rerender Slider on dir change, because rtl/ltr done by js in render
+        // rerender Slider after dir is changed, because support of rtl/ltr is done by js code, not css
         const $itemBody = this.$container.closest('.qti-itemBody');
         $itemBody.on('item-dir-changed', () => {
             const interaction = this.element;
