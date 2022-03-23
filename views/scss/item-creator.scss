@@ -405,6 +405,12 @@ img.dragging.ui-draggable-dragging {
             .icon-help.tooltipstered{
                 color: $info;
             }
+            &.choice-min-max {
+                margin-left: 20px;
+                .spinner {
+                    min-width: 80px;
+                }
+            }
         }
     }
 
