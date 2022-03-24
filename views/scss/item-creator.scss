@@ -1211,6 +1211,9 @@ img.dragging.ui-draggable-dragging {
 
     .qti-interaction {
         .qti-prompt {
+            @include rtl {
+                margin-right: 0;
+            }
             & ~ .mini-tlb {
                 right: -31px !important;
                 top:1px
