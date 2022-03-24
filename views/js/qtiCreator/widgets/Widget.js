@@ -334,7 +334,7 @@ define([
 
                 //bind each individual event listener to the document
                 $document.on(eventNameToken.join('.'), (e, data) => {
-                    callback.call(this, data);
+                    callback.call(this, data, e);
                 });
             });
 
