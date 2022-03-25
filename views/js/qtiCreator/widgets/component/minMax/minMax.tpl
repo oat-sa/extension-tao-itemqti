@@ -14,12 +14,13 @@
             name="{{min.fieldName}}"
             value="{{min.value}}"
             data-increment="1"
-            data-min="{{lowerThreshold}}"
-            data-max="{{upperThreshold}}"
+            data-min="{{#if min.lowerThreshold}}{{min.lowerThreshold}}{{else}}{{lowerThreshold}}{{/if}}"
+            data-max="{{#if min.upperThreshold}}{{min.upperThreshold}}{{else}}{{upperThreshold}}{{/if}}"
         />
-
-        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
-        <span class="tooltip-content">{{min.helpMessage}}</span>
+        {{#unless hideTooltips}}
+            <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+            <span class="tooltip-content">{{min.helpMessage}}</span>
+        {{/unless}}
     </div>
     <div>
         <label for="{{max.fieldName}}" class="spinner" >{{__ 'Max'}}</label>
@@ -36,11 +37,12 @@
             name="{{max.fieldName}}"
             value="{{max.value}}"
             data-increment="1"
-            data-min="{{lowerThreshold}}"
-            data-max="{{upperThreshold}}"
+            data-min="{{#if max.lowerThreshold}}{{max.lowerThreshold}}{{else}}{{lowerThreshold}}{{/if}}"
+            data-max="{{#if max.upperThreshold}}{{max.upperThreshold}}{{else}}{{upperThreshold}}{{/if}}"
         />
-
-        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
-        <span class="tooltip-content">{{max.helpMessage}}</span>
+        {{#unless hideTooltips}}
+            <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+            <span class="tooltip-content">{{max.helpMessage}}</span>
+        {{/unless}}
     </div>
 </div>
