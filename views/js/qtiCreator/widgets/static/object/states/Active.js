@@ -248,6 +248,7 @@ define([
 
         $container.off('playerready').on('playerready', function () {
             setMediaSizeEditor(_widget);
+            $container.off('playerready');
         });
 
         //init data change callbacks
