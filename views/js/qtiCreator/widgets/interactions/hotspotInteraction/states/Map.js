@@ -125,7 +125,7 @@ define([
         _.forEach(interaction.getChoices(), function (choice) {
             const shape = interaction.paper.getById(choice.serial);
             const $popup = grahicScorePopup(interaction.paper, shape, $imageBox, isResponsive);
-            let scoreDefault = false;
+            let scoreDefault = true;
             if (mapEntries[choice.id()]) {
                 scoreDefault = false;
             }
