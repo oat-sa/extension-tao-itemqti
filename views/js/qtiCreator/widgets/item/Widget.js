@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015-2021 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA ;
  *
  */
 define([
@@ -107,6 +107,7 @@ define([
                 if (item.bdy.attr('dir') === 'rtl') {
                     // dir='rtl' should be set to itemBody
                     $itemBody.attr('dir', 'rtl');
+                    $itemBody.trigger('item-dir-changed');
                 }
 
                 resolve();
@@ -183,7 +184,7 @@ define([
     };
 
     ItemWidget.initGridEditor = function () {
-        const _this = this,
+        const self = this,
             item = this.element,
             $itemBody = this.$container.find('.qti-itemBody'),
             $itemEditorPanel = $('#item-editor-panel');
@@ -243,7 +244,7 @@ define([
                             if (Element.isA(elt, '_container')) {
                                 $colParent.empty(); //clear the col content, and leave an empty text field
                                 $colParent.html(elt.render());
-                                widget = _this.initTextWidget(elt, $colParent);
+                                widget = self.initTextWidget(elt, $colParent);
                                 $widgetNewElem = widget.$container;
                             } else {
                                 elt.render($placeholder);
