@@ -155,9 +155,8 @@ define([
             createMediaEditor($panelMediaSize, $container, qtiObject, width, height, onChange);
         }
     };
-    const hideShowPanels = (type, _widget) => {
+    const hideShowPanels = type => {
         if (/video/.test(type)) {
-            setMediaSizeEditor(_widget);
             $panelObjectSize.hide();
             $panelMediaSize.show();
         } else {
@@ -174,6 +173,7 @@ define([
         const qtiObject = widget.element;
         const $uploadTrigger = $form.find('[data-role="upload-trigger"]');
         const $src = $form.find('input[name=src]');
+        refreshRendering(widget);
 
         const _openResourceMgr = function _openResourceMgr() {
             $uploadTrigger.resourcemgr({
@@ -239,13 +239,17 @@ define([
 
         $panelObjectSize = $('.size-panel', $form);
         $panelMediaSize = $('.media-size-panel', $form);
-        hideShowPanels(qtiObject.attr('type'), _widget);
+        hideShowPanels(qtiObject.attr('type'));
 
         //init resource manager
         _initUpload(_widget);
 
         //init standard ui widget
         formElement.initWidget($form);
+
+        $container.off('playerready').on('playerready', function () {
+            setMediaSizeEditor(_widget);
+        });
 
         //init data change callbacks
         formElement.setChangeCallbacks($form, qtiObject, {
@@ -257,7 +261,7 @@ define([
                     $form.find('input[name=width]').val('');
                     $form.find('input[name=height]').val('');
                     $container.removeData('ui.previewer');
-                    hideShowPanels(qtiObject.attr('type'), _widget);
+                    hideShowPanels(qtiObject.attr('type'));
                     inlineHelper.togglePlaceholder(_widget);
                     refreshRendering(_widget);
                 }
