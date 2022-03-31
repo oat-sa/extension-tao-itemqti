@@ -642,7 +642,7 @@ msgid "Full height"
 msgstr "高さ:100%"
 
 msgid "Gap"
-msgstr "選択肢"
+msgstr "空欄"
 
 msgid "Gap Match"
 msgstr "穴埋め"
@@ -720,11 +720,10 @@ msgid "If the shuffle attribute is true then the delivery engine will randomize 
 msgstr "シャッフルが適用されると，選択肢の順番が受検ごと，受験者ごとにランダムに提示されます。また各選択肢は，個別に順番を固定することもできます。"
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
-msgstr "選択肢の順序をランダムに提示します。ただし、各選択肢は個別に提示順を「固定」に設定することもができます。"
+msgstr "選択肢の順序をランダムに提示します。ただし、各選択肢は個別に提示順を「固定」に設定することもできます。"
 
 msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
 msgstr "文字インタラクションが数値レスポンス変数に紐付けされている場合、base属性を使用して、受検者が入力した値を解釈する基数を設定する必要があります。"
-
 msgid "If the variable value is a float and powerForm is set to 'false', the variable will be rendered using the 'e' or 'E' format. If the powerform is set to 'true', the form 'e+n' is changed to 'x 10n'."
 msgstr "変数の値が float で powerForm が 'false' に設定されている場合、変数は 'e' または 'E' 形式でレンダリングされます。powerform が 'true' に設定されている場合、'e+n' の形式は 'x 10n' に変更されます。"
 
@@ -1450,7 +1449,7 @@ msgid "Select height of text block base of container height"
 msgstr "テキストブロックの高さを選択"
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
-msgstr "結果変数の拡張解釈へのオプションリンクです。"
+msgstr "結果の宣言を手動採点または外部システムで処理するかを選択します。これは通常、記述式問題などに利用します。"
 
 msgid "Select image"
 msgstr "画像を選択"
