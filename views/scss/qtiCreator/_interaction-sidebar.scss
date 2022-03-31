@@ -65,11 +65,12 @@
 
     .tool-list {
         margin-top: -3px;
+        display: flex;
+        flex-wrap: wrap;
         @extend %clearfix;
         li {
             width: 50%;
             margin: 0;
-            float: left;
             padding: 9px 3px;
             @include font-size(12);
             border: 1px dotted transparent;
@@ -84,6 +85,9 @@
                 margin: 5px auto 8px;
                 @include font-size(28);
                 opacity: .9;
+            }
+            .tool-name {
+                display: inline-block;
             }
             img.icon {
                max-height: 28px;
