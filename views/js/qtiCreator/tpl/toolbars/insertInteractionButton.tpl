@@ -16,6 +16,6 @@
     {{else}}
     <img class="icon" src="{{icon}}">
     {{/if}}
-    
-    <div class="truncate">{{short}}</div>
+
+    <div class="tool-name">{{short}}</div>
 </li>

@@ -74,6 +74,20 @@ define([
 
         _.each(interactions, function(interactionAuthoringData){
             add($sidebar, interactionAuthoringData);
+
+            const $interactionContainer = $(`li[data-qti-class="${interactionAuthoringData.qtiClass}"]`);
+            const $interactionText = $interactionContainer.find('div');
+
+            const interactionContainerWidth = $interactionContainer.width();
+            const interactionTextWidth = $interactionText.outerWidth(true);
+
+            if (interactionTextWidth >= interactionContainerWidth) {
+                const fontSize = 100 - (interactionTextWidth - interactionContainerWidth);
+                $interactionText.css(
+                    'fontSize',
+                    `${fontSize}%`
+                );
+            }
         });
 
         buildSubGroups($sidebar);
