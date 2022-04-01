@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.03\n"
-"PO-Revision-Date: 2022-03-23T12:20:46\n"
+"Project-Id-Version: TAO 2022.04\n"
+"PO-Revision-Date: 2022-04-01T09:30:46\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-UE\n"
@@ -174,6 +174,9 @@ msgstr "QTIアイテムパッケージのインポート中に予期しないエ
 ""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
+msgstr ""
+
+msgid "Answer required"
 msgstr ""
 
 msgid "APIP Content Package"
@@ -386,6 +389,9 @@ msgstr "デフォルト"
 msgid "Default"
 msgstr "デフォルト"
 
+msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
+msgstr ""
+
 msgid "Define correct response"
 msgstr "正解を設定"
 
@@ -443,10 +449,10 @@ msgstr "分割"
 msgid "Don't save"
 msgstr ""
 
-msgid "Done"
+msgid "done"
 msgstr "完了"
 
-msgid "done"
+msgid "Done"
 msgstr "完了"
 
 msgid "Download"
@@ -851,10 +857,10 @@ msgstr "アイテムのメタデータは正常にエクスポートされまし
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "アイテムプロパティ"
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "アイテムプロパティ"
 
 msgid "Item width"
@@ -873,10 +879,10 @@ msgstr "言語"
 msgid "Large editor"
 msgstr "編集画面"
 
-msgid "Latex"
+msgid "LaTeX"
 msgstr "LaTeX"
 
-msgid "LaTeX"
+msgid "Latex"
 msgstr "LaTeX"
 
 msgid "Layout"
@@ -1041,6 +1047,9 @@ msgstr ""
 msgid "Modal Feedbacks"
 msgstr "モーダルフィードバック"
 
+msgid "Multiple choices"
+msgstr ""
+
 msgid "Multiply"
 msgstr "乗算"
 
@@ -1075,10 +1084,10 @@ msgstr ""
 msgid "No value set"
 msgstr "何もセットされていません"
 
-msgid "None"
+msgid "none"
 msgstr "なし"
 
-msgid "none"
+msgid "None"
 msgstr "なし"
 
 msgid "None defined yet."
@@ -1115,6 +1124,9 @@ msgstr "画像の領域（ホットスポット）を選んでください"
 
 msgid "Orientation"
 msgstr "選択肢の並び方"
+
+msgid "Other constraints"
+msgstr ""
 
 msgid "Outcome Declarations"
 msgstr "結果変数の宣言"
@@ -1515,6 +1527,9 @@ msgstr "画像位置"
 msgid "Shuffle choices"
 msgstr "選択肢をシャッフル"
 
+msgid "Single choice"
+msgstr ""
+
 msgid "Sinus"
 msgstr "sin"
 
@@ -1713,9 +1728,6 @@ msgstr "受検者が解答できる組合せの最大数"
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "受検者が選択できる選択肢の最大数"
 
-msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr "受検者が選択しなくてはいけない選択肢の最大数"
-
 msgid "The maximum number of choices this choice may be associated with."
 msgstr "この選択肢を選べる回数"
 
@@ -1868,10 +1880,10 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr "％sを検証できません：％s"
 
-msgid "undo"
+msgid "Undo"
 msgstr "取り消し"
 
-msgid "Undo"
+msgid "undo"
 msgstr "取り消し"
 
 msgid "Unknown $key to register MetadataService instance"
@@ -1931,11 +1943,8 @@ msgstr "最大%d個選択できます"
 msgid "You can select maximum %d choices"
 msgstr "最大%d個選択できます"
 
-msgid "You can select maximum of %s choices"
-msgstr "最大%s個まで選択できます"
-
-msgid "You can select maximum of 1 choice"
-msgstr "1つ選択できます"
+msgid "You can select up to %s choices."
+msgstr ""
 
 msgid "You can use maximum %d choices"
 msgstr "最大%d個の選択肢を使えます"
@@ -1964,12 +1973,6 @@ msgstr "%d個以上選択してください"
 msgid "You must select at least %d choices"
 msgstr "%d以上選択してください"
 
-msgid "You must select at least %s choices"
-msgstr "%s個以上選択してください"
-
-msgid "You must select at least 1 choice"
-msgstr "少なくとも１つ選択してください"
-
 msgid "You must select exactly %d choice"
 msgstr "必ず%d個，選択してください"
 
@@ -1979,14 +1982,23 @@ msgstr "必ず%d個，選択してください"
 msgid "You must select exactly %d choices"
 msgstr "必ず%d個，選択してください"
 
-msgid "You must select exactly %s choices"
-msgstr "必ず%s個，選択してください"
-
 msgid "You must use at least %d choices"
 msgstr "少なくとも%d個の選択肢を使ってください"
 
 msgid "You need to make"
 msgstr "必須組合せ数："
+
+msgid "You need to select %s choices"
+msgstr ""
+
+msgid "You need to select at least %s choices."
+msgstr ""
+
+msgid "You need to select at least 1 choice."
+msgstr ""
+
+msgid "You need to select from %s to %s choices."
+msgstr ""
 
 msgid "Your item has been saved"
 msgstr "アイテムが保存されました"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.03\n"
-"PO-Revision-Date: 2022-03-23T12:20:33\n"
+"Project-Id-Version: TAO 2022.04\n"
+"PO-Revision-Date: 2022-04-01T09:30:33\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar-arb\n"
@@ -174,6 +174,9 @@ msgstr "حدث خطأ غير متوقع أثناء استيراد بند QTI.أ�
 ""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
+msgstr ""
+
+msgid "Answer required"
 msgstr ""
 
 msgid "APIP Content Package"
@@ -386,6 +389,9 @@ msgstr ""
 msgid "Default"
 msgstr "افتراضي"
 
+msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
+msgstr ""
+
 msgid "Define correct response"
 msgstr "حدد الجواب الصحيح"
 
@@ -443,10 +449,10 @@ msgstr "يقسم"
 msgid "Don't save"
 msgstr ""
 
-msgid "Done"
+msgid "done"
 msgstr "منجز"
 
-msgid "done"
+msgid "Done"
 msgstr "منجز"
 
 msgid "Download"
@@ -851,11 +857,11 @@ msgstr "تم تصدير البيانات الوصفية للبند بنجاح."
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item properties"
-msgstr ""
-
 msgid "Item Properties"
 msgstr "خصائص البند"
+
+msgid "Item properties"
+msgstr ""
 
 msgid "Item width"
 msgstr "عرض البند"
@@ -873,11 +879,11 @@ msgstr "لغة"
 msgid "Large editor"
 msgstr "محرر كبير"
 
-msgid "Latex"
-msgstr ""
-
 msgid "LaTeX"
 msgstr "اللاتكس"
+
+msgid "Latex"
+msgstr ""
 
 msgid "Layout"
 msgstr ""
@@ -1041,6 +1047,9 @@ msgstr "عنوان ردود الفعل المشروطة"
 msgid "Modal Feedbacks"
 msgstr "التقيمات المشروطة"
 
+msgid "Multiple choices"
+msgstr ""
+
 msgid "Multiply"
 msgstr "ضاعف"
 
@@ -1075,11 +1084,11 @@ msgstr ""
 msgid "No value set"
 msgstr "لم يتم تعيين قيمة"
 
-msgid "None"
-msgstr ""
-
 msgid "none"
 msgstr "لا أحد"
+
+msgid "None"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "لم يتم تعريف أي شيء حتى الآن."
@@ -1115,6 +1124,9 @@ msgstr "اطلب المناطق (النقاط الفعالة) المعروضة �
 
 msgid "Orientation"
 msgstr "اتجاه"
+
+msgid "Other constraints"
+msgstr ""
 
 msgid "Outcome Declarations"
 msgstr "إقرارات النتائج"
@@ -1515,6 +1527,9 @@ msgstr "موضع الشكل"
 msgid "Shuffle choices"
 msgstr "تبديل الخيارات عشوائيًا"
 
+msgid "Single choice"
+msgstr ""
+
 msgid "Sinus"
 msgstr "جيب"
 
@@ -1713,9 +1728,6 @@ msgstr "الحد الأقصى لعدد الروابط التي يُسمح للم
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "الحد الأقصى لعدد الاختيارات التي يُسمح للمرشح بتحديدها."
 
-msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr "الحد الأقصى لعدد الاختيارات المطلوب من المرشح تحديدها لتكوين إجابة صحيحة."
-
 msgid "The maximum number of choices this choice may be associated with."
 msgstr "الحد الأقصى لعدد الاختيارات التي قد يقترن بها هذا الرائز"
 
@@ -1868,10 +1880,10 @@ msgstr "تعذر استرداد البند: \"%s"
 msgid "Unable to validate %s: %s"
 msgstr "غير قادر على التحقق من صحة %s: %s"
 
-msgid "undo"
+msgid "Undo"
 msgstr "الغاء التحميل"
 
-msgid "Undo"
+msgid "undo"
 msgstr "الغاء التحميل"
 
 msgid "Unknown $key to register MetadataService instance"
@@ -1931,11 +1943,8 @@ msgstr "يمكنك تحديد أقصى خيار %d"
 msgid "You can select maximum %d choices"
 msgstr "يمكنك تحديد %d كحد أقصى من الاختيارات "
 
-msgid "You can select maximum of %s choices"
-msgstr "يمكنك تحديد الحد الأقصى من %s من الاختيارات"
-
-msgid "You can select maximum of 1 choice"
-msgstr "يمكنك تحديد خيار واحد كحد أقصى"
+msgid "You can select up to %s choices."
+msgstr ""
 
 msgid "You can use maximum %d choices"
 msgstr "يمكنك تحديد %d خيار  كحد أقصى"
@@ -1964,12 +1973,6 @@ msgstr "يجب عليك تحديد  %d اختيار على الأقل"
 msgid "You must select at least %d choices"
 msgstr "يجب تحديد %d اختيار على الأقل"
 
-msgid "You must select at least %s choices"
-msgstr "يجب تحديد %s اختيارات على الأقل"
-
-msgid "You must select at least 1 choice"
-msgstr "يجب تحديد خيار واحد على الأقل"
-
 msgid "You must select exactly %d choice"
 msgstr "يجب عليك تحديد %d اختيار بالضبط"
 
@@ -1979,14 +1982,23 @@ msgstr "يجب تحديد %d اختيار (خيارات) بالضبط."
 msgid "You must select exactly %d choices"
 msgstr "يجب تحديد  %d اختيارًا بالضبط"
 
-msgid "You must select exactly %s choices"
-msgstr "يجب عليك تحديد %s اختيارات بالضبط"
-
 msgid "You must use at least %d choices"
 msgstr "يجب عليك استخدام %d اختيار على الأقل"
 
 msgid "You need to make"
 msgstr "تحتاج إلى جعل"
+
+msgid "You need to select %s choices"
+msgstr ""
+
+msgid "You need to select at least %s choices."
+msgstr ""
+
+msgid "You need to select at least 1 choice."
+msgstr ""
+
+msgid "You need to select from %s to %s choices."
+msgstr ""
 
 msgid "Your item has been saved"
 msgstr "تم حفظ البند الخاص بك"

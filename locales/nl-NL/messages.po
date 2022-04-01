@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.03\n"
-"PO-Revision-Date: 2022-03-23T12:20:49\n"
+"Project-Id-Version: TAO 2022.04\n"
+"PO-Revision-Date: 2022-04-01T09:30:49\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -174,6 +174,9 @@ msgstr "Er is een onverwachte fout opgetreden tijdens het importeren van het IMS
 ""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
+msgstr ""
+
+msgid "Answer required"
 msgstr ""
 
 msgid "APIP Content Package"
@@ -386,6 +389,9 @@ msgstr "standaard"
 msgid "Default"
 msgstr "Standaard"
 
+msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
+msgstr ""
+
 msgid "Define correct response"
 msgstr "Geef het correcte antwoord"
 
@@ -443,11 +449,11 @@ msgstr "Delen"
 msgid "Don't save"
 msgstr ""
 
-msgid "Done"
-msgstr "Voltooid"
-
 msgid "done"
 msgstr "Klaar"
+
+msgid "Done"
+msgstr "Voltooid"
 
 msgid "Download"
 msgstr ""
@@ -851,10 +857,10 @@ msgstr "Itemmetadata met succes geëxporteerd."
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "Itemeigenschappen"
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "Itemeigenschappen"
 
 msgid "Item width"
@@ -873,11 +879,11 @@ msgstr "Taal"
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "Layout"
 msgstr ""
@@ -1041,6 +1047,9 @@ msgstr "feedback"
 msgid "Modal Feedbacks"
 msgstr "Standaard feedbacks"
 
+msgid "Multiple choices"
+msgstr ""
+
 msgid "Multiply"
 msgstr "Vermenigvuldigen"
 
@@ -1075,11 +1084,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Geen waarde ingesteld"
 
-msgid "None"
-msgstr "Geen"
-
 msgid "none"
 msgstr "geen"
+
+msgid "None"
+msgstr "Geen"
 
 msgid "None defined yet."
 msgstr "Nog geen gedefinieerd "
@@ -1115,6 +1124,9 @@ msgstr "Zet de gebieden (hotspots) die in de afbeelding worden getoond op volgor
 
 msgid "Orientation"
 msgstr "Oriëntatie"
+
+msgid "Other constraints"
+msgstr ""
 
 msgid "Outcome Declarations"
 msgstr ""
@@ -1515,6 +1527,9 @@ msgstr "Vorm de positie"
 msgid "Shuffle choices"
 msgstr "Schud de keuzes"
 
+msgid "Single choice"
+msgstr ""
+
 msgid "Sinus"
 msgstr ""
 
@@ -1713,9 +1728,6 @@ msgstr "Het maximum aantal associaties dat een kandidaat mag maken."
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "Het maximum aantal keuzen dat een kandidaat mag selecteren."
 
-msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr "Het maximale aantal keuzes dat de kandidaat moet maken om een geldig antwoord te vormen."
-
 msgid "The maximum number of choices this choice may be associated with."
 msgstr "Het maximum aantal keuzen waarmee deze keuze mag worden geassocieerd."
 
@@ -1868,11 +1880,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
-msgstr "ongedaan maken"
-
 msgid "Undo"
 msgstr "Ongedaan maken"
+
+msgid "undo"
+msgstr "ongedaan maken"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
@@ -1931,11 +1943,8 @@ msgstr "U kunt maximaal %d keuze selecteren"
 msgid "You can select maximum %d choices"
 msgstr "U kunt maximaal %d keuzes selecteren"
 
-msgid "You can select maximum of %s choices"
-msgstr "U kunt maximaal %s keuzes selecteren"
-
-msgid "You can select maximum of 1 choice"
-msgstr "U kunt maximaal 1 keuze selecteren"
+msgid "You can select up to %s choices."
+msgstr ""
 
 msgid "You can use maximum %d choices"
 msgstr "U kunt maximaal %d keuzes gebruiken"
@@ -1964,12 +1973,6 @@ msgstr "U moet ten minste %d keuze(s) selecteren"
 msgid "You must select at least %d choices"
 msgstr "U moet minstens %d keuzes selecteren"
 
-msgid "You must select at least %s choices"
-msgstr "U moet minstens %s keuzes selecteren"
-
-msgid "You must select at least 1 choice"
-msgstr "U moet minstens 1 keuze selecteren"
-
 msgid "You must select exactly %d choice"
 msgstr "U moet precies %d keuze(s) selecteren"
 
@@ -1979,14 +1982,23 @@ msgstr "U moet precies %d keuze(s) selecteren"
 msgid "You must select exactly %d choices"
 msgstr "U moet precies %d keuze(s) selecteren"
 
-msgid "You must select exactly %s choices"
-msgstr "U moet precies %s keuze(s) selecteren"
-
 msgid "You must use at least %d choices"
 msgstr "U moet minstens %d keuzes gebruiken"
 
 msgid "You need to make"
 msgstr "U dient te maken"
+
+msgid "You need to select %s choices"
+msgstr ""
+
+msgid "You need to select at least %s choices."
+msgstr ""
+
+msgid "You need to select at least 1 choice."
+msgstr ""
+
+msgid "You need to select from %s to %s choices."
+msgstr ""
 
 msgid "Your item has been saved"
 msgstr "Uw item is opgeslagen"

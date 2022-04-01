@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.03\n"
-"PO-Revision-Date: 2022-03-23T12:20:48\n"
+"Project-Id-Version: TAO 2022.04\n"
+"PO-Revision-Date: 2022-04-01T09:30:48\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nb-NO\n"
@@ -174,6 +174,9 @@ msgstr "Det oppstod en uventet feil under importen av QTI-oppgaven. Systemet ret
 ""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
+msgstr ""
+
+msgid "Answer required"
 msgstr ""
 
 msgid "APIP Content Package"
@@ -386,6 +389,9 @@ msgstr "standard"
 msgid "Default"
 msgstr "Standard"
 
+msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
+msgstr ""
+
 msgid "Define correct response"
 msgstr "Definer riktig svar"
 
@@ -443,11 +449,11 @@ msgstr "Dele opp"
 msgid "Don't save"
 msgstr ""
 
-msgid "Done"
-msgstr "Ferdig"
-
 msgid "done"
 msgstr "ferdig"
+
+msgid "Done"
+msgstr "Ferdig"
 
 msgid "Download"
 msgstr "Last ned"
@@ -851,10 +857,10 @@ msgstr "Oppgavemetadata er eksportert."
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "Oppgaveegenskaper"
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "Oppgaveegenskaper"
 
 msgid "Item width"
@@ -873,11 +879,11 @@ msgstr "Språk"
 msgid "Large editor"
 msgstr "Stor editor"
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr "LaTex"
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "Layout"
 msgstr "Oppsett"
@@ -1040,6 +1046,9 @@ msgstr "tilbakemeldingstittel"
 msgid "Modal Feedbacks"
 msgstr "Tilbakemeldinger"
 
+msgid "Multiple choices"
+msgstr ""
+
 msgid "Multiply"
 msgstr "Multiplisere"
 
@@ -1074,11 +1083,11 @@ msgstr "Ingen opplastet fil"
 msgid "No value set"
 msgstr "Ingen verdi er angitt"
 
-msgid "None"
-msgstr "Ingen"
-
 msgid "none"
 msgstr "ingen"
+
+msgid "None"
+msgstr "Ingen"
 
 msgid "None defined yet."
 msgstr "Ingen er definert ennå."
@@ -1114,6 +1123,9 @@ msgstr "Ordne områdene (hotspots) som vises på et bildet i riktig rekkefølge.
 
 msgid "Orientation"
 msgstr "Orientering"
+
+msgid "Other constraints"
+msgstr ""
 
 msgid "Outcome Declarations"
 msgstr "Skåringsvariabler"
@@ -1514,6 +1526,9 @@ msgstr "Sett posisjon"
 msgid "Shuffle choices"
 msgstr "Tilfeldig rekkefølge for svaralternativer"
 
+msgid "Single choice"
+msgstr ""
+
 msgid "Sinus"
 msgstr "Sinus"
 
@@ -1712,9 +1727,6 @@ msgstr "Maksimalt antall forbindelser som eleven har lov til å lage."
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "Maks antall valg som eleven har lov til å velge."
 
-msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr "Maksimalt antall valg som eleven må velge for å lage et gyldig svar."
-
 msgid "The maximum number of choices this choice may be associated with."
 msgstr "Maksimalt antall valg dette alternativet kan være kobles med."
 
@@ -1867,11 +1879,11 @@ msgstr "Kan ikke hente oppgave: \"%s"
 msgid "Unable to validate %s: %s"
 msgstr "Kan ikke validere %s: %s"
 
-msgid "undo"
-msgstr "angre"
-
 msgid "Undo"
 msgstr "Angre"
+
+msgid "undo"
+msgstr "angre"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr "Ukjent $-nøkkel for å registrere MetadataService-forekomst"
@@ -1930,11 +1942,8 @@ msgstr "Du kan velge maksimalt %d valg"
 msgid "You can select maximum %d choices"
 msgstr "Du kan velge maksimalt %d valg"
 
-msgid "You can select maximum of %s choices"
-msgstr "Du kan velge maksimalt %s valg"
-
-msgid "You can select maximum of 1 choice"
-msgstr "Du må velge ett svar"
+msgid "You can select up to %s choices."
+msgstr ""
 
 msgid "You can use maximum %d choices"
 msgstr "Du kan bruke maksimalt %d valg"
@@ -1963,12 +1972,6 @@ msgstr "Du må velge minst %d alternativ"
 msgid "You must select at least %d choices"
 msgstr "Du må velge minst %d alternativer"
 
-msgid "You must select at least %s choices"
-msgstr "Du må velge minst %s alternativer"
-
-msgid "You must select at least 1 choice"
-msgstr "Du må velge minst ett alternativ"
-
 msgid "You must select exactly %d choice"
 msgstr "Du må velge nøyaktig %d alternativ"
 
@@ -1978,14 +1981,23 @@ msgstr "Du må velge nøyaktig %d alternativ(er)."
 msgid "You must select exactly %d choices"
 msgstr "Du må velge nøyaktig %d alternativer"
 
-msgid "You must select exactly %s choices"
-msgstr "Du må velge nøyaktig %s alternativer"
-
 msgid "You must use at least %d choices"
 msgstr "Du må bruke minst %d alternativer"
 
 msgid "You need to make"
 msgstr "Du må lage"
+
+msgid "You need to select %s choices"
+msgstr ""
+
+msgid "You need to select at least %s choices."
+msgstr ""
+
+msgid "You need to select at least 1 choice."
+msgstr ""
+
+msgid "You need to select from %s to %s choices."
+msgstr ""
 
 msgid "Your item has been saved"
 msgstr "Oppgaven din ble lagret"

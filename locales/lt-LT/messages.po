@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.03\n"
-"PO-Revision-Date: 2022-03-23T12:20:47\n"
+"Project-Id-Version: TAO 2022.04\n"
+"PO-Revision-Date: 2022-04-01T09:30:47\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -173,6 +173,9 @@ msgstr "Netikėta klaida įvyko QTI Elemento importavimo metu. Sistema gražino 
 ""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
+msgstr ""
+
+msgid "Answer required"
 msgstr ""
 
 msgid "APIP Content Package"
@@ -385,6 +388,9 @@ msgstr "numatytas"
 msgid "Default"
 msgstr "Numatytas"
 
+msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
+msgstr ""
+
 msgid "Define correct response"
 msgstr "Nustatyti teisingą atsakymą"
 
@@ -442,11 +448,11 @@ msgstr "Dalinti"
 msgid "Don't save"
 msgstr ""
 
-msgid "Done"
-msgstr "Atlikta"
-
 msgid "done"
 msgstr "atlikta"
+
+msgid "Done"
+msgstr "Atlikta"
 
 msgid "Download"
 msgstr ""
@@ -850,11 +856,11 @@ msgstr "Elemento meta duomenys sėkmingai išeksportuoti."
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item properties"
-msgstr "Elemento savybės"
-
 msgid "Item Properties"
 msgstr "Nuotraukos Savybės"
+
+msgid "Item properties"
+msgstr "Elemento savybės"
 
 msgid "Item width"
 msgstr "Elemento plotis"
@@ -872,11 +878,11 @@ msgstr "Kalba"
 msgid "Large editor"
 msgstr "Didelis redaguoklis"
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr "LaTeX"
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "Layout"
 msgstr ""
@@ -1040,6 +1046,9 @@ msgstr ""
 msgid "Modal Feedbacks"
 msgstr "Modaliniai Atsiliepimai"
 
+msgid "Multiple choices"
+msgstr ""
+
 msgid "Multiply"
 msgstr "Dauginti"
 
@@ -1074,11 +1083,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Nenustatyta jokia reikšmė"
 
-msgid "None"
-msgstr "Nėra"
-
 msgid "none"
 msgstr "nėra"
+
+msgid "None"
+msgstr "Nėra"
 
 msgid "None defined yet."
 msgstr "Niekas nenustatyta."
@@ -1114,6 +1123,9 @@ msgstr ""
 
 msgid "Orientation"
 msgstr "Orientacija"
+
+msgid "Other constraints"
+msgstr ""
 
 msgid "Outcome Declarations"
 msgstr ""
@@ -1514,6 +1526,9 @@ msgstr "Formos pozicija"
 msgid "Shuffle choices"
 msgstr "Sumaišyti atsakymus"
 
+msgid "Single choice"
+msgstr ""
+
 msgid "Sinus"
 msgstr "Sinusas"
 
@@ -1712,9 +1727,6 @@ msgstr "Maksimalus kiekis ryšių, kurių kandidatui leidžiama sudaryti."
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "Maksimalus kiekis variantų, kurį kandidatui leidžiama pasirinkti."
 
-msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr "Maksimalus kiekis pasirinkimų, kuriuos kandidatas privalo pasirinkti, norint suformuoti taisyklingą atsakymą."
-
 msgid "The maximum number of choices this choice may be associated with."
 msgstr "Maksimalus kiekis variantų, kurių šiam variantui galima asocijuoti."
 
@@ -1867,11 +1879,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr "Nepavyko patvirtinti %s: %s"
 
-msgid "undo"
-msgstr "anuliuoti"
-
 msgid "Undo"
 msgstr "Anuliuoti"
+
+msgid "undo"
+msgstr "anuliuoti"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr "Nežinomas $key registruoti MetadataService instanciją"
@@ -1930,11 +1942,8 @@ msgstr "Jūs galite pažymėti daugiausiai %d pasirinkimą"
 msgid "You can select maximum %d choices"
 msgstr "Jūs galite pažymėti daugiausiai %d pasirinkimus"
 
-msgid "You can select maximum of %s choices"
-msgstr "Galite pažymėti ne daugiau kaip %s atsakymus"
-
-msgid "You can select maximum of 1 choice"
-msgstr "Galite pažymėti tik 1 atsakymą"
+msgid "You can select up to %s choices."
+msgstr ""
 
 msgid "You can use maximum %d choices"
 msgstr "Galite panaudoti ne daugiau kaip %d pasirinkimus"
@@ -1963,12 +1972,6 @@ msgstr "Jūs privalote pasirinkti bent %d pasirinkimą"
 msgid "You must select at least %d choices"
 msgstr "Turite pažymėti mažiausiai %d atsakymus (–ų/–ą)"
 
-msgid "You must select at least %s choices"
-msgstr "Turite pažymėti mažiausiai %s atsakymus (–ų/–ą)"
-
-msgid "You must select at least 1 choice"
-msgstr "Turite pažymėti mažiausiai 1 atsakymą"
-
 msgid "You must select exactly %d choice"
 msgstr "Turite pažymėti lygiai %d atsakymus (–ų/–ą)"
 
@@ -1978,14 +1981,23 @@ msgstr "Turite pažymėti lygiai %d atsakymus (–ų/–ą)"
 msgid "You must select exactly %d choices"
 msgstr "Turite pažymėti lygiai %d atsakymus (–ų/–ą)"
 
-msgid "You must select exactly %s choices"
-msgstr "Turite pažymėti mažiausiai %s atsakymus (–ų/–ą)"
-
 msgid "You must use at least %d choices"
 msgstr "Jūs privalote bent jau pasirinkti %d"
 
 msgid "You need to make"
 msgstr "Jums reikia padaryti"
+
+msgid "You need to select %s choices"
+msgstr ""
+
+msgid "You need to select at least %s choices."
+msgstr ""
+
+msgid "You need to select at least 1 choice."
+msgstr ""
+
+msgid "You need to select from %s to %s choices."
+msgstr ""
 
 msgid "Your item has been saved"
 msgstr "Jūsų elementas buvo išsaugotas"

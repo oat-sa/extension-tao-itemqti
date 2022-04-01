@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.03\n"
-"PO-Revision-Date: 2022-03-23T12:20:42\n"
+"Project-Id-Version: TAO 2022.04\n"
+"PO-Revision-Date: 2022-04-01T09:30:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -172,6 +172,9 @@ msgid "An unexpected error occurred during the import of the QTI Item. The syste
 msgstr ""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
+msgstr ""
+
+msgid "Answer required"
 msgstr ""
 
 msgid "APIP Content Package"
@@ -384,6 +387,9 @@ msgstr "Sjálfgefið"
 msgid "Default"
 msgstr "Sjálfgefið"
 
+msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
+msgstr ""
+
 msgid "Define correct response"
 msgstr "Skilgreina rétt svar"
 
@@ -441,11 +447,11 @@ msgstr ""
 msgid "Don't save"
 msgstr ""
 
-msgid "Done"
-msgstr ""
-
 msgid "done"
 msgstr "lokið"
+
+msgid "Done"
+msgstr ""
 
 msgid "Download"
 msgstr ""
@@ -849,11 +855,11 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item properties"
-msgstr "Eiginleikar atriðis"
-
 msgid "Item Properties"
 msgstr "Eiginleikar Atriðis"
+
+msgid "Item properties"
+msgstr "Eiginleikar atriðis"
 
 msgid "Item width"
 msgstr "Breidd atriðis"
@@ -871,11 +877,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "Layout"
 msgstr ""
@@ -1038,6 +1044,9 @@ msgstr ""
 msgid "Modal Feedbacks"
 msgstr "Formsendurgjafir"
 
+msgid "Multiple choices"
+msgstr ""
+
 msgid "Multiply"
 msgstr ""
 
@@ -1072,11 +1081,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Ekkert gildi sett"
 
-msgid "None"
-msgstr "Ekkert"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "Ekkert"
 
 msgid "None defined yet."
 msgstr "Ekkert skilgreint enn."
@@ -1110,6 +1119,9 @@ msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Raðaðu svæðunum (heitreitum) sem sýnd eru á myndinni."
 
 msgid "Orientation"
+msgstr ""
+
+msgid "Other constraints"
 msgstr ""
 
 msgid "Outcome Declarations"
@@ -1511,6 +1523,9 @@ msgstr "Staðsetning forms"
 msgid "Shuffle choices"
 msgstr "Rugla röð valkosta"
 
+msgid "Single choice"
+msgstr ""
+
 msgid "Sinus"
 msgstr ""
 
@@ -1709,9 +1724,6 @@ msgstr "Hámarksfjöldi vensla sem próftaki má búa til."
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "Hámarksfjöldi valkosta sem próftaki má velja."
 
-msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr ""
-
 msgid "The maximum number of choices this choice may be associated with."
 msgstr "Hámarksfjöldi valkosta sem vensla má þennan valkost við."
 
@@ -1863,11 +1875,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
-msgstr "afturkalla"
-
 msgid "Undo"
 msgstr "Afturkalla"
+
+msgid "undo"
+msgstr "afturkalla"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
@@ -1926,10 +1938,7 @@ msgstr ""
 msgid "You can select maximum %d choices"
 msgstr ""
 
-msgid "You can select maximum of %s choices"
-msgstr ""
-
-msgid "You can select maximum of 1 choice"
+msgid "You can select up to %s choices."
 msgstr ""
 
 msgid "You can use maximum %d choices"
@@ -1959,12 +1968,6 @@ msgstr ""
 msgid "You must select at least %d choices"
 msgstr ""
 
-msgid "You must select at least %s choices"
-msgstr ""
-
-msgid "You must select at least 1 choice"
-msgstr ""
-
 msgid "You must select exactly %d choice"
 msgstr ""
 
@@ -1974,14 +1977,23 @@ msgstr "Þú verður að velja nákvæmlega %d valkost(i)."
 msgid "You must select exactly %d choices"
 msgstr ""
 
-msgid "You must select exactly %s choices"
-msgstr ""
-
 msgid "You must use at least %d choices"
 msgstr ""
 
 msgid "You need to make"
 msgstr "Þú þarft að taka"
+
+msgid "You need to select %s choices"
+msgstr ""
+
+msgid "You need to select at least %s choices."
+msgstr ""
+
+msgid "You need to select at least 1 choice."
+msgstr ""
+
+msgid "You need to select from %s to %s choices."
+msgstr ""
 
 msgid "Your item has been saved"
 msgstr "Atriðið  þitt hefur verið vistað"

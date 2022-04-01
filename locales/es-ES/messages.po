@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.03\n"
-"PO-Revision-Date: 2022-03-23T12:20:37\n"
+"Project-Id-Version: TAO 2022.04\n"
+"PO-Revision-Date: 2022-04-01T09:30:37\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -172,6 +172,9 @@ msgid "An unexpected error occurred during the import of the QTI Item. The syste
 msgstr ""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
+msgstr ""
+
+msgid "Answer required"
 msgstr ""
 
 msgid "APIP Content Package"
@@ -384,6 +387,9 @@ msgstr "predeterminado"
 msgid "Default"
 msgstr "Predeterminado"
 
+msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
+msgstr ""
+
 msgid "Define correct response"
 msgstr "Definir respuesta correcta"
 
@@ -441,11 +447,11 @@ msgstr ""
 msgid "Don't save"
 msgstr ""
 
-msgid "Done"
-msgstr ""
-
 msgid "done"
 msgstr "hecho"
+
+msgid "Done"
+msgstr ""
 
 msgid "Download"
 msgstr ""
@@ -849,11 +855,11 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item properties"
-msgstr "Propiedades del elemento"
-
 msgid "Item Properties"
 msgstr "Propiedades del Elemento"
+
+msgid "Item properties"
+msgstr "Propiedades del elemento"
 
 msgid "Item width"
 msgstr "Ancho del elemento"
@@ -871,11 +877,11 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "Latex"
-
 msgid "LaTeX"
 msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
 
 msgid "Layout"
 msgstr ""
@@ -1038,6 +1044,9 @@ msgstr ""
 msgid "Modal Feedbacks"
 msgstr "Retroalimentación Modal"
 
+msgid "Multiple choices"
+msgstr ""
+
 msgid "Multiply"
 msgstr ""
 
@@ -1072,11 +1081,11 @@ msgstr ""
 msgid "No value set"
 msgstr "No hay valor asignado"
 
-msgid "None"
-msgstr "Ninguno"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "Ninguno"
 
 msgid "None defined yet."
 msgstr "Aún no definido."
@@ -1110,6 +1119,9 @@ msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Ordenar las áreas (zonas activas) que aparecen en una imagen."
 
 msgid "Orientation"
+msgstr ""
+
+msgid "Other constraints"
 msgstr ""
 
 msgid "Outcome Declarations"
@@ -1511,6 +1523,9 @@ msgstr "Posisicón de forma"
 msgid "Shuffle choices"
 msgstr "Selecciones aleatorias"
 
+msgid "Single choice"
+msgstr ""
+
 msgid "Sinus"
 msgstr ""
 
@@ -1709,9 +1724,6 @@ msgstr "El argumento manifiesto debe ser una instancia del DOMDocument."
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "El número máximo de opciones que se permite al candidato seleccionar."
 
-msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr ""
-
 msgid "The maximum number of choices this choice may be associated with."
 msgstr "El número máximo de opciones de esta elección puede estar asociada con."
 
@@ -1864,11 +1876,11 @@ msgstr ""
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
-msgstr "deshacer"
-
 msgid "Undo"
 msgstr "Deshacer"
+
+msgid "undo"
+msgstr "deshacer"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
@@ -1927,11 +1939,8 @@ msgstr "Puedes seleccionar máximo %d opciones"
 msgid "You can select maximum %d choices"
 msgstr "Puede usar selccionar como máximo %d opciones"
 
-msgid "You can select maximum of %s choices"
-msgstr "Puedes seleccionar un máximo de %s opciones"
-
-msgid "You can select maximum of 1 choice"
-msgstr "Puedes seleccionar un máximo de 1 opción"
+msgid "You can select up to %s choices."
+msgstr ""
 
 msgid "You can use maximum %d choices"
 msgstr "Puedes usar máximo %d opciones"
@@ -1960,12 +1969,6 @@ msgstr ""
 msgid "You must select at least %d choices"
 msgstr "Debe seleccionar al menos %d opciones"
 
-msgid "You must select at least %s choices"
-msgstr "Debe seleccionar al menos %s opciones"
-
-msgid "You must select at least 1 choice"
-msgstr "Debe seleccionar al menos 1 opción"
-
 msgid "You must select exactly %d choice"
 msgstr "Debes seleccionar exactamente %d opcion"
 
@@ -1975,14 +1978,23 @@ msgstr "Debes seleccionar exactamente %d opcion(es)."
 msgid "You must select exactly %d choices"
 msgstr "Debes seleccionar exactamente %d opciones"
 
-msgid "You must select exactly %s choices"
-msgstr "Debes seleccionar exactamente %s opciones"
-
 msgid "You must use at least %d choices"
 msgstr "Debe usar al menos %d opciones"
 
 msgid "You need to make"
 msgstr "Necesita hacerlo"
+
+msgid "You need to select %s choices"
+msgstr ""
+
+msgid "You need to select at least %s choices."
+msgstr ""
+
+msgid "You need to select at least 1 choice."
+msgstr ""
+
+msgid "You need to select from %s to %s choices."
+msgstr ""
 
 msgid "Your item has been saved"
 msgstr "Tu elemento ha sido guardado"
