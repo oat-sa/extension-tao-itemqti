@@ -405,6 +405,12 @@ img.dragging.ui-draggable-dragging {
             .icon-help.tooltipstered{
                 color: $info;
             }
+            &.choice-min-max {
+                margin-left: 20px;
+                .spinner {
+                    min-width: 80px;
+                }
+            }
         }
     }
 
@@ -1205,6 +1211,9 @@ img.dragging.ui-draggable-dragging {
 
     .qti-interaction {
         .qti-prompt {
+            @include rtl {
+                margin-right: 0;
+            }
             & ~ .mini-tlb {
                 right: -31px !important;
                 top:1px
@@ -1253,7 +1262,7 @@ img.dragging.ui-draggable-dragging {
         }
     }
     [data-html-editable] {
-        margin-right: 2em;
+        margin-right: 0;
         &[contenteditable=true]:focus {
             border: 1px dotted $info;
         }
