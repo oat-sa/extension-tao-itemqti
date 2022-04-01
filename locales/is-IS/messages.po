@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint154\n"
-"PO-Revision-Date: 2021-05-27T13:49:34\n"
+"Project-Id-Version: TAO 2022.04\n"
+"PO-Revision-Date: 2022-04-01T09:30:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -25,16 +25,40 @@ msgstr ""
 msgid "%d characters allowed"
 msgstr ""
 
+msgid "%d Item(s) of %d imported from the given IMS QTI Package."
+msgstr ""
+
 msgid "%d/%d"
 msgstr ""
 
 msgid "%s metadata values found in source by extractor(s)."
 msgstr ""
 
+msgid "%s of %s characters maximum."
+msgstr ""
+
+msgid "%s of %s characters recommended."
+msgstr ""
+
+msgid "%s of %s words maximum."
+msgstr ""
+
 msgid "-- Any kind of file --"
 msgstr "-- Hvaða skráartegund sem er --"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
+msgstr ""
+
+msgid "1/3 of height"
+msgstr ""
+
+msgid "1/4 of height"
+msgstr ""
+
+msgid "2/3 of height"
+msgstr ""
+
+msgid "3/4 of height"
 msgstr ""
 
 msgid "A choice must be selected"
@@ -56,6 +80,9 @@ msgstr "Aðlaga að skjástærð"
 msgid "Add"
 msgstr "Bæta við"
 
+msgid "Add a CSV file"
+msgstr ""
+
 msgid "Add a modal feedback"
 msgstr "Bæta við glugga fyrir athugasemdir"
 
@@ -63,6 +90,9 @@ msgid "Add a QTI/APIP XML Item Document"
 msgstr ""
 
 msgid "Add a ZIP file containing QTI/APIP items"
+msgstr ""
+
+msgid "Add an outcome"
 msgstr ""
 
 msgid "Add another option"
@@ -74,8 +104,14 @@ msgstr "Nýr valmöguleiki"
 msgid "Add else feedback"
 msgstr "Bæta við annars athugasemdir"
 
+msgid "Add new column"
+msgstr ""
+
 msgid "Add new pairs"
 msgstr "Bæta við nýjum pörum"
+
+msgid "Add new row"
+msgstr ""
 
 msgid "Add Style Sheet"
 msgstr "Bæta við hönnunarlýsingu"
@@ -135,6 +171,12 @@ msgid "An unexpected error occurred during the import of the QTI Item. The syste
 ""
 msgstr ""
 
+msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
+msgstr ""
+
+msgid "Answer required"
+msgstr ""
+
 msgid "APIP Content Package"
 msgstr ""
 
@@ -155,6 +197,9 @@ msgstr "venslapör"
 
 msgid "at least"
 msgstr "að minnsta kosti"
+
+msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
+msgstr ""
 
 msgid "Autostart"
 msgstr "Sjálfræsing"
@@ -189,13 +234,22 @@ msgstr "Vafraðu um tölvuna þína og veldu viðeigandi skrá."
 msgid "Browse..."
 msgstr "Velja..."
 
-msgid "Cancel"
-msgstr "Hætta við"
-
 msgid "cancel"
 msgstr "hætta við"
 
+msgid "Cancel"
+msgstr "Hætta við"
+
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
+msgstr ""
+
+msgid "Cannot create hottext from this selection."
+msgstr ""
+
+msgid "Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words."
+msgstr ""
+
+msgid "Cannot create hottext from this selection. Please make sure the selection does not contain multiple lines."
 msgstr ""
 
 msgid "Cannot delete a variable currently used in response processing"
@@ -216,7 +270,7 @@ msgstr ""
 msgid "Center"
 msgstr ""
 
-msgid "characters"
+msgid "Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with."
 msgstr ""
 
 msgid "chars"
@@ -234,13 +288,16 @@ msgstr "Valin samskipti"
 msgid "Choice Properties"
 msgstr "Eiginleikar valmöguleika"
 
-msgid "choices"
-msgstr ""
-
 msgid "Choices"
 msgstr "Valmöguleikar"
 
+msgid "choices"
+msgstr ""
+
 msgid "Choose the horizontal alignment for the table."
+msgstr ""
+
+msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
 msgstr ""
 
 msgid "Class successfully created."
@@ -279,11 +336,11 @@ msgstr "Höft"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Stjórna spilunarbreytum (sjálfvirk byrjun, lykkja) á myndskeiðs- eða hljóðskrá og tilkynna hve oft hún hefur verið leikin. "
 
-msgid "correct"
-msgstr "rétt"
-
 msgid "Correct"
 msgstr "Rétt"
+
+msgid "correct"
+msgstr "rétt"
 
 msgid "Cosinus"
 msgstr ""
@@ -306,6 +363,9 @@ msgstr "Búa til hottext"
 msgid "Create pair(s) from a series of choices."
 msgstr "Búa til par/pör úr syrpum af valkostum."
 
+msgid "CSV content + metadata"
+msgstr ""
+
 msgid "Current value:"
 msgstr "Núverandi gildi:"
 
@@ -315,14 +375,20 @@ msgstr "Breyting úr MathML í LaTeX er ekki aðgengileg núna. Breytingar á Ma
 msgid "custom"
 msgstr ""
 
+msgid "Custom Interactions"
+msgstr ""
+
 msgid "Custom Response Processing Mode"
 msgstr "Úrvinnsluhamur fyrir staðlað svar"
+
+msgid "default"
+msgstr "Sjálfgefið"
 
 msgid "Default"
 msgstr "Sjálfgefið"
 
-msgid "default"
-msgstr "Sjálfgefið"
+msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
+msgstr ""
 
 msgid "Define correct response"
 msgstr "Skilgreina rétt svar"
@@ -378,7 +444,7 @@ msgstr ""
 msgid "Divide"
 msgstr ""
 
-msgid "Don\'t save"
+msgid "Don't save"
 msgstr ""
 
 msgid "done"
@@ -388,6 +454,9 @@ msgid "Done"
 msgstr ""
 
 msgid "Download"
+msgstr ""
+
+msgid "Download sample csv file"
 msgstr ""
 
 msgid "Download this stylesheet"
@@ -477,6 +546,15 @@ msgstr ""
 msgid "Enter tooltip target"
 msgstr ""
 
+msgid "error"
+msgstr ""
+
+msgid "Error in post rendering: %s"
+msgstr ""
+
+msgid "Error in template rendering: %s"
+msgstr ""
+
 msgid "Error on item %1$s : %2$s"
 msgstr ""
 
@@ -490,6 +568,9 @@ msgid "Euler\'s constant"
 msgstr ""
 
 msgid "Exponent"
+msgstr ""
+
+msgid "Export"
 msgstr ""
 
 msgid "Export APIP 1.0 Package"
@@ -528,9 +609,6 @@ msgstr ""
 msgid "Failed to publish %1$s in %2$s"
 msgstr ""
 
-msgid "Failed to save item"
-msgstr "Tókst ekki að vista atriði"
-
 msgid "Feedback"
 msgstr "Endurgjöf"
 
@@ -555,6 +633,9 @@ msgstr "Skráarflutnings Samverkun"
 msgid "Fill in the gaps on a picture with a set of image choices."
 msgstr "Fylltu í eyðurnar á myndinni með valkvæðum myndum."
 
+msgid "float"
+msgstr ""
+
 msgid "Font family"
 msgstr "Leturfjölskylda"
 
@@ -565,6 +646,9 @@ msgid "Format"
 msgstr "Snið"
 
 msgid "Fraction"
+msgstr ""
+
+msgid "Full height"
 msgstr ""
 
 msgid "Gap"
@@ -592,6 +676,9 @@ msgid "Greater than or equal"
 msgstr ""
 
 msgid "Guard for resource \"%s\"..."
+msgstr ""
+
+msgid "Half height"
 msgstr ""
 
 msgid "Height"
@@ -639,6 +726,12 @@ msgstr ""
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr "Ef gefið upp, tilgreinir mynstursían hefðbundna framsetningu sem svar próftaka verður að máta við til að teljast gilt "
 
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
+msgstr ""
+
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
+msgstr ""
+
 msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
 msgstr "Ef strengsgagnvirkni er bundin tölulegri svarbreytu þá verður að nota grunneiginleikann tl að ákvarða tölugrunninn sem notaður er ti lað túlka gildið sem próftaki setur inn."
 
@@ -657,7 +750,19 @@ msgstr ""
 msgid "Import a QTI/APIP XML Item Document"
 msgstr ""
 
+msgid "Import item content and metadata from CSV file. Only choice interactions are supported."
+msgstr ""
+
 msgid "Import QTI ITEM into \"%s"
+msgstr ""
+
+msgid "IMS QTI Item referenced as \"%s\" cannot be imported."
+msgstr ""
+
+msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
+msgstr ""
+
+msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
 msgstr ""
 
 msgid "In Progress"
@@ -693,6 +798,9 @@ msgstr ""
 msgid "Inline interactions need to be inserted into a text block."
 msgstr "Innfellda gagnvirkni þarf að setja inn í textabálk."
 
+msgid "integer"
+msgstr ""
+
 msgid "Interaction Background"
 msgstr "Bakgrunnur gagnvirkni"
 
@@ -723,6 +831,9 @@ msgstr "Er þessi valkostur rétta svarið?"
 msgid "Is this pair the correct response?"
 msgstr "Er þetta par rétta svarið?"
 
+msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
+msgstr ""
+
 msgid "Item \"%s\" cannot be exported: %s"
 msgstr ""
 
@@ -741,11 +852,14 @@ msgstr ""
 msgid "Item metadata successfully exported."
 msgstr ""
 
-msgid "Item properties"
-msgstr "Eiginleikar atriðis"
+msgid "Item metadata with identifier \"%s\" is not valid: "
+msgstr ""
 
 msgid "Item Properties"
 msgstr "Eiginleikar Atriðis"
+
+msgid "Item properties"
+msgstr "Eiginleikar atriðis"
 
 msgid "Item width"
 msgstr "Breidd atriðis"
@@ -763,10 +877,13 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
+msgid "LaTeX"
+msgstr ""
+
 msgid "Latex"
 msgstr "Latex"
 
-msgid "LaTeX"
+msgid "Layout"
 msgstr ""
 
 msgid "leave empty"
@@ -927,6 +1044,9 @@ msgstr ""
 msgid "Modal Feedbacks"
 msgstr "Formsendurgjafir"
 
+msgid "Multiple choices"
+msgstr ""
+
 msgid "Multiply"
 msgstr ""
 
@@ -961,11 +1081,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Ekkert gildi sett"
 
-msgid "None"
-msgstr "Ekkert"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "Ekkert"
 
 msgid "None defined yet."
 msgstr "Ekkert skilgreint enn."
@@ -1001,6 +1121,9 @@ msgstr "Raðaðu svæðunum (heitreitum) sem sýnd eru á myndinni."
 msgid "Orientation"
 msgstr ""
 
+msgid "Other constraints"
+msgstr ""
+
 msgid "Outcome Declarations"
 msgstr ""
 
@@ -1016,14 +1139,16 @@ msgstr "Hlé"
 msgid "Pi"
 msgstr ""
 
+msgid "Placeholder Text"
+msgstr ""
+
 msgid "Plain text"
 msgstr "Venjulegur texti"
 
 msgid "Please add one or more gaps to the text in question mode."
 msgstr ""
 
-msgid "Please create areas that correspond to the response and associate them a score.\n"
-""
+msgid "Please create areas that correspond to the response and associate them a score. You can also position the target to the exact point as the correct response."
 msgstr ""
 
 msgid "Please define association pairs and their scores below."
@@ -1062,8 +1187,14 @@ msgstr "Fylltu í eyðuna með textunum að neðan, breyttu síðan skorinu fyri
 msgid "Please order the choices below to set the correct answer"
 msgstr "Raðaðu valkostunum fyrir neðan til að fá rétt svar"
 
+msgid "Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr "Veldu miðilsskrá (myndskeið eða hljóðskrá) úr forðastjóranum. Þú gætur bætt við skrám úr tölvunni þinni með hnappnum \"Bæta við skrá(m)\"."
+
+msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
 
 msgid "Please select a shared stimulus file from the resource manager."
 msgstr "Veldu samnýtta hvataskrá úr forðastjóranum."
@@ -1122,6 +1253,9 @@ msgstr ""
 msgid "Printed Variable"
 msgstr ""
 
+msgid "Properties"
+msgstr ""
+
 msgid "PropertyUri to map has to a valid uri"
 msgstr ""
 
@@ -1147,6 +1281,9 @@ msgid "QTI Package 2.1"
 msgstr "QTI Pakki 2.1"
 
 msgid "QTI Package 2.2"
+msgstr ""
+
+msgid "QTI-XML error at line %1$d \"%2$s\"."
 msgstr ""
 
 msgid "QTI/APIP Content Package"
@@ -1251,11 +1388,11 @@ msgstr ""
 msgid "Rich text + math"
 msgstr ""
 
-msgid "right"
-msgstr "hægri"
-
 msgid "Right"
 msgstr ""
+
+msgid "right"
+msgstr "hægri"
 
 msgid "Right bracket"
 msgstr ""
@@ -1272,11 +1409,11 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "Score"
-msgstr "Stig"
-
 msgid "score"
 msgstr "stig"
+
+msgid "Score"
+msgstr "Stig"
 
 msgid "Score range"
 msgstr "Stigabil"
@@ -1284,11 +1421,11 @@ msgstr "Stigabil"
 msgid "Score value"
 msgstr "Stigagildi"
 
-msgid "Select"
+msgid "Scrollable multi-column"
 msgstr ""
 
-msgid "Select a "
-msgstr "Veldu"
+msgid "Select"
+msgstr ""
 
 msgid "select a choice"
 msgstr "veldu valkost"
@@ -1296,8 +1433,14 @@ msgstr "veldu valkost"
 msgid "Select a choice from a drop-down list."
 msgstr "Veldu valkost úr lista í felliglugga."
 
+msgid "Select a left"
+msgstr ""
+
 msgid "Select a response identifier from the list."
 msgstr "Veldu valkostskenni úr listanum."
+
+msgid "Select a right"
+msgstr ""
 
 msgid "Select a single (radio buttons) or multiple (check boxes) responses among a set of choices."
 msgstr "Veldu eitt (útvarpshnappar) eða mörg (krossareitir) svör úr valkostunum."
@@ -1314,10 +1457,10 @@ msgstr "Veldu fyrst mynd."
 msgid "select correct choice"
 msgstr "veldu réttan valkost"
 
-msgid "Select height of passage base of conatainer height"
+msgid "Select height of passage base of container height"
 msgstr ""
 
-msgid "Select height of text block base of conatainer height"
+msgid "Select height of text block base of container height"
 msgstr ""
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
@@ -1380,6 +1523,9 @@ msgstr "Staðsetning forms"
 msgid "Shuffle choices"
 msgstr "Rugla röð valkosta"
 
+msgid "Single choice"
+msgstr ""
+
 msgid "Sinus"
 msgstr ""
 
@@ -1392,8 +1538,14 @@ msgstr "Sleði"
 msgid "Slider Interaction"
 msgstr "Stiku víxlverkun"
 
+msgid "Some feedback text."
+msgstr ""
+
 msgid "some text ..."
 msgstr "einhver texti ..."
+
+msgid "Something went wrong while destroying an interaction: %s"
+msgstr ""
 
 msgid "Square root"
 msgstr ""
@@ -1403,6 +1555,9 @@ msgstr ""
 
 msgid "Step"
 msgstr "Þrep"
+
+msgid "string"
+msgstr ""
 
 msgid "Style Editor"
 msgstr "Háttarritill"
@@ -1497,6 +1652,24 @@ msgstr "Heitið á heiti svarsins. Þetta heiti má ekki nota af neinu öðru sv
 msgid "The IMS QTI Item could not be imported."
 msgstr "Ekki var hægt að flytja inn IMS QTI Atriðið."
 
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
+msgstr ""
+
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
 msgstr ""
 
@@ -1551,9 +1724,6 @@ msgstr "Hámarksfjöldi vensla sem próftaki má búa til."
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "Hámarksfjöldi valkosta sem próftaki má velja."
 
-msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr ""
-
 msgid "The maximum number of choices this choice may be associated with."
 msgstr "Hámarksfjöldi valkosta sem vensla má þennan valkost við."
 
@@ -1600,6 +1770,9 @@ msgid "The Response Processing Template \"%s\" is not supported."
 msgstr ""
 
 msgid "The score format is not numeric"
+msgstr ""
+
+msgid "The scrollable multi-column layout configuration is optimized for items with a single row of content only. Both columns will scroll independently and fit the available page height."
 msgstr ""
 
 msgid "The selected file is ready to be sent."
@@ -1657,6 +1830,9 @@ msgstr ""
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "Háttarblaðið hefur ekki fundist á þjóninum, þú ættir að eyða þessari tilvísun"
 
+msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
+msgstr ""
+
 msgid "Time dependent"
 msgstr "Tímabundið"
 
@@ -1680,6 +1856,9 @@ msgstr "Efst"
 
 msgid "Trigger the end of the item attempt."
 msgstr "Gefur til kynna lok tilraunar."
+
+msgid "Unable to load item from the given data."
+msgstr ""
 
 msgid "Unable to process your request"
 msgstr ""
@@ -1726,6 +1905,9 @@ msgstr ""
 msgid "Vertical"
 msgstr ""
 
+msgid "warning"
+msgstr ""
+
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
 msgstr "Við notum patternMask til að gera þetta, svo að það sé í samræmi við IMS staðalinn"
 
@@ -1741,6 +1923,12 @@ msgstr "Viltu skipta út breyttum texta"
 msgid "WYSIWYG editor"
 msgstr ""
 
+msgid "XML error \"%1$s\"."
+msgstr ""
+
+msgid "XML error at line %1$d \"%2$s\"."
+msgstr ""
+
 msgid "Yes"
 msgstr "Já"
 
@@ -1750,10 +1938,7 @@ msgstr ""
 msgid "You can select maximum %d choices"
 msgstr ""
 
-msgid "You can select maximum of %s choices"
-msgstr ""
-
-msgid "You can select maximum of 1 choice"
+msgid "You can select up to %s choices."
 msgstr ""
 
 msgid "You can use maximum %d choices"
@@ -1783,12 +1968,6 @@ msgstr ""
 msgid "You must select at least %d choices"
 msgstr ""
 
-msgid "You must select at least %s choices"
-msgstr ""
-
-msgid "You must select at least 1 choice"
-msgstr ""
-
 msgid "You must select exactly %d choice"
 msgstr ""
 
@@ -1798,14 +1977,23 @@ msgstr "Þú verður að velja nákvæmlega %d valkost(i)."
 msgid "You must select exactly %d choices"
 msgstr ""
 
-msgid "You must select exactly %s choices"
-msgstr ""
-
 msgid "You must use at least %d choices"
 msgstr ""
 
 msgid "You need to make"
 msgstr "Þú þarft að taka"
+
+msgid "You need to select %s choices"
+msgstr ""
+
+msgid "You need to select at least %s choices."
+msgstr ""
+
+msgid "You need to select at least 1 choice."
+msgstr ""
+
+msgid "You need to select from %s to %s choices."
+msgstr ""
 
 msgid "Your item has been saved"
 msgstr "Atriðið  þitt hefur verið vistað"
