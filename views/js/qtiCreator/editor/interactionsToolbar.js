@@ -82,7 +82,7 @@ define([
             const interactionTextWidth = $interactionText.outerWidth(true);
 
             if (interactionTextWidth >= interactionContainerWidth) {
-                const fontSize = 100 - (interactionTextWidth - interactionContainerWidth);
+                const fontSize = 100 * (interactionContainerWidth / interactionTextWidth);
                 $interactionText.css(
                     'fontSize',
                     `${fontSize}%`
