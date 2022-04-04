@@ -447,7 +447,7 @@ msgid "Divide"
 msgstr "Diviser"
 
 msgid "Don't save"
-msgstr ""
+msgstr "Ne pas sauvegarder"
 
 msgid "done"
 msgstr "terminé"
