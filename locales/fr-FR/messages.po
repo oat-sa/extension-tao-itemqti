@@ -106,13 +106,13 @@ msgid "Add else feedback"
 msgstr "Ajoute l'autre retour"
 
 msgid "Add new column"
-msgstr ""
+msgstr "Ajouter une nouvelle colonne"
 
 msgid "Add new pairs"
 msgstr "Ajouter de nouvelles paires"
 
 msgid "Add new row"
-msgstr ""
+msgstr "Ajouter une nouvelle ligne"
 
 msgid "Add Style Sheet"
 msgstr "Ajouter une feuille de style"
