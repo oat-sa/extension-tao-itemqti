@@ -1451,7 +1451,7 @@ img.dragging.ui-draggable-dragging {
         #item-editor-interaction-bar {
             .tool-list {
                 li {
-                    width: (100 / 3) * 1%;
+                    width: 50%;
                 }
             }
             .sub-group-cover:after, .sub-group-cover:before {
@@ -1470,11 +1470,6 @@ img.dragging.ui-draggable-dragging {
     .item-editor-sidebar-wrapper.left-bar {
         @include simple-flex-box(344px);
         #item-editor-interaction-bar {
-            .tool-list {
-                li {
-                    width: 25%;
-                }
-            }
             .sub-group-cover:after, .sub-group-cover:before {
                 left: 12% !important;
             }
