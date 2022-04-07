@@ -52,7 +52,7 @@
 
 <div class="panel">
     <div>
-        <label for="maxPlays" class="spinner">Max plays count</label>
+        <label for="maxPlays" class="spinner">{{__ 'Max plays count'}}</label>
         <input name="maxPlays" value="{{maxPlays}}" class="large" data-increment="1" data-min="0" data-max="1000" type="text" />
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
         <span class="tooltip-content">

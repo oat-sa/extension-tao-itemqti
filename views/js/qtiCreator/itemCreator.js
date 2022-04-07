@@ -213,7 +213,7 @@ define([
                                 reasons.push(invalidElements[serial][key].message);
                             });
                         });
-                        self.trigger('error', new Error(`${__('Item cannot be saved.')} ${reasons.join(', ')}.`));
+                        self.trigger('error', new Error(`${__('Item cannot be saved.')} (${reasons.join(', ')}).`));
                         return;
                     }
                     //do the save

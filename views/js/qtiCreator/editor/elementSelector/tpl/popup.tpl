@@ -3,7 +3,7 @@
     <div class="arrow-cover" style="left:{{arrow.leftCover}}px"></div>
     <div class="popup-content">{{{content}}}</div>
     <div class="footer">
-        <button class="btn btn-info small done">done</button>
-        <a href="#" class="btn cancel" title="{{__ "cancel"}}">cancel</a>
+        <button class="btn btn-info small done">{{__ "done"}}</button>
+        <a href="#" class="btn cancel" title="{{__ "cancel"}}">{{__ "cancel"}}</a>
     </div>
 </div>
