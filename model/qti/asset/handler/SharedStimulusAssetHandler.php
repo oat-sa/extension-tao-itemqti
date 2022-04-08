@@ -27,9 +27,9 @@ use oat\tao\helpers\FileUploadException;
 use oat\tao\model\media\MediaManagement;
 use oat\tao\model\media\MediaService;
 use oat\taoItems\model\media\ItemMediaResolver;
+use oat\taoMediaManager\model\sharedStimulus\encoder\SharedStimulusMediaEncoder;
 use oat\taoMediaManager\model\MediaSource;
 use oat\taoMediaManager\model\SharedStimulusImporter;
-use oat\taoMediaManager\model\SharedStimulusPackageImporter;
 use oat\taoQtiItem\model\qti\asset\factory\SharedStimulusFactory;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\Item;
@@ -93,7 +93,7 @@ class SharedStimulusAssetHandler implements AssetHandler
     public function handle($absolutePath, $relativePath)
     {
         SharedStimulusImporter::isValidSharedStimulus($absolutePath);
-        $newXmlFile = SharedStimulusPackageImporter::embedAssets($absolutePath);
+        $newXmlFile = $this->getSharedStimulusMediaEncoderService()->encodeAssets($absolutePath);
         $mediaResourceUri = $this->getSharedStimulusFactory()->createShardedStimulusFromSourceFiles(
             $newXmlFile,
             $relativePath,
@@ -207,6 +207,11 @@ class SharedStimulusAssetHandler implements AssetHandler
     public function finalize()
     {
         // Nothing to do
+    }
+
+    private function getSharedStimulusMediaEncoderService (): SharedStimulusMediaEncoder
+    {
+        return $this->getServiceLocator()->get(SharedStimulusMediaEncoder::SERVICE_ID);
     }
 
     private function getSharedStimulusFactory(): SharedStimulusFactory
