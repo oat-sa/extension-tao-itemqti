@@ -65,28 +65,34 @@
 
     .tool-list {
         margin-top: -3px;
+        display: flex;
+        flex-wrap: wrap;
         @extend %clearfix;
         li {
-            width: 50%;
+            width: 100%;
             margin: 0;
-            float: left;
             padding: 9px 3px;
             @include font-size(12);
             border: 1px dotted transparent;
             cursor: move;
-            text-align: center;
+            display: flex;
+            align-items: center;
             &:hover {
                 background: white(.6);
                 border: 1px dotted #aaa;
             }
             span {
                 display: block;
-                margin: 5px auto 8px;
-                @include font-size(28);
+                margin: 5px;
+                @include font-size(25);
                 opacity: .9;
+            }
+            .tool-name {
+                display: inline-block;
             }
             img.icon {
                max-height: 28px;
+               margin: 5px;
             }
             &.disabled {
                 cursor: default;
