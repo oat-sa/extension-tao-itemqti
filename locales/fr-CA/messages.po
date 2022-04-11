@@ -105,13 +105,13 @@ msgid "Add else feedback"
 msgstr ""
 
 msgid "Add new column"
-msgstr ""
+msgstr "Ajouter une nouvelle colonne"
 
 msgid "Add new pairs"
 msgstr ""
 
 msgid "Add new row"
-msgstr ""
+msgstr "Ajouter une nouvelle ligne"
 
 msgid "Add Style Sheet"
 msgstr ""
@@ -445,7 +445,7 @@ msgid "Divide"
 msgstr ""
 
 msgid "Don't save"
-msgstr ""
+msgstr "Ne pas sauvegarder"
 
 msgid "done"
 msgstr ""
