@@ -45,12 +45,8 @@ define([
 
         if (preselected.includes(ANY_KIND)) {
             // Kill the attribute if it is empty or has any/kind
-            delete interaction.attributes.type;
-            interaction.attr('class', '');
-            // WHEN loading the item in Authoring
-            // AND (the file types contains only -- Any kind of file -- OR the file types contains no type at all)
-            // THEN only -- Any kind of file -- is shown in the selection box.
-            types[0].selected = true;
+            interaction.removeAttr('type');
+            interaction.removeAttr('class');
             preselected = [];
         }
 
@@ -61,11 +57,19 @@ define([
             uploadHelper.setExpectedTypes(interaction, config.defaultList);
         }
 
-        for (let i in types) {
-            if (_.indexOf(preselected, types[i].mime) >= 0) {
-                types[i].selected = true;
+        if (preselected.length === 0) {
+            // WHEN loading the item in Authoring
+            // AND (the file types contains only -- Any kind of file -- OR the file types contains no type at all)
+            // THEN only -- Any kind of file -- is shown in the selection box.
+            types[0].selected = true;
+        } else {
+            for (let i in types) {
+                if (_.indexOf(preselected, types[i].mime) >= 0) {
+                    types[i].selected = true;
+                }
             }
         }
+
         $form.html(
             formTpl({
                 types: types
@@ -81,22 +85,27 @@ define([
             }
         });
 
+        const setAnyKind = () => {
+            interaction.removeAttr('type');
+            interaction.removeAttr('class');
+            $select.select2('val', [ANY_KIND]);
+        };
         // -- type callback.
         callbacks.type = function (interactionChanged, newTypes) {
-            if (!newTypes.includes(ANY_KIND)) {
+            if (!newTypes) {
+                setAnyKind();
+            } else if (!newTypes.includes(ANY_KIND)) {
                 uploadHelper.setExpectedTypes(interactionChanged, newTypes);
             } else {
                 const currentTypes = interaction.attr('type');
-                if (!currentTypes || currentTypes.includes(ANY_KIND) && newTypes.length > 1) {
+                if (!currentTypes || (currentTypes.includes(ANY_KIND) && newTypes.length > 1)) {
                     // WHEN the Author adds another type THEN the type -- Any kind of file -- is removed.
                     const typesWithoutAny = newTypes.filter(value => value !== ANY_KIND);
                     uploadHelper.setExpectedTypes(interactionChanged, typesWithoutAny);
                     $select.select2('val', typesWithoutAny);
                 } else {
                     // WHEN -- Any kind of file -- type is added THEN only -- Any kind of file -- is shown in the selection box.
-                    interactionChanged.removeAttr('type');
-                    interactionChanged.attr('class', '');
-                    $select.select2('val', [ANY_KIND]);
+                    setAnyKind();
                 }
             }
         };
