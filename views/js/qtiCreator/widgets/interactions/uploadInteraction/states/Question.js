@@ -43,7 +43,7 @@ define([
 
         types.unshift({ mime: ANY_KIND, label: __('-- Any kind of file --') });
 
-        if (preselected.includes(ANY_KIND)) {
+        if (interaction.attr('type') === '' || preselected.includes(ANY_KIND)) {
             // Kill the attribute if it is empty or has any/kind
             interaction.removeAttr('type');
             interaction.removeAttr('class');
