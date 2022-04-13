@@ -63,11 +63,11 @@ define([
             // THEN only -- Any kind of file -- is shown in the selection box.
             types[0].selected = true;
         } else {
-            for (let i in types) {
-                if (_.indexOf(preselected, types[i].mime) >= 0) {
-                    types[i].selected = true;
+            types.forEach(type => {
+                if (preselected.indexOf(type.mime) >= 0) {
+                    type.selected = true;
                 }
-            }
+            });
         }
 
         $form.html(
