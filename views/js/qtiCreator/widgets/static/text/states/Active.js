@@ -54,7 +54,7 @@ define([
             const editorOptions = {};
             const removePlugins = [];
     
-            if(features.isVisible(taoTooltipOption)) {
+            if(!features.isVisible(taoTooltipOption)) {
                 removePlugins.push('taotooltip'); 
             }
             editorOptions.removePlugins = removePlugins.join(',');
