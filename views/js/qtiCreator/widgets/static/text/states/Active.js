@@ -1,4 +1,5 @@
 define([
+    'services/features',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
@@ -6,10 +7,12 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/text',
     'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods'
-], function (stateFactory, Active, htmlEditor, content, formElement, formTpl, itemScrollingMethods) {
+], function (features, stateFactory, Active, htmlEditor, content, formElement, formTpl, itemScrollingMethods) {
     'use strict';
 
     const wrapperCls = 'custom-text-box';
+
+    const taoTooltipOption = 'TaoTooltip';
 
     const TextActive = stateFactory.extend(
         Active,
@@ -31,22 +34,35 @@ define([
 
         $editableContainer.attr('data-html-editable-container', true);
 
-        if (!htmlEditor.hasEditor($editableContainer)) {
-            htmlEditor.buildEditor($editableContainer, {
-                change: function (data) {
-                    changeCallback.call(this, data);
-                    if (!data) {
-                        widget.$form.find('[name="textBlockCssClass"]').val('');
-                    }
-                },
-                blur: function () {
-                    widget.changeState('sleep');
-                },
-                data: {
-                    widget: widget,
-                    container: container
+        const defaultEditorOptions = {
+            change: function (data) {
+                changeCallback.call(this, data);
+                if (!data) {
+                    widget.$form.find('[name="textBlockCssClass"]').val('');
                 }
-            });
+            },
+            blur: function () {
+                widget.changeState('sleep');
+            },
+            data: {
+                widget: widget,
+                container: container
+            }
+        }
+
+        const getEditorOptions = function() {
+            const editorOptions = {};
+            const removePlugins = [];
+    
+            if(features.isVisible(taoTooltipOption)) {
+                removePlugins.push('taotooltip'); 
+            }
+            editorOptions.removePlugins = removePlugins.join(',');
+            return Object.assign({}, defaultEditorOptions, editorOptions);
+        }
+        
+        if (!htmlEditor.hasEditor($editableContainer)) {
+            htmlEditor.buildEditor($editableContainer, getEditorOptions());
         }
     };
 
