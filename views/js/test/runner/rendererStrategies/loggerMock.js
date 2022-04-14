@@ -36,6 +36,9 @@ define([], function () {
             },
             wasCalled(type) {
                 return !!called[type];
+            },
+            child() {
+                return loggerFactory(name);
             }
         };
 
@@ -48,10 +51,12 @@ define([], function () {
         return logger;
     }
 
-    return function loggerFactory(name) {
+    function loggerFactory(name) {
         if (!loggers[name]) {
             loggers[name] = createLogger();
         }
         return loggers[name];
-    };
+    }
+
+    return loggerFactory;
 });

@@ -3,10 +3,18 @@
     <head>
         <meta charset="utf-8">
         <title>QtiItemRunner Demo Test</title>
-        <script type="text/javascript" src="/environment/require.js"></script>
-        <script  type="text/javascript">
+        <base href="../../../../../../tao/views/"/>
+        <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+        <link rel="stylesheet" href="css/tao-main-style.css"/>
+        <link rel="stylesheet" href="css/tao-3.css"/>
+        <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+        <script type="text/javascript" src="js/lib/require.js"></script>
+        <script type="text/javascript">
+            //don't start the test now
+            QUnit.config.autostart = false;
+
             //load the config
-            require(['/environment/config.js'], function() {
+            require(['/tao/ClientConfig/config'], function(){
                 requirejs.config({ nodeIdCompat: true });
                 require(['taoQtiItem/runner/qtiItemRunner'], function(qtiItemRunner){
                     var runner;
@@ -31,7 +39,7 @@
                             content = '<pre>' + JSON.stringify(content, null, '  ') + '</pre>';
                         }
                         output.innerHTML = output.innerHTML +
-                                '<p>[' + new Date().toLocaleTimeString() +'] <strong>' + title + '</strong> ' + content + '</p>';
+                            '<p>[' + new Date().toLocaleTimeString() +'] <strong>' + title + '</strong> ' + content + '</p>';
                         output.scrollTop = output.scrollHeight;
                     };
 
@@ -112,7 +120,7 @@
 
                     clearOutputLink.addEventListener('click', function(e){
                         e.preventDefault();
-                         output.innerHTML = '';
+                        output.innerHTML = '';
                     });
                 });
             });
