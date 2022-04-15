@@ -12,8 +12,11 @@ define([
 
     const wrapperCls = 'custom-text-box';
 
-    const taoTooltipOption = 'TaoTooltip';
-
+    const pluginConfigurationKey = 'taoQtiItem/qtiCreator/widgets/static/text/ckeditor/plugins';
+  
+    const isHiddenPlugin = (pluginName) => {
+        return !features.isVisible(`taoQtiItem/qtiCreator/widgets/static/text/ckeditor/plugins/${pluginName}`);
+    }
     const TextActive = stateFactory.extend(
         Active,
         function () {
@@ -54,9 +57,10 @@ define([
             const editorOptions = {};
             const removePlugins = [];
     
-            if(!features.isVisible(taoTooltipOption)) {
+            if(isHiddenPlugin('taotooltip')) {
                 removePlugins.push('taotooltip'); 
             }
+
             editorOptions.removePlugins = removePlugins.join(',');
             return Object.assign({}, defaultEditorOptions, editorOptions);
         }
