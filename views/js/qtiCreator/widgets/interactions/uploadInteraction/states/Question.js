@@ -52,9 +52,11 @@ define([
 
         const config = module.config();
 
-        if (preselected.length === 0 && config.defaultList && config.defaultList.length > 0) {
+        // set default list only for new added interaction
+        if (_widget.$container.data('new') && config.defaultList && config.defaultList.length > 0) {
             preselected = preselected.concat(config.defaultList);
             uploadHelper.setExpectedTypes(interaction, config.defaultList);
+            _widget.$container.data('new', false);
         }
 
         if (preselected.length === 0) {
