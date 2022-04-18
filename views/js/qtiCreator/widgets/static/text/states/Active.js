@@ -11,8 +11,6 @@ define([
     'use strict';
 
     const wrapperCls = 'custom-text-box';
-
-    const pluginConfigurationKey = 'taoQtiItem/qtiCreator/widgets/static/text/ckeditor/plugins';
   
     const isHiddenPlugin = (pluginName) => {
         return !features.isVisible(`taoQtiItem/qtiCreator/widgets/static/text/ckeditor/plugins/${pluginName}`);
