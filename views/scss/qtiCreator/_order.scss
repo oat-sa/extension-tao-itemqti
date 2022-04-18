@@ -4,9 +4,13 @@
     .mini-tlb {
         right: -38px;
         top: 4px;
-        @include rtl {
-            right: auto;
-            left: -38px;
+    }
+    .choice-area {
+        .mini-tlb {
+            @include rtl {
+                right: auto !important;
+                left: -2.2em;
+            }
         }
     }
     .widget-math.edit-active {
