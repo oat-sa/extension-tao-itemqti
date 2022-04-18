@@ -1,3 +1,4 @@
+{{#if enabledFeatures.shuffle}}
 <div class="panel">
     <label>
         <input name="shuffle" type="checkbox" {{#if shuffle}}checked="checked"{{/if}}/>
@@ -9,13 +10,13 @@
         {{__ 'If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be "shuffled" of "fixed" individually.'}}
     </span>
 </div>
-
+{{/if}}
 <hr/>
 <div class="panel min-max-panel">
     <h3>{{__ "Allowed choices"}}</h3>
 </div>
+{{#if enabledFeatures.orientation}}
 <hr/>
-
 <div class="panel">
     <h3>{{__ 'Orientation'}}</h3>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
@@ -36,3 +37,4 @@
         </label>
     </div>
 </div>
+{{/if}}
