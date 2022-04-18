@@ -47,7 +47,7 @@ define([
 
     InlineChoiceInteractionWidget.renderChoice = function(choice, shuffleChoice){
 
-        const dir = choice.getRootElement().getBody().getAttributes().dir;
+        const dir = choice.getRootElement().getBody().attributes.dir;
         const tplData = {
             tag : choice.qtiClass,
             serial : choice.serial,
