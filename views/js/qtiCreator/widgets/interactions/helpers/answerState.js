@@ -41,6 +41,8 @@ define([
 ) {
     'use strict';
 
+    const modalFeedbackConfigKey = 'taoQtiItem/qtiCreator/widgets/interactions/modalFeedbacks';
+
     const _saveCallbacks = {
         mappingAttr: function mappingAttr(response, value, key) {
             if (value === '') {
@@ -254,7 +256,7 @@ define([
                     serial: response.getSerial(),
                     defineCorrect: defineCorrect,
                     editMapping: editMapping,
-                    editFeedbacks: template !== 'CUSTOM' && features.isVisible('taoQtiItem/qtiCreator/widgets/interactions/modalFeedbacks'),
+                    editFeedbacks: template !== 'CUSTOM' && features.isVisible(modalFeedbackConfigKey),
                     mappingDisabled: _.isEmpty(response.mapEntries),
                     template: template,
                     templates: _getAvailableRpTemplates(
