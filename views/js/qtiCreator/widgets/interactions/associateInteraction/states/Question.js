@@ -48,7 +48,7 @@ define([
         $form.html(formTpl({
             shuffle : !!interaction.attr('shuffle'),
             enabledFeatures: {
-                shuffle: false
+                shuffleChoices: features('taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/shuffleChoices')
             }
         }));
 
