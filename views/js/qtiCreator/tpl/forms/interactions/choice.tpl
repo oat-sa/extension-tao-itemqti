@@ -50,7 +50,7 @@
         {{__ 'If this box is checked the student will be able to eliminate choices.'}}
     </span>
 </div>
-{{#if enabledFeatures.shuffle}}
+{{#if enabledFeatures.shuffleChoices}}
 <div class="panel">
     <label>
         <input name="shuffle" type="checkbox" {{#if shuffle}}checked="checked"{{/if}}/>

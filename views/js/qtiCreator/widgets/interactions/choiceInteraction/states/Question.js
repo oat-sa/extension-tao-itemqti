@@ -192,10 +192,9 @@ define([
                 shuffle: !!interaction.attr('shuffle'),
                 horizontal: interaction.attr('orientation') === 'horizontal',
                 eliminable: /\beliminable\b/.test(interaction.attr('class')),
-                // TODO: use features service to retreive feature state
                 enabledFeatures: {
-                    shuffle: false,
-                    listStyle: false
+                    shuffleChoices: features.isVisible('taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/shuffleChoices'),
+                    listStyle: features.isVisible('taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/listStyle')
                 }
             })
         );
