@@ -1,4 +1,4 @@
-{{#if enabledFeatures.shuffle}}
+{{#if enabledFeatures.shuffleChoices}}
 <div class="panel">
     <label>
         <input name="shuffle" type="checkbox" {{#if shuffle}}checked="checked"{{/if}}/>
