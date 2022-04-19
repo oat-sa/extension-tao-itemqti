@@ -35,7 +35,7 @@ define([
         $editableContainer.attr('data-html-editable-container', true);
 
         const defaultEditorOptions = {
-            change: function (data) {
+            change(data) {
                 changeCallback.call(this, data);
                 if (!data) {
                     widget.$form.find('[name="textBlockCssClass"]').val('');
