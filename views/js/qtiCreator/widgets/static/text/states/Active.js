@@ -23,8 +23,7 @@ define([
 
     const wrapperCls = 'custom-text-box';
 
-    const isHiddenPlugin = pluginName =>
-        !features.isVisible(`taoQtiItem/qtiCreator/widgets/static/text/ckeditor/plugins/${pluginName}`);
+    const isHiddenPlugin = pluginName => !features.isVisible(`taoQtiItem/creator/content/plugin/${pluginName}`);
 
     const registeredPluginNames = ckeditor.plugins.registered && Object.keys(ckeditor.plugins.registered);
     const TextActive = stateFactory.extend(
