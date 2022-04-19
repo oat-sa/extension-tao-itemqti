@@ -41,7 +41,7 @@ define([
 ) {
     'use strict';
 
-    const modalFeedbackConfigKey = 'taoQtiItem/qtiCreator/widgets/interactions/modalFeedbacks';
+    const modalFeedbackConfigKey = 'taoQtiItem/creator/interaction/property/modalFeedback';
 
     const _saveCallbacks = {
         mappingAttr: function mappingAttr(response, value, key) {
