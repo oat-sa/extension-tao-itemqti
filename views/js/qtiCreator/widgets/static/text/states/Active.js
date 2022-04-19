@@ -41,7 +41,7 @@ define([
                     widget.$form.find('[name="textBlockCssClass"]').val('');
                 }
             },
-            blur: function () {
+            blur() {
                 widget.changeState('sleep');
             },
             data: {
