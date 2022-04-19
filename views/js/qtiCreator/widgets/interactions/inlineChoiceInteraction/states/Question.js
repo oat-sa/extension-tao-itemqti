@@ -63,7 +63,7 @@ define([
             shuffle : !!interaction.attr('shuffle'),
             required : !!interaction.attr('required'),
             enabledFeatures: {
-                shuffle: false
+                shuffleChoices: features.isVisible('taoQtiItem/qtiCreator/widgets/interactions/inlineChoiceInteraction/shuffleChoices')
             }
         }));
 
