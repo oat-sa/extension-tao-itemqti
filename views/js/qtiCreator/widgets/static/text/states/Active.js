@@ -1,4 +1,5 @@
 define([
+    'ckeditor',
     'services/features',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
@@ -7,13 +8,25 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/text',
     'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods'
-], function (features, stateFactory, Active, htmlEditor, content, formElement, formTpl, itemScrollingMethods) {
+], function (
+    ckeditor,
+    features,
+    stateFactory,
+    Active,
+    htmlEditor,
+    content,
+    formElement,
+    formTpl,
+    itemScrollingMethods
+) {
     'use strict';
 
     const wrapperCls = 'custom-text-box';
 
     const isHiddenPlugin = pluginName =>
         !features.isVisible(`taoQtiItem/qtiCreator/widgets/static/text/ckeditor/plugins/${pluginName}`);
+
+    const registeredPluginNames = ckeditor.plugins.registered && Object.keys(ckeditor.plugins.registered);
     const TextActive = stateFactory.extend(
         Active,
         function () {
@@ -54,9 +67,11 @@ define([
             const editorOptions = {};
             const removePlugins = [];
 
-            if (isHiddenPlugin('taotooltip')) {
-                removePlugins.push('taotooltip');
-            }
+            registeredPluginNames.forEach(pluginName => {
+                if (isHiddenPlugin(pluginName)) {
+                    removePlugins.push('taotooltip');
+                }
+            });
 
             editorOptions.removePlugins = removePlugins.join(',');
             return Object.assign({}, defaultEditorOptions, editorOptions);
