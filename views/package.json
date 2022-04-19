@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "0.8.1",
-        "@oat-sa/tao-item-runner-qti": "github:oat-sa/tao-item-runner-qti-fe#fix/AUT-2123/inlinechoice-interaction-responses-not-aligned-when-initially-saved-LTR"
+        "@oat-sa/tao-item-runner-qti": "1.1.2"
     }
 }
