@@ -80,7 +80,7 @@ define([
             xhtml : {label : __('Rich text'), selected : false}
         };
 
-        if (features.isVisible('taoQtiItem/qtiCreator/widgets/interactions/extendedTextInteraction/formats/preFormatted')) {
+        if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/preFormatted')) {
             formats.preformatted = {
                 label : __('Pre-formatted text'),
                 selected : false
@@ -167,10 +167,10 @@ define([
             renderer.render(interaction);
 
             if (format === 'xhtml') {
-                if (!features.isVisible('taoQtiItem/qtiCreator/widgets/interactions/extendedTextInteraction/constraints/xhtml')) {
+                if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlConstraints')) {
                     $constraintsBlock.hide();
                 }
-                if (!features.isVisible('taoQtiItem/qtiCreator/widgets/interactions/extendedTextInteraction/recommendations/xhtml')) {
+                if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlRecommendations')) {
                     $recommendationsBlock.hide();
                 }
             } else if (previousFormat === 'xhtml') {

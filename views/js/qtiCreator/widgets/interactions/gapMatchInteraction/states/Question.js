@@ -278,7 +278,7 @@ define([
         $form.html(formTpl({
             shuffle : !!interaction.attr('shuffle'),
             enabledFeatures: {
-                shuffleChoices: features.isVisible('taoQtiItem/qtiCreator/widgets/interactions/gapMatchInteraction/shuffleChoices')
+                shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/gapMatch/property/shuffle')
             }
         }));
 

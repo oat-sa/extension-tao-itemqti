@@ -193,8 +193,8 @@ define([
                 horizontal: interaction.attr('orientation') === 'horizontal',
                 eliminable: /\beliminable\b/.test(interaction.attr('class')),
                 enabledFeatures: {
-                    shuffleChoices: features.isVisible('taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/shuffleChoices'),
-                    listStyle: features.isVisible('taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/listStyle')
+                    shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/choice/property/shuffle'),
+                    listStyle: features.isVisible('taoQtiItem/creator/interaction/choice/property/listStyle')
                 }
             })
         );

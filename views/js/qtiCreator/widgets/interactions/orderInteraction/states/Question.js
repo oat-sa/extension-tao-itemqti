@@ -57,8 +57,8 @@ define([
             shuffle : !!interaction.attr('shuffle'),
             horizontal : interaction.attr('orientation') === 'horizontal',
             enabledFeatures: {
-                shuffleChoices: features.isVisible('taoQtiItem/qtiCreator/widgets/interactions/orderInteraction/shuffleChoices'),
-                orientation: features.isVisible('taoQtiItem/qtiCreator/widgets/interactions/orderInteraction/orientation')
+                shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/order/property/shuffle'),
+                orientation: features.isVisible('taoQtiItem/creator/interaction/order/property/orientation')
             }
         }));
 
