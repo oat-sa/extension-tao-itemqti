@@ -26,9 +26,8 @@ define([
     'taoQtiItem/qtiCreator/editor/interactionsToolbar',
     'taoQtiItem/qtiCreator/helper/panel',
     'taoQtiItem/qtiCreator/helper/qtiElements',
-    'taoQtiItem/portableElementRegistry/ciRegistry',
-    'services/features'
-], function (interactionsToolbar, panel, qtiElements, ciRegistry, featuresService) {
+    'taoQtiItem/portableElementRegistry/ciRegistry'
+], function (interactionsToolbar, panel, qtiElements, ciRegistry) {
     'use strict';
 
     /**
@@ -36,16 +35,8 @@ define([
      * @param {jQueryElement} $container - the panel container
      */
     return function setUpInteractionPanel($container) {
-        const availableInteractions = qtiElements.getAvailableAuthoringElements();
-
-        //filter out interaction not visible
-        const interactions = Object.keys(availableInteractions).reduce((acc, interactionId) => {
-            //we assume the key looks like `item/interaction/associate`
-            if (featuresService.isVisible(`item/interaction/${interactionId.replace(/Interaction$/, '')}`)) {
-                acc[interactionId] = availableInteractions[interactionId];
-            }
-            return acc;
-        }, {});
+        const interactions = qtiElements.getAvailableAuthoringElements();
+        //const availableInteractions = qtiElements.getAvailableAuthoringElements();
 
         for (const typeId in ciRegistry.getAllVersions()) {
             const data = ciRegistry.getAuthoringData(typeId, { enabledOnly: true });

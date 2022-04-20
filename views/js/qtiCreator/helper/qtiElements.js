@@ -18,7 +18,7 @@
 /**
  * Utility to retrieve and manipualte QTI Elements
  */
-define(['jquery', 'lodash', 'i18n'], function ($, _, __) {
+define(['jquery', 'lodash', 'i18n', 'services/features'], function ($, _, __, featuresService) {
     'use strict';
 
     const QtiElements = {
@@ -316,6 +316,26 @@ define(['jquery', 'lodash', 'i18n'], function ($, _, __) {
             }
         },
 
+        /**
+         * Check wether an element is visible, using the feature viibility service
+         * @param {string} qtiClass - see the list of available classes
+         * @returns {boolean} true by default and false only if the element is explicitely registered as hidden
+         */
+        isVisible(qtiClass) {
+            if (this.is(qtiClass, 'customInteraction')) {
+                return featuresService.isVisible(`taoQtiItem/creator/customInteraction/${qtiClass.replace(/Interaction$/, '').replace(/^customInteraction\./, '')}`);
+            }
+            if (this.is(qtiClass, 'interaction')) {
+                return featuresService.isVisible(`taoQtiItem/creator/interaction/${qtiClass.replace(/Interaction$/, '')}`);
+            }
+            return true;
+        },
+
+        /**
+         * Get the list of available elements for the authoring side
+         * The list of those element is statically defined, but we filter out elements that should be visible
+         * @returns {Object} the available elements
+         */
         getAvailableAuthoringElements() {
             const tagTitles = {
                 commonInteractions: __('Common Interactions'),
@@ -323,7 +343,7 @@ define(['jquery', 'lodash', 'i18n'], function ($, _, __) {
                 graphicInteractions: __('Graphic Interactions')
             };
 
-            return {
+            const authoringElements = {
                 choiceInteraction: {
                     label: __('Choice Interaction'),
                     description: __(
@@ -508,6 +528,15 @@ define(['jquery', 'lodash', 'i18n'], function ($, _, __) {
                     group: 'graphic-interactions'
                 }
             };
+
+            //filter out hidden elements
+            const availableElements = {};
+            for (const [elementId, element] of Object.entries(authoringElements)) {
+                if (this.isVisible(elementId)) {
+                    availableElements[elementId] = element;
+                }
+            }
+            return availableElements;
         }
     };
 
