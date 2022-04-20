@@ -48,7 +48,7 @@ define([
         $form.html(formTpl({
             shuffle : !!interaction.attr('shuffle'),
             enabledFeatures: {
-                shuffleChoices: features('taoQtiItem/creator/interaction/associate/property/shuffle')
+                shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/associate/property/shuffle')
             }
         }));
 
