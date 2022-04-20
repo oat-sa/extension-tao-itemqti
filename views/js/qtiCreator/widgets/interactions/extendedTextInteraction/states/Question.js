@@ -173,7 +173,7 @@ define([
                 if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlRecommendations')) {
                     $recommendationsBlock.hide();
                 }
-            } else if (previousFormat === 'xhtml') {
+            } else {
                 $constraintsBlock.show();
                 $recommendationsBlock.show();
             }
