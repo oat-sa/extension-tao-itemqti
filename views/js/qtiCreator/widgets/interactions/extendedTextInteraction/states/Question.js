@@ -25,8 +25,21 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/ExtendedTextInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/patternMask',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/extendedText'
-], function($, _, __, module, stateFactory, Question, formElement, renderer, patternMaskHelper, formTpl){
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/extendedText',
+    'services/features'
+], function(
+    $,
+    _,
+    __,
+    module,
+    stateFactory,
+    Question,
+    formElement,
+    renderer,
+    patternMaskHelper,
+    formTpl,
+    features
+) {
     'use strict';
 
     var config = module.config();
@@ -49,6 +62,8 @@ define([
             $form = _widget.$form,
             $original = _widget.$original,
             $inputs,
+            $constraintsBlock,
+            $recommendationsBlock,
             interaction = _widget.element,
             isMathEntry = interaction.attr('data-math-entry') === 'true',
             format = interaction.attr('format'),
@@ -62,9 +77,15 @@ define([
 
         var formats = {
             plain : {label : __('Plain text'), selected : false},
-            preformatted : {label : __('Pre-formatted text'), selected : false},
             xhtml : {label : __('Rich text'), selected : false}
         };
+
+        if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/preFormatted')) {
+            formats.preformatted = {
+                label : __('Pre-formatted text'),
+                selected : false
+            };
+        }
 
         if (config.hasMath) {
             formats.math = {label : __('Rich text + math'), selected : false};
@@ -123,6 +144,17 @@ define([
             maxWords : $form.find('[name="maxWords"]'),
             patternMask : $form.find('[name="patternMask"]')
         };
+        $constraintsBlock = $form.find('#constraints');
+        $recommendationsBlock = $form.find('#recommendations');
+
+        if (format === 'xhtml') {
+            if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlConstraints')) {
+                $constraintsBlock.hide();
+            }
+            if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlRecommendations')) {
+                $recommendationsBlock.hide();
+            }
+        }
 
         //  init data change callbacks
         var callbacks = {};
@@ -142,6 +174,18 @@ define([
             interaction.attr('format', format);
             interaction.attr('data-math-entry', isMath ? 'true' : 'false');
             renderer.render(interaction);
+
+            if (format === 'xhtml') {
+                if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlConstraints')) {
+                    $constraintsBlock.hide();
+                }
+                if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlRecommendations')) {
+                    $recommendationsBlock.hide();
+                }
+            } else {
+                $constraintsBlock.show();
+                $recommendationsBlock.show();
+            }
 
             if (format !== 'xhtml' && previousFormat === 'xhtml') {
                 if (typeof correctResponse[0] !== 'undefined') {

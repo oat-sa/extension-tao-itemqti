@@ -26,8 +26,19 @@ define([
     'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/choice',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
+    'services/features',
     'ui/liststyler'
-], function (_, __, stateFactory, Question, formElement, minMaxComponentFactory, formTpl, sizeAdapter) {
+], function (
+    _,
+    __,
+    stateFactory,
+    Question,
+    formElement,
+    minMaxComponentFactory,
+    formTpl,
+    sizeAdapter,
+    features
+) {
     'use strict';
 
     const exitState = function exitState() {
@@ -180,7 +191,11 @@ define([
                 constraints,
                 shuffle: !!interaction.attr('shuffle'),
                 horizontal: interaction.attr('orientation') === 'horizontal',
-                eliminable: /\beliminable\b/.test(interaction.attr('class'))
+                eliminable: /\beliminable\b/.test(interaction.attr('class')),
+                enabledFeatures: {
+                    shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/choice/property/shuffle'),
+                    listStyle: features.isVisible('taoQtiItem/creator/interaction/choice/property/listStyle')
+                }
             })
         );
 
