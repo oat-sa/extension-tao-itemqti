@@ -147,6 +147,15 @@ define([
         $constraintsBlock = $form.find('#constraints');
         $recommendationsBlock = $form.find('#recommendations');
 
+        if (format === 'xhtml') {
+            if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlConstraints')) {
+                $constraintsBlock.hide();
+            }
+            if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlRecommendations')) {
+                $recommendationsBlock.hide();
+            }
+        }
+
         //  init data change callbacks
         var callbacks = {};
 
