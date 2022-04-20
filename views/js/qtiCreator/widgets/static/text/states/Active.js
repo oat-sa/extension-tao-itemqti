@@ -1,6 +1,4 @@
 define([
-    'ckeditor',
-    'services/features',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
@@ -8,24 +6,11 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/text',
     'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods'
-], function (
-    ckeditor,
-    features,
-    stateFactory,
-    Active,
-    htmlEditor,
-    content,
-    formElement,
-    formTpl,
-    itemScrollingMethods
-) {
+], function (stateFactory, Active, htmlEditor, content, formElement, formTpl, itemScrollingMethods) {
     'use strict';
 
     const wrapperCls = 'custom-text-box';
 
-    const isHiddenPlugin = pluginName => !features.isVisible(`taoQtiItem/creator/content/plugin/${pluginName}`);
-
-    const registeredPluginNames = ckeditor.plugins.registered && Object.keys(ckeditor.plugins.registered);
     const TextActive = stateFactory.extend(
         Active,
         function () {
@@ -46,38 +31,22 @@ define([
 
         $editableContainer.attr('data-html-editable-container', true);
 
-        const defaultEditorOptions = {
-            change(data) {
-                changeCallback.call(this, data);
-                if (!data) {
-                    widget.$form.find('[name="textBlockCssClass"]').val('');
-                }
-            },
-            blur() {
-                widget.changeState('sleep');
-            },
-            data: {
-                widget: widget,
-                container: container
-            }
-        };
-
-        const getEditorOptions = function () {
-            const editorOptions = {};
-            const removePlugins = [];
-
-            registeredPluginNames.forEach(pluginName => {
-                if (isHiddenPlugin(pluginName)) {
-                    removePlugins.push('taotooltip');
+        if (!htmlEditor.hasEditor($editableContainer)) {
+            htmlEditor.buildEditor($editableContainer, {
+                change: function (data) {
+                    changeCallback.call(this, data);
+                    if (!data) {
+                        widget.$form.find('[name="textBlockCssClass"]').val('');
+                    }
+                },
+                blur: function () {
+                    widget.changeState('sleep');
+                },
+                data: {
+                    widget: widget,
+                    container: container
                 }
             });
-
-            editorOptions.removePlugins = removePlugins.join(',');
-            return Object.assign({}, defaultEditorOptions, editorOptions);
-        };
-
-        if (!htmlEditor.hasEditor($editableContainer)) {
-            htmlEditor.buildEditor($editableContainer, getEditorOptions());
         }
     };
 
@@ -85,30 +54,6 @@ define([
         htmlEditor.destroyEditor(this.widget.$container);
     };
 
-    const changeCallbacks = function (widget) {
-        return {
-            textBlockCssClass: function (element, value) {
-                let $wrap = widget.$container.find(`.${wrapperCls}`);
-
-                value = value.trim();
-                if (value === wrapperCls) {
-                    value = '';
-                }
-
-                if (!$wrap.length) {
-                    $wrap = widget.$container.find('[data-html-editable="true"]').wrapInner('<div />').children();
-                }
-
-                $wrap.attr('class', `${wrapperCls} ${value}`);
-            },
-            scrolling: function (element, value) {
-                itemScrollingMethods.wrapContent(widget, value, 'inner');
-            },
-            scrollingHeight: function (element, value) {
-                itemScrollingMethods.setScrollingHeight(widget.$container.find(`.${wrapperCls}`), value);
-            }
-        };
-    };
     TextActive.prototype.initForm = function () {
         const widget = this.widget,
             $form = widget.$form,
@@ -130,6 +75,31 @@ define([
         formElement.setChangeCallbacks($form, widget.element, changeCallbacks(widget));
 
         itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
+    };
+
+    const changeCallbacks = function (widget) {
+        return {
+            textBlockCssClass: function (element, value) {
+                let $wrap = widget.$container.find(`.${wrapperCls}`);
+
+                value = value.trim();
+                if (value === wrapperCls) {
+                    value = '';
+                }
+
+                if (!$wrap.length) {
+                    $wrap = widget.$container.find('[data-html-editable="true"]').wrapInner('<div />').children();
+                }
+
+                $wrap.attr('class', wrapperCls + ' ' + value);
+            },
+            scrolling: function (element, value) {
+                itemScrollingMethods.wrapContent(widget, value, 'inner');
+            },
+            scrollingHeight: function (element, value) {
+                itemScrollingMethods.setScrollingHeight(widget.$container.find(`.${wrapperCls}`), value);
+            }
+        };
     };
 
     return TextActive;
