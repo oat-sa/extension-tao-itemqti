@@ -254,6 +254,8 @@ define([
                                 widget = elt.data('widget');
                                 if (Element.isA(elt, 'blockInteraction')) {
                                     $widgetNewElem = widget.$container;
+                                    // set flag new for upload interaction to set default list of mime types
+                                    $widgetNewElem.data('new', true);
                                 } else {
                                     //leave the container in place
                                     $widgetNewElem = widget.$original;
