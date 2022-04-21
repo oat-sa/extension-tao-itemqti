@@ -36,7 +36,6 @@ define([
      */
     return function setUpInteractionPanel($container) {
         const interactions = qtiElements.getAvailableAuthoringElements();
-        //const availableInteractions = qtiElements.getAvailableAuthoringElements();
 
         for (const typeId in ciRegistry.getAllVersions()) {
             const data = ciRegistry.getAuthoringData(typeId, { enabledOnly: true });
