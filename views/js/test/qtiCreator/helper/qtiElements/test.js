@@ -42,6 +42,10 @@ define(['taoQtiItem/qtiCreator/helper/qtiElements'], function (qtiElements) {
         .test('is interaction visible ', (data, assert) => {
             assert.expect(1);
 
-            assert.equal(qtiElements.isVisible(data.title), data.visible, `${data.title} ${data.visible? 'is': 'is not'} visible`);
+            assert.equal(
+                qtiElements.isVisible(data.title),
+                data.visible,
+                `${data.title} ${data.visible ? 'is' : 'is not'} visible`
+            );
         });
 });

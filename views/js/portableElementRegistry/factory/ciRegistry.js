@@ -53,7 +53,7 @@ define([
                 ) {
                     return {
                         label: pciModel.label, //currently no translation available
-                        icon: pciModel.creator.icon.replace(new RegExp('^' + typeIdentifier + '/'), pciModel.baseUrl),
+                        icon: pciModel.creator.icon.replace(new RegExp(`^${typeIdentifier}/`), pciModel.baseUrl),
                         short: pciModel.short,
                         description: pciModel.description,
                         qtiClass, //custom interaction is block type
