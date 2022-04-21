@@ -23,28 +23,26 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCreator/editor/interactionsToolbar',
     'taoQtiItem/qtiCreator/helper/panel',
     'taoQtiItem/qtiCreator/helper/qtiElements',
     'taoQtiItem/portableElementRegistry/ciRegistry'
-], function(_, interactionsToolbar, panel, qtiElements, ciRegistry){
+], function (interactionsToolbar, panel, qtiElements, ciRegistry) {
     'use strict';
 
     /**
      * Set up the interaction selection panel
      * @param {jQueryElement} $container - the panel container
      */
-    return function setUpInteractionPanel($container){
+    return function setUpInteractionPanel($container) {
+        const interactions = qtiElements.getAvailableAuthoringElements();
 
-        var interactions = qtiElements.getAvailableAuthoringElements();
-
-        _.forIn(ciRegistry.getAllVersions(), function(versions, typeId){
-            var data = ciRegistry.getAuthoringData(typeId, {enabledOnly : true});
-            if(data && data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()){
+        for (const typeId in ciRegistry.getAllVersions()) {
+            const data = ciRegistry.getAuthoringData(typeId, { enabledOnly: true });
+            if (data && data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()) {
                 interactions[data.qtiClass] = data;
             }
-        });
+        }
 
         //create toolbar:
         interactionsToolbar.create($container, interactions);
