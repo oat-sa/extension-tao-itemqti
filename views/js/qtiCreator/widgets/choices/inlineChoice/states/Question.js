@@ -72,9 +72,11 @@ define([
                     _widget.changeState('question');
                 }
             })
-            .on('input.qti-widget', function () {
-                // clean format of paste text
-                $(this).html($(this).text());
+            .on('input.qti-widget', function (e) {
+                if (e.originalEvent.inputType === 'insertFromPaste') {
+                    // clean format of paste text
+                    $(this).html($(this).text());
+                }
             });
     };
 
