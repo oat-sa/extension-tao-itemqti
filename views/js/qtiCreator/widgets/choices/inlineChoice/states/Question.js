@@ -78,6 +78,7 @@ define([
                     let offset;
                     if (window.getSelection) {
                         const range = window.getSelection().getRangeAt(0);
+                        // new range from div start up to pasted text
                         const preCaretRange = range.cloneRange();
                         preCaretRange.selectNodeContents(this);
                         preCaretRange.setEnd(range.endContainer, range.endOffset);
