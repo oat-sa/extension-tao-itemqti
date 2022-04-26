@@ -74,8 +74,22 @@ define([
             })
             .on('input.qti-widget', function (e) {
                 if (e.originalEvent.inputType === 'insertFromPaste') {
+                    // save range and calculate offset for cursor
+                    let range;
+                    let offset;
+                    if (window.getSelection) {
+                        range = window.getSelection().getRangeAt(0);
+                        const preCaretRange = range.cloneRange();
+                        preCaretRange.selectNodeContents(this);
+                        preCaretRange.setEnd(range.endContainer, range.endOffset);
+                        offset = preCaretRange.toString().length;
+                    }
                     // clean format of paste text
                     $(this).html($(this).text());
+                    // set cursor after inserted text
+                    if (range) {
+                        range.setStart(this.childNodes[0], offset);
+                    }
                 }
             });
     };
