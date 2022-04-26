@@ -74,7 +74,7 @@ define([
             })
             .on('input.qti-widget', function (e) {
                 if (e.originalEvent.inputType === 'insertFromPaste') {
-                    // save range and calculate offset for cursor
+                    // calculate offset for cursor
                     let offset;
                     if (window.getSelection) {
                         const range = window.getSelection().getRangeAt(0);
