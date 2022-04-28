@@ -119,7 +119,7 @@ define([
         },
 
         /**
-         * Display warning message in case any matchMax is set to 0 (infinite)
+         * Display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
          * @param {String} template
          */
         infinityMatchMax: function (template) {

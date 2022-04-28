@@ -312,10 +312,10 @@ define([
                             self.updateThresholds(1, _.size(interaction.getChoices()));
                         }
                     });
-                    // display warning message in case any matchMax is set to 0 (infinite)
+                    // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
                     widget.infinityMatchMax('hotspot');
                 }).on('change', function () {
-                    // display warning message in case any matchMax is set to 0 (infinite)
+                    // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
                     widget.infinityMatchMax('hotspot');
                 });
 
@@ -401,10 +401,10 @@ define([
                             self.updateThresholds(1, _.size(interaction.getChoices()));
                         }
                     });
-                    // display warning message in case any matchMax is set to 0 (infinite)
+                    // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
                     widget.infinityMatchMax('gapImg');
                 }).on('change', function () {
-                    // display warning message in case any matchMax is set to 0 (infinite)
+                    // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
                     widget.infinityMatchMax('gapImg');
                 });
 

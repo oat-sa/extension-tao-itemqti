@@ -150,7 +150,7 @@ define([
             updateForm(widget);
         }
 
-        // display warning message in case any matchMax is set to 0 (infinite)
+        // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
         widget.infinityMatchMax('response');
         // event triggered by the ResponseDeclaration
         widget.on('infinityMatchMax', function () {
