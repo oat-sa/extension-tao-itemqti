@@ -132,20 +132,12 @@ define([
             const isGapImgsInfinityMaxScore = _.some(interaction.getGapImgs(), function (gap) {
                 return gap.attr('matchMax') === 0;
             })
-            const mappingDisabled = _.isEmpty(response.mapEntries);
 
-            let isInfinityMatchMax = false;
-            switch (template) {
-                case 'hotspot':
-                    isInfinityMatchMax = isChoicesInfinityMaxScore;
-                    break;
-                case 'gapImg':
-                    isInfinityMatchMax = isGapImgsInfinityMaxScore;
-                    break;
-                case 'response':
-                    isInfinityMatchMax = (isChoicesInfinityMaxScore || isGapImgsInfinityMaxScore) && !mappingDisabled;
-                    break;
-            }
+            const isMapEntriesHigerThan0 = _.some(response.mapEntries, function (entry) {
+                return entry > 0;
+            })
+
+            let isInfinityMatchMax = isChoicesInfinityMaxScore && isGapImgsInfinityMaxScore && isMapEntriesHigerThan0;
             const $panel = response.renderer.getAreaBroker().getPropertyPanelArea();
             hider.toggle($(`.response-matchmax-info.${template}`, $panel), isInfinityMatchMax);
         }
