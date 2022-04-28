@@ -126,18 +126,16 @@ define([
             const interaction = this.element;
             const response = interaction.getResponseDeclaration();
 
-            const isChoicesInfinityMaxScore = _.some(interaction.getChoices(), function (choice) {
-                return choice.attr('matchMax') === 0;
+            const isChoicesInfiniteMaxScore = _.some(interaction.getChoices(), function (choice) {
+                return +choice.attr('matchMax') === 0;
             })
-            const isGapImgsInfinityMaxScore = _.some(interaction.getGapImgs(), function (gap) {
-                return gap.attr('matchMax') === 0;
-            })
-
-            const isMapEntriesHigerThan0 = _.some(response.mapEntries, function (entry) {
-                return entry > 0;
+            const isGapImgsInfiniteMaxScore = _.some(interaction.getGapImgs(), function (gap) {
+                return +gap.attr('matchMax') === 0;
             })
 
-            let isInfinityMatchMax = isChoicesInfinityMaxScore && isGapImgsInfinityMaxScore && isMapEntriesHigerThan0;
+            const isInfinitePair = typeof interaction.getNormalMaximum() === 'boolean' ? true : false;
+
+            let isInfinityMatchMax = isChoicesInfiniteMaxScore && isGapImgsInfiniteMaxScore && isInfinitePair;
             const $panel = response.renderer.getAreaBroker().getPropertyPanelArea();
             hider.toggle($(`.response-matchmax-info.${template}`, $panel), isInfinityMatchMax);
         }
