@@ -59,6 +59,9 @@ define([
 
             hider.toggle($('.response-mapping-attributes', $panel), !mappingDisabled);
             hider.toggle($('.response-mapping-info', $panel), mappingDisabled);
+
+            // event trigger to display warning message in case any matchMax is set to 0 (infinite)
+            $(document).trigger('infinityMatchMax.qti-widget', { template: 'response' });
         },
         setMapEntry : function(mapKey, mappedValue, caseSensitive){
 

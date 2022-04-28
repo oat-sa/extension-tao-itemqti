@@ -23,10 +23,11 @@
  */
 define([
     'jquery', 'lodash', 'i18n',
+    'ui/hider',
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicInteraction/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/states/states'
-], function($, _, __, Widget, GraphicWidget, states){
+], function($, _, __, hider, Widget, GraphicWidget, states){
 
     'use strict';
 
@@ -115,6 +116,38 @@ define([
             _.forEach(interaction.gapImgs, function(gapImg){
                 $gapList.append(gapImg.render());
             });
+        },
+
+        /**
+         * Display warning message in case any matchMax is set to 0 (infinite)
+         * @param {String} template
+         */
+        infinityMatchMax: function (template) {
+            const interaction = this.element;
+            const response = interaction.getResponseDeclaration();
+
+            const isChoicesInfinityMaxScore = _.some(interaction.getChoices(), function (choice) {
+                return choice.attr('matchMax') === 0;
+            })
+            const isGapImgsInfinityMaxScore = _.some(interaction.getGapImgs(), function (gap) {
+                return gap.attr('matchMax') === 0;
+            })
+            const mappingDisabled = _.isEmpty(response.mapEntries);
+
+            let isInfinityMatchMax = false;
+            switch (template) {
+                case 'hotspot':
+                    isInfinityMatchMax = isChoicesInfinityMaxScore;
+                    break;
+                case 'gapImg':
+                    isInfinityMatchMax = isGapImgsInfinityMaxScore;
+                    break;
+                case 'response':
+                    isInfinityMatchMax = (isChoicesInfinityMaxScore || isGapImgsInfinityMaxScore) && !mappingDisabled;
+                    break;
+            }
+            const $panel = response.renderer.getAreaBroker().getPropertyPanelArea();
+            hider.toggle($(`.response-matchmax-info.${template}`, $panel), isInfinityMatchMax);
         }
     });
 
