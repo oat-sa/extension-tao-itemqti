@@ -133,7 +133,7 @@ define([
                 return +gap.attr('matchMax') === 0;
             })
 
-            const isInfinitePair = typeof interaction.getNormalMaximum() === 'boolean' ? true : false;
+            const isInfinitePair = interaction.getNormalMaximum() === false ? true : false;
 
             let isInfinityMatchMax = isChoicesInfiniteMaxScore && isGapImgsInfiniteMaxScore && isInfinitePair;
             const $panel = response.renderer.getAreaBroker().getPropertyPanelArea();
