@@ -133,7 +133,8 @@ define([
             const checkTemplates = ['hotspot', 'gapImg'].includes(template);
             if (hotSpotMatchMax && checkTemplates) {
                 isInfinityMatchMax = false;
-            } else if(isInfinitePair && checkTemplates) {
+            } else
+            if (isInfinitePair && checkTemplates) {
                 const identifier = choiceMatchMax.attr('identifier');
                 isInfinityMatchMax = this.isChoiceInfinitePair(identifier, template, interaction, response);
             }
@@ -143,24 +144,33 @@ define([
         },
 
         isChoiceInfinitePair: function (identifier, template, interaction, response) {
-            const pairEntry = _.map(response.mapEntries, function (value, index) {
+            const mapEntries = response.mapEntries;
+            const pairEntry = _.map(mapEntries, function (value, index) {
                 if (index.includes(identifier) && +value > 0) {
                     return index.replace(identifier, '').trim();
                 }
                 return false;
             })[0];
 
+
+            const getGapImgs = interaction.getGapImgs();
+            const getChoices = interaction.getChoices();
+            const mapEntriesLength = Object.keys(mapEntries).length;
+
             if (!pairEntry) {
+                if (Object.keys(getGapImgs).length > mapEntriesLength || Object.keys(getChoices).length > mapEntriesLength) {
+                    return true;
+                }
                 return false;
             }
 
             let isInfinitePair = false;
             if (template === 'hotspot') {
-                isInfinitePair = _.find(interaction.getGapImgs(), function (gap) {
+                isInfinitePair = _.find(getGapImgs, function (gap) {
                     return +gap.attr('matchMax') === 0 && pairEntry === gap.attr('identifier');
                 })
             } else if (template === 'gapImg') {
-                isInfinitePair = _.find(interaction.getChoices(), function (choice) {
+                isInfinitePair = _.find(getChoices, function (choice) {
                     return +choice.attr('matchMax') === 0 && pairEntry === choice.attr('identifier');
                 })
             }
