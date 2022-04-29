@@ -72,9 +72,30 @@ define([
                     _widget.changeState('question');
                 }
             })
-            .on('input.qti-widget', function () {
-                // clean format of paste text
-                $(this).html($(this).text());
+            .on('input.qti-widget', function (e) {
+                if (e.originalEvent.inputType === 'insertFromPaste') {
+                    // calculate offset for cursor
+                    let offset;
+                    if (window.getSelection) {
+                        const range = window.getSelection().getRangeAt(0);
+                        // new range from div start up to pasted text
+                        const preCaretRange = range.cloneRange();
+                        preCaretRange.selectNodeContents(this);
+                        preCaretRange.setEnd(range.endContainer, range.endOffset);
+                        offset = preCaretRange.toString().length;
+                    }
+                    // clean format of paste text
+                    $(this).html($(this).text());
+                    // set cursor after inserted text
+                    if (offset) {
+                        const range = document.createRange();
+                        const sel = window.getSelection();
+                        range.setStart(this.childNodes[0], offset);
+                        range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    }
+                }
             });
     };
 
