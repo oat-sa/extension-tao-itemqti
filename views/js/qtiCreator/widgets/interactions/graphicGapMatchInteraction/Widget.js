@@ -122,22 +122,49 @@ define([
          * Display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
          * @param {String} template
          */
-        infinityMatchMax: function (template) {
+        infinityMatchMax: function (template, choiceMatchMax) {
             const interaction = this.element;
             const response = interaction.getResponseDeclaration();
 
-            const isChoicesInfiniteMaxScore = _.some(interaction.getChoices(), function (choice) {
-                return +choice.attr('matchMax') === 0;
-            })
-            const isGapImgsInfiniteMaxScore = _.some(interaction.getGapImgs(), function (gap) {
-                return +gap.attr('matchMax') === 0;
-            })
-
             const isInfinitePair = interaction.getNormalMaximum() === false ? true : false;
+            const hotSpotMatchMax = choiceMatchMax && +choiceMatchMax.attr('matchMax');
 
-            let isInfinityMatchMax = isChoicesInfiniteMaxScore && isGapImgsInfiniteMaxScore && isInfinitePair;
+            let isInfinityMatchMax = isInfinitePair;
+            const checkTemplates = ['hotspot', 'gapImg'].includes(template);
+            if (hotSpotMatchMax && checkTemplates) {
+                isInfinityMatchMax = false;
+            } else if(isInfinitePair && checkTemplates) {
+                const identifier = choiceMatchMax.attr('identifier');
+                isInfinityMatchMax = this.isChoiceInfinitePair(identifier, template, interaction, response);
+            }
+
             const $panel = response.renderer.getAreaBroker().getPropertyPanelArea();
             hider.toggle($(`.response-matchmax-info.${template}`, $panel), isInfinityMatchMax);
+        },
+
+        isChoiceInfinitePair: function (identifier, template, interaction, response) {
+            const pairEntry = _.map(response.mapEntries, function (value, index) {
+                if (index.includes(identifier) && +value > 0) {
+                    return index.replace(identifier, '').trim();
+                }
+                return false;
+            })[0];
+
+            if (!pairEntry) {
+                return false;
+            }
+
+            let isInfinitePair = false;
+            if (template === 'hotspot') {
+                isInfinitePair = _.find(interaction.getGapImgs(), function (gap) {
+                    return +gap.attr('matchMax') === 0 && pairEntry === gap.attr('identifier');
+                })
+            } else if (template === 'gapImg') {
+                isInfinitePair = _.find(interaction.getChoices(), function (choice) {
+                    return +choice.attr('matchMax') === 0 && pairEntry === choice.attr('identifier');
+                })
+            }
+            return !!isInfinitePair;
         }
     });
 
