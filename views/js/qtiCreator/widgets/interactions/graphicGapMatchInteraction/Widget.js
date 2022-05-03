@@ -153,11 +153,11 @@ define([
             const mapEntries = response.mapEntries;
 
             let pairEntry = '';
-            for (const key in mapEntries) {
+            Object.keys(mapEntries).forEach(key => {
                 if (key.includes(identifier) && parseInt(mapEntries[key], 10) > 0) {
                     pairEntry = key.replace(identifier, '').trim();
                 }
-            }
+            })
 
             const getGapImgs = interaction.getGapImgs();
             const getChoices = interaction.getChoices();
