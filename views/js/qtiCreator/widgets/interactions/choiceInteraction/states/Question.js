@@ -238,8 +238,10 @@ define([
             interactionParam.attr('orientation', value);
             if (value === 'horizontal') {
                 $choiceArea.addClass('horizontal');
+                sizeAdapter.adaptSize(widget);
             } else {
                 $choiceArea.removeClass('horizontal');
+                sizeAdapter.resetSize(widget);
             }
         };
 
