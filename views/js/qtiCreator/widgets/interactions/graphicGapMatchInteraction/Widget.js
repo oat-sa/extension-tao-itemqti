@@ -152,10 +152,10 @@ define([
         isChoiceInfinitePair (identifier, template, interaction, response) {
             const mapEntries = response.mapEntries;
 
-            let pairEntry = '';
+            let pairEntry = [];
             Object.keys(mapEntries).forEach(key => {
                 if (key.includes(identifier) && parseInt(mapEntries[key], 10) > 0) {
-                    pairEntry = key.replace(identifier, '').trim();
+                    pairEntry.push(key.replace(identifier, '').trim());
                 }
             })
 
@@ -164,7 +164,7 @@ define([
             const mapEntriesLength = _.size(mapEntries);
             const mapDefault = parseFloat(response.mappingAttributes.defaultValue || 0);
 
-            if (!pairEntry) {
+            if (!_.size(pairEntry)) {
                 if ((_.size(getGapImgs) > mapEntriesLength || _.size(getChoices) > mapEntriesLength) && mapDefault > 0) {
                     return true;
                 }
@@ -173,9 +173,19 @@ define([
 
             let isInfinitePair = false;
             if (template === 'hotspot') {
-                isInfinitePair = _.find(getGapImgs, gap => pairEntry === gap.attr('identifier') && parseInt(gap.attr('matchMax'), 10) === 0);
+                pairEntry.forEach(pair => {
+                    const getAny = _.some(getGapImgs, gap => pair === gap.attr('identifier') && parseInt(gap.attr('matchMax'), 10) === 0);
+                    if (getAny) {
+                        isInfinitePair = getAny;
+                    }
+                });
             } else if (template === 'gapImg') {
-                isInfinitePair = _.find(getChoices, choice => pairEntry === choice.attr('identifier') && parseInt(choice.attr('matchMax'), 10) === 0);
+                pairEntry.forEach(pair => {
+                    const getAny = _.some(getChoices, choice => pair === choice.attr('identifier') && parseInt(choice.attr('matchMax'), 10) === 0);
+                    if (getAny) {
+                        isInfinitePair = getAny;
+                    }
+                });
             }
             return !!isInfinitePair;
         }
