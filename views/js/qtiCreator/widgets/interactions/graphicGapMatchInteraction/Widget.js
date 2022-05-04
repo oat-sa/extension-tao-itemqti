@@ -127,11 +127,6 @@ define([
             const interaction = this.element;
             const response = interaction.getResponseDeclaration();
 
-            // if no mapEntries, there is no need to check
-            if (!response.mapEntries || !_.size(response.mapEntries)) {
-                return false;
-            }
-
             // getNormalMaximum() could be boolean or number
             const isInfinitePair = interaction.getNormalMaximum() === false ? true : false;
             const choiceMatchMax = choice && parseInt(choice.attr('matchMax'), 10);
@@ -206,7 +201,7 @@ define([
             let pairEntry = [];
             Object.keys(allPossibleMapEntries).forEach(key => {
                 if (key.includes(identifier) && parseInt(allPossibleMapEntries[key], 10) > 0) {
-                    pairEntry.push(key.replace(identifier, '').trim());
+                    pairEntry.push(interaction.getChoiceByIdentifier(key.replace(identifier, '').trim()));
                 }
             })
 
@@ -214,25 +209,7 @@ define([
                 return false;
             }
 
-            const getGapImgs = interaction.getGapImgs();
-            const getChoices = interaction.getChoices();
-            let isInfinitePair = false;
-            if (template === 'hotspot') {
-                pairEntry.forEach(pair => {
-                    const getAny = _.some(getGapImgs, gap => pair === gap.attr('identifier') && parseInt(gap.attr('matchMax'), 10) === 0);
-                    if (getAny) {
-                        isInfinitePair = getAny;
-                    }
-                });
-            } else if (template === 'gapImg') {
-                pairEntry.forEach(pair => {
-                    const getAny = _.some(getChoices, choice => pair === choice.attr('identifier') && parseInt(choice.attr('matchMax'), 10) === 0);
-                    if (getAny) {
-                        isInfinitePair = getAny;
-                    }
-                });
-            }
-            return !!isInfinitePair;
+            return true;
         }
     });
 
