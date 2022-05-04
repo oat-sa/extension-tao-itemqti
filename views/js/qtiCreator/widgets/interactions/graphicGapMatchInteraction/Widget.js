@@ -149,28 +149,73 @@ define([
             hider.toggle($(`.response-matchmax-info.${template}`, $panel), isInfinityMatchMax);
         },
 
+        /**
+         * Sort an array of associable choices by its matchMax attr value
+         * @param {Array} choiceCollection
+         * @returns {Array}
+         */
+        getMatchMaxOrderedChoices (choiceCollection) {
+            return _(choiceCollection)
+                .map(function (choice) {
+                    var matchMax = parseInt(choice.attr('matchMax'), 10);
+                    if (_.isNaN(matchMax)) {
+                        matchMax = 0;
+                    }
+                    return {
+                        matchMax: matchMax === 0 ? Infinity : matchMax,
+                        id: choice.id()
+                    };
+                })
+                .sortBy('matchMax')
+                .reverse()
+                .valueOf();
+        },
+
+        pairExists (collection, pair) {
+            if (pair.length !== 2) {
+                return false;
+            }
+            return collection[pair[0] + ' ' + pair[1]] || collection[pair[1] + ' ' + pair[0]];
+        },
+
+        calculatePossiblePairs (interaction) {
+            var pairs = [];
+            var matchSet1 = this.getMatchMaxOrderedChoices(interaction.getGapImgs());
+            var matchSet2 = this.getMatchMaxOrderedChoices(interaction.getChoices());
+
+            _.forEach(matchSet1, choice1 => _.forEach(matchSet2, choice2 => pairs.push([choice1.id, choice2.id])));
+
+            return pairs;
+        },
+
         isChoiceInfinitePair (identifier, template, interaction, response) {
             const mapEntries = response.mapEntries;
+            const mapDefault = parseFloat(response.mappingAttributes.defaultValue || 0);
+
+            // check possible pairs
+            const allPossibleMapEntries = _.clone(mapEntries);
+            const possiblePairs = this.calculatePossiblePairs(interaction);
+            if (mapDefault && mapDefault > 0) {
+                _.forEachRight(possiblePairs, pair => {
+                    if (!this.pairExists(allPossibleMapEntries, pair)) {
+                        allPossibleMapEntries[pair[0] + ' ' + pair[1]] = mapDefault;
+                    }
+                });
+            }
 
             let pairEntry = [];
-            Object.keys(mapEntries).forEach(key => {
-                if (key.includes(identifier) && parseInt(mapEntries[key], 10) > 0) {
+            Object.keys(allPossibleMapEntries).forEach(key => {
+                if (key.includes(identifier) && parseInt(allPossibleMapEntries[key], 10) > 0) {
                     pairEntry.push(key.replace(identifier, '').trim());
                 }
             })
 
-            const getGapImgs = interaction.getGapImgs();
-            const getChoices = interaction.getChoices();
-            const mapEntriesLength = _.size(mapEntries);
-            const mapDefault = parseFloat(response.mappingAttributes.defaultValue || 0);
-
             if (!_.size(pairEntry)) {
-                if ((_.size(getGapImgs) > mapEntriesLength || _.size(getChoices) > mapEntriesLength) && mapDefault > 0) {
-                    return true;
-                }
                 return false;
             }
 
+            const getGapImgs = interaction.getGapImgs();
+            const getChoices = interaction.getChoices();
             let isInfinitePair = false;
             if (template === 'hotspot') {
                 pairEntry.forEach(pair => {
