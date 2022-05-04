@@ -137,7 +137,7 @@ define([
                 isInfinityMatchMax = false;
             } else if (isInfinitePair && checkTemplates) {
                 const identifier = choice.attr('identifier');
-                isInfinityMatchMax = this.isChoiceInfinitePair(identifier, template, interaction, response);
+                isInfinityMatchMax = this.isChoiceInfinitePair(identifier, interaction, response);
             }
 
             const $panel = response.renderer.getAreaBroker().getPropertyPanelArea();
@@ -183,14 +183,14 @@ define([
             return pairs;
         },
 
-        isChoiceInfinitePair (identifier, template, interaction, response) {
+        isChoiceInfinitePair (identifier, interaction, response) {
             const mapEntries = response.mapEntries;
-            const mapDefault = parseFloat(response.mappingAttributes.defaultValue || 0);
+            const mapDefault = parseFloat(response.mappingAttributes.defaultValue) || 0;
 
             // check possible pairs
             const allPossibleMapEntries = _.clone(mapEntries);
-            const possiblePairs = this.calculatePossiblePairs(interaction);
             if (mapDefault && mapDefault > 0) {
+                const possiblePairs = this.calculatePossiblePairs(interaction);
                 _.forEachRight(possiblePairs, pair => {
                     if (!this.pairExists(allPossibleMapEntries, pair)) {
                         allPossibleMapEntries[pair[0] + ' ' + pair[1]] = mapDefault;
@@ -198,18 +198,16 @@ define([
                 });
             }
 
-            let pairEntry = [];
+            let isInfinitePair = false;
             Object.keys(allPossibleMapEntries).forEach(key => {
                 if (key.includes(identifier) && parseInt(allPossibleMapEntries[key], 10) > 0) {
-                    pairEntry.push(interaction.getChoiceByIdentifier(key.replace(identifier, '').trim()));
+                    let choice = interaction.getChoiceByIdentifier(key.replace(identifier, '').trim());
+                    if (parseInt(choice.attr('matchMax'), 10) === 0) {
+                        isInfinitePair = true;
+                    }
                 }
             })
-
-            if (!_.size(pairEntry)) {
-                return false;
-            }
-
-            return true;
+            return isInfinitePair;
         }
     });
 
