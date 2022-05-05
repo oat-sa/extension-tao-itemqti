@@ -29,3 +29,6 @@
 <div class="panel min-max-panel">
     <h3>{{__ "Max. number of matches"}} </h3>
 </div>
+<div class="response-matchmax-info gapImg{{#unless isInfinityMatchMax}} hidden{{/unless}}">
+    <p class="feedback-info">{{__ 'The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score.'}}</p>
+</div>
