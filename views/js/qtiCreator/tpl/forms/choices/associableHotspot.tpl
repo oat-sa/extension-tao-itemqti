@@ -14,6 +14,10 @@
     <h3>{{__ "Allowed number of matches"}}</h3>
 </div>
 
+<div class="response-matchmax-info hotspot{{#unless isInfinityMatchMax}} hidden{{/unless}}">
+    <p class="feedback-info">{{__ 'The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score.'}}</p>
+</div>
+
 <div class="panel">
     <h3>{{__ "Shape position"}}</h3>
 

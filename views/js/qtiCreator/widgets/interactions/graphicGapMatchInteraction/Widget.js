@@ -23,10 +23,11 @@
  */
 define([
     'jquery', 'lodash', 'i18n',
+    'ui/hider',
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicInteraction/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/states/states'
-], function($, _, __, Widget, GraphicWidget, states){
+], function($, _, __, hider, Widget, GraphicWidget, states){
 
     'use strict';
 
@@ -115,6 +116,98 @@ define([
             _.forEach(interaction.gapImgs, function(gapImg){
                 $gapList.append(gapImg.render());
             });
+        },
+
+        /**
+         * Display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+         * @param {String} template
+         * @param {Object} choice
+         */
+        infinityMatchMax (template, choice) {
+            const interaction = this.element;
+            const response = interaction.getResponseDeclaration();
+
+            // getNormalMaximum() could be boolean or number
+            const isInfinitePair = interaction.getNormalMaximum() === false ? true : false;
+            const choiceMatchMax = choice && parseInt(choice.attr('matchMax'), 10);
+
+            let isInfinityMatchMax = isInfinitePair;
+            const checkTemplates = ['hotspot', 'gapImg'].includes(template);
+            if (choiceMatchMax && checkTemplates) {
+                isInfinityMatchMax = false;
+            } else if (isInfinitePair && checkTemplates) {
+                const identifier = choice.attr('identifier');
+                isInfinityMatchMax = this.isChoiceInfinitePair(identifier, interaction, response);
+            }
+
+            const $panel = response.renderer.getAreaBroker().getPropertyPanelArea();
+            hider.toggle($(`.response-matchmax-info.${template}`, $panel), isInfinityMatchMax);
+        },
+
+        /**
+         * Sort an array of associable choices by its matchMax attr value
+         * @param {Array} choiceCollection
+         * @returns {Array}
+         */
+        getMatchMaxOrderedChoices (choiceCollection) {
+            return _(choiceCollection)
+                .map(function (choice) {
+                    var matchMax = parseInt(choice.attr('matchMax'), 10);
+                    if (_.isNaN(matchMax)) {
+                        matchMax = 0;
+                    }
+                    return {
+                        matchMax: matchMax === 0 ? Infinity : matchMax,
+                        id: choice.id()
+                    };
+                })
+                .sortBy('matchMax')
+                .reverse()
+                .valueOf();
+        },
+
+        pairExists (collection, pair) {
+            if (pair.length !== 2) {
+                return false;
+            }
+            return collection[pair[0] + ' ' + pair[1]] || collection[pair[1] + ' ' + pair[0]];
+        },
+
+        calculatePossiblePairs (interaction) {
+            var pairs = [];
+            var matchSet1 = this.getMatchMaxOrderedChoices(interaction.getGapImgs());
+            var matchSet2 = this.getMatchMaxOrderedChoices(interaction.getChoices());
+
+            _.forEach(matchSet1, choice1 => _.forEach(matchSet2, choice2 => pairs.push([choice1.id, choice2.id])));
+
+            return pairs;
+        },
+
+        isChoiceInfinitePair (identifier, interaction, response) {
+            const mapEntries = response.mapEntries;
+            const mapDefault = parseFloat(response.mappingAttributes.defaultValue) || 0;
+
+            // check possible pairs
+            const allPossibleMapEntries = _.clone(mapEntries);
+            if (mapDefault && mapDefault > 0) {
+                const possiblePairs = this.calculatePossiblePairs(interaction);
+                _.forEachRight(possiblePairs, pair => {
+                    if (!this.pairExists(allPossibleMapEntries, pair)) {
+                        allPossibleMapEntries[pair[0] + ' ' + pair[1]] = mapDefault;
+                    }
+                });
+            }
+
+            let isInfinitePair = false;
+            Object.keys(allPossibleMapEntries).forEach(key => {
+                if (key.includes(identifier) && parseInt(allPossibleMapEntries[key], 10) > 0) {
+                    let choice = interaction.getChoiceByIdentifier(key.replace(identifier, '').trim());
+                    if (parseInt(choice.attr('matchMax'), 10) === 0) {
+                        isInfinitePair = true;
+                    }
+                }
+            })
+            return isInfinitePair;
         }
     });
 
