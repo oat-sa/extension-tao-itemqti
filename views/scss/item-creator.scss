@@ -236,8 +236,10 @@ img.dragging.ui-draggable-dragging {
 
 }
 
-.item-editor-response-related {
-    .response-mapping-info {
+.item-editor-response-related,
+.item-editor-choice-related {
+    .response-mapping-info,
+    .response-matchmax-info {
         .feedback-info {
             padding: 5px;
         }
