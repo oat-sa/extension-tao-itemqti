@@ -1273,9 +1273,11 @@ img.dragging.ui-draggable-dragging {
 
 .edit-question .qti-blockInteraction .horizontal {
     margin-top: 28px;
-
-    .qti-choice {
+    .qti-choice,
+    .add-option {
         margin-top: 25px;
+    }
+    .qti-choice {
         .mini-tlb{
             white-space: nowrap;
             .tlb-button{
