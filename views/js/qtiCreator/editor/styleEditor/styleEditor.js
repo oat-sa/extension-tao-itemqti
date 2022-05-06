@@ -363,6 +363,8 @@ define([
      * Remove orphaned stylesheets. These would be present if previously another item has been edited
      */
     const removeOrphanedStylesheets = function () {
+        // rich passage styles loaded as link with [data-serial] attribute
+        // see taoMediaManager/views/js/richPassage/xincludeRendererAddStyles.js
         $('link[data-serial]').remove();
         customStylesheet = null;
         erase();
