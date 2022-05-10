@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2021.10\n"
-"PO-Revision-Date: 2021-10-21T14:51:45\n"
+"Project-Id-Version: TAO 2022.04\n"
+"PO-Revision-Date: 2022-04-01T09:30:48\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nb-NO\n"
@@ -25,17 +25,41 @@ msgstr " eller "
 msgid "%d characters allowed"
 msgstr "%d tegn tillatt"
 
+msgid "%d Item(s) of %d imported from the given IMS QTI Package."
+msgstr ""
+
 msgid "%d/%d"
 msgstr "%d/%d"
 
 msgid "%s metadata values found in source by extractor(s)."
 msgstr "%s metadataverdier funnet i kilden av ekstraktor(er)."
 
+msgid "%s of %s characters maximum."
+msgstr ""
+
+msgid "%s of %s characters recommended."
+msgstr ""
+
+msgid "%s of %s words maximum."
+msgstr ""
+
 msgid "-- Any kind of file --"
 msgstr "--Hvilken som helst fil--"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr "1 oppgave importert fra det gitte QTI/APIP XML-oppgavedokumentet."
+
+msgid "1/3 of height"
+msgstr ""
+
+msgid "1/4 of height"
+msgstr ""
+
+msgid "2/3 of height"
+msgstr ""
+
+msgid "3/4 of height"
+msgstr ""
 
 msgid "A choice must be selected"
 msgstr "Du må gjøre et valg"
@@ -49,7 +73,7 @@ msgstr "En QTI-komponent støttes ikke. Systemet returnerte følgende feil: %s\n
 ""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
-msgstr "En rubrikkblokk identifiserer en del av en vurdering som representerer instruksjoner til en eller flere av aktørene som ser oppgaven. Selv om rubrikkblokker er definert som \"simple Blocks\", må de ikke inneholde oppgavetyper."
+msgstr "En boks identifiserer en del av en vurdering som representerer instruksjoner til en eller flere av aktørene som ser oppgaven. Selv om bokser er definert som \"simple Blocks\", må de ikke inneholde oppgavetyper."
 
 msgid "Adapt to screen size"
 msgstr "Tilpass til skjermstørrelsen"
@@ -61,13 +85,16 @@ msgid "Add a CSV file"
 msgstr "Legg til en CSV-fil"
 
 msgid "Add a modal feedback"
-msgstr "Legg til en modal tilbakemelding"
+msgstr "Legg til en tilbakemelding"
 
 msgid "Add a QTI/APIP XML Item Document"
 msgstr "Legg til et QTI/APIP XML-oppgavedokument"
 
 msgid "Add a ZIP file containing QTI/APIP items"
 msgstr "Legg til en ZIP-fil som inneholder QTI/APIP-oppgaver"
+
+msgid "Add an outcome"
+msgstr ""
 
 msgid "Add another option"
 msgstr "Legg til et annet alternativ"
@@ -78,8 +105,14 @@ msgstr "Legg til valg"
 msgid "Add else feedback"
 msgstr "Legg til annen tilbakemelding"
 
+msgid "Add new column"
+msgstr ""
+
 msgid "Add new pairs"
 msgstr "Legg til nye par"
+
+msgid "Add new row"
+msgstr ""
 
 msgid "Add Style Sheet"
 msgstr "Legg til stilark"
@@ -140,6 +173,12 @@ msgid "An unexpected error occurred during the import of the QTI Item. The syste
 msgstr "Det oppstod en uventet feil under importen av QTI-oppgaven. Systemet returnerte følgende feil: %s\n"
 ""
 
+msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
+msgstr ""
+
+msgid "Answer required"
+msgstr ""
+
 msgid "APIP Content Package"
 msgstr "APIP innholdspakke"
 
@@ -161,6 +200,9 @@ msgstr "kobling av par par"
 msgid "at least"
 msgstr "minst"
 
+msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
+msgstr ""
+
 msgid "Autostart"
 msgstr "Autostart"
 
@@ -173,35 +215,44 @@ msgstr "Bakgrunnsfarge"
 msgid "Base"
 msgstr "Utgangspunkt"
 
-msgid "Block"
-msgstr "Blokk"
-
 msgid "block"
-msgstr "blokk"
+msgstr "tekstboks"
+
+msgid "Block"
+msgstr "Tekstboks"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
-msgstr "Blokken inneholder stimuliet til oppgaven, for eksempel tekst eller bilde. Det er også nødvendig for integrerte oppgavetyper."
+msgstr "Tekstboksen inneholder stimuliet til oppgaven, for eksempel tekst eller bilde. Det er også nødvendig for integrerte oppgavetyper."
 
 msgid "Block height (%)"
-msgstr "Blokkhøyde(%)"
+msgstr "Skrollhøyde(%)"
 
 msgid "Border color"
 msgstr "Kantfarge"
 
 msgid "Browse your computer and select the appropriate file."
-msgstr "Bla gjennom maskinen din og velg riktig fil."
+msgstr "Søk gjennom maskinen din og velg riktig fil."
 
 msgid "Browse..."
-msgstr "Bla gjennom..."
-
-msgid "Cancel"
-msgstr "Avbryt"
+msgstr "Søk..."
 
 msgid "cancel"
 msgstr "avbryt"
 
+msgid "Cancel"
+msgstr "Avbryt"
+
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr "Kan ikke lage mellomrom fra dette valget. Kontroller at du ikke har delvis utvalgte elementer."
+
+msgid "Cannot create hottext from this selection."
+msgstr ""
+
+msgid "Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words."
+msgstr ""
+
+msgid "Cannot create hottext from this selection. Please make sure the selection does not contain multiple lines."
+msgstr ""
 
 msgid "Cannot delete a variable currently used in response processing"
 msgstr "Kan ikke slette en variabel som for tiden brukes i responsprosessering"
@@ -221,8 +272,8 @@ msgstr "Finner ikke filen \"%s"
 msgid "Center"
 msgstr "Senter"
 
-msgid "characters"
-msgstr "tegn"
+msgid "Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with."
+msgstr ""
 
 msgid "chars"
 msgstr "tegn"
@@ -231,22 +282,25 @@ msgid "Choice"
 msgstr "Flervalg"
 
 msgid "Choice Image"
-msgstr "Flervalg Bilde"
+msgstr "Bilde i svaralternativ"
 
 msgid "Choice Interaction"
-msgstr "Oppgavetype flervalg"
+msgstr "Oppgavetype alternativer"
 
 msgid "Choice Properties"
-msgstr "Egenskaper for flervalg"
+msgstr "Egenskaper for alternativer"
 
 msgid "Choices"
-msgstr "Valg"
+msgstr "Alternativer"
 
 msgid "choices"
-msgstr "valg"
+msgstr "alternativ"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr "Velg den horisontale justeringen for tabellen."
+
+msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
+msgstr ""
 
 msgid "Class successfully created."
 msgstr "Mappen ble opprettet."
@@ -321,16 +375,22 @@ msgid "Currently conversion from MathML to LaTeX is not available. Editing MathM
 msgstr "Konvertering fra MathML til LaTeX er for tiden ikke mulig. LaTex-koden blir slettet hvis du redigerer MathML her."
 
 msgid "custom"
-msgstr "tilpasset"
+msgstr "egendefinert skåring"
+
+msgid "Custom Interactions"
+msgstr ""
 
 msgid "Custom Response Processing Mode"
-msgstr "Tilpasset responsprosesseringsmodus"
+msgstr "Egendefinert skåringsinnstilling"
 
 msgid "default"
 msgstr "standard"
 
 msgid "Default"
 msgstr "Standard"
+
+msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
+msgstr ""
 
 msgid "Define correct response"
 msgstr "Definer riktig svar"
@@ -339,7 +399,7 @@ msgid "Define item language."
 msgstr "Definer oppgavespråk."
 
 msgid "define prompt"
-msgstr "definer ledetekst"
+msgstr "skriv inn en ledetekst"
 
 msgid "Define the correct response."
 msgstr "Definer riktig svar."
@@ -357,10 +417,10 @@ msgid "Defines the maximum magnitude of numeric outcome variables, the maximum m
 msgstr "Definerer maksimal størrelse på numeriske resultatvariabler, maksimum må være en positiv verdi og minimum kan være en negativ verdi."
 
 msgid "Delete"
-msgstr "Slette"
+msgstr "Slett"
 
 msgid "delete"
-msgstr "slette"
+msgstr "slett"
 
 msgid "Delete else statement"
 msgstr "Slett annet utsagn"
@@ -386,14 +446,14 @@ msgstr "Vis valgene enten horisontalt eller vertikalt"
 msgid "Divide"
 msgstr "Dele opp"
 
-msgid "Don\'t save"
+msgid "Don't save"
 msgstr ""
 
 msgid "done"
-msgstr "utført"
+msgstr "ferdig"
 
 msgid "Done"
-msgstr "Utført"
+msgstr "Ferdig"
 
 msgid "Download"
 msgstr "Last ned"
@@ -432,7 +492,7 @@ msgid "edit choices"
 msgstr "redigere valg"
 
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr ""
+msgstr "Rediger matematisk uttrykk ved hjelp av LaTex type innstillingssystem, f.eks. e^{i \\ pi} = -1"
 
 msgid "Edit math expression using MathML"
 msgstr "Rediger matematisk uttrykk ved hjelp av MathML"
@@ -480,13 +540,22 @@ msgid "Enter a select MIME-type"
 msgstr "Skriv inn en valgt MIME-type"
 
 msgid "Enter choices…"
-msgstr "Gå til valg ..."
+msgstr "Gå til valg…"
 
 msgid "Enter tooltip content"
 msgstr "Gå til verktøykasseinhold"
 
 msgid "Enter tooltip target"
 msgstr "Gå til valgt verktøy"
+
+msgid "error"
+msgstr ""
+
+msgid "Error in post rendering: %s"
+msgstr ""
+
+msgid "Error in template rendering: %s"
+msgstr ""
 
 msgid "Error on item %1$s : %2$s"
 msgstr "Feil på oppgave %1 $ s: %2 $ s"
@@ -502,6 +571,9 @@ msgstr ""
 
 msgid "Exponent"
 msgstr "Eksponent"
+
+msgid "Export"
+msgstr ""
 
 msgid "Export APIP 1.0 Package"
 msgstr "Eksporter APIP 1.0 -pakke"
@@ -563,8 +635,11 @@ msgstr "Oppgavetype filopplasting"
 msgid "Fill in the gaps on a picture with a set of image choices."
 msgstr "Fyll inn mellomrommene i et bilde med et gitt sett av bildevalg."
 
+msgid "float"
+msgstr ""
+
 msgid "Font family"
-msgstr "Skriftfamilie"
+msgstr "Skrifttype"
 
 msgid "Font size"
 msgstr "Skriftstørrelse"
@@ -575,26 +650,29 @@ msgstr "Format"
 msgid "Fraction"
 msgstr "Brøk"
 
+msgid "Full height"
+msgstr ""
+
 msgid "Gap"
 msgstr "Mellomrom"
 
 msgid "Gap Match"
-msgstr "Fyll inn ord"
+msgstr "Fyll inn bilde"
 
 msgid "Gap Match Interaction"
-msgstr "Oppgavetype fyll inn ord"
+msgstr "Oppgavetype fyll inn bilde"
 
 msgid "Graphic Associate Interaction"
-msgstr "Grafiske oppgavetyper - kobling"
+msgstr "Grafisk oppgavetype - kobling"
 
 msgid "Graphic Gap Match Interaction"
-msgstr "Grafiske oppgavetyper - fyll inn bilde"
+msgstr "Grafisk oppgavetype - fyll inn bilde"
 
 msgid "Graphic Interactions"
-msgstr "Grafiske oppgavetyper"
+msgstr "Grafisk oppgavetype"
 
 msgid "Graphic Order Interaction"
-msgstr "Grafiske oppgavetyper - sortering"
+msgstr "Grafisk oppgavetype - sortering"
 
 msgid "Greater than or equal"
 msgstr "Større enn eller lik"
@@ -602,11 +680,14 @@ msgstr "Større enn eller lik"
 msgid "Guard for resource \"%s\"..."
 msgstr "Guard for resource \"%s\"..."
 
+msgid "Half height"
+msgstr ""
+
 msgid "Height"
 msgstr "Høyde"
 
 msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
-msgstr "Her kan du gi poeng for manuell skåring, f.eks. av INNHOLD, GRAMATIKK, STAVNING"
+msgstr "Her kan du definere poeng for manuell skåring, f.eks. av INNHOLD, GRAMATIKK, STAVNING"
 
 msgid "Horizontal"
 msgstr "Horisontal"
@@ -635,17 +716,23 @@ msgstr "Menneskelig"
 msgid "identical pair already exists"
 msgstr "identisk par eksisterer allerede"
 
-msgid "Identifier"
-msgstr "Identifikator"
-
 msgid "identifier"
 msgstr "identifikator"
+
+msgid "Identifier"
+msgstr "Identifikator"
 
 msgid "identifier already taken"
 msgstr "identifikator er allerede brukt"
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr "Hvis gitt, angir eksempelet et vanlig uttrykk som kandidatens svar må matche for å bli ansett som gyldig"
+
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
+msgstr ""
+
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
+msgstr ""
 
 msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
 msgstr "Hvis oppgaven er bundet til en numerisk responsvariabel, må utgangsattributtet brukes til å angi tallet for å tolke verdien som er angitt av kandidaten."
@@ -670,6 +757,15 @@ msgstr "Importer oppgaveinnhold og metadata fra CSV-fil. Bare oppgavetypen Choic
 
 msgid "Import QTI ITEM into \"%s"
 msgstr "Importer QTI-oppgave til \"%s"
+
+msgid "IMS QTI Item referenced as \"%s\" cannot be imported."
+msgstr ""
+
+msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
+msgstr ""
+
+msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
+msgstr ""
 
 msgid "In Progress"
 msgstr "I arbeid"
@@ -699,13 +795,16 @@ msgid "Inline Choice Interaction"
 msgstr "Oppgavetype flervalg på linje"
 
 msgid "Inline Interactions"
-msgstr "Oppgavtype kortsvar"
+msgstr "Tekstboks med oppgavetyper"
 
 msgid "Inline interactions need to be inserted into a text block."
-msgstr "Interaksjonen kortsvar må settes inn i en tekstblokk."
+msgstr "Oppgavetypen må settes inn i en tekstboks."
+
+msgid "integer"
+msgstr ""
 
 msgid "Interaction Background"
-msgstr "Oppgavetypebakgrunn"
+msgstr "Bakgrunn"
 
 msgid "Interaction Properties"
 msgstr "Egenskaper for oppgavetyper"
@@ -734,6 +833,9 @@ msgstr "Er dette valget det riktig svaret?"
 msgid "Is this pair the correct response?"
 msgstr "Er dette paret det riktig svaret?"
 
+msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
+msgstr ""
+
 msgid "Item \"%s\" cannot be exported: %s"
 msgstr "Oppgave \"%s\" kan ikke eksporteres: %s"
 
@@ -751,6 +853,9 @@ msgstr "Oppgaven kan ikke lagres."
 
 msgid "Item metadata successfully exported."
 msgstr "Oppgavemetadata er eksportert."
+
+msgid "Item metadata with identifier \"%s\" is not valid: "
+msgstr ""
 
 msgid "Item Properties"
 msgstr "Oppgaveegenskaper"
@@ -817,7 +922,7 @@ msgid "Long interpretation"
 msgstr "Lang tolkning"
 
 msgid "Loop"
-msgstr "Løkke"
+msgstr "Loop"
 
 msgid "Lower Bound"
 msgstr "Nedre grense"
@@ -840,7 +945,7 @@ msgid "Manage items"
 msgstr "Administrere oppgaver"
 
 msgid "map response"
-msgstr "kartlegg svar"
+msgstr "avansert skåring"
 
 msgid "Mapping default"
 msgstr "Kartleggingsstandard"
@@ -852,7 +957,7 @@ msgid "Match"
 msgstr "Matrise"
 
 msgid "match correct"
-msgstr "match correct"
+msgstr "standard skåring"
 
 msgid "Match Interaction"
 msgstr "Oppgavetype matrise"
@@ -875,14 +980,14 @@ msgstr "Maks lengde"
 msgid "Max plays count"
 msgstr "Maks antall avspillinger"
 
-msgid "Max words"
-msgstr "Maks antall ord"
-
 msgid "Max Words"
 msgstr "Maks antall ord"
 
+msgid "Max words"
+msgstr "Maks antall ord"
+
 msgid "Max. number of matches"
-msgstr "Maks antall matcher"
+msgstr "Maks antall tilknytninger"
 
 msgid "Maximal score for this interaction."
 msgstr "Maksimal skår for denne oppgavetypen."
@@ -897,7 +1002,7 @@ msgid "Maximum number of choices reached."
 msgstr "Maks antall valg er nådd."
 
 msgid "Media"
-msgstr "Media"
+msgstr "Mediebank"
 
 msgid "Media file path or YouTube video address"
 msgstr "Mediefilbane eller YouTube-videoadresse"
@@ -933,13 +1038,16 @@ msgid "Modal feedback is shown to the candidate directly following response proc
 msgstr "Tilbakemelding vises for eleven rett etter responsprosessering."
 
 msgid "Modal Feedback Prop."
-msgstr "Modal Feedback Prop."
+msgstr "Tilbakemelding."
 
 msgid "modal feedback title"
-msgstr "modal feedback tittel"
+msgstr "tilbakemeldingstittel"
 
 msgid "Modal Feedbacks"
-msgstr "Modale tilbakemeldinger"
+msgstr "Tilbakemeldinger"
+
+msgid "Multiple choices"
+msgstr ""
 
 msgid "Multiply"
 msgstr "Multiplisere"
@@ -1014,10 +1122,13 @@ msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Ordne områdene (hotspots) som vises på et bildet i riktig rekkefølge."
 
 msgid "Orientation"
-msgstr "Orienteringf"
+msgstr "Orientering"
+
+msgid "Other constraints"
+msgstr ""
 
 msgid "Outcome Declarations"
-msgstr "Resultat av erklæringene"
+msgstr "Skåringsvariabler"
 
 msgid "Pair scoring"
 msgstr "Skåring av par"
@@ -1031,16 +1142,17 @@ msgstr "Pause"
 msgid "Pi"
 msgstr "Pi"
 
+msgid "Placeholder Text"
+msgstr ""
+
 msgid "Plain text"
 msgstr "Ren tekst"
 
 msgid "Please add one or more gaps to the text in question mode."
 msgstr "Legg til ett eller flere mellomrom i teksten i spørsmålsfeltet."
 
-msgid "Please create areas that correspond to the response and associate them a score.\n"
-""
-msgstr "Opprett områder som tilsvarer svaret, og gi dem en poengsum.\n"
-""
+msgid "Please create areas that correspond to the response and associate them a score. You can also position the target to the exact point as the correct response."
+msgstr ""
 
 msgid "Please define association pairs and their scores below."
 msgstr "Sammenstill par som kan kobles med hverandre og oppgi poengsummer for riktig svar nedenfor."
@@ -1078,8 +1190,14 @@ msgstr "Fyll inn riktig tekstalternativi mellomrommet nedenfor og rediger derett
 msgid "Please order the choices below to set the correct answer"
 msgstr "Sett valgene nedenfor i riktig rekkefølge for å sette riktig skår"
 
+msgid "Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr "Velg en mediefil (video eller lyd) fra mediebanken. Du kan legge til filer fra datamaskinen din med knappen \"Legg til fil(er)\"."
+
+msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
 
 msgid "Please select a shared stimulus file from the resource manager."
 msgstr "Velg en fil med delt innhold fra mediebanken."
@@ -1124,7 +1242,7 @@ msgid "Preparing Metadata Values for target \"%s\"..."
 msgstr "Forbereder metadataverdier for målet \"%s\"..."
 
 msgid "Preview"
-msgstr "Forhåndsvisning"
+msgstr "Forhåndsvis"
 
 msgid "Preview the item"
 msgstr "Forhåndsvis oppgaven"
@@ -1137,6 +1255,9 @@ msgstr "Skriv ut oppgaven"
 
 msgid "Printed Variable"
 msgstr "Trykt variabel"
+
+msgid "Properties"
+msgstr ""
 
 msgid "PropertyUri to map has to a valid uri"
 msgstr "PropertyUri må ha en gyldig uri"
@@ -1165,6 +1286,9 @@ msgstr "QTI-Pakke 2.1"
 msgid "QTI Package 2.2"
 msgstr "QTI-Pakke 2.2"
 
+msgid "QTI-XML error at line %1$d \"%2$s\"."
+msgstr ""
+
 msgid "QTI/APIP Content Package"
 msgstr "Innholdspakke for QTI/APIP"
 
@@ -1189,11 +1313,11 @@ msgstr "Registreringsmetoden forventer parametere for $key og $name"
 msgid "Register method expects $key and $name parameters."
 msgstr "Registreringsmetoden forventer parametere for $key og $name."
 
-msgid "Remove"
-msgstr "Fjern"
-
 msgid "remove"
 msgstr "fjern"
+
+msgid "Remove"
+msgstr "Fjern"
 
 msgid "Remove custom background color"
 msgstr "Fjern tilpasset bakgrunnsfarge"
@@ -1250,16 +1374,16 @@ msgid "Response [\"%s\"] should be the only possible value \"%s\"."
 msgstr "Svar [\"%s\"] bør være den eneste mulige verdien \"%s\"."
 
 msgid "Response base type"
-msgstr "Svartype"
+msgstr "Skåringstype"
 
 msgid "Response identifier"
-msgstr "Svaridentifikator"
+msgstr "Skåringsidentifikator"
 
 msgid "Response processing"
-msgstr "Responsprosessering"
+msgstr "Skåringsinnstillinger"
 
 msgid "Response Properties"
-msgstr "Svaregenskaper"
+msgstr "Skåringsegenskaper"
 
 msgid "Rich text"
 msgstr "Rik tekst"
@@ -1267,11 +1391,11 @@ msgstr "Rik tekst"
 msgid "Rich text + math"
 msgstr "Rik tekst + math"
 
-msgid "right"
-msgstr "høyre"
-
 msgid "Right"
 msgstr "Høyre"
+
+msgid "right"
+msgstr "høyre"
 
 msgid "Right bracket"
 msgstr "Høyre parentes"
@@ -1306,17 +1430,20 @@ msgstr "Skrollbar flerkolonne"
 msgid "Select"
 msgstr "Velge"
 
-msgid "Select a "
-msgstr "Velg en "
-
 msgid "select a choice"
 msgstr "velg et alternativ"
 
 msgid "Select a choice from a drop-down list."
 msgstr "Velg et alternativ fra en nedtrekksmeny."
 
+msgid "Select a left"
+msgstr ""
+
 msgid "Select a response identifier from the list."
 msgstr "Velg en svaridentifikator fra listen."
+
+msgid "Select a right"
+msgstr ""
 
 msgid "Select a single (radio buttons) or multiple (check boxes) responses among a set of choices."
 msgstr "Velg en enkelt (radioknapper) eller flere (avhukingsbokser) svar blant et sett av alternativer."
@@ -1333,17 +1460,17 @@ msgstr "Velg et bilde først."
 msgid "select correct choice"
 msgstr "velg riktig alternativ"
 
-msgid "Select height of passage base of conatainer height"
-msgstr "Velg passasjens høyde på beholderhøyden"
+msgid "Select height of passage base of container height"
+msgstr ""
 
-msgid "Select height of text block base of conatainer height"
-msgstr "Velg tekstblokkens høyde på beholderhøyde"
+msgid "Select height of text block base of container height"
+msgstr ""
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
 msgstr "Velg om du vil at resultatet skal behandles av et eksternt system eller en menneskelig skårer. Dette er typisk for oppgaver der elever blir spurt om å skrive et essay."
 
 msgid "Select image"
-msgstr "Velg bild"
+msgstr "Velg bilde"
 
 msgid "Select media file"
 msgstr "Velg media-fil"
@@ -1394,10 +1521,13 @@ msgid "Set the score for this response"
 msgstr "Sett poengsumm for dette svaret"
 
 msgid "Shape position"
-msgstr "Lag posisjon"
+msgstr "Sett posisjon"
 
 msgid "Shuffle choices"
-msgstr "Stokk om svaralternativene"
+msgstr "Tilfeldig rekkefølge for svaralternativer"
+
+msgid "Single choice"
+msgstr ""
 
 msgid "Sinus"
 msgstr "Sinus"
@@ -1411,8 +1541,14 @@ msgstr "Målelinje"
 msgid "Slider Interaction"
 msgstr "Oppgavetype målelinje"
 
+msgid "Some feedback text."
+msgstr ""
+
 msgid "some text ..."
 msgstr "litt tekst ..."
+
+msgid "Something went wrong while destroying an interaction: %s"
+msgstr ""
 
 msgid "Square root"
 msgstr "Kvadratrot"
@@ -1423,6 +1559,9 @@ msgstr "standard"
 msgid "Step"
 msgstr "Steg"
 
+msgid "string"
+msgstr ""
+
 msgid "Style Editor"
 msgstr "Stileditor"
 
@@ -1430,7 +1569,7 @@ msgid "Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-appl
 msgstr "Stilark <b>%s </b> fjernet <br> Klikk <i> Legg til stilark </i> for å søke på nytt."
 
 msgid "Style Sheet Manager"
-msgstr "Style Sheet Manager"
+msgstr "Rediger stilark"
 
 msgid "Success"
 msgstr "Suksess"
@@ -1451,13 +1590,13 @@ msgid "Target Class Lookup for resource \"%s\"..."
 msgstr "Søk for ressursen \"%s\"..."
 
 msgid "Text Block"
-msgstr "Tekstblokk"
+msgstr "Tekstboks"
 
 msgid "Text Block CSS Class"
-msgstr "Tekst blokk CSS mappe"
+msgstr "Tekstboks CSS mappe"
 
 msgid "Text Block Properties"
-msgstr "Tekst blokkegenskaper"
+msgstr "Tekstboks egenskaper"
 
 msgid "Text color"
 msgstr "Tekstfarge"
@@ -1516,6 +1655,24 @@ msgstr "Identifikator til svaridentifikatoren. Denne identifikatoren må ikke br
 msgid "The IMS QTI Item could not be imported."
 msgstr "IMS QTI-oppgaven kunne ikke importeres."
 
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
+msgstr ""
+
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
 msgstr "IMS QTI-oppgaven referert til som \"%s\" i IMS-dokumentet ble rullet tilbake."
 
@@ -1569,9 +1726,6 @@ msgstr "Maksimalt antall forbindelser som eleven har lov til å lage."
 
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "Maks antall valg som eleven har lov til å velge."
-
-msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr "Maksimalt antall valg som eleven må velge for å lage et gyldig svar."
 
 msgid "The maximum number of choices this choice may be associated with."
 msgstr "Maksimalt antall valg dette alternativet kan være kobles med."
@@ -1680,6 +1834,9 @@ msgstr "Dette er påkrevd"
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "Dette stilarket er ikke funnet på serveren. Det kan være lurt å slette denne referansen"
 
+msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
+msgstr ""
+
 msgid "Time dependent"
 msgstr "Tidsavhengig"
 
@@ -1704,6 +1861,9 @@ msgstr "Topp"
 msgid "Trigger the end of the item attempt."
 msgstr "Utløser slutten på oppgaveforsøket."
 
+msgid "Unable to load item from the given data."
+msgstr ""
+
 msgid "Unable to process your request"
 msgstr "Kan ikke behandle forespørselen din"
 
@@ -1719,11 +1879,11 @@ msgstr "Kan ikke hente oppgave: \"%s"
 msgid "Unable to validate %s: %s"
 msgstr "Kan ikke validere %s: %s"
 
-msgid "undo"
-msgstr "angre"
-
 msgid "Undo"
 msgstr "Angre"
+
+msgid "undo"
+msgstr "angre"
 
 msgid "Unknown $key to register MetadataService instance"
 msgstr "Ukjent $-nøkkel for å registrere MetadataService-forekomst"
@@ -1749,6 +1909,9 @@ msgstr "Verdi"
 msgid "Vertical"
 msgstr "Vertikal"
 
+msgid "warning"
+msgstr ""
+
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
 msgstr "Vi vil bruke patternMask for å utføre dette, slik at det blir i samsvar med IMS-standarden"
 
@@ -1764,6 +1927,12 @@ msgstr "Vil du bytte ut alt-teksten"
 msgid "WYSIWYG editor"
 msgstr "WYSIWYG editor"
 
+msgid "XML error \"%1$s\"."
+msgstr ""
+
+msgid "XML error at line %1$d \"%2$s\"."
+msgstr ""
+
 msgid "Yes"
 msgstr "Ja"
 
@@ -1773,11 +1942,8 @@ msgstr "Du kan velge maksimalt %d valg"
 msgid "You can select maximum %d choices"
 msgstr "Du kan velge maksimalt %d valg"
 
-msgid "You can select maximum of %s choices"
-msgstr "Du kan velge maksimalt %s valg"
-
-msgid "You can select maximum of 1 choice"
-msgstr "Du må velge ett svar"
+msgid "You can select up to %s choices."
+msgstr ""
 
 msgid "You can use maximum %d choices"
 msgstr "Du kan bruke maksimalt %d valg"
@@ -1806,12 +1972,6 @@ msgstr "Du må velge minst %d alternativ"
 msgid "You must select at least %d choices"
 msgstr "Du må velge minst %d alternativer"
 
-msgid "You must select at least %s choices"
-msgstr "Du må velge minst %s alternativer"
-
-msgid "You must select at least 1 choice"
-msgstr "Du må velge minst ett alternativ"
-
 msgid "You must select exactly %d choice"
 msgstr "Du må velge nøyaktig %d alternativ"
 
@@ -1821,14 +1981,23 @@ msgstr "Du må velge nøyaktig %d alternativ(er)."
 msgid "You must select exactly %d choices"
 msgstr "Du må velge nøyaktig %d alternativer"
 
-msgid "You must select exactly %s choices"
-msgstr "Du må velge nøyaktig %s alternativer"
-
 msgid "You must use at least %d choices"
 msgstr "Du må bruke minst %d alternativer"
 
 msgid "You need to make"
 msgstr "Du må lage"
+
+msgid "You need to select %s choices"
+msgstr ""
+
+msgid "You need to select at least %s choices."
+msgstr ""
+
+msgid "You need to select at least 1 choice."
+msgstr ""
+
+msgid "You need to select from %s to %s choices."
+msgstr ""
 
 msgid "Your item has been saved"
 msgstr "Oppgaven din ble lagret"

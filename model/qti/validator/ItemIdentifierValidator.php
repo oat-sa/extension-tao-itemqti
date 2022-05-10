@@ -25,18 +25,30 @@ namespace oat\taoQtiItem\model\qti\validator;
 
 
 use common_exception_Error;
-use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\qti\Item;
 
-class ItemIdentifierValidator extends ConfigurableService
+class ItemIdentifierValidator
 {
+    public const ENV_QTI_IDENTIFIER_VALIDATOR_PATTERN = 'ENV_QTI_IDENTIFIER_VALIDATOR_PATTERN';
+
+    public const DEFAULT_PATTERN_PARAMETER_NAME = 'ItemIdentifierValidatorParameterName';
+    public const DEFAULT_PATTERN = '/^[a-zA-Z_]{1}[a-zA-Z0-9_\.-]*$/u';
+
+    /** @var string */
+    private $pattern;
+
+    public function __construct(string $pattern = self::DEFAULT_PATTERN)
+    {
+        $this->pattern = $pattern;
+    }
+
     /**
      * @throws common_exception_Error
      */
     public function validate(Item $item): void
     {
         //validate assessmentItem identifier
-        if (preg_match("/^[a-zA-Z_][a-zA-Z0-9_-]*$/u", $item->getAttributeValue('identifier')) !== 1) {
+        if (preg_match($this->pattern, $item->getAttributeValue('identifier')) !== 1) {
             throw new common_exception_Error("The item identifier is not valid");
         }
     }

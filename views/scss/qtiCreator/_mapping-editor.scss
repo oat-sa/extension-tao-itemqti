@@ -6,7 +6,7 @@
     top: 15px;
     color: $textColor;
     background: mix(#fff, $grey, 85%);
-    padding: 15px 15px 0 15px;
+    padding: 15px 15px 15px 15px;
     -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
     -moz-box-shadow:    0px 0px 10px 0px rgba(50, 50, 50, 0.75);
     box-shadow:         0px 0px 10px 0px rgba(50, 50, 50, 0.75);
@@ -71,6 +71,18 @@
             top: 0;
             width: 30px;
             height: 15px;
+        }
+    }
+    &.arrow-right-top {
+        .arrow {
+            right: -6px;
+            top: 10px;
+        }
+        .arrow-cover {
+            right: 0;
+            top: 2px;
+            width: 15px;
+            height: 30px;
         }
     }
     .score {

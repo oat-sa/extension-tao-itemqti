@@ -4,10 +4,22 @@
     .mini-tlb {
         right: -38px;
         top: 4px;
-
-        @include rtl {
-            right: auto;
-            left: -38px;
+    }
+    .choice-area {
+        .mini-tlb {
+            @include rtl {
+                right: auto !important;
+                left: -2.2em;
+            }
+        }
+    }
+    .widget-math.edit-active {
+        span.mini-tlb {
+            @include rtl {
+                margin-right: 6.3em;
+                left: -2.20em;
+                right: auto !important;
+            }
         }
     }
 
@@ -18,10 +30,31 @@
                 right: -1px;
                 top: -28px;
                 left: auto;
-
+                margin-left: -2em;
                 @include rtl {
+                    right: auto !important;
+                    left: 2em;
+                }
+            }
+        }
+        .widget-box.edit-active {
+            @include rtl {
+                .mini-tlb {
+                    left: -2.2em;
+                    right: auto !important;
+                    top: 0;
+                    margin: 0;
+                }
+            }
+        }
+        .widget-math.edit-active{
+            @include rtl {
+                margin-left: 2.25em;
+                span.mini-tlb {
+                    margin: 0 6.3em 0 -2em;
+                    left: 0;
                     right: auto;
-                    left: -1px;
+                    top: -2px !important;
                 }
             }
         }

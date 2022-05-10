@@ -4,16 +4,29 @@
     .real-label input[disabled] ~ [class^="icon-"]{
         cursor:pointer !important;
     }
-    .choice-area .label-content{
-        display: block;
+    .choice-area {
+        .label-content {
+            display: block;
+        }
+        .mini-tlb {
+            @include rtl {
+                right: auto !important;
+                left: -2.2em;
+            }
+        }
+        .widget-math.edit-active{
+            span.mini-tlb{
+            @include rtl {
+                margin-right: 6.3em;
+                left: -2.20em;
+                right: auto !important;
+            }
+        }
+    }
+
     }
     .mini-tlb {
         right: -38px;
-
-        @include rtl {
-            right: auto;
-            left: -38px;
-        }
 
         &[data-edit=answer]{
             width: 38px;
@@ -35,10 +48,30 @@
         .mini-tlb {
             top: -28px;
             right: 0;
-
             @include rtl {
-                left: 0;
-                right: auto;
+                right: auto !important;
+                left: -1px;
+            }
+        }
+        .widget-box.edit-active {
+            @include rtl {
+                .mini-tlb {
+                    left: -2.2em;
+                    right: auto !important;
+                    top: 0;
+                }
+            }
+        }
+        .widget-math.edit-active {
+            @include rtl {
+                margin-left: 2.25em;
+
+                span.mini-tlb {
+                    margin-right: 6.3em;
+                    left: -2.20em;
+                    right: auto;
+                    top: -2px !important;
+                }
             }
         }
         .qti-choice.edit-choice {

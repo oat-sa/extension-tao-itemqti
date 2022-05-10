@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -279,11 +279,7 @@ define([
          * @param {Object} options
          * @returns {Object} the list of callbacks
          */
-        getMinMaxAttributeCallbacks: function (
-            attributeNameMin,
-            attributeNameMax,
-            options
-        ) {
+        getMinMaxAttributeCallbacks: function (attributeNameMin, attributeNameMax, options) {
             const callbacks = {};
             options = getAttrsOptions(options);
 
@@ -319,11 +315,7 @@ define([
          * @param {Object} options
          * @returns {Object} the list of callbacks
          */
-        getLowerUpperAttributeCallbacks: function (
-            attributeNameLower,
-            attributeNameUpper,
-            options
-        ) {
+        getLowerUpperAttributeCallbacks: function (attributeNameLower, attributeNameUpper, options) {
             const callbacks = {};
             options = getAttrsOptions(options);
 

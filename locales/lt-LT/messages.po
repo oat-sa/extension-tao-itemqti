@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint154\n"
-"PO-Revision-Date: 2021-05-27T13:49:39\n"
+"Project-Id-Version: TAO 2022.04\n"
+"PO-Revision-Date: 2022-04-01T09:30:47\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -25,17 +25,41 @@ msgstr " arba "
 msgid "%d characters allowed"
 msgstr "%d galimi ženklai"
 
+msgid "%d Item(s) of %d imported from the given IMS QTI Package."
+msgstr ""
+
 msgid "%d/%d"
 msgstr "%d/%d"
 
 msgid "%s metadata values found in source by extractor(s)."
 msgstr "Rastos %s metaduomenų reikšmės šaltinyje pagal .ekstraktorių."
 
+msgid "%s of %s characters maximum."
+msgstr "%s iš ne daugiau kaip %s simbolių."
+
+msgid "%s of %s characters recommended."
+msgstr "Rekomenduojama %s iš %s simbolių."
+
+msgid "%s of %s words maximum."
+msgstr "%s iš ne daugiau kaip %s žodžių."
+
 msgid "-- Any kind of file --"
 msgstr "-- Betkoks failas --"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr "1 elementas buvo importuotas iš pateikto QTI/APIP XML Elemento Dokumentas."
+
+msgid "1/3 of height"
+msgstr ""
+
+msgid "1/4 of height"
+msgstr ""
+
+msgid "2/3 of height"
+msgstr ""
+
+msgid "3/4 of height"
+msgstr ""
 
 msgid "A choice must be selected"
 msgstr "Privaloma pasirinkti"
@@ -56,6 +80,9 @@ msgstr "Prisitaikyti prie ekrano dydžio"
 msgid "Add"
 msgstr "Pridėti"
 
+msgid "Add a CSV file"
+msgstr ""
+
 msgid "Add a modal feedback"
 msgstr "Pridėti modalinį atsiliepimą"
 
@@ -64,6 +91,9 @@ msgstr "Pridėti QTI/APIP XML Elemento Dokumentą"
 
 msgid "Add a ZIP file containing QTI/APIP items"
 msgstr "Pridėti ZIP failą turintį QTI/APIP elementus"
+
+msgid "Add an outcome"
+msgstr ""
 
 msgid "Add another option"
 msgstr "Pridėti kitą pasirinkimą"
@@ -74,8 +104,14 @@ msgstr "Pridėti pasirinkimą"
 msgid "Add else feedback"
 msgstr "Pridėti kitą atsiliepimą"
 
+msgid "Add new column"
+msgstr ""
+
 msgid "Add new pairs"
 msgstr "Pridėti naujas poras"
+
+msgid "Add new row"
+msgstr ""
 
 msgid "Add Style Sheet"
 msgstr "Pridėti Stiliaus Lapą"
@@ -136,6 +172,12 @@ msgid "An unexpected error occurred during the import of the QTI Item. The syste
 msgstr "Netikėta klaida įvyko QTI Elemento importavimo metu. Sistema gražino šią klaidą: \"%s\n"
 ""
 
+msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
+msgstr ""
+
+msgid "Answer required"
+msgstr ""
+
 msgid "APIP Content Package"
 msgstr "APIP Turinio Paketas"
 
@@ -156,6 +198,9 @@ msgstr "vieną asocijuotą porą "
 
 msgid "at least"
 msgstr "bent"
+
+msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
+msgstr ""
 
 msgid "Autostart"
 msgstr "Automatiškai pradėti"
@@ -190,14 +235,23 @@ msgstr "Naršyk savo kompiuterį ir pasirink atitinkamą failą."
 msgid "Browse..."
 msgstr "Naršyti..."
 
-msgid "Cancel"
-msgstr "Atšaukti"
-
 msgid "cancel"
 msgstr "atšaukti"
 
+msgid "Cancel"
+msgstr "Atšaukti"
+
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr "Nepavyko sukurti tarpo iš šio pasirinkimo. Prašome patikrinti, ar jūs neturite dalinai pasirinktų elementų."
+
+msgid "Cannot create hottext from this selection."
+msgstr ""
+
+msgid "Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words."
+msgstr ""
+
+msgid "Cannot create hottext from this selection. Please make sure the selection does not contain multiple lines."
+msgstr ""
 
 msgid "Cannot delete a variable currently used in response processing"
 msgstr "Nepavyko ištrinti kintamojo, kuris naudojamas atsakymo apdorojime"
@@ -217,7 +271,7 @@ msgstr "Nepavyko surasti failo \"%s"
 msgid "Center"
 msgstr "Centras"
 
-msgid "characters"
+msgid "Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with."
 msgstr ""
 
 msgid "chars"
@@ -235,14 +289,17 @@ msgstr "Pasirinkimo Sąveika"
 msgid "Choice Properties"
 msgstr "Pasirinkti Savybes"
 
-msgid "choices"
-msgstr "pasirinkimai"
-
 msgid "Choices"
 msgstr "Pasirinkimai"
 
+msgid "choices"
+msgstr "pasirinkimai"
+
 msgid "Choose the horizontal alignment for the table."
 msgstr "Pasirinkite lentelei horizontalų lygiavimą."
+
+msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
+msgstr ""
 
 msgid "Class successfully created."
 msgstr "Klasė sėkmingai sukurta."
@@ -280,11 +337,11 @@ msgstr ""
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Valdyk vaizdo arba garso įrašo failo atkūrimo nustatymus (automatinė paleistis, kartojimas) su ataskaita, kiek kartų buvo paleistas įrašas."
 
-msgid "correct"
-msgstr "teisingai"
-
 msgid "Correct"
 msgstr "Teisingai"
+
+msgid "correct"
+msgstr "teisingai"
 
 msgid "Cosinus"
 msgstr "Kosinusas"
@@ -307,6 +364,9 @@ msgstr "Sukurti karštąjį tekstą"
 msgid "Create pair(s) from a series of choices."
 msgstr "Sukurti porą(–as) iš pasirinkimų serijos."
 
+msgid "CSV content + metadata"
+msgstr ""
+
 msgid "Current value:"
 msgstr "Dabartinė reikšmė:"
 
@@ -316,14 +376,20 @@ msgstr "Šiuo metu konversija iš MathML į LaTeX nėra galima. Redaguojant Math
 msgid "custom"
 msgstr "pasirinktinas"
 
+msgid "Custom Interactions"
+msgstr ""
+
 msgid "Custom Response Processing Mode"
 msgstr ""
+
+msgid "default"
+msgstr "numatytas"
 
 msgid "Default"
 msgstr "Numatytas"
 
-msgid "default"
-msgstr "numatytas"
+msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
+msgstr ""
 
 msgid "Define correct response"
 msgstr "Nustatyti teisingą atsakymą"
@@ -379,7 +445,7 @@ msgstr "Rodyti variantus horizontaliai arba vertikaliai"
 msgid "Divide"
 msgstr "Dalinti"
 
-msgid "Don\'t save"
+msgid "Don't save"
 msgstr ""
 
 msgid "done"
@@ -389,6 +455,9 @@ msgid "Done"
 msgstr "Atlikta"
 
 msgid "Download"
+msgstr ""
+
+msgid "Download sample csv file"
 msgstr ""
 
 msgid "Download this stylesheet"
@@ -478,6 +547,15 @@ msgstr ""
 msgid "Enter tooltip target"
 msgstr ""
 
+msgid "error"
+msgstr ""
+
+msgid "Error in post rendering: %s"
+msgstr ""
+
+msgid "Error in template rendering: %s"
+msgstr ""
+
 msgid "Error on item %1$s : %2$s"
 msgstr "Klaida elemente %1$s : %2$s"
 
@@ -492,6 +570,9 @@ msgstr ""
 
 msgid "Exponent"
 msgstr "Eksponentas"
+
+msgid "Export"
+msgstr ""
 
 msgid "Export APIP 1.0 Package"
 msgstr "Eksportuoti APIP 1.0 Paketą"
@@ -529,9 +610,6 @@ msgstr "Nepavyko eksportuoti elemento"
 msgid "Failed to publish %1$s in %2$s"
 msgstr "Nepavyko paskelbti %1$s į %2$s"
 
-msgid "Failed to save item"
-msgstr "Nepavyko išsaugoti elemento"
-
 msgid "Feedback"
 msgstr "Atsiliepimas"
 
@@ -556,6 +634,9 @@ msgstr "Failo Įkėlimo Sąveika"
 msgid "Fill in the gaps on a picture with a set of image choices."
 msgstr "Užpildyti tarpus su paveiksliuku iš paveiksliukų pasirikimų rinkinio."
 
+msgid "float"
+msgstr ""
+
 msgid "Font family"
 msgstr "Šrifto šeima"
 
@@ -567,6 +648,9 @@ msgstr "Formatas"
 
 msgid "Fraction"
 msgstr "Frakcija"
+
+msgid "Full height"
+msgstr ""
 
 msgid "Gap"
 msgstr "Tarpas"
@@ -594,6 +678,9 @@ msgstr "Daugiau negu arba lygu"
 
 msgid "Guard for resource \"%s\"..."
 msgstr "Apsauga resursui \"%s\"..."
+
+msgid "Half height"
+msgstr ""
 
 msgid "Height"
 msgstr "Aukštis"
@@ -640,6 +727,12 @@ msgstr "identifikatorius jau užimtas"
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr "Jeigu pateikta, šablonas nurodo įprastą išraišką, kuriai kandidato atsakymas privalo atitikti, kad būtu laikomas teisingu"
 
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
+msgstr ""
+
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
+msgstr ""
+
 msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
 msgstr ""
 
@@ -658,8 +751,20 @@ msgstr "Importuoti QTI/APIP Turinio Paketą"
 msgid "Import a QTI/APIP XML Item Document"
 msgstr "Importuoti QTI/APIP XML Elemento Dokumentą"
 
+msgid "Import item content and metadata from CSV file. Only choice interactions are supported."
+msgstr ""
+
 msgid "Import QTI ITEM into \"%s"
 msgstr "Importuoti QTI Elementą į \"%s"
+
+msgid "IMS QTI Item referenced as \"%s\" cannot be imported."
+msgstr ""
+
+msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
+msgstr ""
+
+msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
+msgstr ""
 
 msgid "In Progress"
 msgstr "Vykdoma"
@@ -694,6 +799,9 @@ msgstr ""
 msgid "Inline interactions need to be inserted into a text block."
 msgstr "Įterptos užduotis turi būti įdėtos į teksto bloką."
 
+msgid "integer"
+msgstr ""
+
 msgid "Interaction Background"
 msgstr "Sąveikos Fonas"
 
@@ -724,6 +832,9 @@ msgstr "Ar šis pasirinkimas yra teisingas atsakymas?"
 msgid "Is this pair the correct response?"
 msgstr "Ar ši pora yra teisingas atsakymas?"
 
+msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
+msgstr ""
+
 msgid "Item \"%s\" cannot be exported: %s"
 msgstr "Elementas \"%s\" negali būti eksportuotas: %s"
 
@@ -742,11 +853,14 @@ msgstr ""
 msgid "Item metadata successfully exported."
 msgstr "Elemento meta duomenys sėkmingai išeksportuoti."
 
-msgid "Item properties"
-msgstr "Elemento savybės"
+msgid "Item metadata with identifier \"%s\" is not valid: "
+msgstr ""
 
 msgid "Item Properties"
 msgstr "Nuotraukos Savybės"
+
+msgid "Item properties"
+msgstr "Elemento savybės"
 
 msgid "Item width"
 msgstr "Elemento plotis"
@@ -764,11 +878,14 @@ msgstr "Kalba"
 msgid "Large editor"
 msgstr "Didelis redaguoklis"
 
+msgid "LaTeX"
+msgstr "LaTeX"
+
 msgid "Latex"
 msgstr "Latex"
 
-msgid "LaTeX"
-msgstr "LaTeX"
+msgid "Layout"
+msgstr ""
 
 msgid "leave empty"
 msgstr "palikti tuščią"
@@ -929,6 +1046,9 @@ msgstr ""
 msgid "Modal Feedbacks"
 msgstr "Modaliniai Atsiliepimai"
 
+msgid "Multiple choices"
+msgstr ""
+
 msgid "Multiply"
 msgstr "Dauginti"
 
@@ -963,11 +1083,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Nenustatyta jokia reikšmė"
 
-msgid "None"
-msgstr "Nėra"
-
 msgid "none"
 msgstr "nėra"
+
+msgid "None"
+msgstr "Nėra"
 
 msgid "None defined yet."
 msgstr "Niekas nenustatyta."
@@ -1004,6 +1124,9 @@ msgstr ""
 msgid "Orientation"
 msgstr "Orientacija"
 
+msgid "Other constraints"
+msgstr ""
+
 msgid "Outcome Declarations"
 msgstr ""
 
@@ -1019,14 +1142,16 @@ msgstr "Pristabdyti"
 msgid "Pi"
 msgstr "Pi"
 
+msgid "Placeholder Text"
+msgstr ""
+
 msgid "Plain text"
 msgstr "Paprastas tekstas"
 
 msgid "Please add one or more gaps to the text in question mode."
 msgstr ""
 
-msgid "Please create areas that correspond to the response and associate them a score.\n"
-""
+msgid "Please create areas that correspond to the response and associate them a score. You can also position the target to the exact point as the correct response."
 msgstr ""
 
 msgid "Please define association pairs and their scores below."
@@ -1065,8 +1190,14 @@ msgstr "Prašome užpildyti tarpą su tekstu apačioje, tada redaguokite įverti
 msgid "Please order the choices below to set the correct answer"
 msgstr "Prašome surikiuoti variantus apačioje, kad nustatytumėte teisingą atsakymą."
 
+msgid "Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr "Prašome pasirinkti medijos failą (vaizdo arba garso) iš resursų tvarkytojo. Jūs galite pridėti failus iš jūsų kompiuterio su mygtuku \"Pridėti failą(-us)\"."
+
+msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
 
 msgid "Please select a shared stimulus file from the resource manager."
 msgstr "Prašome pasirinkti bendrinamo stimulo failą iš resursų tvarkytojo."
@@ -1125,6 +1256,9 @@ msgstr "Spausdinti elementą"
 msgid "Printed Variable"
 msgstr "Atspausdintas Kintamasis"
 
+msgid "Properties"
+msgstr ""
+
 msgid "PropertyUri to map has to a valid uri"
 msgstr ""
 
@@ -1151,6 +1285,9 @@ msgstr "QTI Paketas 2.1"
 
 msgid "QTI Package 2.2"
 msgstr "QTI Paketas 2.2"
+
+msgid "QTI-XML error at line %1$d \"%2$s\"."
+msgstr ""
 
 msgid "QTI/APIP Content Package"
 msgstr "QTI/APIP Turinio Paketas"
@@ -1254,11 +1391,11 @@ msgstr ""
 msgid "Rich text + math"
 msgstr ""
 
-msgid "right"
-msgstr "dešinė"
-
 msgid "Right"
 msgstr "Dešinė"
+
+msgid "right"
+msgstr "dešinė"
 
 msgid "Right bracket"
 msgstr "Dešinys skliaustas"
@@ -1275,11 +1412,11 @@ msgstr "Išsaugoti elementą"
 msgid "Scale size"
 msgstr "Skalės dydis"
 
-msgid "Score"
-msgstr "Balai"
-
 msgid "score"
 msgstr "balai"
+
+msgid "Score"
+msgstr "Balai"
 
 msgid "Score range"
 msgstr "Balo intervalas"
@@ -1287,10 +1424,10 @@ msgstr "Balo intervalas"
 msgid "Score value"
 msgstr "Balo reikšmė"
 
-msgid "Select"
-msgstr "Pasirinkti"
+msgid "Scrollable multi-column"
+msgstr ""
 
-msgid "Select a "
+msgid "Select"
 msgstr "Pasirinkti"
 
 msgid "select a choice"
@@ -1299,8 +1436,14 @@ msgstr "pasirinkti variantą"
 msgid "Select a choice from a drop-down list."
 msgstr "Pasirink variantą iš sąrašo."
 
+msgid "Select a left"
+msgstr ""
+
 msgid "Select a response identifier from the list."
 msgstr "Pasirinkite atsakymo identifikatorių iš sąrašo."
+
+msgid "Select a right"
+msgstr ""
 
 msgid "Select a single (radio buttons) or multiple (check boxes) responses among a set of choices."
 msgstr ""
@@ -1317,10 +1460,10 @@ msgstr "Pirma pasirinkite paveiksliuką."
 msgid "select correct choice"
 msgstr "pasirinkite teisingą variantą"
 
-msgid "Select height of passage base of conatainer height"
+msgid "Select height of passage base of container height"
 msgstr ""
 
-msgid "Select height of text block base of conatainer height"
+msgid "Select height of text block base of container height"
 msgstr ""
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
@@ -1383,6 +1526,9 @@ msgstr "Formos pozicija"
 msgid "Shuffle choices"
 msgstr "Sumaišyti atsakymus"
 
+msgid "Single choice"
+msgstr ""
+
 msgid "Sinus"
 msgstr "Sinusas"
 
@@ -1395,8 +1541,14 @@ msgstr "Slankiklis"
 msgid "Slider Interaction"
 msgstr "Slankiklio Sąveika"
 
+msgid "Some feedback text."
+msgstr ""
+
 msgid "some text ..."
 msgstr "kažkoks tekstas..."
+
+msgid "Something went wrong while destroying an interaction: %s"
+msgstr ""
 
 msgid "Square root"
 msgstr "Kvadratinė šaknis"
@@ -1406,6 +1558,9 @@ msgstr "standartas"
 
 msgid "Step"
 msgstr "Žingsnis"
+
+msgid "string"
+msgstr ""
 
 msgid "Style Editor"
 msgstr "Stiliaus Redagavimas"
@@ -1500,6 +1655,24 @@ msgstr "Pasirinkimo identifikatorius. Šis identifikatorius privalo nebūti naud
 msgid "The IMS QTI Item could not be imported."
 msgstr "IMS QTI Elementas negali būti importuotas."
 
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
+msgstr ""
+
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
 msgstr "IMS QTI Elementas nurodytas kaip \"%s\" IMS Manifesto failas buvo sėkmingai atstatytas."
 
@@ -1554,9 +1727,6 @@ msgstr "Maksimalus kiekis ryšių, kurių kandidatui leidžiama sudaryti."
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "Maksimalus kiekis variantų, kurį kandidatui leidžiama pasirinkti."
 
-msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr "Maksimalus kiekis pasirinkimų, kuriuos kandidatas privalo pasirinkti, norint suformuoti taisyklingą atsakymą."
-
 msgid "The maximum number of choices this choice may be associated with."
 msgstr "Maksimalus kiekis variantų, kurių šiam variantui galima asocijuoti."
 
@@ -1604,6 +1774,9 @@ msgstr "Atsakymo Apdorojimo Šablonas \"%s\" yra nepalaikomas."
 
 msgid "The score format is not numeric"
 msgstr "Įvertinimo formatas nėra skaitmeninis"
+
+msgid "The scrollable multi-column layout configuration is optimized for items with a single row of content only. Both columns will scroll independently and fit the available page height."
+msgstr ""
 
 msgid "The selected file is ready to be sent."
 msgstr "Pasirinktas failas paruoštas išsiųsti."
@@ -1661,6 +1834,9 @@ msgstr "Šis laukas yra privalomas"
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "Stiliaus šablonas nerastas serveryje. Jums galite ištrinti šį šaltinį"
 
+msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
+msgstr ""
+
 msgid "Time dependent"
 msgstr "Laiko priklausomas"
 
@@ -1684,6 +1860,9 @@ msgstr "Viršus"
 
 msgid "Trigger the end of the item attempt."
 msgstr "Iškviesti pabaigą elemento bandyme."
+
+msgid "Unable to load item from the given data."
+msgstr ""
 
 msgid "Unable to process your request"
 msgstr ""
@@ -1730,6 +1909,9 @@ msgstr "Reikšmė"
 msgid "Vertical"
 msgstr "Veritkalus"
 
+msgid "warning"
+msgstr ""
+
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
 msgstr "Mes naudosime patternMask atlikti tai, kad atitiktų IMS standartą"
 
@@ -1745,6 +1927,12 @@ msgstr "Ar jūs norėtumėte pakeisti alternatyvų tekstą"
 msgid "WYSIWYG editor"
 msgstr "WYSIWYG redaktorius"
 
+msgid "XML error \"%1$s\"."
+msgstr ""
+
+msgid "XML error at line %1$d \"%2$s\"."
+msgstr ""
+
 msgid "Yes"
 msgstr "Taip"
 
@@ -1754,11 +1942,8 @@ msgstr "Jūs galite pažymėti daugiausiai %d pasirinkimą"
 msgid "You can select maximum %d choices"
 msgstr "Jūs galite pažymėti daugiausiai %d pasirinkimus"
 
-msgid "You can select maximum of %s choices"
-msgstr "Galite pažymėti ne daugiau kaip %s atsakymus"
-
-msgid "You can select maximum of 1 choice"
-msgstr "Galite pažymėti tik 1 atsakymą"
+msgid "You can select up to %s choices."
+msgstr ""
 
 msgid "You can use maximum %d choices"
 msgstr "Galite panaudoti ne daugiau kaip %d pasirinkimus"
@@ -1787,12 +1972,6 @@ msgstr "Jūs privalote pasirinkti bent %d pasirinkimą"
 msgid "You must select at least %d choices"
 msgstr "Turite pažymėti mažiausiai %d atsakymus (–ų/–ą)"
 
-msgid "You must select at least %s choices"
-msgstr "Turite pažymėti mažiausiai %s atsakymus (–ų/–ą)"
-
-msgid "You must select at least 1 choice"
-msgstr "Turite pažymėti mažiausiai 1 atsakymą"
-
 msgid "You must select exactly %d choice"
 msgstr "Turite pažymėti lygiai %d atsakymus (–ų/–ą)"
 
@@ -1802,14 +1981,23 @@ msgstr "Turite pažymėti lygiai %d atsakymus (–ų/–ą)"
 msgid "You must select exactly %d choices"
 msgstr "Turite pažymėti lygiai %d atsakymus (–ų/–ą)"
 
-msgid "You must select exactly %s choices"
-msgstr "Turite pažymėti mažiausiai %s atsakymus (–ų/–ą)"
-
 msgid "You must use at least %d choices"
 msgstr "Jūs privalote bent jau pasirinkti %d"
 
 msgid "You need to make"
 msgstr "Jums reikia padaryti"
+
+msgid "You need to select %s choices"
+msgstr ""
+
+msgid "You need to select at least %s choices."
+msgstr ""
+
+msgid "You need to select at least 1 choice."
+msgstr ""
+
+msgid "You need to select from %s to %s choices."
+msgstr ""
 
 msgid "Your item has been saved"
 msgstr "Jūsų elementas buvo išsaugotas"

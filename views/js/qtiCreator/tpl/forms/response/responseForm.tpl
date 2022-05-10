@@ -55,6 +55,9 @@
 <div class="response-mapping-info{{#unless mappingDisabled}} hidden{{/unless}}">
     <p class="feedback-info">{{__ 'The mapping options are available when at least one map entry is defined.'}}</p>
 </div>
+<div class="response-matchmax-info response{{#unless isInfinityMatchMax}} hidden{{/unless}}">
+    <p class="feedback-info">{{__ 'The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score.'}}</p>
+</div>
 
 <div class="panel" data-editx="map">
     <label>

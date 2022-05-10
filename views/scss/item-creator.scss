@@ -236,8 +236,10 @@ img.dragging.ui-draggable-dragging {
 
 }
 
-.item-editor-response-related {
-    .response-mapping-info {
+.item-editor-response-related,
+.item-editor-choice-related {
+    .response-mapping-info,
+    .response-matchmax-info {
         .feedback-info {
             padding: 5px;
         }
@@ -404,6 +406,12 @@ img.dragging.ui-draggable-dragging {
             }
             .icon-help.tooltipstered{
                 color: $info;
+            }
+            &.choice-min-max {
+                margin-left: 20px;
+                .spinner {
+                    min-width: 80px;
+                }
             }
         }
     }
@@ -1109,7 +1117,7 @@ img.dragging.ui-draggable-dragging {
         }
     }
 
-    .widget-inline{
+    .widget-inline, .widget-table{
         z-index: 20;
     }
 
@@ -1205,6 +1213,9 @@ img.dragging.ui-draggable-dragging {
 
     .qti-interaction {
         .qti-prompt {
+            @include rtl {
+                margin-right: 0;
+            }
             & ~ .mini-tlb {
                 right: -31px !important;
                 top:1px
@@ -1253,7 +1264,7 @@ img.dragging.ui-draggable-dragging {
         }
     }
     [data-html-editable] {
-        margin-right: 0px; //@todo value to be determined
+        margin-right: 0;
         &[contenteditable=true]:focus {
             border: 1px dotted $info;
         }
@@ -1262,9 +1273,11 @@ img.dragging.ui-draggable-dragging {
 
 .edit-question .qti-blockInteraction .horizontal {
     margin-top: 28px;
-
-    .qti-choice {
+    .qti-choice,
+    .add-option {
         margin-top: 25px;
+    }
+    .qti-choice {
         .mini-tlb{
             white-space: nowrap;
             .tlb-button{
@@ -1285,6 +1298,7 @@ img.dragging.ui-draggable-dragging {
 
 .widget-rubricBlock, .widget-textBlock {
     [data-html-editable] {
+        @extend %clearfix;
         min-height: 3rem;
     }
 }
@@ -1439,11 +1453,6 @@ img.dragging.ui-draggable-dragging {
     .item-editor-sidebar-wrapper.left-bar {
         @include simple-flex-box(262px);
         #item-editor-interaction-bar {
-            .tool-list {
-                li {
-                    width: (100 / 3) * 1%;
-                }
-            }
             .sub-group-cover:after, .sub-group-cover:before {
                 left: 17% !important;
             }
@@ -1462,7 +1471,7 @@ img.dragging.ui-draggable-dragging {
         #item-editor-interaction-bar {
             .tool-list {
                 li {
-                    width: 25%;
+                    width: 50%;
                 }
             }
             .sub-group-cover:after, .sub-group-cover:before {

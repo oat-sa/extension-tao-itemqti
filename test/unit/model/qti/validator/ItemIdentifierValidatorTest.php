@@ -29,36 +29,59 @@ use oat\taoQtiItem\model\qti\validator\ItemIdentifierValidator;
 
 class ItemIdentifierValidatorTest extends TestCase
 {
-    /** @var ItemIdentifierValidator */
-    private $subject;
-
     /** @var Item $item */
     private $item;
 
     protected function setUp(): void
     {
-
         $this->item = $this->createMock(Item::class);
-
-        $this->subject = new ItemIdentifierValidator();
     }
 
-    public function testValidate(): void
+    public function testValidationSuccess(): void
     {
+        $subject = new ItemIdentifierValidator();
+
         $this->item->expects($this->once())
             ->method('getAttributeValue')
             ->willReturn('some-fake-id-64228-217055');
 
-        $this->subject->validate($this->item);
+        $subject->validate($this->item);
     }
 
-    public function testValidateWithError(): void
+    public function testValidationSuccessWithDifferentPattern(): void
     {
+        $subject = new ItemIdentifierValidator('/^[a-zA-Z_]{1}[a-zA-Z0-9_-]*$/u');
+
         $this->item->expects($this->once())
             ->method('getAttributeValue')
-            ->willReturn('some.fake.id.64228.217055');
+            ->willReturn('some-fake-id-64228-217055-not-allowed-dots');
 
+        $subject->validate($this->item);
+    }
+
+    public function testValidationFailureThrowsException(): void
+    {
         $this->expectException(common_exception_Error::class);
-        $this->subject->validate($this->item);
+
+        $subject = new ItemIdentifierValidator();
+
+        $this->item->expects($this->once())
+            ->method('getAttributeValue')
+            ->willReturn('$some.fake.id.64228.217055');
+
+        $subject->validate($this->item);
+    }
+
+    public function testValidationFailureWithDifferentPatternThrowsException(): void
+    {
+        $this->expectException(common_exception_Error::class);
+
+        $subject = new ItemIdentifierValidator('/^[a-zA-Z_]{1}[a-zA-Z0-9_-]*$/u');
+
+        $this->item->expects($this->once())
+            ->method('getAttributeValue')
+            ->willReturn('some.fake.id.64228.217055.not.allowed.dots');
+
+        $subject->validate($this->item);
     }
 }

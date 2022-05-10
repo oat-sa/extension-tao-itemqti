@@ -1,7 +1,8 @@
 @import "inc/bootstrap";
 
 .widget-table {
-    display: inline-block;
+    display: table;
+    margin: 0 auto 0 0;
 
     &.table-center {
         display: table;

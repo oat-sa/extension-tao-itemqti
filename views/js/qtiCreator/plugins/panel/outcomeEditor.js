@@ -147,7 +147,7 @@ define([
         if (!$field.data('$tooltip')) {
             widgetTooltip = tooltip.warning(
                 $field,
-                __('This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring'),
+                __("This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"),
                 {
                     trigger: 'manual',
                     placement: 'left-start'
@@ -327,7 +327,8 @@ define([
                         $outcomeContainer.remove();
                         item.remove('outcomes', $outcomeContainer.data('serial'));
                     })
-                    .on(`click${_ns}`, '.adder', function () {
+                    .on(`click${_ns}`, '.adder', function (e) {
+                        e.preventDefault();
                         //add new outcome
                         const newOutcome = new OutcomeDeclaration({
                             cardinality: 'single',

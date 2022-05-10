@@ -337,7 +337,7 @@ class QtiCreator extends tao_actions_CommonModule
 
     private function getItemIdentifierValidator(): ItemIdentifierValidator
     {
-        return $this->getServiceLocator()->get(ItemIdentifierValidator::class);
+        return $this->getServiceLocator()->getContainer()->get(ItemIdentifierValidator::class);
     }
 
     /**

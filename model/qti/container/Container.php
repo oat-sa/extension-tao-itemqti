@@ -119,7 +119,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
                         $body .= $placeholder;
                     }
                 }
-                
+
                 $relatedItem = $this->getRelatedItem();
                 if (!is_null($relatedItem)) {
                     $qtiElement->setRelatedItem($relatedItem);
@@ -138,7 +138,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
 
         return true;
     }
-    
+
     public function afterElementSet(Element $qtiElement)
     {
 
@@ -352,7 +352,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
                 $returnValue->add($element);
             }
         }
-        
+
         return $returnValue;
     }
 
@@ -389,13 +389,14 @@ abstract class Container extends Element implements IdentifiedElementContainer
             'serial' => $this->getSerial(),
             'body' => $this->getBody(),
             'elements' => $this->getArraySerializedElementCollection($this->getElements(), $filterVariableContent, $filtered),
+            'attributes' => $this->getAttributeValues()
         ];
-        
+
         if ($this->isDebugMode()) {
             //in debug mode, add debug data, such as the related item
             $data['debug'] = ['relatedItem' => is_null($this->getRelatedItem()) ? '' : $this->getRelatedItem()->getSerial()];
         }
-        
+
         return $data;
     }
 

@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015-2021 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA ;
  *
  */
 define([
@@ -95,6 +95,21 @@ define([
                     xml: false
                 });
 
+                const item = this.element;
+                const $itemBody = this.$container.find('.qti-itemBody');
+                if (!item.bdy.attr('dir') && $itemBody.find('.grid-row[dir="rtl"]').length) {
+                    // old xml with dir='rtl' in div.grid-row should be updated
+                    item.bdy.attr('dir', 'rtl');
+                    $itemBody.find('.grid-row').removeAttr('dir');
+                    //need to update item body
+                    item.body(contentHelper.getContent($itemBody));
+                }
+                if (item.bdy.attr('dir') === 'rtl') {
+                    // dir='rtl' should be set to itemBody
+                    $itemBody.attr('dir', 'rtl');
+                    $itemBody.trigger('item-dir-changed');
+                }
+
                 resolve();
             });
         });
@@ -169,7 +184,7 @@ define([
     };
 
     ItemWidget.initGridEditor = function () {
-        const _this = this,
+        const self = this,
             item = this.element,
             $itemBody = this.$container.find('.qti-itemBody'),
             $itemEditorPanel = $('#item-editor-panel');
@@ -214,11 +229,6 @@ define([
                 const element = itemWidget.element;
                 const container = Element.isA(element, '_container') ? element : element.getBody();
 
-                if (element.attr('dir') === 'rtl') {
-                    // add dir='rtl' to new div.grid-row
-                    $placeholder.parent('.col-12').parent('.grid-row').attr('dir', 'rtl');
-                }
-
                 if (!element || !$editable.length) {
                     throw new Error('cannot create new element');
                 }
@@ -234,7 +244,7 @@ define([
                             if (Element.isA(elt, '_container')) {
                                 $colParent.empty(); //clear the col content, and leave an empty text field
                                 $colParent.html(elt.render());
-                                widget = _this.initTextWidget(elt, $colParent);
+                                widget = self.initTextWidget(elt, $colParent);
                                 $widgetNewElem = widget.$container;
                             } else {
                                 elt.render($placeholder);
@@ -244,6 +254,8 @@ define([
                                 widget = elt.data('widget');
                                 if (Element.isA(elt, 'blockInteraction')) {
                                     $widgetNewElem = widget.$container;
+                                    // set flag new for upload interaction to set default list of mime types
+                                    $widgetNewElem.data('new', true);
                                 } else {
                                     //leave the container in place
                                     $widgetNewElem = widget.$original;

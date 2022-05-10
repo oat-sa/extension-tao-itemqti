@@ -40,3 +40,31 @@
         }
     }
 }
+
+.edit-question {
+    .qti-gapMatchInteraction {
+        .horizontal {
+            .qti-choice {
+                margin-top: 3px;
+
+                .mini-tlb {
+                    margin-bottom: 0;
+                    height: 31px;
+                    border: 0!important;
+
+                    .tlb-button {
+                        height: 100%;
+                        border: 1px $itemCreatorMiniTlbBorderColor solid
+                    }
+                }
+
+                .dummy-element ~ span.mini-tlb[data-edit] {
+                    height: 26px;
+                }
+            }
+        }
+        [data-html-editable] {
+            margin-right: 2em;
+        }
+    }
+}
