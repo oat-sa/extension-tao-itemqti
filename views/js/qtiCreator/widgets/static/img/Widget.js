@@ -73,6 +73,12 @@ define([
             this.$original[0].removeAttribute('height');
         }
 
+        const figcaption = document.createElement('qh5:figcaption');
+        figcaption.id = 'figcaption';
+        const caption = document.createTextNode(this.element.attr('figcaption'));
+        figcaption.appendChild(caption);
+        this.$container.append(figcaption);
+
         return this;
     };
 
