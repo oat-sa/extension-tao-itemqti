@@ -125,7 +125,8 @@ define([
                         newItem.setNamespaces({
                             '': qtiNamespace,
                             xsi: 'http://www.w3.org/2001/XMLSchema-instance',
-                            m: 'http://www.w3.org/1998/Math/MathML'
+                            m: 'http://www.w3.org/1998/Math/MathML',
+                            qh5: 'http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0'
                         }); //note : always add math element : since it has become difficult to know when a math element has been added to the item
 
                         //set default schema location
