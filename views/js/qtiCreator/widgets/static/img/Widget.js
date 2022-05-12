@@ -23,8 +23,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/helpers/widget',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
-    'ui/mediaEditor/plugins/mediaAlignment/helper'
-], function($, Widget, states, helper, toolbarTpl, inlineHelper, alignmentHelper){
+    'ui/mediaEditor/plugins/mediaAlignment/helper',
+    'ui/mediaEditor/plugins/mediaCaption/helper'
+], function($, Widget, states, helper, toolbarTpl, inlineHelper, alignmentHelper, captionHelper){
     'use strict';
 
     var ImgWidget = Widget.clone();
@@ -41,6 +42,8 @@ define([
         inlineHelper.togglePlaceholder(this);
         // Resets classes for dom elements: img and wrapper on initial load and in sleep / inactive mode
         alignmentHelper.initAlignment(this);
+        // Create the figCaption
+        captionHelper.initCaption(this);
 
         //check file exists:
         inlineHelper.checkFileExists(this, 'src', options.baseUrl);
@@ -72,12 +75,6 @@ define([
             this.$original[0].setAttribute('width', '100%');
             this.$original[0].removeAttribute('height');
         }
-
-        const figcaption = document.createElement('qh5:figcaption');
-        figcaption.id = 'figcaption';
-        const caption = document.createTextNode(this.element.attr('figcaption'));
-        figcaption.appendChild(caption);
-        this.$container.append(figcaption);
 
         return this;
     };
