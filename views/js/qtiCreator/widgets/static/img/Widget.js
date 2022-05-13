@@ -23,8 +23,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/helpers/widget',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
-    'ui/mediaEditor/plugins/mediaAlignment/helper',
-    'ui/mediaEditor/plugins/mediaCaption/helper'
+    'ui/mediaEditor/plugins/mediaAlignment/helper'
 ], function($, Widget, states, helper, toolbarTpl, inlineHelper, alignmentHelper, captionHelper){
     'use strict';
 
@@ -42,8 +41,6 @@ define([
         inlineHelper.togglePlaceholder(this);
         // Resets classes for dom elements: img and wrapper on initial load and in sleep / inactive mode
         alignmentHelper.initAlignment(this);
-        // Create the figCaption
-        captionHelper.initCaption(this);
 
         //check file exists:
         inlineHelper.checkFileExists(this, 'src', options.baseUrl);
