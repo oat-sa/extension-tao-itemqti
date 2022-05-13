@@ -873,7 +873,19 @@ img.dragging.ui-draggable-dragging {
             &.widget-img {
                 img {
                     display: flex;
-                    height: 100%;
+                    width: 100%;
+                }
+
+                .figureImg {
+                    display: block;
+
+                    & img {
+                        display: flex;
+                        height: 100%;
+                        width: 100%;
+                        float: none;
+                        margin: 0;
+                    }
                 }
             }
         }
