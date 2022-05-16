@@ -44,6 +44,7 @@ define([
                     identifier: item.id(),
                     title: item.attr('title'),
                     timeDependent: !!item.attr('timeDependent'),
+                    showTimeDependent: item.attr('showTimeDependent'),
                     'xml:lang': item.attr('xml:lang'),
                     languagesList: item.data('languagesList'),
                     rtl
