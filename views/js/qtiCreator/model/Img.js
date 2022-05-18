@@ -10,8 +10,7 @@ define([
         getDefaultAttributes : function(){
             return {
                 src : '',
-                alt: '',
-                figcaption: ''
+                alt: ''
             };
         },
         afterCreate : function(){
