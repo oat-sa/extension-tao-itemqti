@@ -43,16 +43,22 @@ final class Version202205181148531101_taoQtiItem extends AbstractMigration
 
         $setValues = $registry->get(ExtendedTextInteractionConfigurationRegistry::ID);
 
-        $this->addReport(
-            $setValues
-                ? Report::createSuccess(
-                sprintf(
-                    "Applied the following configuration to `%s`\n%s",
-                    ExtendedTextInteractionConfigurationRegistry::class,
-                    json_encode($setValues)
+        if ($setValues) {
+            $this->addReport(
+                Report::createSuccess(
+                    sprintf(
+                        "Applied the following configuration to `%s`\n%s",
+                        ExtendedTextInteractionConfigurationRegistry::class,
+                        json_encode($setValues)
+                    )
                 )
-            )
-                : Report::createError(
+            );
+
+            return;
+        }
+
+        $this->addReport(
+            Report::createError(
                 sprintf('No values set to `%s`', ExtendedTextInteractionConfigurationRegistry::class)
             )
         );

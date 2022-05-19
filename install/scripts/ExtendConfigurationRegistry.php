@@ -35,16 +35,18 @@ class ExtendConfigurationRegistry extends InstallAction
 
         $setValues = $registry->get(ExtendedTextInteractionConfigurationRegistry::ID);
 
-        return $setValues
-            ? Report::createSuccess(
+        if ($setValues) {
+            return Report::createSuccess(
                 sprintf(
                     "Applied the following configuration to `%s`\n%s",
                     ExtendedTextInteractionConfigurationRegistry::class,
                     json_encode($setValues)
                 )
-            )
-            : Report::createError(
-                sprintf('No values set to `%s`', ExtendedTextInteractionConfigurationRegistry::class)
             );
+        }
+
+        return Report::createError(
+            sprintf('No values set to `%s`', ExtendedTextInteractionConfigurationRegistry::class)
+        );
     }
 }
