@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,56 +15,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\taoQtiItem\model\qti\container;
 
-use oat\taoQtiItem\model\qti\container\Container;
 
-/**
- * The QTI_Container object represents the generic element container
- *
- * @access public
- * @author Sam, <sam@taotesting.com>
- * @package taoQTI
-
- */
-class ContainerStatic extends Container
+class ContainerFigure extends ContainerStatic
 {
 
     /**
      * return the list of available element classes
      *
      * @access public
-     * @author Sam, <sam@taotesting.com>
      * @return array
      */
     public function getValidElementTypes()
     {
         return [
             'oat\\taoQtiItem\\model\\qti\\Img',
-            'oat\\taoQtiItem\\model\\qti\\Table',
-            'oat\\taoQtiItem\\model\\qti\\Math',
-            'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
-            \oat\taoQtiItem\model\qti\QtiObject::class,
-            'oat\\taoQtiItem\\model\\qti\\Tooltip',
-            'oat\\taoQtiItem\\model\\qti\\XInclude',
-            \oat\taoQtiItem\model\qti\Figure::class
+            \oat\taoQtiItem\model\qti\FigCaption::class
         ];
-    }
-
-
-
-    /**
-     * Fix erroneously self-closing elements
-     *
-     * @return string
-     */
-    public function getBody()
-    {
-        return $this->fixNonvoidTags(parent::getBody());
     }
 }

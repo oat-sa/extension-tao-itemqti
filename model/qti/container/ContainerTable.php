@@ -51,6 +51,7 @@ class ContainerTable extends ContainerInteractive
             'oat\\taoQtiItem\\model\\qti\\InfoControl',
             'oat\\taoQtiItem\\model\\qti\\XInclude',
             \oat\taoQtiItem\model\qti\Table::class,
+            \oat\taoQtiItem\model\qti\Figure::class
         ];
     }
 }

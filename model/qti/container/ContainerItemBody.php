@@ -54,7 +54,8 @@ class ContainerItemBody extends ContainerInteractive
             'oat\\taoQtiItem\\model\\qti\\RubricBlock',
             'oat\\taoQtiItem\\model\\qti\\InfoControl',
             'oat\\taoQtiItem\\model\\qti\\Tooltip',
-            'oat\\taoQtiItem\\model\\qti\\XInclude'
+            'oat\\taoQtiItem\\model\\qti\\XInclude',
+            \oat\taoQtiItem\model\qti\Figure::class,
         ];
     }
 

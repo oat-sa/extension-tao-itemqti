@@ -211,6 +211,15 @@ class ParserFactory
             }
         }
 
+        $figureNodes = $this->queryXPath(".//*[name(.)='" . $this->getHTML5Namespace() . "figure']", $data);
+        foreach ($figureNodes as $figureNode) {
+            $figure = $this->buildFigure($figureNode);
+            if (!is_null($figure)) {
+                $bodyElements[$figure->getSerial()] = $figure;
+                $this->replaceNode($figureNode, $figure);
+            }
+        }
+
         $tooltipNodes = $this->queryXPath(".//*[@data-role='tooltip-target']", $data);
         foreach ($tooltipNodes as $tooltipNode) {
             $tooltip = $this->buildTooltip($tooltipNode, $data);
@@ -241,6 +250,18 @@ class ParserFactory
 
                 $this->replaceNode($imgNode, $img);
             }
+        }
+
+        $figCaptionNodes = $this->queryXPath(".//*[name(.)='" . $this->getHTML5Namespace() . "figcaption']", $data);
+        foreach ($figCaptionNodes as $figCaptionNode) {
+            $figCaption = $this->buildFigCaption($figCaptionNode);
+            if (!is_null($figCaption)) {
+                $bodyElements[$figCaption->getSerial()] = $figCaption;
+
+                $this->replaceNode($figCaptionNode, $figCaption);
+            }
+            //should be no more then one
+            break;
         }
 
         $ns = $this->getMathNamespace();
@@ -521,6 +542,14 @@ class ParserFactory
     protected function getXIncludeNamespace()
     {
         return $this->findNamespace('XInclude');
+    }
+
+    protected function getHTML5Namespace()
+    {
+        // qh5
+        $ns = $this->findNamespace('html5');
+
+        return empty($ns) ? '' : $ns . ':';
     }
 
     /**
@@ -1442,6 +1471,14 @@ class ParserFactory
         return $returnValue;
     }
 
+    private function buildFigCaption(DOMElement $data)
+    {
+        $attributes = $this->extractAttributes($data);
+        $returnValue = new FigCaption($attributes);
+
+        return $returnValue;
+    }
+
     private function buildTooltip(DOMElement $data, DOMElement $context)
     {
 
@@ -1489,6 +1526,16 @@ class ParserFactory
         $this->parseContainerStatic($data, $table->getBody());
 
         return $table;
+    }
+
+    private function buildFigure(DOMElement $data)
+    {
+
+        $attributes = $this->extractAttributes($data);
+        $figure = new Figure($attributes);
+        $this->parseContainerStatic($data, $figure->getBody());
+
+        return $figure;
     }
 
     private function buildMath(DOMElement $data)
