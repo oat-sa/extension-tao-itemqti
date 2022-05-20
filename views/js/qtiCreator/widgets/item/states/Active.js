@@ -19,12 +19,13 @@
 define([
     'lodash',
     'util/locale',
+    'services/features',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Active',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/item',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'select2'
-], function (_, locale, stateFactory, Active, formTpl, formElement) {
+], function (_, locale, features, stateFactory, Active, formTpl, formElement) {
     'use strict';
 
     const ItemStateActive = stateFactory.create(
@@ -44,7 +45,7 @@ define([
                     identifier: item.id(),
                     title: item.attr('title'),
                     timeDependent: !!item.attr('timeDependent'),
-                    showTimeDependent: item.attr('showTimeDependent'),
+                    showTimeDependent: features.isVisible('taoQtiItem/creator/item/property/timeDependant'),
                     'xml:lang': item.attr('xml:lang'),
                     languagesList: item.data('languagesList'),
                     rtl

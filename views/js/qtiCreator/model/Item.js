@@ -40,7 +40,6 @@ define([
                 title : 'Item title',
                 adaptive : false,
                 timeDependent : false,
-                showTimeDependent: features.isVisible('taoQtiItem/creator/item/property/timeDependant'),
                 'xml:lang' : context.base_authoring_lang || 'en-US'
             };
         },
