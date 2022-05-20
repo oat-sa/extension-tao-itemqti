@@ -312,6 +312,11 @@ define([
                             self.updateThresholds(1, _.size(interaction.getChoices()));
                         }
                     });
+                    // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+                    widget.infinityMatchMax('hotspot', choice);
+                }).on('change', function () {
+                    // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+                    widget.infinityMatchMax('hotspot', choice);
                 });
 
                 formElement.initWidget($choiceForm);
@@ -396,6 +401,11 @@ define([
                             self.updateThresholds(1, _.size(interaction.getChoices()));
                         }
                     });
+                    // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+                    widget.infinityMatchMax('gapImg', gapImg);
+                }).on('change', function () {
+                    // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+                    widget.infinityMatchMax('gapImg', gapImg);
                 });
 
                 // <li/> that will contain the image
