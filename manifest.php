@@ -24,6 +24,7 @@ use oat\taoQtiItem\controller\QtiCreator;
 use oat\taoQtiItem\controller\QtiCssAuthoring;
 use oat\taoQtiItem\controller\QtiPreview;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
+use oat\taoQtiItem\install\scripts\ExtendConfigurationRegistry;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
 use oat\taoQtiItem\install\scripts\setXMLParserConfig;
 use oat\taoQtiItem\model\qti\CustomInteractionAsset\ServiceProvider\CustomInteractionAssetExtractorAllocatorServiceProvider;
@@ -74,6 +75,7 @@ return [
             SetUpQueueTasks::class,
             RegisterItemCompilerBlacklist::class,
             RegisterNpmPaths::class,
+            ExtendConfigurationRegistry::class,
         ]
     ],
     'local' => [
