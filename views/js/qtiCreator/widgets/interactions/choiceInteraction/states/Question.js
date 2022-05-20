@@ -185,6 +185,9 @@ define([
         type = selectedCase.type;
         constraints = selectedCase.constraints;
 
+        const allowElimination = features.isVisible('taoQtiItem/creator/interaction/choice/property/allowElimination');
+        const shuffleChoices = features.isVisible('taoQtiItem/creator/interaction/choice/property/allowElimination');
+        const choiceOptionsAvailable = allowElimination || shuffleChoices;
         $form.html(
             formTpl({
                 type,
@@ -193,7 +196,9 @@ define([
                 horizontal: interaction.attr('orientation') === 'horizontal',
                 eliminable: /\beliminable\b/.test(interaction.attr('class')),
                 enabledFeatures: {
-                    shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/choice/property/shuffle'),
+                    allowElimination,
+                    shuffleChoices,
+                    choiceOptionsAvailable,
                     listStyle: features.isVisible('taoQtiItem/creator/interaction/choice/property/listStyle')
                 }
             })

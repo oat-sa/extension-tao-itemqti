@@ -39,6 +39,7 @@
 </div>
 <div class="panel min-max-panel choice-min-max"></div>
 <hr/>
+{{#if enabledFeatures.allowElimination}}
 <div class="panel">
     <label>
         <input name="eliminable" type="checkbox" {{#if eliminable}}checked="checked"{{/if}}/>
@@ -50,6 +51,7 @@
         {{__ 'If this box is checked the student will be able to eliminate choices.'}}
     </span>
 </div>
+{{/if}}
 {{#if enabledFeatures.shuffleChoices}}
 <div class="panel">
     <label>
@@ -63,7 +65,9 @@
     </span>
 </div>
 {{/if}}
+{{#if enabledFeatures.choiceOptionsAvailable}}
 <hr/>
+{{/if}}
 {{#if enabledFeatures.listStyle}}
 <div class="panel">
     <h3>{{__ "List Style"}}</h3>
