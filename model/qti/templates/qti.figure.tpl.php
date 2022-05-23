@@ -19,6 +19,6 @@
  *
  */
 $attributes = get_data('attributes');
-$attributes = empty($attributes) ? '' : ' ' . $attributes;//add space if not empty
+$attributes = empty($attributes) ? '' : ' '.$attributes;//add space if not empty
 ?>
-<qh5:<?=get_data('tag')?><?=$attributes?>/>
+<?php if(trim(get_data('body') == '')):?><qh5:<?=get_data('tag')?><?=$attributes?>/><?php else:?><qh5:<?=get_data('tag')?><?=$attributes?>><?=get_data('body')?></qh5:<?=get_data('tag')?>><?php endif;?>

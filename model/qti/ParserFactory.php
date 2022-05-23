@@ -1474,9 +1474,10 @@ class ParserFactory
     private function buildFigCaption(DOMElement $data)
     {
         $attributes = $this->extractAttributes($data);
-        $returnValue = new FigCaption($attributes);
+        $figCaption = new FigCaption($attributes);
 
-        return $returnValue;
+
+        return $figCaption;
     }
 
     private function buildTooltip(DOMElement $data, DOMElement $context)
