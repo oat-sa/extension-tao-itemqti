@@ -253,7 +253,7 @@ define([
                                         $labelContainer.attr('title', value);
 
                                         //save to model
-                                        outcome.attr('longInterpretation', _.escape(value))
+                                        outcome.attr('longInterpretation', _.escape(value));
                                     },
                                     externalScored(outcome, value) {
                                         //Turn off scoring trait validation if externalScored is not human
