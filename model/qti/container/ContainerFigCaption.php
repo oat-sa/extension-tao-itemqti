@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -14,11 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
  */
-$attributes = get_data('attributes');
-$attributes = empty($attributes) ? '' : ' ' . $attributes;//add space if not empty
-?>
-<qh5:<?=get_data('tag')?><?=$attributes?>/>
+
+namespace oat\taoQtiItem\model\qti\container;
+
+
+class ContainerFigCaption extends ContainerStatic
+{
+
+    public function getValidElementTypes()
+    {
+        return [
+        ];
+    }
+}

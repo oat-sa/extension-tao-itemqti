@@ -31,6 +31,7 @@ class Figure extends Element implements FlowContainer
      * @var string
      */
     protected static $qtiTagName = 'figure';
+    protected static $qtiNamespaceAlias = 'qh5';
 
     protected $body = null;
 

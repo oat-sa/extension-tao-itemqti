@@ -1475,7 +1475,7 @@ class ParserFactory
     {
         $attributes = $this->extractAttributes($data);
         $figCaption = new FigCaption($attributes);
-
+        $this->parseContainerStatic($data, $figCaption->getBody());
 
         return $figCaption;
     }
