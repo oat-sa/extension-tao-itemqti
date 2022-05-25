@@ -246,7 +246,7 @@ define([
                                         $labelContainer.attr('title', value);
 
                                         //save to model
-                                        outcome.attr('interpretation', value);
+                                        outcome.attr('interpretation', _.escape(value));
                                     },
                                     longInterpretation(outcome, value) {
                                         //update the title attr for real time update
