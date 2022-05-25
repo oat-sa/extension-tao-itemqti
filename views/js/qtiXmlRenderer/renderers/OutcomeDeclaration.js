@@ -13,22 +13,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA;
  *
  */
-define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/outcomeDeclaration'], function(_, tpl){
+define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/outcomeDeclaration'], function (_, tpl) {
     'use strict';
     return {
-        qtiClass : 'outcomeDeclaration',
-        template : tpl,
-        getData:function(outcomeDeclaration, data){
+        qtiClass: 'outcomeDeclaration',
+        template: tpl,
+        getData: function (outcomeDeclaration, data) {
             var defaultData,
                 defaultValue = [];
 
-            if(!_.isUndefined(outcomeDeclaration.defaultValue)){
-                if(typeof(outcomeDeclaration.defaultValue) === 'object'){
+            if (!_.isUndefined(outcomeDeclaration.defaultValue)) {
+                if (typeof outcomeDeclaration.defaultValue === 'object') {
                     defaultValue = _.values(outcomeDeclaration.defaultValue);
-                }else{
+                } else {
                     defaultValue = [outcomeDeclaration.defaultValue];
                 }
             }
@@ -36,8 +36,15 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/outcomeDeclaration'], funct
                 empty: !_.size(defaultValue),
                 defaultValue: defaultValue
             };
-
-            return _.merge(data || {}, defaultData);
+            const resultData = _.merge(data || {}, defaultData);
+            // escape links for the XML
+            if (resultData.attributes.interpretation) {
+                resultData.attributes.interpretation = _.escape(resultData.attributes.interpretation);
+            }
+            if (resultData.attributes.longInterpretation) {
+                resultData.attributes.longInterpretation = _.escape(resultData.attributes.longInterpretation);
+            }
+            return resultData;
         }
     };
 });
