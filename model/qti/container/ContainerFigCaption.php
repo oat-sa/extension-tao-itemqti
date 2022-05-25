@@ -26,7 +26,6 @@ class ContainerFigCaption extends ContainerStatic
 
     public function getValidElementTypes()
     {
-        return [
-        ];
+        return [];
     }
 }

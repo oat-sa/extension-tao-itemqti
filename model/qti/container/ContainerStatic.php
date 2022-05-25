@@ -15,9 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
+ * Copyright (c) 2013-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 namespace oat\taoQtiItem\model\qti\container;
@@ -52,7 +50,7 @@ class ContainerStatic extends Container
             \oat\taoQtiItem\model\qti\QtiObject::class,
             'oat\\taoQtiItem\\model\\qti\\Tooltip',
             'oat\\taoQtiItem\\model\\qti\\XInclude',
-            \oat\taoQtiItem\model\qti\Figure::class
+            \oat\taoQtiItem\model\qti\Figure::class,
         ];
     }
 
