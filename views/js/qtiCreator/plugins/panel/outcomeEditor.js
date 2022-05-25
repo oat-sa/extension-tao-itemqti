@@ -103,8 +103,8 @@ define([
             return {
                 serial: outcome.serial,
                 identifier: outcome.id(),
-                interpretation: outcome.attr('interpretation'),
-                longInterpretation: outcome.attr('longInterpretation'),
+                interpretation: _.unescape(outcome.attr('interpretation')),
+                longInterpretation: _.unescape(outcome.attr('longInterpretation')),
                 externalScored: externalScored,
                 normalMaximum: outcome.attr('normalMaximum'),
                 normalMinimum: outcome.attr('normalMinimum'),
