@@ -19,10 +19,10 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/static/img',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/static/figure',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
-    'ui/image/FigureStateActive',
+    'ui/figure/FigureStateActive',
 ], function (stateFactory, ActiveState, formTpl, formElement, inlineHelper, FigureStateActive) {
     'use strict';
     return FigureStateActive(stateFactory, ActiveState, formTpl, formElement, inlineHelper);
