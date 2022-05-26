@@ -21,10 +21,10 @@ define(['lodash', 'taoQtiItem/qtiItem/core/Figcaption'], function (_, Figcaption
     var methods = {};
     _.extend(methods, {
         getDefaultAttributes: function () {
-            return {
-                fixed: false,
-                showHide: 'show'
-            };
+            return {};
+        },
+        afterCreate: function () {
+            this.getNamespace();
         }
     });
     return Figcaption.extend(methods);

@@ -18,13 +18,14 @@
  */
 define([
     'jquery',
+    'lodash',
     'taoQtiItem/qtiCreator/widgets/static/Widget',
     'taoQtiItem/qtiCreator/widgets/static/figure/states/states',
     'taoQtiItem/qtiCreator/widgets/static/helpers/widget',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'ui/mediaEditor/plugins/mediaAlignment/helper'
-], function($, Widget, states, helper, toolbarTpl, inlineHelper, alignmentHelper){
+], function($, _, Widget, states, helper, toolbarTpl, inlineHelper, alignmentHelper){
     'use strict';
 
     var FigureWidget = Widget.clone();
@@ -32,7 +33,8 @@ define([
     FigureWidget.initCreator = function initCreator(options){
 
         var self = this;
-        var figure = this.element;
+        const figure = this.element;
+        const img = _.find(figure.getBody().elements, elem => elem.is('img'));
 
         this.registerStates(states);
 
@@ -43,17 +45,17 @@ define([
         alignmentHelper.initAlignment(this);
 
         //check file exists:
-        inlineHelper.checkFileExists(this, 'src', options.baseUrl);
-        $('#item-editor-scope').on('filedelete.resourcemgr.' + this.element.serial, function(e, src){
-            if (self.getAssetManager().resolve(figure.attr('src')) === self.getAssetManager().resolve(src)) {
-                figure.attr('src', '');
+        inlineHelper.checkFileExists(this, img, 'src', options.baseUrl);
+        $('#item-editor-scope').on(`filedelete.resourcemgr.${this.element.serial}`, function(e, src){
+            if (self.getAssetManager().resolve(img.attr('src')) === self.getAssetManager().resolve(src)) {
+                img.attr('src', '');
                 inlineHelper.togglePlaceholder(self);
             }
         });
     };
 
     FigureWidget.destroy = function destroy(){
-        $('#item-editor-scope').off('.' + this.element.serial);
+        $('#item-editor-scope').off(`.${this.element.serial}`);
     };
 
     FigureWidget.getRequiredOptions = function(){
@@ -61,16 +63,17 @@ define([
     };
 
     FigureWidget.buildContainer = function buildContainer(){
-
+        const img = _.find(this.element.getBody().elements, elem => elem.is('img'));
+        const $img = this.$original.find('img');
         helper.buildInlineContainer(this);
 
         this.$container.css({
-            width: this.element.attr('width'),
-            height: this.element.attr('height')
+            width: img.attr('width'),
+            height: img.attr('height')
         });
-        if (this.$original[0]) {
-            this.$original[0].setAttribute('width', '100%');
-            this.$original[0].removeAttribute('height');
+        if ($img[0]) {
+            $img[0].setAttribute('width', '100%');
+            $img[0].removeAttribute('height');
         }
 
         return this;

@@ -26,10 +26,7 @@ define(['lodash', 'taoQtiItem/qtiCreator/model/mixin/editable', 'taoQtiItem/qtiI
     _.extend(methods, editable);
     _.extend(methods, {
         getDefaultAttributes: function () {
-            return {
-                fixed: false,
-                showHide: 'show'
-            };
+            return {};
         },
         afterCreate: function () {
             this.getNamespace();

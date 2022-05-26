@@ -12,10 +12,7 @@ define([
 
     //only valid for a state
     var inlineHelper = {
-        checkFileExists : function(widget, fileSrcAttrName, baseUrl){
-
-            var element = widget.element;
-
+        checkFileExists : function(widget, element, fileSrcAttrName, baseUrl){
             validators.validators.fileExists.validate(
                 element.attr(fileSrcAttrName),
                 function(fileExists){
