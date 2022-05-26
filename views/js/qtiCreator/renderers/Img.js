@@ -29,6 +29,7 @@ define([
 
         const $container = Renderer.getContainer(img);
         if ($container.parent('figure').length) {
+            // don't create widget if has figure parent
             return CreatorImg;
         }
 
