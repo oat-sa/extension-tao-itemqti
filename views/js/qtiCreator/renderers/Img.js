@@ -27,6 +27,11 @@ define([
 
     CreatorImg.render = function(img, options){
 
+        const $container = Renderer.getContainer(img);
+        if ($container.parent('figure').length) {
+            return CreatorImg;
+        }
+
         options = options || {};
         options.baseUrl = this.getOption('baseUrl');
         options.uri = this.getOption('uri');
