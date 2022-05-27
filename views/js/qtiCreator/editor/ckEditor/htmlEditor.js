@@ -93,6 +93,14 @@ define([
                 insert: function (tempWidget) {
                     const $newContent = $(tempWidget).clone(); // we keep the original content for later use
                     if (options.data && options.data.container && options.data.widget) {
+                        const $newImgPlaceholder = $editable.find('[data-new="true"][data-qti-class="img"]');
+                        if ($newImgPlaceholder.length &&
+                            !$editable.closest('.qti-simpleChoice').length) {
+                            // instead img will add figure element
+                            $newImgPlaceholder.attr('data-qti-class','figure');
+                            // span after for new line
+                            $('<span>&nbsp;</span>').insertAfter($newImgPlaceholder);
+                        }
                         contentHelper.createElements(
                             options.data.container,
                             $editable,
