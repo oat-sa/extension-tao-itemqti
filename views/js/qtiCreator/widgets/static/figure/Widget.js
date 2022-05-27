@@ -65,14 +65,14 @@ define([
     FigureWidget.buildContainer = function buildContainer(){
         helper.buildBlockContainer(this);
         const img = _.find(this.element.getBody().elements, elem => elem.is('img'));
-        const $imgContainer = this.$original.find('.widget-img');
+        const $img = this.$original.find('img');
         this.$container.css({
             width: img.attr('width'),
             height: img.attr('height')
         });
-        if ($imgContainer[0]) {
-            $imgContainer[0].setAttribute('width', '100%');
-            $imgContainer[0].removeAttribute('style');
+        if ($img[0]) {
+            $img[0].setAttribute('width', '100%');
+            $img[0].removeAttribute('style');
         }
         return this;
     };
