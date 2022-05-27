@@ -16,11 +16,13 @@
  * Copyright (c) 2022 (original work) Open Assessment Technologies SA
  *
  */
-define(['lodash', 'taoQtiItem/qtiCreator/model/mixin/editable', 'taoQtiItem/qtiItem/core/Figure'], function (
-    _,
-    editable,
-    Figure
-) {
+define([
+    'lodash',
+    'taoQtiItem/qtiCreator/model/mixin/editable',
+    'taoQtiItem/qtiItem/core/Figure',
+    'taoQtiItem/qtiCreator/model/Img',
+    'taoQtiItem/qtiCreator/model/Figcaption'
+], function (_, editable, Figure, Img, Figcaption) {
     'use strict';
     var methods = {};
     _.extend(methods, editable);
@@ -30,6 +32,14 @@ define(['lodash', 'taoQtiItem/qtiCreator/model/mixin/editable', 'taoQtiItem/qtiI
         },
         afterCreate: function () {
             this.getNamespace();
+            const img = new Img();
+            const figcaption = new Figcaption();
+            this.setElement(img);
+            this.setElement(figcaption);
+            if (this.getRenderer()) {
+                img.setRenderer(this.getRenderer());
+                figcaption.setRenderer(this.getRenderer());
+            }
         }
     });
     return Figure.extend(methods);
