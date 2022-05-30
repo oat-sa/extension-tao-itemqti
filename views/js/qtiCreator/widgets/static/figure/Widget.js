@@ -25,14 +25,12 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'ui/mediaEditor/plugins/mediaAlignment/helper'
-], function($, _, Widget, states, helper, toolbarTpl, inlineHelper, alignmentHelper){
+], function ($, _, Widget, states, helper, toolbarTpl, inlineHelper, alignmentHelper) {
     'use strict';
 
-    var FigureWidget = Widget.clone();
+    const FigureWidget = Widget.clone();
 
-    FigureWidget.initCreator = function initCreator(options){
-
-        var self = this;
+    FigureWidget.initCreator = function initCreator(options) {
         const figure = this.element;
         const img = _.find(figure.getBody().elements, elem => elem.is('img'));
 
@@ -46,23 +44,23 @@ define([
 
         //check file exists:
         inlineHelper.checkFileExists(this, img, 'src', options.baseUrl);
-        $('#item-editor-scope').on(`filedelete.resourcemgr.${this.element.serial}`, function(e, src){
-            if (self.getAssetManager().resolve(img.attr('src')) === self.getAssetManager().resolve(src)) {
+        $('#item-editor-scope').on(`filedelete.resourcemgr.${this.element.serial}`, (e, src) => {
+            if (this.getAssetManager().resolve(img.attr('src')) === this.getAssetManager().resolve(src)) {
                 img.attr('src', '');
-                inlineHelper.togglePlaceholder(self);
+                inlineHelper.togglePlaceholder(this);
             }
         });
     };
 
-    FigureWidget.destroy = function destroy(){
+    FigureWidget.destroy = function destroy() {
         $('#item-editor-scope').off(`.${this.element.serial}`);
     };
 
-    FigureWidget.getRequiredOptions = function(){
+    FigureWidget.getRequiredOptions = function () {
         return ['baseUrl', 'uri', 'lang', 'mediaManager', 'assetManager'];
     };
 
-    FigureWidget.buildContainer = function buildContainer(){
+    FigureWidget.buildContainer = function buildContainer() {
         helper.buildBlockContainer(this);
         const img = _.find(this.element.getBody().elements, elem => elem.is('img'));
         const $img = this.$original.find('img');
@@ -77,10 +75,8 @@ define([
         return this;
     };
 
-    FigureWidget.createToolbar = function createToolbar(){
-
+    FigureWidget.createToolbar = function createToolbar() {
         helper.createToolbar(this, toolbarTpl);
-
         return this;
     };
 

@@ -24,7 +24,7 @@ define([
     'taoQtiItem/qtiCreator/model/Figcaption'
 ], function (_, editable, Figure, Img, Figcaption) {
     'use strict';
-    var methods = {};
+    const methods = {};
     _.extend(methods, editable);
     _.extend(methods, {
         getDefaultAttributes: function () {

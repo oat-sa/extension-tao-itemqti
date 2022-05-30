@@ -23,7 +23,7 @@ define([
 ], function(_, Figure, FigureWidget){
     'use strict';
 
-    var CreatorFigure = _.clone(Figure);
+    const CreatorFigure = _.clone(Figure);
 
     CreatorFigure.render = function(figure, options){
         const imageElem = _.find(figure.getBody().elements, elem => elem.is('img'));

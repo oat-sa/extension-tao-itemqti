@@ -22,7 +22,7 @@ define([
 ], function(_, Figcaption){
     'use strict';
 
-    var CreatorFigcaption = _.clone(Figcaption);
+    const CreatorFigcaption = _.clone(Figcaption);
 
     return CreatorFigcaption;
 });

@@ -18,7 +18,7 @@
  */
 define(['lodash', 'taoQtiItem/qtiItem/core/Figcaption'], function (_, Figcaption) {
     'use strict';
-    var methods = {};
+    const methods = {};
     _.extend(methods, {
         getDefaultAttributes: function () {
             return {};
