@@ -18,8 +18,8 @@
 define(['jquery', 'lodash'], function ($, _) {
     'use strict';
 
-    var dummyElement = (function () {
-        var types = {
+    const dummyElement = (function () {
+        const types = {
             maths: {
                 icon: 'maths',
                 css: {
@@ -104,16 +104,16 @@ define(['jquery', 'lodash'], function ($, _) {
          * @param {Object|String} arg
          * @returns {*|HTMLElement}
          */
-        var get = function (arg) {
-            var options = {
-                    element: 'span',
-                    class: 'dummy-element',
-                    css: {
-                        width: 80,
-                        height: 22
-                    }
-                },
-                element,
+        const get = function (arg) {
+            let options = {
+                element: 'span',
+                class: 'dummy-element',
+                css: {
+                    width: 80,
+                    height: 22
+                }
+            };
+            let element,
                 $element,
                 $icon,
                 css,
