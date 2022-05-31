@@ -23,7 +23,7 @@ define([
 ], function(_, Renderer, Widget){
     'use strict';
 
-    var CreatorImg = _.clone(Renderer);
+    const CreatorImg = _.clone(Renderer);
 
     CreatorImg.render = function(img, options){
 

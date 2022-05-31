@@ -1,0 +1,15 @@
+@import 'inc/bootstrap';
+
+.widget-box.widget-block.widget-figure {
+    figure {
+        margin: 0;
+    }
+    img {
+        display: block;
+    }
+    &.edit-figcaption {
+        figcaption {
+            min-height: 30px;
+        }
+    }
+}
