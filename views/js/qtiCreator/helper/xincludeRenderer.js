@@ -54,6 +54,13 @@ define([
 
             xincludeLoader.load(xinclude, baseUrl, function (xi, data, loadedClasses) {
                 if (data) {
+                    const dataBody = data.body.body;
+                    const hasClass = dataBody.match(/class="(?<className>tao-\w+)?/);
+                    xinclude.attr('className', '');
+                    if (hasClass && hasClass.groups && hasClass.groups.className) {
+                        xinclude.attr('className', hasClass.groups.className);
+                    }
+
                     //loading success :
                     commonRenderer.get().load(function () {
                         //set commonRenderer to the composing elements only (because xinclude is "read-only")
@@ -65,7 +72,7 @@ define([
                         xincludeWidget.refresh();
                     }, loadedClasses);
 
-                    _.each(xincludeHandlers, handler => handler(xinclude.attr('href')));
+                    _.each(xincludeHandlers, handler => handler(xinclude.attr('href'), xinclude.attr('className')));
                 } else {
                     //loading failure :
                     xinclude.removeAttr('href');
