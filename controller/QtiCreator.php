@@ -28,6 +28,7 @@ use core_kernel_classes_Resource;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManager;
+use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\media\MediaService;
 use oat\tao\model\TaoOntology;
@@ -270,8 +271,7 @@ class QtiCreator extends tao_actions_CommonModule
 
         $config = new CreatorConfig();
 
-        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-        $creatorConfig = $ext->getConfig('qtiCreator');
+        $creatorConfig = $this->getFeatureFlagConfigSwitcher()->getSwitchedExtensionConfig('taoQtiItem', 'qtiCreator');
 
         if (is_array($creatorConfig)) {
             foreach ($creatorConfig as $prop => $value) {
@@ -338,6 +338,11 @@ class QtiCreator extends tao_actions_CommonModule
     private function getItemIdentifierValidator(): ItemIdentifierValidator
     {
         return $this->getServiceLocator()->getContainer()->get(ItemIdentifierValidator::class);
+    }
+
+    private function getFeatureFlagConfigSwitcher(): FeatureFlagConfigSwitcher
+    {
+        return $this->getServiceLocator()->getContainer()->get(FeatureFlagConfigSwitcher::class);
     }
 
     /**
