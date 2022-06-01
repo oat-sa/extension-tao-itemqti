@@ -25,8 +25,18 @@ define([
     'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/order',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
+    'services/features',
     'ui/liststyler'
-], function(_, stateFactory, Question, formElement, minMaxComponentFactory, formTpl, sizeAdapter){
+], function (
+    _, 
+    stateFactory, 
+    Question, 
+    formElement, 
+    minMaxComponentFactory, 
+    formTpl,
+    sizeAdapter,
+    features
+) {
     'use strict';
 
     var OrderInteractionStateQuestion = stateFactory.extend(Question);
@@ -45,7 +55,11 @@ define([
 
         $form.html(formTpl({
             shuffle : !!interaction.attr('shuffle'),
-            horizontal : interaction.attr('orientation') === 'horizontal'
+            horizontal : interaction.attr('orientation') === 'horizontal',
+            enabledFeatures: {
+                shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/order/property/shuffle'),
+                orientation: features.isVisible('taoQtiItem/creator/interaction/order/property/orientation')
+            }
         }));
 
         //usual min/maxChoices control

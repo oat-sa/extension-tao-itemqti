@@ -68,101 +68,103 @@
 
     // parent .qti-interaction
     &.eliminable {
-        .label-box {
-            margin-left: 85px;
+        &.allow-elimination-visible {
+            .label-box {
+                margin-left: 85px;
 
-            @include rtl {
-                margin-left: auto;
-                margin-right: 85px;
-            }
-        }
-        // ol
-        .choice-area {
-            margin-top: 25px;
-            // there might be list-styles that move everything to the right
-            &[class^="list-style-"], &[class*=" list-style-"] {
-                [data-eliminable="container"] {
-                    left: $elimListStyleCbOffsetLeft * 1px;
-
-                    @include rtl {
-                        left: auto;
-                        right: $elimListStyleCbOffsetLeft * 1px;
-                    }
+                @include rtl {
+                    margin-left: auto;
+                    margin-right: 85px;
                 }
             }
-            //both label and checkbox
-            [data-eliminable] {
-                display: block;
-            }
-        }
-        // eliminator outer layer
-        .qti-choice {
-            // when checked
-            &.eliminated {
-                .label-box {
-                    .label-content {
-                        position: relative;
+            // ol
+            .choice-area {
+                margin-top: 25px;
+                // there might be list-styles that move everything to the right
+                &[class^="list-style-"], &[class*=" list-style-"] {
+                    [data-eliminable="container"] {
+                        left: $elimListStyleCbOffsetLeft * 1px;
 
-                        .qti-block {
-                            &:after {
-                                content:' ';
+                        @include rtl {
+                            left: auto;
+                            right: $elimListStyleCbOffsetLeft * 1px;
+                        }
+                    }
+                }
+                //both label and checkbox
+                [data-eliminable] {
+                    display: block;
+                }
+            }
+            // eliminator outer layer
+            .qti-choice {
+                // when checked
+                &.eliminated {
+                    .label-box {
+                        .label-content {
+                            position: relative;
+
+                            .qti-block {
+                                &:after {
+                                    content:' ';
+                                    width: 100%;
+                                    position: relative;
+                                    top: -21px;
+                                }
+                            }
+
+                            .overlay-answer-eliminator {
+                                stroke:rgb(0,0,0);
+                                stroke-width:1;
+                                display: inline;
+                                height: 100%;
+                                left: 0;
+                                overflow: hidden;
+                                position: absolute;
+                                top: 0;
                                 width: 100%;
-                                position: relative;
-                                top: -21px;
                             }
                         }
+                    }
 
-                        .overlay-answer-eliminator {
-                            stroke:rgb(0,0,0);
-                            stroke-width:1;
-                            display: inline;
-                            height: 100%;
-                            left: 0;
-                            overflow: hidden;
-                            position: absolute;
-                            top: 0;
-                            width: 100%;
+                    &:before,
+                    .pseudo-label-box {
+                        opacity: .3;
+                    }
+
+                    &:before,
+                    .label-box {
+                        cursor: not-allowed;
+                    }
+
+                    &:after {
+                        content: "";
+                        width: 100%;
+                        height: 100%;
+                        background: $uiGeneralContentBg;
+                        opacity: .7;
+                        display: block;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        cursor: not-allowed;
+                    }
+
+                    [data-eliminable="container"] {
+                        cursor: not-allowed;
+                        [data-eliminable="trigger"] {
+                            &:before {
+                                @include icon-checkbox-crossed();
+                            }
                         }
                     }
                 }
-
-                &:before,
-                .pseudo-label-box {
-                    opacity: .3;
-                }
-
-                &:before,
-                .label-box {
-                    cursor: not-allowed;
-                }
-
-                &:after {
-                    content: "";
-                    width: 100%;
-                    height: 100%;
-                    background: $uiGeneralContentBg;
-                    opacity: .7;
-                    display: block;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    cursor: not-allowed;
-                }
-
-                [data-eliminable="container"] {
-                    cursor: not-allowed;
-                    [data-eliminable="trigger"] {
-                        &:before {
-                            @include icon-checkbox-crossed();
+                &:first-child {
+                    [data-eliminable="container"] {
+                        // label above ol
+                        &::before {
+                            content: attr(data-label);
                         }
-                    }
-                }
-            }
-            &:first-child {
-                [data-eliminable="container"] {
-                    // label above ol
-                    &::before {
-                        content: attr(data-label);
                     }
                 }
             }

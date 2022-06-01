@@ -25,8 +25,21 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/ExtendedTextInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/patternMask',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/extendedText'
-], function($, _, __, module, stateFactory, Question, formElement, renderer, patternMaskHelper, formTpl){
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/extendedText',
+    'services/features'
+], function(
+    $,
+    _,
+    __,
+    module,
+    stateFactory,
+    Question,
+    formElement,
+    renderer,
+    patternMaskHelper,
+    formTpl,
+    features
+) {
     'use strict';
 
     var config = module.config();
@@ -48,45 +61,55 @@ define([
         var _widget = this.widget,
             $form = _widget.$form,
             $original = _widget.$original,
+            $container = _widget.$container,
             $inputs,
+            $constraintsBlock,
+            $recommendationsBlock,
+            $textCounter,
             interaction = _widget.element,
             isMathEntry = interaction.attr('data-math-entry') === 'true',
             format = interaction.attr('format'),
             patternMask = interaction.attr('patternMask'),
             expectedLength = parseInt(interaction.attr('expectedLength'), 10),
-            expectedLines = parseInt(interaction.attr('expectedLines'),10),
-            maxWords = parseInt(patternMaskHelper.parsePattern(patternMask,'words'),10),
-            maxChars = parseInt(patternMaskHelper.parsePattern(patternMask,'chars'),10),
+            expectedLines = parseInt(interaction.attr('expectedLines'), 10),
+            maxWords = parseInt(patternMaskHelper.parsePattern(patternMask, 'words'), 10),
+            maxChars = parseInt(patternMaskHelper.parsePattern(patternMask, 'chars'), 10),
             $counterMaxWords = $('.text-counter-words > .count-max-words', $original),
             $counterMaxLength = $('.text-counter-chars > .count-max-length', $original);
 
         var formats = {
-            plain : {label : __('Plain text'), selected : false},
-            preformatted : {label : __('Pre-formatted text'), selected : false},
-            xhtml : {label : __('Rich text'), selected : false}
+            plain: { label: __('Plain text'), selected: false },
+            xhtml: { label: __('Rich text'), selected: false }
         };
 
+        if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/preFormatted')) {
+            formats.preformatted = {
+                label: __('Pre-formatted text'),
+                selected: false
+            };
+        }
+
         if (config.hasMath) {
-            formats.math = {label : __('Rich text + math'), selected : false};
+            formats.math = { label: __('Rich text + math'), selected: false };
         }
 
         var constraints = {
-            none : {label : __("None"), selected : true},
-            maxLength : {label : __("Max Length"), selected : false},
-            maxWords : {label : __("Max Words"), selected : false},
-            pattern : {label : __("Pattern"), selected : false}
+            none: { label: __('None'), selected: true },
+            maxLength: { label: __('Max Length'), selected: false },
+            maxWords: { label: __('Max Words'), selected: false },
+            pattern: { label: __('Pattern'), selected: false }
         };
 
         /**
          * Set the selected on the right items before sending it to the view for constraints
          */
-        if ( !isNaN(maxWords) && maxWords > 0) {
+        if (!isNaN(maxWords) && maxWords > 0) {
             constraints.none.selected = false;
             constraints.maxWords.selected = true;
-        }else if (!isNaN(maxChars) && maxChars > 0) {
+        } else if (!isNaN(maxChars) && maxChars > 0) {
             constraints.none.selected = false;
             constraints.maxLength.selected = true;
-        }else if( patternMask !== null && patternMask !== undefined && patternMask !== ""){
+        } else if (patternMask !== null && patternMask !== undefined && patternMask !== '') {
             constraints.none.selected = false;
             constraints.pattern.selected = true;
         }
@@ -98,19 +121,21 @@ define([
         /**
          * Set the selected on the right items before sending it to the view for formats
          */
-        if(formats[format]){
+        if (formats[format]) {
             formats[format].selected = true;
         }
 
-        $form.html(formTpl({
-            formats : formats,
-            patternMask : patternMask,
-            maxWords : maxWords,
-            maxLength : maxChars,
-            expectedLength : expectedLength,
-            expectedLines : expectedLines,
-            constraints : constraints
-        }));
+        $form.html(
+            formTpl({
+                formats: formats,
+                patternMask: patternMask,
+                maxWords: maxWords,
+                maxLength: maxChars,
+                expectedLength: expectedLength,
+                expectedLines: expectedLines,
+                constraints: constraints
+            })
+        );
 
         if (!maxWords && !maxChars) {
             $('.text-counter', $original).hide();
@@ -119,16 +144,28 @@ define([
         formElement.initWidget($form);
 
         $inputs = {
-            maxLength : $form.find('[name="maxLength"]'),
-            maxWords : $form.find('[name="maxWords"]'),
-            patternMask : $form.find('[name="patternMask"]')
+            maxLength: $form.find('[name="maxLength"]'),
+            maxWords: $form.find('[name="maxWords"]'),
+            patternMask: $form.find('[name="patternMask"]')
         };
+        $constraintsBlock = $form.find('#constraints');
+        $recommendationsBlock = $form.find('#recommendations');
+        $textCounter = $container.find('.text-counter');
+
+        if (format === 'xhtml') {
+            if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlConstraints')) {
+                $constraintsBlock.hide();
+            }
+            if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlRecommendations')) {
+                $recommendationsBlock.hide();
+            }
+        }
 
         //  init data change callbacks
         var callbacks = {};
 
         // -- format Callback
-        callbacks.format = function(interaction, attrValue){
+        callbacks.format = function (interaction, attrValue) {
             var response = interaction.getResponseDeclaration();
             var correctResponse = _.values(response.getCorrect());
             var previousFormat = interaction.attr('format');
@@ -142,6 +179,21 @@ define([
             interaction.attr('format', format);
             interaction.attr('data-math-entry', isMath ? 'true' : 'false');
             renderer.render(interaction);
+
+            if (format === 'xhtml') {
+                if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlConstraints')) {
+                    $constraintsBlock.hide();
+                    $textCounter.hide();
+                }
+                if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlRecommendations')) {
+                    $recommendationsBlock.hide();
+                    $textCounter.hide();
+                }
+            } else {
+                $constraintsBlock.show();
+                $recommendationsBlock.show();
+                $textCounter.show();
+            }
 
             if (format !== 'xhtml' && previousFormat === 'xhtml') {
                 if (typeof correctResponse[0] !== 'undefined') {
