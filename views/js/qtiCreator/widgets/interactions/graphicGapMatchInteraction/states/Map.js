@@ -150,6 +150,13 @@ define([
             updateForm(widget);
         }
 
+        // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+        widget.infinityMatchMax('response');
+        // event triggered by the ResponseDeclaration
+        widget.on('infinityMatchMax.qti-widget', function () {
+            widget.infinityMatchMax('response');
+        })
+
         //each response change leads to an update of the scoring form
         widget.$container.on('responseChange.qti-widget', function(e, data){
             var type  = response.attr('cardinality') === 'single' ? 'base' : 'list';
