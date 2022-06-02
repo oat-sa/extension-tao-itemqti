@@ -64,10 +64,18 @@ define([
         helper.buildBlockContainer(this);
         const img = _.find(this.element.getBody().elements, elem => elem.is('img'));
         const $img = this.$original.find('img');
-        this.$container.css({
-            width: img.attr('width'),
-            height: img.attr('height')
-        });
+        if (img.attr('width') && !/[0-9]+%/.test(img.attr('width'))) {
+            // absolute size
+            this.$container.css({
+                width: img.attr('width')
+            });
+        } else {
+            // responsive
+            this.$container.css({
+                width: img.attr('width'),
+                height: img.attr('height')
+            });
+        }
         if ($img[0]) {
             $img[0].setAttribute('width', '100%');
             $img[0].removeAttribute('style');
