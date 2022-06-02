@@ -56,9 +56,9 @@ define([
                 if (data) {
                     const dataBody = data.body.body;
                     const hasClass = dataBody.match(/class="(?<className>tao-\w+)?/);
-                    xinclude.attr('className', '');
+                    let className = '';
                     if (hasClass && hasClass.groups && hasClass.groups.className) {
-                        xinclude.attr('className', hasClass.groups.className);
+                        className = hasClass.groups.className;
                     }
 
                     //loading success :
@@ -72,7 +72,7 @@ define([
                         xincludeWidget.refresh();
                     }, loadedClasses);
 
-                    _.each(xincludeHandlers, handler => handler(xinclude.attr('href'), xinclude.attr('className')));
+                    _.each(xincludeHandlers, handler => handler(xinclude.attr('href'), className));
                 } else {
                     //loading failure :
                     xinclude.removeAttr('href');
