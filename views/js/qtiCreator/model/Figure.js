@@ -33,12 +33,30 @@ define([
         afterCreate: function () {
             this.getNamespace();
             const img = new Img();
-            const figcaption = new Figcaption();
             this.setElement(img);
-            this.setElement(figcaption);
             if (this.getRenderer()) {
                 img.setRenderer(this.getRenderer());
-                figcaption.setRenderer(this.getRenderer());
+            }
+        },
+        addCaption: function (text) {
+            // check that caption doesn't exist
+            let figcaption = _.find(this.getBody().elements, elem => elem.is('figcaption'));
+            if (!figcaption) {
+                figcaption = new Figcaption();
+                figcaption.body(text);
+                this.setElement(figcaption);
+                if (this.getRenderer()) {
+                    figcaption.setRenderer(this.getRenderer());
+                }
+            } else {
+                figcaption.body(text);
+            }
+            return figcaption;
+        },
+        removeCaption: function () {
+            const figcaption = _.find(this.getBody().elements, elem => elem.is('figcaption'));
+            if (figcaption) {
+                this.removeElement(figcaption);
             }
         }
     });

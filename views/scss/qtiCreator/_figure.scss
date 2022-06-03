@@ -8,6 +8,9 @@
         display: block;
     }
     &.edit-figcaption {
+        img:last-child {
+            margin-bottom: 30px;
+        }
         figcaption {
             min-height: 30px;
         }
