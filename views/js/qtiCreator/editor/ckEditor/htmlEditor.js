@@ -95,7 +95,7 @@ define([
                     if (options.data && options.data.container && options.data.widget) {
                         const $newImgPlaceholder = $editable.find('[data-new="true"][data-qti-class="img"]');
                         if ($newImgPlaceholder.length &&
-                            !$editable.closest('.qti-simpleChoice').length) {
+                            !$editable.closest('.qti-choice, .qti-flow-container').length) {
                             // instead img will add figure element
                             $newImgPlaceholder.attr('data-qti-class','figure');
                             // span after for new line
@@ -242,7 +242,7 @@ define([
      * @param {JQuery} $editable
      */
     function togglePlaceholder($editable) {
-        const nonEmptyContent = ['img', 'table', 'math', 'object', 'printedVariable', '.tooltip-target'];
+        const nonEmptyContent = ['img', 'table', 'math', 'object', 'printedVariable', '.tooltip-target', 'figure'];
 
         if ($editable.text().trim() === '' && !$editable.find(nonEmptyContent.join(',')).length) {
             $editable.addClass(placeholderClass);
