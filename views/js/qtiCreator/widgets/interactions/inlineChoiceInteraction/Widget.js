@@ -18,13 +18,14 @@
  */
 define([
     'lodash',
+    'services/features',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/widgets/interactions/inlineInteraction/Widget',
     'taoQtiItem/qtiCreator/widgets/choices/inlineChoice/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/inlineChoiceInteraction/states/states',
     'tpl!taoQtiItem/qtiCreator/tpl/inlineInteraction/inlineChoiceInteraction',
     'tpl!taoQtiItem/qtiCreator/tpl/inlineInteraction/inlineChoice'
-], function(_, Element, InteractionWidget, ChoiceWidget, states, inlineChoiceInteractionTpl, inlineChoiceTpl){
+], function(_, features, Element, InteractionWidget, ChoiceWidget, states, inlineChoiceInteractionTpl, inlineChoiceTpl){
 
     var InlineChoiceInteractionWidget = InteractionWidget.clone();
 
@@ -48,12 +49,13 @@ define([
     InlineChoiceInteractionWidget.renderChoice = function(choice, shuffleChoice){
 
         const dir = choice.getRootElement().getBody().attributes.dir;
+        const shuffleIsVisible = features.isVisible('taoQtiItem/creator/interaction/inlineChoice/property/shuffle');
         const tplData = {
             tag : choice.qtiClass,
             serial : choice.serial,
             attributes : choice.attributes,
             body : _.unescape(choice.text),
-            interactionShuffle:shuffleChoice,
+            interactionShuffle: shuffleIsVisible && shuffleChoice,
             dir : dir
         };
 
