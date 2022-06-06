@@ -46,6 +46,8 @@ define([
         qtiMedia : false
     };
 
+    var qtiClasses = ['img', 'object', 'math', 'include', 'printedVariable', '_container', '_tooltip', 'figure', 'figcaption'];
+
     event.initElementToWidgetListeners();
 
     function parser($container){
@@ -108,8 +110,7 @@ define([
 
             var item,
                 containerEditors,
-                renderer,
-                qtiClasses = ['img', 'object', 'math', 'include', 'printedVariable', '_container', '_tooltip'];
+                renderer;
 
             //create a new container object
             var container = new Container();
@@ -196,7 +197,7 @@ define([
         return new Promise(function (resolve) {
             if (container) {
                 $(document).off('.' + container.serial);
-                commonRenderer.load(['img', 'object', 'math', 'include', '_container', 'printedVariable', '_tooltip'], function(){
+                commonRenderer.load(qtiClasses, function(){
                     // update container editor body with sanitized value to prevent xss
                     const newBody = contentHelper.getContent($container.find('.container-editor'));
                     if (newBody) {
