@@ -33,24 +33,29 @@ define([
             $container = _widget.$container,
             choice = _widget.element,
             interaction,
+            options = _widget.options,
             $toolbar = $container.find('.mini-tlb').not('[data-html-editable] *');
 
         if (!$toolbar.length) {
 
             interaction = choice.getInteraction();
+            const shuffleIsVisible = options.shuffleIsVisible;
 
             //add mini toolbars
             $toolbar = $(contentToolbarTpl({
                 choiceSerial: choice.getSerial(),
                 interactionSerial: interaction.getSerial(),
                 fixed: choice.attr('fixed'),
-                interactionShuffle: interaction.attr('shuffle')
+                interactionShuffle: shuffleIsVisible && interaction.attr('shuffle')
             }));
 
             $container.children('.inner-wrapper').append($toolbar);
 
             //set toolbar button behaviour:
-            formElement.initShufflePinToggle(_widget);
+            if(shuffleIsVisible) {
+                formElement.initShufflePinToggle(_widget);
+            }
+            
             formElement.initDelete(_widget);
         }
 
