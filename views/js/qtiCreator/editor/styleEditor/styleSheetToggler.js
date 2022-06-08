@@ -166,8 +166,7 @@ define([
                 }
                 // all other styles are handled via their link element
                 else {
-                    const linkDom = Object.values(document.styleSheets).find(sheet => typeof sheet.href === 'string' && sheet.href.includes(context.cssUri));
-
+                    const linkDom = Object.values(document.styleSheets).find(sheet => typeof sheet.href === 'string' && sheet.href.includes(context.label));
                     if (context.isDisabled) {
                         linkDom.disabled = false;
                     } else {
