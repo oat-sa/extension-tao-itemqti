@@ -151,31 +151,28 @@ define([
              * Dis/enable style sheets
              */
             var handleAvailability = function (trigger) {
-                var context = getContext(trigger),
-                    link,
-                    attrTo = 'disabled-href',
-                    attrFrom = 'href';
+                const context = getContext(trigger);
 
                 // custom styles are handled in a style element, not in a link
-                if (context.isCustomCss) {
+                if (context.isCustomCss || context.label === 'tao-user-styles.css') {
                     if (context.isDisabled) {
-                        styleEditor.create();
+                        $('#item-editor-user-styles')[0].disabled = false;
                         customCssToggler.removeClass('not-available');
                     }
                     else {
-                        styleEditor.erase();
+                        $('#item-editor-user-styles')[0].disabled = true;
                         customCssToggler.addClass('not-available');
                     }
                 }
                 // all other styles are handled via their link element
                 else {
-                    if (context.isDisabled) {
-                        attrTo = 'href';
-                        attrFrom = 'disabled-href';
-                    }
+                    const linkDom = Object.values(document.styleSheets).find(sheet => typeof sheet.href === 'string' && sheet.href.includes(context.cssUri));
 
-                    link = $('link[' + attrFrom + '$="' + context.cssUri + '"]');
-                    link.attr(attrTo, link.attr(attrFrom)).removeAttr(attrFrom);
+                    if (context.isDisabled) {
+                        linkDom.disabled = false;
+                    } else {
+                        linkDom.disabled = true;
+                    }
                 }
 
                 // add some visual feed back to the triggers
