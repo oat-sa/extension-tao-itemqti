@@ -45,8 +45,10 @@ define([
                 figcaption = new Figcaption();
                 figcaption.body(text);
                 this.setElement(figcaption);
-                if (this.getRenderer()) {
-                    figcaption.setRenderer(this.getRenderer());
+                const renderer = this.getRenderer();
+                if (renderer) {
+                    figcaption.setRenderer(renderer);
+                    renderer.load(() => {}, ['figcaption']);
                 }
             } else {
                 figcaption.body(text);
