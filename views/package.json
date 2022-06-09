@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "0.8.1",
-        "@oat-sa/tao-item-runner-qti": "oat-sa/tao-item-runner-qti-fe#fix/AUT-1979/order-interaction-orientation-solar"
+        "@oat-sa/tao-item-runner-qti": "1.2.0"
     }
 }
