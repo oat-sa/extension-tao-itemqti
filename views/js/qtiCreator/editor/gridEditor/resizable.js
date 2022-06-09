@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2019 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA ;
  *
  */
 define([
@@ -106,13 +106,13 @@ define([
                 },
                 drag : _.throttle(function(){
 
-                    var width = ($(this).offset().left + activeWidth / 2) - offset.left,
+                    var width = ($(this).offset().left + activeWidth / 2) - $col.offset().left,
                         units = helper.getColUnits($col),
                         nextUnits = $nextCol.length ? helper.getColUnits($nextCol) : 0;
 
                     if(!$nextCol.length){
                         //need to resize the outline element:
-                        $col.find('.grid-edit-resizable-outline').width($handle.offset().left - offset.left);
+                        $col.find('.grid-edit-resizable-outline').width($handle.offset().left - $col.offset().left);
                     }
 
                     if(width + marginWidth * 0 < (units - 1) * unitWidth){//need to compensate for the width of the active zone

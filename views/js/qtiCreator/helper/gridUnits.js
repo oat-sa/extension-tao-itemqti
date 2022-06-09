@@ -175,6 +175,7 @@ define(['lodash'], function(_){
             });
 
         }
+
         _.each(negative, function(col){
             ret.push(col);
         });
