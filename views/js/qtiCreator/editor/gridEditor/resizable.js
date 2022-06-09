@@ -25,21 +25,21 @@ define([
     'taoQtiItem/lib/jqueryui_dragdrop'
 ], function(_, $, config, helper, qtiElements){
     "use strict";
-    var _syncHandleHeight = function($row){
-        var h = $row.height() - parseFloat($row.children('[class^="col-"], [class*=" col-"]').css('margin-bottom'));
+    let _syncHandleHeight = function($row){
+        let h = $row.height() - parseFloat($row.children('[class^="col-"], [class*=" col-"]').css('margin-bottom'));
         $row.find('.grid-edit-resizable-zone').height(h);
     };
 
-    var _createResizables = function createResizables($el){
+    const _createResizables = function createResizables($el){
 
-        var marginWidth = parseFloat($el.find('[class^="col-"]:last, [class*=" col-"]:last').css('margin-left')),
-            activeWidth = 20;
+           let marginWidth = parseFloat($el.find('[class^="col-"]:last, [class*=" col-"]:last').css('margin-left'));
+           let activeWidth = 20;
 
 
 
         $el.find('[class^="col-"], [class*=" col-"]').each(function(){
 
-            var $col = $(this);
+            let $col = $(this);
 
             //@todo this should be more generic
             //see draggable etc for more references
@@ -52,22 +52,22 @@ define([
                 return true;
             }
 
-            var $nextCol = $col.next(),
-                $row = $col.parent('.grid-row'),
-                offset = $col.offset(),
-                max = 12,
-                min = qtiElements.is($col.data('qti-class'), 'interaction') ? config.min.interaction : config.min.text,
-                nextMin = qtiElements.is($nextCol.data('qti-class'), 'interaction') ? config.min.interaction : config.min.text,
-                unitWidth = $row.width() / max;
+            let $nextCol = $col.next();
+            let $row = $col.parent('.grid-row');
+            let offset = $col.offset();
+            let max = 12;
+            let min = qtiElements.is($col.data('qti-class'), 'interaction') ? config.min.interaction : config.min.text;
+            let nextMin = qtiElements.is($nextCol.data('qti-class'), 'interaction') ? config.min.interaction : config.min.text;
+            let unitWidth = $row.width() / max;
 
-            var activeHeight = $row.height() - parseFloat($col.css('margin-bottom'));
-            var $activeZone = $('<div>', {'class' : 'grid-edit-resizable-zone grid-edit-resizable-zone-active'}).css({top : 0, right : -(marginWidth + (activeWidth - marginWidth) / 2), width : activeWidth, height : activeHeight});
-            var $handle = $('<span>', {'class' : 'grid-edit-resizable-handle'});
+            let activeHeight = $row.height() - parseFloat($col.css('margin-bottom'));
+            let $activeZone = $('<div>', {'class' : 'grid-edit-resizable-zone grid-edit-resizable-zone-active'}).css({top : 0, right : -(marginWidth + (activeWidth - marginWidth) / 2), width : activeWidth, height : activeHeight});
+            let $handle = $('<span>', {'class' : 'grid-edit-resizable-handle'});
             $activeZone.append($handle);
             $col.append($activeZone);
 
-            var _syncOutlineHeight = function(){
-                var h = $row.height() - parseFloat($col.css('margin-bottom'));
+            let _syncOutlineHeight = function(){
+                let h = $row.height() - parseFloat($col.css('margin-bottom'));
                 $col.find('.grid-edit-resizable-outline').height(h);
                 $activeZone.height(h);
             };
@@ -90,7 +90,7 @@ define([
 
                     $col.trigger('resizestart.gridEdit');
 
-                    var $overlay = $('<div>', {'class' : 'grid-edit-resizable-outline'});
+                    let $overlay = $('<div>', {'class' : 'grid-edit-resizable-outline'});
                     if($nextCol.length){
                         $overlay.width(parseFloat($col.outerWidth()) + marginWidth + parseFloat($nextCol.outerWidth()));
                     }else{
@@ -106,9 +106,9 @@ define([
                 },
                 drag : _.throttle(function(){
 
-                    var width = ($(this).offset().left + activeWidth / 2) - $col.offset().left,
-                        units = helper.getColUnits($col),
-                        nextUnits = $nextCol.length ? helper.getColUnits($nextCol) : 0;
+                    let width = ($(this).offset().left + activeWidth / 2) - $col.offset().left;
+                    let units = helper.getColUnits($col);
+                    let nextUnits = $nextCol.length ? helper.getColUnits($nextCol) : 0;
 
                     if(!$nextCol.length){
                         //need to resize the outline element:
@@ -174,18 +174,18 @@ define([
 
     };
 
-    var _deleteResizables = function _deleteResizables($el){
+    const _deleteResizables = function _deleteResizables($el){
 
         $el.find('.grid-edit-resizable-zone').remove();
     };
 
-    var _setColUnits = function _setColUnits($elt, newUnits){
+    let _setColUnits = function _setColUnits($elt, newUnits){
 
         if($elt.attr('class').match(/col-([\d]+)/)){
 
-            var oldUnits = $elt.attr('data-units');
-            var $parentRow = $elt.parent('.grid-row');
-            var totalUnits = $parentRow.attr('data-units');
+            let oldUnits = $elt.attr('data-units');
+            let $parentRow = $elt.parent('.grid-row');
+            let totalUnits = $parentRow.attr('data-units');
             $parentRow.attr('data-units', totalUnits - oldUnits + newUnits);//update parent
             $elt.attr('data-units', newUnits);//update element
             $elt.removeClass('col-' + oldUnits).addClass('col-' + newUnits);
