@@ -20,9 +20,15 @@
 
 namespace oat\taoQtiItem\model\qti\container;
 
-use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\choice\Hottext;
+use oat\taoQtiItem\model\qti\feedback\Feedback;
+use oat\taoQtiItem\model\qti\Figure;
+use oat\taoQtiItem\model\qti\Img;
+use oat\taoQtiItem\model\qti\Math;
+use oat\taoQtiItem\model\qti\QtiObject;
+use oat\taoQtiItem\model\qti\Table;
+use oat\taoQtiItem\model\qti\Tooltip;
 
 /**
  * The QTI_Container object represents the generic element container
@@ -34,25 +40,20 @@ use oat\taoQtiItem\model\qti\choice\Hottext;
  */
 class ContainerHottext extends Container
 {
-
     /**
-     * return the list of available element classes
-     *
-     * @access public
-     * @author Sam, <sam@taotesting.com>
-     * @return array
+     * @inheritDoc
      */
-    public function getValidElementTypes()
+    public function getValidElementTypes(): array
     {
         return [
-            'oat\\taoQtiItem\\model\\qti\\Img',
-            'oat\\taoQtiItem\\model\\qti\\Math',
-            'oat\\taoQtiItem\\model\\qti\\Table',
-            'oat\\taoQtiItem\\model\\qti\\Tooltip',
-            'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
-            \oat\taoQtiItem\model\qti\QtiObject::class,
-            'oat\\taoQtiItem\\model\\qti\\choice\\Hottext',
-            \oat\taoQtiItem\model\qti\Figure::class,
+            Img::class,
+            Math::class,
+            Table::class,
+            Tooltip::class,
+            Feedback::class,
+            Figure::class,
+            Hottext::class,
+            QtiObject::class,
         ];
     }
 

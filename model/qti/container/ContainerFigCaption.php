@@ -23,8 +23,10 @@ namespace oat\taoQtiItem\model\qti\container;
 
 class ContainerFigCaption extends ContainerStatic
 {
-
-    public function getValidElementTypes()
+    /**
+     * @inheritDoc
+     */
+    public function getValidElementTypes(): array
     {
         return [];
     }

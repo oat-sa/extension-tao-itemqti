@@ -542,7 +542,7 @@ class ParserFactory
         return $this->findNamespace('XInclude');
     }
 
-    protected function getHTML5Namespace()
+    protected function getHTML5Namespace(): string
     {
         // qh5
         $ns = $this->findNamespace('html5');
@@ -1469,7 +1469,7 @@ class ParserFactory
         return $returnValue;
     }
 
-    private function buildFigCaption(DOMElement $data)
+    private function buildFigCaption(DOMElement $data): FigCaption
     {
         $attributes = $this->extractAttributes($data);
         $figCaption = new FigCaption($attributes);
@@ -1527,7 +1527,7 @@ class ParserFactory
         return $table;
     }
 
-    private function buildFigure(DOMElement $data)
+    private function buildFigure(DOMElement $data): Figure
     {
 
         $attributes = $this->extractAttributes($data);

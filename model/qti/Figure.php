@@ -33,6 +33,7 @@ class Figure extends Element implements FlowContainer
     protected static $qtiTagName = 'figure';
     protected static $qtiNamespaceAlias = 'qh5';
 
+    /** @var ContainerFigure|null */
     protected $body = null;
 
     public function __construct($attributes, Item $relatedItem = null, $serial = '')
@@ -41,7 +42,7 @@ class Figure extends Element implements FlowContainer
         $this->body = new ContainerFigure();
     }
 
-    public function getBody()
+    public function getBody(): ?ContainerFigure
     {
         return $this->body;
     }

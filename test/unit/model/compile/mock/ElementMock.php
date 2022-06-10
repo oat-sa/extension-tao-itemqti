@@ -32,8 +32,9 @@ class ElementMock extends Container
     {
     }
 
-    function getValidElementTypes()
+    function getValidElementTypes(): array
     {
+        return [];
     }
 
     public function getUsedAttributes()

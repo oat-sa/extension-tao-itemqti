@@ -20,7 +20,17 @@
 
 namespace oat\taoQtiItem\model\qti\container;
 
-use oat\taoQtiItem\model\qti\container\ContainerInteractive;
+use oat\taoQtiItem\model\qti\feedback\Feedback;
+use oat\taoQtiItem\model\qti\Figure;
+use oat\taoQtiItem\model\qti\Img;
+use oat\taoQtiItem\model\qti\InfoControl;
+use oat\taoQtiItem\model\qti\interaction\Interaction;
+use oat\taoQtiItem\model\qti\Math;
+use oat\taoQtiItem\model\qti\QtiObject;
+use oat\taoQtiItem\model\qti\RubricBlock;
+use oat\taoQtiItem\model\qti\Table;
+use oat\taoQtiItem\model\qti\Tooltip;
+use oat\taoQtiItem\model\qti\XInclude;
 
 /**
  * The QTI ContainerItemBody represents the ItemBody or an assessmentItem
@@ -34,26 +44,22 @@ class ContainerItemBody extends ContainerInteractive
 {
 
     /**
-     * return the list of available element classes
-     *
-     * @access public
-     * @author Sam, <sam@taotesting.com>
-     * @return array
+     * @inheritDoc
      */
-    public function getValidElementTypes()
+    public function getValidElementTypes(): array
     {
         return [
-            'oat\\taoQtiItem\\model\\qti\\Img',
-            'oat\\taoQtiItem\\model\\qti\\Table',
-            'oat\\taoQtiItem\\model\\qti\\Math',
-            'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
-            \oat\taoQtiItem\model\qti\QtiObject::class,
-            'oat\\taoQtiItem\\model\\qti\\interaction\\Interaction',
-            'oat\\taoQtiItem\\model\\qti\\RubricBlock',
-            'oat\\taoQtiItem\\model\\qti\\InfoControl',
-            'oat\\taoQtiItem\\model\\qti\\Tooltip',
-            'oat\\taoQtiItem\\model\\qti\\XInclude',
-            \oat\taoQtiItem\model\qti\Figure::class,
+            Feedback::class,
+            Figure::class,
+            Img::class,
+            InfoControl::class,
+            Interaction::class,
+            Math::class,
+            QtiObject::class,
+            RubricBlock::class,
+            Table::class,
+            Tooltip::class,
+            XInclude::class,
         ];
     }
 

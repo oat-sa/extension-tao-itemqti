@@ -20,21 +20,19 @@
 
 namespace oat\taoQtiItem\model\qti\container;
 
+use oat\taoQtiItem\model\qti\FigCaption;
+use oat\taoQtiItem\model\qti\Img;
 
 class ContainerFigure extends ContainerStatic
 {
-
     /**
-     * return the list of available element classes
-     *
-     * @access public
-     * @return array
+     * @inheritDoc
      */
-    public function getValidElementTypes()
+    public function getValidElementTypes(): array
     {
         return [
-            'oat\\taoQtiItem\\model\\qti\\Img',
-            \oat\taoQtiItem\model\qti\FigCaption::class
+            Img::class,
+            FigCaption::class
         ];
     }
 }

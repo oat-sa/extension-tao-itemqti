@@ -20,13 +20,11 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-
 use oat\taoQtiItem\model\qti\container\ContainerFigCaption;
 use oat\taoQtiItem\model\qti\container\FlowContainer;
 
 class FigCaption extends Element implements FlowContainer
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
@@ -36,6 +34,7 @@ class FigCaption extends Element implements FlowContainer
     protected static $qtiTagName = 'figcaption';
     protected static $qtiNamespaceAlias = 'qh5';
 
+    /** @var ContainerFigCaption|null  */
     protected $body = null;
 
     public function __construct($attributes, Item $relatedItem = null, $serial = '')
@@ -44,7 +43,7 @@ class FigCaption extends Element implements FlowContainer
         $this->body = new ContainerFigCaption();
     }
 
-    public function getBody()
+    public function getBody(): ?ContainerFigCaption
     {
         return $this->body;
     }
