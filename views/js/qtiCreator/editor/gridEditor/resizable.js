@@ -74,15 +74,15 @@ define([
 
             $activeZone.draggable({
                 containment : $nextCol.length ? [
-                    offset.left + min * unitWidth - marginWidth * 2 + 10,
-                    offset.top,
-                    offset.left + $col.outerWidth() + marginWidth + $nextCol.outerWidth() - nextMin * unitWidth - activeWidth / 2 - 10,
-                    offset.top + $col.height()
+                    $col.offset.left + min * unitWidth - marginWidth * 2 + 10,
+                    $col.offset.top,
+                    $col.offset.left + $col.outerWidth() + marginWidth + $nextCol.outerWidth() - nextMin * unitWidth - activeWidth / 2 - 10,
+                    $col.offset.top + $col.height()
                 ] : [
-                    offset.left + min * unitWidth - marginWidth - activeWidth / 2 - 10,
-                    offset.top,
+                    $col.offset.left + min * unitWidth - marginWidth - activeWidth / 2 - 10,
+                    $col.offset.top,
                     $row.offset().left + $row.outerWidth() - marginWidth - activeWidth / 2 - 12,
-                    offset.top + $col.height()
+                    $col.offset.top + $col.height()
                 ],
                 axis : 'x',
                 cursor : 'col-resize',
@@ -91,7 +91,7 @@ define([
                     $col.trigger('resizestart.gridEdit');
 
                     let $overlay = $('<div>', {'class' : 'grid-edit-resizable-outline'});
-                    if($nextCol.length){
+                    if($col.next().length){
                         $overlay.width(parseFloat($col.outerWidth()) + marginWidth + parseFloat($nextCol.outerWidth()));
                     }else{
                         $overlay.css({'width' : '100%', 'border-right-width' : 0});
