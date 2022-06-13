@@ -20,6 +20,7 @@ define([
     'lodash',
     'context',
     'i18n',
+    'services/features',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableContainer',
     'taoQtiItem/qtiItem/core/Item',
@@ -27,7 +28,7 @@ define([
     'taoQtiItem/qtiCreator/model/ResponseProcessing',
     'taoQtiItem/qtiCreator/model/variables/OutcomeDeclaration',
     'taoQtiItem/qtiCreator/model/feedbacks/ModalFeedback'
-], function(_, context, __, editable, editableContainer, Item, Stylesheet, ResponseProcessing, OutcomeDeclaration, ModalFeedback){
+], function(_, context, __, features, editable, editableContainer, Item, Stylesheet, ResponseProcessing, OutcomeDeclaration, ModalFeedback){
     "use strict";
     var methods = {};
     _.extend(methods, editable);

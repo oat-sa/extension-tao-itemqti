@@ -24,6 +24,7 @@
     
 </div>
 
+{{#if showTimeDependent}}
 <div class="panel">
     <label>
         <input name="timeDependent" type="checkbox" {{#if timeDependent}}checked="checked"{{/if}}/>
@@ -35,6 +36,7 @@
         {{__ "Define whether the item should be time dependent on delivery."}}
     </span>
 </div>
+{{/if}}
 
 {{#if languagesList}}
     <div class="panel">

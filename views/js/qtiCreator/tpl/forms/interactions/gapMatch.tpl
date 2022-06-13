@@ -1,3 +1,4 @@
+{{#if enabledFeatures.shuffleChoices}}
 <div class="panel">
     <label>
         <input name="shuffle" type="checkbox" {{#if shuffle}}checked="checked"{{/if}}/>
@@ -9,3 +10,4 @@
         {{__ 'If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be "shuffled" of "fixed" individually.'}}
     </span>
 </div>
+{{/if}}
