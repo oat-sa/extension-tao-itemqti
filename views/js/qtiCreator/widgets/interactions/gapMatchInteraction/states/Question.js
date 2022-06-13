@@ -30,7 +30,8 @@ define([
     'taoQtiItem/qtiCreator/model/choices/GapText',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/gapMatch',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/gap-create',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger'
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger',
+    'services/features'
 ], function(
     $,
     _,
@@ -46,7 +47,8 @@ define([
     Choice,
     formTpl,
     newGapTpl,
-    toolbarTpl
+    toolbarTpl,
+    features
 ){
     'use strict';
 
@@ -274,7 +276,10 @@ define([
             interaction = _widget.element;
 
         $form.html(formTpl({
-            shuffle : !!interaction.attr('shuffle')
+            shuffle : !!interaction.attr('shuffle'),
+            enabledFeatures: {
+                shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/gapMatch/property/shuffle')
+            }
         }));
 
         formElement.initWidget($form);

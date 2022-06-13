@@ -34,6 +34,8 @@ use oat\taoQtiItem\model\QtiCreator\ExtendedTextInteractionConfigurationRegistry
  *
  * Run the following to disable Math Entry format option
  * php index.php 'oat\taoQtiItem\install\scripts\SetupExtendedTextInteractionConfigurationRegistry' -m 0
+ *
+ * @deprecated This configuration will only be handled by featureFlag by default is always false
  */
 class SetupExtendedTextInteractionConfigurationRegistry extends ScriptAction
 {
