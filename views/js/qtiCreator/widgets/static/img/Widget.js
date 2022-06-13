@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA ;
  *
  */
 define([
@@ -24,15 +24,13 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'ui/mediaEditor/plugins/mediaAlignment/helper'
-], function($, Widget, states, helper, toolbarTpl, inlineHelper, alignmentHelper){
+], function ($, Widget, states, helper, toolbarTpl, inlineHelper, alignmentHelper) {
     'use strict';
 
-    var ImgWidget = Widget.clone();
+    const ImgWidget = Widget.clone();
 
-    ImgWidget.initCreator = function initCreator(options){
-
-        var self = this;
-        var img = this.element;
+    ImgWidget.initCreator = function initCreator(options) {
+        const img = this.element;
 
         this.registerStates(states);
 
@@ -43,25 +41,24 @@ define([
         alignmentHelper.initAlignment(this);
 
         //check file exists:
-        inlineHelper.checkFileExists(this, 'src', options.baseUrl);
-        $('#item-editor-scope').on('filedelete.resourcemgr.' + this.element.serial, function(e, src){
-            if (self.getAssetManager().resolve(img.attr('src')) === self.getAssetManager().resolve(src)) {
+        inlineHelper.checkFileExists(this, img, 'src', options.baseUrl);
+        $('#item-editor-scope').on(`filedelete.resourcemgr.${this.element.serial}`, (e, src) => {
+            if (this.getAssetManager().resolve(img.attr('src')) === this.getAssetManager().resolve(src)) {
                 img.attr('src', '');
-                inlineHelper.togglePlaceholder(self);
+                inlineHelper.togglePlaceholder(this);
             }
         });
     };
 
-    ImgWidget.destroy = function destroy(){
-        $('#item-editor-scope').off('.' + this.element.serial);
+    ImgWidget.destroy = function destroy() {
+        $('#item-editor-scope').off(`.${this.element.serial}`);
     };
 
-    ImgWidget.getRequiredOptions = function(){
+    ImgWidget.getRequiredOptions = function () {
         return ['baseUrl', 'uri', 'lang', 'mediaManager', 'assetManager'];
     };
 
-    ImgWidget.buildContainer = function buildContainer(){
-
+    ImgWidget.buildContainer = function buildContainer() {
         helper.buildInlineContainer(this);
 
         this.$container.css({
@@ -76,8 +73,7 @@ define([
         return this;
     };
 
-    ImgWidget.createToolbar = function createToolbar(){
-
+    ImgWidget.createToolbar = function createToolbar() {
         helper.createToolbar(this, toolbarTpl);
 
         return this;

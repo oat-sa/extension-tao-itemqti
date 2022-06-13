@@ -62,11 +62,11 @@
     "minimum-stability": "dev",
     "require": {
         "ext-simplexml": "*",
-        "oat-sa/lib-tao-qti": " 7.3.2",
+        "oat-sa/lib-tao-qti": " 7.4.0",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
         "naneau/semver": "~0.0.7",
         "oat-sa/generis": ">=14.4.0",
-        "oat-sa/tao-core": ">=50.13.0 ",
+        "oat-sa/tao-core": ">=50.16.0 ",
         "oat-sa/extension-tao-item": ">=11.20.1"
     },
     "autoload": {
