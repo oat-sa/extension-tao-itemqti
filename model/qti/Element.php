@@ -51,6 +51,7 @@ abstract class Element implements Exportable
      * @var string
      */
     protected static $qtiTagName = '';
+    protected static $qtiNamespaceAlias = '';
 
     /**
      * the options of the element
@@ -421,6 +422,10 @@ abstract class Element implements Exportable
         if ($this instanceof FlowContainer) {
             $variables['body'] = $this->getBody()->toQTI();
             $variables['bodyAttributes'] = $this->getBodyAttributes();
+        }
+
+        if (static::$qtiNamespaceAlias !== '') {
+            $variables['tag'] = static::$qtiNamespaceAlias . ':' . static::$qtiTagName;
         }
 
         return $variables;

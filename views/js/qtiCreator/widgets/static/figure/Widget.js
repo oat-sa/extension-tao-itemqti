@@ -13,31 +13,33 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA ;
  *
  */
 define([
     'jquery',
+    'lodash',
     'taoQtiItem/qtiCreator/widgets/static/Widget',
-    'taoQtiItem/qtiCreator/widgets/static/img/states/states',
+    'taoQtiItem/qtiCreator/widgets/static/figure/states/states',
     'taoQtiItem/qtiCreator/widgets/static/helpers/widget',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'ui/mediaEditor/plugins/mediaAlignment/helper'
-], function ($, Widget, states, helper, toolbarTpl, inlineHelper, alignmentHelper) {
+], function ($, _, Widget, states, helper, toolbarTpl, inlineHelper, alignmentHelper) {
     'use strict';
 
-    const ImgWidget = Widget.clone();
+    const FigureWidget = Widget.clone();
 
-    ImgWidget.initCreator = function initCreator(options) {
-        const img = this.element;
+    FigureWidget.initCreator = function initCreator(options) {
+        const figure = this.element;
+        const img = _.find(figure.getBody().elements, elem => elem.is('img'));
 
         this.registerStates(states);
 
         Widget.initCreator.call(this);
 
         inlineHelper.togglePlaceholder(this);
-        // Resets classes for dom elements: img and wrapper on initial load and in sleep / inactive mode
+        // Resets classes for dom elements: figure and wrapper on initial load and in sleep / inactive mode
         alignmentHelper.initAlignment(this);
 
         //check file exists:
@@ -50,34 +52,31 @@ define([
         });
     };
 
-    ImgWidget.destroy = function destroy() {
+    FigureWidget.destroy = function destroy() {
         $('#item-editor-scope').off(`.${this.element.serial}`);
     };
 
-    ImgWidget.getRequiredOptions = function () {
+    FigureWidget.getRequiredOptions = function () {
         return ['baseUrl', 'uri', 'lang', 'mediaManager', 'assetManager'];
     };
 
-    ImgWidget.buildContainer = function buildContainer() {
-        helper.buildInlineContainer(this);
-
-        this.$container.css({
-            width: this.element.attr('width'),
-            height: this.element.attr('height')
-        });
-        if (this.$original[0]) {
-            this.$original[0].setAttribute('width', '100%');
-            this.$original[0].removeAttribute('height');
+    FigureWidget.buildContainer = function buildContainer() {
+        helper.buildBlockContainer(this);
+        const img = _.find(this.element.getBody().elements, elem => elem.is('img'));
+        const $img = this.$original.find('img');
+        if ($img.length) {
+            // move width from image to figure
+            this.$container.css({ width: img.attr('width') });
+            $img.attr('width', '100%');
+            $img.removeAttr('style');
         }
-
         return this;
     };
 
-    ImgWidget.createToolbar = function createToolbar() {
+    FigureWidget.createToolbar = function createToolbar() {
         helper.createToolbar(this, toolbarTpl);
-
         return this;
     };
 
-    return ImgWidget;
+    return FigureWidget;
 });

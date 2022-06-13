@@ -22,32 +22,32 @@
 
 namespace oat\taoQtiItem\model\qti\container;
 
+use oat\taoQtiItem\model\qti\feedback\Feedback;
+use oat\taoQtiItem\model\qti\Img;
+use oat\taoQtiItem\model\qti\interaction\Interaction;
+use oat\taoQtiItem\model\qti\Math;
+use oat\taoQtiItem\model\qti\QtiObject;
+
 /**
  * The QTI ContainerFeedbackInteractive represents the content of a feedback that allow nested interactions
  *
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
-
  */
 class ContainerFeedbackInteractive extends ContainerInteractive
 {
-    
     /**
-     * return the list of available element classes
-     *
-     * @access public
-     * @author Sam, <sam@taotesting.com>
-     * @return array
+     * @inheritDoc
      */
-    public function getValidElementTypes()
+    public function getValidElementTypes(): array
     {
         return [
-                    'oat\\taoQtiItem\\model\\qti\\Img',
-            'oat\\taoQtiItem\\model\\qti\\Math',
-            'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
-            \oat\taoQtiItem\model\qti\QtiObject::class,
-            'oat\\taoQtiItem\\model\\qti\\interaction\\Interaction'
+            Img::class,
+            Interaction::class,
+            Math::class,
+            Feedback::class,
+            QtiObject::class,
         ];
     }
 }

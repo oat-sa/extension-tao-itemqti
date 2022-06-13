@@ -46,6 +46,7 @@ define([
 
         var _staticElements = {
             _tooltip : 'Tooltip',
+            figure : 'Figure',
             img : 'Image',
             object : 'Media',
             rubricBlock : 'Rubric Block',

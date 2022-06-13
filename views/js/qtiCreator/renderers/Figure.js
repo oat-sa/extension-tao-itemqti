@@ -1,4 +1,4 @@
-/**
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -13,41 +13,35 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA
+ *
  */
-
 define([
     'lodash',
-    'taoQtiItem/qtiCommonRenderer/renderers/Img',
-    'taoQtiItem/qtiCreator/widgets/static/img/Widget'
-], function(_, Renderer, Widget){
+    'taoQtiItem/qtiCommonRenderer/renderers/Figure',
+    'taoQtiItem/qtiCreator/widgets/static/figure/Widget'
+], function(_, Figure, FigureWidget){
     'use strict';
 
-    const CreatorImg = _.clone(Renderer);
+    const CreatorFigure = _.clone(Figure);
 
-    CreatorImg.render = function(img, options){
-
-        const $container = Renderer.getContainer(img);
-        if ($container.parent('figure').length) {
-            // don't create widget if has figure parent
-            return CreatorImg;
-        }
-
+    CreatorFigure.render = function(figure, options){
+        const imageElem = _.find(figure.getBody().elements, elem => elem.is('img'));
         options = options || {};
         options.baseUrl = this.getOption('baseUrl');
         options.uri = this.getOption('uri');
         options.lang = this.getOption('lang');
         options.mediaManager = this.getOption('mediaManager');
         options.assetManager = this.getAssetManager();
-        options.state = img.metaData.widget && img.metaData.widget.getCurrentState().name;
+        options.state = imageElem.metaData.widget && imageElem.metaData.widget.getCurrentState().name;
 
-        Widget.build(
-            img,
-            Renderer.getContainer(img),
+        FigureWidget.build(
+            figure,
+            Figure.getContainer(figure),
             this.getOption('bodyElementOptionForm'),
             options
         );
     };
 
-    return CreatorImg;
+    return CreatorFigure;
 });
