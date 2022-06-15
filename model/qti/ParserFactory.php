@@ -15,9 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
+ * Copyright (c) 2013-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 namespace oat\taoQtiItem\model\qti;
@@ -211,6 +209,15 @@ class ParserFactory
             }
         }
 
+        $figureNodes = $this->queryXPath(".//*[name(.)='" . $this->getHTML5Namespace() . "figure']", $data);
+        foreach ($figureNodes as $figureNode) {
+            $figure = $this->buildFigure($figureNode);
+            if (!is_null($figure)) {
+                $bodyElements[$figure->getSerial()] = $figure;
+                $this->replaceNode($figureNode, $figure);
+            }
+        }
+
         $tooltipNodes = $this->queryXPath(".//*[@data-role='tooltip-target']", $data);
         foreach ($tooltipNodes as $tooltipNode) {
             $tooltip = $this->buildTooltip($tooltipNode, $data);
@@ -241,6 +248,18 @@ class ParserFactory
 
                 $this->replaceNode($imgNode, $img);
             }
+        }
+
+        $figCaptionNodes = $this->queryXPath(".//*[name(.)='" . $this->getHTML5Namespace() . "figcaption']", $data);
+        foreach ($figCaptionNodes as $figCaptionNode) {
+            $figCaption = $this->buildFigCaption($figCaptionNode);
+            if (!is_null($figCaption)) {
+                $bodyElements[$figCaption->getSerial()] = $figCaption;
+
+                $this->replaceNode($figCaptionNode, $figCaption);
+            }
+            //should be no more then one
+            break;
         }
 
         $ns = $this->getMathNamespace();
@@ -521,6 +540,14 @@ class ParserFactory
     protected function getXIncludeNamespace()
     {
         return $this->findNamespace('XInclude');
+    }
+
+    protected function getHTML5Namespace(): string
+    {
+        // qh5
+        $ns = $this->findNamespace('html5');
+
+        return empty($ns) ? '' : $ns . ':';
     }
 
     /**
@@ -1442,6 +1469,15 @@ class ParserFactory
         return $returnValue;
     }
 
+    private function buildFigCaption(DOMElement $data): FigCaption
+    {
+        $attributes = $this->extractAttributes($data);
+        $figCaption = new FigCaption($attributes);
+        $this->parseContainerStatic($data, $figCaption->getBody());
+
+        return $figCaption;
+    }
+
     private function buildTooltip(DOMElement $data, DOMElement $context)
     {
 
@@ -1489,6 +1525,16 @@ class ParserFactory
         $this->parseContainerStatic($data, $table->getBody());
 
         return $table;
+    }
+
+    private function buildFigure(DOMElement $data): Figure
+    {
+
+        $attributes = $this->extractAttributes($data);
+        $figure = new Figure($attributes);
+        $this->parseContainerStatic($data, $figure->getBody());
+
+        return $figure;
     }
 
     private function buildMath(DOMElement $data)

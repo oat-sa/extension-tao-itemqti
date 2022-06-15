@@ -257,9 +257,9 @@ abstract class Container extends Element implements IdentifiedElementContainer
      *
      * @access public
      * @author Sam, <sam@taotesting.com>
-     * @return array
+     * @return string[]
      */
-    abstract function getValidElementTypes();
+    abstract function getValidElementTypes(): array;
 
     /**
      * Get the element by its serial

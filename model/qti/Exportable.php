@@ -22,8 +22,6 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use oat\taoQtiItem\model\qti\Exportable;
-
 /**
  * By implementing the exportable interface, the object must export it's data to
  * formats defined here.
