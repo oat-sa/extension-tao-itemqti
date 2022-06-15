@@ -18,14 +18,19 @@
 
 define([
     'lodash',
+    'services/features',
     'taoQtiItem/qtiCommonRenderer/renderers/choices/SimpleChoice.ChoiceInteraction',
     'taoQtiItem/qtiCreator/widgets/choices/simpleChoice/Widget'
-], function(_, SimpleChoice, SimpleChoiceWidget){
+], function(_, features, SimpleChoice, SimpleChoiceWidget){
     'use strict';
 
     var CreatorSimpleChoice = _.clone(SimpleChoice);
 
     CreatorSimpleChoice.render = function(choice, options){
+
+        options = options || {};
+        options.shuffleIsVisible = features.isVisible('taoQtiItem/creator/interaction/choice/property/shuffle');
+
         SimpleChoiceWidget.build(
             choice,
             SimpleChoice.getContainer(choice),
