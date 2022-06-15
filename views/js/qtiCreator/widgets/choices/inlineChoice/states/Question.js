@@ -19,11 +19,12 @@
 
 define([
     'jquery',
+    'services/features',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Question',
     'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement',
     'lodash'
-], function ($, stateFactory, QuestionState, formElement, _) {
+], function ($, features, stateFactory, QuestionState, formElement, _) {
     'use strict';
     const ChoiceStateQuestion = stateFactory.extend(
         QuestionState,
@@ -40,7 +41,10 @@ define([
             $toolbar = _widget.$container.find('td:last');
 
         //set toolbar button behaviour:
-        formElement.initShufflePinToggle(_widget);
+        if(features.isVisible('taoQtiItem/creator/interaction/inlineChoice/property/shuffle')) {
+            formElement.initShufflePinToggle(_widget);
+        }
+        
         formElement.initDelete(_widget);
 
         return $toolbar;
