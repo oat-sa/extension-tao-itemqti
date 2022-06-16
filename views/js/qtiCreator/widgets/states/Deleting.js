@@ -145,7 +145,8 @@ define([
         cols = gridUnits.redistribute(cols);
 
         _.each(cols, function (col) {
-            col.elt.removeClass(`col-${col.units}`).addClass(`col-${col.refactoredUnits}`);
+            let oldClass = col.elt.context.classList.value
+            col.elt.removeClass(oldClass.match(/col-([\d]+)/).input).addClass(`col-${col.refactoredUnits}`);
             gridHelper.setUnitsFromClass(col.elt);
         });
 
