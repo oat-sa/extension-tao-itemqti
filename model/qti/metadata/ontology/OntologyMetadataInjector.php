@@ -82,13 +82,10 @@ class OntologyMetadataInjector implements MetadataInjector
 
     public function inject($target, array $values)
     {
+        $this->assertIsResource($target);
+
         $this->debug('values = %s', var_export($values, true));
         $this->debug('rules  = %s', var_export($this->getInjectionRules(), true));
-
-        if (!$target instanceof core_kernel_classes_Resource) {
-            $msg = "The given target is not an instance of core_kernel_classes_Resource.";
-            throw new MetadataInjectionException($msg);
-        }
 
         $data = [];
 
@@ -137,7 +134,10 @@ class OntologyMetadataInjector implements MetadataInjector
                     $lang
                 );
 
-                $target->removePropertyValueByLg(new core_kernel_classes_Property($propertyUri), $lang);
+                $target->removePropertyValueByLg(
+                    new core_kernel_classes_Property($propertyUri),
+                    $lang
+                );
             }
         }
 
@@ -154,7 +154,11 @@ class OntologyMetadataInjector implements MetadataInjector
                         $lang
                     );
 
-                    $target->setPropertyValueByLg(new core_kernel_classes_Property($propertyUri), $actualData[0], $lang);
+                    $target->setPropertyValueByLg(
+                        new core_kernel_classes_Property($propertyUri),
+                        $actualData[0],
+                        $lang
+                    );
 
                     $metadata = $actualData[1]->getPath();
                     $metadataUri = array_pop($metadata);
@@ -207,5 +211,17 @@ class OntologyMetadataInjector implements MetadataInjector
         }
 
         return $this->eventManager;
+    }
+
+    /**
+     * @throws MetadataInjectionException
+     */
+    private function assertIsResource($target): void
+    {
+        if (!$target instanceof core_kernel_classes_Resource) {
+            throw new MetadataInjectionException(
+                'The given target is not an instance of core_kernel_classes_Resource.'
+            );
+        }
     }
 }

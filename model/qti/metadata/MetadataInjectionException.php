@@ -24,19 +24,17 @@ namespace oat\taoQtiItem\model\qti\metadata;
 use \Exception;
 
 /**
- * This Exception class must be thrown in reaction to an error occuring
+ * This Exception class must be thrown in reaction to an error occurring
  * during a metadata injection process.
  *
  * @author Jérôme Bogaerts <jerome@taotesting.com>
- *
  */
 class MetadataInjectionException extends Exception
 {
-
     /**
      * Create a new MetadataInjectionException object.
      *
-     * @param string $message A human readable message explaining the error.
+     * @param string $message A human-readable message explaining the error.
      * @param integer $code (optional) A machine understandable error code. This should be used by very specific implementations only.
      * @param Exception $previous A previous caught exception that led to this one.
      */

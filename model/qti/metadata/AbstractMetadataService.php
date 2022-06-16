@@ -61,7 +61,7 @@ abstract class AbstractMetadataService extends ConfigurableService
 
     public function __construct($options = [], LoggerInterface $logger = null)
     {
-        $this->setOptions($options);
+        parent::__construct($options);
 
         $this->logger = ($logger === null
             ? common_Logger::singleton()->getLogger()
