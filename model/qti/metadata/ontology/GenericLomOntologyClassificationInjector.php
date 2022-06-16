@@ -79,11 +79,14 @@ class GenericLomOntologyClassificationInjector implements MetadataInjector
             foreach ($properties as $valuePath => $values) {
                 $propertyInstance = $this->getProperty($valuePath);
                 foreach ($values as $value) {
-                    // Prevent duplicating values when we should not (for example, resource IDs)
+                    // Prevent duplicating values when we should not
                     //
-                    $numPreviousValues = $target->getPropertyValuesByLg($propertyInstance, $langCode)->count();
+                    $previousValues = $target->getPropertyValuesByLg(
+                        $propertyInstance,
+                        $langCode
+                    );
 
-                    if (($numPreviousValues > 0) && $propertyInstance->isMultiple()) {
+                    if (($previousValues->count() > 0) && $propertyInstance->isMultiple()) {
                         $target->setPropertyValueByLg($propertyInstance, $value, $langCode); // append
                     } else {
                         $target->editPropertyValueByLg($propertyInstance, $value, $langCode);
