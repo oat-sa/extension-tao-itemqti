@@ -46,9 +46,7 @@ class OntologyMetadataInjector implements MetadataInjector
         EventManager $eventManager = null
     ) {
         $this->eventManager = $eventManager;
-        $this->logger = ($logger === null
-            ? common_Logger::singleton()->getLogger()
-            : $logger);
+        $this->logger = ($logger ?? common_Logger::singleton()->getLogger());
 
         $this->setInjectionRules([]);
     }

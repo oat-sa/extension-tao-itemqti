@@ -38,9 +38,7 @@ class GenericLomOntologyClassificationInjector implements MetadataInjector
 
     public function __construct(LoggerInterface $logger = null)
     {
-        $this->logger = ($logger === null
-            ? common_Logger::singleton()->getLogger()
-            : $logger);
+        $this->logger = ($logger ?? common_Logger::singleton()->getLogger());
     }
 
     /**
