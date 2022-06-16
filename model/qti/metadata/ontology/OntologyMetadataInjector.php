@@ -120,7 +120,7 @@ class OntologyMetadataInjector implements MetadataInjector
                 } else {
                     $this->debug(
                         'No rule for path "%s" and value "%s"',
-                        $metadataValue->getPath(),
+                        var_export($metadataValue->getPath(), true),
                         var_export($metadataValue->getValue(), true)
                     );
                 }

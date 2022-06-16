@@ -27,6 +27,7 @@ use oat\taoQtiItem\model\qti\metadata\MetadataValue;
 use common_Logger;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
+use Psr\Log\LoggerInterface;
 
 class GenericLomOntologyClassificationInjector implements MetadataInjector
 {
@@ -37,7 +38,7 @@ class GenericLomOntologyClassificationInjector implements MetadataInjector
 
     public function __construct(LoggerInterface $logger = null)
     {
-        $this->logger = ($logger !== null
+        $this->logger = ($logger === null
             ? common_Logger::singleton()->getLogger()
             : $logger);
     }
@@ -84,7 +85,7 @@ class GenericLomOntologyClassificationInjector implements MetadataInjector
                     //
                     $numPreviousValues = $target->getPropertyValuesByLg($propertyInstance, $langCode)->count();
 
-                    if ($numPreviousValues > 0 && $propertyInstance->isMultiple()) {
+                    if (($numPreviousValues > 0) && $propertyInstance->isMultiple()) {
                         $target->setPropertyValueByLg($propertyInstance, $value, $langCode); // append
                     } else {
                         $target->editPropertyValueByLg($propertyInstance, $value, $langCode);
