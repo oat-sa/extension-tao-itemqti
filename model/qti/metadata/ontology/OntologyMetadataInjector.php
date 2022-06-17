@@ -63,7 +63,7 @@ class OntologyMetadataInjector implements MetadataInjector
         $injectionRules = $this->getInjectionRules();
 
         $pathKey = implode('->', $path);
-        if (isset($injectionRules[$pathKey]) === false) {
+        if (!isset($injectionRules[$pathKey])) {
             $injectionRules[$pathKey] = [];
         }
 

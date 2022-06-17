@@ -58,16 +58,12 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
     /** @var core_kernel_classes_ContainerCollection|MockObject */
     private $previousValuesMock;
 
-    /** @var LoggerInterface|MockObject */
-    private $loggerMock;
-
     /** @var GenericLomOntologyClassificationInjector */
     private $sut;
 
     protected function setUp(): void
     {
         $this->ontologyMock = $this->createMock(Ontology::class);
-        $this->loggerMock = $this->createMock(LoggerInterface::class);
         $this->classMock = $this->createMock(core_kernel_classes_Class::class);
         $this->property1Mock = $this->createMock(
             core_kernel_classes_Property::class
@@ -107,19 +103,19 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
         );
 
         $this->sut = new GenericLomOntologyClassificationInjector(
-            $this->loggerMock
+            $this->createMock(LoggerInterface::class)
         );
 
         $this->sut->setModel($this->ontologyMock);
     }
 
-    public function testInjectNonResourceThrowsException()
+    public function testInjectNonResourceThrowsException(): void
     {
         $this->expectException(MetadataInjectionException::class);
         $this->sut->inject((object)[], []);
     }
 
-    public function testInjectWithNoInjectionRulesDoesNothing()
+    public function testInjectWithNoInjectionRulesDoesNothing(): void
     {
         $this->classMock
             ->expects($this->atLeastOnce())
@@ -169,10 +165,7 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
 
     public function testInjectMappedMultiValuePropertyWithPreviousValue(): void
     {
-        $this->ontologyMock = $this->getOntologyMock(
-            1,
-            ['property://1' => $this->property1Mock]
-        );
+        $this->setupOntologyMock(1, ['property://1' => $this->property1Mock]);
 
         $this->classMock
             ->expects($this->atLeastOnce())
@@ -246,10 +239,7 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
 
     public function testInjectMappedMultiValuePropertyWithoutPreviousValue(): void
     {
-        $this->ontologyMock = $this->getOntologyMock(
-            1,
-            ['property://1' => $this->property1Mock]
-        );
+        $this->setupOntologyMock(1, ['property://1' => $this->property1Mock]);
 
         $this->classMock
             ->expects($this->atLeastOnce())
@@ -307,10 +297,7 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
 
     public function testInjectMappedMonoValuePropertyWithPreviousValue(): void
     {
-        $this->ontologyMock = $this->getOntologyMock(
-            1,
-            ['property://1' => $this->property1Mock]
-        );
+        $this->setupOntologyMock(1, ['property://1' => $this->property1Mock]);
 
         $this->classMock
             ->expects($this->atLeastOnce())
@@ -384,10 +371,7 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
 
     public function testInjectMappedMonoValuePropertyWithoutPreviousValue(): void
     {
-        $this->ontologyMock = $this->getOntologyMock(
-            1,
-            ['property://1' => $this->property1Mock]
-        );
+        $this->setupOntologyMock(1, ['property://1' => $this->property1Mock]);
 
         $this->classMock
             ->expects($this->atLeastOnce())
@@ -461,10 +445,7 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
 
     public function testInjectWithMixedMatchingRules(): void
     {
-        $this->ontologyMock = $this->getOntologyMock(
-            1,
-            ['property://1' => $this->property1Mock]
-        );
+        $this->setupOntologyMock(1, ['property://1' => $this->property1Mock]);
 
         $this->classMock
             ->expects($this->atLeastOnce())
@@ -537,7 +518,7 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
         );
     }
 
-    private function getOntologyMock(int $times, array $properties)
+    private function setupOntologyMock(int $times, array $properties): void
     {
         $this->ontologyMock
             ->expects($this->exactly($times))

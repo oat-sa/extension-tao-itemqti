@@ -22,33 +22,43 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\qti\metadata;
 
+use core_kernel_classes_Class;
+use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\oatbox\event\EventManager;
+use oat\tao\model\event\MetadataModified;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjectionException;
 use oat\taoQtiItem\model\qti\metadata\ontology\OntologyMetadataInjector;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use InvalidArgumentException;
 
 class OntologyMetadataInjectorTest extends TestCase
 {
+    /** @var core_kernel_classes_Resource|MockObject */
+    private $resourceMock;
+
+    /** @var core_kernel_classes_Class|MockObject */
+    private $classMock;
+
     /** @var EventManager|MockObject */
     private $eventManager;
-
-    /** @var LoggerInterface|MockObject */
-    private $loggerMock;
 
     /** @var OntologyMetadataInjector */
     private $sut;
 
     protected function setUp(): void
     {
-        $this->loggerMock = $this->createMock(LoggerInterface::class);
         $this->eventManager = $this->createMock(EventManager::class);
+        $this->classMock = $this->createMock(core_kernel_classes_Class::class);
+        $this->resourceMock = $this->createMock(
+            core_kernel_classes_Resource::class
+        );
 
         $this->sut = new OntologyMetadataInjector(
-            $this->loggerMock,
+            $this->createMock(LoggerInterface::class),
             $this->eventManager
         );
     }
@@ -61,27 +71,11 @@ class OntologyMetadataInjectorTest extends TestCase
 
     public function testInjectWithNoInjectionRulesDoesDoesNothing()
     {
-        $target = $this->createMock(core_kernel_classes_Resource::class);
-
-        $values = [
-            'choice' => [
-                new SimpleMetadataValue(
-                    'choice',
-                    [
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier'
-                    ],
-                    'qti_v2_item_01'
-                )
-            ]
-        ];
-
-        $target
+        $this->resourceMock
             ->expects($this->never())
             ->method('removePropertyValueByLg');
 
-        $target
+        $this->resourceMock
             ->expects($this->never())
             ->method('setPropertyValueByLg');
 
@@ -89,8 +83,84 @@ class OntologyMetadataInjectorTest extends TestCase
             ->expects($this->never())
             ->method('trigger');
 
-        $this->sut->inject($target, $values);
+        $metadataValue = new SimpleMetadataValue(
+            'choice',
+            [
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
+            ],
+            'qti_v2_item_01'
+        );
+
+        $this->eventManager
+            ->expects($this->never())
+            ->method('trigger');
+
+        $this->sut->inject($this->resourceMock, ['choice' => [$metadataValue]]);
     }
 
-    // @todo Tests with actual injection rules
+    public function testAddInjectionRuleWithEmptyPathThrowsException()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'The path argument must be a non-empty array.'
+        );
+
+        $this->sut->addInjectionRule([], 'property://1');
+    }
+
+    public function testInjectByValue(): void
+    {
+        $this->sut->addInjectionRule(
+            [
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
+            ],
+            'property://1',
+            'value',
+            'ontologyValue'
+        );
+
+        $metadataValue = new SimpleMetadataValue(
+            'property://1',
+            [
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
+            ],
+            'value',
+            'en-US'
+        );
+
+        $this->resourceMock
+            ->expects($this->once())
+            ->method('removePropertyValueByLg')
+            ->with(new core_kernel_classes_Property('property://1'), 'en-US');
+
+        $this->resourceMock
+            ->expects($this->once())
+            ->method('setPropertyValueByLg')
+            ->with(
+                new core_kernel_classes_Property('property://1'),
+                'ontologyValue',
+                'en-US'
+            );
+
+        $this->eventManager
+            ->expects($this->once())
+            ->method('trigger')
+            ->with(
+                new MetadataModified(
+                    $this->resourceMock,
+                    'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
+                    'value'
+                )
+            );
+
+        $this->sut->inject($this->resourceMock, ['choice' => [$metadataValue]]);
+    }
+
+    // @todo Test getRuleByPath
 }
