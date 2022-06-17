@@ -33,7 +33,8 @@ use Psr\Log\LoggerInterface;
 
 class OntologyMetadataInjector implements MetadataInjector
 {
-    private $injectionRules;
+    /** @var array */
+    private $injectionRules = [];
 
     /** @var EventManager */
     private $eventManager;
