@@ -119,7 +119,7 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
         $this->sut->inject((object)[], []);
     }
 
-    public function testInjectWithNoInjectionRulesDoesDoesNothing()
+    public function testInjectWithNoInjectionRulesDoesNothing()
     {
         $this->classMock
             ->expects($this->atLeastOnce())
@@ -154,21 +154,17 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
             ->method('getProperty')
             ->with('http://www.imsglobal.org/xsd/imsmd_v1p2#identifier');
 
-        $values = [
-            'choice' => [
-                new SimpleMetadataValue(
-                    'choice',
-                    [
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
-                    ],
-                    'qti_v2_item_01'
-                )
-            ]
-        ];
+        $metadataValue = new SimpleMetadataValue(
+            'choice',
+            [
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
+            ],
+            'qti_v2_item_01'
+        );
 
-        $this->sut->inject($this->resourceMock, $values);
+        $this->sut->inject($this->resourceMock, ['choice' => [$metadataValue]]);
     }
 
     public function testInjectMappedMultiValuePropertyWithPreviousValue(): void
@@ -218,35 +214,34 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
             ->method('setPropertyValueByLg')
             ->with($this->property1Mock, 'property1Value', 'es-ES');
 
+        $metadataValue1 = new SimpleMetadataValue(
+            'choice1',
+            [
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
+            ],
+            'qti_v2_item_01'
+        );
 
-        // @todo Test behavior of getPropertyValuesByLg + setPropertyValueByLg/editPropertyValueByLg
+        $metadataValue2 = new SimpleMetadataValue(
+            'choice2',
+            [
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
+                'property://1',
+            ],
+            'property1Value',
+            'es-ES'
+        );
 
-        $values = [
-            'choice' => [
-                new SimpleMetadataValue(
-                    'choice1',
-                    [
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
-                    ],
-                    'qti_v2_item_01'
-                ),
-                new SimpleMetadataValue(
-                    'choice2',
-                    [
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
-                        'property://1',
-                    ],
-                    'property1Value',
-                    'es-ES'
-                )
+        $this->sut->inject(
+            $this->resourceMock,
+            [
+                'choice' => [$metadataValue1, $metadataValue2]
             ]
-        ];
-
-        $this->sut->inject($this->resourceMock, $values);
+        );
     }
 
     public function testInjectMappedMultiValuePropertyWithoutPreviousValue(): void
@@ -288,31 +283,26 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
 
         $this->resourceMock
             ->expects($this->never())
-            ->method('setPropertyValueByLg')
-            ;
+            ->method('setPropertyValueByLg');
 
         $this->resourceMock
             ->expects($this->once())
             ->method('editPropertyValueByLg')
             ->with($this->property1Mock, 'property1Value', 'es-ES');
 
-        $values = [
-            'choice' => [
-                new SimpleMetadataValue(
-                    'choice2',
-                    [
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
-                        'property://1',
-                    ],
-                    'property1Value',
-                    'es-ES'
-                )
-            ]
-        ];
+        $metadataValue = new SimpleMetadataValue(
+            'choice2',
+            [
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
+                'property://1',
+            ],
+            'property1Value',
+            'es-ES'
+        );
 
-        $this->sut->inject($this->resourceMock, $values);
+        $this->sut->inject($this->resourceMock, ['choice' => [$metadataValue]]);
     }
 
     public function testInjectMappedMonoValuePropertyWithPreviousValue(): void
@@ -362,32 +352,34 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
             ->expects($this->never())
             ->method('setPropertyValueByLg');
 
-        $values = [
-            'choice' => [
-                new SimpleMetadataValue(
-                    'choice1',
-                    [
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
-                    ],
-                    'qti_v2_item_01'
-                ),
-                new SimpleMetadataValue(
-                    'choice2',
-                    [
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
-                        'property://1',
-                    ],
-                    'property1Value',
-                    'es-ES'
-                )
-            ]
-        ];
+        $metadataValue1 = new SimpleMetadataValue(
+            'choice1',
+            [
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
+            ],
+            'qti_v2_item_01'
+        );
 
-        $this->sut->inject($this->resourceMock, $values);
+        $metadataValue2 = new SimpleMetadataValue(
+            'choice2',
+            [
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
+                'property://1',
+            ],
+            'property1Value',
+            'es-ES'
+        );
+
+        $this->sut->inject(
+            $this->resourceMock,
+            [
+                'choice' => [$metadataValue1, $metadataValue2]
+            ]
+        );
     }
 
     public function testInjectMappedMonoValuePropertyWithoutPreviousValue(): void
@@ -437,32 +429,34 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
             ->expects($this->never())
             ->method('setPropertyValueByLg');
 
-        $values = [
-            'choice' => [
-                new SimpleMetadataValue(
-                    'choice1',
-                    [
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
-                    ],
-                    'qti_v2_item_01'
-                ),
-                new SimpleMetadataValue(
-                    'choice2',
-                    [
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
-                        'property://1',
-                    ],
-                    'property1Value',
-                    'es-ES'
-                )
-            ]
-        ];
+        $metadataValue1 = new SimpleMetadataValue(
+            'choice1',
+            [
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
+            ],
+            'qti_v2_item_01'
+        );
 
-        $this->sut->inject($this->resourceMock, $values);
+        $metadataValue2 = new SimpleMetadataValue(
+            'choice2',
+            [
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
+                'property://1',
+            ],
+            'property1Value',
+            'es-ES'
+        );
+
+        $this->sut->inject(
+            $this->resourceMock,
+            [
+                'choice' => [$metadataValue1, $metadataValue2]
+            ]
+        );
     }
 
     public function testInjectWithMixedMatchingRules(): void
@@ -513,32 +507,33 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
             ->expects($this->never())
             ->method('setPropertyValueByLg');
 
-        $values = [
-            'choice' => [
-                new SimpleMetadataValue(
-                    'choice1',
-                    [
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
-                    ],
-                    'qti_v2_item_01'
-                ),
-                new SimpleMetadataValue(
-                    'choice2',
-                    [
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
-                        'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
-                        'property://1',
-                    ],
-                    'property1Value',
-                    'es-ES'
-                )
-            ]
-        ];
+        $metadataValue1 = new SimpleMetadataValue(
+            'choice1',
+            [
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
+            ],
+            'qti_v2_item_01'
+        );
 
-        $this->sut->inject($this->resourceMock, $values);
+        $metadataValue2 = new SimpleMetadataValue(
+            'choice2',
+            [
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
+                'property://1',
+            ],
+            'property1Value',
+            'es-ES'
+        );
+
+        $this->sut->inject(
+            $this->resourceMock,
+            [
+                'choice' => [$metadataValue1, $metadataValue2]
+            ]);
     }
 
     private function getOntologyMock(int $times, array $properties)
