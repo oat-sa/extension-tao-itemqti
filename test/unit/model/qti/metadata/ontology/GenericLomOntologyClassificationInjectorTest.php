@@ -533,7 +533,8 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
             $this->resourceMock,
             [
                 'choice' => [$metadataValue1, $metadataValue2]
-            ]);
+            ]
+        );
     }
 
     private function getOntologyMock(int $times, array $properties)
