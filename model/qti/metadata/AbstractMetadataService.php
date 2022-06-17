@@ -54,9 +54,7 @@ abstract class AbstractMetadataService extends ConfigurableService
      */
     protected $instances;
 
-    /**
-     * @var LoggerInterface
-     */
+    /** @var LoggerInterface */
     private $logger;
 
     public function __construct($options = [], LoggerInterface $logger = null)
