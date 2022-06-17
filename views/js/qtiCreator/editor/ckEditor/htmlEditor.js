@@ -21,12 +21,25 @@ define([
     'jquery',
     'ckeditor',
     'core/promise',
+    'services/features',
     'taoQtiItem/qtiCreator/helper/ckConfigurator',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState',
     'taoQtiItem/qtiCreator/editor/ckEditor/featureFlag'
-], function (_, __, $, CKEditor, Promise, ckConfigurator, Element, contentHelper, deletingHelper, featureFlag) {
+], function (
+    _,
+    __,
+    $,
+    CKEditor,
+    Promise,
+    features,
+    ckConfigurator,
+    Element,
+    contentHelper,
+    deletingHelper,
+    featureFlag
+) {
     'use strict';
 
     const _defaults = {
@@ -61,6 +74,22 @@ define([
 
         options = _.defaults(options, _defaults);
 
+        const isHiddenPlugin = pluginName => !features.isVisible(`taoQtiItem/creator/content/plugin/${pluginName}`);
+
+        const registeredPluginNames = CKEditor.plugins.registered && Object.keys(CKEditor.plugins.registered);
+        const removePlugins = [];
+        registeredPluginNames.forEach(pluginName => {
+            if (isHiddenPlugin(pluginName)) {
+                removePlugins.push(pluginName);
+            }
+        });
+
+        if (options.removePlugins) {
+            options.removePlugins.split('').forEach(removePluginName => {
+                removePlugins.push(removePluginName.trim());
+            });
+        }
+
         if (!($editable instanceof $) || !$editable.length) {
             throw new Error('invalid jquery element for $editable');
         }
@@ -79,7 +108,7 @@ define([
         const ckConfig = {
             dtdMode: 'qti',
             autoParagraph: false,
-            removePlugins: options.removePlugins || '',
+            removePlugins: removePlugins.join(','),
             enterMode: options.enterMode || CKEditor.ENTER_P,
             floatSpaceDockedOffsetY: 10,
             sharedSpaces: {
@@ -93,6 +122,14 @@ define([
                 insert: function (tempWidget) {
                     const $newContent = $(tempWidget).clone(); // we keep the original content for later use
                     if (options.data && options.data.container && options.data.widget) {
+                        const $newImgPlaceholder = $editable.find('[data-new="true"][data-qti-class="img"]');
+                        if ($newImgPlaceholder.length &&
+                            !$editable.closest('.qti-choice, .qti-flow-container').length) {
+                            // instead img will add figure element
+                            $newImgPlaceholder.attr('data-qti-class','figure');
+                            // span after for new line
+                            $('<span>&nbsp;</span>').insertAfter($newImgPlaceholder);
+                        }
                         contentHelper.createElements(
                             options.data.container,
                             $editable,
@@ -234,7 +271,7 @@ define([
      * @param {JQuery} $editable
      */
     function togglePlaceholder($editable) {
-        const nonEmptyContent = ['img', 'table', 'math', 'object', 'printedVariable', '.tooltip-target'];
+        const nonEmptyContent = ['img', 'table', 'math', 'object', 'printedVariable', '.tooltip-target', 'figure'];
 
         if ($editable.text().trim() === '' && !$editable.find(nonEmptyContent.join(',')).length) {
             $editable.addClass(placeholderClass);
@@ -528,6 +565,7 @@ define([
          * @param {Boolean} [editorOptions.shieldInnerContent] - define if the inner widget content should be protected or not
          * @param {Boolean} [editorOptions.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
          * @param {Boolean} [editorOptions.enterMode] - what is the behavior of the "Enter" key (see ENTER_MODE_xxx in ckEditor configuration)
+         * @param {String} [editorOptions.removePlugins] - comma-separated list of plugins to disable
          * @returns {undefined}
          */
         buildEditor: function ($container, editorOptions) {

@@ -18,14 +18,18 @@
 
 define([
     'lodash',
+    'services/features',
     'taoQtiItem/qtiCommonRenderer/renderers/choices/SimpleAssociableChoice.MatchInteraction',
     'taoQtiItem/qtiCreator/widgets/choices/simpleAssociableChoice/Widget'
-], function(_, SimpleAssociableChoice, SimpleAssociableChoiceWidget){
+], function(_, features, SimpleAssociableChoice, SimpleAssociableChoiceWidget){
     'use strict';
 
     var CreatorSimpleAssociableChoice = _.clone(SimpleAssociableChoice);
 
     CreatorSimpleAssociableChoice.render = function(choice, options){
+
+        options = options || {};
+        options.shuffleIsVisible = features.isVisible('taoQtiItem/creator/interaction/gapMatch/property/shuffle');
 
         SimpleAssociableChoiceWidget.build(
             choice,

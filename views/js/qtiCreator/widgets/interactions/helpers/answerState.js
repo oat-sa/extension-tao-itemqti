@@ -20,6 +20,7 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'services/features',
     'taoQtiItem/qtiItem/helper/response',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
@@ -30,6 +31,7 @@ define([
     $,
     _,
     __,
+    features,
     responseHelper,
     formElement,
     minMaxComponentFactory,
@@ -38,6 +40,8 @@ define([
     qtiElements
 ) {
     'use strict';
+
+    const modalFeedbackConfigKey = 'taoQtiItem/creator/interaction/property/modalFeedback';
 
     const _saveCallbacks = {
         mappingAttr: function mappingAttr(response, value, key) {
@@ -252,7 +256,7 @@ define([
                     serial: response.getSerial(),
                     defineCorrect: defineCorrect,
                     editMapping: editMapping,
-                    editFeedbacks: template !== 'CUSTOM',
+                    editFeedbacks: template !== 'CUSTOM' && features.isVisible(modalFeedbackConfigKey),
                     mappingDisabled: _.isEmpty(response.mapEntries),
                     template: template,
                     templates: _getAvailableRpTemplates(

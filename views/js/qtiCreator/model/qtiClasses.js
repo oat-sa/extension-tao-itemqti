@@ -7,7 +7,9 @@ define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses)
     return _.defaults({
         'assessmentItem' : 'taoQtiItem/qtiCreator/model/Item',
         '_container' : 'taoQtiItem/qtiCreator/model/Container',
+        'figure' : 'taoQtiItem/qtiCreator/model/Figure',
         'img' : 'taoQtiItem/qtiCreator/model/Img',
+        'figcaption' : 'taoQtiItem/qtiCreator/model/Figcaption',
         'math' : 'taoQtiItem/qtiCreator/model/Math',
         'object' : 'taoQtiItem/qtiCreator/model/Object',
         'table' : 'taoQtiItem/qtiCreator/model/Table',

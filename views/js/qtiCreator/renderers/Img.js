@@ -23,9 +23,15 @@ define([
 ], function(_, Renderer, Widget){
     'use strict';
 
-    var CreatorImg = _.clone(Renderer);
+    const CreatorImg = _.clone(Renderer);
 
     CreatorImg.render = function(img, options){
+
+        const $container = Renderer.getContainer(img);
+        if ($container.parent('figure').length) {
+            // don't create widget if has figure parent
+            return CreatorImg;
+        }
 
         options = options || {};
         options.baseUrl = this.getOption('baseUrl');
