@@ -24,22 +24,11 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjectionException;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjector;
 use oat\taoQtiItem\model\qti\metadata\MetadataValue;
-use common_Logger;
-use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
-use Psr\Log\LoggerInterface;
 
 class GenericLomOntologyClassificationInjector implements MetadataInjector
 {
     use OntologyAwareTrait;
-
-    /** @var LoggerInterface */
-    private $logger;
-
-    public function __construct(LoggerInterface $logger = null)
-    {
-        $this->logger = ($logger ?? common_Logger::singleton()->getLogger());
-    }
 
     /**
      * Inject dynamically a metadata to an item property
@@ -51,13 +40,8 @@ class GenericLomOntologyClassificationInjector implements MetadataInjector
     public function inject($target, array $values)
     {
         $this->assertIsResource($target);
-        $this->debug(
-            'Inject target=%s values=%s',
-            $target->getUri(),
-            var_export($values, true)
-        );
 
-        /** @var core_kernel_classes_Class $targetClass */
+        /** @var \core_kernel_classes_Class $targetClass */
         $types = $target->getTypes();
         $targetClass = reset($types);
         $classProperties = $targetClass->getProperties(true);
@@ -71,9 +55,7 @@ class GenericLomOntologyClassificationInjector implements MetadataInjector
             GenericLomOntologyClassificationExtractor::$excludedProperties
         );
 
-        $this->debug('properties = %s', var_export($propertyURIs, true));
-
-        $newPropertyValues = $this->mapPropertiesToValues($propertyURIs, $values);
+        $newPropertyValues = $this->mapPropertyURIsToMetadataValuesByLanguage($propertyURIs, $values);
 
         foreach ($newPropertyValues as $langCode => $properties) {
             foreach ($properties as $valuePath => $values) {
@@ -96,33 +78,7 @@ class GenericLomOntologyClassificationInjector implements MetadataInjector
         }
     }
 
-    /**
-     * Builds a multidimensional array grouping the values by language code and
-     * property URI (also known as "valuePath").
-     *
-     * Properties whose URI is not present in the $propertyURIs parameter are
-     * ignored. The format for the array returned is as follows:
-     *
-     *      [
-     *          langCode => [
-     *              valuePath1 => [metadataValue1, metadataValue2, ...],
-     *              valuePath2 => [metadataValue1, metadataValue2, ...],
-     *              ....
-     *          ],
-     *          langCode => [
-     *              valuePath1 => [metadataValue1, metadataValue2, ...],
-     *              valuePath2 => [metadataValue1, metadataValue2, ...],
-     *              ....
-     *          ],
-     *          ....
-     *      ]
-     *
-     * @param string[] $propertyURIs
-     * @param MetadataValue[] $values
-     *
-     * @return MetadataValue[][]
-     */
-    private function mapPropertiesToValues(
+    private function mapPropertyURIsToMetadataValuesByLanguage(
         array $propertyURIs,
         array $values
     ): array {
@@ -162,10 +118,5 @@ class GenericLomOntologyClassificationInjector implements MetadataInjector
                 'The given target is not an instance of core_kernel_classes_Resource.'
             );
         }
-    }
-
-    private function debug(string $message, ...$replacements): void
-    {
-        $this->logger->info(__CLASS__ . ': ' . vsprintf($message, $replacements));
     }
 }
