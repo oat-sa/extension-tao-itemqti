@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\test\unit\model\qti\metadata;
 
 use oat\generis\model\OntologyRdf;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use core_kernel_classes_Class;
 use core_kernel_classes_ContainerCollection;
 use core_kernel_classes_Property;
