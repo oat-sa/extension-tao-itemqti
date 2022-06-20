@@ -49,10 +49,7 @@ class GenericLomOntologyClassificationInjector implements MetadataInjector
         foreach ($classProperties as $property) {
             $properties[] = $property->getUri();
         }
-        $properties = array_diff(
-            $properties,
-            GenericLomOntologyClassificationExtractor::$excludedProperties
-        );
+        $properties = array_diff($properties, GenericLomOntologyClassificationExtractor::$excludedProperties);
 
         $newValues = $this->groupValuesByLgAndProperty($properties, $values);
 
