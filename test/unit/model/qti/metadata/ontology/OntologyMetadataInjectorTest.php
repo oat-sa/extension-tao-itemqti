@@ -57,10 +57,7 @@ class OntologyMetadataInjectorTest extends TestCase
             core_kernel_classes_Resource::class
         );
 
-        $this->sut = new OntologyMetadataInjector(
-            $this->createMock(LoggerInterface::class),
-            $this->eventManager
-        );
+        $this->sut = new OntologyMetadataInjector($this->eventManager);
     }
 
     public function testInjectNonResourceThrowsException()

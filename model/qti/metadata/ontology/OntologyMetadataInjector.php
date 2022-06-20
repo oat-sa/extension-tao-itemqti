@@ -25,11 +25,9 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\event\MetadataModified;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjector;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjectionException;
-use common_Logger;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use InvalidArgumentException;
-use Psr\Log\LoggerInterface;
 
 class OntologyMetadataInjector implements MetadataInjector
 {
@@ -39,14 +37,8 @@ class OntologyMetadataInjector implements MetadataInjector
     /** @var EventManager */
     private $eventManager;
 
-    /** @var LoggerInterface */
-    private $logger;
-
-    public function __construct(
-        LoggerInterface $logger = null,
-        EventManager $eventManager = null
-    ) {
-        $this->logger = ($logger ?? common_Logger::singleton()->getLogger());
+    public function __construct(EventManager $eventManager = null)
+    {
         $this->eventManager = ($eventManager ?? ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID));
 
         $this->setInjectionRules([]);
@@ -85,9 +77,6 @@ class OntologyMetadataInjector implements MetadataInjector
     {
         $this->assertIsResource($target);
 
-        $this->debug('values = %s', var_export($values, true));
-        $this->debug('rules  = %s', var_export($this->getInjectionRules(), true));
-
         $data = [];
 
         foreach ($values as $metadataValues) {
@@ -113,28 +102,13 @@ class OntologyMetadataInjector implements MetadataInjector
                     }
 
                     $data[$rule[0]][$lang][] = [$metadataValue->getValue(), $metadataValue];
-                } else {
-                    $this->debug(
-                        'No rule for path "%s" and value "%s"',
-                        var_export($metadataValue->getPath(), true),
-                        var_export($metadataValue->getValue(), true)
-                    );
                 }
             }
         }
 
-        $this->debug('data = %s', var_export($values, true));
-
         // Cleanup impacted metadata, in case the $target is being overwritten.
         foreach ($data as $propertyUri => $perLangData) {
             foreach (array_keys($perLangData) as $lang) {
-                $this->debug(
-                    'Remove property "%s" resource="%s" language="%s"',
-                    $propertyUri,
-                    $target->getUri(),
-                    $lang
-                );
-
                 $target->removePropertyValueByLg(
                     new core_kernel_classes_Property($propertyUri),
                     $lang
@@ -147,13 +121,6 @@ class OntologyMetadataInjector implements MetadataInjector
         foreach ($data as $propertyUri => $perLangData) {
             foreach ($perLangData as $lang => $d) {
                 foreach ($d as $actualData) {
-                    $this->debug(
-                        'Set property "%s" value="%s" language="%s"',
-                        $propertyUri,
-                        $actualData[0],
-                        $lang
-                    );
-
                     $target->setPropertyValueByLg(
                         new core_kernel_classes_Property($propertyUri),
                         $actualData[0],
@@ -195,11 +162,6 @@ class OntologyMetadataInjector implements MetadataInjector
         }
 
         return false;
-    }
-
-    private function debug(string $message, ...$replacements): void
-    {
-        $this->logger->info(__CLASS__ . ': ' . vsprintf($message, $replacements));
     }
 
     /**
