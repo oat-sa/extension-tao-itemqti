@@ -32,7 +32,6 @@ use oat\taoQtiItem\model\qti\metadata\MetadataInjectionException;
 use oat\taoQtiItem\model\qti\metadata\ontology\OntologyMetadataInjector;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 use PHPUnit\Framework\MockObject\MockObject;
-//use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;
 use oat\generis\test\TestCase;
 
@@ -58,12 +57,9 @@ class OntologyMetadataInjectorTest extends TestCase
             core_kernel_classes_Resource::class
         );
 
-        $sl = $this->getServiceLocatorMock([
+        ServiceManager::setServiceManager($this->getServiceLocatorMock([
             EventManager::SERVICE_ID => $this->eventManager
-        ]);
-
-        ServiceManager::setServiceManager($sl);
-
+        ]));
 
         $this->sut = new OntologyMetadataInjector($this->eventManager);
     }
@@ -71,6 +67,7 @@ class OntologyMetadataInjectorTest extends TestCase
     public function testInjectNonResourceThrowsException()
     {
         $this->expectException(MetadataInjectionException::class);
+
         $this->sut->inject((object)[], []);
     }
 
