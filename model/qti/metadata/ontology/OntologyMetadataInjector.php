@@ -33,7 +33,7 @@ use \InvalidArgumentException;
 class OntologyMetadataInjector implements MetadataInjector
 {
     private $injectionRules;
-
+    
     public function __construct()
     {
         $this->setInjectionRules([]);
@@ -106,10 +106,7 @@ class OntologyMetadataInjector implements MetadataInjector
         // Cleanup impacted metadata, in case the $target is being overwritten.
         foreach ($data as $propertyUri => $perLangData) {
             foreach (array_keys($perLangData) as $lang) {
-                $target->removePropertyValueByLg(
-                    new core_kernel_classes_Property($propertyUri),
-                    $lang
-                );
+                $target->removePropertyValueByLg(new core_kernel_classes_Property($propertyUri), $lang);
             }
         }
 
@@ -144,7 +141,7 @@ class OntologyMetadataInjector implements MetadataInjector
         
         return false;
     }
-
+    
     protected function getRuleByPath($path)
     {
         $pathKey = implode('->', $path);
@@ -154,17 +151,5 @@ class OntologyMetadataInjector implements MetadataInjector
         }
 
         return false;
-    }
-
-    /**
-     * @throws MetadataInjectionException
-     */
-    private function assertIsResource($target): void
-    {
-        if (!$target instanceof core_kernel_classes_Resource) {
-            throw new MetadataInjectionException(
-                'The given target is not an instance of core_kernel_classes_Resource.'
-            );
-        }
     }
 }
