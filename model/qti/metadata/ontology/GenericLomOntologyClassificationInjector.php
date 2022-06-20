@@ -24,7 +24,6 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjectionException;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjector;
 use oat\taoQtiItem\model\qti\metadata\MetadataValue;
-use core_kernel_classes_Resource;
 
 class GenericLomOntologyClassificationInjector implements MetadataInjector
 {
@@ -55,9 +54,9 @@ class GenericLomOntologyClassificationInjector implements MetadataInjector
             GenericLomOntologyClassificationExtractor::$excludedProperties
         );
 
-        $newPropertyValues = $this->mapPropertyURIsToMetadataValuesByLanguage($propertyURIs, $values);
+        $newValues = $this->groupValuesByLgAndProperty($propertyURIs, $values);
 
-        foreach ($newPropertyValues as $langCode => $properties) {
+        foreach ($newValues as $langCode => $properties) {
             foreach ($properties as $valuePath => $values) {
                 $propertyInstance = $this->getProperty($valuePath);
                 foreach ($values as $value) {
@@ -78,7 +77,7 @@ class GenericLomOntologyClassificationInjector implements MetadataInjector
         }
     }
 
-    private function mapPropertyURIsToMetadataValuesByLanguage(
+    private function groupValuesByLgAndProperty(
         array $propertyURIs,
         array $values
     ): array {
@@ -113,7 +112,7 @@ class GenericLomOntologyClassificationInjector implements MetadataInjector
      */
     private function assertIsResource($target): void
     {
-        if (!$target instanceof core_kernel_classes_Resource) {
+        if (!$target instanceof \core_kernel_classes_Resource) {
             throw new MetadataInjectionException(
                 'The given target is not an instance of core_kernel_classes_Resource.'
             );
