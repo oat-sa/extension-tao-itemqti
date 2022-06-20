@@ -45,19 +45,19 @@ class GenericLomOntologyClassificationInjector implements MetadataInjector
         $targetClass = reset($types);
         $classProperties = $targetClass->getProperties(true);
 
-        $propertyURIs = [];
+        $properties = [];
         foreach ($classProperties as $property) {
-            $propertyURIs[] = $property->getUri();
+            $properties[] = $property->getUri();
         }
-        $propertyURIs = array_diff(
-            $propertyURIs,
+        $properties = array_diff(
+            $properties,
             GenericLomOntologyClassificationExtractor::$excludedProperties
         );
 
-        $newValues = $this->groupValuesByLgAndProperty($propertyURIs, $values);
+        $newValues = $this->groupValuesByLgAndProperty($properties, $values);
 
-        foreach ($newValues as $langCode => $properties) {
-            foreach ($properties as $valuePath => $values) {
+        foreach ($newValues as $langCode => $curLangProperties) {
+            foreach ($curLangProperties as $valuePath => $values) {
                 $propertyInstance = $this->getProperty($valuePath);
                 foreach ($values as $value) {
                     // Prevent duplicating values when we should not
