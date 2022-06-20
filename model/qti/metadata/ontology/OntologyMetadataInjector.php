@@ -31,28 +31,18 @@ use \InvalidArgumentException;
 
 class OntologyMetadataInjector implements MetadataInjector
 {
-    /** @var array */
-    private $injectionRules = [];
+    private $injectionRules;
 
-    /** @var EventManager */
-    //private $eventManager;
-
-    public function __construct(EventManager $eventManager = null)
+    public function __construct()
     {
-        /*$this->eventManager = ($eventManager ?? ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID));*/
-        /*$this->eventManager = ServiceManager::getServiceManager()->get(
-            EventManager::SERVICE_ID
-        );*/
-
         $this->setInjectionRules([]);
     }
 
     public function addInjectionRule(array $path, $propertyUri, $value = null, $ontologyValue = null)
     {
         if (count($path) === 0) {
-            throw new InvalidArgumentException(
-                'The path argument must be a non-empty array.'
-            );
+            $msg = "The path argument must be a non-empty array.";
+            throw new InvalidArgumentException($msg);
         }
 
         $injectionRules = $this->getInjectionRules();
