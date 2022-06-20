@@ -58,7 +58,7 @@ class GenericLomOntologyClassificationInjector implements MetadataInjector
                 $property = $this->getProperty($valuePath);
                 foreach ($values as $value) {
                     // Determine if we need to append (set) or replace (edit)
-                    // values  for this property
+                    // values for this property
                     //
                     $previousValues = $target->getPropertyValuesByLg(
                         $property,
