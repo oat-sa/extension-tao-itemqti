@@ -26,13 +26,15 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\event\MetadataModified;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjectionException;
 use oat\taoQtiItem\model\qti\metadata\ontology\OntologyMetadataInjector;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
+//use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;
+use oat\generis\test\TestCase;
 
 class OntologyMetadataInjectorTest extends TestCase
 {
@@ -55,6 +57,13 @@ class OntologyMetadataInjectorTest extends TestCase
         $this->resourceMock = $this->createMock(
             core_kernel_classes_Resource::class
         );
+
+        $sl = $this->getServiceLocatorMock([
+            EventManager::SERVICE_ID => $this->eventManager
+        ]);
+
+        ServiceManager::setServiceManager($sl);
+
 
         $this->sut = new OntologyMetadataInjector($this->eventManager);
     }

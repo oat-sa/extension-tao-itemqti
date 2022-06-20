@@ -25,9 +25,9 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\event\MetadataModified;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjector;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjectionException;
-use core_kernel_classes_Property;
-use core_kernel_classes_Resource;
-use InvalidArgumentException;
+use \core_kernel_classes_Resource;
+use \core_kernel_classes_Property;
+use \InvalidArgumentException;
 
 class OntologyMetadataInjector implements MetadataInjector
 {
@@ -35,11 +35,14 @@ class OntologyMetadataInjector implements MetadataInjector
     private $injectionRules = [];
 
     /** @var EventManager */
-    private $eventManager;
+    //private $eventManager;
 
     public function __construct(EventManager $eventManager = null)
     {
-        $this->eventManager = ($eventManager ?? ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID));
+        /*$this->eventManager = ($eventManager ?? ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID));*/
+        /*$this->eventManager = ServiceManager::getServiceManager()->get(
+            EventManager::SERVICE_ID
+        );*/
 
         $this->setInjectionRules([]);
     }
@@ -55,7 +58,7 @@ class OntologyMetadataInjector implements MetadataInjector
         $injectionRules = $this->getInjectionRules();
 
         $pathKey = implode('->', $path);
-        if (!isset($injectionRules[$pathKey])) {
+        if (isset($injectionRules[$pathKey]) === false) {
             $injectionRules[$pathKey] = [];
         }
 
@@ -121,17 +124,13 @@ class OntologyMetadataInjector implements MetadataInjector
         foreach ($data as $propertyUri => $perLangData) {
             foreach ($perLangData as $lang => $d) {
                 foreach ($d as $actualData) {
-                    $target->setPropertyValueByLg(
-                        new core_kernel_classes_Property($propertyUri),
-                        $actualData[0],
-                        $lang
-                    );
+                    $target->setPropertyValueByLg(new core_kernel_classes_Property($propertyUri), $actualData[0], $lang);
 
+                    // Send events.
+                    $eventManager = ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID);
                     $metadata = $actualData[1]->getPath();
                     $metadataUri = array_pop($metadata);
-                    $this->eventManager->trigger(
-                        new MetadataModified($target, $metadataUri, $actualData[1]->getValue())
-                    );
+                    $eventManager->trigger(new MetadataModified($target, $metadataUri, $actualData[1]->getValue()));
                 }
             }
         }
