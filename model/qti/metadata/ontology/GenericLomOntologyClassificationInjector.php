@@ -53,21 +53,22 @@ class GenericLomOntologyClassificationInjector implements MetadataInjector
 
         $newValues = $this->groupValuesByLgAndProperty($properties, $values);
 
-        foreach ($newValues as $langCode => $curLangProperties) {
-            foreach ($curLangProperties as $valuePath => $values) {
-                $propertyInstance = $this->getProperty($valuePath);
+        foreach ($newValues as $langCode => $perLangProperties) {
+            foreach ($perLangProperties as $valuePath => $values) {
+                $property = $this->getProperty($valuePath);
                 foreach ($values as $value) {
-                    // Prevent duplicating values when we should not
+                    // Determine if we need to append (set) or replace (edit)
+                    // values  for this property
                     //
                     $previousValues = $target->getPropertyValuesByLg(
-                        $propertyInstance,
+                        $property,
                         $langCode
                     );
 
-                    if (($previousValues->count() > 0) && $propertyInstance->isMultiple()) {
-                        $target->setPropertyValueByLg($propertyInstance, $value, $langCode); // append
+                    if (($previousValues->count() > 0) && $property->isMultiple()) {
+                        $target->setPropertyValueByLg($property, $value, $langCode);
                     } else {
-                        $target->editPropertyValueByLg($propertyInstance, $value, $langCode);
+                        $target->editPropertyValueByLg($property, $value, $langCode);
                     }
                 }
             }
