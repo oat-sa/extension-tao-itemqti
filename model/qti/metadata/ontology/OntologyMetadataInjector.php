@@ -46,8 +46,9 @@ class OntologyMetadataInjector implements MetadataInjector
         LoggerInterface $logger = null,
         EventManager $eventManager = null
     ) {
-        $this->eventManager = $eventManager;
         $this->logger = ($logger ?? common_Logger::singleton()->getLogger());
+        $this->eventManager = ($eventManager ??
+            ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID));
 
         $this->setInjectionRules([]);
     }
@@ -144,7 +145,6 @@ class OntologyMetadataInjector implements MetadataInjector
 
         // Inject new data in Ontology for target.
         //
-        $eventManager = $this->getEventManager();
         foreach ($data as $propertyUri => $perLangData) {
             foreach ($perLangData as $lang => $d) {
                 foreach ($d as $actualData) {
@@ -163,7 +163,7 @@ class OntologyMetadataInjector implements MetadataInjector
 
                     $metadata = $actualData[1]->getPath();
                     $metadataUri = array_pop($metadata);
-                    $eventManager->trigger(
+                    $this->eventManager->trigger(
                         new MetadataModified($target, $metadataUri, $actualData[1]->getValue())
                     );
                 }
@@ -201,17 +201,6 @@ class OntologyMetadataInjector implements MetadataInjector
     private function debug(string $message, ...$replacements): void
     {
         $this->logger->info(__CLASS__ . ': ' . vsprintf($message, $replacements));
-    }
-
-    private function getEventManager(): EventManager
-    {
-        if (null === $this->eventManager) {
-            $this->eventManager = ServiceManager::getServiceManager()->get(
-                EventManager::SERVICE_ID
-            );
-        }
-
-        return $this->eventManager;
     }
 
     /**
