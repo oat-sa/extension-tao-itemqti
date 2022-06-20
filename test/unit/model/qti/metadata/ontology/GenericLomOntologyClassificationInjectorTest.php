@@ -33,7 +33,6 @@ use oat\taoQtiItem\model\qti\metadata\MetadataInjectionException;
 use oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationInjector;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 
 class GenericLomOntologyClassificationInjectorTest extends TestCase
 {
@@ -102,9 +101,7 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
             core_kernel_classes_ContainerCollection::class
         );
 
-        $this->sut = new GenericLomOntologyClassificationInjector(
-            $this->createMock(LoggerInterface::class)
-        );
+        $this->sut = new GenericLomOntologyClassificationInjector();
 
         $this->sut->setModel($this->ontologyMock);
     }
