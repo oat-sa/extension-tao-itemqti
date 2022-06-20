@@ -16,6 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *
  */
 
 namespace oat\taoQtiItem\model\qti\metadata\ontology;
@@ -37,38 +38,41 @@ class OntologyMetadataInjector implements MetadataInjector
     {
         $this->setInjectionRules([]);
     }
-
+    
     public function addInjectionRule(array $path, $propertyUri, $value = null, $ontologyValue = null)
     {
         if (count($path) === 0) {
             $msg = "The path argument must be a non-empty array.";
             throw new InvalidArgumentException($msg);
         }
-
+        
         $injectionRules = $this->getInjectionRules();
-
+        
         $pathKey = implode('->', $path);
         if (isset($injectionRules[$pathKey]) === false) {
             $injectionRules[$pathKey] = [];
         }
-
+        
         $injectionRules[$pathKey][] = [$propertyUri, $value, $ontologyValue];
         $this->setInjectionRules($injectionRules);
     }
-
+    
     protected function setInjectionRules(array $injectionRules)
     {
         $this->injectionRules = $injectionRules;
     }
-
+    
     protected function getInjectionRules()
     {
         return $this->injectionRules;
     }
-
+    
     public function inject($target, array $values)
     {
-        $this->assertIsResource($target);
+        if (!$target instanceof core_kernel_classes_Resource) {
+            $msg = "The given target is not an instance of core_kernel_classes_Resource.";
+            throw new MetadataInjectionException($msg);
+        }
 
         $data = [];
 
@@ -110,7 +114,6 @@ class OntologyMetadataInjector implements MetadataInjector
         }
 
         // Inject new data in Ontology for target.
-        //
         foreach ($data as $propertyUri => $perLangData) {
             foreach ($perLangData as $lang => $d) {
                 foreach ($d as $actualData) {
@@ -125,12 +128,12 @@ class OntologyMetadataInjector implements MetadataInjector
             }
         }
     }
-
+    
     protected function getRuleByValue($path, $value)
     {
         $pathKey = implode('->', $path);
         $rules = $this->getInjectionRules();
-
+        
         if (isset($rules[$pathKey]) === true) {
             foreach ($rules[$pathKey] as $rule) {
                 if ($rule[1] === $value) {
@@ -138,7 +141,7 @@ class OntologyMetadataInjector implements MetadataInjector
                 }
             }
         }
-
+        
         return false;
     }
 
