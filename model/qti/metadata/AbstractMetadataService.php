@@ -15,15 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017-2022 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
  */
 
 namespace oat\taoQtiItem\model\qti\metadata;
 
-use common_Logger;
 use oat\oatbox\service\ConfigurableService;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class AbstractMetadataService
@@ -55,20 +53,6 @@ abstract class AbstractMetadataService extends ConfigurableService
     protected $instances;
 
     /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    public function __construct($options = [], LoggerInterface $logger = null)
-    {
-        parent::__construct($options);
-
-        $this->logger = ($logger === null
-            ? common_Logger::singleton()->getLogger()
-            : $logger);
-    }
-
-    /**
      * Allow to register into config a metadataService
      */
     abstract protected function registerMetadataService();
@@ -88,10 +72,7 @@ abstract class AbstractMetadataService extends ConfigurableService
             $metadata[] = $extractor->extract($source);
         }
         $metadata = array_merge_recursive(...$metadata);
-
-        $this->logger->debug(
-            __('%s metadata values found in source by extractor(s).', count($metadata))
-        );
+        \common_Logger::d(__('%s metadata values found in source by extractor(s).', count($metadata)));
 
         return $metadata;
     }
@@ -101,26 +82,18 @@ abstract class AbstractMetadataService extends ConfigurableService
      *
      * Inject metadata value for an identifier by calling each injectors
      * Injectors need $target for injection
+     *
+     * @param $identifier
+     * @param $target
      */
     public function inject($identifier, $target)
     {
         if ($this->hasMetadataValue($identifier)) {
-            $this->logger->info(
-                __('Preparing Metadata Values for target "%s"...', $identifier)
-            );
-
+            \common_Logger::i(__('Preparing Metadata Values for target "%s"...', $identifier));
             $values = $this->getMetadataValue($identifier);
 
             foreach ($this->getInjectors() as $injector) {
-                $this->logger->info(
-                    __(
-                        'Attempting to inject "%s" metadata values for target "%s" with metadata Injector "%s".',
-                        count($values),
-                        $identifier,
-                        get_class($injector)
-                    )
-                );
-
+                \common_Logger::i(__('Attempting to inject "%s" metadata values for target "%s" with metadata Injector "%s".', count($values), $identifier, get_class($injector)));
                 $injector->inject($target, [$identifier => $values]);
             }
         }
@@ -190,6 +163,7 @@ abstract class AbstractMetadataService extends ConfigurableService
                 $this->unregisterInstance(self::INJECTOR_KEY, $name);
                 break;
         }
+        return;
     }
 
     /**
