@@ -28,6 +28,7 @@ use \Exception;
  * during a metadata injection process.
  *
  * @author Jérôme Bogaerts <jerome@taotesting.com>
+ *
  */
 class MetadataInjectionException extends Exception
 {
