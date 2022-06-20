@@ -119,7 +119,7 @@ class OntologyMetadataInjectorTest extends TestCase
                 'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
             ],
             'property://1',
-            'value',
+            'SMV value',
             'ontologyValue'
         );
 
@@ -130,7 +130,7 @@ class OntologyMetadataInjectorTest extends TestCase
                 'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
                 'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
             ],
-            'value',
+            'SMV value',
             'en-US'
         );
 
@@ -155,12 +155,62 @@ class OntologyMetadataInjectorTest extends TestCase
                 new MetadataModified(
                     $this->resourceMock,
                     'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
-                    'value'
+                    'SMV value'
                 )
             );
 
         $this->sut->inject($this->resourceMock, ['choice' => [$metadataValue]]);
     }
 
-    // @todo Test getRuleByPath
+    public function testInjectByPath(): void
+    {
+        $this->sut->addInjectionRule(
+            [
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
+            ],
+            'property://1',
+            'value',
+            'ontologyValue'
+        );
+
+        $metadataValue = new SimpleMetadataValue(
+            'property://1',
+            [
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
+            ],
+            'SMV value', // Value different from the one in the injectionRule
+            'en-US'
+        );
+
+         $this->resourceMock
+            ->expects($this->once())
+            ->method('removePropertyValueByLg')
+            ->with(new core_kernel_classes_Property('property://1'), 'en-US');
+
+        $this->resourceMock
+            ->expects($this->once())
+            ->method('setPropertyValueByLg')
+            ->with(
+                new core_kernel_classes_Property('property://1'),
+                'SMV value',
+                'en-US'
+            );
+
+        $this->eventManager
+            ->expects($this->once())
+            ->method('trigger')
+            ->with(
+                new MetadataModified(
+                    $this->resourceMock,
+                    'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier',
+                    'SMV value'
+                )
+            );
+
+        $this->sut->inject($this->resourceMock, ['choice' => [$metadataValue]]);
+    }
 }
