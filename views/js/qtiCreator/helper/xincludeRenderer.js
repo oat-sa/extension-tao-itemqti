@@ -21,8 +21,9 @@ define([
     'lodash',
     'taoQtiItem/qtiCreator/helper/commonRenderer',
     'taoQtiItem/qtiItem/helper/xincludeLoader',
-    'core/moduleLoader'
-], function (module, context, _, commonRenderer, xincludeLoader, moduleLoader) {
+    'core/moduleLoader',
+    'taoMediaManager/qtiCreator/editor/styleEditor/styleEditor',
+], function (module, context, _, commonRenderer, xincludeLoader, moduleLoader, styleEditor) {
     'use strict';
 
     const moduleConfig = module.config();
@@ -61,7 +62,6 @@ define([
                         className = hasClass.groups.className;
                     } else {
                         className = styleEditor.generateHashClass();
-                        asset.addClass(className);
                     }
 
                     //loading success :
@@ -74,7 +74,6 @@ define([
                         //reload the wiget to rfresh the rendering with the new href
                         xincludeWidget.refresh();
                     }, loadedClasses);
-
                     _.each(xincludeHandlers, handler => handler(xinclude.attr('href'), className));
                 } else {
                     //loading failure :
