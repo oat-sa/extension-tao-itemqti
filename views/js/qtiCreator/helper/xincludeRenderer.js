@@ -59,6 +59,9 @@ define([
                     let className = '';
                     if (hasClass && hasClass.groups && hasClass.groups.className) {
                         className = hasClass.groups.className;
+                    } else {
+                        className = styleEditor.generateHashClass();
+                        asset.addClass(className);
                     }
 
                     //loading success :
