@@ -74,7 +74,7 @@ define([
                         //reload the wiget to rfresh the rendering with the new href
                         xincludeWidget.refresh();
                     }, loadedClasses);
-                    _.each(xincludeHandlers, handler => handler(xinclude.attr('href'), className));
+                    _.each(xincludeHandlers, handler => handler(xinclude.attr('href'), className, xi.serial));
                 } else {
                     //loading failure :
                     xinclude.removeAttr('href');
