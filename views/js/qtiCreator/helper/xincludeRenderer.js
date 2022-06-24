@@ -21,9 +21,8 @@ define([
     'lodash',
     'taoQtiItem/qtiCreator/helper/commonRenderer',
     'taoQtiItem/qtiItem/helper/xincludeLoader',
-    'core/moduleLoader',
-    'taoMediaManager/qtiCreator/editor/styleEditor/styleEditor',
-], function (module, context, _, commonRenderer, xincludeLoader, moduleLoader, styleEditor) {
+    'core/moduleLoader'
+], function (module, context, _, commonRenderer, xincludeLoader, moduleLoader) {
     'use strict';
 
     const moduleConfig = module.config();
@@ -60,8 +59,6 @@ define([
                     let className = '';
                     if (hasClass && hasClass.groups && hasClass.groups.className) {
                         className = hasClass.groups.className;
-                    } else {
-                        className = styleEditor.generateHashClass();
                     }
 
                     //loading success :
