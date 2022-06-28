@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015-2021 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA ;
  *
  */
 
@@ -30,6 +30,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/styleEditor/styleEdito
     const fontSizeChanger = function () {
         const $fontSizeChanger = $('#item-editor-font-size-changer'),
             itemSelector = $fontSizeChanger.data('target'),
+            figcaptionSelector = `${itemSelector} figure figcaption`,
             $item = $(itemSelector),
             $resetBtn = $fontSizeChanger.parents('.reset-group').find('[data-role="font-size-reset"]'),
             $input = $('#item-editor-font-size-text');
@@ -40,6 +41,8 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/styleEditor/styleEdito
          */
         const resizeFont = function () {
             styleEditor.apply(itemSelector, 'font-size', `${itemFontSize.toString()}px`);
+            const figcaptionSize = itemFontSize > 14 ? (itemFontSize -2).toString() : Math.min(itemFontSize, 12).toString()
+            styleEditor.apply(figcaptionSelector, 'font-size', `${figcaptionSize}px`);
         };
 
         /**
@@ -72,8 +75,13 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/styleEditor/styleEdito
          * Apply font size on blur
          */
         $input.on('blur', function () {
-            itemFontSize = parseInt(this.value, 10);
-            resizeFont();
+            if (this.value) {
+                itemFontSize = parseInt(this.value, 10);
+                resizeFont();
+            } else {
+                styleEditor.apply(itemSelector, 'font-size');
+                styleEditor.apply(figcaptionSelector, 'font-size');
+            }
         });
 
         /**
@@ -92,6 +100,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/styleEditor/styleEdito
         $resetBtn.on('click', function () {
             $input.val('');
             styleEditor.apply(itemSelector, 'font-size');
+            styleEditor.apply(figcaptionSelector, 'font-size');
             itemFontSize = parseInt($item.css('font-size'), 10);
         });
 

@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2015 (original work) Open Assessment Technlogies SA;
+ * Copyright (c) 2014-2022 (original work) Open Assessment Technlogies SA;
  *
  */
 
@@ -29,7 +29,7 @@ define([
     'use strict';
 
     //all assets are normalized (relative)
-    var assetManager = assetManagerFactory([{
+    const assetManager = assetManagerFactory([{
         name : 'nomalize',
         handle: function normalizeStrategy(url){
             if(url){
@@ -53,7 +53,9 @@ define([
             '_simpleFeedbackRule' : 'taoQtiItem/qtiXmlRenderer/renderers/responses/SimpleFeedbackRule',
             '_tooltip' : 'taoQtiItem/qtiXmlRenderer/renderers/Tooltip',
             'math' : 'taoQtiItem/qtiXmlRenderer/renderers/Math',
+            'figure' : 'taoQtiItem/qtiXmlRenderer/renderers/Figure',
             'img' : 'taoQtiItem/qtiXmlRenderer/renderers/Img',
+            'figcaption' : 'taoQtiItem/qtiXmlRenderer/renderers/Figcaption',
             'object' : 'taoQtiItem/qtiXmlRenderer/renderers/Object',
             'table' : 'taoQtiItem/qtiXmlRenderer/renderers/Table',
             'modalFeedback' : 'taoQtiItem/qtiXmlRenderer/renderers/feedbacks/ModalFeedback',

@@ -44,6 +44,7 @@ class XInclude extends Element implements FlowContainer
      * @var string
      */
     protected static $qtiTagName = 'include';
+    protected static $qtiNamespaceAlias = 'xi';
     protected $body = null;
 
     public function __construct($attributes = [], Item $relatedItem = null, $serial = '')

@@ -15,12 +15,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
+ * Copyright (c) 2017-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 namespace oat\taoQtiItem\model\qti\container;
+
+use oat\taoQtiItem\model\qti\feedback\Feedback;
+use oat\taoQtiItem\model\qti\Figure;
+use oat\taoQtiItem\model\qti\Img;
+use oat\taoQtiItem\model\qti\InfoControl;
+use oat\taoQtiItem\model\qti\interaction\Interaction;
+use oat\taoQtiItem\model\qti\Math;
+use oat\taoQtiItem\model\qti\QtiObject;
+use oat\taoQtiItem\model\qti\RubricBlock;
+use oat\taoQtiItem\model\qti\Table;
+use oat\taoQtiItem\model\qti\Tooltip;
+use oat\taoQtiItem\model\qti\XInclude;
 
 /**
  * The ContainerTable represents a QTI table content
@@ -31,26 +41,23 @@ namespace oat\taoQtiItem\model\qti\container;
  */
 class ContainerTable extends ContainerInteractive
 {
-
     /**
-     * return the list of available element classes
-     *
-     * @access public
-     * @return array
+     * @inheritDoc
      */
-    public function getValidElementTypes()
+    public function getValidElementTypes(): array
     {
         return [
-            'oat\\taoQtiItem\\model\\qti\\Img',
-            'oat\\taoQtiItem\\model\\qti\\Math',
-            'oat\\taoQtiItem\\model\\qti\\feedback\\Feedback',
-            \oat\taoQtiItem\model\qti\QtiObject::class,
-            'oat\\taoQtiItem\\model\\qti\\Tooltip',
-            'oat\\taoQtiItem\\model\\qti\\interaction\\Interaction',
-            'oat\\taoQtiItem\\model\\qti\\RubricBlock',
-            'oat\\taoQtiItem\\model\\qti\\InfoControl',
-            'oat\\taoQtiItem\\model\\qti\\XInclude',
-            \oat\taoQtiItem\model\qti\Table::class,
+            Feedback::class,
+            Figure::class,
+            Img::class,
+            InfoControl::class,
+            Interaction::class,
+            Math::class,
+            QtiObject::class,
+            RubricBlock::class,
+            Table::class,
+            Tooltip::class,
+            XInclude::class,
         ];
     }
 }

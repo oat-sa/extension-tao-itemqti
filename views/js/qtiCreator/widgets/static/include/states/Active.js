@@ -142,6 +142,22 @@ define([
                         iframe.contents().find('body > div').wrap('<div class="qti-item"></div>');
                         // table should have qti-table class as in item preview
                         iframe.contents().find('table').addClass('qti-table');
+                        // for figure and figcaption should be removed namespace
+                        iframe.contents().find('qh5\\:figcaption').each(function () {
+                            const $figcaption = $(this);
+                            $figcaption.replaceWith(`<figcaption>${$figcaption.html()}</figcaption>`);
+                        });
+                        iframe.contents().find('qh5\\:figure').each(function () {
+                            const $figure = $(this);
+                            const $img = $figure.find('img');
+                            if ($img.length) {
+                                const width = $img.attr('width');
+                                $img.attr('width', '100%');
+                                $figure.replaceWith(`<figure style="width:${width}" class="${$figure.attr("class")}">${$figure.html()}</figure>`);
+                            } else {
+                                $figure.replaceWith(`<figure>${$figure.html()}</figure>`);
+                            }
+                        });
                         // default styles for test runner as in item preview
                         const $head = iframe.contents().find('head');
                         const styleTao = $('<link>', {
