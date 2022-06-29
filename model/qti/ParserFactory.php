@@ -1554,7 +1554,7 @@ class ParserFactory
             }
         }
 
-        $math = new Math($this->extractAttributes($data));
+        $math = new Math(array_merge($this->extractAttributes($data), ['dir' => 'ltr']));
         $body = $this->getBodyData($data, true);
         $math->setMathML($body);
         $math->setAnnotations($annotations);
