@@ -35,12 +35,12 @@ use oat\taoQtiItem\model\qti\datatype\Datatype;
  */
 class Length extends Datatype
 {
-    
+
     public static function validate($value)
     {
-        return (abs($value) === is_int($value) || preg_match('/[0-9]+%/', $value));
+        return (abs(floatval($value)) === is_int($value) || preg_match('/[0-9]+%/', $value));
     }
-    
+
     public static function fix($value)
     {
         return abs(intval($value));
