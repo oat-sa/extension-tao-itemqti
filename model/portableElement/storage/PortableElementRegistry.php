@@ -310,7 +310,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         $this->krsortByVersion($registered);
 
         foreach ($registered as $registeredVersion=>$model) {
-            if (intval($targetVersion) <= intval($registeredVersion)) {
+            if (intval($targetVersion) === intval($registeredVersion)) {
                 return $this->getModel()->createDataObject($model);
             }
         }
