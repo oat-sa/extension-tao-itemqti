@@ -122,6 +122,15 @@ $mainContainer : '.qti-item';
         &.highlighter-cursor {
             cursor: url("../img/qtiIconsPng/marker.png") 0 32, auto;
         }
+
+        hr {
+            border: none;
+            margin: 12px 0;
+            padding: 0;
+            height: 1px;
+            max-height: 1px;
+            background-color: #8c8c8c;
+        }
     }
 
     .interaction-cover{
