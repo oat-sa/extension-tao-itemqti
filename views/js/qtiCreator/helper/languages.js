@@ -30,10 +30,6 @@
 
     const languagesUrl = urlUtil.route('index', 'Languages', 'tao');
     const headers = {'Accept-version': 'v2'};
-    const orientationMap = {
-        'http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft': 'rtl',
-        'http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight': 'ltr'
-    };
 
     let languagesRequest = null;
     let legacyLanguagesData = null;
@@ -70,7 +66,7 @@
      const useCKEFormatting = (languages) => {
         if(!CKELanguagesData) {
             CKELanguagesData = languages.map((lang) => {
-                return `${lang.code}:${lang.label}:${orientationMap[lang.orientation]}`
+                return `${lang.code}:${lang.label}:${lang.orientation}`
             });
         }
 
