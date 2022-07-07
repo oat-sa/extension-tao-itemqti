@@ -26,7 +26,8 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState',
-    'taoQtiItem/qtiCreator/editor/ckEditor/featureFlag'
+    'taoQtiItem/qtiCreator/editor/ckEditor/featureFlag',
+    'taoQtiItem/qtiCreator/helper/languages'
 ], function (
     _,
     __,
@@ -38,7 +39,8 @@ define([
     Element,
     contentHelper,
     deletingHelper,
-    featureFlag
+    featureFlag,
+    languages
 ) {
     'use strict';
 
@@ -50,6 +52,8 @@ define([
     };
 
     const placeholderClass = 'cke-placeholder';
+    // TODO: adjust according to BE implementation
+    const languagePluginEnabled = !features.isVisible('taoQtiItem/creator/editor/ckEditor/disableLanguagePlugin');
 
     let editorFactory;
 
@@ -90,6 +94,10 @@ define([
             });
         }
 
+        if(languagePluginEnabled) {
+            removePlugins.push('language');
+        }
+
         if (!($editable instanceof $) || !$editable.length) {
             throw new Error('invalid jquery element for $editable');
         }
@@ -111,6 +119,7 @@ define([
             removePlugins: removePlugins.join(','),
             enterMode: options.enterMode || CKEditor.ENTER_P,
             floatSpaceDockedOffsetY: 10,
+            language_list: options.language_list,
             sharedSpaces: {
                 top: ($toolbarArea && $toolbarArea.attr('id')) || 'toolbar-top'
             },
@@ -570,23 +579,31 @@ define([
          */
         buildEditor: function ($container, editorOptions) {
             const buildTasks = [];
-            _find($container, 'html-editable-container').each(function () {
-                const $editableContainer = $(this),
-                    $editable = $editableContainer.find('[data-html-editable]');
 
-                buildTasks.push(
-                    new Promise(function (resolve) {
-                        //need to make the element html editable to enable ck inline editing:
-                        $editable.attr('contenteditable', true);
+            languages.getList()
+                .then(languages.useCKEFormatting)
+                .then((languagesData) => {
+                    editorOptions.language_list = languagesData;
 
-                        //build it
-                        _buildEditor($editable, $editableContainer, editorOptions);
+                    _find($container, 'html-editable-container').each(function () {
+                        const $editableContainer = $(this),
+                            $editable = $editableContainer.find('[data-html-editable]');
 
-                        $editable.on('editorready', resolve);
-                    })
-                );
-            });
-            return Promise.all(buildTasks);
+                        buildTasks.push(
+                            new Promise(function (resolve) {
+                                //need to make the element html editable to enable ck inline editing:
+                                $editable.attr('contenteditable', true);
+
+                                //build it
+                                _buildEditor($editable, $editableContainer, editorOptions);
+
+                                $editable.on('editorready', resolve);
+                            })
+                        );
+                    });
+
+                    return Promise.all(buildTasks)
+                });
         },
         /**
          * Destroy the editor
