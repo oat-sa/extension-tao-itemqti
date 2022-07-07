@@ -325,7 +325,7 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
 
         if (is_null($compatibleRegisteredObject) && !is_null($latestVersionRegisteredObject)) {
             //@todo return a user exception to inform user of incompatible pci version found and that an item update is required
-            throw new \common_Exception('Unable to import pci asset because compatible version is not registered. '
+            throw new \common_Exception('Unable to import pci asset because compatible version is not found. '
                 . 'Current version is ' . $latestVersionRegisteredObject->getVersion() . ' and imported is ' . $portableObject->getVersion());
         }
 
