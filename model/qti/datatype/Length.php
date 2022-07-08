@@ -22,9 +22,6 @@
 
 namespace oat\taoQtiItem\model\qti\datatype;
 
-use oat\taoQtiItem\model\qti\datatype\Length;
-use oat\taoQtiItem\model\qti\datatype\Datatype;
-
 /**
  * The basic Length data type
  *
