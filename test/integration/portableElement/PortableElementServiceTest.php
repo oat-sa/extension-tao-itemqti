@@ -131,6 +131,31 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $this->assertNotFalse(strpos($registry->getFileStream($pciLast, 'pciCreator.js')->getContents(), '[version=0.4.1]'));
     }
 
+    public function testGetLatestCompatibleVersionElementById(): void
+    {
+        //register only version v0.4.0;
+        $this->service->registerFromDirectorySource(__DIR__ . '/samples/pciDir040');
+
+        $lower = $this->service->getLatestCompatibleVersionElementById('PCI', 'pciSampleA', '0.4.*');
+        $this->assertNotEmpty($lower);
+
+        $upper = $this->service->getLatestCompatibleVersionElementById('PCI', 'pciSampleA', '1.0.*');
+        $this->assertEmpty($upper);
+
+        //then register v1.0.1
+        $this->service->registerFromDirectorySource(dirname(__FILE__) . '/samples/pciDir101');
+
+        $upper = $this->service->getLatestCompatibleVersionElementById('PCI', 'pciSampleA', '1.0.*');
+        $this->assertNotEmpty($upper);
+        $this->assertEquals('1.0.1', $upper->getVersion());
+
+        $upper = $this->service->getLatestCompatibleVersionElementById('PCI', 'pciSampleA', '3.0.0');
+        $this->assertEmpty($upper);
+
+        $lower = $this->service->getLatestCompatibleVersionElementById('PCI', 'pciSampleA', '0.2.1');
+        $this->assertEquals('0.4.0', $lower->getVersion());
+    }
+
     public function testGetPortableElementByClass()
     {
 
