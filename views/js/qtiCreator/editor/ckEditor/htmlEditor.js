@@ -52,9 +52,7 @@ define([
     };
 
     const placeholderClass = 'cke-placeholder';
-    // TODO: adjust according to BE implementation
-    const languagePluginEnabled = !features.isVisible('taoQtiItem/creator/editor/ckEditor/disableLanguagePlugin');
-
+    const languagePluginEnabled = features.isExistsAndShow('taoQtiItem/creator/editor/ckEditor/languagePlugin');
     let editorFactory;
 
     //prevent auto inline editor creation:
@@ -94,7 +92,7 @@ define([
             });
         }
 
-        if(languagePluginEnabled) {
+        if (languagePluginEnabled) {
             removePlugins.push('language');
         }
 
@@ -132,10 +130,12 @@ define([
                     const $newContent = $(tempWidget).clone(); // we keep the original content for later use
                     if (options.data && options.data.container && options.data.widget) {
                         const $newImgPlaceholder = $editable.find('[data-new="true"][data-qti-class="img"]');
-                        if ($newImgPlaceholder.length &&
-                            !$editable.closest('.qti-choice, .qti-flow-container').length) {
+                        if (
+                            $newImgPlaceholder.length &&
+                            !$editable.closest('.qti-choice, .qti-flow-container').length
+                        ) {
                             // instead img will add figure element
-                            $newImgPlaceholder.attr('data-qti-class','figure');
+                            $newImgPlaceholder.attr('data-qti-class', 'figure');
                             // span after for new line
                             $('<span>&nbsp;</span>').insertAfter($newImgPlaceholder);
                         }
@@ -210,6 +210,13 @@ define([
                     if ($toolbarArea) {
                         $toolbarArea.hide();
                     }
+                },
+                menuShow: function (e) {
+                    const $languages = $('.cke_panel_frame').contents().find("[class*='cke_menubutton__language']");
+                    const $languageMenu = $languages.parents('.cke_panel_block');
+                    const isLanguage = $languageMenu.css('display') === 'block' && $languages.length > 0;
+
+                    $('.cke_panel').toggleClass('cke_panel_visible', isLanguage);
                 },
                 focus: function () {
                     if ($toolbarArea) {
@@ -580,9 +587,10 @@ define([
         buildEditor: function ($container, editorOptions) {
             const buildTasks = [];
 
-            languages.getList()
+            languages
+                .getList()
                 .then(languages.useCKEFormatting)
-                .then((languagesData) => {
+                .then(languagesData => {
                     editorOptions.language_list = languagesData;
 
                     _find($container, 'html-editable-container').each(function () {
@@ -602,7 +610,7 @@ define([
                         );
                     });
 
-                    return Promise.all(buildTasks)
+                    return Promise.all(buildTasks);
                 });
         },
         /**

@@ -16,24 +16,18 @@
  * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA ;
  */
 
-
 /**
  * Languages utils to handle getting list of available language name, code and direction.
  * v1 example: {"ar-arb": "Arabic"}
  * v2(recent) example: {code: "ar-arb", label: "Arabic", orientation: "http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft", uri: "http://www.tao.lu/Ontologies/TAO.rdf#Langar-arb"}
  */
- define([
-    'util/url',
-    'core/dataProvider/request'
-], function (urlUtil, request) {
+define(['util/url', 'core/dataProvider/request'], function (urlUtil, request) {
     'use strict';
 
     const languagesUrl = urlUtil.route('index', 'Languages', 'tao');
-    const headers = {'Accept-version': 'v2'};
+    const headers = { 'Accept-version': 'v2' };
 
     let languagesRequest = null;
-    let legacyLanguagesData = null;
-    let CKELanguagesData = null;
 
     /**
      * Format languages to v1 format to avoid breaking changes in existing code,
@@ -43,17 +37,13 @@
      * @param {*} languages languages v2 format
      * @returns {Object} languages v1 data format
      */
-    const useLegacyFormatting = (languages) => {
-        if(!legacyLanguagesData) {
-            legacyLanguagesData = languages.reduce((memo ,lang) => {
-                memo[lang.code] = lang.label;
+    const useLegacyFormatting = languages => {
+        return languages.reduce((memo, lang) => {
+            memo[lang.code] = lang.label;
 
-                return memo;
-            }, {});
-        }
-
-        return legacyLanguagesData;
-    }
+            return memo;
+        }, {});
+    };
 
     /**
      * Format languages to CKE format
@@ -63,15 +53,11 @@
      * @param {*} languages languages v2 format
      * @returns {Object} languages v1 data format
      */
-     const useCKEFormatting = (languages) => {
-        if(!CKELanguagesData) {
-            CKELanguagesData = languages.map((lang) => {
-                return `${lang.code}:${lang.label}:${lang.orientation}`
-            });
-        }
-
-        return CKELanguagesData;
-    }
+    const useCKEFormatting = languages => {
+        return languages.map(lang => {
+            return `${lang.code}:${lang.label}:${lang.orientation}`;
+        });
+    };
 
     /**
      * Create a Promise request getting the list of available languages
@@ -80,8 +66,8 @@
      * @returns {Promise}
      */
     const getList = () => {
-        if(languagesRequest === null) {
-            return languagesRequest = request(languagesUrl, null, null, headers);
+        if (languagesRequest === null) {
+            return (languagesRequest = request(languagesUrl, null, null, headers));
         } else {
             return languagesRequest;
         }
