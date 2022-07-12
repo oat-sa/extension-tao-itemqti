@@ -30,6 +30,7 @@ use oat\taoQtiItem\model\portableElement\exception\PortableElementVersionIncompa
 use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 use oat\taoQtiItem\model\portableElement\parser\element\PortableElementDirectoryParser;
 use oat\taoQtiItem\model\portableElement\parser\element\PortableElementPackageParser;
+use oat\taoQtiItem\model\portableElement\storage\PortableElementRegistry;
 use oat\taoQtiItem\model\portableElement\validator\Validator;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
@@ -249,6 +250,15 @@ class PortableElementService implements ServiceLocatorAwareInterface
             return $registry->fetch($identifier, $version);
         }
         return null;
+    }
+
+    public function getLatestCompatibleVersionElementById(string $modeId, string $identifier, string $targetVersion): ?PortableElementObject
+    {
+        $model = $this->getPortableModelRegistry()->getModel($modeId);
+        /* @var $registry PortableElementRegistry */
+        $registry = $model->getRegistry();
+
+        return $registry->getLatestCompatibleVersion($identifier, $targetVersion);
     }
 
     /**
