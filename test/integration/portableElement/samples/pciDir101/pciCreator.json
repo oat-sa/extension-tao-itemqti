@@ -1,0 +1,28 @@
+{
+    "typeIdentifier": "pciSampleA",
+    "label": "Sample A label",
+    "short": "SampleA",
+    "description": "Sample A",
+    "version": "1.0.1",
+    "author": "sample",
+    "email": "anyone@taotesting.com",
+    "tags": [
+        "sample"
+    ],
+    "response": {
+        "baseType": "integer",
+        "cardinality": "single"
+    },
+    "runtime" : {
+        "hook" : "./runtime/pciSampleA.min.js",
+        "libraries" : [],
+        "stylesheets" : [],
+        "mediaFiles" : [],
+        "src" : []
+    },
+    "creator" : {
+        "icon": "./creator/img/icon.svg",
+        "hook": "./pciCreator.js",
+        "libraries" : []
+    }
+}
