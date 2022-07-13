@@ -204,6 +204,7 @@ define([
                         container.body(DOMPurify.sanitize(newBody));
                     }
                     $container.html(container.render(this));
+                    container.postRender();
                     resolve();
                 });
 
