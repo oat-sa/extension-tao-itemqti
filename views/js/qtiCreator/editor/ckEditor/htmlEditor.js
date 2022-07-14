@@ -52,7 +52,8 @@ define([
     };
 
     const placeholderClass = 'cke-placeholder';
-    const languagePluginEnabled = features.isExistsAndShow('taoQtiItem/creator/editor/ckEditor/languagePlugin');
+    const languagePluginEnabled = features.isShow('taoQtiItem/creator/editor/ckEditor/languagePlugin');
+
     let editorFactory;
 
     //prevent auto inline editor creation:
@@ -92,7 +93,7 @@ define([
             });
         }
 
-        if (languagePluginEnabled) {
+        if (!languagePluginEnabled) {
             removePlugins.push('language');
         }
 
@@ -206,17 +207,17 @@ define([
 
                     $('.qti-item').trigger('toolbarchange');
                 },
-                blur: function () {
-                    if ($toolbarArea) {
-                        $toolbarArea.hide();
-                    }
-                },
                 menuShow: function (e) {
                     const $languages = $('.cke_panel_frame').contents().find("[class*='cke_menubutton__language']");
                     const $languageMenu = $languages.parents('.cke_panel_block');
                     const isLanguage = $languageMenu.css('display') === 'block' && $languages.length > 0;
 
                     $('.cke_panel').toggleClass('cke_panel_visible', isLanguage);
+                },
+                blur: function () {
+                    if ($toolbarArea) {
+                        $toolbarArea.hide();
+                    }
                 },
                 focus: function () {
                     if ($toolbarArea) {
