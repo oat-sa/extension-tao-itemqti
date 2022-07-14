@@ -207,13 +207,6 @@ define([
 
                     $('.qti-item').trigger('toolbarchange');
                 },
-                menuShow: function (e) {
-                    const $languages = $('.cke_panel_frame').contents().find("[class*='cke_menubutton__language']");
-                    const $languageMenu = $languages.parents('.cke_panel_block');
-                    const isLanguage = $languageMenu.css('display') === 'block' && $languages.length > 0;
-
-                    $('.cke_panel').toggleClass('cke_panel_visible', isLanguage);
-                },
                 blur: function () {
                     if ($toolbarArea) {
                         $toolbarArea.hide();
@@ -586,12 +579,12 @@ define([
          * @returns {undefined}
          */
         buildEditor: function ($container, editorOptions) {
-            const buildTasks = [];
-
             languages
                 .getList()
                 .then(languages.useCKEFormatting)
                 .then(languagesData => {
+                    const buildTasks = [];
+
                     editorOptions.language_list = languagesData;
 
                     _find($container, 'html-editable-container').each(function () {
