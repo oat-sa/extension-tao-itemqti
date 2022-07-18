@@ -22,6 +22,8 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\test\unit\mode\qti;
 
 use oat\generis\test\TestCase;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\service\ApplicationService;
 use oat\taoQtiItem\model\qti\Item;
 
 class ItemTest extends TestCase
@@ -44,6 +46,11 @@ class ItemTest extends TestCase
         if (!defined('EXTENSION_PATH')) {
             define('EXTENSION_PATH', ROOT_URL);
         }
+
+        ServiceManager::getServiceManager()->overload(
+            ApplicationService::SERVICE_ID,
+            $this->createMock(ApplicationService::class)
+        );
     }
 
     public function testToQTI(): void
@@ -51,7 +58,7 @@ class ItemTest extends TestCase
         $expectedItemQti = <<<ITEM_QTI
 <?xml version="1.0" encoding="UTF-8"?><assessmentItem
         xsi:schemaLocation=""
-     identifier="Item_1" title="" label="" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="">
+     identifier="Item_1" title="" label="" adaptive="false" timeDependent="false" toolName="TAO">
 
     
     
@@ -77,7 +84,7 @@ ITEM_QTI;
         $expectedItemQti = <<<ITEM_QTI
 <?xml version="1.0" encoding="UTF-8"?><assessmentItem
         xsi:schemaLocation=""
-     identifier="Item_1" title="" label="" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="">
+     identifier="Item_1" title="" label="" adaptive="false" timeDependent="false" toolName="TAO">
 
     
     
