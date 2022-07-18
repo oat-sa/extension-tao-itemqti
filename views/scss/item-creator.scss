@@ -1352,6 +1352,7 @@ img.dragging.ui-draggable-dragging {
 .select2-chosen .rtl-lang {
     &:after {
         position: absolute;
+        top: 6px;
         right: 20px;
     }
 }
