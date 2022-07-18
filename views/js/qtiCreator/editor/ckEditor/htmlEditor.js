@@ -52,7 +52,7 @@ define([
     };
 
     const placeholderClass = 'cke-placeholder';
-    const languagePluginEnabled = features.isVisible('taoQtiItem/creator/editor/ckEditor/languagePlugin' , false);
+    const languagePluginEnabled = features.isVisible('taoQtiItem/creator/editor/ckEditor/languagePlugin', false);
 
     let editorFactory;
 
