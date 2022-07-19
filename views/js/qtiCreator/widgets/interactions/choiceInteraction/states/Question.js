@@ -108,6 +108,7 @@ define([
         const widget = this.widget;
         const $form = widget.$form;
         const interaction = widget.element;
+        const response = interaction.getResponseDeclaration();
         const currListStyle = getListStyle(interaction);
         const $choiceArea = widget.$container.find('.choice-area');
         let minMaxComponent = null;
@@ -279,6 +280,7 @@ define([
             $form.find('[name="constraints"][value="none"]').prop('checked', true);
             $form.find('[name="constraints"][value="other"]').prop('disabled', true);
             deleteMinMax();
+            response.attr('cardinality', 'single');
         };
 
         const setSelectedCase = () => {
@@ -294,7 +296,6 @@ define([
         callbacks.type = function (interactionParam, value) {
             type = value;
             setSelectedCase();
-            const response = interaction.getResponseDeclaration();
             if (type === 'single') {
                 $form.find('[name="constraints"][value="other"]').prop('disabled', true);
                 deleteMinMax();
