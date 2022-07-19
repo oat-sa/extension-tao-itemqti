@@ -94,7 +94,7 @@ define([
         }
 
         if (!languagePluginEnabled) {
-            removePlugins.push('language');
+            removePlugins.push('taolanguage');
         }
 
         if (!($editable instanceof $) || !$editable.length) {

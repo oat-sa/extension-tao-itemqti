@@ -18,8 +18,9 @@
 
 /**
  * Languages utils to handle getting list of available language name, code and direction.
- * v1 example: {"ar-arb": "Arabic"}
- * v2(recent) example: {code: "ar-arb", label: "Arabic", orientation: "http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft", uri: "http://www.tao.lu/Ontologies/TAO.rdf#Langar-arb"}
+ * Note:
+ * v1 example: [{"ar-arb": "Arabic"}, ...]
+ * v2 example: [{code: "ar-arb", label: "Arabic", orientation: "rtl", uri: "http://www.tao.lu/Ontologies/TAO.rdf#Langar-arb"}, ...]
  */
 define(['util/url', 'core/dataProvider/request'], function (urlUtil, request) {
     'use strict';
@@ -34,8 +35,8 @@ define(['util/url', 'core/dataProvider/request'], function (urlUtil, request) {
      * Warning Please avoid usage of this method for new development.
      * uses legacyLanguagesData as a cache
      *
-     * @param {*} languages languages v2 format
-     * @returns {Object} languages v1 data format
+     * @param {Array} languages languages v2 format
+     * @returns {Array} languages v1 data format
      */
     const useLegacyFormatting = languages => {
         return languages.reduce((memo, lang) => {
@@ -50,8 +51,8 @@ define(['util/url', 'core/dataProvider/request'], function (urlUtil, request) {
      * example: lang
      * uses legacyLanguagesData as a cache
      *
-     * @param {*} languages languages v2 format
-     * @returns {Object} languages v1 data format
+     * @param {Array} languages languages v2 format
+     * @returns {Array} languages v1 data format
      */
     const useCKEFormatting = languages => {
         return languages.map(lang => {
@@ -63,7 +64,7 @@ define(['util/url', 'core/dataProvider/request'], function (urlUtil, request) {
      * Create a Promise request getting the list of available languages
      * or return the cached Promise if already requested
      *
-     * @returns {Promise}
+     * @returns {Promise<Array>} Promise with languages v2 format
      */
     const getList = () => {
         if (languagesRequest === null) {
@@ -73,9 +74,23 @@ define(['util/url', 'core/dataProvider/request'], function (urlUtil, request) {
         }
     };
 
+    /**
+     * Return promise with boolean if language by provided code is RTL
+     *
+     * @param {String} code language code ex: 'ar-arb'
+     * @returns {Promise<boolean>} Promise with resolved boolean is rtl
+     */
+    const isRTLbyLanguageCode = code => {
+        return getList().then(languages => {
+            const lang = languages.filter(lang => lang.code === code);
+            return lang[0] && lang[0].orientation === 'rtl' || false;
+        });
+    };
+
     return {
-        getList,
         useLegacyFormatting,
-        useCKEFormatting
+        useCKEFormatting,
+        getList,
+        isRTLbyLanguageCode
     };
 });

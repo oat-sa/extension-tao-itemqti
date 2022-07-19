@@ -55,7 +55,7 @@ define([
     const creatorLoader = {
         loadItem: function loadItem(config, callback) {
             if (config.uri) {
-                const langList = languages.getList().then(languages.useLegacyFormatting);
+                const langList = languages.getList();
 
                 // request doesn't handle empty response with 200 code. See: core/request.js:240
                 const itemRdf = request(config.itemDataUrl, { uri: config.uri }).catch(d => d);

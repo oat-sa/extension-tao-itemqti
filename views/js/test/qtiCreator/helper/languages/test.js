@@ -110,6 +110,27 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/languages', 'lib/jquery.mockjax/
             .finally(done);
     });
 
+    QUnit.cases
+        .init([
+            { code: 'ar-arb', expected: true },
+            { code: 'de-de', expected: false },
+            { code: 'en-gb', expected: false },
+            { code: 'unknown-code', expected: false },
+            { code: undefined, expected: false }
+        ])
+        .test('isRTLbyLanguageCode ', (data, assert) => {
+            assert.expect(1);
+
+            const done = assert.async();
+
+            languages
+                .isRTLbyLanguageCode(data.code)
+                .then(isRTL => {
+                    assert.equal(isRTL, data.expected, `${data.code} matches to ${data.expected}`);
+                })
+                .finally(done);
+        });
+
     QUnit.module('Transformations');
 
     QUnit.test('useLegacyFormatting formatting result according to legacy formatting', assert => {
