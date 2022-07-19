@@ -1,6 +1,7 @@
 extension-tao-itemqti
 =====================
 
+[![codecov](https://codecov.io/gh/oat-sa/extension-tao-itemqti/branch/master/graph/badge.svg?token=ZEPYrO5p7r)](https://codecov.io/gh/oat-sa/extension-tao-itemqti)
 
 extension to create QTI items for TAO
 
