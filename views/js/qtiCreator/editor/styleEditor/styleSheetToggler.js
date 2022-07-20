@@ -154,7 +154,7 @@ define([
                 const context = getContext(trigger);
 
                 // custom styles are handled in a style element, not in a link
-                if (context.isCustomCss || context.label === 'tao-user-styles.css') {
+                if (context.isCustomCss || !context.label) {
                     if (context.isDisabled) {
                         $('#item-editor-user-styles')[0].disabled = false;
                         customCssToggler.removeClass('not-available');
