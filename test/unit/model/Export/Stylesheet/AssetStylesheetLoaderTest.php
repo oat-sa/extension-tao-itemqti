@@ -193,3 +193,14 @@ class AssetStylesheetLoaderTest extends TestCase
         );
     }
 }
+
+namespace oat\taoMediaManager\model\fileManagement;
+
+use Psr\Http\Message\StreamInterface;
+
+interface FileManagement
+{
+    public const SERVICE_ID = 'taoMediaManager/fileManager';
+
+    public function getFileStream(string $link): StreamInterface;
+}
