@@ -514,11 +514,9 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     /**
      * Export a portable element to a zip package
      *
-     * @param PortableElementObject $object
-     * @return string
      * @throws \common_Exception
      */
-    public function export(PortableElementObject $object)
+    public function export(PortableElementObject $object): string
     {
         $zip = new \ZipArchive();
         $path = $this->getZipLocation($object);
