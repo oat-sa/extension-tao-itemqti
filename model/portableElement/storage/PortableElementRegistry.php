@@ -524,7 +524,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         $path = $this->getZipLocation($object);
 
         if ($zip->open($path, \ZipArchive::CREATE) !== true) {
-            throw new \common_Exception('Unable to create zipfile ' . $path);
+            throw new \common_Exception('Unable to create zip file ' . $path);
         }
 
         $manifest = $this->getManifest($object);
@@ -534,13 +534,11 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 
         $filesystem = $this->getFileSystem();
         foreach ($files as $file) {
-            if (strpos($file, './') === 0) {
-                //only export the files that are in the portable element package (exclude the shared libraries)
-                $zip->addFromString($file, $filesystem->getFileContentFromModelStorage($object, $file));
-            }
+            $zip->addFromString($file, $filesystem->getFileContentFromModelStorage($object, $file));
         }
 
         $zip->close();
+
         return $path;
     }
 
