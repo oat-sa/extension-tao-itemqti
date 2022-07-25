@@ -234,7 +234,8 @@ define([
                 minWidth: 460,
                 maxWidth: 960,
                 minHeight: 220,
-                maxHeight: 640
+                maxHeight: 640,
+                resizableEdges: { top: false, right: true, bottom: true, left: true }
             };
 
         return windowPopupFactory({}, popupOptions)
@@ -273,7 +274,8 @@ define([
                 minWidth: 240,
                 maxWidth: 960,
                 minHeight: 160,
-                maxHeight: 640
+                maxHeight: 640,
+                resizableEdges: { top: false, right: true, bottom: true, left: true }
             },
             smallField = self.fields['$' + popupMode]; // the corresponding "small" field in the widget form
 
