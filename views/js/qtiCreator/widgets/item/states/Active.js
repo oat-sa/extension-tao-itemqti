@@ -18,14 +18,14 @@
  */
 define([
     'lodash',
-    'util/locale',
     'services/features',
+    'taoQtiItem/qtiCreator/helper/languages',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Active',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/item',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'select2'
-], function (_, locale, features, stateFactory, Active, formTpl, formElement) {
+], function (_, features, languages, stateFactory, Active, formTpl, formElement) {
     'use strict';
 
     const ItemStateActive = stateFactory.create(
@@ -36,7 +36,6 @@ define([
             const $form = _widget.$form;
             const areaBroker = this.widget.getAreaBroker();
             const $itemBody = _widget.$container.find('.qti-itemBody');
-            const rtl = locale.getConfig().rtl || [];
 
             //build form:
             $form.html(
@@ -47,8 +46,7 @@ define([
                     timeDependent: !!item.attr('timeDependent'),
                     showTimeDependent: features.isVisible('taoQtiItem/creator/item/property/timeDependant'),
                     'xml:lang': item.attr('xml:lang'),
-                    languagesList: item.data('languagesList'),
-                    rtl
+                    languagesList: item.data('languagesList')
                 })
             );
 
@@ -65,14 +63,20 @@ define([
                 timeDependent: formElement.getAttributeChangeCallback(),
                 'xml:lang': function langChange(i, lang) {
                     item.attr('xml:lang', lang);
-                    if (rtl.includes(lang)) {
-                        item.bdy.attr('dir', 'rtl');
-                        $itemBody.attr('dir', 'rtl');
-                    } else {
-                        item.bdy.removeAttr('dir');
-                        $itemBody.removeAttr('dir');
-                    }
-                    $itemBody.trigger('item-dir-changed');
+                    languages
+                        .isRTLbyLanguageCode(lang)
+                        .then((isRTL) => {
+                            if (isRTL) {
+                                item.bdy.attr('dir', 'rtl');
+                                $itemBody.attr('dir', 'rtl');
+                            } else {
+                                item.bdy.removeAttr('dir');
+                                $itemBody.removeAttr('dir');
+                            }
+
+                            $itemBody.trigger('item-dir-changed');
+                        }
+                    );
                 }
             });
 
