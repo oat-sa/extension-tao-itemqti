@@ -532,7 +532,12 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 
         $filesystem = $this->getFileSystem();
         foreach ($files as $file) {
-            $zip->addFromString($file, $filesystem->getFileContentFromModelStorage($object, $file));
+            try {
+                $zip->addFromString($file, $filesystem->getFileContentFromModelStorage($object, $file));
+            } catch (PortableElementFileStorageException $e) {
+                // do not include missing/sharedClientLib files
+                continue;
+            }
         }
 
         $zip->close();
