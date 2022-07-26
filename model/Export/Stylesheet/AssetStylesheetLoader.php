@@ -80,6 +80,9 @@ class AssetStylesheetLoader extends ConfigurableService
 
     protected function getFileManagement(): FileManagement
     {
+        // FIXME this violates the order of dependencies.
+        //  taoQtiItem cannot depend on taoMediaManager as it causes a circular dependency
+        //  caused by [#1766](https://github.com/oat-sa/extension-tao-itemqti/pull/1766)
         return $this->getServiceLocator()->get(FileManagement::SERVICE_ID);
     }
 }

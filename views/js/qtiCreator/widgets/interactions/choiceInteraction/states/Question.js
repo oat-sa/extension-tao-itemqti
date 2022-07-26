@@ -103,11 +103,12 @@ define([
         return !_.isNull(listStyle) ? listStyle.pop().replace(listStylePrefix, '') : null;
     }
 
-    ChoiceInteractionStateQuestion.prototype.initForm = function initForm(updateCardinality) {
+    ChoiceInteractionStateQuestion.prototype.initForm = function initForm() {
         let callbacks;
         const widget = this.widget;
         const $form = widget.$form;
         const interaction = widget.element;
+        const response = interaction.getResponseDeclaration();
         const currListStyle = getListStyle(interaction);
         const $choiceArea = widget.$container.find('.choice-area');
         let minMaxComponent = null;
@@ -246,7 +247,7 @@ define([
 
         //data change callbacks with the usual min/maxChoices
         callbacks = formElement.getMinMaxAttributeCallbacks('minChoices', 'maxChoices', {
-            updateCardinality: updateCardinality,
+            updateCardinality: false,
             allowNull: true
         });
 
@@ -279,6 +280,7 @@ define([
             $form.find('[name="constraints"][value="none"]').prop('checked', true);
             $form.find('[name="constraints"][value="other"]').prop('disabled', true);
             deleteMinMax();
+            response.attr('cardinality', 'single');
         };
 
         const setSelectedCase = () => {
@@ -297,8 +299,10 @@ define([
             if (type === 'single') {
                 $form.find('[name="constraints"][value="other"]').prop('disabled', true);
                 deleteMinMax();
+                response.attr('cardinality', 'single');
             } else {
                 $form.find('[name="constraints"][value="other"]').prop('disabled', false);
+                response.attr('cardinality', 'multiple');
             }
         };
 

@@ -1275,10 +1275,6 @@ img.dragging.ui-draggable-dragging {
 
 .edit-question .qti-blockInteraction .horizontal {
     margin-top: 28px;
-    .qti-choice,
-    .add-option {
-        margin-top: 25px;
-    }
     .qti-choice {
         .mini-tlb{
             white-space: nowrap;
@@ -1348,7 +1344,7 @@ img.dragging.ui-draggable-dragging {
         border: $grey 1px solid;
         border-radius: 2px;
         font-size: 10px;
-        top: 6px;
+        top: 3px;
         line-height: 12px;
         padding: 0 4px;
         position: relative;
@@ -1357,6 +1353,7 @@ img.dragging.ui-draggable-dragging {
 .select2-chosen .rtl-lang {
     &:after {
         position: absolute;
+        top: 6px;
         right: 20px;
     }
 }

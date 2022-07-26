@@ -304,6 +304,20 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         return $this->getModel()->createDataObject(reset($portableElements));
     }
 
+    public function getLatestCompatibleVersion(string $identifier, string $targetVersion): ?PortableElementObject
+    {
+        $registered = $this->getAllVersions($identifier);
+        $this->krsortByVersion($registered);
+
+        foreach ($registered as $registeredVersion=>$model) {
+            if (intval($targetVersion) === intval($registeredVersion)) {
+                return $this->getModel()->createDataObject($model);
+            }
+        }
+
+        return null;
+    }
+
     /**
      * @param PortableElementObject $object
      * @param string $source Temporary directory path
