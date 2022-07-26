@@ -129,7 +129,9 @@ $mainContainer : '.qti-item';
             padding: 0;
             height: 1px;
             max-height: 1px;
-            background-color: #8c8c8c;
+            border: none;
+            border-color: #8c8c8c;
+            border-top: solid 1px;
         }
     }
 
