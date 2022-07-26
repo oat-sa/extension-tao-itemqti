@@ -761,6 +761,7 @@ img.dragging.ui-draggable-dragging {
         overflow-x: hidden;
         overflow-y: visible;
     }
+
 }
 
 #item-editor-scoll-container{
@@ -1374,6 +1375,24 @@ img.dragging.ui-draggable-dragging {
         }
     }
 }
+
+//if an hr tag is inside a text selection we highlight it
+.qti-itemBody [contenteditable=true] hr{
+    position: relative;
+    overflow: visible;
+
+    &.text-selected:after {
+        content: ' ';
+        position: absolute;
+        height: 12px;
+        top: -6px;
+        left: 0;
+        right: 0;
+        background-color: #b3d4fc;
+        z-index:-1;
+    }
+}
+
 #mediaManager {
     .file-preview {
         .previewer {
