@@ -22,10 +22,10 @@ define([
     'taoQtiItem/qtiCreator/model/Item',
     'taoQtiItem/qtiCreator/model/qtiClasses',
     'taoQtiItem/qtiItem/helper/itemScore',
-    'util/url',
     'core/dataProvider/request',
-    'taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier'
-], function ($, _, Loader, Item, qtiClasses, itemScoreHelper, urlUtil, request, qtiIdentifier) {
+    'taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier',
+    'taoQtiItem/qtiCreator/helper/languages'
+], function ($, _, Loader, Item, qtiClasses, itemScoreHelper, request, qtiIdentifier, languages) {
     'use strict';
     const _generateIdentifier = function _generateIdentifier(uri) {
         const pos = uri.lastIndexOf('#');
@@ -52,12 +52,11 @@ define([
         'http://www.imsglobal.org/xsd/imsqti_v2p2': 'http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd'
     };
 
-    const languagesUrl = urlUtil.route('index', 'Languages', 'tao');
-
     const creatorLoader = {
         loadItem: function loadItem(config, callback) {
             if (config.uri) {
-                const langList = request(languagesUrl);
+                const langList = languages.getList();
+
                 // request doesn't handle empty response with 200 code. See: core/request.js:240
                 const itemRdf = request(config.itemDataUrl, { uri: config.uri }).catch(d => d);
 

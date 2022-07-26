@@ -3,12 +3,12 @@
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ "The principle identifier of the item. This identifier must have a corresponding entry in the item's metadata."}}</div>
 
-    <input type="text" 
-           name="identifier" 
-           value="{{identifier}}" 
-           placeholder="e.g. my-item_123456" 
+    <input type="text"
+           name="identifier"
+           value="{{identifier}}"
+           placeholder="e.g. my-item_123456"
            data-validate="$notEmpty; $qtiIdentifier(serial={{serial}}); $availableIdentifier(serial={{serial}});">
-    
+
 </div>
 
 <div class="panel">
@@ -16,12 +16,12 @@
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ "The item of the qti item. It is currently used as a meta data only. It is required by the QTI standard."}}</div>
 
-    <input type="text" 
-           name="title" 
-           value="{{title}}" 
-           placeholder="e.g. My Item A" 
+    <input type="text"
+           name="title"
+           value="{{title}}"
+           placeholder="e.g. My Item A"
            data-validate="$notEmpty;">
-    
+
 </div>
 
 {{#if showTimeDependent}}
@@ -49,7 +49,7 @@
         </span>
         <select name="xml:lang" data-has-search="false">
             {{#each languagesList}}
-                <option value="{{@key}}"{{#equal @key ../xml:lang}} selected="selected"{{/equal}}{{#includes ../rtl @key}} class="rtl-lang"{{/includes}}>{{this}}</option>
+                <option value="{{code}}"{{#equal code ../xml:lang}} selected="selected"{{/equal}} class="{{orientation}}-lang">{{label}}</option>
             {{/each}}
         </select>
     </div>
