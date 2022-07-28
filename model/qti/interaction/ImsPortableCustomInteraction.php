@@ -133,7 +133,7 @@ class ImsPortableCustomInteraction extends CustomInteraction
 
     public function toArray($filterVariableContent = false, &$filtered = [])
     {
-        
+
         $returnValue = parent::toArray($filterVariableContent, $filtered);
 
         $returnValue['typeIdentifier'] = $this->typeIdentifier;
@@ -150,7 +150,7 @@ class ImsPortableCustomInteraction extends CustomInteraction
     {
         return static::getTemplatePath() . 'interactions/qti.imspci.tpl.php';
     }
-    
+
     protected function getTemplateQtiVariables()
     {
 
@@ -161,7 +161,7 @@ class ImsPortableCustomInteraction extends CustomInteraction
         $variables['config'] = $this->getConfig();
         return $variables;
     }
-    
+
     /**
      * Feed the pci instance with data provided in the pci dom node
      *
@@ -230,7 +230,7 @@ class ImsPortableCustomInteraction extends CustomInteraction
 
         $markupNodes = $parser->queryXPathChildren(['portableCustomInteraction', 'markup'], $data, $xmlnsName);
         if ($markupNodes->length) {
-            $markup = $parser->getBodyData($markupNodes->item(0), true, true);
+            $markup = $parser->getBodyData($markupNodes->item(0), true);
             $this->setMarkup($markup);
         }
     }
