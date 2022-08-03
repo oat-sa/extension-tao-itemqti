@@ -47,6 +47,9 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function (_, tpl) {
             _.forEach(item.responses, response => {
                 defaultData.responses.push(response.render(this));
             });
+            _.forEach(item.outcomes, outcome => {
+                defaultData.outcomes.push(outcome.render(this));
+            });
             _.forEach(item.stylesheets, stylesheet => {
                 defaultData.stylesheets.push(stylesheet.render(this));
             });
