@@ -68,7 +68,7 @@ define([
      */
     function getRpUsedVariables(item) {
         const rpXml = xmlRenderer.render(item.responseProcessing);
-        const variables = [  ]; //score and max score are always used, even in template based response processing
+        const variables = [  ];
         if (rpXml !== '') {
             variables.push('SCORE', 'MAXSCORE');
         }
