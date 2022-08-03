@@ -886,8 +886,8 @@ msgstr "Latex"
 msgid "Layout"
 msgstr ""
 
-msgid "leave empty"
-msgstr "frei lassen"
+msgid "--- leave empty ---"
+msgstr "--- frei lassen ---"
 
 msgid "left"
 msgstr "links"

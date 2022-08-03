@@ -886,8 +886,8 @@ msgstr "Latex"
 msgid "Layout"
 msgstr ""
 
-msgid "leave empty"
-msgstr "Lasciare vuoto"
+msgid "--- leave empty ---"
+msgstr "--- Lasciare vuoto ---"
 
 msgid "left"
 msgstr "sinistra"

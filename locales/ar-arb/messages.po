@@ -888,8 +888,8 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-msgid "leave empty"
-msgstr "يترك فارغا"
+msgid "--- leave empty ---"
+msgstr "--- يترك فارغا ---"
 
 msgid "left"
 msgstr "left"

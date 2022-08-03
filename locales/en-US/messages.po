@@ -886,7 +886,7 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-msgid "leave empty"
+msgid "--- leave empty ---"
 msgstr ""
 
 msgid "left"
