@@ -33,16 +33,35 @@ define([
 
         var init = function (itemConfig) {
 
+            const _createInfoBox = function (data) {
+                var $messageBox = $(genericFeedbackPopup(data)),
+                    closeTrigger = $messageBox.find('.close-trigger');
+
+                $('body').append($messageBox);
+
+                closeTrigger.on('click', function () {
+                    $messageBox.fadeOut(function () {
+                        $(this).remove();
+                    });
+                });
+
+                setTimeout(function () {
+                    closeTrigger.trigger('click');
+                }, 4523);
+
+                return $messageBox;
+            };
+
             var cssToggler = $('#style-sheet-toggler'),
                 uploader = $('#stylesheet-uploader'),
                 customCssToggler = $('[data-custom-css]'),
                 getContext = function (trigger) {
                     trigger = $(trigger);
-                    var li = trigger.closest('li'),
-                        stylesheetObj = li.data('stylesheetObj') || new Stylesheet({href : li.data('css-res')}),
-                        input = li.find('.style-sheet-label-editor'),
-                        labelBox = input.prev('.file-label'),
-                        label = input.val();
+                    const li = trigger.closest('li');
+                    const stylesheetObj = li.data('stylesheetObj') || new Stylesheet({ href: li.data('css-res') });
+                    const input = li.find('.style-sheet-label-editor');
+                    const labelBox = input.prev('.file-label');
+                    const label = input.val();
 
                     return {
                         li: li,
@@ -90,8 +109,9 @@ define([
 
             /**
              * Confirm to save the item
+             * @param {Object} trigger
              */
-            var deleteStylesheet = function(trigger) {
+            const deleteStylesheet = function(trigger) {
                 var context = getContext(trigger),
                     attr = context.isDisabled ? 'disabled-href' : 'href',
                     cssLinks = $('head link');
@@ -99,7 +119,7 @@ define([
 
                 styleEditor.getItem().removeStyleSheet(context.stylesheetObj);
 
-                cssLinks.filter('[' + attr + '*="' + context.cssUri + '"]').remove();
+                cssLinks.filter(`[${attr}*="${context.cssUri}"]`).remove();
                 context.li.remove();
 
                 $('.feedback-info').hide();
@@ -114,8 +134,9 @@ define([
 
             /**
              * Modify stylesheet title (enable)
+             * @param {Object} trigger
              */
-            var initLabelEditor = function (trigger) {
+            const initLabelEditor = function (trigger) {
                 var context = getContext(trigger);
                 context.labelBox.hide();
                 context.input.show();
@@ -124,16 +145,18 @@ define([
             /**
              * Download current stylesheet
              *
-             * @param trigger
+             * @param {Object} trigger
              */
-            var downloadStylesheet = function(trigger) {
+            const downloadStylesheet = function(trigger) {
                 styleEditor.download(getContext(trigger).cssUri);
             };
 
             /**
              * Modify stylesheet title (save modification)
+             * @param {Object} trigger
+             * @returns {Boolean}
              */
-            var saveLabel = function (trigger) {
+            const saveLabel = function (trigger) {
                 var context = getContext(trigger),
                     title = $.trim(context.input.val());
 
@@ -149,8 +172,9 @@ define([
 
             /**
              * Dis/enable style sheets
+             * @param {Object} trigger
              */
-            var handleAvailability = function (trigger) {
+            const handleAvailability = function (trigger) {
                 const context = getContext(trigger);
 
                 // custom styles are handled in a style element, not in a link
@@ -158,14 +182,12 @@ define([
                     if (context.isDisabled) {
                         $('#item-editor-user-styles')[0].disabled = false;
                         customCssToggler.removeClass('not-available');
-                    }
-                    else {
+                    } else {
                         $('#item-editor-user-styles')[0].disabled = true;
                         customCssToggler.addClass('not-available');
                     }
-                }
-                // all other styles are handled via their link element
-                else {
+                } else {
+                    // all other styles are handled via their link element
                     const linkDom = Object.values(document.styleSheets).find(sheet => typeof sheet.href === 'string' && sheet.href.includes(context.label));
                     if (context.isDisabled) {
                         linkDom.disabled = false;
@@ -188,14 +210,11 @@ define([
                 // distribute click actions
                 if (className.indexOf('icon-bin') > -1) {
                     deleteStylesheet(e.target);
-                }
-                else if (className.indexOf('file-label') > -1) {
+                } else if (className.indexOf('file-label') > -1) {
                     initLabelEditor(e.target);
-                }
-                else if (className.indexOf('icon-preview') > -1) {
+                } else if (className.indexOf('icon-preview') > -1) {
                     handleAvailability(e.target);
-                }
-                else if(className.indexOf('icon-download') > -1) {
+                } else if(className.indexOf('icon-download') > -1) {
                     downloadStylesheet(e.target);
                 }
             });
@@ -218,26 +237,6 @@ define([
             });
 
 
-        };
-
-
-        var _createInfoBox = function(data){
-            var $messageBox = $(genericFeedbackPopup(data)),
-                closeTrigger = $messageBox.find('.close-trigger');
-
-            $('body').append($messageBox);
-
-            closeTrigger.on('click', function(){
-                $messageBox.fadeOut(function(){
-                    $(this).remove();
-                });
-            });
-
-            setTimeout(function() {
-                closeTrigger.trigger('click');
-            }, 4523);
-
-            return $messageBox;
         };
 
         return {

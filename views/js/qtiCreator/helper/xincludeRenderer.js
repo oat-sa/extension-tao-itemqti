@@ -55,7 +55,8 @@ define([
             xincludeLoader.load(xinclude, baseUrl, function (xi, data, loadedClasses) {
                 if (data) {
                     const dataBody = data.body.body;
-                    const hasClass = dataBody.match(/class="(?<className>tao-\w+)?/);
+                    const hasClass = dataBody.match(/class="(?<className>tao-\w+)?/); // eslint-disable-line no-console
+
                     let className = '';
                     if (hasClass && hasClass.groups && hasClass.groups.className) {
                         className = hasClass.groups.className;
