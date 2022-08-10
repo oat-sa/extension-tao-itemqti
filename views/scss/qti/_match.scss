@@ -10,6 +10,7 @@
             color: $textColor;
             text-align: left;
             position: relative;
+            background-clip: padding-box;
 
             @include rtl {
                 text-align: right;
