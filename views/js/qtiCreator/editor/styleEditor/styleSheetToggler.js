@@ -47,7 +47,7 @@ define([
 
                 setTimeout(function () {
                     closeTrigger.trigger('click');
-                }, 4523);
+                }, 4000);
 
                 return $messageBox;
             };
