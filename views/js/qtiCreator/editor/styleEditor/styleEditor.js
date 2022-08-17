@@ -370,6 +370,12 @@ define([
         erase();
     };
 
+    const removeStylesheetOnDeletePassage = function (passageSerial) {
+        if (passageSerial) {
+            $(`link[data-serial='${passageSerial}']`).remove();
+        }
+    };
+
     /**
      * retrieve the current item
      *
@@ -444,6 +450,7 @@ define([
         getItem: getItem,
         getStyle: getStyle,
         addStylesheet: addStylesheet,
-        cleanCache: cleanCache
+        cleanCache: cleanCache,
+        removeStylesheetOnDeletePassage: removeStylesheetOnDeletePassage
     };
 });

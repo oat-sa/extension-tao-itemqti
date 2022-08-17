@@ -44,34 +44,6 @@ define([
         }
     );
 
-    IncludeStateActive.prototype.initForm = function () {
-        const _widget = this.widget,
-            $form = _widget.$form,
-            include = _widget.element,
-            baseUrl = _widget.options.baseUrl,
-            $wrap = _widget.$container.parent(`.${wrapperCls}`),
-            isScrolling = itemScrollingMethods.isScrolling($wrap),
-            selectedHeight = itemScrollingMethods.selectedHeight($wrap);
-
-        $form.html(
-            formTpl({
-                baseUrl: baseUrl || '',
-                href: include.attr('href'),
-                scrolling: isScrolling,
-                scrollingHeights: itemScrollingMethods.options(),
-                selectedHeight: selectedHeight
-            })
-        );
-
-        _initUpload(_widget);
-
-        formElement.initWidget($form);
-
-        formElement.setChangeCallbacks($form, _widget.element, changeCallbacks(_widget));
-
-        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
-    };
-
     const changeCallbacks = function (widget) {
         return {
             scrolling: function (element, value) {
@@ -93,7 +65,7 @@ define([
             $uploadTrigger.resourcemgr({
                 title: __('Please select a shared stimulus file from the resource manager.'),
                 appendContainer: options.mediaManager.appendContainer,
-                mediaSourcesUrl: options.mediaManager.mediaSourcesUrl + '?exclude=local',
+                mediaSourcesUrl: `${options.mediaManager.mediaSourcesUrl}?exclude=local`,
                 browseUrl: options.mediaManager.browseUrl,
                 uploadUrl: options.mediaManager.uploadUrl,
                 deleteUrl: options.mediaManager.deleteUrl,
@@ -137,7 +109,7 @@ define([
                 if (/taomedia:\/\/mediamanager\//.test(file.file)) {
                     // rich passage XML will be loaded in iframe
                     const iframe = $mgr.find('.previewer iframe');
-                    iframe.off('load').on('load', function() {
+                    iframe.off('load').on('load', function () {
                         // parent div should be wrapped in div.qti-item as in item preview
                         iframe.contents().find('body > div').wrap('<div class="qti-item"></div>');
                         // table should have qti-table class as in item preview
@@ -172,7 +144,7 @@ define([
                         });
                         $head.append(styleTao);
                         $head.append(styleTaoQtiItem);
-                        _.each(xincludeRenderer.getXincludeHandlers(), handler => handler(file.file, $head));
+                        _.each(xincludeRenderer.getXincludeHandlers(), handler => handler(file.file, '', '', $head, true));
                     });
                 }
             });
@@ -185,6 +157,36 @@ define([
         if (!$href.val()) {
             _openResourceMgr();
         }
+    };
+
+
+
+    IncludeStateActive.prototype.initForm = function () {
+        const _widget = this.widget,
+            $form = _widget.$form,
+            include = _widget.element,
+            baseUrl = _widget.options.baseUrl,
+            $wrap = _widget.$container.parent(`.${wrapperCls}`),
+            isScrolling = itemScrollingMethods.isScrolling($wrap),
+            selectedHeight = itemScrollingMethods.selectedHeight($wrap);
+
+        $form.html(
+            formTpl({
+                baseUrl: baseUrl || '',
+                href: include.attr('href'),
+                scrolling: isScrolling,
+                scrollingHeights: itemScrollingMethods.options(),
+                selectedHeight: selectedHeight
+            })
+        );
+
+        _initUpload(_widget);
+
+        formElement.initWidget($form);
+
+        formElement.setChangeCallbacks($form, _widget.element, changeCallbacks(_widget));
+
+        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
     };
 
     return IncludeStateActive;
