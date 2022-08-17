@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -32,7 +32,7 @@ use oat\taoQtiItem\model\pack\QtiAssetPacker\PackedAsset;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\Stylesheet;
-use Psr\Http\Message\StreamInterface;
+use oat\taoQtiItem\model\qti\XInclude;
 
 class XIncludeAdditionalAssetInjector extends ConfigurableService
 {
@@ -40,7 +40,9 @@ class XIncludeAdditionalAssetInjector extends ConfigurableService
 
     public const XINCLUDE_ASSET_TYPE = 'xinclude';
 
-    private const COMPILED_PASSAGE_STYLESHEET_FILENAME_PREFIX = 'passage';
+    public const COMPILED_PASSAGE_STYLESHEET_FILENAME_PREFIX = 'passage';
+
+    public const WRAPPER_CSS_CLASS_PREFIX = 'tao-';
 
     /**
      * @throws common_Exception
@@ -55,13 +57,13 @@ class XIncludeAdditionalAssetInjector extends ConfigurableService
         }
 
         $passageStylesheetLoader = $this->getAssetStylesheetLoader();
+        $passageResourceIdentifier = $packedAsset->getMediaAsset()->getMediaIdentifier();
+        $xInclude = $this->findQtiXIncludeByResourceIdentifierOrHref($qtiItem, $passageResourceIdentifier);
 
-        if ($content = $passageStylesheetLoader->loadAssetFromAssetResource(
-            $packedAsset->getMediaAsset()->getMediaIdentifier()
-        )) {
+        if ($stylesheetFiles = $passageStylesheetLoader->loadAssetsFromAssetResource($passageResourceIdentifier)) {
             try {
-                $this->includeSharedStimulusStylesheet($qtiItem, $publicDirectory, $content);
-            } catch (QtiModelException | FileExistsException $e) {
+                $this->includeSharedStimulusStylesheets($qtiItem, $publicDirectory, $stylesheetFiles, $xInclude);
+            } catch (QtiModelException|FileExistsException $e) {
                 $this->logWarning(
                     sprintf(
                         'Compilation: Injecting stylesheet for Passage %s failed with message %s',
@@ -78,23 +80,65 @@ class XIncludeAdditionalAssetInjector extends ConfigurableService
      * @throws FileExistsException
      * @throws common_Exception
      */
-    private function includeSharedStimulusStylesheet(
+    private function includeSharedStimulusStylesheets(
         Item $qtiItem,
         Directory $publicDirectory,
-        StreamInterface $stylesheetContent
+        array $stylesheetFiles,
+        ?XInclude $XInclude
     ): void {
-        $stylesheetUrl = $this->getUniquePrimaryKey() . self::COMPILED_PASSAGE_STYLESHEET_FILENAME_PREFIX . AssetStylesheetLoader::ASSET_CSS_FILENAME;
+        $prefix = self::COMPILED_PASSAGE_STYLESHEET_FILENAME_PREFIX;
+        if ($XInclude) {
+            $prefix = $this->getPassageWrapperStyleClass($XInclude);
+        }
+        $stylesheetTargetPubDirectory = implode(DIRECTORY_SEPARATOR, [
+            $prefix,
+            AssetStylesheetLoader::ASSET_CSS_DIRECTORY_NAME
+        ]);
 
-        $publicDirectory->getFile($stylesheetUrl)->write($stylesheetContent);
-        $qtiStylesheet = new Stylesheet(
-            [
-                'href' => $stylesheetUrl,
-                'title' => AssetStylesheetLoader::ASSET_CSS_FILENAME,
-                'type' => 'text/css'
-            ]
-        );
+        foreach ($stylesheetFiles as $stylesheetFile) {
+            $targetPath = implode(DIRECTORY_SEPARATOR, [
+                $stylesheetTargetPubDirectory,
+                $stylesheetFile['basename']
+            ]);
 
-        $qtiItem->addStylesheet($qtiStylesheet);
+            $publicDirectory->getFile($targetPath)->write($stylesheetFile['stream']);
+
+            $qtiStylesheet = new Stylesheet(
+                [
+                    'href' => $targetPath,
+                    'title' => $stylesheetFile['basename'],
+                    'type' => 'text/css'
+                ]
+            );
+
+            $qtiItem->addStylesheet($qtiStylesheet);
+        }
+    }
+
+    private function findQtiXIncludeByResourceIdentifierOrHref(Item $qtiItem, string $resourceId): ?XInclude
+    {
+        foreach ($qtiItem->getComposingElements() as $element) {
+            if ($element instanceof XInclude && strpos($element->getAttributeValue('href'), $resourceId) !== false) {
+                return $element;
+            }
+        }
+
+        return null;
+    }
+
+    private function getPassageWrapperStyleClass(XInclude $xInclude): ?string
+    {
+        $existingClassAttr = $xInclude->getAttributeValue('class');
+        if ($existingClassAttr) {
+            return $existingClassAttr;
+        }
+
+
+        /* generate unique wrapper class as we do on FE */
+        $generatedClass = self::WRAPPER_CSS_CLASS_PREFIX . bin2hex(random_bytes(6));
+        $xInclude->setAttribute('class', $generatedClass);
+
+        return $generatedClass;
     }
 
     private function packedAssetTypeIsNotXinclude(PackedAsset $packedAsset): bool

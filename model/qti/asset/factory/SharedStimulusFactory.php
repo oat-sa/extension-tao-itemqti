@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -29,6 +29,9 @@ use oat\tao\model\GenerisServiceTrait;
 use oat\taoMediaManager\model\MediaService;
 use oat\taoMediaManager\model\sharedStimulus\service\StoreService;
 use oat\taoQtiItem\model\Export\AbstractQTIItemExporter;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use SplFileInfo;
 
 class SharedStimulusFactory extends ConfigurableService
 {
@@ -46,9 +49,7 @@ class SharedStimulusFactory extends ConfigurableService
         $assetWithCss = $this->getStoreService()->store(
             $newXmlFile,
             basename($relativePath),
-            [
-                $this->getRelatedCssFilePath($absolutePath)
-            ]
+            $this->getRelatedCssFilePath($absolutePath)
         );
 
         return $this->getMediaService()->createSharedStimulusInstance(
@@ -58,16 +59,44 @@ class SharedStimulusFactory extends ConfigurableService
         );
     }
 
-    private function getRelatedCssFilePath(string $absolutePath): string
+    private function getRelatedCssFilePath(string $absolutePath): array
     {
-        return implode(
+        $cssSubDirectory = implode(
             DIRECTORY_SEPARATOR,
             [
                 dirname($absolutePath),
-                AbstractQTIItemExporter::CSS_DIRECTORY_NAME,
-                AbstractQTIItemExporter::CSS_FILE_NAME
+                AbstractQTIItemExporter::CSS_DIRECTORY_NAME
             ]
         );
+
+        if (!is_dir($cssSubDirectory)){
+            return [];
+        }
+
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($cssSubDirectory),
+            RecursiveIteratorIterator::LEAVES_ONLY
+        );
+
+        $cssFiles = [];
+
+        /** @var $file SplFileInfo */
+        foreach ($iterator as $file) {
+            if ($this->isFileExtension($file, 'css')) {
+                $cssFiles[] = $file->getRealPath();
+            }
+        }
+
+        return $cssFiles;
+    }
+
+    public function isFileExtension(SplFileInfo $file, string $extension): bool
+    {
+        if ($file->isFile()) {
+            return preg_match('/^[\w]/', $file->getFilename()) === 1 && $file->getExtension() === $extension;
+        }
+
+        return false;
     }
 
     private function getParentClassUri(string $label): string
