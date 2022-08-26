@@ -54,6 +54,14 @@ define([
 
             xincludeLoader.load(xinclude, baseUrl, function (xi, data, loadedClasses) {
                 if (data) {
+                    const dataBody = data.body.body;
+                    const hasClass = dataBody.match(/class="(?<className>tao-\w+)?/); // eslint-disable-line no-console
+
+                    let className = '';
+                    if (hasClass && hasClass.groups && hasClass.groups.className) {
+                        className = hasClass.groups.className;
+                    }
+
                     //loading success :
                     commonRenderer.get().load(function () {
                         //set commonRenderer to the composing elements only (because xinclude is "read-only")
@@ -64,8 +72,7 @@ define([
                         //reload the wiget to rfresh the rendering with the new href
                         xincludeWidget.refresh();
                     }, loadedClasses);
-
-                    _.each(xincludeHandlers, handler => handler(xinclude.attr('href')));
+                    xincludeHandlers.forEach(handler => handler(xinclude.attr('href'), className, xi.serial));
                 } else {
                     //loading failure :
                     xinclude.removeAttr('href');
