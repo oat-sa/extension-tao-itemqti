@@ -894,9 +894,6 @@ msgstr "LaTeX"
 msgid "Layout"
 msgstr "レイアウト"
 
-msgid "leave empty"
-msgstr "------"
-
 msgid "left"
 msgstr "左"
 

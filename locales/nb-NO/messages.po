@@ -888,8 +888,8 @@ msgstr "Latex"
 msgid "Layout"
 msgstr "Oppsett"
 
-msgid "leave empty"
-msgstr "la stå tom"
+msgid "--- leave empty ---"
+msgstr "--- la stå tom ---"
 
 msgid "left"
 msgstr "venstre"
