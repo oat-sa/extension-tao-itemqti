@@ -26,7 +26,6 @@ use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\taoMediaManager\model\fileManagement\FileManagement;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoMediaManager\model\fileManagement\FlySystemManagement;
 use oat\taoQtiItem\model\Export\AbstractQTIItemExporter;
@@ -100,6 +99,6 @@ class AssetStylesheetLoader extends ConfigurableService
         // FIXME this violates the order of dependencies.
         //  taoQtiItem cannot depend on taoMediaManager as it causes a circular dependency
         //  caused by [#1766](https://github.com/oat-sa/extension-tao-itemqti/pull/1766)
-        return $this->getServiceLocator()->get(FileManagement::SERVICE_ID);
+        return $this->getServiceLocator()->get(FlySystemManagement::SERVICE_ID);
     }
 }
