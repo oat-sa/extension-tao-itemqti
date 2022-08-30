@@ -26,6 +26,7 @@ use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\filesystem\FileSystemService;
+use oat\taoMediaManager\model\fileManagement\FileManagement;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoMediaManager\model\fileManagement\FlySystemManagement;
 use oat\taoQtiItem\model\Export\AbstractQTIItemExporter;
