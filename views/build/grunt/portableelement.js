@@ -275,6 +275,11 @@ module.exports = function (grunt) {
                         config.paths[extension] = `${root}/${extension}/views/js`;
                         config.paths[model.id] = model.basePath;
 
+                        // Add path to external dependencies
+                        const pathFile = join(model.basePath, 'paths.json');
+                        if (grunt.file.exists(pathFile)) {
+                            config.paths = Object.assign(config.paths, grunt.file.readJSON(pathFile));
+                        }
                         requirejs.optimize(
                             config,
                             function (buildResponse) {
