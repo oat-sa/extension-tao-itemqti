@@ -180,7 +180,8 @@ module.exports = function (grunt) {
                     [
                         'minify',
                         {
-                            mangle: false
+                            mangle: false,
+                            builtIns: false
                         }
                     ]
                 ],
