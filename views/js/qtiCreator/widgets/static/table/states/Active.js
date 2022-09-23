@@ -71,10 +71,41 @@ define([
         }
     );
 
+    function replaceElementByItsContent($elem) {
+        if ($elem.children().length) {
+            $elem.children(0).unwrap();
+        } else {
+            $elem.replaceWith($elem.html());
+        }
+    }
     // the element body should only contain the <table> tag content, and not the <table> tag itself.
     // as the ckeditor instance is bound to a wrapping <div>, we need to go through an extra step to remove the <table> tag.
-    function getChangeCallback(container) {
+    function getChangeCallback(container, $editableContainer) {
         return _.throttle(function (data) {
+            const $caption = $('caption', $editableContainer);
+            if ($caption.length > 1) {
+                const $first = $caption.first();
+                $caption.each(function(i) {
+                    if (i > 0) {
+                        const $curCap = $(this);
+                        $first.append('<br>');
+                        $first.append($curCap);
+                        replaceElementByItsContent($curCap);
+                    }
+                });
+            }
+            const $paragraphsInCaption = $('caption > p', $editableContainer);
+            if ($paragraphsInCaption.length > 0) {
+                $paragraphsInCaption.each(function() {
+                    const $p = $(this);
+                    const classNames = $p.attr('class');
+                    if(classNames) {
+                        $caption.removeClass();
+                        $caption.addClass(classNames);
+                    }
+                    replaceElementByItsContent($p);
+                });
+            }
             const $tableTagContent = $(data).children(), // might a mix of tbody / thead / tfoot
                 $pseudoContainer = $('<div>').html($tableTagContent),
                 newBody = contentHelper.getContent($pseudoContainer);
@@ -153,7 +184,7 @@ define([
         if (!htmlEditor.hasEditor($editableContainer)) {
             htmlEditor.buildEditor($editableContainer, {
                 placeholder: '',
-                change: getChangeCallback(container),
+                change: getChangeCallback(container, $editableContainer),
                 removePlugins: 'magicline',
                 data: {
                     container: container,
