@@ -66,9 +66,10 @@ define([
             this.buildEditor();
         },
         function exit() {
-            // fix caption on close
-            // on Enter ckeditor creates additional caption
-            // move all content in first one caption
+            // fix a caption on exit
+            // on Enter ckeditor creates an additional caption
+            // move all contents from second caption and others to the first caption
+            // second caption and others will be removed
             const $editableContainer = this.widget.$container;
             const $caption = $('caption', $editableContainer);
             if ($caption.length > 1) {
@@ -85,9 +86,9 @@ define([
                 });
                 $first.focus();
             }
-            // on alignment ckeditor adds paragraph
-            // move content from paragraph to caption
-            // set alignment class to caption
+            // on alignment ckeditor adds a paragraph
+            // move content from the paragraph to the caption, the paragraph will be removed
+            // set alignment's class to the caption
             const $paragraphsInCaption = $('caption > p', $editableContainer);
             if ($paragraphsInCaption.length > 0) {
                 $paragraphsInCaption.each(function () {
