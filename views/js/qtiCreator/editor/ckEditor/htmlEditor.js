@@ -133,7 +133,8 @@ define([
                         const $newImgPlaceholder = $editable.find('[data-new="true"][data-qti-class="img"]');
                         if (
                             $newImgPlaceholder.length &&
-                            !$editable.closest('.qti-choice, .qti-flow-container').length
+                            !$editable.closest('.qti-choice, .qti-flow-container').length &&
+                            !$newImgPlaceholder.closest('.qti-table caption').length
                         ) {
                             // instead img will add figure element
                             $newImgPlaceholder.attr('data-qti-class', 'figure');
