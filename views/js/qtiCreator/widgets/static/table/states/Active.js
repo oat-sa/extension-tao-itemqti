@@ -196,7 +196,7 @@ define([
         if (!htmlEditor.hasEditor($editableContainer)) {
             htmlEditor.buildEditor($editableContainer, {
                 placeholder: '',
-                change: getChangeCallback(container, $editableContainer),
+                change: getChangeCallback(container),
                 removePlugins: 'magicline',
                 data: {
                     container: container,
