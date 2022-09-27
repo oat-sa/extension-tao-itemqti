@@ -66,11 +66,54 @@ define([
             this.buildEditor();
         },
         function exit() {
+            // fix a caption on exit
+            // on Enter ckeditor creates an additional caption
+            // move all contents from second caption and others to the first caption
+            // second caption and others will be removed
+            const $editableContainer = this.widget.$container;
+            const $caption = $('caption', $editableContainer);
+            if ($caption.length > 1) {
+                const $first = $caption.first();
+                $caption.each(function (i) {
+                    if (i > 0) {
+                        const $curCap = $(this);
+                        if ($first.html() !== '<br>') {
+                            $first.append('<br>');
+                        }
+                        $first.append($curCap);
+                        replaceElementByItsContent($curCap);
+                    }
+                });
+                $first.focus();
+            }
+            // on alignment ckeditor adds a paragraph
+            // move content from the paragraph to the caption, the paragraph will be removed
+            // set alignment's class to the caption
+            const $paragraphsInCaption = $('caption > p', $editableContainer);
+            if ($paragraphsInCaption.length > 0) {
+                $paragraphsInCaption.each(function () {
+                    const $p = $(this);
+                    const classNames = $p.attr('class');
+                    if (classNames) {
+                        $caption.removeClass();
+                        $caption.addClass(classNames);
+                    }
+                    replaceElementByItsContent($p);
+                });
+            }
+            // after exit will be called getChangeCallback by ckeditor to update container.body with new html
             this.widget.$form.empty();
             this.destroyEditor();
         }
     );
 
+    function replaceElementByItsContent($elem) {
+        if ($elem.children().length) {
+            $elem.children(0).unwrap();
+        } else {
+            $elem.replaceWith($elem.html());
+        }
+    }
     // the element body should only contain the <table> tag content, and not the <table> tag itself.
     // as the ckeditor instance is bound to a wrapping <div>, we need to go through an extra step to remove the <table> tag.
     function getChangeCallback(container) {
