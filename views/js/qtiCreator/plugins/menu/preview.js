@@ -98,7 +98,8 @@ define([
                 if (!this.isEmpty()) {
                     previewerFactory(type, uri, {}, {
                         readOnly: false,
-                        fullPage: true
+                        fullPage: true,
+                        pluginsOptions: config.pluginsOptions
                     });
                 }
             });

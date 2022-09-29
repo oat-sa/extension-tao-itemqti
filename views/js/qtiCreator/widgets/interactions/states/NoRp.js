@@ -23,19 +23,7 @@ define([
 ], function(stateFactory, NoRp, xmlRenderer){
     'use strict';
 
-    return stateFactory.create(NoRp, function initStateNoRp(){
-        var interaction = this.widget.element;
-        var item = interaction.getRootElement();
-        var rp = item.responseProcessing;
-        var rpXml = xmlRenderer.render(rp);
-
-        //remove outcome SCORE if there is no response processing
-        if(!rpXml.trim()){
-            item.removeOutcome('SCORE');
-            item.removeOutcome('MAXSCORE');
-        }
-
-    }, function exitStateNoRp(){
+    return stateFactory.create(NoRp, ()=>{}, function exitStateNoRp(){
         var interaction = this.widget.element;
         var item = interaction.getRootElement();
         var outcomeScore = item.getOutcomeDeclaration('SCORE');

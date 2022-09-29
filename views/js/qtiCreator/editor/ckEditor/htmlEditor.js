@@ -26,7 +26,8 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState',
-    'taoQtiItem/qtiCreator/editor/ckEditor/featureFlag'
+    'taoQtiItem/qtiCreator/editor/ckEditor/featureFlag',
+    'taoQtiItem/qtiCreator/helper/languages'
 ], function (
     _,
     __,
@@ -38,7 +39,8 @@ define([
     Element,
     contentHelper,
     deletingHelper,
-    featureFlag
+    featureFlag,
+    languages
 ) {
     'use strict';
 
@@ -50,6 +52,7 @@ define([
     };
 
     const placeholderClass = 'cke-placeholder';
+    const languagePluginEnabled = features.isVisible('taoQtiItem/creator/editor/ckEditor/languagePlugin', false);
 
     let editorFactory;
 
@@ -90,6 +93,10 @@ define([
             });
         }
 
+        if (!languagePluginEnabled) {
+            removePlugins.push('taolanguage');
+        }
+
         if (!($editable instanceof $) || !$editable.length) {
             throw new Error('invalid jquery element for $editable');
         }
@@ -111,6 +118,7 @@ define([
             removePlugins: removePlugins.join(','),
             enterMode: options.enterMode || CKEditor.ENTER_P,
             floatSpaceDockedOffsetY: 10,
+            language_list: options.language_list,
             sharedSpaces: {
                 top: ($toolbarArea && $toolbarArea.attr('id')) || 'toolbar-top'
             },
@@ -123,10 +131,13 @@ define([
                     const $newContent = $(tempWidget).clone(); // we keep the original content for later use
                     if (options.data && options.data.container && options.data.widget) {
                         const $newImgPlaceholder = $editable.find('[data-new="true"][data-qti-class="img"]');
-                        if ($newImgPlaceholder.length &&
-                            !$editable.closest('.qti-choice, .qti-flow-container').length) {
+                        if (
+                            $newImgPlaceholder.length &&
+                            !$editable.closest('.qti-choice, .qti-flow-container').length &&
+                            !$newImgPlaceholder.closest('.qti-table caption').length
+                        ) {
                             // instead img will add figure element
-                            $newImgPlaceholder.attr('data-qti-class','figure');
+                            $newImgPlaceholder.attr('data-qti-class', 'figure');
                             // span after for new line
                             $('<span>&nbsp;</span>').insertAfter($newImgPlaceholder);
                         }
@@ -569,24 +580,33 @@ define([
          * @returns {undefined}
          */
         buildEditor: function ($container, editorOptions) {
-            const buildTasks = [];
-            _find($container, 'html-editable-container').each(function () {
-                const $editableContainer = $(this),
-                    $editable = $editableContainer.find('[data-html-editable]');
+            languages
+                .getList()
+                .then(languages.useCKEFormatting)
+                .then(languagesData => {
+                    const buildTasks = [];
 
-                buildTasks.push(
-                    new Promise(function (resolve) {
-                        //need to make the element html editable to enable ck inline editing:
-                        $editable.attr('contenteditable', true);
+                    editorOptions.language_list = languagesData;
 
-                        //build it
-                        _buildEditor($editable, $editableContainer, editorOptions);
+                    _find($container, 'html-editable-container').each(function () {
+                        const $editableContainer = $(this),
+                            $editable = $editableContainer.find('[data-html-editable]');
 
-                        $editable.on('editorready', resolve);
-                    })
-                );
-            });
-            return Promise.all(buildTasks);
+                        buildTasks.push(
+                            new Promise(function (resolve) {
+                                //need to make the element html editable to enable ck inline editing:
+                                $editable.attr('contenteditable', true);
+
+                                //build it
+                                _buildEditor($editable, $editableContainer, editorOptions);
+
+                                $editable.on('editorready', resolve);
+                            })
+                        );
+                    });
+
+                    return Promise.all(buildTasks);
+                });
         },
         /**
          * Destroy the editor

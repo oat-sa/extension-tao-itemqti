@@ -94,7 +94,7 @@ msgid "Add a ZIP file containing QTI/APIP items"
 msgstr "Ajouter un fichier ZIP contenant des items QTI/APIP"
 
 msgid "Add an outcome"
-msgstr ""
+msgstr "Ajouter un résultat"
 
 msgid "Add another option"
 msgstr "Ajouter une autre option"
@@ -154,7 +154,7 @@ msgid "An error occurred at the level of the QTI model."
 msgstr "Une erreur s'est produite au niveau du modèle QTI."
 
 msgid "An optional link to an extended interpretation of the outcome variable."
-msgstr ""
+msgstr "Un lien facultatif vers une interprétation étendue de la variable de résultat."
 
 msgid "An unexpected error occured during the import of the IMS QTI Item Package."
 msgstr ""
@@ -603,7 +603,7 @@ msgid "External Machine"
 msgstr ""
 
 msgid "External Scored"
-msgstr ""
+msgstr "Notation externe"
 
 msgid "Fail to export item"
 msgstr "N'a pas réussi à exporter l'item"
@@ -687,7 +687,7 @@ msgid "Height"
 msgstr "Hauteur"
 
 msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
-msgstr "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
+msgstr "Ici, vous pouvez fournir des aspects de notation pour la notation manuelle, par exemple le CONTENU, la GRAMMAIRE, l'ORTHOGRAPHE"
 
 msgid "Horizontal"
 msgstr "Horizontal"
@@ -729,7 +729,7 @@ msgid "If given, the pattern mask specifies a regular expression that the candid
 msgstr "Si donné, le masque de modèle spécifie une expression régulière avec laquelle la réponse du candidat doit correspondre pour être considérée comme valide."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
-msgstr ""
+msgstr "Si l'attribut Mélanger les choix est vrai, le moteur d'exécution rendra aléatoire l'ordre dans lequel les choix sont initialement présentés. Cependant, chaque choix peut être \"mélangé\" ou \"fixé\" individuellement."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
 msgstr ""
@@ -888,8 +888,8 @@ msgstr "Latex"
 msgid "Layout"
 msgstr ""
 
-msgid "leave empty"
-msgstr "laisser vide"
+msgid "--- leave empty ---"
+msgstr "--- laisser vide ---"
 
 msgid "left"
 msgstr "gauche"
@@ -919,7 +919,7 @@ msgid "Log"
 msgstr "Journal"
 
 msgid "Long interpretation"
-msgstr ""
+msgstr "Interprétation longue"
 
 msgid "Loop"
 msgstr "En boucle"
@@ -1468,7 +1468,7 @@ msgid "Select height of text block base of container height"
 msgstr ""
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
-msgstr ""
+msgstr "Sélectionnez si vous souhaitez que la déclaration de résultat soit traitée par un système externe ou un évaluateur humain. C'est typiquement le cas pour les questions demandant aux candidats de rédiger une dissertation"
 
 msgid "Select image"
 msgstr "Sélectionnez une image"
@@ -1734,6 +1734,9 @@ msgstr "Le nombre maximal de choix avec lequel ce choix peut être associé."
 
 msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
 msgstr "Le nombre maximal de choix avec lequel ce choix peut être associé. Si matchMax est à 0 il n'y a aucune restriction."
+
+msgid "The maximum number of choices that the candidate is required to select to form a valid response."
+msgstr "Le nombre maximum de choix que le candidat doit sélectionner pour former une réponse valide."
 
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
 msgstr "L'attribut maxPlays indique que l'objet média peut être joué au plus maxPlays fois - Il ne doit pas être possible pour le candidat de jouer l'objet média plus que maxPlay fois. Une valeur de 0 (par défaut) indique qu'il n'y a aucune limite."

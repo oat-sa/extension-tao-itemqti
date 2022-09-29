@@ -171,7 +171,7 @@ define([
          */
         function _appendButton($widget) {
             //only append button to no-tmp widget and only add it once:
-            if (!$widget.children('.add-block-element').length && !$widget.parent('.colrow.tmp').length) {
+            if (!$widget.children('.add-block-element').length && !$widget.parent('.colrow.tmp').length && !$widget.children('figure').length) {
                 const $adder = $(adderTpl());
                 $widget.append($adder);
                 $adder.on('click', function (e) {
