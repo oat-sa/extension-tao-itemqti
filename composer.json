@@ -65,8 +65,8 @@
         "oat-sa/lib-tao-qti": "^7.7.1",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
         "naneau/semver": "~0.0.7",
-        "oat-sa/generis": ">=14.4.0",
-        "oat-sa/tao-core": ">=50.22.0",
+        "oat-sa/generis": ">=15.22",
+        "oat-sa/tao-core": ">=50.24.6",
         "oat-sa/extension-tao-item": ">=11.20.1",
         "oat-sa/extension-tao-test": ">=6.6.0"
     },
@@ -78,10 +78,7 @@
     "config": {
         "allow-plugins": {
             "oat-sa/oatbox-extension-installer": true,
-            "oat-sa/composer-npm-bridge": false
+            "oat-sa/composer-npm-bridge": true
         }
-    },
-    "require-dev": {
-        "phpunit/phpunit": "*"
     }
 }

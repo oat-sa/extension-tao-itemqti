@@ -433,6 +433,8 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
 
         $itemPackerMock->setNestedResourcesInclusion(true);
 
+        $publicDirectory = $this->getDirectoryStorage();
+
         $itemPack = $itemPackerMock->packItem(new core_kernel_classes_Resource('foo'), '', $publicDirectory);
     }
 

@@ -58,7 +58,7 @@ class QtiItemRunner extends AbstractQtiItemRunner
     protected function selectView()
     {
         $this->setInitialVariableElements();
-        
+
         $this->setData('itemDataPath', $this->getRequestParameter('itemDataPath'));
         $this->setView('runtime/qti_item_runner.tpl', 'taoQtiItem');
     }
@@ -126,7 +126,7 @@ class QtiItemRunner extends AbstractQtiItemRunner
             $qtiXmlDoc = new XmlDocument();
             $qtiXmlDoc->loadFromString($qtiXmlFileContent);
         } catch (StorageException $e) {
-            $msg = "An error occured while loading QTI-XML file at expected location '${qtiXmlFilePath}'.";
+            $msg = "An error occurred while loading QTI-XML file.";
             throw new \RuntimeException($msg, 0, $e);
         }
 
@@ -138,7 +138,7 @@ class QtiItemRunner extends AbstractQtiItemRunner
         // Convert client-side data as QtiSm Runtime Variables.
         foreach ($jsonPayload as $identifier => $response) {
             $filler = new taoQtiCommon_helpers_PciVariableFiller($qtiXmlDoc->getDocumentComponent());
-            
+
             try {
                 $var = $filler->fill($identifier, $response);
                 // Do not take into account QTI File placeholders.
@@ -202,7 +202,7 @@ class QtiItemRunner extends AbstractQtiItemRunner
 
     protected static function buildOutcomeResponse(AssessmentItemSession $itemSession)
     {
-        
+
         $stateOutput = new taoQtiCommon_helpers_PciStateOutput();
 
         foreach ($itemSession->getAllVariables() as $var) {
