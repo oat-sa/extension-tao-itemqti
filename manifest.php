@@ -36,6 +36,7 @@ use oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries;
 use oat\taoQtiItem\scripts\install\RegisterNpmPaths;
 use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\scripts\install\SetQtiCreatorConfig;
+use oat\taoQtiItem\scripts\install\SetupQtiMetadataImportExportService;
 use oat\taoQtiItem\scripts\install\SetUpQueueTasks;
 use oat\taoQtiItem\scripts\update\Updater;
 use oat\taoItems\model\user\TaoItemsRoles;
@@ -76,6 +77,7 @@ return [
             RegisterItemCompilerBlacklist::class,
             RegisterNpmPaths::class,
             ExtendConfigurationRegistry::class,
+            SetupQtiMetadataImportExportService::class
         ]
     ],
     'local' => [
