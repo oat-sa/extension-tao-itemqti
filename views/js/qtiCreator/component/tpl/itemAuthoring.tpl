@@ -53,12 +53,6 @@
 
                             <ul class="none" id="style-sheet-toggler">
                                 <!-- TAO style sheet -->
-                                <li data-css-res="taoQtiItem/views/css/themes/default.css">
-                                    <span class="icon-preview style-sheet-toggler"
-                                          title="{{__ 'Disable this stylesheet temporarily'}}"></span>
-                                    <span>{{__ 'TAO default styles'}}</span>
-                                </li>
-
                             </ul>
                             <button id="stylesheet-uploader"
                                     class="btn-info small block">{{__ 'Add Style Sheet'}}</button>
