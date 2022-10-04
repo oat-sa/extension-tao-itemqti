@@ -149,7 +149,7 @@ class HeaderValidator extends ConfigurableService implements ValidatorInterface
         $regex = substr($headerRegex, $open + 1, $close - $open - 1);
         $number = (int)preg_replace('/[^' . $regex . ']/', '', $occurrence);
 
-        return str_replace('[' . $regex . ']', $number, $matchHeader);
+        return str_replace('[' . $regex . ']', (string)$number, $matchHeader);
     }
 
     private function getMatchHeader(array $validations): ?string

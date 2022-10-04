@@ -93,7 +93,7 @@ class QtiPreview extends taoItems_actions_ItemPreview
             $qtiXmlDoc = new XmlDocument();
             $qtiXmlDoc->loadFromString($qtiXmlFileContent);
         } catch (StorageException $e) {
-            $msg = "An error occurred while loading QTI-XML file at expected location '${qtiXmlFilePath}'.";
+            $msg = "An error occurred while loading QTI-XML file.";
             common_Logger::e(($e->getPrevious() !== null) ? $e->getPrevious()->getMessage() : $e->getMessage());
             throw new \RuntimeException($msg, 0, $e);
         }
