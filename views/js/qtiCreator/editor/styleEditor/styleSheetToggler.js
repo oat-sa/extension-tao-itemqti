@@ -83,6 +83,7 @@ define([
             uploader.on('click', function () {
 
                 uploader.resourcemgr({
+                    className: 'stylesheets',
                     appendContainer: '#mediaManager',
                     path: '/',
                     root: 'local',
