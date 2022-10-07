@@ -33,7 +33,6 @@ use oat\taoMediaManager\model\fileManagement\FileManagement;
 use oat\taoMediaManager\model\fileManagement\FlySystemManagement;
 use oat\taoQtiItem\model\Export\Stylesheet\AssetStylesheetLoader;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Http\Message\StreamInterface;
 
 class AssetStylesheetLoaderTest extends TestCase
 {
@@ -196,6 +195,7 @@ class AssetStylesheetLoaderTest extends TestCase
 
 namespace oat\taoMediaManager\model\fileManagement;
 
+use oat\oatbox\service\ConfigurableService;
 use Psr\Http\Message\StreamInterface;
 
 interface FileManagement
@@ -203,4 +203,9 @@ interface FileManagement
     public const SERVICE_ID = 'taoMediaManager/fileManager';
 
     public function getFileStream(string $link): StreamInterface;
+}
+
+abstract class FlySystemManagement extends ConfigurableService implements FileManagement
+{
+    public const OPTION_FS = 'fs';
 }
