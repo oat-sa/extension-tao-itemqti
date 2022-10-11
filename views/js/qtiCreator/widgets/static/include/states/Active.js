@@ -44,34 +44,6 @@ define([
         }
     );
 
-    IncludeStateActive.prototype.initForm = function () {
-        const _widget = this.widget,
-            $form = _widget.$form,
-            include = _widget.element,
-            baseUrl = _widget.options.baseUrl,
-            $wrap = _widget.$container.parent(`.${wrapperCls}`),
-            isScrolling = itemScrollingMethods.isScrolling($wrap),
-            selectedHeight = itemScrollingMethods.selectedHeight($wrap);
-
-        $form.html(
-            formTpl({
-                baseUrl: baseUrl || '',
-                href: include.attr('href'),
-                scrolling: isScrolling,
-                scrollingHeights: itemScrollingMethods.options(),
-                selectedHeight: selectedHeight
-            })
-        );
-
-        _initUpload(_widget);
-
-        formElement.initWidget($form);
-
-        formElement.setChangeCallbacks($form, _widget.element, changeCallbacks(_widget));
-
-        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
-    };
-
     const changeCallbacks = function (widget) {
         return {
             scrolling: function (element, value) {
@@ -93,7 +65,7 @@ define([
             $uploadTrigger.resourcemgr({
                 title: __('Please select a shared stimulus file from the resource manager.'),
                 appendContainer: options.mediaManager.appendContainer,
-                mediaSourcesUrl: options.mediaManager.mediaSourcesUrl + '?exclude=local',
+                mediaSourcesUrl: `${options.mediaManager.mediaSourcesUrl}?exclude=local`,
                 browseUrl: options.mediaManager.browseUrl,
                 uploadUrl: options.mediaManager.uploadUrl,
                 deleteUrl: options.mediaManager.deleteUrl,
@@ -132,6 +104,50 @@ define([
                     $href.blur();
                 }
             });
+            const $mgr = $(options.mediaManager.appendContainer);
+            $mgr.on('fileselect.resourcemgr', function (e, file) {
+                if (/taomedia:\/\/mediamanager\//.test(file.file)) {
+                    // rich passage XML will be loaded in iframe
+                    const iframe = $mgr.find('.previewer iframe');
+                    iframe.off('load').on('load', function () {
+                        // parent div should be wrapped in div.qti-item as in item preview
+                        iframe.contents().find('body > div').wrap('<div class="qti-item"></div>');
+                        // table should have qti-table class as in item preview
+                        iframe.contents().find('table').addClass('qti-table');
+                        // for figure and figcaption should be removed namespace
+                        iframe.contents().find('qh5\\:figcaption').each(function () {
+                            const $figcaption = $(this);
+                            $figcaption.replaceWith(`<figcaption>${$figcaption.html()}</figcaption>`);
+                        });
+                        iframe.contents().find('qh5\\:figure').each(function () {
+                            const $figure = $(this);
+                            const $img = $figure.find('img');
+                            if ($img.length) {
+                                const width = $img.attr('width');
+                                $img.attr('width', '100%');
+                                $figure.replaceWith(`<figure style="width:${width}" class="${$figure.attr("class")}">${$figure.html()}</figure>`);
+                            } else {
+                                $figure.replaceWith(`<figure>${$figure.html()}</figure>`);
+                            }
+                        });
+                        // default styles for test runner as in item preview
+                        const $head = iframe.contents().find('head');
+                        const styleTao = $('<link>', {
+                            rel: 'stylesheet',
+                            type: 'text/css',
+                            href: '/tao/views/css/tao-main-style.css'
+                        });
+                        const styleTaoQtiItem = $('<link>', {
+                            rel: 'stylesheet',
+                            type: 'text/css',
+                            href: '/taoQtiItem/views/css/qti-runner.css'
+                        });
+                        $head.append(styleTao);
+                        $head.append(styleTaoQtiItem);
+                        _.each(xincludeRenderer.getXincludeHandlers(), handler => handler(file.file, '', '', $head, true));
+                    });
+                }
+            });
         };
 
         $uploadTrigger.on('click', _openResourceMgr);
@@ -141,6 +157,36 @@ define([
         if (!$href.val()) {
             _openResourceMgr();
         }
+    };
+
+
+
+    IncludeStateActive.prototype.initForm = function () {
+        const _widget = this.widget,
+            $form = _widget.$form,
+            include = _widget.element,
+            baseUrl = _widget.options.baseUrl,
+            $wrap = _widget.$container.parent(`.${wrapperCls}`),
+            isScrolling = itemScrollingMethods.isScrolling($wrap),
+            selectedHeight = itemScrollingMethods.selectedHeight($wrap);
+
+        $form.html(
+            formTpl({
+                baseUrl: baseUrl || '',
+                href: include.attr('href'),
+                scrolling: isScrolling,
+                scrollingHeights: itemScrollingMethods.options(),
+                selectedHeight: selectedHeight
+            })
+        );
+
+        _initUpload(_widget);
+
+        formElement.initWidget($form);
+
+        formElement.setChangeCallbacks($form, _widget.element, changeCallbacks(_widget));
+
+        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
     };
 
     return IncludeStateActive;

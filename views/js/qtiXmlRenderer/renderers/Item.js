@@ -26,7 +26,7 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function (_, tpl) {
         getData: function (item, data) {
             const defaultData = {
                 class: data.attributes.class || '',
-                dir: data.attributes.dir || '',
+                dir: item.bdy.attributes.dir || '',
                 responses: [],
                 outcomes: [],
                 stylesheets: [],
@@ -48,9 +48,11 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function (_, tpl) {
                 defaultData.responses.push(response.render(this));
             });
             _.forEach(item.outcomes, outcome => {
-                if (!defaultData.responseProcessing && outcome.id() === 'SCORE') {
-                    //should not export the SCORE outcome when there is no response processing
-                    return;
+                if (!defaultData.responseProcessing) {
+                    if(outcome.id() === 'SCORE' && !(outcome.attributes && outcome.attributes.externalScored)) {
+                        //should not export the SCORE outcome when there is no human/externalScored processing
+                        return;
+                    }
                 }
                 defaultData.outcomes.push(outcome.render(this));
             });

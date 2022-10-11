@@ -15,18 +15,33 @@
     table.matrix {
         th {
             padding: 0;
+            background-clip: padding-box;
         }
 
         thead {
             .mini-tlb {
                 top: -32px;
+                left: auto;
+
+                @include rtl {
+                    left: 0;
+                    right: auto;
+                }
             }
         }
 
         tbody {
             .mini-tlb {
+                position: absolute;
+                top: -1px;
+                left: -7px;
                 right: auto;
-                left: -86px;
+                transform: translateX(-100%);
+
+                @include rtl {
+                    right: -7px;
+                    transform: translateX(100%);
+                }
             }
 
             [contenteditable="false"] .mini-tlb {
@@ -45,6 +60,10 @@
             width: auto;
             margin: 0;
             padding: 0;
+
+            @include rtl {
+                left: auto;
+            }
 
             .tlb-button {
                 margin: 0;
@@ -71,20 +90,9 @@
         }
     }
 
-    .add-options {
-        margin: 15px 5px 8px 0;
-
-        .add-option {
-            margin-left: 2px;
-            position: relative;
-            padding: 5px 5px 5px 6px;
-
-            .icon-add {
-                font-size: 1.8rem;
-                left: 6px;
-                position: absolute;
-                top: 5px;
-            }
+    @include rtl {
+        .rgt {
+            float: left;
         }
     }
 }

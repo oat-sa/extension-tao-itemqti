@@ -83,7 +83,7 @@ interface TemplateRepositoryInterface
                 'header' => 'optional',
                 'value' => 'one_of_columns_or_empty:choice_[1-99]',
             ],
-            'metadata_[a-z0-9\-_]+' => [
+            'metadata_[A-Za-z0-9\-_]+' => [
                 'header' => 'optional',
                 'parser' => MetadataParser::class,
             ],

@@ -3,8 +3,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/inlineChoice'
-], function ($, stateFactory, Question, formElement, formTpl) {
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/inlineChoice',
+    'services/features'
+], function ($, stateFactory, Question, formElement, formTpl, features) {
     var InlineChoiceInteractionStateQuestion = stateFactory.extend(
         Question,
         function () {
@@ -54,12 +55,13 @@ define([
             $form = _widget.$form,
             interaction = _widget.element;
 
-        $form.html(
-            formTpl({
-                shuffle: !!interaction.attr('shuffle'),
-                required: !!interaction.attr('required')
-            })
-        );
+        $form.html(formTpl({
+            shuffle : !!interaction.attr('shuffle'),
+            required : !!interaction.attr('required'),
+            enabledFeatures: {
+                shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/inlineChoice/property/shuffle')
+            }
+        }));
 
         formElement.initWidget($form);
 

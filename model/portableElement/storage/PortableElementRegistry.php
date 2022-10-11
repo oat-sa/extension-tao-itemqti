@@ -304,6 +304,20 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         return $this->getModel()->createDataObject(reset($portableElements));
     }
 
+    public function getLatestCompatibleVersion(string $identifier, string $targetVersion): ?PortableElementObject
+    {
+        $registered = $this->getAllVersions($identifier);
+        $this->krsortByVersion($registered);
+
+        foreach ($registered as $registeredVersion=>$model) {
+            if (intval($targetVersion) === intval($registeredVersion)) {
+                return $this->getModel()->createDataObject($model);
+            }
+        }
+
+        return null;
+    }
+
     /**
      * @param PortableElementObject $object
      * @param string $source Temporary directory path
@@ -500,17 +514,15 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     /**
      * Export a portable element to a zip package
      *
-     * @param PortableElementObject $object
-     * @return string
      * @throws \common_Exception
      */
-    public function export(PortableElementObject $object)
+    public function export(PortableElementObject $object): string
     {
         $zip = new \ZipArchive();
         $path = $this->getZipLocation($object);
 
         if ($zip->open($path, \ZipArchive::CREATE) !== true) {
-            throw new \common_Exception('Unable to create zipfile ' . $path);
+            throw new \common_Exception('Unable to create zip file ' . $path);
         }
 
         $manifest = $this->getManifest($object);
@@ -520,13 +532,16 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 
         $filesystem = $this->getFileSystem();
         foreach ($files as $file) {
-            if (strpos($file, './') === 0) {
-                //only export the files that are in the portable element package (exclude the shared libraries)
+            try {
                 $zip->addFromString($file, $filesystem->getFileContentFromModelStorage($object, $file));
+            } catch (PortableElementFileStorageException $e) {
+                // do not include missing/sharedClientLib files
+                continue;
             }
         }
 
         $zip->close();
+
         return $path;
     }
 

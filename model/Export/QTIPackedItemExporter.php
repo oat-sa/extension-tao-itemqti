@@ -140,7 +140,7 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
                     $qtiFile = $fileName;
                 } else {
                     if (!empty($fileName)) {
-                        $qtiResources[] = $fileName;
+                        $qtiResources[] = htmlspecialchars($fileName, ENT_QUOTES|ENT_XML1);
                     }
                 }
             }
@@ -235,8 +235,14 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
         return $newManifest;
     }
 
+
     protected function itemContentPostProcessing($content)
     {
         return $content;
+    }
+
+    protected function getQTIVersion(): string
+    {
+        return '2p1';
     }
 }

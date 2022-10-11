@@ -68,7 +68,10 @@ define([
      */
     function getRpUsedVariables(item) {
         const rpXml = xmlRenderer.render(item.responseProcessing);
-        const variables = ['SCORE', 'MAXSCORE']; //score and max score are always used, even in template based response processing
+        const variables = [  ];
+        if (rpXml !== '') {
+            variables.push('SCORE', 'MAXSCORE');
+        }
         const $rp = $(rpXml);
 
         $rp.find('variable,setOutcomeValue').each(function () {
@@ -147,9 +150,7 @@ define([
         if (!$field.data('$tooltip')) {
             widgetTooltip = tooltip.warning(
                 $field,
-                __(
-                    'This value does not follow scoring traits guidelines. It won\'t be compatible with TAO Manual Scoring'
-                ),
+                __("This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"),
                 {
                     trigger: 'manual',
                     placement: 'left-start'
@@ -284,7 +285,6 @@ define([
                                     }
                                 },
                                 formElement.getMinMaxAttributeCallbacks(
-                                    $outcomeContainer,
                                     'normalMinimum',
                                     'normalMaximum',
                                     {
@@ -297,6 +297,19 @@ define([
 
                                             if (isNaN(value)) {
                                                 outcome.removeAttr(attr);
+                                            } else {
+                                                value = Math.round(value);
+
+                                                outcome.attr(attr, value);
+                                                $outcomeValueContainer.find(`[name="${attr}"]`).val(value);
+
+                                                if (attr === 'normalMinimum' && outcome.attr('normalMaximum') < value) {
+                                                    outcome.attr('normalMaximum', value);
+                                                    $outcomeValueContainer.find('[name="normalMaximum"]').val(value);
+                                                } else if (attr === 'normalMaximum' && outcome.attr('normalMinimum') > value) {
+                                                    outcome.attr('normalMinimum', value);
+                                                    $outcomeValueContainer.find('[name="normalMinimum"]').val(value);
+                                                }
                                             }
                                         }
                                     }
@@ -317,7 +330,8 @@ define([
                         $outcomeContainer.remove();
                         item.remove('outcomes', $outcomeContainer.data('serial'));
                     })
-                    .on(`click${_ns}`, '.adder', function () {
+                    .on(`click${_ns}`, '.adder', function (e) {
+                        e.preventDefault();
                         //add new outcome
                         const newOutcome = new OutcomeDeclaration({
                             cardinality: 'single',

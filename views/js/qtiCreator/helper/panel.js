@@ -18,8 +18,9 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
     'taoQtiItem/qtiItem/core/Element'
-], function($, _, Element){
+], function($, _, __, Element){
     "use strict";
 
     var _getItemContainer = function(){
@@ -45,6 +46,7 @@ define([
 
         var _staticElements = {
             _tooltip : 'Tooltip',
+            figure : 'Figure',
             img : 'Image',
             object : 'Media',
             rubricBlock : 'Rubric Block',
@@ -135,7 +137,7 @@ define([
 
                     var label = _staticElements[element.qtiClass];
                     if(label){
-                        $formBodyElementPanel.find('h2').html(label + ' Properties');
+                        $formBodyElementPanel.find('h2').html(label + ' ' + __('Properties'));
                         showPanel($formBodyElementPanel);
                     }else if(element.qtiClass === '_container'){
                         showPanel($formTextBlockPanel);

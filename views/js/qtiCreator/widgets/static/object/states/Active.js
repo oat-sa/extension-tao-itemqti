@@ -168,17 +168,16 @@ define([
         }
     };
     const _initUpload = function (widget) {
-        const $form = widget.$form,
-            options = widget.options,
-            qtiObject = widget.element,
-            $uploadTrigger = $form.find('[data-role="upload-trigger"]'),
-            $src = $form.find('input[name=src]');
+        const $form = widget.$form;
+        const options = widget.options;
+        const qtiObject = widget.element;
+        const $uploadTrigger = $form.find('[data-role="upload-trigger"]');
+        const $src = $form.find('input[name=src]');
+        refreshRendering(widget);
 
         const _openResourceMgr = function _openResourceMgr() {
             $uploadTrigger.resourcemgr({
-                title: __(
-                    'Please select a media file from the resource manager. You can add files from your computer with the button "Add file(s)".'
-                ),
+                title: __('Please select a media file from the resource manager. You can add files from your computer with the button "Add file(s)".'),
                 appendContainer: options.mediaManager.appendContainer,
                 mediaSourcesUrl: options.mediaManager.mediaSourcesUrl,
                 browseUrl: options.mediaManager.browseUrl,
@@ -222,10 +221,10 @@ define([
         }
     };
     ObjectStateActive.prototype.initForm = function () {
-        const _widget = this.widget,
-            $form = _widget.$form,
-            qtiObject = _widget.element,
-            baseUrl = _widget.options.baseUrl;
+        const _widget = this.widget;
+        const $form = _widget.$form;
+        const qtiObject = _widget.element;
+        const baseUrl = _widget.options.baseUrl;
         const $container = _widget.$original;
 
         $form.html(

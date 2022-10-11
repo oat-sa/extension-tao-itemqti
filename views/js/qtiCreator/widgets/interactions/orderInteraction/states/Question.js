@@ -25,23 +25,41 @@ define([
     'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/order',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
+    'services/features',
     'ui/liststyler'
-], function(_, stateFactory, Question, formElement, minMaxComponentFactory, formTpl, sizeAdapter){
+], function (
+    _, 
+    stateFactory, 
+    Question, 
+    formElement, 
+    minMaxComponentFactory, 
+    formTpl,
+    sizeAdapter,
+    features
+) {
     'use strict';
 
     var OrderInteractionStateQuestion = stateFactory.extend(Question);
 
     OrderInteractionStateQuestion.prototype.initForm = function initForm(){
 
-        var  callbacks;
+        var callbacks;
         var widget      = this.widget;
         var $form       = this.widget.$form;
         var interaction = this.widget.element;
         var $choiceArea = this.widget.$container.find('.choice-area');
+        var $resultArea = this.widget.$container.find('.result-area');
+        var $interaction = this.widget.$container.find('.qti-interaction');
+        var $iconAdd = this.widget.$container.find('.icon-add-to-selection');
+        var $iconRemove = this.widget.$container.find('.icon-remove-from-selection');
 
         $form.html(formTpl({
             shuffle : !!interaction.attr('shuffle'),
-            horizontal : interaction.attr('orientation') === 'horizontal'
+            horizontal : interaction.attr('orientation') === 'horizontal',
+            enabledFeatures: {
+                shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/order/property/shuffle'),
+                orientation: features.isVisible('taoQtiItem/creator/interaction/order/property/orientation')
+            }
         }));
 
         //usual min/maxChoices control
@@ -61,7 +79,7 @@ define([
         formElement.initWidget($form);
 
         //data change callbacks with the usual min/maxChoices
-        callbacks = formElement.getMinMaxAttributeCallbacks($form, 'minChoices', 'maxChoices', {updateCardinality:false});
+        callbacks = formElement.getMinMaxAttributeCallbacks('minChoices', 'maxChoices', {updateCardinality:false});
 
         //data change for shuffle
         callbacks.shuffle = formElement.getAttributeChangeCallback();
@@ -69,10 +87,21 @@ define([
         //data change for orientation, change also the current css class
         callbacks.orientation = function(interaction, value){
             interaction.attr('orientation', value);
+            $interaction.attr('data-orientation', value);
+
             if(value === 'horizontal'){
-                $choiceArea.addClass('horizontal');
+                $choiceArea.addClass('horizontal').removeClass('vertical');
+                $resultArea.addClass('horizontal').removeClass('vertical');
+                $interaction.addClass('qti-horizontal').removeClass('qti-vertical');
+                $iconAdd.addClass('icon-down').removeClass('icon-right');
+                $iconRemove.addClass('icon-up').removeClass('icon-left');
             } else {
-                $choiceArea.removeClass('horizontal');
+                $choiceArea.addClass('vertical').removeClass('horizontal');
+                $resultArea.addClass('vertical').removeClass('horizontal');
+                $interaction.addClass('qti-vertical').removeClass('qti-horizontal');
+                $iconAdd.addClass('icon-right').removeClass('icon-down');
+                $iconRemove.addClass('icon-left').removeClass('icon-up');
+
             }
         };
 

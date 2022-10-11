@@ -18,35 +18,75 @@
         display: inline-block;
         background: $uiClickableDefaultBg;
         color: $textColor;
-        margin-right: 5px;
+        padding: 0 5px;
         @include border-radius();
         position: relative;
         border-width: 0px !important;
         text-decoration: inherit;
 
+        @include rtl {
+            margin-right: 5px;
+        }
+
         &:hover {
             @extend %selectableHover;
         }
 
-        &.error{
-            color : $error;
+        &.error {
+            color: $error;
         }
 
         .hottext-checkmark {
-            padding-left: 3px;
-            padding-right: 0;
+            padding: 0;
             width: 20px;
         }
 
-        [class^="icon-"], [class*=" icon-"] {
+        [class^="icon-"],
+        [class*=" icon-"] {
             &.small {
                 @include font-size(12);
                 text-shadow: none;
-                line-height:10px;
+                line-height: 10px;
                 top: 1px;
+                &:before {
+                    right: 0em;
+                    @include rtl {
+                        right: -1em;
+                    }
+                }
+                &:after {
+                    left: -1em;
+                    @include rtl {
+                        right: 0em;
+                    }
+                }
             }
-            &.error{
-                color : $error;
+            &.error {
+                color: $error;
+            }
+        }
+    }
+}
+
+// IE10+ CSS styles go here
+@include ie11 {
+    .qti-hottextInteraction {
+        .qti-hottext {
+            [class^="icon-"],
+            [class*=" icon-"] {
+                &.small {
+                    &:before {
+                        right: 0.25em;
+                    }
+                    &:after {
+                        right: 0.5em;
+                    }
+                    @include rtl {
+                        &:before {
+                            right: -0.25em;
+                        }
+                    }
+                }
             }
         }
     }

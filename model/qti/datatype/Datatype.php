@@ -22,9 +22,7 @@
 
 namespace oat\taoQtiItem\model\qti\datatype;
 
-use oat\taoQtiItem\model\qti\datatype\Datatype;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
-use oat\taoQtiItem\model\qti\datatype\DatatypeException;
 
 /**
  * It is the top class of every basic data type used in QTI
@@ -37,17 +35,17 @@ use oat\taoQtiItem\model\qti\datatype\DatatypeException;
 abstract class Datatype
 {
     protected $value = null;
-    
+
     public function __construct($value = null)
     {
         $this->setValue($value);
     }
-    
+
     public function __toString()
     {
         return (string) $this->getValue();
     }
-    
+
     public function selfCheck()
     {
         return static::validate($this->value);
@@ -57,12 +55,12 @@ abstract class Datatype
     {
         throw new QtiModelException('the method "validate" must be implemented by ' . get_called_class());
     }
-    
+
     public static function fix($value)
     {
         throw new QtiModelException('the method "fix" must be implemented by ' . get_called_class());
     }
-    
+
     /**
      * Return the base type representation of the value
      *
@@ -70,16 +68,16 @@ abstract class Datatype
      */
     public function getValue()
     {
-        
+
         $returnValue = null;
-        
+
         if (!is_null($this->value)) {
             $returnValue = $this->value;
         }
-        
+
         return $returnValue;
     }
-    
+
     public function setValue($value)
     {
         if (static::validate($value)) {

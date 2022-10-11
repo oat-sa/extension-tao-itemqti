@@ -29,8 +29,10 @@ use oat\oatbox\filesystem\File;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\media\MediaAsset;
 use oat\tao\model\media\MediaBrowser;
+use oat\tao\model\media\sourceStrategy\InlineSource;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\compile\QtiAssetCompiler\QtiItemAssetCompiler;
+use oat\taoQtiItem\model\compile\QtiAssetCompiler\XIncludeAdditionalAssetInjector;
 use oat\taoQtiItem\model\compile\QtiAssetReplacer\NullQtiItemAssetReplacer;
 use oat\taoQtiItem\model\compile\QtiAssetReplacer\QtiItemAssetReplacer;
 use oat\taoQtiItem\model\compile\QtiItemCompilerAssetBlacklist;
@@ -58,9 +60,10 @@ class QtiItemAssetCompilerTest extends TestCase
     /** @var Directory */
     private $directory;
 
-    /**
-     * @var QtiItemAssetReplacer
-     */
+    /** @var XIncludeAdditionalAssetInjector */
+    private $xIncludeAdditionalAssetInjector;
+
+    /** @var QtiItemAssetReplacer */
     private $nullQtiItemAssetReplacer;
 
     public function setUp(): void
@@ -69,10 +72,12 @@ class QtiItemAssetCompilerTest extends TestCase
 
         $this->blackListService = $this->createMock(QtiItemCompilerAssetBlacklist::class);
         $this->nullQtiItemAssetReplacer = $this->createMock(NullQtiItemAssetReplacer::class);
+        $this->xIncludeAdditionalAssetInjector = $this->createMock(XIncludeAdditionalAssetInjector::class);
         $this->subject->setServiceLocator($this->getServiceLocatorMock([
             QtiItemCompilerAssetBlacklist::SERVICE_ID => $this->blackListService,
             LoggerService::SERVICE_ID => new NullLogger(),
-            QtiItemAssetReplacer::SERVICE_ID => $this->nullQtiItemAssetReplacer
+            QtiItemAssetReplacer::SERVICE_ID => $this->nullQtiItemAssetReplacer,
+            XIncludeAdditionalAssetInjector::class => $this->xIncludeAdditionalAssetInjector
         ]));
 
         $this->resolver = $this->createMock(ItemMediaResolver::class);
@@ -269,6 +274,33 @@ class QtiItemAssetCompilerTest extends TestCase
         $this->assertSame('img', $packedAssets['image-src']->getType());
         $this->assertSame('image-link', $packedAssets['image-src']->getLink());
         $this->assertSame($this->getReplacementName('image-link'), $this->getFilenameWithoutPrefix($packedAssets['image-src']->getReplacedBy()));
+    }
+
+    public function testExtractAndCopyAssetFilesReplaceInlineAssets()
+    {
+        $inlineMediaUrl = 'data:image/bmp;base64,dGVzdA==';
+        $this->item
+            ->method('getComposingElements')
+            ->willReturn([
+                (new ElementMock())->setComposingElements([
+                    $this->createConfiguredMock(Img::class, ['attr' => $inlineMediaUrl])
+                ])
+            ]);
+
+        $this->blackListService->method('isBlacklisted')->willReturn(false);
+
+        $packedAssetMock = $this->createMock(PackedAsset::class);
+        $this->nullQtiItemAssetReplacer->method('shouldBeReplaced')->willReturn(true);
+        $this->nullQtiItemAssetReplacer->method('replace')->willReturn($packedAssetMock);
+
+        $packedAssets = $this->subject->extractAndCopyAssetFiles(
+            $this->item,
+            $this->directory,
+            $this->createPartialMock(ItemMediaResolver::class, [])
+        );
+
+        $this->assertArrayHasKey($inlineMediaUrl, $packedAssets);
+        $this->assertSame($packedAssetMock, $packedAssets[$inlineMediaUrl]);
     }
 
     public function testReplaceAssets()

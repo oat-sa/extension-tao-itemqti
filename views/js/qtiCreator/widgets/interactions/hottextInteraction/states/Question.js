@@ -95,7 +95,8 @@ define([
                 data: {
                     container: container,
                     widget: _widget
-                }
+                },
+                qtiInclude: false
             });
         }
     };
@@ -137,7 +138,7 @@ define([
 
         formElement.initWidget($form);
 
-        callbacks = formElement.getMinMaxAttributeCallbacks($form, 'minChoices', 'maxChoices');
+        callbacks = formElement.getMinMaxAttributeCallbacks('minChoices', 'maxChoices');
         formElement.setChangeCallbacks($form, interaction, callbacks);
     };
 
@@ -182,9 +183,7 @@ define([
             const $cloneContent = wrapper.getCloneOfContents();
             if ($cloneContent.find('p').length) {
                 feedback().error(
-                    __(
-                        'Cannot create hottext from this selection. Please make sure the selection does not contain multiple lines.'
-                    )
+                    __('Cannot create hottext from this selection. Please make sure the selection does not contain multiple lines.')
                 );
                 return;
             }
@@ -193,9 +192,7 @@ define([
                     this.createNewHottext($newHottextClone);
                 } else {
                     feedback().error(
-                        __(
-                            'Cannot create hottext from this selection.'
-                        )
+                        __('Cannot create hottext from this selection.')
                     );
                 }
             } else {
@@ -203,9 +200,7 @@ define([
                     this.createNewHottext($newHottextClone);
                 } else {
                     feedback().error(
-                        __(
-                            'Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words.'
-                        )
+                        __('Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words.')
                     );
                 }
             }
@@ -272,6 +267,9 @@ define([
                     newHottextWidget.destroy();
                     newHottextWidget = newHottextElt.data('widget');
                     newHottextWidget.changeState('choice');
+
+                    // trigger create event
+                    $(document).trigger('choiceCreated.qti-widget', {interaction});
                 }
             }
         );

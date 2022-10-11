@@ -22,6 +22,7 @@
 
 namespace oat\taoQtiItem\model\qti\container;
 
+use Monolog\Logger;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\IdentifiedElementContainer;
 use oat\taoQtiItem\model\qti\Item;
@@ -118,7 +119,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
                         $body .= $placeholder;
                     }
                 }
-                
+
                 $relatedItem = $this->getRelatedItem();
                 if (!is_null($relatedItem)) {
                     $qtiElement->setRelatedItem($relatedItem);
@@ -137,7 +138,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
 
         return true;
     }
-    
+
     public function afterElementSet(Element $qtiElement)
     {
 
@@ -208,7 +209,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
      */
     public function fixNonvoidTags($html)
     {
-        return preg_replace_callback('~(<([\w]+)[^>]*?)(\s*/>)~u', function ($matches) {
+        $content = preg_replace_callback('~(<([\w]+)[^>]*?)(\s*/>)~u', function ($matches) {
             // something went wrong
             if (empty($matches[2])) {
                 // do nothing
@@ -222,6 +223,19 @@ abstract class Container extends Element implements IdentifiedElementContainer
             // correctly closed element
             return trim(mb_substr($matches[0], 0, -2), 'UTF-8') . '></' . $matches[2] . '>';
         }, $html);
+
+        $pregLastError = preg_last_error();
+        if ($content === null &&
+            (
+                $pregLastError === PREG_BACKTRACK_LIMIT_ERROR ||
+                $pregLastError === PREG_RECURSION_LIMIT_ERROR
+            )
+        ) {
+            common_Logger::w('Content size is exceeding preg backtrack limits, could not fix non void tags');
+            return $html;
+        }
+
+        return $content;
     }
 
     public function isValidElement(Element $element)
@@ -243,9 +257,9 @@ abstract class Container extends Element implements IdentifiedElementContainer
      *
      * @access public
      * @author Sam, <sam@taotesting.com>
-     * @return array
+     * @return string[]
      */
-    abstract function getValidElementTypes();
+    abstract function getValidElementTypes(): array;
 
     /**
      * Get the element by its serial
@@ -338,7 +352,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
                 $returnValue->add($element);
             }
         }
-        
+
         return $returnValue;
     }
 
@@ -375,13 +389,14 @@ abstract class Container extends Element implements IdentifiedElementContainer
             'serial' => $this->getSerial(),
             'body' => $this->getBody(),
             'elements' => $this->getArraySerializedElementCollection($this->getElements(), $filterVariableContent, $filtered),
+            'attributes' => $this->getAttributeValues()
         ];
-        
+
         if ($this->isDebugMode()) {
             //in debug mode, add debug data, such as the related item
             $data['debug'] = ['relatedItem' => is_null($this->getRelatedItem()) ? '' : $this->getRelatedItem()->getSerial()];
         }
-        
+
         return $data;
     }
 

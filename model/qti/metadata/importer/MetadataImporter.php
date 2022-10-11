@@ -120,11 +120,7 @@ class MetadataImporter extends AbstractMetadataService
             if ($this->hasMetadataValue($identifier)) {
                 \common_Logger::i(__('Target Class Lookup for resource "%s"...', $identifier));
                 if (($targetClass = $classLookup->lookup($this->getMetadataValue($identifier))) !== false) {
-                    \common_Logger::i(__(
-                        'Class Lookup Successful. Resource "%s" will be stored in RDFS Class "%s".',
-                        $identifier,
-                        $targetClass->getUri()
-                    ));
+                    \common_Logger::i(__('Class Lookup Successful. Resource "%s" will be stored in RDFS Class "%s".', $identifier, $targetClass->getUri()));
 
                     if ($classLookup instanceof MetadataClassLookupClassCreator) {
                         $createdClasses = $classLookup->createdClasses();

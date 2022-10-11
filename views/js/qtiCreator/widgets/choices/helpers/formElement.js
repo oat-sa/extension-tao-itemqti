@@ -13,20 +13,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2019-2021 (original work) Open Assessment Technologies SA ;
  */
-define(['jquery'], function($) {
-
-    var formElementHelper = {
-        initShufflePinToggle: function(widget) {
-
-            var $container = widget.$container,
+define(['jquery'], function ($) {
+    const formElementHelper = {
+        initShufflePinToggle: function (widget) {
+            const $container = widget.$container,
                 choice = widget.element,
                 interaction = choice.getInteraction(),
                 $shuffleToggle = $container.find('[data-role="shuffle-pin"]');
 
-            var toggleVisibility = function(show) {
-                if (show === 'true') {
+            const toggleVisibility = function (show) {
+                if (show === 'true' || show === true) {
                     $shuffleToggle.show();
                 } else {
                     $shuffleToggle.hide();
@@ -36,8 +34,8 @@ define(['jquery'], function($) {
                 });
             };
 
-            $shuffleToggle.off('mousedown').on('mousedown', function(e) {
-                var $icon = $(this).children();
+            $shuffleToggle.off('mousedown').on('mousedown', function (e) {
+                let $icon = $(this).children();
                 e.stopPropagation();
 
                 if ($icon.length === 0) {
@@ -55,19 +53,24 @@ define(['jquery'], function($) {
             toggleVisibility(interaction.attr('shuffle'));
 
             //listen to interaction property change
-            widget.on('attributeChange', function(data) {
+            widget.on('attributeChange', function (data) {
                 if (data.element.serial === interaction.serial && data.key === 'shuffle') {
                     toggleVisibility(data.value);
                 }
             });
         },
-        initDelete: function(widget) {
+        initDelete: function (widget) {
+            const $container = widget.$container;
 
-            var $container = widget.$container;
-
-            $container.find('[data-role="delete"]').on('mousedown', function(e) {
-                e.stopPropagation();
-                widget.changeState('deleting');
+            $container.find('[data-role="delete"]').on('mousedown', function (e) {
+                if (
+                    $container.hasClass('edit-choice') ||
+                    $(e.target).closest('.mini-tlb').data('for') === widget.element.serial
+                ) {
+                    // condition prevent removing choice in case user deliting inner element (math, image)
+                    e.stopPropagation();
+                    widget.changeState('deleting');
+                }
             });
         }
     };

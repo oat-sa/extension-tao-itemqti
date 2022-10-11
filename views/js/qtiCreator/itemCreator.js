@@ -213,15 +213,14 @@ define([
                                 reasons.push(invalidElements[serial][key].message);
                             });
                         });
-                        self.trigger('error', new Error(`${__('Item cannot be saved.')} ${reasons.join(', ')}.`));
+                        self.trigger('error', new Error(`${__('Item cannot be saved.')} (${reasons.join(', ')}).`));
                         return;
                     }
                     //do the save
                     return this.beforeSaveProcess
-                        .then(() => Promise.all([
-                            itemWidget.save(),
-                            styleEditor.save()
-                        ])).then(() => {
+                        .then(() => styleEditor.save())
+                        .then(() => itemWidget.save())
+                        .then(() => {
                             if (!silent){
                                 self.trigger('success', __('Your item has been saved'));
                             }
@@ -233,6 +232,7 @@ define([
 
                 this.on('exit', function () {
                     $('.item-editor-item', areaBroker.getItemPanelArea()).empty();
+                    styleEditor.cleanCache();
                 });
 
                 const usedCustomInteractionIds = [];

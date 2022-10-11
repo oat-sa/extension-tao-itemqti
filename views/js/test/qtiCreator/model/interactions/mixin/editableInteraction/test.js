@@ -46,10 +46,17 @@ define([
         url: 'undefined/tao/Languages/index',
         responseText: {
             "success": true,
-            "data": {
-                "en-GB":"British English",
-                "en-US":"English"
-            }
+            "data": [{
+                "uri":"http:\/\/www.tao.lu\/ontologies\/tao.rdf#langar-arb",
+                "code":"ar-arb",
+                "label":"arabic",
+                "orientation":"rtl"
+            },{
+                "uri":"http:\/\/www.tao.lu\/ontologies\/tao.rdf#langckb-ir",
+                "code":"ckb-ir",
+                "label":"kurdish (iran)",
+                "orientation":"rtl"
+            }]
         },
         status: 200
     }]);
@@ -110,7 +117,7 @@ define([
             });
     });
 
-    QUnit.test('beforeRemove', function (assert) {
+    QUnit.test('beforeRemove - renamed response identifier will not change', function (assert) {
         const ready = assert.async();
         const $container = $('#fixture-render');
         const config = {
@@ -132,7 +139,7 @@ define([
 
                 firstInteraction.createResponse();
                 secondInteraction.createResponse();
-                const outcomeIdentifier = `SCORE_RESPONSE`;
+                const outcomeIdentifier = `SCORE_RESPONSE_2`;
 
                 firstInteraction.beforeRemove();
 
@@ -143,14 +150,14 @@ define([
 
                 assert.equal(
                     secondInteraction.attributes.responseIdentifier,
-                    'RESPONSE',
-                    'if there is only one interaction left changes its identifier to RESPONSE'
-                )
+                    'RESPONSE_2',
+                    'if there is only one interaction left, its identifier stays RESPONSE_2'
+                );
 
                 assert.equal(
                     outcome.attributes.identifier,
-                    'SCORE_RESPONSE',
-                    'if there is only one interaction left changes its response outcome identifier to SCORE_RESPOSE'
+                    'SCORE_RESPONSE_2',
+                    'if there is only one interaction left, its response outcome identifier stays SCORE_RESPOSE_2'
                 );
 
                 instance.destroy();

@@ -24,10 +24,12 @@ namespace oat\taoQtiItem\model\qti;
 
 use common_exception_Error;
 use oat\oatbox\filesystem\Directory;
+use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\qti\container\Container;
+use oat\taoQtiItem\model\qti\CustomInteractionAsset\CustomInteractionAssetExtractorAllocator;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
-use \SimpleXMLElement;
+use SimpleXMLElement;
 use tao_helpers_Xml;
 
 /**
@@ -332,7 +334,14 @@ class AssetParser
                 foreach ($xml->xpath('//audio') as $audio) {
                     $this->addAsset('audio', (string)$audio['src']);
                 }
+                foreach ($xml->xpath('//include') as $xinclude) {
+                    $this->addAsset('xinclude', (string)$xinclude['href']);
+                }
             }
+        }
+
+        if ($element instanceof CustomInteraction) {
+            $this->extractAdvancedCustomInteractionAssets($element);
         }
     }
 
@@ -351,6 +360,17 @@ class AssetParser
             }
         }
         return $xmls;
+    }
+
+    private function extractAdvancedCustomInteractionAssets(CustomInteraction $interaction): void
+    {
+        $extractorAllocator = $this->getCustomInteractionAssetExtractorAllocator();
+        $extractor = $extractorAllocator->allocateExtractor($interaction->getTypeIdentifier());
+
+        foreach ($extractor->extract($interaction) as $asset) {
+            // `apip` type used as something common in reason that it's not possible do define a specific type,
+            $this->addAsset('apip', $asset);
+        }
     }
 
     /**
@@ -459,4 +479,12 @@ class AssetParser
     {
         $this->deepParsing = $deepParsing;
     }
+
+    private function getCustomInteractionAssetExtractorAllocator(): CustomInteractionAssetExtractorAllocator
+    {
+        return ServiceManager::getServiceManager()
+            ->getContainer()
+            ->get(CustomInteractionAssetExtractorAllocator::class);
+    }
+
 }

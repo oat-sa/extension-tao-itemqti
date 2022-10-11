@@ -13,14 +13,19 @@
     [data-eliminable="container"] {
         display: none;
         position: absolute;
-        left: $elimCbOffsetLeft * 1px;
         z-index: 3;
-        top: 2px;
+        top: 0;
         min-height: $minRowHeight * 1px;
         max-height: 100%;
         min-width: 20px;
         margin: 5px 0;
         padding: 0;
+        left: $elimCbOffsetLeft * 1px;
+
+        @include rtl {
+            left: auto;
+            right: $elimCbOffsetLeft * 1px;
+        }
         &:after {
             content: "0";
             visibility: hidden;
@@ -41,94 +46,144 @@
             bottom: calc(100% + 20px);
         }
     }
+
+    .real-label {
+        left: 0;
+        padding-right: 10px;
+        @include rtl {
+            left: auto;
+            right: 0;
+            padding-right: 0;
+            padding-left: 10px;
+        }
+
+    }
+    .label-box{
+        margin-left: 24px;
+        @include rtl {
+            margin-left: 0;
+            margin-right: 24px;
+        }
+    }
+
     // parent .qti-interaction
     &.eliminable {
-        .label-box {
-            margin-left: 85px;
-        }
-        // ol
-        .choice-area {
-            margin-top: 25px;
-            // there might be list-styles that move everything to the right
-            &[class^="list-style-"], &[class*=" list-style-"] {
-                [data-eliminable="container"] {
-                    left: $elimListStyleCbOffsetLeft * 1px;
+        &.allow-elimination-visible {
+            .label-box {
+                margin-left: 85px;
+
+                @include rtl {
+                    margin-left: auto;
+                    margin-right: 85px;
                 }
             }
-            //both label and checkbox
-            [data-eliminable] {
-                display: block;
-            }
-        }
-        // eliminator outer layer
-        .qti-choice {
-            // when checked
-            &.eliminated {
-                .label-box {
-                    .label-content {
-                        position: relative;
+            // ol
+            .choice-area {
+                margin-top: 25px;
+                // there might be list-styles that move everything to the right
+                &[class^="list-style-"], &[class*=" list-style-"] {
+                    [data-eliminable="container"] {
+                        left: $elimListStyleCbOffsetLeft * 1px;
 
-                        .qti-block {
-                            &:after {
-                                content:' ';
+                        @include rtl {
+                            left: auto;
+                            right: $elimListStyleCbOffsetLeft * 1px;
+                        }
+                    }
+                }
+                //both label and checkbox
+                [data-eliminable] {
+                    display: block;
+                }
+            }
+            // eliminator outer layer
+            .qti-choice {
+                // when checked
+                &.eliminated {
+                    .label-box {
+                        .label-content {
+                            position: relative;
+
+                            .qti-block {
+                                &:after {
+                                    content:' ';
+                                    width: 100%;
+                                    position: relative;
+                                    top: -21px;
+                                }
+                            }
+
+                            .overlay-answer-eliminator {
+                                stroke:rgb(0,0,0);
+                                stroke-width:1;
+                                display: inline;
+                                height: 100%;
+                                left: 0;
+                                overflow: hidden;
+                                position: absolute;
+                                top: 0;
                                 width: 100%;
-                                position: relative;
-                                top: -21px;
                             }
                         }
+                    }
 
-                        .overlay-answer-eliminator {
-                            stroke:rgb(0,0,0);
-                            stroke-width:1;
-                            display: inline;
-                            height: 100%;
-                            left: 0;
-                            overflow: hidden;
-                            position: absolute;
-                            top: 0;
-                            width: 100%;
+                    &:before,
+                    .pseudo-label-box {
+                        opacity: .3;
+                    }
+
+                    &:before,
+                    .label-box {
+                        cursor: not-allowed;
+                    }
+
+                    &:after {
+                        content: "";
+                        width: 100%;
+                        height: 100%;
+                        background: $uiGeneralContentBg;
+                        opacity: .7;
+                        display: block;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        cursor: not-allowed;
+                    }
+
+                    [data-eliminable="container"] {
+                        cursor: not-allowed;
+                        [data-eliminable="trigger"] {
+                            &:before {
+                                @include icon-checkbox-crossed();
+                            }
                         }
                     }
                 }
-
-                &:before,
-                .pseudo-label-box {
-                    opacity: .3;
-                }
-
-                &:before,
-                .label-box {
-                    cursor: not-allowed;
-                }
-
-                &:after {
-                    content: "";
-                    width: 100%;
-                    height: 100%;
-                    background: $uiGeneralContentBg;
-                    opacity: .7;
-                    display: block;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    cursor: not-allowed;
-                }
-
-                [data-eliminable="container"] {
-                    cursor: not-allowed;
-                    [data-eliminable="trigger"] {
-                        &:before {
-                            @include icon-checkbox-crossed();
+                &:first-child {
+                    [data-eliminable="container"] {
+                        // label above ol
+                        &::before {
+                            content: attr(data-label);
                         }
                     }
                 }
             }
-            &:first-child {
-                [data-eliminable="container"] {
-                    // label above ol
-                    &::before {
-                        content: attr(data-label);
-                    }
+        }
+    }
+
+    &.maskable {
+        .qti-choice {
+            .answer-mask {
+                @include rtl {
+                    left: 0;
+                    right: auto;
+                    text-align: left;
+                }
+            }
+            .label-content {
+                @include rtl {
+                    padding-right: 0;
+                    padding-left: 40px;
                 }
             }
         }
@@ -139,7 +194,7 @@
         max-height: 100%;
         display: flex;
         align-items: center;
-        top: 2px;
+        top: 0px;
         -webkit-tap-highlight-color: transparent; // mobile safari fix
         &:before {
             content: "0";
@@ -155,25 +210,45 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+
+        &:before {
+            @include rtl {
+                right: -1em;
+            }
+        }
+        &:after {
+            left: -1em;
+            @include rtl {
+                left: auto;
+            }
+        }
     }
 
     .choice-area {
         &[class^="list-style-"], &[class*=" list-style-"] {
-
-
             .label-content {
                 margin-left: 30px;
+
+                @include rtl {
+                    margin-left: auto;
+                    margin-right: 30px;
+                }
             }
 
             p, div, li {
                 &::before {
                     position: absolute;
-                    top: 5px;
-                    left: 30px;
+                    top: 4px;
                     min-height: $minRowHeight * 1px;
                     max-height: 100%;
                     display: flex;
                     align-items: center;
+                    left: 30px;
+
+                    @include rtl {
+                        left: auto;
+                        right: 30px;
+                    }
                 }
                 &.add-option:before {
                     content: '';
@@ -209,8 +284,9 @@
     .label-content {
         min-height: $minRowHeight * 1px;
         max-height: 100%;
-        display: block;
+        display: flex;
     }
+
 
 
     //IE specific
@@ -227,8 +303,8 @@
     }
     .real-label{
         input{
-            position: absolute;
-            left: -10000px;
+            opacity: 0;
+            left: auto;
         }
     }
     //END IE specific

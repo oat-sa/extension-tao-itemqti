@@ -1,13 +1,33 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA;
+ *
+ */
 define([
     'lodash',
+    'services/features',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/widgets/interactions/inlineInteraction/Widget',
     'taoQtiItem/qtiCreator/widgets/choices/inlineChoice/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/inlineChoiceInteraction/states/states',
     'tpl!taoQtiItem/qtiCreator/tpl/inlineInteraction/inlineChoiceInteraction',
     'tpl!taoQtiItem/qtiCreator/tpl/inlineInteraction/inlineChoice'
-], function (_, Element, InteractionWidget, ChoiceWidget, states, inlineChoiceInteractionTpl, inlineChoiceTpl) {
-    const InlineChoiceInteractionWidget = InteractionWidget.clone();
+], function(_, features, Element, InteractionWidget, ChoiceWidget, states, inlineChoiceInteractionTpl, inlineChoiceTpl){
+
+    var InlineChoiceInteractionWidget = InteractionWidget.clone();
 
     InlineChoiceInteractionWidget.initCreator = function (options) {
         this.registerStates(states);
@@ -34,27 +54,32 @@ define([
             container.qtiClass + '.' + interaction.qtiClass,
             interaction.getRenderer()
         );
-
+        const dir = choice.getRootElement().getBody().attributes.dir;
+        const shuffleIsVisible = features.isVisible('taoQtiItem/creator/interaction/inlineChoice/property/shuffle');
         const tplData = {
             tag: choice.qtiClass,
             serial: choice.serial,
             attributes: choice.attributes,
             body,
-            interactionShuffle: shuffleChoice
+            interactionShuffle: shuffleIsVisible && shuffleChoice,
+            dir : dir
         };
 
         return inlineChoiceTpl(tplData);
     };
 
-    InlineChoiceInteractionWidget.renderInteraction = function () {
-        const interaction = this.element,
-            shuffleChoice = interaction.attr('shuffle'),
-            tplData = {
-                tag: interaction.qtiClass,
-                serial: interaction.serial,
-                attributes: interaction.attributes,
-                choices: []
-            };
+
+    InlineChoiceInteractionWidget.renderInteraction = function(){
+        const interaction = this.element;
+        const shuffleChoice = interaction.attr('shuffle');
+        const dir = this.element.getRootElement().getBody().getAttributes().dir;
+        const tplData = {
+            tag : interaction.qtiClass,
+            serial : interaction.serial,
+            attributes : interaction.attributes,
+            choices : [],
+            dir: dir
+        };
 
         _.each(interaction.getChoices(), choice => {
             if (Element.isA(choice, 'choice')) {

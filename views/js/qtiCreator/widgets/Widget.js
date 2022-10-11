@@ -22,14 +22,20 @@ define([
     'core/promise',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/helper/invalidator',
+    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'core/logger'
-], function (_, $, Promise, Element, invalidator, loggerFactory) {
+], function (_, $, Promise, Element, invalidator, styleEditor, loggerFactory) {
     'use strict';
 
     const _pushState = function (widget, stateName) {
         const currentState = new widget.registeredStates[stateName](widget);
         widget.stateStack.push(currentState);
         currentState.init();
+        if (stateName === 'deleting') {
+            // stylesheet clean
+            const passageSerial = widget.$container[0].dataset['serial'];
+            styleEditor.removeStylesheetOnDeletePassage(passageSerial);
+        }
     };
 
     const _popState = function (widget) {
@@ -334,7 +340,7 @@ define([
 
                 //bind each individual event listener to the document
                 $document.on(eventNameToken.join('.'), (e, data) => {
-                    callback.call(this, data);
+                    callback.call(this, data, e);
                 });
             });
 

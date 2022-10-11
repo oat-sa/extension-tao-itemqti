@@ -1,21 +1,40 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA;
+ *
+ */
+
 define([
     'jquery',
     'lodash',
     'ckeditor',
+    'services/features',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Question',
     'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content'
-], function ($, _, CKEditor, stateFactory, QuestionState, formElement, htmlEditor, contentHelper) {
+], function ($, _, CKEditor, features, stateFactory, QuestionState, formElement, htmlEditor, contentHelper) {
     'use strict';
-
     const ChoiceStateQuestion = stateFactory.extend(
         QuestionState,
-        function () {
+        function initStateQuestion() {
             this.buildEditor();
         },
-        function () {
+        function exitStateQuestion() {
             this.destroyEditor();
         }
     );
@@ -25,7 +44,10 @@ define([
             $toolbar = _widget.$container.find('td:last');
 
         //set toolbar button behaviour:
-        formElement.initShufflePinToggle(_widget);
+        if(features.isVisible('taoQtiItem/creator/interaction/inlineChoice/property/shuffle')) {
+            formElement.initShufflePinToggle(_widget);
+        }
+        
         formElement.initDelete(_widget);
 
         return $toolbar;

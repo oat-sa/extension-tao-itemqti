@@ -98,7 +98,8 @@ define([
                 if (!this.isEmpty()) {
                     previewerFactory(type, uri, {}, {
                         readOnly: false,
-                        fullPage: true
+                        fullPage: true,
+                        pluginsOptions: config.pluginsOptions
                     });
                 }
             });
@@ -110,7 +111,8 @@ define([
                 icon: 'preview',
                 title: __('Preview the item'),
                 text : __('Preview'),
-                cssClass: 'preview-trigger'
+                cssClass: 'preview-trigger',
+                testId: 'preview-the-item'
             })).on('click', e => previewHandler(e, this));
 
             this.getAreaBroker()

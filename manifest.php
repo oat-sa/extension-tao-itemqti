@@ -24,8 +24,11 @@ use oat\taoQtiItem\controller\QtiCreator;
 use oat\taoQtiItem\controller\QtiCssAuthoring;
 use oat\taoQtiItem\controller\QtiPreview;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
+use oat\taoQtiItem\install\scripts\ExtendConfigurationRegistry;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
 use oat\taoQtiItem\install\scripts\setXMLParserConfig;
+use oat\taoQtiItem\model\qti\CustomInteractionAsset\ServiceProvider\CustomInteractionAssetExtractorAllocatorServiceProvider;
+use oat\taoQtiItem\model\qti\ServiceProvider\ItemIdentifierValidatorServiceProvider;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\ItemEventRegister;
 use oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist;
@@ -33,8 +36,11 @@ use oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries;
 use oat\taoQtiItem\scripts\install\RegisterNpmPaths;
 use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\scripts\install\SetQtiCreatorConfig;
+use oat\taoQtiItem\scripts\install\SetupQtiMetadataImportExportService;
 use oat\taoQtiItem\scripts\install\SetUpQueueTasks;
 use oat\taoQtiItem\scripts\update\Updater;
+use oat\taoItems\model\user\TaoItemsRoles;
+use oat\tao\model\accessControl\func\AccessRule;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
 $taopath = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR;
@@ -70,6 +76,8 @@ return [
             SetUpQueueTasks::class,
             RegisterItemCompilerBlacklist::class,
             RegisterNpmPaths::class,
+            ExtendConfigurationRegistry::class,
+            SetupQtiMetadataImportExportService::class
         ]
     ],
     'local' => [
@@ -82,12 +90,81 @@ return [
     ],
     'managementRole' => 'http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole',
     'acl' => [
-        ['grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole', ['ext' => 'taoQtiItem']],
-        ['grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', ['ext' => 'taoQtiItem', 'mod' => 'QtiItemRunner']],
-        ['grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiPreview::class],
-        ['grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCreator::class],
-        ['grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCssAuthoring::class],
-        ['grant', TaoRoles::REST_PUBLISHER, ['ext' => 'taoQtiItem', 'mod' => 'RestQtiItem']],
+        [
+            AccessRule::GRANT,
+            'http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole',
+            ['ext' => 'taoQtiItem']
+        ],
+        [
+            AccessRule::GRANT,
+            TaoRoles::DELIVERY,
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiItemRunner']
+        ],
+        [
+            AccessRule::GRANT,
+            TaoItemsRoles::ITEM_AUTHOR_ABSTRACT,
+            QtiPreview::class
+        ],
+        [
+            AccessRule::GRANT,
+            TaoItemsRoles::ITEM_AUTHOR_ABSTRACT,
+            QtiCreator::class
+        ],
+        [
+            AccessRule::GRANT,
+            TaoItemsRoles::ITEM_AUTHOR_ABSTRACT,
+            QtiCssAuthoring::class
+        ],
+        [
+            AccessRule::GRANT,
+            TaoRoles::REST_PUBLISHER,
+            ['ext' => 'taoQtiItem', 'mod' => 'RestQtiItem']
+        ],
+        [
+            AccessRule::GRANT,
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'index']
+        ],
+        [
+            AccessRule::GRANT,
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'saveItem']
+        ],
+        [
+            AccessRule::GRANT,
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getItemData']
+        ],
+        [
+            AccessRule::GRANT,
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getFile']
+        ],
+        [
+            AccessRule::GRANT,
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'getMediaSources']
+        ],
+        [
+            AccessRule::GRANT,
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCssAuthoring', 'act' => 'load']
+        ],
+        [
+            AccessRule::GRANT,
+            TaoItemsRoles::ITEM_CONTENT_CREATOR,
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCssAuthoring', 'act' => 'save']
+        ],
+        [
+            AccessRule::GRANT,
+            TaoItemsRoles::ITEM_RESOURCE_CREATOR,
+            ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'createItem'],
+        ],
+        [
+            AccessRule::GRANT,
+            TaoItemsRoles::ITEM_IMPORTER,
+            ['ext' => 'taoQtiItem', 'mod' => 'ItemImportSampleDownload', 'act' => 'downloadTemplate'],
+        ],
     ],
     'constants' => [
         # views directory
@@ -107,5 +184,9 @@ return [
     ],
     'extra' => [
         'structures' => __DIR__ . DIRECTORY_SEPARATOR . 'controller' . DIRECTORY_SEPARATOR . 'structures.xml',
-    ]
+    ],
+    'containerServiceProviders' => [
+        CustomInteractionAssetExtractorAllocatorServiceProvider::class,
+        ItemIdentifierValidatorServiceProvider::class
+    ],
 ];

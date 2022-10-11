@@ -62,6 +62,10 @@ define([
                     {
                         name: 'insert',
                         items: ['SpecialChar']
+                    },
+                    {
+                        name: 'language',
+                        items: ['Language']
                     }
                 ],
                 qtiMedia: false,

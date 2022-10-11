@@ -72,9 +72,19 @@ define([
      *
      * @param {Object} params
      * @param {number} factor
+     * @param {number} naturalHeight
+     * @param {number} naturalWidth
      */
-    function applyMediasizerValues(params, factor) {
+    function applyMediasizerValues(params, factor, naturalHeight, naturalWidth) {
         factor = factor || 1;
+
+        let width = params.width;
+        let height = params.height;
+
+        if (!width || !height) {
+            width = naturalWidth;
+            height = naturalHeight;
+        }
 
         // The mediasizer target maintains a height and width (i.e. attributes)
         // but is displayed according to a factor (i.e. styles). This matches
@@ -83,11 +93,11 @@ define([
         // the target's dimensions need to be maintained.
         params.$target
             .css({
-                width: params.width * factor,
-                height: params.height * factor
+                width: width * factor,
+                height: height * factor
             })
-            .attr('width', params.width)
-            .attr('height', params.height);
+            .attr('width', width)
+            .attr('height', height);
     }
 
 
@@ -174,14 +184,14 @@ define([
          * Create the 'add option' button
          */
         function createGapImgAddOption() {
-            var $gapList = $('ul.source', widget.$original);
-            var $addOption =
+            const $gapList = $('ul.source', widget.$original);
+            const $addOption =
                 $('<li class="empty add-option">' +
                     '<div><span class="icon-add"></span></div>' +
                     '</li>');
 
             $addOption.on('click', function () {
-                var gapImgObj = interaction.createGapImg({});
+                let gapImgObj = interaction.createGapImg({});
                 gapImgObj.object.removeAttr('type');
 
                 // on successful upload
@@ -189,10 +199,19 @@ define([
 
                     $addOption.off('selected.upload');
 
+                    const size = args.size;
+                    let height,
+                        width;
+
+                    if (size) {
+                        height = args.size.height;
+                        width = args.size.width;
+                    }
+
                     gapImgObj.object.attr('data', args.selected.file);
                     gapImgObj.object.attr('type', args.selected.mime);
-                    gapImgObj.object.attr('width', args.size.width);
-                    gapImgObj.object.attr('height', args.size.height);
+                    gapImgObj.object.attr('width', width);
+                    gapImgObj.object.attr('height', height);
                     setUpGapImg(gapImgObj);
                 });
                 resourceManager($addOption, gapImgSelectorOptions);
@@ -209,10 +228,10 @@ define([
          */
         function setUpGapImg(gapImgObj) {
 
-            var $gapList = $('ul.source', widget.$original);
-            var $addOption = $('.empty', $gapList);
-            var $gapImgBox = $('[data-serial="' + gapImgObj.serial + '"]', $gapList);
-            var $deleteBtn = $(mediaTlbTpl());
+            const $gapList = $('ul.source', widget.$original),
+                $addOption = $('.empty', $gapList),
+                $deleteBtn = $(mediaTlbTpl());
+            let $gapImgBox = $(`[data-serial="${gapImgObj.serial}"]`, $gapList);
 
             if (!$gapImgBox.length) {
                 $gapImgBox = $(gapImgObj.render()).insertBefore($addOption);
@@ -235,8 +254,7 @@ define([
                 if ($gapImgBox.hasClass('active')) {
                     $gapImgBox.removeClass('active');
                     leaveChoiceForm();
-                }
-                else {
+                } else {
                     $('.active', $gapList).removeClass('active');
                     $gapImgBox.addClass('active');
                     enterGapImgForm(gapImgObj.serial);
@@ -294,12 +312,17 @@ define([
                             self.updateThresholds(1, _.size(interaction.getChoices()));
                         }
                     });
+                    // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+                    widget.infinityMatchMax('hotspot', choice);
+                }).on('change', function () {
+                    // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+                    widget.infinityMatchMax('hotspot', choice);
                 });
 
                 formElement.initWidget($choiceForm);
 
                 //init data validation and binding
-                callbacks = formElement.getMinMaxAttributeCallbacks($choiceForm, 'matchMin', 'matchMax');
+                callbacks = formElement.getMinMaxAttributeCallbacks('matchMin', 'matchMax');
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
 
@@ -336,7 +359,7 @@ define([
          */
         function enterGapImgForm(serial) {
 
-            var callbacks,
+            let callbacks,
                 gapImg = interaction.getGapImg(serial),
                 initMediasizer,
                 $gapImgBox,
@@ -378,10 +401,15 @@ define([
                             self.updateThresholds(1, _.size(interaction.getChoices()));
                         }
                     });
+                    // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+                    widget.infinityMatchMax('gapImg', gapImg);
+                }).on('change', function () {
+                    // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+                    widget.infinityMatchMax('gapImg', gapImg);
                 });
 
                 // <li/> that will contain the image
-                $gapImgBox = $('li[data-serial="' + gapImg.serial + '"]');
+                $gapImgBox = $(`li[data-serial="${  gapImg.serial  }"]`);
 
                 $gapImgElem = $gapImgBox.find('img');
 
@@ -393,8 +421,7 @@ define([
                         // it's attributes to set and resize properly.
                         params.width = $gapImgElem.attr('width');
                         params.height = $gapImgElem.attr('height');
-
-                        applyMediasizerValues(params, widget.$original.data('factor'));
+                        applyMediasizerValues(params, widget.$original.data('factor'), $gapImgElem.get(0).naturalHeight, $gapImgElem.get(0).naturalWidth);
                     });
 
                 initMediasizer = function () {
@@ -428,7 +455,7 @@ define([
 
                 // bind callbacks to ms
                 // init data validation and binding
-                callbacks = formElement.getMinMaxAttributeCallbacks($choiceForm, 'matchMin', 'matchMax');
+                callbacks = formElement.getMinMaxAttributeCallbacks('matchMin', 'matchMax');
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
                 callbacks.data = function (element, value) {
@@ -438,7 +465,7 @@ define([
 
                 // callbacks
                 $mediaSizer.on('sizechange.mediasizer', function(e, params) {
-                    applyMediasizerValues(params, widget.$original.data('factor'));
+                    applyMediasizerValues(params, widget.$original.data('factor'), $gapImgElem.get(0).naturalHeight, $gapImgElem.get(0).naturalWidth);
 
                     gapImg.object.attr('width', params.width);
                     gapImg.object.attr('height', params.height);
@@ -447,8 +474,7 @@ define([
                 callbacks.type = function (element, value) {
                     if (!value || value === '') {
                         interaction.object.removeAttr('type');
-                    }
-                    else {
+                    } else {
                         gapImg.object.attr('type', value);
                     }
                 };
