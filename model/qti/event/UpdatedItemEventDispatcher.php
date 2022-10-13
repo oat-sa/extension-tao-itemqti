@@ -40,8 +40,6 @@ class UpdatedItemEventDispatcher extends ConfigurableService
 
     public function dispatch(?Item $qtiItem, core_kernel_classes_Resource $rdfItem): void
     {
-        // @todo Update tests
-
         $includeElementReferences = [];
         $objectElementReferences = [];
         $imgElementReferences = [];
