@@ -135,7 +135,7 @@ define([
                 reject(err);
             }
 
-            const xml = xmlNsHandler.restoreNs(xmlRenderer.render(this.element), this.element.getNamespaces());
+            const xml = xmlNsHandler.restoreNs(xmlRenderer.render(this.element), this.element.getNamespaces(), true);
 
             //@todo : remove this hotfix : prevent unsupported custom interaction to be saved
             if (hasUnsupportedInteraction(xml)) {
