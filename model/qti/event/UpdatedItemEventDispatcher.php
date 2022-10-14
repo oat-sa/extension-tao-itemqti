@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 declare(strict_types=1);
@@ -38,24 +38,14 @@ class UpdatedItemEventDispatcher extends ConfigurableService
     private const OBJECT_ELEMENT_REFERENCES_KEY = 'objectElementReferences';
     private const IMG_ELEMENT_REFERENCES_KEY = 'imgElementReferences';
 
-    public function dispatch(?Item $qtiItem, core_kernel_classes_Resource $rdfItem): void
+    public function dispatch(Item $qtiItem, core_kernel_classes_Resource $rdfItem): void
     {
-        $includeElementReferences = [];
-        $objectElementReferences = [];
-        $imgElementReferences = [];
-
-        if ($qtiItem !== null) {
-            $extractor = $this->getElementReferencesExtractor();
-
-            $includeElementReferences = $extractor->extract($qtiItem, XInclude::class, 'href');
-            $objectElementReferences = $extractor->extract($qtiItem, QtiObject::class, 'data');
-            $imgElementReferences = $extractor->extract($qtiItem, Img::class, 'src');
-        }
+        $extractor = $this->getElementReferencesExtractor();
 
         $data = [
-            self::INCLUDE_ELEMENT_REFERENCES_KEY => $includeElementReferences,
-            self::OBJECT_ELEMENT_REFERENCES_KEY => $objectElementReferences,
-            self::IMG_ELEMENT_REFERENCES_KEY => $imgElementReferences,
+            self::INCLUDE_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, XInclude::class, 'href'),
+            self::OBJECT_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, QtiObject::class, 'data'),
+            self::IMG_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, Img::class, 'src'),
         ];
 
         $this->getEventManager()

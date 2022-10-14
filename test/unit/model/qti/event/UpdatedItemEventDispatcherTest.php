@@ -74,30 +74,7 @@ class UpdatedItemEventDispatcherTest extends TestCase
         $this->subject->setServiceLocator($this->serviceManager);
     }
 
-    public function testDispatchWithNoQtiItem()
-    {
-        $this->referencesExtractor
-            ->expects($this->never())
-            ->method('extract');
-
-        $this->eventManager
-            ->expects($this->once())
-            ->method('trigger')
-            ->with(
-                new ItemUpdatedEvent(
-                    'http://resource/1',
-                    [
-                        'includeElementReferences' => [],
-                        'objectElementReferences' => [],
-                        'imgElementReferences' => []
-                    ]
-                )
-            );
-
-        $this->subject->dispatch(null, $this->rdfItem);
-    }
-
-    public function testDispatchWithQtiItem()
+    public function testDispatch()
     {
         $hrefValue = ['href-value 1', 'href-value 2', 'href-value 3'];
         $dataValue = ['data-value 1', 'data-value 2'];
