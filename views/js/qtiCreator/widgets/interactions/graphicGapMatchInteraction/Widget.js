@@ -57,7 +57,7 @@ define([
             //call parent initCreator
             Widget.initCreator.call(this);
 
-            const paper = this.createPaper(_.bind(this.scaleGapList, this));
+            const paper = this.createPaper(() => this.scaleGapList());
             if (paper) {
                 this.element.paper = paper;
                 this.createChoices();

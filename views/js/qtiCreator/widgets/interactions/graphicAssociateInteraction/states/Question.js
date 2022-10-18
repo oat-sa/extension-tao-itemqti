@@ -58,7 +58,7 @@ define([
     /**
      * Question State initialization: set up side bar, editors and shae factory
      */
-    const initQuestionState = function initQuestionState() {
+    function initQuestionState() {
         const widget = this.widget;
         const interaction = widget.element;
         const paper = interaction.paper;
@@ -195,7 +195,7 @@ define([
     /**
      * Exit the question state, leave the room cleaned up
      */
-    const exitQuestionState = function exitQuestionState() {
+    function exitQuestionState() {
         const widget = this.widget;
         const interaction = widget.element;
         const paper = interaction.paper;
