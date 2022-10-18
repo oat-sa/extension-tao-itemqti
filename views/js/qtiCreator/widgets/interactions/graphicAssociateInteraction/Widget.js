@@ -56,7 +56,7 @@ define([
             //call parent initCreator
             Widget.initCreator.call(this);
 
-            const paper = this.createPaper(_.bind(this.scaleChoices, this));
+            const paper = this.createPaper(() => this.scaleChoices());
             if (paper) {
                 this.element.paper = paper;
                 this.createChoices();
