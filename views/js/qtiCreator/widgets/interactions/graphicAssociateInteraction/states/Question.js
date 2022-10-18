@@ -190,7 +190,7 @@ define([
                 $choiceForm.empty();
             }
         }
-    };
+    }
 
     /**
      * Exit the question state, leave the room cleaned up
@@ -213,7 +213,7 @@ define([
             widget._editor.destroy();
         }
         $('.image-editor.solid, .block-listing.source', this.widget.$container).css('min-width', 0);
-    };
+    }
 
     /**
      * The question state for the graphicAssociate interaction

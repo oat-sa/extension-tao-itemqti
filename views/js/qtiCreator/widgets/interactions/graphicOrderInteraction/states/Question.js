@@ -56,16 +56,16 @@ define([
     /**
      * Question State initialization: set up side bar, editors and shae factory
      */
-    var initQuestionState = function initQuestionState() {
-        var widget = this.widget;
-        var interaction = widget.element;
-        var paper = interaction.paper;
+    function initQuestionState() {
+        const widget = this.widget;
+        const interaction = widget.element;
+        const paper = interaction.paper;
 
-        var $choiceForm = widget.choiceForm;
-        var $formInteractionPanel = $('#item-editor-interaction-property-bar');
-        var $formChoicePanel = $('#item-editor-choice-property-bar');
+        const $choiceForm = widget.choiceForm;
+        const $formInteractionPanel = $('#item-editor-interaction-property-bar');
+        const $formChoicePanel = $('#item-editor-choice-property-bar');
 
-        var $left, $top, $width, $height;
+        let $left, $top, $width, $height;
 
         if (!paper) {
             return;
@@ -74,7 +74,7 @@ define([
         //instantiate the shape editor, attach it to the widget to retrieve it during the exit phase
         widget._editor = shapeEditor(widget, {
             shapeCreated: function (shape, type) {
-                var newChoice = interaction.createChoice({
+                const newChoice = interaction.createChoice({
                     shape: type === 'path' ? 'poly' : type,
                     coords: GraphicHelper.qtiCoords(shape)
                 });
@@ -92,13 +92,12 @@ define([
                 leaveChoiceForm();
             },
             shapeChange: function (shape) {
-                var bbox;
-                var choice = interaction.getChoice(shape.id);
+                const choice = interaction.getChoice(shape.id);
                 if (choice) {
                     choice.attr('coords', GraphicHelper.qtiCoords(shape, paper, interaction.object.attr('width')));
 
                     if ($left && $left.length) {
-                        bbox = shape.getBBox();
+                        const bbox = shape.getBBox();
                         $left.val(parseInt(bbox.x, 10));
                         $top.val(parseInt(bbox.y, 10));
                         $width.val(parseInt(bbox.width, 10));
@@ -128,12 +127,11 @@ define([
          * @param {String} serial - the choice serial
          */
         function enterChoiceForm(serial) {
-            var choice = interaction.getChoice(serial);
-            var element, bbox;
+            const choice = interaction.getChoice(serial);
             if (choice) {
                 //get shape bounding box
-                element = interaction.paper.getById(serial);
-                bbox = element.getBBox();
+                const element = interaction.paper.getById(serial);
+                const bbox = element.getBBox();
 
                 $choiceForm.empty().html(
                     choiceFormTpl({
@@ -178,16 +176,16 @@ define([
                 $choiceForm.empty();
             }
         }
-    };
+    }
 
     /**
      * Exit the question state, leave the room cleaned up
      */
-    var exitQuestionState = function exitQuestionState() {
-        var widget = this.widget;
-        var interaction = widget.element;
-        var paper = interaction.paper;
-        var valid = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices);
+    function exitQuestionState() {
+        const widget = this.widget;
+        const interaction = widget.element;
+        const paper = interaction.paper;
+        const valid = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices);
 
         widget.isValid('graphicOrderInteraction', valid);
 
@@ -201,23 +199,23 @@ define([
             widget._editor.destroy();
         }
         $('.image-editor.solid, .block-listing.source', this.widget.$container).css('min-width', 0);
-    };
+    }
 
     /**
      * The question state for the graphicOrder interaction
      * @extends taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question
      * @exports taoQtiItem/qtiCreator/widgets/interactions/graphicOrderInteraction/states/Question
      */
-    var GraphicOrderInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
+    const GraphicOrderInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
 
     /**
      * Initialize the form linked to the interaction
      */
     GraphicOrderInteractionStateQuestion.prototype.initForm = function () {
-        var widget = this.widget;
-        var options = widget.options;
-        var interaction = widget.element;
-        var $form = widget.$form;
+        const widget = this.widget;
+        const options = widget.options;
+        const interaction = widget.element;
+        const $form = widget.$form;
 
         $form.html(
             formTpl({
@@ -235,10 +233,9 @@ define([
             max: { value: _.parseInt(interaction.attr('maxChoices')) || 0 },
             upperThreshold: _.size(interaction.getChoices())
         }).on('render', function () {
-            var self = this;
-            widget.on('choiceCreated choiceDeleted', function (data) {
+            widget.on('choiceCreated choiceDeleted', data => {
                 if (data.interaction.serial === interaction.serial) {
-                    self.updateThresholds(1, _.size(interaction.getChoices()));
+                    this.updateThresholds(1, _.size(interaction.getChoices()));
                 }
             });
         });
