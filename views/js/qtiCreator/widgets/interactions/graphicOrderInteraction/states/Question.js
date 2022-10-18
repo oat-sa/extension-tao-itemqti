@@ -13,10 +13,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA;
  *
  */
-
 
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
@@ -35,57 +34,70 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicOrder',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/hotspot',
     'taoQtiItem/qtiCreator/helper/panel',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage',
-], function($, _, GraphicHelper, stateFactory, Question, shapeEditor, imageSelector, formElement, minMaxComponentFactory, identifierHelper, formTpl, choiceFormTpl, panel, bgImage){
-
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage'
+], function (
+    $,
+    _,
+    GraphicHelper,
+    stateFactory,
+    Question,
+    shapeEditor,
+    imageSelector,
+    formElement,
+    minMaxComponentFactory,
+    identifierHelper,
+    formTpl,
+    choiceFormTpl,
+    panel,
+    bgImage
+) {
     'use strict';
 
     /**
      * Question State initialization: set up side bar, editors and shae factory
      */
-    var initQuestionState = function initQuestionState(){
-
-        var widget      = this.widget;
+    var initQuestionState = function initQuestionState() {
+        var widget = this.widget;
         var interaction = widget.element;
-        var paper       = interaction.paper;
+        var paper = interaction.paper;
 
-        var $choiceForm  = widget.choiceForm;
+        var $choiceForm = widget.choiceForm;
         var $formInteractionPanel = $('#item-editor-interaction-property-bar');
         var $formChoicePanel = $('#item-editor-choice-property-bar');
 
         var $left, $top, $width, $height;
 
-        if(!paper){
+        if (!paper) {
             return;
         }
 
         //instantiate the shape editor, attach it to the widget to retrieve it during the exit phase
         widget._editor = shapeEditor(widget, {
-            shapeCreated : function(shape, type){
+            shapeCreated: function (shape, type) {
                 var newChoice = interaction.createChoice({
-                    shape  : type === 'path' ? 'poly' : type,
-                    coords : GraphicHelper.qtiCoords(shape)
+                    shape: type === 'path' ? 'poly' : type,
+                    coords: GraphicHelper.qtiCoords(shape)
                 });
 
                 //link the shape to the choice
                 shape.id = newChoice.serial;
             },
-            shapeRemoved : function(id){
+            shapeRemoved: function (id) {
                 interaction.removeChoice(id);
             },
-            enterHandling : function(shape){
+            enterHandling: function (shape) {
                 enterChoiceForm(shape.id);
             },
-            quitHandling : function(){
+            quitHandling: function () {
                 leaveChoiceForm();
             },
-            shapeChange : function(shape){
+            shapeChange: function (shape) {
                 var bbox;
                 var choice = interaction.getChoice(shape.id);
-                if(choice){
-                    choice.attr('coords', GraphicHelper.qtiCoords(shape));
+                if (choice) {
+                    choice.attr('coords', GraphicHelper.qtiCoords(shape, paper, interaction.object.attr('width')));
 
-                    if($left && $left.length){
+                    if ($left && $left.length) {
                         bbox = shape.getBBox();
                         $left.val(parseInt(bbox.x, 10));
                         $top.val(parseInt(bbox.y, 10));
@@ -101,13 +113,12 @@ define([
 
         //we need to stop the question mode on resize, to keep the coordinate system coherent,
         //even in responsive (the side bar introduce a biais)
-        $(window).on('resize.changestate', function(){
+        $(window).on('resize.changestate', function () {
             widget.changeState('sleep');
         });
 
-
-        widget.on('attributeChange', function(data){
-            if(data.key === 'maxChoices'){
+        widget.on('attributeChange', function (data) {
+            if (data.key === 'maxChoices') {
                 widget.renderOrderList();
             }
         });
@@ -116,24 +127,23 @@ define([
          * @private
          * @param {String} serial - the choice serial
          */
-        function enterChoiceForm(serial){
+        function enterChoiceForm(serial) {
             var choice = interaction.getChoice(serial);
             var element, bbox;
-            if(choice){
-
+            if (choice) {
                 //get shape bounding box
                 element = interaction.paper.getById(serial);
                 bbox = element.getBBox();
 
                 $choiceForm.empty().html(
                     choiceFormTpl({
-                        identifier  : choice.id(),
-                        fixed       : choice.attr('fixed'),
-                        serial      : serial,
-                        x           : parseInt(bbox.x, 10),
-                        y           : parseInt(bbox.y, 10),
-                        width       : parseInt(bbox.width, 10),
-                        height      : parseInt(bbox.height, 10)
+                        identifier: choice.id(),
+                        fixed: choice.attr('fixed'),
+                        serial: serial,
+                        x: parseInt(bbox.x, 10),
+                        y: parseInt(bbox.y, 10),
+                        width: parseInt(bbox.width, 10),
+                        height: parseInt(bbox.height, 10)
                     })
                 );
 
@@ -141,8 +151,8 @@ define([
 
                 //init data validation and binding
                 formElement.setChangeCallbacks($choiceForm, choice, {
-                    identifier  : identifierHelper.updateChoiceIdentifier,
-                    fixed       : formElement.getAttributeChangeCallback()
+                    identifier: identifierHelper.updateChoiceIdentifier,
+                    fixed: formElement.getAttributeChangeCallback()
                 });
 
                 $formChoicePanel.show();
@@ -150,9 +160,9 @@ define([
                 panel.closeSections($formInteractionPanel.children('section'));
 
                 //change the nodes bound to the position fields
-                $left   = $('input[name=x]', $choiceForm);
-                $top    = $('input[name=y]', $choiceForm);
-                $width  = $('input[name=width]', $choiceForm);
+                $left = $('input[name=x]', $choiceForm);
+                $top = $('input[name=y]', $choiceForm);
+                $width = $('input[name=width]', $choiceForm);
                 $height = $('input[name=height]', $choiceForm);
             }
         }
@@ -161,8 +171,8 @@ define([
          * Leave the choice form
          * @private
          */
-        function leaveChoiceForm(){
-            if($formChoicePanel.css('display') !== 'none'){
+        function leaveChoiceForm() {
+            if ($formChoicePanel.css('display') !== 'none') {
                 panel.openSections($formInteractionPanel.children('section'));
                 $formChoicePanel.hide();
                 $choiceForm.empty();
@@ -173,21 +183,21 @@ define([
     /**
      * Exit the question state, leave the room cleaned up
      */
-    var exitQuestionState = function initQuestionState(){
-        var widget      = this.widget;
+    var exitQuestionState = function exitQuestionState() {
+        var widget = this.widget;
         var interaction = widget.element;
-        var paper       = interaction.paper;
-        var valid       = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices);
+        var paper = interaction.paper;
+        var valid = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices);
 
         widget.isValid('graphicOrderInteraction', valid);
 
-        if(!paper){
+        if (!paper) {
             return;
         }
 
         $(window).off('resize.changestate');
 
-        if(widget._editor){
+        if (widget._editor) {
             widget._editor.destroy();
         }
         $('.image-editor.solid, .block-listing.source', this.widget.$container).css('min-width', 0);
@@ -203,30 +213,31 @@ define([
     /**
      * Initialize the form linked to the interaction
      */
-    GraphicOrderInteractionStateQuestion.prototype.initForm = function(){
-
+    GraphicOrderInteractionStateQuestion.prototype.initForm = function () {
         var widget = this.widget;
         var options = widget.options;
         var interaction = widget.element;
         var $form = widget.$form;
 
-        $form.html(formTpl({
-            baseUrl         : options.baseUrl,
-            data            : interaction.object.attr('data'),
-            width           : interaction.object.attr('width'),
-            height          : interaction.object.attr('height'),
-            type            : interaction.object.attr('type')
-        }));
+        $form.html(
+            formTpl({
+                baseUrl: options.baseUrl,
+                data: interaction.object.attr('data'),
+                width: interaction.object.attr('width'),
+                height: interaction.object.attr('height'),
+                type: interaction.object.attr('type')
+            })
+        );
 
         //controls min and max choices
         minMaxComponentFactory($form.find('.min-max-panel'), {
-            min : { value : _.parseInt(interaction.attr('minChoices')) || 0 },
-            max : { value : _.parseInt(interaction.attr('maxChoices')) || 0 },
-            upperThreshold : _.size(interaction.getChoices())
-        }).on('render', function(){
+            min: { value: _.parseInt(interaction.attr('minChoices')) || 0 },
+            max: { value: _.parseInt(interaction.attr('maxChoices')) || 0 },
+            upperThreshold: _.size(interaction.getChoices())
+        }).on('render', function () {
             var self = this;
-            widget.on('choiceCreated choiceDeleted', function(data){
-                if(data.interaction.serial === interaction.serial){
+            widget.on('choiceCreated choiceDeleted', function (data) {
+                if (data.interaction.serial === interaction.serial) {
                     self.updateThresholds(1, _.size(interaction.getChoices()));
                 }
             });
@@ -242,7 +253,7 @@ define([
         bgImage.setChangeCallbacks(
             widget,
             formElement,
-            formElement.getMinMaxAttributeCallbacks('minChoices', 'maxChoices', {updateCardinality:false})
+            formElement.getMinMaxAttributeCallbacks('minChoices', 'maxChoices', { updateCardinality: false })
         );
     };
 
