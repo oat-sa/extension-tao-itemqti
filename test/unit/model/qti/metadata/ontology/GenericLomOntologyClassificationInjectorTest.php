@@ -62,8 +62,6 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
 
     protected function setUp(): void
     {
-        if (!defined('DEFAULT_LANG')) define('DEFAULT_LANG','en-US');
-
         $this->ontologyMock = $this->createMock(Ontology::class);
         $this->classMock = $this->createMock(core_kernel_classes_Class::class);
         $this->property1Mock = $this->createMock(
