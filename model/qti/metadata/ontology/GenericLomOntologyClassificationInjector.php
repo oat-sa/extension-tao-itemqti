@@ -91,7 +91,7 @@ class GenericLomOntologyClassificationInjector implements MetadataInjector
             foreach ($metadataValues as $metadataValue) {
                 $lang = $metadataValue->getLanguage() ?: DEFAULT_LANG;
                 $path = $metadataValue->getPath();
-                $valuePath = trim(end($path));
+                $valuePath = trim((string)end($path));
 
                 if (in_array($valuePath, $propertyURIs)) {
                     if (!isset($newPropertyValues[$lang])) {
