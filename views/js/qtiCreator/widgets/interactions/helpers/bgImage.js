@@ -114,7 +114,7 @@ define([
             responsive: false,
             parentSelector: widget.$original.attr('id'),
             applyToMedium: false,
-            maxWidth: parseInt(widget.element.object.attr('width'), 10)
+            maxWidth: parseInt(widget.$original.width())
         });
 
         $mediaSizer.on('sizechange.mediasizer', function (e, params) {
