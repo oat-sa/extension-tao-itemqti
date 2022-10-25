@@ -219,7 +219,7 @@ abstract class AbstractRestQti extends \tao_actions_RestController
             throw new BadRequestException($exception->getMessage(), 422);
         }
 
-        $this->returnSuccess((array)$metadataInput);
+        $this->returnSuccess($metadataInput);
     }
 
     private function getUpdateMetadataRequestHandler(): UpdateMetadataRequestHandler

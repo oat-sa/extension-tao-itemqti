@@ -22,18 +22,20 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\input;
 
 use core_kernel_classes_Resource;
+use JsonSerializable;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 
-class UpdateMetadataInput
+class UpdateMetadataInput implements JsonSerializable
 {
-    public const RESOURCE_URI = 'itemUri';
+    public const PROPERTY_URI = 'propertyUri';
+    public const RESOURCE_URI = 'resourceUri';
+    public const VALUE = 'value';
+
     public const VALID_PROPERTIES = [
         UpdateMetadataInput::PROPERTY_URI,
         UpdateMetadataInput::RESOURCE_URI,
         UpdateMetadataInput::VALUE,
     ];
-    public const PROPERTY_URI = 'propertyUri';
-    public const VALUE = 'value';
 
     private core_kernel_classes_Resource $resource;
     private SimpleMetadataValue $metadata;
@@ -54,11 +56,13 @@ class UpdateMetadataInput
         return $this->metadata;
     }
 
-    public function __toArray(): array
+    public function jsonSerialize(): array
     {
+        $path = $this->metadata->getPath();
+
         return [
             self::RESOURCE_URI => $this->resource->getUri(),
-            self::PROPERTY_URI => $this->metadata->getPath(),
+            self::PROPERTY_URI => end($path),
             self::VALUE => $this->getMetadata()->getValue(),
         ];
     }

@@ -51,7 +51,7 @@ class UpdateMetadataRequestHandler
             new core_kernel_classes_Resource($requestBody[UpdateMetadataInput::RESOURCE_URI]),
             new SimpleMetadataValue(
                 $requestBody[UpdateMetadataInput::RESOURCE_URI],
-                $requestBody[UpdateMetadataInput::PROPERTY_URI],
+                [$requestBody[UpdateMetadataInput::PROPERTY_URI]],
                 $requestBody[UpdateMetadataInput::VALUE]
             )
         );
@@ -63,9 +63,7 @@ class UpdateMetadataRequestHandler
             throw new InvalidArgumentException(
                 sprintf(
                     "The parameters %s, %s and %s are mandatory",
-                    $requestBody[UpdateMetadataInput::PROPERTY_URI],
-                    $requestBody[UpdateMetadataInput::RESOURCE_URI],
-                    $requestBody[UpdateMetadataInput::VALUE]
+                    ...UpdateMetadataInput::VALID_PROPERTIES
                 )
             );
         }
