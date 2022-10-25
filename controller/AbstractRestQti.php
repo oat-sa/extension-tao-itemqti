@@ -192,7 +192,7 @@ abstract class AbstractRestQti extends \tao_actions_RestController
     /**
      * Update metadata by parameters
      */
-    public function updateMetadata()
+    public function updateMetadata(): void
     {
         if ($this->getRequestMethod() !== Request::HTTP_POST) {
             throw new HttpMethodNotAllowedException(null, 0, [Request::HTTP_POST]);
