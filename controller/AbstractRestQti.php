@@ -43,15 +43,15 @@ abstract class AbstractRestQti extends \tao_actions_RestController
 {
     use TaskLogActionTrait;
 
-    const TASK_ID_PARAM = 'id';
+    public const TASK_ID_PARAM = 'id';
 
-    const ENABLE_METADATA_GUARDIANS = 'enableMetadataGuardians';
+    public const ENABLE_METADATA_GUARDIANS = 'enableMetadataGuardians';
 
-    const ENABLE_METADATA_VALIDATORS = 'enableMetadataValidators';
+    public const ENABLE_METADATA_VALIDATORS = 'enableMetadataValidators';
 
-    const ITEM_MUST_EXIST = 'itemMustExist';
+    public const ITEM_MUST_EXIST = 'itemMustExist';
 
-    const ITEM_MUST_BE_OVERWRITTEN = 'itemMustBeOverwritten';
+    public const ITEM_MUST_BE_OVERWRITTEN = 'itemMustBeOverwritten';
 
     protected static $accepted_types = [
         'application/zip',

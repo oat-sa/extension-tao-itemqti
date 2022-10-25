@@ -17,6 +17,7 @@
  *
  * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
  */
+
 declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\presentation\web;
@@ -59,7 +60,13 @@ class UpdateMetadataRequestHandler
 
     private function validateRequestBody(array $requestBody): void
     {
-        if (!isset($requestBody[UpdateMetadataInput::PROPERTY_URI], $requestBody[UpdateMetadataInput::RESOURCE_URI], $requestBody[UpdateMetadataInput::VALUE])) {
+        if (
+            !isset(
+                $requestBody[UpdateMetadataInput::PROPERTY_URI],
+                $requestBody[UpdateMetadataInput::RESOURCE_URI],
+                $requestBody[UpdateMetadataInput::VALUE]
+            )
+        ) {
             throw new InvalidArgumentException(
                 sprintf(
                     "The parameters %s, %s and %s are mandatory",
