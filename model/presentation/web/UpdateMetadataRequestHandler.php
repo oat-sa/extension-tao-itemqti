@@ -69,7 +69,7 @@ class UpdateMetadataRequestHandler
         ) {
             throw new InvalidArgumentException(
                 sprintf(
-                    "The parameters %s, %s and %s are mandatory",
+                    "The properties %s, %s and %s are mandatory",
                     ...UpdateMetadataInput::VALID_PROPERTIES
                 )
             );
@@ -79,7 +79,7 @@ class UpdateMetadataRequestHandler
             if (!in_array($parameterKey, UpdateMetadataInput::VALID_PROPERTIES)) {
                 throw new InvalidArgumentException(
                     sprintf(
-                        "Valid Parameters are %s",
+                        "Valid properties are %s",
                         implode(', ', UpdateMetadataInput::VALID_PROPERTIES)
                     )
                 );
@@ -88,8 +88,8 @@ class UpdateMetadataRequestHandler
             if (!is_string($parameterValue)) {
                 throw new InvalidArgumentException(
                     sprintf(
-                        "The parameters %s must be string",
-                        $parameterValue
+                        "The property %s must be string",
+                        $parameterKey
                     )
                 );
             }
