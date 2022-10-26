@@ -840,13 +840,19 @@
             ],
             "properties": {
                 "resourceUri": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The Item URI where the Metadata Belongs to",
+                    "example": "https://tao.local/ontologies/tao.rdf#my-item-uri"
                 },
                 "propertyUri": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The Property URI where the Metadata value is related",
+                    "example": "https://tao.local/ontologies/tao.rdf#my-property-uri"
                 },
                 "value": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "The value of the metadata",
+                    "example": "This is a metadata update"
                 }
             }
         },
