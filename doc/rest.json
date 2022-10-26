@@ -721,7 +721,7 @@
         },
         "/taoQtiItem/RestQtiItem/updateMetadata": {
             "post": {
-                "description": "Update the metadata of a given resource",
+                "description": "Update the metadata of a given item",
                 "tags": [
                     "item"
                 ],
