@@ -23,8 +23,9 @@ define([
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/helper/invalidator',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
+    'ui/mediaEditor/plugins/mediaAlignment/helper',
     'core/logger'
-], function (_, $, Promise, Element, invalidator, styleEditor, loggerFactory) {
+], function (_, $, Promise, Element, invalidator, styleEditor, alignmentHelper, loggerFactory) {
     'use strict';
 
     const _pushState = function (widget, stateName) {
@@ -112,6 +113,21 @@ define([
                     this.changeState(this.options.state);
                 } else {
                     this.changeState('sleep');
+                }
+
+                // Figure with inline aligment
+                if (this.element.elements && Object.keys(this.element.elements).length) {
+                    if (Object.values(this.element.elements).some(el => el.attr('class') === alignmentHelper.INLINE_CLASS)){
+                        this.$container.addClass(`parent-${alignmentHelper.INLINE_CLASS}`);
+                    }
+                }
+
+                // Passage with Figure with inline aligment
+                if (this.element.bdy && this.element.bdy.elements && Object.keys(this.element.bdy.elements).length) {
+                    if (Object.values(this.element.bdy.elements).some(el => el.attr('class') === alignmentHelper.INLINE_CLASS)) {
+                        const parent = $(this.$container).find(`.${alignmentHelper.INLINE_CLASS}`).parent().parent();
+                        parent.addClass(`parent-${alignmentHelper.INLINE_CLASS}`);
+                    }
                 }
             } else {
                 throw new Error('element is not a QTI Element');
