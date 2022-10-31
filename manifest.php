@@ -27,8 +27,9 @@ use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\ExtendConfigurationRegistry;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
 use oat\taoQtiItem\install\scripts\setXMLParserConfig;
-use oat\taoQtiItem\model\qti\CustomInteractionAsset\ServiceProvider\
-    CustomInteractionAssetExtractorAllocatorServiceProvider;
+use oat\taoQtiItem\model\qti\CustomInteractionAsset\ServiceProvider\{
+    CustomInteractionAssetExtractorAllocatorServiceProvider
+};
 use oat\taoQtiItem\model\qti\ServiceProvider\ItemIdentifierValidatorServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\MetadataServiceProvider;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
