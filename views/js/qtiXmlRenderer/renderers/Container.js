@@ -17,6 +17,15 @@
  */
 
 define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/container'], function(tpl){
+    /**
+     * Elements that need to be prefixed
+     *
+     * @see http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd
+     * @type {string}
+     */
+    const prefixed = 'article|aside|bdi|figure|footer|header|nav|rb|rp|rt|rtc|ruby|section';
+    const defaultNsName = 'qh5';
+    const defaultNsUri = 'http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0';
     const xhtmlEntities = function(html){
         //@todo : check other names entities
         return html.replace(/&nbsp;/g, '&#160;');
@@ -53,7 +62,15 @@ define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/container'], function(tpl){
 
             data.body = xhtmlEntities(data.body);
             data.body = xhtmlEncode(data.body);
-
+            const openRegEx = new RegExp(`(<(${prefixed}))`, 'gi');
+            if (openRegEx.test(data.body)) {
+                const relatedItem = container.rootElement;
+                const namespaces = relatedItem.getNamespaces();
+                if (!namespaces[defaultNsName]) {
+                    //if no ns found in the item, set the default one!
+                    relatedItem.namespaces[defaultNsName] = defaultNsUri;
+                }
+            }
             return data;
         }
     };
