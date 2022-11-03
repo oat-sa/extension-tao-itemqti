@@ -160,6 +160,60 @@ class GenericLomOntologyClassificationInjectorTest extends TestCase
         $this->sut->inject($this->resourceMock, ['choice' => [$metadataValue]]);
     }
 
+    public function testInjectPathWithSpacesShouldTrimSpaces(): void
+    {
+        $this->setupOntologyMock(1, ['property://1' => $this->property1Mock]);
+        $this->classMock
+            ->expects($this->atLeastOnce())
+            ->method('getProperties')
+            ->with(true)
+            ->willReturn(
+                [
+                    $this->property1Mock
+                ]
+            );
+
+        $this->previousValuesMock
+            ->expects($this->once())
+            ->method('count')
+            ->willReturn(1);
+
+        $this->resourceMock
+            ->expects($this->once())
+            ->method('getPropertyValuesByLg')
+            ->with($this->property1Mock, 'en-US')
+            ->willReturn($this->previousValuesMock);
+
+        $this->resourceMock
+            ->expects($this->never())
+            ->method('setPropertyValueByLg');
+
+        $this->resourceMock
+            ->expects($this->once())
+            ->method('editPropertyValueByLg')
+            ->with($this->property1Mock, 'qti_v2_item_01', 'en-US');
+
+        $this->ontologyMock
+            ->expects($this->once())
+            ->method('getProperty')
+            ->with('property://1');
+
+        $metadataValue = new SimpleMetadataValue(
+            'choice',
+            [
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
+                'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
+                PHP_EOL . '   property://1   ' . PHP_EOL,
+            ],
+            'qti_v2_item_01'
+        );
+
+        $this->sut->inject($this->resourceMock, ['choice' => [$metadataValue]]);
+    }
+
+
+
+
     public function testInjectMappedMultiValuePropertyWithPreviousValue(): void
     {
         $this->setupOntologyMock(1, ['property://1' => $this->property1Mock]);
