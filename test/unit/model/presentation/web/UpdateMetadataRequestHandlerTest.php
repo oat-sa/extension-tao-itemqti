@@ -40,13 +40,13 @@ use RuntimeException;
 
 class UpdateMetadataRequestHandlerTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     private UpdateMetadataRequestHandler $sut;
 
     private MockObject $request;
     private MockObject $resourceImplementationMock;
     private ServiceManager $serviceManager;
-
-    use ServiceManagerMockTrait;
 
     protected function setUp(): void
     {
@@ -123,7 +123,7 @@ class UpdateMetadataRequestHandlerTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(
-           'Resource with id INVALID does not exist'
+            'Resource with id INVALID does not exist'
         );
 
         $this->resourceImplementationMock->expects($this->exactly(1))
