@@ -22,24 +22,30 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\presentation\web;
 
-use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use core_kernel_persistence_ResourceInterface;
 use InvalidArgumentException;
 use JsonException;
+use oat\generis\model\data\Ontology;
+use oat\generis\model\data\RdfsInterface;
+use oat\generis\test\ServiceManagerMockTrait;
+use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\input\UpdateMetadataInput;
 use oat\taoQtiItem\model\presentation\web\UpdateMetadataRequestHandler;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
+use RuntimeException;
 
 class UpdateMetadataRequestHandlerTest extends TestCase
 {
     private UpdateMetadataRequestHandler $sut;
 
     private MockObject $request;
-    private MockObject $resourceMock;
-    private MockObject $propertyMock;
+    private MockObject $resourceImplementationMock;
+
+    use ServiceManagerMockTrait;
 
     protected function setUp(): void
     {
@@ -47,10 +53,37 @@ class UpdateMetadataRequestHandlerTest extends TestCase
 
         $this->sut = new UpdateMetadataRequestHandler();
         $this->request = $this->createMock(ServerRequestInterface::class);
+
+        $ontologyMock = $this->createMock(Ontology::class);
+        ServiceManager::setServiceManager(
+            $this->getServiceManagerMock(
+                [
+                    Ontology::SERVICE_ID => $ontologyMock
+                ]
+            )
+        );
+
+        $this->resourceImplementationMock = $this->createMock(
+            core_kernel_persistence_ResourceInterface::class
+        );
+
+        $rdfsMock = $this->createMock(RdfsInterface::class);
+        $rdfsMock->method('getResourceImplementation')
+            ->willReturn(
+                $this->resourceImplementationMock
+            );
+
+        $ontologyMock->method('getRdfsInterface')
+            ->willReturn($rdfsMock);
     }
 
     public function testValidRequestBody(): void
     {
+        $this->resourceImplementationMock->expects($this->exactly(2))
+            ->method('getTypes')
+            ->willReturn(['itemType']);
+
+
         $this->request->expects($this->once())->method('getBody')
             ->willReturn(
                 '{
@@ -74,6 +107,58 @@ class UpdateMetadataRequestHandlerTest extends TestCase
             ),
             $input
         );
+    }
+
+    public function testInvalidResourceUri(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage(
+           'Resource with id INVALID does not exist'
+        );
+
+        $this->resourceImplementationMock->expects($this->exactly(1))
+            ->method('getTypes')
+            ->willReturn([]);
+
+
+        $this->request->expects($this->once())->method('getBody')
+            ->willReturn(
+                '{
+                            "resourceUri": "INVALID",
+                            "propertyUri": "https://test.local/tao.rdf#pr-id",
+                            "value": "test"
+                     }'
+            );
+
+        $this->sut->handle($this->request);
+    }
+
+    public function testInvalidPropertyUri(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage(
+            'Property with id INVALID does not exist'
+        );
+
+        $this->resourceImplementationMock->expects($this->at(0))
+            ->method('getTypes')
+            ->willReturn(['itemType']);
+
+        $this->resourceImplementationMock->expects($this->at(1))
+            ->method('getTypes')
+            ->willReturn([]);
+
+
+        $this->request->expects($this->once())->method('getBody')
+            ->willReturn(
+                '{
+                            "resourceUri": "https://test.local/tao.rdf#rs-id",
+                            "propertyUri": "INVALID",
+                            "value": "test"
+                     }'
+            );
+
+        $this->sut->handle($this->request);
     }
 
     /**

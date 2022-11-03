@@ -23,12 +23,14 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\presentation\web;
 
 use common_exception_Error;
+use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use InvalidArgumentException;
 use JsonException;
 use oat\taoQtiItem\model\input\UpdateMetadataInput;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 use Psr\Http\Message\ServerRequestInterface;
+use RuntimeException;
 
 class UpdateMetadataRequestHandler
 {
@@ -48,8 +50,20 @@ class UpdateMetadataRequestHandler
 
         $this->validateRequestBody($requestBody);
 
+        $resource = new core_kernel_classes_Resource($requestBody[UpdateMetadataInput::RESOURCE_URI]);
+
+        if (!$resource->exists()) {
+            throw new RuntimeException(sprintf('Resource with id %s does not exist', $resource->getUri()));
+        }
+
+        $property = new core_kernel_classes_Property($requestBody[UpdateMetadataInput::PROPERTY_URI]);
+
+        if (!$property->exists()) {
+            throw new RuntimeException(sprintf('Property with id %s does not exist', $property->getUri()));
+        }
+
         return new UpdateMetadataInput(
-            new core_kernel_classes_Resource($requestBody[UpdateMetadataInput::RESOURCE_URI]),
+            $resource,
             new SimpleMetadataValue(
                 $requestBody[UpdateMetadataInput::RESOURCE_URI],
                 [$requestBody[UpdateMetadataInput::PROPERTY_URI]],
