@@ -40,12 +40,13 @@ use RuntimeException;
 
 class UpdateMetadataRequestHandlerTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     private UpdateMetadataRequestHandler $sut;
 
     private MockObject $request;
     private MockObject $resourceImplementationMock;
-
-    use ServiceManagerMockTrait;
+    private ServiceManager $serviceManager;
 
     protected function setUp(): void
     {
@@ -55,6 +56,7 @@ class UpdateMetadataRequestHandlerTest extends TestCase
         $this->request = $this->createMock(ServerRequestInterface::class);
 
         $ontologyMock = $this->createMock(Ontology::class);
+        $this->serviceManager = ServiceManager::getServiceManager();
         ServiceManager::setServiceManager(
             $this->getServiceManagerMock(
                 [
@@ -75,6 +77,14 @@ class UpdateMetadataRequestHandlerTest extends TestCase
 
         $ontologyMock->method('getRdfsInterface')
             ->willReturn($rdfsMock);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        ServiceManager::setServiceManager(
+            $this->serviceManager
+        );
     }
 
     public function testValidRequestBody(): void
@@ -113,7 +123,7 @@ class UpdateMetadataRequestHandlerTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(
-           'Resource with id INVALID does not exist'
+            'Resource with id INVALID does not exist'
         );
 
         $this->resourceImplementationMock->expects($this->exactly(1))
