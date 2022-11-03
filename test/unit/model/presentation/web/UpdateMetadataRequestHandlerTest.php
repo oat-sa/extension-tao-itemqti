@@ -44,7 +44,7 @@ class UpdateMetadataRequestHandlerTest extends TestCase
 
     private MockObject $request;
     private MockObject $resourceImplementationMock;
-    private $serviceManager;
+    private ServiceManager $serviceManager;
 
     use ServiceManagerMockTrait;
 
