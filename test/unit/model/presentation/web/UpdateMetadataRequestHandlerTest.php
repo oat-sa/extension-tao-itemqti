@@ -44,6 +44,7 @@ class UpdateMetadataRequestHandlerTest extends TestCase
 
     private MockObject $request;
     private MockObject $resourceImplementationMock;
+    private $serviceManager;
 
     use ServiceManagerMockTrait;
 
@@ -55,6 +56,7 @@ class UpdateMetadataRequestHandlerTest extends TestCase
         $this->request = $this->createMock(ServerRequestInterface::class);
 
         $ontologyMock = $this->createMock(Ontology::class);
+        $this->serviceManager = ServiceManager::getServiceManager();
         ServiceManager::setServiceManager(
             $this->getServiceManagerMock(
                 [
@@ -75,6 +77,14 @@ class UpdateMetadataRequestHandlerTest extends TestCase
 
         $ontologyMock->method('getRdfsInterface')
             ->willReturn($rdfsMock);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        ServiceManager::setServiceManager(
+            $this->serviceManager
+        );
     }
 
     public function testValidRequestBody(): void
