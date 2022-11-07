@@ -61,7 +61,8 @@ define([
     };
 
     FigureWidget.buildContainer = function buildContainer() {
-        helper.buildBlockContainer(this);
+        // helper.buildBlockContainer(this);
+        helper.buildInlineContainer(this);
         const img = _.find(this.element.getBody().elements, elem => elem.is('img'));
         const $img = this.$original.find('img');
         if ($img.length) {
