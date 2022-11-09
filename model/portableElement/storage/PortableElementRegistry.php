@@ -306,7 +306,11 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 
     public function getLatestCompatibleVersion(string $identifier, string $targetVersion): ?PortableElementObject
     {
-        $registered = $this->getAllVersions($identifier);
+        try {
+            $registered = $this->getAllVersions($identifier);
+        } catch (PortableElementNotFoundException $e) {
+            return null;
+        }
         $this->krsortByVersion($registered);
 
         foreach ($registered as $registeredVersion=>$model) {
