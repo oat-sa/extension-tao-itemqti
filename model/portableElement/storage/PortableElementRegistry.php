@@ -15,14 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016-2022 (original work) Open Assessment Technologies SA;
  *
  */
 
 namespace oat\taoQtiItem\model\portableElement\storage;
 
-use oat\oatbox\AbstractRegistry;
 use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\log\LoggerAwareTrait;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementFileStorageException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementNotFoundException;
@@ -42,8 +42,9 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
     use PortableElementModelTrait;
+    use LoggerAwareTrait;
 
-    /** @var PortableElementFileStorage  */
+    /** @var PortableElementFileStorage */
     protected $storage;
 
     protected $fileSystemId = 'taoQtiItem';
@@ -56,13 +57,13 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 
     /**
      *
-     * @author Lionel Lecaque, lionel@taotesting.com
      * @return PortableElementRegistry
+     * @author Lionel Lecaque, lionel@taotesting.com
      */
     public static function getRegistry()
     {
         $class = get_called_class();
-        if (! isset(self::$registries[$class])) {
+        if (!isset(self::$registries[$class])) {
             self::$registries[$class] = new $class();
         }
 
@@ -193,7 +194,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     public function has($identifier, $version = null)
     {
         try {
-            return (bool) $this->fetch($identifier, $version);
+            return (bool)$this->fetch($identifier, $version);
         } catch (PortableElementNotFoundException $e) {
             return false;
         }
@@ -205,7 +206,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     public function update(PortableElementObject $object)
     {
         $mapByIdentifier = $this->get($object->getTypeIdentifier());
-        if (! is_array($mapByIdentifier)) {
+        if (!is_array($mapByIdentifier)) {
             $mapByIdentifier = [];
         }
         $mapByIdentifier[$object->getVersion()] = $object->toArray();
@@ -222,7 +223,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     {
         $portableElements = $this->getAllVersions($object->getTypeIdentifier());
 
-        if (! isset($portableElements[$object->getVersion()])) {
+        if (!isset($portableElements[$object->getVersion()])) {
             throw new PortableElementVersionIncompatibilityException(
                 $this->getModel()->getId() . ' with identifier ' . $object->getTypeIdentifier() . ' found, '
                 . 'but version ' . $object->getVersion() . ' does not exist. Deletion impossible.'
@@ -243,7 +244,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      */
     public function removeAllVersions($identifier)
     {
-        if (! $this->has($identifier)) {
+        if (!$this->has($identifier)) {
             throw new PortableElementNotFoundException(
                 'Unable to find portable element (' . $identifier . ') into registry. Deletion impossible.'
             );
@@ -279,7 +280,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     {
         $object = $this->fetch($object->getTypeIdentifier(), $object->getVersion());
 
-        if (! $object->hasVersion()) {
+        if (!$object->hasVersion()) {
             $this->removeAllVersions($object);
         } else {
             $this->removeAssets($object);
@@ -297,7 +298,9 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         $portableElements = $this->getAllVersions($identifier);
 
         if (empty($portableElements)) {
-            throw new PortableElementNotFoundException('Unable to find any version of protable element "' . $identifier . '"');
+            throw new PortableElementNotFoundException(
+                'Unable to find any version of protable element "' . $identifier . '"'
+            );
         }
 
         $this->krsortByVersion($portableElements);
@@ -306,10 +309,15 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 
     public function getLatestCompatibleVersion(string $identifier, string $targetVersion): ?PortableElementObject
     {
-        $registered = $this->getAllVersions($identifier);
+        try {
+            $registered = $this->getAllVersions($identifier);
+        } catch (PortableElementNotFoundException $e) {
+            $this->logDebug($e->getMessage());
+            return null;
+        }
         $this->krsortByVersion($registered);
 
-        foreach ($registered as $registeredVersion=>$model) {
+        foreach ($registered as $registeredVersion => $model) {
             if (intval($targetVersion) === intval($registeredVersion)) {
                 return $this->getModel()->createDataObject($model);
             }
@@ -330,11 +338,12 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
             $latestVersion = $this->getLatestVersion($object->getTypeIdentifier());
             if (version_compare($object->getVersion(), $latestVersion->getVersion(), '<')) {
                 throw new PortableElementVersionIncompatibilityException(
-                    'A newer version of the code already exists ' . $latestVersion->getVersion() . ' > ' . $object->getVersion()
+                    'A newer version of the code already exists ' . $latestVersion->getVersion(
+                    ) . ' > ' . $object->getVersion()
                 );
             }
         } catch (PortableElementNotFoundException $e) {
-            if (! $object->hasVersion()) {
+            if (!$object->hasVersion()) {
                 $object->setVersion('0.0.0');
             }
             // The portable element to register does not exist, continue
@@ -460,8 +469,10 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      */
     protected function removeAssets(PortableElementObject $object)
     {
-        if (! $object->hasVersion()) {
-            throw new PortableElementVersionIncompatibilityException('Unable to delete asset files whitout model version.');
+        if (!$object->hasVersion()) {
+            throw new PortableElementVersionIncompatibilityException(
+                'Unable to delete asset files whitout model version.'
+            );
         }
 
         $object = $this->fetch($object->getTypeIdentifier(), $object->getVersion());
@@ -480,7 +491,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
             return true;
         }
 
-        if (! $this->getFileSystem()->unregisterFiles($object, $filesToRemove)) {
+        if (!$this->getFileSystem()->unregisterFiles($object, $filesToRemove)) {
             throw new PortableElementFileStorageException(
                 'Unable to delete asset files for PCI "' . $object->getTypeIdentifier()
                 . '" at version "' . $object->getVersion() . '"'
@@ -497,7 +508,11 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      */
     protected function getZipLocation(PortableElementObject $object)
     {
-        return \tao_helpers_Export::getExportPath() . DIRECTORY_SEPARATOR . 'pciPackage_' . $object->getTypeIdentifier() . '.zip';
+        return \tao_helpers_Export::getExportPath()
+            . DIRECTORY_SEPARATOR
+            . 'pciPackage_'
+            . $object->getTypeIdentifier()
+            . '.zip';
     }
 
     /**
@@ -552,7 +567,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      */
     public function getFileSystem()
     {
-        if (! $this->storage) {
+        if (!$this->storage) {
             $this->storage = $this->getServiceLocator()->get(PortableElementFileStorage::SERVICE_ID);
             $this->storage->setServiceLocator($this->getServiceLocator());
             $this->storage->setModel($this->getModel());
