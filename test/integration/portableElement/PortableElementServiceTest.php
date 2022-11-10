@@ -154,6 +154,9 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
 
         $lower = $this->service->getLatestCompatibleVersionElementById('PCI', 'pciSampleA', '0.2.1');
         $this->assertEquals('0.4.0', $lower->getVersion());
+
+        $notExisting = $this->service->getLatestCompatibleVersionElementById('PCI', 'Unknown', '1.0.*');
+        $this->assertNull($notExisting);
     }
 
     public function testGetPortableElementByClass()
