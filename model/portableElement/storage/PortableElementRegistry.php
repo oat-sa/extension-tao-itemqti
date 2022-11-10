@@ -508,8 +508,11 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      */
     protected function getZipLocation(PortableElementObject $object)
     {
-        return \tao_helpers_Export::getExportPath() . DIRECTORY_SEPARATOR . 'pciPackage_' . $object->getTypeIdentifier(
-            ) . '.zip';
+        return \tao_helpers_Export::getExportPath()
+            . DIRECTORY_SEPARATOR
+            . 'pciPackage_'
+            . $object->getTypeIdentifier()
+            . '.zip';
     }
 
     /**
