@@ -21,8 +21,8 @@
 
 namespace oat\taoQtiItem\model\portableElement\storage;
 
-use oat\oatbox\AbstractRegistry;
 use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\log\LoggerAwareTrait;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementFileStorageException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementNotFoundException;
@@ -42,6 +42,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
     use PortableElementModelTrait;
+    use LoggerAwareTrait;
 
     /** @var PortableElementFileStorage  */
     protected $storage;
@@ -309,6 +310,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
         try {
             $registered = $this->getAllVersions($identifier);
         } catch (PortableElementNotFoundException $e) {
+            $this->logDebug($e->getMessage());
             return null;
         }
         $this->krsortByVersion($registered);
