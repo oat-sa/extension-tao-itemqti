@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,9 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
- * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2018-2022 (original work) Open Assessment Technologies SA;
  *
  */
+
 declare(strict_types=1);
 
 namespace oat\taoQtiItem\portableElement\test;
@@ -38,7 +40,7 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
      */
     protected $instance;
 
-    /** @var PortableElementService  */
+    /** @var PortableElementService */
     private $service;
 
     public function setUp(): void
@@ -57,7 +59,7 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         if (!ServiceManager::getServiceManager()->has(FileSystemService::SERVICE_ID)) {
             ServiceManager::getServiceManager()->registerService(FileSystemService::SERVICE_ID, $fsm);
         }
-        if (! $fsm->hasDirectory($fsId)) {
+        if (!$fsm->hasDirectory($fsId)) {
             $fsm->createFileSystem($fsId);
         }
         $itemImsPci = 'qtiItemImsPci';
@@ -65,13 +67,15 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
             $fsm->createFileSystem($itemImsPci);
         }
 
-        if (!ServiceManager::getServiceManager()->has(PortableElementFileStorage::SERVICE_ID) ) {
+        if (!ServiceManager::getServiceManager()->has(PortableElementFileStorage::SERVICE_ID)) {
             $portableElementStorage = new PortableElementFileStorage([
                 PortableElementFileStorage::OPTION_FILESYSTEM => $fsId,
                 PortableElementFileStorage::OPTION_WEBSOURCE => ActionWebSource::spawnWebsource($fsId)->getId()
             ]);
-            ServiceManager::getServiceManager()->register(PortableElementFileStorage::SERVICE_ID,
-                $portableElementStorage);
+            ServiceManager::getServiceManager()->register(
+                PortableElementFileStorage::SERVICE_ID,
+                $portableElementStorage
+            );
         }
     }
 
@@ -98,37 +102,51 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $pciLast = $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA');
         $registry = $pciLast->getModel()->getRegistry();
         $this->assertEquals('0.4.0', $pciLast->getVersion());
-        $this->assertNotFalse(strpos($registry->getFileStream($pciLast, 'pciCreator.js')->getContents(), '[version=0.4.0]'));
+        $this->assertNotFalse(
+            strpos($registry->getFileStream($pciLast, 'pciCreator.js')->getContents(), '[version=0.4.0]')
+        );
 
         $pci040 = $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA', '0.4.0');
         $this->assertEquals('0.4.0', $pci040->getVersion());
-        $this->assertNotFalse(strpos($registry->getFileStream($pci040, 'pciCreator.js')->getContents(), '[version=0.4.0]'));
+        $this->assertNotFalse(
+            strpos($registry->getFileStream($pci040, 'pciCreator.js')->getContents(), '[version=0.4.0]')
+        );
 
         //check that the actual file is the same as 0.4.0
         $pciAlias = $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA', '0.4.*');
         $this->assertEquals('0.4.*', $pciAlias->getVersion());
-        $this->assertNotFalse(strpos($registry->getFileStream($pciAlias, 'pciCreator.js')->getContents(), '[version=0.4.0]'));
+        $this->assertNotFalse(
+            strpos($registry->getFileStream($pciAlias, 'pciCreator.js')->getContents(), '[version=0.4.0]')
+        );
 
         //register a fix v0.4.1
         $this->service->registerFromDirectorySource(dirname(__FILE__) . '/samples/pciDir041');
 
         $pci040 = $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA', '0.4.0');
         $this->assertEquals('0.4.0', $pci040->getVersion());
-        $this->assertNotFalse(strpos($registry->getFileStream($pci040, 'pciCreator.js')->getContents(), '[version=0.4.0]'));
+        $this->assertNotFalse(
+            strpos($registry->getFileStream($pci040, 'pciCreator.js')->getContents(), '[version=0.4.0]')
+        );
 
         $pci041 = $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA', '0.4.1');
         $this->assertEquals('0.4.1', $pci041->getVersion());
-        $this->assertNotFalse(strpos($registry->getFileStream($pci041, 'pciCreator.js')->getContents(), '[version=0.4.1]'));
+        $this->assertNotFalse(
+            strpos($registry->getFileStream($pci041, 'pciCreator.js')->getContents(), '[version=0.4.1]')
+        );
 
         //check that the alias points to the same files as the new v0.4.1
         $pciAlias = $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA', '0.4.*');
         $this->assertEquals('0.4.*', $pciAlias->getVersion());
-        $this->assertNotFalse(strpos($registry->getFileStream($pciAlias, 'pciCreator.js')->getContents(), '[version=0.4.1]'));
+        $this->assertNotFalse(
+            strpos($registry->getFileStream($pciAlias, 'pciCreator.js')->getContents(), '[version=0.4.1]')
+        );
 
         //the most recent version is still v0.4.1
         $pciLast = $this->service->getPortableElementByIdentifier('PCI', 'pciSampleA');
         $this->assertEquals('0.4.1', $pciLast->getVersion());
-        $this->assertNotFalse(strpos($registry->getFileStream($pciLast, 'pciCreator.js')->getContents(), '[version=0.4.1]'));
+        $this->assertNotFalse(
+            strpos($registry->getFileStream($pciLast, 'pciCreator.js')->getContents(), '[version=0.4.1]')
+        );
     }
 
     public function testGetLatestCompatibleVersionElementById(): void
@@ -154,11 +172,13 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
 
         $lower = $this->service->getLatestCompatibleVersionElementById('PCI', 'pciSampleA', '0.2.1');
         $this->assertEquals('0.4.0', $lower->getVersion());
+
+        $notExisting = $this->service->getLatestCompatibleVersionElementById('PCI', 'Unknown', '1.0.*');
+        $this->assertNull($notExisting);
     }
 
     public function testGetPortableElementByClass()
     {
-
         $xml = new \DOMDocument();
         $xml->load(__DIR__ . '/samples/item/pci_pic_sample_1.xml');
         $parser = new ParserFactory($xml);
@@ -175,7 +195,6 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
 
     public function testGetPortableElementByClassAlias()
     {
-
         $xml = new \DOMDocument();
         $xml->load(__DIR__ . '/samples/item/pci_sample_1.xml');
         $parser = new ParserFactory($xml);
@@ -189,7 +208,11 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $pci = reset($pcis['pciSampleA']);
         $this->assertEquals('0.4.0', $pci['version']);
 
-        $pcis = $this->service->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $item, true);
+        $pcis = $this->service->getPortableElementByClass(
+            PortableElementService::PORTABLE_CLASS_INTERACTION,
+            $item,
+            true
+        );
         $pci = reset($pcis['pciSampleA']);
         $this->assertEquals('0.4.*', $pci['version']);
 
@@ -199,14 +222,17 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
         $pci = reset($pcis['pciSampleA']);
         $this->assertEquals('0.4.1', $pci['version']);
 
-        $pcis = $this->service->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $item, true);
+        $pcis = $this->service->getPortableElementByClass(
+            PortableElementService::PORTABLE_CLASS_INTERACTION,
+            $item,
+            true
+        );
         $pci = reset($pcis['pciSampleA']);
         $this->assertEquals('0.4.*', $pci['version']);
     }
 
     public function testSetBaseUrlToPortableData()
     {
-
         $xml = new \DOMDocument();
         $xml->load(__DIR__ . '/samples/item/pci_sample_1.xml');
         $parser = new ParserFactory($xml);
@@ -226,7 +252,6 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
 
     public function testSetBaseUrlToPortableDataUnknownVersion()
     {
-
         $this->expectException(PortableElementNotFoundException::class);
 
         $xml = new \DOMDocument();
@@ -248,7 +273,6 @@ class PortableElementServiceTest extends TaoPhpUnitTestRunner
 
     public function testSetBaseUrlToPortableDataUnknownModel()
     {
-
         $this->expectException(PortableModelMissing::class);
 
         $xml = new \DOMDocument();
