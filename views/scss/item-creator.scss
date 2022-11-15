@@ -1248,6 +1248,7 @@ img.dragging.ui-draggable-dragging {
 /*style for html editable area highlight*/
 .edit-question [data-html-editable]{
     min-height: 20px;
+    padding-top: 2px;
 }
 [data-html-editable] {
     border: 1px solid transparent;
