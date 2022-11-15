@@ -29,7 +29,8 @@
     <label for="figcaption">{{__ "Image caption"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ 'The text to be displayed below the image.'}}</div>
-    <textarea name="figcaption" id="figcaption" cols="100%" rows="5">{{figcaption}}</textarea>
+    <textarea class="{{#unless showFigure}} hidden{{/unless}}" name="figcaption" id="figcaption" cols="100%" rows="5">{{figcaption}}</textarea>
+    <p class="feedback-info {{#if showFigure}} hidden{{/if}}">{{__ 'Image caption not enabled when position is set to inline'}}</p>
 </div>
 
 <div data-role="advanced" style="display:none">
