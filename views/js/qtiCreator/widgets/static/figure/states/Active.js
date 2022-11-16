@@ -22,8 +22,9 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/figure',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
+    'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'ui/figure/FigureStateActive',
-], function (stateFactory, ActiveState, formTpl, formElement, inlineHelper, FigureStateActive) {
+], function (stateFactory, ActiveState, formTpl, formElement, inlineHelper, htmlEditor,FigureStateActive) {
     'use strict';
-    return FigureStateActive(stateFactory, ActiveState, formTpl, formElement, inlineHelper);
+    return FigureStateActive(stateFactory, ActiveState, formTpl, formElement, inlineHelper, htmlEditor);
 });
