@@ -30,6 +30,9 @@ define([
         const $container = Renderer.getContainer(img);
         if ($container.parent('figure').length || $container.parent('span').length && $container.parent('span').data('serial') && $container.parent('span').data('serial').includes('figure')) {
             // don't create widget if has figure parent
+            if (!$container.parent('figure').length && $container.siblings('figcaption').length) {
+                $container.siblings('figcaption').remove();
+            }
             return CreatorImg;
         }
 
