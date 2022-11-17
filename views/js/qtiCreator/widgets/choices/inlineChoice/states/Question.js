@@ -47,7 +47,7 @@ define([
         if(features.isVisible('taoQtiItem/creator/interaction/inlineChoice/property/shuffle')) {
             formElement.initShufflePinToggle(_widget);
         }
-        
+
         formElement.initDelete(_widget);
 
         return $toolbar;
@@ -70,10 +70,6 @@ define([
                     widget: _widget
                 },
                 toolbar: [
-                    {
-                        name: 'basicstyles',
-                        items: ['Bold', 'Italic', 'Subscript', 'Superscript']
-                    },
                     {
                         name: 'insert',
                         items: ['SpecialChar']
