@@ -22,58 +22,76 @@
  *
  * @param {Object} grunt - the grunt objectt (by convention)
  */
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     'use strict';
 
     grunt.config.merge({
-        bundle : {
-            taoqtiitem : {
-                options : {
-                    extension : 'taoQtiItem',
-                    dependencies : ['taoItems'],
-                    allowExternal : ['qtiCustomInteractionContext', 'qtiInfoControlContext'],
+        bundle: {
+            taoqtiitem: {
+                options: {
+                    extension: 'taoQtiItem',
+                    dependencies: ['taoItems'],
+                    allowExternal: ['qtiCustomInteractionContext', 'qtiInfoControlContext'],
                     paths: require('./paths.json'),
-                    bundles : [{
-                        name : 'taoQtiItem',
-                        default : true,
-                        babel: true,
-                        //we need to list the dependencies manually, since the
-                        //sources contains tests in subfolders
-                        include : [
-                            'taoQtiItem/mathRenderer/mathRenderer',
-                            'taoQtiItem/portableElementRegistry/**/*',
-                            'taoQtiItem/qtiCommonRenderer/**/*',
-                            'taoQtiItem/reviewRenderer/**/*',
-                            'taoQtiItem/qtiCreator/**/*',
-                            'taoQtiItem/qtiItem/**/*',
-                            'taoQtiItem/qtiRunner/**/*',
-                            'taoQtiItem/qtiXmlRenderer/**/*',
-                            'qtiCustomInteractionContext',
-                            'qtiInfoControlContext'
-                        ]
-                    }, {
-                        name : 'taoQtiItemRunner',
-                        babel: true,
-                        include : [
-                            'taoQtiItem/qtiCommonRenderer/**/*',
-                            'taoQtiItem/qtiItem/**/*',
-                            'taoQtiItem/runner/**/*',
-                            'qtiCustomInteractionContext',
-                            'qtiInfoControlContext'
-                        ],
-                        dependencies : ['taoItems/loader/taoItemsRunner.min']
-                    }, {
-                        name : 'qtiLoader',
-                        bootstrap: true,
-                        babel: true,
-                        entryPoint: 'taoQtiItem/runtime/qtiLoader',
-                        dependencies : ['taoQtiItem/loader/taoQtiItem.min']
-                    }]
+                    bundles: [
+                        {
+                            name: 'taoQtiItem',
+                            default: true,
+                            babel: true,
+                            //we need to list the dependencies manually, since the
+                            //sources contains tests in subfolders
+                            include: [
+                                'taoQtiItem/mathRenderer/mathRenderer',
+                                'taoQtiItem/portableElementRegistry/**/*',
+                                'taoQtiItem/qtiCommonRenderer/**/*',
+                                'taoQtiItem/reviewRenderer/**/*',
+                                'taoQtiItem/qtiCreator/**/*',
+                                'taoQtiItem/qtiItem/**/*',
+                                'taoQtiItem/qtiRunner/**/*',
+                                'taoQtiItem/qtiXmlRenderer/**/*',
+                                'qtiCustomInteractionContext',
+                                'qtiInfoControlContext'
+                            ]
+                        },
+                        {
+                            name: 'taoQtiItemRunner',
+                            babel: true,
+                            include: [
+                                'taoQtiItem/qtiCommonRenderer/**/*',
+                                'taoQtiItem/qtiItem/**/*',
+                                'taoQtiItem/runner/**/*',
+                                'qtiCustomInteractionContext',
+                                'qtiInfoControlContext'
+                            ],
+                            dependencies: ['taoItems/loader/taoItemsRunner.min']
+                        },
+                        {
+                            name: 'taoQtiItemRunner.es5',
+                            babel: true,
+                            targets: {
+                                ie: '11'
+                            },
+                            include: [
+                                'taoQtiItem/qtiCommonRenderer/**/*',
+                                'taoQtiItem/qtiItem/**/*',
+                                'taoQtiItem/runner/**/*',
+                                'qtiCustomInteractionContext',
+                                'qtiInfoControlContext'
+                            ],
+                            dependencies: ['taoItems/loader/taoItemsRunner.es5.min']
+                        },
+                        {
+                            name: 'qtiLoader',
+                            bootstrap: true,
+                            babel: true,
+                            entryPoint: 'taoQtiItem/runtime/qtiLoader',
+                            dependencies: ['taoQtiItem/loader/taoQtiItem.min']
+                        }
+                    ]
                 }
             }
         }
     });
 
     grunt.registerTask('taoqtiitembundle', ['bundle:taoqtiitem']);
-
 };
