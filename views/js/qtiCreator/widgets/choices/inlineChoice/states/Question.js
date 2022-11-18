@@ -72,7 +72,8 @@ define([
                 toolbar: [
                     {
                         name: 'insert',
-                        items: ['SpecialChar']
+                        items: ['SpecialChar'],
+                        mathJax: false
                     }
                 ],
                 qtiMedia: false,
