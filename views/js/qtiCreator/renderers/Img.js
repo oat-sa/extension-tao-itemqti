@@ -19,14 +19,17 @@
 define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/Img',
-    'taoQtiItem/qtiCreator/widgets/static/img/Widget'
-], function(_, Renderer, Widget){
+    'taoQtiItem/qtiCreator/widgets/static/img/Widget',
+    'taoQtiItem/qtiCommonRenderer/renderers/Figure',
+    'taoQtiItem/qtiCreator/widgets/static/figure/Widget',
+    'taoQtiItem/qtiCreator/model/Figure',
+    'taoQtiItem/qtiCreator/helper/findParentElement'
+], function (_, Renderer, Widget, Figure, FigureWidget, FigureModel, findParentElement){
     'use strict';
 
     const CreatorImg = _.clone(Renderer);
 
-    CreatorImg.render = function(img, options){
-
+    CreatorImg.render = function (img, options){
         const $container = Renderer.getContainer(img);
         if ($container.parent('figure').length || $container.parent('span').length && $container.parent('span').data('serial') && $container.parent('span').data('serial').includes('figure')) {
             // don't create widget if has figure parent
@@ -44,12 +47,36 @@ define([
         options.assetManager = this.getAssetManager();
         options.state = img.metaData.widget && img.metaData.widget.getCurrentState().name;
 
-        Widget.build(
-            img,
-            Renderer.getContainer(img),
-            this.getOption('bodyElementOptionForm'),
-            options
-        );
+        if (
+            !$container.closest('.qti-choice, .qti-flow-container').length &&
+            !$container.closest('.qti-table caption').length
+        ) {
+            const parent = findParentElement(img.rootElement, img.serial);
+            parent.removeElement(img);
+            const figure = new FigureModel();
+            parent.setElement(figure);
+            const figureRenderer = parent.getRenderer();
+            if (figureRenderer) {
+                figure.setRenderer(figureRenderer);
+                figureRenderer.load(() => { }, ['figure']);
+            }
+            figure.setElement(img);
+            const $wrap = $container.wrap(`<span data-serial="${figure.serial}">`).parent();
+            FigureWidget.build(
+                figure,
+                $wrap,
+                this.getOption('bodyElementOptionForm'),
+                options
+            );
+        } else {
+            Widget.build(
+                img,
+                Renderer.getContainer(img),
+                this.getOption('bodyElementOptionForm'),
+                options
+            );
+        }
+
     };
 
     return CreatorImg;
