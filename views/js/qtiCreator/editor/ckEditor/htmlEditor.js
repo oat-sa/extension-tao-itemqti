@@ -249,7 +249,7 @@ define([
                         ckConfig.highlight = options.highlight;
                     }
                     if (typeof options.mathJax !== 'undefined') {
-                        ckConfig.mathJax = options.mathJax
+                        ckConfig.mathJax = options.mathJax;
                     }
 
                     e.editor.config = ckConfigurator.getConfig(e.editor, toolbarType, ckConfig);
