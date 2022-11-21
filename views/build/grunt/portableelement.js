@@ -72,7 +72,8 @@ module.exports = function (grunt) {
                         taoQtiItem: `${root}/taoQtiItem/views/js`,
                         taoQtiItemCss: `${root}/taoQtiItem/views/css`,
                         qtiCustomInteractionContext: `${root}/taoQtiItem/views/js/runtime/qtiCustomInteractionContext`,
-                        qtiInfoControlContext: `${root}/taoQtiItem/views/js/runtime/qtiInfoControlContext`
+                        qtiInfoControlContext: `${root}/taoQtiItem/views/js/runtime/qtiInfoControlContext`,
+                        'lib/handlebars/moduleWriter': `${root}/taoQtiItem/views/build/moduleWriter`
                     },
                     amdConfig.paths,
                     require('./paths.json')
