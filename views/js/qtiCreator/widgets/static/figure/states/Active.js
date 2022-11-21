@@ -26,5 +26,5 @@ define([
     'ui/figure/FigureStateActive',
 ], function (stateFactory, ActiveState, formTpl, formElement, inlineHelper, htmlEditor,FigureStateActive) {
     'use strict';
-    return FigureStateActive(stateFactory, ActiveState, formTpl, formElement, inlineHelper, htmlEditor);
+    return FigureStateActive({ stateFactory, ActiveState, formTpl, formElement, inlineHelper, htmlEditor });
 });
