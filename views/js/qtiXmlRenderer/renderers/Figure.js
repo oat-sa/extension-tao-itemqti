@@ -28,6 +28,8 @@ define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/figure'], function (tpl) {
 
             if (!figure.attr('showFigure')) {
                 data.tag = 'img';
+                const cleanImg = data.body.split('<qh5:figcaption >');
+                data.body = cleanImg[0];
             }
 
             return data;
