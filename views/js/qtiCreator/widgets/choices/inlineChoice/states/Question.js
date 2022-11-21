@@ -72,15 +72,15 @@ define([
                 toolbar: [
                     {
                         name: 'insert',
-                        items: ['SpecialChar'],
-                        mathJax: false
+                        items: ['SpecialChar']
                     }
                 ],
                 qtiMedia: false,
                 qtiImage: false,
                 qtiInclude: false,
                 enterMode: CKEditor.ENTER_BR,
-                shieldInnerContent: false
+                shieldInnerContent: false,
+                mathJax: false
             });
         }
 
