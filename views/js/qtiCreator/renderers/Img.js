@@ -20,11 +20,10 @@ define([
     'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/Img',
     'taoQtiItem/qtiCreator/widgets/static/img/Widget',
-    'taoQtiItem/qtiCommonRenderer/renderers/Figure',
     'taoQtiItem/qtiCreator/widgets/static/figure/Widget',
     'taoQtiItem/qtiCreator/model/Figure',
     'taoQtiItem/qtiCreator/helper/findParentElement'
-], function (_, Renderer, Widget, Figure, FigureWidget, FigureModel, findParentElement){
+], function (_, Renderer, Widget, FigureWidget, FigureModel, findParentElement){
     'use strict';
 
     const CreatorImg = _.clone(Renderer);
