@@ -28,10 +28,10 @@ define(['lodash'], function (_) {
     function checkFigureInElement(element = {}, serial) {
         let parent = null;
         _.forEach(element['elements'], childElement => {
-            if (childElement.qtiClass === 'img' && childElement.serial === serial) {
+            if (childElement.serial === serial) {
                 parent = element;
             } else {
-                parent = checkFigureInElement(childElement, serial);
+                checkFigureInElement(childElement, serial);
             }
         });
         if (parent) {
