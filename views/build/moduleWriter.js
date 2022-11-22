@@ -19,13 +19,23 @@ define([], function () {
     'use strict';
 
     /**
+     * Tells if a module name refers to a PCI runtime.
+     * @param moduleName
+     * @returns {boolean}
+     */
+    const isPciRuntime = moduleName => moduleName.indexOf('/runtime/') > 0;
+
+    /**
      * Generates the module declaration for a Handlebars template.
      * @param {string} moduleName - The name of the template's module.
      * @param {string} compiled - The compiled template.
      * @returns {string} - Returns the module declaration for a Handlebars template.
      */
     return function moduleWriter(moduleName, compiled) {
-        const handlebars = 'taoQtiItem/portableLib/handlebars';
+        let handlebars = 'handlebars';
+        if (isPciRuntime(moduleName)) {
+            handlebars = 'taoQtiItem/portableLib/handlebars';
+        }
         return `define('tpl!${moduleName}', ['${handlebars}'], function(hb){ return hb.template(${compiled}); });`;
     };
 });
