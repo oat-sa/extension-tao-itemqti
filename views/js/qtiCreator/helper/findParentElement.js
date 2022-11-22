@@ -20,31 +20,31 @@ define(['lodash'], function (_) {
     'use strict';
 
     /**
-     * Check all figures and replace figcaption element by markup in body in one Element
-     * @param {Object} element
+     *
+     * @param {Object} parentElement
      * @param {string} serial
      * @returns {Object}
      */
-    function checkFigureInElement(element = {}, serial) {
-        let parent = null;
-        _.forEach(element['elements'], childElement => {
+    const searchRecurse = (parentElement, serial) => {
+        if (!parentElement) {
+            return null;
+        }
+        if (parentElement.serial === serial) {
+            return parentElement;
+        }
+        let found = null;
+        _.some(parentElement['elements'], childElement => {
             if (childElement.serial === serial) {
-                parent = element;
-            } else {
-                checkFigureInElement(childElement, serial);
+                found = parentElement;
+            } else if (parentElement['elements']) {
+                found = searchRecurse(childElement);
+            }
+            if (found) {
+                return true;
             }
         });
-        if (parent) {
-            return parent;
-        }
-        if (element.body) {
-            return checkFigureInElement(element.body, serial);
-        }
-        if (element.prompt) {
-            return checkFigureInElement(element.prompt, serial);
-        }
-        return;
-    }
+        return found;
+    };
 
     /**
      * Check all figures and replace figcaption elements by markup in body
@@ -54,7 +54,7 @@ define(['lodash'], function (_) {
      */
     return function checkFigureInItemData(itemData = {}, serial) {
         if (itemData.bdy) {
-            return checkFigureInElement(itemData.bdy, serial);
+            return searchRecurse(itemData.bdy, serial);
         }
         return;
     };
