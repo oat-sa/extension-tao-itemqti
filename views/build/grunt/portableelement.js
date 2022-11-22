@@ -66,6 +66,8 @@ module.exports = function (grunt) {
                     )
                     .concat(ext.getExtensionSources('taoItems', ['views/js/**/*.js'], true)),
                 paths: Object.assign(
+                    {},
+                    amdConfig.paths,
                     {
                         taoItems: `${root}/taoItems/views/js`,
                         taoItemsCss: `${root}/taoItems/views/css`,
@@ -75,7 +77,6 @@ module.exports = function (grunt) {
                         qtiInfoControlContext: `${root}/taoQtiItem/views/js/runtime/qtiInfoControlContext`,
                         'lib/handlebars/moduleWriter': `${root}/taoQtiItem/views/build/moduleWriter`
                     },
-                    amdConfig.paths,
                     require('./paths.json')
                 )
             }
