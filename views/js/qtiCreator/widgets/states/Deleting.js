@@ -62,7 +62,7 @@ define([
                 if ($container.parent().parent().prop('tagName') === 'THEAD') {
                     //hide col
                     const $tbody = $container.closest('table.matrix').children('tbody');
-                    const $tds = $tbody.children('tr').find('td:last');
+                    const $tds = $tbody.children('tr').find('td:visible:last');
                     return $container.add($tds);
                 } else if ($container.parent().parent().prop('tagName') === 'TBODY') {
                     //hide row
