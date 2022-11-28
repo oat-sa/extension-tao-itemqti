@@ -95,7 +95,14 @@ define(['jquery'], function ($) {
                 $container.get(0).isSameNode(range.commonAncestorContainer)
             );
         }
-
+        /**
+         * Make sure that the current selection is not already inside a furigana/ruby
+         * @param {Node} node
+         * @returns {CKEDITOR.dom.node|null}
+         */
+        function isInRuby(node) {
+            return $(node).parents('ruby').length > 0;
+        }
         /**
          * The selection wrapper helper
          */
@@ -106,7 +113,9 @@ define(['jquery'], function ($) {
              */
             canWrap: function canWrap() {
                 const range = !selection.isCollapsed && selection.getRangeAt(0);
-
+                if (range && isInRuby(range.startContainer)) {
+                    return false;
+                }
                 if (range) {
                     containForbiddenQtiElement = false;
                     if (!allowQtiElements) {
