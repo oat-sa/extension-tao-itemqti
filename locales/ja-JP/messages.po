@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.04\n"
-"PO-Revision-Date: 2022-04-01T09:30:44\n"
+"Project-Id-Version: TAO 2022.09\n"
+"PO-Revision-Date: 2022-11-04T17:54:46\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -20,10 +20,10 @@ msgid " For Resource "
 msgstr "リソース用"
 
 msgid " or "
-msgstr "  "
+msgstr "｜"
 
 msgid "%d characters allowed"
-msgstr "文字「％d」が許可されています"
+msgstr "%d 文字以内"
 
 msgid "%d Item(s) of %d imported from the given IMS QTI Package."
 msgstr ""
@@ -62,7 +62,7 @@ msgid "3/4 of height"
 msgstr "高さ:3/4"
 
 msgid "A choice must be selected"
-msgstr "必ず１つ選択してください"
+msgstr "必ず１つ選んでください"
 
 msgid "A human interpretation of the variable's value."
 msgstr "変数値の翻訳"
@@ -327,7 +327,7 @@ msgid "Collect open-ended information in one or more text area(s) (strings or nu
 msgstr "1つまたは複数のテキストエリア（文字列または数値）でオープンエンドの情報を収集します"
 
 msgid "Color Picker"
-msgstr "色の取得"
+msgstr "カラーピッカー"
 
 msgid "Common Interactions"
 msgstr "標準インタラクション"
@@ -383,10 +383,10 @@ msgstr "カスタム（PCI）"
 msgid "Custom Response Processing Mode"
 msgstr "カスタムレスポンス処理モード"
 
-msgid "default"
+msgid "Default"
 msgstr "デフォルト"
 
-msgid "Default"
+msgid "default"
 msgstr "デフォルト"
 
 msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
@@ -834,7 +834,7 @@ msgid "Is this pair the correct response?"
 msgstr "このペアは、正しい答えですか？"
 
 msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
-msgstr ""
+msgstr "アイテムの読み込み時にエラーが発生するようです。このエラーは報告され，テストは一時停止されます。"
 
 msgid "Item \"%s\" cannot be exported: %s"
 msgstr "アイテム \"%s\" をエクスポートできませんでした。"
@@ -997,10 +997,10 @@ msgid "maximum"
 msgstr "以内"
 
 msgid "Maximum choices reached"
-msgstr "選択数が上限に達しました。これ以上選択できません。"
+msgstr "これ以上選べません"
 
 msgid "Maximum number of choices reached."
-msgstr "選択肢の上限に達しました"
+msgstr "選択数の上限に達しました"
 
 msgid "Media"
 msgstr "メディア"
@@ -1084,10 +1084,10 @@ msgstr ""
 msgid "No value set"
 msgstr "何もセットされていません"
 
-msgid "none"
+msgid "None"
 msgstr "なし"
 
-msgid "None"
+msgid "none"
 msgstr "なし"
 
 msgid "None defined yet."
@@ -1314,10 +1314,10 @@ msgstr "Registerメソッドは、$keyおよび$nameパラメーターを想定�
 msgid "Register method expects $key and $name parameters."
 msgstr "Registerメソッドは、$keyおよび$nameパラメーターを想定しています"
 
-msgid "remove"
+msgid "Remove"
 msgstr "削除"
 
-msgid "Remove"
+msgid "remove"
 msgstr "削除"
 
 msgid "Remove custom background color"
@@ -1992,10 +1992,10 @@ msgid "You need to select %s choices"
 msgstr ""
 
 msgid "You need to select at least %s choices."
-msgstr ""
+msgstr "少なくとも%sつ選んでください"
 
 msgid "You need to select at least 1 choice."
-msgstr ""
+msgstr "少なくとも1つ選んでください。"
 
 msgid "You need to select from %s to %s choices."
 msgstr ""
