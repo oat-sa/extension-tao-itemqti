@@ -156,6 +156,9 @@ define([
                                 _activateInnerWidget(options.data.widget, createdWidget);
                             }
                         );
+                        // hide toolbar to prevent double click
+                        const editor = $editable.data('editor');
+                        editor.focusManager.blur(true);
                     }
                 }
             },

@@ -71,7 +71,8 @@ define([
                 qtiMedia: false,
                 qtiInclude: false,
                 enterMode: CKEditor.ENTER_BR,
-                shieldInnerContent: false
+                shieldInnerContent: false,
+                furiganaPlugin: true
             });
         }
 

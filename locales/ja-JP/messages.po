@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2022.09\n"
-"PO-Revision-Date: 2022-08-12T16:45:54\n"
+"PO-Revision-Date: 2022-11-04T17:54:46\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -20,10 +20,10 @@ msgid " For Resource "
 msgstr "リソース用"
 
 msgid " or "
-msgstr "  "
+msgstr "｜"
 
 msgid "%d characters allowed"
-msgstr "文字「％d」が許可されています"
+msgstr "%d 文字以内"
 
 msgid "%d Item(s) of %d imported from the given IMS QTI Package."
 msgstr "指定された IMS QTI パッケージから %d 個のアイテムがインポートされました。"
@@ -65,7 +65,7 @@ msgid "3/4 of height"
 msgstr "高さ:3/4"
 
 msgid "A choice must be selected"
-msgstr "必ず１つ選択してください"
+msgstr "必ず１つ選んでください"
 
 msgid "A human interpretation of the variable's value."
 msgstr "変数値の翻訳"
@@ -293,10 +293,10 @@ msgstr "選択問題"
 msgid "Choice Properties"
 msgstr "選択肢プロパティ"
 
-msgid "choices"
+msgid "Choices"
 msgstr "選択肢"
 
-msgid "Choices"
+msgid "choices"
 msgstr "選択肢"
 
 msgid "Choose the horizontal alignment for the table."
@@ -330,7 +330,7 @@ msgid "Collect open-ended information in one or more text area(s) (strings or nu
 msgstr "1つまたは複数のテキストエリア（文字列または数値）でオープンエンドの情報を収集します"
 
 msgid "Color Picker"
-msgstr "色の取得"
+msgstr "カラーピッカー"
 
 msgid "Common Interactions"
 msgstr "標準インタラクション"
@@ -386,10 +386,10 @@ msgstr "カスタム（PCI）"
 msgid "Custom Response Processing Mode"
 msgstr "カスタムレスポンス処理モード"
 
-msgid "default"
+msgid "Default"
 msgstr "デフォルト"
 
-msgid "Default"
+msgid "default"
 msgstr "デフォルト"
 
 msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
@@ -419,10 +419,10 @@ msgstr "指定幅"
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "数値型の結果変数の最大値を設定します。最大値は正の値、最小は負の値にすることができます。"
 
-msgid "delete"
+msgid "Delete"
 msgstr "削除"
 
-msgid "Delete"
+msgid "delete"
 msgstr "削除"
 
 msgid "Delete else statement"
@@ -452,10 +452,10 @@ msgstr "分割"
 msgid "Don't save"
 msgstr "保存しない"
 
-msgid "Done"
+msgid "done"
 msgstr "完了"
 
-msgid "done"
+msgid "Done"
 msgstr "完了"
 
 msgid "Download"
@@ -719,10 +719,10 @@ msgstr "手動採点"
 msgid "identical pair already exists"
 msgstr "すでに同じ組み合わせがあります"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "識別子"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "識別子"
 
 msgid "identifier already taken"
@@ -840,7 +840,7 @@ msgid "Is this pair the correct response?"
 msgstr "このペアは、正しい答えですか？"
 
 msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
-msgstr "アイテムの読み込み時にエラーが発生するようです。このエラーは報告されています。テストは一時停止されます。"
+msgstr "アイテムの読み込み時にエラーが発生するようです。このエラーは報告され，テストは一時停止されます。"
 
 msgid "Item \"%s\" cannot be exported: %s"
 msgstr "アイテム \"%s\" をエクスポートできませんでした。"
@@ -885,10 +885,10 @@ msgstr "言語"
 msgid "Large editor"
 msgstr "編集画面"
 
-msgid "Latex"
+msgid "LaTeX"
 msgstr "LaTeX"
 
-msgid "LaTeX"
+msgid "Latex"
 msgstr "LaTeX"
 
 msgid "Layout"
@@ -1000,10 +1000,10 @@ msgid "maximum"
 msgstr "以内"
 
 msgid "Maximum choices reached"
-msgstr "選択数が上限に達しました。これ以上選択できません。"
+msgstr "これ以上選べません"
 
 msgid "Maximum number of choices reached."
-msgstr "選択肢の上限に達しました"
+msgstr "選択数の上限に達しました"
 
 msgid "Media"
 msgstr "メディア"
@@ -1087,10 +1087,10 @@ msgstr "アップロードされたファイルがありません"
 msgid "No value set"
 msgstr "何もセットされていません"
 
-msgid "none"
+msgid "None"
 msgstr "なし"
 
-msgid "None"
+msgid "none"
 msgstr "なし"
 
 msgid "None defined yet."
@@ -1315,10 +1315,10 @@ msgstr "Registerメソッドは、$keyおよび$nameパラメーターを想定�
 msgid "Register method expects $key and $name parameters."
 msgstr "Registerメソッドは、$keyおよび$nameパラメーターを想定しています"
 
-msgid "remove"
+msgid "Remove"
 msgstr "削除"
 
-msgid "Remove"
+msgid "remove"
 msgstr "削除"
 
 msgid "Remove custom background color"
@@ -1997,10 +1997,10 @@ msgid "You need to select %s choices"
 msgstr "%dつ選んでください"
 
 msgid "You need to select at least %s choices."
-msgstr "少なくとも%sつ選ぶ必要があります"
+msgstr "少なくとも%sつ選んでください"
 
 msgid "You need to select at least 1 choice."
-msgstr "少なくとも1つ選ぶ必要があります。"
+msgstr "少なくとも1つ選んでください。"
 
 msgid "You need to select from %s to %s choices."
 msgstr "少なくとも%sつ，最大%sつまで選べます"
