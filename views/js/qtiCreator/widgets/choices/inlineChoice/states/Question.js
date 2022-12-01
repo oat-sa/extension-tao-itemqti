@@ -80,7 +80,8 @@ define([
                 qtiInclude: false,
                 enterMode: CKEditor.ENTER_BR,
                 shieldInnerContent: false,
-                mathJax: false
+                mathJax: false,
+                furiganaPlugin: true
             });
         }
 
