@@ -25,5 +25,5 @@ define([
     'ui/figure/FigureStateActive',
 ], function (stateFactory, ActiveState, formTpl, formElement, inlineHelper, FigureStateActive) {
     'use strict';
-    return FigureStateActive(stateFactory, ActiveState, formTpl, formElement, inlineHelper);
+    return FigureStateActive({ stateFactory, ActiveState, formTpl, formElement, inlineHelper });
 });
