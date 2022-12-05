@@ -52,27 +52,27 @@ class PortableCustomInteraction extends CustomInteraction
     protected $typeIdentifier = '';
     protected $entryPoint = '';
     protected $version = '0.0.0';
-    
+
     public function setTypeIdentifier($typeIdentifier)
     {
         $this->typeIdentifier = $typeIdentifier;
     }
-    
+
     public function setEntryPoint($entryPoint)
     {
         $this->entryPoint = $entryPoint;
     }
-    
+
     public function getTypeIdentifier()
     {
         return $this->typeIdentifier;
     }
-    
+
     public function getEntryPoint()
     {
         return $this->entryPoint;
     }
-    
+
     public function getProperties()
     {
         return $this->properties;
@@ -91,22 +91,22 @@ class PortableCustomInteraction extends CustomInteraction
     {
         return $this->stylesheets;
     }
-    
+
     public function setStylesheets($stylesheets)
     {
         $this->stylesheets = $stylesheets;
     }
-    
+
     public function getMediaFiles()
     {
         return $this->mediaFiles;
     }
-    
+
     public function setMediaFiles($mediaFiles)
     {
         $this->mediaFiles = $mediaFiles;
     }
-    
+
     public function getVersion()
     {
         return $this->version;
@@ -133,7 +133,7 @@ class PortableCustomInteraction extends CustomInteraction
 
     public function toArray($filterVariableContent = false, &$filtered = [])
     {
-        
+
         $returnValue = parent::toArray($filterVariableContent, $filtered);
 
         $returnValue['typeIdentifier'] = $this->typeIdentifier;
@@ -152,7 +152,7 @@ class PortableCustomInteraction extends CustomInteraction
     {
         return static::getTemplatePath() . 'interactions/qti.portableCustomInteraction.tpl.php';
     }
-    
+
     protected function getTemplateQtiVariables()
     {
 
@@ -163,10 +163,12 @@ class PortableCustomInteraction extends CustomInteraction
         $variables['serializedProperties'] = $this->serializePortableProperties($this->properties);
         $variables['entryPoint'] = $this->entryPoint;
         $variables['typeIdentifier'] = $this->typeIdentifier;
+        $variables['namespaceUri'] = $this->getNamespace()->getUri();
+
         $this->getRelatedItem()->addNamespace($this->markupNs, $this->markupNs);
         return $variables;
     }
-    
+
     /**
      * Feed the pci instance with data provided in the pci dom node
      *
