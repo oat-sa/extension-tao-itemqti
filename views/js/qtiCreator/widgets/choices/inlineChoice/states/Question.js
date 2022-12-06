@@ -60,7 +60,7 @@ define([
             $editableContainer = _widget.$container.find('.editable-container');
 
         $editableContainer.attr('data-html-editable-container', true);
-        $editable.attr('data-html-editable', true);
+        $editable.attr('data-html-editable', true).attr('contenteditable', true);
 
         if (!htmlEditor.hasEditor($editableContainer)) {
             htmlEditor.buildEditor($editableContainer, {
