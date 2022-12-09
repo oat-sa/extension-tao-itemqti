@@ -21,57 +21,55 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\mode\qti;
 
-use oat\generis\test\TestCase;
+use common_ext_Extension;
+use common_ext_ExtensionsManager;
+use oat\generis\test\ServiceManagerMockTrait;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\service\ApplicationService;
 use oat\taoQtiItem\model\qti\Item;
+use PHPUnit\Framework\TestCase;
 
 class ItemTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     private const PRODUCT_NAME = 'TAO';
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        if (!defined('PRODUCT_NAME')) {
-            define('PRODUCT_NAME', self::PRODUCT_NAME);
-        }
-        if (!defined('ROOT_URL')) {
-            define('ROOT_URL', __DIR__ . '/../../../../../');
-        }
-        if (!defined('CONFIG_PATH')) {
-            define('CONFIG_PATH', ROOT_URL . 'config/');
-        }
-        if (!defined('EXTENSION_PATH')) {
-            define('EXTENSION_PATH', ROOT_URL);
-        }
+        define('PRODUCT_NAME', self::PRODUCT_NAME);
 
-        ServiceManager::getServiceManager()->overload(
-            ApplicationService::SERVICE_ID,
-            $this->createMock(ApplicationService::class)
-        );
+        $commonExtensionMock = $this->createMock(common_ext_Extension::class);
+        $commonExtensionMock
+            ->method('getDir')
+            ->willReturn(ROOT_PATH . DIRECTORY_SEPARATOR . 'taoQtiItem' . DIRECTORY_SEPARATOR);
+
+        $extensionsManagerMock = $this->createMock(common_ext_ExtensionsManager::class);
+        $extensionsManagerMock
+            ->method('getExtensionById')
+            ->willReturn($commonExtensionMock);
+
+        $applicationServiceMock = $this->createMock(ApplicationService::class);
+
+        $sm = $this->getServiceManagerMock([
+            ApplicationService::SERVICE_ID => $applicationServiceMock,
+            common_ext_ExtensionsManager::class => $extensionsManagerMock
+        ]);
+
+        ServiceManager::setServiceManager($sm);
     }
 
+    /**
+     * Testing toQTI() method on Item class
+     * @return void
+     */
     public function testToQTI(): void
     {
-        $expectedItemQti = <<<ITEM_QTI
-<?xml version="1.0" encoding="UTF-8"?><assessmentItem
-        xsi:schemaLocation=""
-     identifier="Item_1" title="" label="" adaptive="false" timeDependent="false" toolName="TAO">
-
-    
-    
-    
-    <itemBody >
-	    </itemBody>
-
-    
-    
-    </assessmentItem>
-
-ITEM_QTI;
-
+        $expectedItemQti = file_get_contents(
+            dirname(__DIR__, 2) . '/samples/model/qti/item/testToQti_expectedItemQti.xml'
+        );
 
         $item = new Item();
         $itemQti = $this->removeToolVersionAttribute($item->toQTI());
@@ -79,30 +77,23 @@ ITEM_QTI;
         self::assertEquals($expectedItemQti, $itemQti);
     }
 
+    /**
+     * Testing toQTI() method on Item class with attribute dir=rtl
+     * @return void
+     * @throws \oat\taoQtiItem\model\qti\exception\QtiModelException
+     */
     public function testToQTIWithDirAttributeInItemBody(): void
     {
-        $expectedItemQti = <<<ITEM_QTI
-<?xml version="1.0" encoding="UTF-8"?><assessmentItem
-        xsi:schemaLocation=""
-     identifier="Item_1" title="" label="" adaptive="false" timeDependent="false" toolName="TAO">
-
-    
-    
-    
-    <itemBody dir="rtl">
-	    </itemBody>
-
-    
-    
-    </assessmentItem>
-
-ITEM_QTI;
-
+        $expectedItemQti = file_get_contents(
+            dirname(
+                __DIR__,
+                2
+            ) . '/samples/model/qti/item/testToQTIWithDirAttributeInItemBody_expectedItemQti.xml'
+        );
 
         $item = new Item();
         $item->getBody()->setAttribute('dir', 'rtl');
         $itemQti = $this->removeToolVersionAttribute($item->toQTI());
-
 
         self::assertEquals($expectedItemQti, $itemQti);
     }
