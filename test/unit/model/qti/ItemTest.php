@@ -24,10 +24,13 @@ namespace oat\taoQtiItem\test\unit\mode\qti;
 use common_ext_Extension;
 use common_ext_ExtensionsManager;
 use oat\generis\test\ServiceManagerMockTrait;
+use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\service\ApplicationService;
 use oat\taoQtiItem\model\qti\Item;
 use PHPUnit\Framework\TestCase;
+use League\Flysystem\Filesystem;
+use League\Flysystem\Adapter\Local;
 
 class ItemTest extends TestCase
 {
@@ -35,11 +38,15 @@ class ItemTest extends TestCase
 
     private const PRODUCT_NAME = 'TAO';
 
+    private FileSystemService $fileSystemService;
+
     protected function setUp(): void
     {
         parent::setUp();
 
-        define('PRODUCT_NAME', self::PRODUCT_NAME);
+        if (!defined('PRODUCT_NAME')) {
+            define('PRODUCT_NAME', self::PRODUCT_NAME);
+        }
 
         $commonExtensionMock = $this->createMock(common_ext_Extension::class);
         $commonExtensionMock
@@ -67,9 +74,7 @@ class ItemTest extends TestCase
      */
     public function testToQTI(): void
     {
-        $expectedItemQti = file_get_contents(
-            dirname(__DIR__, 2) . '/samples/model/qti/item/testToQti_expectedItemQti.xml'
-        );
+        $expectedItemQti = $this->readSampleFile('testToQti_expectedItemQti.xml');
 
         $item = new Item();
         $itemQti = $this->removeToolVersionAttribute($item->toQTI());
@@ -84,12 +89,7 @@ class ItemTest extends TestCase
      */
     public function testToQTIWithDirAttributeInItemBody(): void
     {
-        $expectedItemQti = file_get_contents(
-            dirname(
-                __DIR__,
-                2
-            ) . '/samples/model/qti/item/testToQTIWithDirAttributeInItemBody_expectedItemQti.xml'
-        );
+        $expectedItemQti = $this->readSampleFile('testToQTIWithDirAttributeInItemBody_expectedItemQti.xml');
 
         $item = new Item();
         $item->getBody()->setAttribute('dir', 'rtl');
@@ -106,5 +106,21 @@ class ItemTest extends TestCase
     private function removeToolVersionAttribute(string $itemQti): string
     {
        return preg_replace('/toolVersion="[0-9]{4}\.[0-9]{2}"/u', 'toolVersion=""', $itemQti);
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     * @throws \League\Flysystem\FileNotFoundException
+     */
+    private function readSampleFile(string $name): string
+    {
+        $adapter = new Local(
+            dirname(__DIR__, 2) . '/samples/model/qti/item'
+        );
+
+        $filesystem = new Filesystem($adapter);
+
+        return $filesystem->read($name);
     }
 }
