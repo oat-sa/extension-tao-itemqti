@@ -19,7 +19,7 @@
  */
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\test\unit\mode\qti;
+namespace oat\taoQtiItem\test\unit\model\qti;
 
 use common_ext_Extension;
 use common_ext_ExtensionsManager;

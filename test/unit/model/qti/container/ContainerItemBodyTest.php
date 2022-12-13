@@ -19,7 +19,7 @@
  */
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\test\unit\mode\qti\container;
+namespace oat\taoQtiItem\test\unit\model\qti\container;
 
 use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\qti\container\ContainerItemBody;
