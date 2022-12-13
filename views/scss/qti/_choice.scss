@@ -1,4 +1,4 @@
-@import "inc/bootstrap";
+@import 'inc/bootstrap';
 
 .qti-choiceInteraction {
     .overlay-answer-eliminator {
@@ -10,7 +10,7 @@
     $minRowHeight: 22;
     $elimListStyleCbOffsetLeft: $elimCbOffsetLeft + 23;
 
-    [data-eliminable="container"] {
+    [data-eliminable='container'] {
         display: none;
         position: absolute;
         z-index: 3;
@@ -27,11 +27,11 @@
             right: $elimCbOffsetLeft * 1px;
         }
         &:after {
-            content: "0";
+            content: '0';
             visibility: hidden;
             pointer-events: none;
         }
-        [data-eliminable="trigger"] {
+        [data-eliminable='trigger'] {
             font-size: 1.6rem;
             z-index: 4;
             cursor: pointer;
@@ -44,6 +44,7 @@
             left: 50%;
             transform: translateX(-50%);
             bottom: calc(100% + 20px);
+            white-space: nowrap;
         }
     }
 
@@ -56,9 +57,8 @@
             padding-right: 0;
             padding-left: 10px;
         }
-
     }
-    .label-box{
+    .label-box {
         margin-left: 24px;
         @include rtl {
             margin-left: 0;
@@ -81,8 +81,9 @@
             .choice-area {
                 margin-top: 25px;
                 // there might be list-styles that move everything to the right
-                &[class^="list-style-"], &[class*=" list-style-"] {
-                    [data-eliminable="container"] {
+                &[class^='list-style-'],
+                &[class*=' list-style-'] {
+                    [data-eliminable='container'] {
                         left: $elimListStyleCbOffsetLeft * 1px;
 
                         @include rtl {
@@ -106,7 +107,7 @@
 
                             .qti-block {
                                 &:after {
-                                    content:' ';
+                                    content: ' ';
                                     width: 100%;
                                     position: relative;
                                     top: -21px;
@@ -114,8 +115,8 @@
                             }
 
                             .overlay-answer-eliminator {
-                                stroke:rgb(0,0,0);
-                                stroke-width:1;
+                                stroke: rgb(0, 0, 0);
+                                stroke-width: 1;
                                 display: inline;
                                 height: 100%;
                                 left: 0;
@@ -129,7 +130,7 @@
 
                     &:before,
                     .pseudo-label-box {
-                        opacity: .3;
+                        opacity: 0.3;
                     }
 
                     &:before,
@@ -138,11 +139,11 @@
                     }
 
                     &:after {
-                        content: "";
+                        content: '';
                         width: 100%;
                         height: 100%;
                         background: $uiGeneralContentBg;
-                        opacity: .7;
+                        opacity: 0.7;
                         display: block;
                         position: absolute;
                         top: 0;
@@ -150,9 +151,9 @@
                         cursor: not-allowed;
                     }
 
-                    [data-eliminable="container"] {
+                    [data-eliminable='container'] {
                         cursor: not-allowed;
-                        [data-eliminable="trigger"] {
+                        [data-eliminable='trigger'] {
                             &:before {
                                 @include icon-checkbox-crossed();
                             }
@@ -160,7 +161,7 @@
                     }
                 }
                 &:first-child {
-                    [data-eliminable="container"] {
+                    [data-eliminable='container'] {
                         // label above ol
                         &::before {
                             content: attr(data-label);
@@ -189,7 +190,7 @@
         }
     }
 
-    .qti-choice .real-label{
+    .qti-choice .real-label {
         min-height: $minRowHeight * 1px;
         max-height: 100%;
         display: flex;
@@ -197,7 +198,7 @@
         top: 0px;
         -webkit-tap-highlight-color: transparent; // mobile safari fix
         &:before {
-            content: "0";
+            content: '0';
             min-width: 20px;
             visibility: hidden;
             pointer-events: none;
@@ -225,7 +226,8 @@
     }
 
     .choice-area {
-        &[class^="list-style-"], &[class*=" list-style-"] {
+        &[class^='list-style-'],
+        &[class*=' list-style-'] {
             .label-content {
                 margin-left: 30px;
 
@@ -235,7 +237,9 @@
                 }
             }
 
-            p, div, li {
+            p,
+            div,
+            li {
                 &::before {
                     position: absolute;
                     top: 4px;
@@ -252,7 +256,7 @@
                 }
                 &.add-option:before {
                     content: '';
-                    display:inline;
+                    display: inline;
                 }
             }
         }
@@ -280,29 +284,27 @@
         border: 1px solid #eee;
         @include border-radius(2);
     }
-    .label-content [data-html-editable=true],
+    .label-content [data-html-editable='true'],
     .label-content {
         min-height: $minRowHeight * 1px;
         max-height: 100%;
         display: flex;
     }
 
-
-
     //IE specific
 
     .checked {
-        span.icon-checkbox:before{
+        span.icon-checkbox:before {
             @include tao-icon-setup;
             @include icon-checkbox-checked;
         }
-        span.icon-radio:before{
+        span.icon-radio:before {
             @include tao-icon-setup;
             @include icon-radio-checked;
         }
     }
-    .real-label{
-        input{
+    .real-label {
+        input {
             opacity: 0;
             left: auto;
         }
