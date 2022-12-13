@@ -17,6 +17,7 @@
  *
  * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
  */
+
 declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\qti;
@@ -105,7 +106,7 @@ class ItemTest extends TestCase
      */
     private function removeToolVersionAttribute(string $itemQti): string
     {
-       return preg_replace('/toolVersion="[0-9]{4}\.[0-9]{2}"/u', 'toolVersion=""', $itemQti);
+        return preg_replace('/toolVersion="[0-9]{4}\.[0-9]{2}"/u', 'toolVersion=""', $itemQti);
     }
 
     /**
