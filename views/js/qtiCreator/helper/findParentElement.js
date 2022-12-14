@@ -40,6 +40,8 @@ define(['lodash'], function (_) {
                 found = searchRecurse(childElement, serial);
             } else if (childElement['prompt']) {
                 found = searchRecurse(childElement.prompt.bdy, serial);
+            } else if (childElement['bdy']) {
+                found = searchRecurse(childElement.bdy, serial);
             }
             if (found) {
                 return true;
