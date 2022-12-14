@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem
+        xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:m="http://www.w3.org/1998/Math/MathML"
+        xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd"
+        identifier="i61dbf0028b0ca4904497f514befea47f" title="Item 1" adaptive="false" timeDependent="false"
+        xml:lang="en-US">
+    <itemBody dir="rtl">
+        <div class="grid-row">
+            <div class="col-12">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing ...</p>
+            </div>
+        </div>
+    </itemBody>
+</assessmentItem>

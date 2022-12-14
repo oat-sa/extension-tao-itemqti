@@ -17,63 +17,65 @@
  *
  * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
  */
+
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\test\unit\mode\qti;
+namespace oat\taoQtiItem\test\unit\model\qti;
 
+use common_ext_Extension;
+use common_ext_ExtensionsManager;
 use DOMDocument;
+use oat\oatbox\service\ServiceManager;
+use oat\generis\test\ServiceManagerMockTrait;
+use oat\tao\model\service\ApplicationService;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\ParserFactory;
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use League\Flysystem\Filesystem;
+use League\Flysystem\Adapter\Local;
 
 class ParserFactoryTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     private const PRODUCT_NAME = 'TAO';
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->logger = $this->createMock(LoggerInterface::class);
-
         if (!defined('PRODUCT_NAME')) {
             define('PRODUCT_NAME', self::PRODUCT_NAME);
         }
-        if (!defined('ROOT_URL')) {
-            define('ROOT_URL', __DIR__ . '/../../../../../');
-        }
-        if (!defined('CONFIG_PATH')) {
-            define('CONFIG_PATH', ROOT_URL . 'config/');
-        }
-        if (!defined('EXTENSION_PATH')) {
-            define('EXTENSION_PATH', ROOT_URL);
-        }
+
+        $this->logger = $this->createMock(LoggerInterface::class);
+
+        $commonExtensionMock = $this->createMock(common_ext_Extension::class);
+        $commonExtensionMock
+            ->method('getDir')
+            ->willReturn(ROOT_PATH . DIRECTORY_SEPARATOR . 'taoQtiItem' . DIRECTORY_SEPARATOR);
+
+        $extensionsManagerMock = $this->createMock(common_ext_ExtensionsManager::class);
+        $extensionsManagerMock
+            ->method('getExtensionById')
+            ->willReturn($commonExtensionMock);
+
+        $applicationServiceMock = $this->createMock(ApplicationService::class);
+
+        $sm = $this->getServiceManagerMock([
+            ApplicationService::SERVICE_ID => $applicationServiceMock,
+            common_ext_ExtensionsManager::class => $extensionsManagerMock
+        ]);
+
+        ServiceManager::setServiceManager($sm);
     }
 
     public function testParseItem(): void
     {
-        $itemDocument = <<<ITEM_DOC
-<?xml version="1.0" encoding="UTF-8"?>
-<assessmentItem
-        xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:m="http://www.w3.org/1998/Math/MathML"
-        xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd"
-        identifier="i61dbf0028b0ca4904497f514befea47f" title="Item 1" adaptive="false" timeDependent="false"
-        xml:lang="en-US">
-    <itemBody>
-        <div class="grid-row">
-            <div class="col-12">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing ...</p>
-            </div>
-        </div>
-    </itemBody>
-</assessmentItem>
-ITEM_DOC;
-
+        $itemDocument = $this->readSampleFile('testParseItem_itemDocument.xml');
         $dom = new DOMDocument();
         $dom->loadXML($itemDocument);
 
@@ -101,30 +103,15 @@ ITEM_DOC;
 
     public function testParseItemWithDirAttributeOnItemBody(): void
     {
-        $itemDocument = <<<ITEM_DOC
-<?xml version="1.0" encoding="UTF-8"?>
-<assessmentItem
-        xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:m="http://www.w3.org/1998/Math/MathML"
-        xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd"
-        identifier="i61dbf0028b0ca4904497f514befea47f" title="Item 1" adaptive="false" timeDependent="false"
-        xml:lang="en-US">
-    <itemBody dir="rtl">
-        <div class="grid-row">
-            <div class="col-12">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing ...</p>
-            </div>
-        </div>
-    </itemBody>
-</assessmentItem>
-ITEM_DOC;
+        $itemDocument = $this->readSampleFile('testParseItemWithDirAttributeOnItemBody_itemDocument.xml');
 
         $dom = new DOMDocument();
         $dom->loadXML($itemDocument);
 
         $parser = new ParserFactory($dom);
 
-        $this->logger->expects($this->once())->method('debug')
+        $this->logger->expects($this->once())
+            ->method('debug')
             ->with('Started parsing of QTI item i61dbf0028b0ca4904497f514befea47f', ['TAOITEMS']);
         $parser->setLogger($this->logger);
         $item = $parser->load();
@@ -141,5 +128,21 @@ ITEM_DOC;
     ',
             $item->getBody()->getBody()
         );
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     * @throws \League\Flysystem\FileNotFoundException
+     */
+    private function readSampleFile(string $name): string
+    {
+        $adapter = new Local(
+            dirname(__DIR__, 2) . '/samples/model/qti/parserFactory'
+        );
+
+        $filesystem = new Filesystem($adapter);
+
+        return $filesystem->read($name);
     }
 }
