@@ -30,7 +30,7 @@ use oat\tao\model\ClientLibConfigRegistry;
  */
 class QtiCreatorClientConfigRegistry extends ClientLibConfigRegistry
 {
-    const CREATOR = "taoQtiItem/controller/creator/index";
+    public const CREATOR = "taoQtiItem/controller/creator/index";
 
     /**
      * @param $name
