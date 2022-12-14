@@ -50,6 +50,11 @@ define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/container'], function(tpl){
                 function($0){
                     return $0.replace('>', ' />');
                 });
+            //<rt></rt> are replaced by <rt>&nbsp;</rt>
+            returnValue = returnValue.replace(/(<rt(|\s+[^>]*)><\/rt\s*>)+/ig,
+                function($0){
+                    return $0.replace('</rt', '&nbsp;</rt');
+                });
         }
 
         return returnValue;
