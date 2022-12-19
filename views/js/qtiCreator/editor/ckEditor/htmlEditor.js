@@ -583,7 +583,7 @@ define([
          * @returns {undefined}
          */
         buildEditor: function ($container, editorOptions) {
-            languages
+            return languages
                 .getList()
                 .then(languages.useCKEFormatting)
                 .then(languagesData => {
