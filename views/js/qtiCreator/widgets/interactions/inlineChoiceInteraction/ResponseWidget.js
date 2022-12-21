@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  *
  */
 define([
@@ -22,12 +22,11 @@ define([
     'i18n',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/qtiCreator/widgets/helpers/placeholder'
-], function($, _, __, CommonRenderer, placeholder){
+], function ($, _, __, CommonRenderer, placeholder) {
     'use strict';
 
     var ResponseWidget = {
-        create : function(widget, responseMappingMode, callback){
-
+        create: function (widget, responseMappingMode, callback) {
             var self = this;
             var interaction = widget.element;
             var $placeholder = $('<select>');
@@ -35,55 +34,58 @@ define([
 
             //the common renderer is tweaked to render the response selection
             this.commonRenderer = new CommonRenderer({
-                shuffleChoices : false,
-                themes : false
+                shuffleChoices: false,
+                themes: false
             });
 
-            if(responseMappingMode){
-                widget.on('mappingAttributeChange', function(data){
-                    if(data.key === 'defaultValue'){
+            if (responseMappingMode) {
+                widget.on('mappingAttributeChange', function (data) {
+                    if (data.key === 'defaultValue') {
                         placeholder.score(widget, data.value);
                     }
                 });
                 placeholder.score(widget);
             }
 
-            this.commonRenderer.load(function(){
+            this.commonRenderer.load(
+                function () {
+                    interaction.render({}, $placeholder, '', this);
+                    interaction.postRender(
+                        {
+                            allowEmpty: false,
+                            placeholderText: __('select correct choice')
+                        },
+                        '',
+                        this
+                    );
 
-                interaction.render({}, $placeholder, '', this);
-                interaction.postRender({
-                    allowEmpty : false,
-                    placeholderText : __('select correct choice')
-                }, '', this);
+                    callback.call(self, this);
 
-                callback.call(self, this);
-
-                $responseWidget.siblings('.padding').width($responseWidget.width() + 50);//plus icons width
-
-            }, ['inlineChoice', 'inlineChoiceInteraction']);
-
+                    $responseWidget.siblings('.padding').width($responseWidget.width() + 50); //plus icons width
+                },
+                ['inlineChoice', 'inlineChoiceInteraction', '_container', 'math']
+            );
         },
-        setResponse : function(widget, response){
+        setResponse: function (widget, response) {
             this.commonRenderer.setResponse(widget.element, this.formatResponse(response));
         },
-        destroy : function(widget){
+        destroy: function (widget) {
             widget.$container.find('.widget-response').empty();
             widget.$container.find('.padding').removeAttr('style');
         },
-        formatResponse : function(response){
-            if(!_.isString(response)){
+        formatResponse: function (response) {
+            if (!_.isString(response)) {
                 response = _.values(response);
-                if(response && response.length){
+                if (response && response.length) {
                     response = response[0];
                 }
             }
-            return {base : {identifier : response}};
+            return { base: { identifier: response } };
         },
-        unformatResponse : function(formatedResponse){
-
+        unformatResponse: function (formatedResponse) {
             var response = [];
 
-            if(formatedResponse.base && formatedResponse.base.identifier){
+            if (formatedResponse.base && formatedResponse.base.identifier) {
                 response.push(formatedResponse.base.identifier);
             }
             return response;
