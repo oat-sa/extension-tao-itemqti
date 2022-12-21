@@ -19,12 +19,15 @@
 
 define([
     'jquery',
+    'lodash',
+    'ckeditor',
     'services/features',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Question',
     'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement',
-    'lodash'
-], function ($, features, stateFactory, QuestionState, formElement, _) {
+    'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
+    'taoQtiItem/qtiCreator/editor/gridEditor/content'
+], function ($, _, CKEditor, features, stateFactory, QuestionState, formElement, htmlEditor, contentHelper) {
     'use strict';
     const ChoiceStateQuestion = stateFactory.extend(
         QuestionState,
@@ -44,28 +47,45 @@ define([
         if(features.isVisible('taoQtiItem/creator/interaction/inlineChoice/property/shuffle')) {
             formElement.initShufflePinToggle(_widget);
         }
-        
+
         formElement.initDelete(_widget);
 
         return $toolbar;
     };
 
     ChoiceStateQuestion.prototype.buildEditor = function () {
-        const _widget = this.widget;
+        const _widget = this.widget,
+            container = _widget.element.getBody(),
+            $editable = _widget.$container.find('.editable-content'),
+            $editableContainer = _widget.$container.find('.editable-container');
 
-        _widget.$container
-            .find('.editable-content')
-            .attr('contentEditable', true)
-            .on(
-                'keyup.qti-widget',
-                _.throttle(function () {
-                    //update model
-                    _widget.element.val(_.escape($(this).text()));
+        $editableContainer.attr('data-html-editable-container', true);
+        $editable.attr('data-html-editable', true).attr('contenteditable', true);
 
-                    //update placeholder
-                    _widget.$original.width($(this).width());
-                }, 200)
-            )
+        if (!htmlEditor.hasEditor($editableContainer)) {
+            htmlEditor.buildEditor($editableContainer, {
+                change: contentHelper.getChangeCallback(container),
+                data: {
+                    container,
+                    widget: _widget
+                },
+                toolbar: [
+                    {
+                        name: 'insert',
+                        items: ['SpecialChar']
+                    }
+                ],
+                qtiMedia: false,
+                qtiImage: false,
+                qtiInclude: false,
+                enterMode: CKEditor.ENTER_BR,
+                shieldInnerContent: false,
+                mathJax: false,
+                furiganaPlugin: true
+            });
+        }
+
+        $editable
             .on('focus.qti-widget', function () {
                 _widget.changeState('choice');
             })
@@ -75,38 +95,17 @@ define([
                     $(this).blur();
                     _widget.changeState('question');
                 }
-            })
-            .on('input.qti-widget', function (e) {
-                if (e.originalEvent.inputType === 'insertFromPaste') {
-                    // calculate offset for cursor
-                    let offset;
-                    if (window.getSelection) {
-                        const range = window.getSelection().getRangeAt(0);
-                        // new range from div start up to pasted text
-                        const preCaretRange = range.cloneRange();
-                        preCaretRange.selectNodeContents(this);
-                        preCaretRange.setEnd(range.endContainer, range.endOffset);
-                        offset = preCaretRange.toString().length;
-                    }
-                    // clean format of paste text
-                    $(this).html($(this).text());
-                    // set cursor after inserted text
-                    if (offset) {
-                        const range = document.createRange();
-                        const sel = window.getSelection();
-                        range.setStart(this.childNodes[0], offset);
-                        range.collapse(true);
-                        sel.removeAllRanges();
-                        sel.addRange(range);
-                    }
-                }
             });
     };
 
     ChoiceStateQuestion.prototype.destroyEditor = function () {
-        this.widget.$container.find('.editable-content')
-            .removeAttr('contentEditable')
+        this.widget.$container
+            .find('.editable-content')
+            .removeAttr('contenteditable')
+            .removeAttr('data-html-editable')
             .off('keyup.qti-widget');
+
+        this.widget.$container.find('.editable-container').removeAttr('data-html-editable');
     };
 
     return ChoiceStateQuestion;

@@ -340,6 +340,7 @@ define([
 
                 options.callback(element, value, name);
             };
+
             return callbacks;
         }
     };

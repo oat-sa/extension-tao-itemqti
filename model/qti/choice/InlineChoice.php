@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,15 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
+ * Copyright (c) 2013-2021 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\taoQtiItem\model\qti\choice;
 
-use oat\taoQtiItem\model\qti\choice\InlineChoice;
-use oat\taoQtiItem\model\qti\choice\TextVariableChoice;
+
+use oat\taoQtiItem\model\qti\Math;
 
 /**
  * QTI Inline choice
@@ -31,10 +29,15 @@ use oat\taoQtiItem\model\qti\choice\TextVariableChoice;
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
-
  */
-class InlineChoice extends TextVariableChoice
+class InlineChoice extends ContainerChoice
 {
+    public function getValidElementTypes(): array
+    {
+        return [
+            Math::class,
+        ];
+    }
 
     /**
      * the QTI tag name as defined in QTI standard

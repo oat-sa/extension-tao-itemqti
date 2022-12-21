@@ -1,8 +1,14 @@
 <tr class="widget-box widget-inlineChoice qti-choice" data-edit="active" data-serial="{{serial}}" {{#if dir}}dir="{{dir}}"{{/if}}>
-    <td class="option"><div class="editable-content" contenteditable="true">{{body}}</div></td>
+    <td class="option">
+        <div class="editable-container">
+            <div class="editable-content">
+                {{{body}}}
+            </div>
+        </div>
+    </td>
     <td class="mini-tlb">
         <span data-edit="question" class="tlb-button">
-            <span  class="icon-{{#if attributes.fixed}}pin{{else}}shuffle{{/if}}" data-role="shuffle-pin" style="{{#if interactionShuffle}}{{else}}display:none;{{/if}}"></span>
+            <span class="icon-{{#if attributes.fixed}}pin{{else}}shuffle{{/if}}" data-role="shuffle-pin" style="{{#if interactionShuffle}}{{else}}display:none;{{/if}}"></span>
         </span>
         <label data-edit="map">
             <input name="correct" type="radio" value="{{serial}}">
