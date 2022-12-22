@@ -19,35 +19,37 @@
 define([
     'lodash',
     'i18n',
+    'taoQtiItem/qtiCreator/widgets/helpers/stringResponse',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/ExtendedTextInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
-], function (_, __, stateFactory, Correct, renderer, instructionMgr) {
+], function (_, __, stringResponseHelper, stateFactory, Correct, renderer, instructionMgr) {
     'use strict';
 
     function start() {
         const interaction = this.widget.element;
         const response = interaction.getResponseDeclaration();
-        const correctResponse = _.values(response.getCorrect());
+        const correctResponse = stringResponseHelper.getCorrectResponse(response);
 
         renderer.enable(interaction);
-        renderer.setText(interaction, correctResponse[0]);
+        renderer.setText(interaction, correctResponse);
 
         instructionMgr.appendInstruction(interaction, __('Please type the correct response below.'));
 
         this.widget.$container.on('responseChange.qti-widget', function () {
-            if (renderer.getResponse(interaction).base.string) {
-                response.setCorrect([renderer.getResponse(interaction).base.string]);
-            } else {
-                response.resetCorrect();
-            }
+            stringResponseHelper.setCorrectResponse(response, renderer.getResponse(interaction).base.string);
         });
     }
 
     function exit() {
         const interaction = this.widget.element;
         renderer.clearText(interaction);
+
+        // Make sure to adjust the response when exiting the state even if not modified
+        const response = this.widget.element.getResponseDeclaration();
+        const correctResponse = stringResponseHelper.getCorrectResponse(response);
+        stringResponseHelper.setCorrectResponse(response, correctResponse);
 
         instructionMgr.removeInstructions(this.widget.element);
         this.widget.$container.off('responseChange.qti-widget');

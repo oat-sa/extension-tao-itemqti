@@ -29,9 +29,9 @@ define([
     function start() {
         const $container = this.widget.$container;
         const response = this.widget.element.getResponseDeclaration();
-        const correct = stringResponseHelper.getCorrectResponse(response);
+        const correctResponse = stringResponseHelper.getCorrectResponse(response);
 
-        $container.find('tr[data-edit=correct] input[name=correct]').focus().val(correct);
+        $container.find('tr[data-edit=correct] input[name=correct]').focus().val(correctResponse);
         $container.on('keyup.correct', 'tr[data-edit=correct] input[name=correct]', function () {
             const value = $(this).val();
             stringResponseHelper.setCorrectResponse(response, `${value}`, { trim: true });
@@ -39,10 +39,10 @@ define([
         instructionMgr.appendInstruction(this.widget.element, __('Please type the correct response in the box below.'));
     }
     function exit() {
-        // Make sure to adjust the response when exiting the state event if not modified
+        // Make sure to adjust the response when exiting the state even if not modified
         const response = this.widget.element.getResponseDeclaration();
-        const correct = stringResponseHelper.getCorrectResponse(response);
-        stringResponseHelper.setCorrectResponse(response, correct, { trim: true });
+        const correctResponse = stringResponseHelper.getCorrectResponse(response);
+        stringResponseHelper.setCorrectResponse(response, correctResponse, { trim: true });
 
         this.widget.$container.off('.correct');
         instructionMgr.removeInstructions(this.widget.element);
