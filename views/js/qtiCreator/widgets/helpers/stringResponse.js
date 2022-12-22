@@ -15,7 +15,7 @@
  *
  * Copyright (c) 2022 (original work) Open Assessment Technologies SA ;
  */
-define(['util/converter'], function (converter) {
+define(['lodash', 'util/converter'], function (_, converter) {
     'use strict';
 
     return {
@@ -27,13 +27,7 @@ define(['util/converter'], function (converter) {
          * @returns {string} - The value of the correct response.
          */
         getCorrectResponse(response, config = {}) {
-            const correct = response.getCorrect();
-
-            if (!correct) {
-                return '';
-            }
-
-            const correctResponses = Array.isArray(correct) ? correct : Object.values(correct);
+            const correctResponses = _.values(response.getCorrect());
             return converter.convert(correctResponses[0] || '', config);
         },
 
@@ -51,7 +45,7 @@ define(['util/converter'], function (converter) {
             }
 
             if (value) {
-                const { trim, ...convertConfig } = config || {};
+                const convertConfig = _.omit(config, ['trim']);
                 response.setCorrect(converter.convert(value, convertConfig));
             } else {
                 response.resetCorrect();
