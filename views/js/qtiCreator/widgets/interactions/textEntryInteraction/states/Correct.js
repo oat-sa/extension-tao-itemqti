@@ -41,8 +41,7 @@ define([
     function exit() {
         // Make sure to adjust the response when exiting the state even if not modified
         const response = this.widget.element.getResponseDeclaration();
-        const correctResponse = stringResponseHelper.getCorrectResponse(response);
-        stringResponseHelper.setCorrectResponse(response, correctResponse, { trim: true });
+        stringResponseHelper.rewriteCorrectResponse(response, { trim: true });
 
         this.widget.$container.off('.correct');
         instructionMgr.removeInstructions(this.widget.element);

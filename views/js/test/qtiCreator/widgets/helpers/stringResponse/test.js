@@ -64,6 +64,11 @@ define(['taoQtiItem/qtiCreator/widgets/helpers/stringResponse'], function (strin
             'function',
             'The helper has a setCorrectResponse function'
         );
+        assert.equal(
+            typeof stringResponseHelper.rewriteCorrectResponse,
+            'function',
+            'The helper has a rewriteCorrectResponse function'
+        );
     });
 
     QUnit.cases
@@ -119,6 +124,27 @@ define(['taoQtiItem/qtiCreator/widgets/helpers/stringResponse'], function (strin
         .test('trim correct response ', (data, assert) => {
             const response = responseDeclarationMock();
             stringResponseHelper.setCorrectResponse(response, data.title, { trim: true });
+            assert.equal(
+                stringResponseHelper.getCorrectResponse(response),
+                data.expected,
+                `Got correct response from "${data.title}" to ${data.expected}`
+            );
+        });
+
+    QUnit.cases
+        .init([
+            { title: '', expected: '' },
+            { title: '42', expected: '42' },
+            { title: '4.2', expected: '4.2' },
+            { title: '４２', expected: '42' },
+            { title: '４.２', expected: '4.2' },
+            { title: '4２', expected: '42' },
+            { title: '４2', expected: '42' },
+            { title: 'this is a test', expected: 'this is a test' }
+        ])
+        .test('rewrite correct response ', (data, assert) => {
+            const response = responseDeclarationMock(data.title);
+            stringResponseHelper.rewriteCorrectResponse(response);
             assert.equal(
                 stringResponseHelper.getCorrectResponse(response),
                 data.expected,

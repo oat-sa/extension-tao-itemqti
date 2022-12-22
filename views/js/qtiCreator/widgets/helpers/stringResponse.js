@@ -56,6 +56,18 @@ define(['util/converter'], function (converter) {
             } else {
                 response.resetCorrect();
             }
+        },
+
+        /**
+         * Rewrites the value of the correct response for a TextEntry interaction through a response declaration.
+         * The value is sanitized using the text converter.
+         * @param {ResponseDeclaration} response - The response declaration for updating the correct response.
+         * @param {object} [config] - A set of options that will be passed to the converter.
+         * @param {string} [config.trim] - When set to true, trim the leading and trailing whitespace from the value.
+         */
+        rewriteCorrectResponse(response, config = {}) {
+            const correctResponse = this.getCorrectResponse(response);
+            this.setCorrectResponse(response, correctResponse, config);
         }
     };
 });

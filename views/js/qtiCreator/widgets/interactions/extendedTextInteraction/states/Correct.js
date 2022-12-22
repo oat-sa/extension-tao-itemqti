@@ -48,8 +48,7 @@ define([
 
         // Make sure to adjust the response when exiting the state even if not modified
         const response = this.widget.element.getResponseDeclaration();
-        const correctResponse = stringResponseHelper.getCorrectResponse(response);
-        stringResponseHelper.setCorrectResponse(response, correctResponse);
+        stringResponseHelper.rewriteCorrectResponse(response);
 
         instructionMgr.removeInstructions(this.widget.element);
         this.widget.$container.off('responseChange.qti-widget');
