@@ -23,7 +23,11 @@ define(['taoQtiItem/qtiCreator/widgets/helpers/stringResponse'], function (strin
 
         const responseDeclaration = {
             getCorrect() {
-                return correct;
+                if (correct) {
+                    return correct;
+                }
+
+                return {};
             },
 
             setCorrect(response) {
@@ -37,7 +41,7 @@ define(['taoQtiItem/qtiCreator/widgets/helpers/stringResponse'], function (strin
             },
 
             resetCorrect() {
-                correct = [];
+                correct = null;
             }
         };
 
