@@ -18,31 +18,32 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
+    'taoQtiItem/qtiCreator/widgets/helpers/stringResponse',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
-], function ($, _, __, stateFactory, Correct, instructionMgr) {
+], function ($, __, stringResponseHelper, stateFactory, Correct, instructionMgr) {
     'use strict';
 
     function start() {
         const $container = this.widget.$container;
         const response = this.widget.element.getResponseDeclaration();
-        const correct = _.values(response.getCorrect()).pop() || '';
+        const correct = stringResponseHelper.getCorrectResponse(response);
 
         $container.find('tr[data-edit=correct] input[name=correct]').focus().val(correct);
         $container.on('keyup.correct', 'tr[data-edit=correct] input[name=correct]', function () {
             const value = $(this).val();
-            if (value) {
-                response.setCorrect(value);
-            } else {
-                response.resetCorrect();
-            }
+            stringResponseHelper.setCorrectResponse(response, `${value}`, { trim: true });
         });
         instructionMgr.appendInstruction(this.widget.element, __('Please type the correct response in the box below.'));
     }
     function exit() {
+        // Make sure to adjust the response when exiting the state event if not modified
+        const response = this.widget.element.getResponseDeclaration();
+        const correct = stringResponseHelper.getCorrectResponse(response);
+        stringResponseHelper.setCorrectResponse(response, correct, { trim: true });
+
         this.widget.$container.off('.correct');
         instructionMgr.removeInstructions(this.widget.element);
     }
