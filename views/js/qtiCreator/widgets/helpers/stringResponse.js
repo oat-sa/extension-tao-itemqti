@@ -28,6 +28,11 @@ define(['util/converter'], function (converter) {
          */
         getCorrectResponse(response, config = {}) {
             const correct = response.getCorrect();
+
+            if (!correct) {
+                return '';
+            }
+
             const correctResponses = Array.isArray(correct) ? correct : Object.values(correct);
             return converter.convert(correctResponses[0] || '', config);
         },
@@ -44,6 +49,7 @@ define(['util/converter'], function (converter) {
             if (config && config.trim) {
                 value = value.trim();
             }
+
             if (value) {
                 const { trim, ...convertConfig } = config || {};
                 response.setCorrect(converter.convert(value, convertConfig));
