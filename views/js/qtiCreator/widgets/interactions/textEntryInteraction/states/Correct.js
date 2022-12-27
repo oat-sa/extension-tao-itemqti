@@ -13,41 +13,39 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 define([
     'jquery',
+    'i18n',
+    'taoQtiItem/qtiCreator/widgets/helpers/stringResponse',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
-    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'lodash',
-    'i18n'
-], function($, stateFactory, Correct, instructionMgr, _, __){
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
+], function ($, __, stringResponseHelper, stateFactory, Correct, instructionMgr) {
     'use strict';
-    var TextEntryInteractionStateCorrect = stateFactory.create(Correct, function start(){
 
-        var $container = this.widget.$container,
-            response = this.widget.element.getResponseDeclaration(),
-            correct = _.values(response.getCorrect()).pop() || '';
+    function start() {
+        const $container = this.widget.$container;
+        const response = this.widget.element.getResponseDeclaration();
+        const correctResponse = stringResponseHelper.getCorrectResponse(response);
 
-        $container.find('tr[data-edit=correct] input[name=correct]').focus().val(correct);
-        $container.on('keyup.correct', 'tr[data-edit=correct] input[name=correct]', function(){
-            var value = $(this).val();
-            if(value){
-                response.setCorrect(value);
-            }else{
-                response.resetCorrect();
-            }
+        $container.find('tr[data-edit=correct] input[name=correct]').focus().val(correctResponse);
+        $container.on('keyup.correct', 'tr[data-edit=correct] input[name=correct]', function () {
+            const value = $(this).val();
+            stringResponseHelper.setCorrectResponse(response, `${value}`, { trim: true });
         });
         instructionMgr.appendInstruction(this.widget.element, __('Please type the correct response in the box below.'));
-
-    }, function exit(){
+    }
+    function exit() {
+        // Make sure to adjust the response when exiting the state even if not modified
+        const response = this.widget.element.getResponseDeclaration();
+        stringResponseHelper.rewriteCorrectResponse(response, { trim: true });
 
         this.widget.$container.off('.correct');
         instructionMgr.removeInstructions(this.widget.element);
+    }
 
-    });
-
-    return TextEntryInteractionStateCorrect;
+    return stateFactory.create(Correct, start, exit);
 });
