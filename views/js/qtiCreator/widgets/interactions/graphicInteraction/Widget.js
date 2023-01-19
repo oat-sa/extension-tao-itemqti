@@ -57,6 +57,7 @@ define([
                     img         : this.options.assetManager.resolve(background.data),
                     imgId       : 'bg-image-' + serial,
                     container   : $container,
+                    responsive  : $container.hasClass('responsive'),
                     resize      : function() {
                         if(typeof resize === 'function') {
                             resize.apply(this, arguments);
