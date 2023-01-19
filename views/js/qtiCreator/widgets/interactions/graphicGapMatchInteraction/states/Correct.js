@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015-2023 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -28,22 +28,22 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicGapMatchInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse){
+], function (_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse) {
     'use strict';
 
     /**
      * Initialize the state: use the common renderer to set the correct response.
      */
-    function initCorrectState(){
-        var widget = this.widget;
-        var interaction = widget.element;
-        var response = interaction.getResponseDeclaration();
-        var corrects  = _.values(response.getCorrect());
+    function initCorrectState() {
+        const widget = this.widget;
+        const interaction = widget.element;
+        const response = interaction.getResponseDeclaration();
+        const corrects = _.values(response.getCorrect());
 
         commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
 
-        if(!interaction.paper){
+        if (!interaction.paper) {
             return;
         }
 
@@ -55,16 +55,15 @@ define([
         //use the common Renderer
         commonRenderer.render.call(interaction.getRenderer(), interaction);
 
-
         commonRenderer.setResponse(
             interaction,
             PciResponse.serialize(_.invoke(corrects, String.prototype.split, ' '), interaction)
         );
 
-        widget.$container.on('responseChange.qti-widget', function(e, data){
-            if(data.response && data.response.list){
+        widget.$container.on('responseChange.qti-widget', function (e, data) {
+            if (data.response && data.response.list) {
                 response.setCorrect(
-                    _.map(data.response.list.directedPair, function(pair){
+                    _.map(data.response.list.directedPair, function (pair) {
                         return pair.join(' ');
                     })
                 );
@@ -75,11 +74,11 @@ define([
     /**
      * Exit the correct state
      */
-    function exitCorrectState(){
-        var widget = this.widget;
-        var interaction = widget.element;
+    function exitCorrectState() {
+        const widget = this.widget;
+        const interaction = widget.element;
 
-        if(!interaction.paper){
+        if (!interaction.paper) {
             return;
         }
 
@@ -92,6 +91,7 @@ define([
         instructionMgr.removeInstructions(interaction);
 
         //initialize again the widget's paper
+        interaction.paper = null;
         interaction.paper = widget.createPaper(_.bind(widget.scaleGapList, widget));
         widget.createChoices();
         widget.createGapImgs();
