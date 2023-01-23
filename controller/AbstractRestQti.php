@@ -26,6 +26,7 @@ use common_exception_MethodNotAllowed as HttpMethodNotAllowedException;
 use common_exception_RestApi as BadRequestException;
 use InvalidArgumentException;
 use JsonException;
+use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLogActionTrait;
 use oat\taoQtiItem\model\presentation\web\UpdateMetadataRequestHandler;
@@ -42,6 +43,7 @@ use RuntimeException;
 abstract class AbstractRestQti extends \tao_actions_RestController
 {
     use TaskLogActionTrait;
+    use HttpJsonResponseTrait;
 
     public const TASK_ID_PARAM = 'id';
 
@@ -219,7 +221,7 @@ abstract class AbstractRestQti extends \tao_actions_RestController
             throw new BadRequestException($exception->getMessage(), 422);
         }
 
-        $this->returnSuccess($metadataInput);
+        $this->setSuccessJsonResponse($metadataInput);
     }
 
     private function getUpdateMetadataRequestHandler(): UpdateMetadataRequestHandler
