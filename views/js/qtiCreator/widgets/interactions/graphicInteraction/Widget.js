@@ -34,7 +34,7 @@ define([
      *
      * @exports taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/Widget
      */
-    var GraphicInteractionWidget = {
+    const GraphicInteractionWidget = {
 
         /**
          * Create a basic Raphael paper or a placeholder of no bg is defined.
@@ -42,21 +42,22 @@ define([
          * @returns {Raphael.Paper} the raphael paper if initialized?
          */
         createPaper : function(resize){
-            var paper;
-            var $container  = this.$original;
-            var $item       = $container.parents('.qti-item');
-            var background  = this.element.object.attributes;
-            var serial      = this.element.serial;
+            let paper;
+            const $container  = this.$original;
+            const $item       = $container.parents('.qti-item');
+            const background  = this.element.object.attributes;
+            const serial      = this.element.serial;
 
             if(!background.data){
                 this._createPlaceholder();
             } else {
-                paper = graphic.responsivePaper( 'graphic-paper-' + serial, serial, {
+                paper = graphic.responsivePaper( `graphic-paper-${serial}`, serial, {
                     width       : background.width,
                     height      : background.height,
                     img         : this.options.assetManager.resolve(background.data),
-                    imgId       : 'bg-image-' + serial,
+                    imgId       : `bg-image-${serial}`,
                     container   : $container,
+                    responsive  : $container.hasClass('responsive'),
                     resize      : function() {
                         if(typeof resize === 'function') {
                             resize.apply(this, arguments);
@@ -65,8 +66,8 @@ define([
                 });
 
                 //listen for internal size change
-                $item.on('resize.gridEdit.' + serial, function(){
-                    $container.trigger('resize.qti-widget.' + serial);
+                $item.on(`resize.gridEdit.${serial}`, function(){
+                    $container.trigger(`resize.qti-widget.${serial}`);
                 });
 
             }
@@ -79,11 +80,11 @@ define([
          * @private
          */
         _createPlaceholder : function(){
-            var self       = this;
-            var $container = this.$original;
-            var $imageBox  = $container.find('.main-image-box');
-            var $editor    = $container.find('.image-editor');
-            var diff       = ($editor.outerWidth() - $editor.width()) + ($container.outerWidth() - $container.width()) + 1;
+            const self       = this;
+            const $container = this.$original;
+            const $imageBox  = $container.find('.main-image-box');
+            const $editor    = $container.find('.image-editor');
+            const diff       = ($editor.outerWidth() - $editor.width()) + ($container.outerWidth() - $container.width()) + 1;
             dummyElement.get({
                 icon: 'image',
                 css: {
@@ -93,7 +94,7 @@ define([
                 title : __('Select an image first.')
             })
             .click(function(){
-                var $upload  = $('[data-role="upload-trigger"]', self.$form);
+                const $upload  = $('[data-role="upload-trigger"]', self.$form);
                 if($upload.length){
                     $upload.trigger('click');
                 }

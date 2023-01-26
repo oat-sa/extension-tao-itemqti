@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015-2023 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -28,61 +28,60 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicOrderInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse){
-
+], function (_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse) {
     'use strict';
 
     /**
      * Initialize the state: use the common renderer to set the correct response.
      */
-    function initCorrectState(){
-        var widget = this.widget;
-        var interaction = widget.element;
-        var response = interaction.getResponseDeclaration();
-       
-        //really need to destroy before ? 
+    function initCorrectState() {
+        const widget = this.widget;
+        const interaction = widget.element;
+        const response = interaction.getResponseDeclaration();
+
+        //really need to destroy before ?
         commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
 
-        if(!interaction.paper){
+        if (!interaction.paper) {
             return;
         }
-        
+
         //add a specific instruction
         instructionMgr.appendInstruction(interaction, __('Please order the choices below to set the correct answer'));
-        
+
         //use the common Renderer
         commonRenderer.render.call(interaction.getRenderer(), interaction);
 
         commonRenderer.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));
 
-        widget.$container.on('responseChange.qti-widget', function(e, data){
-            response.setCorrect(PciResponse.unserialize(data.response, interaction)); 
+        widget.$container.on('responseChange.qti-widget', function (e, data) {
+            response.setCorrect(PciResponse.unserialize(data.response, interaction));
         });
-
     }
 
     /**
      * Exit the correct state
      */
-    function exitCorrectState(){
-        var widget = this.widget;
-        var interaction = widget.element;
-        
-        if(!interaction.paper){
+    function exitCorrectState() {
+        const widget = this.widget;
+        const interaction = widget.element;
+
+        if (!interaction.paper) {
             return;
         }
 
         //stop listening responses changes
         widget.$container.off('responseChange.qti-widget');
-        
+
         //destroy the common renderer
         commonRenderer.resetResponse(interaction);
-        commonRenderer.destroy(interaction); 
+        commonRenderer.destroy(interaction);
         instructionMgr.removeInstructions(interaction);
 
         //initialize again the widget's paper
-        interaction.paper = widget.createPaper(_.bind(widget.scaleOrderList, widget)); 
+        interaction.paper = null;
+        interaction.paper = widget.createPaper(_.bind(widget.scaleOrderList, widget));
         widget.createChoices();
         widget.renderOrderList();
     }
