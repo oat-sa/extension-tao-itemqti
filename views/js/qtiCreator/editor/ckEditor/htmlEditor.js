@@ -215,6 +215,19 @@ define([
                     if ($toolbarArea) {
                         $toolbarArea.hide();
                     }
+
+                    let html = this.getData($editable);
+                    const tagsToMerge = [
+                        'strong',
+                        'em',
+                        'sub',
+                        'sup'
+                    ];
+                    tagsToMerge.forEach(function(tag) {
+                        let regex = new RegExp("<\\/"+tag+">(\\s*)<"+tag+">", 'gi');
+                        html = html.replace(regex, "$1");
+                    });
+                    $editable.data('editor').setData(html);
                 },
                 focus: function () {
                     if ($toolbarArea) {
