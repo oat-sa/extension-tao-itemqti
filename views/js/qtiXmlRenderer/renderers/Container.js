@@ -56,7 +56,7 @@ define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/container'], function(tpl){
                     return $0.replace('</rt', '&nbsp;</rt');
                 });
             // merge sibling tags strong, em, sub, sup
-            returnValue = mergeSiblings(encodedStr);
+            returnValue = mergeSiblings(returnValue);
         }
 
         return returnValue;
