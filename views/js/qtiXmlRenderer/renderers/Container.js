@@ -87,8 +87,7 @@ define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/container'], function(tpl){
      * @param {string} html
      * @returns {string}
      */
-    function mergeSiblings(html)
-    {
+    function mergeSiblings(html) {
         if (typeof html !== 'string' || html.length <= 0) {
             return html;
         }
@@ -99,7 +98,7 @@ define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/container'], function(tpl){
             'sup'
         ];
         tagsToMerge.forEach(function(tag) {
-            let regex = new RegExp("<\\/"+tag+">(\\s*)<"+tag+">", 'gi');
+            let regex = new RegExp(`<\\/${tag}>(\\s*)<${tag}>`, 'gi');
             html = html.replace(regex, "$1");
         });
         return html;
