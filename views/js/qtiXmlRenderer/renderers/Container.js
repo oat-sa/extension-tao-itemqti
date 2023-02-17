@@ -55,7 +55,8 @@ define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/container'], function(tpl){
                 function($0){
                     return $0.replace('</rt', '&nbsp;</rt');
                 });
-            // merge sibling tags strong, em, sub, sup
+
+            returnValue = replaceNonBreakingSpaceCharacters(returnValue);
             returnValue = mergeSiblings(returnValue);
         }
 
@@ -66,7 +67,6 @@ define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/container'], function(tpl){
         qtiClass : '_container',
         template : tpl,
         getData:function(container, data){
-
             data.body = xhtmlEntities(data.body);
             data.body = xhtmlEncode(data.body);
             const openRegEx = new RegExp(`(<(${prefixed}))`, 'gi');
@@ -81,6 +81,19 @@ define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/container'], function(tpl){
             return data;
         }
     };
+
+    /**
+     * Replaces non-breaking characters with space
+     * @param {string} html
+     * @returns {string}
+     */
+    function replaceNonBreakingSpaceCharacters(html) {
+        if (typeof html !== 'string' || html.length <= 0) {
+            return html;
+        }
+        html = html.replace(/(&#160;)/g, ' ');
+        return html.replace(/(&nbsp;)/g, ' ');
+    }
 
     /**
      * Merges specified sibling html tags into one
@@ -98,8 +111,8 @@ define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/container'], function(tpl){
             'sup'
         ];
         tagsToMerge.forEach(function(tag) {
-            let regex = new RegExp(`<\\/${tag}>([\\s\\u00A0]*)<${tag}>`, 'gi');
-            html = html.replace(regex, "$1");
+            let matchedTags = new RegExp(`<\\/${tag}>([\\s\\u00A0]*)<${tag}>`, 'gi');
+            html = html.replace(matchedTags, ' ');
         });
         return html;
     }
