@@ -198,19 +198,6 @@ define([
                         }
 
                         config[field].value = intValue;
-                    } else {
-                        // const fieldConfig = config[field];
-                        // const fieldControl = controls[field];
-                        // fieldControl.input = $(`[name=${fieldConfig.fieldName}]`, this.getElement());
-                        //
-                        // // if (fieldConfig.toggler) {
-                        // //     fieldControl.toggler.prop('checked', false);
-                        // // }
-                        //     // this.setValue(field, lowerThreshold);
-                        //     //
-                        //     // this.disableField(field);
-                        //     // isNaN(this.getValue(field)) === false
-
                     }
                     return this;
                 },
