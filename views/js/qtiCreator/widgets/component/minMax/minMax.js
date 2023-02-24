@@ -360,6 +360,13 @@ define([
 
                     fromField = fromField || fields.min;
 
+                    if (isNaN(this.getMinValue())) {
+                        this.setMinValue(config.lowerThreshold);
+                    }
+                    if (isNaN(this.getMaxValue())) {
+                        this.setMaxValue(config.lowerThreshold);
+                    }
+
                     if (isFieldSupported(fromField) && this.is('rendered') && config.syncValues) {
                         const minValue = this.getMinValue();
                         const maxValue = this.getMaxValue();
