@@ -453,7 +453,7 @@ define(['taoQtiItem/qtiCreator/widgets/component/minMax/minMax'], function(minMa
         var ready = assert.async();
         var container = document.getElementById('qunit-fixture');
 
-        assert.expect(11);
+        assert.expect(15);
 
         assert.equal(container.querySelector('.min-max'), null, 'The component does not exists yet');
 
@@ -497,6 +497,22 @@ define(['taoQtiItem/qtiCreator/widgets/component/minMax/minMax'], function(minMa
 
             assert.equal(this.getMinValue(), 2, 'min has been updated according to max');
             assert.equal(minInput.value, 2, 'min has been updated according to max');
+
+            minInput.value = NaN;
+            this.syncValues('min');
+
+            assert.equal(
+                this.getMinValue(), this.getConfig().lowerThreshold, 'min value changed from NaN to lowerThreshold'
+            );
+            assert.equal(minInput.value, this.getConfig().lowerThreshold, 'min value field has been updated');
+
+            maxInput.value = NaN;
+            this.syncValues('max');
+
+            assert.equal(
+                this.getMaxValue(), this.getConfig().lowerThreshold, 'max value changed from NaN to lowerThreshold'
+            );
+            assert.equal(maxInput.value, this.getConfig().lowerThreshold, 'max value field has been updated');
 
             ready();
         });
