@@ -28,6 +28,11 @@ define(['jquery'], function ($) {
                     $shuffleToggle.show();
                 } else {
                     $shuffleToggle.hide();
+                    let icon = $shuffleToggle.children();
+                    if (icon.hasClass('icon-pin')) {
+                        icon.removeClass('icon-pin').addClass('icon-shuffle');
+                        choice.attr('fixed', false);
+                    }
                 }
                 $('.qti-item').trigger('toolbarchange', {
                     callee: 'formElementHelper'
