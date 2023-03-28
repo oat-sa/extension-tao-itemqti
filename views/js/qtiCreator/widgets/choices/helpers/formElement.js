@@ -29,7 +29,10 @@ define(['jquery'], function ($) {
                 } else {
                     $shuffleToggle.hide();
                     let icon = $shuffleToggle.children();
-                    if (icon.hasClass('icon-pin')) {
+                    if (icon.length === 0) {
+                        icon = $(this);
+                    }
+                    if (icon && icon.hasClass('icon-pin')) {
                         icon.removeClass('icon-pin').addClass('icon-shuffle');
                         choice.attr('fixed', false);
                     }
