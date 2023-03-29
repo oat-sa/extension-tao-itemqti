@@ -23,6 +23,16 @@ define(['jquery'], function ($) {
                 interaction = choice.getInteraction(),
                 $shuffleToggle = $container.find('[data-role="shuffle-pin"]');
 
+            const pinIcon = function (icon) {
+                icon.removeClass('icon-shuffle').addClass('icon-pin');
+                choice.attr('fixed', true);
+            }
+
+            const unPinIcon = function (icon) {
+                icon.removeClass('icon-pin').addClass('icon-shuffle');
+                choice.attr('fixed', false);
+            }
+
             const toggleVisibility = function (show) {
                 if (show === 'true' || show === true) {
                     $shuffleToggle.show();
@@ -32,10 +42,7 @@ define(['jquery'], function ($) {
                     if (icon.length === 0) {
                         icon = $($shuffleToggle);
                     }
-                    if (icon.hasClass('icon-pin')) {
-                        icon.removeClass('icon-pin').addClass('icon-shuffle');
-                        choice.attr('fixed', false);
-                    }
+                    unPinIcon(icon);
                 }
                 $('.qti-item').trigger('toolbarchange', {
                     callee: 'formElementHelper'
@@ -45,16 +52,13 @@ define(['jquery'], function ($) {
             $shuffleToggle.off('mousedown').on('mousedown', function (e) {
                 let $icon = $(this).children();
                 e.stopPropagation();
-
                 if ($icon.length === 0) {
                     $icon = $(this);
                 }
                 if ($icon.hasClass('icon-shuffle')) {
-                    $icon.removeClass('icon-shuffle').addClass('icon-pin');
-                    choice.attr('fixed', true);
+                    pinIcon($icon);
                 } else {
-                    $icon.removeClass('icon-pin').addClass('icon-shuffle');
-                    choice.attr('fixed', false);
+                    unPinIcon($icon);
                 }
             });
 
