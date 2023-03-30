@@ -23,13 +23,13 @@ define(['jquery'], function ($) {
                 interaction = choice.getInteraction(),
                 $shuffleToggle = $container.find('[data-role="shuffle-pin"]');
 
-            const pinIcon = function (icon) {
-                icon.removeClass('icon-shuffle').addClass('icon-pin');
+            const pinIcon = function ($icon) {
+                $icon.removeClass('icon-shuffle').addClass('icon-pin');
                 choice.attr('fixed', true);
             }
 
-            const unPinIcon = function (icon) {
-                icon.removeClass('icon-pin').addClass('icon-shuffle');
+            const unPinIcon = function ($icon) {
+                $icon.removeClass('icon-pin').addClass('icon-shuffle');
                 choice.attr('fixed', false);
             }
 
@@ -38,11 +38,11 @@ define(['jquery'], function ($) {
                     $shuffleToggle.show();
                 } else {
                     $shuffleToggle.hide();
-                    let icon = $shuffleToggle.children();
-                    if (icon.length === 0) {
-                        icon = $($shuffleToggle);
+                    let $icon = $shuffleToggle.children();
+                    if ($icon.length === 0) {
+                        $icon = $($shuffleToggle);
                     }
-                    unPinIcon(icon);
+                    unPinIcon($icon);
                 }
                 $('.qti-item').trigger('toolbarchange', {
                     callee: 'formElementHelper'
