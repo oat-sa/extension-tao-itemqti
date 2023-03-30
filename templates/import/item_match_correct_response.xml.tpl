@@ -11,15 +11,15 @@
     timeDependent="false"
     toolName="TAO"
     toolVersion="3.4.0-sprint146">
-    <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier">
+    <responseDeclaration identifier="RESPONSE" cardinality="<?=get_data('responseDeclarationCardinality')?>" baseType="identifier">
         <correctResponse>
             <?php foreach(get_data('correctChoices') as $choice):?>
                 <value><![CDATA[<?=$choice->getId()?>]]></value>
             <?php endforeach ?>
         </correctResponse>
     </responseDeclaration>
-    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="1" />
-    <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+    <outcomeDeclaration identifier="SCORE" cardinality="<?=get_data('outcomeDeclarationScoreCardinality')?>" baseType="float" normalMaximum="1" />
+    <outcomeDeclaration identifier="MAXSCORE" cardinality="<?=get_data('outcomeDeclarationMaxScoreCardinality')?>" baseType="float">
         <defaultValue>
             <value>1</value>
         </defaultValue>
