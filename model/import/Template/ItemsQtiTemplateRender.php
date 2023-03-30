@@ -84,8 +84,6 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
             );
         }
 
-        exit('___________________');//FIXME @TODO Remove after tests
-
         return $result;
     }
 
