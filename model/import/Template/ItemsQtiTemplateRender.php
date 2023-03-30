@@ -62,7 +62,7 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
                 'name' => $item->getName(),
                 'question' => $item->getQuestion(),
                 'shuffle' => $item->isShuffle() ? 'true' : 'false',
-                'responseDeclarationCardinality' => $item->getMaxChoices() > 1 ? 'multiple' : 'single',
+                'responseDeclarationCardinality' => $item->getMaxChoices() === 1 ? 'single' : 'multiple',
                 'outcomeDeclarationScoreCardinality' => 'single',
                 'outcomeDeclarationMaxScoreCardinality' => 'single'
             ]
