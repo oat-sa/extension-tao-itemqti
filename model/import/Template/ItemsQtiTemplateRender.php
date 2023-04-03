@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2021-2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 declare(strict_types=1);
@@ -62,8 +62,12 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
                 'name' => $item->getName(),
                 'question' => $item->getQuestion(),
                 'shuffle' => $item->isShuffle() ? 'true' : 'false',
+                'responseDeclarationCardinality' => $item->getMaxChoices() === 1 ? 'single' : 'multiple',
+                'outcomeDeclarationScoreCardinality' => 'single',
+                'outcomeDeclarationMaxScoreCardinality' => 'single'
             ]
         );
+
         return $renderer->render();
     }
 
@@ -79,6 +83,7 @@ class ItemsQtiTemplateRender extends ConfigurableService implements ItemsTemplat
                 $item->getMetadata()
             );
         }
+
         return $result;
     }
 

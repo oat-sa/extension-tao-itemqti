@@ -11,7 +11,7 @@
     timeDependent="false"
     toolName="TAO"
     toolVersion="3.4.0-sprint146">
-    <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier"/>
+    <responseDeclaration identifier="RESPONSE" cardinality="<?=get_data('responseDeclarationCardinality')?>" baseType="identifier"/>
     <itemBody>
         <div class="grid-row">
             <div class="col-12">
