@@ -27,7 +27,7 @@ define([
     'use strict';
 
     // in one row max 12 columns
-    const maxUnits = 12;
+    const MAX_UNITS = 12;
 
     let _syncHandleHeight = function ($row) {
         let h = $row.height() - parseFloat($row.children('[class^="col-"], [class*=" col-"]').css('margin-bottom'));
@@ -41,9 +41,9 @@ define([
     let _setColUnits = function _setColUnits($elt, newUnits) {
         if ($elt.attr('class').match(/col-([\d]+)/)) {
             let oldUnits = $elt.attr('data-units');
-            let $parentRow = $elt.parent('.grid-row') || maxUnits;
-            let totalUnits = $parentRow.attr('data-units');
-            $parentRow.attr('data-units', totalUnits - oldUnits + newUnits); //update parent
+            let $parentRow = $elt.parent('.grid-row');
+            let totalUnits = $parentRow.attr('data-units') || MAX_UNITS;
+            $parentRow.attr('data-units', Math.max(totalUnits - oldUnits + newUnits)); //update parent
             $elt.attr('data-units', newUnits); //update element
             $elt.removeClass(`col-${oldUnits}`).addClass(`col-${newUnits}`);
         } else {
@@ -51,7 +51,7 @@ define([
         }
     };
     const _createResizables = function createResizables($el) {
-        let marginWidth = parseFloat($el.find('[class^="col-"]:last, [class*=" col-"]:last').css('margin-left'));
+        let marginWidth = parseFloat($el.find('[class^="col-"]:last, [class*=" col-"]:last').css('margin-left') || 0);
         let activeWidth = 20;
 
         $el.find('[class^="col-"], [class*=" col-"]').each(function () {
@@ -74,7 +74,7 @@ define([
             let nextMin = qtiElements.is($nextCol.data('qti-class'), 'interaction')
                 ? config.min.interaction
                 : config.min.text;
-            let unitWidth = $row.width() / maxUnits;
+            let unitWidth = $row.width() / MAX_UNITS;
 
             let activeHeight = $row.height() - parseFloat($col.css('margin-bottom'));
             let $activeZone = $('<div>', { class: 'grid-edit-resizable-zone grid-edit-resizable-zone-active' }).css({
