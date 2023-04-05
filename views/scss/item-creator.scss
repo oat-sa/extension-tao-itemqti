@@ -1393,7 +1393,15 @@ img.dragging.ui-draggable-dragging {
         z-index:-1;
     }
 }
+// jquery draggable widget has issue with RTL
+// fix: pass rtl to widget inside colimns and set ltr for grid
+.qti-itemBody[dir="rtl"] .grid-row {
+    direction: ltr;
 
+    .widget-box {
+        direction: rtl;
+    }
+}
 #mediaManager {
     .file-preview {
         .previewer {
