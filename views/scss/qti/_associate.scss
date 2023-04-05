@@ -113,6 +113,10 @@
             }
         }
     }
+
+    .qti-block img {
+        max-width: 180px;
+    }
 }
 
 .result-area > li > div.filled ~ div.filled:before {
