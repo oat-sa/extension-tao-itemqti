@@ -383,7 +383,6 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      */
     protected function getRuntime(PortableElementObject $object)
     {
-        $object = $this->fetch($object->getTypeIdentifier(), $object->getVersion());
         $runtime = $object->toArray();
         $runtime['model'] = $object->getModelId();
         $runtime['xmlns'] = $object->getNamespace();
