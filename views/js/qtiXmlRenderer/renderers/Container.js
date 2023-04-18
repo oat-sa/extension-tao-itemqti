@@ -16,7 +16,9 @@
  * Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA
  */
 
-define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/container'], function(tpl){
+define(['module', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/container'], function(module, tpl){
+    
+    const config = module.config();
     /**
      * Elements that need to be prefixed
      *
@@ -55,8 +57,9 @@ define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/container'], function(tpl){
                 function($0){
                     return $0.replace('</rt', '&nbsp;</rt');
                 });
-
-            returnValue = replaceNonBreakingSpaceCharacters(returnValue);
+            if (!config.skipReplaceNonBreakingSpaceCharacters) {
+                returnValue = replaceNonBreakingSpaceCharacters(returnValue);
+            }
             returnValue = mergeSiblings(returnValue);
         }
 
