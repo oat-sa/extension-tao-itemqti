@@ -19,15 +19,19 @@
             min-width: 100px;
             min-height: 30px;
             max-width: 180px;
+            word-wrap: break-word;
             .qti-block {
                 img {
                     display: flex;
                 }
             }
         }
+        & > .qti-choice:has(.MathJax) {
+            max-width: none;
+        }
     }
     .result-area {
-        width: 40%;
+        width: 70%;
         min-width: 260px;
         margin: auto;
         & > li {
@@ -56,9 +60,9 @@
                 float: right;
                 position: relative;
                 z-index: 2;
-                min-width: 100px;
+                min-width: 180px;
                 min-height: 30px;
-                max-width: 180px;
+                max-width: 325px;
                 outline: 5px whiten($uiClickableDefaultBg, .2) solid;
                 @include simple-border(#eee);
                 overflow: hidden;
@@ -113,6 +117,10 @@
                 @extend %selectableHover;
             }
         }
+    }
+
+    img {
+        max-width: 180px;
     }
 }
 
