@@ -206,10 +206,10 @@ $mainContainer : '.qti-item';
             padding-right: 3px;
             padding-left: 3px;
             &:after {
-                @extend .clearfix:after;
+                @extend %clearfix-after;
             }
             &:before {
-                @extend .clearfix:before;
+                @extend %clearfix-before;
             }
             & > li {
                 display: block;
