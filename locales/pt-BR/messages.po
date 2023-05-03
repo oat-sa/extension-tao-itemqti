@@ -871,7 +871,7 @@ msgstr "Item width"
 
 #, tao-public
 msgid "Items"
-msgstr "itens"
+msgstr "Itens"
 
 msgid "Label"
 msgstr "Descrição"
