@@ -22,8 +22,8 @@
 namespace oat\taoQtiItem\model;
 
 use oat\oatbox\AbstractRegistry;
-use \common_exception_Error;
-use \common_ext_ExtensionsManager;
+use common_exception_Error;
+use common_ext_ExtensionsManager;
 
 /**
  *
@@ -31,7 +31,6 @@ use \common_ext_ExtensionsManager;
  */
 abstract class AbstractInteractionRegistry extends AbstractRegistry
 {
-
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com

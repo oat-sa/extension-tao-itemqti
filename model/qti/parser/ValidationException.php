@@ -28,7 +28,6 @@ use oat\oatbox\filesystem\File;
 
 class ValidationException extends common_Exception
 {
-    
     private $errors;
     private $xmlFile;
 

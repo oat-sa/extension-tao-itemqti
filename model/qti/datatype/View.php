@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\datatype\Datatype;
  */
 class View extends Datatype
 {
-
     public static function validate($value)
     {
         if (is_array($value) && count($value)) {//cardinality 1..*

@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class ResponseIdentifier extends Attribute
 {
-    
     protected static $name = 'responseIdentifier';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\IdentifierResponse';
     protected static $defaultValue = null;

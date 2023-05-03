@@ -35,12 +35,12 @@ abstract class AbstractMetadataService extends ConfigurableService
     /**
      * Config key to store injectors classes
      */
-    const INJECTOR_KEY  = 'injectors';
+    public const INJECTOR_KEY  = 'injectors';
 
     /**
      * Config key to store extractors classes
      */
-    const EXTRACTOR_KEY = 'extractors';
+    public const EXTRACTOR_KEY = 'extractors';
 
     /**
      * @var array Array of metadata, with metadata key with associated value

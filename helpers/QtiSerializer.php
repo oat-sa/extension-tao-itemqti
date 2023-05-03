@@ -21,7 +21,7 @@
 
 namespace oat\taoQtiItem\helpers;
 
-use \SimpleXMLElement;
+use SimpleXMLElement;
 
 /**
  * @access public
@@ -29,7 +29,6 @@ use \SimpleXMLElement;
  */
 class QtiSerializer
 {
-    
     /**
      * Parse a generic QTI element node into an array
      *
@@ -54,7 +53,7 @@ class QtiSerializer
 
         return $returnValue;
     }
-    
+
     /**
      * Parse a QTI expression node into an array
      *
@@ -78,7 +77,7 @@ class QtiSerializer
         }
         return $returnValue;
     }
-    
+
     /**
      * Parse a QTI responseRule node into an array
      *
@@ -95,7 +94,7 @@ class QtiSerializer
         }
         return $returnValue;
     }
-    
+
     /**
      * Parse a generic QTI element node that contains responseRules as children into an array
      *
@@ -119,7 +118,7 @@ class QtiSerializer
         $returnValue['responseRules'] = $responseRules;
         return $returnValue;
     }
-    
+
     /**
      * Parse a QTI responseProcessing node into an array
      *
@@ -131,7 +130,7 @@ class QtiSerializer
     {
         return self::parseResponseRulesContainerXml($xml);
     }
-    
+
     /**
      * Parse a QTI responseProcessing node into an array
      *
@@ -164,7 +163,7 @@ class QtiSerializer
         $returnValue['responseRules'] = $responseRules;
         return $returnValue;
     }
-    
+
     /**
      * Parse a QTI responseProcessing node into an array
      *
@@ -176,7 +175,7 @@ class QtiSerializer
     {
         return self::parseResponseRulesContainerXml($xml);
     }
-    
+
     /**
      * Parse a QTI responseProcessing node into an array
      *
@@ -203,7 +202,7 @@ class QtiSerializer
         }
         return $returnValue;
     }
-    
+
     /**
      * Parse a QTI responseProcessing node into an array
      *

@@ -28,7 +28,7 @@ use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\IdentifierCollection;
 use oat\taoQtiItem\model\qti\choice\Choice;
-use \common_Logger;
+use common_Logger;
 
 /**
  * QTI Match Interaction
@@ -41,7 +41,6 @@ use \common_Logger;
  */
 class MatchInteraction extends BlockInteraction
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
@@ -84,7 +83,7 @@ class MatchInteraction extends BlockInteraction
 
     public function getChoiceBySerial($serial)
     {
-        
+
         $returnValue = null;
 
         for ($i = 0; $i < 2; $i++) {
@@ -237,12 +236,12 @@ class MatchInteraction extends BlockInteraction
             'prompt' => $this->prompt->toQTI()
         ];
         unset($variables['attributes']['identifier']);
-        
+
         if (trim($this->getPrompt()->getBody()) !== '') {
             //prompt is optional:
             $variables['prompt'] = $this->prompt->toQTI();
         }
-        
+
         $choices = '';
         for ($i = 0; $i < 2; $i++) {
             $choices .= '<simpleMatchSet>';
@@ -251,9 +250,9 @@ class MatchInteraction extends BlockInteraction
             }
             $choices .= '</simpleMatchSet>';
         }
-        
+
         $variables['choices'] = $choices;
-        
+
         return $variables;
     }
 }

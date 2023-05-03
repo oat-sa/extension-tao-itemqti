@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class MatchMax extends Attribute
 {
-    
     protected static $name = 'matchMax';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiInteger';
     protected static $defaultValue = null;

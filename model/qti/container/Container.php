@@ -29,8 +29,8 @@ use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\IdentifiedElement;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\IdentifierCollection;
-use \InvalidArgumentException;
-use \common_Logger;
+use InvalidArgumentException;
+use common_Logger;
 
 /**
  * The QTI_Container object represents the generic element container
@@ -42,7 +42,6 @@ use \common_Logger;
  */
 abstract class Container extends Element implements IdentifiedElementContainer
 {
-
     /**
      * The data containing the position of qti elements within the html body
      *
@@ -225,7 +224,8 @@ abstract class Container extends Element implements IdentifiedElementContainer
         }, $html);
 
         $pregLastError = preg_last_error();
-        if ($content === null &&
+        if (
+            $content === null &&
             (
                 $pregLastError === PREG_BACKTRACK_LIMIT_ERROR ||
                 $pregLastError === PREG_RECURSION_LIMIT_ERROR
@@ -259,7 +259,7 @@ abstract class Container extends Element implements IdentifiedElementContainer
      * @author Sam, <sam@taotesting.com>
      * @return string[]
      */
-    abstract function getValidElementTypes(): array;
+    abstract public function getValidElementTypes(): array;
 
     /**
      * Get the element by its serial

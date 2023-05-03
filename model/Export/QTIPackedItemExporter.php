@@ -26,17 +26,16 @@ namespace oat\taoQtiItem\model\Export;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
 use oat\taoQtiItem\model\qti\exception\ExportException;
 use oat\taoQtiItem\model\qti\Service;
-use \core_kernel_classes_Resource;
-use \ZipArchive;
-use \DOMDocument;
-use \tao_helpers_Uri;
-use \taoItems_models_classes_TemplateRenderer;
-use \tao_helpers_Display;
-use \common_Exception;
+use core_kernel_classes_Resource;
+use ZipArchive;
+use DOMDocument;
+use tao_helpers_Uri;
+use taoItems_models_classes_TemplateRenderer;
+use tao_helpers_Display;
+use common_Exception;
 
 class QTIPackedItemExporter extends AbstractQTIItemExporter
 {
-
     private $manifest;
 
     /**
@@ -140,7 +139,7 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
                     $qtiFile = $fileName;
                 } else {
                     if (!empty($fileName)) {
-                        $qtiResources[] = htmlspecialchars($fileName, ENT_QUOTES|ENT_XML1);
+                        $qtiResources[] = htmlspecialchars($fileName, ENT_QUOTES | ENT_XML1);
                     }
                 }
             }

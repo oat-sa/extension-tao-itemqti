@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class Width extends Attribute
 {
-    
     protected static $name = 'width';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Length';
     protected static $defaultValue = null;

@@ -19,6 +19,7 @@
  *
  *
  */
+
 namespace oat\taoQtiItem\model\qti\response;
 
 use oat\taoQtiItem\model\qti\response\CustomComposite;
@@ -60,8 +61,8 @@ class CustomComposite extends Composite
     {
         $returnValue = [];
 
-        
-        
+
+
 
         return (array) $returnValue;
     }
@@ -77,8 +78,8 @@ class CustomComposite extends Composite
     {
         $returnValue = (string) '';
 
-        
-        
+
+
 
         return (string) $returnValue;
     }

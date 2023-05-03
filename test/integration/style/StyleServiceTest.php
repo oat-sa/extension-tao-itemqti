@@ -29,7 +29,6 @@ use oat\taoQtiItem\model\qti\Service;
 
 class StyleServiceTest extends TaoPhpUnitTestRunner
 {
-
     private $itemClass = null;
     private $items = [];
 

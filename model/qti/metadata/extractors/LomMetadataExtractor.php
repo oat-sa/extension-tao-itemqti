@@ -26,5 +26,4 @@ use oat\taoQtiItem\model\qti\metadata\MetadataExtractor;
 
 abstract class LomMetadataExtractor implements LomMetadata, MetadataExtractor
 {
-
 }

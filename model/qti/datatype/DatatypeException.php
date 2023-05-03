@@ -23,7 +23,7 @@
 namespace oat\taoQtiItem\model\qti\datatype;
 
 use oat\taoQtiItem\model\qti\datatype\DatatypeException;
-use \common_Exception;
+use common_Exception;
 
 /**
  * Exception in QTI datatype value setting
@@ -35,5 +35,4 @@ use \common_Exception;
  */
 class DatatypeException extends common_Exception
 {
-
 }

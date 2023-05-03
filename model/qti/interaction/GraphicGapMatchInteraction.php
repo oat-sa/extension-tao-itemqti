@@ -37,7 +37,6 @@ use oat\taoQtiItem\model\qti\choice\Choice;
  */
 class GraphicGapMatchInteraction extends GraphicInteraction
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
@@ -109,10 +108,10 @@ class GraphicGapMatchInteraction extends GraphicInteraction
         }
         return $variables;
     }
-    
+
     public function getChoiceBySerial($serial)
     {
-        
+
         $returnValue = parent::getChoiceBySerial($serial);
         if (is_null($returnValue)) {
             $gapImgs = $this->getGapImgs();
@@ -122,7 +121,7 @@ class GraphicGapMatchInteraction extends GraphicInteraction
         }
         return $returnValue;
     }
-    
+
     public function removeChoice(Choice $choice, $setNumber = null)
     {
         if ($choice instanceof GapImg) {

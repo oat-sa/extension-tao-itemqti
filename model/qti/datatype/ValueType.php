@@ -36,12 +36,11 @@ use oat\taoQtiItem\model\qti\datatype\BaseType;
  */
 class ValueType extends Datatype
 {
-    
     public static function validate($value)
     {
-        
+
         $returnValue = false;
-        
+
         foreach (BaseType::getEnumeration() as $baseType) {
             $baseTypeClass = 'oat\\taoQtiItem\\model\\qti\\datatype\\' . ucfirst($baseType);
             if (class_exists($baseTypeClass)) {
@@ -51,10 +50,10 @@ class ValueType extends Datatype
                 }
             }
         }
-        
+
         return $returnValue;
     }
-    
+
     public static function fix($value)
     {
         return self::validate($value) ? $value : null;

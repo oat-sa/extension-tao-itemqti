@@ -21,24 +21,24 @@
  */
 ?>
 <?php
+
 class taoQtiItem_install_checks_Mathjax extends common_configuration_Component
 {
-    
     public function check()
     {
         $status = null;
         $mathJax = false;
         $report = null;
-        
+
         $dp = DIRECTORY_SEPARATOR;
         $mathJaxFile = dirname(__FILE__) . "${dp}..${dp}..${dp}views${dp}js${dp}mathjax${dp}MathJax.js";
-        
+
         if (@is_file($mathJaxFile)) {
             $report = new common_configuration_Report(common_configuration_Report::VALID, 'MathJax JavaScript library installed.', $this);
         } else {
             $report = new common_configuration_Report(common_configuration_Report::INVALID, 'MathJax JavaScript library not installed. To enable MathML expressions in your QTI items, you need to install the third-party MathJax library.', $this);
         }
-        
+
         return $report;
     }
 }

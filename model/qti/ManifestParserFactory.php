@@ -23,7 +23,7 @@
 namespace oat\taoQtiItem\model\qti;
 
 use oat\taoQtiItem\model\qti\exception\ParsingException;
-use \SimpleXMLElement;
+use SimpleXMLElement;
 
 /**
  * The ParserFactory provides some methods to build the QTI_Data objects from an
@@ -37,7 +37,6 @@ use \SimpleXMLElement;
  */
 class ManifestParserFactory
 {
-    
     /**
      * Enables you to build the QTI_Resources from a manifest xml data node
      * Content Packaging 1.1)
@@ -56,16 +55,16 @@ class ManifestParserFactory
         if ($source->getName() != 'manifest') {
             throw new ParsingException("incorrect manifest root tag");
         }
-            
+
         $resourceNodes = $source->xpath("//*[name(.)='resource']");
         foreach ($resourceNodes as $resourceNode) {
             $type = (string) $resourceNode['type'];
             if (Resource::isAssessmentItem($type)) {
                 $id = (string) $resourceNode['identifier'];
                 $href = (isset($resourceNode['href'])) ? (string) $resourceNode['href'] : '';
-                    
+
                 $auxFiles = [];
-                
+
                 //parse for auxiliary files
                 foreach ($resourceNode->file as $fileNode) {
                     $fileHref = (string) $fileNode['href'];
@@ -73,7 +72,7 @@ class ManifestParserFactory
                         $auxFiles[] = $fileHref;
                     }
                 }
-                
+
                 //include dependency files in item
                 foreach ($resourceNode->dependency as $dependencyNode) {
                     $ref = (string) $dependencyNode['identifierref'];
@@ -85,10 +84,10 @@ class ManifestParserFactory
                         }
                     }
                 }
-                
+
                 $resource = new Resource($id, $type, $href);
                 $resource->setAuxiliaryFiles($auxFiles);
-                    
+
                 $returnValue[] = $resource;
             }
         }

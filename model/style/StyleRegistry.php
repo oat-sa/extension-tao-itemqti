@@ -22,8 +22,8 @@
 namespace oat\taoQtiItem\model\style;
 
 use oat\oatbox\AbstractRegistry;
-use \common_ext_ExtensionsManager;
-use \common_Logger;
+use common_ext_ExtensionsManager;
+use common_Logger;
 
 /**
  *
@@ -33,7 +33,6 @@ use \common_Logger;
  */
 class StyleRegistry extends AbstractRegistry
 {
-
     /**
      * @see \oat\oatbox\AbstractRegistry::getConfigId()
      */
@@ -63,7 +62,7 @@ class StyleRegistry extends AbstractRegistry
         }
         return $styles;
     }
-    
+
     /**
      * Check if the array contains sufficient style data
      *

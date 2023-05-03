@@ -23,7 +23,7 @@ namespace oat\taoQtiItem\controller;
 
 use oat\taoQtiItem\helpers\QtiRunner;
 use qtism\runtime\tests\AssessmentItemSession;
-use \taoItems_actions_ItemRunner;
+use taoItems_actions_ItemRunner;
 
 /**
  * Abstract QTI Item Runner Controller
@@ -37,7 +37,6 @@ use \taoItems_actions_ItemRunner;
  */
 abstract class AbstractQtiItemRunner extends taoItems_actions_ItemRunner
 {
-
     protected $variableContents = null;
 
     protected function setInitialVariableElements()
@@ -72,7 +71,7 @@ abstract class AbstractQtiItemRunner extends taoItems_actions_ItemRunner
 
     protected function getTemplateElements()
     {
-        
+
         //process templateRules
         //return the template values
     }

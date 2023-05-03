@@ -22,12 +22,12 @@
 
 namespace oat\taoQtiItem\model\qti;
 
-use \tao_models_classes_Parser;
-use \Exception;
-use \tao_helpers_File;
-use \ZipArchive;
-use \common_exception_Error;
-use \oat\oatbox\filesystem\File;
+use tao_models_classes_Parser;
+use Exception;
+use tao_helpers_File;
+use ZipArchive;
+use common_exception_Error;
+use oat\oatbox\filesystem\File;
 
 /**
  * Enables you to parse and validate a QTI Package.
@@ -55,10 +55,10 @@ class PackageParser extends tao_models_classes_Parser
      */
     public function validate($schema = '')
     {
-        
+
         $forced = $this->valid;
         $this->valid = true;
-        
+
         try {
             switch ($this->sourceType) {
                 case self::SOURCE_FILE:
@@ -97,10 +97,10 @@ class PackageParser extends tao_models_classes_Parser
                 $this->addError($e);
             }
         }
-             
+
         if ($this->valid && !$forced) {   //valida can be true if forceValidation has been called
             $this->valid = false;
-            
+
             try {
                 $zip = new ZipArchive();
                 //check the archive opening and the consistency
@@ -108,7 +108,7 @@ class PackageParser extends tao_models_classes_Parser
                 if ($res !== true) {
                     switch ($res) {
                         case ZipArchive::ER_NOZIP:
-                             $msg = 'not a zip archive';
+                            $msg = 'not a zip archive';
                             break;
                         case ZipArchive::ER_INCONS:
                             $msg = 'consistency check failed';
@@ -125,7 +125,7 @@ class PackageParser extends tao_models_classes_Parser
                     if ($zip->locateName("imsmanifest.xml") === false) {
                         throw new Exception("A QTI package must contains a imsmanifest.xml file  at the root of the archive");
                     }
-                    
+
                     $this->valid = true;
                 }
                 $zip->close();
@@ -133,9 +133,9 @@ class PackageParser extends tao_models_classes_Parser
                 $this->addError($e);
             }
         }
-        
+
         $returnValue = $this->valid;
-        
+
         return (bool) $returnValue;
     }
 

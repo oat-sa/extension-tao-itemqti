@@ -22,8 +22,8 @@
 
 namespace oat\taoQtiItem\model\qti\exception;
 
-use \common_Exception;
-use \common_exception_UserReadableException;
+use common_Exception;
+use common_exception_UserReadableException;
 
 /**
  * Exception during QTI package extraction.

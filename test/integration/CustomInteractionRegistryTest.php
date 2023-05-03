@@ -30,7 +30,6 @@ use oat\taoQtiItem\model\CustomInteractionRegistry;
  */
 class CustomInteractionRegistryTest extends TaoPhpUnitTestRunner
 {
-
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com

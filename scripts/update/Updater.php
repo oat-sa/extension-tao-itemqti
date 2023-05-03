@@ -48,8 +48,8 @@ use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\GenericLomManifestClassificationExtractor;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationExtractor;
-use \oat\taoQtiItem\model\qti\metadata\ontology\LomInjector as OntologyLomInjector;
-use \oat\taoQtiItem\model\qti\metadata\imsManifest\LomInjector as ImsManifestLomInjector;
+use oat\taoQtiItem\model\qti\metadata\ontology\LomInjector as OntologyLomInjector;
+use oat\taoQtiItem\model\qti\metadata\imsManifest\LomInjector as ImsManifestLomInjector;
 use oat\taoQtiItem\model\tasks\ImportQtiItem;
 use oat\taoQtiItem\model\QtiCreatorClientConfigRegistry;
 use oat\tao\model\accessControl\func\AclProxy;
@@ -72,7 +72,6 @@ use oat\oatbox\event\EventManager;
  */
 class Updater extends \common_ext_ExtensionUpdater
 {
-
     /**
      *
      * @param string $initialVersion
@@ -473,7 +472,7 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('23.12.0', '25.1.0');
-        
+
         //Updater files are deprecated. Please use migrations.
         //See: https://github.com/oat-sa/generis/wiki/Tao-Update-Process
 

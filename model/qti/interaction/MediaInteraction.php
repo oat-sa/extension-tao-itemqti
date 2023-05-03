@@ -36,7 +36,6 @@ use oat\taoQtiItem\model\qti\interaction\ObjectInteraction;
  */
 class MediaInteraction extends ObjectInteraction
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
@@ -46,7 +45,7 @@ class MediaInteraction extends ObjectInteraction
     protected static $qtiTagName = 'mediaInteraction';
     protected static $choiceClass = ''; //no choice for this type of interaction
     protected static $baseType = 'integer';
-    
+
     protected function getUsedAttributes()
     {
         return array_merge(

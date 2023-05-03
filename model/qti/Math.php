@@ -15,7 +15,6 @@ namespace oat\taoQtiItem\model\qti;
  */
 class Math extends Element
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *

@@ -19,6 +19,7 @@
  *
  *
  */
+
 namespace oat\taoQtiItem\model\qti\response\interactionResponseProcessing;
 
 use oat\taoQtiItem\model\qti\ResponseDeclaration;
@@ -58,7 +59,7 @@ abstract class Template extends InteractionResponseProcessing
     {
         $returnValue = null;
 
-        
+
         switch ($templateUri) {
             case ResponseTemplate::MATCH_CORRECT:
                 $returnValue = self::create(MatchCorrectTemplate::CLASS_ID, $response, $item);
@@ -72,7 +73,7 @@ abstract class Template extends InteractionResponseProcessing
             default:
                 throw new ParsingException('Cannot create interactionResponseProcessing for unknown Template ' . $templateUri);
         }
-        
+
 
         return $returnValue;
     }

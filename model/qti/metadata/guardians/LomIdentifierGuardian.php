@@ -32,7 +32,6 @@ use oat\taoQtiItem\model\qti\metadata\MetadataGuardian;
  */
 class LomIdentifierGuardian implements MetadataGuardian
 {
-
     public function guard(array $metadataValues)
     {
         $guard = false;

@@ -12,11 +12,11 @@ use oat\taoQtiItem\model\qti\interaction\Interaction;
 use oat\taoQtiItem\model\qti\feedback\ModalFeedback;
 use oat\taoQtiItem\model\qti\response\TemplatesDriven;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
-use \common_Serializable;
-use \common_Logger;
-use \common_ext_ExtensionsManager;
-use \taoItems_models_classes_TemplateRenderer;
-use \DOMDocument;
+use common_Serializable;
+use common_Logger;
+use common_ext_ExtensionsManager;
+use taoItems_models_classes_TemplateRenderer;
+use DOMDocument;
 use oat\tao\helpers\Template;
 
 /**
@@ -31,7 +31,6 @@ use oat\tao\helpers\Template;
  */
 class Item extends IdentifiedElement implements FlowContainer, IdentifiedElementContainer, common_Serializable
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *

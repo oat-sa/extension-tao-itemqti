@@ -22,7 +22,7 @@
 
 namespace oat\taoQtiItem\test\integration;
 
-use \common_ext_ExtensionsManager;
+use common_ext_ExtensionsManager;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\PackageParser;
@@ -38,7 +38,6 @@ include_once dirname(__FILE__) . '/../../includes/raw_start.php';
  */
 class QtiPackageParsingTest extends TaoPhpUnitTestRunner
 {
-
     protected $qtiService;
 
     /**

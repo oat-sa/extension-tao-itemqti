@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class Cardinality extends Attribute
 {
-    
     protected static $name = 'cardinality';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Cardinality';
     protected static $defaultValue = null;

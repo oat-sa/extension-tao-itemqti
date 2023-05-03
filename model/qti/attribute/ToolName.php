@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class ToolName extends Attribute
 {
-    
     protected static $name = 'toolName';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\String256';
     protected static $defaultValue = null;

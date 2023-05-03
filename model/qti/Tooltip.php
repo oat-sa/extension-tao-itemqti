@@ -30,7 +30,6 @@ use oat\taoQtiItem\model\qti\container\FlowContainer;
 
 class Tooltip extends Element implements FlowContainer
 {
-
     protected static $qtiTagName = '_tooltip';
     protected $content = '';
     protected $body = null;

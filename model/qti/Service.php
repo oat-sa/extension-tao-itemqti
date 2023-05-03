@@ -39,11 +39,11 @@ use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\metadata\MetadataRegistry;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
-use \core_kernel_classes_Resource;
-use \taoItems_models_classes_ItemsService;
-use \common_Logger;
-use \common_Exception;
-use \Exception;
+use core_kernel_classes_Resource;
+use taoItems_models_classes_ItemsService;
+use common_Logger;
+use common_Exception;
+use Exception;
 use oat\taoItems\model\media\ItemMediaResolver;
 use League\Flysystem\FileNotFoundException;
 
@@ -59,7 +59,7 @@ class Service extends ConfigurableService
     use EventManagerAwareTrait;
     use OntologyAwareTrait;
 
-    const QTI_ITEM_FILE = 'qti.xml';
+    public const QTI_ITEM_FILE = 'qti.xml';
 
     /**
      * Load a QTI_Item from an, RDF Item using the itemContent property of the

@@ -32,7 +32,6 @@ use oat\taoQtiItem\model\qti\Service;
  */
 class taoQTI_scripts_update_taoQtiUpdate extends tao_scripts_Runner
 {
-
     public function run()
     {
         $itemService = taoItems_models_classes_ItemsService::singleton();
@@ -73,9 +72,9 @@ class taoQTI_scripts_update_taoQtiUpdate extends tao_scripts_Runner
 
     protected function convertQtiFromV2p0ToV2p1($xml)
     {
-        
+
         $returnValue = '';
-        
+
         $qtiParser = new Parser($xml);
         $qtiv2p1xsd = ROOT_PATH . 'taoQTI/models/classes/QTI/data/qtiv2p0/imsqti_v2p0.xsd';
         $qtiParser->validate($qtiv2p1xsd);
@@ -94,7 +93,7 @@ class taoQTI_scripts_update_taoQtiUpdate extends tao_scripts_Runner
                 $returnValue = $item->toXML();
             }
         }
-        
+
         return $returnValue;
     }
 }

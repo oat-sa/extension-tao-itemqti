@@ -22,7 +22,7 @@
 namespace oat\taoQtiItem\model\qti;
 
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
-use \DOMElement;
+use DOMElement;
 
 /**
  * Class representing a QTI portable InfoControl
@@ -37,8 +37,8 @@ class PortableInfoControl extends InfoControl
 {
     use PortableElementTrait;
 
-    const NS_NAME = 'pic';
-    const NS_URI = 'http://www.imsglobal.org/xsd/portableInfoControl';
+    public const NS_NAME = 'pic';
+    public const NS_URI = 'http://www.imsglobal.org/xsd/portableInfoControl';
 
     protected $properties = [];
     protected $libraries = [];

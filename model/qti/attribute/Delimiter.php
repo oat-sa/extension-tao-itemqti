@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class Delimiter extends Attribute
 {
-    
     protected static $name = 'delimiter';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\String256';
     protected static $defaultValue = ';';

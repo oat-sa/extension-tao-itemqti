@@ -79,20 +79,20 @@ class ImportService extends ConfigurableService
 
     use LockTrait;
 
-    const SERVICE_ID = 'taoQtiItem/ImportService';
+    public const SERVICE_ID = 'taoQtiItem/ImportService';
 
     /**
      * Checks that setOutcomeValue declared in the outcomeDeclaration
      */
-    const CONFIG_VALIDATE_RESPONSE_PROCESSING = 'validateResponseProcessing';
+    public const CONFIG_VALIDATE_RESPONSE_PROCESSING = 'validateResponseProcessing';
 
     /**
      * TTL of the item importing process
      * How long item will be locked while lock service automatically release the lock
      */
-    const OPTION_IMPORT_LOCK_TTL = 'importLockTtl';
+    public const OPTION_IMPORT_LOCK_TTL = 'importLockTtl';
 
-    const PROPERTY_QTI_ITEM_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAOItem.rdf#QtiItemIdentifier';
+    public const PROPERTY_QTI_ITEM_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAOItem.rdf#QtiItemIdentifier';
 
     /**
      * @return ImportService
@@ -407,7 +407,7 @@ class ImportService extends ConfigurableService
     {
         $timeElapsedSecs = microtime(true) - $startImportTime;
         if ($timeElapsedSecs > $this->getOption(self::OPTION_IMPORT_LOCK_TTL)) {
-            common_Logger::w('Items lock was released before item '.$itemId.' import finished.');
+            common_Logger::w('Items lock was released before item ' . $itemId . ' import finished.');
         }
     }
 
@@ -449,7 +449,7 @@ class ImportService extends ConfigurableService
         $startImportTime = microtime(true);
 
         $lock = $this->createLock(
-            __CLASS__ .'/'. __METHOD__.'/'.$qtiItemResource->getIdentifier(),
+            __CLASS__ . '/' . __METHOD__ . '/' . $qtiItemResource->getIdentifier(),
             $this->getOption(self::OPTION_IMPORT_LOCK_TTL)
         );
         $lock->acquire(true);
@@ -748,9 +748,9 @@ class ImportService extends ConfigurableService
         // Some items (especially to collect information) have no response processing!
         if (
             $responseProcessing !== null && ($responseProcessing->hasTemplate(
-                ) === true || $responseProcessing->hasTemplateLocation() === true || count(
-                    $responseProcessing->getResponseRules()
-                ) > 0)
+            ) === true || $responseProcessing->hasTemplateLocation() === true || count(
+                $responseProcessing->getResponseRules()
+            ) > 0)
         ) {
             $engine = new ResponseProcessingEngine($responseProcessing, $itemSession);
             $rules = $engine->getResponseProcessingRules();
@@ -865,7 +865,7 @@ class ImportService extends ConfigurableService
 
         $labels = [];
         while ($class->getUri() !== TaoOntology::CLASS_URI_ITEM) {
-            $labels []= $class->getLabel();
+            $labels [] = $class->getLabel();
             $parentClasses = $class->getParentClasses();
             $class = reset($parentClasses);
         }

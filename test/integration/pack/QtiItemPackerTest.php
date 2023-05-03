@@ -18,10 +18,11 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\taoItems\test\pack;
 
 use common_Exception;
-use \core_kernel_classes_Resource;
+use core_kernel_classes_Resource;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
@@ -38,7 +39,6 @@ use oat\taoQtiItem\model\qti\Parser as QtiParser;
  */
 class QtiItemPackerTest extends TaoPhpUnitTestRunner
 {
-
     public function setUp(): void
     {
         \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');

@@ -21,7 +21,7 @@
 
 namespace oat\taoQtiItem\model\qti\metadata;
 
-use \Exception;
+use Exception;
 
 /**
  * This Exception class must be thrown in reaction to an error occuring
@@ -32,7 +32,6 @@ use \Exception;
  */
 class MetadataExtractionException extends Exception
 {
-
     /**
      * Create a new MetadataExtractionException object.
      *

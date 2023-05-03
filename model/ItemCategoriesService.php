@@ -33,8 +33,7 @@ use oat\oatbox\service\ConfigurableService;
  */
 class ItemCategoriesService extends ConfigurableService
 {
-
-    const SERVICE_ID = 'taoQtiItem/ItemCategories';
+    public const SERVICE_ID = 'taoQtiItem/ItemCategories';
 
     /**
      * Get the categories link to the list of items in parameter.

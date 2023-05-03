@@ -53,7 +53,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
      * instance representing the service to run the QTI item
      * @var string
      */
-    const INSTANCE_ITEMRUNNER = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ServiceQtiItemRunner';
+    public const INSTANCE_ITEMRUNNER = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ServiceQtiItemRunner';
 
     /**
      * {@inheritDoc}
@@ -300,7 +300,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $qtiParser = new Parser($dom->saveXML());
         $assetRetrievedQtiItem =  $qtiParser->load();
 
-         //loadxinclude
+        //loadxinclude
         $xincludeLoader = new XIncludeLoader($assetRetrievedQtiItem, $resolver);
         $xincludeLoader->load(false);
 

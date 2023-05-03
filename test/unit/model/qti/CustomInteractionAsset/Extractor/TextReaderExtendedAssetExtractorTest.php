@@ -72,7 +72,7 @@ class TextReaderExtendedAssetExtractorTest extends TestCase
             $properties[self::CONTENT_PREFIX . uniqid('test', true)] = $dataUrl;
         }
 
-        return new class($properties) extends CustomInteraction {
+        return new class ($properties) extends CustomInteraction {
             /**
              * @var array
              */
@@ -99,7 +99,7 @@ class TextReaderExtendedAssetExtractorTest extends TestCase
             $properties[self::CONTENT_PREFIX . uniqid('test', true)] = $contentValues[$i % 2];
         }
 
-        return new class($properties) extends CustomInteraction {
+        return new class ($properties) extends CustomInteraction {
             /**
              * @var array
              */

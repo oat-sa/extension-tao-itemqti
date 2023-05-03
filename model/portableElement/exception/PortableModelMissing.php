@@ -24,13 +24,13 @@ namespace oat\taoQtiItem\model\portableElement\exception;
 class PortableModelMissing extends PortableElementInconsistencyModelException implements \common_exception_UserReadableException
 {
     protected $modelId;
-    
+
     public function __construct($modelId)
     {
         $this->modelId = $modelId;
         parent::__construct('Portable Model ' . $modelId . ' not found');
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see common_exception_UserReadableException::getUserMessage()

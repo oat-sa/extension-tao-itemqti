@@ -25,7 +25,7 @@ use common_ext_action_InstallAction;
 use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementVersionIncompatibilityException;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
-use \common_report_Report as Report;
+use common_report_Report as Report;
 
 /**
  * Class RegisterPortableElement

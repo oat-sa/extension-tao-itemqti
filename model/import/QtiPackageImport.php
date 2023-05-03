@@ -31,10 +31,10 @@ use oat\taoQtiItem\model\event\QtiItemImportEvent;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
-use \tao_models_classes_import_ImportHandler;
-use \helpers_TimeOutHelper;
-use \common_report_Report;
-use \Exception;
+use tao_models_classes_import_ImportHandler;
+use helpers_TimeOutHelper;
+use common_report_Report;
+use Exception;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**

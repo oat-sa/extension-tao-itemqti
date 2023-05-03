@@ -91,7 +91,7 @@ class PortableModelRegistry extends AbstractRegistry
         }
         return $models;
     }
-    
+
     /**
      * Helper to initialise the models
      *

@@ -58,11 +58,11 @@ use oat\taoQtiItem\model\qti\Stylesheet;
 use oat\taoQtiItem\model\qti\RubricBlock;
 use oat\taoQtiItem\model\qti\container\ContainerFeedbackInteractive;
 use oat\taoQtiItem\model\qti\container\ContainerStatic;
-use \DOMDocument;
-use \DOMXPath;
-use \DOMElement;
-use \common_Logger;
-use \SimpleXMLElement;
+use DOMDocument;
+use DOMXPath;
+use DOMElement;
+use common_Logger;
+use SimpleXMLElement;
 use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 use oat\oatbox\log\LoggerAwareTrait;
@@ -129,7 +129,7 @@ class ParserFactory
 
         //prepare the data string
         $bodyData = '';
-        $saveOptions = $keepEmptyTags ?  LIBXML_NOEMPTYTAG : 0;
+        $saveOptions = $keepEmptyTags ? LIBXML_NOEMPTYTAG : 0;
 
         $children  = $data->childNodes;
 
@@ -796,6 +796,7 @@ class ParserFactory
                                 $myInteraction->addGapImg($choice);
                             }
                         }
+                        // no break
                     default:
                         //parse, extract and build the choice nodes contained in the interaction
                         $exp = "*[contains(name(.),'Choice')] | *[name(.)='associableHotspot']";

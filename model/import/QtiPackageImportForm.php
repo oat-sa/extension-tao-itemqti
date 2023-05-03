@@ -23,11 +23,11 @@
 namespace oat\taoQtiItem\model\import;
 
 use oat\generis\Helper\SystemHelper;
-use \tao_helpers_form_FormContainer;
-use \tao_helpers_form_xhtml_Form;
-use \tao_helpers_form_xhtml_TagWrapper;
-use \tao_helpers_form_FormFactory;
-use \tao_helpers_Environment;
+use tao_helpers_form_FormContainer;
+use tao_helpers_form_xhtml_Form;
+use tao_helpers_form_xhtml_TagWrapper;
+use tao_helpers_form_FormFactory;
+use tao_helpers_Environment;
 
 /**
  * Import form for QTI packages

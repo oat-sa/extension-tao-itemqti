@@ -29,16 +29,16 @@ class QTIPackedItem22Exporter extends QTIPackedItemExporter
     {
         $dir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
         $tpl = $dir . 'model/qti/templates/imsmanifestQti22.tpl.php';
-        
+
         $templateRenderer = new \taoItems_models_classes_TemplateRenderer($tpl, [
             'qtiItems'              => [$qtiItemData],
             'manifestIdentifier'    => 'MANIFEST-' . \tao_helpers_Display::textCleaner(uniqid('tao', true), '-')
         ]);
-            
+
         $renderedManifest = $templateRenderer->render();
         $newManifest = new \DOMDocument('1.0', TAO_DEFAULT_ENCODING);
         $newManifest->loadXML($renderedManifest);
-        
+
         return $newManifest;
     }
 

@@ -28,7 +28,6 @@ namespace oat\taoQtiItem\model\update;
  */
 class ItemUpdateInlineFeedback extends ItemUpdater
 {
-
     /**
      * Update the item content by wrapping the modalfeedback body into a new wrapper
      *

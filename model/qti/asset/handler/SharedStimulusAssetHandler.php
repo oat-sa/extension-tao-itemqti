@@ -209,7 +209,7 @@ class SharedStimulusAssetHandler implements AssetHandler
         // Nothing to do
     }
 
-    private function getSharedStimulusMediaEncoderService (): SharedStimulusMediaEncoder
+    private function getSharedStimulusMediaEncoderService(): SharedStimulusMediaEncoder
     {
         return $this->getServiceLocator()->get(SharedStimulusMediaEncoder::SERVICE_ID);
     }

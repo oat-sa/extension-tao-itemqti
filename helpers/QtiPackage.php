@@ -22,9 +22,9 @@
 
 namespace oat\taoQtiItem\helpers;
 
-use \ZipArchive;
-use \tao_helpers_File;
-use \common_Exception;
+use ZipArchive;
+use tao_helpers_File;
+use common_Exception;
 
 /**
  * @access public
@@ -33,7 +33,6 @@ use \common_Exception;
  */
 class QtiPackage
 {
-
     public static function isValidZip($source)
     {
 

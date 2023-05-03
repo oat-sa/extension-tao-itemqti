@@ -22,9 +22,9 @@ namespace oat\taoQtiItem\test\unit\metadata;
 
 use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor;
-use \DOMDocument;
+use DOMDocument;
 use oat\taoQtiItem\model\qti\metadata\MetadataExtractionException;
-use \stdClass;
+use stdClass;
 
 class ImsManifestExtractionTest extends TestCase
 {

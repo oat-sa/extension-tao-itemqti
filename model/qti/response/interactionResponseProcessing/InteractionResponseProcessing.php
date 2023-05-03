@@ -31,8 +31,8 @@ use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\MapResponseT
 use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\MapResponsePointTemplate;
 use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\Custom;
 use oat\taoQtiItem\model\qti\OutcomeDeclaration;
-use \common_Exception;
-use \common_exception_Error;
+use common_Exception;
+use common_exception_Error;
 
 /**
  * The response processing of a single interaction
@@ -52,7 +52,7 @@ abstract class InteractionResponseProcessing implements Rule
      * @var string
      */
 
-    const SCORE_PREFIX = 'SCORE_';
+    public const SCORE_PREFIX = 'SCORE_';
 
     /**
      * Short description of attribute response

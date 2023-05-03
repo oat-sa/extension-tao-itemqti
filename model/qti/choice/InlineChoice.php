@@ -20,7 +20,6 @@
 
 namespace oat\taoQtiItem\model\qti\choice;
 
-
 use oat\taoQtiItem\model\qti\Math;
 
 /**

@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class StringIdentifier extends Attribute
 {
-    
     protected static $name = 'stringIdentifier';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\IdentifierOutcome';
     protected static $defaultValue = null;

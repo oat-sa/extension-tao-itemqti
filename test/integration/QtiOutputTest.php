@@ -37,7 +37,6 @@ include_once dirname(__FILE__) . '/../../includes/raw_start.php';
  */
 class QtiOutputTest extends TaoPhpUnitTestRunner
 {
-
     protected $qtiService;
     protected $validateOnParse;
 

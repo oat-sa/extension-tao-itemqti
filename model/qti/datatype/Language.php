@@ -36,12 +36,11 @@ use oat\taoQtiItem\model\qti\datatype\Datatype;
  */
 class Language extends Datatype
 {
-    
     public static function validate($value)
     {
         return preg_match('/^[a-z]{2,3}(?:-[A-Z]{2,3}(?:-[a-zA-Z]{4})?)?$/', $value);
     }
-    
+
     public static function fix($value)
     {
         $languages = self::getLanguageMap();
@@ -50,7 +49,7 @@ class Language extends Datatype
         }
         return self::validate($value) ? $value : null;
     }
-    
+
     private static function getLanguageMap()
     {
         return [

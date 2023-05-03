@@ -42,8 +42,8 @@ class PortableElementService implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
-    const PORTABLE_CLASS_INTERACTION = CustomInteraction::class;
-    const PORTABLE_CLASS_INFOCONTROL = InfoControl::class;
+    public const PORTABLE_CLASS_INTERACTION = CustomInteraction::class;
+    public const PORTABLE_CLASS_INFOCONTROL = InfoControl::class;
 
     protected function getPortableModelRegistry()
     {

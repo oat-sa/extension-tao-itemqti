@@ -33,10 +33,9 @@ use oat\oatbox\service\ConfigurableService;
  */
 class QtiItemCompilerAssetBlacklist extends ConfigurableService
 {
+    public const SERVICE_ID = 'taoQtiItem/compileBlacklist';
 
-    const SERVICE_ID = 'taoQtiItem/compileBlacklist';
-
-    const BLACKLIST = 'blacklist';
+    public const BLACKLIST = 'blacklist';
 
     private $blacklist = [];
 

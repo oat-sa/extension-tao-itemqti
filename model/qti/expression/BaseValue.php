@@ -19,11 +19,12 @@
  *
  *
  */
+
 namespace oat\taoQtiItem\model\qti\expression;
 
 use oat\taoQtiItem\model\qti\expression\BaseValue;
 use oat\taoQtiItem\model\qti\expression\CommonExpression;
-use \common_Exception;
+use common_Exception;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\expression\BaseValue
@@ -53,15 +54,15 @@ class BaseValue extends CommonExpression
     {
         $returnValue = (string) '';
 
-        
-         // JSON ENCODE the value to get quote when quote are required function of the variable base type
+
+        // JSON ENCODE the value to get quote when quote are required function of the variable base type
         // not so easy ;)
         //$returnValue = json_encode($this->value);
         // @todo make usable for complex variable such as pair, directed pair ..
         // @todo centralize the management of the options (attributes)
         $options = [];
         $value = null;
-        
+
         switch ($this->attributes['baseType']) {
             case "boolean":
                 $options['type'] = "boolean";
@@ -96,7 +97,7 @@ class BaseValue extends CommonExpression
             . (count($options) ? '"' . addslashes(json_encode($options)) . '"' : 'null') .
             ', ' . $value .
         ')';
-        
+
 
         return (string) $returnValue;
     }

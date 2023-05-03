@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\datatype\Enumeration;
  */
 class Shape extends Enumeration
 {
-    
     public static function getEnumeration()
     {
         return [

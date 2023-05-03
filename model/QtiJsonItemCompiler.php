@@ -54,11 +54,10 @@ use Throwable;
  */
 class QtiJsonItemCompiler extends QtiItemCompiler
 {
-
-    const ITEM_FILE_NAME = 'item.json';
-    const VAR_ELT_FILE_NAME = 'variableElements.json';
-    const METADATA_FILE_NAME = 'metadataElements.json';
-    const PORTABLE_ELEMENT_FILE_NAME = 'portableElements.json';
+    public const ITEM_FILE_NAME = 'item.json';
+    public const VAR_ELT_FILE_NAME = 'variableElements.json';
+    public const METADATA_FILE_NAME = 'metadataElements.json';
+    public const PORTABLE_ELEMENT_FILE_NAME = 'portableElements.json';
 
     /**
      * @var string json from the item packed

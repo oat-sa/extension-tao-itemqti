@@ -21,8 +21,8 @@
 
 namespace oat\taoQtiItem\helpers;
 
-use \core_kernel_classes_Resource;
-use \taoItems_models_classes_ItemsService;
+use core_kernel_classes_Resource;
+use taoItems_models_classes_ItemsService;
 
 /**
  * @access public
@@ -30,7 +30,7 @@ use \taoItems_models_classes_ItemsService;
  */
 class QtiFile
 {
-    const FILE = 'qti.xml';
+    public const FILE = 'qti.xml';
 
     /**
      * Get content of qti.xml following an item + language

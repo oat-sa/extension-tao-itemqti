@@ -21,22 +21,21 @@
 
 namespace oat\taoQtiItem\model\style;
 
-use \tao_models_classes_Service;
-use \core_kernel_classes_Class;
-use \core_kernel_classes_Resource;
+use tao_models_classes_Service;
+use core_kernel_classes_Class;
+use core_kernel_classes_Resource;
 use oat\taoQtiItem\model\ItemModel;
-use \taoItems_models_classes_ItemsService;
+use taoItems_models_classes_ItemsService;
 use SimpleXMLElement;
 use oat\taoQtiItem\model\qti\Service;
 
 class StyleService extends tao_models_classes_Service
 {
-    
     /**
      * The regex pattern of valid style names
      */
-    const STYLE_NAME_PATTERN = '([a-zA-Z0-9_-]*)';
-    
+    public const STYLE_NAME_PATTERN = '([a-zA-Z0-9_-]*)';
+
     /**
      * Check if the resource in argument is a valid qti item
      * @param core_kernel_classes_Resource $itemResource
@@ -84,7 +83,7 @@ class StyleService extends tao_models_classes_Service
 
         return false;
     }
-    
+
     /**
      * Get the array of body style classes set to the itemBody of a qti item
      *
@@ -106,7 +105,7 @@ class StyleService extends tao_models_classes_Service
             }
         }
     }
-    
+
     /**
      * Add an array of body style classes to the itemBody of a qti item
      *
@@ -135,7 +134,7 @@ class StyleService extends tao_models_classes_Service
         }
         return false;
     }
-    
+
     /**
      * Remove an array of body style classes set to the itemBody of a qti item
      *
@@ -162,7 +161,7 @@ class StyleService extends tao_models_classes_Service
         }
         return false;
     }
-    
+
     /**
      * Get an array that give the style usage within an tao item subclasses.
      * It only takes into account qti item with a no-empty content
@@ -199,7 +198,7 @@ class StyleService extends tao_models_classes_Service
             'indeterminate' => array_values(array_diff($union, $intersect))
         ];
     }
-    
+
     /**
      * Add an array of body style classes to the itemBody of all qti items in given class
      *
@@ -220,7 +219,7 @@ class StyleService extends tao_models_classes_Service
         }
         return $updatedItems;
     }
-    
+
     /**
      * Remove  an array of body style classes from the itemBody of all qti items in given class
      *

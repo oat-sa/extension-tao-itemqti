@@ -22,8 +22,8 @@
 namespace oat\taoQtiItem\model\update;
 
 use oat\taoQtiItem\model\qti\ParserFactory;
-use \RecursiveIteratorIterator;
-use \RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
 
 abstract class ItemUpdater
 {
@@ -56,7 +56,7 @@ abstract class ItemUpdater
         $objects     = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->itemPath), RecursiveIteratorIterator::SELF_FIRST);
         $i = 0;
         $fixed = 0;
-        
+
         foreach ($objects as $itemFile => $cursor) {
             if (is_file($itemFile)) {
                 $this->checkedFiles[$itemFile] = false;

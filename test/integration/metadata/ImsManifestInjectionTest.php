@@ -24,8 +24,8 @@ use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMapping;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataInjector;
-use \DOMXPath;
-use \DOMDocument;
+use DOMXPath;
+use DOMDocument;
 
 include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
 

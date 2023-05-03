@@ -23,15 +23,15 @@
 
 namespace oat\taoQtiItem\model\Export;
 
-use \tao_helpers_form_FormContainer;
-use \tao_helpers_form_xhtml_Form;
-use \tao_helpers_form_xhtml_TagWrapper;
-use \tao_helpers_form_FormFactory;
-use \taoItems_models_classes_ItemsService;
-use \core_kernel_classes_Resource;
-use \tao_helpers_Display;
-use \core_kernel_classes_Class;
-use \tao_helpers_Uri;
+use tao_helpers_form_FormContainer;
+use tao_helpers_form_xhtml_Form;
+use tao_helpers_form_xhtml_TagWrapper;
+use tao_helpers_form_FormFactory;
+use taoItems_models_classes_ItemsService;
+use core_kernel_classes_Resource;
+use tao_helpers_Display;
+use core_kernel_classes_Class;
+use tao_helpers_Uri;
 use oat\taoQtiItem\model\ItemModel;
 
 /**

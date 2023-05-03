@@ -34,7 +34,6 @@ use oat\taoQtiItem\model\qti\Parser;
  */
 class QtiParsingTest extends TaoPhpUnitTestRunner
 {
-
     /**
      * tests initialization
      */

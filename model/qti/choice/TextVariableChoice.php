@@ -36,7 +36,6 @@ use oat\taoQtiItem\model\qti\OutcomeDeclaration;
  */
 abstract class TextVariableChoice extends Choice
 {
-
     protected $text = '';
 
     public function getContent()

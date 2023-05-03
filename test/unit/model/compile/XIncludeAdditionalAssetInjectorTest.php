@@ -37,7 +37,6 @@ use oat\taoQtiItem\model\qti\Stylesheet;
 use oat\taoQtiItem\model\qti\XInclude;
 use Psr\Log\LoggerInterface;
 
-
 class XIncludeAdditionalAssetInjectorTest extends TestCase
 {
     private const DUMMY_EXCEPTION_MESSAGE = 'exception_message';

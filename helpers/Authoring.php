@@ -28,10 +28,10 @@ use DOMDocument;
 use oat\oatbox\filesystem\File;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\Parser;
-use \core_kernel_classes_Resource;
-use \taoItems_models_classes_ItemsService;
-use \tao_helpers_File;
-use \common_exception_Error;
+use core_kernel_classes_Resource;
+use taoItems_models_classes_ItemsService;
+use tao_helpers_File;
+use common_exception_Error;
 
 /**
  * Helper to provide methods for QTI authoring
@@ -42,7 +42,6 @@ use \common_exception_Error;
  */
 class Authoring
 {
-
     /**
      * Validate a QTI XML string.
      *
@@ -51,7 +50,7 @@ class Authoring
      */
     public static function validateQtiXml($qti)
     {
-        
+
         $dom = self::loadQtiXml($qti);
         $returnValue = $dom->saveXML();
 
@@ -113,12 +112,12 @@ class Authoring
         $returnValue = [];
 
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($item, $lang);
-        
+
         foreach ($relativeSourceFiles as $relPath) {
             if (! tao_helpers_File::securityCheck($relPath, true)) {
                 throw new common_exception_Error('Invalid resource file path');
             }
-                
+
             $relPath = preg_replace('/^\.\//', '', $relPath);
             $source = $sourceDirectory . $relPath;
 
@@ -141,7 +140,7 @@ class Authoring
 
         return $returnValue;
     }
-    
+
     /**
      * Remove invalid elements and attributes from QTI XML.
      * @param string $qti File path or XML string
@@ -150,9 +149,9 @@ class Authoring
     public static function sanitizeQtiXml($qti)
     {
         $doc = self::loadQtiXml($qti);
-        
+
         $xpath = new \DOMXpath($doc);
-        
+
         foreach ($xpath->query("//*[local-name() = 'itemBody']//*[@style]") as $elementWithStyle) {
             $elementWithStyle->removeAttribute('style');
         }
@@ -170,7 +169,7 @@ class Authoring
 
         return $doc->saveXML();
     }
-    
+
     /**
      * Load QTI xml and return DOMDocument instance.
      * If string is not valid xml then QtiModelException will be thrown.
@@ -191,7 +190,7 @@ class Authoring
         } else {
             throw new \common_exception_Error("Wrong parameter. " . __CLASS__ . "::" . __METHOD__ . " accepts either XML content or the path to a file but got " . substr($file, 0, 500));
         }
-        
+
         $dom = new DOMDocument('1.0', 'UTF-8');
 
         $domDocumentConfig = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig('XMLParser');
@@ -207,24 +206,24 @@ class Authoring
             $dom->preserveWhiteSpace = false;
             $dom->validateOnParse = false;
         }
-        
+
         libxml_use_internal_errors(true);
-        
+
         if (!$dom->loadXML($qti)) {
             $errors = libxml_get_errors();
-            
+
             $errorsMsg = 'Wrong QTI item output format:'
             . PHP_EOL
             . array_reduce($errors, function ($carry, $item) {
                 $carry .= $item->message . PHP_EOL;
                 return $carry;
             });
-            
+
             common_Logger::w($errorsMsg);
-            
+
             throw new QtiModelException($errorsMsg);
         }
-        
+
         return $dom;
     }
 }

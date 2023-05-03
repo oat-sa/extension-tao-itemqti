@@ -40,7 +40,6 @@ use tao_helpers_Xml;
  */
 class AssetParser
 {
-
     /**
      * The item to parse
      * @var Item
@@ -486,5 +485,4 @@ class AssetParser
             ->getContainer()
             ->get(CustomInteractionAssetExtractorAllocator::class);
     }
-
 }

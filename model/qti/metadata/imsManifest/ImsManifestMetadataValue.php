@@ -61,7 +61,7 @@ class ImsManifestMetadataValue extends SimpleMetadataValue
         $this->setResourceType($resourceType);
         $this->setResourceHref($resourceHref);
     }
-    
+
     /**
      * Returns an array of strings representing the path to a Metadata Value within
      * an IMS Manifest file.
@@ -202,7 +202,7 @@ class ImsManifestMetadataValue extends SimpleMetadataValue
     {
         return parent::getValue();
     }
-    
+
     /**
      * @param string $resourceHref
      */
@@ -210,7 +210,7 @@ class ImsManifestMetadataValue extends SimpleMetadataValue
     {
         $this->resourceHref = $resourceHref;
     }
-    
+
     /**
      * @param string $resourceType
      */

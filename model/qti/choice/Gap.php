@@ -36,7 +36,6 @@ use oat\taoQtiItem\model\qti\exception\QtiModelException;
  */
 class Gap extends Choice
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *

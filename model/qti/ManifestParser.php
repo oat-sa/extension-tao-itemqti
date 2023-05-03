@@ -24,8 +24,8 @@ namespace oat\taoQtiItem\model\qti;
 
 use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\ValidationService;
-use \tao_models_classes_Parser;
-use \tao_helpers_Request;
+use tao_models_classes_Parser;
+use tao_helpers_Request;
 use oat\oatbox\log\LoggerAwareTrait;
 
 /**
@@ -110,21 +110,21 @@ class ManifestParser extends tao_models_classes_Parser
             case self::SOURCE_FILE:
                 $xml = simplexml_load_file($this->source);
                 break;
-            
+
             case self::SOURCE_URL:
                 $xmlContent = tao_helpers_Request::load($this->source, true);
                 $xml = simplexml_load_string($xmlContent);
                 break;
-            
+
             case self::SOURCE_STRING:
                 $xml = simplexml_load_string($this->source);
                 break;
         }
-        
+
         if ($xml !== false) {
             //get the QTI Item's resources from the imsmanifest.xml
             $returnValue = ManifestParserFactory::getResourcesFromManifest($xml);
-            
+
             if (!$this->valid) {
                 $this->valid = true;
                 libxml_clear_errors();
@@ -133,7 +133,7 @@ class ManifestParser extends tao_models_classes_Parser
             $this->addErrors(libxml_get_errors());
             libxml_clear_errors();
         }
-        
+
         return (array) $returnValue;
     }
 

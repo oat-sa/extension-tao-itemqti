@@ -35,13 +35,12 @@ use oat\taoQtiItem\model\qti\datatype\Datatype;
  */
 class Uri extends Datatype
 {
-    
     public static function validate($value)
     {
         $pattern = '/((https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6}))?([\/\w \.-]*)*\/?/ims';
         return preg_match($pattern, $value);
     }
-    
+
     public static function fix($value)
     {
         return self::validate($value) ? $value : null;

@@ -30,7 +30,6 @@ include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
 class ParserFactoryTest extends TestCase
 {
-
     /**
      * @param string $file
      * @param string $expected

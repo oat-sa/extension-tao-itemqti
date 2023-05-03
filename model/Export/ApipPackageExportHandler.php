@@ -33,14 +33,14 @@ use oat\tao\model\resources\SecureResourceServiceInterface;
 use oat\taoQtiItem\model\event\QtiItemExportEvent;
 use oat\taoQtiItem\model\ItemModel;
 use tao_helpers_form_Form;
-use \tao_models_classes_export_ExportHandler;
-use \core_kernel_classes_Resource;
-use \core_kernel_classes_Class;
-use \taoItems_models_classes_ItemsService;
-use \tao_helpers_File;
-use \Exception;
-use \ZipArchive;
-use \common_Logger;
+use tao_models_classes_export_ExportHandler;
+use core_kernel_classes_Resource;
+use core_kernel_classes_Class;
+use taoItems_models_classes_ItemsService;
+use tao_helpers_File;
+use Exception;
+use ZipArchive;
+use common_Logger;
 
 /**
  * Apip Package Export Handler.

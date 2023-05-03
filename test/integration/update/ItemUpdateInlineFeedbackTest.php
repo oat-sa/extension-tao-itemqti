@@ -23,11 +23,10 @@ namespace oat\taoQtiItem\test\integration\update;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
-use \tao_helpers_File;
+use tao_helpers_File;
 
 class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
 {
-
     /**
      * tests initialization
      * load qti service
@@ -45,7 +44,7 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
         $items = $itemUpdater->update();
         $checkedFiles  = $itemUpdater->getCheckedFiles();
         $modifiedFiles = array_keys(array_filter($checkedFiles, function ($v) {
-                return $v;
+            return $v;
         }));
 
         $this->assertEquals(19, count($checkedFiles));
@@ -84,7 +83,7 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
         $itemUpdater->update(true);
         $checkedFiles  = $itemUpdater->getCheckedFiles();
         $modifiedFiles = array_keys(array_filter($checkedFiles, function ($v) {
-                return $v;
+            return $v;
         }));
 
         $this->assertEquals(19, count($checkedFiles));

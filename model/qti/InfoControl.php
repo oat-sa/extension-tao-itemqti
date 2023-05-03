@@ -23,7 +23,7 @@ namespace oat\taoQtiItem\model\qti;
 
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\ParserFactory;
-use \DOMElement;
+use DOMElement;
 
 /**
  * Class representing QTI standatd InfoControl
@@ -36,7 +36,6 @@ use \DOMElement;
  */
 abstract class InfoControl extends Element
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
@@ -44,17 +43,17 @@ abstract class InfoControl extends Element
      * @var string
      */
     protected static $qtiTagName = 'infoControl';
-    
+
     protected $typeIdentifier = '';//to be set in advance, read only, non editable
     protected $markup = '';
-    
+
     public function getUsedAttributes()
     {
         return [
             'oat\\taoQtiItem\\model\\qti\\attribute\\Title'
         ];
     }
-    
+
     public function getMarkup()
     {
         return $this->markup;
@@ -67,12 +66,12 @@ abstract class InfoControl extends Element
 
     public function toArray($filterVariableContent = false, &$filtered = [])
     {
-        
+
         $returnValue = parent::toArray($filterVariableContent, $filtered);
-        
+
         $returnValue['typeIdentifier'] = $this->typeIdentifier;
         $returnValue['markup'] = $this->markup;
-        
+
         return $returnValue;
     }
 
@@ -83,18 +82,18 @@ abstract class InfoControl extends Element
 
     protected function getTemplateQtiVariables()
     {
-        
+
         $variables = parent::getTemplateQtiVariables();
-        
+
         $variables['typeIdentifier'] = $this->typeIdentifier;
         $variables['markup'] = $this->markup;
-        
+
         return $variables;
     }
-    
+
     public function feed(ParserFactory $parser, DOMElement $data, QtiNamespace $xmlns = null)
     {
-        
+
         $markup = $parser->getBodyData($data->item(0), true);
         $this->setMarkup($markup);
     }

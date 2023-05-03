@@ -21,14 +21,14 @@
 
 namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
-use \DOMDocument;
-use \DOMElement;
+use DOMDocument;
+use DOMElement;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationMetadataValue;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationValue;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjectionException;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjector;
 use oat\taoQtiItem\model\qti\metadata\MetadataValue;
-use \InvalidArgumentException;
+use InvalidArgumentException;
 
 /**
  * A MetadataExtractor implementation.

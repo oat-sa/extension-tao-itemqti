@@ -34,9 +34,8 @@ use oat\taoQtiItem\model\qti\datatype\DatatypeException;
  */
 abstract class Attribute
 {
-
-    const QTI_v2p0 = '2.0';
-    const QTI_v2p1 = '2.1';
+    public const QTI_v2p0 = '2.0';
+    public const QTI_v2p1 = '2.1';
 
     /**
      * The name of the attribute defined in the QTI standard
@@ -65,14 +64,14 @@ abstract class Attribute
      * @var mixed
      */
     protected static $defaultValue = null;
-    
+
     /**
      * Define the default value of the attribute
      *
      * @var mixed
      */
     protected static $taoDefaultValue = null;
-    
+
     /**
      * The object holding the value of the attribute
      *
@@ -125,7 +124,7 @@ abstract class Attribute
     {
         return (bool) static::$required;
     }
-    
+
     /**
      * Check if a value has been set to this attribute
      *
@@ -135,7 +134,7 @@ abstract class Attribute
     {
         return is_null($this->value);
     }
-    
+
     /**
      * Clear, empty, nullify the value of the attribute
      *
@@ -175,7 +174,7 @@ abstract class Attribute
     {
         return static::$name;
     }
-    
+
     /**
      * Get the Qti BaseType class
      *

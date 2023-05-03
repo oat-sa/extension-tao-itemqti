@@ -33,9 +33,9 @@ use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
-use \tao_models_classes_import_ImportHandler;
-use \common_report_Report as Report;
-use \common_Exception;
+use tao_models_classes_import_ImportHandler;
+use common_report_Report as Report;
+use common_Exception;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**

@@ -30,7 +30,7 @@ use oat\taoQtiItem\model\portableElement\parser\PortableElementParser;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\helpers\QtiPackage;
 use common_Exception;
-use \ZipArchive;
+use ZipArchive;
 
 /**
  * Parser of a QTI PCI package

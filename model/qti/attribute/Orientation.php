@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class Orientation extends Attribute
 {
-    
     protected static $name = 'orientation';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Orientation';
     protected static $defaultValue = null;

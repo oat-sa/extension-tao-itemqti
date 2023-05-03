@@ -32,7 +32,6 @@ include_once dirname(__FILE__) . '/../../includes/raw_start.php';
  */
 class ItemContentTest extends TaoPhpUnitTestRunner
 {
-
     /**
      * tests initialization
      * load qti service

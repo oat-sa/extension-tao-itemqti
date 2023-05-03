@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class TypeUploadInteraction extends Attribute
 {
-    
     protected static $name = 'type';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\MimeType';
     protected static $defaultValue = null;

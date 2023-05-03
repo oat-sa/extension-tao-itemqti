@@ -36,13 +36,13 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
 {
-    const FILE_DIR = 'ImportQtiItemTask';
-    const PARAM_CLASS_URI = 'class_uri';
-    const PARAM_FILE = 'file';
-    const PARAM_GUARDIANS = 'enableMetadataGuardians';
-    const PARAM_VALIDATORS = 'enableMetadataValidators';
-    const PARAM_ITEM_MUST_EXIST = 'itemMustExist';
-    const PARAM_ITEM_MUST_BE_OVERWRITTEN = 'itemMustBeOverwritten';
+    public const FILE_DIR = 'ImportQtiItemTask';
+    public const PARAM_CLASS_URI = 'class_uri';
+    public const PARAM_FILE = 'file';
+    public const PARAM_GUARDIANS = 'enableMetadataGuardians';
+    public const PARAM_VALIDATORS = 'enableMetadataValidators';
+    public const PARAM_ITEM_MUST_EXIST = 'itemMustExist';
+    public const PARAM_ITEM_MUST_BE_OVERWRITTEN = 'itemMustBeOverwritten';
 
     protected $service;
 

@@ -190,7 +190,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
             foreach ($attributeNodes as $node) {
                 if (isset($replacementList[$node->value])) {
-                    $node->value = htmlspecialchars($replacementList[$node->value], ENT_QUOTES|ENT_XML1);
+                    $node->value = htmlspecialchars($replacementList[$node->value], ENT_QUOTES | ENT_XML1);
                 }
             }
             foreach ($portableEntryNodes as $node) {
@@ -353,7 +353,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     {
         if ($assetStylesheets = $this->getAssetStylesheetLoader()->loadAssetsFromAssetResource($link)) {
             foreach ($assetStylesheets as $stylesheetFile) {
-                $this->addFile($stylesheetFile['stream'],$this->buildAssetStylesheetPath($basepath, $baseDirectoryName, $stylesheetFile['basename']));
+                $this->addFile($stylesheetFile['stream'], $this->buildAssetStylesheetPath($basepath, $baseDirectoryName, $stylesheetFile['basename']));
             }
         }
     }

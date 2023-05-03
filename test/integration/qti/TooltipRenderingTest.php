@@ -21,6 +21,7 @@
 /**
  * @author Christophe Noël <christophe@taotesting.com>
  */
+
 namespace oat\taoQtiItem\test\integration\qti;
 
 use oat\taoQtiItem\model\qti\Tooltip;
@@ -30,7 +31,6 @@ include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
 
 class TooltipRenderingTest extends TestCase
 {
-
     public function testRenderTooltipToQTI()
     {
         $tooltip = new Tooltip([

@@ -43,7 +43,6 @@ use oat\taoQtiItem\model\qti\interaction\MatchInteraction;
  */
 class QtiModelTest extends TaoPhpUnitTestRunner
 {
-
     /**
      * tests initialization
      * load qti service

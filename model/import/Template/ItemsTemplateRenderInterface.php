@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  * This program is free software; you can redistribute it and/or
@@ -20,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\import\Template;
 
-
 use oat\taoQtiItem\model\import\ItemImportResult;
 use oat\taoQtiItem\model\import\ItemInterface;
 use oat\taoQtiItem\model\import\TemplateInterface;
@@ -30,5 +30,4 @@ interface ItemsTemplateRenderInterface
     public function processItem(ItemInterface $item, TemplateInterface $xmlQtiTemplate): string;
 
     public function processResultSet(ItemImportResult $itemResults, TemplateInterface $xmlQtiTemplate): iterable;
-
 }

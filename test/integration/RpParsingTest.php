@@ -27,14 +27,13 @@ use oat\taoQtiItem\model\qti\Parser;
 
 class RpParsingTest extends TaoPhpUnitTestRunner
 {
-    
     public function testParseRpCustom()
     {
 
         $file = dirname(__FILE__) . '/samples/xml/qtiv2p1/responseProcessing/custom.xml';
         $qtiParser = new Parser($file);
         $qtiParser->validate();
-        
+
         $this->assertTrue($qtiParser->isValid());
 
         $item = $qtiParser->load();

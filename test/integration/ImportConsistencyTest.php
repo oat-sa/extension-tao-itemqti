@@ -20,10 +20,10 @@
 
 namespace oat\taoQtiItem\test\integration;
 
-use \common_report_Report;
+use common_report_Report;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\ImportService;
-use \taoItems_models_classes_ItemsService;
+use taoItems_models_classes_ItemsService;
 
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 

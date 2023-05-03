@@ -36,7 +36,6 @@ use oat\taoQtiItem\model\qti\exception\QtiModelException;
  */
 abstract class Choice extends IdentifiedElement
 {
-
     protected function getUsedAttributes()
     {
         return [
@@ -45,7 +44,7 @@ abstract class Choice extends IdentifiedElement
             'oat\\taoQtiItem\\model\\qti\\attribute\\ShowHideChoice',
         ];
     }
-    
+
     /**
      * Common method to get the content of a choice.
      * The return value is mostly a string, but could also be a oat\taoQtiItem\model\qti\QtiObject
@@ -53,7 +52,7 @@ abstract class Choice extends IdentifiedElement
      * @return mixed
      */
     abstract public function getContent();
-    
+
     /**
      * Common method to se the content of a choice.
      * The content type is mostly a String, but could also be a oat\taoQtiItem\model\qti\QtiObject or oat\taoQtiItem\model\qti\OutcomeDeclaration

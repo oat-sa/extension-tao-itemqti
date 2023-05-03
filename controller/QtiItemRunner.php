@@ -24,15 +24,15 @@ namespace oat\taoQtiItem\controller;
 
 use oat\taoQtiItem\helpers\QtiFile;
 use oat\taoQtiItem\controller\AbstractQtiItemRunner;
-use \core_kernel_classes_Resource;
-use \common_Exception;
-use \taoQtiCommon_helpers_PciVariableFiller;
-use \taoQtiCommon_helpers_PciStateOutput;
-use \taoQtiCommon_helpers_Utils;
-use \common_Logger;
-use \taoQtiCommon_helpers_ResultTransmissionException;
-use \taoQtiCommon_helpers_ResultTransmitter;
-use \taoResultServer_models_classes_ResultServerStateFull;
+use core_kernel_classes_Resource;
+use common_Exception;
+use taoQtiCommon_helpers_PciVariableFiller;
+use taoQtiCommon_helpers_PciStateOutput;
+use taoQtiCommon_helpers_Utils;
+use common_Logger;
+use taoQtiCommon_helpers_ResultTransmissionException;
+use taoQtiCommon_helpers_ResultTransmitter;
+use taoResultServer_models_classes_ResultServerStateFull;
 use qtism\runtime\common\State;
 use qtism\runtime\tests\SessionManager;
 use qtism\runtime\tests\AssessmentItemSession;
@@ -50,7 +50,6 @@ use qtism\data\storage\xml\XmlDocument;
  */
 class QtiItemRunner extends AbstractQtiItemRunner
 {
-
     /**
      * The implementation of this method calls ItemRunner::setView in order to
      * select the view to be displayed.

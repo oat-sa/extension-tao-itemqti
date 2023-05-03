@@ -8,7 +8,6 @@ use oat\taoQtiItem\model\portableElement\PortableElementService;
 
 class PortableReloadEventListener
 {
-
     /**
      * Re-register a portable element from its source directory
      * The list of portable elements to re-register is configure in the config file {TAO_ROOT}/config/taoQtiItem/debug_portable_element.conf.php

@@ -36,7 +36,6 @@ use common_exception_InvalidArgumentType;
  */
 class QtiCssAuthoring extends tao_actions_CommonModule
 {
-
     /**
      * Save custom CSS as file
      *

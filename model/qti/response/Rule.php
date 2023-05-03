@@ -19,6 +19,7 @@
  *
  *
  */
+
 namespace oat\taoQtiItem\model\qti\response;
 
 use oat\taoQtiItem\model\qti\response\Rule;
@@ -33,8 +34,6 @@ use oat\taoQtiItem\model\qti\response\Rule;
  */
 interface Rule
 {
-
-
     // --- OPERATIONS ---
 
     /**

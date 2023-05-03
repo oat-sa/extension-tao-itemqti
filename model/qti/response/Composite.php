@@ -38,9 +38,9 @@ use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use oat\taoQtiItem\model\qti\interaction\Interaction;
 use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\MatchCorrectTemplate;
 use oat\taoQtiItem\controller\QTIform\CompositeResponseOptions;
-use \Exception;
-use \common_Logger;
-use \common_Exception;
+use Exception;
+use common_Logger;
+use common_Exception;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\response\Composite
@@ -53,7 +53,6 @@ use \common_Exception;
  */
 abstract class Composite extends ResponseProcessing implements Rule
 {
-
     /**
      * Short description of attribute components
      *

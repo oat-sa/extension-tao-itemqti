@@ -21,16 +21,16 @@
 namespace oat\taoQtiItem\test\integration;
 
 use common_exception_Error;
-use \common_report_Report;
+use common_report_Report;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\QtiItemCompiler;
-use \taoItems_models_classes_ItemsService;
-use \tao_models_classes_service_FileStorage;
-use \ZipArchive;
+use taoItems_models_classes_ItemsService;
+use tao_models_classes_service_FileStorage;
+use ZipArchive;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\ItemModel;
 use DOMDocument;

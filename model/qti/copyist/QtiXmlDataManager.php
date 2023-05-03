@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,10 +17,10 @@
  *
  * Copyright (c) 2020  (original work) Open Assessment Technologies SA;
  */
+
 declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti\copyist;
-
 
 use common_Exception;
 use common_ext_Namespace;
@@ -61,8 +62,7 @@ class QtiXmlDataManager extends ConfigurableService
     public function replaceItemIdentifier(
         string $sourceItemId,
         string $destinationItemId
-    ): void
-    {
+    ): void {
         $destinationItem = $this->getResource($destinationItemId);
 
         /** @var taoItems_models_classes_ItemsService $itemService */
@@ -72,10 +72,12 @@ class QtiXmlDataManager extends ConfigurableService
         foreach ($destinationItem->getUsedLanguages($itemService->getItemContentProperty()) as $lang) {
             $destinationItemDirectory = $itemService->getItemDirectory($destinationItem, $lang);
 
-            foreach ($destinationItem->getPropertyValuesCollection($itemService->getItemContentProperty(),
-                ['lg' => $lang])->getIterator() as $propertyValue)
-            {
-
+            foreach (
+                $destinationItem->getPropertyValuesCollection(
+                    $itemService->getItemContentProperty(),
+                    ['lg' => $lang]
+                )->getIterator() as $propertyValue
+            ) {
                 $id = $propertyValue instanceof core_kernel_classes_Resource ? $propertyValue->getUri() : (string) $propertyValue;
                 $destinationDirectory = $serializer->unserializeDirectory($id);
                 $iterator = $destinationDirectory->getFlyIterator(Directory::ITERATOR_FILE | Directory::ITERATOR_RECURSIVE);
@@ -101,7 +103,7 @@ class QtiXmlDataManager extends ConfigurableService
      */
     private function replaceFileContent(File $file, string $fromSourceId, string $toSourceId): void
     {
-        if ( preg_match('/'.QtiFile::FILE.'$/', $file->getBasename()) === 1 ) {
+        if (preg_match('/' . QtiFile::FILE . '$/', $file->getBasename()) === 1) {
             $replaceWith = $this->detectId($toSourceId);
 
             $xml = $file->read();

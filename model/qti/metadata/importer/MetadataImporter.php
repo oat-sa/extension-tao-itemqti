@@ -35,17 +35,17 @@ class MetadataImporter extends AbstractMetadataService
     /**
      * Config key to store guardians classes
      */
-    const GUARDIAN_KEY     = 'guardians';
+    public const GUARDIAN_KEY     = 'guardians';
 
     /**
      * Config key to store classLookup classes
      */
-    const CLASS_LOOKUP_KEY = 'classLookups';
+    public const CLASS_LOOKUP_KEY = 'classLookups';
 
     /**
      * Config key to store validator classes
      */
-    const VALIDATOR_KEY = 'validators';
+    public const VALIDATOR_KEY = 'validators';
 
     /**
      * Extract metadata value from a DomManifest
@@ -89,7 +89,7 @@ class MetadataImporter extends AbstractMetadataService
             if ($guardian instanceof ContextualMetadataGuardian && $guardian->getContext() !== $context) {
                 continue;
             }
-            
+
             if ($this->hasMetadataValue($identifier)) {
                 \common_Logger::i(__('Guard for resource "%s"...', $identifier));
                 if (($guard = $guardian->guard($this->getMetadataValue($identifier))) !== false) {

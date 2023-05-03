@@ -33,7 +33,6 @@ use oat\taoQtiItem\model\qti\Parser;
  */
 class QtiParsingAltProfileTest extends TaoPhpUnitTestRunner
 {
-
     /**
      * tests initialization
      */

@@ -29,8 +29,8 @@ use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationExtractor;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use \oat\taoQtiItem\model\qti\metadata\ontology\LomInjector as OntologyLomInjector;
-use \oat\taoQtiItem\model\qti\metadata\imsManifest\LomInjector as ImsManifestLomInjector;
+use oat\taoQtiItem\model\qti\metadata\ontology\LomInjector as OntologyLomInjector;
+use oat\taoQtiItem\model\qti\metadata\imsManifest\LomInjector as ImsManifestLomInjector;
 
 /**
  * Class InitMetadataService

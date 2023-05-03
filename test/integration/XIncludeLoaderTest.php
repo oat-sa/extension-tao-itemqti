@@ -39,7 +39,6 @@ use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
  */
 class XIncludeLoaderTest extends TaoPhpUnitTestRunner
 {
-
     /**
      * tests initialization
      */

@@ -33,7 +33,6 @@ namespace oat\taoQtiItem\model\qti;
  */
 class OutcomeDeclaration extends VariableDeclaration
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *

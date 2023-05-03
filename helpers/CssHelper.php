@@ -24,7 +24,6 @@ use core_kernel_classes_Resource as RdfResource;
 
 class CssHelper
 {
-
     private static function _buildWarning(): string
     {
         return " /* Do not edit */";

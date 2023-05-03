@@ -21,7 +21,7 @@
 
 namespace oat\taoQtiItem\model\qti\metadata;
 
-use \common_report_Report;
+use common_report_Report;
 
 /**
  * MetadataValidator interface.

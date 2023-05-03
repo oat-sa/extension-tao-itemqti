@@ -23,7 +23,6 @@ namespace oat\taoQtiItem\model\portableElement\exception;
 
 class PortableElementException extends \common_Exception
 {
-
     protected $report;
 
     /**

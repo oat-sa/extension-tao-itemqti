@@ -21,12 +21,12 @@
 
 echo '<?xml version="1.0" encoding="UTF-8"?>'?>
 <assessmentItem
-    <?php foreach(get_data('namespaces') as $name => $uri):?>
-    <?php if($name):?>
+    <?php foreach (get_data('namespaces') as $name => $uri) :?>
+        <?php if ($name) :?>
     xmlns:<?=$name?>="<?=$uri?>"
-    <?php else:?>
+        <?php else :?>
     xmlns="<?=$uri?>"
-    <?php endif;?>
+        <?php endif;?>
     <?php endforeach;?>
     <?=$xsi?>schemaLocation="<?=get_data('schemaLocations')?>"
     <?=get_data('attributes')?>>
@@ -37,8 +37,12 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'?>
 
     <?=get_data('stylesheets')?>
 
-    <itemBody<?php if(get_data('class')): ?> class="<?=get_data('class')?>"<?php endif;?> <?php if(get_data('bodyAttributes')): echo get_data('bodyAttributes'); endif;?>>
-	<?=get_data('body')?>
+    <itemBody<?php if (get_data('class')) :
+        ?> class="<?=get_data('class')?>"<?php
+             endif;?> <?php if (get_data('bodyAttributes')) :
+    echo get_data('bodyAttributes');
+             endif;?>>
+    <?=get_data('body')?>
     </itemBody>
 
     <?=get_data('renderedResponseProcessing')?>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,10 +17,10 @@
  *
  * Copyright (c) 2020  (original work) Open Assessment Technologies SA;
  */
+
 declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\listener;
-
 
 use common_Exception;
 use core_kernel_classes_ContainerCollection;
@@ -39,7 +40,6 @@ use oat\oatbox\filesystem\File;
 
 class QtiXmlDataManagerTest extends TestCase
 {
-
     /**
      * @var QtiXmlDataManager
      */
