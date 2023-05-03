@@ -576,7 +576,7 @@ msgid "Exponent"
 msgstr "Expoente"
 
 msgid "Export"
-msgstr "Exportação"
+msgstr "Exportar"
 
 msgid "Export APIP 1.0 Package"
 msgstr "Exportar pacote APIP 1.0"
@@ -747,7 +747,7 @@ msgid "If this box is checked the student will be able to eliminate choices."
 msgstr "Se esta caixa estiver marcada, o aluno será capaz de eliminar escolhas."
 
 msgid "Import"
-msgstr "Importação"
+msgstr "Importar"
 
 msgid "Import a QTI/APIP Content Package"
 msgstr "Importar um Pacote de Conteúdo QTI/APIP"
@@ -1406,7 +1406,7 @@ msgid "Rollback on..."
 msgstr "Restaurar para..."
 
 msgid "Save"
-msgstr "Guardar"
+msgstr "Salvar"
 
 msgid "Save the item"
 msgstr "Salvar o item"
