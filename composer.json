@@ -66,9 +66,9 @@
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
         "naneau/semver": "~0.0.7",
         "oat-sa/generis": ">=15.22",
-        "oat-sa/tao-core": "dev-feature/AUT-2995",
-        "oat-sa/extension-tao-item": "dev-feature/AUT-2995",
-        "oat-sa/extension-tao-test": "dev-feature/AUT-2995"
+        "oat-sa/tao-core": ">=50.28.0",
+        "oat-sa/extension-tao-item": ">=11.32.0",
+        "oat-sa/extension-tao-test": ">=6.6.0"
     },
     "autoload": {
         "psr-4": {
