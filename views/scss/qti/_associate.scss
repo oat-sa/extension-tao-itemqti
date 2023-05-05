@@ -26,7 +26,8 @@
                 }
             }
         }
-        & > .qti-choice:has(.MathJax) {
+
+        & > .qti-choice.flexible-choice-width {
             max-width: none;
         }
     }
