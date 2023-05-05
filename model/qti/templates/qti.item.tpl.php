@@ -16,7 +16,7 @@
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
- * phpcs:disable Generic.Files.LineLength
+ *
  */
 
 echo '<?xml version="1.0" encoding="UTF-8"?>'?>

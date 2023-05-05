@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,7 +16,7 @@
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
- * phpcs:disable Generic.Files.LineLength
+ *
  */
 ?>
 <li id='<?=$identifier?>'><img src="<?=$object['data']?>"  width="<?=$object['width']?>" height="<?=$object['height']?>" /></li>
