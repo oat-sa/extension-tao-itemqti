@@ -16,7 +16,10 @@ class initEventCreatorLoad implements Action, ServiceLocatorAwareInterface
 
     public function __invoke($params)
     {
-        $this->getEventManager()->attach(ItemCreatorLoad::class, [PortableReloadEventListener::class, 'reloadPortableDevDirectory']);
+        $this->getEventManager()->attach(
+            ItemCreatorLoad::class,
+            [PortableReloadEventListener::class, 'reloadPortableDevDirectory']
+        );
         $this->getServiceLocator()->register(EventManager::CONFIG_ID, $this->getEventManager());
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS);

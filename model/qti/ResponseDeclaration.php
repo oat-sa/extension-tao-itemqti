@@ -149,7 +149,11 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
         $protectedData['mappingAttributes'] = $mappingAttributes;
 
         //add simple feedbacks
-        $protectedData['feedbackRules'] = $this->getArraySerializedElementCollection($this->getFeedbackRules(), $filterVariableContent, $filtered);
+        $protectedData['feedbackRules'] = $this->getArraySerializedElementCollection(
+            $this->getFeedbackRules(),
+            $filterVariableContent,
+            $filtered
+        );
 
         if ($filterVariableContent) {
             $filtered[$this->getSerial()] = $protectedData;
@@ -356,7 +360,9 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
                 foreach ($mapping as $mapKey => $mappedValue) {
                     $areaMapEntryJSON = [];
                     $areaMapEntryJSON['value'] = (float) $mappedValue["mappedValue"];
+                    // phpcs:disable Generic.Files.LineLength
                     $areaMapEntryJSON['key'] = taoQTI_models_classes_Matching_VariableFactory::createJSONShapeFromQTIData($mappedValue);
+                    // phpcs:enable Generic.Files.LineLength
                     array_push($mappingValue, (object) $areaMapEntryJSON);
                 }
                 $returnValue['value'] = $mappingValue;
@@ -394,7 +400,10 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
                 foreach ($mapping as $mapKey => $mappedValue) {
                     $mapEntryJSON = [];
                     $mapEntryJSON['value'] = (float) $mappedValue;
-                    $mapEntryJSON['key'] = taoQTI_models_classes_Matching_VariableFactory::createJSONValueFromQTIData($mapKey, $this->getAttributeValue('baseType'));
+                    $mapEntryJSON['key'] = taoQTI_models_classes_Matching_VariableFactory::createJSONValueFromQTIData(
+                        $mapKey,
+                        $this->getAttributeValue('baseType')
+                    );
                     array_push($mappingValue, (object) $mapEntryJSON);
                 }
 
@@ -473,7 +482,9 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
 
         $interaction = $this->getAssociatedInteraction();
         if ($interaction instanceof Interaction) {
-            $responseFormClass = '\\oat\\taoQtiItem\\controller\\QTIform\\response\\' . ucfirst(strtolower($interaction->getType())) . 'Interaction';
+            $responseFormClass = '\\oat\\taoQtiItem\\controller\\QTIform\\response\\'
+                . ucfirst(strtolower($interaction->getType())) . 'Interaction';
+
             if (class_exists($responseFormClass)) {
                 $formContainer = new $responseFormClass($this);
                 $myForm = $formContainer->getForm();

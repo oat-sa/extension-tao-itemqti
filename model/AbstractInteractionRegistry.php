@@ -51,7 +51,9 @@ abstract class AbstractInteractionRegistry extends AbstractRegistry
             throw new common_exception_Error('Custom interaction class ' . $phpClass . ' not found');
         }
         if (! is_subclass_of($phpClass, $this->getInteractionClass())) {
-            throw new common_exception_Error('Class ' . $phpClass . ' not a subclass of ' . $this->getInteractionClass());
+            throw new common_exception_Error(
+                'Class ' . $phpClass . ' not a subclass of ' . $this->getInteractionClass()
+            );
         }
         parent::set($qtiClass, $phpClass);
     }

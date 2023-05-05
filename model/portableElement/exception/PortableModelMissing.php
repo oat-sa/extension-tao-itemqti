@@ -21,7 +21,8 @@
 
 namespace oat\taoQtiItem\model\portableElement\exception;
 
-class PortableModelMissing extends PortableElementInconsistencyModelException implements \common_exception_UserReadableException
+class PortableModelMissing extends PortableElementInconsistencyModelException implements
+    \common_exception_UserReadableException
 {
     protected $modelId;
 

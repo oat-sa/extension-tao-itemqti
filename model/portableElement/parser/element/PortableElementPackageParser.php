@@ -70,7 +70,8 @@ abstract class PortableElementPackageParser implements PortableElementParser
         foreach ($definitionFiles as $file) {
             if ($zip->locateName($file) === false) {
                 throw new PortableElementParserException(
-                    'The portable element package "' . $this->getModel()->getId() . '" must contains a "' . $file . '" file at the root of the archive.'
+                    'The portable element package "' . $this->getModel()->getId() . '" must contains a "'
+                        . $file . '" file at the root of the archive.'
                 );
             }
         }

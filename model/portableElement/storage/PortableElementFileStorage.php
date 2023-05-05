@@ -57,7 +57,9 @@ class PortableElementFileStorage extends ConfigurableService
 
     public function getPrefix(PortableElementObject $object)
     {
-        $hashFile = DIRECTORY_SEPARATOR . md5($object->getTypeIdentifier() . $object->getVersion()) . DIRECTORY_SEPARATOR;
+        $hashFile = DIRECTORY_SEPARATOR . md5($object->getTypeIdentifier() . $object->getVersion())
+            . DIRECTORY_SEPARATOR;
+
         return $object->getModel()->getId() . $hashFile;
     }
 

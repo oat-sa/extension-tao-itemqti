@@ -137,7 +137,11 @@ class PortableInfoControl extends InfoControl
         $returnValue['libraries'] = $this->libraries;
         $returnValue['stylesheets'] = $this->stylesheets;
         $returnValue['mediaFiles'] = $this->mediaFiles;
-        $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection($this->getProperties(), $filterVariableContent, $filtered);
+        $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection(
+            $this->getProperties(),
+            $filterVariableContent,
+            $filtered
+        );
 
         return $returnValue;
     }
@@ -195,21 +199,33 @@ class PortableInfoControl extends InfoControl
             $this->setVersion($version);
         }
 
-        $libNodes = $parser->queryXPathChildren(['portableInfoControl', 'resources', 'libraries', 'lib'], $data, $xmlnsName);
+        $libNodes = $parser->queryXPathChildren(
+            ['portableInfoControl', 'resources', 'libraries', 'lib'],
+            $data,
+            $xmlnsName
+        );
         $libs = [];
         foreach ($libNodes as $libNode) {
             $libs[] = $libNode->getAttribute('id');
         }
         $this->setLibraries($libs);
 
-        $stylesheetNodes = $parser->queryXPathChildren(['portableInfoControl', 'resources', 'stylesheets', 'link'], $data, $xmlnsName);
+        $stylesheetNodes = $parser->queryXPathChildren(
+            ['portableInfoControl', 'resources', 'stylesheets', 'link'],
+            $data,
+            $xmlnsName
+        );
         $stylesheets = [];
         foreach ($stylesheetNodes as $styleNode) {
             $stylesheets[] = $styleNode->getAttribute('href');
         }
         $this->setStylesheets($stylesheets);
 
-        $mediaNodes = $parser->queryXPathChildren(['portableInfoControl', 'resources', 'mediaFiles', 'file'], $data, $xmlnsName);
+        $mediaNodes = $parser->queryXPathChildren(
+            ['portableInfoControl', 'resources', 'mediaFiles', 'file'],
+            $data,
+            $xmlnsName
+        );
         $media = [];
         foreach ($mediaNodes as $mediaNode) {
             $media[] = $mediaNode->getAttribute('src');

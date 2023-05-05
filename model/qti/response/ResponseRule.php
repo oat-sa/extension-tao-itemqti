@@ -56,7 +56,10 @@ abstract class ResponseRule implements Rule
         $returnValue = (string) '';
 
 
-        throw new common_Exception('class ' . get_class($this) . ' needs to implement getRule', ['TAOITEMS', 'QTI', 'HARD']);
+        throw new common_Exception(
+            'class ' . get_class($this) . ' needs to implement getRule',
+            ['TAOITEMS', 'QTI', 'HARD']
+        );
 
 
         return (string) $returnValue;

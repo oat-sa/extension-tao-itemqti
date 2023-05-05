@@ -57,7 +57,9 @@ class GenericLomOntologyClassificationExtractor implements MetadataExtractor
     public function extract($resource)
     {
         if (! $resource instanceof \core_kernel_classes_Resource) {
-            throw new MetadataExtractionException(__('The given target is not an instance of core_kernel_classes_Resource'));
+            throw new MetadataExtractionException(
+                __('The given target is not an instance of core_kernel_classes_Resource')
+            );
         }
 
         $identifier = \tao_helpers_Uri::getUniqueId($resource->getUri());

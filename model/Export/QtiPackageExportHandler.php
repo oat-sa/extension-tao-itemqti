@@ -124,7 +124,9 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
                     } catch (FileNotFoundException $e) {
                         $report->add(Report::createFailure(__('Item "%s" has no xml document', $item->getLabel())));
                     } catch (Exception $e) {
-                        $report->add(Report::createFailure(__('Error to export item %s: %s', $instance, $e->getMessage())));
+                        $report->add(
+                            Report::createFailure(__('Error to export item %s: %s', $instance, $e->getMessage()))
+                        );
                     }
                 }
             }
@@ -136,7 +138,9 @@ class QtiPackageExportHandler implements tao_models_classes_export_ExportHandler
             $subjectUri = isset($formValues['uri']) ? $formValues['uri'] : $formValues['classUri'];
 
             if (!$report->containsError() && $subjectUri) {
-                $this->getEventManager()->trigger(new QtiItemExportEvent(new core_kernel_classes_Resource($subjectUri)));
+                $this->getEventManager()->trigger(
+                    new QtiItemExportEvent(new core_kernel_classes_Resource($subjectUri))
+                );
             }
         }
 

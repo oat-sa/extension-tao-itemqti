@@ -41,8 +41,8 @@ abstract class AbstractQtiItemRunner extends taoItems_actions_ItemRunner
 
     protected function setInitialVariableElements()
     {
-
-        //get initial content variable elements to be displayed: rubricBlocks, feedbacks, variable math, template elements, template variable
+        // get initial content variable elements to be displayed: rubricBlocks, feedbacks, variable math,
+        // template elements, template variable
         $this->setData('contentVariableElements', $this->getRubricBlocks());
     }
 

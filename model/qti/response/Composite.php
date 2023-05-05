@@ -112,7 +112,11 @@ abstract class Composite extends ResponseProcessing implements Rule
         }
         if (!$outcomeExists) {
             $outcomes = $item->getOutcomes();
-            $outcomes[] = new OutcomeDeclaration(['identifier' => $outcomeIdentifier, 'baseType' => 'float', 'cardinality' => 'single']);
+            $outcomes[] = new OutcomeDeclaration([
+                'identifier' => $outcomeIdentifier,
+                'baseType' => 'float',
+                'cardinality' => 'single',
+            ]);
             $item->setOutcomes($outcomes);
         }
     }
@@ -191,7 +195,10 @@ abstract class Composite extends ResponseProcessing implements Rule
             }
             $returnValue = $rp;
         } else {
-            common_Logger::d('Composite ResponseProcessing can not takeover from ' . get_class($responseProcessing) . ' yet');
+            common_Logger::d(
+                'Composite ResponseProcessing can not takeover from ' . get_class($responseProcessing) . ' yet'
+            );
+
             throw new TakeoverFailedException();
         }
 
@@ -338,7 +345,10 @@ abstract class Composite extends ResponseProcessing implements Rule
             }
         }
         if (!$irpExisted) {
-            common_Logger::w('InstanceResponseProcessing not found for removed interaction ' . $interaction->getIdentifier(), ['TAOITEMS', 'QTI']);
+            common_Logger::w(
+                'InstanceResponseProcessing not found for removed interaction ' . $interaction->getIdentifier(),
+                ['TAOITEMS', 'QTI']
+            );
         }
     }
 

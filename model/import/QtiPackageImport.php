@@ -44,7 +44,11 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  * @author  Joel Bout, <joel@taotesting.com>
  * @package taoQTIItem
  */
-class QtiPackageImport implements tao_models_classes_import_ImportHandler, PhpSerializable, ServiceLocatorAwareInterface, TaskParameterProviderInterface
+class QtiPackageImport implements
+    tao_models_classes_import_ImportHandler,
+    PhpSerializable,
+    ServiceLocatorAwareInterface,
+    TaskParameterProviderInterface
 {
     use PhpSerializeStateless;
     use EventManagerAwareTrait;
@@ -82,7 +86,9 @@ class QtiPackageImport implements tao_models_classes_import_ImportHandler, PhpSe
     {
         try {
             // for backward compatibility
-            $rollbackInfo = $form instanceof \tao_helpers_form_Form ? (array) $form->getValue('rollback') : (array) $form['rollback'];
+            $rollbackInfo = $form instanceof \tao_helpers_form_Form
+                ? (array) $form->getValue('rollback')
+                : (array) $form['rollback'];
 
             $uploadedFile = $this->fetchUploadedFile($form);
 
@@ -105,11 +111,19 @@ class QtiPackageImport implements tao_models_classes_import_ImportHandler, PhpSe
                 $this->getEventManager()->trigger(new QtiItemImportEvent($report));
             }
         } catch (ExtractException $e) {
-            $report = common_report_Report::createFailure(__('The ZIP archive containing the IMS QTI Item cannot be extracted.'));
+            $report = common_report_Report::createFailure(
+                __('The ZIP archive containing the IMS QTI Item cannot be extracted.')
+            );
         } catch (ParsingException $e) {
-            $report = common_report_Report::createFailure(__('The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive.'));
+            $report = common_report_Report::createFailure(
+                __('The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive.')
+            );
         } catch (Exception $e) {
-            $report = common_report_Report::createFailure(__('An unexpected error occurred during the import of the IMS QTI Item Package. The system returned the following error: "%s"', $e->getMessage()));
+            $report = common_report_Report::createFailure(
+                // phpcs:disable Generic.Files.LineLength
+                __('An unexpected error occurred during the import of the IMS QTI Item Package. The system returned the following error: "%s"', $e->getMessage())
+                // phpcs:enable Generic.Files.LineLength
+            );
         }
 
         return $report;

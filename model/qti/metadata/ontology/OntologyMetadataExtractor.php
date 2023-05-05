@@ -31,7 +31,9 @@ class OntologyMetadataExtractor extends OntologyMetadataRules implements Metadat
     public function extract($resource)
     {
         if (! $resource instanceof core_kernel_classes_Resource) {
-            throw new MetadataExtractionException(__('The given target is not an instance of core_kernel_classes_Resource'));
+            throw new MetadataExtractionException(
+                __('The given target is not an instance of core_kernel_classes_Resource')
+            );
         }
 
         $metadataValues = [];

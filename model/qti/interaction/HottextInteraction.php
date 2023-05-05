@@ -66,12 +66,16 @@ class HottextInteraction extends ContainerInteraction
 
     public function addChoice(Choice $choice, $matchSet = null)
     {
-        throw new QtiModelException('For Hottext Interaction, the choices are in the container, please use Container::setElement() instead');
+        throw new QtiModelException(
+            'For Hottext Interaction, the choices are in the container, please use Container::setElement() instead'
+        );
     }
 
     public function createChoice($choiceAttributes = [], $choiceValue = null, $matchSet = null)
     {
-        throw new QtiModelException('For Hottext Interaction, the choices are in the container, please use Container::setElement() instead');
+        throw new QtiModelException(
+            'For Hottext Interaction, the choices are in the container, please use Container::setElement() instead'
+        );
     }
 
     public function removeChoice(Choice $choice, $matchSet = null)

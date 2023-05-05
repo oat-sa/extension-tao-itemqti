@@ -32,6 +32,9 @@ class SetQtiCreatorConfig extends common_ext_action_InstallAction
         $registry = QtiCreatorClientConfigRegistry::getRegistry();
         $registry->registerPlugin('back', 'taoQtiItem/qtiCreator/plugins/navigation/back', 'navigation');
 
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Qti Creator\'s Plugins settings added to Tao Qti Item extension');
+        return new \common_report_Report(
+            \common_report_Report::TYPE_SUCCESS,
+            'Qti Creator\'s Plugins settings added to Tao Qti Item extension'
+        );
     }
 }

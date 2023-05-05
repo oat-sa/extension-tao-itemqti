@@ -71,7 +71,9 @@ abstract class Template extends InteractionResponseProcessing
                 $returnValue = self::create(MapResponsePointTemplate::CLASS_ID, $response, $item);
                 break;
             default:
-                throw new ParsingException('Cannot create interactionResponseProcessing for unknown Template ' . $templateUri);
+                throw new ParsingException(
+                    'Cannot create interactionResponseProcessing for unknown Template ' . $templateUri
+                );
         }
 
 

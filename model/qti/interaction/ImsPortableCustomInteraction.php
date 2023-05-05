@@ -138,9 +138,17 @@ class ImsPortableCustomInteraction extends CustomInteraction
 
         $returnValue['typeIdentifier'] = $this->typeIdentifier;
         $returnValue['version'] = $this->version;
-        $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection($this->getProperties(), $filterVariableContent, $filtered);
+        $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection(
+            $this->getProperties(),
+            $filterVariableContent,
+            $filtered
+        );
         $returnValue['config'] = $this->config;
-        $returnValue['modules'] = $this->getArraySerializedPrimitiveCollection($this->getModules(), $filterVariableContent, $filtered);
+        $returnValue['modules'] = $this->getArraySerializedPrimitiveCollection(
+            $this->getModules(),
+            $filterVariableContent,
+            $filtered
+        );
         $returnValue['xmlns']  = $this->getNamespace()->getUri();
 
         return $returnValue;
@@ -209,7 +217,12 @@ class ImsPortableCustomInteraction extends CustomInteraction
             $this->setConfig($config);
         }
 
-        $moduleNodes = $parser->queryXPathChildren(['portableCustomInteraction', 'modules', 'module'], $data, $xmlnsName);
+        $moduleNodes = $parser->queryXPathChildren(
+            ['portableCustomInteraction', 'modules', 'module'],
+            $data,
+            $xmlnsName
+        );
+
         foreach ($moduleNodes as $libNode) {
             $id = $libNode->getAttribute('id');
             $paths = [];

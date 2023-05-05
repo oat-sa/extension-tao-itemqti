@@ -116,7 +116,9 @@ class ApipPackageExportHandler implements tao_models_classes_export_ExportHandle
                             $exporter->export(['apip' => true]);
                             $manifest = $exporter->getManifest();
                         } catch (\Exception $e) {
-                            $report = Report::createFailure('Error to export item "' . $instance . '": ' . $e->getMessage());
+                            $report = Report::createFailure(
+                                'Error to export item "' . $instance . '": ' . $e->getMessage()
+                            );
                         }
                     }
                 }
@@ -129,7 +131,9 @@ class ApipPackageExportHandler implements tao_models_classes_export_ExportHandle
                     $report->setData($path);
                     $report->setMessage(__('Apip Package successfully exported.'));
 
-                    $this->getEventManager()->trigger(new QtiItemExportEvent(new core_kernel_classes_Resource($subjectUri)));
+                    $this->getEventManager()->trigger(
+                        new QtiItemExportEvent(new core_kernel_classes_Resource($subjectUri))
+                    );
                 }
             }
         } else {

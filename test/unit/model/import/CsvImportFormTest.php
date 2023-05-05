@@ -48,7 +48,8 @@ class CsvItemImportTest extends TestCase
         $this->assertContains(
             [
                 'name' => 'import',
-                'value' => '<a href="#" class="form-submitter btn-success small"><span class="icon-import"></span> Import</a>',
+                'value' => '<a href="#" class="form-submitter btn-success small"><span class="icon-import"></span> '
+                    . 'Import</a>',
             ],
             (array)$this->subject->getForm()->getActions()[0]
         );

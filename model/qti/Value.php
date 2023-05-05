@@ -93,7 +93,8 @@ class Value extends Element
             'value' => $this->value,
             'fieldIdentifier' => (string) $this->getAttribute('fieldIdentifier'),
             'baseType' => (string) $this->getAttribute('baseType'),
-            'cardinality' => 'single'//cardinality always single for value, put it here to make it compatible with the rule engine
+            // cardinality always single for value, put it here to make it compatible with the rule engine
+            'cardinality' => 'single',
         ];
     }
 }

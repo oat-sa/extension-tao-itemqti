@@ -87,10 +87,14 @@ class BaseValue extends CommonExpression
                 break;
             case "directedPair":
                 $options['type'] = "tuple";
-                $value = '"' . implode('","', (array)$this->value) . '"'; // Méchant casting, won't work with a dictionnary, but with a tuple it is okay
+                // Méchant casting, won't work with a dictionnary, but with a tuple it is okay
+                $value = '"' . implode('","', (array)$this->value) . '"';
                 break;
             default:
-                throw new common_Exception("taoQTI_models_classes_QTI_response_BaseValue::getRule an error occured : the type " . $this->attributes['baseType'] . " is unknown");
+                throw new common_Exception(
+                    "taoQTI_models_classes_QTI_response_BaseValue::getRule an error occured : the type "
+                        . $this->attributes['baseType'] . " is unknown"
+                );
         }
 
         $returnValue = 'createVariable('

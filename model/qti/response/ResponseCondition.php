@@ -38,9 +38,6 @@ use oat\taoQtiItem\model\qti\response\ConditionalExpression;
  */
 class ResponseCondition extends ResponseRule implements Rule
 {
-    // --- ASSOCIATIONS ---
-    // generateAssociationEnd :     // generateAssociationEnd :     // generateAssociationEnd : 0    // generateAssociationEnd :
-
     // --- ATTRIBUTES ---
 
     /**

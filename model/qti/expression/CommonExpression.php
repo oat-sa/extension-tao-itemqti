@@ -197,7 +197,10 @@ class CommonExpression extends Expression implements Rule
                     } elseif ($value == null) {
                         $this->value = null;
                     } else {
-                        throw new Exception('taoQTI_models_classes_QTI_response_ExpressionOperator::setValue : an error occured, the value [' . $value . '] is not a well formed boolean');
+                        throw new Exception(
+                            'taoQTI_models_classes_QTI_response_ExpressionOperator::setValue : an error '
+                                . 'occured, the value [' . $value . '] is not a well formed boolean'
+                        );
                     }
                     break;
                 case 'float':
@@ -211,10 +214,16 @@ class CommonExpression extends Expression implements Rule
                     $this->value = (string)$value;
                     break;
                 case 'pair':
-                    $this->value = taoQTI_models_classes_Matching_VariableFactory::createJSONValueFromQTIData($value, 'pair');
+                    $this->value = taoQTI_models_classes_Matching_VariableFactory::createJSONValueFromQTIData(
+                        $value,
+                        'pair'
+                    );
                     break;
                 case 'directedPair':
-                    $this->value = taoQTI_models_classes_Matching_VariableFactory::createJSONValueFromQTIData($value, 'directedPair');
+                    $this->value = taoQTI_models_classes_Matching_VariableFactory::createJSONValueFromQTIData(
+                        $value,
+                        'directedPair'
+                    );
                     break;
             }
         }

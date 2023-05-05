@@ -117,8 +117,9 @@ class QtiPreview extends taoItems_actions_ItemPreview
                 }
             } catch (OutOfRangeException $e) {
                 // A variable value could not be converted, ignore it.
-                // Developer's note: QTI Pairs with a single identifier (missing second identifier of the pair) are transmitted as an array of length 1,
-                // this might cause problem. Such "broken" pairs are simply ignored.
+                // Developer's note: QTI Pairs with a single identifier (missing second identifier of the pair)
+                // are transmitted as an array of length 1, this might cause problem. Such "broken" pairs are simply
+                // ignored.
                 common_Logger::d("Client-side value for variable '${id}' is ignored due to data malformation.");
             } catch (OutOfBoundsException $e) {
                 // No such identifier found in item.
@@ -186,7 +187,10 @@ class QtiPreview extends taoItems_actions_ItemPreview
         $lang = \common_session_SessionManager::getSession()->getDataLanguage();
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang, true);
         if ($qtiItem) {
-            $contentVariableElements = array_merge($this->getModalFeedbacks($qtiItem), $this->getRubricBlocks($qtiItem));
+            $contentVariableElements = array_merge(
+                $this->getModalFeedbacks($qtiItem),
+                $this->getRubricBlocks($qtiItem)
+            );
 
             /** @var AssetService $assetService */
             $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);

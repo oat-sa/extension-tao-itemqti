@@ -55,7 +55,9 @@ class MetadataImporter extends AbstractMetadataService
     public function extract($domManifest)
     {
         if (! $domManifest instanceof \DOMDocument) {
-            throw new MetadataImportException(__('Metadata import requires an instance of DomManifest to extract metadata'));
+            throw new MetadataImportException(
+                __('Metadata import requires an instance of DomManifest to extract metadata')
+            );
         }
         return parent::extract($domManifest);
     }
@@ -68,7 +70,9 @@ class MetadataImporter extends AbstractMetadataService
     public function inject($identifier, $resource)
     {
         if (! $resource instanceof \core_kernel_classes_Resource) {
-            throw new MetadataImportException(__('Metadata import requires an instance of core_kernel_classes_Resource to inject metadata'));
+            throw new MetadataImportException(
+                __('Metadata import requires an instance of core_kernel_classes_Resource to inject metadata')
+            );
         }
         parent::inject($identifier, $resource);
     }
@@ -120,7 +124,11 @@ class MetadataImporter extends AbstractMetadataService
             if ($this->hasMetadataValue($identifier)) {
                 \common_Logger::i(__('Target Class Lookup for resource "%s"...', $identifier));
                 if (($targetClass = $classLookup->lookup($this->getMetadataValue($identifier))) !== false) {
-                    \common_Logger::i(__('Class Lookup Successful. Resource "%s" will be stored in RDFS Class "%s".', $identifier, $targetClass->getUri()));
+                    \common_Logger::i(
+                        // phpcs:disable Generic.Files.LineLength
+                        __('Class Lookup Successful. Resource "%s" will be stored in RDFS Class "%s".', $identifier, $targetClass->getUri())
+                        // phpcs:enable Generic.Files.LineLength
+                    );
 
                     if ($classLookup instanceof MetadataClassLookupClassCreator) {
                         $createdClasses = $classLookup->createdClasses();

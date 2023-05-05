@@ -114,7 +114,11 @@ class OntologyMetadataInjector implements MetadataInjector
         foreach ($data as $propertyUri => $perLangData) {
             foreach ($perLangData as $lang => $d) {
                 foreach ($d as $actualData) {
-                    $target->setPropertyValueByLg(new core_kernel_classes_Property($propertyUri), $actualData[0], $lang);
+                    $target->setPropertyValueByLg(
+                        new core_kernel_classes_Property($propertyUri),
+                        $actualData[0],
+                        $lang
+                    );
 
                     // Send events.
                     $eventManager = ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID);

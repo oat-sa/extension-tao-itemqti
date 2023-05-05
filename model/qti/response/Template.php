@@ -58,6 +58,7 @@ class Template extends ResponseProcessing implements Rule
      */
     public const MAP_RESPONSE_POINT = 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point';
 
+    // phpcs:disable Generic.NamingConventions.UpperCaseConstantName,Generic.Files.LineLength
     /**
      * QTI 2.0 Match Correct RP Template URL.
      *
@@ -99,6 +100,7 @@ class Template extends ResponseProcessing implements Rule
      * @var string
      */
     public const MAP_RESPONSE_POINT_qtiv2p2 = 'http://www.imsglobal.org/question/qti_v2p2/rptemplates/map_response_point';
+    // phpcs:enable Generic.NamingConventions.UpperCaseConstantName,Generic.Files.LineLength
 
     /**
      * Template to apply when no response processing should take place
@@ -228,7 +230,10 @@ class Template extends ResponseProcessing implements Rule
 
         if ($this->uri != self::NONE) {
             //if there is actually a real response template involved, render the template
-            $tplRenderer = new taoItems_models_classes_TemplateRenderer(static::getTemplatePath() . '/qti.rptemplate.tpl.php', ['uri' => $this->uri]);
+            $tplRenderer = new taoItems_models_classes_TemplateRenderer(
+                static::getTemplatePath() . '/qti.rptemplate.tpl.php',
+                ['uri' => $this->uri]
+            );
             $returnValue = $tplRenderer->render();
         }
 

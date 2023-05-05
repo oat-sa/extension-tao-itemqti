@@ -36,7 +36,8 @@ class MetadataExtractionException extends Exception
      * Create a new MetadataExtractionException object.
      *
      * @param string $message A human readable message explaining the error.
-     * @param integer $code (optional) A machine understandable error code. This should be used by very specific implementations only.
+     * @param integer $code (optional) A machine understandable error code.
+     *                      This should be used by very specific implementations only.
      * @param Exception $previous A previous caught exception that led to this one.
      */
     public function __construct($message, $code = 0, Exception $previous = null)

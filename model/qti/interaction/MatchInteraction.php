@@ -109,7 +109,9 @@ class MatchInteraction extends BlockInteraction
         }
         if (!$returnValue) {
             common_Logger::w($setNumber);
-            throw new InvalidArgumentException('For match interactions, the match set number must be either "(int) 0" or "(int) 1"');
+            throw new InvalidArgumentException(
+                'For match interactions, the match set number must be either "(int) 0" or "(int) 1"'
+            );
         }
 
         return $returnValue;
@@ -160,7 +162,7 @@ class MatchInteraction extends BlockInteraction
         $returnValue = null;
 
         if ($this->isValidMatchSetNumber($setNumber)) {
-            if (!empty(static::$choiceClass) && is_subclass_of(static::$choiceClass, 'oat\\taoQtiItem\\model\\qti\\choice\\Choice')) {
+            if (!empty(static::$choiceClass) && is_subclass_of(static::$choiceClass, Choice::class)) {
                 $returnValue = new static::$choiceClass($choiceAttributes, $choiceValue);
                 $this->addChoice($returnValue, $setNumber);
             }

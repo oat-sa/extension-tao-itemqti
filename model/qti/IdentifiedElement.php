@@ -223,7 +223,9 @@ abstract class IdentifiedElement extends Element
 
         $relatedItem = $this->getRelatedItem();
         if (is_null($relatedItem)) {
-            throw new QtiModelException('cannot generate the identifier because the element does not belong to any item');
+            throw new QtiModelException(
+                'cannot generate the identifier because the element does not belong to any item'
+            );
         }
         $identifiedElementsCollection = $relatedItem->getIdentifiedElements();
 
@@ -239,7 +241,8 @@ abstract class IdentifiedElement extends Element
             }
             $suffix = '_' . $index;
         } else {
-            $prefix = preg_replace('/_[0-9]+$/', '_', $prefix); //detect incremental id of type choice_12, response_3, etc.
+            //detect incremental id of type choice_12, response_3, etc.
+            $prefix = preg_replace('/_[0-9]+$/', '_', $prefix);
             $prefix = preg_replace('/[^a-zA-Z0-9_]/', '_', $prefix);
             $prefix = preg_replace('/(_)+/', '_', $prefix);
         }

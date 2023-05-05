@@ -24,6 +24,8 @@ namespace oat\taoQtiItem\model\qti\choice;
 
 use oat\taoQtiItem\model\qti\IdentifiedElement;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
+use oat\taoQtiItem\model\qti\OutcomeDeclaration;
+use oat\taoQtiItem\model\qti\choice\Choice;
 
 /**
  * A choice is a kind of interaction's proposition.
@@ -55,7 +57,8 @@ abstract class Choice extends IdentifiedElement
 
     /**
      * Common method to se the content of a choice.
-     * The content type is mostly a String, but could also be a oat\taoQtiItem\model\qti\QtiObject or oat\taoQtiItem\model\qti\OutcomeDeclaration
+     * The content type is mostly a String, but could also be a oat\taoQtiItem\model\qti\QtiObject
+     * or oat\taoQtiItem\model\qti\OutcomeDeclaration
      *
      * @param mixed content
      */
@@ -87,8 +90,9 @@ abstract class Choice extends IdentifiedElement
                 $collection = $relatedItem->getIdentifiedElements();
 
                 try {
-                    $uniqueChoice = $collection->getUnique($newIdentifier, 'oat\\taoQtiItem\\model\\qti\\choice\\Choice');
-                    $uniqueOutcome = $collection->getUnique($newIdentifier, 'oat\\taoQtiItem\\model\\qti\\OutcomeDeclaration');
+                    $uniqueChoice = $collection->getUnique($newIdentifier, Choice::class);
+                    $uniqueOutcome = $collection->getUnique($newIdentifier, OutcomeDeclaration::class);
+
                     if (is_null($uniqueChoice) && is_null($uniqueOutcome)) {
                         $returnValue = true;
                     }

@@ -57,7 +57,7 @@ class GraphicGapMatchInteraction extends GraphicInteraction
 
         $returnValue = null;
 
-        if (!empty(static::$choiceClass) && is_subclass_of(static::$choiceClass, 'oat\\taoQtiItem\\model\\qti\\choice\\Choice')) {
+        if (!empty(static::$choiceClass) && is_subclass_of(static::$choiceClass, Choice::class)) {
             $returnValue = new GapImg(empty($objectLabel) ? [] : ['objectLabel' => (string) $objectLabel]);
             $returnValue->setContent(new QtiObject($objectAttributes));
             $this->addGapImg($returnValue);
@@ -90,7 +90,12 @@ class GraphicGapMatchInteraction extends GraphicInteraction
     public function toArray($filterVariableContent = false, &$filtered = [])
     {
         $data = parent::toArray($filterVariableContent, $filtered);
-        $data['gapImgs'] = $this->getArraySerializedElementCollection($this->getGapImgs(), $filterVariableContent, $filtered);
+        $data['gapImgs'] = $this->getArraySerializedElementCollection(
+            $this->getGapImgs(),
+            $filterVariableContent,
+            $filtered
+        );
+
         return $data;
     }
 

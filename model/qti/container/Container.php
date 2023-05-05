@@ -112,7 +112,10 @@ abstract class Container extends Element implements IdentifiedElementContainer
                 $placeholder = $qtiElement->getPlaceholder();
                 if (strpos($body, $placeholder) === false) {
                     if ($requiredPlaceholder) {
-                        throw new InvalidArgumentException('no placeholder found for the element in the new container body: ' . get_class($qtiElement) . ':' . $placeholder);
+                        throw new InvalidArgumentException(
+                            'no placeholder found for the element in the new container body: '
+                                . get_class($qtiElement) . ':' . $placeholder
+                        );
                     } else {
                         //assume implicitly add to the end
                         $body .= $placeholder;
@@ -129,7 +132,9 @@ abstract class Container extends Element implements IdentifiedElementContainer
                 $this->elements[$qtiElement->getSerial()] = $qtiElement;
                 $this->afterElementSet($qtiElement);
             } else {
-                throw new QtiModelException('The container ' . get_class($this) . ' cannot contain element of type ' . get_class($qtiElement));
+                throw new QtiModelException(
+                    'The container ' . get_class($this) . ' cannot contain element of type ' . get_class($qtiElement)
+                );
             }
         }
 
@@ -214,8 +219,27 @@ abstract class Container extends Element implements IdentifiedElementContainer
                 // do nothing
                 return $matches[0];
             }
+
+            $voidElements = [
+                'area',
+                'base',
+                'br',
+                'col',
+                'embed',
+                'hr',
+                'img',
+                'input',
+                'keygen',
+                'link',
+                'meta',
+                'param',
+                'source',
+                'track',
+                'wbr',
+            ];
+
             // regular void elements
-            if (in_array($matches[2], ['area','base','br','col','embed','hr','img','input','keygen','link','meta','param','source','track','wbr'])) {
+            if (in_array($matches[2], $voidElements)) {
                 // do nothing
                 return $matches[0];
             }
@@ -388,13 +412,19 @@ abstract class Container extends Element implements IdentifiedElementContainer
         $data = [
             'serial' => $this->getSerial(),
             'body' => $this->getBody(),
-            'elements' => $this->getArraySerializedElementCollection($this->getElements(), $filterVariableContent, $filtered),
+            'elements' => $this->getArraySerializedElementCollection(
+                $this->getElements(),
+                $filterVariableContent,
+                $filtered
+            ),
             'attributes' => $this->getAttributeValues()
         ];
 
         if ($this->isDebugMode()) {
             //in debug mode, add debug data, such as the related item
-            $data['debug'] = ['relatedItem' => is_null($this->getRelatedItem()) ? '' : $this->getRelatedItem()->getSerial()];
+            $data['debug'] = [
+                'relatedItem' => is_null($this->getRelatedItem()) ? '' : $this->getRelatedItem()->getSerial()
+            ];
         }
 
         return $data;

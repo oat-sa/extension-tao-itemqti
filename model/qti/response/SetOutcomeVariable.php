@@ -87,7 +87,8 @@ class SetOutcomeVariable extends ResponseRule
         $returnValue = (string) '';
 
 
-        $returnValue = 'setOutcomeValue("' . $this->outcomeVariableIdentifier . '", ' . $this->expression->getRule() . ');';
+        $returnValue = 'setOutcomeValue("' . $this->outcomeVariableIdentifier . '", ' . $this->expression->getRule()
+            . ');';
 
 
         return (string) $returnValue;

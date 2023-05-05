@@ -112,7 +112,9 @@ class IdentifierCollection
         if ($this->exists($identifier)) {
             if (empty($elementClass)) {
                 if (count($this->elements[$identifier]) > 1) {
-                    throw new QtiModelException('More than one identifier found, please try specifying the class of the element');
+                    throw new QtiModelException(
+                        'More than one identifier found, please try specifying the class of the element'
+                    );
                 } elseif (!empty($this->elements[$identifier])) {
                     $returnValue = reset($this->elements[$identifier]);
                 }

@@ -82,7 +82,9 @@ class PackageParser extends tao_models_classes_Parser
                         throw new Exception("File {$this->source->getBasename()} not found.");
                     }
                     if (!preg_match("/\.zip$/", $this->source->getBasename())) {
-                        throw new Exception("Wrong file extension in {$this->source->getBasename()}, zip extension is expected");
+                        throw new Exception(
+                            "Wrong file extension in {$this->source->getBasename()}, zip extension is expected"
+                        );
                     }
                     $this->extract();
                     break;
@@ -123,7 +125,9 @@ class PackageParser extends tao_models_classes_Parser
                 } else {
                     //check if the manifest is there
                     if ($zip->locateName("imsmanifest.xml") === false) {
-                        throw new Exception("A QTI package must contains a imsmanifest.xml file  at the root of the archive");
+                        throw new Exception(
+                            "A QTI package must contains a imsmanifest.xml file  at the root of the archive"
+                        );
                     }
 
                     $this->valid = true;

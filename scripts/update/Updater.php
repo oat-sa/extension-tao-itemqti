@@ -82,7 +82,9 @@ class Updater extends \common_ext_ExtensionUpdater
     {
 
         if ($this->isBetween('0.0.0', '2.20.0')) {
-            throw new \common_exception_NotImplemented('Updates from versions prior to Tao 3.1 are not longer supported, please update to Tao 3.1 first');
+            throw new \common_exception_NotImplemented(
+                'Updates from versions prior to Tao 3.1 are not longer supported, please update to Tao 3.1 first'
+            );
         }
         $this->skip('2.20.0', '2.22.0');
 
@@ -97,7 +99,9 @@ class Updater extends \common_ext_ExtensionUpdater
             ];
 
             $offset = array_search('BR', array_keys($columns));
-            $columns = array_slice($columns, 0, $offset, true) + $responseIdentifier + array_slice($columns, $offset, null, true);
+            $columns = array_slice($columns, 0, $offset, true)
+                + $responseIdentifier
+                + array_slice($columns, $offset, null, true);
 
             $simpleExporter->setOption('columns', $columns);
             $simpleExporter->setServiceManager($this->getServiceManager());
@@ -128,15 +132,37 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('2.24.0', '2.25.0');
 
         if ($this->isVersion('2.25.0')) {
-            QtiCreatorClientConfigRegistry::getRegistry()->registerPlugin('back', 'taoQtiItem/qtiCreator/plugins/navigation/back', 'navigation');
+            QtiCreatorClientConfigRegistry::getRegistry()->registerPlugin(
+                'back',
+                'taoQtiItem/qtiCreator/plugins/navigation/back',
+                'navigation'
+            );
 
             $this->setVersion('2.26.0');
         }
 
         if ($this->isVersion('2.26.0')) {
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiPreview::class));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCreator::class));
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor', QtiCssAuthoring::class));
+            AclProxy::applyRule(
+                new AccessRule(
+                    'grant',
+                    'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor',
+                    QtiPreview::class
+                )
+            );
+            AclProxy::applyRule(
+                new AccessRule(
+                    'grant',
+                    'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor',
+                    QtiCreator::class
+                )
+            );
+            AclProxy::applyRule(
+                new AccessRule(
+                    'grant',
+                    'http://www.tao.lu/Ontologies/TAOItem.rdf#AbstractItemAuthor',
+                    QtiCssAuthoring::class
+                )
+            );
             $this->setVersion('2.27.0');
         }
 
@@ -185,7 +211,10 @@ class Updater extends \common_ext_ExtensionUpdater
                 'flipDirectedPair' => true
             ];
             $registry = \oat\tao\model\ClientLibConfigRegistry::getRegistry();
-            $registry->register('taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicGapMatchInteraction', $option);
+            $registry->register(
+                'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicGapMatchInteraction',
+                $option
+            );
 
             $this->setVersion('6.8.2');
         }
@@ -222,7 +251,8 @@ class Updater extends \common_ext_ExtensionUpdater
                 $this->getServiceManager()->register(FileSystemService::SERVICE_ID, $fsm);
             }
 
-            //assign the new web source to the existing PortableElementFileStorage while leaving existing filesystem intact
+            // assign the new web source to the existing PortableElementFileStorage while leaving existing filesystem
+            // intact
             try {
                 $portableElementStorage = $this->getServiceManager()->get(PortableElementFileStorage::SERVICE_ID);
                 $oldWebsourceId = $portableElementStorage->getOption(PortableElementFileStorage::OPTION_WEBSOURCE);
@@ -284,7 +314,10 @@ class Updater extends \common_ext_ExtensionUpdater
             $clientLibRegistry->register('OAT/sts/common', $portableSafeLibPath . '/OAT/sts/common');
             $clientLibRegistry->register('OAT/interact', $portableSafeLibPath . '/interact');
             $clientLibRegistry->register('OAT/interact-rotate', $portableSafeLibPath . '/OAT/interact-rotate');
-            $clientLibRegistry->register('OAT/sts/transform-helper', $portableSafeLibPath . '/OAT/sts/transform-helper');
+            $clientLibRegistry->register(
+                'OAT/sts/transform-helper',
+                $portableSafeLibPath . '/OAT/sts/transform-helper'
+            );
             $clientLibRegistry->register('OAT/handlebars', $portableSafeLibPath . '/handlebars');
             $clientLibRegistry->register('OAT/sts/stsEventManager', $portableSafeLibPath . '/OAT/sts/stsEventManager');
             $clientLibRegistry->register('OAT/waitForMedia', $portableSafeLibPath . '/OAT/waitForMedia');
@@ -367,7 +400,13 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('13.1.0', '13.3.2');
 
         if ($this->isVersion('13.3.2')) {
-            AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, ['ext' => 'taoQtiItem', 'mod' => 'RestQtiItem']));
+            AclProxy::applyRule(
+                new AccessRule(
+                    'grant',
+                    TaoRoles::REST_PUBLISHER,
+                    ['ext' => 'taoQtiItem', 'mod' => 'RestQtiItem']
+                )
+            );
             $this->setVersion('13.4.0');
         }
 
@@ -407,11 +446,17 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $metadataImporter = $metadataService->getImporter();
             $metadataImporter->register(MetadataImporter::INJECTOR_KEY, OntologyLomInjector::class);
-            $metadataImporter->register(MetadataImporter::EXTRACTOR_KEY, GenericLomManifestClassificationExtractor::class);
+            $metadataImporter->register(
+                MetadataImporter::EXTRACTOR_KEY,
+                GenericLomManifestClassificationExtractor::class
+            );
 
             $metadataExporter = $metadataService->getExporter();
             $metadataExporter->register(MetadataExporter::INJECTOR_KEY, ImsManifestLomInjector::class);
-            $metadataExporter->register(MetadataExporter::EXTRACTOR_KEY, GenericLomOntologyClassificationExtractor::class);
+            $metadataExporter->register(
+                MetadataExporter::EXTRACTOR_KEY,
+                GenericLomOntologyClassificationExtractor::class
+            );
 
             $this->setVersion('19.5.0');
         }
@@ -429,7 +474,8 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if ($this->isVersion('20.4.5')) {
             $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
-            $taoQtiItemNpmDist = $assetService->getJsBaseWww('taoQtiItem') . 'node_modules/@oat-sa/tao-item-runner-qti/dist/';
+            $taoQtiItemNpmDist = $assetService->getJsBaseWww('taoQtiItem')
+                . 'node_modules/@oat-sa/tao-item-runner-qti/dist/';
             $clientLibRegistry = ClientLibRegistry::getRegistry();
             $clientLibRegistry->register('taoQtiItem/qtiCommonRenderer', $taoQtiItemNpmDist . 'qtiCommonRenderer');
             $clientLibRegistry->register('taoQtiItem/qtiItem', $taoQtiItemNpmDist . 'qtiItem');
@@ -465,7 +511,8 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if ($this->isVersion('23.11.6')) {
             $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
-            $taoQtiItemNpmDist = $assetService->getJsBaseWww('taoQtiItem') . 'node_modules/@oat-sa/tao-item-runner-qti/dist/';
+            $taoQtiItemNpmDist = $assetService->getJsBaseWww('taoQtiItem')
+                . 'node_modules/@oat-sa/tao-item-runner-qti/dist/';
             $clientLibRegistry = ClientLibRegistry::getRegistry();
             $clientLibRegistry->register('taoQtiItem/reviewRenderer', $taoQtiItemNpmDist . 'reviewRenderer');
             $this->setVersion('23.12.0');

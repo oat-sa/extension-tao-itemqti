@@ -67,7 +67,11 @@ class ImsManifestMetadataExtractor implements MetadataExtractor
                 $metadataElts = $xpath->query('man:metadata', $resourceElt);
                 foreach ($metadataElts as $metadataElt) {
                     // Ask for metadata domains.
-                    $domainElts = $xpath->query('*[not(self::man:schema) and not(self::man:schemaversion)]', $metadataElt);
+                    $domainElts = $xpath->query(
+                        '*[not(self::man:schema) and not(self::man:schemaversion)]',
+                        $metadataElt
+                    );
+
                     foreach ($domainElts as $domainElt) {
                         $trail = [];
                         $visited = [];
@@ -104,7 +108,14 @@ class ImsManifestMetadataExtractor implements MetadataExtractor
                                 $parent = $currentElt;
                             } elseif ($currentElt instanceof DOMText && ctype_space($currentElt->wholeText) === false) {
                                 // Leaf node, 1st and only visit.
-                                $metadataValue = new ImsManifestMetadataValue($identifier, $type, $href, $path, $currentElt->wholeText);
+                                $metadataValue = new ImsManifestMetadataValue(
+                                    $identifier,
+                                    $type,
+                                    $href,
+                                    $path,
+                                    $currentElt->wholeText
+                                );
+
                                 if ($parent !== null && $parent->hasAttributeNS($bases['xml'], 'lang')) {
                                     $metadataValue->setLanguage($parent->getAttributeNS($bases['xml'], 'lang'));
                                 }

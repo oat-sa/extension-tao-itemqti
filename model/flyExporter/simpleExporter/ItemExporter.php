@@ -173,7 +173,11 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
             foreach ($values as $key => $value) {
                 $interactionData = is_array($value) && count($value) > 1 ? $value : $values;
 
-                if (array_values(array_intersect(array_keys($data[0]), array_keys($interactionData))) === array_keys($interactionData)) {
+                if (
+                    array_values(
+                        array_intersect(array_keys($data[0]), array_keys($interactionData))
+                    ) === array_keys($interactionData)
+                ) {
                     $line = array_intersect_key($data[0], array_flip($this->headers));
                     $data[] = array_merge($line, $interactionData);
                 } else {
@@ -236,7 +240,8 @@ class ItemExporter extends ConfigurableService implements SimpleExporter
 
     private function getFilePath()
     {
-        $filePath = \tao_helpers_Export::getExportPath() . DIRECTORY_SEPARATOR . ltrim($this->getOption(self::OPTION_FILE_LOCATION), '/');
+        $filePath = \tao_helpers_Export::getExportPath() . DIRECTORY_SEPARATOR
+            . ltrim($this->getOption(self::OPTION_FILE_LOCATION), '/');
 
         $basePath = dirname($filePath);
 

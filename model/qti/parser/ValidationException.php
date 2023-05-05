@@ -60,7 +60,9 @@ class ValidationException extends common_Exception
      */
     public function getReport()
     {
-        return common_report_Report::createFailure(__("Malformed XML[%s]:\n%s", $this->getFilename(), implode("\n", $this->errors)));
+        return common_report_Report::createFailure(
+            __("Malformed XML[%s]:\n%s", $this->getFilename(), implode("\n", $this->errors))
+        );
     }
 
     /**

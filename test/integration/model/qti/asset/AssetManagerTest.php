@@ -72,7 +72,10 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
         return [
             [new SharedStimulusAssetHandler(), SharedStimulusAssetHandler::class],
             [new \stdClass(), null, AssetManagerException::class],
-            [new LocalAssetHandler(new LocalItemSource(['item' => 'itemFixture', 'lang' => 'langFixture'])), LocalAssetHandler::class],
+            [
+                new LocalAssetHandler(new LocalItemSource(['item' => 'itemFixture', 'lang' => 'langFixture'])),
+                LocalAssetHandler::class,
+            ],
         ];
     }
 
@@ -119,7 +122,12 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     public function getAbsolutePathProvider()
     {
         return [
-            ['root/', 'polop/polop/polop', 'root/' . 'polop' . DIRECTORY_SEPARATOR . 'polop' . DIRECTORY_SEPARATOR . 'polop', false],
+            [
+                'root/',
+                'polop/polop/polop',
+                'root/' . 'polop' . DIRECTORY_SEPARATOR . 'polop' . DIRECTORY_SEPARATOR . 'polop',
+                false,
+            ],
             ['root/', 'polop', 'root/' . 'polop', false],
             [false, 'pathFixture', null, AssetManagerException::class],
         ];
@@ -141,8 +149,16 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     {
         $ds = DIRECTORY_SEPARATOR;
         return [
-            ["{$ds}path{$ds}to{$ds}absolute{$ds}path", "{$ds}path{$ds}to{$ds}absolute{$ds}path{$ds}in{$ds}package{$ds}polop.txt", 'path' . $ds . 'in' . $ds . 'package' . $ds . 'polop.txt'],
-            ["{$ds}path{$ds}to{$ds}absolute{$ds}path", "{$ds}path{$ds}to{$ds}in{$ds}package{$ds}polop.txt", '..' . $ds . 'in' . $ds . 'package' . $ds . 'polop.txt'],
+            [
+                "{$ds}path{$ds}to{$ds}absolute{$ds}path",
+                "{$ds}path{$ds}to{$ds}absolute{$ds}path{$ds}in{$ds}package{$ds}polop.txt",
+                'path' . $ds . 'in' . $ds . 'package' . $ds . 'polop.txt',
+            ],
+            [
+                "{$ds}path{$ds}to{$ds}absolute{$ds}path",
+                "{$ds}path{$ds}to{$ds}in{$ds}package{$ds}polop.txt",
+                '..' . $ds . 'in' . $ds . 'package' . $ds . 'polop.txt',
+            ],
         ];
     }
 
@@ -187,7 +203,9 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     {
         return [
             [
-                __DIR__  . '/../samples/auxiliaryFiles/', 'qti/file/fixture.txt', ['qti/file/path1', 'qti/file/path2', 'qti/file/path3'],
+                __DIR__  . '/../samples/auxiliaryFiles/',
+                'qti/file/fixture.txt',
+                ['qti/file/path1', 'qti/file/path2', 'qti/file/path3'],
                 [__DIR__  . '/../samples/auxiliaryFiles/qti/file/path1', 'path1'],
                 [__DIR__  . '/../samples/auxiliaryFiles/qti/file/path2', 'path2'],
                 [__DIR__  . '/../samples/auxiliaryFiles/qti/file/path3', 'path3'],
@@ -201,8 +219,14 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     /**
      * @dataProvider importDependencyFilesProvider
      */
-    public function testImportDependencyFiles($source, $qtiFile, $fileFixtures, $expectedCalls, $dependencies, $expectedImportCallCount)
-    {
+    public function testImportDependencyFiles(
+        $source,
+        $qtiFile,
+        $fileFixtures,
+        $expectedCalls,
+        $dependencies,
+        $expectedImportCallCount
+    ) {
         $assetManagerMock = $this->getMockBuilder(AssetManager::class)
             ->setMethods(['importAsset'])
             ->getMock();
@@ -232,7 +256,10 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
 
             $assetManagerMock->setSource($source);
         }
-        $this->assertInstanceOf(AssetManager::class, $assetManagerMock->importDependencyFiles($qtiResourceMock, $dependencies));
+        $this->assertInstanceOf(
+            AssetManager::class,
+            $assetManagerMock->importDependencyFiles($qtiResourceMock, $dependencies)
+        );
     }
 
     public function importDependencyFilesProvider()
@@ -321,8 +348,12 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
         ];
     }
 
-    protected function getAssetHandler($type = 'success', $relPath = 'pathFixture', $absPath = 'pathFixture', $uri = 'polop')
-    {
+    protected function getAssetHandler(
+        $type = 'success',
+        $relPath = 'pathFixture',
+        $absPath = 'pathFixture',
+        $uri = 'polop'
+    ) {
         $mock = $this->getMockBuilder(LocalAssetHandler::class)
             ->setMethods(['isApplicable', 'handle'])
             ->getMock();

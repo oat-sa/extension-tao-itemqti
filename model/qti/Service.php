@@ -286,7 +286,9 @@ class Service extends ConfigurableService
             $newItemContentDirectoryName = tao_helpers_Uri::getUniqueId($item->getUri()) . '.' . uniqid();
             $propertyLanguages = $item->getUsedLanguages($itemContentProperty);
             foreach ($propertyLanguages as $language) {
-                $oldItemContentPropertyValues[$language] = (string) $item->getPropertyValuesByLg($itemContentProperty, $language)->get(0);
+                $oldItemContentPropertyValues[$language] = (string) $item
+                    ->getPropertyValuesByLg($itemContentProperty, $language)
+                    ->get(0);
                 $serial = $this->getNewSerializedItemContentDirectory($newItemContentDirectoryName, $language);
 
                 $item->editPropertyValueByLg($itemContentProperty, $serial, $language);
@@ -313,7 +315,13 @@ class Service extends ConfigurableService
             }
         } catch (Exception $e) {
             $this->logError('Rollback item error: ' . $e->getMessage());
-            throw new common_Exception(sprintf('Cannot rollback item. Item uri - %s :: Backup folders - %s ', $item->getUri(), json_encode($backUpNames)));
+            throw new common_Exception(
+                sprintf(
+                    'Cannot rollback item. Item uri - %s :: Backup folders - %s ',
+                    $item->getUri(),
+                    json_encode($backUpNames)
+                )
+            );
         }
     }
 

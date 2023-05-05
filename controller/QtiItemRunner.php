@@ -146,8 +146,9 @@ class QtiItemRunner extends AbstractQtiItemRunner
                 }
             } catch (\OutOfRangeException $e) {
                 // A variable value could not be converted, ignore it.
-                // Developer's note: QTI Pairs with a single identifier (missing second identifier of the pair) are transmitted as an array of length 1,
-                // this might cause problem. Such "broken" pairs are simply ignored.
+                // Developer's note: QTI Pairs with a single identifier (missing second identifier of the pair)
+                // are transmitted as an array of length 1, this might cause problem. Such "broken" pairs are simply
+                // ignored.
                 common_Logger::d("Client-side value for variable '${identifier}' is ignored due to data malformation.");
             } catch (\OutOfBoundsException $e) {
                 // The response identifier does not match any response declaration.
@@ -183,18 +184,26 @@ class QtiItemRunner extends AbstractQtiItemRunner
      * item results to the Result Server.
      *
      * @param core_kernel_classes_Resource $item The item definition in database.
-     * @param AssessmentItemSession $itemSession The AssessmentItemSession objects from where the results must be extracted.
-     * @throws taoQtiCommon_helpers_ResultTransmissionException If an error occurs while transmitting results to the ResultServer.
+     * @param AssessmentItemSession $itemSession The AssessmentItemSession objects from where the results must be
+     *                                           extracted.
+     * @throws taoQtiCommon_helpers_ResultTransmissionException If an error occurs while transmitting results
+     *                                                          to the ResultServer.
      */
     protected function transmitResults(core_kernel_classes_Resource $item, AssessmentItemSession $itemSession)
     {
-        $resultTransmitter = new taoQtiCommon_helpers_ResultTransmitter(taoResultServer_models_classes_ResultServerStateFull::singleton());
+        $resultTransmitter = new taoQtiCommon_helpers_ResultTransmitter(
+            taoResultServer_models_classes_ResultServerStateFull::singleton()
+        );
 
         foreach ($itemSession->getKeys() as $identifier) {
             // QTI built-in variables not suitable for this standalone QTI item execution case.
             if (!in_array($identifier, ['completionStatus', 'numAttempts', 'duration'])) {
                 // Transmit to Result Server.
-                $resultTransmitter->transmitItemVariable($itemSession->getVariable($identifier), $this->getServiceCallId(), $item->getUri());
+                $resultTransmitter->transmitItemVariable(
+                    $itemSession->getVariable($identifier),
+                    $this->getServiceCallId(),
+                    $item->getUri()
+                );
             }
         }
     }

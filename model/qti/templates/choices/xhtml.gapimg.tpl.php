@@ -17,7 +17,7 @@
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
- *
+ * phpcs:disable Generic.Files.LineLength
  */
 ?>
 <li id='<?=$identifier?>'><img src="<?=$object['data']?>"  width="<?=$object['width']?>" height="<?=$object['height']?>" /></li>

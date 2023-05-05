@@ -73,7 +73,8 @@ class QtiRunner
     /**
      * Get the flysystem path to the compilation folder described by $directory.
      *
-     * @param tao_models_classes_service_StorageDirectory $directory The root directory resource where the item is stored.
+     * @param tao_models_classes_service_StorageDirectory $directory The root directory resource where the item
+     *                                                               is stored.
      * @return string The flysystem path to the private folder with a trailing directory separator.
      */
     public static function getPrivatePathByLanguage(tao_models_classes_service_StorageDirectory $directory)
@@ -117,7 +118,11 @@ class QtiRunner
 
         foreach ($elements as $serial => $data) {
             if (isset($data['qtiClass']) && $data['qtiClass'] == 'rubricBlock') {
-                if (!empty($data['attributes']) && is_array($data['attributes']['view']) && in_array($view, $data['attributes']['view'])) {
+                if (
+                    !empty($data['attributes'])
+                    && is_array($data['attributes']['view'])
+                    && in_array($view, $data['attributes']['view'])
+                ) {
                     $returnValue[$serial] = $data;
                 }
             }
@@ -133,8 +138,10 @@ class QtiRunner
      * @param \qtism\runtime\tests\AssessmentItemSession $itemSession
      * @return array
      */
-    public static function getFeedbacks(tao_models_classes_service_StorageDirectory $directory, AssessmentItemSession $itemSession)
-    {
+    public static function getFeedbacks(
+        tao_models_classes_service_StorageDirectory $directory,
+        AssessmentItemSession $itemSession
+    ) {
 
         $returnValue = [];
 

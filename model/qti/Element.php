@@ -1,7 +1,21 @@
 <?php
 
-/*
- * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; under version 2 of the License (non-upgradable). This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT)
  */
 
 namespace oat\taoQtiItem\model\qti;
@@ -15,6 +29,7 @@ use common_Logger;
 use taoItems_models_classes_TemplateRenderer;
 use ReflectionClass;
 use stdClass;
+use oat\taoQtiItem\model\qti\attribute\Attribute;
 
 /**
  * The QTI_Element class represent the abstract model for all the QTI objects.
@@ -28,7 +43,6 @@ use stdClass;
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
-
  */
 abstract class Element implements Exportable
 {
@@ -96,7 +110,7 @@ abstract class Element implements Exportable
     {
         $this->attributes = [];
         foreach ($this->getUsedAttributes() as $attributeClass) {
-            if (class_exists($attributeClass) && is_subclass_of($attributeClass, 'oat\\taoQtiItem\\model\\qti\\attribute\\Attribute')) {
+            if (class_exists($attributeClass) && is_subclass_of($attributeClass, Attribute::class)) {
                 $attribute = new $attributeClass();
                 $this->attributes[$attribute->getName()] = $attribute;
             } else {
@@ -181,7 +195,9 @@ abstract class Element implements Exportable
                         $this->attributes[$name]->setValue($elt);
                         $returnValue = true;
                     } else {
-                        throw new QtiModelException('No QTI element with the identifier has been found: ' . $identifier);
+                        throw new QtiModelException(
+                            'No QTI element with the identifier has been found: ' . $identifier
+                        );
                     }
                 }
             } else {
@@ -231,7 +247,12 @@ abstract class Element implements Exportable
                         }
                     } else {
                         common_Logger::w('iden');
-                        throw new QtiModelException('Cannot verify identifier reference because the element is not in a QTI Item ' . get_class($this) . '::' . $name, 0);
+
+                        throw new QtiModelException(
+                            'Cannot verify identifier reference because the element is not in a QTI Item '
+                                . get_class($this) . '::' . $name,
+                            0
+                        );
                     }
                 }
             } else {
@@ -476,7 +497,9 @@ abstract class Element implements Exportable
 
         if ($this->isDebug()) {
             //in debug mode, add debug data, such as the related item
-            $data['debug'] = ['relatedItem' => is_null($this->getRelatedItem()) ? '' : $this->getRelatedItem()->getSerial()];
+            $data['debug'] = [
+                'relatedItem' => is_null($this->getRelatedItem()) ? '' : $this->getRelatedItem()->getSerial()
+            ];
         }
 
         return $data;

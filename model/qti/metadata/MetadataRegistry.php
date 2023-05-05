@@ -89,7 +89,9 @@ class MetadataRegistry
      *
      * Get the class mapping of Extractor/Injector classes.
      *
-     * @return array An associative array with two main keys. The 'injectors' and 'extractors' and 'guardians' keys refer to sub-arrays containing respectively classnames of MetadataInjector and MetadataExtractor implementations.
+     * @return array An associative array with two main keys. The 'injectors' and 'extractors' and 'guardians' keys
+     *               refer to sub-arrays containing respectively classnames of MetadataInjector and MetadataExtractor
+     *               implementations.
      */
     public function getMapping()
     {
@@ -116,7 +118,9 @@ class MetadataRegistry
      *
      * Set the class mapping of Extractor/Injector classes.
      *
-     * @param array $mapping An associative array with two main keys. The 'injectors' and 'extractors' keys refer to sub-arrays containing respectively classnames of MetadataInjector and MetadataExtractor implementations.
+     * @param array $mapping An associative array with two main keys. The 'injectors' and 'extractors' keys refer
+     *                       to sub-arrays containing respectively classnames of MetadataInjector and MetadataExtractor
+     *                       implementations.
      */
     protected function setMapping(array $mapping)
     {
@@ -136,7 +140,8 @@ class MetadataRegistry
      * Register a MetadataInjector implementation by $fqcn (Fully Qualified Class Name).
      *
      * @param string $fqcn A Fully Qualified Class Name.
-     * @throws InvalidArgumentException If the given $fqcn does not correspond to an implementation of the MetadataInjector interface.
+     * @throws InvalidArgumentException If the given $fqcn does not correspond to an implementation of the
+     *                                  MetadataInjector interface.
      * @see oat\taoQtiItem\model\qti\metadata\MetadataInjector The MetadataInjector interface.
      */
     public function registerMetadataInjector($fqcn)
@@ -169,7 +174,8 @@ class MetadataRegistry
      * Register a MetadataExtractor implementation by $fqcn (Fully Qualified Class Name).
      *
      * @param string $fqcn A Fully Qualified Class Name.
-     * @throws InvalidArgumentException If the given $fqcn does not correspond to an implementation of the MetadataExtractor interface.
+     * @throws InvalidArgumentException If the given $fqcn does not correspond to an implementation of the
+     *                                  MetadataExtractor interface.
      * @see oat\taoQtiItem\model\qti\metadata\MetadataExtractor The MetadataExtractor interface.
      */
     public function registerMetadataExtractor($fqcn)
@@ -202,7 +208,8 @@ class MetadataRegistry
      * Register a MetadataGuardian implementation by $fqcn (Fully Qualified Class Name).
      *
      * @param string $fqcn A Fully Qualified Class Name.
-     * @throws InvalidArgumentException If the given $fqcn does not correspond to an implementation of the MetadataGuardian interface.
+     * @throws InvalidArgumentException If the given $fqcn does not correspond to an implementation of the
+     *                                  MetadataGuardian interface.
      * @see oat\taoQtiItem\model\qti\metadata\MetadataGuardian The MetadataExtractor interface.
      */
     public function registerMetadataGuardian($fqcn)
@@ -235,7 +242,8 @@ class MetadataRegistry
      * Register a MetadataClassLookup implementation by $fqcn (Fully Qualified Class Name).
      *
      * @param string $fqcn A Fully Qualified Class Name.
-     * @throws InvalidArgumentException If the given $fqcn does not correspond to an implementation of the MetadataClassLookup interface.
+     * @throws InvalidArgumentException If the given $fqcn does not correspond to an implementation of the
+     *                                  MetadataClassLookup interface.
      * @see oat\taoQtiItem\model\qti\metadata\MetadataClassLookup The MetadataClassLookup interface.
      */
     public function registerMetadataClassLookup($fqcn)

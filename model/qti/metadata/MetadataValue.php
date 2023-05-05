@@ -56,8 +56,8 @@ interface MetadataValue
     public function getLanguage();
 
     /**
-     * Returns an identifier which is unique, describing to whom (e.g. a QTI Item, an Ontology Resource, ...) the intrinsic
-     * metadata value belongs to.
+     * Returns an identifier which is unique, describing to whom (e.g. a QTI Item, an Ontology Resource, ...)
+     * the intrinsic metadata value belongs to.
      *
      * @return string
      */

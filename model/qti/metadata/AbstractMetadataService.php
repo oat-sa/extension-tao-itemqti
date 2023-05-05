@@ -93,7 +93,11 @@ abstract class AbstractMetadataService extends ConfigurableService
             $values = $this->getMetadataValue($identifier);
 
             foreach ($this->getInjectors() as $injector) {
-                \common_Logger::i(__('Attempting to inject "%s" metadata values for target "%s" with metadata Injector "%s".', count($values), $identifier, get_class($injector)));
+                \common_Logger::i(
+                    // phpcs:disable Generic.Files.LineLength
+                    __('Attempting to inject "%s" metadata values for target "%s" with metadata Injector "%s".', count($values), $identifier, get_class($injector))
+                    // phpcs:enable Generic.Files.LineLength
+                );
                 $injector->inject($target, [$identifier => $values]);
             }
         }

@@ -125,7 +125,9 @@ class Resource
      */
     public static function isAllowed($type)
     {
-        return (!empty($type) && (in_array($type, self::$allowedTypes))) || self::isAssessmentItem($type) || self::isAssessmentTest($type);
+        return (!empty($type) && (in_array($type, self::$allowedTypes)))
+            || self::isAssessmentItem($type)
+            || self::isAssessmentTest($type);
     }
 
     /**

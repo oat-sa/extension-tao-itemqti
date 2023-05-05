@@ -36,9 +36,6 @@ use oat\taoQtiItem\model\qti\expression\Expression;
  */
 class ConditionalExpression implements Rule
 {
-    // --- ASSOCIATIONS ---
-    // generateAssociationEnd :     // generateAssociationEnd :     // generateAssociationEnd :     // generateAssociationEnd :
-
     // --- ATTRIBUTES ---
 
     /**

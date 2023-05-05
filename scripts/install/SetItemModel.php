@@ -54,9 +54,15 @@ class SetItemModel extends InstallAction
             ]
         ];
 
-        if (\common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->hasConfig(ItemModel::COMPILER)) {
-            $options[ItemModel::COMPILER] = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig(ItemModel::COMPILER);
-            \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->unsetConfig(ItemModel::COMPILER);
+        if (
+            \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->hasConfig(ItemModel::COMPILER)
+        ) {
+            $options[ItemModel::COMPILER] = \common_ext_ExtensionsManager::singleton()
+                ->getExtensionById('taoQtiItem')
+                ->getConfig(ItemModel::COMPILER);
+            \common_ext_ExtensionsManager::singleton()
+                ->getExtensionById('taoQtiItem')
+                ->unsetConfig(ItemModel::COMPILER);
         } else {
             $options[ItemModel::COMPILER] = 'oat\\taoQtiItem\\model\\QtiItemCompiler';
         }

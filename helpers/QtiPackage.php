@@ -83,7 +83,9 @@ class QtiPackage
             $zip = new ZipArchive();
             $zip->open($source, ZIPARCHIVE::CHECKCONS);
             if ($zip->locateName("imsmanifest.xml") === false) {
-                throw new common_Exception("A QTI package must contains a imsmanifest.xml file  at the root of the archive");
+                throw new common_Exception(
+                    "A QTI package must contains a imsmanifest.xml file  at the root of the archive"
+                );
             } else {
                 $returnValue = true;
             }

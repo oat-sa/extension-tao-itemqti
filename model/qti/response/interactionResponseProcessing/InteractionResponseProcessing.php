@@ -83,7 +83,10 @@ abstract class InteractionResponseProcessing implements Rule
     {
         $returnValue = (string) '';
 
-        throw new common_Exception('Missing getRule implementation for ' . get_class($this), ['TAOITEMS', 'QTI', 'HARD']);
+        throw new common_Exception(
+            'Missing getRule implementation for ' . get_class($this),
+            ['TAOITEMS', 'QTI', 'HARD']
+        );
 
         return (string) $returnValue;
     }
@@ -105,13 +108,13 @@ abstract class InteractionResponseProcessing implements Rule
                 $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\None';
                 break;
             case MatchCorrectTemplate::CLASS_ID:
-                $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\MatchCorrectTemplate';
+                $className = MatchCorrectTemplate::class;
                 break;
             case MapResponseTemplate::CLASS_ID:
-                $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\MapResponseTemplate';
+                $className = MapResponseTemplate::class;
                 break;
             case MapResponsePointTemplate::CLASS_ID:
-                $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\MapResponsePointTemplate';
+                $className = MapResponsePointTemplate::class;
                 break;
             case Custom::CLASS_ID:
                 $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\Custom';

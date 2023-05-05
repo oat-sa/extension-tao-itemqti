@@ -429,7 +429,11 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
         $css = $itemPack->getAssets('css');
 
         $this->assertStringStartsWith('data:text/css;', current($css), 'Have appropriate prefix');
-        $this->assertRegExp('/icon-checkbox/', base64_decode(str_replace('data:text/css;base64,', '', current($css))), 'Correctly decoded back');
+        $this->assertRegExp(
+            '/icon-checkbox/',
+            base64_decode(str_replace('data:text/css;base64,', '', current($css))),
+            'Correctly decoded back'
+        );
 
         $itemPackerMock->setNestedResourcesInclusion(true);
 
@@ -488,7 +492,11 @@ class QtiItemPackerTest extends TaoPhpUnitTestRunner
 
         $video = $itemPack->getAssets('video');
         $this->assertStringStartsWith('data:video/mp4;', $video['sample.mp4'], 'Encoded as it is local resource');
-        $this->assertStringStartsWith('https://', $video['https://www.youtube.com/watch?v=J1c2KzJbcGA'], 'Is external resource');
+        $this->assertStringStartsWith(
+            'https://',
+            $video['https://www.youtube.com/watch?v=J1c2KzJbcGA'],
+            'Is external resource'
+        );
     }
 
     /**

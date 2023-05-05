@@ -87,7 +87,10 @@ class OutcomeDeclaration extends VariableDeclaration
         $outcomeValue = null;
         if ($this->defaultValue != '') {
             $outcomeValue = [$this->defaultValue];
-        } elseif ($this->getAttributeValue('baseType') == 'integer' || $this->getAttributeValue('baseType') == 'float') {
+        } elseif (
+            $this->getAttributeValue('baseType') == 'integer'
+            || $this->getAttributeValue('baseType') == 'float'
+        ) {
             $outcomeValue = [0];
         } else {
             $outcomeValue = null;

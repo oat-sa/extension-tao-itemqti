@@ -78,9 +78,13 @@ class QtiXmlDataManager extends ConfigurableService
                     ['lg' => $lang]
                 )->getIterator() as $propertyValue
             ) {
-                $id = $propertyValue instanceof core_kernel_classes_Resource ? $propertyValue->getUri() : (string) $propertyValue;
+                $id = $propertyValue instanceof core_kernel_classes_Resource
+                    ? $propertyValue->getUri()
+                    : (string) $propertyValue;
                 $destinationDirectory = $serializer->unserializeDirectory($id);
-                $iterator = $destinationDirectory->getFlyIterator(Directory::ITERATOR_FILE | Directory::ITERATOR_RECURSIVE);
+                $iterator = $destinationDirectory->getFlyIterator(
+                    Directory::ITERATOR_FILE | Directory::ITERATOR_RECURSIVE
+                );
 
                 foreach ($iterator as $iteratorFile) {
                     $filePath = $destinationItemDirectory->getRelPath($iteratorFile);

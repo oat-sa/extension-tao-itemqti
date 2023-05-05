@@ -1,7 +1,21 @@
 <?php
 
-/*
- * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; under version 2 of the License (non-upgradable). This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT).
  */
 
 namespace oat\taoQtiItem\model\qti;
@@ -443,7 +457,9 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         } elseif (is_string($response)) {
             $serial = $response;
         } else {
-            throw new \InvalidArgumentException('the argument must be an instance of taoQTI_models_classes_QTI_ResponseDeclaration or a string serial');
+            throw new \InvalidArgumentException(
+                'the argument must be an instance of taoQTI_models_classes_QTI_ResponseDeclaration or a string serial'
+            );
         }
 
         if (!empty($serial)) {
@@ -518,9 +534,14 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
             $filtered[$serial] = $data;
         }
 
-        $variables['contentVariableElements'] = isset($options['contentVariableElements']) && is_array($options['contentVariableElements']) ? $options['contentVariableElements'] : [];
-        $variables['tao_lib_path'] = isset($options['path']) && isset($options['path']['tao']) ? $options['path']['tao'] : '';
-        $variables['taoQtiItem_lib_path'] = isset($options['path']) && isset($options['path']['taoQtiItem']) ? $options['path']['taoQtiItem'] : '';
+        $variables['contentVariableElements'] = isset($options['contentVariableElements'])
+            && is_array($options['contentVariableElements'])
+                ? $options['contentVariableElements']
+                : [];
+        $variables['tao_lib_path'] = isset($options['path'], $options['path']['tao']) ? $options['path']['tao'] : '';
+        $variables['taoQtiItem_lib_path'] = isset($options['path']) && isset($options['path']['taoQtiItem'])
+            ? $options['path']['taoQtiItem']
+            : '';
         $variables['client_config_url'] = isset($options['client_config_url']) ? $options['client_config_url'] : '';
 
         $tplRenderer = new taoItems_models_classes_TemplateRenderer($template, $variables);
@@ -534,7 +555,10 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
     {
         $userScripts = [];
 
-        $userScriptConfig = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig('userScripts');
+        $userScriptConfig = \common_ext_ExtensionsManager::singleton()
+            ->getExtensionById('taoQtiItem')
+            ->getConfig('userScripts');
+
         if (is_array($userScriptConfig)) {
             foreach ($userScriptConfig as $data) {
                 $userScripts[] = Template::js($data['src'], $data['extension']);
@@ -608,7 +632,8 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
      *
      * @access public
      * @author Sam, <sam@taotesting.com>
-     * @param boolean $validate (optional) Validate the XML output against QTI Specification (XML Schema). Default is false.
+     * @param boolean $validate (optional) Validate the XML output against QTI Specification (XML Schema).
+     *                          Default is false.
      * @return string
      * @throws exception\QtiModelException
      */
@@ -622,7 +647,9 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         // render and clean the xml
         $dom = new DOMDocument('1.0', 'UTF-8');
 
-        $domDocumentConfig = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig('XMLParser');
+        $domDocumentConfig = \common_ext_ExtensionsManager::singleton()
+            ->getExtensionById('taoQtiItem')
+            ->getConfig('XMLParser');
 
         if (is_array($domDocumentConfig) && !empty($domDocumentConfig)) {
             foreach ($domDocumentConfig as $param => $value) {
@@ -666,10 +693,26 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
         $data = parent::toArray($filterVariableContent, $filtered);
         $data['namespaces'] = $this->getNamespaces();
         $data['schemaLocations'] = $this->getSchemaLocations();
-        $data['stylesheets'] = $this->getArraySerializedElementCollection($this->getStylesheets(), $filterVariableContent, $filtered);
-        $data['outcomes'] = $this->getArraySerializedElementCollection($this->getOutcomes(), $filterVariableContent, $filtered);
-        $data['responses'] = $this->getArraySerializedElementCollection($this->getResponses(), $filterVariableContent, $filtered);
-        $data['feedbacks'] = $this->getArraySerializedElementCollection($this->getModalFeedbacks(), $filterVariableContent, $filtered);
+        $data['stylesheets'] = $this->getArraySerializedElementCollection(
+            $this->getStylesheets(),
+            $filterVariableContent,
+            $filtered
+        );
+        $data['outcomes'] = $this->getArraySerializedElementCollection(
+            $this->getOutcomes(),
+            $filterVariableContent,
+            $filtered
+        );
+        $data['responses'] = $this->getArraySerializedElementCollection(
+            $this->getResponses(),
+            $filterVariableContent,
+            $filtered
+        );
+        $data['feedbacks'] = $this->getArraySerializedElementCollection(
+            $this->getModalFeedbacks(),
+            $filterVariableContent,
+            $filtered
+        );
         $data['responseProcessing'] = $this->responseProcessing->toArray($filterVariableContent, $filtered);
         $data['apipAccessibility'] = $this->getApipAccessibility();
         return $data;

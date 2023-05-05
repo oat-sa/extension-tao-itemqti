@@ -140,7 +140,7 @@ abstract class Interaction extends Element implements IdentifiedElementContainer
     {
         $returnValue = null;
 
-        if (!empty(static::$choiceClass) && is_subclass_of(static::$choiceClass, 'oat\\taoQtiItem\\model\\qti\\choice\\Choice')) {
+        if (!empty(static::$choiceClass) && is_subclass_of(static::$choiceClass, Choice::class)) {
             $returnValue = new static::$choiceClass($choiceAttributes);
             $returnValue->setContent($choiceValue);
             $this->addChoice($returnValue);
@@ -178,7 +178,8 @@ abstract class Interaction extends Element implements IdentifiedElementContainer
     protected function getTemplateQtiVariables()
     {
         $variables = parent::getTemplateQtiVariables();
-        // remove the identifier attribute to comply with the standard, it is used interally to manage multiple interactions within a single item.
+        // remove the identifier attribute to comply with the standard, it is used interally to manage multiple
+        // interactions within a single item.
         unset($variables['attributes']['identifier']);
         $variables['choices'] = '';
         foreach ($this->getChoices() as $choice) {
@@ -279,8 +280,7 @@ abstract class Interaction extends Element implements IdentifiedElementContainer
                 if ($cardinality == 'ordered') {
                     if ($numeric) {
                         $returnValue = 0;
-                    } // meaning, infinite
-                    else {
+                    } else { // meaning, infinite
                         $returnValue = $cardinality;
                     }
                     break;
@@ -345,7 +345,12 @@ abstract class Interaction extends Element implements IdentifiedElementContainer
     public function toArray($filterVariableContent = false, &$filtered = [])
     {
         $data = parent::toArray($filterVariableContent, $filtered);
-        $data['choices'] = $this->getArraySerializedElementCollection($this->getChoices(), $filterVariableContent, $filtered);
+        $data['choices'] = $this->getArraySerializedElementCollection(
+            $this->getChoices(),
+            $filterVariableContent,
+            $filtered
+        );
+
         return $data;
     }
 
@@ -393,7 +398,9 @@ abstract class Interaction extends Element implements IdentifiedElementContainer
     {
         $returnValue = null;
 
-        $interactionFormClass = '\\oat\\taoQtiItem\\controller\\QTIform\\interaction\\' . ucfirst(strtolower($this->getType())) . 'Interaction';
+        $interactionFormClass = '\\oat\\taoQtiItem\\controller\\QTIform\\interaction\\'
+            . ucfirst(strtolower($this->getType())) . 'Interaction';
+
         if (!class_exists($interactionFormClass)) {
             throw new Exception("the class {$interactionFormClass} does not exist");
         } else {

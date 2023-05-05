@@ -106,8 +106,13 @@ class Authoring
      * @return array
      * @throws common_exception_Error
      */
-    public static function addRequiredResources($sourceDirectory, $relativeSourceFiles, $prefix, core_kernel_classes_Resource $item, $lang)
-    {
+    public static function addRequiredResources(
+        $sourceDirectory,
+        $relativeSourceFiles,
+        $prefix,
+        core_kernel_classes_Resource $item,
+        $lang
+    ) {
 
         $returnValue = [];
 
@@ -157,8 +162,10 @@ class Authoring
         }
 
         $ids = [];
+        $elementsWithId = $xpath->query("//*[not(local-name()='lib') and not(local-name()='module') and @id]");
+
         /** @var \DOMElement $elementWithId */
-        foreach ($xpath->query("//*[not(local-name()='lib') and not(local-name()='module') and @id]") as $elementWithId) {
+        foreach ($elementsWithId as $elementWithId) {
             $id = $elementWithId->getAttribute('id');
             if (in_array($id, $ids)) {
                 $elementWithId->removeAttribute('id');
@@ -188,12 +195,17 @@ class Authoring
         } elseif (is_file($file)) {
             $qti = file_get_contents($file);
         } else {
-            throw new \common_exception_Error("Wrong parameter. " . __CLASS__ . "::" . __METHOD__ . " accepts either XML content or the path to a file but got " . substr($file, 0, 500));
+            throw new \common_exception_Error(
+                "Wrong parameter. " . __CLASS__ . "::" . __METHOD__
+                    . " accepts either XML content or the path to a file but got " . substr($file, 0, 500)
+            );
         }
 
         $dom = new DOMDocument('1.0', 'UTF-8');
 
-        $domDocumentConfig = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig('XMLParser');
+        $domDocumentConfig = \common_ext_ExtensionsManager::singleton()
+            ->getExtensionById('taoQtiItem')
+            ->getConfig('XMLParser');
 
         if (is_array($domDocumentConfig) && !empty($domDocumentConfig)) {
             foreach ($domDocumentConfig as $param => $value) {

@@ -49,7 +49,10 @@ class LabelClassLookup implements MetadataClassLookup
                 // Check for such a value in database...
                 $prop = new \core_kernel_classes_Property(OntologyRdfs::RDFS_LABEL);
                 $class = new \core_kernel_classes_Class(OntologyRdfs::RDFS_CLASS);
-                $instances = $class->searchInstances([$prop->getUri() => $metadataValue->getValue()], ['like' => false, 'recursive' => true]);
+                $instances = $class->searchInstances(
+                    [$prop->getUri() => $metadataValue->getValue()],
+                    ['like' => false, 'recursive' => true]
+                );
 
                 if (count($instances) > 0) {
                     $lookup = new \core_kernel_classes_Class(reset($instances));
