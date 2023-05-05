@@ -16,15 +16,13 @@
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
- *
+ * phpcs:disable Generic.Files.LineLength
  */
 ?>
-<outcomeDeclaration <?=get_data('attributes')?><?php if (is_null(get_data('defaultValue'))) :
-    ?>/>
-                    <?php else :
-                        ?>>
+<outcomeDeclaration <?=get_data('attributes')?><?php if(is_null(get_data('defaultValue'))):?>/>
+<?php else:?>>
     <defaultValue>
         <value><?=get_data('defaultValue')?></value>
     </defaultValue>
 </outcomeDeclaration>
-                    <?php endif?>
+<?php endif?>

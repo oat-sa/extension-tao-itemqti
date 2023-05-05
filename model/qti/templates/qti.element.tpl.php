@@ -16,13 +16,9 @@
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
- *
+ * phpcs:disable Generic.Files.LineLength
  */
 $attributes = get_data('attributes');
-$attributes = empty($attributes) ? '' : ' ' . $attributes;//add space if not empty
+$attributes = empty($attributes) ? '' : ' '.$attributes;//add space if not empty
 ?>
-<?php if (trim(get_data('body') == '')) :
-    ?><<?=get_data('tag')?><?=$attributes?>/><?php
-else :
-    ?><<?=get_data('tag')?><?=$attributes?>><?=get_data('body')?></<?=get_data('tag')?>><?php
-endif;?>
+<?php if(trim(get_data('body') == '')):?><<?=get_data('tag')?><?=$attributes?>/><?php else:?><<?=get_data('tag')?><?=$attributes?>><?=get_data('body')?></<?=get_data('tag')?>><?php endif;?>
