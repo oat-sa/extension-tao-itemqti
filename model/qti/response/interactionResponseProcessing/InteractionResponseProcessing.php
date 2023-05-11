@@ -108,13 +108,19 @@ abstract class InteractionResponseProcessing implements Rule
                 $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\None';
                 break;
             case MatchCorrectTemplate::CLASS_ID:
+                // phpcs:disable Generic.Files.LineLength
                 $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\MatchCorrectTemplate';
+                // phpcs:enable Generic.Files.LineLength
                 break;
             case MapResponseTemplate::CLASS_ID:
+                // phpcs:disable Generic.Files.LineLength
                 $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\MapResponseTemplate';
+                // phpcs:enable Generic.Files.LineLength
                 break;
             case MapResponsePointTemplate::CLASS_ID:
+                // phpcs:disable Generic.Files.LineLength
                 $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\MapResponsePointTemplate';
+                // phpcs:enable Generic.Files.LineLength
                 break;
             case Custom::CLASS_ID:
                 $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\Custom';
