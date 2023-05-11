@@ -1809,7 +1809,11 @@ class ParserFactory
 
     private function getPciClass(DOMElement $data)
     {
-        return $this->getPortableElementClass($data, CustomInteraction::class, 'portableCustomInteraction');
+        return $this->getPortableElementClass(
+            $data,
+            'oat\\taoQtiItem\\model\\qti\\interaction\\CustomInteraction',
+            'portableCustomInteraction'
+        );
     }
 
     private function getPicClass(DOMElement $data)

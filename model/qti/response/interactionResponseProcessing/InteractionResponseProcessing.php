@@ -108,13 +108,13 @@ abstract class InteractionResponseProcessing implements Rule
                 $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\None';
                 break;
             case MatchCorrectTemplate::CLASS_ID:
-                $className = MatchCorrectTemplate::class;
+                $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\MatchCorrectTemplate';
                 break;
             case MapResponseTemplate::CLASS_ID:
-                $className = MapResponseTemplate::class;
+                $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\MapResponseTemplate';
                 break;
             case MapResponsePointTemplate::CLASS_ID:
-                $className = MapResponsePointTemplate::class;
+                $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\MapResponsePointTemplate';
                 break;
             case Custom::CLASS_ID:
                 $className = 'oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\Custom';

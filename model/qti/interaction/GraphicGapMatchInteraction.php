@@ -57,7 +57,10 @@ class GraphicGapMatchInteraction extends GraphicInteraction
 
         $returnValue = null;
 
-        if (!empty(static::$choiceClass) && is_subclass_of(static::$choiceClass, Choice::class)) {
+        if (
+            !empty(static::$choiceClass)
+            && is_subclass_of(static::$choiceClass, 'oat\\taoQtiItem\\model\\qti\\choice\\Choice')
+        ) {
             $returnValue = new GapImg(empty($objectLabel) ? [] : ['objectLabel' => (string) $objectLabel]);
             $returnValue->setContent(new QtiObject($objectAttributes));
             $this->addGapImg($returnValue);

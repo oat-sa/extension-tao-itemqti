@@ -162,7 +162,10 @@ class MatchInteraction extends BlockInteraction
         $returnValue = null;
 
         if ($this->isValidMatchSetNumber($setNumber)) {
-            if (!empty(static::$choiceClass) && is_subclass_of(static::$choiceClass, Choice::class)) {
+            if (
+                !empty(static::$choiceClass)
+                && is_subclass_of(static::$choiceClass, 'oat\\taoQtiItem\\model\\qti\\choice\\Choice')
+            ) {
                 $returnValue = new static::$choiceClass($choiceAttributes, $choiceValue);
                 $this->addChoice($returnValue, $setNumber);
             }

@@ -28,7 +28,6 @@ use oat\taoQtiItem\model\qti\container\FlowContainer;
 use oat\taoQtiItem\model\qti\ContentVariable;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\container\ContainerStatic;
-use oat\taoQtiItem\model\qti\attribute\View;
 
 /**
  * The QTI RubricBlock
@@ -70,7 +69,8 @@ class RubricBlock extends Element implements FlowContainer, ContentVariable
     protected function getUsedAttributes()
     {
         return [
-            View::class, //@todo: the cardinality actually is [0..*], make it this way!
+            //@todo: the cardinality actually is [0..*], make it this way!
+            'oat\\taoQtiItem\\model\\qti\\attribute\\View',
             'oat\\taoQtiItem\\model\\qti\\attribute\\UseAttribute'
         ];
     }

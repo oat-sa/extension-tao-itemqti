@@ -29,7 +29,6 @@ use common_Logger;
 use taoItems_models_classes_TemplateRenderer;
 use ReflectionClass;
 use stdClass;
-use oat\taoQtiItem\model\qti\attribute\Attribute;
 
 /**
  * The QTI_Element class represent the abstract model for all the QTI objects.
@@ -110,7 +109,10 @@ abstract class Element implements Exportable
     {
         $this->attributes = [];
         foreach ($this->getUsedAttributes() as $attributeClass) {
-            if (class_exists($attributeClass) && is_subclass_of($attributeClass, Attribute::class)) {
+            if (
+                class_exists($attributeClass)
+                && is_subclass_of($attributeClass, 'oat\\taoQtiItem\\model\\qti\\attribute\\Attribute')
+            ) {
                 $attribute = new $attributeClass();
                 $this->attributes[$attribute->getName()] = $attribute;
             } else {

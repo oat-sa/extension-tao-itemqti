@@ -231,7 +231,7 @@ class ImportService extends ConfigurableService
                     if (isset($libXmlError['line'])) {
                         // phpcs:disable Generic.Files.LineLength
                         $error = __('XML error at line %1$d "%2$s".', $libXmlError['line'], str_replace('[LibXMLError] ', '', trim($libXmlError['message'])));
-                        // phpcs:enable Generic.Files.LineLength
+                    // phpcs:enable Generic.Files.LineLength
                     } else {
                         // phpcs:disable Generic.Files.LineLength
                         $error = __('XML error "%1$s".', str_replace('[LibXMLError] ', '', trim($libXmlError['message'])));
@@ -629,7 +629,7 @@ class ImportService extends ConfigurableService
                 if ($guardian !== false) {
                     // phpcs:disable Generic.Files.LineLength
                     $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was successfully overwritten.', $qtiItemResource->getIdentifier());
-                    // phpcs:enable Generic.Files.LineLength
+                // phpcs:enable Generic.Files.LineLength
                 } else {
                     // phpcs:disable Generic.Files.LineLength
                     $msg = __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was successfully imported.', $qtiItemResource->getIdentifier());

@@ -23,7 +23,6 @@
 namespace oat\taoQtiItem\model\qti\attribute;
 
 use oat\taoQtiItem\model\qti\datatype\DatatypeException;
-use oat\taoQtiItem\model\qti\datatype\Datatype;
 
 /**
  * It is the top class of every attributes used in QTI
@@ -101,7 +100,10 @@ abstract class Attribute
             );
         }
 
-        if (class_exists(static::$type) && is_subclass_of(static::$type, Datatype::class)) {
+        if (
+            class_exists(static::$type)
+            && is_subclass_of(static::$type, 'oat\\taoQtiItem\\model\\qti\\datatype\\Datatype')
+        ) {
             if (!is_null($value)) {
                 $this->value = new static::$type($value);
             } elseif (!is_null(static::$defaultValue)) {

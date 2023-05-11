@@ -140,7 +140,10 @@ abstract class Interaction extends Element implements IdentifiedElementContainer
     {
         $returnValue = null;
 
-        if (!empty(static::$choiceClass) && is_subclass_of(static::$choiceClass, Choice::class)) {
+        if (
+            !empty(static::$choiceClass)
+            && is_subclass_of(static::$choiceClass, 'oat\\taoQtiItem\\model\\qti\\choice\\Choice')
+        ) {
             $returnValue = new static::$choiceClass($choiceAttributes);
             $returnValue->setContent($choiceValue);
             $this->addChoice($returnValue);
