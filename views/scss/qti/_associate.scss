@@ -40,7 +40,7 @@
             position: relative;
             @extend .clearfix;
             &:before {
-                @extend .clearfix:before;
+                @extend %clearfix-before;
                 border-top: 1px solid whiten($info, 0.5);
                 display: block;
                 width: 80%;
@@ -51,7 +51,7 @@
                 top: 50%;
             }
             &:after {
-                @extend .clearfix:after;
+                @extend %clearfix-after;
             }
             & > .target {
                 background: white;
