@@ -188,6 +188,9 @@ img.dragging.ui-draggable-dragging {
 }
 #panel-authoring {
     height: calc(100vh - 135px);
+    &.context-structure-tests {
+        height: inherit;
+    }
 }
 #item-editor-scope {
     height: calc(100% - 35px);
@@ -216,6 +219,9 @@ img.dragging.ui-draggable-dragging {
 
 #panel-authoring {
     height: calc(100vh - 135px);
+    &.context-structure-tests {
+        height: inherit;
+    }
     #item-editor-scope {
         height: 100%;
     }
