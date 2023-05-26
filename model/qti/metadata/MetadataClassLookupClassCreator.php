@@ -36,7 +36,6 @@ namespace oat\taoQtiItem\model\qti\metadata;
  */
 interface MetadataClassLookupClassCreator extends MetadataClassLookup
 {
-
     /**
      * Whether or not a class has been created.
      *

@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class MappingIndicator extends Attribute
 {
-    
     protected static $name = 'mappingIndicator';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\String256';
     protected static $defaultValue = '=';

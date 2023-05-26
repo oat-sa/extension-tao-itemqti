@@ -15,9 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  */
 
 namespace oat\taoQtiItem\model\Export;
@@ -82,7 +83,8 @@ abstract class ExportForm extends tao_helpers_form_FormContainer
 
         $exportElt = tao_helpers_form_FormFactory::getElement('export', 'Free');
         $exportElt->setValue(
-            '<a href="#" class="form-submitter btn-success small"><span class="icon-export"></span> ' . __('Export') . '</a>'
+            '<a href="#" class="form-submitter btn-success small"><span class="icon-export"></span> '
+                . __('Export') . '</a>'
         );
 
         $this->form->setActions([$exportElt], 'bottom');

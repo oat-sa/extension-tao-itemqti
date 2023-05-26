@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class Loop extends Attribute
 {
-    
     protected static $name = 'loop';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiBoolean';
     protected static $defaultValue = false;

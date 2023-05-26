@@ -19,13 +19,14 @@
  *
  *
  */
+
 namespace oat\taoQtiItem\model\qti\expression;
 
 use oat\taoQtiItem\model\qti\expression\CommonExpression;
 use oat\taoQtiItem\model\qti\expression\Expression;
 use oat\taoQtiItem\model\qti\response\Rule;
-use \common_Exception;
-use \Exception;
+use common_Exception;
+use Exception;
 
 /**
  * Short description of class
@@ -86,7 +87,7 @@ class CommonExpression extends Expression implements Rule
     {
         $returnValue = (string) '';
 
-        
+
         // Get subExpressions
         $subExpressionsRules = [];
         foreach ($this->subExpressions as $subExpression) {
@@ -96,7 +97,7 @@ class CommonExpression extends Expression implements Rule
 
         // Format options
         $optionsJSON = count($this->attributes) ? '"' . addslashes(json_encode($this->attributes)) . '"' : 'null';
-        
+
         // Format rule function of the expression operator
         switch ($this->name) {
             case 'correct':
@@ -108,15 +109,15 @@ class CommonExpression extends Expression implements Rule
                     . $optionsJSON
                     . ', getMap("' . $identifier . '"), getResponse("' . $identifier . '"))';
                 break;
-            // Multiple is a Creation of List from parameters
+                // Multiple is a Creation of List from parameters
             case 'multiple':
                 $returnValue = 'createVariable("{\"type\":\"list\"}", ' . $subExpressionsJSON . ')';
                 break;
-            // Null is a Creation of empty BaseTypeVariable
+                // Null is a Creation of empty BaseTypeVariable
             case 'null':
                 $returnValue = 'createVariable(null, null)';
                 break;
-            // Ordered is a Creation of Tuple from parameters
+                // Ordered is a Creation of Tuple from parameters
             case 'ordered':
                 $returnValue = 'createVariable("{\"type\":\"tuple\"}", ' . $subExpressionsJSON . ')';
                 break;
@@ -130,7 +131,7 @@ class CommonExpression extends Expression implements Rule
             case 'variable':
                 $returnValue = 'getVariable("' . $this->attributes['identifier'] . '")';
                 break;
-            
+
             default:
                 $returnValue =
                     $this->name . '('
@@ -138,7 +139,7 @@ class CommonExpression extends Expression implements Rule
                         . ($subExpressionsJSON != "" ? ', ' . $subExpressionsJSON : '')
                     . ')';
         }
-        
+
 
         return (string) $returnValue;
     }
@@ -154,7 +155,7 @@ class CommonExpression extends Expression implements Rule
      */
     public function __construct($name, $attributes)
     {
-        
+
         $this->name = $name;
         $this->attributes = $attributes;
     }
@@ -169,7 +170,7 @@ class CommonExpression extends Expression implements Rule
      */
     public function setSubExpressions($expressions)
     {
-        
+
         $this->subExpressions = $expressions;
     }
 
@@ -183,8 +184,8 @@ class CommonExpression extends Expression implements Rule
      */
     public function setValue($value)
     {
-        
-     
+
+
         // Set the value of the expression and cast it function of the (defined) base type of the variable
         if ($this->attributes['baseType']) {
             switch ($this->attributes['baseType']) {
@@ -196,7 +197,10 @@ class CommonExpression extends Expression implements Rule
                     } elseif ($value == null) {
                         $this->value = null;
                     } else {
-                        throw new Exception('taoQTI_models_classes_QTI_response_ExpressionOperator::setValue : an error occured, the value [' . $value . '] is not a well formed boolean');
+                        throw new Exception(
+                            'taoQTI_models_classes_QTI_response_ExpressionOperator::setValue : an error '
+                                . 'occured, the value [' . $value . '] is not a well formed boolean'
+                        );
                     }
                     break;
                 case 'float':
@@ -210,10 +214,16 @@ class CommonExpression extends Expression implements Rule
                     $this->value = (string)$value;
                     break;
                 case 'pair':
-                    $this->value = taoQTI_models_classes_Matching_VariableFactory::createJSONValueFromQTIData($value, 'pair');
+                    $this->value = taoQTI_models_classes_Matching_VariableFactory::createJSONValueFromQTIData(
+                        $value,
+                        'pair'
+                    );
                     break;
                 case 'directedPair':
-                    $this->value = taoQTI_models_classes_Matching_VariableFactory::createJSONValueFromQTIData($value, 'directedPair');
+                    $this->value = taoQTI_models_classes_Matching_VariableFactory::createJSONValueFromQTIData(
+                        $value,
+                        'directedPair'
+                    );
                     break;
             }
         }

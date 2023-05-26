@@ -26,7 +26,7 @@ use oat\taoQtiItem\model\qti\VariableDeclaration;
 use oat\taoQtiItem\model\qti\response\Template;
 use oat\taoQtiItem\model\qti\interaction\Interaction;
 use oat\taoQtiItem\model\qti\response\SimpleFeedbackRule;
-use \Exception;
+use Exception;
 use oat\taoQtiItem\model\qti\ContentVariable;
 
 /**
@@ -41,7 +41,6 @@ use oat\taoQtiItem\model\qti\ContentVariable;
  */
 class ResponseDeclaration extends VariableDeclaration implements ContentVariable
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
@@ -150,7 +149,11 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
         $protectedData['mappingAttributes'] = $mappingAttributes;
 
         //add simple feedbacks
-        $protectedData['feedbackRules'] = $this->getArraySerializedElementCollection($this->getFeedbackRules(), $filterVariableContent, $filtered);
+        $protectedData['feedbackRules'] = $this->getArraySerializedElementCollection(
+            $this->getFeedbackRules(),
+            $filterVariableContent,
+            $filtered
+        );
 
         if ($filterVariableContent) {
             $filtered[$this->getSerial()] = $protectedData;
@@ -186,18 +189,17 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
 
         $rpTemplate = '';
         switch ($this->howMatch) {
-            case Template::MATCH_CORRECT:{
+            case Template::MATCH_CORRECT:
                 $rpTemplate = 'match_correct';
                 break;
-            }
-            case Template::MAP_RESPONSE:{
+
+            case Template::MAP_RESPONSE:
                 $rpTemplate = 'map_response';
                 break;
-            }
-            case Template::MAP_RESPONSE_POINT:{
+
+            case Template::MAP_RESPONSE_POINT:
                 $rpTemplate = 'map_response_point';
                 break;
-            }
         }
         $variables['howMatch'] = $this->howMatch; //the template
         $variables['rpTemplate'] = $rpTemplate; //the template
@@ -358,7 +360,9 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
                 foreach ($mapping as $mapKey => $mappedValue) {
                     $areaMapEntryJSON = [];
                     $areaMapEntryJSON['value'] = (float) $mappedValue["mappedValue"];
+                    // phpcs:disable Generic.Files.LineLength
                     $areaMapEntryJSON['key'] = taoQTI_models_classes_Matching_VariableFactory::createJSONShapeFromQTIData($mappedValue);
+                    // phpcs:enable Generic.Files.LineLength
                     array_push($mappingValue, (object) $areaMapEntryJSON);
                 }
                 $returnValue['value'] = $mappingValue;
@@ -396,7 +400,10 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
                 foreach ($mapping as $mapKey => $mappedValue) {
                     $mapEntryJSON = [];
                     $mapEntryJSON['value'] = (float) $mappedValue;
-                    $mapEntryJSON['key'] = taoQTI_models_classes_Matching_VariableFactory::createJSONValueFromQTIData($mapKey, $this->getAttributeValue('baseType'));
+                    $mapEntryJSON['key'] = taoQTI_models_classes_Matching_VariableFactory::createJSONValueFromQTIData(
+                        $mapKey,
+                        $this->getAttributeValue('baseType')
+                    );
                     array_push($mappingValue, (object) $mapEntryJSON);
                 }
 
@@ -475,7 +482,9 @@ class ResponseDeclaration extends VariableDeclaration implements ContentVariable
 
         $interaction = $this->getAssociatedInteraction();
         if ($interaction instanceof Interaction) {
-            $responseFormClass = '\\oat\\taoQtiItem\\controller\\QTIform\\response\\' . ucfirst(strtolower($interaction->getType())) . 'Interaction';
+            $responseFormClass = '\\oat\\taoQtiItem\\controller\\QTIform\\response\\'
+                . ucfirst(strtolower($interaction->getType())) . 'Interaction';
+
             if (class_exists($responseFormClass)) {
                 $formContainer = new $responseFormClass($this);
                 $myForm = $formContainer->getForm();

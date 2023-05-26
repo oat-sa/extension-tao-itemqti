@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,10 +17,10 @@
  *
  * Copyright (c) 2020  (original work) Open Assessment Technologies SA;
  */
+
 declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\listener;
-
 
 use common_Exception;
 use core_kernel_classes_ContainerCollection;
@@ -39,7 +40,6 @@ use oat\oatbox\filesystem\File;
 
 class QtiXmlDataManagerTest extends TestCase
 {
-
     /**
      * @var QtiXmlDataManager
      */
@@ -105,8 +105,28 @@ class QtiXmlDataManagerTest extends TestCase
         $directoryMock->method('getFile')->willReturnCallback(static function ($param) use ($self) {
             $fileMock = $self->createMock(File::class);
             $fileMock->method('getBasename')->willReturn($param);
-            $fileMock->method('read')->willReturn('<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="id1234source" title="test 5" label="test 5" xml:lang="en-US" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="3.4.0-sprint136"></assessmentItem>');
-            $fileMock->method('write')->with('<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="id987destination" title="test 5" label="test 5" xml:lang="en-US" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="3.4.0-sprint136"></assessmentItem>');
+            $fileMock
+                ->method('read')
+                ->willReturn(
+                    '<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" '
+                        . 'xmlns:m="http://www.w3.org/1998/Math/MathML" '
+                        . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+                        . 'xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 '
+                        . 'http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="id1234source" '
+                        . 'title="test 5" label="test 5" xml:lang="en-US" adaptive="false" timeDependent="false" '
+                        . 'toolName="TAO" toolVersion="3.4.0-sprint136"></assessmentItem>'
+                );
+            $fileMock
+                ->method('write')
+                ->with(
+                    '<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" '
+                        . 'xmlns:m="http://www.w3.org/1998/Math/MathML" '
+                        . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+                        . 'xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 '
+                        . 'http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="id987destination" '
+                        . 'title="test 5" label="test 5" xml:lang="en-US" adaptive="false" timeDependent="false" '
+                        . 'toolName="TAO" toolVersion="3.4.0-sprint136"></assessmentItem>'
+                );
 
             return $fileMock;
         });

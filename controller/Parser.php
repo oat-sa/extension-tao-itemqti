@@ -21,8 +21,8 @@
 
 namespace oat\taoQtiItem\controller;
 
-use \tao_actions_CommonModule;
-use \common_Exception;
+use tao_actions_CommonModule;
+use common_Exception;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\qti\Parser as QtiParser;
 
@@ -36,7 +36,6 @@ use oat\taoQtiItem\model\qti\Parser as QtiParser;
  */
 class Parser extends tao_actions_CommonModule
 {
-
     public function getJson()
     {
 

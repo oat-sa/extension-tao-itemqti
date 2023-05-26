@@ -76,7 +76,7 @@ class MetadataRepositoryTest extends TestCase
         $this->propertyMock
         ->method('getWidget')
         ->willReturn($this->propertyMock);
-   
+
         $this->propertyMock
         ->method('getOnePropertyValue')
         ->willReturn("Alias Value");

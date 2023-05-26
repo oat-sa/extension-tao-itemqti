@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class BaseType extends Attribute
 {
-    
     protected static $name = 'baseType';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\BaseType';
     protected static $defaultValue = null;

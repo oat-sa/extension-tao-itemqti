@@ -36,7 +36,7 @@ class GenericLomOntologyClassificationExtractor implements MetadataExtractor
 {
     use OntologyAwareTrait;
 
-    static $excludedProperties = [
+    public static $excludedProperties = [
         OntologyRdf::RDF_TYPE,
         taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT,
         taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL,
@@ -57,7 +57,9 @@ class GenericLomOntologyClassificationExtractor implements MetadataExtractor
     public function extract($resource)
     {
         if (! $resource instanceof \core_kernel_classes_Resource) {
-            throw new MetadataExtractionException(__('The given target is not an instance of core_kernel_classes_Resource'));
+            throw new MetadataExtractionException(
+                __('The given target is not an instance of core_kernel_classes_Resource')
+            );
         }
 
         $identifier = \tao_helpers_Uri::getUniqueId($resource->getUri());

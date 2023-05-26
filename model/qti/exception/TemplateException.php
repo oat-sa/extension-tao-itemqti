@@ -23,5 +23,4 @@ namespace oat\taoQtiItem\model\qti\exception;
 
 class TemplateException extends \common_Exception
 {
-
 }

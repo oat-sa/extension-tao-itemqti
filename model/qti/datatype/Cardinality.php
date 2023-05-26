@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\datatype\Enumeration;
  */
 class Cardinality extends Enumeration
 {
-    
     public static function getEnumeration()
     {
         return [

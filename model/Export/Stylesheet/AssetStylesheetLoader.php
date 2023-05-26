@@ -27,6 +27,7 @@ use League\Flysystem\FilesystemInterface;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
+
 /** @todo fix the implementation as taoQtiItem MUST NOT depend on taoMediaManager */
 use oat\taoMediaManager\model\fileManagement\FlySystemManagement;
 use oat\taoQtiItem\model\Export\AbstractQTIItemExporter;

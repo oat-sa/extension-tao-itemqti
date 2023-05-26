@@ -72,7 +72,11 @@ class QtiItemAssetCompiler extends ConfigurationService
                 if ($this->isInlineAssetAndShouldNotBeReplaced($packedAsset)) {
                     continue;
                 }
-                $this->getXIncludeAdditionalAssetInjector()->injectNonRDFXincludeRelatedAssets($qtiItem, $publicDirectory, $packedAsset);
+                $this->getXIncludeAdditionalAssetInjector()->injectNonRDFXincludeRelatedAssets(
+                    $qtiItem,
+                    $publicDirectory,
+                    $packedAsset
+                );
 
                 if ($type != 'xinclude') {
                     if ($this->getQtiItemAssetReplacer()->shouldBeReplaced($packedAsset)) {

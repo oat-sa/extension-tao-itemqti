@@ -33,7 +33,6 @@ use oat\taoQtiItem\model\qti\exception\QtiModelException;
  */
 class AuthoringTest extends TaoPhpUnitTestRunner
 {
-
     /**
      * tests initialization
      */

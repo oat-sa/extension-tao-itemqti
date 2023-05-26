@@ -35,22 +35,21 @@ use oat\taoQtiItem\model\qti\datatype\Datatype;
  */
 class QtiBoolean extends Datatype
 {
-    
     public static function validate($value)
     {
         return is_bool($value);
     }
-    
+
     public static function fix($value)
     {
         $returnValue = null;
-        
+
         if (strcasecmp($value, 'false') == 0) {
             $returnValue = false;
         } elseif (!is_array($value) && !is_object($value)) {
             $returnValue = (bool)$value;//try casting to boolean type
         }
-        
+
         return $returnValue;
     }
 }

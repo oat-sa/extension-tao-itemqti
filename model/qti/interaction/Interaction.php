@@ -36,11 +36,10 @@ use oat\taoQtiItem\model\qti\choice\Choice;
 use oat\taoQtiItem\model\qti\IdentifierCollection;
 use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
-use \Exception;
+use Exception;
 
 abstract class Interaction extends Element implements IdentifiedElementContainer
 {
-
     /**
      * Define the class of choice associate to the interaction, to be overwritten
      * by concrete class
@@ -64,7 +63,7 @@ abstract class Interaction extends Element implements IdentifiedElementContainer
             'oat\\taoQtiItem\\model\\qti\\attribute\\ResponseIdentifier'
         ];
     }
-    
+
     /**
      * Return the array of Qti Choice objects
      *
@@ -91,7 +90,7 @@ abstract class Interaction extends Element implements IdentifiedElementContainer
         }
         return $returnValue;
     }
-    
+
     /**
      * Find a choice by its identifier
      *
@@ -141,7 +140,10 @@ abstract class Interaction extends Element implements IdentifiedElementContainer
     {
         $returnValue = null;
 
-        if (!empty(static::$choiceClass) && is_subclass_of(static::$choiceClass, 'oat\\taoQtiItem\\model\\qti\\choice\\Choice')) {
+        if (
+            !empty(static::$choiceClass)
+            && is_subclass_of(static::$choiceClass, 'oat\\taoQtiItem\\model\\qti\\choice\\Choice')
+        ) {
             $returnValue = new static::$choiceClass($choiceAttributes);
             $returnValue->setContent($choiceValue);
             $this->addChoice($returnValue);
@@ -179,7 +181,8 @@ abstract class Interaction extends Element implements IdentifiedElementContainer
     protected function getTemplateQtiVariables()
     {
         $variables = parent::getTemplateQtiVariables();
-        // remove the identifier attribute to comply with the standard, it is used interally to manage multiple interactions within a single item.
+        // remove the identifier attribute to comply with the standard, it is used interally to manage multiple
+        // interactions within a single item.
         unset($variables['attributes']['identifier']);
         $variables['choices'] = '';
         foreach ($this->getChoices() as $choice) {
@@ -254,78 +257,76 @@ abstract class Interaction extends Element implements IdentifiedElementContainer
             case 'hottext':
             case 'hotspot':
             case 'selectpoint':
-            case 'positionobject':{
-                    $max = intval($this->getAttributeValue('maxChoices'));
+            case 'positionobject':
+                $max = intval($this->getAttributeValue('maxChoices'));
                 if ($numeric) {
                     $returnValue = $max;
                 } else {
                     $returnValue = ($max == 1) ? 'single' : 'multiple'; // default=1
                 }
                 break;
-            }
+
             case 'associate':
             case 'match':
-            case 'graphicassociate':{
-                    $max = intval($this->getAttributeValue('maxAssociations'));
+            case 'graphicassociate':
+                $max = intval($this->getAttributeValue('maxAssociations'));
                 if ($numeric) {
                     $returnValue = $max;
                 } else {
                     $returnValue = ($max == 1) ? 'single' : 'multiple';
                 } // default=1
                 break;
-            }
-            case 'extendedtext':{
-                    // maxStrings + order or not?
-                    $cardinality = $this->getAttributeValue('cardinality');
+
+            case 'extendedtext':
+                // maxStrings + order or not?
+                $cardinality = $this->getAttributeValue('cardinality');
                 if ($cardinality == 'ordered') {
                     if ($numeric) {
                         $returnValue = 0;
-                    } // meaning, infinite
-                    else {
+                    } else { // meaning, infinite
                         $returnValue = $cardinality;
                     }
                     break;
                 }
-                    $max = intval($this->getAttributeValue('maxStrings'));
+                $max = intval($this->getAttributeValue('maxStrings'));
                 if ($numeric) {
                     $returnValue = $max;
                 } else {
                     $returnValue = ($max > 1) ? 'multiple' : 'single'; // optional
                 }
                 break;
-            }
-            case 'gapmatch':{
-                    // count the number of gap, i.e. "groups" in the interaction:
-                    $max = count($this->getGaps());
+
+            case 'gapmatch':
+                // count the number of gap, i.e. "groups" in the interaction:
+                $max = count($this->getGaps());
                 if ($numeric) {
                     $returnValue = $max;
                 } else {
                     $returnValue = ($max > 1) ? 'multiple' : 'single';
                 }
                 break;
-            }
-            case 'graphicgapmatch':{
-                    // strange that the standard always specifies "multiple":
-                    $returnValue = 'multiple';
-                    break;
-            }
+
+            case 'graphicgapmatch':
+                // strange that the standard always specifies "multiple":
+                $returnValue = 'multiple';
+                break;
+
             case 'order':
-            case 'graphicorder':{
-                    $returnValue = ($numeric) ? 1 : 'ordered';
-                    break;
-            }
+            case 'graphicorder':
+                $returnValue = ($numeric) ? 1 : 'ordered';
+                break;
+
             case 'inlinechoice':
             case 'textentry':
             case 'media':
             case 'slider':
             case 'upload':
-            case 'endattempt':{
-                    $returnValue = ($numeric) ? 1 : 'single';
-                    break;
-            }
-            default:{
-                    throw new QtiModelException("the current interaction type \"{$this->type}\" is not available yet");
-            }
+            case 'endattempt':
+                $returnValue = ($numeric) ? 1 : 'single';
+                break;
+
+            default:
+                throw new QtiModelException("the current interaction type \"{$this->type}\" is not available yet");
         }
 
         return $returnValue;
@@ -347,7 +348,12 @@ abstract class Interaction extends Element implements IdentifiedElementContainer
     public function toArray($filterVariableContent = false, &$filtered = [])
     {
         $data = parent::toArray($filterVariableContent, $filtered);
-        $data['choices'] = $this->getArraySerializedElementCollection($this->getChoices(), $filterVariableContent, $filtered);
+        $data['choices'] = $this->getArraySerializedElementCollection(
+            $this->getChoices(),
+            $filterVariableContent,
+            $filtered
+        );
+
         return $data;
     }
 
@@ -395,7 +401,9 @@ abstract class Interaction extends Element implements IdentifiedElementContainer
     {
         $returnValue = null;
 
-        $interactionFormClass = '\\oat\\taoQtiItem\\controller\\QTIform\\interaction\\' . ucfirst(strtolower($this->getType())) . 'Interaction';
+        $interactionFormClass = '\\oat\\taoQtiItem\\controller\\QTIform\\interaction\\'
+            . ucfirst(strtolower($this->getType())) . 'Interaction';
+
         if (!class_exists($interactionFormClass)) {
             throw new Exception("the class {$interactionFormClass} does not exist");
         } else {

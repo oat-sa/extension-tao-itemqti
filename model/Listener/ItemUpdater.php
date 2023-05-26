@@ -35,7 +35,6 @@ use taoItems_models_classes_ItemsService;
  */
 class ItemUpdater
 {
-    
     /**
      * synchronise item label
      * @param ItemRdfUpdatedEvent $event
@@ -50,7 +49,7 @@ class ItemUpdater
         if ($directory->exists() && in_array(taoItems_models_classes_itemModel::CLASS_URI_QTI, $itemModel)) {
             /* @var $file File */
             $file = $directory->getFile(Service::QTI_ITEM_FILE);
-                
+
             $qtiParser = new Parser($file->read());
             $qtiItem = $qtiParser->load();
             $label = mb_substr($rdfItem->getLabel(), 0, 256, 'UTF-8');

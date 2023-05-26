@@ -22,9 +22,9 @@ namespace oat\taoQtiItem\test\unit\metadata;
 
 use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor;
-use \DOMDocument;
+use DOMDocument;
 use oat\taoQtiItem\model\qti\metadata\MetadataExtractionException;
-use \stdClass;
+use stdClass;
 
 class ImsManifestExtractionTest extends TestCase
 {
@@ -46,7 +46,8 @@ class ImsManifestExtractionTest extends TestCase
      * @dataProvider sampleProvider
      *
      * @param string $imsManifestFile The relative path to the sample IMS Manifest File e.g. "sample1.xml".
-     * @param string $key The key of the returned metadata value array where to find the MetadataValue objects that belong to a given Resource Identifier.
+     * @param string $key The key of the returned metadata value array where to find the MetadataValue objects that
+     *                    belong to a given Resource Identifier.
      * @param integer $index The index where to find the metadata value. The index begins at 0.
      * @param string $path The path of the metadata.
      * @param string $identifier A QTI identifier.
@@ -63,7 +64,10 @@ class ImsManifestExtractionTest extends TestCase
         $values = $this->imsManifestExtractor->extract($domManifest);
 
         $this->assertTrue(isset($values[$key]), "No metadata array found at key '${key}'.");
-        $this->assertTrue(isset($values[$key][$index]), "No Metadata value found at index '${index}' for key '${key}' in file '${imsManifestFile}'.");
+        $this->assertTrue(
+            isset($values[$key][$index]),
+            "No Metadata value found at index '${index}' for key '${key}' in file '${imsManifestFile}'."
+        );
 
         $value = $values[$key][$index];
         $this->assertInstanceOf(
@@ -72,12 +76,41 @@ class ImsManifestExtractionTest extends TestCase
             "The value found at index '${index}' is not a MetadataValue object in file '${imsManifestFile}'."
         );
 
-        $this->assertEquals($path, $value->getPath(), "The MetadataValue object with index '${index}' contains an unexpected Path in file '${imsManifestFile}'.");
-        $this->assertEquals($identifier, $value->getResourceIdentifier(), "The MetadataValue object with index '${index}' contains an unexpected Resource Identifier in file '${imsManifestFile}'.");
-        $this->assertEquals($type, $value->getResourceType(), "The MetadataValue object with index '${index}' contains an unexpected Resource Type in file '${imsManifestFile}'.");
-        $this->assertEquals($href, $value->getResourceHref(), "The MetadataValue object with index '${index}' contains an unexpected Resource Hypertext reference in file '${imsManifestFile}'.");
-        $this->assertEquals($val, $value->getValue(), "The MetadataValue object with index '${index}' contains an unexpected intrinsic metadata value in file '${imsManifestFile}'.");
-        $this->assertEquals($lang, $value->getLanguage(), "The MetadataValue object with index '${index}' contains an unexpected language in file '${imsManifestFile}'.");
+        $this->assertEquals(
+            $path,
+            $value->getPath(),
+            "The MetadataValue object with index '${index}' contains an unexpected Path in file '${imsManifestFile}'."
+        );
+        $this->assertEquals(
+            $identifier,
+            $value->getResourceIdentifier(),
+            "The MetadataValue object with index '${index}' contains an unexpected Resource Identifier in file "
+                . "'${imsManifestFile}'."
+        );
+        $this->assertEquals(
+            $type,
+            $value->getResourceType(),
+            "The MetadataValue object with index '${index}' contains an unexpected Resource Type in file "
+                . "'${imsManifestFile}'."
+        );
+        $this->assertEquals(
+            $href,
+            $value->getResourceHref(),
+            "The MetadataValue object with index '${index}' contains an unexpected Resource Hypertext "
+                . "reference in file '${imsManifestFile}'."
+        );
+        $this->assertEquals(
+            $val,
+            $value->getValue(),
+            "The MetadataValue object with index '${index}' contains an unexpected intrinsic metadata value in "
+                . "file '${imsManifestFile}'."
+        );
+        $this->assertEquals(
+            $lang,
+            $value->getLanguage(),
+            "The MetadataValue object with index '${index}' contains an unexpected language in file "
+                . "'${imsManifestFile}'."
+        );
     }
 
     public function sampleProvider()

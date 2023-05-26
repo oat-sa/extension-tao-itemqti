@@ -13,7 +13,6 @@ use oat\taoQtiItem\model\search\QtiItemContentTokenizer;
 
 final class Version202106170629531101_taoQtiItem extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return '';

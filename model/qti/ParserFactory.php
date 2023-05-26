@@ -41,6 +41,7 @@ use oat\taoQtiItem\model\InfoControlRegistry;
 use oat\taoQtiItem\model\qti\choice\ContainerChoice;
 use oat\taoQtiItem\model\qti\choice\TextVariableChoice;
 use oat\taoQtiItem\model\qti\choice\GapImg;
+use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\None;
 use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use oat\taoQtiItem\model\qti\OutcomeDeclaration;
 use oat\taoQtiItem\model\qti\response\Template;
@@ -58,11 +59,11 @@ use oat\taoQtiItem\model\qti\Stylesheet;
 use oat\taoQtiItem\model\qti\RubricBlock;
 use oat\taoQtiItem\model\qti\container\ContainerFeedbackInteractive;
 use oat\taoQtiItem\model\qti\container\ContainerStatic;
-use \DOMDocument;
-use \DOMXPath;
-use \DOMElement;
-use \common_Logger;
-use \SimpleXMLElement;
+use DOMDocument;
+use DOMXPath;
+use DOMElement;
+use common_Logger;
+use SimpleXMLElement;
 use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 use oat\oatbox\log\LoggerAwareTrait;
@@ -129,7 +130,7 @@ class ParserFactory
 
         //prepare the data string
         $bodyData = '';
-        $saveOptions = $keepEmptyTags ?  LIBXML_NOEMPTYTAG : 0;
+        $saveOptions = $keepEmptyTags ? LIBXML_NOEMPTYTAG : 0;
 
         $children  = $data->childNodes;
 
@@ -187,7 +188,11 @@ class ParserFactory
 
         //parse for feedback elements
         //warning: parse feedback elements before any other because feedback may contain them!
-        $feedbackNodes = $this->queryXPath(".//*[not(ancestor::feedbackBlock) and not(ancestor::feedbackInline) and contains(name(.), 'feedback')]", $data);
+        $feedbackNodes = $this->queryXPath(
+            ".//*[not(ancestor::feedbackBlock) and not(ancestor::feedbackInline) and contains(name(.), 'feedback')]",
+            $data
+        );
+
         foreach ($feedbackNodes as $feedbackNode) {
             $feedback = $this->buildFeedback($feedbackNode);
             if (!is_null($feedback)) {
@@ -332,7 +337,11 @@ class ParserFactory
         $bodyElements = [];
 
         //parse the xml to find the interaction nodes
-        $interactionNodes = $this->queryXPath(".//*[not(ancestor::feedbackBlock) and not(ancestor::feedbackInline) and contains(name(.), 'Interaction')]", $data);
+        $interactionNodes = $this->queryXPath(
+            ".//*[not(ancestor::feedbackBlock) and not(ancestor::feedbackInline) and contains(name(.), 'Interaction')]",
+            $data
+        );
+
         foreach ($interactionNodes as $k => $interactionNode) {
             if (strpos($interactionNode->nodeName, 'portableCustomInteraction') === false) {
                 //build an interaction instance
@@ -345,7 +354,11 @@ class ParserFactory
         }
 
         //parse for feedback elements interactive!
-        $feedbackNodes = $this->queryXPath(".//*[not(ancestor::feedbackBlock) and not(ancestor::feedbackInline) and contains(name(.), 'feedback')]", $data);
+        $feedbackNodes = $this->queryXPath(
+            ".//*[not(ancestor::feedbackBlock) and not(ancestor::feedbackInline) and contains(name(.), 'feedback')]",
+            $data
+        );
+
         foreach ($feedbackNodes as $feedbackNode) {
             $feedback = $this->buildFeedback($feedbackNode, true);
             if (!is_null($feedback)) {
@@ -470,7 +483,8 @@ class ParserFactory
             if ($attr->nodeName === 'xsi:schemaLocation') {
                 continue;
             }
-            $options[isset($this->attributeMap[$attr->nodeName]) ? $this->attributeMap[$attr->nodeName] : $attr->nodeName] = (string) $attr->nodeValue;
+
+            $options[$this->attributeMap[$attr->nodeName] ?? $attr->nodeName] = (string) $attr->nodeValue;
         }
         return $options;
     }
@@ -621,14 +635,17 @@ class ParserFactory
             } else {
                 $errormsg = "without errormessage";
             }
-            throw new ParsingException('XML error(' . $errormsg . ') on itemBody read' . (isset($itemId) ? ' for item ' . $itemId : ''));
+            throw new ParsingException(
+                'XML error(' . $errormsg . ') on itemBody read' . (isset($itemId) ? ' for item ' . $itemId : '')
+            );
         } elseif ($itemBodies->length) {
             $this->parseContainerItemBody($itemBodies->item(0), $this->item->getBody());
             $this->item->addClass($itemBodies->item(0)->getAttribute('class'));
         }
 
 
-        //warning: extract the response processing at the latest to make oat\taoQtiItem\model\qti\response\TemplatesDriven::takeOverFrom() work
+        // warning: extract the response processing at the latest to make
+        // oat\taoQtiItem\model\qti\response\TemplatesDriven::takeOverFrom() work
         $rpNodes = $this->queryXPath("*[name(.) = 'responseProcessing']", $data);
         if ($rpNodes->length === 0) {
             //no response processing node found: the template for an empty response processing is simply "NONE"
@@ -678,7 +695,11 @@ class ParserFactory
      */
     protected function loadSchemaLocations(DOMElement $itemData)
     {
-        $schemaLoc = preg_replace('/\s+/', ' ', trim($itemData->getAttributeNS($itemData->lookupNamespaceURI('xsi'), 'schemaLocation')));
+        $schemaLoc = preg_replace(
+            '/\s+/',
+            ' ',
+            trim($itemData->getAttributeNS($itemData->lookupNamespaceURI('xsi'), 'schemaLocation'))
+        );
         $schemaLocToken = explode(' ', $schemaLoc);
         $schemaCount = count($schemaLocToken);
         if ($schemaCount % 2) {
@@ -750,7 +771,12 @@ class ParserFactory
                         $matchSetNodes = $this->queryXPath("*[name(.) = 'simpleMatchSet']", $data); //simpleMatchSet
                         $matchSetNumber = 0;
                         foreach ($matchSetNodes as $matchSetNode) {
-                            $choiceNodes = $this->queryXPath("*[name(.) = 'simpleAssociableChoice']", $matchSetNode); //simpleAssociableChoice
+                            //simpleAssociableChoice
+                            $choiceNodes = $this->queryXPath(
+                                "*[name(.) = 'simpleAssociableChoice']",
+                                $matchSetNode
+                            );
+
                             foreach ($choiceNodes as $choiceNode) {
                                 $choice = $this->buildChoice($choiceNode);
                                 if (!is_null($choice)) {
@@ -796,6 +822,7 @@ class ParserFactory
                                 $myInteraction->addGapImg($choice);
                             }
                         }
+                        // no break
                     default:
                         //parse, extract and build the choice nodes contained in the interaction
                         $exp = "*[contains(name(.),'Choice')] | *[name(.)='associableHotspot']";
@@ -1023,9 +1050,25 @@ class ParserFactory
                 throw new UnexpectedResponseProcessing('the item must have exactly one response declaration');
             }
 
-            $patternCorrectIMS = 'responseCondition [count(./*) = 2 ] [name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] [name(./responseIf/match/*[1]) = "variable" ] [name(./responseIf/match/*[2]) = "correct" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ] [name(./*[2]) = "responseElse" ] [count(./responseElse/*) = 1 ] [name(./responseElse/*[1]) = "setOutcomeValue" ] [name(./responseElse/setOutcomeValue/*[1]) = "baseValue"]';
-            $patternMappingIMS = 'responseCondition [count(./*) = 2] [name(./*[1]) = "responseIf"] [count(./responseIf/*) = 2] [name(./responseIf/*[1]) = "isNull"] [name(./responseIf/isNull/*[1]) = "variable"] [name(./responseIf/*[2]) = "setOutcomeValue"] [name(./responseIf/setOutcomeValue/*[1]) = "variable"] [name(./*[2]) = "responseElse"] [count(./responseElse/*) = 1] [name(./responseElse/*[1]) = "setOutcomeValue"] [name(./responseElse/setOutcomeValue/*[1]) = "mapResponse"]';
-            $patternMappingPointIMS = 'responseCondition [count(./*) = 2] [name(./*[1]) = "responseIf"] [count(./responseIf/*) = 2] [name(./responseIf/*[1]) = "isNull"] [name(./responseIf/isNull/*[1]) = "variable"] [name(./responseIf/*[2]) = "setOutcomeValue"] [name(./responseIf/setOutcomeValue/*[1]) = "variable"] [name(./*[2]) = "responseElse"] [count(./responseElse/*) = 1] [name(./responseElse/*[1]) = "setOutcomeValue"] [name(./responseElse/setOutcomeValue/*[1]) = "mapResponsePoint"]';
+            $patternCorrectIMS = 'responseCondition [count(./*) = 2 ] [name(./*[1]) = "responseIf" ] '
+                . '[count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] '
+                . '[name(./responseIf/match/*[1]) = "variable" ] [name(./responseIf/match/*[2]) = "correct" ] '
+                . '[name(./responseIf/*[2]) = "setOutcomeValue" ] '
+                . '[name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ] [name(./*[2]) = "responseElse" ] '
+                . '[count(./responseElse/*) = 1 ] [name(./responseElse/*[1]) = "setOutcomeValue" ] '
+                . '[name(./responseElse/setOutcomeValue/*[1]) = "baseValue"]';
+            $patternMappingIMS = 'responseCondition [count(./*) = 2] [name(./*[1]) = "responseIf"] '
+                . '[count(./responseIf/*) = 2] [name(./responseIf/*[1]) = "isNull"] '
+                . '[name(./responseIf/isNull/*[1]) = "variable"] [name(./responseIf/*[2]) = "setOutcomeValue"] '
+                . '[name(./responseIf/setOutcomeValue/*[1]) = "variable"] [name(./*[2]) = "responseElse"] '
+                . '[count(./responseElse/*) = 1] [name(./responseElse/*[1]) = "setOutcomeValue"] '
+                . '[name(./responseElse/setOutcomeValue/*[1]) = "mapResponse"]';
+            $patternMappingPointIMS = 'responseCondition [count(./*) = 2] [name(./*[1]) = "responseIf"] '
+                . '[count(./responseIf/*) = 2] [name(./responseIf/*[1]) = "isNull"] '
+                . '[name(./responseIf/isNull/*[1]) = "variable"] [name(./responseIf/*[2]) = "setOutcomeValue"] '
+                . '[name(./responseIf/setOutcomeValue/*[1]) = "variable"] [name(./*[2]) = "responseElse"] '
+                . '[count(./responseElse/*) = 1] [name(./responseElse/*[1]) = "setOutcomeValue"] '
+                . '[name(./responseElse/setOutcomeValue/*[1]) = "mapResponsePoint"]';
             if (count($this->queryXPath($patternCorrectIMS)) == 1) {
                 $returnValue = new Template(Template::MATCH_CORRECT);
             } elseif (count($this->queryXPath($patternMappingIMS)) == 1) {
@@ -1107,10 +1150,26 @@ class ParserFactory
         $returnValue = null;
 
         // STRONGLY simplified summation detection
-        $patternCorrectTAO = '/responseCondition [count(./*) = 1 ] [name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] [name(./responseIf/match/*[1]) = "variable" ] [name(./responseIf/match/*[2]) = "correct" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [count(./responseIf/setOutcomeValue/*) = 1 ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue"]';
-        $patternMapTAO = '/responseCondition [count(./*) = 1 ] [name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "not" ] [count(./responseIf/not/*) = 1 ] [name(./responseIf/not/*[1]) = "isNull" ] [count(./responseIf/not/isNull/*) = 1 ] [name(./responseIf/not/isNull/*[1]) = "variable" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [count(./responseIf/setOutcomeValue/*) = 1 ] [name(./responseIf/setOutcomeValue/*[1]) = "mapResponse"]';
-        $patternMapPointTAO = '/responseCondition [count(./*) = 1 ] [name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "not" ] [count(./responseIf/not/*) = 1 ] [name(./responseIf/not/*[1]) = "isNull" ] [count(./responseIf/not/isNull/*) = 1 ] [name(./responseIf/not/isNull/*[1]) = "variable" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [count(./responseIf/setOutcomeValue/*) = 1 ] [name(./responseIf/setOutcomeValue/*[1]) = "mapResponsePoint"]';
-        $patternNoneTAO = '/responseCondition [count(./*) = 1 ] [name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "isNull" ] [count(./responseIf/isNull/*) = 1 ] [name(./responseIf/isNull/*[1]) = "variable" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [count(./responseIf/setOutcomeValue/*) = 1 ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue"]';
+        $patternCorrectTAO = '/responseCondition [count(./*) = 1 ] [name(./*[1]) = "responseIf" ] '
+            . '[count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] '
+            . '[name(./responseIf/match/*[1]) = "variable" ] [name(./responseIf/match/*[2]) = "correct" ] '
+            . '[name(./responseIf/*[2]) = "setOutcomeValue" ] [count(./responseIf/setOutcomeValue/*) = 1 ] '
+            . '[name(./responseIf/setOutcomeValue/*[1]) = "baseValue"]';
+        $patternMapTAO = '/responseCondition [count(./*) = 1 ] [name(./*[1]) = "responseIf" ] '
+            . '[count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "not" ] [count(./responseIf/not/*) = 1 ] '
+            . '[name(./responseIf/not/*[1]) = "isNull" ] [count(./responseIf/not/isNull/*) = 1 ] '
+            . '[name(./responseIf/not/isNull/*[1]) = "variable" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] '
+            . '[count(./responseIf/setOutcomeValue/*) = 1 ] [name(./responseIf/setOutcomeValue/*[1]) = "mapResponse"]';
+        $patternMapPointTAO = '/responseCondition [count(./*) = 1 ] [name(./*[1]) = "responseIf" ] '
+            . '[count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "not" ] [count(./responseIf/not/*) = 1 ] '
+            . '[name(./responseIf/not/*[1]) = "isNull" ] [count(./responseIf/not/isNull/*) = 1 ] '
+            . '[name(./responseIf/not/isNull/*[1]) = "variable" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] '
+            . '[count(./responseIf/setOutcomeValue/*) = 1 ] '
+            . '[name(./responseIf/setOutcomeValue/*[1]) = "mapResponsePoint"]';
+        $patternNoneTAO = '/responseCondition [count(./*) = 1 ] [name(./*[1]) = "responseIf" ] '
+            . '[count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "isNull" ] [count(./responseIf/isNull/*) = 1 ] '
+            . '[name(./responseIf/isNull/*[1]) = "variable" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] '
+            . '[count(./responseIf/setOutcomeValue/*) = 1 ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue"]';
         $possibleSummation = '/setOutcomeValue [count(./*) = 1 ] [name(./*[1]) = "sum" ]';
 
         $irps = [];
@@ -1169,7 +1228,10 @@ class ParserFactory
         }
 
         if (count(array_diff(array_keys($irps), array_keys($responses))) > 0) {
-            throw new UnexpectedResponseProcessing('Not composite, no responses for rules: ' . implode(',', array_diff(array_keys($irps), array_keys($responses))));
+            throw new UnexpectedResponseProcessing(
+                'Not composite, no responses for rules: '
+                    . implode(',', array_diff(array_keys($irps), array_keys($responses)))
+            );
         }
         if (count(array_diff(array_keys($responses), array_keys($irps))) > 0) {
             throw new UnexpectedResponseProcessing('Not composite, no support for unmatched variables yet');
@@ -1189,9 +1251,11 @@ class ParserFactory
             if (is_null($outcome)) {
                 throw new ParsingException('Undeclared Outcome in ResponseProcessing');
             }
-            $classname = '\\oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\' . $irps[$id]['class'];
+            $classname = '\\oat\\taoQtiItem\\model\\qti\\response\\interactionResponseProcessing\\'
+                . $irps[$id]['class'];
             $irp = new $classname($response, $outcome);
-            if ($irp instanceof \oat\taoQtiItem\model\qti\response\interactionResponseProcessing\None && isset($irps[$id]['default'])) {
+
+            if ($irp instanceof None && isset($irps[$id]['default'])) {
                 $irp->setDefaultValue($irps[$id]['default']);
             }
             $compositonRP->add($irp);
@@ -1281,30 +1345,72 @@ class ParserFactory
     protected function buildTemplatedrivenResponse(DOMElement $data, $interactions)
     {
 
-        $patternCorrectTAO = '/responseCondition [count(./*) = 1 ] [name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] [name(./responseIf/match/*[1]) = "variable" ] [name(./responseIf/match/*[2]) = "correct" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "sum" ] [name(./responseIf/setOutcomeValue/sum/*[1]) = "variable" ] [name(./responseIf/setOutcomeValue/sum/*[2]) = "baseValue"]';
-        $patternMappingTAO = '/responseCondition [count(./*) = 1] [name(./*[1]) = "responseIf"] [count(./responseIf/*) = 2] [name(./responseIf/*[1]) = "not"] [name(./responseIf/not/*[1]) = "isNull"] [name(./responseIf/not/isNull/*[1]) = "variable"] [name(./responseIf/*[2]) = "setOutcomeValue"] [name(./responseIf/setOutcomeValue/*[1]) = "sum"] [name(./responseIf/setOutcomeValue/sum/*[1]) = "variable"] [name(./responseIf/setOutcomeValue/sum/*[2]) = "mapResponse"]';
-        $patternMappingPointTAO = '/responseCondition [count(./*) = 1] [name(./*[1]) = "responseIf"] [count(./responseIf/*) = 2] [name(./responseIf/*[1]) = "not"] [name(./responseIf/not/*[1]) = "isNull"] [name(./responseIf/not/isNull/*[1]) = "variable"] [name(./responseIf/*[2]) = "setOutcomeValue"] [name(./responseIf/setOutcomeValue/*[1]) = "sum"] [name(./responseIf/setOutcomeValue/sum/*[1]) = "variable"] [name(./responseIf/setOutcomeValue/sum/*[2]) = "mapResponsePoint"]';
+        $patternCorrectTAO = '/responseCondition [count(./*) = 1 ] [name(./*[1]) = "responseIf" ] '
+            . '[count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] '
+            . '[name(./responseIf/match/*[1]) = "variable" ] [name(./responseIf/match/*[2]) = "correct" ] '
+            . '[name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "sum" ] '
+            . '[name(./responseIf/setOutcomeValue/sum/*[1]) = "variable" ] '
+            . '[name(./responseIf/setOutcomeValue/sum/*[2]) = "baseValue"]';
+        $patternMappingTAO = '/responseCondition [count(./*) = 1] [name(./*[1]) = "responseIf"] '
+            . '[count(./responseIf/*) = 2] [name(./responseIf/*[1]) = "not"] [name(./responseIf/not/*[1]) = "isNull"] '
+            . '[name(./responseIf/not/isNull/*[1]) = "variable"] [name(./responseIf/*[2]) = "setOutcomeValue"] '
+            . '[name(./responseIf/setOutcomeValue/*[1]) = "sum"] '
+            . '[name(./responseIf/setOutcomeValue/sum/*[1]) = "variable"] '
+            . '[name(./responseIf/setOutcomeValue/sum/*[2]) = "mapResponse"]';
+        $patternMappingPointTAO = '/responseCondition [count(./*) = 1] [name(./*[1]) = "responseIf"] '
+            . '[count(./responseIf/*) = 2] [name(./responseIf/*[1]) = "not"] [name(./responseIf/not/*[1]) = "isNull"] '
+            . '[name(./responseIf/not/isNull/*[1]) = "variable"] [name(./responseIf/*[2]) = "setOutcomeValue"] '
+            . '[name(./responseIf/setOutcomeValue/*[1]) = "sum"] '
+            . '[name(./responseIf/setOutcomeValue/sum/*[1]) = "variable"] '
+            . '[name(./responseIf/setOutcomeValue/sum/*[2]) = "mapResponsePoint"]';
 
-        $subPatternFeedbackOperatorIf = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [contains(name(./responseIf/*[1]/*[1]), "map")] [name(./responseIf/*[1]/*[2]) = "baseValue" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ]';
-        $subPatternFeedbackElse = '[name(./*[2]) = "responseElse"] [count(./responseElse/*) = 1 ] [name(./responseElse/*[1]) = "setOutcomeValue"] [name(./responseElse/setOutcomeValue/*[1]) = "baseValue"]';
-        $subPatternFeedbackCorrect = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] [name(./responseIf/*[1]/*[1]) = "variable" ] [name(./responseIf/*[1]/*[2]) = "correct" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ]';
-        $subPatternFeedbackIncorrect = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "not" ] [count(./responseIf/not) = 1 ] [name(./responseIf/not/*[1]) = "match" ] [name(./responseIf/not/*[1]/*[1]) = "variable" ] [name(./responseIf/not/*[1]/*[2]) = "correct" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ]';
-        $subPatternFeedbackMatchChoices = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] [name(./responseIf/*[1]/*[2]) = "multiple" ] [name(./responseIf/*[1]/*[2]/*) = "baseValue" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ] ';
-        $subPatternFeedbackMatchChoicesEmpty = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] [name(./responseIf/*[1]/*[2]) = "multiple" ] [count(./responseIf/*[1]/*[2]/*) = 0 ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ] ';
-        $subPatternFeedbackMatchChoice = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] [name(./responseIf/*[1]) = "match" ] [name(./responseIf/*[1]/*[2]) = "baseValue" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ] ';
+        $subPatternFeedbackOperatorIf = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] '
+            . '[contains(name(./responseIf/*[1]/*[1]), "map")] [name(./responseIf/*[1]/*[2]) = "baseValue" ] '
+            . '[name(./responseIf/*[2]) = "setOutcomeValue" ] [name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ]';
+        $subPatternFeedbackElse = '[name(./*[2]) = "responseElse"] [count(./responseElse/*) = 1 ] '
+            . '[name(./responseElse/*[1]) = "setOutcomeValue"] '
+            . '[name(./responseElse/setOutcomeValue/*[1]) = "baseValue"]';
+        $subPatternFeedbackCorrect = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] '
+            . '[name(./responseIf/*[1]) = "match" ] [name(./responseIf/*[1]/*[1]) = "variable" ] '
+            . '[name(./responseIf/*[1]/*[2]) = "correct" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] '
+            . '[name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ]';
+        $subPatternFeedbackIncorrect = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] '
+            . '[name(./responseIf/*[1]) = "not" ] [count(./responseIf/not) = 1 ] '
+            . '[name(./responseIf/not/*[1]) = "match" ] [name(./responseIf/not/*[1]/*[1]) = "variable" ] '
+            . '[name(./responseIf/not/*[1]/*[2]) = "correct" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] '
+            . '[name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ]';
+        $subPatternFeedbackMatchChoices = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] '
+            . '[name(./responseIf/*[1]) = "match" ] [name(./responseIf/*[1]/*[2]) = "multiple" ] '
+            . '[name(./responseIf/*[1]/*[2]/*) = "baseValue" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] '
+            . '[name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ] ';
+        $subPatternFeedbackMatchChoicesEmpty = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] '
+            . '[name(./responseIf/*[1]) = "match" ] [name(./responseIf/*[1]/*[2]) = "multiple" ] '
+            . '[count(./responseIf/*[1]/*[2]/*) = 0 ] [name(./responseIf/*[2]) = "setOutcomeValue" ] '
+            . '[name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ] ';
+        $subPatternFeedbackMatchChoice = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] '
+            . '[name(./responseIf/*[1]) = "match" ] [name(./responseIf/*[1]/*[2]) = "baseValue" ] '
+            . '[name(./responseIf/*[2]) = "setOutcomeValue" ] '
+            . '[name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ] ';
         $patternFeedbackOperator = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackOperatorIf;
-        $patternFeedbackOperatorWithElse = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackOperatorIf . $subPatternFeedbackElse;
+        $patternFeedbackOperatorWithElse = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackOperatorIf
+            . $subPatternFeedbackElse;
         $patternFeedbackCorrect = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackCorrect;
-        $patternFeedbackCorrectWithElse = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackCorrect . $subPatternFeedbackElse;
+        $patternFeedbackCorrectWithElse = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackCorrect
+            . $subPatternFeedbackElse;
         $patternFeedbackIncorrect = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackIncorrect;
-        $patternFeedbackIncorrectWithElse = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackIncorrect . $subPatternFeedbackElse;
+        $patternFeedbackIncorrectWithElse = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackIncorrect
+            . $subPatternFeedbackElse;
         $patternFeedbackMatchChoices = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackMatchChoices;
-        $patternFeedbackMatchChoicesWithElse  = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackMatchChoices . $subPatternFeedbackElse;
+        $patternFeedbackMatchChoicesWithElse  = '/responseCondition [count(./*) = 2 ]'
+            . $subPatternFeedbackMatchChoices . $subPatternFeedbackElse;
         $patternFeedbackMatchChoice = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackMatchChoice;
-        $patternFeedbackMatchChoicesEmpty = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackMatchChoicesEmpty;
-        $patternFeedbackMatchChoicesEmptyWithElse  = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackMatchChoicesEmpty . $subPatternFeedbackElse;
+        $patternFeedbackMatchChoicesEmpty = '/responseCondition [count(./*) = 1 ]'
+            . $subPatternFeedbackMatchChoicesEmpty;
+        $patternFeedbackMatchChoicesEmptyWithElse  = '/responseCondition [count(./*) = 2 ]'
+            . $subPatternFeedbackMatchChoicesEmpty . $subPatternFeedbackElse;
         $patternFeedbackMatchChoice = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackMatchChoice;
-        $patternFeedbackMatchChoiceWithElse  = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackMatchChoice . $subPatternFeedbackElse;
+        $patternFeedbackMatchChoiceWithElse  = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackMatchChoice
+            . $subPatternFeedbackElse;
 
         $rules = [];
         $simpleFeedbackRules = [];
@@ -1323,12 +1429,21 @@ class ParserFactory
             } elseif (count($subtree->xpath($patternMappingPointTAO)) > 0) {
                 $responseIdentifier = (string) $subtree->responseIf->not->isNull->variable['identifier'];
                 $rules[$responseIdentifier] = Template::MAP_RESPONSE_POINT;
-            } elseif (count($subtree->xpath($patternFeedbackCorrect)) > 0 || count($subtree->xpath($patternFeedbackCorrectWithElse)) > 0) {
+            } elseif (
+                count($subtree->xpath($patternFeedbackCorrect)) > 0
+                || count($subtree->xpath($patternFeedbackCorrectWithElse)) > 0
+            ) {
                 $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'correct');
-            } elseif (count($subtree->xpath($patternFeedbackIncorrect)) > 0 || count($subtree->xpath($patternFeedbackIncorrectWithElse)) > 0) {
+            } elseif (
+                count($subtree->xpath($patternFeedbackIncorrect)) > 0
+                || count($subtree->xpath($patternFeedbackIncorrectWithElse)) > 0
+            ) {
                 $responseIdentifier = (string) $subtree->responseIf->not->match->variable['identifier'];
                 $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'incorrect', null, $responseIdentifier);
-            } elseif (count($subtree->xpath($patternFeedbackOperator)) > 0 || count($subtree->xpath($patternFeedbackOperatorWithElse)) > 0) {
+            } elseif (
+                count($subtree->xpath($patternFeedbackOperator)) > 0
+                || count($subtree->xpath($patternFeedbackOperatorWithElse)) > 0
+            ) {
                 $operator = '';
                 $responseIdentifier = '';
                 $value = '';
@@ -1345,15 +1460,20 @@ class ParserFactory
                 }
                 $feedbackRule = $this->buildSimpleFeedbackRule($subtree, $operator, $value);
             } elseif (
-                count($subtree->xpath($patternFeedbackMatchChoices)) > 0 || count($subtree->xpath($patternFeedbackMatchChoicesWithElse)) > 0 ||
-                count($subtree->xpath($patternFeedbackMatchChoicesEmpty)) > 0 || count($subtree->xpath($patternFeedbackMatchChoicesEmptyWithElse)) > 0
+                count($subtree->xpath($patternFeedbackMatchChoices)) > 0
+                || count($subtree->xpath($patternFeedbackMatchChoicesWithElse)) > 0
+                || count($subtree->xpath($patternFeedbackMatchChoicesEmpty)) > 0
+                || count($subtree->xpath($patternFeedbackMatchChoicesEmptyWithElse)) > 0
             ) {
                 $choices = [];
                 foreach ($subtree->responseIf->match->multiple->baseValue as $choice) {
                     $choices[] = (string)$choice;
                 }
                 $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'choices', $choices);
-            } elseif (count($subtree->xpath($patternFeedbackMatchChoice)) > 0 || count($subtree->xpath($patternFeedbackMatchChoiceWithElse)) > 0) {
+            } elseif (
+                count($subtree->xpath($patternFeedbackMatchChoice)) > 0
+                || count($subtree->xpath($patternFeedbackMatchChoiceWithElse)) > 0
+            ) {
                 $choices = [(string)$subtree->responseIf->match->baseValue];
                 $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'choices', $choices);
             } else {
@@ -1385,13 +1505,18 @@ class ParserFactory
 
         //all rules must have been previously identified as belonging to one interaction
         if (count(array_diff(array_keys($rules), $responseIdentifiers)) > 0) {
-            throw new UnexpectedResponseProcessing('Not template driven, responseIdentifiers are ' . implode(',', $responseIdentifiers) . ' while rules are ' . implode(',', array_keys($rules)));
+            throw new UnexpectedResponseProcessing(
+                'Not template driven, responseIdentifiers are ' . implode(',', $responseIdentifiers)
+                    . ' while rules are ' . implode(',', array_keys($rules))
+            );
         }
 
         $templatesDrivenRP = new TemplatesDriven();
         foreach ($interactions as $interaction) {
             //if a rule has been found for an interaction, apply it. Default to the template NONE otherwise
-            $pattern = isset($rules[$interaction->getResponse()->getIdentifier()]) ? $rules[$interaction->getResponse()->getIdentifier()] : Template::NONE;
+            $pattern = isset($rules[$interaction->getResponse()->getIdentifier()])
+                ? $rules[$interaction->getResponse()->getIdentifier()]
+                : Template::NONE;
             $templatesDrivenRP->setTemplate($interaction->getResponse(), $pattern);
         }
         $templatesDrivenRP->setRelatedItem($this->item);
@@ -1403,7 +1528,9 @@ class ParserFactory
     private function buildSimpleFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseId = '')
     {
 
-        $responseIdentifier = empty($responseId) ? (string) $subtree->responseIf->match->variable['identifier'] : $responseId;
+        $responseIdentifier = empty($responseId)
+            ? (string) $subtree->responseIf->match->variable['identifier']
+            : $responseId;
         $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
         $feedbackIdentifier = (string) $subtree->responseIf->setOutcomeValue->baseValue;
 
@@ -1682,7 +1809,11 @@ class ParserFactory
 
     private function getPciClass(DOMElement $data)
     {
-        return $this->getPortableElementClass($data, 'oat\\taoQtiItem\\model\\qti\\interaction\\CustomInteraction', 'portableCustomInteraction');
+        return $this->getPortableElementClass(
+            $data,
+            'oat\\taoQtiItem\\model\\qti\\interaction\\CustomInteraction',
+            'portableCustomInteraction'
+        );
     }
 
     private function getPicClass(DOMElement $data)

@@ -107,7 +107,9 @@ class QtiExtractor implements Extractor
                 throw new ExtractorException('No content found for item ' . $item->getUri());
             }
         } catch (FileNotFoundException $e) {
-            throw new ExtractorException('qti.xml file was not found for item ' . $item->getUri() . '; The item might be empty.');
+            throw new ExtractorException(
+                'qti.xml file was not found for item ' . $item->getUri() . '; The item might be empty.'
+            );
         }
 
         $this->dom   = new \DOMDocument();
@@ -214,14 +216,29 @@ class QtiExtractor implements Extractor
             // Multiple choice
             'Choice'            => ['domInteraction' => 'choiceInteraction', 'xpathChoice' => './/qti:simpleChoice'],
             'Order'             => ['domInteraction' => 'orderInteraction', 'xpathChoice' => './/qti:simpleChoice'],
-            'Match'             => ['domInteraction' => 'matchInteraction','xpathChoice' => './/qti:simpleAssociableChoice'],
-            'Associate'         => ['domInteraction' => 'associateInteraction','xpathChoice' => './/qti:simpleAssociableChoice'],
+            'Match'             => [
+                'domInteraction' => 'matchInteraction',
+                'xpathChoice' => './/qti:simpleAssociableChoice',
+            ],
+            'Associate'         => [
+                'domInteraction' => 'associateInteraction',
+                'xpathChoice' => './/qti:simpleAssociableChoice',
+            ],
             'Gap Match'         => ['domInteraction' => 'gapMatchInteraction', 'xpathChoice' => './/qti:gapText'],
             'Hot text'          => ['domInteraction' => 'hottextInteraction', 'xpathChoice' => './/qti:hottext'],
-            'Inline choice'     => ['domInteraction' => 'inlineChoiceInteraction', 'xpathChoice' => './/qti:inlineChoice'],
+            'Inline choice'     => [
+                'domInteraction' => 'inlineChoiceInteraction',
+                'xpathChoice' => './/qti:inlineChoice',
+            ],
             'Graphic hotspot'   => ['domInteraction' => 'hotspotInteraction', 'xpathChoice' => './/qti:hotspotChoice'],
-            'Graphic order'     => ['domInteraction' => 'graphicOrderInteraction', 'xpathChoice' => './/qti:hotspotChoice'],
-            'Graphic associate' => ['domInteraction' => 'graphicAssociateInteraction', 'xpathChoice' => './/qti:associableHotspot'],
+            'Graphic order'     => [
+                'domInteraction' => 'graphicOrderInteraction',
+                'xpathChoice' => './/qti:hotspotChoice',
+            ],
+            'Graphic associate' => [
+                'domInteraction' => 'graphicAssociateInteraction',
+                'xpathChoice' => './/qti:associableHotspot',
+            ],
             'Graphic gap match' => ['domInteraction' => 'graphicGapMatchInteraction', 'xpathChoice' => './/qti:gapImg'],
 
             //Scaffholding
@@ -271,9 +288,19 @@ class QtiExtractor implements Extractor
 
                 if ($parser['domInteraction'] === 'customInteraction') {
                     // figure out the proper type name of a custom interaction
-                    $portableCustomNode = $this->xpath->query('./pci:portableCustomInteraction', $interactionNode->item($i));
+                    $portableCustomNode = $this->xpath->query(
+                        './pci:portableCustomInteraction',
+                        $interactionNode->item($i)
+                    );
+
                     if ($portableCustomNode->length) {
-                        $interaction['type'] = ucfirst(str_replace('Interaction', '', $portableCustomNode->item(0)->getAttribute('customInteractionTypeIdentifier')));
+                        $interaction['type'] = ucfirst(
+                            str_replace(
+                                'Interaction',
+                                '',
+                                $portableCustomNode->item(0)->getAttribute('customInteractionTypeIdentifier')
+                            )
+                        );
                     }
                 }
 
@@ -281,7 +308,10 @@ class QtiExtractor implements Extractor
                  * Interaction right answers
                  */
                 $interaction['responseIdentifier'] = $interactionNode->item($i)->getAttribute('responseIdentifier');
-                $rightAnswer = $this->xpath->query('./qti:responseDeclaration[@identifier="' . $interaction['responseIdentifier'] . '"]');
+                $rightAnswer = $this->xpath->query(
+                    './qti:responseDeclaration[@identifier="' . $interaction['responseIdentifier'] . '"]'
+                );
+
                 if ($rightAnswer->length > 0) {
                     $answers = $rightAnswer->item(0)->textContent;
                     if (!empty($answers)) {

@@ -42,7 +42,6 @@ use oat\taoQtiItem\model\qti\exception\ParsingException;
  */
 class XIncludeLoader
 {
-
     protected $qtiItem = null;
     protected $resolver = null;
 
@@ -168,11 +167,11 @@ class XIncludeLoader
      *
      * @throws exception\QtiModelException
      */
-    private function loadNonQtiAttributes(DOMElement $xIncludeDOMElement, XInclude $xInclude):void
+    private function loadNonQtiAttributes(DOMElement $xIncludeDOMElement, XInclude $xInclude): void
     {
         /** @var  $attrNode DOMAttr */
         foreach ($xIncludeDOMElement->attributes as $attrName => $attrNode) {
-            if(in_array($attrName, $xInclude->listOfNonQtiAttributes())) {
+            if (in_array($attrName, $xInclude->listOfNonQtiAttributes())) {
                 $xInclude->setAttribute($attrName, $attrNode->value);
             }
         }

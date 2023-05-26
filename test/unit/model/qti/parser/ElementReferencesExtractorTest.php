@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,9 +33,12 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class ElementReferencesExtractorTest extends TestCase
 {
-    private const MEDIA_LINK_1 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d4';
-    private const MEDIA_LINK_2 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d5';
-    private const MEDIA_LINK_3 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d3';
+    private const MEDIA_LINK_1 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_'
+        . 'tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d4';
+    private const MEDIA_LINK_2 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_'
+        . 'tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d5';
+    private const MEDIA_LINK_3 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_'
+        . 'tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d3';
 
     /** @var ElementReferencesExtractor */
     private $subject;

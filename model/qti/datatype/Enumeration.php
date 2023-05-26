@@ -40,12 +40,12 @@ abstract class Enumeration extends Datatype
     {
         return (bool)in_array($value, static::getEnumeration());
     }
-    
+
     public static function fix($value)
     {
-        
+
         $returnValue = null;
-        
+
         $enum = static::getEnumeration();
         foreach ($enum as $element) {
             if (strcasecmp($value, $element) == 0) {
@@ -53,10 +53,10 @@ abstract class Enumeration extends Datatype
                 break;
             }
         }
-        
+
         return $returnValue;
     }
-    
+
     /**
      * Returns the array enumeration all available elements
      *
@@ -66,7 +66,7 @@ abstract class Enumeration extends Datatype
     {
         throw new QtiModelException('Method to be implemented by and called from inherited classes');
     }
-    
+
     public function setValue($value)
     {
         if (!empty($value)) {

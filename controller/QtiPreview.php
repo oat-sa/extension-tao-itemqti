@@ -30,16 +30,16 @@ use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\Item;
 use OutOfBoundsException;
 use OutOfRangeException;
-use \taoItems_actions_ItemPreview;
-use \tao_helpers_Uri;
-use \core_kernel_classes_Resource;
-use \common_Exception;
-use \taoQtiCommon_helpers_PciVariableFiller;
-use \common_Logger;
-use \taoQtiCommon_helpers_ResultTransmissionException;
-use \taoQtiCommon_helpers_PciStateOutput;
-use \taoQtiCommon_helpers_Utils;
-use \common_ext_ExtensionsManager;
+use taoItems_actions_ItemPreview;
+use tao_helpers_Uri;
+use core_kernel_classes_Resource;
+use common_Exception;
+use taoQtiCommon_helpers_PciVariableFiller;
+use common_Logger;
+use taoQtiCommon_helpers_ResultTransmissionException;
+use taoQtiCommon_helpers_PciStateOutput;
+use taoQtiCommon_helpers_Utils;
+use common_ext_ExtensionsManager;
 use qtism\common\datatypes\files\FileSystemFileManager;
 use qtism\runtime\common\State;
 use qtism\runtime\tests\SessionManager;
@@ -58,7 +58,6 @@ use qtism\data\storage\StorageException;
  */
 class QtiPreview extends taoItems_actions_ItemPreview
 {
-
     public function getPreviewUrl($item, $options = [])
     {
         $code = base64_encode($item->getUri());
@@ -118,8 +117,9 @@ class QtiPreview extends taoItems_actions_ItemPreview
                 }
             } catch (OutOfRangeException $e) {
                 // A variable value could not be converted, ignore it.
-                // Developer's note: QTI Pairs with a single identifier (missing second identifier of the pair) are transmitted as an array of length 1,
-                // this might cause problem. Such "broken" pairs are simply ignored.
+                // Developer's note: QTI Pairs with a single identifier (missing second identifier of the pair)
+                // are transmitted as an array of length 1, this might cause problem. Such "broken" pairs are simply
+                // ignored.
                 common_Logger::d("Client-side value for variable '${id}' is ignored due to data malformation.");
             } catch (OutOfBoundsException $e) {
                 // No such identifier found in item.
@@ -187,7 +187,10 @@ class QtiPreview extends taoItems_actions_ItemPreview
         $lang = \common_session_SessionManager::getSession()->getDataLanguage();
         $qtiItem = Service::singleton()->getDataItemByRdfItem($item, $lang, true);
         if ($qtiItem) {
-            $contentVariableElements = array_merge($this->getModalFeedbacks($qtiItem), $this->getRubricBlocks($qtiItem));
+            $contentVariableElements = array_merge(
+                $this->getModalFeedbacks($qtiItem),
+                $this->getRubricBlocks($qtiItem)
+            );
 
             /** @var AssetService $assetService */
             $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);

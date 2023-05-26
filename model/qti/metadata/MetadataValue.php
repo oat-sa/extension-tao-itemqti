@@ -46,7 +46,7 @@ interface MetadataValue
      * @return array An array of strings representing the descriptive path to the metadata attribute.
      */
     public function getPath();
-    
+
     /**
      * Get the language of the intrinsic metadata value. If no particular language is specified,
      * this method returns an empty string.
@@ -54,15 +54,15 @@ interface MetadataValue
      * @return string
      */
     public function getLanguage();
-    
+
     /**
-     * Returns an identifier which is unique, describing to whom (e.g. a QTI Item, an Ontology Resource, ...) the intrinsic
-     * metadata value belongs to.
+     * Returns an identifier which is unique, describing to whom (e.g. a QTI Item, an Ontology Resource, ...)
+     * the intrinsic metadata value belongs to.
      *
      * @return string
      */
     public function getResourceIdentifier();
-    
+
     /**
      * Get the the intrinsic value of the metadata e.g. a pet name.
      *

@@ -50,7 +50,9 @@ class MetadataExporter extends AbstractMetadataService
     public function extract($resource)
     {
         if (! $resource instanceof \core_kernel_classes_Resource) {
-            throw new MetadataExportException(__('Metadata export requires an instance of core_kernel_classes_Resource to extract metadata'));
+            throw new MetadataExportException(
+                __('Metadata export requires an instance of core_kernel_classes_Resource to extract metadata')
+            );
         }
         return parent::extract($resource);
     }
@@ -63,7 +65,9 @@ class MetadataExporter extends AbstractMetadataService
     public function inject($identifier, $imsManifest)
     {
         if (! $imsManifest instanceof \DOMDocument) {
-            throw new MetadataExportException(__('Metadata export requires an instance of DomManifest to inject metadata'));
+            throw new MetadataExportException(
+                __('Metadata export requires an instance of DomManifest to inject metadata')
+            );
         }
 
         parent::inject($identifier, $imsManifest);

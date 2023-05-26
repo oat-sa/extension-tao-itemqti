@@ -21,8 +21,8 @@
 
 namespace oat\taoQtiItem\model;
 
-use \core_kernel_classes_Resource;
-use \common_exception_Error;
+use core_kernel_classes_Resource;
+use common_exception_Error;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\tao\model\ClientLibRegistry;
@@ -82,7 +82,7 @@ abstract class CreatorRegistry
                 $typeIdentifier = basename($dir);
                 $baseUrl = $this->getBaseDevUrl() . $typeIdentifier . '/';
                 $manifest = json_decode(file_get_contents($manifestFile), true);
-                
+
                 $returnValue[] = [
                     'typeIdentifier' => $typeIdentifier,
                     'label' => $manifest['label'],
@@ -156,7 +156,7 @@ abstract class CreatorRegistry
      */
     public function addRequiredResources($typeIdentifier, core_kernel_classes_Resource $item)
     {
-        
+
         //find the interaction in the registry
         $implementationData = $this->getImplementatioByTypeIdentifier($typeIdentifier);
         if (is_null($implementationData)) {
@@ -191,7 +191,7 @@ abstract class CreatorRegistry
 
         //add them to the rdf item
         $resources = Authoring::addRequiredResources($directory, $required, $typeIdentifier, $item, '');
-        
+
         return $resources;
     }
 }

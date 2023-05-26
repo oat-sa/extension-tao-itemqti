@@ -30,7 +30,8 @@ use common_Exception;
 
 /**
  * Parser of a QTI Portable element package
- * A Portable element package must contain a manifest pciCreator.json in the root as well as a pciCreator.js creator file
+ * A Portable element package must contain a manifest pciCreator.json in the root as well as a pciCreator.js creator
+ * file
  *
  * @package taoQtiItem
  */

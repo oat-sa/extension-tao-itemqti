@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti\validator;
 
-
 use common_exception_Error;
 use oat\taoQtiItem\model\qti\Item;
 

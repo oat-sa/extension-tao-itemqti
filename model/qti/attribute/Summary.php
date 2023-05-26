@@ -32,7 +32,6 @@ namespace oat\taoQtiItem\model\qti\attribute;
  */
 class Summary extends Attribute
 {
-
     protected static $name = 'summary';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiString';
     protected static $defaultValue = null;

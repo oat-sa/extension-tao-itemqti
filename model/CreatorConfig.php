@@ -28,7 +28,6 @@ namespace oat\taoQtiItem\model;
  */
 class CreatorConfig extends Config
 {
-
     protected $interactions = [];
     protected $infoControls = [];
     protected $plugins      = [];
@@ -41,18 +40,18 @@ class CreatorConfig extends Config
 
         'saveItemUrl' => ['taoQtiItem', 'QtiCreator', 'saveItem'],
         'saveCssUrl' => ['taoQtiItem', 'QtiCssAuthoring', 'save'],
-        
+
         'portableElementAddResourcesUrl' => ['taoQtiItem', 'PortableElement', 'addRequiredResources'],
-        
+
         'mediaSourcesUrl' => ['taoQtiItem', 'QtiCreator', 'getMediaSources'],
         'getFilesUrl' => ['taoItems', 'ItemContent', 'files'],
         'fileAccessUrl' => ['taoQtiItem', 'QtiCreator', 'getFile'],
-        
+
         'fileExistsUrl' => ['taoItems', 'ItemContent', 'fileExists'],
         'fileUploadUrl' => ['taoItems', 'ItemContent', 'upload'],
         'fileDownloadUrl' => ['taoItems', 'ItemContent', 'download'],
         'fileDeleteUrl' => ['taoItems', 'ItemContent', 'delete'],
-        
+
         'previewUrl' => ['taoQtiItem', 'QtiPreview', 'index'],
         'previewRenderUrl' => ['taoQtiItem', 'QtiPreview', 'render'],
         'previewSubmitUrl' => ['taoQtiItem', 'QtiPreview', 'submitResponses'],

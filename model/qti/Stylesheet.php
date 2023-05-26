@@ -36,7 +36,6 @@ use oat\taoQtiItem\model\qti\Element;
  */
 class Stylesheet extends Element
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *

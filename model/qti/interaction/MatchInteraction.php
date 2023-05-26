@@ -28,7 +28,7 @@ use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\IdentifierCollection;
 use oat\taoQtiItem\model\qti\choice\Choice;
-use \common_Logger;
+use common_Logger;
 
 /**
  * QTI Match Interaction
@@ -41,7 +41,6 @@ use \common_Logger;
  */
 class MatchInteraction extends BlockInteraction
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
@@ -84,7 +83,7 @@ class MatchInteraction extends BlockInteraction
 
     public function getChoiceBySerial($serial)
     {
-        
+
         $returnValue = null;
 
         for ($i = 0; $i < 2; $i++) {
@@ -110,7 +109,9 @@ class MatchInteraction extends BlockInteraction
         }
         if (!$returnValue) {
             common_Logger::w($setNumber);
-            throw new InvalidArgumentException('For match interactions, the match set number must be either "(int) 0" or "(int) 1"');
+            throw new InvalidArgumentException(
+                'For match interactions, the match set number must be either "(int) 0" or "(int) 1"'
+            );
         }
 
         return $returnValue;
@@ -161,7 +162,10 @@ class MatchInteraction extends BlockInteraction
         $returnValue = null;
 
         if ($this->isValidMatchSetNumber($setNumber)) {
-            if (!empty(static::$choiceClass) && is_subclass_of(static::$choiceClass, 'oat\\taoQtiItem\\model\\qti\\choice\\Choice')) {
+            if (
+                !empty(static::$choiceClass)
+                && is_subclass_of(static::$choiceClass, 'oat\\taoQtiItem\\model\\qti\\choice\\Choice')
+            ) {
                 $returnValue = new static::$choiceClass($choiceAttributes, $choiceValue);
                 $this->addChoice($returnValue, $setNumber);
             }
@@ -237,12 +241,12 @@ class MatchInteraction extends BlockInteraction
             'prompt' => $this->prompt->toQTI()
         ];
         unset($variables['attributes']['identifier']);
-        
+
         if (trim($this->getPrompt()->getBody()) !== '') {
             //prompt is optional:
             $variables['prompt'] = $this->prompt->toQTI();
         }
-        
+
         $choices = '';
         for ($i = 0; $i < 2; $i++) {
             $choices .= '<simpleMatchSet>';
@@ -251,9 +255,9 @@ class MatchInteraction extends BlockInteraction
             }
             $choices .= '</simpleMatchSet>';
         }
-        
+
         $variables['choices'] = $choices;
-        
+
         return $variables;
     }
 }

@@ -38,7 +38,6 @@ use oat\taoQtiItem\model\qti\interaction\Prompt;
  */
 abstract class BlockInteraction extends Interaction
 {
-
     /**
      * The prompt of the block interaction
      *
@@ -70,7 +69,7 @@ abstract class BlockInteraction extends Interaction
     {
         return $this->prompt->getBody();
     }
-    
+
     public function getPromptObject()
     {
         return  $this->prompt;

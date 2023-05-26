@@ -22,7 +22,7 @@
 namespace oat\taoQtiItem\model\qti\metadata\simple;
 
 use oat\taoQtiItem\model\qti\metadata\MetadataValue;
-use \InvalidArgumentException;
+use InvalidArgumentException;
 
 /**
  * A Basic implementation of the MetadataValue interface.
@@ -37,28 +37,28 @@ class SimpleMetadataValue implements MetadataValue
      * @var string
      */
     private $resourceIdentifier;
-    
+
     /**
      * The language of the MetadatValue.
      *
      * @var string
      */
     private $language;
-    
+
     /**
      * The Path of the MetadataValue.
      *
      * @var array
      */
     private $path;
-    
+
     /**
      * The intrinsic value of the MetadataValue.
      *
      * @var string
      */
     private $value;
-    
+
     /**
      * Create a new SimpleMetadataValue object.
      *
@@ -75,7 +75,7 @@ class SimpleMetadataValue implements MetadataValue
         $this->setValue($value);
         $this->setLanguage($language);
     }
-    
+
     /**
      * Set the identifier of the resource the MetadataValue describes.
      *
@@ -94,7 +94,7 @@ class SimpleMetadataValue implements MetadataValue
             $this->resourceIdentifier = $resourceIdentifier;
         }
     }
-    
+
     /**
      * @see \oat\taoQtiItem\model\qti\metadata\MetadataValue::getResourceIdentifier()
      */
@@ -102,7 +102,7 @@ class SimpleMetadataValue implements MetadataValue
     {
         return $this->resourceIdentifier;
     }
-    
+
     /**
      * Set the descriptive path of the MetadataValue.
      *
@@ -118,7 +118,7 @@ class SimpleMetadataValue implements MetadataValue
             $this->path = $path;
         }
     }
-    
+
     /**
      * @see \oat\taoQtiItem\model\qti\metadata\MetadataValue::getPath()
      */
@@ -126,7 +126,7 @@ class SimpleMetadataValue implements MetadataValue
     {
         return $this->path;
     }
-    
+
     /**
      * Set the intrinsic value of the MetadataValue.
      *
@@ -136,7 +136,7 @@ class SimpleMetadataValue implements MetadataValue
     {
         $this->value = $value;
     }
-    
+
     /**
      * @see \oat\taoQtiItem\model\qti\metadata\MetadataValue::getValue()
      */
@@ -144,7 +144,7 @@ class SimpleMetadataValue implements MetadataValue
     {
         return $this->value;
     }
-    
+
     /**
      * Set the language of the MetadataValue. If the intrinsic value of
      * the MetadataValue has no specific language, $language is an empty string.
@@ -155,7 +155,7 @@ class SimpleMetadataValue implements MetadataValue
     {
         $this->language = $language;
     }
-    
+
     /**
      * @see \oat\taoQtiItem\model\qti\metadata\MetadataValue::getLanguage()
      */

@@ -45,30 +45,30 @@ abstract class ObjectInteraction extends BlockInteraction
      * @var oat\taoQtiItem\model\qti\QtiObject
      */
     protected $object = null;
-    
+
     public function __construct($attributes = [], Item $relatedItem = null, $serial = '')
     {
         parent::__construct($attributes, $relatedItem, $serial);
         $this->object = new QtiObject();
     }
-    
+
     public function setObject(QtiObject $object)
     {
         $this->object = $object;
     }
-    
+
     public function getObject()
     {
         return $this->object;
     }
-    
+
     public function toArray($filterVariableContent = false, &$filtered = [])
     {
         $returnValue = parent::toArray($filterVariableContent, $filtered);
         $returnValue['object'] = $this->object->toArray($filterVariableContent, $filtered);
         return $returnValue;
     }
-    
+
     protected function getTemplateQtiVariables()
     {
         $variables = parent::getTemplateQtiVariables();

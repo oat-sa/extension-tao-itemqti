@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class MappedValue extends Attribute
 {
-    
     protected static $name = 'mappedValue';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiFloat';
     protected static $defaultValue = null;

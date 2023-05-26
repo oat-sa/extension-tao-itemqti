@@ -24,11 +24,12 @@ use core_kernel_classes_Resource as RdfResource;
 
 class CssHelper
 {
-
+    // phpcs:disable PSR2.Methods.MethodDeclaration
     private static function _buildWarning(): string
     {
         return " /* Do not edit */";
     }
+    // phpcs:enable PSR2.Methods.MethodDeclaration
 
     /**
      * Stores an css array in the file
@@ -122,8 +123,7 @@ class CssHelper
                         }
                         $css .= '}';
                     }
-                } // regular selectors
-                else {
+                } else { // regular selectors
                     $css .= $key2 . ':' . $value2 . ';';
                 }
             }

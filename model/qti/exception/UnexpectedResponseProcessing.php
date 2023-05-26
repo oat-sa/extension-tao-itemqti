@@ -24,8 +24,8 @@ namespace oat\taoQtiItem\model\qti\exception;
 
 use oat\taoQtiItem\model\qti\exception\UnexpectedResponseProcessing;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
-use \common_exception_UserReadableException;
-use \common_Logger;
+use common_exception_UserReadableException;
+use common_Logger;
 
 /**
  * Exception to be thrown when an unknown/unexpected Response Processing
@@ -38,14 +38,13 @@ use \common_Logger;
  */
 class UnexpectedResponseProcessing extends ParsingException implements common_exception_UserReadableException
 {
-
     /**
      * The template URI to be dereferenced as a Response Processing template.
      *
      * @var string
      */
     private $requestedUri;
-    
+
     /**
      * Create a new UnexpectedResponseProcessing object.
      *
@@ -58,7 +57,7 @@ class UnexpectedResponseProcessing extends ParsingException implements common_ex
         parent::__construct($message, $code);
         $this->setRequestedUri($requestedUri);
     }
-    
+
     /**
      * Get the serverity of the error.
      *
@@ -80,7 +79,7 @@ class UnexpectedResponseProcessing extends ParsingException implements common_ex
     {
         $this->requestedUri = $requestedUri;
     }
-    
+
     /**
      * Get the URI that was requested for dereferencing.
      *
@@ -90,7 +89,7 @@ class UnexpectedResponseProcessing extends ParsingException implements common_ex
     {
         return $this->requestedUri;
     }
-    
+
     /**
      * Returns a human-readable message describing the error that occured.
      *

@@ -37,7 +37,6 @@ use oat\taoQtiItem\model\qti\QtiObject;
  */
 class GapImg extends Choice
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
@@ -52,13 +51,13 @@ class GapImg extends Choice
      * @var oat\taoQtiItem\model\qti\QtiObject
      */
     protected $object = null;
-    
+
     public function __construct($attributes = [], Item $relatedItem = null, $serial = '')
     {
         parent::__construct($attributes, $relatedItem, $serial);
         $this->object = new QtiObject();
     }
-    
+
     protected function getUsedAttributes()
     {
         return array_merge(

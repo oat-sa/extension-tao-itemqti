@@ -25,7 +25,7 @@ use common_ext_action_InstallAction;
 use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementVersionIncompatibilityException;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
-use \common_report_Report as Report;
+use common_report_Report as Report;
 
 /**
  * Class RegisterPortableElement
@@ -58,9 +58,14 @@ abstract class RegisterPortableElement extends common_ext_action_InstallAction
             }
             if (!empty($params)) {
                 $minRequiredVersion = $params[0];
-                // if the minimal required version number string "x.y.z" is given in the parameter, the new target version should be equal or higher than it
+                // if the minimal required version number string "x.y.z" is given in the parameter,
+                // the new target version should be equal or higher than it
                 if (version_compare($model->getVersion(), $minRequiredVersion) < 0) {
-                    return $this->createFailure('the version in manifest "' . $model->getVersion() . '" cannot be lower than the given minimum required version "' . $minRequiredVersion . '"', $model);
+                    return $this->createFailure(
+                        'the version in manifest "' . $model->getVersion()
+                            . '" cannot be lower than the given minimum required version "' . $minRequiredVersion . '"',
+                        $model
+                    );
                 }
             }
             $service->registerFromDirectorySource($sourceDirectory);
@@ -68,7 +73,10 @@ abstract class RegisterPortableElement extends common_ext_action_InstallAction
             return $this->createFailure('incompatible version: ' . $e->getMessage(), $model);
         }
 
-        return Report::createSuccess('registered portable element "' . $model->getTypeIdentifier() . '" in version "' . $model->getVersion() . '""');
+        return Report::createSuccess(
+            'registered portable element "' . $model->getTypeIdentifier() . '" in version "'
+                . $model->getVersion() . '""'
+        );
     }
 
     /**

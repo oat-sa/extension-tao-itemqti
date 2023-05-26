@@ -70,7 +70,7 @@ class ChoiceParser extends ConfigurableService implements ColumnParserInterface
     private function findCorrectAnswers(array $line): array
     {
         return (array)(
-        $line['correct_answer']
+            $line['correct_answer']
             ? explode(',', str_replace('', '', $line['correct_answer']))
             : []
         );

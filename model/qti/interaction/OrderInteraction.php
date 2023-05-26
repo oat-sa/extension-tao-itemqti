@@ -36,7 +36,6 @@ use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
  */
 class OrderInteraction extends BlockInteraction
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
@@ -46,7 +45,7 @@ class OrderInteraction extends BlockInteraction
     protected static $qtiTagName = 'orderInteraction';
     protected static $choiceClass = 'oat\\taoQtiItem\\model\\qti\\choice\\SimpleChoice';
     protected static $baseType = 'identifier';
-    
+
     protected function getUsedAttributes()
     {
         return array_merge(

@@ -15,10 +15,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2022 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\taoQtiItem\model\Export;
@@ -102,7 +103,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $report->setType(\common_report_Report::TYPE_ERROR);
             return $report;
         }
-        $dataFile = (string)$this->getItemModel()->getOnePropertyValue(new core_kernel_classes_Property(\taoItems_models_classes_ItemsService::TAO_ITEM_MODEL_DATAFILE_PROPERTY));
+        $dataFile = (string)$this->getItemModel()->getOnePropertyValue(
+            new core_kernel_classes_Property(\taoItems_models_classes_ItemsService::TAO_ITEM_MODEL_DATAFILE_PROPERTY)
+        );
         $resolver = new ItemMediaResolver($this->getItem(), $lang);
         $replacementList = [];
         $portableElements = $this->getPortableElementAssets($this->getItem(), $lang);
@@ -127,10 +130,15 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             $portableElementExporter = $object->getModel()->getExporter($object, $this);
             $portableElementsToExport[$element->getTypeIdentifier()] = $portableElementExporter;
             try {
-                $portableAssets = array_merge($portableAssets, $portableElementExporter->copyAssetFiles($replacementList));
+                $portableAssets = array_merge(
+                    $portableAssets,
+                    $portableElementExporter->copyAssetFiles($replacementList)
+                );
             } catch (\tao_models_classes_FileNotFoundException $e) {
                 \common_Logger::i($e->getMessage());
-                $report->setMessage('Missing portable element asset for "' . $object->getTypeIdentifier() . '"": ' . $e->getMessage());
+                $report->setMessage(
+                    'Missing portable element asset for "' . $object->getTypeIdentifier() . '"": ' . $e->getMessage()
+                );
                 $report->setType(\common_report_Report::TYPE_ERROR);
             }
         }
@@ -190,7 +198,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
             foreach ($attributeNodes as $node) {
                 if (isset($replacementList[$node->value])) {
-                    $node->value = htmlspecialchars($replacementList[$node->value], ENT_QUOTES|ENT_XML1);
+                    $node->value = htmlspecialchars($replacementList[$node->value], ENT_QUOTES | ENT_XML1);
                 }
             }
             foreach ($portableEntryNodes as $node) {
@@ -230,8 +238,16 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
     protected function setCorrectQTIVersion(string $itemQTI): string
     {
-        $processed = preg_replace('/(http:\/\/www\.imsglobal\.org\/xsd\/qti\/)qtiv(\wp\w)/', '$1qtiv' . $this->getQTIVersion(), $itemQTI);
-        $processed = preg_replace('/(http:\/\/www\.imsglobal\.org\/(xsd|question).+?)qti_v(\wp\w)/', '$1qti_v' . $this->getQTIVersion(), $processed);
+        $processed = preg_replace(
+            '/(http:\/\/www\.imsglobal\.org\/xsd\/qti\/)qtiv(\wp\w)/',
+            '$1qtiv' . $this->getQTIVersion(),
+            $itemQTI
+        );
+        $processed = preg_replace(
+            '/(http:\/\/www\.imsglobal\.org\/(xsd|question).+?)qti_v(\wp\w)/',
+            '$1qti_v' . $this->getQTIVersion(),
+            $processed
+        );
 
         return $processed;
     }
@@ -353,7 +369,10 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     {
         if ($assetStylesheets = $this->getAssetStylesheetLoader()->loadAssetsFromAssetResource($link)) {
             foreach ($assetStylesheets as $stylesheetFile) {
-                $this->addFile($stylesheetFile['stream'],$this->buildAssetStylesheetPath($basepath, $baseDirectoryName, $stylesheetFile['basename']));
+                $this->addFile(
+                    $stylesheetFile['stream'],
+                    $this->buildAssetStylesheetPath($basepath, $baseDirectoryName, $stylesheetFile['basename'])
+                );
             }
         }
     }

@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class Template extends Attribute
 {
-    
     protected static $name = 'template';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Uri';
     protected static $defaultValue = null;

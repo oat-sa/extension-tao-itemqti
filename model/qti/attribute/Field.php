@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class Field extends Attribute
 {
-    
     protected static $name = 'field';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\String256';
     protected static $defaultValue = null;

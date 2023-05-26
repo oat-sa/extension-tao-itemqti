@@ -49,8 +49,10 @@ class XIncludeXmlInjectorTest extends TestCase
     public function testInjectSharedStimulus()
     {
         $sharedStimulusContent = '<?xml version="1.0" encoding="UTF-8"?><div class="grid-row">Some nice stuff</div>';
-        $itemContent = '<?xml version="1.0" encoding="UTF-8"?><div>This is my content: <include href="stimulus-url" /></div>';
-        $expectedItemContent = '<?xml version="1.0" encoding="UTF-8"?><div>This is my content: <div class="grid-row">Some nice stuff</div></div>';
+        $itemContent = '<?xml version="1.0" encoding="UTF-8"?><div>This is my content: <include href="stimulus-url" />'
+            . '</div>';
+        $expectedItemContent = '<?xml version="1.0" encoding="UTF-8"?><div>This is my content: <div class="grid-row">'
+            . 'Some nice stuff</div></div>';
 
         $mediaSource = $this->createMock(MediaBrowser::class);
         $mediaSource

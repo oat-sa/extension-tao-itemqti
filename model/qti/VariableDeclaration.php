@@ -36,7 +36,6 @@ use oat\taoQtiItem\model\qti\IdentifiedElement;
  */
 abstract class VariableDeclaration extends IdentifiedElement
 {
-
     /**
      * Short description of attribute defaultValue
      *
@@ -77,7 +76,7 @@ abstract class VariableDeclaration extends IdentifiedElement
     {
         $this->defaultValue = $value;
     }
-    
+
     /**
      * Overwrite parent because of infinite call loop
      * @param string $className

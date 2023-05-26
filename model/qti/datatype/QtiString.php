@@ -34,12 +34,11 @@ use oat\taoQtiItem\model\qti\datatype\Datatype;
  */
 class QtiString extends Datatype
 {
-    
     public static function validate($value)
     {
         return is_string($value);
     }
-    
+
     public static function fix($value)
     {
         return (string)$value;

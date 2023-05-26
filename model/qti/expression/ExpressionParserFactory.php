@@ -19,11 +19,12 @@
  *
  *
  */
+
 namespace oat\taoQtiItem\model\qti\expression;
 
 use oat\taoQtiItem\model\qti\expression\ExpressionParserFactory;
 use oat\taoQtiItem\model\qti\expression\CommonExpression;
-use \SimpleXMLElement;
+use SimpleXMLElement;
 
 /**
  * Short description of class
@@ -54,31 +55,31 @@ class ExpressionParserFactory
     {
         $returnValue = null;
 
-        
+
         $expression = null;
         $expressionName = $data->getName();
-        
+
         //retrieve the expression attributes
         $attributes = [];
         foreach ($data->attributes() as $key => $value) {
             $attributes[$key] = (string)$value;
         }
-        
+
         // Create expression function of its type (If specialization has been done for the expression type)
         $expressionClass = 'oat\\taoQtiItem\\model\\qti\\expression\\' . ucfirst($expressionName);
-        
+
         if (class_exists($expressionClass)) {
             $expression = new $expressionClass($expressionName, $attributes);
         } else {
             $expression = new CommonExpression($expressionName, $attributes);
         }
-        
+
         // If the expression has a value
         $expressionValue = (string) trim($data);
         if ($expressionValue != '') {
             $expression->setValue($expressionValue);
         }
-        
+
         // All sub-expressions of an expression are embedded by this expression
         $subExpressions = [];
         foreach ($data->children() as $subExpressionNode) {
@@ -88,7 +89,7 @@ class ExpressionParserFactory
 
         $returnValue = $expression;
 
-        
+
 
         return $returnValue;
     }

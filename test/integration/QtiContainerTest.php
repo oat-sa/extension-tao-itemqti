@@ -28,7 +28,6 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 
 class QTI_Container extends TaoPhpUnitTestRunner
 {
-
     /**
      * tests initialization
      */

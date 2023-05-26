@@ -36,13 +36,13 @@ class InfoControlRegistry extends CustomInteractionRegistry
      *
      * @var string
      */
-    const CONFIG_ID = 'info_control';
-    
+    public const CONFIG_ID = 'info_control';
+
     protected function getConfigId()
     {
         return self::CONFIG_ID;
     }
-    
+
     /**
      * Register a new custom interaction
      *
@@ -55,7 +55,7 @@ class InfoControlRegistry extends CustomInteractionRegistry
     {
         InfoControlRegistry::getRegistry()->set($qtiClass, $phpClass);
     }
-    
+
     /**
      * Get the php class that represents an info control from its class attribute
      *

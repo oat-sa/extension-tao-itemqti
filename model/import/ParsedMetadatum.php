@@ -58,6 +58,4 @@ class ParsedMetadatum
     {
         $this->propertyUri = $propertyUri;
     }
-
-
 }

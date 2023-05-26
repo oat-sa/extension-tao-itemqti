@@ -36,7 +36,6 @@ use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
  */
 class ChoiceInteraction extends BlockInteraction
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *

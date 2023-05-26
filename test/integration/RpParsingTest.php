@@ -24,17 +24,17 @@ namespace oat\taoQtiItem\test\integration;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\Parser;
+use oat\taoQtiItem\model\qti\response\TemplatesDriven;
 
 class RpParsingTest extends TaoPhpUnitTestRunner
 {
-    
     public function testParseRpCustom()
     {
 
         $file = dirname(__FILE__) . '/samples/xml/qtiv2p1/responseProcessing/custom.xml';
         $qtiParser = new Parser($file);
         $qtiParser->validate();
-        
+
         $this->assertTrue($qtiParser->isValid());
 
         $item = $qtiParser->load();
@@ -55,7 +55,8 @@ class RpParsingTest extends TaoPhpUnitTestRunner
         /**
          * orphaned response conditions must lead to a custom response processing
          */
-        $file = dirname(__FILE__) . '/samples/xml/qtiv2p1/responseProcessing/templateDrivenOrphanedResponseConditions.xml';
+        $file = dirname(__FILE__)
+            . '/samples/xml/qtiv2p1/responseProcessing/templateDrivenOrphanedResponseConditions.xml';
         $qtiParser = new Parser($file);
         $qtiParser->validate();
 
@@ -79,11 +80,14 @@ class RpParsingTest extends TaoPhpUnitTestRunner
 
         $item = $qtiParser->load();
         $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven', $item->getResponseProcessing());
+        $this->assertInstanceOf(TemplatesDriven::class, $item->getResponseProcessing());
 
         //check if the rp is serialized correctly
         $xml = simplexml_load_string($item->toXML());
-        $this->assertEquals('http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct', (string) $xml->responseProcessing[0]['template']);
+        $this->assertEquals(
+            'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct',
+            (string) $xml->responseProcessing[0]['template']
+        );
 
 
         /**
@@ -96,7 +100,7 @@ class RpParsingTest extends TaoPhpUnitTestRunner
 
         $item = $qtiParser->load();
         $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven', $item->getResponseProcessing());
+        $this->assertInstanceOf(TemplatesDriven::class, $item->getResponseProcessing());
 
         //check if the rp is serialized correctly
         $xml = simplexml_load_string($item->toXML());
@@ -104,7 +108,8 @@ class RpParsingTest extends TaoPhpUnitTestRunner
 
 
         /**
-         * tao custom rp build using the tao "recognizable" response condition, with one interaction with the responseIdentifier RESPONSE_1
+         * tao custom rp build using the tao "recognizable" response condition, with one interaction with the
+         * responseIdentifier RESPONSE_1
          */
         $file = dirname(__FILE__) . '/samples/xml/qtiv2p1/responseProcessing/templateDrivenSingle.xml';
         $qtiParser = new Parser($file);
@@ -113,14 +118,15 @@ class RpParsingTest extends TaoPhpUnitTestRunner
 
         $item = $qtiParser->load();
         $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven', $item->getResponseProcessing());
+        $this->assertInstanceOf(TemplatesDriven::class, $item->getResponseProcessing());
 
         //check if the rp is serialized correctly
         $xml = simplexml_load_string($item->toXML());
         $this->assertEmpty((string) $xml->responseProcessing[0]['template']);
 
         /**
-         * tao custom rp build using the tao "recognizable" response condition, with one unique interaction that has the "right" responseIdentifier RESPONSE
+         * tao custom rp build using the tao "recognizable" response condition, with one unique interaction that has the
+         * "right" responseIdentifier RESPONSE
          */
         $file = dirname(__FILE__) . '/samples/xml/qtiv2p1/responseProcessing/templateDrivenSingleRESPONSE.xml';
         $qtiParser = new Parser($file);
@@ -129,10 +135,13 @@ class RpParsingTest extends TaoPhpUnitTestRunner
 
         $item = $qtiParser->load();
         $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven', $item->getResponseProcessing());
+        $this->assertInstanceOf(TemplatesDriven::class, $item->getResponseProcessing());
 
         $xml = simplexml_load_string($item->toXML());
-        $this->assertEquals('http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response', (string) $xml->responseProcessing[0]['template']);
+        $this->assertEquals(
+            'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response',
+            (string) $xml->responseProcessing[0]['template']
+        );
     }
 
     /**
@@ -148,7 +157,7 @@ class RpParsingTest extends TaoPhpUnitTestRunner
 
         $item = $qtiParser->load();
         $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
-        $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\response\\TemplatesDriven', $item->getResponseProcessing());
+        $this->assertInstanceOf(TemplatesDriven::class, $item->getResponseProcessing());
 
         $rpJson = json_encode($item->getResponseProcessing()->toArray()['responseRules']);
 
@@ -164,26 +173,85 @@ class RpParsingTest extends TaoPhpUnitTestRunner
             //tao rp to match multiple choices
             [
                 'file' => $sampleDir . 'match_choices.xml',
-                'rpExpected' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"multiple","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_1"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_3"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_2"}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]}}]'
+                'rpExpected' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":'
+                    . '{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":'
+                    . '"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":'
+                    . '[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":'
+                    . '"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":'
+                    . '"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":'
+                    . '"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match",'
+                    . '"expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":'
+                    . '"multiple","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},'
+                    . '"value":"choice_1"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":'
+                    . '"choice_3"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":'
+                    . '"choice_2"}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":'
+                    . '"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},'
+                    . '"value":"feedbackModal_1"}}]}}]'
             ],
             //tao rp to match multiple choices with else condition
             [
                 'file' => $sampleDir . 'match_choices_else.xml',
-                'rpExpected' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"multiple","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_1"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_3"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_2"}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]},"responseElse":{"qtiClass":"responseElse","responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_2"}}]}}]'
+                'rpExpected' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":'
+                    . '{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":'
+                    . '"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":'
+                    . '[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":'
+                    . '"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":'
+                    . '"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":'
+                    . '"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match",'
+                    . '"expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":'
+                    . '"multiple","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},'
+                    . '"value":"choice_1"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":'
+                    . '"choice_3"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":'
+                    . '"choice_2"}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":'
+                    . '"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},'
+                    . '"value":"feedbackModal_1"}}]},"responseElse":{"qtiClass":"responseElse","responseRules":'
+                    . '[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":'
+                    . '{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_2"}}]}}]'
             ],
             //tao rp to match single choice for interaciton with single cardinality response
             [
                 'file' => $sampleDir . 'match_choices_single_cardinality.xml',
-                'rpExpected' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"choice_3"}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]}}]'
+                'rpExpected' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":'
+                    . '{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":'
+                    . '"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":'
+                    . '[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":'
+                    . '"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":'
+                    . '"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":'
+                    . '"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match",'
+                    . '"expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":'
+                    . '"baseValue","attributes":{"baseType":"identifier"},"value":"choice_3"}]},"responseRules":'
+                    . '[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":'
+                    . '{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]}}]'
             ],
             //tao rp to match empty choice for interaction with multiple cardinality
             [
                 'file' => $sampleDir . 'match_choices_multiple_empty.xml',
-                'rpExpected' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"multiple"}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]}}]'
+                'rpExpected' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":'
+                    . '{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":'
+                    . '"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":'
+                    . '[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":'
+                    . '"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":'
+                    . '"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":'
+                    . '"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match",'
+                    . '"expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":'
+                    . '"multiple"}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":'
+                    . '"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},'
+                    . '"value":"feedbackModal_1"}}]}}]'
             ],
             [
                 'file' => $sampleDir . 'rule_incorrect.xml',
-                'rpExpected' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"not","expressions":[{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"feedbackModal_1"}}]}}]'
+                'rpExpected' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":'
+                    . '{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":'
+                    . '"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":'
+                    . '[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":'
+                    . '"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":'
+                    . '"baseValue","attributes":{"baseType":"integer"},"value":"1"}]}}]}},{"qtiClass":'
+                    . '"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"not",'
+                    . '"expressions":[{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":'
+                    . '{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]}]},'
+                    . '"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"FEEDBACK_1"},'
+                    . '"expression":{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":'
+                    . '"feedbackModal_1"}}]}}]'
             ],
         ];
     }

@@ -54,11 +54,10 @@ use Throwable;
  */
 class QtiJsonItemCompiler extends QtiItemCompiler
 {
-
-    const ITEM_FILE_NAME = 'item.json';
-    const VAR_ELT_FILE_NAME = 'variableElements.json';
-    const METADATA_FILE_NAME = 'metadataElements.json';
-    const PORTABLE_ELEMENT_FILE_NAME = 'portableElements.json';
+    public const ITEM_FILE_NAME = 'item.json';
+    public const VAR_ELT_FILE_NAME = 'variableElements.json';
+    public const METADATA_FILE_NAME = 'metadataElements.json';
+    public const PORTABLE_ELEMENT_FILE_NAME = 'portableElements.json';
 
     /**
      * @var string json from the item packed
@@ -111,7 +110,10 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 
             //store variable qti elements data into the private directory
             $variableElements = $qtiService->getVariableElements($qtiItem);
-            $privateDirectory->write($language . DIRECTORY_SEPARATOR . self::VAR_ELT_FILE_NAME, json_encode($variableElements));
+            $privateDirectory->write(
+                $language . DIRECTORY_SEPARATOR . self::VAR_ELT_FILE_NAME,
+                json_encode($variableElements)
+            );
 
             //create the item.json file in private directory
             $itemPacker = new QtiItemPacker();
@@ -123,9 +125,18 @@ class QtiJsonItemCompiler extends QtiItemCompiler
             $this->itemJson['data'] = $data['core'];
             $metadata = $this->getMetadataProperties();
 
-            $privateDirectory->write($language . DIRECTORY_SEPARATOR . self::ITEM_FILE_NAME, json_encode($this->itemJson));
-            $privateDirectory->write($language . DIRECTORY_SEPARATOR . self::METADATA_FILE_NAME, json_encode($metadata));
-            $privateDirectory->write($language . DIRECTORY_SEPARATOR . self::PORTABLE_ELEMENT_FILE_NAME, json_encode($this->getItemPortableElements($qtiItem)));
+            $privateDirectory->write(
+                $language . DIRECTORY_SEPARATOR . self::ITEM_FILE_NAME,
+                json_encode($this->itemJson)
+            );
+            $privateDirectory->write(
+                $language . DIRECTORY_SEPARATOR . self::METADATA_FILE_NAME,
+                json_encode($metadata)
+            );
+            $privateDirectory->write(
+                $language . DIRECTORY_SEPARATOR . self::PORTABLE_ELEMENT_FILE_NAME,
+                json_encode($this->getItemPortableElements($qtiItem))
+            );
 
             return new common_report_Report(
                 common_report_Report::TYPE_SUCCESS,
@@ -162,9 +173,16 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         return $qtiItem;
     }
 
-    private function parseAndReplaceAssetByPlaceholder(Item &$qtiItem, ItemMediaResolver $resolver, Directory $publicLangDirectory)
-    {
-        $packedAssets = $this->getQtiItemAssetCompiler()->extractAndCopyAssetFiles($qtiItem, $publicLangDirectory, $resolver);
+    private function parseAndReplaceAssetByPlaceholder(
+        Item &$qtiItem,
+        ItemMediaResolver $resolver,
+        Directory $publicLangDirectory
+    ) {
+        $packedAssets = $this->getQtiItemAssetCompiler()->extractAndCopyAssetFiles(
+            $qtiItem,
+            $publicLangDirectory,
+            $resolver
+        );
 
         $dom = new DOMDocument('1.0', 'UTF-8');
 
@@ -218,8 +236,16 @@ class QtiJsonItemCompiler extends QtiItemCompiler
         $portableElementService = new PortableElementService();
         $portableElementService->setServiceLocator($this->getServiceLocator());
         return [
-            'pci' => $portableElementService->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INTERACTION, $qtiItem, true),
-            'pic' => $portableElementService->getPortableElementByClass(PortableElementService::PORTABLE_CLASS_INFOCONTROL, $qtiItem, true)
+            'pci' => $portableElementService->getPortableElementByClass(
+                PortableElementService::PORTABLE_CLASS_INTERACTION,
+                $qtiItem,
+                true
+            ),
+            'pic' => $portableElementService->getPortableElementByClass(
+                PortableElementService::PORTABLE_CLASS_INFOCONTROL,
+                $qtiItem,
+                true
+            )
         ];
     }
 

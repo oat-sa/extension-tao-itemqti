@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class MaxAssociations extends Attribute
 {
-    
     protected static $name = 'maxAssociations';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiInteger';
     protected static $defaultValue = 1;

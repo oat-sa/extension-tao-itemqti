@@ -35,12 +35,11 @@ use oat\taoQtiItem\model\qti\datatype\Datatype;
  */
 class MimeType extends Datatype
 {
-    
     public static function validate($value)
     {
         return preg_match('/^[-\w]+\/[-\w\+\.\-]+(\s+[-\w]+\/[-\w\+\.\-]+)*$/', $value);
     }
-    
+
     public static function fix($value)
     {
         return self::validate($value) ? $value : null;

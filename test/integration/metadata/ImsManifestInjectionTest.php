@@ -24,10 +24,12 @@ use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMapping;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataInjector;
-use \DOMXPath;
-use \DOMDocument;
+use DOMXPath;
+use DOMDocument;
 
+// phpcs:disable PSR1.Files.SideEffects
 include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
+// phpcs:enable PSR1.Files.SideEffects
 
 class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
 {
@@ -79,19 +81,38 @@ class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
 
             $xpath->registerNamespace($prefix, $ns);
             $manifestElt = $imsManifest->documentElement;
-            $this->assertEquals('manifest', $manifestElt->tagName, "No <manifest> element found as the root XML element for file '${inputFile}'.");
+            $this->assertEquals(
+                'manifest',
+                $manifestElt->tagName,
+                "No <manifest> element found as the root XML element for file '${inputFile}'."
+            );
 
             // Check that the namespace is correctly declared in <manifest> element.
-            $this->assertTrue($manifestElt->hasAttributeNS('http://www.w3.org/2000/xmlns/', "${prefix}"), "No namespace with prefix '${prefix}' declared in <manifest> element for file '${inputFile}'.");
+            $this->assertTrue(
+                $manifestElt->hasAttributeNS('http://www.w3.org/2000/xmlns/', "${prefix}"),
+                "No namespace with prefix '${prefix}' declared in <manifest> element for file '${inputFile}'."
+            );
             $nsDeclaration = $manifestElt->getAttribute("xmlns:${prefix}");
-            $this->assertEquals($ns, $nsDeclaration, "Namespace declaration for namespace '${ns}' with prefix '${prefix}' in <manifest> element does not match for file '${inputFile}'.");
+            $this->assertEquals(
+                $ns,
+                $nsDeclaration,
+                "Namespace declaration for namespace '${ns}' with prefix '${prefix}' in <manifest> element "
+                    . "does not match for file '${inputFile}'."
+            );
 
             // Check that we get the tuple in xsi:schemaLocation.
-            $this->assertTrue($manifestElt->hasAttribute('xsi:schemaLocation'), "No xsd:schemaLocation attribute found in <manifest> element for file '${inputFile}'.");
+            $this->assertTrue(
+                $manifestElt->hasAttribute('xsi:schemaLocation'),
+                "No xsd:schemaLocation attribute found in <manifest> element for file '${inputFile}'."
+            );
             $schemaLocations = $manifestElt->getAttribute('xsi:schemaLocation');
 
             $xsiPattern = '@' . preg_quote($ns) . "\\s+" . preg_quote($sc) . '@';
-            $this->assertEquals(1, preg_match($xsiPattern, $schemaLocations), "No xsi:schemaLocation found for namespace '${ns}' in file '${inputFile}'.");
+            $this->assertEquals(
+                1,
+                preg_match($xsiPattern, $schemaLocations),
+                "No xsi:schemaLocation found for namespace '${ns}' in file '${inputFile}'."
+            );
         }
 
         foreach ($values as $resourceIdentifier => $metadataValues) {
@@ -120,7 +141,11 @@ class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
 
                 // Do we have something at location?
                 $elts = $xpath->query($query);
-                $this->assertGreaterThanOrEqual(1, $elts->length, "Nothing found in XML at path '" . implode(' -> ', $path) . "' in file '${inputFile}'.");
+                $this->assertGreaterThanOrEqual(
+                    1,
+                    $elts->length,
+                    "Nothing found in XML at path '" . implode(' -> ', $path) . "' in file '${inputFile}'."
+                );
                 $hasLang = $metadataValue->getLanguage() !== '';
 
                 // Does one of the values contain the expected value?
@@ -128,7 +153,10 @@ class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
                     $valueMatch = $elts->item($i)->nodeValue === $metadataValue->getValue();
                     $langMatch = false;
 
-                    if ($hasLang === false || $elts->item($i)->getAttribute('xml:lang') === $metadataValue->getLanguage()) {
+                    if (
+                        $hasLang === false
+                        || $elts->item($i)->getAttribute('xml:lang') === $metadataValue->getLanguage()
+                    ) {
                         $langMatch = true;
                     }
 
@@ -137,7 +165,11 @@ class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
                     }
                 }
 
-                $this->assertLessThan($elts->length, $i, "No matching value found at path '" . implode(' -> ', $path) . "' in file '${inputFile}'.");
+                $this->assertLessThan(
+                    $elts->length,
+                    $i,
+                    "No matching value found at path '" . implode(' -> ', $path) . "' in file '${inputFile}'."
+                );
             }
         }
     }
@@ -161,7 +193,11 @@ class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
                     ]
                 ],
                 [
-                    new ImsManifestMapping('http://www.imsglobal.org/xsd/imsmd_v1p2', 'imsmd', 'http://www.imsglobal.org/xsd/imsmd_v1p2p2.xsd')
+                    new ImsManifestMapping(
+                        'http://www.imsglobal.org/xsd/imsmd_v1p2',
+                        'imsmd',
+                        'http://www.imsglobal.org/xsd/imsmd_v1p2p2.xsd'
+                    )
                 ]
             ],
 
@@ -286,8 +322,16 @@ class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
                     ],
                 ],
                 [
-                    new ImsManifestMapping('http://www.imsglobal.org/xsd/imsmd_v1p2', 'imsmd', 'http://www.imsglobal.org/xsd/imsmd_v1p2p2.xsd'),
-                    new ImsManifestMapping('http://www.imsglobal.org/xsd/imsqti_v2p0', 'imsqti', 'http://www.imsglobal.org/xsd/imsqti_v2p0.xsd')
+                    new ImsManifestMapping(
+                        'http://www.imsglobal.org/xsd/imsmd_v1p2',
+                        'imsmd',
+                        'http://www.imsglobal.org/xsd/imsmd_v1p2p2.xsd'
+                    ),
+                    new ImsManifestMapping(
+                        'http://www.imsglobal.org/xsd/imsqti_v2p0',
+                        'imsqti',
+                        'http://www.imsglobal.org/xsd/imsqti_v2p0.xsd'
+                    )
                 ]
             ],
 
@@ -306,7 +350,11 @@ class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
                     ]
                 ],
                 [
-                    new ImsManifestMapping('http://www.taotesting.com/xsd/mpm', 'mpm', 'http://www.taotesting.com/xsd/mpm.xsd')
+                    new ImsManifestMapping(
+                        'http://www.taotesting.com/xsd/mpm',
+                        'mpm',
+                        'http://www.taotesting.com/xsd/mpm.xsd'
+                    )
                 ]
             ],
         ];

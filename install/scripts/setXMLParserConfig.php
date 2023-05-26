@@ -35,6 +35,9 @@ class setXMLParserConfig extends \common_ext_action_InstallAction
             'validateOnParse'    => false,
         ]);
 
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'XML Parser config has been succesfully set up');
+        return new \common_report_Report(
+            \common_report_Report::TYPE_SUCCESS,
+            'XML Parser config has been succesfully set up'
+        );
     }
 }

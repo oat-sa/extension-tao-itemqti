@@ -20,7 +20,6 @@
 
 namespace oat\taoQtiItem\model\qti\container;
 
-
 class ContainerFigCaption extends ContainerStatic
 {
     /**

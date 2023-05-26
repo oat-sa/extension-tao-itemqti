@@ -28,7 +28,6 @@ namespace oat\taoQtiItem\model\update;
  */
 class ItemUpdateInlineFeedback extends ItemUpdater
 {
-
     /**
      * Update the item content by wrapping the modalfeedback body into a new wrapper
      *
@@ -61,12 +60,14 @@ class ItemUpdateInlineFeedback extends ItemUpdater
                             $feedbackXml->div[0]['class']
                         )
                     ) {
-                        //the item body has not already been wrapped by the new wrapper <div class="x-tao-wrapper w-tao-relatedOutcome-{{response.identifier}}">
+                        // the item body has not already been wrapped by the new wrapper
+                        // <div class="x-tao-wrapper w-tao-relatedOutcome-{{response.identifier}}">
                         continue;
                     }
                     $message = $modalFeedback->getBody()->getBody();
                     $modalFeedback->getBody()->edit(
-                        '<div class="x-tao-wrapper x-tao-relatedOutcome-' . $responseIdentifier . '">' . $message . '</div>',
+                        '<div class="x-tao-wrapper x-tao-relatedOutcome-' . $responseIdentifier . '">' . $message
+                            . '</div>',
                         true
                     );
                     $changed = true;

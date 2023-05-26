@@ -36,7 +36,6 @@ use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
  */
 class SliderInteraction extends BlockInteraction
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
@@ -61,10 +60,10 @@ class SliderInteraction extends BlockInteraction
                 ]
         );
     }
-    
+
     public function getBaseType()
     {
-        
+
         $returnValue = parent::getBaseType();
 
         $response = $this->getResponse();
@@ -78,7 +77,7 @@ class SliderInteraction extends BlockInteraction
                 $returnValue = $baseType;
             }
         }
-        
+
         return $returnValue;
     }
 }

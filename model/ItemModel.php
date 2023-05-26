@@ -27,11 +27,11 @@ use oat\tao\model\search\tokenizer\ResourceTokenizer;
 use oat\taoItems\model\search\IndexableItemModel;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\search\QtiItemContentTokenizer;
-use \tao_models_classes_export_ExportProvider;
-use \tao_models_classes_import_ImportProvider;
-use \common_ext_ExtensionsManager;
-use \core_kernel_classes_Resource;
-use \common_Logger;
+use tao_models_classes_export_ExportProvider;
+use tao_models_classes_import_ImportProvider;
+use common_ext_ExtensionsManager;
+use core_kernel_classes_Resource;
+use common_Logger;
 use taoItems_models_classes_itemModel;
 
 /**
@@ -47,13 +47,12 @@ class ItemModel extends ConfigurableService implements
     tao_models_classes_import_ImportProvider,
     IndexableItemModel
 {
+    public const SERVICE_ID = 'taoQtiItem/ItemModel';
+    public const MODEL_URI = "http://www.tao.lu/Ontologies/TAOItem.rdf#QTI";
 
-    const SERVICE_ID = 'taoQtiItem/ItemModel';
-    const MODEL_URI = "http://www.tao.lu/Ontologies/TAOItem.rdf#QTI";
-
-    const COMPILER = 'compilerClass';
-    const IMPORT_HANDLER = 'importHandlers';
-    const EXPORT_HANDLER = 'exportHandlers';
+    public const COMPILER = 'compilerClass';
+    public const IMPORT_HANDLER = 'importHandlers';
+    public const EXPORT_HANDLER = 'exportHandlers';
 
     /**
      * constructor called by itemService

@@ -31,8 +31,8 @@ use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use oat\taoQtiItem\model\qti\interaction\Interaction;
 use oat\taoQtiItem\controller\QTIform\TemplatesDrivenResponseOptions;
 use oat\taoQtiItem\helpers\QtiSerializer;
-use \common_exception_Error;
-use \taoItems_models_classes_TemplateRenderer;
+use common_exception_Error;
+use taoItems_models_classes_TemplateRenderer;
 
 /**
  * Response processing similar to the QTI templates, but with
@@ -44,7 +44,6 @@ use \taoItems_models_classes_TemplateRenderer;
  */
 class TemplatesDriven extends ResponseProcessing implements Rule
 {
-
     /**
      * Short description of method getRule
      *
@@ -75,9 +74,9 @@ class TemplatesDriven extends ResponseProcessing implements Rule
             Template::MAP_RESPONSE_POINT,
             Template::NONE
         ];
-        
+
         $returnValue = in_array($uri, $mythoMap);
-        
+
         return (bool) $returnValue;
     }
 
@@ -105,7 +104,7 @@ class TemplatesDriven extends ResponseProcessing implements Rule
         foreach ($item->getInteractions() as $interaction) {
             $returnValue->setTemplate($interaction->getResponse(), Template::MATCH_CORRECT);
         }
-        
+
         return $returnValue;
     }
 
@@ -123,11 +122,11 @@ class TemplatesDriven extends ResponseProcessing implements Rule
     public static function takeOverFrom(ResponseProcessing $responseProcessing, Item $item)
     {
         $returnValue = null;
-        
+
         if ($responseProcessing instanceof self) {
             return $responseProcessing;
         }
-        
+
         if ($responseProcessing instanceof Template) {
             $returnValue = new TemplatesDriven();
             // theoretic only interaction 'RESPONSE' should be considered
@@ -138,7 +137,7 @@ class TemplatesDriven extends ResponseProcessing implements Rule
         } else {
             throw new TakeoverFailedException();
         }
-        
+
         return $returnValue;
     }
 
@@ -157,7 +156,7 @@ class TemplatesDriven extends ResponseProcessing implements Rule
     {
         $response->setHowMatch($template);
         $returnValue = true;
-        
+
         return (bool) $returnValue;
     }
 
@@ -219,7 +218,7 @@ class TemplatesDriven extends ResponseProcessing implements Rule
     {
         $formContainer = new TemplatesDrivenResponseOptions($this, $response);
         $returnValue = $formContainer->getForm();
-        
+
         return $returnValue;
     }
 
@@ -237,10 +236,10 @@ class TemplatesDriven extends ResponseProcessing implements Rule
             // if the TemplateDriven rp is convertible to a Template, render that template
             return $template->toQTI();
         }
-        
+
         $returnValue = "<responseProcessing>";
         $interactions = $this->getRelatedItem()->getInteractions();
-        
+
         foreach ($interactions as $interaction) {
             $response = $interaction->getResponse();
             $uri = $response->getHowMatch();
@@ -250,14 +249,14 @@ class TemplatesDriven extends ResponseProcessing implements Rule
                 'outcomeIdentifier' => 'SCORE'
             ]);
             $returnValue .= $tplRenderer->render();
-            
+
             // add simple feedback rules:
             foreach ($response->getFeedbackRules() as $rule) {
                 $returnValue .= $rule->toQTI();
             }
         }
         $returnValue .= "</responseProcessing>";
-        
+
         return (string) $returnValue;
     }
 
@@ -294,7 +293,7 @@ class TemplatesDriven extends ResponseProcessing implements Rule
     {
         $returnValue = null;
         $interactions = $this->getRelatedItem()->getInteractions();
-        
+
         if (count($interactions) == 1) {
             $interaction = reset($interactions);
             // check if the unique interaction has the right responseIdentifier RESPONSE

@@ -40,7 +40,6 @@ use oat\taoQtiItem\model\qti\Tooltip;
  */
 class ContainerGap extends Container
 {
-
     /**
      * @inheritDoc
      */

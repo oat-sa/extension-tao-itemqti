@@ -171,12 +171,16 @@ class QtiCreator extends tao_actions_CommonModule
             $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
             $itemResource = new core_kernel_classes_Resource($itemUri);
 
-            $item = Service::singleton()->getDataItemByRdfItem($itemResource, $lang, false);//do not resolve xinclude here, leave it to the client side
+            // do not resolve xinclude here, leave it to the client side
+            $item = Service::singleton()->getDataItemByRdfItem($itemResource, $lang, false);
+
             if (!is_null($item)) {
                 $returnValue['itemData'] = $item->toArray();
             }
 
-            $availableLangs = \tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(TaoOntology::PROPERTY_STANCE_LANGUAGE_USAGE_DATA));
+            $availableLangs = \tao_helpers_I18n::getAvailableLangsByUsage(
+                new core_kernel_classes_Resource(TaoOntology::PROPERTY_STANCE_LANGUAGE_USAGE_DATA)
+            );
             $returnValue['languagesList'] = $availableLangs;
         }
 

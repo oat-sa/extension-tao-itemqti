@@ -21,21 +21,24 @@
 namespace oat\taoQtiItem\test\integration;
 
 use common_exception_Error;
-use \common_report_Report;
+use common_report_Report;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\QtiItemCompiler;
-use \taoItems_models_classes_ItemsService;
-use \tao_models_classes_service_FileStorage;
-use \ZipArchive;
+use taoItems_models_classes_ItemsService;
+use tao_models_classes_service_FileStorage;
+use ZipArchive;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\model\ItemModel;
 use DOMDocument;
 
+// phpcs:disable PSR1.Files.SideEffects
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * test the item content access
  *
@@ -181,7 +184,10 @@ class ItemImportExportTest extends TaoPhpUnitTestRunner
     public function testImportApipv1p0Final()
     {
         $itemClass = $this->itemService->getRootClass();
-        $report = $this->importService->importQTIPACKFile($this->getSamplePath('/package/APIP/apip_v1p0_final.zip'), $itemClass);
+        $report = $this->importService->importQTIPACKFile(
+            $this->getSamplePath('/package/APIP/apip_v1p0_final.zip'),
+            $itemClass
+        );
         $this->assertEquals(\common_report_Report::TYPE_SUCCESS, $report->getType());
 
         $items = $this->getItemsByReport($report);
@@ -206,7 +212,10 @@ class ItemImportExportTest extends TaoPhpUnitTestRunner
         $itemDataElemetns = current($itemData['body']['elements']);
 
         //ensure that path prefixed with interaction identifies was not changed;
-        $this->assertEquals($itemDataElemetns['entryPoint'], "adaptiveChoiceInteraction/runtime/adaptiveChoiceInteraction.js");
+        $this->assertEquals(
+            $itemDataElemetns['entryPoint'],
+            "adaptiveChoiceInteraction/runtime/adaptiveChoiceInteraction.js"
+        );
         //ensure that interaction properties imported properly
         $this->assertTrue(isset($itemDataElemetns['properties']['choices'][0]['label']));
 

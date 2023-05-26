@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,6 +17,8 @@ declare(strict_types=1);
  *
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
+
+declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\qti\CustomInteractionAsset\Extractor;
 
@@ -72,7 +72,7 @@ class TextReaderExtendedAssetExtractorTest extends TestCase
             $properties[self::CONTENT_PREFIX . uniqid('test', true)] = $dataUrl;
         }
 
-        return new class($properties) extends CustomInteraction {
+        return new class ($properties) extends CustomInteraction {
             /**
              * @var array
              */
@@ -99,7 +99,7 @@ class TextReaderExtendedAssetExtractorTest extends TestCase
             $properties[self::CONTENT_PREFIX . uniqid('test', true)] = $contentValues[$i % 2];
         }
 
-        return new class($properties) extends CustomInteraction {
+        return new class ($properties) extends CustomInteraction {
             /**
              * @var array
              */

@@ -14,13 +14,13 @@ final class Version202108030712441101_taoQtiItem extends AbstractMigration
     private const CONFIG = [
         SetRolesAccess::CONFIG_RULES => [
             TaoItemsRoles::ITEM_RESOURCE_CREATOR => [
-                ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'createItem'],                
+                ['ext' => 'taoQtiItem', 'mod' => 'QtiCreator', 'act' => 'createItem'],
             ],
             TaoItemsRoles::ITEM_CONTENT_CREATOR => [
-                ['ext' => 'taoQtiItem', 'mod' => 'QtiCssAuthoring', 'act' => 'save'],                
+                ['ext' => 'taoQtiItem', 'mod' => 'QtiCssAuthoring', 'act' => 'save'],
             ],
             TaoItemsRoles::ITEM_IMPORTER => [
-                ['ext' => 'taoQtiItem', 'mod' => 'ItemImportSampleDownload', 'act' => 'downloadTemplate'],                
+                ['ext' => 'taoQtiItem', 'mod' => 'ItemImportSampleDownload', 'act' => 'downloadTemplate'],
             ],
         ]
     ];

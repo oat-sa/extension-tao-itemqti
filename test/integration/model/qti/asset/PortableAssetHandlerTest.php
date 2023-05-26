@@ -41,7 +41,10 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
         $reflectionClass = new \ReflectionClass(PortableAssetHandler::class);
         $reflectionProperty = $reflectionClass->getProperty('portableItemParser');
         $reflectionProperty->setAccessible(true);
-        $this->assertInstanceOf(PortableElementItemParser::class, $reflectionProperty->getValue($this->getPortableAssetHandler(new Item())));
+        $this->assertInstanceOf(
+            PortableElementItemParser::class,
+            $reflectionProperty->getValue($this->getPortableAssetHandler(new Item()))
+        );
     }
 
     /**

@@ -28,12 +28,11 @@ use oat\taoQtiItem\model\qti\feedback\Feedback;
 use oat\taoQtiItem\model\qti\VariableDeclaration;
 use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use oat\taoQtiItem\model\qti\response\Template;
-use \taoItems_models_classes_TemplateRenderer;
-use \InvalidArgumentException;
+use taoItems_models_classes_TemplateRenderer;
+use InvalidArgumentException;
 
 class SimpleFeedbackRule extends Element
 {
-    
     protected $condition = 'correct'; //lt, lte, equal, gte, gt
     protected $comparedOutcome = null;
     protected $comparedValue = 0.0; //value to be compared with, required is condition is different from correct
@@ -106,22 +105,25 @@ class SimpleFeedbackRule extends Element
 
         switch ($condition) {
             case 'correct':
-            case 'incorrect':{
+            case 'incorrect':
                 if ($comparedOutcome instanceof ResponseDeclaration) {
                     $this->comparedOutcome = $comparedOutcome;
                     $this->condition = $condition;
-                    //we may leave the comparedValue current default (if not nul) if we would like to switch back to another condition
+                    // we may leave the comparedValue current default (if not nul) if we would like to switch back
+                    // to another condition
                     $returnValue = true;
                 } else {
-                    throw new InvalidArgumentException('compared outcome must be a response for correct or incorrect condition');
+                    throw new InvalidArgumentException(
+                        'compared outcome must be a response for correct or incorrect condition'
+                    );
                 }
                 break;
-            }
+
             case 'lt':
             case 'lte':
             case 'equal':
             case 'gte':
-            case 'gt':{
+            case 'gt':
                 if (!is_null($comparedValue)) {
                     $this->comparedOutcome = $comparedOutcome;
                     $this->condition = $condition;
@@ -131,8 +133,8 @@ class SimpleFeedbackRule extends Element
                     throw new InvalidArgumentException('compared value must not be null');
                 }
                 break;
-            }
-            case 'choices':{
+
+            case 'choices':
                 if (is_array($comparedValue)) {
                     $this->comparedOutcome = $comparedOutcome;
                     $this->condition = $condition;
@@ -142,7 +144,6 @@ class SimpleFeedbackRule extends Element
                     throw new InvalidArgumentException('compared value must not be an array');
                 }
                 break;
-            }
         }
 
         return $returnValue;
@@ -174,7 +175,9 @@ class SimpleFeedbackRule extends Element
         $variables = [];
         $variables['feedbackOutcomeIdentifier'] = $this->feedbackOutcome->getIdentifier();
         $variables['feedbackIdentifierThen'] = $this->feedbackThen->getIdentifier();
-        $variables['feedbackIdentifierElse'] = is_null($this->feedbackElse) ? null : $this->feedbackElse->getIdentifier();
+        $variables['feedbackIdentifierElse'] = is_null($this->feedbackElse)
+            ? null
+            : $this->feedbackElse->getIdentifier();
 
         if ($this->condition == 'correct' || $this->condition == 'incorrect') {
             $tpl = 'qti.' . $this->condition . '.tpl.php';
@@ -183,7 +186,9 @@ class SimpleFeedbackRule extends Element
         } elseif ($this->condition == 'choices') {
             $tpl = 'qti.choices.tpl.php';
             $variables['responseIdentifier'] = $this->comparedOutcome->getIdentifier();
-            $variables['multiple'] = $this->comparedOutcome->attr('cardinality') == 'multiple' || $this->comparedOutcome->attr('cardinality') == 'ordered';
+            $variables['multiple'] = $this->comparedOutcome->attr('cardinality') == 'multiple'
+                || $this->comparedOutcome->attr('cardinality') == 'ordered';
+
             if ($variables['multiple']) {
                 $variables['choices'] = $this->comparedValue;//an array
             } else {
@@ -195,23 +200,23 @@ class SimpleFeedbackRule extends Element
                 $response = $this->comparedOutcome;
                 $variables['responseIdentifier'] = $response->getIdentifier();
                 switch ($response->getHowMatch()) {
-                    case Template::MAP_RESPONSE:{
-                            $variables['map'] = true;
-                            $variables['mapPoint'] = false;
-                            break;
-                    }
-                    case Template::MAP_RESPONSE_POINT:{
-                            $variables['mapPoint'] = true;
-                            $variables['map'] = false;
-                            break;
-                    }
-                    case Template::MATCH_CORRECT:{
-                            $variables['map'] = true;
-                            $variables['mapPoint'] = false;
-                            //allow loose control: assume simple response mapping 'MAP_RESPONSE' for beedback rule evaluation
-                        //                            throw new common_Exception('condition needs to be set to correct for match correct');
-                            break;
-                    }
+                    case Template::MAP_RESPONSE:
+                        $variables['map'] = true;
+                        $variables['mapPoint'] = false;
+                        break;
+
+                    case Template::MAP_RESPONSE_POINT:
+                        $variables['mapPoint'] = true;
+                        $variables['map'] = false;
+                        break;
+
+                    case Template::MATCH_CORRECT:
+                        $variables['map'] = true;
+                        $variables['mapPoint'] = false;
+                        // allow loose control: assume simple response mapping 'MAP_RESPONSE' for beedback rule
+                        // evaluation
+                        // throw new common_Exception('condition needs to be set to correct for match correct');
+                        break;
                 }
             } else {
                 $variables['outcomeIdentifier'] = $this->comparedOutcome->getIdentifier();

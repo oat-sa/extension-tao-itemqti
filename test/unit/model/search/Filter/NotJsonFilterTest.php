@@ -18,6 +18,7 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  *
  */
+
 declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model;
@@ -29,7 +30,7 @@ class NotJsonFilterTests extends TestCase
 {
     public function testFilter()
     {
-        $sample1 = ['a'=>'b'];
+        $sample1 = ['a' => 'b'];
         $sample2 = new \stdClass();
         $sample2->a = $sample1;
 

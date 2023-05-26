@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class MapKey extends Attribute
 {
-    
     protected static $name = 'mapKey';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\ValueType';
     protected static $defaultValue = null;

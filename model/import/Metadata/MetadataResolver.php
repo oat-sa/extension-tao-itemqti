@@ -17,6 +17,7 @@
  *
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  */
+
 declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import\Metadata;
@@ -147,8 +148,11 @@ class MetadataResolver extends ConfigurableService
         return $this->cache[$classUri . $aliasName] ?? null;
     }
 
-    private function getPropertyUri(core_kernel_classes_Property $property, string $classUri, string $aliasName): ?string
-    {
+    private function getPropertyUri(
+        core_kernel_classes_Property $property,
+        string $classUri,
+        string $aliasName
+    ): ?string {
         $cachedPropertyUri = $this->getCached($classUri, $aliasName);
 
         if (null !== $cachedPropertyUri) {

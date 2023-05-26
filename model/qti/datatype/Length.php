@@ -32,7 +32,6 @@ namespace oat\taoQtiItem\model\qti\datatype;
  */
 class Length extends Datatype
 {
-
     public static function validate($value)
     {
         return (abs(floatval($value)) === is_int($value) || preg_match('/[0-9]+%/', $value));

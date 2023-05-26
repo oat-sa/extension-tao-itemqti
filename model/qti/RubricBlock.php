@@ -40,7 +40,6 @@ use oat\taoQtiItem\model\qti\container\ContainerStatic;
  */
 class RubricBlock extends Element implements FlowContainer, ContentVariable
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
@@ -70,11 +69,12 @@ class RubricBlock extends Element implements FlowContainer, ContentVariable
     protected function getUsedAttributes()
     {
         return [
-            'oat\\taoQtiItem\\model\\qti\\attribute\\View', //@todo: the cardinality actually is [0..*], make it this way!
+            //@todo: the cardinality actually is [0..*], make it this way!
+            'oat\\taoQtiItem\\model\\qti\\attribute\\View',
             'oat\\taoQtiItem\\model\\qti\\attribute\\UseAttribute'
         ];
     }
-    
+
     public function toArray($filterVariableContent = false, &$filtered = [])
     {
 

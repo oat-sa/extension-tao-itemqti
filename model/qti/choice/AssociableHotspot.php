@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\choice\Hotspot;
  */
 class AssociableHotspot extends Hotspot
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *

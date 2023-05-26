@@ -33,9 +33,9 @@ use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
-use \tao_models_classes_import_ImportHandler;
-use \common_report_Report as Report;
-use \common_Exception;
+use tao_models_classes_import_ImportHandler;
+use common_report_Report as Report;
+use common_Exception;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
@@ -45,7 +45,11 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  * @author  Joel Bout, <joel@taotesting.com>
  * @package taoQTIItem
  */
-class QtiItemImport implements tao_models_classes_import_ImportHandler, PhpSerializable, ServiceLocatorAwareInterface, TaskParameterProviderInterface
+class QtiItemImport implements
+    tao_models_classes_import_ImportHandler,
+    PhpSerializable,
+    ServiceLocatorAwareInterface,
+    TaskParameterProviderInterface
 {
     use PhpSerializeStateless;
     use EventManagerAwareTrait;
@@ -96,15 +100,31 @@ class QtiItemImport implements tao_models_classes_import_ImportHandler, PhpSeria
                 $this->getEventManager()->trigger(new QtiItemImportEvent($report));
             }
         } catch (UnsupportedQtiElement $e) {
-            $report = Report::createFailure(__("A QTI component is not supported. The system returned the following error: %s\n", $e->getUserMessage()));
+            $report = Report::createFailure(
+                // phpcs:disable Generic.Files.LineLength
+                __("A QTI component is not supported. The system returned the following error: %s\n", $e->getUserMessage())
+                // phpcs:enable Generic.Files.LineLength
+            );
         } catch (QtiModelException $e) {
-            $report = Report::createFailure(__("One or more QTI components are not supported by the system. The system returned the following error: %s\n", $e->getUserMessage()));
+            $report = Report::createFailure(
+                // phpcs:disable Generic.Files.LineLength
+                __("One or more QTI components are not supported by the system. The system returned the following error: %s\n", $e->getUserMessage())
+                // phpcs:enable Generic.Files.LineLength
+            );
         } catch (ParsingException $e) {
-            $report = Report::createFailure(__("The validation of the imported QTI item failed. The system returned the following error:%s\n", $e->getMessage()));
+            $report = Report::createFailure(
+                // phpcs:disable Generic.Files.LineLength
+                __("The validation of the imported QTI item failed. The system returned the following error:%s\n", $e->getMessage())
+                // phpcs:enable Generic.Files.LineLength
+            );
         } catch (ValidationException $e) {
             $report = $e->getReport();
         } catch (common_Exception $e) {
-            $report = Report::createFailure(__("An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n", $e->getMessage()));
+            $report = Report::createFailure(
+                // phpcs:disable Generic.Files.LineLength
+                __("An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n", $e->getMessage())
+                // phpcs:enable Generic.Files.LineLength
+            );
         }
 
         return $report;

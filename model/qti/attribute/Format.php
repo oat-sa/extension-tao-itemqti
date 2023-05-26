@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class Format extends Attribute
 {
-    
     protected static $name = 'format';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\TextFormat';
     protected static $defaultValue = 'plain';

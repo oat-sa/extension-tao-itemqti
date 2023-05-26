@@ -36,7 +36,6 @@ use oat\taoQtiItem\model\qti\interaction\InlineInteraction;
  */
 class InlineChoiceInteraction extends InlineInteraction
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
@@ -46,7 +45,7 @@ class InlineChoiceInteraction extends InlineInteraction
     protected static $qtiTagName = 'inlineChoiceInteraction';
     protected static $choiceClass = 'oat\\taoQtiItem\\model\\qti\\choice\\InlineChoice';
     protected static $baseType = 'identifier';
-    
+
     public static function getTemplateQti()
     {
         //use block type interaction to output choices
