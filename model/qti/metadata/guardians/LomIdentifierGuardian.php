@@ -32,7 +32,6 @@ use oat\taoQtiItem\model\qti\metadata\MetadataGuardian;
  */
 class LomIdentifierGuardian implements MetadataGuardian
 {
-
     public function guard(array $metadataValues)
     {
         $guard = false;
@@ -54,7 +53,10 @@ class LomIdentifierGuardian implements MetadataGuardian
                 // Check for such a value in database...
                 $prop = new \core_kernel_classes_Property('http://www.imsglobal.org/xsd/imsmd_v1p2#identifier');
                 $class = new \core_kernel_classes_Class(TaoOntology::ITEM_CLASS_URI);
-                $instances = $class->searchInstances([$prop->getUri() => $metadataValue->getValue()], ['like' => false, 'recursive' => true]);
+                $instances = $class->searchInstances(
+                    [$prop->getUri() => $metadataValue->getValue()],
+                    ['like' => false, 'recursive' => true]
+                );
 
                 if (count($instances) > 0) {
                     //var_dump($instances);

@@ -22,19 +22,18 @@
 
 namespace oat\taoQtiItem\model;
 
-use \common_exception_Error;
-use \common_ext_ExtensionsManager;
+use common_exception_Error;
+use common_ext_ExtensionsManager;
 
 class HookRegistry extends AbstractInteractionRegistry
 {
-    
     /**
      * Key used to store the custom interactions in the config
      *
      * @var string
      */
-    const CONFIG_ID = 'hook';
-    
+    public const CONFIG_ID = 'hook';
+
     /**
      * (non-PHPdoc)
      * @see \oat\taoQtiItem\model\AbstractInteractionRegistry::getConfigId()
@@ -43,7 +42,7 @@ class HookRegistry extends AbstractInteractionRegistry
     {
         return self::CONFIG_ID;
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see \oat\taoQtiItem\model\AbstractInteractionRegistry::getInteractionClass()
@@ -52,7 +51,7 @@ class HookRegistry extends AbstractInteractionRegistry
     {
         return 'oat\taoQtiItem\model\Hook';
     }
-    
+
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com

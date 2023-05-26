@@ -38,8 +38,10 @@ interface MetadataGuardian
      * This method takes in input an array of $metadataValues that will be inspected by the implementation
      * to check whether or not, an item being imported is currently stored in the item bank.
      *
-     * @param array $metadataValues An array of MetadataValue objects that were previously identified to belong to a given item.
-     * @return false|\core_kernel_classes_Resource An ontology resource describing an item already in the database or false if not already in the database.
+     * @param array $metadataValues An array of MetadataValue objects that were previously identified to belong to
+     *                              a given item.
+     * @return false|\core_kernel_classes_Resource An ontology resource describing an item already in the database or
+     *                                             false if not already in the database.
      */
     public function guard(array $metadataValues);
 }

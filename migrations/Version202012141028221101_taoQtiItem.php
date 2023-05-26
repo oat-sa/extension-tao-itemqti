@@ -14,7 +14,6 @@ use oat\taoQtiItem\model\compile\QtiAssetReplacer\QtiItemAssetReplacer;
  */
 final class Version202012141028221101_taoQtiItem extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return 'Register QtiItemAssetReplacer service';

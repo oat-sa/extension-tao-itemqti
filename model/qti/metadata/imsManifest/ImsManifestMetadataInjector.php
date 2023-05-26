@@ -21,14 +21,14 @@
 
 namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
-use \DOMDocument;
-use \DOMElement;
+use DOMDocument;
+use DOMElement;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationMetadataValue;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationValue;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjectionException;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjector;
 use oat\taoQtiItem\model\qti\metadata\MetadataValue;
-use \InvalidArgumentException;
+use InvalidArgumentException;
 
 /**
  * A MetadataExtractor implementation.
@@ -155,7 +155,8 @@ class ImsManifestMetadataInjector implements MetadataInjector
      * The injection will take care of serializing the MetadataValue objects into the correct sections of the
      * the IMS Manifest File, by looking at previously registered IMSManifestMapping objects.
      *
-     * @throws MetadataInjectionException If $target is not a DOMDocument object or something goes wrong during the injection process.
+     * @throws MetadataInjectionException If $target is not a DOMDocument object or something goes wrong during the
+     *                                    injection process.
      */
     public function inject($target, array $values)
     {
@@ -228,8 +229,12 @@ class ImsManifestMetadataInjector implements MetadataInjector
      * @param $map
      * @param DOMDocument $imsManifest
      */
-    protected function createMetadataElement(MetadataValue $metadata, DOMElement $metadataNode, $map, DOMDocument $imsManifest)
-    {
+    protected function createMetadataElement(
+        MetadataValue $metadata,
+        DOMElement $metadataNode,
+        $map,
+        DOMDocument $imsManifest
+    ) {
         $path = $metadata->getPath();
         $path = array_reverse($path);
 
@@ -243,7 +248,11 @@ class ImsManifestMetadataInjector implements MetadataInjector
             $name = substr($element, (strpos($element, '#') + 1));
             $base = substr($element, 0, (strpos($element, '#')));
 
-            if (in_array($name, $uniqNodes) || is_null($oldChildNode) || $metadataNode->getElementsByTagName($map[$base] . ':' . $name)->length === 0) {
+            if (
+                in_array($name, $uniqNodes)
+                || is_null($oldChildNode)
+                || $metadataNode->getElementsByTagName($map[$base] . ':' . $name)->length === 0
+            ) {
                 $node = $imsManifest->createElement($map[$base] . ':' . $name);
             } else {
                 $node = $metadataNode->getElementsByTagName($map[$base] . ':' . $name)->item(0);

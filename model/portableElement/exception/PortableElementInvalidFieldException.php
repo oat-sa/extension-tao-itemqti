@@ -23,5 +23,4 @@ namespace oat\taoQtiItem\model\portableElement\exception;
 
 class PortableElementInvalidFieldException extends PortableElementException
 {
-
 }

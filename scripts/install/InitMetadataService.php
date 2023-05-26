@@ -29,8 +29,8 @@ use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationExtractor;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use \oat\taoQtiItem\model\qti\metadata\ontology\LomInjector as OntologyLomInjector;
-use \oat\taoQtiItem\model\qti\metadata\imsManifest\LomInjector as ImsManifestLomInjector;
+use oat\taoQtiItem\model\qti\metadata\ontology\LomInjector as OntologyLomInjector;
+use oat\taoQtiItem\model\qti\metadata\imsManifest\LomInjector as ImsManifestLomInjector;
 
 /**
  * Class InitMetadataService
@@ -56,8 +56,13 @@ class InitMetadataService implements Action, ServiceLocatorAwareInterface
     {
         $importerConfig = [];
 
-        if (\common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->hasConfig('metadata_registry')) {
-            $oldConfig = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig('metadata_registry');
+        if (
+            \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->hasConfig('metadata_registry')
+        ) {
+            $oldConfig = \common_ext_ExtensionsManager::singleton()
+                ->getExtensionById('taoQtiItem')
+                ->getConfig('metadata_registry');
+
             foreach ($oldConfig as $key => $value) {
                 if (is_array($value)) {
                     $importerConfig[$key] = array_unique($value, SORT_STRING);
@@ -84,8 +89,12 @@ class InitMetadataService implements Action, ServiceLocatorAwareInterface
         $metadataService = $this->getServiceLocator()->build(MetadataService::class, $options);
         $this->getServiceLocator()->register(MetadataService::SERVICE_ID, $metadataService);
 
-        if (\common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->hasConfig('metadata_registry')) {
-            \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->unsetConfig('metadata_registry');
+        if (
+            \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->hasConfig('metadata_registry')
+        ) {
+            \common_ext_ExtensionsManager::singleton()
+                ->getExtensionById('taoQtiItem')
+                ->unsetConfig('metadata_registry');
         }
 
         return \common_report_Report::createSuccess(__('Metadata service successfully registered.'));

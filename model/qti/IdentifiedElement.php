@@ -23,7 +23,7 @@
 namespace oat\taoQtiItem\model\qti;
 
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
-use \common_Logger;
+use common_Logger;
 
 /**
  * The QTI_Element class represent the abstract model for all the QTI objects.
@@ -40,7 +40,6 @@ use \common_Logger;
  */
 abstract class IdentifiedElement extends Element
 {
-
     /**
      * It represents the  QTI  identifier.
      * It must be unique string within an item.
@@ -224,10 +223,12 @@ abstract class IdentifiedElement extends Element
 
         $relatedItem = $this->getRelatedItem();
         if (is_null($relatedItem)) {
-            throw new QtiModelException('cannot generate the identifier because the element does not belong to any item');
+            throw new QtiModelException(
+                'cannot generate the identifier because the element does not belong to any item'
+            );
         }
         $identifiedElementsCollection = $relatedItem->getIdentifiedElements();
-        
+
         $index = 1;
         $suffix = '';
 
@@ -240,7 +241,8 @@ abstract class IdentifiedElement extends Element
             }
             $suffix = '_' . $index;
         } else {
-            $prefix = preg_replace('/_[0-9]+$/', '_', $prefix); //detect incremental id of type choice_12, response_3, etc.
+            //detect incremental id of type choice_12, response_3, etc.
+            $prefix = preg_replace('/_[0-9]+$/', '_', $prefix);
             $prefix = preg_replace('/[^a-zA-Z0-9_]/', '_', $prefix);
             $prefix = preg_replace('/(_)+/', '_', $prefix);
         }
@@ -254,7 +256,7 @@ abstract class IdentifiedElement extends Element
                 $index++;
             }
         } while ($exist);
-        
+
         return $id;
     }
 }

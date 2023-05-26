@@ -29,7 +29,9 @@ use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 
+// phpcs:disable PSR1.Files.SideEffects
 include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class LabelClassLookupTest
@@ -48,7 +50,9 @@ class LabelClassLookupTest extends TaoPhpUnitTestRunner
 
         $importer->setOptions([
             MetadataImporter::CLASS_LOOKUP_KEY => ['oat\taoQtiItem\model\qti\metadata\classLookups\LabelClassLookup'],
-            MetadataImporter::EXTRACTOR_KEY => ['oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor'],
+            MetadataImporter::EXTRACTOR_KEY => [
+                'oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor',
+            ],
             MetadataImporter::GUARDIAN_KEY => ['oat\taoQtiItem\model\qti\metadata\guardians\LomIdentifierGuardian'],
         ]);
 

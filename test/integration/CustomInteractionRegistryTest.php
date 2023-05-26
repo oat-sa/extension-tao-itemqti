@@ -30,7 +30,6 @@ use oat\taoQtiItem\model\CustomInteractionRegistry;
  */
 class CustomInteractionRegistryTest extends TaoPhpUnitTestRunner
 {
-
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
@@ -63,8 +62,14 @@ class CustomInteractionRegistryTest extends TaoPhpUnitTestRunner
     public function testGet()
     {
         $interactions = CustomInteractionRegistry::getRegistry()->getMap();
-        $this->assertEquals($interactions['fakeInteraction'], CustomInteractionRegistry::getRegistry()->get('fakeInteraction'));
-        $this->assertEquals(CustomInteractionRegistry::getCustomInteractionByName('fakeInteraction'), CustomInteractionRegistry::getRegistry()->get('fakeInteraction'));
+        $this->assertEquals(
+            $interactions['fakeInteraction'],
+            CustomInteractionRegistry::getRegistry()->get('fakeInteraction')
+        );
+        $this->assertEquals(
+            CustomInteractionRegistry::getCustomInteractionByName('fakeInteraction'),
+            CustomInteractionRegistry::getRegistry()->get('fakeInteraction')
+        );
     }
 
     /**

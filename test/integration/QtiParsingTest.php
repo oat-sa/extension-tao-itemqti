@@ -34,7 +34,6 @@ use oat\taoQtiItem\model\qti\Parser;
  */
 class QtiParsingTest extends TaoPhpUnitTestRunner
 {
-
     /**
      * tests initialization
      */
@@ -46,6 +45,8 @@ class QtiParsingTest extends TaoPhpUnitTestRunner
 
     /**
      * Provide valid and invalid files for the qti parser
+     *
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
     public function QtiFileProvider()
     {
@@ -70,6 +71,7 @@ class QtiParsingTest extends TaoPhpUnitTestRunner
 
         return $qtiSamples;
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     /**
      * test qti file parsing: validation and loading in a non-persistant context
@@ -167,7 +169,9 @@ class QtiParsingTest extends TaoPhpUnitTestRunner
 
         foreach ([__DIR__ . '/samples/apip/apip_choice_empty_apip.xml'] as $file) {
             $qtiParser = new Parser($file);
-            $qtiParser->validate($basePath . 'model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd');
+            $qtiParser->validate(
+                $basePath . 'model/qti/data/apipv1p0/Core_Level/Package/apipv1p0_qtiitemv2p1_v1p0.xsd'
+            );
             if (!$qtiParser->isValid()) {
                 echo $qtiParser->displayErrors();
             }

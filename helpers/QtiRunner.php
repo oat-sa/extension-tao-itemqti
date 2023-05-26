@@ -26,7 +26,7 @@ use qtism\common\enums\BaseType;
 use qtism\common\enums\Cardinality;
 use qtism\runtime\common\Variable;
 use qtism\runtime\tests\AssessmentItemSession;
-use \tao_models_classes_service_StorageDirectory;
+use tao_models_classes_service_StorageDirectory;
 
 /**
  * Qti Item Runner helper
@@ -39,7 +39,6 @@ use \tao_models_classes_service_StorageDirectory;
  */
 class QtiRunner
 {
-
     /**
      * Get the intrinsic values of a given QTI $variable.
      *
@@ -54,7 +53,7 @@ class QtiRunner
         $baseType = $variable->getBaseType();
         $cardinalityType = $variable->getCardinality();
         $value = $variable->getValue();
-        
+
         // This only works if the variable has a value ;)
         if ($value !== null) {
             if ($baseType === BaseType::IDENTIFIER) {
@@ -74,7 +73,8 @@ class QtiRunner
     /**
      * Get the flysystem path to the compilation folder described by $directory.
      *
-     * @param tao_models_classes_service_StorageDirectory $directory The root directory resource where the item is stored.
+     * @param tao_models_classes_service_StorageDirectory $directory The root directory resource where the item
+     *                                                               is stored.
      * @return string The flysystem path to the private folder with a trailing directory separator.
      */
     public static function getPrivatePathByLanguage(tao_models_classes_service_StorageDirectory $directory)
@@ -84,10 +84,10 @@ class QtiRunner
         if (!$directory->has($lang) && $directory->has(DEFAULT_LANG)) {
             $lang = DEFAULT_LANG;
         }
-        
+
         return $lang . DIRECTORY_SEPARATOR;
     }
-    
+
     /**
      * Get the JSON QTI Model representing the elements (A.K.A. components) that vary over time for
      * the item stored in $directory.
@@ -101,7 +101,7 @@ class QtiRunner
         $data = $directory->read($jsonFile);
         return json_decode($data, true);
     }
-    
+
     /**
      * Get rubric block visible by the given "view"
      *
@@ -111,22 +111,26 @@ class QtiRunner
      */
     public static function getRubricBlocks(tao_models_classes_service_StorageDirectory $directory, $view)
     {
-        
+
         $returnValue = [];
-        
+
         $elements = self::getContentVariableElements($directory);
-        
+
         foreach ($elements as $serial => $data) {
             if (isset($data['qtiClass']) && $data['qtiClass'] == 'rubricBlock') {
-                if (!empty($data['attributes']) && is_array($data['attributes']['view']) && in_array($view, $data['attributes']['view'])) {
-                        $returnValue[$serial] = $data;
+                if (
+                    !empty($data['attributes'])
+                    && is_array($data['attributes']['view'])
+                    && in_array($view, $data['attributes']['view'])
+                ) {
+                    $returnValue[$serial] = $data;
                 }
             }
         }
-        
+
         return $returnValue;
     }
-    
+
     /**
      * Get the feedback to be displayed on an AssessmentItemSession
      *
@@ -134,35 +138,37 @@ class QtiRunner
      * @param \qtism\runtime\tests\AssessmentItemSession $itemSession
      * @return array
      */
-    public static function getFeedbacks(tao_models_classes_service_StorageDirectory $directory, AssessmentItemSession $itemSession)
-    {
-        
+    public static function getFeedbacks(
+        tao_models_classes_service_StorageDirectory $directory,
+        AssessmentItemSession $itemSession
+    ) {
+
         $returnValue = [];
-        
+
         $feedbackClasses = ['modalFeedback', 'feedbackInline', 'feedbackBlock'];
         $elements = self::getContentVariableElements($directory);
-        
+
         $outcomes = [];
         foreach ($elements as $data) {
             if (empty($data['qtiClass']) === false && in_array($data['qtiClass'], $feedbackClasses)) {
                 $feedbackIdentifier = $data['attributes']['identifier'];
                 $outcomeIdentifier = $data['attributes']['outcomeIdentifier'];
-        
+
                 if (!isset($outcomes[$outcomeIdentifier])) {
                     $outcomes[$outcomeIdentifier] = [];
                 }
-        
+
                 $outcomes[$outcomeIdentifier][$feedbackIdentifier] = $data;
             }
         }
-        
+
         foreach ($itemSession->getAllVariables() as $var) {
             $identifier = $var->getIdentifier();
-        
+
             if (isset($outcomes[$identifier])) {
                 $feedbacks = $outcomes[$identifier];
                 $feedbackIds = QtiRunner::getVariableValues($var);
-        
+
                 foreach ($feedbackIds as $feedbackId) {
                     if (isset($feedbacks[$feedbackId])) {
                         $data = $feedbacks[$feedbackId];
@@ -171,7 +177,7 @@ class QtiRunner
                 }
             }
         }
-        
+
         return $returnValue;
     }
 }

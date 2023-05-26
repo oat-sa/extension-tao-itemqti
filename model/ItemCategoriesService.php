@@ -33,8 +33,7 @@ use oat\oatbox\service\ConfigurableService;
  */
 class ItemCategoriesService extends ConfigurableService
 {
-
-    const SERVICE_ID = 'taoQtiItem/ItemCategories';
+    public const SERVICE_ID = 'taoQtiItem/ItemCategories';
 
     /**
      * Get the categories link to the list of items in parameter.
@@ -55,7 +54,10 @@ class ItemCategoriesService extends ConfigurableService
                     $properties = $item->getPropertiesValues(array_keys($lookupProperties));
                     foreach ($properties as $property => $propertyValues) {
                         foreach ($propertyValues as $value) {
-                            $propertyValue = ($value instanceof \core_kernel_classes_Resource) ? $value->getUri() : (string)$value;
+                            $propertyValue = ($value instanceof \core_kernel_classes_Resource)
+                                ? $value->getUri()
+                                : (string)$value;
+
                             if (isset($lookupProperties[$property][$propertyValue])) {
                                 $itemCategories[] = $lookupProperties[$property][$propertyValue];
                             }

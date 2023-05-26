@@ -28,7 +28,7 @@ namespace oat\taoQtiItem\model\portableElement\clientConfigRegistry;
  */
 class InfoControlRegistry extends AbstractPortableElementRegistry
 {
-    const IC_REGISTRY = "taoQtiItem/portableElementRegistry/icRegistry";
+    public const IC_REGISTRY = "taoQtiItem/portableElementRegistry/icRegistry";
 
     protected function getClientModule()
     {

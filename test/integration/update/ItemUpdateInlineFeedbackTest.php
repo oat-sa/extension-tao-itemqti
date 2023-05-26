@@ -23,11 +23,10 @@ namespace oat\taoQtiItem\test\integration\update;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\update\ItemUpdateInlineFeedback;
-use \tao_helpers_File;
+use tao_helpers_File;
 
 class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
 {
-
     /**
      * tests initialization
      * load qti service
@@ -35,7 +34,8 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
     public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
-        \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');//load tao constants to prevent warning in constant usage
+        // load tao constants to prevent warning in constant usage
+        \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
     }
 
     public function testUpdate()
@@ -45,15 +45,21 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
         $items = $itemUpdater->update();
         $checkedFiles  = $itemUpdater->getCheckedFiles();
         $modifiedFiles = array_keys(array_filter($checkedFiles, function ($v) {
-                return $v;
+            return $v;
         }));
 
         $this->assertEquals(19, count($checkedFiles));
         $this->assertEquals(2, count($modifiedFiles));
 
         sort($modifiedFiles);
-        $this->assertEquals($modifiedFiles[0], realpath($itemRootDir . '/i1452699358831159_hasModal_willChange/itemContent/en-US/qti.xml'));
-        $this->assertEquals($modifiedFiles[1], realpath($itemRootDir . '/i1452759848383063_hasModal_willChange/itemContent/en-US/qti.xml'));
+        $this->assertEquals(
+            $modifiedFiles[0],
+            realpath($itemRootDir . '/i1452699358831159_hasModal_willChange/itemContent/en-US/qti.xml')
+        );
+        $this->assertEquals(
+            $modifiedFiles[1],
+            realpath($itemRootDir . '/i1452759848383063_hasModal_willChange/itemContent/en-US/qti.xml')
+        );
 
         $item1 = $items[$modifiedFiles[0]];
         $item2 = $items[$modifiedFiles[1]];
@@ -74,7 +80,8 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
 
     public function testUpdateTrue()
     {
-        $itemRootDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid('ItemUpdateInlineFeedbackTest') . DIRECTORY_SEPARATOR;
+        $itemRootDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid('ItemUpdateInlineFeedbackTest')
+            . DIRECTORY_SEPARATOR;
         $originalRootDir = __DIR__ . '/samples/itemData';
 
         tao_helpers_File::copy($originalRootDir, $itemRootDir);
@@ -84,23 +91,35 @@ class ItemUpdateInlineFeedbackTest extends TaoPhpUnitTestRunner
         $itemUpdater->update(true);
         $checkedFiles  = $itemUpdater->getCheckedFiles();
         $modifiedFiles = array_keys(array_filter($checkedFiles, function ($v) {
-                return $v;
+            return $v;
         }));
 
         $this->assertEquals(19, count($checkedFiles));
         $this->assertEquals(2, count($modifiedFiles));
 
         sort($modifiedFiles);
-        $this->assertEquals(realpath($modifiedFiles[0]), realpath($itemRootDir . '/i1452699358831159_hasModal_willChange/itemContent/en-US/qti.xml'));
-        $this->assertEquals(realpath($modifiedFiles[1]), realpath($itemRootDir . '/i1452759848383063_hasModal_willChange/itemContent/en-US/qti.xml'));
+        $this->assertEquals(
+            realpath($modifiedFiles[0]),
+            realpath($itemRootDir . '/i1452699358831159_hasModal_willChange/itemContent/en-US/qti.xml')
+        );
+        $this->assertEquals(
+            realpath($modifiedFiles[1]),
+            realpath($itemRootDir . '/i1452759848383063_hasModal_willChange/itemContent/en-US/qti.xml')
+        );
 
         //compare the content of the items after update
         $resultFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'samples' . DIRECTORY_SEPARATOR . 'updateResult.xml';
         $resultFileContent = file_get_contents($resultFile);
         $resultFileContent = $this->normalizeXmlStrings($resultFileContent);
 
-        $this->assertXmlStringEqualsXmlString($resultFileContent, $this->normalizeXmlStrings(file_get_contents($modifiedFiles[0])));
-        $this->assertXmlStringEqualsXmlString($resultFileContent, $this->normalizeXmlStrings(file_get_contents($modifiedFiles[1])));
+        $this->assertXmlStringEqualsXmlString(
+            $resultFileContent,
+            $this->normalizeXmlStrings(file_get_contents($modifiedFiles[0]))
+        );
+        $this->assertXmlStringEqualsXmlString(
+            $resultFileContent,
+            $this->normalizeXmlStrings(file_get_contents($modifiedFiles[1]))
+        );
     }
 
     private function normalizeXmlStrings($s)

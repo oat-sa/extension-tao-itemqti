@@ -23,7 +23,7 @@ namespace oat\taoQtiItem\model\portableElement\export;
 
 use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
 use oat\taoQtiItem\model\Export\AbstractQTIItemExporter;
-use \DOMNode;
+use DOMNode;
 
 abstract class PortableElementExporter
 {

@@ -28,13 +28,12 @@ namespace oat\taoQtiItem\model\update;
  */
 class ItemFixGhostResponse extends ItemUpdater
 {
-
     private $templates = [
         'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct',
         'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response',
         'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point'
     ];
-    
+
     /**
      * Remove unused response declaration from the items and rp template misuse
      *
@@ -61,7 +60,7 @@ class ItemFixGhostResponse extends ItemUpdater
 
         $xml        = simplexml_load_file($itemFile);
         $rpTemplate = (string) $xml->responseProcessing['template'];
-        
+
         //detect wrong usage for standard standard response declaration
         $rp = $item->getResponseProcessing();
         if ($rp instanceof \oat\taoQtiItem\model\qti\response\TemplatesDriven && $rpTemplate) {

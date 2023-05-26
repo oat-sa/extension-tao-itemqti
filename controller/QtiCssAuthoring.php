@@ -36,7 +36,6 @@ use common_exception_InvalidArgumentType;
  */
 class QtiCssAuthoring extends tao_actions_CommonModule
 {
-
     /**
      * Save custom CSS as file
      *
@@ -109,11 +108,19 @@ class QtiCssAuthoring extends tao_actions_CommonModule
     private function getCssArray()
     {
         if (!$this->hasRequestParameter('cssJson')) {
-            throw new common_exception_MissingParameter('cssJson', __CLASS__ . '::' . \Context::getInstance()->getActionName());
+            throw new common_exception_MissingParameter(
+                'cssJson',
+                __CLASS__ . '::' . \Context::getInstance()->getActionName()
+            );
         }
         $cssArr = json_decode($_POST['cssJson'], true);
         if (!is_array($cssArr)) {
-            throw new common_exception_InvalidArgumentType(__CLASS__, \Context::getInstance()->getActionName(), 0, 'json encoded array');
+            throw new common_exception_InvalidArgumentType(
+                __CLASS__,
+                \Context::getInstance()->getActionName(),
+                0,
+                'json encoded array'
+            );
         }
         return $cssArr;
     }

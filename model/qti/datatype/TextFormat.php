@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\datatype\Enumeration;
  */
 class TextFormat extends Enumeration
 {
-    
     public static function getEnumeration()
     {
         return [

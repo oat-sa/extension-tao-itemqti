@@ -35,30 +35,32 @@ use oat\taoQtiItem\model\qti\metadata\MetadataClassLookup;
  */
 class LabelClassLookup implements MetadataClassLookup
 {
-    
     public function lookup(array $metadataValues)
     {
         $lookup = false;
-        
+
         foreach ($metadataValues as $metadataValue) {
             $path = $metadataValue->getPath();
             $expectedPath = [
                 OntologyRdfs::RDFS_LABEL
             ];
-            
+
             if ($path === $expectedPath) {
                 // Check for such a value in database...
                 $prop = new \core_kernel_classes_Property(OntologyRdfs::RDFS_LABEL);
                 $class = new \core_kernel_classes_Class(OntologyRdfs::RDFS_CLASS);
-                $instances = $class->searchInstances([$prop->getUri() => $metadataValue->getValue()], ['like' => false, 'recursive' => true]);
-                
+                $instances = $class->searchInstances(
+                    [$prop->getUri() => $metadataValue->getValue()],
+                    ['like' => false, 'recursive' => true]
+                );
+
                 if (count($instances) > 0) {
                     $lookup = new \core_kernel_classes_Class(reset($instances));
                     break;
                 }
             }
         }
-        
+
         return $lookup;
     }
 }

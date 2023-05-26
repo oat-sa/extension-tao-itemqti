@@ -25,7 +25,7 @@ namespace oat\taoQtiItem\model\qti\response;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\exception\TemplateException;
 use oat\taoQtiItem\helpers\QtiSerializer;
-use \taoItems_models_classes_TemplateRenderer;
+use taoItems_models_classes_TemplateRenderer;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\response\Template
@@ -37,74 +37,75 @@ use \taoItems_models_classes_TemplateRenderer;
  */
 class Template extends ResponseProcessing implements Rule
 {
-
     /**
      * QTI 2.1 Match Correct RP Template URL.
      *
      * @var string
      */
-    const MATCH_CORRECT = 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct';
+    public const MATCH_CORRECT = 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct';
 
     /**
      * QTI 2.1 Map Response RP Template URL.
      *
      * @var string
      */
-    const MAP_RESPONSE = 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response';
+    public const MAP_RESPONSE = 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response';
 
     /**
      * QTI 2.1 Map Response Point RP Template URL.
      *
      * @var string
      */
-    const MAP_RESPONSE_POINT = 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point';
+    public const MAP_RESPONSE_POINT = 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response_point';
 
+    // phpcs:disable Generic.NamingConventions.UpperCaseConstantName,Generic.Files.LineLength
     /**
      * QTI 2.0 Match Correct RP Template URL.
      *
      * @var string
      */
-    const MATCH_CORRECT_qtiv2p0 = 'http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct';
+    public const MATCH_CORRECT_qtiv2p0 = 'http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct';
 
     /**
      * QTI 2.0 Map Response RP Template URL.
      *
      * @var string
      */
-    const MAP_RESPONSE_qtiv2p0 = 'http://www.imsglobal.org/question/qti_v2p0/rptemplates/map_response';
+    public const MAP_RESPONSE_qtiv2p0 = 'http://www.imsglobal.org/question/qti_v2p0/rptemplates/map_response';
 
     /**
      * QTI 2.0 Map Response Point RP Template URL.
      *
      * @var string
      */
-    const MAP_RESPONSE_POINT_qtiv2p0 = 'http://www.imsglobal.org/question/qti_v2p0/rptemplates/map_response_point';
+    public const MAP_RESPONSE_POINT_qtiv2p0 = 'http://www.imsglobal.org/question/qti_v2p0/rptemplates/map_response_point';
 
     /**
      * QTI 2.2 Match Correct RP Template URL.
      *
      * @var string
      */
-    const MATCH_CORRECT_qtiv2p2 = 'http://www.imsglobal.org/question/qti_v2p2/rptemplates/match_correct';
-    
+    public const MATCH_CORRECT_qtiv2p2 = 'http://www.imsglobal.org/question/qti_v2p2/rptemplates/match_correct';
+
     /**
      * QTI 2.2 Map Response RP Template URL.
      *
      * @var string
      */
-    const MAP_RESPONSE_qtiv2p2 = 'http://www.imsglobal.org/question/qti_v2p2/rptemplates/map_response';
-    
+    public const MAP_RESPONSE_qtiv2p2 = 'http://www.imsglobal.org/question/qti_v2p2/rptemplates/map_response';
+
     /**
      * QTI 2.2 Map Response Point RP Template URL.
      *
      * @var string
      */
-    const MAP_RESPONSE_POINT_qtiv2p2 = 'http://www.imsglobal.org/question/qti_v2p2/rptemplates/map_response_point';
+    public const MAP_RESPONSE_POINT_qtiv2p2 = 'http://www.imsglobal.org/question/qti_v2p2/rptemplates/map_response_point';
+    // phpcs:enable Generic.NamingConventions.UpperCaseConstantName,Generic.Files.LineLength
 
     /**
      * Template to apply when no response processing should take place
      */
-    const NONE = 'no_response_processing';
+    public const NONE = 'no_response_processing';
 
     /**
      * Short description of attribute uri
@@ -146,7 +147,7 @@ class Template extends ResponseProcessing implements Rule
 
         return (string) $returnValue;
     }
-    
+
     /**
      * Get the content of the response processing template identified by its uri
      *
@@ -205,7 +206,7 @@ class Template extends ResponseProcessing implements Rule
             case self::MAP_RESPONSE_POINT_qtiv2p2:
                 $this->uri = self::MAP_RESPONSE_POINT;
                 break;
-            case self::NONE;
+            case self::NONE:
                 $this->uri = self::NONE;
                 break;
             default:
@@ -229,7 +230,10 @@ class Template extends ResponseProcessing implements Rule
 
         if ($this->uri != self::NONE) {
             //if there is actually a real response template involved, render the template
-            $tplRenderer = new taoItems_models_classes_TemplateRenderer(static::getTemplatePath() . '/qti.rptemplate.tpl.php', ['uri' => $this->uri]);
+            $tplRenderer = new taoItems_models_classes_TemplateRenderer(
+                static::getTemplatePath() . '/qti.rptemplate.tpl.php',
+                ['uri' => $this->uri]
+            );
             $returnValue = $tplRenderer->render();
         }
 

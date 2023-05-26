@@ -14,7 +14,6 @@ use oat\taoQtiItem\scripts\install\SetupQtiMetadataImportExportService;
  */
 final class Version202209281354481104_taoQtiItem extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return '';
@@ -23,7 +22,7 @@ final class Version202209281354481104_taoQtiItem extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->addReport(
-            $this->propagate(new SetupQtiMetadataImportExportService)([])
+            $this->propagate(new SetupQtiMetadataImportExportService())([])
         );
     }
 

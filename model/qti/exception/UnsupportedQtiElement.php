@@ -22,8 +22,8 @@
 
 namespace oat\taoQtiItem\model\qti\exception;
 
-use \common_exception_UserReadableException;
-use \DOMElement;
+use common_exception_UserReadableException;
+use DOMElement;
 
 /**
  * Exception thrown when an unsupported QTI class is found.
@@ -35,15 +35,13 @@ use \DOMElement;
  */
 class UnsupportedQtiElement extends ParsingException implements common_exception_UserReadableException
 {
-
-    
     /**
      * The element which represents the unsupported QTI class.
      *
      * @var DOMElement
      */
     private $element;
-    
+
     /**
      * Create a new UnsupportedQtiElement object.
      *
@@ -54,7 +52,7 @@ class UnsupportedQtiElement extends ParsingException implements common_exception
         parent::__construct('The QTI class "' . $element->nodeName . '" is currently not supported.', $this->code);
         $this->setElement($element);
     }
-    
+
     /**
      * Get the element which represents the unsupported QTI class.
      *
@@ -64,7 +62,7 @@ class UnsupportedQtiElement extends ParsingException implements common_exception
     {
         return $this->element;
     }
-    
+
     /**
      * Set the element which represents the unsupported QTI class.
      *
@@ -74,7 +72,7 @@ class UnsupportedQtiElement extends ParsingException implements common_exception
     {
         $this->element = $element;
     }
-    
+
     /**
      * Returns a human-readable message describing the error that occurred.
      *

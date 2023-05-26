@@ -34,11 +34,14 @@ class MetadataExporterForm extends \tao_helpers_form_FormContainer
         $this->form = new \tao_helpers_form_xhtml_Form('export');
 
         $this->form->setDecorators([
-            'element'           => new \tao_helpers_form_xhtml_TagWrapper(['tag' => 'div']),
-            'group'             => new \tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-group']),
-            'error'             => new \tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all']),
-            'actions-bottom'    => new \tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar']),
-            'actions-top'       => new \tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar'])
+            'element' => new \tao_helpers_form_xhtml_TagWrapper(['tag' => 'div']),
+            'group' => new \tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-group']),
+            'error' => new \tao_helpers_form_xhtml_TagWrapper([
+                'tag' => 'div',
+                'cssClass' => 'form-error ui-state-error ui-corner-all',
+            ]),
+            'actions-bottom' => new \tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar']),
+            'actions-top' => new \tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar'])
         ]);
 
         $hiddenClassElt = \tao_helpers_form_FormFactory::getElement('xml_desc', 'Hidden');
@@ -49,7 +52,10 @@ class MetadataExporterForm extends \tao_helpers_form_FormContainer
         $this->form->addElement($hiddenClassElt);
 
         $exportElt = \tao_helpers_form_FormFactory::getElement('export', 'Free');
-        $exportElt->setValue('<a href="#" class="form-submitter btn-success small"><span class="icon-export"></span> ' . __('Export metadata') . '</a>');
+        $exportElt->setValue(
+            '<a href="#" class="form-submitter btn-success small"><span class="icon-export"></span> '
+                . __('Export metadata') . '</a>'
+        );
         $this->form->setActions([$exportElt], 'bottom');
     }
 

@@ -38,7 +38,10 @@ class SetupPortableElementFileStorage extends \common_ext_action_InstallAction
     public function __invoke($params)
     {
         if ($this->getServiceLocator()->has(PortableElementFileStorage::SERVICE_ID)) {
-            return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Portable file storage already registered, skipped.');
+            return new \common_report_Report(
+                \common_report_Report::TYPE_SUCCESS,
+                'Portable file storage already registered, skipped.'
+            );
         }
 
         $fsId = 'portableElementStorage';

@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\choice\TextVariableChoice;
  */
 class GapText extends ContainerChoice
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *

@@ -32,7 +32,7 @@ use oat\oatbox\filesystem\File;
  */
 interface SimpleExporter
 {
-    const SERVICE_ID = 'taoQtiItem/simpleExporter';
+    public const SERVICE_ID = 'taoQtiItem/simpleExporter';
 
     /**
      * Main action to launch export

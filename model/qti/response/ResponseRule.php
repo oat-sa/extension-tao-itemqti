@@ -19,11 +19,12 @@
  *
  *
  */
+
 namespace oat\taoQtiItem\model\qti\response;
 
 use oat\taoQtiItem\model\qti\response\ResponseRule;
 use oat\taoQtiItem\model\qti\response\Rule;
-use \common_Exception;
+use common_Exception;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\response\ResponseRule
@@ -54,9 +55,12 @@ abstract class ResponseRule implements Rule
     {
         $returnValue = (string) '';
 
-        
-        throw new common_Exception('class ' . get_class($this) . ' needs to implement getRule', ['TAOITEMS', 'QTI', 'HARD']);
-        
+
+        throw new common_Exception(
+            'class ' . get_class($this) . ' needs to implement getRule',
+            ['TAOITEMS', 'QTI', 'HARD']
+        );
+
 
         return (string) $returnValue;
     }

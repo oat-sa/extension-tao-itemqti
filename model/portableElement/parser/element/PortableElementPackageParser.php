@@ -30,7 +30,7 @@ use oat\taoQtiItem\model\portableElement\parser\PortableElementParser;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\helpers\QtiPackage;
 use common_Exception;
-use \ZipArchive;
+use ZipArchive;
 
 /**
  * Parser of a QTI PCI package
@@ -70,7 +70,8 @@ abstract class PortableElementPackageParser implements PortableElementParser
         foreach ($definitionFiles as $file) {
             if ($zip->locateName($file) === false) {
                 throw new PortableElementParserException(
-                    'The portable element package "' . $this->getModel()->getId() . '" must contains a "' . $file . '" file at the root of the archive.'
+                    'The portable element package "' . $this->getModel()->getId() . '" must contains a "'
+                        . $file . '" file at the root of the archive.'
                 );
             }
         }

@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class Media extends Attribute
 {
-    
     protected static $name = 'media';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiString';
     protected static $defaultValue = null;

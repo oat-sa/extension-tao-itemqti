@@ -19,6 +19,7 @@
  *
  *
  */
+
 namespace oat\taoQtiItem\model\qti\response;
 
 use oat\taoQtiItem\model\qti\response\ExitResponse;
@@ -52,9 +53,9 @@ class ExitResponse extends ResponseRule
     {
         $returnValue = (string) '';
 
-        
+
         $returnValue = 'exitResponse();';
-        
+
 
         return (string) $returnValue;
     }

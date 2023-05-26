@@ -54,7 +54,7 @@ class NullAssetExtractorTest extends TestCase
             $properties[uniqid('test', true)] = $dataUrl;
         }
 
-        return new class($properties) extends CustomInteraction {
+        return new class ($properties) extends CustomInteraction {
             /**
              * @var array
              */
@@ -81,7 +81,7 @@ class NullAssetExtractorTest extends TestCase
             $properties[uniqid('test', true)] = $contentValues[$i % 2];
         }
 
-        return new class($properties) extends CustomInteraction {
+        return new class ($properties) extends CustomInteraction {
             /**
              * @var array
              */

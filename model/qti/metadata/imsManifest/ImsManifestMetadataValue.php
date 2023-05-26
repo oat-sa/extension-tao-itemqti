@@ -26,16 +26,17 @@ use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 /**
  * This implementation of MetadataValue represents MetadataValue objects in an IMS Manifest context.
  *
- * To illustrate what an instance of a ImsManifestMetadataValue represents,
- * have a look at the IMS Manifest located at 'http://www.imsglobal.org/question/qti_v2p0/examples/mdexample/imsmanifest.xml'.
- * This manifest describes a single QTI Item with metadata.
+ * To illustrate what an instance of a ImsManifestMetadataValue represents, have a look at the IMS Manifest located
+ * at 'http://www.imsglobal.org/question/qti_v2p0/examples/mdexample/imsmanifest.xml'. This manifest describes a single
+ * QTI Item with metadata.
  *
  * As an example, the identifier metadata value 'qti_v2_item_01' can by represented by an implementation
  * of the MetadataValue interface returning the following information. Please note that the terms
  * "Path", "Resource Identifier", "Resource Type" and "Resource Hypertext Reference" in the example below are
  * described in depth in the comments about the methods of this interface.
  *
- * * A "Path" of 'http://www.imsglobal.org/xsd/imsmd_v1p2#lom' -> 'http://www.imsglobal.org/xsd/imsmd_v1p2#general' -> 'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier'
+ * * A "Path" of 'http://www.imsglobal.org/xsd/imsmd_v1p2#lom' -> 'http://www.imsglobal.org/xsd/imsmd_v1p2#general'
+ *   -> 'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier'
  * * No particular "Language'
  * * 'choice' as its "Resource Identifier"
  * * 'imsqti_item_xmlv2p0' as its "Resource Type"
@@ -61,7 +62,7 @@ class ImsManifestMetadataValue extends SimpleMetadataValue
         $this->setResourceType($resourceType);
         $this->setResourceHref($resourceHref);
     }
-    
+
     /**
      * Returns an array of strings representing the path to a Metadata Value within
      * an IMS Manifest file.
@@ -82,12 +83,14 @@ class ImsManifestMetadataValue extends SimpleMetadataValue
      * Each entry of the array is a "Path Component" e.g. http://www.imsglobal.org/xsd/imsmd_v1p2#lom in the example
      * above. A Path Component is composed of 2 values separated by a # (sharp) character.
      *
-     * * The first value is called the "Base". It is the namespace URI of the related XML tag withing the IMS Manifest file.
+     * * The first value is called the "Base". It is the namespace URI of the related XML tag withing the IMS Manifest
+     *   file.
      * * The second value is called the "Segment". It is the intrinsic XML tag name.
      *
-     * In the IMS Manifest example located at http://www.imsglobal.org/question/qti_v2p0/examples/mdexample/imsmanifest.xml,
-     * the Path Component 'http://www.imsglobal.org/xsd/imsmd_v1p2#lom' correspond to the <imsmd:lom> tag where 'imsmd' prefix
-     * resolves the 'http://www.imsglobal.org/xsd/imsmd_v1p2' namespace.
+     * In the IMS Manifest example located at
+     * http://www.imsglobal.org/question/qti_v2p0/examples/mdexample/imsmanifest.xml, the Path Component
+     * 'http://www.imsglobal.org/xsd/imsmd_v1p2#lom' correspond to the <imsmd:lom> tag where 'imsmd' prefix resolves
+     * the 'http://www.imsglobal.org/xsd/imsmd_v1p2' namespace.
      *
      *
      * @return array An array of strings representing the descriptive path to the metadata attribute.
@@ -202,7 +205,7 @@ class ImsManifestMetadataValue extends SimpleMetadataValue
     {
         return parent::getValue();
     }
-    
+
     /**
      * @param string $resourceHref
      */
@@ -210,7 +213,7 @@ class ImsManifestMetadataValue extends SimpleMetadataValue
     {
         $this->resourceHref = $resourceHref;
     }
-    
+
     /**
      * @param string $resourceType
      */

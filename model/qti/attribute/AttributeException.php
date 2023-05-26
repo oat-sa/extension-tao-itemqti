@@ -22,7 +22,7 @@
 
 namespace oat\taoQtiItem\model\qti\attribute;
 
-use \common_Exception;
+use common_Exception;
 
 /**
  * Exception in QTI attribute's value setting
@@ -34,5 +34,4 @@ use \common_Exception;
  */
 class AttributeException extends common_Exception
 {
-
 }

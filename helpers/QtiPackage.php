@@ -22,9 +22,9 @@
 
 namespace oat\taoQtiItem\helpers;
 
-use \ZipArchive;
-use \tao_helpers_File;
-use \common_Exception;
+use ZipArchive;
+use tao_helpers_File;
+use common_Exception;
 
 /**
  * @access public
@@ -33,7 +33,6 @@ use \common_Exception;
  */
 class QtiPackage
 {
-
     public static function isValidZip($source)
     {
 
@@ -84,7 +83,9 @@ class QtiPackage
             $zip = new ZipArchive();
             $zip->open($source, ZIPARCHIVE::CHECKCONS);
             if ($zip->locateName("imsmanifest.xml") === false) {
-                throw new common_Exception("A QTI package must contains a imsmanifest.xml file  at the root of the archive");
+                throw new common_Exception(
+                    "A QTI package must contains a imsmanifest.xml file  at the root of the archive"
+                );
             } else {
                 $returnValue = true;
             }

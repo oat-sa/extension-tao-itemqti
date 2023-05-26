@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class Base extends Attribute
 {
-    
     protected static $name = 'base';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\IntegerOrVariableRef';
     protected static $defaultValue = 10;

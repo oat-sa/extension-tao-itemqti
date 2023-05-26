@@ -19,6 +19,7 @@
  *
  *
  */
+
 namespace oat\taoQtiItem\model\qti\expression;
 
 use oat\taoQtiItem\model\qti\expression\Expression;
@@ -53,8 +54,8 @@ abstract class Expression implements Rule
     {
         $returnValue = (string) '';
 
-        
-        
+
+
 
         return (string) $returnValue;
     }

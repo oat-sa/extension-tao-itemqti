@@ -36,8 +36,8 @@ class CustomInteractionRegistry extends AbstractInteractionRegistry
      *
      * @var string
      */
-    const CONFIG_ID = 'custom_interaction';
-    
+    public const CONFIG_ID = 'custom_interaction';
+
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
@@ -56,8 +56,8 @@ class CustomInteractionRegistry extends AbstractInteractionRegistry
     {
         return 'oat\taoQtiItem\model\qti\interaction\CustomInteraction';
     }
-    
-    
+
+
     /**
      * Register a new custom interaction
      *
@@ -79,7 +79,7 @@ class CustomInteractionRegistry extends AbstractInteractionRegistry
         $map[$qtiClass] = $phpClass;
         $taoQtiItem->setConfig(self::CONFIG_ID, $map);
     }
-    
+
     /**
      * Returns a list of registered custom interactions.
      *
@@ -93,9 +93,9 @@ class CustomInteractionRegistry extends AbstractInteractionRegistry
     {
         $taoQtiItem = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
         $map = $taoQtiItem->getConfig(self::CONFIG_ID);
-        return is_array($map) ?  $map : [];
+        return is_array($map) ? $map : [];
     }
-    
+
     /**
      * Get the php class that represents a custom interaction from its class attribute
      *

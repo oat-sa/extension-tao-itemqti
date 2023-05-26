@@ -23,5 +23,4 @@ namespace oat\taoQtiItem\model\portableElement\exception;
 
 class PortableElementParserException extends PortableElementException
 {
-
 }

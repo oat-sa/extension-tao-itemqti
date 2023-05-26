@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class Fixed extends Attribute
 {
-    
     protected static $name = 'fixed';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiBoolean';
     protected static $defaultValue = false;

@@ -63,7 +63,7 @@ class XIncludeAdditionalAssetInjector extends ConfigurableService
         if ($stylesheetFiles = $passageStylesheetLoader->loadAssetsFromAssetResource($passageResourceIdentifier)) {
             try {
                 $this->includeSharedStimulusStylesheets($qtiItem, $publicDirectory, $stylesheetFiles, $xInclude);
-            } catch (QtiModelException|FileExistsException $e) {
+            } catch (QtiModelException | FileExistsException $e) {
                 $this->logWarning(
                     sprintf(
                         'Compilation: Injecting stylesheet for Passage %s failed with message %s',
@@ -151,4 +151,3 @@ class XIncludeAdditionalAssetInjector extends ConfigurableService
         return $this->getServiceLocator()->get(AssetStylesheetLoader::class);
     }
 }
-

@@ -26,7 +26,7 @@ use oat\oatbox\service\ConfigurableService;
 
 class ValidationService extends ConfigurableService
 {
-    const SERVICE_ID = 'taoQtiItem/validation';
+    public const SERVICE_ID = 'taoQtiItem/validation';
 
     private $contentValidation = [
         'http://www.imsglobal.org/xsd/imsqti_v2p0' => [

@@ -41,7 +41,6 @@ use oat\taoQtiItem\model\qti\exception\QtiModelException;
  */
 abstract class ContainerInteraction extends BlockInteraction implements FlowContainer
 {
-
     /**
      * The body of such a ContainerInteraction is a QTI Container
      *
@@ -72,7 +71,7 @@ abstract class ContainerInteraction extends BlockInteraction implements FlowCont
     {
         return $this->body;
     }
-    
+
     public static function getTemplateQti()
     {
         return static::getTemplatePath() . 'interactions/qti.containerInteraction.tpl.php';

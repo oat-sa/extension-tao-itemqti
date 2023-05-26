@@ -32,7 +32,6 @@ namespace oat\taoQtiItem\model\qti\metadata;
  */
 interface MetadataClassLookup
 {
-
     /**
      * Target import Onotology class lookup.
      *

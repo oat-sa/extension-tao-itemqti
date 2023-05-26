@@ -26,9 +26,9 @@ use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
 use oat\taoQtiItem\model\ValidationService;
-use \tao_models_classes_Parser;
-use \DOMDocument;
-use \tao_helpers_Request;
+use tao_models_classes_Parser;
+use DOMDocument;
+use tao_helpers_Request;
 use oat\oatbox\log\LoggerAwareTrait;
 
 /**
@@ -59,7 +59,7 @@ class Parser extends tao_models_classes_Parser
      */
     public function validate($schema = '')
     {
-        
+
         if (empty($schema)) {
             // Let's detect NS in use...
             $dom = new DOMDocument('1.0', 'UTF-8');
@@ -104,7 +104,7 @@ class Parser extends tao_models_classes_Parser
 
         return (bool) $returnValue;
     }
-    
+
     /**
      * load the file content, parse it  and build the a QTI_Item instance
      *
@@ -115,7 +115,7 @@ class Parser extends tao_models_classes_Parser
      */
     public function load($resolveXInclude = false)
     {
-        
+
         $returnValue = null;
 
         if (!$this->valid) {
@@ -124,7 +124,7 @@ class Parser extends tao_models_classes_Parser
 
         //load it using the DOMDocument library
         $xml = new DOMDocument();
-        
+
         switch ($this->sourceType) {
             case self::SOURCE_FLYFILE:
                 if ($this->source->exists()) {

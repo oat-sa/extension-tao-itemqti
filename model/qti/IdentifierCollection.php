@@ -47,7 +47,7 @@ class IdentifierCollection
      *
      */
     protected $elements = [];
-    
+
     /**
      * Short description of method __construct
      *
@@ -64,7 +64,7 @@ class IdentifierCollection
             $this->addMultiple($identifiedElements);
         }
     }
-    
+
     public function add(IdentifiedElement $element)
     {
         $identifier = $element->getIdentifier(false);
@@ -75,44 +75,46 @@ class IdentifierCollection
             $this->elements[$identifier][$element->getSerial()] = $element;
         }
     }
-    
+
     public function exists($identifier)
     {
-        
+
         $returnValue = false;
-        
+
         if (is_string($identifier)) {
             $returnValue = isset($this->elements[$identifier]);
         } else {
             throw new InvalidArgumentException('the identifier must be a string');
         }
-        
+
         return $returnValue;
     }
-    
+
     public function get($identifier = '')
     {
-        
+
         $returnValue = [];
-        
+
         if (empty($identifier)) {
             $returnValue = $this->elements;
         } elseif ($this->exists($identifier)) {
             $returnValue = $this->elements[$identifier];
         }
-        
+
         return $returnValue;
     }
-    
+
     public function getUnique($identifier, $elementClass = '')
     {
-        
+
         $returnValue = null;
-        
+
         if ($this->exists($identifier)) {
             if (empty($elementClass)) {
                 if (count($this->elements[$identifier]) > 1) {
-                    throw new QtiModelException('More than one identifier found, please try specifying the class of the element');
+                    throw new QtiModelException(
+                        'More than one identifier found, please try specifying the class of the element'
+                    );
                 } elseif (!empty($this->elements[$identifier])) {
                     $returnValue = reset($this->elements[$identifier]);
                 }
@@ -130,17 +132,17 @@ class IdentifierCollection
                 }
             }
         }
-        
+
         return $returnValue;
     }
-    
+
     public function addMultiple($identifiedElements)
     {
-        
+
         if (!is_array($identifiedElements)) {
             throw new InvalidArgumentException('the argument "identifiedElements" must be an array');
         }
-        
+
         foreach ($identifiedElements as $identifiedElement) {
             if ($identifiedElement instanceof IdentifiedElement) {
                 $this->add($identifiedElement);
@@ -151,10 +153,10 @@ class IdentifierCollection
             }
         }
     }
-    
+
     public function merge(IdentifierCollection $identifierCollection)
     {
-        
+
         foreach ($identifierCollection->get() as $elements) {
             $this->addMultiple($elements);
         }

@@ -34,7 +34,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class FieldIdentifier extends Attribute
 {
-    
     protected static $name = 'fieldIdentifier';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiString';
     protected static $defaultValue = null;

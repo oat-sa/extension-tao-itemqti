@@ -93,7 +93,9 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
 
             return $this->getFileInfo($absolutePath, $relativePath);
         } else {
-            throw new \common_Exception('trying to import an asset that is not part of the portable element asset list');
+            throw new \common_Exception(
+                'trying to import an asset that is not part of the portable element asset list'
+            );
         }
     }
 
@@ -239,7 +241,8 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
 
         /**
          * Parse the standard portable configuration if applicable.
-         * Local config files will be preloaded into the registry itself and the registered modules will be included as required dependency files.
+         * Local config files will be preloaded into the registry itself and the registered modules will be included
+         * as required dependency files.
          * Per standard, every config file have the following structure:
          *  {
          *  "waitSeconds": 15,
@@ -263,7 +266,8 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
                 if (!empty($configData)) {
                     if (isset($configData['paths'])) {
                         foreach ($configData['paths'] as $id => $path) {
-                            //only copy the relative files to local portable element filesystem, absolute ones are loaded dynamically
+                            // only copy the relative files to local portable element filesystem, absolute ones are
+                            // loaded dynamically
                             if ($this->isRelativePath($path)) {
                                 //resolution of path, relative to the current config file it has been defined in
                                 $path = dirname($configFile) . DIRECTORY_SEPARATOR . $path;
@@ -272,7 +276,10 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
                                     $configData['paths'][$id] = $this->getSourceAdjustedNodulePath($path);
                                     ;
                                 } else {
-                                    throw new FileNotFoundException("The portable config {$configFile} references a missing module file {$id} => {$path}");
+                                    throw new FileNotFoundException(
+                                        "The portable config {$configFile} references a missing module file "
+                                            . "{$id} => {$path}"
+                                    );
                                 }
                             }
                         }
@@ -324,9 +331,13 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
         );
 
         if (is_null($compatibleRegisteredObject) && !is_null($latestVersionRegisteredObject)) {
-            //@todo return a user exception to inform user of incompatible pci version found and that an item update is required
-            throw new \common_Exception('Unable to import pci asset because compatible version is not found. '
-                . 'Current version is ' . $latestVersionRegisteredObject->getVersion() . ' and imported is ' . $portableObject->getVersion());
+            // @todo return a user exception to inform user of incompatible pci version found and that an item update
+            //       is required
+            throw new \common_Exception(
+                'Unable to import pci asset because compatible version is not found. '
+                    . 'Current version is ' . $latestVersionRegisteredObject->getVersion() . ' and imported is '
+                . $portableObject->getVersion()
+            );
         }
 
         $this->portableObjects[$typeId] = $portableObject;
@@ -382,7 +393,10 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
     public function importPortableElements()
     {
         if (count($this->importingFiles) != count($this->requiredFiles)) {
-            throw new \common_Exception('Needed files are missing during Portable Element asset files ' . print_r($this->requiredFiles, true) . ' ' . print_r($this->importingFiles, true));
+            throw new \common_Exception(
+                'Needed files are missing during Portable Element asset files '
+                    . print_r($this->requiredFiles, true) . ' ' . print_r($this->importingFiles, true)
+            );
         }
 
         /** @var PortableElementObject $object */
@@ -391,15 +405,19 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
                 $object->getModel()->getId(),
                 $object->getTypeIdentifier()
             );
-            //only register a pci that has not been register yet, subsequent update must be done through pci package import
+            // only register a pci that has not been register yet, subsequent update must be done through pci package
+            // import
             if (is_null($lastVersionModel)) {
                 $this->getService()->registerModel(
                     $object,
                     $object->getRegistrationSourcePath($this->source, $this->itemDir)
                 );
             } else {
-                \common_Logger::i('The imported item contains the portable element ' . $object->getTypeIdentifier()
-                    . ' in a version ' . $object->getVersion() . ' compatible with the current ' . $lastVersionModel->getVersion());
+                \common_Logger::i(
+                    'The imported item contains the portable element ' . $object->getTypeIdentifier()
+                        . ' in a version ' . $object->getVersion() . ' compatible with the current '
+                        . $lastVersionModel->getVersion()
+                );
             }
         }
         return true;

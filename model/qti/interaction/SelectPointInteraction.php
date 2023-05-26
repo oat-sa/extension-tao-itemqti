@@ -36,7 +36,6 @@ use oat\taoQtiItem\model\qti\interaction\GraphicInteraction;
  */
 class SelectPointInteraction extends GraphicInteraction
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
@@ -46,7 +45,7 @@ class SelectPointInteraction extends GraphicInteraction
     protected static $qtiTagName = 'selectPointInteraction';
     protected static $choiceClass = ''; //no choice for this type of interaction
     protected static $baseType = 'point';
-    
+
     protected function getUsedAttributes()
     {
         return array_merge(

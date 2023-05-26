@@ -29,7 +29,6 @@ use oat\taoQtiItem\model\qti\Service;
 
 class StyleServiceTest extends TaoPhpUnitTestRunner
 {
-
     private $itemClass = null;
     private $items = [];
 
@@ -97,9 +96,15 @@ class StyleServiceTest extends TaoPhpUnitTestRunner
         $this->assertTrue(isset($usage['checked']) && is_array($usage['checked']));
         $this->assertTrue(isset($usage['indeterminate']) && is_array($usage['indeterminate']));
 
-        $this->assertEquals(3, count(array_intersect(['customerA-theme1', 'customerA-theme2', 'customerA-theme3'], $usage['all'])));
+        $this->assertEquals(
+            3,
+            count(array_intersect(['customerA-theme1', 'customerA-theme2', 'customerA-theme3'], $usage['all']))
+        );
         $this->assertEquals(1, count(array_intersect(['customerA-theme1'], $usage['checked'])));
-        $this->assertEquals(2, count(array_intersect(['customerA-theme2', 'customerA-theme3'], $usage['indeterminate'])));
+        $this->assertEquals(
+            2,
+            count(array_intersect(['customerA-theme2', 'customerA-theme3'], $usage['indeterminate']))
+        );
     }
 
     public function testAddRemoveBodyStyles()
@@ -132,7 +137,10 @@ class StyleServiceTest extends TaoPhpUnitTestRunner
             $this->assertTrue(count($styles) > 0);
         }
 
-        $styleService->removeClassBodyStyles(['customerA-theme1', 'customerA-theme2', 'customerA-theme3'], $this->itemClass);
+        $styleService->removeClassBodyStyles(
+            ['customerA-theme1', 'customerA-theme2', 'customerA-theme3'],
+            $this->itemClass
+        );
 
         //check that all styles have been modified
         foreach ($this->items as $item) {
@@ -140,12 +148,18 @@ class StyleServiceTest extends TaoPhpUnitTestRunner
             $this->assertEquals(0, count($styles));
         }
 
-        $styleService->addClassBodyStyles(['customerA-theme1', 'customerA-theme2', 'customerA-theme3'], $this->itemClass);
+        $styleService->addClassBodyStyles(
+            ['customerA-theme1', 'customerA-theme2', 'customerA-theme3'],
+            $this->itemClass
+        );
 
         //check that all styles have set again
         foreach ($this->items as $item) {
             $styles = $styleService->getBodyStyles($item);
-            $this->assertEquals(3, count(array_intersect(['customerA-theme1', 'customerA-theme2', 'customerA-theme3'], $styles)));
+            $this->assertEquals(
+                3,
+                count(array_intersect(['customerA-theme1', 'customerA-theme2', 'customerA-theme3'], $styles))
+            );
         }
     }
 }

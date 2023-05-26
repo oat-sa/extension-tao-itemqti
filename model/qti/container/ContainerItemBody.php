@@ -42,7 +42,6 @@ use oat\taoQtiItem\model\qti\XInclude;
  */
 class ContainerItemBody extends ContainerInteractive
 {
-
     /**
      * @inheritDoc
      */

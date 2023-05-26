@@ -34,12 +34,11 @@ use oat\taoQtiItem\model\qti\datatype\Datatype;
  */
 class QtiInteger extends Datatype
 {
-    
     public static function validate($value)
     {
         return is_int($value);
     }
-    
+
     public static function fix($value)
     {
         return intval($value);

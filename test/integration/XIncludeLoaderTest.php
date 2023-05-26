@@ -39,7 +39,6 @@ use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
  */
 class XIncludeLoaderTest extends TaoPhpUnitTestRunner
 {
-
     /**
      * tests initialization
      */
@@ -123,7 +122,11 @@ class XIncludeLoaderTest extends TaoPhpUnitTestRunner
 
         //check inital markup
         $markupXml = simplexml_load_string($pci->getMarkup());
-        $this->assertEquals(1, count($markupXml->xpath(".//*[name(.)='include']")), 'the pci markup has an include element');
+        $this->assertEquals(
+            1,
+            count($markupXml->xpath(".//*[name(.)='include']")),
+            'the pci markup has an include element'
+        );
         $this->assertEquals(0, count($markupXml->xpath(".//*[name(.)='img']")));
         $this->assertEquals(0, count($markupXml->xpath(".//*[name(.)='m:math']")));
 
@@ -134,7 +137,11 @@ class XIncludeLoaderTest extends TaoPhpUnitTestRunner
         //check markup after loading
         $markupXml = simplexml_load_string($pci->getMarkup());
         $this->assertEquals(1, count($xincludes));
-        $this->assertEquals(0, count($markupXml->xpath(".//*[name(.)='include']")), 'the include element has been replaced');
+        $this->assertEquals(
+            0,
+            count($markupXml->xpath(".//*[name(.)='include']")),
+            'the include element has been replaced'
+        );
         $this->assertEquals(1, count($markupXml->xpath(".//*[name(.)='img']")));
         $this->assertEquals(1, count($markupXml->xpath(".//*[name(.)='m:math']")));
     }

@@ -23,7 +23,7 @@
 namespace oat\taoQtiItem\model\qti\response;
 
 use oat\taoQtiItem\model\qti\response\TakeoverFailedException;
-use \common_Exception;
+use common_Exception;
 
 /**
  * Short description of class
@@ -52,7 +52,7 @@ class TakeoverFailedException extends common_Exception
      */
     public function __construct($message = '')
     {
-        
+
         parent::__construct(empty($message) ? 'Impossible to takeover ResponseProcessing for QTI item' : $message);
     }
 }

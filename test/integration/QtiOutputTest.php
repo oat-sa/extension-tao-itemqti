@@ -27,7 +27,9 @@ use DOMException;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\Parser;
 
+// phpcs:disable PSR1.Files.SideEffects
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  *
@@ -37,7 +39,6 @@ include_once dirname(__FILE__) . '/../../includes/raw_start.php';
  */
 class QtiOutputTest extends TaoPhpUnitTestRunner
 {
-
     protected $qtiService;
     protected $validateOnParse;
 
@@ -93,7 +94,10 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
         ];
         $PCI = new \oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction();
 
-        $method = new \ReflectionMethod('\oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction', 'serializePortableProperties');
+        $method = new \ReflectionMethod(
+            '\oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction',
+            'serializePortableProperties'
+        );
         $method->setAccessible(true);
 
         $result = $method->invoke($PCI, $properties, 'pci', 'http://www.imsglobal.org/xsd/portableCustomInteraction');
@@ -183,22 +187,88 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
             [
                 'name' => 'custom',
                 'file' => $sampleDirectory . 'order_partial_scoring.xml',
-                'expectation' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"2"}}]},"responseElseIfs":[{"qtiClass":"responseElseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}},{"qtiClass":"ordered","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"DriverC"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"DriverB"},{"qtiClass":"baseValue","attributes":{"baseType":"identifier"},"value":"DriverA"}]}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"1"}}]}],"responseElse":{"qtiClass":"responseElse","responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"0"}}]}}]'
+                'expectation' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":'
+                    . '{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":'
+                    . '"RESPONSE"}},{"qtiClass":"correct","attributes":{"identifier":"RESPONSE"}}]},"responseRules":'
+                    . '[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":'
+                    . '"baseValue","attributes":{"baseType":"float"},"value":"2"}}]},"responseElseIfs":[{"qtiClass":'
+                    . '"responseElseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable",'
+                    . '"attributes":{"identifier":"RESPONSE"}},{"qtiClass":"ordered","expressions":[{"qtiClass":'
+                    . '"baseValue","attributes":{"baseType":"identifier"},"value":"DriverC"},{"qtiClass":"baseValue",'
+                    . '"attributes":{"baseType":"identifier"},"value":"DriverB"},{"qtiClass":"baseValue","attributes":'
+                    . '{"baseType":"identifier"},"value":"DriverA"}]}]},"responseRules":[{"qtiClass":"setOutcomeValue",'
+                    . '"attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":'
+                    . '{"baseType":"float"},"value":"1"}}]}],"responseElse":{"qtiClass":"responseElse","responseRules":'
+                    . '[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":'
+                    . '"baseValue","attributes":{"baseType":"float"},"value":"0"}}]}}]'
             ],
             [
                 'name' => 'template',
                 'file' => $sampleDirectory . 'associate.xml',
-                'expectation' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"isNull","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":"0.0"}}]},"responseElse":{"qtiClass":"responseElse","responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"mapResponse","attributes":{"identifier":"RESPONSE"}}}]}}]'
+                'expectation' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":'
+                    . '{"qtiClass":"isNull","expressions":[{"qtiClass":"variable","attributes":{"identifier":'
+                    . '"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":'
+                    . '"SCORE"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"float"},"value":'
+                    . '"0.0"}}]},"responseElse":{"qtiClass":"responseElse","responseRules":[{"qtiClass":'
+                    . '"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"mapResponse",'
+                    . '"attributes":{"identifier":"RESPONSE"}}}]}}]'
             ],
             [
                 'name' => 'composite',
                 'file' => $sampleDirectory . 'composite.xml',
-                'expectation' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"isNull","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"outcome_2"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"string"},"value":"0"}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"response_1"}},{"qtiClass":"correct","attributes":{"identifier":"response_1"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"outcome_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}}]}},{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"outcome_2"}},{"qtiClass":"variable","attributes":{"identifier":"outcome_1"}}]}}]'
+                'expectation' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":'
+                    . '{"qtiClass":"isNull","expressions":[{"qtiClass":"variable","attributes":{"identifier":'
+                    . '"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":'
+                    . '"outcome_2"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"string"},"value":'
+                    . '"0"}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":'
+                    . '{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":'
+                    . '"response_1"}},{"qtiClass":"correct","attributes":{"identifier":"response_1"}}]},"responseRules"'
+                    . ':[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"outcome_1"},"expression":{"qtiClass"'
+                    . ':"baseValue","attributes":{"baseType":"integer"},"value":"1"}}]}},{"qtiClass":"setOutcomeValue",'
+                    . '"attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":'
+                    . '"variable","attributes":{"identifier":"outcome_2"}},{"qtiClass":"variable","attributes":'
+                    . '{"identifier":"outcome_1"}}]}}]'
             ],
             [
                 'name' => 'composite_complex',
                 'file' => $sampleDirectory . 'composite_complex_rp.xml',
-                'expectation' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"isNull","expressions":[{"qtiClass":"variable","attributes":{"identifier":"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"outcome_2"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"string"},"value":"0"}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"response_1"}},{"qtiClass":"correct","attributes":{"identifier":"response_1"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"outcome_1"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}}]},"responseElseIfs":[{"qtiClass":"responseElseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"response_1"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"0"}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"REVEALED"},"expression":{"qtiClass":"random","expressions":[{"qtiClass":"multiple","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"2"}]}]}}]},{"qtiClass":"responseElseIf","expression":{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":"response_1"}},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"2"}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"REVEALED"},"expression":{"qtiClass":"random","expressions":[{"qtiClass":"multiple","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"3"},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"4"}]}]}}]}],"responseElse":{"qtiClass":"responseElse","responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"REVEALED"},"expression":{"qtiClass":"random","expressions":[{"qtiClass":"multiple","expressions":[{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"5"},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"6"}]}]}}]}},{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"outcome_2"}},{"qtiClass":"variable","attributes":{"identifier":"outcome_1"}}]}},{"qtiClass":"responseProcessingFragment","responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE_0"},"expression":{"qtiClass":"multiple","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"string"},"value":"2"}]}},{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE_1"},"expression":{"qtiClass":"divide","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"string"},"value":"3"}]}},{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE_3"},"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE_0"}},{"qtiClass":"variable","attributes":{"identifier":"SCORE_1"}}]}}]}]'
+                'expectation' => '[{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":'
+                    . '{"qtiClass":"isNull","expressions":[{"qtiClass":"variable","attributes":{"identifier":'
+                    . '"RESPONSE"}}]},"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":'
+                    . '"outcome_2"},"expression":{"qtiClass":"baseValue","attributes":{"baseType":"string"},"value":'
+                    . '"0"}}]}},{"qtiClass":"responseCondition","responseIf":{"qtiClass":"responseIf","expression":'
+                    . '{"qtiClass":"match","expressions":[{"qtiClass":"variable","attributes":{"identifier":'
+                    . '"response_1"}},{"qtiClass":"correct","attributes":{"identifier":"response_1"}}]},'
+                    . '"responseRules":[{"qtiClass":"setOutcomeValue","attributes":{"identifier":"outcome_1"},'
+                    . '"expression":{"qtiClass":"baseValue","attributes":{"baseType":"integer"},"value":"1"}}]},'
+                    . '"responseElseIfs":[{"qtiClass":"responseElseIf","expression":{"qtiClass":"match","expressions":'
+                    . '[{"qtiClass":"variable","attributes":{"identifier":"response_1"}},{"qtiClass":"baseValue",'
+                    . '"attributes":{"baseType":"integer"},"value":"0"}]},"responseRules":[{"qtiClass":'
+                    . '"setOutcomeValue","attributes":{"identifier":"REVEALED"},"expression":{"qtiClass":"random",'
+                    . '"expressions":[{"qtiClass":"multiple","expressions":[{"qtiClass":"baseValue","attributes":'
+                    . '{"baseType":"integer"},"value":"1"},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},'
+                    . '"value":"2"}]}]}}]},{"qtiClass":"responseElseIf","expression":{"qtiClass":"match","expressions":'
+                    . '[{"qtiClass":"variable","attributes":{"identifier":"response_1"}},{"qtiClass":"baseValue",'
+                    . '"attributes":{"baseType":"integer"},"value":"2"}]},"responseRules":[{"qtiClass":'
+                    . '"setOutcomeValue","attributes":{"identifier":"REVEALED"},"expression":{"qtiClass":"random",'
+                    . '"expressions":[{"qtiClass":"multiple","expressions":[{"qtiClass":"baseValue","attributes":'
+                    . '{"baseType":"integer"},"value":"3"},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},'
+                    . '"value":"4"}]}]}}]}],"responseElse":{"qtiClass":"responseElse","responseRules":[{"qtiClass":'
+                    . '"setOutcomeValue","attributes":{"identifier":"REVEALED"},"expression":{"qtiClass":"random",'
+                    . '"expressions":[{"qtiClass":"multiple","expressions":[{"qtiClass":"baseValue","attributes":'
+                    . '{"baseType":"integer"},"value":"5"},{"qtiClass":"baseValue","attributes":{"baseType":"integer"},'
+                    . '"value":"6"}]}]}}]}},{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE"},'
+                    . '"expression":{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":'
+                    . '"outcome_2"}},{"qtiClass":"variable","attributes":{"identifier":"outcome_1"}}]}},{"qtiClass":'
+                    . '"responseProcessingFragment","responseRules":[{"qtiClass":"setOutcomeValue","attributes":'
+                    . '{"identifier":"SCORE_0"},"expression":{"qtiClass":"multiple","expressions":[{"qtiClass":'
+                    . '"variable","attributes":{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType"'
+                    . ':"string"},"value":"2"}]}},{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE_1"},'
+                    . '"expression":{"qtiClass":"divide","expressions":[{"qtiClass":"variable","attributes":'
+                    . '{"identifier":"SCORE"}},{"qtiClass":"baseValue","attributes":{"baseType":"string"},"value":'
+                    . '"3"}]}},{"qtiClass":"setOutcomeValue","attributes":{"identifier":"SCORE_3"},"expression":'
+                    . '{"qtiClass":"sum","expressions":[{"qtiClass":"variable","attributes":{"identifier":"SCORE_0"}},'
+                    . '{"qtiClass":"variable","attributes":{"identifier":"SCORE_1"}}]}}]}]'
             ]
         ];
     }

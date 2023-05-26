@@ -23,9 +23,9 @@
 namespace oat\taoQtiItem\model\Export;
 
 use tao_helpers_form_Form;
-use \ZipArchive;
-use \DomDocument;
-use \core_kernel_classes_Resource;
+use ZipArchive;
+use DomDocument;
+use core_kernel_classes_Resource;
 
 class QtiPackage22ExportHandler extends QtiPackageExportHandler
 {

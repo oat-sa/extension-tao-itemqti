@@ -37,7 +37,6 @@ use oat\taoQtiItem\model\qti\choice\Choice;
  */
 class GapMatchInteraction extends ContainerInteraction
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
@@ -90,10 +89,10 @@ class GapMatchInteraction extends ContainerInteraction
         $returnValue->addMultiple($this->getGaps());
         return $returnValue;
     }
-    
+
     public function getChoiceBySerial($serial)
     {
-        
+
         $returnValue = parent::getChoiceBySerial($serial);
         if (is_null($returnValue)) {
             $gaps = $this->getGaps();
@@ -103,7 +102,7 @@ class GapMatchInteraction extends ContainerInteraction
         }
         return $returnValue;
     }
-    
+
     public function removeChoice(Choice $choice, $setNumber = null)
     {
         if ($choice instanceof Gap) {

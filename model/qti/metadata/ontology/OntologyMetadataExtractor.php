@@ -24,16 +24,18 @@ namespace oat\taoQtiItem\model\qti\metadata\ontology;
 use oat\taoQtiItem\model\qti\metadata\extractors\LomMetadataExtractor;
 use oat\taoQtiItem\model\qti\metadata\MetadataExtractionException;
 use oat\taoQtiItem\model\qti\metadata\MetadataExtractor;
-use \core_kernel_classes_Resource;
+use core_kernel_classes_Resource;
 
 class OntologyMetadataExtractor extends OntologyMetadataRules implements MetadataExtractor
 {
     public function extract($resource)
     {
         if (! $resource instanceof core_kernel_classes_Resource) {
-            throw new MetadataExtractionException(__('The given target is not an instance of core_kernel_classes_Resource'));
+            throw new MetadataExtractionException(
+                __('The given target is not an instance of core_kernel_classes_Resource')
+            );
         }
-        
+
         $metadataValues = [];
 
         /** @var LomMetadataExtractor $rule */

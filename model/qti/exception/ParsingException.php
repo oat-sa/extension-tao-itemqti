@@ -22,8 +22,8 @@
 
 namespace oat\taoQtiItem\model\qti\exception;
 
-use \common_Exception;
-use \common_exception_UserReadableException;
+use common_Exception;
+use common_exception_UserReadableException;
 
 /**
  * Exception thrown when an error occurs while parsing QTI data.
@@ -35,7 +35,6 @@ use \common_exception_UserReadableException;
  */
 class ParsingException extends common_Exception implements common_exception_UserReadableException
 {
-    
     /**
      * Create a new ParsingException object.
      *
@@ -46,7 +45,7 @@ class ParsingException extends common_Exception implements common_exception_User
     {
         parent::__construct($message, $code);
     }
-    
+
     /**
      * Returns a human-readable message describing the error that occured.
      *

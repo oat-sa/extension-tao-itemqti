@@ -37,7 +37,6 @@ use oat\taoQtiItem\model\qti\exception\QtiModelException;
  */
 class HottextInteraction extends ContainerInteraction
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
@@ -48,7 +47,7 @@ class HottextInteraction extends ContainerInteraction
     protected static $choiceClass = 'oat\\taoQtiItem\\model\\qti\\choice\\Hottext';
     protected static $containerType = 'oat\\taoQtiItem\\model\\qti\\container\\ContainerHottext';
     protected static $baseType = 'identifier';
-    
+
     protected function getUsedAttributes()
     {
         return array_merge(
@@ -67,12 +66,16 @@ class HottextInteraction extends ContainerInteraction
 
     public function addChoice(Choice $choice, $matchSet = null)
     {
-        throw new QtiModelException('For Hottext Interaction, the choices are in the container, please use Container::setElement() instead');
+        throw new QtiModelException(
+            'For Hottext Interaction, the choices are in the container, please use Container::setElement() instead'
+        );
     }
 
     public function createChoice($choiceAttributes = [], $choiceValue = null, $matchSet = null)
     {
-        throw new QtiModelException('For Hottext Interaction, the choices are in the container, please use Container::setElement() instead');
+        throw new QtiModelException(
+            'For Hottext Interaction, the choices are in the container, please use Container::setElement() instead'
+        );
     }
 
     public function removeChoice(Choice $choice, $matchSet = null)
@@ -86,7 +89,7 @@ class HottextInteraction extends ContainerInteraction
         unset($variables['choices']); //hottexts are contained in the container already
         return $variables;
     }
-    
+
     public function toArray($filterVariableContent = false, &$filtered = [])
     {
         $data = parent::toArray($filterVariableContent, $filtered);

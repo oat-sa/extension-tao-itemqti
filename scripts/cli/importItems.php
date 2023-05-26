@@ -50,7 +50,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
 {
     use OntologyAwareTrait;
     use ServiceLocatorAwareTrait;
-    
+
     protected $rollbackOnError = false;
     protected $rollbackOnWarning = false;
     protected $recurse = false;
@@ -124,16 +124,19 @@ class importItems implements Action, ServiceLocatorAwareInterface
                 . "\t -h\t\t Show this help\n"
             );
         }
-        
+
         if (!$fileName || !file_exists($fileName)) {
-            throw new \common_Exception("You must provide the path of an items package. " . (isset($fileName) ? $fileName . " does not exists." : "Nothing provided!"));
+            throw new \common_Exception(
+                "You must provide the path of an items package. "
+                    . (isset($fileName) ? $fileName . " does not exists." : "Nothing provided!")
+            );
         }
-        
+
         $class = $this->getItemClass($className);
 
         $report = $this->importPath($fileName, $class);
         $report->setMessage($this->processed . ' packages processed');
-        
+
         return $report;
     }
 
@@ -145,7 +148,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
     protected function getItemClass($className = null, $parentClass = TaoOntology::ITEM_CLASS_URI)
     {
         $parentClass = $this->getClass($parentClass);
-        
+
         if ($className) {
             $subClass = null;
             $className = str_replace('_', ' ', $className);
@@ -166,7 +169,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
 
             return $subClass;
         }
-        
+
         return $parentClass;
     }
 
@@ -183,7 +186,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
                 $message .= "\t${key}: ${value}\n";
             }
         }
-        
+
         $this->showReport(new Report($type, $message));
     }
 
@@ -233,10 +236,10 @@ class importItems implements Action, ServiceLocatorAwareInterface
 
         if (is_dir($path)) {
             $packages = $this->listPackages($path);
-            
+
             if (count($packages)) {
                 $finalReport = new Report(Report::TYPE_SUCCESS);
-                
+
                 foreach ($packages as $package) {
                     if ($this->directoryToClass) {
                         $packageClass = $this->getItemClass($package['name'], $class);
@@ -258,7 +261,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
                         $finalReport->setType($report->getType());
                     }
                 }
-                
+
                 return $finalReport;
             } else {
                 return new Report(Report::TYPE_ERROR, 'No package to import!');
@@ -282,13 +285,25 @@ class importItems implements Action, ServiceLocatorAwareInterface
 
         try {
             $importService = ImportService::singleton();
-            $report = $importService->importQTIPACKFile($fileName, $class, true, $this->rollbackOnError, $this->rollbackOnWarning);
+            $report = $importService->importQTIPACKFile(
+                $fileName,
+                $class,
+                true,
+                $this->rollbackOnError,
+                $this->rollbackOnWarning
+            );
         } catch (ExtractException $e) {
-            $report = common_report_Report::createFailure(__('The ZIP archive containing the IMS QTI Item cannot be extracted.'));
+            $report = common_report_Report::createFailure(
+                __('The ZIP archive containing the IMS QTI Item cannot be extracted.')
+            );
         } catch (ParsingException $e) {
-            $report = common_report_Report::createFailure(__('The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive.'));
+            $report = common_report_Report::createFailure(
+                __('The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive.')
+            );
         } catch (Exception $e) {
-            $report = common_report_Report::createFailure(__("An unexpected error occured during the import of the IMS QTI Item Package."));
+            $report = common_report_Report::createFailure(
+                __("An unexpected error occured during the import of the IMS QTI Item Package.")
+            );
         }
 
         helpers_TimeOutHelper::reset();

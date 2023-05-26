@@ -20,12 +20,14 @@
 
 namespace oat\taoQtiItem\test\integration;
 
-use \common_report_Report;
+use common_report_Report;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\ImportService;
-use \taoItems_models_classes_ItemsService;
+use taoItems_models_classes_ItemsService;
 
+// phpcs:disable PSR1.Files.SideEffects
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * test the item imported into TAO does not suffer modification
@@ -73,7 +75,10 @@ class ImportConsistencyTest extends TaoPhpUnitTestRunner
         $this->assertNotEmpty($item);
         $itemXml = $this->qtiService->getXmlByRdfItem($item, DEFAULT_LANG);
 
-        $this->assertXmlStringEqualsXmlString($this->normalizeXml(file_get_contents($importQtiFilePath)), $this->normalizeXml($itemXml));
+        $this->assertXmlStringEqualsXmlString(
+            $this->normalizeXml(file_get_contents($importQtiFilePath)),
+            $this->normalizeXml($itemXml)
+        );
 
         $this->itemService->deleteResource($item);
     }

@@ -29,7 +29,7 @@ use oat\taoQtiItem\model\qti\response\TakeoverFailedException;
 use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use oat\taoQtiItem\model\qti\interaction\Interaction;
 use oat\taoQtiItem\model\qti\ContentVariable;
-use \common_Exception;
+use common_Exception;
 
 /**
  * Short description of class
@@ -42,9 +42,8 @@ use \common_Exception;
  */
 abstract class ResponseProcessing extends Element implements ContentVariable
 {
-    
     protected static $qtiTagName = 'responseProcessing';
-    
+
     /**
      * Short description of method create
      *
@@ -126,7 +125,7 @@ abstract class ResponseProcessing extends Element implements ContentVariable
         //currently not used
         return [];
     }
-    
+
     public function toFilteredArray()
     {
         return $this->toArray(true);

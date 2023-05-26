@@ -30,10 +30,10 @@ use oat\tao\model\ClientLibConfigRegistry;
  */
 abstract class AbstractPortableElementRegistry extends ClientLibConfigRegistry
 {
-    const CI_REGISTRY = "taoQtiItem/portableElementRegistry/ciRegistry";
+    public const CI_REGISTRY = "taoQtiItem/portableElementRegistry/ciRegistry";
 
     abstract protected function getClientModule();
-    
+
     /**
      * @param $name
      * @param $module

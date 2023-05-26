@@ -36,7 +36,6 @@ use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
  */
 class AssociateInteraction extends BlockInteraction
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
@@ -46,7 +45,7 @@ class AssociateInteraction extends BlockInteraction
     protected static $qtiTagName = 'associateInteraction';
     protected static $choiceClass = 'oat\\taoQtiItem\\model\\qti\\choice\\SimpleAssociableChoice';
     protected static $baseType = 'pair';
-    
+
     protected function getUsedAttributes()
     {
         return array_merge(

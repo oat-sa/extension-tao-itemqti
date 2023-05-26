@@ -50,7 +50,9 @@ class LiteralPropertyExtractor extends LomMetadataExtractor
     public function extract($resource)
     {
         if (! $resource instanceof \core_kernel_classes_Resource) {
-            throw new MetadataExtractionException(__('The given target is not an instance of core_kernel_classes_Resource'));
+            throw new MetadataExtractionException(
+                __('The given target is not an instance of core_kernel_classes_Resource')
+            );
         }
 
         $value = $resource->getOnePropertyValue($this->property)->literal;

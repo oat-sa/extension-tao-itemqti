@@ -33,7 +33,6 @@ use oat\taoQtiItem\model\qti\Parser;
  */
 class QtiParsingAltProfileTest extends TaoPhpUnitTestRunner
 {
-
     /**
      * tests initialization
      */
@@ -64,7 +63,10 @@ class QtiParsingAltProfileTest extends TaoPhpUnitTestRunner
         $this->assertInstanceOf('\\oat\\taoQtiItem\\model\\qti\\Item', $item);
 
         $xml = simplexml_load_string($item->toXML());
-        $this->assertEquals('http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1', $xml->getNamespaces()['']);
+        $this->assertEquals(
+            'http://www.imsglobal.org/xsd/apip/apipv1p0/qtiitem/imsqti_v2p1',
+            $xml->getNamespaces()['']
+        );
         $this->assertNotNull($xml->apipAccessibility);
     }
 }

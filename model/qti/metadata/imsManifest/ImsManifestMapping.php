@@ -21,7 +21,7 @@
 
 namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
-use \InvalidArgumentException;
+use InvalidArgumentException;
 
 /**
  * Describes a Mapping between a given XML namespace, its prefix, and a XSD (XML Schema Definition) location.
@@ -44,21 +44,21 @@ class ImsManifestMapping
      * @var string
      */
     private $namespace;
-    
+
     /**
      * An XML prefix.
      *
      * @var string
      */
     private $prefix;
-    
+
     /**
      * An XSD (XML Schema Definition) schema location.
      *
      * @var string
      */
     private $schemaLocation;
-    
+
     /**
      * Create a new ImsManifestMapping object.
      *
@@ -73,7 +73,7 @@ class ImsManifestMapping
         $this->setPrefix($prefix);
         $this->setSchemaLocation($schemaLocation);
     }
-    
+
     /**
      * Set the XML namespace of the mapping.
      *
@@ -92,7 +92,7 @@ class ImsManifestMapping
             $this->namespace = $namespace;
         }
     }
-    
+
     /**
      * Get the XML namespace.
      *
@@ -102,7 +102,7 @@ class ImsManifestMapping
     {
         return $this->namespace;
     }
-    
+
     /**
      * Set the XML prefix of the mapping.
      *
@@ -121,7 +121,7 @@ class ImsManifestMapping
             $this->prefix = $prefix;
         }
     }
-    
+
     /**
      * Get the XML prefix of the mapping.
      *
@@ -131,7 +131,7 @@ class ImsManifestMapping
     {
         return $this->prefix;
     }
-    
+
     /**
      * Set the XSD (XML Schema Definition) schema location of the mapping.
      *
@@ -150,7 +150,7 @@ class ImsManifestMapping
             $this->schemaLocation = $schemaLocation;
         }
     }
-    
+
     /**
      * Get the XSD (XML Schema Definition) schema location of the mapping.
      *

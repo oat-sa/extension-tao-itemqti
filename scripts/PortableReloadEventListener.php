@@ -8,10 +8,10 @@ use oat\taoQtiItem\model\portableElement\PortableElementService;
 
 class PortableReloadEventListener
 {
-
     /**
      * Re-register a portable element from its source directory
-     * The list of portable elements to re-register is configure in the config file {TAO_ROOT}/config/taoQtiItem/debug_portable_element.conf.php
+     * The list of portable elements to re-register is configure in the config file
+     * {TAO_ROOT}/config/taoQtiItem/debug_portable_element.conf.php
      * e.g.
         return [
             'myPci1' => 'qtiItemPci/views/js/pciCreator/dev/myPci1/',
@@ -24,7 +24,10 @@ class PortableReloadEventListener
      */
     public static function reloadPortableDevDirectory(ItemCreatorLoad $event)
     {
-        $customInteractionDirs = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getConfig('debug_portable_element');
+        $customInteractionDirs = \common_ext_ExtensionsManager::singleton()
+            ->getExtensionById('taoQtiItem')
+            ->getConfig('debug_portable_element');
+
         if (is_array($customInteractionDirs)) {
             $service = new PortableElementService();
             $service->setServiceLocator(ServiceManager::getServiceManager());

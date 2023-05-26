@@ -45,7 +45,10 @@ class GenericLomManifestClassificationExtractor extends ImsManifestMetadataExtra
             /** @var ImsManifestMetadataValue $metadataValue */
             foreach ($metadataValueCollection as $key => $metadataValue) {
                 // If metadata is not a source or is empty then skip
-                if ($metadataValue->getValue() === '' || $metadataValue->getPath() !== ClassificationSourceMetadataValue::getSourcePath()) {
+                if (
+                    $metadataValue->getValue() === ''
+                    || $metadataValue->getPath() !== ClassificationSourceMetadataValue::getSourcePath()
+                ) {
                     continue;
                 }
 
@@ -58,7 +61,10 @@ class GenericLomManifestClassificationExtractor extends ImsManifestMetadataExtra
                 $entryMetadata = $metadataValueCollection[$key + 1];
 
                 // Handle metadata if it is an entry and is not empty
-                if ($entryMetadata->getPath() === ClassificationEntryMetadataValue::getEntryPath() && $entryMetadata->getValue() !== '') {
+                if (
+                    $entryMetadata->getPath() === ClassificationEntryMetadataValue::getEntryPath()
+                    && $entryMetadata->getValue() !== ''
+                ) {
                     $newValues[$resourceIdentifier][] = new SimpleMetadataValue(
                         $resourceIdentifier,
                         [LomMetadata::LOM_NAMESPACE . '#lom', $metadataValue->getValue()],

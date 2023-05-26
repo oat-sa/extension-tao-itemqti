@@ -69,7 +69,7 @@ class SharedStimulusFactory extends ConfigurableService
             ]
         );
 
-        if (!is_dir($cssSubDirectory)){
+        if (!is_dir($cssSubDirectory)) {
             return [];
         }
 

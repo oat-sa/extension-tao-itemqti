@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class MatchMin extends Attribute
 {
-    
     protected static $name = 'matchMin';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiInteger';
     protected static $defaultValue = 0;

@@ -38,9 +38,9 @@ use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use oat\taoQtiItem\model\qti\interaction\Interaction;
 use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\MatchCorrectTemplate;
 use oat\taoQtiItem\controller\QTIform\CompositeResponseOptions;
-use \Exception;
-use \common_Logger;
-use \common_Exception;
+use Exception;
+use common_Logger;
+use common_Exception;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\response\Composite
@@ -53,7 +53,6 @@ use \common_Exception;
  */
 abstract class Composite extends ResponseProcessing implements Rule
 {
-
     /**
      * Short description of attribute components
      *
@@ -113,7 +112,11 @@ abstract class Composite extends ResponseProcessing implements Rule
         }
         if (!$outcomeExists) {
             $outcomes = $item->getOutcomes();
-            $outcomes[] = new OutcomeDeclaration(['identifier' => $outcomeIdentifier, 'baseType' => 'float', 'cardinality' => 'single']);
+            $outcomes[] = new OutcomeDeclaration([
+                'identifier' => $outcomeIdentifier,
+                'baseType' => 'float',
+                'cardinality' => 'single',
+            ]);
             $item->setOutcomes($outcomes);
         }
     }
@@ -192,7 +195,10 @@ abstract class Composite extends ResponseProcessing implements Rule
             }
             $returnValue = $rp;
         } else {
-            common_Logger::d('Composite ResponseProcessing can not takeover from ' . get_class($responseProcessing) . ' yet');
+            common_Logger::d(
+                'Composite ResponseProcessing can not takeover from ' . get_class($responseProcessing) . ' yet'
+            );
+
             throw new TakeoverFailedException();
         }
 
@@ -339,7 +345,10 @@ abstract class Composite extends ResponseProcessing implements Rule
             }
         }
         if (!$irpExisted) {
-            common_Logger::w('InstanceResponseProcessing not found for removed interaction ' . $interaction->getIdentifier(), ['TAOITEMS', 'QTI']);
+            common_Logger::w(
+                'InstanceResponseProcessing not found for removed interaction ' . $interaction->getIdentifier(),
+                ['TAOITEMS', 'QTI']
+            );
         }
     }
 

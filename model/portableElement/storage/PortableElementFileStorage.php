@@ -34,10 +34,10 @@ class PortableElementFileStorage extends ConfigurableService
 {
     use PortableElementModelTrait;
 
-    const SERVICE_ID = 'taoQtiItem/portableElementFileStorage';
+    public const SERVICE_ID = 'taoQtiItem/portableElementFileStorage';
 
-    const OPTION_WEBSOURCE = 'websource';
-    const OPTION_FILESYSTEM = 'filesystem';
+    public const OPTION_WEBSOURCE = 'websource';
+    public const OPTION_FILESYSTEM = 'filesystem';
 
     /**
      * @return Filesystem
@@ -57,7 +57,9 @@ class PortableElementFileStorage extends ConfigurableService
 
     public function getPrefix(PortableElementObject $object)
     {
-        $hashFile = DIRECTORY_SEPARATOR . md5($object->getTypeIdentifier() . $object->getVersion()) . DIRECTORY_SEPARATOR;
+        $hashFile = DIRECTORY_SEPARATOR . md5($object->getTypeIdentifier() . $object->getVersion())
+            . DIRECTORY_SEPARATOR;
+
         return $object->getModel()->getId() . $hashFile;
     }
 

@@ -37,7 +37,6 @@ use oat\taoQtiItem\model\qti\response\SetOutcomeVariable;
  */
 class Summation extends Composite
 {
-
     /**
      * Short description of method getCompositionRules
      *
@@ -54,7 +53,7 @@ class Summation extends Composite
         $sum = new CommonExpression('sum', []);
         $sum->setSubExpressions($subExpressions);
         $summationRule = new SetOutcomeVariable($this->outcomeIdentifier, $sum);
-        
+
         $returnValue = [$summationRule];
 
         return (array) $returnValue;

@@ -29,9 +29,9 @@ use oat\taoQtiItem\model\pack\QtiAssetPacker\PackedAsset;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\Parser as QtiParser;
 use oat\taoQtiItem\model\qti\AssetParser;
-use \core_kernel_classes_Resource;
-use \InvalidArgumentException;
-use \common_Exception;
+use core_kernel_classes_Resource;
+use InvalidArgumentException;
+use common_Exception;
 use oat\taoQtiItem\model\qti\XIncludeLoader;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\model\qti\Service;
@@ -47,7 +47,6 @@ use Throwable;
  */
 class QtiItemPacker extends ItemPacker
 {
-
     /**
      * The item type identifier
      * @var string
@@ -156,7 +155,6 @@ class QtiItemPacker extends ItemPacker
                     $itemPack->setAsset($packedAsset->getType(), $packedAsset->getMediaAsset());
                 }
             }
-
         } catch (Throwable $e) {
             throw new common_Exception('Unable to pack item ' . $item->getUri() . ' : ' . $e->getMessage());
         }

@@ -33,7 +33,6 @@ namespace oat\taoQtiItem\model\qti;
  */
 interface Exportable
 {
-
     /**
      * Export the data to QTI XML format
      *

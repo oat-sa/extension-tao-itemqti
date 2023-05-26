@@ -24,7 +24,7 @@ namespace oat\taoQtiItem\model\qti\interaction;
 
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
-use \DOMElement;
+use DOMElement;
 use oat\taoQtiItem\model\qti\PortableElementTrait;
 use oat\taoQtiItem\model\qti\QtiNamespace;
 
@@ -41,8 +41,8 @@ class ImsPortableCustomInteraction extends CustomInteraction
 {
     use PortableElementTrait;
 
-    const NS_NAME = 'imspci';
-    const NS_URI = 'http://www.imsglobal.org/xsd/portableCustomInteraction_v1';
+    public const NS_NAME = 'imspci';
+    public const NS_URI = 'http://www.imsglobal.org/xsd/portableCustomInteraction_v1';
 
     protected $markupNs = 'http://www.w3.org/1999/xhtml';
     protected $properties = [];
@@ -133,14 +133,22 @@ class ImsPortableCustomInteraction extends CustomInteraction
 
     public function toArray($filterVariableContent = false, &$filtered = [])
     {
-        
+
         $returnValue = parent::toArray($filterVariableContent, $filtered);
 
         $returnValue['typeIdentifier'] = $this->typeIdentifier;
         $returnValue['version'] = $this->version;
-        $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection($this->getProperties(), $filterVariableContent, $filtered);
+        $returnValue['properties'] = $this->getArraySerializedPrimitiveCollection(
+            $this->getProperties(),
+            $filterVariableContent,
+            $filtered
+        );
         $returnValue['config'] = $this->config;
-        $returnValue['modules'] = $this->getArraySerializedPrimitiveCollection($this->getModules(), $filterVariableContent, $filtered);
+        $returnValue['modules'] = $this->getArraySerializedPrimitiveCollection(
+            $this->getModules(),
+            $filterVariableContent,
+            $filtered
+        );
         $returnValue['xmlns']  = $this->getNamespace()->getUri();
 
         return $returnValue;
@@ -150,7 +158,7 @@ class ImsPortableCustomInteraction extends CustomInteraction
     {
         return static::getTemplatePath() . 'interactions/qti.imspci.tpl.php';
     }
-    
+
     protected function getTemplateQtiVariables()
     {
 
@@ -161,7 +169,7 @@ class ImsPortableCustomInteraction extends CustomInteraction
         $variables['config'] = $this->getConfig();
         return $variables;
     }
-    
+
     /**
      * Feed the pci instance with data provided in the pci dom node
      *
@@ -209,7 +217,12 @@ class ImsPortableCustomInteraction extends CustomInteraction
             $this->setConfig($config);
         }
 
-        $moduleNodes = $parser->queryXPathChildren(['portableCustomInteraction', 'modules', 'module'], $data, $xmlnsName);
+        $moduleNodes = $parser->queryXPathChildren(
+            ['portableCustomInteraction', 'modules', 'module'],
+            $data,
+            $xmlnsName
+        );
+
         foreach ($moduleNodes as $libNode) {
             $id = $libNode->getAttribute('id');
             $paths = [];

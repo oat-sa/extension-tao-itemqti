@@ -28,7 +28,6 @@ use common_ext_ExtensionsManager as ExtensionsManager;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 use common_ext_ExtensionException as ExtensionException;
 
-
 /**
  * Auto-generated Migration: Please modify to your needs!
  */

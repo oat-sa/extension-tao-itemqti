@@ -18,6 +18,7 @@
  * Copyright (c) 2021  (original work) Open Assessment Technologies SA;
  *
  */
+
 declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model;
@@ -32,6 +33,11 @@ class NotBase64ContentFilterTest extends TestCase
         $subject = new NotBase64ContentFilter();
         $this->assertSame('text', $subject->filter('text'));
         $this->assertSame('', $subject->filter('data:audio/mpeg;base64,SUQzBAAAAA'));
-        $this->assertSame('[{"x1":"Test 1","x":"', $subject->filter('[{"x1":"Test 1","x":"data:audio/mpeg;base64,SUQzBAAAAABKElRQRTEAAAAHAAADU2hpcHMAVElUMgAAABMAAANBc'));
+        $this->assertSame(
+            '[{"x1":"Test 1","x":"',
+            $subject->filter(
+                '[{"x1":"Test 1","x":"data:audio/mpeg;base64,SUQzBAAAAABKElRQRTEAAAAHAAADU2hpcHMAVElUMgAAABMAAANBc'
+            )
+        );
     }
 }

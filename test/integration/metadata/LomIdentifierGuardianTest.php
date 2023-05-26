@@ -27,7 +27,9 @@ use oat\taoQtiItem\model\qti\metadata\guardians\LomIdentifierGuardian;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 
+// phpcs:disable PSR1.Files.SideEffects
 include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
+// phpcs:enable PSR1.Files.SideEffects
 
 class LomIdentifierGuardianTest extends TaoPhpUnitTestRunner
 {
@@ -43,7 +45,9 @@ class LomIdentifierGuardianTest extends TaoPhpUnitTestRunner
 
         $importer->setOptions([
             MetadataImporter::INJECTOR_KEY => ['oat\taoQtiItem\model\qti\metadata\ontology\LomInjector'],
-            MetadataImporter::EXTRACTOR_KEY => ['oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor'],
+            MetadataImporter::EXTRACTOR_KEY => [
+                'oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor',
+            ],
             MetadataImporter::GUARDIAN_KEY => ['oat\taoQtiItem\model\qti\metadata\guardians\LomIdentifierGuardian'],
         ]);
 

@@ -35,7 +35,6 @@ use oat\taoQtiItem\model\qti\attribute\Attribute;
  */
 class Shape extends Attribute
 {
-    
     protected static $name = 'shape';
     protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\Shape';
     protected static $defaultValue = null;

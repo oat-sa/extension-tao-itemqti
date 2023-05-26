@@ -38,7 +38,6 @@ use oat\taoQtiItem\model\qti\container\ContainerStatic;
  */
 class Prompt extends Element implements FlowContainer
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *

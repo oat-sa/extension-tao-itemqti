@@ -36,7 +36,6 @@ use oat\taoQtiItem\model\qti\IdentifiedElementContainer;
  */
 interface IdentifiedElementContainer
 {
-
     /**
      * Every identified QTI element must declare the list of (string) identifers being used within it
      * This method gets all identified Qti Elements contained in the current Qti Element
