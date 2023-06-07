@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.09\n"
-"PO-Revision-Date: 2022-11-04T17:54:46\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-06-07 09:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: ja-JP\n"
+"Language: ja\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: ja-JP\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: Japanese\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " 空欄に当てはまるものを選択肢から選んでください"
@@ -29,7 +36,7 @@ msgid "%d Item(s) of %d imported from the given IMS QTI Package."
 msgstr "指定された IMS QTI パッケージから %d 個のアイテムがインポートされました。"
 
 msgid "%d/%d"
-msgstr "%d/%d"
+msgstr ""
 
 msgid "%s metadata values found in source by extractor(s)."
 msgstr "抽出プログラムによってソースで見つかったメタデータ値：％s"
@@ -45,9 +52,6 @@ msgstr "%s ／最大 %s 単語"
 
 msgid "-- Any kind of file --"
 msgstr "-- すべてのファイル --"
-
-msgid "--- leave empty ---"
-msgstr "--- 空のまま ---"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr "指定されたQTI/APIP XML Item Documentから1アイテムがインポートされました"
@@ -71,9 +75,7 @@ msgid "A human interpretation of the variable's value."
 msgstr "変数値の翻訳"
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr "QTIコンポーネントはサポートされていません。システムは次のエラーを返しました: %s\n"
-""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "ルーブリックブロックは、アイテムを表示する1つ以上のアクターへの指示を表す評価アイテムのitemBodyの一部を識別します。ルーブリックブロックはsimpleBlocks要素として定義されているのでインタラクションを含めることはできません。"
@@ -172,9 +174,7 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "QTIアイテムパッケージのインポート中に予期しないエラーが発生しました。システムは次のエラーを返しました: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr "QTIアイテムパッケージのインポート中に予期しないエラーが発生しました。システムは次のエラーを返しました: %s\n"
-""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr "IMS QTI パッケージを識別子でインポートするときに不明なエラーが発生しました。"
@@ -386,10 +386,10 @@ msgstr "カスタム（PCI）"
 msgid "Custom Response Processing Mode"
 msgstr "カスタムレスポンス処理モード"
 
-msgid "Default"
+msgid "default"
 msgstr "デフォルト"
 
-msgid "default"
+msgid "Default"
 msgstr "デフォルト"
 
 msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
@@ -494,7 +494,7 @@ msgstr "編集"
 msgid "edit choices"
 msgstr "選択肢を編集"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "LaTex構文を使って数式を編集することができます。例：e^{i ˶pi} = -1」など"
 
 msgid "Edit math expression using MathML"
@@ -569,7 +569,7 @@ msgstr "アイテム %s のエラー"
 msgid "Error to export item %s: %s"
 msgstr "アイテム %s のエクスポートエラー: %s"
 
-msgid "Euler\'s constant"
+msgid "Euler\\'s constant"
 msgstr "オイラーの定義"
 
 msgid "Exponent"
@@ -746,9 +746,6 @@ msgstr "変数の値が float で powerForm が 'false' に設定されている
 msgid "If this box is checked the student will be able to eliminate choices."
 msgstr "ボックスにチェックを入れると、選択肢を消去することができます。"
 
-msgid "Image caption"
-msgstr "画像キャプション"
-
 msgid "Import"
 msgstr "インポート"
 
@@ -863,10 +860,10 @@ msgstr "アイテムのメタデータは正常にエクスポートされまし
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr "識別子\"%s\"のアイテムメタデータは無効です。"
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "アイテムプロパティ"
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "アイテムプロパティ"
 
 msgid "Item width"
@@ -886,13 +883,16 @@ msgid "Large editor"
 msgstr "編集画面"
 
 msgid "LaTeX"
-msgstr "LaTeX"
+msgstr ""
 
 msgid "Latex"
 msgstr "LaTeX"
 
 msgid "Layout"
 msgstr "レイアウト"
+
+msgid "--- leave empty ---"
+msgstr "--- 空のまま ---"
 
 msgid "left"
 msgstr "左"
@@ -916,7 +916,7 @@ msgid "List Style"
 msgstr "リストスタイル"
 
 msgid "Ln"
-msgstr "Ln"
+msgstr ""
 
 msgid "Log"
 msgstr "log"
@@ -941,11 +941,11 @@ msgid "Malformed XML[%s]:\n"
 msgstr "不正な形式のXML[%s]:\n"
 "%s"
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr "アイテム管理"
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr "アイテム管理"
 
 msgid "map response"
@@ -970,15 +970,15 @@ msgid "MathJax is not installed."
 msgstr "MathJaxがインストールされていません"
 
 msgid "MathML"
-msgstr "MathML"
+msgstr ""
 
 msgid "Max"
 msgstr "最大"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "最大文字数"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "最大文字数"
 
 msgid "Max plays count"
@@ -1087,10 +1087,10 @@ msgstr "アップロードされたファイルがありません"
 msgid "No value set"
 msgstr "何もセットされていません"
 
-msgid "None"
+msgid "none"
 msgstr "なし"
 
-msgid "none"
+msgid "None"
 msgstr "なし"
 
 msgid "None defined yet."
@@ -1106,7 +1106,7 @@ msgid "of"
 msgstr "／"
 
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 msgid "one association pair"
 msgstr "１つの組み合わせ"
@@ -1315,10 +1315,10 @@ msgstr "Registerメソッドは、$keyおよび$nameパラメーターを想定�
 msgid "Register method expects $key and $name parameters."
 msgstr "Registerメソッドは、$keyおよび$nameパラメーターを想定しています"
 
-msgid "Remove"
+msgid "remove"
 msgstr "削除"
 
-msgid "remove"
+msgid "Remove"
 msgstr "削除"
 
 msgid "Remove custom background color"
@@ -1735,11 +1735,11 @@ msgstr "この選択肢を選べる回数"
 msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
 msgstr "この選択肢を選べる回数。0の場合は、選択回数の制限はありません。"
 
+msgid "The maximum number of choices that the candidate is required to select to form a valid response."
+msgstr ""
+
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
 msgstr "メディアの最大再生回数です。受験者はこの再生回数を超えて再生することはできません。0（デフォルト）は制限なく再生できます。"
-
-msgid "The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score."
-msgstr "現在のインタラクション設定では、スコアに無限の値を設定できるため、このアイテムのMAXSCOREは削除されました。"
 
 msgid "The MIME-type attribute describes which kind of file may be uploaded."
 msgstr "MIMEタイプ属性は、アップロードできるファイル形式を設定します"
@@ -1794,9 +1794,6 @@ msgstr "ピクセル単位の図形の幅。この値は、背景画像のサイ
 
 msgid "The target must be an instance of DOMDocument"
 msgstr "ターゲットはのDOMDocumentのインスタンスである必要があります"
-
-msgid "The text to be displayed below the image."
-msgstr "画像の下に表示されるテキスト"
 
 msgid "The text to be displayed if the image is not available."
 msgstr "代替えテキスト（画像が使用できない場合に表示されるテキスト）"
@@ -1871,7 +1868,7 @@ msgid "Unable to load item from the given data."
 msgstr "指定されたデータからアイテムを読み込むことができません"
 
 msgid "Unable to process your request"
-msgstr "リクエストを処理できません"
+msgstr "リクエストが処理できません"
 
 msgid "Unable to retrieve asset \"%s"
 msgstr "アセット \"%s を取得できません"
@@ -1885,10 +1882,10 @@ msgstr "アイテムを取得することができません：\"%s"
 msgid "Unable to validate %s: %s"
 msgstr "％sを検証できません：％s"
 
-msgid "undo"
+msgid "Undo"
 msgstr "取り消し"
 
-msgid "Undo"
+msgid "undo"
 msgstr "取り消し"
 
 msgid "Unknown $key to register MetadataService instance"
@@ -1940,7 +1937,7 @@ msgid "XML error at line %1$d \"%2$s\"."
 msgstr "XMLエラー： line %1$d \"%2$s\"."
 
 msgid "Yes"
-msgstr "Yes"
+msgstr ""
 
 msgid "You can select maximum %d choice"
 msgstr "最大%dつ選べます"
