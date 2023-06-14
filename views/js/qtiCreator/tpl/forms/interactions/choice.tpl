@@ -19,7 +19,7 @@
     </span>
     <div>
         <label class="smaller-prompt">
-            <input type="radio" name="constraints" value="none" {{#equal constraints "none"}}checked{{/equal}}  for="constraints-none"/>
+            <input type="radio" name="constraints" value="none" {{#equal constraints "none"}}checked{{/equal}}  id="constraints-none"/>
             <span class="icon-radio"></span>
             <label for="constraints-none">{{__ 'None'}} </label>
         </label>
