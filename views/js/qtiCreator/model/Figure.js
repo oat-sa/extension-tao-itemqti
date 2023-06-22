@@ -28,9 +28,7 @@ define([
     _.extend(methods, editable);
     _.extend(methods, {
         getDefaultAttributes: function () {
-            return {
-                showFigure: false
-            };
+            return {};
         },
         afterCreate: function () {
             this.getNamespace();

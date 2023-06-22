@@ -119,7 +119,6 @@ define([
                         !$.contains(container, e.target) &&
                         !$(e.target).parents('#feedback-box').length &&
                         !$(e.target).parents('.outcome-container').length &&
-                        !$(e.target).parents('.media-alignment').length &&
                         !$(e.target).hasClass('icon-close') &&
                         this.hasChanged()
                     ) {
