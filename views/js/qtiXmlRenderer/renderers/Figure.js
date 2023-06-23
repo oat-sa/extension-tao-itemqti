@@ -15,7 +15,7 @@
  *
  * Copyright (c) 2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/figure'], function (tpl) {
+define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/element'], function (tpl) {
     return {
         qtiClass: 'figure',
         template: tpl,
@@ -24,12 +24,6 @@ define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/figure'], function (tpl) {
 
             if (ns && ns.name) {
                 data.tag = `${ns.name}:figure`;
-            }
-
-            if (!figure.attr('showFigure')) {
-                data.tag = 'img';
-                const cleanImg = data.body.split('<qh5:figcaption');
-                data.body = cleanImg[0];
             }
 
             return data;

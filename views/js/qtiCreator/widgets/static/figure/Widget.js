@@ -61,13 +61,7 @@ define([
     };
 
     FigureWidget.buildContainer = function buildContainer() {
-        if (this.element.attr('showFigure')) {
-            // If it is aligned to left or right, it will have FigCaption and will need Figure tag
-            helper.buildBlockContainer(this);
-        } else {
-            // On inline aligment, it must be an Image
-            helper.buildInlineContainer(this);
-        }
+        helper.buildBlockContainer(this);
         const img = _.find(this.element.getBody().elements, elem => elem.is('img'));
         const $img = this.$original.find('img');
         if ($img.length) {
