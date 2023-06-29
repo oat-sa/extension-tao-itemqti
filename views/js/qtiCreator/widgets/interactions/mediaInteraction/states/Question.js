@@ -24,6 +24,7 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'services/features',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
@@ -32,7 +33,7 @@ define([
     'ui/resourcemgr',
     'ui/tooltip',
     'url-polyfill'
-], function ($, _, __, stateFactory, Question, formElement, formTpl, mediaEditorComponent) {
+], function ($, _, __, features, stateFactory, Question, formElement, formTpl, mediaEditorComponent) {
     'use strict';
     /**
      * media Editor instance if has been initialized
@@ -63,6 +64,7 @@ define([
         const $container = widget.$original;
         const options = widget.options;
         const interaction = widget.element;
+        const isFlaAvailable = features.isVisible('taoQtiItem/creator/interaction/media/property/fla');
         let isAudio = getIsAudio(interaction);
         const defaultVideoHeight = 270;
         const defaultAudioHeight = 30;
