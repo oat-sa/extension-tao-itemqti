@@ -269,6 +269,7 @@ img.dragging.ui-draggable-dragging {
 @import "qtiCreator/_outcome-editor";
 @import "qtiCreator/_interaction-sidebar";
 @import "qtiCreator/_math-input";
+@import "qtiCreator/_media-sidebar";
 
 .item-editor-sidebar-wrapper {
     background: $canvas;
@@ -1211,6 +1212,7 @@ img.dragging.ui-draggable-dragging {
     @import "qtiCreator/_include";
     @import "qtiCreator/_item_buttons";
     @import "qtiCreator/_figure";
+    @import "qtiCreator/_media";
 
 /* Below is a temporary solution to address Bug #2768. Eventually this will be fixed by implementing feature #2771. */
     .qti-hottextInteraction {
@@ -1419,27 +1421,27 @@ img.dragging.ui-draggable-dragging {
     .stylesheets {
         .file-selector {
             $p: &;
-    
+
             ul {
                 display: flex;
                 flex-direction: column-reverse;
                 justify-content: flex-end;
             }
-    
+
             li {
                 order: 2;
                 box-sizing: initial;
                 margin: 0 0 5px 0;
-    
+
                 .actions {
                     text-align: right;
                 }
             }
-    
+
             li[data-file*="/tao-user-styles.css"] {
                 order: 1;
                 margin: 5px 0;
-    
+
                 &:before {
                     border-top: 1px solid #DDDDDD;
                     width: 100%;
@@ -1448,29 +1450,29 @@ img.dragging.ui-draggable-dragging {
                     top: -5px;
                     line-height: 2.8;
                 }
-    
+
                 .actions {
                     a.tlb-button-off {
                         display: none;
                     }
-    
+
                     a.download {
                         display: block;
                     }
                 }
             }
-    
+
             .files>li[data-file*="/tao-user-styles.css"]:only-child {
                 &:before {
                     border: none;
                 }
             }
         }
-    
+
         .file-preview {
             h2[data-toggle*=".actions"] {
                 display: none;
-    
+
                 &+.actions {
                     display: none;
                 }
