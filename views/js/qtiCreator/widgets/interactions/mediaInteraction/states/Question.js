@@ -48,6 +48,10 @@ define([
         this.widget.destroyInteraction();
     };
 
+    const getIsAudio = function getIsAudio(interaction) {
+        return /audio/.test(interaction.object.attr('type'));
+    };
+
     const MediaInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
 
     /**
@@ -59,7 +63,7 @@ define([
         const $container = widget.$original;
         const options = widget.options;
         const interaction = widget.element;
-        let isAudio = false;
+        let isAudio = getIsAudio(interaction);
         const defaultVideoHeight = 270;
         const defaultAudioHeight = 30;
         let callbacks;
@@ -145,6 +149,8 @@ define([
                 isAudio = false;
                 interaction.object.attr('height', defaultVideoHeight);
             }
+            interaction.removeClass('hide-player');
+
             $container.off('playerready').on('playerready', function () {
                 let width = interaction.object.attr('width');
                 let height = interaction.object.attr('height');
@@ -171,7 +177,7 @@ define([
          * Switch mode based on file type
          */
         const switchMode = function switchMode() {
-            if (/audio/.test(interaction.object.attr('type'))) {
+            if (getIsAudio(interaction)) {
                 switchToAudio();
             } else {
                 switchToVideo();
@@ -231,34 +237,84 @@ define([
             }
         };
 
-        //initialization binding
-        //initialize your form here, you certainly gonna need to modify it:
-        //append the form to the dom (this part should be almost ok)
-        $form.html(
-            formTpl({
-                //tpl data for the interaction
-                autostart: !!interaction.attr('autostart'),
-                loop: !!interaction.attr('loop'),
-                maxPlays: parseInt(interaction.attr('maxPlays'), 10),
-                pause: interaction.hasClass('pause'),
-                // tpl data for the "object", this part is going to be reused by the "objectWidget"
-                // @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10173
-                data: interaction.object.attr('data'),
-                type: interaction.object.attr('type') //use the same as the uploadInteraction, contact jerome@taotesting.com for this
-            })
-        );
-
-        formElement.initWidget($form);
-
-        $heightContainer = $('.height-container', $form);
-        $mediaSizerLabel = $('.media-sizer-panel-label', $form);
-
-        switchMode();
+        /**
+         * Initialize form template and insert it to the DOM (replacing any existing form)
+         * Can be called again, as needed
+         */
+        const renderForm = function renderForm() {
+            $form.html(
+                formTpl({
+                    //tpl data for the interaction
+                    isAudio: isAudio,
+                    autostart: !!interaction.attr('autostart'),
+                    sequential: !!interaction.hasClass('sequential'),
+                    hidePlayer: !!interaction.hasClass('hide-player'),
+                    autostartDelayMs: Math.floor(parseInt(interaction.attr('data-autostart-delay-ms'), 10) / 1000),
+                    loop: !!interaction.attr('loop'),
+                    maxPlays: parseInt(interaction.attr('maxPlays'), 10),
+                    pause: !!interaction.hasClass('pause'),
+                    // tpl data for the "object", this part is going to be reused by the "objectWidget"
+                    // @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10173
+                    data: interaction.object.attr('data'),
+                    type: interaction.object.attr('type') //use the same as the uploadInteraction, contact jerome@taotesting.com for this
+                })
+            );
+            // re-wire all form controls & tooltips
+            formElement.initWidget($form);
+            switchMode();
+            setUpUploader();
+        };
+        renderForm();
 
         //init data change callbacks
         callbacks = {
             autostart: function autostart(boundInteraction, attrValue, attrName) {
                 interaction.attr(attrName, attrValue);
+                if (attrValue === false) {
+                    // reset subpanel properties to defaults
+                    interaction.removeAttr('data-autostart-delay-ms');
+                    interaction.removeClass('hide-player');
+                    $container.removeClass('dimmed');
+                    interaction.removeClass('sequential');
+                }
+                renderForm();
+                reRender();
+            },
+
+            autostartDelayMs: function autostartDelayMs(boundInteraction, attrValue) {
+                const attrValueNumeric = parseInt(attrValue, 10);
+                const attrValueNumericMs = Number.isNaN(attrValueNumeric) ? 0 : attrValueNumeric * 1000;
+                interaction.attr('data-autostart-delay-ms', attrValueNumericMs);
+                reRender();
+            },
+
+            hidePlayer: function hidePlayer(boundInteraction, attrValue) {
+                // checkbox represents 'display media player' in UI, so attrValue must be inverted to set hide-player
+                interaction.toggleClass('hide-player', !attrValue);
+                $container.toggleClass('dimmed', !attrValue);
+
+                // reset dependent properties
+                // hidden audio player should not be pausable, and visible one should not use delay (UX)
+                if (attrValue === false) {
+                    $container.removeClass('pause');
+                    interaction.removeClass('pause');
+                } else {
+                    interaction.removeAttr('data-autostart-delay-ms');
+                }
+                renderForm();
+                reRender();
+            },
+
+            sequential: function sequential(boundInteraction, attrValue) {
+                interaction.toggleClass('sequential', attrValue);
+
+                // reset dependent properties
+                // sequential audio must not use loop or maxPlays greater than 1
+                if (attrValue === true) {
+                    interaction.attr('loop', false);
+                    interaction.attr('maxPlays', 0);
+                }
+                renderForm();
                 reRender();
             },
 
@@ -310,6 +366,7 @@ define([
                         switchToVideo();
                     }
 
+                    renderForm();
                     reRender();
                 }
             }
@@ -318,8 +375,6 @@ define([
         formElement.setChangeCallbacks($form, interaction, callbacks, {
             invalidate: true
         });
-
-        setUpUploader();
     };
 
     return MediaInteractionStateQuestion;
