@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2016-2023 (original work) Open Assessment Technologies SA
  */
 
 /**
@@ -63,7 +63,6 @@ define([
         const defaultVideoHeight = 270;
         const defaultAudioHeight = 30;
         let callbacks;
-        let $heightContainer, $mediaSizerLabel;
 
         /**
          * Each change triggers an re rendering of the interaction
@@ -81,13 +80,12 @@ define([
         const switchToAudio = function switchToAudio() {
             isAudio = true;
 
-            $heightContainer.hide();
-            $mediaSizerLabel.hide();
             interaction.object.attr('height', defaultAudioHeight);
             if (mediaEditor) {
                 mediaEditor.destroy();
             }
         };
+
         const videoResponsiveWidth = () => {
             const originalSize = interaction.mediaElement.getMediaOriginalSize();
             if (!originalSize.width) {
@@ -114,6 +112,7 @@ define([
             }
             return width;
         };
+
         const createMediaEditor = ($panel, width, height, onChange) => {
             if (mediaEditor) {
                 mediaEditor.destroy();
@@ -136,6 +135,7 @@ define([
                 }
             ).on('change', onChange);
         };
+
         /**
          * Switch to video mode:
          * update height and enable the field
@@ -144,8 +144,6 @@ define([
             if (isAudio) {
                 isAudio = false;
                 interaction.object.attr('height', defaultVideoHeight);
-                $heightContainer.show();
-                $mediaSizerLabel.show();
             }
             $container.off('playerready').on('playerready', function () {
                 let width = interaction.object.attr('width');
