@@ -68,7 +68,6 @@ define([
         let isAudio = getIsAudio(interaction);
         const defaultVideoHeight = 270;
         const defaultAudioHeight = 30;
-        let callbacks;
 
         /**
          * Each change triggers an re rendering of the interaction
@@ -239,6 +238,118 @@ define([
             }
         };
 
+        const setUpCallbacks = function setUpCallbacks() {
+            //init data change callbacks
+            const callbacks = {
+                autostart: function autostart(boundInteraction, attrValue, attrName) {
+                    interaction.attr(attrName, attrValue);
+                    if (attrValue === false) {
+                        // reset subpanel properties to defaults
+                        interaction.removeAttr('data-autostart-delay-ms');
+                        interaction.removeClass('hide-player');
+                        $container.removeClass('dimmed');
+                        interaction.removeClass('sequential');
+                    }
+                    renderForm();
+                    reRender();
+                },
+
+                autostartDelayMs: function autostartDelayMs(boundInteraction, attrValue) {
+                    const attrValueNumeric = parseInt(attrValue, 10);
+                    const attrValueNumericMs = Number.isNaN(attrValueNumeric) ? 0 : attrValueNumeric * 1000;
+                    interaction.attr('data-autostart-delay-ms', attrValueNumericMs);
+                    reRender();
+                },
+
+                hidePlayer: function hidePlayer(boundInteraction, attrValue) {
+                    // checkbox represents 'display media player' in UI, so attrValue must be inverted to set hide-player
+                    interaction.toggleClass('hide-player', !attrValue);
+                    $container.toggleClass('dimmed', !attrValue);
+
+                    // reset dependent properties
+                    // hidden audio player should not be pausable, and visible one should not use delay (UX)
+                    if (attrValue === false) {
+                        $container.removeClass('pause');
+                        interaction.removeClass('pause');
+                    } else {
+                        interaction.removeAttr('data-autostart-delay-ms');
+                    }
+                    renderForm();
+                    reRender();
+                },
+
+                sequential: function sequential(boundInteraction, attrValue) {
+                    interaction.toggleClass('sequential', attrValue);
+
+                    // reset dependent properties
+                    // sequential audio must not use loop or maxPlays greater than 1
+                    if (attrValue === true) {
+                        interaction.attr('loop', false);
+                        interaction.attr('maxPlays', 0);
+                    }
+                    renderForm();
+                    reRender();
+                },
+
+                loop: function loop(boundInteraction, attrValue, attrName) {
+                    interaction.attr(attrName, attrValue);
+                    reRender();
+                },
+
+                maxPlays: function maxPlays(boundInteraction, attrValue, attrName) {
+                    interaction.attr(attrName, attrValue);
+                    reRender();
+                },
+
+                pause: function pause(boundInteraction, attrValue) {
+                    if (attrValue) {
+                        if (!$container.hasClass('pause')) {
+                            $container.addClass('pause');
+                            interaction.addClass('pause');
+                        }
+                    } else {
+                        $container.removeClass('pause');
+                        interaction.removeClass('pause');
+                    }
+                },
+
+                data: function data(boundInteraction, attrValue, attrName) {
+                    let value;
+                    let youTubeUrl;
+                    let parsedUrl;
+                    if (interaction.object.attr(attrName) !== attrValue) {
+                        interaction.object.attr(attrName, attrValue);
+                        interaction.object.removeAttr('width');
+                        interaction.object.removeAttr('height');
+
+                        value = $.trim(attrValue).toLowerCase();
+
+                        if (/^http(s)?:\/\/(www\.)?youtu/.test(value)) {
+                            if (attrValue.indexOf('&' > 0)) {
+                                youTubeUrl = new URL(attrValue);
+                                parsedUrl = new URL(youTubeUrl.origin + youTubeUrl.pathname);
+                                parsedUrl.searchParams.append('v', youTubeUrl.searchParams.get('v'));
+                                this.value = parsedUrl.toString();
+                            }
+                            interaction.object.attr('type', 'video/youtube');
+                            switchToVideo();
+                        } else if (/audio/.test(interaction.object.attr('type'))) {
+                            switchToAudio();
+                        } else {
+                            switchToVideo();
+                        }
+
+                        renderForm();
+                        reRender();
+                    }
+                }
+            };
+
+            formElement.setChangeCallbacks($form, interaction, callbacks, {
+                invalidate: true
+            });
+        };
+
         /**
          * Initialize form template and insert it to the DOM (replacing any existing form)
          * Can be called again, as needed
@@ -265,118 +376,9 @@ define([
             formElement.initWidget($form);
             switchMode();
             setUpUploader();
+            setUpCallbacks();
         };
         renderForm();
-
-        //init data change callbacks
-        callbacks = {
-            autostart: function autostart(boundInteraction, attrValue, attrName) {
-                interaction.attr(attrName, attrValue);
-                if (attrValue === false) {
-                    // reset subpanel properties to defaults
-                    interaction.removeAttr('data-autostart-delay-ms');
-                    interaction.removeClass('hide-player');
-                    $container.removeClass('dimmed');
-                    interaction.removeClass('sequential');
-                }
-                renderForm();
-                reRender();
-            },
-
-            autostartDelayMs: function autostartDelayMs(boundInteraction, attrValue) {
-                const attrValueNumeric = parseInt(attrValue, 10);
-                const attrValueNumericMs = Number.isNaN(attrValueNumeric) ? 0 : attrValueNumeric * 1000;
-                interaction.attr('data-autostart-delay-ms', attrValueNumericMs);
-                reRender();
-            },
-
-            hidePlayer: function hidePlayer(boundInteraction, attrValue) {
-                // checkbox represents 'display media player' in UI, so attrValue must be inverted to set hide-player
-                interaction.toggleClass('hide-player', !attrValue);
-                $container.toggleClass('dimmed', !attrValue);
-
-                // reset dependent properties
-                // hidden audio player should not be pausable, and visible one should not use delay (UX)
-                if (attrValue === false) {
-                    $container.removeClass('pause');
-                    interaction.removeClass('pause');
-                } else {
-                    interaction.removeAttr('data-autostart-delay-ms');
-                }
-                renderForm();
-                reRender();
-            },
-
-            sequential: function sequential(boundInteraction, attrValue) {
-                interaction.toggleClass('sequential', attrValue);
-
-                // reset dependent properties
-                // sequential audio must not use loop or maxPlays greater than 1
-                if (attrValue === true) {
-                    interaction.attr('loop', false);
-                    interaction.attr('maxPlays', 0);
-                }
-                renderForm();
-                reRender();
-            },
-
-            loop: function loop(boundInteraction, attrValue, attrName) {
-                interaction.attr(attrName, attrValue);
-                reRender();
-            },
-
-            maxPlays: function maxPlays(boundInteraction, attrValue, attrName) {
-                interaction.attr(attrName, attrValue);
-                reRender();
-            },
-
-            pause: function pause(boundInteraction, attrValue) {
-                if (attrValue) {
-                    if (!$container.hasClass('pause')) {
-                        $container.addClass('pause');
-                        interaction.addClass('pause');
-                    }
-                } else {
-                    $container.removeClass('pause');
-                    interaction.removeClass('pause');
-                }
-            },
-
-            data: function data(boundInteraction, attrValue, attrName) {
-                let value;
-                let youTubeUrl;
-                let parsedUrl;
-                if (interaction.object.attr(attrName) !== attrValue) {
-                    interaction.object.attr(attrName, attrValue);
-                    interaction.object.removeAttr('width');
-                    interaction.object.removeAttr('height');
-
-                    value = $.trim(attrValue).toLowerCase();
-
-                    if (/^http(s)?:\/\/(www\.)?youtu/.test(value)) {
-                        if (attrValue.indexOf('&' > 0)) {
-                            youTubeUrl = new URL(attrValue);
-                            parsedUrl = new URL(youTubeUrl.origin + youTubeUrl.pathname);
-                            parsedUrl.searchParams.append('v', youTubeUrl.searchParams.get('v'));
-                            this.value = parsedUrl.toString();
-                        }
-                        interaction.object.attr('type', 'video/youtube');
-                        switchToVideo();
-                    } else if (/audio/.test(interaction.object.attr('type'))) {
-                        switchToAudio();
-                    } else {
-                        switchToVideo();
-                    }
-
-                    renderForm();
-                    reRender();
-                }
-            }
-        };
-
-        formElement.setChangeCallbacks($form, interaction, callbacks, {
-            invalidate: true
-        });
     };
 
     return MediaInteractionStateQuestion;
