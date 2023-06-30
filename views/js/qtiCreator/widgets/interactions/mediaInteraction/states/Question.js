@@ -251,14 +251,12 @@ define([
                         interaction.removeClass('sequential');
                     }
                     renderForm();
-                    reRender();
                 },
 
                 autostartDelayMs: function autostartDelayMs(boundInteraction, attrValue) {
                     const attrValueNumeric = parseInt(attrValue, 10);
                     const attrValueNumericMs = Number.isNaN(attrValueNumeric) ? 0 : attrValueNumeric * 1000;
                     interaction.attr('data-autostart-delay-ms', attrValueNumericMs);
-                    reRender();
                 },
 
                 hidePlayer: function hidePlayer(boundInteraction, attrValue) {
@@ -275,7 +273,6 @@ define([
                         interaction.removeAttr('data-autostart-delay-ms');
                     }
                     renderForm();
-                    reRender();
                 },
 
                 sequential: function sequential(boundInteraction, attrValue) {
@@ -288,17 +285,14 @@ define([
                         interaction.attr('maxPlays', 0);
                     }
                     renderForm();
-                    reRender();
                 },
 
                 loop: function loop(boundInteraction, attrValue, attrName) {
                     interaction.attr(attrName, attrValue);
-                    reRender();
                 },
 
                 maxPlays: function maxPlays(boundInteraction, attrValue, attrName) {
                     interaction.attr(attrName, attrValue);
-                    reRender();
                 },
 
                 pause: function pause(boundInteraction, attrValue) {
