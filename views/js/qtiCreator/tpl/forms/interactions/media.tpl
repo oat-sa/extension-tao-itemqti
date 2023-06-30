@@ -26,40 +26,42 @@
     </span>
 </div>
 
-{{#if isAudio}}
-    {{#if autostart}}
-        <div class="panel subpanel autostart-subpanel">
-            <div class="min-max-panel">
-                <label for="autostartDelayMs" class="spinner">{{__ 'after n seconds'}}</label>
-                <input type="text" name="autostartDelayMs" class="incrementer {{#unless hidePlayer}}disabled{{/unless}}" value="{{autostartDelayMs}}" {{#unless hidePlayer}}disabled{{/unless}} data-increment="10" data-min="0" data-max="{{#unless hidePlayer}}0{{else}}600{{/unless}}" />
-                <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
-                <span class="tooltip-content">
-                    {{__ "Optional delay in seconds before the audio will autostart."}}
-                </span>
-            </div>
+{{#if isFlaAvailable }}
+    {{#if isAudio}}
+        {{#if autostart}}
+            <div class="panel subpanel autostart-subpanel">
+                <div class="min-max-panel">
+                    <label for="autostartDelayMs" class="spinner">{{__ 'after n seconds'}}</label>
+                    <input type="text" name="autostartDelayMs" class="incrementer {{#unless hidePlayer}}disabled{{/unless}}" value="{{autostartDelayMs}}" {{#unless hidePlayer}}disabled{{/unless}} data-increment="10" data-min="0" data-max="{{#unless hidePlayer}}0{{else}}600{{/unless}}" />
+                    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+                    <span class="tooltip-content">
+                        {{__ "Optional delay in seconds before the audio will autostart."}}
+                    </span>
+                </div>
 
-            <div>
-                <label>
-                    <input name="hidePlayer" type="checkbox" {{#unless hidePlayer}}checked="checked"{{/unless}}/>
-                    <span class="icon-checkbox"></span>
-                    {{__ "Display media player"}}
-                </label>
-                <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-                <span class="tooltip-content">{{__ "This shows or hides the entire audio player from view. Test takers will not be able to play, pause, or change the volume level."}}
-                </span>
-            </div>
+                <div>
+                    <label>
+                        <input name="hidePlayer" type="checkbox" {{#unless hidePlayer}}checked="checked"{{/unless}}/>
+                        <span class="icon-checkbox"></span>
+                        {{__ "Display media player"}}
+                    </label>
+                    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+                    <span class="tooltip-content">{{__ "This shows or hides the entire audio player from view. Test takers will not be able to play, pause, or change the volume level."}}
+                    </span>
+                </div>
 
-            <div>
-                <label>
-                    <input name="sequential" type="checkbox" {{#if sequential}}checked="checked"{{/if}}/>
-                    <span class="icon-checkbox"></span>
-                    {{__ "Sequential"}}
-                </label>
-                <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-                <span class="tooltip-content">{{__ "Indicates that the audio forms part of a sequence with other sequential interactions. The advancing of the sequence is handled by the delivery engine. Delays are also respected."}}
-                </span>
+                <div>
+                    <label>
+                        <input name="sequential" type="checkbox" {{#if sequential}}checked="checked"{{/if}}/>
+                        <span class="icon-checkbox"></span>
+                        {{__ "Sequential"}}
+                    </label>
+                    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+                    <span class="tooltip-content">{{__ "Indicates that the audio forms part of a sequence with other sequential interactions. The advancing of the sequence is handled by the delivery engine. Delays are also respected."}}
+                    </span>
+                </div>
             </div>
-        </div>
+        {{/if}}
     {{/if}}
 {{/if}}
 

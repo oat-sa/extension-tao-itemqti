@@ -353,6 +353,7 @@ define([
                 formTpl({
                     //tpl data for the interaction
                     isAudio: isAudio,
+                    isFlaAvailable: isFlaAvailable,
                     autostart: !!interaction.attr('autostart'),
                     sequential: !!interaction.hasClass('sequential'),
                     hidePlayer: !!interaction.hasClass('hide-player'),
