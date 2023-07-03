@@ -31,7 +31,8 @@ class FeatureFlagFlaHandler implements FeatureFlagConfigHandlerInterface
 {
     private FeatureFlagCheckerInterface $featureFlagChecker;
 
-    public function __construct(FeatureFlagCheckerInterface $featureFlagChecker) {
+    public function __construct(FeatureFlagCheckerInterface $featureFlagChecker)
+    {
         $this->featureFlagChecker = $featureFlagChecker;
     }
 
