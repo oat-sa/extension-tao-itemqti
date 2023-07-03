@@ -251,6 +251,7 @@ define([
                         interaction.removeClass('sequential');
                     }
                     renderForm();
+                    reRender();
                 },
 
                 autostartDelayMs: function autostartDelayMs(boundInteraction, attrValue) {
