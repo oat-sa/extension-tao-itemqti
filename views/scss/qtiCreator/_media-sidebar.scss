@@ -3,11 +3,8 @@
 .item-editor-sidebar {
     .tool-group {
         .panel {
-            .panel {
-                &.subpanel.autostart-subpanel {
-                    margin-top: -15px;
-                    margin-bottom: 20px;
-                }
+            .panel.autostart-subpanel {
+                margin: -10px 0 10px 20px;
             }
         }
     }

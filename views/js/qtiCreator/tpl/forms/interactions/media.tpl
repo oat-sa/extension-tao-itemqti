@@ -29,14 +29,13 @@
 {{#if isFlaAvailable }}
     {{#if isAudio}}
         {{#if autostart}}
-            <div class="panel subpanel autostart-subpanel">
+            <div class="panel autostart-subpanel">
                 <div class="min-max-panel">
-                    <label for="autostartDelayMs" class="spinner">{{__ 'after n seconds'}}</label>
-                    <input type="text" name="autostartDelayMs" class="incrementer {{#unless hidePlayer}}disabled{{/unless}}" value="{{autostartDelayMs}}" {{#unless hidePlayer}}disabled{{/unless}} data-increment="10" data-min="0" data-max="{{#unless hidePlayer}}0{{else}}600{{/unless}}" />
-                    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
-                    <span class="tooltip-content">
-                        {{__ "Optional delay in seconds before the audio will autostart."}}
-                    </span>
+                    <label class="spinner">
+                        {{__ 'after'}}
+                        <input type="text" name="autostartDelayMs" class="incrementer {{#unless hidePlayer}}disabled{{/unless}}" value="{{autostartDelayMs}}" {{#unless hidePlayer}}disabled{{/unless}} data-increment="10" data-min="0" data-max="{{#unless hidePlayer}}0{{else}}600{{/unless}}" />
+                        {{__ 'seconds'}}
+                    </label>
                 </div>
 
                 <div>
