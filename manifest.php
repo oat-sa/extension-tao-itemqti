@@ -30,6 +30,7 @@ use oat\taoQtiItem\install\scripts\setXMLParserConfig;
 use oat\taoQtiItem\model\qti\CustomInteractionAsset\ServiceProvider\{
     CustomInteractionAssetExtractorAllocatorServiceProvider
 };
+use oat\taoQtiItem\model\FeatureFlag\ServiceProvider\FeatureFlagFlaServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\ItemIdentifierValidatorServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\MetadataServiceProvider;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
@@ -197,6 +198,7 @@ return [
     ],
     'containerServiceProviders' => [
         CustomInteractionAssetExtractorAllocatorServiceProvider::class,
+        FeatureFlagFlaServiceProvider::class,
         ItemIdentifierValidatorServiceProvider::class,
         MetadataServiceProvider::class,
     ],

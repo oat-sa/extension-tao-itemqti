@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2016-2023 (original work) Open Assessment Technologies SA
  */
 
 /**
@@ -24,6 +24,7 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'services/features',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
@@ -32,7 +33,7 @@ define([
     'ui/resourcemgr',
     'ui/tooltip',
     'url-polyfill'
-], function ($, _, __, stateFactory, Question, formElement, formTpl, mediaEditorComponent) {
+], function ($, _, __, features, stateFactory, Question, formElement, formTpl, mediaEditorComponent) {
     'use strict';
     /**
      * media Editor instance if has been initialized
@@ -48,6 +49,10 @@ define([
         this.widget.destroyInteraction();
     };
 
+    const getIsAudio = function getIsAudio(interaction) {
+        return /audio/.test(interaction.object.attr('type'));
+    };
+
     const MediaInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
 
     /**
@@ -59,11 +64,10 @@ define([
         const $container = widget.$original;
         const options = widget.options;
         const interaction = widget.element;
-        let isAudio = false;
+        const isFlaAvailable = features.isVisible('taoQtiItem/creator/interaction/media/property/fla');
+        let isAudio = getIsAudio(interaction);
         const defaultVideoHeight = 270;
         const defaultAudioHeight = 30;
-        let callbacks;
-        let $heightContainer, $mediaSizerLabel;
 
         /**
          * Each change triggers an re rendering of the interaction
@@ -81,13 +85,12 @@ define([
         const switchToAudio = function switchToAudio() {
             isAudio = true;
 
-            $heightContainer.hide();
-            $mediaSizerLabel.hide();
             interaction.object.attr('height', defaultAudioHeight);
             if (mediaEditor) {
                 mediaEditor.destroy();
             }
         };
+
         const videoResponsiveWidth = () => {
             const originalSize = interaction.mediaElement.getMediaOriginalSize();
             if (!originalSize.width) {
@@ -114,6 +117,7 @@ define([
             }
             return width;
         };
+
         const createMediaEditor = ($panel, width, height, onChange) => {
             if (mediaEditor) {
                 mediaEditor.destroy();
@@ -136,6 +140,7 @@ define([
                 }
             ).on('change', onChange);
         };
+
         /**
          * Switch to video mode:
          * update height and enable the field
@@ -144,9 +149,9 @@ define([
             if (isAudio) {
                 isAudio = false;
                 interaction.object.attr('height', defaultVideoHeight);
-                $heightContainer.show();
-                $mediaSizerLabel.show();
             }
+            interaction.removeClass('hide-player');
+
             $container.off('playerready').on('playerready', function () {
                 let width = interaction.object.attr('width');
                 let height = interaction.object.attr('height');
@@ -173,7 +178,7 @@ define([
          * Switch mode based on file type
          */
         const switchMode = function switchMode() {
-            if (/audio/.test(interaction.object.attr('type'))) {
+            if (getIsAudio(interaction)) {
                 switchToAudio();
             } else {
                 switchToVideo();
@@ -233,95 +238,145 @@ define([
             }
         };
 
-        //initialization binding
-        //initialize your form here, you certainly gonna need to modify it:
-        //append the form to the dom (this part should be almost ok)
-        $form.html(
-            formTpl({
-                //tpl data for the interaction
-                autostart: !!interaction.attr('autostart'),
-                loop: !!interaction.attr('loop'),
-                maxPlays: parseInt(interaction.attr('maxPlays'), 10),
-                pause: interaction.hasClass('pause'),
-                // tpl data for the "object", this part is going to be reused by the "objectWidget"
-                // @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10173
-                data: interaction.object.attr('data'),
-                type: interaction.object.attr('type') //use the same as the uploadInteraction, contact jerome@taotesting.com for this
-            })
-        );
-
-        formElement.initWidget($form);
-
-        $heightContainer = $('.height-container', $form);
-        $mediaSizerLabel = $('.media-sizer-panel-label', $form);
-
-        switchMode();
-
-        //init data change callbacks
-        callbacks = {
-            autostart: function autostart(boundInteraction, attrValue, attrName) {
-                interaction.attr(attrName, attrValue);
-                reRender();
-            },
-
-            loop: function loop(boundInteraction, attrValue, attrName) {
-                interaction.attr(attrName, attrValue);
-                reRender();
-            },
-
-            maxPlays: function maxPlays(boundInteraction, attrValue, attrName) {
-                interaction.attr(attrName, attrValue);
-                reRender();
-            },
-
-            pause: function pause(boundInteraction, attrValue) {
-                if (attrValue) {
-                    if (!$container.hasClass('pause')) {
-                        $container.addClass('pause');
-                        interaction.addClass('pause');
+        const setUpCallbacks = function setUpCallbacks() {
+            //init data change callbacks
+            const callbacks = {
+                autostart: function autostart(boundInteraction, attrValue, attrName) {
+                    interaction.attr(attrName, attrValue);
+                    if (attrValue === false) {
+                        // reset subpanel properties to defaults
+                        interaction.removeAttr('data-autostart-delay-ms');
+                        interaction.removeClass('hide-player');
+                        $container.removeClass('dimmed');
+                        interaction.removeClass('sequential');
+                    } else if (isFlaAvailable) {
+                        interaction.attr('data-autostart-delay-ms', 0);
                     }
-                } else {
-                    $container.removeClass('pause');
-                    interaction.removeClass('pause');
-                }
-            },
-
-            data: function data(boundInteraction, attrValue, attrName) {
-                let value;
-                let youTubeUrl;
-                let parsedUrl;
-                if (interaction.object.attr(attrName) !== attrValue) {
-                    interaction.object.attr(attrName, attrValue);
-                    interaction.object.removeAttr('width');
-                    interaction.object.removeAttr('height');
-
-                    value = $.trim(attrValue).toLowerCase();
-
-                    if (/^http(s)?:\/\/(www\.)?youtu/.test(value)) {
-                        if (attrValue.indexOf('&' > 0)) {
-                            youTubeUrl = new URL(attrValue);
-                            parsedUrl = new URL(youTubeUrl.origin + youTubeUrl.pathname);
-                            parsedUrl.searchParams.append('v', youTubeUrl.searchParams.get('v'));
-                            this.value = parsedUrl.toString();
-                        }
-                        interaction.object.attr('type', 'video/youtube');
-                        switchToVideo();
-                    } else if (/audio/.test(interaction.object.attr('type'))) {
-                        switchToAudio();
-                    } else {
-                        switchToVideo();
-                    }
-
+                    renderForm();
                     reRender();
+                },
+
+                autostartDelayMs: function autostartDelayMs(boundInteraction, attrValue) {
+                    const attrValueNumeric = parseInt(attrValue, 10);
+                    const attrValueNumericMs = Number.isNaN(attrValueNumeric) ? 0 : attrValueNumeric * 1000;
+                    interaction.attr('data-autostart-delay-ms', attrValueNumericMs);
+                },
+
+                hidePlayer: function hidePlayer(boundInteraction, attrValue) {
+                    // checkbox represents 'display media player' in UI, so attrValue must be inverted to set hide-player
+                    interaction.toggleClass('hide-player', !attrValue);
+                    $container.toggleClass('dimmed', !attrValue);
+
+                    // reset dependent properties
+                    // hidden audio player should not be pausable, and visible one should not use delay (UX)
+                    if (attrValue === false) {
+                        $container.removeClass('pause');
+                        interaction.removeClass('pause');
+                    } else if (isFlaAvailable) {
+                        interaction.attr('data-autostart-delay-ms', 0);
+                    }
+                    renderForm();
+                },
+
+                sequential: function sequential(boundInteraction, attrValue) {
+                    interaction.toggleClass('sequential', attrValue);
+
+                    // reset dependent properties
+                    // sequential audio must not use loop or maxPlays greater than 1
+                    if (attrValue === true) {
+                        interaction.attr('loop', false);
+                        interaction.attr('maxPlays', 0);
+                    }
+                    renderForm();
+                },
+
+                loop: function loop(boundInteraction, attrValue, attrName) {
+                    interaction.attr(attrName, attrValue);
+                },
+
+                maxPlays: function maxPlays(boundInteraction, attrValue, attrName) {
+                    interaction.attr(attrName, attrValue);
+                },
+
+                pause: function pause(boundInteraction, attrValue) {
+                    if (attrValue) {
+                        if (!$container.hasClass('pause')) {
+                            $container.addClass('pause');
+                            interaction.addClass('pause');
+                        }
+                    } else {
+                        $container.removeClass('pause');
+                        interaction.removeClass('pause');
+                    }
+                },
+
+                data: function data(boundInteraction, attrValue, attrName) {
+                    let value;
+                    let youTubeUrl;
+                    let parsedUrl;
+                    if (interaction.object.attr(attrName) !== attrValue) {
+                        interaction.object.attr(attrName, attrValue);
+                        interaction.object.removeAttr('width');
+                        interaction.object.removeAttr('height');
+
+                        value = $.trim(attrValue).toLowerCase();
+
+                        if (/^http(s)?:\/\/(www\.)?youtu/.test(value)) {
+                            if (attrValue.indexOf('&' > 0)) {
+                                youTubeUrl = new URL(attrValue);
+                                parsedUrl = new URL(youTubeUrl.origin + youTubeUrl.pathname);
+                                parsedUrl.searchParams.append('v', youTubeUrl.searchParams.get('v'));
+                                this.value = parsedUrl.toString();
+                            }
+                            interaction.object.attr('type', 'video/youtube');
+                            switchToVideo();
+                        } else if (/audio/.test(interaction.object.attr('type'))) {
+                            switchToAudio();
+                        } else {
+                            switchToVideo();
+                        }
+
+                        renderForm();
+                        reRender();
+                    }
                 }
-            }
+            };
+
+            formElement.setChangeCallbacks($form, interaction, callbacks, {
+                invalidate: true
+            });
         };
 
-        formElement.setChangeCallbacks($form, interaction, callbacks, {
-            invalidate: true
-        });
-
-        setUpUploader();
+        /**
+         * Initialize form template and insert it to the DOM (replacing any existing form)
+         * Can be called again, as needed
+         */
+        const renderForm = function renderForm() {
+            $form.html(
+                formTpl({
+                    //tpl data for the interaction
+                    isAudio: isAudio,
+                    isFlaAvailable: isFlaAvailable,
+                    autostart: !!interaction.attr('autostart'),
+                    sequential: !!interaction.hasClass('sequential'),
+                    hidePlayer: !!interaction.hasClass('hide-player'),
+                    autostartDelayMs: Math.floor(parseInt(interaction.attr('data-autostart-delay-ms'), 10) / 1000),
+                    loop: !!interaction.attr('loop'),
+                    maxPlays: parseInt(interaction.attr('maxPlays'), 10),
+                    pause: !!interaction.hasClass('pause'),
+                    // tpl data for the "object", this part is going to be reused by the "objectWidget"
+                    // @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10173
+                    data: interaction.object.attr('data'),
+                    type: interaction.object.attr('type') //use the same as the uploadInteraction, contact jerome@taotesting.com for this
+                })
+            );
+            // re-wire all form controls & tooltips
+            formElement.initWidget($form);
+            switchMode();
+            setUpUploader();
+            setUpCallbacks();
+        };
+        renderForm();
     };
 
     return MediaInteractionStateQuestion;

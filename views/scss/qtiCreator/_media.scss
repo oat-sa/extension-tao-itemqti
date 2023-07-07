@@ -1,0 +1,11 @@
+@import "inc/bootstrap";
+
+.widget-box {
+    &.widget-blockInteraction {
+        .qti-interaction {
+            &.dimmed {
+                opacity: 0.5;
+            }
+        }
+    }
+}
