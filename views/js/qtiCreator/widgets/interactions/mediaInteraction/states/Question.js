@@ -249,6 +249,8 @@ define([
                         interaction.removeClass('hide-player');
                         $container.removeClass('dimmed');
                         interaction.removeClass('sequential');
+                    } else if (isFlaAvailable) {
+                        interaction.attr('data-autostart-delay-ms', 0);
                     }
                     renderForm();
                     reRender();
@@ -270,8 +272,8 @@ define([
                     if (attrValue === false) {
                         $container.removeClass('pause');
                         interaction.removeClass('pause');
-                    } else {
-                        interaction.removeAttr('data-autostart-delay-ms');
+                    } else if (isFlaAvailable) {
+                        interaction.attr('data-autostart-delay-ms', 0);
                     }
                     renderForm();
                 },
