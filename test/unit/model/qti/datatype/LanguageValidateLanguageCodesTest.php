@@ -28,7 +28,8 @@ class LanguageValidateLanguageCodesTest extends TestCase
     private const LANGUAGE_CODES_JSON_PATH = __DIR__ . '/../../../../resources/pisa-qa-translation-locales.json';
 
     /**
-     * @dataProvider validLanguageCodesDataProvider
+     * @dataProvider validPisaLanguageCodesDataProvider
+     * @dataProvider validTwoLetterCodes
      * @dataProvider invalidLanguageCodesDataProvider
      */
     public function testValidate(bool $expected, string $languageCode): void
@@ -36,7 +37,7 @@ class LanguageValidateLanguageCodesTest extends TestCase
         $this->assertEquals($expected, Language::validate($languageCode));
     }
 
-    public function validLanguageCodesDataProvider(): array
+    public function validPisaLanguageCodesDataProvider(): array
     {
         $languageData = json_decode(
             file_get_contents(realpath(self::LANGUAGE_CODES_JSON_PATH)),
@@ -49,6 +50,17 @@ class LanguageValidateLanguageCodesTest extends TestCase
             },
             $languageData
         );
+    }
+
+    public function validTwoLetterCodes(): array
+    {
+        return [
+            [true, 'en'],
+            [true, 'es'],
+            [true, 'it'],
+            [true, 'de'],
+            [true, 'fi'],
+        ];
     }
 
     public function invalidLanguageCodesDataProvider(): array
@@ -64,6 +76,8 @@ class LanguageValidateLanguageCodesTest extends TestCase
             [false, 'aa-bb-LONG'],
             [false, 'aa-bb-1'],
             [false, 'aa-bb-12'],
+            [false, '0'],
+            [false, '12'],
 
             // Numeric postfix should be 3, 5, 6, 7 or 8 chars long, and can
             // be preceded by "x-"
