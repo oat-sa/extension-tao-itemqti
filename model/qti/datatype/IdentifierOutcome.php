@@ -15,12 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013-2023 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  *
  */
 
 namespace oat\taoQtiItem\model\qti\datatype;
+
+use oat\taoQtiItem\model\qti\datatype\IdentifierOutcome;
+use oat\taoQtiItem\model\qti\datatype\Identifier;
 
 /**
  * The Outcome Identifier datatype holds the reference to a Outcome Declaration
@@ -28,6 +31,7 @@ namespace oat\taoQtiItem\model\qti\datatype;
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
+
  */
 class IdentifierOutcome extends Identifier
 {
