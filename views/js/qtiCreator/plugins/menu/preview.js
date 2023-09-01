@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2019 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -25,16 +25,52 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'module',
     'jquery',
     'i18n',
     'core/plugin',
     'ui/hider',
-    'taoItems/preview/preview',
+    'taoItems/previewer/factory',
     'tpl!taoQtiItem/qtiCreator/plugins/button',
-    'util/url'
-], function($, __, pluginFactory, hider, preview, buttonTpl, urlUtil){
+], function(module, $, __, pluginFactory, hider, previewerFactory, buttonTpl){
     'use strict';
 
+    /**
+     * Handler for preview
+     * @param {Object} e - Preview event fired
+     * @param {Object} plugin - Context of preview
+     */
+    function previewHandler(e, plugin) {
+        if (!plugin.$element.hasClass('disabled')) {
+            const itemCreator = plugin.getHost();
+            $(document).trigger('open-preview.qti-item');
+            e.preventDefault();
+            plugin.disable();
+            itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
+            plugin.enable();
+        }
+
+    }
+
+    /**
+     * Handler for disable preview if its empty
+     * @param {Object} plugin - Context of preview
+     */
+    function enablePreviewIfNotEmpty(plugin) {
+        if (!plugin.getHost().isEmpty()) {
+            plugin.enable();
+        }
+    }
+
+    /**
+     * Handler for disable preview
+     * @param {Object} plugin - Context of preview
+     */
+    function disablePreviewIfEmpty(plugin) {
+        if (plugin.getHost().isEmpty()) {
+            plugin.disable();
+        }
+    }
     /**
      * Returns the configured plugin
      * @returns {Function} the plugin
@@ -48,40 +84,40 @@ define([
          * @fires {itemCreator#preview}
          */
         init : function init(){
-            var self = this;
-            var itemCreator = this.getHost();
+            const itemCreator = this.getHost();
 
             /**
              * Preview an item
              * @event itemCreator#preview
              * @param {String} uri - the uri of this item to preview
              */
-            itemCreator.on('preview', function(uri){
+            itemCreator.on('preview', function(uri) {
+                const config = module.config();
+                const type = config.provider || 'qtiItem';
 
-                //TODO move away the URLs !!!
-                preview.init(urlUtil.build(itemCreator.getConfig().properties.previewUrl, {
-                    uri: uri
-                }));
-                preview.show();
+                if (!this.isEmpty()) {
+                    previewerFactory(type, uri, {}, {
+                        readOnly: false,
+                        fullPage: true,
+                        pluginsOptions: config.pluginsOptions
+                    });
+                }
             });
+
+            itemCreator.on('saved', () => enablePreviewIfNotEmpty(this));
 
             //creates the preview button
             this.$element = $(buttonTpl({
                 icon: 'preview',
                 title: __('Preview the item'),
                 text : __('Preview'),
-                cssClass: 'preview-trigger'
-            })).on('click', function previewHandler(e){
-                $(document).trigger('open-preview.qti-item');
+                cssClass: 'preview-trigger',
+                testId: 'preview-the-item'
+            })).on('click', e => previewHandler(e, this));
 
-                e.preventDefault();
-
-                self.disable();
-
-                itemCreator.trigger('preview', itemCreator.getItem().data('uri'));
-
-                self.enable();
-            });
+            this.getAreaBroker()
+                .getItemPanelArea()
+                .on('item.deleted', () => disablePreviewIfEmpty(this));
         },
 
         /**
@@ -90,7 +126,10 @@ define([
         render : function render(){
 
             //attach the element to the menu area
-            var $container = this.getAreaBroker().getMenuArea();
+            const $container = this.getAreaBroker().getMenuArea();
+            if (this.getHost().isEmpty()) {
+                this.disable();
+            }
             $container.append(this.$element);
         },
 

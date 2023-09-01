@@ -8,10 +8,19 @@ select.qti-inlineChoiceInteraction {
     font-size: 14px;
 }
 
-.qti-inlineChoiceInteraction .select2-chosen {
-    margin-right: 30px;
+.qti-inlineChoiceInteraction {
+    &.rtl {
+        .select2-chosen {
+            margin: 0 0 0 30px;
+        }
+    }
+    &.ltr {
+        .select2-chosen {
+            margin: 0 30px 0 0;
+        }
+    }
 }
-.qti-inlineChoiceInteraction .select2-chosen, 
+.qti-inlineChoiceInteraction .select2-chosen,
 select.qti-inlineChoiceInteraction,
 .qti-inlineChoiceInteraction-dropdown .select2-result-label {
     font-family: $regularFont !important;
@@ -19,8 +28,38 @@ select.qti-inlineChoiceInteraction,
 }
 
 // shadow like focused element
-.qti-inlineChoiceInteraction.select2-container-active {
-    outline-color: $colorWheel-05;
-    outline-style: auto;
-    outline-width: 5px;
+.qti-inlineChoiceInteraction {
+    .select2-container-active {
+        outline-color: $colorWheel-05;
+        outline-style: auto;
+        outline-width: 5px;
+    }
+
+    // needed to adjust select2 height to the math content
+    .select2-choice {
+        min-width: 150px;
+        min-height: 26px;
+        height: 100%;
+    }
+}
+.select2-container {
+    &.rtl {
+        .select2-choice {
+            padding: 0 8px 0 0;
+
+            .select2-arrow {
+                left: 0;
+                right: auto;
+            }
+        }
+    }
+    &.ltr {
+        .select2-choice {
+                padding: 0 0 0 8px;
+            .select2-arrow {
+                right: 0;
+                left: auto;
+            }
+        }
+    }
 }

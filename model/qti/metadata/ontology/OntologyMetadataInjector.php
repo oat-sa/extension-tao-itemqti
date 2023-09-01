@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,47 +26,47 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\event\MetadataModified;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjector;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjectionException;
-use \core_kernel_classes_Resource;
-use \core_kernel_classes_Property;
-use \InvalidArgumentException;
+use core_kernel_classes_Resource;
+use core_kernel_classes_Property;
+use InvalidArgumentException;
 
 class OntologyMetadataInjector implements MetadataInjector
 {
     private $injectionRules;
-    
+
     public function __construct()
     {
-        $this->setInjectionRules(array());
+        $this->setInjectionRules([]);
     }
-    
+
     public function addInjectionRule(array $path, $propertyUri, $value = null, $ontologyValue = null)
     {
         if (count($path) === 0) {
             $msg = "The path argument must be a non-empty array.";
             throw new InvalidArgumentException($msg);
         }
-        
+
         $injectionRules = $this->getInjectionRules();
-        
+
         $pathKey = implode('->', $path);
         if (isset($injectionRules[$pathKey]) === false) {
-            $injectionRules[$pathKey] = array();
+            $injectionRules[$pathKey] = [];
         }
-        
-        $injectionRules[$pathKey][] = array($propertyUri, $value, $ontologyValue);
+
+        $injectionRules[$pathKey][] = [$propertyUri, $value, $ontologyValue];
         $this->setInjectionRules($injectionRules);
     }
-    
+
     protected function setInjectionRules(array $injectionRules)
     {
         $this->injectionRules = $injectionRules;
     }
-    
+
     protected function getInjectionRules()
     {
         return $this->injectionRules;
     }
-    
+
     public function inject($target, array $values)
     {
         if (!$target instanceof core_kernel_classes_Resource) {
@@ -89,7 +90,6 @@ class OntologyMetadataInjector implements MetadataInjector
                     }
 
                     $data[$rule[0]][$lang][] = [$rule[2], $metadataValue];
-
                 } elseif (($rule = $this->getRuleByPath($metadataValue->getPath())) !== false) {
                     if (!isset($data[$rule[0]])) {
                         $data[$rule[0]] = [];
@@ -114,7 +114,11 @@ class OntologyMetadataInjector implements MetadataInjector
         foreach ($data as $propertyUri => $perLangData) {
             foreach ($perLangData as $lang => $d) {
                 foreach ($d as $actualData) {
-                    $target->setPropertyValueByLg(new core_kernel_classes_Property($propertyUri), $actualData[0], $lang);
+                    $target->setPropertyValueByLg(
+                        new core_kernel_classes_Property($propertyUri),
+                        $actualData[0],
+                        $lang
+                    );
 
                     // Send events.
                     $eventManager = ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID);
@@ -125,12 +129,12 @@ class OntologyMetadataInjector implements MetadataInjector
             }
         }
     }
-    
-    protected function getRuleByValue($path, $value) 
+
+    protected function getRuleByValue($path, $value)
     {
         $pathKey = implode('->', $path);
         $rules = $this->getInjectionRules();
-        
+
         if (isset($rules[$pathKey]) === true) {
             foreach ($rules[$pathKey] as $rule) {
                 if ($rule[1] === $value) {
@@ -138,17 +142,18 @@ class OntologyMetadataInjector implements MetadataInjector
                 }
             }
         }
-        
+
         return false;
     }
-    
-    protected function getRuleByPath($path) {
+
+    protected function getRuleByPath($path)
+    {
         $pathKey = implode('->', $path);
         $rules = $this->getInjectionRules();
         if (isset($rules[$pathKey]) === true) {
             return $rules[$pathKey][0];
         }
-        
+
         return false;
     }
 }

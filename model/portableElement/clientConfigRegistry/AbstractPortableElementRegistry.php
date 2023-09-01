@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,10 +30,10 @@ use oat\tao\model\ClientLibConfigRegistry;
  */
 abstract class AbstractPortableElementRegistry extends ClientLibConfigRegistry
 {
-    const CI_REGISTRY = "taoQtiItem/portableElementRegistry/ciRegistry";
+    public const CI_REGISTRY = "taoQtiItem/portableElementRegistry/ciRegistry";
 
     abstract protected function getClientModule();
-    
+
     /**
      * @param $name
      * @param $module
@@ -55,7 +56,7 @@ abstract class AbstractPortableElementRegistry extends ClientLibConfigRegistry
 
         $entries = [];
         if (isset($config['providers'])) {
-            foreach($config['providers'] as $entry) {
+            foreach ($config['providers'] as $entry) {
                 if ($entry['module'] != $module) {
                     $entries[] = $entry;
                 }

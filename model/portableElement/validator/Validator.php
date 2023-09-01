@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,29 +29,31 @@ use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
 
 class Validator
 {
-    const NotEmpty         = 'NotEmpty';
-    const AlphaNum         = 'AlphaNum';
-    const Callback         = 'Callback';
-    const DateTime         = 'DateTime';
-    const Email            = 'Email';
-    const Equals           = 'Equals';
-    const FileMimeType     = 'FileMimeType';
-    const FileName         = 'FileName';
-    const FileSize         = 'FileSize';
-    const IndexIdentifier  = 'IndexIdentifier';
-    const Integer          = 'Integer';
-    const Length           = 'Length';
-    const Numeric          = 'Numeric';
-    const Password         = 'Password';
-    const PasswordStrength = 'PasswordStrength';
-    const Regex            = 'Regex';
-    const Unique           = 'Unique';
-    const Url              = 'Url';
-    const isArray          = 'isArray';
-    const isString         = 'isString';
-    const isVersion        = 'isVersion';
-    const isTypeIdentifier = 'isTypeIdentifier';
-    const isSemVer         = 'isValidSemVer';
+    // phpcs:disable Generic.NamingConventions.UpperCaseConstantName
+    public const NotEmpty         = 'NotEmpty';
+    public const AlphaNum         = 'AlphaNum';
+    public const Callback         = 'Callback';
+    public const DateTime         = 'DateTime';
+    public const Email            = 'Email';
+    public const Equals           = 'Equals';
+    public const FileMimeType     = 'FileMimeType';
+    public const FileName         = 'FileName';
+    public const FileSize         = 'FileSize';
+    public const IndexIdentifier  = 'IndexIdentifier';
+    public const Integer          = 'Integer';
+    public const Length           = 'Length';
+    public const Numeric          = 'Numeric';
+    public const Password         = 'Password';
+    public const PasswordStrength = 'PasswordStrength';
+    public const Regex            = 'Regex';
+    public const Unique           = 'Unique';
+    public const Url              = 'Url';
+    public const isArray          = 'isArray';
+    public const isString         = 'isString';
+    public const isVersion        = 'isVersion';
+    public const isTypeIdentifier = 'isTypeIdentifier';
+    public const isSemVer         = 'isValidSemVer';
+    // phpcs:enable Generic.NamingConventions.UpperCaseConstantName
 
     protected static $customValidators = [
         self::isTypeIdentifier => 'isTypeIdentifier',
@@ -60,12 +63,11 @@ class Validator
         self::isSemVer         => 'isValidSemVer'
     ];
 
-    protected static function getValidConstraints(array $requirements, $validationGroup=array())
+    protected static function getValidConstraints(array $requirements, $validationGroup = [])
     {
         $validConstraints = [];
 
         foreach ($requirements as $field => $constraints) {
-
             if (!empty($validationGroup) && !in_array($field, $validationGroup)) {
                 continue;
             }
@@ -97,7 +99,7 @@ class Validator
      * @throws PortableElementInvalidModelException
      * @throws \common_exception_Error
      */
-    public static function validate(PortableElementObject $object, Validatable $validatable, $validationGroup=array())
+    public static function validate(PortableElementObject $object, Validatable $validatable, $validationGroup = [])
     {
         $constraints = self::getValidConstraints($validatable->getConstraints(), $validationGroup);
         $errorReport = \common_report_Report::createFailure('Portable element validation has failed.');
@@ -107,7 +109,8 @@ class Validator
                 $getter = 'get' . ucfirst($field);
                 if (! method_exists($object, $getter)) {
                     throw new PortableElementInconsistencyModelException(
-                        'Validator is not correctly set for model ' . get_class($object));
+                        'Validator is not correctly set for model ' . get_class($object)
+                    );
                 }
                 $value = $object->$getter();
 
@@ -180,7 +183,7 @@ class Validator
      */
     public static function isValidVersion($value)
     {
-        $validator = \tao_helpers_form_FormFactory::getValidator(self::Regex, array('format' => '/\d+(?:\.\d+)+/'));
+        $validator = \tao_helpers_form_FormFactory::getValidator(self::Regex, ['format' => '/\d+(?:\.\d+)+/']);
         if (! is_null($value) && ! $validator->evaluate($value)) {
             throw new PortableElementInvalidFieldException('Unable to validate the given value as valid version.');
         }
@@ -197,7 +200,9 @@ class Validator
         try {
             Regex::matchSemVer($value);
         } catch (\InvalidArgumentException $exception) {
-            throw new PortableElementInvalidFieldException('Unable to validate the given value as valid SemVer version.');
+            throw new PortableElementInvalidFieldException(
+                'Unable to validate the given value as valid SemVer version.'
+            );
         }
 
         return true;
@@ -211,9 +216,11 @@ class Validator
     public static function isTypeIdentifier($value)
     {
         //the IMS PCI standard recommends using the URN https://tools.ietf.org/html/rfc4198
-        $validator = \tao_helpers_form_FormFactory::getValidator(self::Regex, array('format' => '/[a-z0-9-_:]+/i'));
+        $validator = \tao_helpers_form_FormFactory::getValidator(self::Regex, ['format' => '/[a-z0-9-_:]+/i']);
         if (! is_null($value) && ! $validator->evaluate($value)) {
-            throw new PortableElementInvalidFieldException('Unable to validate the given value as valid type identifier.');
+            throw new PortableElementInvalidFieldException(
+                'Unable to validate the given value as valid type identifier.'
+            );
         }
         return true;
     }

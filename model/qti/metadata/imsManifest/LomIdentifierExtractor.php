@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
-
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 
 class LomIdentifierExtractor extends ImsManifestMetadataExtractor
@@ -28,13 +28,13 @@ class LomIdentifierExtractor extends ImsManifestMetadataExtractor
     public function extract($manifest)
     {
         $values = parent::extract($manifest);
-        $newValues = array();
+        $newValues = [];
 
-        $expectedPath = array(
+        $expectedPath = [
             'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
             'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
             'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier'
-        );
+        ];
 
         foreach ($values as $resourceIdentifier => $metadataValueCollection) {
             $classificationMetadataValue = null;

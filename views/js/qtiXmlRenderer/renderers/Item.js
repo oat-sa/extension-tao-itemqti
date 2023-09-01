@@ -13,57 +13,59 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015-2021 (original work) Open Assessment Technologies SA;
  *
  */
 
-define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function(_, tpl){
+define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function (_, tpl) {
     'use strict';
 
     return {
-        qtiClass : 'assessmentItem',
-        template : tpl,
-        getData : function(item, data){
-            
-            var self = this;
-            var defaultData = {
-                'class' : data.attributes.class || '',
-                responses : [],
-                outcomes : [],
-                stylesheets : [],
-                feedbacks : [],
-                namespaces : item.getNamespaces(),
-                schemaLocations : '',
-                xsi: 'xsi:',//the standard namespace prefix for xml schema
-                empty : item.isEmpty(),
-                responseProcessing : item.responseProcessing ? item.responseProcessing.render(self) : '',
-                apipAccessibility : item.getApipAccessibility() || ''
+        qtiClass: 'assessmentItem',
+        template: tpl,
+        getData: function (item, data) {
+            const defaultData = {
+                class: data.attributes.class || '',
+                dir: item.bdy.attributes.dir || '',
+                responses: [],
+                outcomes: [],
+                stylesheets: [],
+                feedbacks: [],
+                namespaces: item.getNamespaces(),
+                schemaLocations: '',
+                xsi: 'xsi:', //the standard namespace prefix for xml schema
+                empty: item.isEmpty(),
+                responseProcessing: item.responseProcessing ? item.responseProcessing.render(this) : '',
+                apipAccessibility: item.getApipAccessibility() || ''
             };
-            
-            _.forIn(item.getSchemaLocations(), function(url, uri){
-                defaultData.schemaLocations += uri+' '+url+' ';
+
+            _.forIn(item.getSchemaLocations(), function (url, uri) {
+                defaultData.schemaLocations += `${uri} ${url} `;
             });
             defaultData.schemaLocations = defaultData.schemaLocations.trim();
-            
-            _.forEach(item.responses, function(response){
-                defaultData.responses.push(response.render(self));
+
+            _.forEach(item.responses, response => {
+                defaultData.responses.push(response.render(this));
             });
-            _.forEach(item.outcomes, function(outcome){
-                if(!defaultData.responseProcessing && outcome.id() === 'SCORE'){
-                    //should not export the SCORE outcome when there is no response processing
-                    return;
+            _.forEach(item.outcomes, outcome => {
+                if (!defaultData.responseProcessing) {
+                    if(outcome.id() === 'SCORE' && !(outcome.attributes && outcome.attributes.externalScored)) {
+                        //should not export the SCORE outcome when there is no human/externalScored processing
+                        return;
+                    }
                 }
-                defaultData.outcomes.push(outcome.render(self));
+                defaultData.outcomes.push(outcome.render(this));
             });
-            _.forEach(item.stylesheets, function(stylesheet){
-                defaultData.stylesheets.push(stylesheet.render(self));
+            _.forEach(item.stylesheets, stylesheet => {
+                defaultData.stylesheets.push(stylesheet.render(this));
             });
-            _.forEach(item.modalFeedbacks, function(feedback){
-                defaultData.feedbacks.push(feedback.render(self));
+            _.forEach(item.modalFeedbacks, feedback => {
+                defaultData.feedbacks.push(feedback.render(this));
             });
-            
+
             data = _.merge({}, data || {}, defaultData);
             delete data.attributes.class;
+            delete data.attributes.dir;
 
             data.attributes = _.mapValues(data.attributes, function (val) {
                 return _.isString(val) ? _.escape(val) : val;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,7 +41,7 @@ class ClassificationSourceMetadataValue extends SimpleMetadataValue implements C
     /**
      * Get the default classification source path
      */
-    static public function getSourcePath()
+    public static function getSourcePath()
     {
         return [
             LomMetadata::LOM_NAMESPACE . '#lom',
@@ -50,5 +51,4 @@ class ClassificationSourceMetadataValue extends SimpleMetadataValue implements C
             LomMetadata::LOM_NAMESPACE . '#string'
         ];
     }
-
 }

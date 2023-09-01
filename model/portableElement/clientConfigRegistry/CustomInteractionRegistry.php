@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,9 +28,10 @@ namespace oat\taoQtiItem\model\portableElement\clientConfigRegistry;
  */
 class CustomInteractionRegistry extends AbstractPortableElementRegistry
 {
-    const CI_REGISTRY = "taoQtiItem/portableElementRegistry/ciRegistry";
+    public const CI_REGISTRY = "taoQtiItem/portableElementRegistry/ciRegistry";
 
-    protected function getClientModule(){
+    protected function getClientModule()
+    {
         return self::CI_REGISTRY;
     }
 }

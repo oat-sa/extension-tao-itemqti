@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\taoQtiItem\test\integration;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
@@ -28,12 +30,11 @@ use oat\taoQtiItem\model\CustomInteractionRegistry;
  */
 class CustomInteractionRegistryTest extends TaoPhpUnitTestRunner
 {
-
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
     }
@@ -47,7 +48,7 @@ class CustomInteractionRegistryTest extends TaoPhpUnitTestRunner
         $hookMock = $this->getMockBuilder('oat\taoQtiItem\model\qti\interaction\CustomInteraction')
             ->setMockClassName('FakeInteractionMock')
             ->getMock();
-        
+
         CustomInteractionRegistry::getRegistry()->set('fakeInteraction', 'FakeInteractionMock');
         $interactions = CustomInteractionRegistry::getRegistry()->getMap();
         $this->assertEquals('FakeInteractionMock', $interactions['fakeInteraction']);
@@ -55,16 +56,20 @@ class CustomInteractionRegistryTest extends TaoPhpUnitTestRunner
 
     /**
      * @depends testSet
-     * 
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testGet()
     {
         $interactions = CustomInteractionRegistry::getRegistry()->getMap();
-        $this->assertEquals($interactions['fakeInteraction'], CustomInteractionRegistry::getRegistry()->get('fakeInteraction'));
-        $this->assertEquals(CustomInteractionRegistry::getCustomInteractionByName('fakeInteraction'), CustomInteractionRegistry::getRegistry()->get('fakeInteraction'));
-        
-        
+        $this->assertEquals(
+            $interactions['fakeInteraction'],
+            CustomInteractionRegistry::getRegistry()->get('fakeInteraction')
+        );
+        $this->assertEquals(
+            CustomInteractionRegistry::getCustomInteractionByName('fakeInteraction'),
+            CustomInteractionRegistry::getRegistry()->get('fakeInteraction')
+        );
     }
 
     /**
@@ -78,8 +83,5 @@ class CustomInteractionRegistryTest extends TaoPhpUnitTestRunner
         $this->assertTrue(isset($interactions['fakeInteraction']));
         CustomInteractionRegistry::getRegistry()->remove('fakeInteraction');
         $interactions = CustomInteractionRegistry::getRegistry()->getMap();
-        
     }
 }
-
-?>

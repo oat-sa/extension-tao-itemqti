@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Service that get the categories linked to an item
  *

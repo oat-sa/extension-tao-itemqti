@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,15 +15,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017-2022 (original work) Open Assessment Technologies SA;
  *
  *
  */
 
 namespace oat\taoQtiItem\controller;
 
+use common_exception_MethodNotAllowed as HttpMethodNotAllowedException;
+use common_exception_RestApi as BadRequestException;
+use InvalidArgumentException;
+use JsonException;
+use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLogActionTrait;
+use oat\taoQtiItem\model\presentation\web\UpdateMetadataRequestHandler;
+use oat\taoQtiItem\model\qti\metadata\MetadataService;
+use Request;
+use RuntimeException;
 
 /**
  * Class AbstractRestQti
@@ -33,23 +43,24 @@ use oat\tao\model\taskQueue\TaskLogActionTrait;
 abstract class AbstractRestQti extends \tao_actions_RestController
 {
     use TaskLogActionTrait;
+    use HttpJsonResponseTrait;
 
-    const TASK_ID_PARAM = 'id';
+    public const TASK_ID_PARAM = 'id';
 
-    const ENABLE_METADATA_GUARDIANS = 'enableMetadataGuardians';
+    public const ENABLE_METADATA_GUARDIANS = 'enableMetadataGuardians';
 
-    const ENABLE_METADATA_VALIDATORS = 'enableMetadataValidators';
+    public const ENABLE_METADATA_VALIDATORS = 'enableMetadataValidators';
 
-    const ITEM_MUST_EXIST = 'itemMustExist';
+    public const ITEM_MUST_EXIST = 'itemMustExist';
 
-    const ITEM_MUST_BE_OVERWRITTEN = 'itemMustBeOverwritten';
+    public const ITEM_MUST_BE_OVERWRITTEN = 'itemMustBeOverwritten';
 
-    protected static $accepted_types = array(
+    protected static $accepted_types = [
         'application/zip',
         'application/x-zip-compressed',
         'multipart/x-zip',
         'application/x-compressed'
-    );
+    ];
 
     /**
      * Name of the task created by the child.
@@ -89,7 +100,7 @@ abstract class AbstractRestQti extends \tao_actions_RestController
     {
         if ($taskLogEntity->getStatus()->isCreated()) {
             return __('In Progress');
-        } else if ($taskLogEntity->getStatus()->isCompleted()){
+        } elseif ($taskLogEntity->getStatus()->isCompleted()) {
             return __('Success');
         }
 
@@ -178,5 +189,48 @@ abstract class AbstractRestQti extends \tao_actions_RestController
         }
 
         return filter_var($isItemMustBeOverwrittenEnabled, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * Update metadata by parameters
+     */
+    public function updateMetadata(): void
+    {
+        if ($this->getRequestMethod() !== Request::HTTP_POST) {
+            throw new HttpMethodNotAllowedException(null, 0, [Request::HTTP_POST]);
+        }
+
+        try {
+            $metadataInput = $this->getUpdateMetadataRequestHandler()->handle(
+                $this->getPsrRequest()
+            );
+
+            $resourceIdentifier = $metadataInput->getResource()->getUri();
+
+            $this->getMetadataService()->getImporter()->setMetadataValues(
+                [$resourceIdentifier => [$metadataInput->getMetadata()]]
+            );
+
+            $this->getMetadataService()->getImporter()->inject(
+                $resourceIdentifier,
+                $metadataInput->getResource()
+            );
+        } catch (JsonException | InvalidArgumentException $exception) {
+            throw new BadRequestException($exception->getMessage(), 400);
+        } catch (RuntimeException $exception) {
+            throw new BadRequestException($exception->getMessage(), 422);
+        }
+
+        $this->setSuccessJsonResponse($metadataInput);
+    }
+
+    private function getUpdateMetadataRequestHandler(): UpdateMetadataRequestHandler
+    {
+        return $this->getPsrContainer()->get(UpdateMetadataRequestHandler::class);
+    }
+
+    private function getMetadataService(): MetadataService
+    {
+        return $this->getPsrContainer()->get(MetadataService::SERVICE_ID);
     }
 }

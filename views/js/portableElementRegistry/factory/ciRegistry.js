@@ -13,14 +13,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016-2022 (original work) Open Assessment Technologies SA;
  *
  */
 define([
     'lodash',
+    'i18n',
     'taoQtiItem/portableElementRegistry/factory/factory',
     'taoQtiItem/qtiCreator/helper/qtiElements'
-], function (_, portableElementRegistry, qtiElements){
+], function (_, __, portableElementRegistry, qtiElements) {
     'use strict';
 
     /**
@@ -29,30 +30,46 @@ define([
      *
      * @returns {Object} registry instance
      */
-    return function customInteractionRegistry(){
-
+    return function customInteractionRegistry() {
         return portableElementRegistry({
-            getAuthoringData : function getAuthoringData(typeIdentifier, options){
-                var pciModel;
-                options = _.defaults(options || {}, {version : 0, enabledOnly : false});
-                pciModel = this.get(typeIdentifier, options.version);
-                if(pciModel && pciModel.creator && pciModel.creator.hook && pciModel.creator.icon && (pciModel.enabled || !options.enabledOnly)){
+            /**
+             * Get the authoring information for a given custom interaction
+             * @param {string} typeIdentifier - the interaction type identifier
+             * @param {Object} [options]
+             * @param {string|number} [options.version] - the interaction version
+             * @param {boolean} [options.enabledOnly] - to only get interaction enabled && visible
+             * @returns {Object} the authoring info
+             */
+            getAuthoringData(typeIdentifier, options = {}) {
+                options = _.defaults(options || {}, { version: 0, enabledOnly: false });
+                const pciModel = this.get(typeIdentifier, options.version);
+                const qtiClass = `customInteraction.${pciModel.typeIdentifier}`;
+                if (
+                    pciModel &&
+                    pciModel.creator &&
+                    pciModel.creator.hook &&
+                    pciModel.creator.icon &&
+                    ((pciModel.enabled && qtiElements.isVisible(qtiClass)) || !options.enabledOnly)
+                ) {
                     return {
-                        label : pciModel.label, //currently no translation available
-                        icon : pciModel.creator.icon.replace(new RegExp('^' + typeIdentifier + '\/'), pciModel.baseUrl),
-                        short : pciModel.short,
-                        description : pciModel.description,
-                        qtiClass : 'customInteraction.' + pciModel.typeIdentifier, //custom interaction is block type
-                        tags : _.union(['Custom Interactions'], pciModel.tags)
+                        label: pciModel.label, //currently no translation available
+                        icon: pciModel.creator.icon.replace(new RegExp(`^${typeIdentifier}/`), pciModel.baseUrl),
+                        short: pciModel.short,
+                        description: pciModel.description,
+                        qtiClass, //custom interaction is block type
+                        tags: _.union([__('Custom Interactions')], pciModel.tags),
+                        group: 'custom-interactions'
                     };
                 }
             }
-        }).on('creatorsloaded', function(){
-            var creators = this.getLatestCreators();
-            _.forEach(creators, function(creator, typeIdentifier){
-                qtiElements.classes['customInteraction.' + typeIdentifier] = {parents : ['customInteraction'], qti : true};
+        }).on('creatorsloaded', function () {
+            const creators = this.getLatestCreators();
+            _.forEach(creators, function (creator, typeIdentifier) {
+                qtiElements.classes[`customInteraction.${typeIdentifier}`] = {
+                    parents: ['customInteraction'],
+                    qti: true
+                };
             });
         });
     };
-
 });

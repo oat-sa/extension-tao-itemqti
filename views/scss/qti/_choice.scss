@@ -1,4 +1,4 @@
-@import "inc/bootstrap";
+@import 'inc/bootstrap';
 
 .qti-choiceInteraction {
     .overlay-answer-eliminator {
@@ -7,160 +7,256 @@
 
     $elimCbOffsetLeft: 50;
     $captionOffsetLeft: 17;
+    $minRowHeight: 22;
     $elimListStyleCbOffsetLeft: $elimCbOffsetLeft + 23;
 
-    [data-eliminable="container"] {
+    [data-eliminable='container'] {
         display: none;
         position: absolute;
-        top: 0;
-        left: $elimCbOffsetLeft * 1px;
-        height: 100%;
-        padding-top: 6px;
         z-index: 3;
-        [data-eliminable="trigger"] {
+        top: 0;
+        min-height: $minRowHeight * 1px;
+        max-height: 100%;
+        min-width: 20px;
+        margin: 5px 0;
+        padding: 0;
+        left: $elimCbOffsetLeft * 1px;
+
+        @include rtl {
+            left: auto;
+            right: $elimCbOffsetLeft * 1px;
+        }
+        &:after {
+            content: '0';
+            visibility: hidden;
+            pointer-events: none;
+        }
+        [data-eliminable='trigger'] {
             font-size: 1.6rem;
-            position: relative;
             z-index: 4;
             cursor: pointer;
         }
         // label above ol
         &::before {
             position: absolute;
-            top: -33px;
-            left: $captionOffsetLeft * -1px;
             font: inherit;
             cursor: default;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: calc(100% + 20px);
+            white-space: nowrap;
         }
     }
+
+    .real-label {
+        left: 0;
+        padding-right: 10px;
+        @include rtl {
+            left: auto;
+            right: 0;
+            padding-right: 0;
+            padding-left: 10px;
+        }
+    }
+    .label-box {
+        margin-left: 24px;
+        @include rtl {
+            margin-left: 0;
+            margin-right: 24px;
+        }
+    }
+
     // parent .qti-interaction
     &.eliminable {
-        .label-box {
-            margin-left: 85px;
-        }
-        // ol
-        .choice-area {
-            margin-top: 25px;
-            // there might be list-styles that move everything to the right
-            &[class^="list-style-"], &[class*=" list-style-"] {
-                [data-eliminable="container"] {
-                    left: $elimListStyleCbOffsetLeft * 1px;
+        &.allow-elimination-visible {
+            .label-box {
+                margin-left: 85px;
+
+                @include rtl {
+                    margin-left: auto;
+                    margin-right: 85px;
                 }
-                // li
-                .qti-choice {
-                    // when checked
-                    &.eliminated {
-                        [data-eliminable="container"] {
-                            padding-left: $elimListStyleCbOffsetLeft * 1px;
-                            //&::before {
-                            //    left: ($elimListStyleCbOffsetLeft - $captionOffsetLeft) * 1px !important;
-                            //}
+            }
+            // ol
+            .choice-area {
+                margin-top: 25px;
+                // there might be list-styles that move everything to the right
+                &[class^='list-style-'],
+                &[class*=' list-style-'] {
+                    [data-eliminable='container'] {
+                        left: $elimListStyleCbOffsetLeft * 1px;
+
+                        @include rtl {
+                            left: auto;
+                            right: $elimListStyleCbOffsetLeft * 1px;
                         }
                     }
-                    &:first-child {
-                        &.eliminated {
-                            [data-eliminable="container"] {
-                                // label above ol
-                                &::before {
-                                    left: ($elimListStyleCbOffsetLeft - $captionOffsetLeft) * 1px !important;
+                }
+                //both label and checkbox
+                [data-eliminable] {
+                    display: block;
+                }
+            }
+            // eliminator outer layer
+            .qti-choice {
+                // when checked
+                &.eliminated {
+                    .label-box {
+                        .label-content {
+                            position: relative;
+
+                            .qti-block {
+                                &:after {
+                                    content: ' ';
+                                    width: 100%;
+                                    position: relative;
+                                    top: -21px;
                                 }
                             }
-                        }
-                    }
-                }
-            }
-        }
-        //both label and checkbox
-        [data-eliminable] {
-            display:block;
-        }
-        // eliminator outer layer
-        .qti-choice {
-            // when checked
-            &.eliminated {
-                .label-box {
-                    .label-content {
-                        position: relative;
 
-                        .qti-block {
-                            &:after {
-                                content:' ';
+                            .overlay-answer-eliminator {
+                                stroke: rgb(0, 0, 0);
+                                stroke-width: 1;
+                                display: inline;
+                                height: 100%;
+                                left: 0;
+                                overflow: hidden;
+                                position: absolute;
+                                top: 0;
                                 width: 100%;
-                                position: relative;
-                                top: -21px;
                             }
                         }
+                    }
 
-                        .overlay-answer-eliminator {
-                            stroke:rgb(0,0,0);
-                            stroke-width:1;
-                            display: inline;
-                            height: 100%;
-                            left: 0;
-                            overflow: hidden;
-                            position: absolute;
-                            top: 0;
-                            width: 100%;
+                    &:before,
+                    .pseudo-label-box {
+                        opacity: 0.3;
+                    }
+
+                    &:before,
+                    .label-box {
+                        cursor: not-allowed;
+                    }
+
+                    &:after {
+                        content: '';
+                        width: 100%;
+                        height: 100%;
+                        background: $uiGeneralContentBg;
+                        opacity: 0.7;
+                        display: block;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        cursor: not-allowed;
+                    }
+
+                    [data-eliminable='container'] {
+                        cursor: not-allowed;
+                        [data-eliminable='trigger'] {
+                            &:before {
+                                @include icon-checkbox-crossed();
+                            }
                         }
                     }
                 }
-                [data-eliminable="container"] {
-                    width: 100%;
-                    padding-left: $elimCbOffsetLeft * 1px;
-                    left: 0;
-                    background: white(.7);
-                    cursor: not-allowed;
-                    [data-eliminable="trigger"] {
-                        &:before {
-                            @include icon-checkbox-crossed();
+                &:first-child {
+                    [data-eliminable='container'] {
+                        // label above ol
+                        &::before {
+                            content: attr(data-label);
                         }
-                    }
-                    &::before {
-                        left: ($elimCbOffsetLeft - $captionOffsetLeft) * 1px !important;
-                    }
-                }
-            }
-            &:first-child {
-                [data-eliminable="container"] {
-                    // label above ol
-                    &::before {
-                        content: attr(data-label);
                     }
                 }
             }
         }
     }
 
-    .qti-choice .real-label{
-        top:1px;
+    &.maskable {
+        .qti-choice {
+            .answer-mask {
+                @include rtl {
+                    left: 0;
+                    right: auto;
+                    text-align: left;
+                }
+            }
+            .label-content {
+                @include rtl {
+                    padding-right: 0;
+                    padding-left: 40px;
+                }
+            }
+        }
+    }
+
+    .qti-choice .real-label {
+        min-height: $minRowHeight * 1px;
+        max-height: 100%;
+        display: flex;
+        align-items: center;
+        top: 0px;
+        -webkit-tap-highlight-color: transparent; // mobile safari fix
+        &:before {
+            content: '0';
+            min-width: 20px;
+            visibility: hidden;
+            pointer-events: none;
+        }
+    }
+
+    .icon-radio,
+    .icon-checkbox {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        &:before {
+            @include rtl {
+                right: -1em;
+            }
+        }
+        &:after {
+            left: -1em;
+            @include rtl {
+                left: auto;
+            }
+        }
     }
 
     .choice-area {
-        &[class^="list-style-"], &[class*=" list-style-"] {
-
-
+        &[class^='list-style-'],
+        &[class*=' list-style-'] {
             .label-content {
                 margin-left: 30px;
+
+                @include rtl {
+                    margin-left: auto;
+                    margin-right: 30px;
+                }
             }
 
-            p, div, li {
+            p,
+            div,
+            li {
                 &::before {
                     position: absolute;
+                    top: 4px;
+                    min-height: $minRowHeight * 1px;
+                    max-height: 100%;
+                    display: flex;
+                    align-items: center;
                     left: 30px;
-                    top: 6px
+
+                    @include rtl {
+                        left: auto;
+                        right: 30px;
+                    }
                 }
                 &.add-option:before {
                     content: '';
-                    display:inline;
-                }
-            }
-        }
-
-        .label-content {
-            display: inline-block;
-
-            .qti-block {
-                div img {
-                    width: 100%;
+                    display: inline;
                 }
             }
         }
@@ -188,24 +284,28 @@
         border: 1px solid #eee;
         @include border-radius(2);
     }
-
+    .label-content [data-html-editable='true'],
+    .label-content {
+        min-height: $minRowHeight * 1px;
+        max-height: 100%;
+    }
 
     //IE specific
 
     .checked {
-        span.icon-checkbox:before{
+        span.icon-checkbox:before {
             @include tao-icon-setup;
             @include icon-checkbox-checked;
         }
-        span.icon-radio:before{
+        span.icon-radio:before {
             @include tao-icon-setup;
             @include icon-radio-checked;
         }
     }
-    .real-label{
-        input{
-            position: absolute;
-            left: -10000px;
+    .real-label {
+        input {
+            opacity: 0;
+            left: auto;
         }
     }
     //END IE specific

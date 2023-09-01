@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,16 +19,19 @@
  *
  *
  */
+
 namespace oat\taoQtiItem\test\integration;
 
 use oat\taoQtiItem\model\qti\ParserFactory;
 use oat\taoQtiItem\model\qti\Item;
 use oat\generis\test\TestCase;
 
+// phpcs:disable PSR1.Files.SideEffects
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
+// phpcs:enable PSR1.Files.SideEffects
 
-class ParserFactoryTest extends TestCase {
-
+class ParserFactoryTest extends TestCase
+{
     /**
      * @param string $file
      * @param string $expected
@@ -48,19 +52,20 @@ class ParserFactoryTest extends TestCase {
     public function findNamespaceProvider()
     {
         return [
-            [__DIR__.'/samples/xml/qtiv2p1/math/math.xml', 'm'],
-            [__DIR__.'/samples/xml/qtiv2p1/math/math2.xml', 'm'],
-            [__DIR__.'/samples/xml/qtiv2p1/math/math3.xml', 'm'],
-            [__DIR__.'/samples/xml/qtiv2p1/math/math4.xml', 'm'],
+            [__DIR__ . '/samples/xml/qtiv2p1/math/math.xml', 'm'],
+            [__DIR__ . '/samples/xml/qtiv2p1/math/math2.xml', 'm'],
+            [__DIR__ . '/samples/xml/qtiv2p1/math/math3.xml', 'm'],
+            [__DIR__ . '/samples/xml/qtiv2p1/math/math4.xml', 'm'],
         ];
     }
 
     /**
      * Table parsing
      */
-    public function testParseTableWithNestedInteractions() {
+    public function testParseTableWithNestedInteractions()
+    {
         $xml = new \DOMDocument();
-        $xml->load(__DIR__.'/samples/xml/qtiv2p1/tableInteractions.xml');
+        $xml->load(__DIR__ . '/samples/xml/qtiv2p1/tableInteractions.xml');
         $parser = new ParserFactory($xml);
         $result = $parser->load();
 
@@ -74,14 +79,31 @@ class ParserFactoryTest extends TestCase {
         $tableElement = $bodyElements[$tableSerial];
 
         $this->assertEquals(2, count($bodyElements), 'item body contains 2 top level elements');
-        $this->assertTrue(strpos($tableSerial, 'table_') === 0, 'first element is a table, with serial: ' . $tableSerial);
-        $this->assertTrue(strpos($choiceInteractionSerial, 'interaction_choiceinteraction_') === 0, 'second element is a choice interaction, with serial: ' . $choiceInteractionSerial);
-        $this->assertEquals($tableElement->getQtiTag(), 'table', 'table has the right Qti Class: ' . $tableElement->getQtiTag());
-        $this->assertEquals($tableElement->toArray()['qtiClass'], 'table', 'array representation of the table element has a qtiClass index with the correct value');
+        $this->assertTrue(
+            strpos($tableSerial, 'table_') === 0,
+            'first element is a table, with serial: ' . $tableSerial
+        );
+        $this->assertTrue(
+            strpos($choiceInteractionSerial, 'interaction_choiceinteraction_') === 0,
+            'second element is a choice interaction, with serial: ' . $choiceInteractionSerial
+        );
+        $this->assertEquals(
+            $tableElement->getQtiTag(),
+            'table',
+            'table has the right Qti Class: ' . $tableElement->getQtiTag()
+        );
+        $this->assertEquals(
+            $tableElement->toArray()['qtiClass'],
+            'table',
+            'array representation of the table element has a qtiClass index with the correct value'
+        );
 
         $tableBody = $tableElement->getBody();
 
-        $this->assertTrue(strpos($tableBody->getSerial(), 'container_containertable_') === 0, 'tableBody is a containerTable with serial ' . $tableBody->getSerial());
+        $this->assertTrue(
+            strpos($tableBody->getSerial(), 'container_containertable_') === 0,
+            'tableBody is a containerTable with serial ' . $tableBody->getSerial()
+        );
         $this->assertTrue(strpos($tableBody->getBody(), 'Female') !== false, 'tableBody contains the expected string ');
 
         $choiceInteraction = $body->getElement($choiceInteractionSerial);
@@ -94,14 +116,26 @@ class ParserFactoryTest extends TestCase {
         $nestedTableElement = $tableChoiceElements[$nestedTableSerial];
 
         $this->assertEquals(1, count($tableChoiceElements), 'choice body contains 1 element');
-        $this->assertTrue(strpos($nestedTableSerial, 'table_') === 0, 'first choice element is a table, with serial: ' . $nestedTableSerial);
-        $this->assertEquals($nestedTableElement->getQtiTag(), 'table', 'table has the right Qti Class: ' . $nestedTableElement->getQtiTag());
-        $this->assertEquals($nestedTableElement->toArray()['qtiClass'], 'table', 'array representation of the table element has a qtiClass index');
+        $this->assertTrue(
+            strpos($nestedTableSerial, 'table_') === 0,
+            'first choice element is a table, with serial: ' . $nestedTableSerial
+        );
+        $this->assertEquals(
+            $nestedTableElement->getQtiTag(),
+            'table',
+            'table has the right Qti Class: ' . $nestedTableElement->getQtiTag()
+        );
+        $this->assertEquals(
+            $nestedTableElement->toArray()['qtiClass'],
+            'table',
+            'array representation of the table element has a qtiClass index'
+        );
     }
 
-    public function testParseTableWithNoNestedInteractions() {
+    public function testParseTableWithNoNestedInteractions()
+    {
         $xml = new \DOMDocument();
-        $xml->load(__DIR__.'/samples/xml/qtiv2p1/tableNoInteractions.xml');
+        $xml->load(__DIR__ . '/samples/xml/qtiv2p1/tableNoInteractions.xml');
         $parser = new ParserFactory($xml);
         $result = $parser->load();
 
@@ -114,13 +148,27 @@ class ParserFactoryTest extends TestCase {
         $tableElement = $bodyElements[$tableSerial];
 
         $this->assertEquals(1, count($bodyElements), 'item body contains 1 top level element');
-        $this->assertTrue(strpos($tableSerial, 'table_') === 0, 'first element is a table, with serial: ' . $tableSerial);
-        $this->assertEquals($tableElement->getQtiTag(), 'table', 'table has the right Qti Class: ' . $tableElement->getQtiTag());
-        $this->assertEquals($tableElement->toArray()['qtiClass'], 'table', 'array representation of the table element has a qtiClass index with the correct value');
+        $this->assertTrue(
+            strpos($tableSerial, 'table_') === 0,
+            'first element is a table, with serial: ' . $tableSerial
+        );
+        $this->assertEquals(
+            $tableElement->getQtiTag(),
+            'table',
+            'table has the right Qti Class: ' . $tableElement->getQtiTag()
+        );
+        $this->assertEquals(
+            $tableElement->toArray()['qtiClass'],
+            'table',
+            'array representation of the table element has a qtiClass index with the correct value'
+        );
 
         $tableBody = $tableElement->getBody();
 
-        $this->assertTrue(strpos($tableBody->getSerial(), 'container_containertable_') === 0, 'tableBody is a containerTable with serial ' . $tableBody->getSerial());
+        $this->assertTrue(
+            strpos($tableBody->getSerial(), 'container_containertable_') === 0,
+            'tableBody is a containerTable with serial ' . $tableBody->getSerial()
+        );
         $this->assertTrue(strpos($tableBody->getBody(), 'Female') !== false, 'tableBody contains the expected string ');
 
         $tableElements          = $tableBody->getElements();
@@ -132,6 +180,5 @@ class ParserFactoryTest extends TestCase {
 
         $this->assertTrue(strpos($imgSerial, 'img_') === 0, 'first element is an image, with serial: ' . $imgSerial);
         $this->assertTrue(strpos($mathSerial, 'math_') === 0, 'second element is a math, with serial: ' . $mathSerial);
-
     }
 }

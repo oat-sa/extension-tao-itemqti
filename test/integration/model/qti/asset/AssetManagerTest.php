@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +28,6 @@ use oat\taoQtiItem\model\qti\asset\AssetManagerException;
 use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\SharedStimulusAssetHandler;
 use oat\taoQtiItem\model\qti\Resource as QtiResource;
-use Prophecy\Argument;
 
 class AssetManagerTest extends TaoPhpUnitTestRunner
 {
@@ -36,12 +36,12 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
      */
     protected $instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->instance = new AssetManager();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->instance = null;
     }
@@ -49,10 +49,10 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     /**
      * @dataProvider loadAssetHandlerProvider
      */
-    public function testLoadAssetHandler($itemSource, $expected, $exception=false)
+    public function testLoadAssetHandler($itemSource, $expected, $exception = false)
     {
         if ($exception) {
-            $this->setExpectedException($exception);
+            $this->expectException($exception);
         }
 
         $this->assertInstanceOf(AssetManager::class, $this->instance->loadAssetHandler($itemSource));
@@ -72,14 +72,17 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
         return [
             [new SharedStimulusAssetHandler(), SharedStimulusAssetHandler::class],
             [new \stdClass(), null, AssetManagerException::class],
-            [new LocalAssetHandler(new LocalItemSource(array('item' => 'itemFixture', 'lang' => 'langFixture'))), LocalAssetHandler::class],
+            [
+                new LocalAssetHandler(new LocalItemSource(['item' => 'itemFixture', 'lang' => 'langFixture'])),
+                LocalAssetHandler::class,
+            ],
         ];
     }
 
     public function testGetSetSource()
     {
         $sourceFixture = 'sourceFixture';
-        $this->setExpectedException(AssetManagerException::class);
+        $this->expectException(AssetManagerException::class);
         $this->instance->getSource();
         $this->assertInstanceOf(AssetManager::class, $this->instance->setSource($sourceFixture));
         $this->assertEquals($sourceFixture, $this->instance->getSource());
@@ -102,7 +105,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
         }
 
         if ($exception) {
-            $this->setExpectedException($exception);
+            $this->expectException($exception);
         }
 
         $reflectionClass = new \ReflectionClass(AssetManager::class);
@@ -119,7 +122,12 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     public function getAbsolutePathProvider()
     {
         return [
-            ['root/', 'polop/polop/polop', 'root/' . 'polop' . DIRECTORY_SEPARATOR . 'polop' . DIRECTORY_SEPARATOR . 'polop', false],
+            [
+                'root/',
+                'polop/polop/polop',
+                'root/' . 'polop' . DIRECTORY_SEPARATOR . 'polop' . DIRECTORY_SEPARATOR . 'polop',
+                false,
+            ],
             ['root/', 'polop', 'root/' . 'polop', false],
             [false, 'pathFixture', null, AssetManagerException::class],
         ];
@@ -141,8 +149,16 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     {
         $ds = DIRECTORY_SEPARATOR;
         return [
-            ["{$ds}path{$ds}to{$ds}absolute{$ds}path", "{$ds}path{$ds}to{$ds}absolute{$ds}path{$ds}in{$ds}package{$ds}polop.txt", 'path' . $ds . 'in' . $ds . 'package' . $ds . 'polop.txt'],
-            ["{$ds}path{$ds}to{$ds}absolute{$ds}path", "{$ds}path{$ds}to{$ds}in{$ds}package{$ds}polop.txt", '..' . $ds . 'in' . $ds . 'package' . $ds . 'polop.txt'],
+            [
+                "{$ds}path{$ds}to{$ds}absolute{$ds}path",
+                "{$ds}path{$ds}to{$ds}absolute{$ds}path{$ds}in{$ds}package{$ds}polop.txt",
+                'path' . $ds . 'in' . $ds . 'package' . $ds . 'polop.txt',
+            ],
+            [
+                "{$ds}path{$ds}to{$ds}absolute{$ds}path",
+                "{$ds}path{$ds}to{$ds}in{$ds}package{$ds}polop.txt",
+                '..' . $ds . 'in' . $ds . 'package' . $ds . 'polop.txt',
+            ],
         ];
     }
 
@@ -152,16 +168,16 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     public function testImportAuxiliaryFiles($source, $qtiFile, $auxiliaryFilesFixtures, $expectedCalls)
     {
         $assetManagerMock = $this->getMockBuilder(AssetManager::class)
-            ->setMethods(array('importAsset'))
+            ->setMethods(['importAsset'])
             ->getMock();
 
         $qtiResourceMock = $this->getMockBuilder(QtiResource::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('getAuxiliaryFiles', 'getFile'))
+            ->setMethods(['getAuxiliaryFiles', 'getFile'])
             ->getMock();
 
         if (!$source) {
-            $this->setExpectedException(AssetManagerException::class);
+            $this->expectException(AssetManagerException::class);
         } else {
             $assetManagerMock
                 ->expects($this->exactly(count($auxiliaryFilesFixtures)))
@@ -187,7 +203,9 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     {
         return [
             [
-                __DIR__  . '/../samples/auxiliaryFiles/', 'qti/file/fixture.txt', ['qti/file/path1', 'qti/file/path2', 'qti/file/path3'],
+                __DIR__  . '/../samples/auxiliaryFiles/',
+                'qti/file/fixture.txt',
+                ['qti/file/path1', 'qti/file/path2', 'qti/file/path3'],
                 [__DIR__  . '/../samples/auxiliaryFiles/qti/file/path1', 'path1'],
                 [__DIR__  . '/../samples/auxiliaryFiles/qti/file/path2', 'path2'],
                 [__DIR__  . '/../samples/auxiliaryFiles/qti/file/path3', 'path3'],
@@ -201,24 +219,30 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     /**
      * @dataProvider importDependencyFilesProvider
      */
-    public function testImportDependencyFiles($source, $qtiFile, $fileFixtures, $expectedCalls, $dependencies, $expectedImportCallCount)
-    {
+    public function testImportDependencyFiles(
+        $source,
+        $qtiFile,
+        $fileFixtures,
+        $expectedCalls,
+        $dependencies,
+        $expectedImportCallCount
+    ) {
         $assetManagerMock = $this->getMockBuilder(AssetManager::class)
-            ->setMethods(array('importAsset'))
+            ->setMethods(['importAsset'])
             ->getMock();
 
         $qtiResourceMock = $this->getMockBuilder(QtiResource::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('getDependencies', 'getFile'))
+            ->setMethods(['getDependencies', 'getFile'])
             ->getMock();
 
         if (!$source) {
-            $this->setExpectedException(AssetManagerException::class);
+            $this->expectException(AssetManagerException::class);
         } else {
             $assetManagerMock
                 ->expects($this->exactly($expectedImportCallCount))
                 ->method('importAsset')
-                ->withConsecutive($this->returnValueMap($expectedCalls));
+                ->withConsecutive($expectedCalls);
 
             $qtiResourceMock
                 ->expects($this->once())
@@ -232,14 +256,17 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
 
             $assetManagerMock->setSource($source);
         }
-        $this->assertInstanceOf(AssetManager::class, $assetManagerMock->importDependencyFiles($qtiResourceMock, $dependencies));
+        $this->assertInstanceOf(
+            AssetManager::class,
+            $assetManagerMock->importDependencyFiles($qtiResourceMock, $dependencies)
+        );
     }
 
     public function importDependencyFilesProvider()
     {
         $mock = $this->getMockBuilder(QtiResource::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('getFile'))
+            ->setMethods(['getFile'])
             ->getMock();
         $mock
             ->expects($this->any())
@@ -248,8 +275,13 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
 
         return [
             [
-                '/source/fixture/', 'qti/file/fixture.txt', ['path1', 'path2', 'path3'],
-                [[$this->equalTo('/source/fixture/path1'), $this->equalTo('../../path1')]],//, ['/source/fixture/path2', '../../path2'], ['/source/fixture/path3', '../../path3']],
+                '/source/fixture/',
+                'qti/file/fixture.txt',
+                ['path1', 'path2', 'path3'],
+                # [
+                #     [$this->equalTo('/source/fixture/path1'), $this->equalTo('../../path1')]
+                # ],
+                ['/source/fixture/path4', '../../path4'],
                 ['path1' => $mock, 'path3' => $mock], 2
             ],
             [
@@ -261,7 +293,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
     /**
      * @dataProvider importAssetProvider
      */
-    public function testImportAsset($assetHandlers, $absPath, $relPath, $exception=null, $uri=null)
+    public function testImportAsset($assetHandlers, $absPath, $relPath, $exception = null, $uri = null)
     {
         $reflectionClass = new \ReflectionClass(AssetManager::class);
 
@@ -274,7 +306,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
         $reflectionMethod->setAccessible(true);
 
         if ($exception) {
-            $this->setExpectedException($exception);
+            $this->expectException($exception);
         }
 
         if ($uri) {
@@ -316,10 +348,14 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
         ];
     }
 
-    protected function getAssetHandler($type='success', $relPath='pathFixture', $absPath='pathFixture', $uri='polop')
-    {
+    protected function getAssetHandler(
+        $type = 'success',
+        $relPath = 'pathFixture',
+        $absPath = 'pathFixture',
+        $uri = 'polop'
+    ) {
         $mock = $this->getMockBuilder(LocalAssetHandler::class)
-            ->setMethods(array('isApplicable', 'handle'))
+            ->setMethods(['isApplicable', 'handle'])
             ->getMock();
 
         if ($type == 'success') {
@@ -331,7 +367,7 @@ class AssetManagerTest extends TaoPhpUnitTestRunner
             $mock->expects($this->once())
                 ->method('handle')
                 ->with($absPath, $relPath)
-                ->will($this->returnValue(array('uri'=> $uri)));
+                ->will($this->returnValue(['uri' => $uri]));
         }
 
         if ($type == 'fail') {

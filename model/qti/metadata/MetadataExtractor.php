@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,10 +23,10 @@ namespace oat\taoQtiItem\model\qti\metadata;
 
 /**
  * A MetadataExtractor implements the mechanics to extract all metadata values from a given source.
- * 
+ *
  * A MetadataExtractor implementation could extract MetadataValue objects from various kind of sources, such
  * as IMS Manifest XML Files, Ontologies, QTI Items, QTI Tests, ...
- * 
+ *
  * @author Jérôme Bogaerts <jerome@taotesting.com>
  * @see MetadataValue The MedataValue interface, describing objects extracted and returned by a MetadataExtractor.
  */
@@ -35,13 +36,13 @@ interface MetadataExtractor
      * Extract the metadata values from a given source.
      * Please see the documentation of the MetadataValue interface for in depth information
      * about what a metadata value actually is.
-     * 
+     *
      * The return value of this method is an associative array. Each key is a Resource Identifier and
      * each value for a key is an array of MetadataValue object that belongs to the resource identified
      * by Resource Identifier.
-     * 
+     *
      * If no MetadataValue objects could be infered from the $source, an empty array is returned.
-     * 
+     *
      * @param mixed $source The source you want to extract MetaDataValue objects from.
      * @throws MetadataExtractionException If something goes wrong during the extraction process.
      * @return MetadataValue[] An associative array where MetadataValue objects are regrouped by Resource Identifier.

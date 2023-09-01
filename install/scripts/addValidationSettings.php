@@ -14,11 +14,11 @@ class addValidationSettings extends \common_ext_action_InstallAction
         $serviceManager = $this->getServiceManager();
 
         $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
-        if($ext->hasConfig('contentValidation')){
+        if ($ext->hasConfig('contentValidation')) {
             $ext->unsetConfig('contentValidation');
         }
 
-        if($ext->hasConfig('manifestValidation')){
+        if ($ext->hasConfig('manifestValidation')) {
             $ext->unsetConfig('manifestValidation');
         }
 
@@ -27,6 +27,9 @@ class addValidationSettings extends \common_ext_action_InstallAction
         $validationService->setServiceManager($serviceManager);
         $serviceManager->register(ValidationService::SERVICE_ID, $validationService);
 
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Validation service has been successfully set up');
+        return new \common_report_Report(
+            \common_report_Report::TYPE_SUCCESS,
+            'Validation service has been successfully set up'
+        );
     }
 }

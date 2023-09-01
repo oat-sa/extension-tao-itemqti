@@ -428,8 +428,7 @@
                                             "type": "string",
                                             "description": "task ID in URI format"
                                         },
-                                        "report":
-                                        {
+                                        "report": {
                                             "type": "array",
                                             "items": {
                                                 "type": "object",
@@ -438,7 +437,7 @@
                                                         "type": "string"
                                                     },
                                                     "message": {
-                                                      "type": "string"
+                                                        "type": "string"
                                                     }
                                                 }
                                             }
@@ -719,6 +718,75 @@
                     }
                 }
             }
+        },
+        "/taoQtiItem/RestQtiItem/updateMetadata": {
+            "post": {
+                "description": "Update the metadata of a given item",
+                "tags": [
+                    "item"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "The metadata that has to be updated",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/metadataEntity"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "$ref": "#/definitions/updateMetadataResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request if you send invalid parameters.",
+                        "examples": {
+                            "application/json": {
+                                "success": false,
+                                "errorCode": 0,
+                                "errorMsg": "At least one mandatory parameter was required but found missing in your request",
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/errorModel"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "examples": {
+                            "application/json": {
+                                "success": false,
+                                "errorCode": 0,
+                                "errorMsg": "You don't have permission to access this resource.",
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/errorModel"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "examples": {
+                            "application/json": {
+                                "success": false,
+                                "errorCode": 0,
+                                "errorMsg": "Exception error description",
+                                "version": "3.1.0"
+                            }
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/errorModel"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -759,6 +827,49 @@
                     "type": "array",
                     "items": {
                         "type": "string"
+                    }
+                }
+            }
+        },
+        "metadataEntity": {
+            "type": "object",
+            "required": [
+                "resourceUri",
+                "propertyUri",
+                "value"
+            ],
+            "properties": {
+                "resourceUri": {
+                    "type": "string",
+                    "description": "The Item URI where the Metadata Belongs to",
+                    "example": "https://tao.local/ontologies/tao.rdf#my-item-uri"
+                },
+                "propertyUri": {
+                    "type": "string",
+                    "description": "The Property URI where the Metadata value is related",
+                    "example": "https://tao.local/ontologies/tao.rdf#my-property-uri"
+                },
+                "value": {
+                    "type": "string",
+                    "description": "The value of the metadata",
+                    "example": "This is a metadata update"
+                }
+            }
+        },
+        "updateMetadataResponse": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "success",
+                    "data"
+                ],
+                "properties": {
+                    "success": {
+                        "type": "boolean"
+                    },
+                    "data": {
+                        "$ref": "#/definitions/metadataEntity"
                     }
                 }
             }

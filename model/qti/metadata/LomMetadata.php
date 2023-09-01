@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,7 +23,7 @@ namespace oat\taoQtiItem\model\qti\metadata;
 
 interface LomMetadata
 {
-    const LOM_NAMESPACE = 'http://ltsc.ieee.org/xsd/LOM';
+    public const LOM_NAMESPACE = 'http://ltsc.ieee.org/xsd/LOM';
 
     public function getPath();
 }

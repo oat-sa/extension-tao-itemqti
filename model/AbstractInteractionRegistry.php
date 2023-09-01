@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,11 +18,12 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\taoQtiItem\model;
 
 use oat\oatbox\AbstractRegistry;
-use \common_exception_Error;
-use \common_ext_ExtensionsManager;
+use common_exception_Error;
+use common_ext_ExtensionsManager;
 
 /**
  *
@@ -29,19 +31,18 @@ use \common_ext_ExtensionsManager;
  */
 abstract class AbstractInteractionRegistry extends AbstractRegistry
 {
-
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
-    protected abstract function getInteractionClass();
+    abstract protected function getInteractionClass();
 
 
     /**
      * Register a new custom interaction
      *
-     * @param string $qtiClass            
-     * @param string $phpClass            
+     * @param string $qtiClass
+     * @param string $phpClass
      * @throws common_exception_Error
      */
     public function set($qtiClass, $phpClass)
@@ -50,10 +51,11 @@ abstract class AbstractInteractionRegistry extends AbstractRegistry
             throw new common_exception_Error('Custom interaction class ' . $phpClass . ' not found');
         }
         if (! is_subclass_of($phpClass, $this->getInteractionClass())) {
-            throw new common_exception_Error('Class ' . $phpClass . ' not a subclass of ' . $this->getInteractionClass());
+            throw new common_exception_Error(
+                'Class ' . $phpClass . ' not a subclass of ' . $this->getInteractionClass()
+            );
         }
-        parent::set($qtiClass,$phpClass);
-
+        parent::set($qtiClass, $phpClass);
     }
 
 
@@ -66,9 +68,4 @@ abstract class AbstractInteractionRegistry extends AbstractRegistry
     {
         return common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
     }
-
-    
 }
-
-
-?>

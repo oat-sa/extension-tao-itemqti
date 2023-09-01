@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,7 +36,9 @@ use oat\oatbox\PhpSerializeStateless;
 
 class ItemMetadataByClassExportHandler implements \tao_models_classes_export_ExportHandler, PhpSerializable
 {
-    use OntologyAwareTrait, PhpSerializeStateless, EventManagerAwareTrait;
+    use OntologyAwareTrait;
+    use PhpSerializeStateless;
+    use EventManagerAwareTrait;
 
     /**
      * Get label form
@@ -80,7 +83,7 @@ class ItemMetadataByClassExportHandler implements \tao_models_classes_export_Exp
 
             if ($classToExport->exists()) {
                 try {
-                    $fileName = $formValues['filename'] .'_'. time() .'.csv';
+                    $fileName = $formValues['filename'] . '_' . time() . '.csv';
 
                     if (!\tao_helpers_File::securityCheck($fileName, true)) {
                         throw new \Exception('Unauthorized file name');

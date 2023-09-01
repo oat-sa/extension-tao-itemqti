@@ -19,17 +19,35 @@ define([
     'core/logger',
     'taoQtiItem/qtiXmlRenderer/renderers/Renderer',
     'taoQtiItem/qtiItem/helper/maxScore',
-    'taoQtiItem/qtiItem/core/Element'
-], function(loggerFactory, XmlRenderer, maxScore, Element){
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiXmlRenderer/renderers/RendererPerInteractionRP',
+], function(loggerFactory, XmlRenderer, maxScore, Element, XmlRendererPerInteractionRP){
     'use strict';
 
-    var logger = loggerFactory('taoQtiItem/qtiCreator/helper/xmlRenderer');
+    const logger = loggerFactory('taoQtiItem/qtiCreator/helper/xmlRenderer');
 
-    var _xmlRenderer = new XmlRenderer({
-        shuffleChoices : false
-    }).load();
+    const xmlRendererProviders = {
+        default: new XmlRenderer({
+            shuffleChoices : false
+        }).load(),
+        perInteractionRP: new XmlRendererPerInteractionRP({
+            shuffleChoices : false
+        }).load(),
+    }
 
-    var _render = function(element){
+    // set default xml renderer provider
+    let xmlRenderer = xmlRendererProviders.default;
+
+    /**
+     * Render elment to XML
+     *
+     * @param {Object} element
+     * @param {Object} options
+     * @param {string} options.notAllowTemplate - not allow to render as response processing template
+     *
+     * @returns {String} rendered XML
+     */
+    var _render = function(element, options){
         var xml = '';
         try{
             if(element instanceof Element) {
@@ -37,7 +55,11 @@ define([
                     maxScore.setNormalMaximum(element);
                     maxScore.setMaxScore(element);
                 }
-                xml = element.render(_xmlRenderer);
+
+                xml = element.render(
+                    xmlRenderer,
+                    options
+                );
             }
         }catch(e){
             logger.error(e);
@@ -47,8 +69,15 @@ define([
 
     return {
         render : _render,
-        get : function(){
-            return _xmlRenderer;
+        get() {
+            return xmlRenderer;
+        },
+        setProvider(providerName) {
+            if (!xmlRendererProviders[providerName]) {
+                throw new Error('Unknown xml renderer provider');
+            }
+
+            xmlRenderer = xmlRendererProviders[providerName];
         }
     };
 });

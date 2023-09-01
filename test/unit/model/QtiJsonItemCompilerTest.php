@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +19,7 @@
  *
  * @author Oleksandr Zagovorychev <zagovorichev@gmail.com>
  */
+
 namespace oat\taoQtiItem\test\unit\model;
 
 use common_exception_Error;
@@ -32,7 +34,6 @@ use ReflectionException;
 
 class QtiJsonItemCompilerTest extends TestCase
 {
-
     /**
      * @return array
      */
@@ -76,7 +77,7 @@ class QtiJsonItemCompilerTest extends TestCase
                 [
                     [
                         'core' => [
-                            'apipAccessibility' => '<div><p>text</p><p></p><br/><a> </a></div>',
+                            'apipAccessibility' => '<div><p>text</p><p></p><br/></div>',
                         ],
                     ]
                 ],
@@ -88,7 +89,6 @@ class QtiJsonItemCompilerTest extends TestCase
                                 []
                             ],
                             'br' => [],
-                            'a' => [' ']
                         ],
                     ]
                 ]

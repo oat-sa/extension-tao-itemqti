@@ -23,8 +23,18 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/associate',
-    'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter'
-], function(_, stateFactory, Question, formElement, minMaxComponentFactory, formTpl, sizeAdapter){
+    'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
+    'services/features'
+], function (
+    _, 
+    stateFactory, 
+    Question, 
+    formElement, 
+    minMaxComponentFactory, 
+    formTpl, 
+    sizeAdapter, 
+    features
+) {
     'use strict';
 
     var AssociateInteractionStateQuestion = stateFactory.extend(Question);
@@ -36,18 +46,21 @@ define([
        var interaction = this.widget.element;
 
         $form.html(formTpl({
-            shuffle : !!interaction.attr('shuffle')
+            shuffle : !!interaction.attr('shuffle'),
+            enabledFeatures: {
+                shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/associate/property/shuffle')
+            }
         }));
 
         minMaxComponentFactory($form.find('.min-max-panel'), {
             min : {
                 fieldName: 'minAssociations',
-                value:     _.parseInt(interaction.attr('minAssociations')) || 1,
+                value:     _.parseInt(interaction.attr('minAssociations')) || 0,
                 toggler:   false
             },
             max : {
                 fieldName: 'maxAssociations',
-                value:     _.parseInt(interaction.attr('maxAssociations')) || 1,
+                value:     _.parseInt(interaction.attr('maxAssociations')) || 0,
                 toggler:   false
             },
             lowerThreshold : 0,
@@ -60,7 +73,7 @@ define([
         formElement.initWidget($form);
 
         //init data change callbacks
-        var callbacks = formElement.getMinMaxAttributeCallbacks($form, 'minAssociations', 'maxAssociations');
+        var callbacks = formElement.getMinMaxAttributeCallbacks('minAssociations', 'maxAssociations');
         callbacks.shuffle = formElement.getAttributeChangeCallback();
         formElement.setChangeCallbacks($form, interaction, callbacks);
 

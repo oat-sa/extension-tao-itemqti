@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,7 +22,7 @@ namespace oat\taoQtiItem\controller;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
-use \Request;
+use Request;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\ItemModel;
 use oat\generis\model\OntologyAwareTrait;
@@ -40,26 +41,26 @@ class RestQtiItem extends AbstractRestQti
 {
     use OntologyAwareTrait;
 
-    const RESTITEM_PACKAGE_NAME = 'content';
+    public const RESTITEM_PACKAGE_NAME = 'content';
 
     /**
      * @inherit
      */
     protected function getAcceptableMimeTypes()
     {
-        return 
+        return
             [
-                "application/json", 
-                "text/xml", 
-                "application/xml", 
-                "application/rdf+xml" , 
-                "application/zip", 
+                "application/json",
+                "text/xml",
+                "application/xml",
+                "application/rdf+xml" ,
+                "application/zip",
             ];
     }
-    
+
     /**
      * Class items will be created in
-     * 
+     *
      * @return \core_kernel_classes_Class
      */
     protected function getDestinationClass()
@@ -88,7 +89,7 @@ class RestQtiItem extends AbstractRestQti
 
             // Get valid package parameter
             $package = $this->getUploadedPackage();
-            
+
             // Call service to import package
             \helpers_TimeOutHelper::setTimeOutLimit(\helpers_TimeOutHelper::LONG);
             $report = ImportService::singleton()->importQTIPACKFile(
@@ -103,7 +104,7 @@ class RestQtiItem extends AbstractRestQti
                 $this->isItemMustBeOverwrittenEnabled()
             );
             \helpers_TimeOutHelper::reset();
-            
+
             \tao_helpers_File::remove($package);
             if ($report->getType() !== \common_report_Report::TYPE_SUCCESS) {
                 $message = __("An unexpected error occurred during the import of the IMS QTI Item Package. ");
@@ -118,12 +119,20 @@ class RestQtiItem extends AbstractRestQti
                 foreach ($report as $subReport) {
                     $itemIds[] = $subReport->getData()->getUri();
                 }
-                $this->returnSuccess(array('items' => $itemIds));
+                $this->returnSuccess(['items' => $itemIds]);
             }
         } catch (ExtractException $e) {
-            $this->returnFailure(new \common_Exception(__('The ZIP archive containing the IMS QTI Item cannot be extracted.')));
+            $this->returnFailure(
+                new \common_Exception(
+                    __('The ZIP archive containing the IMS QTI Item cannot be extracted.')
+                )
+            );
         } catch (ParsingException $e) {
-            $this->returnFailure(new \common_Exception(__('The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive.')));
+            $this->returnFailure(
+                new \common_Exception(
+                    __('The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive.')
+                )
+            );
         } catch (\Exception $e) {
             $this->returnFailure($e);
         }
@@ -235,54 +244,53 @@ class RestQtiItem extends AbstractRestQti
     {
         try {
             // Check if it's post method
-            if ($this->getRequestMethod()!=Request::HTTP_POST) {
+            if ($this->getRequestMethod() != Request::HTTP_POST) {
                 throw new \common_exception_NotImplemented('Only post method is accepted to create empty item.');
             }
 
             $label = $this->hasRequestParameter('label') ? $this->getRequestParameter('label') : '';
             // Call service to import package
             $item = $this->getDestinationClass()->createInstance($label);
-            
+
             //set the QTI type
             $itemService = \taoItems_models_classes_ItemsService::singleton();
             $itemService->setItemModel($item, $this->getResource(ItemModel::MODEL_URI));
 
             $this->returnSuccess($item->getUri());
-
         } catch (\Exception $e) {
             $this->returnFailure($e);
         }
     }
-    
+
     /**
      * render an item as a Qti zip package
      * @author christophe GARCIA <christopheg@taotesting.com>
      */
-    public function export() {
-        
+    public function export()
+    {
+
         try {
-            if ($this->getRequestMethod()!=Request::HTTP_GET) {
-                    throw new \common_exception_NotImplemented('Only GET method is accepted to export QIT Item.');
+            if ($this->getRequestMethod() != Request::HTTP_GET) {
+                throw new \common_exception_NotImplemented('Only GET method is accepted to export QIT Item.');
             }
-            
-            if(!$this->hasRequestParameter('id')) {
+
+            if (!$this->hasRequestParameter('id')) {
                 $this->returnFailure(new \common_exception_MissingParameter('required parameter `id` is missing'));
-            } 
-            
+            }
+
             $id = $this->getRequestParameter('id');
-            
-            $item = new \core_kernel_classes_Resource($id); 
+
+            $item = new \core_kernel_classes_Resource($id);
 
             $itemService = \taoItems_models_classes_ItemsService::singleton();
 
-            if($itemService->hasItemModel($item, array(ItemModel::MODEL_URI))){
-                
+            if ($itemService->hasItemModel($item, [ItemModel::MODEL_URI])) {
                 $path = \tao_helpers_Export::getExportFile();
                 $tmpZip = new \ZipArchive();
-                $tmpZip->open($path , \ZipArchive::CREATE);
-                
-                $exporter = new QTIPackedItemExporter( $item , $tmpZip);
-                $exporter->export(array('apip' => false));
+                $tmpZip->open($path, \ZipArchive::CREATE);
+
+                $exporter = new QTIPackedItemExporter($item, $tmpZip);
+                $exporter->export(['apip' => false]);
 
                 $exporter->getZip()->close();
 
@@ -291,12 +299,9 @@ class RestQtiItem extends AbstractRestQti
 
                 return;
             } else {
-
                 $this->returnFailure(new \common_exception_NotFound('item can\'t be found'));
-
             }
         } catch (\Exception $e) {
-      
             $this->returnFailure($e);
         }
     }
@@ -333,5 +338,3 @@ class RestQtiItem extends AbstractRestQti
         }
     }
 }
-
-

@@ -13,7 +13,7 @@ define([
     /**
      * Enables you to edit a shape: handling, resizing, moving.
      * This function is a factory that gives you a new instance of editor.
-     * 
+     *
      * @exports taoQtiItem/qtiCreator/widgets/interactions/helpers/shapeEditor
      *
      * @param {Raphael.Element} shape - the shape to edit
@@ -32,7 +32,7 @@ define([
         var isResponsive = options.isResponsive || false;
 
         /**
-         * The editor linked to a shape 
+         * The editor linked to a shape
          * @type shapeEditor.editor
          */
         var editor = {
@@ -53,7 +53,7 @@ define([
             /**
              * Listen for an event bound to the editor
              * @param {String} eventName - the name of the event to listen
-             * @param {Function} cb - event callback 
+             * @param {Function} cb - event callback
              * @returns {shapeEditor.editor} for chaining
              */
             on : function on(eventName, cb){
@@ -79,12 +79,12 @@ define([
             /**
              * Check if the editor is in the given state
              * @param {String} state - the state name
-             * @returns {Boolean} is in the state or not 
+             * @returns {Boolean} is in the state or not
              */
             is : function is(state){
                 return this.states[state] === true;
             },
-            
+
             /**
              * Set the editor in a particular state
              * @param {String} state - the state name
@@ -98,28 +98,28 @@ define([
 
 
             /**
-             * Set up the editor 
+             * Set up the editor
              * @constructor
-             * @private 
+             * @private
              * @param {Raphael.Element} shape - the shape to edit
              * @returns {shapeEditor.editor} the shape editor instance
-             */ 
+             */
             _init : function(shape){
                 var self = this;
                 if(shape && shape.type){
                     self.shape = shape;
                     background.click(function(){
                          if(!self.is('resizing') && self.is('handling')){
-                            self.quitHandling();  
+                            self.quitHandling();
                          }
                     });
                     self.shape.click(function(){
                          if(!self.is('resizing')){
                             if(!self.is('handling')){
-                                self.enterHandling();  
+                                self.enterHandling();
                             } else {
-                                self.quitHandling();  
-                            }    
+                                self.quitHandling();
+                            }
                         }
                     });
                 }
@@ -127,20 +127,20 @@ define([
             },
 
             /**
-             * Start the shape handling 
+             * Start the shape handling
              * @returns {shapeEditor.editor} the shape editor instance
-             */ 
+             */
             enterHandling : function enterHandling(){
                 var self = this;
-                
+
                 //enter handling
                 self.setState('handling', true)
                     .trigger('enterhandling.qti-widget');
-    
+
                 //do not move set
                 if(self.shape.type === 'set'){
                     return;
-                }                   
+                }
 
                 //create handlers to resize the shape
                 self.handlers = shapeHandlers(paper, self.shape);
@@ -153,8 +153,8 @@ define([
                 self.shape.drag(move, startMove, moved);
 
                 var keyResizer = _.throttle(keyResize, 20);
-  
-                //bind keys 
+
+                //bind keys
                 $(document).on('keydown.qti-widget', function(e){
                     var code = e.which;
                     //arrows
@@ -174,44 +174,44 @@ define([
                  * Start the resizing from an handler, create the layer, the start point, etc.
                  * Used as handler dragstart callback
                  * @private
-                 */ 
-                function startResize (){ 
-                    var handler  = this; 
+                 */
+                function startResize (){
+                    var handler  = this;
                     var bbox;
                     self.setState('resizing', true)
                         .trigger('shapechanging.qti-widget');
-                    
+
                     //create a layer to be reiszed
                     self.layer = self.shape.clone();
                     self.layer.attr(graphicHelper._style.basic);
                     self.layer.attr('cursor', handler.attrs.cursor);
 
                     bbox = self.layer.getBBox();
-                    self.layerTxt = graphicHelper.createShapeText(paper, self.layer, { 
+                    self.layerTxt = graphicHelper.createShapeText(paper, self.layer, {
                         style   : 'layer-pos-text',
-                        content : parseInt(bbox.width, 10) + ' x ' + parseInt(bbox.height, 10) 
+                        content : parseInt(bbox.width, 10) + ' x ' + parseInt(bbox.height, 10)
                     });
 
                     if(self.shape.type === 'path'){
                        _.forEach(self.shape.attr('path'), function(point, index){
                            if(point.length === 3 && point[1] === this.attr('cx') && point[2] === this.attr('cy')){
                                 this.pointIndex = index;
-                                return false; 
-                           }                 
-                       }, handler); 
+                                return false;
+                           }
+                       }, handler);
                     }
 
                     //hide others
                     _.invoke(_.reject(_.clone(self.handlers), function(elt){
                         return elt === handler;
-                    }), 'hide');                              
+                    }), 'hide');
                 }
-                 
+
                 /**
                  * Resize a shape (in fact only the layer)
                  * Used as handler drag callback
                  * @private
-                 */ 
+                 */
                function resize(dx, dy, x, y, event){
                     var stopPoint, options;
                     if(self.is('resizing')){
@@ -227,15 +227,15 @@ define([
                         };
 
                         if(self.shape.type === 'path'){
-                            options.start = _.pick(this.attrs, ['cx', 'cy']); 
+                            options.start = _.pick(this.attrs, ['cx', 'cy']);
                             options.path = self.layer.attr('path');
                             options.pointIndex = this.pointIndex;
                         }
 
                         shapeResizer(self.layer, options);
-                         
 
-                        
+
+
                         if(this.type === 'circle'){
                             this.animate({
                                 cx : stopPoint.x,
@@ -246,12 +246,12 @@ define([
                         }
                     }
                 }
-               
+
                 /**
                  * Finish resize: sync the shape to the resized layer
                  * Used as handler dragend callback
                  * @private
-                 */ 
+                 */
                 function resized(){
                     self.shape.animate(
                         _.pick(self.layer.attrs, ['x', 'y', 'cx', 'cy', 'r', 'rx', 'ry', 'width', 'height', 'path']),
@@ -263,43 +263,47 @@ define([
                     );
                     self.layer.remove();
                     self.layerTxt.remove();
-                    
+
                     _.invoke(self.handlers, 'remove');
                     self.handlers = [];
-                } 
-               
+                }
+
                 /**
                  * Resize a shape from keyboard
                  * @param {Number} code - the HTMLEvent's key code
                  * @private
-                 */ 
-                function keyResize(code){ 
+                 */
+                function keyResize(code){
                     var attr, stop, start;
                     if(!self.is('moving')){
-                        self.setState('moving', true);
+                        self.setState('moving', true)
+                            .trigger('shapechanging.qti-widget');
+                        self.shape.attr('cursor', 'move');
+                        background.attr('cursor', 'move');
+
                         _.invoke(self.handlers, 'remove');
-                        
+
                         attr = shape.attr();
 
                         switch(self.shape.type){
 
-                            case 'rect' : 
-                                start = { x: 0, y: 0 }; 
+                            case 'rect' :
+                                start = { x: 0, y: 0 };
                                 stop  = {
                                     x : (code === 39) ? attr.x + 1 : (code === 37) ? attr.x - 1 : attr.x,
                                     y : (code === 40) ? attr.y + 1 : (code === 38) ? attr.y - 1 : attr.y,
                                 };
                                 break;
-                            case 'ellipse' : 
-                            case 'circle' : 
-                                start = { x: 0, y: 0 }; 
+                            case 'ellipse' :
+                            case 'circle' :
+                                start = { x: 0, y: 0 };
                                 stop  = {
                                     x : (code === 39) ? attr.cx + 1 : (code === 37) ? attr.cx - 1 : attr.cx,
                                     y : (code === 40) ? attr.cy + 1 : (code === 38) ? attr.cy - 1 : attr.cy,
                                 };
                                 break;
-                            case 'path' : 
-                                start = { path : attr.path }; 
+                            case 'path' :
+                                start = { path : attr.path };
                                 stop  = {
                                 };
                                 break;
@@ -308,6 +312,9 @@ define([
                         shapeMover(
                             self.shape, start, stop
                         );
+
+                        self.shape.attr('cursor', 'pointer');
+                        background.attr('cursor', 'default');
                         self.setState('moving', false)
                             .trigger('shapechange.qti-widget');
                     }
@@ -317,11 +324,11 @@ define([
                  * Start the moving the shape.
                  * Used as handler dragstart callback
                  * @private
-                 */ 
+                 */
                 function startMove(x, y , event){
                     self.setState('moving', true)
                         .trigger('shapechanging.qti-widget');
-                    
+
                     var mousePoint = graphicHelper.getPoint(event, paper, $container, isResponsive);
                     this.startPoint = {
                         x : mousePoint.x - this.attr('x'),
@@ -332,20 +339,19 @@ define([
                     }
                     self.shape.attr('cursor', 'move');
                     background.attr('cursor', 'move');
-                    _.invoke(self.handlers, 'remove');                              
-                }        
-                
+                    _.invoke(self.handlers, 'remove');
+                }
+
                 /**
                  * Move a shape
                  * Used as handler drag callback
                  * @private
-                 */ 
+                 */
                 function move(dx, dy, x, y, event){
-                    var dest;
                     if(self.is('moving')){
                         shapeMover(
-                            this, 
-                            this.startPoint, 
+                            this,
+                            this.startPoint,
                             graphicHelper.getPoint(event, paper, $container, isResponsive)
                         );
                     }
@@ -355,7 +361,7 @@ define([
                  * Finish moving
                  * Used as shape dragend callback
                  * @private
-                 */ 
+                 */
                 function moved(){
                     delete this.startPoint;
                     self.shape.attr('cursor', 'pointer');
@@ -367,11 +373,11 @@ define([
 
                 return this;
             },
-            
+
             /**
-             * Stop the shape handling 
+             * Stop the shape handling
              * @returns {shapeEditor.editor} the shape editor instance
-             */ 
+             */
             quitHandling : function quitHandling(){
                 $(document).off('keydown.qti-widget');
 
@@ -382,15 +388,15 @@ define([
                 this.setState('moving', false)
                     .setState('resizing', false)
                     .setState('handling', false)
-                    .trigger('quithandling.qti-widget'); 
-                
+                    .trigger('quithandling.qti-widget');
+
                 return this;
             },
 
             /**
-             * Removes the editor's shape 
+             * Removes the editor's shape
              * @returns {shapeEditor.editor} the shape editor instance
-             */ 
+             */
             removeShape : function removeShape(){
                 var id, data;
                 if(this.shape){
@@ -398,16 +404,16 @@ define([
                     id = this.shape.id;
                     data = this.shape.data;
                     this.shape.remove();
-                    this.trigger('remove.qti-widget', id, data); 
+                    this.trigger('remove.qti-widget', id, data);
                 }
-                
+
                 return this;
             },
 
             /**
-             * Clean up editor in case of reference keeping 
+             * Clean up editor in case of reference keeping
              * @returns {shapeEditor.editor} the shape editor instance
-             */ 
+             */
             destroy : function destroy(){
                 if(this.is('handling')){
                     this.quitHandling();
@@ -422,7 +428,7 @@ define([
                 return this;
             }
         };
-        
+
         return editor._init(shape);
     };
 

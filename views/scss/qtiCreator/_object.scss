@@ -3,4 +3,8 @@
 .widget-box.widget-block.widget-object {
     display: inline-block;
     vertical-align: bottom;
+    max-width: 100%;
+    &.previewer {
+        max-width: 100%;
+    }
 }

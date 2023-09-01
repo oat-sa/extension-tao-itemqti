@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -45,7 +46,9 @@ class ClassificationMetadataValue implements ClassificationValue
     {
         foreach ($entries as $entry) {
             if (! $entry instanceof ClassificationEntryMetadataValue) {
-                throw new MetadataWriterException(__('Classification entries have to be an instance of ClassificationEntryMetadataValue'));
+                throw new MetadataWriterException(
+                    __('Classification entries have to be an instance of ClassificationEntryMetadataValue')
+                );
             }
         }
         $this->source  = $source;
@@ -101,5 +104,4 @@ class ClassificationMetadataValue implements ClassificationValue
     {
         return $this->source->getValue();
     }
-
 }

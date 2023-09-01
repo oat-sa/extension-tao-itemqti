@@ -16,13 +16,34 @@
     }
     .btn-info {
         padding-top: 0 !important;
+
+        @include rtl {
+            float: right;
+
+            &.col-4 {
+                margin-left: 0;
+                margin-right: 1.4%;
+            }
+        }
     }
     .file-name {
         padding: 2px 3px !important;
+
+        @include rtl {
+            &.col-8 {
+                margin-left: 0;
+                margin-right: 1.4%;
+            }
+        }
     }
 
     .file-upload {
-      margin-right: 20px;
+        margin-right: 20px;
+
+        @include rtl {
+            margin-left: 20px;
+            margin-right: 0;
+        }
     }
 
 
@@ -39,6 +60,14 @@
         position: relative;
         overflow: hidden;
         display: none;
+
+        @include rtl {
+            margin: 0 0 20px 20px;
+        }
+
+        img {
+            max-width: 100%;
+        }
 
         &.visible-file-upload-preview {
             display: block;
@@ -100,5 +129,11 @@
             }
         }
 
+    }
+
+    .lft {
+        @include rtl {
+            float: right;
+        }
     }
 }

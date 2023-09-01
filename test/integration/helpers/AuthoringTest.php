@@ -23,20 +23,20 @@ namespace oat\taoQtiItem\test\integration\helpers;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\helpers\Authoring;
+use oat\taoQtiItem\model\qti\exception\QtiModelException;
 
 /**
  * Test QTI authiring helper methods
- * 
+ *
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  * @package taoQtiItem
  */
 class AuthoringTest extends TaoPhpUnitTestRunner
 {
-
     /**
      * tests initialization
      */
-    public function setUp()
+    public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
     }
@@ -53,16 +53,17 @@ class AuthoringTest extends TaoPhpUnitTestRunner
         $sanitizedXml = simplexml_load_string($sanitizedXmlStr);
 
         $this->assertTrue(count($sanitizedXml->xpath("//*[local-name() = 'itemBody']//*[@style]")) === 0);
-        
+
         return $sanitizedXmlStr;
     }
-    
+
     /**
      * @depends testSanitizeQtiXml
      */
     public function testValidateSanitizedString($xmlStr)
     {
-        Authoring::loadQtiXml($xmlStr);
+        $dom = Authoring::loadQtiXml($xmlStr);
+        self::assertInstanceOf(\DOMDocument::class, $dom);
     }
 
     public function testSanitizeQtiXmlMultipleIds()
@@ -70,18 +71,16 @@ class AuthoringTest extends TaoPhpUnitTestRunner
         $xmlStr = file_get_contents($this->getSamplePath('/authoring/sanitizeQtiXmlMultipleIds.xml'));
         $xml = simplexml_load_string($xmlStr);
 
-        $duplicate = array();
-        $ids = array();
-        foreach($xml->xpath("//*[@id]") as $idElement){
+        $duplicate = [];
+        $ids = [];
+        foreach ($xml->xpath("//*[@id]") as $idElement) {
             $id = (string)$idElement['id'];
-            if(!in_array($id,$ids)){
+            if (!in_array($id, $ids)) {
                 $ids[] = $id;
-            }
-            else{
-                if(array_key_exists($id, $duplicate)){
+            } else {
+                if (array_key_exists($id, $duplicate)) {
                     $duplicate[$id]++;
-                }
-                else{
+                } else {
                     $duplicate[$id] = 2;
                 }
             }
@@ -95,18 +94,16 @@ class AuthoringTest extends TaoPhpUnitTestRunner
 
         $sanitizedXml = simplexml_load_string($sanitizedXmlStr);
 
-        $duplicate = array();
-        $ids = array();
-        foreach($sanitizedXml->xpath("//*[@id]") as $idElement){
+        $duplicate = [];
+        $ids = [];
+        foreach ($sanitizedXml->xpath("//*[@id]") as $idElement) {
             $id = (string)$idElement['id'];
-            if(!in_array($id,$ids)){
+            if (!in_array($id, $ids)) {
                 $ids[] = $id;
-            }
-            else{
-                if(array_key_exists($id, $duplicate)){
+            } else {
+                if (array_key_exists($id, $duplicate)) {
                     $duplicate[$id]++;
-                }
-                else{
+                } else {
                     $duplicate[$id] = 2;
                 }
             }
@@ -115,13 +112,14 @@ class AuthoringTest extends TaoPhpUnitTestRunner
 
         return $sanitizedXmlStr;
     }
-    
+
     /**
      * @depends testSanitizeQtiXmlMultipleIds
      */
     public function testValidateSanitizedStringSingleId($xmlStr)
     {
-        Authoring::loadQtiXml($xmlStr);
+        $dom = Authoring::loadQtiXml($xmlStr);
+        self::assertInstanceOf(\DOMDocument::class, $dom);
     }
 
     public function testLoadQtiXml()
@@ -130,21 +128,17 @@ class AuthoringTest extends TaoPhpUnitTestRunner
         $this->assertTrue(Authoring::loadQtiXml($xmlStr) instanceof \DOMDocument);
     }
 
-    /**
-     * @expectedException        oat\taoQtiItem\model\qti\exception\QtiModelException
-     * @expectedExceptionMessageRegExp |^Wrong QTI item output format.*|
-     */
     public function testLoadWrongQtiXml()
     {
+        $this->expectException(QtiModelException::class);
+        $this->expectExceptionMessageMatches('|^Wrong QTI item output format.*|');
         $xmlStr = file_get_contents($this->getSamplePath('/authoring/loadWrongQtiXml.xml'));
         Authoring::loadQtiXml($xmlStr);
     }
 
-    /**
-     * @expectedException        oat\taoQtiItem\model\qti\exception\QtiModelException
-     */
     public function testValidateQtiXmlQti2p1Wrong()
     {
+        $this->expectException(QtiModelException::class);
         //check if wrong files are not validated correctly
         foreach (glob($this->getSamplePath('/wrong/*.*')) as $file) {
             Authoring::validateQtiXml($file);
@@ -157,40 +151,37 @@ class AuthoringTest extends TaoPhpUnitTestRunner
             glob($this->getSamplePath('/xml/qtiv2p1/*.xml')),
             glob($this->getSamplePath('/xml/qtiv2p1/rubricBlock/*.xml'))
         );
-        $dom = new \DOMDocument('1.0', 'UTF-8');
         foreach ($files as $file) {
             Authoring::validateQtiXml($file);
         }
+        self::assertTrue(true, 'No exceptions triggered');
     }
-    
+
     public function testValidateQtiXmlQti2p0()
     {
         $files = glob($this->getSamplePath('/xml/qtiv2p0/*.xml'));
-        
-        $dom = new \DOMDocument('1.0', 'UTF-8');
         foreach ($files as $file) {
             Authoring::validateQtiXml($file);
         }
+        self::assertTrue(true, 'No exceptions triggered');
     }
 
     public function testFileParsingApipv1p0()
     {
         $files = glob($this->getSamplePath('/xml/apipv1p0/*.xml'));
-        
-        $dom = new \DOMDocument('1.0', 'UTF-8');
         foreach ($files as $file) {
             Authoring::validateQtiXml($file);
         }
+        self::assertTrue(true, 'No exceptions triggered');
     }
-    
+
     /**
      * Get absolute path to samples dir.
-     * 
+     *
      * @return string
      */
     protected function getSamplePath($relPath)
     {
         return dirname(__DIR__) . DIRECTORY_SEPARATOR . 'samples' . str_replace('/', DIRECTORY_SEPARATOR, $relPath);
     }
-
 }

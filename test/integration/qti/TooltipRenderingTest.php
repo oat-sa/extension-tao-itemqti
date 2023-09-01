@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,16 +21,20 @@
 /**
  * @author Christophe Noël <christophe@taotesting.com>
  */
+
 namespace oat\taoQtiItem\test\integration\qti;
 
 use oat\taoQtiItem\model\qti\Tooltip;
 use oat\generis\test\TestCase;
 
+// phpcs:disable PSR1.Files.SideEffects
 include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
+// phpcs:enable PSR1.Files.SideEffects
 
-class TooltipRenderingTest extends TestCase {
-
-    public function testRenderTooltipToQTI() {
+class TooltipRenderingTest extends TestCase
+{
+    public function testRenderTooltipToQTI()
+    {
         $tooltip = new Tooltip([
             'data-role' => 'tooltip-target',
             'aria-describedby' => 'tooltip_id'
@@ -39,13 +44,11 @@ class TooltipRenderingTest extends TestCase {
 
         $rendering = $tooltip->toQTI();
         $this->assertEquals(
-            '<span data-role="tooltip-target" aria-describedby="tooltip_id">tooltip <i>target</i></span>' .
-            '<span data-role="tooltip-content" aria-hidden="true" id="tooltip_id">tooltip <strong>content</strong></span>',
+            '<span data-role="tooltip-target" aria-describedby="tooltip_id">tooltip <i>target</i></span>'
+                . '<span data-role="tooltip-content" aria-hidden="true" id="tooltip_id">tooltip '
+                . '<strong>content</strong></span>',
             $rendering,
             'Tooltip has been rendered as expected'
         );
-
     }
-
-
 }

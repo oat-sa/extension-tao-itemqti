@@ -19,7 +19,6 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-
     'lodash',
     'jquery',
     'taoQtiItem/qtiCreator/editor/mathInput/mathInput'
@@ -117,33 +116,6 @@ define([
                 .init()
                 .render($container);
         });
-
-    QUnit.test('stop clic propagation', function(assert) {
-        var ready = assert.async();
-        var mathInput = mathInputFactory(),
-            $container = $(fixtureContainer);
-
-        assert.expect(1);
-
-        mathInput
-            .on('render', function() {
-                var $component = this.getElement(),
-                    $inputField = $component.find('.math-input-mathquill');
-
-                assert.equal($inputField.length, 1, 'inputField has been found');
-
-                $component.on('mousedown', function() {
-                    assert.ok(false, 'Event should not propagate to the componen\'s root element');
-                    ready();
-                });
-
-                $inputField.trigger('mousedown');
-
-                ready();
-            })
-            .init()
-            .render($container);
-    });
 
     QUnit.module('Visual test');
 

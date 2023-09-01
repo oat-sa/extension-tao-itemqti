@@ -40,10 +40,10 @@ define([
     $.mockjaxSettings.responseTime = 1;
 
     // Mock the item data query
-    $.mockjax({
-        url: '/*',
+    $.mockjax([{
+        url: /mockItemEndpoint/,
+        status: 200,
         responseText: {
-            success: true,
             itemIdentifier: 'item-1',
             itemData: {
                 content: {
@@ -54,7 +54,24 @@ define([
                 state: {}
             }
         }
-    });
+    }, {
+        url: 'undefined/tao/Languages/index',
+        responseText: {
+            "success": true,
+            "data": [{
+                "uri":"http:\/\/www.tao.lu\/ontologies\/tao.rdf#langar-arb",
+                "code":"ar-arb",
+                "label":"arabic",
+                "orientation":"rtl"
+            },{
+                "uri":"http:\/\/www.tao.lu\/ontologies\/tao.rdf#langckb-ir",
+                "code":"ckb-ir",
+                "label":"kurdish (iran)",
+                "orientation":"rtl"
+            }]
+        },
+        status: 200
+    }]);
 
     QUnit.module('API');
 
@@ -145,6 +162,15 @@ define([
                 label: 'Item'
             }
         }
+    }, {
+        title: 'Missing itemData url',
+        config: {
+            properties: {
+                uri: 'http://item#rdf-123',
+                label: 'Item',
+                baseUrl: 'http://foo/bar/'
+            }
+        }
     }]).test('error ', (data, assert) => {
         const ready = assert.async();
         const $container = $('#fixture-error');
@@ -171,7 +197,8 @@ define([
             properties: {
                 uri: 'http://item#rdf-123',
                 label: 'Item',
-                baseUrl: 'http://foo/bar/'
+                baseUrl: 'http://foo/bar/',
+                itemDataUrl: '//mockItemEndpoint',
             }
         };
         const instance = itemAuthoringFactory($container, config);
@@ -192,7 +219,7 @@ define([
                 assert.ok(false, 'The operation should not fail!');
                 assert.pushResult({
                     result: false,
-                    message: err
+                    message: JSON.stringify(err)
                 });
                 ready();
             });
@@ -205,7 +232,8 @@ define([
             properties: {
                 uri: 'http://item#rdf-123',
                 label: 'Item',
-                baseUrl: 'http://foo/bar/'
+                baseUrl: 'http://foo/bar/',
+                itemDataUrl: '//mockItemEndpoint',
             }
         };
 
@@ -233,7 +261,7 @@ define([
                 assert.ok(false, 'The operation should not fail!');
                 assert.pushResult({
                     result: false,
-                    message: err
+                    message: JSON.stringify(err)
                 });
                 ready();
             });
@@ -246,7 +274,8 @@ define([
             properties: {
                 uri: 'http://item#rdf-123',
                 label: 'Item',
-                baseUrl: 'http://foo/bar/'
+                baseUrl: 'http://foo/bar/',
+                itemDataUrl: '//mockItemEndpoint'
             }
         };
 
@@ -271,7 +300,7 @@ define([
                 assert.ok(false, 'The operation should not fail!');
                 assert.pushResult({
                     result: false,
-                    message: err
+                    message: JSON.stringify(err)
                 });
                 ready();
             });

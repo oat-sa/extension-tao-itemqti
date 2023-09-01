@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,17 +26,21 @@ class LomInjector extends OntologyMetadataInjector
     public function __construct()
     {
         parent::__construct();
-        $this->addInjectionRule(array(
+        $this->addInjectionRule(
+            [
             'http://www.imsglobal.org/xsd/imsmd_v1p2#lom',
             'http://www.imsglobal.org/xsd/imsmd_v1p2#general',
             'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier'
-        ),
-        'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier');
+            ],
+            'http://www.imsglobal.org/xsd/imsmd_v1p2#identifier'
+        );
 
-        $this->addInjectionRule(array(
+        $this->addInjectionRule(
+            [
             'http://ltsc.ieee.org/xsd/LOM#lom',
             'http://www.w3.org/2000/01/rdf-schema#label'
-        ),
-        'http://www.w3.org/2000/01/rdf-schema#label');
+            ],
+            'http://www.w3.org/2000/01/rdf-schema#label'
+        );
     }
 }

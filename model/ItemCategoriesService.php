@@ -19,6 +19,7 @@
  *
  *
  */
+
 namespace oat\taoQtiItem\model;
 
 use oat\oatbox\service\ConfigurableService;
@@ -32,8 +33,7 @@ use oat\oatbox\service\ConfigurableService;
  */
 class ItemCategoriesService extends ConfigurableService
 {
-
-    const SERVICE_ID = 'taoQtiItem/ItemCategories';
+    public const SERVICE_ID = 'taoQtiItem/ItemCategories';
 
     /**
      * Get the categories link to the list of items in parameter.
@@ -45,17 +45,20 @@ class ItemCategoriesService extends ConfigurableService
      */
     public function getCategories(array $items)
     {
-        $categories = array();
+        $categories = [];
         $lookupProperties = $this->getOption('properties');
         if (!empty($lookupProperties)) {
             foreach ($items as $item) {
-                $itemCategories = array();
-                if($item instanceof \core_kernel_classes_Resource){
+                $itemCategories = [];
+                if ($item instanceof \core_kernel_classes_Resource) {
                     $properties = $item->getPropertiesValues(array_keys($lookupProperties));
                     foreach ($properties as $property => $propertyValues) {
                         foreach ($propertyValues as $value) {
-                            $propertyValue = ($value instanceof \core_kernel_classes_Resource) ? $value->getUri() : (string)$value;
-                            if(isset($lookupProperties[$property][$propertyValue])){
+                            $propertyValue = ($value instanceof \core_kernel_classes_Resource)
+                                ? $value->getUri()
+                                : (string)$value;
+
+                            if (isset($lookupProperties[$property][$propertyValue])) {
                                 $itemCategories[] = $lookupProperties[$property][$propertyValue];
                             }
                         }

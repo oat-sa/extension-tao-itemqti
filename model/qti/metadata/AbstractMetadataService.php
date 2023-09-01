@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,12 +35,12 @@ abstract class AbstractMetadataService extends ConfigurableService
     /**
      * Config key to store injectors classes
      */
-    const INJECTOR_KEY  = 'injectors';
+    public const INJECTOR_KEY  = 'injectors';
 
     /**
      * Config key to store extractors classes
      */
-    const EXTRACTOR_KEY = 'extractors';
+    public const EXTRACTOR_KEY = 'extractors';
 
     /**
      * @var array Array of metadata, with metadata key with associated value
@@ -92,9 +93,12 @@ abstract class AbstractMetadataService extends ConfigurableService
             $values = $this->getMetadataValue($identifier);
 
             foreach ($this->getInjectors() as $injector) {
-                \common_Logger::i(__('Attempting to inject "%s" metadata values for target "%s" with metadata Injector "%s".',
-                    count($values), $identifier, get_class($injector)));
-                $injector->inject($target, array($identifier => $values));
+                \common_Logger::i(
+                    // phpcs:disable Generic.Files.LineLength
+                    __('Attempting to inject "%s" metadata values for target "%s" with metadata Injector "%s".', count($values), $identifier, get_class($injector))
+                    // phpcs:enable Generic.Files.LineLength
+                );
+                $injector->inject($target, [$identifier => $values]);
             }
         }
     }
@@ -293,10 +297,29 @@ abstract class AbstractMetadataService extends ConfigurableService
         } else {
             foreach ($this->getOption($id) as $instance) {
                 if (is_a($instance, $interface, true)) {
-                    $this->instances[$id][] = new $instance();
+                    $this->instances[$id][] = $this->getInstance($instance);
                 }
             }
         }
+
         return $this->instances[$id];
+    }
+
+    private function getInstance(string $instance): object
+    {
+        $isConfigurableService = is_a($instance, ConfigurableService::class, true);
+
+        if ($isConfigurableService) {
+            return $this->getServiceLocator()->get($this->getConfigurableServiceKey($instance));
+        }
+
+        return new $instance();
+    }
+
+    private function getConfigurableServiceKey(string $instance): string
+    {
+        return defined($instance . '::SERVICE_ID')
+            ? $instance::SERVICE_ID
+            : $instance;
     }
 }

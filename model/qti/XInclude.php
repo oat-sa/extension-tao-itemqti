@@ -1,21 +1,22 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA
- *               
+ *
  */
 
 namespace oat\taoQtiItem\model\qti;
@@ -31,11 +32,10 @@ use oat\taoQtiItem\model\qti\container\ContainerStatic;
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQtiItem
- 
+
  */
 class XInclude extends Element implements FlowContainer
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
@@ -43,37 +43,49 @@ class XInclude extends Element implements FlowContainer
      * @var string
      */
     protected static $qtiTagName = 'include';
+    protected static $qtiNamespaceAlias = 'xi';
     protected $body = null;
-    
-    public function __construct($attributes = array(), Item $relatedItem = null, $serial = ''){
+
+    public function __construct($attributes = [], Item $relatedItem = null, $serial = '')
+    {
         parent::__construct($attributes, $relatedItem, $serial);
         $this->body = new ContainerStatic('', $relatedItem);
     }
-    
+
     /**
      * Get the body of XInclude element
-     * 
+     *
      * @return oat\taoQtiItem\model\qti\container\ContainerStatic
      */
-    public function getBody(){
+    public function getBody()
+    {
         return $this->body;
     }
-    
+
     /**
      * Get the list of used attributes
-     * 
+     *
      * @return array
      */
-    public function getUsedAttributes(){
-        return array();
+    public function getUsedAttributes()
+    {
+        return [];
     }
-    
+
+    public function listOfNonQtiAttributes(): array
+    {
+        return [
+            'class' // Prefix for related stylesheet classes
+        ];
+    }
+
     /**
      * Get the variables for the qti template rendering
-     * 
+     *
      * @return array
      */
-    protected function getTemplateQtiVariables(){
+    protected function getTemplateQtiVariables()
+    {
 
         $variables = parent::getTemplateQtiVariables();
 
@@ -81,35 +93,36 @@ class XInclude extends Element implements FlowContainer
 
         //search existing mathML ns declaration:
         $ns = $this->getXIncludeNamespace();
-        if(empty($ns)){
+        if (empty($ns)) {
             //add one!
             $relatedItem = $this->getRelatedItem();
-            if(!is_null($relatedItem)){
+            if (!is_null($relatedItem)) {
                 $ns = 'xi';
                 $relatedItem->addNamespace($ns, 'http://www.w3.org/2001/XInclude');
             }
         }
-        if(!empty($ns)){
+        if (!empty($ns)) {
             //proceed to ns addition:
-            $tag = $ns.':'.$tag;
+            $tag = $ns . ':' . $tag;
         }
 
         $variables['tag'] = $tag;
 
         return $variables;
     }
-    
+
     /**
      * Get the xml namespace of the xinclude
-     * 
+     *
      * @return string
      */
-    public function getXIncludeNamespace(){
+    public function getXIncludeNamespace()
+    {
         $ns = '';
         $relatedItem = $this->getRelatedItem();
-        if(!is_null($relatedItem)){
-            foreach($relatedItem->getNamespaces() as $name => $uri){
-                if(strpos($uri, 'XInclude') > 0){
+        if (!is_null($relatedItem)) {
+            foreach ($relatedItem->getNamespaces() as $name => $uri) {
+                if (strpos($uri, 'XInclude') > 0) {
                     $ns = $name;
                     break;
                 }
@@ -117,13 +130,14 @@ class XInclude extends Element implements FlowContainer
         }
         return $ns;
     }
-    
+
     /**
      * Get the absolute path of the template of the qti.xml
-     * 
+     *
      * @return string
      */
-    public static function getTemplateQti(){
-       return static::getTemplatePath().'/qti.include.tpl.php';
+    public static function getTemplateQti()
+    {
+        return static::getTemplatePath() . '/qti.include.tpl.php';
     }
 }

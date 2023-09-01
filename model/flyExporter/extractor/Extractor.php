@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,7 +32,7 @@ use oat\oatbox\PhpSerializable;
  */
 interface Extractor extends PhpSerializable
 {
-    const DEFAULT_PROPERTY_DELIMITER = '|';
+    public const DEFAULT_PROPERTY_DELIMITER = '|';
 
     /**
      * Item to export, could load relative info like xml
@@ -39,7 +40,7 @@ interface Extractor extends PhpSerializable
      * @param \core_kernel_classes_Resource $item
      * @return mixed
      */
-    public function  setItem(\core_kernel_classes_Resource $item);
+    public function setItem(\core_kernel_classes_Resource $item);
 
     /**
      * Add column to extract with associate config

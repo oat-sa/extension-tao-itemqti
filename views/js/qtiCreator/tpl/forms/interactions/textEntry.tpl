@@ -1,5 +1,5 @@
 <div class="panel">
-    <label for="base" class="spinner">Base</label>
+    <label for="base" class="spinner">{{__ "Base"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
     <input name="base" value="{{base}}" data-increment="1" data-min="1" data-max="100" type="text" />
     <span class="tooltip-content">
@@ -8,7 +8,7 @@
 </div>
 
 <div class="panel">
-    <label for="placeholderText" class="spinner">Placeholder Text</label>
+    <label for="placeholderText" class="spinner">{{__ "Placeholder Text"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
     <input name="placeholderText" value="{{placeholderText}}" type="text" />
     <span class="tooltip-content">
@@ -19,7 +19,7 @@
 <hr>
 
 <div class="panel">
-    <h3 class="full-width">{{__ "Contraints"}}</h3>
+    <h3 class="full-width">{{__ "Constraints"}}</h3>
     <select name="constraint" class="select2" data-has-search="false">
         {{#each constraints}}
         <option value="{{@key}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
@@ -53,7 +53,7 @@
 <div class="panel extendedText">
     <h3 class="full-width">{{__ "Recommendations"}}</h3>
     <div class="panel">
-        <label for="expectedLength" class="spinner">Length</label>
+        <label for="expectedLength" class="spinner">{{__ 'Length'}}</label>
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
         <input name="expectedLength" value="{{#if expectedLength}}{{expectedLength}}{{/if}}" data-increment="1" data-min="1" data-max="100" type="text" />
         <span class="tooltip-content">

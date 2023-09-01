@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -49,7 +50,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
 {
     use OntologyAwareTrait;
     use ServiceLocatorAwareTrait;
-    
+
     protected $rollbackOnError = false;
     protected $rollbackOnWarning = false;
     protected $recurse = false;
@@ -123,16 +124,19 @@ class importItems implements Action, ServiceLocatorAwareInterface
                 . "\t -h\t\t Show this help\n"
             );
         }
-        
+
         if (!$fileName || !file_exists($fileName)) {
-            throw new \common_Exception("You must provide the path of an items package. " . (isset($fileName) ? $fileName . " does not exists." : "Nothing provided!"));
+            throw new \common_Exception(
+                "You must provide the path of an items package. "
+                    . (isset($fileName) ? $fileName . " does not exists." : "Nothing provided!")
+            );
         }
-        
+
         $class = $this->getItemClass($className);
 
         $report = $this->importPath($fileName, $class);
         $report->setMessage($this->processed . ' packages processed');
-        
+
         return $report;
     }
 
@@ -141,15 +145,16 @@ class importItems implements Action, ServiceLocatorAwareInterface
      * @param string $parentClass
      * @return core_kernel_classes_Class|null
      */
-    protected function getItemClass($className = null, $parentClass = TaoOntology::ITEM_CLASS_URI) {
+    protected function getItemClass($className = null, $parentClass = TaoOntology::ITEM_CLASS_URI)
+    {
         $parentClass = $this->getClass($parentClass);
-        
+
         if ($className) {
             $subClass = null;
             $className = str_replace('_', ' ', $className);
 
             $subClasses = $parentClass->getSubClasses();
-            foreach($subClasses as $instance) {
+            foreach ($subClasses as $instance) {
                 if ($instance->getLabel() == $className) {
                     $subClass = $instance;
                     $this->showMessage("Loaded class: $className\n");
@@ -164,7 +169,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
 
             return $subClass;
         }
-        
+
         return $parentClass;
     }
 
@@ -181,7 +186,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
                 $message .= "\t${key}: ${value}\n";
             }
         }
-        
+
         $this->showReport(new Report($type, $message));
     }
 
@@ -197,8 +202,9 @@ class importItems implements Action, ServiceLocatorAwareInterface
      * @param string $path
      * @return array
      */
-    protected function listPackages($path) {
-        $packages = array_map(function($fileName) use($path) {
+    protected function listPackages($path)
+    {
+        $packages = array_map(function ($fileName) use ($path) {
             $file = null;
             if ($fileName != '.' && $fileName != '..') {
                 $fullPath = $path . DIRECTORY_SEPARATOR . $fileName;
@@ -214,7 +220,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
             return $file;
         }, scandir($path));
 
-        return array_filter($packages, function($file) {
+        return array_filter($packages, function ($file) {
             return $file != null;
         });
     }
@@ -225,15 +231,16 @@ class importItems implements Action, ServiceLocatorAwareInterface
      * @return common_report_Report
      * @throws common_exception_Error
      */
-    protected function importPath($path, $class) {
+    protected function importPath($path, $class)
+    {
 
         if (is_dir($path)) {
             $packages = $this->listPackages($path);
-            
+
             if (count($packages)) {
                 $finalReport = new Report(Report::TYPE_SUCCESS);
-                
-                foreach($packages as $package) {
+
+                foreach ($packages as $package) {
                     if ($this->directoryToClass) {
                         $packageClass = $this->getItemClass($package['name'], $class);
                     } else {
@@ -254,12 +261,11 @@ class importItems implements Action, ServiceLocatorAwareInterface
                         $finalReport->setType($report->getType());
                     }
                 }
-                
+
                 return $finalReport;
             } else {
                 return new Report(Report::TYPE_ERROR, 'No package to import!');
             }
-
         } else {
             return $this->importPackage($path, $class);
         }
@@ -275,17 +281,29 @@ class importItems implements Action, ServiceLocatorAwareInterface
         $this->showMessage("Importing the items from $fileName");
 
         //the zip extraction is a long process that can exceed the 30s timeout
-        helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);    
+        helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);
 
         try {
             $importService = ImportService::singleton();
-            $report = $importService->importQTIPACKFile($fileName, $class, true, $this->rollbackOnError, $this->rollbackOnWarning);
+            $report = $importService->importQTIPACKFile(
+                $fileName,
+                $class,
+                true,
+                $this->rollbackOnError,
+                $this->rollbackOnWarning
+            );
         } catch (ExtractException $e) {
-            $report = common_report_Report::createFailure(__('The ZIP archive containing the IMS QTI Item cannot be extracted.'));
+            $report = common_report_Report::createFailure(
+                __('The ZIP archive containing the IMS QTI Item cannot be extracted.')
+            );
         } catch (ParsingException $e) {
-            $report = common_report_Report::createFailure(__('The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive.'));
+            $report = common_report_Report::createFailure(
+                __('The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive.')
+            );
         } catch (Exception $e) {
-            $report = common_report_Report::createFailure(__("An unexpected error occured during the import of the IMS QTI Item Package."));
+            $report = common_report_Report::createFailure(
+                __("An unexpected error occured during the import of the IMS QTI Item Package.")
+            );
         }
 
         helpers_TimeOutHelper::reset();

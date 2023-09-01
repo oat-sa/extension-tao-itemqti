@@ -13,8 +13,8 @@ define([
     _.extend(methods, editable);
     _.extend(methods, {
         setTemplate : function(template){
-            var templateUri = responseHelper.getTemplateUriFromName(template);
-            if(templateUri && this.template !== templateUri){
+            var templateUri = responseHelper.getTemplateUriFromName(template) || null;
+            if(this.template !== templateUri){
                 this.template = templateUri;
                 $(document).trigger('responseTemplateChange.qti-widget', {'element' : this, 'value' : template});
             }
@@ -59,47 +59,48 @@ define([
 
             hider.toggle($('.response-mapping-attributes', $panel), !mappingDisabled);
             hider.toggle($('.response-mapping-info', $panel), mappingDisabled);
+
+            // event trigger to display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+            $(document).trigger('infinityMatchMax.qti-widget', { template: 'response' });
         },
         setMapEntry : function(mapKey, mappedValue, caseSensitive){
 
             mappedValue = parseFloat(mappedValue);
             caseSensitive = caseSensitive ? true : false;
 
-            if(!isNaN(mappedValue)){
-                if(this.attr('cardinality') === 'multiple' && this.attr('baseType') === 'pair'){
+            if (!isNaN(mappedValue)) {
+                if (this.attr('cardinality') === 'multiple' && this.attr('baseType') === 'pair') {
                     //in this case, A-B is equivalent to B-A so need to check if any of those conbination already exists:
+                    const mapKeys = mapKey.split(' ');
+                    const mapKeysReverse = mapKeys[1] + ' ' + mapKeys[0];
 
-                    var mapKeys = mapKey.split(' '),
-                        mapKeysReverse = mapKeys[1] + ' ' + mapKeys[0];
-
-                    if(this.mapEntries[mapKeysReverse]){
+                    if (this.mapEntries[mapKeysReverse]) {
                         this.mapEntries[mapKeysReverse] = mappedValue;
-                    }else{
+                    } else {
                         this.mapEntries[mapKey] = mappedValue;
                     }
-                }else{
+                } else {
                     this.mapEntries[mapKey] = mappedValue;
                 }
+            } else {
+                this.mapEntries[mapKey] = 0;
+            }
 
-                this.toggleMappingForm();
+            this.toggleMappingForm();
 
-                /**
-                 * @todo caseSensitive is always set to "false" currently, need to add an option for this
-                 * this.mapEntries[mapKey] = {
+            /**
+             * @todo caseSensitive is always set to "false" currently, need to add an option for this
+             * this.mapEntries[mapKey] = {
                  'mappedValue' : mappedValue,
                  'caseSensitive' : caseSensitive
                  };
-                 */
-
-                $(document).trigger('mapEntryChange.qti-widget', {
-                    element : this,
-                    mapKey : mapKey,
-                    mappedValue : mappedValue,
-                    caseSensitive : caseSensitive
-                });
-            }else{
-                throw 'the mapped value is not a number';
-            }
+             */
+            $(document).trigger('mapEntryChange.qti-widget', {
+                element : this,
+                mapKey : mapKey,
+                mappedValue : mappedValue,
+                caseSensitive : caseSensitive
+            });
 
             return this;
         },

@@ -13,10 +13,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA ;
  *
  */
-
 
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
@@ -63,7 +62,7 @@ define([
     resourceManager,
     bgImage
 ) {
-    "use strict";
+    'use strict';
 
     var GraphicGapMatchInteractionStateQuestion;
 
@@ -72,9 +71,19 @@ define([
      *
      * @param {Object} params
      * @param {number} factor
+     * @param {number} naturalHeight
+     * @param {number} naturalWidth
      */
-    function applyMediasizerValues(params, factor) {
+    function applyMediasizerValues(params, factor, naturalHeight, naturalWidth) {
         factor = factor || 1;
+
+        let width = params.width;
+        let height = params.height;
+
+        if (!width || !height) {
+            width = naturalWidth;
+            height = naturalHeight;
+        }
 
         // The mediasizer target maintains a height and width (i.e. attributes)
         // but is displayed according to a factor (i.e. styles). This matches
@@ -83,14 +92,12 @@ define([
         // the target's dimensions need to be maintained.
         params.$target
             .css({
-                width: params.width * factor,
-                height: params.height * factor
+                width: width * factor,
+                height: height * factor
             })
-            .attr('width', params.width)
-            .attr('height', params.height);
+            .attr('width', width)
+            .attr('height', height);
     }
-
-
 
     /**
      * Question State initialization: set up side bar, editors and shape factory
@@ -168,51 +175,53 @@ define([
             widget.changeState('sleep');
         });
 
-
-
         /**
          * Create the 'add option' button
          */
         function createGapImgAddOption() {
-            var $gapList = $('ul.source', widget.$original);
-            var $addOption =
+            const $gapList = $('ul.source', widget.$original);
+            const $addOption =
                 $('<li class="empty add-option">' +
                     '<div><span class="icon-add"></span></div>' +
                     '</li>');
 
             $addOption.on('click', function () {
-                var gapImgObj = interaction.createGapImg({});
+                let gapImgObj = interaction.createGapImg({});
                 gapImgObj.object.removeAttr('type');
 
                 // on successful upload
                 $addOption.on('selected.upload', function (e, args) {
-
                     $addOption.off('selected.upload');
+
+                    const size = args.size;
+                    let height, width;
+
+                    if (size) {
+                        height = args.size.height;
+                        width = args.size.width;
+                    }
 
                     gapImgObj.object.attr('data', args.selected.file);
                     gapImgObj.object.attr('type', args.selected.mime);
-                    gapImgObj.object.attr('width', args.size.width);
-                    gapImgObj.object.attr('height', args.size.height);
+                    gapImgObj.object.attr('width', width);
+                    gapImgObj.object.attr('height', height);
                     setUpGapImg(gapImgObj);
                 });
                 resourceManager($addOption, gapImgSelectorOptions);
-
             });
             $addOption.appendTo($gapList);
         }
 
-
         /**
          * Insert and setup the gap image
          *
-         * @param gapImgObj
+         * @param {Object} gapImgObj
          */
         function setUpGapImg(gapImgObj) {
-
-            var $gapList = $('ul.source', widget.$original);
-            var $addOption = $('.empty', $gapList);
-            var $gapImgBox = $('[data-serial="' + gapImgObj.serial + '"]', $gapList);
-            var $deleteBtn = $(mediaTlbTpl());
+            const $gapList = $('ul.source', widget.$original),
+                $addOption = $('.empty', $gapList),
+                $deleteBtn = $(mediaTlbTpl());
+            let $gapImgBox = $(`[data-serial="${gapImgObj.serial}"]`, $gapList);
 
             if (!$gapImgBox.length) {
                 $gapImgBox = $(gapImgObj.render()).insertBefore($addOption);
@@ -235,8 +244,7 @@ define([
                 if ($gapImgBox.hasClass('active')) {
                     $gapImgBox.removeClass('active');
                     leaveChoiceForm();
-                }
-                else {
+                } else {
                     $('.active', $gapList).removeClass('active');
                     $gapImgBox.addClass('active');
                     enterGapImgForm(gapImgObj.serial);
@@ -255,7 +263,6 @@ define([
             var element, bbox, callbacks;
 
             if (choice) {
-
                 //get shape bounding box
                 element = interaction.paper.getById(serial);
                 bbox = element.getBBox();
@@ -274,32 +281,39 @@ define([
 
                 //controls match min/max for the choices (the shapes)
                 minMaxComponentFactory($choiceForm.find('.min-max-panel'), {
-                    min : {
-                        fieldName:   'matchMin',
-                        value:       _.parseInt(choice.attr('matchMin')) || 0,
+                    min: {
+                        fieldName: 'matchMin',
+                        value: _.parseInt(choice.attr('matchMin')) || 0,
                         helpMessage: __('The minimum number of choices this choice must be associated with to form a valid response.')
                     },
-                    max : {
-                        fieldName:   'matchMax',
-                        value:       _.parseInt(choice.attr('matchMax')) || 0,
+                    max: {
+                        fieldName: 'matchMax',
+                        value: _.parseInt(choice.attr('matchMax')) || 0,
                         helpMessage: __('The maximum number of choices this choice may be associated with.')
                     },
-                    upperThreshold :  _.size(interaction.getChoices()),
-                }).on('render', function(){
-                    var self = this;
+                    upperThreshold: _.size(interaction.getChoices())
+                })
+                    .on('render', function () {
+                        var self = this;
 
-                    //the range matches the number of choices
-                    widget.on('choiceCreated choiceDeleted', function(data){
-                        if(data.interaction.serial === interaction.serial){
-                            self.updateThresholds(1, _.size(interaction.getChoices()));
-                        }
+                        //the range matches the number of choices
+                        widget.on('choiceCreated choiceDeleted', function (data) {
+                            if (data.interaction.serial === interaction.serial) {
+                                self.updateThresholds(1, _.size(interaction.getChoices()));
+                            }
+                        });
+                        // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+                        widget.infinityMatchMax('hotspot', choice);
+                    })
+                    .on('change', function () {
+                        // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+                        widget.infinityMatchMax('hotspot', choice);
                     });
-                });
 
                 formElement.initWidget($choiceForm);
 
                 //init data validation and binding
-                callbacks = formElement.getMinMaxAttributeCallbacks($choiceForm, 'matchMin', 'matchMax');
+                callbacks = formElement.getMinMaxAttributeCallbacks('matchMin', 'matchMax');
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
 
@@ -335,8 +349,7 @@ define([
          * @param {String} serial - the gapImg serial
          */
         function enterGapImgForm(serial) {
-
-            var callbacks,
+            let callbacks,
                 gapImg = interaction.getGapImg(serial),
                 initMediasizer,
                 $gapImgBox,
@@ -344,58 +357,69 @@ define([
                 $mediaSizer;
 
             if (gapImg) {
-
-                $choiceForm.empty().html(gapImgFormTpl({
-                    identifier: gapImg.id(),
-                    fixed: gapImg.attr('fixed'),
-                    serial: serial,
-                    baseUrl: options.baseUrl,
-                    data: gapImg.object.attr('data'),
-                    width: gapImg.object.attr('width'),
-                    height: gapImg.object.attr('height'),
-                    type: gapImg.object.attr('type')
-                }));
+                $choiceForm.empty().html(
+                    gapImgFormTpl({
+                        identifier: gapImg.id(),
+                        fixed: gapImg.attr('fixed'),
+                        serial: serial,
+                        baseUrl: options.baseUrl,
+                        data: gapImg.object.attr('data'),
+                        width: gapImg.object.attr('width'),
+                        height: gapImg.object.attr('height'),
+                        type: gapImg.object.attr('type')
+                    })
+                );
 
                 //controls the match min/max for the gap images
                 minMaxComponentFactory($choiceForm.find('.min-max-panel'), {
-                    min : {
-                        fieldName:   'matchMin',
-                        value:       _.parseInt(gapImg.attr('matchMin')) || 0,
+                    min: {
+                        fieldName: 'matchMin',
+                        value: _.parseInt(gapImg.attr('matchMin')) || 0,
                         helpMessage: __('The minimum number of choices this choice must be associated with to form a valid response.')
                     },
-                    max : {
-                        fieldName:   'matchMax',
-                        value:       _.parseInt(gapImg.attr('matchMax')) || 0,
+                    max: {
+                        fieldName: 'matchMax',
+                        value: _.parseInt(gapImg.attr('matchMax')) || 0,
                         helpMessage: __('The maximum number of choices this choice may be associated with.')
                     },
-                    upperThreshold :  _.size(interaction.getChoices()),
-                }).on('render', function(){
-                    var self = this;
+                    upperThreshold: _.size(interaction.getChoices())
+                })
+                    .on('render', function () {
+                        var self = this;
 
-                    //the range is matching the number of choices (not the number of gap img)
-                    widget.on('choiceCreated choiceDeleted', function(data){
-                        if(data.interaction.serial === interaction.serial){
-                            self.updateThresholds(1, _.size(interaction.getChoices()));
-                        }
+                        //the range is matching the number of choices (not the number of gap img)
+                        widget.on('choiceCreated choiceDeleted', function (data) {
+                            if (data.interaction.serial === interaction.serial) {
+                                self.updateThresholds(1, _.size(interaction.getChoices()));
+                            }
+                        });
+                        // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+                        widget.infinityMatchMax('gapImg', gapImg);
+                    })
+                    .on('change', function () {
+                        // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+                        widget.infinityMatchMax('gapImg', gapImg);
                     });
-                });
 
                 // <li/> that will contain the image
-                $gapImgBox = $('li[data-serial="' + gapImg.serial + '"]');
+                $gapImgBox = $(`li[data-serial="${gapImg.serial}"]`);
 
                 $gapImgElem = $gapImgBox.find('img');
 
                 //init media sizer
-                $mediaSizer = $choiceForm.find('.media-sizer-panel')
-                    .on('create.mediasizer', function(e, params) {
-                        // On creation, mediasizer uses style properties to set
-                        // width and height, but our image needs to use the
-                        // it's attributes to set and resize properly.
-                        params.width = $gapImgElem.attr('width');
-                        params.height = $gapImgElem.attr('height');
-
-                        applyMediasizerValues(params, widget.$original.data('factor'));
-                    });
+                $mediaSizer = $choiceForm.find('.media-sizer-panel').on('create.mediasizer', function (e, params) {
+                    // On creation, mediasizer uses style properties to set
+                    // width and height, but our image needs to use the
+                    // it's attributes to set and resize properly.
+                    params.width = $gapImgElem.attr('width');
+                    params.height = $gapImgElem.attr('height');
+                    applyMediasizerValues(
+                        params,
+                        widget.$original.data('factor'),
+                        $gapImgElem.get(0).naturalHeight,
+                        $gapImgElem.get(0).naturalWidth
+                    );
+                });
 
                 initMediasizer = function () {
                     // Hack to manually set mediasizer to use gapImg's height
@@ -428,7 +452,7 @@ define([
 
                 // bind callbacks to ms
                 // init data validation and binding
-                callbacks = formElement.getMinMaxAttributeCallbacks($choiceForm, 'matchMin', 'matchMax');
+                callbacks = formElement.getMinMaxAttributeCallbacks('matchMin', 'matchMax');
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
                 callbacks.data = function (element, value) {
@@ -437,8 +461,13 @@ define([
                 };
 
                 // callbacks
-                $mediaSizer.on('sizechange.mediasizer', function(e, params) {
-                    applyMediasizerValues(params, widget.$original.data('factor'));
+                $mediaSizer.on('sizechange.mediasizer', function (e, params) {
+                    applyMediasizerValues(
+                        params,
+                        widget.$original.data('factor'),
+                        $gapImgElem.get(0).naturalHeight,
+                        $gapImgElem.get(0).naturalWidth
+                    );
 
                     gapImg.object.attr('width', params.width);
                     gapImg.object.attr('height', params.height);
@@ -447,8 +476,7 @@ define([
                 callbacks.type = function (element, value) {
                     if (!value || value === '') {
                         interaction.object.removeAttr('type');
-                    }
-                    else {
+                    } else {
                         gapImg.object.attr('type', value);
                     }
                 };
@@ -480,7 +508,6 @@ define([
             return;
         }
 
-
         $(window).off('resize.changestate');
 
         if (widget._editor) {
@@ -491,8 +518,7 @@ define([
         $('ul.source .empty', widget.$original).remove();
 
         //restore gapImg appearance
-        widget.$container.find('.qti-gapImg').removeClass('active')
-            .find('.mini-tlb').remove();
+        widget.$container.find('.qti-gapImg').removeClass('active').find('.mini-tlb').remove();
         $('.image-editor.solid, .block-listing.source', widget.$container).css('min-width', 0);
     }
 
@@ -507,19 +533,20 @@ define([
      * Initialize the form linked to the interaction
      */
     GraphicGapMatchInteractionStateQuestion.prototype.initForm = function () {
-
         var widget = this.widget;
         var options = widget.options;
         var interaction = widget.element;
         var $form = widget.$form;
 
-        $form.html(formTpl({
-            baseUrl: options.baseUrl,
-            data: interaction.object.attr('data'),
-            width: interaction.object.attr('width'),
-            height: interaction.object.attr('height'),
-            type: interaction.object.attr('type')
-        }));
+        $form.html(
+            formTpl({
+                baseUrl: options.baseUrl,
+                data: interaction.object.attr('data'),
+                width: interaction.object.attr('width'),
+                height: interaction.object.attr('height'),
+                type: interaction.object.attr('type')
+            })
+        );
 
         imageSelector($form, options);
 
@@ -527,10 +554,7 @@ define([
 
         bgImage.setupImage(widget);
 
-        bgImage.setChangeCallbacks(
-            widget,
-            formElement
-        );
+        bgImage.setChangeCallbacks(widget, formElement);
     };
 
     return GraphicGapMatchInteractionStateQuestion;

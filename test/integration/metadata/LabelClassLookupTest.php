@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,13 +20,18 @@
 
 namespace oat\taoQtiItem\test\integration\metadata;
 
+use core_kernel_classes_Class;
+use oat\generis\model\OntologyRdf;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 
+// phpcs:disable PSR1.Files.SideEffects
 include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class LabelClassLookupTest
@@ -44,7 +50,9 @@ class LabelClassLookupTest extends TaoPhpUnitTestRunner
 
         $importer->setOptions([
             MetadataImporter::CLASS_LOOKUP_KEY => ['oat\taoQtiItem\model\qti\metadata\classLookups\LabelClassLookup'],
-            MetadataImporter::EXTRACTOR_KEY => ['oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor'],
+            MetadataImporter::EXTRACTOR_KEY => [
+                'oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataExtractor',
+            ],
             MetadataImporter::GUARDIAN_KEY => ['oat\taoQtiItem\model\qti\metadata\guardians\LomIdentifierGuardian'],
         ]);
 
@@ -64,7 +72,17 @@ class LabelClassLookupTest extends TaoPhpUnitTestRunner
         $this->setInaccessibleProperty($importService, 'metadataImporter', null);
 
         // Create fake class.
-        \core_kernel_classes_ClassFactory::createSubClass($itemClass, 'mytestclasslabel', 'mytestclasslabel', 'http://www.test.com#mytestclass');
+        $class = new core_kernel_classes_Class(OntologyRdfs::RDFS_CLASS);
+        $instance = new core_kernel_classes_Class('http://www.test.com#mytestclass');
+        $propertiesValues = [
+            OntologyRdf::RDF_TYPE => $class->getUri(),
+            OntologyRdfs::RDFS_LABEL => 'mytestclasslabel',
+            OntologyRdfs::RDFS_COMMENT => 'mytestclasslabel',
+        ];
+        $instance->setPropertiesValues($propertiesValues);
+
+        $returnValue = new core_kernel_classes_Class($instance->getUri());
+        $returnValue->setSubClassOf($itemClass);
 
         // Import myTestClassLabel sample...
         $samplePath = dirname(__FILE__) . '/../samples/metadata/metadataClassLookups/mytestclasslabel.zip';
@@ -83,6 +101,5 @@ class LabelClassLookupTest extends TaoPhpUnitTestRunner
         // Delete fake class
         $class = new \core_kernel_classes_Class('http://www.test.com#mytestclass');
         $class->delete(true);
-
     }
 }

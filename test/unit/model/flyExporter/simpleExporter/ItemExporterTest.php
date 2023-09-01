@@ -2,8 +2,14 @@
 
 namespace oat\taoQtiItem\test\unit\model\flyExporter\simpleExporter;
 
+use core_kernel_classes_Resource;
 use oat\generis\test\TestCase;
+use oat\taoQtiItem\model\Export\QTIPackedItem22Exporter;
+use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 use oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter;
+use ZipArchive;
+
+use function Webmozart\Assert\Tests\StaticAnalysis\true;
 
 class ItemExporterTest extends TestCase
 {
@@ -43,8 +49,41 @@ class ItemExporterTest extends TestCase
         $item = new \core_kernel_classes_Resource('foo');
         $data = $exporter->getDataByItem($item);
         //both interactions have metadata
-        $this->assertEquals(array_column($data, 'foo'),['bar', 'bar']);
+        $this->assertEquals(array_column($data, 'foo'), ['bar', 'bar']);
     }
 
+    public function testSetCorrectQTIVersion()
+    {
+        $input = file_get_contents(dirname(__FILE__) . '/../../../samples/export/item_qti_input.xml');
+        $expectedOutputV21 = file_get_contents(dirname(__FILE__) . '/../../../samples/export/exported_item_2_1.xml');
+        $expectedOutputV22 = file_get_contents(dirname(__FILE__) . '/../../../samples/export/exported_item_2_2.xml');
 
+        $coreKernelClassStub = $this->createMock(core_kernel_classes_Resource::class);
+
+        //Need to remove all methods because of PHPUnit 8.5 doesn`t handles return union types used in PHP8
+        $zipArchiveStub = $this->getMockBuilder(ZipArchive::class)
+            ->onlyMethods([])
+            ->getMock();
+
+        // To be able to test protected method
+        $exporterV21 = new class ($coreKernelClassStub, $zipArchiveStub) extends QTIPackedItemExporter {
+            public function setCorrectQTIVersion(string $itemQTI): string
+            {
+                return parent::setCorrectQTIVersion($itemQTI);
+            }
+        };
+
+        $outputV21 = $exporterV21->setCorrectQTIVersion($input);
+        self::assertEquals($expectedOutputV21, $outputV21);
+
+        $exporterV22 = new class ($coreKernelClassStub, $zipArchiveStub) extends QTIPackedItem22Exporter {
+            public function setCorrectQTIVersion(string $itemQTI): string
+            {
+                return parent::setCorrectQTIVersion($itemQTI);
+            }
+        };
+
+        $outputV22 = $exporterV22->setCorrectQTIVersion($input);
+        self::assertEquals($expectedOutputV22, $outputV22);
+    }
 }

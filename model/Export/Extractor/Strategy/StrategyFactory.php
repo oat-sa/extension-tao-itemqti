@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: ionut
@@ -10,7 +11,6 @@ namespace oat\taoQtiItem\model\Export\Extractor\Strategy;
 
 class StrategyFactory
 {
-
     /**
      * @param array $config
      * @param string $column
@@ -20,7 +20,6 @@ class StrategyFactory
     public static function create(array $config, $column, array $metaDataProperties)
     {
         if (static::isFormatAsColumns($config)) {
-
             return new ColumnStrategy(count($metaDataProperties) === 1, $column);
         }
 

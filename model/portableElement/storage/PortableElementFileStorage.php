@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,10 +34,10 @@ class PortableElementFileStorage extends ConfigurableService
 {
     use PortableElementModelTrait;
 
-    const SERVICE_ID = 'taoQtiItem/portableElementFileStorage';
+    public const SERVICE_ID = 'taoQtiItem/portableElementFileStorage';
 
-    const OPTION_WEBSOURCE = 'websource';
-    const OPTION_FILESYSTEM = 'filesystem';
+    public const OPTION_WEBSOURCE = 'websource';
+    public const OPTION_FILESYSTEM = 'filesystem';
 
     /**
      * @return Filesystem
@@ -56,11 +57,13 @@ class PortableElementFileStorage extends ConfigurableService
 
     public function getPrefix(PortableElementObject $object)
     {
-        $hashFile = DIRECTORY_SEPARATOR . md5($object->getTypeIdentifier() . $object->getVersion()) . DIRECTORY_SEPARATOR;
+        $hashFile = DIRECTORY_SEPARATOR . md5($object->getTypeIdentifier() . $object->getVersion())
+            . DIRECTORY_SEPARATOR;
+
         return $object->getModel()->getId() . $hashFile;
     }
 
-    public function getFileUrl(PortableElementObject $object, $relPath='')
+    public function getFileUrl(PortableElementObject $object, $relPath = '')
     {
         return $this->getAccessProvider()->getAccessUrl($this->getPrefix($object) . $relPath);
     }
@@ -91,13 +94,12 @@ class PortableElementFileStorage extends ConfigurableService
         $source = $this->sanitizeSourceAsDirectory($source);
 
         foreach ($files as $file) {
-
-            if(!$object->isRegistrableFile($file)){
+            if (!$object->isRegistrableFile($file)) {
                 continue;
             }
 
             $filePath = $source . ltrim($file, DIRECTORY_SEPARATOR);
-            if (!file_exists($filePath) || ($resource = fopen($filePath, 'r'))===false) {
+            if (!file_exists($filePath) || ($resource = fopen($filePath, 'r')) === false) {
                 throw new PortableElementFileStorageException('File cannot be opened : ' . $filePath);
             }
 
@@ -140,7 +142,8 @@ class PortableElementFileStorage extends ConfigurableService
      * @param PortableElementObject $object
      * @return bool
      */
-    public function unregisterAllFiles(PortableElementObject $object){
+    public function unregisterAllFiles(PortableElementObject $object)
+    {
         return $this->getFileStorage()->deleteDir($this->getPrefix($object));
     }
 

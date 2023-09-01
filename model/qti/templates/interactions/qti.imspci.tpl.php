@@ -22,9 +22,17 @@ $config = get_data('config');
 <customInteraction <?=get_data('attributes')?>>
     <portableCustomInteraction customInteractionTypeIdentifier="<?=get_data('typeIdentifier')?>" data-version="<?=get_data('version')?>" xmlns="http://www.imsglobal.org/xsd/portableCustomInteraction_v1">
         <?=get_data('serializedProperties')?>
-        <modules<?php if(isset($config[0])):?> primaryConfiguration="<?=$config[0]?>"<?php endif;?><?php if(isset($config[1])):?> fallbackConfiguration="<?=$config[1]?>"<?php endif;?>>
-            <?php foreach(get_data('modules') as $id => $paths):?>
-                <module id="<?=$id?>"<?php if(isset($paths[0])):?> primaryPath="<?=$paths[0]?>"<?php endif;?><?php if(isset($paths[1])):?> fallbackPath="<?=$paths[1]?>"<?php endif;?>/>
+        <modules<?php if (isset($config[0])) :
+            ?> primaryConfiguration="<?=$config[0]?>"<?php
+                endif;?><?php if (isset($config[1])) :
+    ?> fallbackConfiguration="<?=$config[1]?>"<?php
+                endif;?>>
+            <?php foreach (get_data('modules') as $id => $paths) :?>
+                <module id="<?=$id?>"<?php if (isset($paths[0])) :
+                    ?> primaryPath="<?=$paths[0]?>"<?php
+                            endif;?><?php if (isset($paths[1])) :
+    ?> fallbackPath="<?=$paths[1]?>"<?php
+                            endif;?>/>
             <?php endforeach;?>
         </modules>
         <markup xmlns="http://www.w3.org/1999/xhtml">

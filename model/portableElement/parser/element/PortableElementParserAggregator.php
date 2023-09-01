@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -43,7 +44,8 @@ class PortableElementParserAggregator
         foreach ($parsers as $parser) {
             if (! $parser instanceof PortableElementParser) {
                 throw new PortableElementInconsistencyModelException(
-                    'Portable element parser has to be child of PortableElementParser.');
+                    'Portable element parser has to be child of PortableElementParser.'
+                );
             }
         }
         $this->parsers = $parsers;

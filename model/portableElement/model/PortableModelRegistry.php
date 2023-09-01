@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -66,7 +67,7 @@ class PortableModelRegistry extends AbstractRegistry
 
     /**
      * Register a new model to the registry
-     * 
+     *
      * @param PortableElementModel $model
      */
     public function register(PortableElementModel $model)
@@ -90,17 +91,16 @@ class PortableModelRegistry extends AbstractRegistry
         }
         return $models;
     }
-    
+
     /**
      * Helper to initialise the models
-     * 
+     *
      * @param array $config
      * @return PortableElementModel
      */
     protected function getModelFromConfig($config)
     {
         $implClass = $config['class'];
-        return new $implClass;
+        return new $implClass();
     }
-
 }

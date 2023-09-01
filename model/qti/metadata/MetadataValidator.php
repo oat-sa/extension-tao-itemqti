@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,11 +21,11 @@
 
 namespace oat\taoQtiItem\model\qti\metadata;
 
-use \common_report_Report;
+use common_report_Report;
 
 /**
  * MetadataValidator interface.
- * 
+ *
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  *
  */
@@ -32,8 +33,9 @@ interface MetadataValidator
 {
     /**
      * Check whether metadata values are valid
-     * 
-     * @param array $metadataValues An array of MetadataValue objects that were previously identified to belong to a given item.
+     *
+     * @param array $metadataValues An array of MetadataValue objects that were previously identified to belong to
+     *                              a given item.
      * @return common_report_Report
      */
     public function validate(array $metadataValues = null);

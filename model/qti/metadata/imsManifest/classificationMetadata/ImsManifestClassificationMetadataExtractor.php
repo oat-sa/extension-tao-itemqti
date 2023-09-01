@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -57,7 +58,7 @@ class ImsManifestClassificationMetadataExtractor extends ImsManifestMetadataExtr
     public function extract($manifest)
     {
         $values = parent::extract($manifest);
-        $newValues = array();
+        $newValues = [];
 
         foreach ($values as $resourceIdentifier => $metadataValueCollection) {
             $i = 0;
@@ -65,10 +66,9 @@ class ImsManifestClassificationMetadataExtractor extends ImsManifestMetadataExtr
 
             /** @var ImsManifestMetadataValue $metadataValue */
             foreach ($metadataValueCollection as $metadataValue) {
-
                 foreach ($this->getClassificationMetadata() as $property => $sourceValue) {
-
-                    if ($metadataValue->getValue() === ''
+                    if (
+                        $metadataValue->getValue() === ''
                         || $metadataValue->getValue() != $sourceValue
                         || $metadataValue->getPath() !== $this->getSourcePath()
                     ) {
@@ -84,13 +84,12 @@ class ImsManifestClassificationMetadataExtractor extends ImsManifestMetadataExtr
                             if ($metadata->getValue() !== '') {
                                 $newValues[$resourceIdentifier][] = new SimpleMetadataValue(
                                     $resourceIdentifier,
-                                    array('http://ltsc.ieee.org/xsd/LOM#lom', $property),
+                                    ['http://ltsc.ieee.org/xsd/LOM#lom', $property],
                                     $metadata->getValue()
                                 );
                             }
                         }
                     }
-
                 }
 
                 $i++;
@@ -146,10 +145,4 @@ class ImsManifestClassificationMetadataExtractor extends ImsManifestMetadataExtr
             'http://ltsc.ieee.org/xsd/LOM#string'
         ];
     }
-
 }
-
-
-
-
-

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -52,7 +53,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
      * instance representing the service to run the QTI item
      * @var string
      */
-    const INSTANCE_ITEMRUNNER = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ServiceQtiItemRunner';
+    public const INSTANCE_ITEMRUNNER = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ServiceQtiItemRunner';
 
     /**
      * {@inheritDoc}
@@ -114,19 +115,25 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         tao_models_classes_service_StorageDirectory $privateDirectory
     ) {
 
-        $service = new tao_models_classes_service_ServiceCall(new core_kernel_classes_Resource(self::INSTANCE_ITEMRUNNER));
+        $service = new tao_models_classes_service_ServiceCall(
+            new core_kernel_classes_Resource(self::INSTANCE_ITEMRUNNER)
+        );
         $service->addInParameter(new tao_models_classes_service_ConstantParameter(
-                new core_kernel_classes_Resource(taoItems_models_classes_ItemsService::INSTANCE_FORMAL_PARAM_ITEM_PATH), $publicDirectory->getId()
+            new core_kernel_classes_Resource(taoItems_models_classes_ItemsService::INSTANCE_FORMAL_PARAM_ITEM_PATH),
+            $publicDirectory->getId()
+        ));
+        $service->addInParameter(
+            new tao_models_classes_service_ConstantParameter(
+                new core_kernel_classes_Resource(
+                    taoItems_models_classes_ItemsService::INSTANCE_FORMAL_PARAM_ITEM_DATA_PATH
+                ),
+                $privateDirectory->getId()
             )
         );
         $service->addInParameter(
             new tao_models_classes_service_ConstantParameter(
-                new core_kernel_classes_Resource(taoItems_models_classes_ItemsService::INSTANCE_FORMAL_PARAM_ITEM_DATA_PATH), $privateDirectory->getId()
-            )
-        );
-        $service->addInParameter(
-            new tao_models_classes_service_ConstantParameter(
-                new core_kernel_classes_Resource(taoItems_models_classes_ItemsService::INSTANCE_FORMAL_PARAM_ITEM_URI), $item
+                new core_kernel_classes_Resource(taoItems_models_classes_ItemsService::INSTANCE_FORMAL_PARAM_ITEM_URI),
+                $item
             )
         );
 
@@ -147,8 +154,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $language,
         tao_models_classes_service_StorageDirectory $publicDirectory,
         tao_models_classes_service_StorageDirectory $privateDirectory
-    )
-    {
+    ) {
         $itemService = taoItems_models_classes_ItemsService::singleton();
         $qtiService = Service::singleton();
 
@@ -162,17 +168,19 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $qtiItemDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
         $taoDir = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getDir();
         $assetPath = $qtiItemDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR;
-        $assetLibPath = $taoDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR;
+        $assetLibPath = $taoDir . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR
+            . 'lib' . DIRECTORY_SEPARATOR;
+
         if (\tao_helpers_Mode::is('production')) {
-            $fh = fopen($assetPath . 'loader' . DIRECTORY_SEPARATOR . 'qtiLoader.min.js','r');
-            $publicDirectory->writeStream($language.'/qtiLoader.min.js', $fh);
+            $fh = fopen($assetPath . 'loader' . DIRECTORY_SEPARATOR . 'qtiLoader.min.js', 'r');
+            $publicDirectory->writeStream($language . '/qtiLoader.min.js', $fh);
             fclose($fh);
         } else {
-            $fh = fopen($assetPath . 'runtime' . DIRECTORY_SEPARATOR . 'qtiLoader.js','r');
-            $publicDirectory->writeStream($language.'/qtiLoader.js', $fh);
+            $fh = fopen($assetPath . 'runtime' . DIRECTORY_SEPARATOR . 'qtiLoader.js', 'r');
+            $publicDirectory->writeStream($language . '/qtiLoader.js', $fh);
             fclose($fh);
-            $fh = fopen($assetLibPath . 'require.js','r');
-            $publicDirectory->writeStream($language.'/require.js', $fh);
+            $fh = fopen($assetLibPath . 'require.js', 'r');
+            $publicDirectory->writeStream($language . '/require.js', $fh);
             fclose($fh);
         }
 
@@ -185,32 +193,37 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             $variableElements = $qtiService->getVariableElements($qtiItem);
 
             $stream = \GuzzleHttp\Psr7\stream_for(json_encode($variableElements));
-            $privateDirectory->writePsrStream($language.'/variableElements.json', $stream);
+            $privateDirectory->writePsrStream($language . '/variableElements.json', $stream);
             $stream->close();
 
             // render item based on the modified QtiItem
             $xhtml = $qtiService->renderQTIItem($qtiItem, $language);
 
-            //note : no need to manually copy qti or other third party lib files, all dependencies are managed by requirejs
+            //note : no need to manually copy qti or other third party lib files, all dependencies are managed
+            // by requirejs
             // write index.html
             $stream = \GuzzleHttp\Psr7\stream_for($xhtml);
-            $publicDirectory->writePsrStream($language.'/index.html', $stream, 'text/html');
+            $publicDirectory->writePsrStream($language . '/index.html', $stream, 'text/html');
             $stream->close();
 
             return new common_report_Report(
-                common_report_Report::TYPE_SUCCESS, __('Successfully compiled "%s"', $language)
+                common_report_Report::TYPE_SUCCESS,
+                __('Successfully compiled "%s"', $language)
             );
         } catch (\tao_models_classes_FileNotFoundException $e) {
             return new common_report_Report(
-                common_report_Report::TYPE_ERROR, __('Unable to retrieve asset "%s"', $e->getFilePath())
+                common_report_Report::TYPE_ERROR,
+                __('Unable to retrieve asset "%s"', $e->getFilePath())
             );
-        } catch (XIncludeException $e){
+        } catch (XIncludeException $e) {
             return new common_report_Report(
-                common_report_Report::TYPE_ERROR, $e->getUserMessage()
+                common_report_Report::TYPE_ERROR,
+                $e->getUserMessage()
             );
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             return new common_report_Report(
-                common_report_Report::TYPE_ERROR, $e->getMessage()
+                common_report_Report::TYPE_ERROR,
+                $e->getMessage()
             );
         }
     }
@@ -226,17 +239,19 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
     {
         $qtiItem  = Service::singleton()->getDataItemByRdfItem($item, $lang);
 
-        if(is_null($qtiItem)){
-            throw new taoItems_models_classes_CompilationFailedException(__('Unable to retrieve item : ' . $item->getLabel()));
+        if (is_null($qtiItem)) {
+            throw new taoItems_models_classes_CompilationFailedException(
+                __('Unable to retrieve item : ' . $item->getLabel())
+            );
         }
 
         $assetParser = new AssetParser($qtiItem, $publicDirectory);
         $assetParser->setGetSharedLibraries(false);
         $assetParser->setGetXinclude(false);
         $resolver = new ItemMediaResolver($item, $lang);
-        $replacementList = array();
-        foreach($assetParser->extract() as $type => $assets) {
-            foreach($assets as $assetUrl) {
+        $replacementList = [];
+        foreach ($assetParser->extract() as $type => $assets) {
+            foreach ($assets as $assetUrl) {
 
                 /** @var QtiItemCompilerAssetBlacklist $blacklistService */
                 $blacklistService = $this->getServiceLocator()->get(QtiItemCompilerAssetBlacklist::SERVICE_ID);
@@ -253,26 +268,24 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                 while (in_array($replacement, $replacementList)) {
                     $dot = strrpos($basename, '.');
                     $replacement = $dot !== false
-                        ? substr($basename, 0, $dot).'_'.$count.substr($basename, $dot)
-                        : $basename.$count;
+                        ? substr($basename, 0, $dot) . '_' . $count . substr($basename, $dot)
+                        : $basename . $count;
                     $count++;
                 }
                 $replacementList[$assetUrl] = $replacement;
                 $tmpfile = $mediaSource->download($mediaAsset->getMediaIdentifier());
                 $fh = fopen($tmpfile, 'r');
-                $publicDirectory->writeStream($lang.'/'.$replacement, $fh);
+                $publicDirectory->writeStream($lang . '/' . $replacement, $fh);
                 fclose($fh);
                 unlink($tmpfile);
 
                 //$fileStream = $mediaSource->getFileStream($mediaAsset->getMediaIdentifier());
                 //$publicDirectory->writeStream($lang.'/'.$replacement, $fileStream);
-
             }
         }
 
         $dom = new \DOMDocument('1.0', 'UTF-8');
         if ($dom->loadXML($qtiItem->toXml()) === true) {
-
             $xpath = new \DOMXPath($dom);
             $attributeNodes = $xpath->query('//@*');
             foreach ($attributeNodes as $node) {
@@ -288,7 +301,6 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
                 if ($node->nodeValue) {
                     $node->nodeValue = strtr(htmlentities($node->nodeValue, ENT_XML1), $replacementList);
                 }
-
             }
         } else {
             throw new taoItems_models_classes_CompilationFailedException('Unable to load XML');
@@ -297,7 +309,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
         $qtiParser = new Parser($dom->saveXML());
         $assetRetrievedQtiItem =  $qtiParser->load();
 
-         //loadxinclude
+        //loadxinclude
         $xincludeLoader = new XIncludeLoader($assetRetrievedQtiItem, $resolver);
         $xincludeLoader->load(false);
 

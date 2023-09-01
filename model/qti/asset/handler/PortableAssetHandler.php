@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
+
 namespace oat\taoQtiItem\model\qti\asset\handler;
 
 use oat\oatbox\service\ServiceManager;
@@ -58,7 +60,8 @@ class PortableAssetHandler implements AssetHandler
     {
         //adapt the file path before comparing them to expected files
         $relativePathAdapted = preg_replace('/^\.\//', '', $relativePath);
-        if ($this->portableItemParser->hasPortableElement()
+        if (
+            $this->portableItemParser->hasPortableElement()
             && $this->portableItemParser->isPortableElementAsset($relativePathAdapted)
         ) {
             return true;
@@ -89,5 +92,4 @@ class PortableAssetHandler implements AssetHandler
     {
         $this->portableItemParser->importPortableElements();
     }
-
 }

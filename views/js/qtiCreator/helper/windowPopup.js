@@ -30,8 +30,9 @@ define([
     'use strict';
 
     var defaultConfig = {
-        draggable : true,
-        resizable : true
+        draggable: true,
+        resizable: true,
+        resizableEdges: { top: true, right: true, bottom: true, left: true }
     };
 
     /**
@@ -39,6 +40,7 @@ define([
      * @param {Object} config
      * @param {Boolean} config.draggable - if the window should be draggable
      * @param {Boolean} config.resizable - if the window should be resizable
+     * @param {Object} config.resizableEdges - which edges should be resizable (interactjs)
      */
     return function windowPopupFactory(specs, config) {
         var windowPopup;
@@ -51,7 +53,7 @@ define([
             makeDraggable(windowPopup);
         }
         if (config.resizable) {
-            makeResizable(windowPopup);
+            makeResizable(windowPopup, { edges: config.resizableEdges });
         }
         makeStackable(windowPopup, { stackingScope: 'qti-creator' });
         makeWindowed(windowPopup);

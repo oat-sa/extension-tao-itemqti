@@ -61,12 +61,6 @@ use oat\tao\helpers\Template;
 
                         <ul class="none" id="style-sheet-toggler">
                             <!-- TAO style sheet -->
-                            <li data-css-res="taoQtiItem/views/css/themes/default.css">
-                                    <span class="icon-preview style-sheet-toggler"
-                                        title="<?= __('Disable this stylesheet temporarily') ?>"></span>
-                                <span><?= __('TAO default styles') ?></span>
-                            </li>
-
                         </ul>
                         <button id="stylesheet-uploader" class="btn-info small block"><?= __('Add Style Sheet') ?></button>
                     </div>
@@ -165,9 +159,7 @@ use oat\tao\helpers\Template;
                                 data-tooltip="~ .tooltip-content:first"></span>
 
                         <div class="tooltip-content">
-                            <?= __(
-                                'Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with.'
-                            ) ?>
+                            <?= __('Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with.') ?>
                         </div>
                         <div id="item-editor-item-resizer" data-target="body div.qti-item">
                             <label class="smaller-prompt">

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,21 +18,21 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
+
 namespace oat\taoQtiItem\model\style;
 
 use oat\oatbox\AbstractRegistry;
-use \common_ext_ExtensionsManager;
-use \common_Logger;
+use common_ext_ExtensionsManager;
+use common_Logger;
 
 /**
- * 
+ *
  * Registry to store available style classes
  *
  * @author Sam, sam@taotesting.com
  */
 class StyleRegistry extends AbstractRegistry
 {
-
     /**
      * @see \oat\oatbox\AbstractRegistry::getConfigId()
      */
@@ -50,25 +51,26 @@ class StyleRegistry extends AbstractRegistry
 
     /**
      * Get all styles available from the registry
-     * 
+     *
      * @return array
      */
     public function getAllStyles()
     {
         $styles = [];
-        foreach (self::getRegistry()->getMap() as $id => $styleData ){
+        foreach (self::getRegistry()->getMap() as $id => $styleData) {
             $styles[$id] = $styleData;
         }
         return $styles;
     }
-    
+
     /**
      * Check if the array contains sufficient style data
-     * 
+     *
      * @param array $data
      * @return boolean
      */
-    public function isValidStyleData($data){
+    public function isValidStyleData($data)
+    {
         return isset($data['label']) && !empty($data['label']);
     }
 
@@ -83,11 +85,10 @@ class StyleRegistry extends AbstractRegistry
         if (self::getRegistry()->isRegistered($id)) {
             common_Logger::w('Style already registered');
         }
-        if($this->isValidStyleData($styleData)){
+        if ($this->isValidStyleData($styleData)) {
             self::getRegistry()->set($id, $styleData);
-        }else{
+        } else {
             common_Logger::w('Invalid style data format');
         }
-        
     }
 }

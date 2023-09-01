@@ -3,35 +3,33 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/inlineChoice'
-], function($, stateFactory, Question, formElement, formTpl){
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/inlineChoice',
+    'services/features'
+], function ($, stateFactory, Question, formElement, formTpl, features) {
+    var InlineChoiceInteractionStateQuestion = stateFactory.extend(
+        Question,
+        function () {
+            var $mainOption = this.widget.$container.find('.main-option'),
+                $original = this.widget.$original;
 
-    var InlineChoiceInteractionStateQuestion = stateFactory.extend(Question, function(){
+            //listener to children choice widget change and update the original interaction placeholder
+            $(document).on('choiceTextChange.qti-widget.question', function () {
+                $original.width($mainOption.width());
+            });
+        },
+        function () {
+            $(document).off('.qti-widget.question');
+        }
+    );
 
-        var $mainOption = this.widget.$container.find('.main-option'),
-            $original = this.widget.$original;
-        
-        //listener to children choice widget change and update the original interaction placeholder
-        $(document).on('choiceTextChange.qti-widget.question', function(){
-            $original.width($mainOption.width());
-        });
-
-    }, function(){
-        
-        $(document).off('.qti-widget.question');
-    });
-
-    InlineChoiceInteractionStateQuestion.prototype.addNewChoiceButton = function(){
-
+    InlineChoiceInteractionStateQuestion.prototype.addNewChoiceButton = function () {
         var _widget = this.widget,
             $addChoice = _widget.$container.find('.add-option'),
             interaction = _widget.element;
 
         //init add choice button once only
-        if(!$addChoice.data('initialized')){
-
-            $addChoice.on('click.qti-widget', function(e){
-
+        if (!$addChoice.data('initialized')) {
+            $addChoice.on('click.qti-widget', function (e) {
                 e.stopPropagation();
 
                 //add a new choice
@@ -40,7 +38,7 @@ define([
                 //append render choice:
                 $(this).closest('tr').before(_widget.renderChoice(choice));
                 _widget.buildChoice(choice, {
-                    ready : function(widget){
+                    ready: function (widget) {
                         //transition state directly back to "question"
                         widget.changeState('question');
                     }
@@ -52,22 +50,24 @@ define([
         }
     };
 
-    InlineChoiceInteractionStateQuestion.prototype.initForm = function(){
-
+    InlineChoiceInteractionStateQuestion.prototype.initForm = function () {
         var _widget = this.widget,
             $form = _widget.$form,
             interaction = _widget.element;
 
         $form.html(formTpl({
             shuffle : !!interaction.attr('shuffle'),
-            required : !!interaction.attr('required')
+            required : !!interaction.attr('required'),
+            enabledFeatures: {
+                shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/inlineChoice/property/shuffle')
+            }
         }));
 
         formElement.initWidget($form);
 
         formElement.setChangeCallbacks($form, interaction, {
-            shuffle : formElement.getAttributeChangeCallback(),
-            required : formElement.getAttributeChangeCallback()
+            shuffle: formElement.getAttributeChangeCallback(),
+            required: formElement.getAttributeChangeCallback()
         });
     };
 

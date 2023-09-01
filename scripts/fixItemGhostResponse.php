@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,11 +17,12 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
  */
+
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
 
-require_once dirname(__FILE__) .'/../../tao/includes/raw_start.php';
+require_once dirname(__FILE__) . '/../../tao/includes/raw_start.php';
 
 common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem');
 
@@ -29,9 +31,9 @@ $dir = \taoItems_models_classes_ItemsService::singleton()->getDefaultItemDirecto
 // maybe it's a dirty way but it's quicker. too much modification would have been required in ItemUpdater
 $adapter = $dir->getFileSystem()->getAdapter();
 if (!$adapter instanceof \League\Flysystem\Adapter\Local) {
-    throw new \Exception(__CLASS__.' can only handle local files');
+    throw new \Exception(__CLASS__ . ' can only handle local files');
 }
 
 $itemUpdater = new \oat\taoQtiItem\model\update\ItemFixGhostResponse($adapter->getPathPrefix());
 $fixed = $itemUpdater->update(true);
-echo "Fixed ".count($fixed)." items\n";
+echo "Fixed " . count($fixed) . " items\n";

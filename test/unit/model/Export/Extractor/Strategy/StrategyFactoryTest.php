@@ -17,12 +17,18 @@ class StrategyFactoryTest extends TestCase
 
     public function testFactoryBuildsDefaultStrategy()
     {
-        $this->assertInstanceOf(DefaultStrategy::class, StrategyFactory::create(['valuesAsColumns' => false], 'column', []));
+        $this->assertInstanceOf(
+            DefaultStrategy::class,
+            StrategyFactory::create(['valuesAsColumns' => false], 'column', [])
+        );
         $this->assertInstanceOf(DefaultStrategy::class, StrategyFactory::create([], 'column', []));
     }
 
     public function testFactoryBuildsColumnStrategy()
     {
-        $this->assertInstanceOf(ColumnStrategy::class, StrategyFactory::create(['valuesAsColumns' => true], 'column', []));
+        $this->assertInstanceOf(
+            ColumnStrategy::class,
+            StrategyFactory::create(['valuesAsColumns' => true], 'column', [])
+        );
     }
 }

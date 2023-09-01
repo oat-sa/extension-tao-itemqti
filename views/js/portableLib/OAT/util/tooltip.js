@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017-2019 (original work) Open Assessment Technologies SA;
  */
 /**
  * @author Christophe Noël <christophe@taotesting.com>
@@ -29,8 +29,8 @@ define([
             $container.find('[data-role="tooltip-target"]').each(function(){
                 var $target = $(this),
                     $content,
-                    contentId = $target.attr('aria-describedBy'),
-                    contentHtml;
+                    contentHtml,
+                    contentId = $target.attr('aria-describedBy');
 
                 if (contentId) {
                     $content = $container.find('#' + contentId);
@@ -44,7 +44,7 @@ define([
                                 text: contentHtml
                             },
                             position: {
-                                target: 'event',
+                                target: 'mouse',
                                 my: 'bottom center',
                                 at: 'top center'
                             }

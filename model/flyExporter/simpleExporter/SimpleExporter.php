@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,7 +32,7 @@ use oat\oatbox\filesystem\File;
  */
 interface SimpleExporter
 {
-    const SERVICE_ID = 'taoQtiItem/simpleExporter';
+    public const SERVICE_ID = 'taoQtiItem/simpleExporter';
 
     /**
      * Main action to launch export

@@ -7,5 +7,9 @@ composer.lock
 /views/scss/qti.css.map
 /views/scss/item-creator.css
 /views/scss/item-creator.css.map
+/.idea
+/.vscode
 
 node_modules
+/views/js/mathjax
+.DS_Store

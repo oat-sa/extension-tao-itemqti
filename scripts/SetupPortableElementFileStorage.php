@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,7 +38,10 @@ class SetupPortableElementFileStorage extends \common_ext_action_InstallAction
     public function __invoke($params)
     {
         if ($this->getServiceLocator()->has(PortableElementFileStorage::SERVICE_ID)) {
-            return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Portable file storage already registered, skipped.');
+            return new \common_report_Report(
+                \common_report_Report::TYPE_SUCCESS,
+                'Portable file storage already registered, skipped.'
+            );
         }
 
         $fsId = 'portableElementStorage';
@@ -48,10 +52,10 @@ class SetupPortableElementFileStorage extends \common_ext_action_InstallAction
             $this->registerService(FileSystemService::SERVICE_ID, $fsm);
         }
 
-        $portableElementStorage = new PortableElementFileStorage(array(
+        $portableElementStorage = new PortableElementFileStorage([
             PortableElementFileStorage::OPTION_FILESYSTEM => $fsId,
             PortableElementFileStorage::OPTION_WEBSOURCE => ActionWebSource::spawnWebsource($fsId)->getId()
-        ));
+        ]);
 
         $this->getServiceManager()->register(PortableElementFileStorage::SERVICE_ID, $portableElementStorage);
 

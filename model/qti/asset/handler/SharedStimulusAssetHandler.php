@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,17 +21,25 @@
 
 namespace oat\taoQtiItem\model\qti\asset\handler;
 
+use Laminas\ServiceManager\ServiceLocatorAwareTrait;
+use oat\generis\model\OntologyAwareTrait;
 use oat\tao\helpers\FileUploadException;
 use oat\tao\model\media\MediaManagement;
 use oat\tao\model\media\MediaService;
 use oat\taoItems\model\media\ItemMediaResolver;
+use oat\taoMediaManager\model\sharedStimulus\encoder\SharedStimulusMediaEncoder;
+use oat\taoMediaManager\model\MediaSource;
 use oat\taoMediaManager\model\SharedStimulusImporter;
-use oat\taoMediaManager\model\SharedStimulusPackageImporter;
+use oat\taoQtiItem\model\qti\asset\factory\SharedStimulusFactory;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\Item;
+use tao_helpers_Uri;
 
 class SharedStimulusAssetHandler implements AssetHandler
 {
+    use OntologyAwareTrait;
+    use ServiceLocatorAwareTrait;
+
     /** @var  ItemMediaResolver */
     protected $itemSource;
 
@@ -62,7 +71,7 @@ class SharedStimulusAssetHandler implements AssetHandler
      */
     public function isApplicable($relativePath)
     {
-        $xincluded = array();
+        $xincluded = [];
         /** @var Element $xincludeElement */
         foreach ($this->getQtiModel()->getComposingElements('oat\taoQtiItem\model\qti\Xinclude') as $xincludeElement) {
             $xincluded[] = $xincludeElement->attr('href');
@@ -83,27 +92,20 @@ class SharedStimulusAssetHandler implements AssetHandler
      */
     public function handle($absolutePath, $relativePath)
     {
-        $sharedFiles = $this->getSharedFiles();
-
-        $md5 = md5_file($absolutePath);
-        if (isset($sharedFiles[$md5])) {
-            \common_Logger::i('Auxiliary file \'' . $absolutePath . '\' linked to shared storage.');
-            return $sharedFiles[$md5];
-        }
-
         SharedStimulusImporter::isValidSharedStimulus($absolutePath);
-        $newXmlFile = SharedStimulusPackageImporter::embedAssets($absolutePath);
-        $itemContent = $this->sharedStorage->add($newXmlFile, basename($relativePath), $this->parentPath);
+        $newXmlFile = $this->getSharedStimulusMediaEncoderService()->encodeAssets($absolutePath);
+        $mediaResourceUri = $this->getSharedStimulusFactory()->createShardedStimulusFromSourceFiles(
+            $newXmlFile,
+            $relativePath,
+            $absolutePath,
+            $this->buildLabelBaseOnParentPath()
+        );
 
-        if (method_exists($this->sharedStorage, 'forceMimeType')) {
-            $asset = $this->itemSource->resolve($itemContent['uri']);
-            $this->sharedStorage->forceMimeType($asset->getMediaIdentifier(), 'application/qti+xml');
-        }
-
-        $this->addSharedFile($md5, $itemContent);
         \common_Logger::i('Auxiliary file \'' . $absolutePath . '\' added to shared storage.');
 
-        return $itemContent;
+        return [
+            'uri' => MediaSource::SCHEME_NAME .  tao_helpers_Uri::encode($mediaResourceUri)
+        ];
     }
 
     /**
@@ -205,5 +207,23 @@ class SharedStimulusAssetHandler implements AssetHandler
     public function finalize()
     {
         // Nothing to do
+    }
+
+    private function getSharedStimulusMediaEncoderService(): SharedStimulusMediaEncoder
+    {
+        return $this->getServiceLocator()->get(SharedStimulusMediaEncoder::SERVICE_ID);
+    }
+
+    private function getSharedStimulusFactory(): SharedStimulusFactory
+    {
+        return $this->getServiceLocator()->get(SharedStimulusFactory::class);
+    }
+
+    private function buildLabelBaseOnParentPath()
+    {
+        $parentPath = $this->getParentPath();
+        $decodedParentPath = json_decode($parentPath);
+
+        return reset($decodedParentPath);
     }
 }

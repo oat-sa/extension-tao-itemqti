@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,12 +34,12 @@ class PortableElementModelTraitTest extends TestCase
      */
     protected $instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->instance = $this->getMockForTrait(PortableElementModelTrait::class);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->instance = null;
     }

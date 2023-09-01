@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,9 +34,11 @@ class RegisterNpmPaths extends InstallAction
     public function __invoke($params)
     {
         $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
-        $taoQtiItemNpmDist = $assetService->getJsBaseWww('taoQtiItem') . 'node_modules/@oat-sa/tao-item-runner-qti/dist/';
+        $taoQtiItemNpmDist = $assetService->getJsBaseWww('taoQtiItem')
+            . 'node_modules/@oat-sa/tao-item-runner-qti/dist/';
         $clientLibRegistry = ClientLibRegistry::getRegistry();
         $clientLibRegistry->register('taoQtiItem/qtiCommonRenderer', $taoQtiItemNpmDist . 'qtiCommonRenderer');
+        $clientLibRegistry->register('taoQtiItem/reviewRenderer', $taoQtiItemNpmDist . 'reviewRenderer');
         $clientLibRegistry->register('taoQtiItem/qtiItem', $taoQtiItemNpmDist . 'qtiItem');
         $clientLibRegistry->register('taoQtiItem/qtiRunner', $taoQtiItemNpmDist . 'qtiRunner');
         $clientLibRegistry->register('taoQtiItem/runner', $taoQtiItemNpmDist . 'runner');

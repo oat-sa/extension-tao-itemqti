@@ -1,34 +1,79 @@
 @import "inc/bootstrap";
 .qti-choiceInteraction {
+    // Vertical item (default)
     .real-label input[disabled] ~ [class^="icon-"]{
         cursor:pointer !important;
     }
-    .choice-area .label-content{
-        display: block;
-    }
-    .mini-tlb[data-edit=answer]{
-        width: 38px;
-        background: transparent;
-        border-color: transparent !important;
-        .tlb-button{
-            margin:0;
-            padding:0;
-            &:hover{
-                background: transparent;
+    .choice-area {
+        .label-content {
+            display: block;
+        }
+        .mini-tlb {
+            @include rtl {
+                right: auto !important;
+                left: -2.2em;
+            }
+        }
+        .widget-math.edit-active{
+            span.mini-tlb{
+            @include rtl {
+                margin-right: 6.3em;
+                left: -2.20em;
+                right: auto !important;
             }
         }
     }
-    .add-option{
-        position:relative;
-        padding: 5px 5px 5px 6px;
-        .icon-add{
-            font-size: 1.8rem;
-            left: 6px;
-            position: absolute;
-            top: 5px;
+
+    }
+    .mini-tlb {
+        right: -38px;
+
+        &[data-edit=answer]{
+            width: 38px;
+            background: transparent;
+            border-color: transparent !important;
+
+            .tlb-button{
+                margin:0;
+                padding:0;
+                &:hover{
+                    background: transparent;
+                }
+            }
         }
     }
+
+    // Horizontal item
     .horizontal {
+        .mini-tlb {
+            top: -28px;
+            right: 0;
+            @include rtl {
+                right: auto !important;
+                left: -1px;
+            }
+        }
+        .widget-box.edit-active {
+            @include rtl {
+                .mini-tlb {
+                    left: -2.2em;
+                    right: auto !important;
+                    top: 0;
+                }
+            }
+        }
+        .widget-math.edit-active {
+            @include rtl {
+                margin-left: 2.25em;
+
+                span.mini-tlb {
+                    margin-right: 6.3em;
+                    left: -2.20em;
+                    right: auto;
+                    top: -2px !important;
+                }
+            }
+        }
         .qti-choice.edit-choice {
             padding-top: 5px;
         }

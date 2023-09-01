@@ -1,4 +1,6 @@
-<div class="feedback-warning popup" data-widget-component="{{serial}}">
+<div class="invalid-info-box" data-widget-component="{{serial}}">
     <span class="icon-warning"></span>
-    {{{__ "There is an incomplete element in your item: please click on it to complete it."}}}
+    <span class="message">
+        {{{__ "There is an incomplete element in your item: please click on it to complete it."}}}
+    </span>
 </div>

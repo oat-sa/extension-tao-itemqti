@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,7 +34,7 @@ class LocalAssetHandlerTest extends TestCase
     {
         $mock = $this->getMockBuilder(LocalItemSource::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('add'))
+            ->setMethods(['add'])
             ->getMock();
 
         $mock->expects($this->once())
@@ -50,6 +51,10 @@ class LocalAssetHandlerTest extends TestCase
         $this->assertEquals('infoFixture', $localAssetHandlerFixture->handle($absolutePath, $relativePath));
     }
 
+    /**
+     * @return array
+     * @doesNotPerformAssertions
+     */
     public function testHandleProvider()
     {
         return [
@@ -61,7 +66,7 @@ class LocalAssetHandlerTest extends TestCase
 
     public function testGetSetItemSource()
     {
-        $itemSourceFixture= new LocalItemSource(array('lang' => 'en', 'item' => 'polop'));
+        $itemSourceFixture = new LocalItemSource(['lang' => 'en', 'item' => 'polop']);
         $localAssetHandler = new LocalAssetHandler();
         $this->assertInstanceOf(LocalAssetHandler::class, $localAssetHandler->setItemSource($itemSourceFixture));
         $this->assertEquals($itemSourceFixture, $localAssetHandler->getItemSource());

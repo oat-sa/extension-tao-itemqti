@@ -13,11 +13,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA;
  *
  */
 
 define([
+    'module',
     'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
@@ -25,50 +26,90 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCommonRenderer/helpers/uploadMime',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/upload'
-], function(_, __, stateFactory, Question, formElement, uploadHelper, formTpl){
-
+], function (module, _, __, stateFactory, Question, formElement, uploadHelper, formTpl) {
     'use strict';
-    var UploadInteractionStateQuestion = stateFactory.extend(Question);
 
-    UploadInteractionStateQuestion.prototype.initForm = function() {
-        var _widget = this.widget,
+    const ANY_KIND = 'any/kind';
+    const UploadInteractionStateQuestion = stateFactory.extend(Question);
+
+    UploadInteractionStateQuestion.prototype.initForm = function () {
+        const _widget = this.widget,
             $form = _widget.$form,
             interaction = _widget.element,
             callbacks = {},
-            types = uploadHelper.getMimeTypes(),
-            selectedMime = '',
-            // Pre-select a value in the types combo box if needed.
-            preselected = uploadHelper.getExpectedTypes(interaction);
+            types = uploadHelper.getMimeTypes();
+        // Pre-select a value in the types combo box if needed.
+        let preselected = uploadHelper.getExpectedTypes(interaction);
 
-        types.unshift({ "mime" : "any/kind", "label" : __("-- Any kind of file --") });
+        types.unshift({ mime: ANY_KIND, label: __('-- Any kind of file --') });
 
-        if (interaction.attr('type') === '') {
-            // Kill the attribute if it is empty.
-            delete interaction.attributes.type;
+        if (interaction.attr('type') === '' || preselected.includes(ANY_KIND)) {
+            // Kill the attribute if it is empty or has any/kind
+            interaction.removeAttr('type');
+            interaction.removeAttr('class');
+            preselected = [];
         }
 
-        for (var i in types) {
-            if (_.indexOf(preselected, types[i].mime) >= 0) {
-                types[i].selected = true;
-                selectedMime = types[i].mime;
-            }
+        const config = module.config();
+
+        // set default list only for new added interaction
+        if (_widget.$container.data('new') && config.defaultList && config.defaultList.length > 0) {
+            preselected = preselected.concat(config.defaultList);
+            uploadHelper.setExpectedTypes(interaction, config.defaultList);
+            _widget.$container.data('new', false);
         }
-        $form.html(formTpl({
-            types : types
-        }));
+
+        if (preselected.length === 0) {
+            // WHEN loading the item in Authoring
+            // AND (the file types contains only -- Any kind of file -- OR the file types contains no type at all)
+            // THEN only -- Any kind of file -- is shown in the selection box.
+            types[0].selected = true;
+        } else {
+            types.forEach(type => {
+                if (preselected.indexOf(type.mime) >= 0) {
+                    type.selected = true;
+                }
+            });
+        }
+
+        $form.html(
+            formTpl({
+                types: types
+            })
+        );
 
         formElement.initWidget($form);
-        var $select = $form.find('[name="type"]');
+        const $select = $form.find('[name="type"]');
         $select.select2({
             width: '100%',
-            formatNoMatches : function(){
+            formatNoMatches: function () {
                 return __('Enter a select MIME-type');
             }
         });
 
+        const setAnyKind = () => {
+            interaction.removeAttr('type');
+            interaction.removeAttr('class');
+            $select.select2('val', [ANY_KIND]);
+        };
         // -- type callback.
-        callbacks.type = function(interaction, attrValue) {
-            uploadHelper.setExpectedTypes(interaction, attrValue);
+        callbacks.type = function (interactionChanged, newTypes) {
+            if (!newTypes) {
+                setAnyKind();
+            } else if (!newTypes.includes(ANY_KIND)) {
+                uploadHelper.setExpectedTypes(interactionChanged, newTypes);
+            } else {
+                const currentTypes = interaction.attr('type');
+                if (!currentTypes || (currentTypes.includes(ANY_KIND) && newTypes.length > 1)) {
+                    // WHEN the Author adds another type THEN the type -- Any kind of file -- is removed.
+                    const typesWithoutAny = newTypes.filter(value => value !== ANY_KIND);
+                    uploadHelper.setExpectedTypes(interactionChanged, typesWithoutAny);
+                    $select.select2('val', typesWithoutAny);
+                } else {
+                    // WHEN -- Any kind of file -- type is added THEN only -- Any kind of file -- is shown in the selection box.
+                    setAnyKind();
+                }
+            }
         };
 
         //init data change callbacks
@@ -77,4 +118,3 @@ define([
 
     return UploadInteractionStateQuestion;
 });
-

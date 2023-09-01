@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017-2022 (original work) Open Assessment Technologies SA;
  */
 /**
  * This component present a MathQuill (Latex Wysiwyg) input with a toolbar that allows to add some predefined symbols
@@ -216,11 +216,6 @@ define([
 
                 this._initMathQuill($inputField);
                 createToolbar($toolbar, this.mathField);
-
-                // prevent dragging when the field is rendered in a draggable component
-                $inputField.on('mousedown' + eventNs, function preventDrag(e) {
-                    e.stopPropagation();
-                });
             })
             .on('destroy', function() {
                 var $component = this.getElement(),

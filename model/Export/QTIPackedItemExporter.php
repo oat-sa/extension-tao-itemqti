@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,10 +15,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2016 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\taoQtiItem\model\Export;
@@ -25,17 +27,16 @@ namespace oat\taoQtiItem\model\Export;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
 use oat\taoQtiItem\model\qti\exception\ExportException;
 use oat\taoQtiItem\model\qti\Service;
-use \core_kernel_classes_Resource;
-use \ZipArchive;
-use \DOMDocument;
-use \tao_helpers_Uri;
-use \taoItems_models_classes_TemplateRenderer;
-use \tao_helpers_Display;
-use \common_Exception;
+use core_kernel_classes_Resource;
+use ZipArchive;
+use DOMDocument;
+use tao_helpers_Uri;
+use taoItems_models_classes_TemplateRenderer;
+use tao_helpers_Display;
+use common_Exception;
 
 class QTIPackedItemExporter extends AbstractQTIItemExporter
 {
-
     private $manifest;
 
     /**
@@ -66,7 +67,7 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
         return $this->getManifest() !== null;
     }
 
-    public function export($options = array())
+    public function export($options = [])
     {
         if (!$this->containsItem()) {
             $report = parent::export($options);
@@ -127,7 +128,7 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
         $base = $this->buildBasePath();
         $zipArchive = $this->getZip();
         $qtiFile = '';
-        $qtiResources = array();
+        $qtiResources = [];
         $sharedAssets = isset($exportResult['portableAssets']) ? $exportResult['portableAssets'] : [];
 
         for ($i = 0; $i < $zipArchive->numFiles; $i++) {
@@ -139,7 +140,7 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
                     $qtiFile = $fileName;
                 } else {
                     if (!empty($fileName)) {
-                        $qtiResources[] = $fileName;
+                        $qtiResources[] = htmlspecialchars($fileName, ENT_QUOTES | ENT_XML1);
                     }
                 }
             }
@@ -152,22 +153,21 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
         $qtiItem = $qtiItemService->getDataItemByRdfItem($rdfItem);
 
         if (!is_null($qtiItem)) {
-
             // -- Prepare data transfer to the imsmanifest.tpl template.
-            $qtiItemData = array();
+            $qtiItemData = [];
 
             // alter identifier for export to avoid any "clash".
             $qtiItemData['identifier'] = $this->buildIdentifier();
             $qtiItemData['filePath'] = $qtiFile;
             $qtiItemData['medias'] = $qtiResources;
             $qtiItemData['adaptive'] = ($qtiItem->getAttributeValue('adaptive') === 'adaptive') ? true : false;
-            $qtiItemData['timeDependent'] = ($qtiItem->getAttributeValue('timeDependent') === 'timeDependent') ? true : false;
+            $qtiItemData['timeDependent'] = $qtiItem->getAttributeValue('timeDependent') === 'timeDependent';
             $qtiItemData['toolName'] = $qtiItem->getAttributeValue('toolVendor');
             $qtiItemData['toolVersion'] = $qtiItem->getAttributeValue('toolVersion');
-            $qtiItemData['interactions'] = array();
+            $qtiItemData['interactions'] = [];
 
             foreach ($qtiItem->getInteractions() as $interaction) {
-                $interactionData = array();
+                $interactionData = [];
                 $interactionData['type'] = $interaction->getQtiTag();
                 $qtiItemData['interactions'][] = $interactionData;
             }
@@ -183,7 +183,6 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
                 $resourcesNodes = $dom1->getElementsByTagName('resources');
 
                 foreach ($resourcesNodes as $resourcesNode) {
-
                     foreach ($resourceNodes as $resourceNode) {
                         $newResourceNode = $dom1->importNode($resourceNode, true);
                         $resourcesNode->appendChild($newResourceNode);
@@ -222,12 +221,14 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
     {
         $asApip = isset($options['apip']) && $options['apip'] === true;
         $dir = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir();
-        $tpl = ($asApip === false) ? $dir . 'model/qti/templates/imsmanifest.tpl.php' : $dir . 'model/qti/templates/imsmanifestApip.tpl.php';
+        $tpl = ($asApip === false)
+            ? $dir . 'model/qti/templates/imsmanifest.tpl.php'
+            : $dir . 'model/qti/templates/imsmanifestApip.tpl.php';
 
-        $templateRenderer = new taoItems_models_classes_TemplateRenderer($tpl, array(
-            'qtiItems' => array($qtiItemData),
+        $templateRenderer = new taoItems_models_classes_TemplateRenderer($tpl, [
+            'qtiItems' => [$qtiItemData],
             'manifestIdentifier' => 'MANIFEST-' . tao_helpers_Display::textCleaner(uniqid('tao', true), '-')
-        ));
+        ]);
 
         $renderedManifest = $templateRenderer->render();
         $newManifest = new DOMDocument('1.0', TAO_DEFAULT_ENCODING);
@@ -236,8 +237,14 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
         return $newManifest;
     }
 
+
     protected function itemContentPostProcessing($content)
     {
         return $content;
+    }
+
+    protected function getQTIVersion(): string
+    {
+        return '2p1';
     }
 }

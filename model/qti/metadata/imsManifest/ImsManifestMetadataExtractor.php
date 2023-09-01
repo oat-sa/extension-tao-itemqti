@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,9 +21,9 @@
 
 namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
-use \DOMDocument;
-use \DOMXPath;
-use \DOMText;
+use DOMDocument;
+use DOMXPath;
+use DOMText;
 use oat\taoQtiItem\model\qti\metadata\MetadataExtractionException;
 use oat\taoQtiItem\model\qti\metadata\MetadataExtractor;
 
@@ -34,93 +35,99 @@ use oat\taoQtiItem\model\qti\metadata\MetadataExtractor;
  */
 class ImsManifestMetadataExtractor implements MetadataExtractor
 {
-
     /**
      * @see MetadataExtractor::extract()
      */
     public function extract($manifest)
     {
         if ($manifest instanceof DOMDocument) {
-            
-            $bases = array();
-            
+            $bases = [];
+
             // get the base for paths.
             $xpath = new DOMXPath($manifest);
             foreach ($xpath->query('namespace::*', $manifest->ownerDocument) as $node) {
                 $bases[str_replace('xmlns:', '', $node->nodeName)] = $node->nodeValue;
             }
-            
+
             $manifestElt = $manifest->documentElement;
             $rootNs = $manifestElt->namespaceURI;
-            
+
             // Extract metadata on a <resource basis>.
             $xpath->registerNamespace('man', $rootNs);
-            
+
             // Prepare data structure to be returned.
-            $metadata = array();
-            
+            $metadata = [];
+
             $resourcesElt = $xpath->query('/man:manifest/man:resources/man:resource');
             foreach ($resourcesElt as $resourceElt) {
                 $identifier = $resourceElt->getAttribute('identifier');
                 $href = $resourceElt->getAttribute('href');
                 $type = $resourceElt->getAttribute('type');
-                
+
                 $metadataElts = $xpath->query('man:metadata', $resourceElt);
                 foreach ($metadataElts as $metadataElt) {
                     // Ask for metadata domains.
-                    $domainElts = $xpath->query('*[not(self::man:schema) and not(self::man:schemaversion)]', $metadataElt);
+                    $domainElts = $xpath->query(
+                        '*[not(self::man:schema) and not(self::man:schemaversion)]',
+                        $metadataElt
+                    );
+
                     foreach ($domainElts as $domainElt) {
-                        
-                        $trail = array();
-                        $visited = array();
-                        $path = array();
+                        $trail = [];
+                        $visited = [];
+                        $path = [];
                         $parent = null;
-                        
+
                         array_push($trail, $domainElt);
-                        
+
                         while (count($trail) > 0) {
-                            
                             $currentElt = array_pop($trail);
-                            
+
                             if (!$currentElt instanceof DOMText && in_array($currentElt, $visited, true) === false) {
                                 // Hierarchical node, 1st visit.
-                                
+
                                 // Push current for a future ascending exploration.
                                 array_push($trail, $currentElt);
-                                
+
                                 // Push children on the trail for descending exploration.
                                 $nodesToExplore = $currentElt->childNodes;
-                                
+
                                 if ($nodesToExplore) {
                                     for ($i = ($nodesToExplore->length - 1); $i >= 0; $i--) {
                                         array_push($trail, $nodesToExplore->item($i));
                                     }
                                 }
-                                
+
                                 // Set current as visited.
                                 array_push($visited, $currentElt);
-                                
+
                                 // Update the path.
                                 array_push($path, $currentElt->namespaceURI . '#' . $currentElt->localName);
-                                
+
                                 // Reference parent for leaf nodes.
                                 $parent = $currentElt;
                             } elseif ($currentElt instanceof DOMText && ctype_space($currentElt->wholeText) === false) {
-                                
                                 // Leaf node, 1st and only visit.
-                                $metadataValue = new ImsManifestMetadataValue($identifier, $type, $href, $path, $currentElt->wholeText);
+                                $metadataValue = new ImsManifestMetadataValue(
+                                    $identifier,
+                                    $type,
+                                    $href,
+                                    $path,
+                                    $currentElt->wholeText
+                                );
+
                                 if ($parent !== null && $parent->hasAttributeNS($bases['xml'], 'lang')) {
                                     $metadataValue->setLanguage($parent->getAttributeNS($bases['xml'], 'lang'));
                                 }
-                                
+
                                 if (isset($metadata[$identifier]) === false) {
-                                    $metadata[$identifier] = array();
+                                    $metadata[$identifier] = [];
                                 }
-                                
+
                                 $metadata[$identifier][] = $metadataValue;
-                            } else if (in_array($currentElt, $visited, true) === true) {
+                            } elseif (in_array($currentElt, $visited, true) === true) {
                                 // Hierarchical node, second visit (ascending).
-                                
+
                                 // Update the path.
                                 array_pop($path);
                             }
@@ -128,9 +135,8 @@ class ImsManifestMetadataExtractor implements MetadataExtractor
                     }
                 }
             }
-            
+
             return $metadata;
-            
         } else {
             throw new MetadataExtractionException(__('The manifest argument must be an instance of DOMDocument.'));
         }

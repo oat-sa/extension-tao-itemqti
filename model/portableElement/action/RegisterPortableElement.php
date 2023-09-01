@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,13 +25,13 @@ use common_ext_action_InstallAction;
 use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementVersionIncompatibilityException;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
-use \common_report_Report as Report;
+use common_report_Report as Report;
 
 /**
  * Class RegisterPortableElement
  * Abstract invokable action to register a single portable element
  * The inherited class only need to implement getSourceDirectory()
- * 
+ *
  * @package oat\taoQtiItem\model\portableElement\action
  */
 abstract class RegisterPortableElement extends common_ext_action_InstallAction
@@ -47,19 +48,24 @@ abstract class RegisterPortableElement extends common_ext_action_InstallAction
         }
 
         if (!is_readable($sourceDirectory)) {
-            return $this->createFailure('the source directory does not exists or is not readable ' .$sourceDirectory);
+            return $this->createFailure('the source directory does not exists or is not readable ' . $sourceDirectory);
         }
 
         try {
             $model = $service->getValidPortableElementFromDirectorySource($sourceDirectory);
-            if(empty($model)){
-                return Report::createFailure('no valid portable element found in directory "'.$sourceDirectory. '"');
+            if (empty($model)) {
+                return Report::createFailure('no valid portable element found in directory "' . $sourceDirectory . '"');
             }
-            if(!empty($params)){
+            if (!empty($params)) {
                 $minRequiredVersion = $params[0];
-                // if the minimal required version number string "x.y.z" is given in the parameter, the new target version should be equal or higher than it
-                if(version_compare($model->getVersion(), $minRequiredVersion) < 0){
-                    return $this->createFailure('the version in manifest "'.$model->getVersion().'" cannot be lower than the given minimum required version "'.$minRequiredVersion.'"', $model);
+                // if the minimal required version number string "x.y.z" is given in the parameter,
+                // the new target version should be equal or higher than it
+                if (version_compare($model->getVersion(), $minRequiredVersion) < 0) {
+                    return $this->createFailure(
+                        'the version in manifest "' . $model->getVersion()
+                            . '" cannot be lower than the given minimum required version "' . $minRequiredVersion . '"',
+                        $model
+                    );
                 }
             }
             $service->registerFromDirectorySource($sourceDirectory);
@@ -67,7 +73,10 @@ abstract class RegisterPortableElement extends common_ext_action_InstallAction
             return $this->createFailure('incompatible version: ' . $e->getMessage(), $model);
         }
 
-        return Report::createSuccess('registered portable element "'.$model->getTypeIdentifier(). '" in version "'.$model->getVersion().'""');
+        return Report::createSuccess(
+            'registered portable element "' . $model->getTypeIdentifier() . '" in version "'
+                . $model->getVersion() . '""'
+        );
     }
 
     /**
@@ -77,9 +86,10 @@ abstract class RegisterPortableElement extends common_ext_action_InstallAction
      * @param null $model
      * @return Report
      */
-    private function createFailure($userMessage, $model = null){
+    private function createFailure($userMessage, $model = null)
+    {
         $typeIdentifier = is_null($model) ? 'unknown type' : $model->getTypeIdentifier();
-        $message = 'The portable element cannot be registered "'.$typeIdentifier.'", reason: '.$userMessage;
+        $message = 'The portable element cannot be registered "' . $typeIdentifier . '", reason: ' . $userMessage;
         \common_Logger::w($message);
         return Report::createFailure($message);
     }

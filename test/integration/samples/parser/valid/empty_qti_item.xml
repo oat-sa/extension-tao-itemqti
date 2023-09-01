@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem
+        xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:m="http://www.w3.org/1998/Math/MathML"
+        xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd"
+        identifier="i5ed768f6747c12491b61f0f6c47899508" title="Item 11" adaptive="false" timeDependent="false" xml:lang="en-US">
+    <stylesheet href="style/custom/tao-user-styles.css" title="" type="text/css" media="all" />
+    <itemBody>
+        <div class="empty"></div>
+    </itemBody>
+</assessmentItem>

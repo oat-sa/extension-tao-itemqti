@@ -21,6 +21,7 @@
  */
 
 namespace oat\taoQtiItem\scripts\install;
+
 use oat\oatbox\extension\InstallAction;
 use oat\taoQtiItem\model\compile\QtiItemCompilerAssetBlacklist;
 use oat\taoQtiItem\model\Export\ApipPackageExportHandler;
@@ -36,18 +37,16 @@ use oat\taoQtiItem\model\ItemModel;
  *
  * @author Antoine ROBIN <antoine@taotesting.com>
  */
-class RegisterItemCompilerBlacklist  extends InstallAction
+class RegisterItemCompilerBlacklist extends InstallAction
 {
     public function __invoke($params)
     {
         $assetBlacklistService = new QtiItemCompilerAssetBlacklist([
             QtiItemCompilerAssetBlacklist::BLACKLIST => [
                 '/^https?:\/\/(www\.youtube\.[a-zA-Z]*|youtu\.be)\//',
-                '/^data:[^\/]+\/[^;]+(;charset=[\w]+)?;base64,/'
             ]
         ]);
 
         $this->getServiceManager()->register(QtiItemCompilerAssetBlacklist::SERVICE_ID, $assetBlacklistService);
-
     }
 }

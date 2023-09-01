@@ -1,5 +1,8 @@
 @import "inc/bootstrap";
 @import "inc/farbtastic";
+@import "shared/functions";
+
+$mainContainer : '.item-editor-item';
 
 //all shades of colors
 $itemCreatorBlue90: mix(#fff, $info, 90%);
@@ -87,12 +90,18 @@ img.dragging.ui-draggable-dragging {
         width: 26px;
         height: 24px;
         text-align: center;
+        position: relative;
         cursor: pointer;
         margin: 0;
         display: inline-block;
         color: $info !important;
         [class^="icon-"], [class*=" icon-"] {
             font-size: 14px !important;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'tao' !important;
         }
         &:hover {
             color: $uiClickableHoverBg !important;
@@ -137,17 +146,16 @@ img.dragging.ui-draggable-dragging {
     color: $info;
     border: 1px $itemCreatorAddOptionBorderColor dashed !important;
     list-style-type: none;
-    position: relative;
     cursor: pointer !important;
     border-radius: 3px;
     background-color: $itemCreatorAddOptionBgColor;
     [class^="icon-"], [class*=" icon-"] {
         @include font-size(16);
         position: relative;
-        top: 1px;
+        top: 2px;
         left: 2px;
         color: $info;
-        padding-right: 5px
+        margin-right: 8px;
     }
     &:hover {
         opacity: .8;
@@ -180,6 +188,9 @@ img.dragging.ui-draggable-dragging {
 }
 #panel-authoring {
     height: calc(100vh - 135px);
+    &.context-structure-tests {
+        height: inherit;
+    }
 }
 #item-editor-scope {
     height: calc(100% - 35px);
@@ -208,6 +219,9 @@ img.dragging.ui-draggable-dragging {
 
 #panel-authoring {
     height: calc(100vh - 135px);
+    &.context-structure-tests {
+        height: inherit;
+    }
     #item-editor-scope {
         height: 100%;
     }
@@ -229,8 +243,10 @@ img.dragging.ui-draggable-dragging {
 
 }
 
-.item-editor-response-related {
-    .response-mapping-info {
+.item-editor-response-related,
+.item-editor-choice-related {
+    .response-mapping-info,
+    .response-matchmax-info {
         .feedback-info {
             padding: 5px;
         }
@@ -253,10 +269,11 @@ img.dragging.ui-draggable-dragging {
 @import "qtiCreator/_outcome-editor";
 @import "qtiCreator/_interaction-sidebar";
 @import "qtiCreator/_math-input";
+@import "qtiCreator/_media-sidebar";
 
 .item-editor-sidebar-wrapper {
     background: $canvas;
-    position: relative;
+    padding-bottom: 35px;
 
     @include simple-flex-box(195px);
     overflow-y: auto;
@@ -270,6 +287,9 @@ img.dragging.ui-draggable-dragging {
     &.right-bar {
         .item-editor-sidebar {
             border-left: 1px solid $uiGeneralContentBg;
+        }
+        .tooltip {
+            max-width: 200px;
         }
     }
 }
@@ -393,6 +413,12 @@ img.dragging.ui-draggable-dragging {
             }
             .icon-help.tooltipstered{
                 color: $info;
+            }
+            &.choice-min-max {
+                margin-left: 20px;
+                .spinner {
+                    min-width: 80px;
+                }
             }
         }
     }
@@ -742,6 +768,7 @@ img.dragging.ui-draggable-dragging {
         overflow-x: hidden;
         overflow-y: visible;
     }
+
 }
 
 #item-editor-scoll-container{
@@ -767,12 +794,6 @@ img.dragging.ui-draggable-dragging {
         position: relative;
     }
 
-    /*hack to fix unwanted contenteditable behaviour in chrome : @see*/
-    p, span, ol, ul {
-        line-height: 1.4;
-        font-size: 1.4rem;
-    }
-
     .inserting {
         .widget-block, .widget-blockInteraction {
             border: 1px dashed #ddd;
@@ -789,6 +810,7 @@ img.dragging.ui-draggable-dragging {
         .widget-box {
             &.edit-sleep {
                 position: relative;
+
                 &::after {
                     content: '';
                     display:block;
@@ -909,13 +931,13 @@ img.dragging.ui-draggable-dragging {
             box-shadow: 0 0 0 1px whiten($info, .2);
 
             .tlb-title {
-                margin-top: 1px;
+                margin-top: 3px;
                 line-height: 1.4;
                 @include font-size(14, true);
-                position: absolute;
             }
             .tlb {
                 position: relative;
+
                 &:before {
                     content: '';
                     height: 100%;
@@ -931,19 +953,25 @@ img.dragging.ui-draggable-dragging {
                     @include font-size(14, true);
                 }
                 & > div {
-                    margin: 1px 0 2px;
+                    margin: 3px 0 2px;
                 }
                 .state-switcher {
+                    margin-right: 15px;
+
                     .selected {
+                        font-size: 1.4rem;
                         font-weight: bold;
                     }
                     .link {
+                        font-size: 1.4rem;
                         &:hover {
                             cursor: pointer;
                             text-decoration: underline;
                         }
                     }
-                    margin-right: 15px
+                    .separator {
+                        font-size: 1.4rem;
+                    }
                 }
 
                 .tlb-button {
@@ -955,7 +983,9 @@ img.dragging.ui-draggable-dragging {
                         font-weight: bold;
                         opacity: 1;
                     }
+
                     [class^="icon-"], [class*=" icon-"] {
+                        font-size: inherit;
                         text-shadow: 1px 1px 0 blacken($info, .2);
                     }
                 }
@@ -1027,6 +1057,13 @@ img.dragging.ui-draggable-dragging {
                 .qti-prompt .cke_editable{
                     margin-top: 1px;
                 }
+                &.qti-orderInteraction {
+                    .qti-choice.edit-answer.active {
+                        cursor: default;
+                        z-index: 9;
+                        border: 1px solid #3e7da7;
+                    }
+                }
             }
         }
         .widget-ok {
@@ -1088,7 +1125,7 @@ img.dragging.ui-draggable-dragging {
         }
     }
 
-    .widget-inline{
+    .widget-inline, .widget-table, .widget-figure {
         z-index: 20;
     }
 
@@ -1144,7 +1181,11 @@ img.dragging.ui-draggable-dragging {
             right:-32px !important;
         }
     }
-
+    .qti-hottext {
+        .hottext-content {
+            user-select: none;
+        }
+    }
     .qti-gap{
         margin-right: 30px;
     }
@@ -1169,15 +1210,11 @@ img.dragging.ui-draggable-dragging {
     @import "qtiCreator/_custom";
     @import "qtiCreator/_element-selector";
     @import "qtiCreator/_include";
+    @import "qtiCreator/_item_buttons";
+    @import "qtiCreator/_figure";
+    @import "qtiCreator/_media";
 
 /* Below is a temporary solution to address Bug #2768. Eventually this will be fixed by implementing feature #2771. */
-    .qti-simpleChoice {
-        .mini-tlb[data-edit="question"] {
-            right: -38px !important;
-            top: 3px;
-        }
-    }
-
     .qti-hottextInteraction {
         .mini-tlb {
             right: -31px !important;
@@ -1186,6 +1223,9 @@ img.dragging.ui-draggable-dragging {
 
     .qti-interaction {
         .qti-prompt {
+            @include rtl {
+                margin-right: 0;
+            }
             & ~ .mini-tlb {
                 right: -31px !important;
                 top:1px
@@ -1215,6 +1255,7 @@ img.dragging.ui-draggable-dragging {
 /*style for html editable area highlight*/
 .edit-question [data-html-editable]{
     min-height: 20px;
+    margin-top: 2px;
 }
 [data-html-editable] {
     border: 1px solid transparent;
@@ -1234,7 +1275,7 @@ img.dragging.ui-draggable-dragging {
         }
     }
     [data-html-editable] {
-        margin-right: 0px; //@todo value to be determined
+        margin-right: 0;
         &[contenteditable=true]:focus {
             border: 1px dotted $info;
         }
@@ -1242,17 +1283,10 @@ img.dragging.ui-draggable-dragging {
 }
 
 .edit-question .qti-blockInteraction .horizontal {
-    .add-option {
-        margin-top: 25px;
-    }
+    margin-top: 28px;
     .qti-choice {
-        margin-top: 25px;
         .mini-tlb{
             white-space: nowrap;
-
-            /* !important added because another important override it... */
-            top:-28px !important;
-            right:-1px !important;
             .tlb-button{
                 display: block;
                 margin:0;
@@ -1271,6 +1305,7 @@ img.dragging.ui-draggable-dragging {
 
 .widget-rubricBlock, .widget-textBlock {
     [data-html-editable] {
+        @extend %clearfix;
         min-height: 3rem;
     }
 }
@@ -1306,7 +1341,145 @@ img.dragging.ui-draggable-dragging {
         }
     }
 }
+.select2-result.rtl-lang {
+    position: relative;
+}
+.select2-chosen .rtl-lang,
+.select2-result.rtl-lang span.select2-match {
+    &:after {
+        content: 'RTL';
+        display: block;
+        color: $grey;
+        border: $grey 1px solid;
+        border-radius: 2px;
+        font-size: 10px;
+        top: 3px;
+        line-height: 12px;
+        padding: 0 4px;
+        position: relative;
+    }
+}
+.select2-chosen .rtl-lang {
+    &:after {
+        position: absolute;
+        top: 6px;
+        right: 20px;
+    }
+}
+.select2-container .select2-choice>.select2-chosen {
+    margin-right: 50px;
+}
+.select2-result.rtl-lang {
+    .select2-result-label {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row-reverse;
+    }
+    &.select2-highlighted {
+        span.select2-match {
+            &:after {
+                color: #fff;
+                border-color: #fff;
+            }
+        }
+    }
+}
 
+//if an hr tag is inside a text selection we highlight it
+.qti-itemBody [contenteditable=true] hr{
+    position: relative;
+    overflow: visible;
+
+    &.text-selected:after {
+        content: ' ';
+        position: absolute;
+        height: 12px;
+        top: -6px;
+        left: 0;
+        right: 0;
+        background-color: #b3d4fc;
+        z-index:-1;
+    }
+}
+// jquery draggable widget has issue with RTL
+// fix: pass rtl to widget inside colimns and set ltr for grid
+.qti-itemBody[dir="rtl"] .grid-row {
+    direction: ltr;
+
+    .widget-box {
+        direction: rtl;
+    }
+}
+#mediaManager {
+    .file-preview {
+        .previewer {
+            iframe {
+                height: 100%;
+            }
+        }
+    }
+    .stylesheets {
+        .file-selector {
+            $p: &;
+
+            ul {
+                display: flex;
+                flex-direction: column-reverse;
+                justify-content: flex-end;
+            }
+
+            li {
+                order: 2;
+                box-sizing: initial;
+                margin: 0 0 5px 0;
+
+                .actions {
+                    text-align: right;
+                }
+            }
+
+            li[data-file*="/tao-user-styles.css"] {
+                order: 1;
+                margin: 5px 0;
+
+                &:before {
+                    border-top: 1px solid #DDDDDD;
+                    width: 100%;
+                    left: 0;
+                    text-indent: 8px;
+                    top: -5px;
+                    line-height: 2.8;
+                }
+
+                .actions {
+                    a.tlb-button-off {
+                        display: none;
+                    }
+
+                    a.download {
+                        display: block;
+                    }
+                }
+            }
+
+            .files>li[data-file*="/tao-user-styles.css"]:only-child {
+                &:before {
+                    border: none;
+                }
+            }
+        }
+
+        .file-preview {
+            h2[data-toggle*=".actions"] {
+                display: none;
+
+                &+.actions {
+                    display: none;
+                }
+            }
+        }
+    }
+}
 @media print {
 
     html body #tabs {
@@ -1375,11 +1548,6 @@ img.dragging.ui-draggable-dragging {
     .item-editor-sidebar-wrapper.left-bar {
         @include simple-flex-box(262px);
         #item-editor-interaction-bar {
-            .tool-list {
-                li {
-                    width: (100 / 3) * 1%;
-                }
-            }
             .sub-group-cover:after, .sub-group-cover:before {
                 left: 17% !important;
             }
@@ -1398,7 +1566,7 @@ img.dragging.ui-draggable-dragging {
         #item-editor-interaction-bar {
             .tool-list {
                 li {
-                    width: 25%;
+                    width: 50%;
                 }
             }
             .sub-group-cover:after, .sub-group-cover:before {

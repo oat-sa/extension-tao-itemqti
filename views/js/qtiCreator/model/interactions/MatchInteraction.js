@@ -16,7 +16,7 @@ define([
         getDefaultAttributes : function(){
             return {
                 'shuffle' : false,
-                'maxAssociations' : 0,
+                'maxAssociations' : 1,
                 'minAssociations' : 0
             };
         },

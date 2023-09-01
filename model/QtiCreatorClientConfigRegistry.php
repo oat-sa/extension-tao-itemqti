@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +30,7 @@ use oat\tao\model\ClientLibConfigRegistry;
  */
 class QtiCreatorClientConfigRegistry extends ClientLibConfigRegistry
 {
-    const CREATOR = "taoQtiItem/controller/creator/index";
+    public const CREATOR = "taoQtiItem/controller/creator/index";
 
     /**
      * @param $name
@@ -61,7 +62,7 @@ class QtiCreatorClientConfigRegistry extends ClientLibConfigRegistry
 
         $plugins = [];
         if (isset($config['plugins'])) {
-            foreach($config['plugins'] as $plugin) {
+            foreach ($config['plugins'] as $plugin) {
                 if ($plugin['module'] != $module) {
                     $plugins[] = $plugin;
                 }
@@ -75,7 +76,7 @@ class QtiCreatorClientConfigRegistry extends ClientLibConfigRegistry
             'position' => $position,
         ];
 
-        $config['plugins'] = $plugins;
+        $config['plugins'] = array_values($plugins);
         $registry->set(self::CREATOR, $config);
     }
 
@@ -112,7 +113,7 @@ class QtiCreatorClientConfigRegistry extends ClientLibConfigRegistry
             unset($plugins[$key]);
         }
 
-        $config['plugins'] = $plugins;
+        $config['plugins'] = array_values($plugins);
         $registry->set(self::CREATOR, $config);
     }
 
@@ -120,7 +121,8 @@ class QtiCreatorClientConfigRegistry extends ClientLibConfigRegistry
      * Quick access to the plugins
      * @return array the registered plugins
      */
-    public function getPlugins(){
+    public function getPlugins()
+    {
         $config = [];
         $registry = self::getRegistry();
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\taoQtiItem\install\scripts;
 
 use oat\tao\model\ClientLibConfigRegistry;
@@ -27,12 +29,12 @@ class SetDragAndDropConfig extends \common_ext_action_InstallAction
     {
         ClientLibConfigRegistry::getRegistry()->register(
             'taoQtiItem/qtiCommonRenderer/renderers/config',
-            array(
+            [
                 'associateDragAndDrop' => true,
                 'gapMatchDragAndDrop' => true,
                 'graphicGapMatchDragAndDrop' => true,
                 'orderDragAndDrop' => true,
-            )
+            ]
         );
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Drag and drop configuration saved');
     }

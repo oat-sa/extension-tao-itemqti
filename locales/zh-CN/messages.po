@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint114\n"
-"PO-Revision-Date: 2019-10-25T09:02:31\n"
+"Project-Id-Version: TAO 2022.04\n"
+"PO-Revision-Date: 2022-04-01T09:30:54\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -34,10 +34,31 @@ msgstr ""
 msgid "%s metadata values found in source by extractor(s)."
 msgstr ""
 
+msgid "%s of %s characters maximum."
+msgstr ""
+
+msgid "%s of %s characters recommended."
+msgstr ""
+
+msgid "%s of %s words maximum."
+msgstr ""
+
 msgid "-- Any kind of file --"
 msgstr "--任何类型的文件--"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
+msgstr ""
+
+msgid "1/3 of height"
+msgstr ""
+
+msgid "1/4 of height"
+msgstr ""
+
+msgid "2/3 of height"
+msgstr ""
+
+msgid "3/4 of height"
 msgstr ""
 
 msgid "A choice must be selected"
@@ -59,6 +80,9 @@ msgstr "调整到屏幕大小"
 msgid "Add"
 msgstr "添加"
 
+msgid "Add a CSV file"
+msgstr ""
+
 msgid "Add a modal feedback"
 msgstr "添加一个模态反馈"
 
@@ -66,6 +90,9 @@ msgid "Add a QTI/APIP XML Item Document"
 msgstr ""
 
 msgid "Add a ZIP file containing QTI/APIP items"
+msgstr ""
+
+msgid "Add an outcome"
 msgstr ""
 
 msgid "Add another option"
@@ -77,8 +104,14 @@ msgstr "添加选项"
 msgid "Add else feedback"
 msgstr "添加其他建议"
 
+msgid "Add new column"
+msgstr ""
+
 msgid "Add new pairs"
 msgstr "添加配对选项"
+
+msgid "Add new row"
+msgstr ""
 
 msgid "Add Style Sheet"
 msgstr "添加样式表"
@@ -119,6 +152,12 @@ msgstr "在解析IMS QTI数据时发生错误。"
 msgid "An error occurred at the level of the QTI model."
 msgstr ""
 
+msgid "An optional link to an extended interpretation of the outcome variable."
+msgstr ""
+
+msgid "An unexpected error occured during the import of the IMS QTI Item Package."
+msgstr ""
+
 msgid "An unexpected error occured while dealing with Response Processing."
 msgstr "在处理回应时发生了错误。"
 
@@ -133,6 +172,9 @@ msgid "An unexpected error occurred during the import of the QTI Item. The syste
 msgstr ""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
+msgstr ""
+
+msgid "Answer required"
 msgstr ""
 
 msgid "APIP Content Package"
@@ -171,14 +213,17 @@ msgstr "背景色彩"
 msgid "Base"
 msgstr ""
 
-msgid "Block"
+msgid "block"
 msgstr "区块"
 
-msgid "block"
+msgid "Block"
 msgstr "区块"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "区块中含有题目内容(刺激物)，例如：文字或图片。 这是在线互动所需要的。"
+
+msgid "Block height (%)"
+msgstr ""
 
 msgid "Border color"
 msgstr "边界色彩"
@@ -189,13 +234,22 @@ msgstr "浏览你的电脑，并选择文件。"
 msgid "Browse..."
 msgstr "浏览..."
 
-msgid "Cancel"
-msgstr "取消"
-
 msgid "cancel"
 msgstr "取消"
 
+msgid "Cancel"
+msgstr "取消"
+
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
+msgstr ""
+
+msgid "Cannot create hottext from this selection."
+msgstr ""
+
+msgid "Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words."
+msgstr ""
+
+msgid "Cannot create hottext from this selection. Please make sure the selection does not contain multiple lines."
 msgstr ""
 
 msgid "Cannot delete a variable currently used in response processing"
@@ -214,6 +268,9 @@ msgid "Cannot locate the file \"%s"
 msgstr ""
 
 msgid "Center"
+msgstr ""
+
+msgid "Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with."
 msgstr ""
 
 msgid "chars"
@@ -270,16 +327,19 @@ msgstr "使用一个或多个文本字段的方式来收集开放式资料(串�
 msgid "Color Picker"
 msgstr "颜色挑选器"
 
-msgid "Contraints"
+msgid "Common Interactions"
+msgstr ""
+
+msgid "Constraints"
 msgstr "约束"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "控制视频和音频的播放文件(自动播放，循环)再报告已播放的次数。"
 
-msgid "correct"
+msgid "Correct"
 msgstr "正确"
 
-msgid "Correct"
+msgid "correct"
 msgstr "正确"
 
 msgid "Cosinus"
@@ -303,8 +363,8 @@ msgstr "建立突出文字"
 msgid "Create pair(s) from a series of choices."
 msgstr "从一系列的选择创建对组"
 
-msgid "CSV file"
-msgstr "CSV 文件"
+msgid "CSV content + metadata"
+msgstr ""
 
 msgid "Current value:"
 msgstr "当前值："
@@ -315,14 +375,20 @@ msgstr "目前，不可从MathML转换到LaTeX。 在这里编辑MathML会丢�
 msgid "custom"
 msgstr ""
 
+msgid "Custom Interactions"
+msgstr ""
+
 msgid "Custom Response Processing Mode"
 msgstr "订制回应处理模式"
+
+msgid "default"
+msgstr "默认值"
 
 msgid "Default"
 msgstr "默认值"
 
-msgid "default"
-msgstr "默认值"
+msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
+msgstr ""
 
 msgid "Define correct response"
 msgstr "设定正确回应"
@@ -378,14 +444,20 @@ msgstr ""
 msgid "Divide"
 msgstr ""
 
-msgid "Don\'t save"
-msgstr ""
-
-msgid "Done"
+msgid "Don't save"
 msgstr ""
 
 msgid "done"
 msgstr "完成"
+
+msgid "Done"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Download sample csv file"
+msgstr ""
 
 msgid "Download this stylesheet"
 msgstr "下载这个样式表"
@@ -444,8 +516,14 @@ msgstr "元素"
 msgid "Eliminate"
 msgstr ""
 
+msgid "Enable Scrolling"
+msgstr ""
+
 msgid "Enable the test taker to pause and restart the playing."
 msgstr "允许考生暂停并重新启动播放。"
+
+msgid "Enable/disable scrolling."
+msgstr ""
 
 msgid "End Attempt"
 msgstr "结束考试"
@@ -468,6 +546,15 @@ msgstr ""
 msgid "Enter tooltip target"
 msgstr ""
 
+msgid "error"
+msgstr ""
+
+msgid "Error in post rendering: %s"
+msgstr ""
+
+msgid "Error in template rendering: %s"
+msgstr ""
+
 msgid "Error on item %1$s : %2$s"
 msgstr ""
 
@@ -484,7 +571,7 @@ msgid "Exponent"
 msgstr ""
 
 msgid "Export"
-msgstr "导出"
+msgstr ""
 
 msgid "Export APIP 1.0 Package"
 msgstr "导出 APIP 1.0 包"
@@ -510,14 +597,17 @@ msgstr "长文本"
 msgid "Extended Text Interaction"
 msgstr "长文本互动"
 
+msgid "External Machine"
+msgstr ""
+
+msgid "External Scored"
+msgstr ""
+
 msgid "Fail to export item"
 msgstr ""
 
 msgid "Failed to publish %1$s in %2$s"
 msgstr ""
-
-msgid "Failed to save item"
-msgstr "无法储存题目"
 
 msgid "Feedback"
 msgstr "回馈"
@@ -543,8 +633,8 @@ msgstr "上传文件的互动"
 msgid "Fill in the gaps on a picture with a set of image choices."
 msgstr "在空格中填充的一组选择的图像的图片。"
 
-msgid "Flash video"
-msgstr "Flash视讯"
+msgid "float"
+msgstr ""
 
 msgid "Font family"
 msgstr "字型家族"
@@ -558,6 +648,9 @@ msgstr "格式"
 msgid "Fraction"
 msgstr ""
 
+msgid "Full height"
+msgstr ""
+
 msgid "Gap"
 msgstr "空格"
 
@@ -567,14 +660,14 @@ msgstr "空格匹配"
 msgid "Gap Match Interaction"
 msgstr "空格匹配互动"
 
-msgid "GIF image"
-msgstr "GIF 图像"
-
 msgid "Graphic Associate Interaction"
 msgstr "图像相连互动"
 
 msgid "Graphic Gap Match Interaction"
 msgstr "图像空格匹配互动"
+
+msgid "Graphic Interactions"
+msgstr ""
 
 msgid "Graphic Order Interaction"
 msgstr "图像顺序互动"
@@ -585,8 +678,14 @@ msgstr ""
 msgid "Guard for resource \"%s\"..."
 msgstr ""
 
+msgid "Half height"
+msgstr ""
+
 msgid "Height"
 msgstr "长度"
+
+msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
+msgstr ""
 
 msgid "Horizontal"
 msgstr ""
@@ -609,13 +708,16 @@ msgstr "如何显示数学表达式"
 msgid "How the math expression should be edited"
 msgstr "如何编辑数学表达式"
 
+msgid "Human"
+msgstr ""
+
 msgid "identical pair already exists"
 msgstr "相同的对已经存在"
 
-msgid "Identifier"
+msgid "identifier"
 msgstr "识别码"
 
-msgid "identifier"
+msgid "Identifier"
 msgstr "识别码"
 
 msgid "identifier already taken"
@@ -623,6 +725,12 @@ msgstr ""
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr "如有图样面具，考生的回应必须要与正则表达式相应，这样考生的回应才能列为有效的。"
+
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
+msgstr ""
+
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
+msgstr ""
 
 msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
 msgstr "如果字符串的互动被限制为数字回应，那基本属性必须被使用来设置基数，这也是用来解释由考生输入的值。"
@@ -642,7 +750,13 @@ msgstr ""
 msgid "Import a QTI/APIP XML Item Document"
 msgstr ""
 
+msgid "Import item content and metadata from CSV file. Only choice interactions are supported."
+msgstr ""
+
 msgid "Import QTI ITEM into \"%s"
+msgstr ""
+
+msgid "IMS QTI Item referenced as \"%s\" cannot be imported."
 msgstr ""
 
 msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
@@ -678,8 +792,14 @@ msgstr "行内选择"
 msgid "Inline Choice Interaction"
 msgstr "行内选择互动"
 
+msgid "Inline Interactions"
+msgstr ""
+
 msgid "Inline interactions need to be inserted into a text block."
 msgstr "行内互动需要被插入到文本块中。"
+
+msgid "integer"
+msgstr ""
 
 msgid "Interaction Background"
 msgstr "互动背景"
@@ -690,10 +810,19 @@ msgstr "互动属性"
 msgid "Interpretation"
 msgstr ""
 
-msgid "invalid identifier"
-msgstr "无效的识别符"
+msgid "Invalid identifier"
+msgstr ""
+
+msgid "Invalid Outcome Declaration"
+msgstr ""
 
 msgid "invalid QTI XML"
+msgstr ""
+
+msgid "Invalid response identifier"
+msgstr ""
+
+msgid "Invalid URL"
 msgstr ""
 
 msgid "Is this choice the correct response?"
@@ -701,6 +830,9 @@ msgstr "这个选择是对的答案吗？"
 
 msgid "Is this pair the correct response?"
 msgstr "这一对是正确的答案吗？"
+
+msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
+msgstr ""
 
 msgid "Item \"%s\" cannot be exported: %s"
 msgstr ""
@@ -714,16 +846,19 @@ msgstr ""
 msgid "Item \"%s\" is ready to be exported"
 msgstr ""
 
+msgid "Item cannot be saved."
+msgstr ""
+
 msgid "Item metadata successfully exported."
 msgstr ""
 
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "题目属性"
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "题目属性"
 
 msgid "Item width"
@@ -732,9 +867,6 @@ msgstr "题目阔度"
 #, tao-public
 msgid "Items"
 msgstr "题目"
-
-msgid "JPEG image"
-msgstr "JPEG图片"
 
 msgid "Label"
 msgstr "标签"
@@ -745,19 +877,22 @@ msgstr ""
 msgid "Large editor"
 msgstr ""
 
-msgid "Latex"
-msgstr "LaTeX"
-
 msgid "LaTeX"
 msgstr ""
 
-msgid "leave empty"
-msgstr "留空"
+msgid "Latex"
+msgstr "LaTeX"
 
-msgid "Left"
-msgstr "左"
+msgid "Layout"
+msgstr ""
+
+msgid "--- leave empty ---"
+msgstr "--- 留空 ---"
 
 msgid "left"
+msgstr "左"
+
+msgid "Left"
 msgstr "左"
 
 msgid "Left bracket"
@@ -781,11 +916,17 @@ msgstr ""
 msgid "Log"
 msgstr ""
 
+msgid "Long interpretation"
+msgstr ""
+
 msgid "Loop"
 msgstr "循环"
 
 msgid "Lower Bound"
 msgstr "下限"
+
+msgid "Lower bound is bigger than upper bound."
+msgstr ""
 
 msgid "Lower than or equal"
 msgstr ""
@@ -794,11 +935,11 @@ msgid "Malformed XML[%s]:\n"
 "%s"
 msgstr ""
 
-#, tao-public
-msgid "Manage items"
+msgid "Manage Items"
 msgstr "管理题目"
 
-msgid "Manage Items"
+#, tao-public
+msgid "Manage items"
 msgstr "管理题目"
 
 msgid "map response"
@@ -879,14 +1020,8 @@ msgstr ""
 msgid "Metadata import requires an instance of DomManifest to extract metadata"
 msgstr ""
 
-msgid "Microsoft Excel"
-msgstr "Microsoft Excel"
-
-msgid "Microsoft Powerpoint"
-msgstr "Microsoft PowerPoint"
-
-msgid "Microsoft Word"
-msgstr "Microsoft Word"
+msgid "Metadata service successfully registered."
+msgstr ""
 
 msgid "MIME-type"
 msgstr "MIME 类型"
@@ -903,17 +1038,14 @@ msgstr "回应处理后，模态反馈将会显示给考生看。"
 msgid "Modal Feedback Prop."
 msgstr "模态反馈道具。"
 
+msgid "modal feedback title"
+msgstr ""
+
 msgid "Modal Feedbacks"
 msgstr "模态反馈"
 
-msgid "MP4 video"
-msgstr "模态反馈"
-
-msgid "MPEG audio"
-msgstr "MPEG音效档"
-
-msgid "MPEG video"
-msgstr "MPEG影音档"
+msgid "Multiple choices"
+msgstr ""
 
 msgid "Multiply"
 msgstr ""
@@ -943,14 +1075,17 @@ msgstr "没有题目可以从所选择的IMS QTI包导入。"
 msgid "No preview available"
 msgstr ""
 
+msgid "No uploaded file"
+msgstr ""
+
 msgid "No value set"
 msgstr "没有设定数值"
 
-msgid "None"
-msgstr "无"
-
 msgid "none"
 msgstr ""
+
+msgid "None"
+msgstr "无"
 
 msgid "None defined yet."
 msgstr "还未定义。"
@@ -986,6 +1121,9 @@ msgstr "在图片上排列这些区域(热点)。"
 msgid "Orientation"
 msgstr ""
 
+msgid "Other constraints"
+msgstr ""
+
 msgid "Outcome Declarations"
 msgstr ""
 
@@ -998,10 +1136,10 @@ msgstr "样式"
 msgid "Pause"
 msgstr "暂停"
 
-msgid "PDF file"
-msgstr "PDF文件"
-
 msgid "Pi"
+msgstr ""
+
+msgid "Placeholder Text"
 msgstr ""
 
 msgid "Plain text"
@@ -1010,8 +1148,7 @@ msgstr "纯文字"
 msgid "Please add one or more gaps to the text in question mode."
 msgstr ""
 
-msgid "Please create areas that correspond to the response and associate them a score.\n"
-""
+msgid "Please create areas that correspond to the response and associate them a score. You can also position the target to the exact point as the correct response."
 msgstr ""
 
 msgid "Please define association pairs and their scores below."
@@ -1050,6 +1187,9 @@ msgstr "请在空格填写以下的文字，然后编辑每一对的分数。"
 msgid "Please order the choices below to set the correct answer"
 msgstr "请顺序以下的选项从而设置正确的答案"
 
+msgid "Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr "请从资源管理器中选择一个媒体文件(视频或音频).你可以从你的计算机有按钮\"添加文件\"中添加新的文件。"
 
@@ -1058,9 +1198,6 @@ msgstr ""
 
 msgid "Please select a shared stimulus file from the resource manager."
 msgstr "请从资源管理器选一个共用的刺激物档案."
-
-msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "请从资源管理器中选择一个图像文档。 你可以在你的计算机有按钮\"添加档案\"中添加新的档案。"
 
 msgid "Please select the correct hotspot choices below."
 msgstr "请选择以下正确的热点选项。"
@@ -1079,9 +1216,6 @@ msgstr "请输入以下正确的回应。"
 
 msgid "Please type the correct response in the box below."
 msgstr "请在下面的框中输入正确的回应。"
-
-msgid "PNG image"
-msgstr "PNG图像"
 
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr ""
@@ -1117,6 +1251,9 @@ msgid "Print the item"
 msgstr ""
 
 msgid "Printed Variable"
+msgstr ""
+
+msgid "Properties"
 msgstr ""
 
 msgid "PropertyUri to map has to a valid uri"
@@ -1157,12 +1294,6 @@ msgstr ""
 
 msgid "Question"
 msgstr "问题"
-
-msgid "Quicktime video"
-msgstr "QuickTime视讯"
-
-msgid "recommanded"
-msgstr "所建议的"
 
 msgid "Recommendations"
 msgstr "建议"
@@ -1230,6 +1361,18 @@ msgstr ""
 msgid "Response"
 msgstr "回应"
 
+msgid "Response [\"%s\"] is bigger than the upper bound value \"%s\"."
+msgstr ""
+
+msgid "Response [\"%s\"] is lower than the lower bound value \"%s\"."
+msgstr ""
+
+msgid "Response [\"%s\"] should be the only possible value \"%s\"."
+msgstr ""
+
+msgid "Response base type"
+msgstr ""
+
 msgid "Response identifier"
 msgstr "回应辨识码"
 
@@ -1238,6 +1381,12 @@ msgstr "处理回应"
 
 msgid "Response Properties"
 msgstr "回应属性"
+
+msgid "Rich text"
+msgstr ""
+
+msgid "Rich text + math"
+msgstr ""
 
 msgid "Right"
 msgstr ""
@@ -1260,10 +1409,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr "分数"
 
-msgid "score"
+msgid "Score"
 msgstr "分数"
 
 msgid "Score range"
@@ -1272,11 +1421,11 @@ msgstr "分数范围"
 msgid "Score value"
 msgstr "分值"
 
-msgid "Select"
+msgid "Scrollable multi-column"
 msgstr ""
 
-msgid "Select a "
-msgstr "选一个"
+msgid "Select"
+msgstr ""
 
 msgid "select a choice"
 msgstr "选一个选择"
@@ -1284,8 +1433,14 @@ msgstr "选一个选择"
 msgid "Select a choice from a drop-down list."
 msgstr "从下拉列表中选择。"
 
+msgid "Select a left"
+msgstr ""
+
 msgid "Select a response identifier from the list."
 msgstr "从该列表选择一个回应的识别码。"
+
+msgid "Select a right"
+msgstr ""
 
 msgid "Select a single (radio buttons) or multiple (check boxes) responses among a set of choices."
 msgstr "在一系列的选项中选择一个(单选按钮)或多个(复选框)回应。"
@@ -1301,6 +1456,15 @@ msgstr "先选择图片档案。"
 
 msgid "select correct choice"
 msgstr "选择正确答案"
+
+msgid "Select height of passage base of container height"
+msgstr ""
+
+msgid "Select height of text block base of container height"
+msgstr ""
+
+msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
+msgstr ""
 
 msgid "Select image"
 msgstr "选择图片"
@@ -1332,6 +1496,9 @@ msgstr "选择共用的刺激物"
 msgid "Select the area to add an image"
 msgstr "选择添加图片的区域"
 
+msgid "Select the expected input value type that will define the way the response of your interaction will be processed."
+msgstr ""
+
 msgid "Select the outcome variable you want to display."
 msgstr ""
 
@@ -1356,6 +1523,9 @@ msgstr "形成的位置"
 msgid "Shuffle choices"
 msgstr "随机设定选择的位置"
 
+msgid "Single choice"
+msgstr ""
+
 msgid "Sinus"
 msgstr ""
 
@@ -1368,8 +1538,14 @@ msgstr "滑动钮"
 msgid "Slider Interaction"
 msgstr "滑动钮互动"
 
+msgid "Some feedback text."
+msgstr ""
+
 msgid "some text ..."
 msgstr "一些文本..."
+
+msgid "Something went wrong while destroying an interaction: %s"
+msgstr ""
 
 msgid "Square root"
 msgstr ""
@@ -1379,6 +1555,9 @@ msgstr ""
 
 msgid "Step"
 msgstr "步骤"
+
+msgid "string"
+msgstr ""
 
 msgid "Style Editor"
 msgstr "样式编辑器"
@@ -1397,9 +1576,6 @@ msgstr ""
 
 msgid "Successfully created item \"%s"
 msgstr ""
-
-msgid "SVG image"
-msgstr "SVG图片"
 
 msgid "Table headings"
 msgstr "表格标题"
@@ -1548,9 +1724,6 @@ msgstr "考生最多可选的关联。"
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "考生可以使用的最多选择数量。"
 
-msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr ""
-
 msgid "The maximum number of choices this choice may be associated with."
 msgstr "这个选择可以与多少其他选择有相关联(最多数量)。"
 
@@ -1599,6 +1772,9 @@ msgstr ""
 msgid "The score format is not numeric"
 msgstr ""
 
+msgid "The scrollable multi-column layout configuration is optimized for items with a single row of content only. Both columns will scroll independently and fit the available page height."
+msgstr ""
+
 msgid "The selected file is ready to be sent."
 msgstr "所选择的文件已预备好，可以发送。"
 
@@ -1639,8 +1815,8 @@ msgstr "在您的题目中有个一个不完整的元素：请点击它来完成
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "下载CSS时发生了问题，请重试一次。"
 
-msgid "this identifier is already in use"
-msgstr "这个标识符已被使用"
+msgid "This identifier must not be used by any other response or item variable."
+msgstr ""
 
 msgid "This interaction has no text defined in question mode."
 msgstr ""
@@ -1653,6 +1829,9 @@ msgstr ""
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "这个样式表没有在服务器上找到。 您可能需要删除这个参照。"
+
+msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
+msgstr ""
 
 msgid "Time dependent"
 msgstr "累计运行的时间"
@@ -1678,6 +1857,9 @@ msgstr "上面"
 msgid "Trigger the end of the item attempt."
 msgstr "停止使用此题目。"
 
+msgid "Unable to load item from the given data."
+msgstr ""
+
 msgid "Unable to process your request"
 msgstr ""
 
@@ -1687,13 +1869,16 @@ msgstr ""
 msgid "Unable to retrieve item : "
 msgstr ""
 
+msgid "Unable to retrieve item : \"%s"
+msgstr ""
+
 msgid "Unable to validate %s: %s"
 msgstr ""
 
-msgid "undo"
+msgid "Undo"
 msgstr "复原"
 
-msgid "Undo"
+msgid "undo"
 msgstr "复原"
 
 msgid "Unknown $key to register MetadataService instance"
@@ -1720,20 +1905,14 @@ msgstr ""
 msgid "Vertical"
 msgstr ""
 
-msgid "WAV audio"
-msgstr "WAV音讯"
+msgid "warning"
+msgstr ""
 
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
 msgstr "我们用样式面具，这样才符合IMS标准"
 
 msgid "Width"
 msgstr "宽度"
-
-msgid "Windows Media audio"
-msgstr "Windows Media音讯"
-
-msgid "Windows Media video"
-msgstr "Windows Media视讯"
 
 msgid "words"
 msgstr "字词"
@@ -1743,9 +1922,6 @@ msgstr "你想更换替代文字吗？"
 
 msgid "WYSIWYG editor"
 msgstr ""
-
-msgid "XHTML"
-msgstr "XHTML"
 
 msgid "XML error \"%1$s\"."
 msgstr ""
@@ -1762,10 +1938,7 @@ msgstr ""
 msgid "You can select maximum %d choices"
 msgstr ""
 
-msgid "You can select maximum of %s choices"
-msgstr ""
-
-msgid "You can select maximum of 1 choice"
+msgid "You can select up to %s choices."
 msgstr ""
 
 msgid "You can use maximum %d choices"
@@ -1795,12 +1968,6 @@ msgstr ""
 msgid "You must select at least %d choices"
 msgstr ""
 
-msgid "You must select at least %s choices"
-msgstr ""
-
-msgid "You must select at least 1 choice"
-msgstr ""
-
 msgid "You must select exactly %d choice"
 msgstr ""
 
@@ -1810,18 +1977,24 @@ msgstr "您必须选刚好%d个选择。"
 msgid "You must select exactly %d choices"
 msgstr ""
 
-msgid "You must select exactly %s choices"
-msgstr ""
-
 msgid "You must use at least %d choices"
 msgstr ""
 
 msgid "You need to make"
 msgstr "您必需使"
 
+msgid "You need to select %s choices"
+msgstr ""
+
+msgid "You need to select at least %s choices."
+msgstr ""
+
+msgid "You need to select at least 1 choice."
+msgstr ""
+
+msgid "You need to select from %s to %s choices."
+msgstr ""
+
 msgid "Your item has been saved"
 msgstr "您的题目已储存"
-
-msgid "ZIP archive"
-msgstr "ZIP压缩档"
 

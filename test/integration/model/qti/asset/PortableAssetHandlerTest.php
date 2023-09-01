@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,7 +41,10 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
         $reflectionClass = new \ReflectionClass(PortableAssetHandler::class);
         $reflectionProperty = $reflectionClass->getProperty('portableItemParser');
         $reflectionProperty->setAccessible(true);
-        $this->assertInstanceOf(PortableElementItemParser::class, $reflectionProperty->getValue($this->getPortableAssetHandler(new Item())));
+        $this->assertInstanceOf(
+            PortableElementItemParser::class,
+            $reflectionProperty->getValue($this->getPortableAssetHandler(new Item()))
+        );
     }
 
     /**
@@ -51,7 +55,7 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
         $relPathFixture = 'polop/polop/fixture.txt';
 
         $mock = $this->getMockBuilder(PortableElementItemParser::class)
-            ->setMethods(array('isPortableElementAsset','hasPortableElement'))
+            ->setMethods(['isPortableElementAsset','hasPortableElement'])
             ->getMock();
 
         $mock->expects($this->any())
@@ -84,7 +88,7 @@ class PortableAssetHandlerTest extends TaoPhpUnitTestRunner
         $relativePath = 'fixture2';
 
         $mock = $this->getMockBuilder(PortableElementItemParser::class)
-            ->setMethods(array('importPortableElementFile'))
+            ->setMethods(['importPortableElementFile'])
             ->getMock();
 
         $mock->expects($this->once())

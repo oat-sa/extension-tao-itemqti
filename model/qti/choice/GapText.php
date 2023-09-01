@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,7 +35,6 @@ use oat\taoQtiItem\model\qti\choice\TextVariableChoice;
  */
 class GapText extends ContainerChoice
 {
-
     /**
      * the QTI tag name as defined in QTI standard
      *
@@ -43,13 +43,14 @@ class GapText extends ContainerChoice
      */
     protected static $qtiTagName = 'gapText';
 
-    protected function getUsedAttributes(){
+    protected function getUsedAttributes()
+    {
         return array_merge(
-                parent::getUsedAttributes(), array(
+            parent::getUsedAttributes(),
+            [
             'oat\\taoQtiItem\\model\\qti\\attribute\\MatchMax',
             'oat\\taoQtiItem\\model\\qti\\attribute\\MatchMin'
-                )
+                ]
         );
     }
-
 }

@@ -1,14 +1,14 @@
 {
-  "name": "@oat-sa/tao-qti-item",
-  "version": "1.0.0",
-  "license": "GPL-2.0",
-  "description": "taoQtiItem frontend modules",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/oat-sa/extension-tao-itemqti.git"
-  },
-  "dependencies": {
-    "@oat-sa/tao-item-runner": "oat-sa/tao-item-runner-fe#breaking/TDR-9/handlebars-4-upgrade",
-    "@oat-sa/tao-item-runner-qti": "oat-sa/tao-item-runner-qti-fe#breaking/TDR-9/handlebars-4-upgrade-bis"
-  }
+    "name": "@oat-sa/tao-qti-item",
+    "version": "1.0.0",
+    "license": "GPL-2.0",
+    "description": "taoQtiItem frontend modules",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/oat-sa/extension-tao-itemqti.git"
+    },
+    "dependencies": {
+        "@oat-sa/tao-item-runner": "oat-sa/tao-item-runner-fe#breaking/TDR-9/handlebars-4-upgrade",
+        "@oat-sa/tao-item-runner-qti": "oat-sa/tao-item-runner-qti-fe#breaking/TDR-9/handlebars-4-upgrade-bis"
+    }
 }

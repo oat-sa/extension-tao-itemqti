@@ -1,11 +1,10 @@
-@import "inc/bootstrap";
+@import 'inc/bootstrap';
 
 .qti-associateInteraction {
-
     .empty {
         cursor: pointer;
         min-height: 0;
-        &:hover{
+        &:hover {
             @extend %selectableHover;
         }
     }
@@ -19,15 +18,20 @@
             min-width: 100px;
             min-height: 30px;
             max-width: 180px;
+            word-wrap: break-word;
             .qti-block {
                 img {
                     display: flex;
                 }
             }
         }
+
+        & > .qti-choice.flexible-choice-width {
+            max-width: none;
+        }
     }
     .result-area {
-        width: 40%;
+        width: 70%;
         min-width: 260px;
         margin: auto;
         & > li {
@@ -36,18 +40,18 @@
             position: relative;
             @extend .clearfix;
             &:before {
-                @extend .clearfix:before;
-                border-top: 1px solid whiten($info, .5);
+                @extend %clearfix-before;
+                border-top: 1px solid whiten($info, 0.5);
                 display: block;
                 width: 80%;
                 left: 10%;
                 height: 1px;
                 position: absolute;
                 z-index: 1;
-                top: 50%
+                top: 50%;
             }
             &:after {
-                @extend .clearfix:after;
+                @extend %clearfix-after;
             }
             & > .target {
                 background: white;
@@ -56,10 +60,10 @@
                 float: right;
                 position: relative;
                 z-index: 2;
-                min-width: 100px;
+                min-width: 180px;
                 min-height: 30px;
-                max-width: 180px;
-                outline: 5px whiten($uiClickableDefaultBg, .2) solid;
+                max-width: 325px;
+                outline: 5px whiten($uiClickableDefaultBg, 0.2) solid;
                 @include simple-border(#eee);
                 overflow: hidden;
                 .qti-block {
@@ -68,32 +72,35 @@
                     }
                 }
                 &.active {
-                    border-color: whiten($info, .2);
-                    &:hover{
+                    border-color: whiten($info, 0.2);
+                    &:hover {
                         @extend %activeHover;
                     }
                 }
                 &:first-child {
-                    float: left
+                    float: left;
                 }
-                &.dragged, &.dragged:hover { // :hover is to override .active:hover
+                &.dragged,
+                &.dragged:hover {
+                    // :hover is to override .active:hover
                     @extend %dragged;
                     outline: 0;
                 }
-                &.droppable, &.droppable:hover { // :hover is to override .active:hover
+                &.droppable,
+                &.droppable:hover {
+                    // :hover is to override .active:hover
                     @extend %droppable;
                 }
                 &.dropzone {
                     @extend %dropzone;
                 }
             }
-            &.removing > div{
-                background-color:#eee;
+            &.removing > div {
+                background-color: #eee;
             }
             &.incomplete-pair {
-                display:none;
                 & > div {
-                    border:1px dashed #ccc;
+                    border: 1px dashed #ccc;
                 }
             }
         }
@@ -110,13 +117,17 @@
             }
         }
         .filled {
-            &:hover{
+            &:hover {
                 @extend %selectableHover;
             }
         }
     }
+
+    img {
+        max-width: 180px;
+    }
 }
 
 .result-area > li > div.filled ~ div.filled:before {
-    border-top: 1px solid whiten($success, .5) !important;
+    border-top: 1px solid whiten($success, 0.5) !important;
 }

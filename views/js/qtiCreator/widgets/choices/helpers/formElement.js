@@ -13,61 +13,76 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2019-2021 (original work) Open Assessment Technologies SA ;
  */
-define(['jquery'], function($) {
-
-    var formElementHelper = {
-        initShufflePinToggle: function(widget) {
-
-            var $container = widget.$container,
+define(['jquery'], function ($) {
+    const formElementHelper = {
+        initShufflePinToggle: function (widget) {
+            const $container = widget.$container,
                 choice = widget.element,
                 interaction = choice.getInteraction(),
                 $shuffleToggle = $container.find('[data-role="shuffle-pin"]');
 
-            var toggleVisibility = function(show) {
-                if (show) {
+            const pinIcon = function ($icon) {
+                $icon.removeClass('icon-shuffle').addClass('icon-pin');
+                choice.attr('fixed', true);
+            }
+
+            const unPinIcon = function ($icon) {
+                $icon.removeClass('icon-pin').addClass('icon-shuffle');
+                choice.attr('fixed', false);
+            }
+
+            const toggleVisibility = function (show) {
+                if (show === 'true' || show === true) {
                     $shuffleToggle.show();
                 } else {
                     $shuffleToggle.hide();
+                    let $icon = $shuffleToggle.children();
+                    if ($icon.length === 0) {
+                        $icon = $($shuffleToggle);
+                    }
+                    unPinIcon($icon);
                 }
                 $('.qti-item').trigger('toolbarchange', {
                     callee: 'formElementHelper'
                 });
             };
 
-            $shuffleToggle.off('mousedown').on('mousedown', function(e) {
-                var $icon = $(this).children();
+            $shuffleToggle.off('mousedown').on('mousedown', function (e) {
+                let $icon = $(this).children();
                 e.stopPropagation();
-
                 if ($icon.length === 0) {
                     $icon = $(this);
                 }
                 if ($icon.hasClass('icon-shuffle')) {
-                    $icon.removeClass('icon-shuffle').addClass('icon-pin');
-                    choice.attr('fixed', true);
+                    pinIcon($icon);
                 } else {
-                    $icon.removeClass('icon-pin').addClass('icon-shuffle');
-                    choice.attr('fixed', false);
+                    unPinIcon($icon);
                 }
             });
 
             toggleVisibility(interaction.attr('shuffle'));
 
             //listen to interaction property change
-            widget.on('attributeChange', function(data) {
+            widget.on('attributeChange', function (data) {
                 if (data.element.serial === interaction.serial && data.key === 'shuffle') {
                     toggleVisibility(data.value);
                 }
             });
         },
-        initDelete: function(widget) {
+        initDelete: function (widget) {
+            const $container = widget.$container;
 
-            var $container = widget.$container;
-
-            $container.find('[data-role="delete"]').on('mousedown', function(e) {
-                e.stopPropagation();
-                widget.changeState('deleting');
+            $container.find('[data-role="delete"]').on('mousedown', function (e) {
+                if (
+                    $container.hasClass('edit-choice') ||
+                    $(e.target).closest('.mini-tlb').data('for') === widget.element.serial
+                ) {
+                    // condition prevent removing choice in case user deliting inner element (math, image)
+                    e.stopPropagation();
+                    widget.changeState('deleting');
+                }
             });
         }
     };

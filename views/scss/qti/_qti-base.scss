@@ -53,7 +53,6 @@ $mainContainer : '.qti-item';
 }
 
 #{$mainContainer} {
-
     @import "inc/fonts/tao-icon-classes";
 
     @import "inc/feedback";
@@ -61,7 +60,6 @@ $mainContainer : '.qti-item';
     @import "inc/tooltip";
     @import "inc/buttons";
     @import "inc/jquery.nouislider";
-    @import "inc/forms";
 
     // reset grid set-up within the item context
 
@@ -124,6 +122,17 @@ $mainContainer : '.qti-item';
         &.highlighter-cursor {
             cursor: url("../img/qtiIconsPng/marker.png") 0 32, auto;
         }
+
+        hr {
+            border: none;
+            margin: 12px 0;
+            padding: 0;
+            height: 1px;
+            max-height: 1px;
+            border: none;
+            border-color: #8c8c8c;
+            border-top: solid 1px;
+        }
     }
 
     .interaction-cover{
@@ -147,6 +156,7 @@ $mainContainer : '.qti-item';
 
     // MathJax reset
     .MathJax {
+        display: inline-table;
         &:focus {
             outline: 0;
         }
@@ -193,27 +203,37 @@ $mainContainer : '.qti-item';
         }
         &.horizontal {
             @extend .clearfix;
+            padding-right: 3px;
+            padding-left: 3px;
             &:after {
-                @extend .clearfix:after;
+                @extend %clearfix-after;
             }
             &:before {
-                @extend .clearfix:before;
+                @extend %clearfix-before;
             }
             & > li {
                 display: block;
                 float: left;
+
+                @include rtl {
+                    float: right;
+                }
             }
         }
         &.solid, &.bordered {
             padding-top: 3px;
-            padding-right: 3px;
             padding-bottom: 3px;
+
             &.none {
                 padding-left: 3px;
+
+                @include rtl {
+                    padding-left: auto;
+                    padding-right: 3px;
+                }
             }
         }
     }
-
 
     .qti-block {
         border:1px solid transparent;
@@ -274,6 +294,7 @@ $mainContainer : '.qti-item';
     @import "choice";
     @import "order";
     @import "extended-text";
+    @import "feedback";
     @import "associate";
     @import "match";
     @import "media";
@@ -288,7 +309,7 @@ $mainContainer : '.qti-item';
     @import "custom";
     @import "table";
     @import "tooltip";
-
+    @import "figure";
 }
 
 .tao-preview-scope{

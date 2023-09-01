@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,17 +22,17 @@
 namespace oat\taoQtiItem\model\update;
 
 use oat\taoQtiItem\model\qti\ParserFactory;
-use \RecursiveIteratorIterator;
-use \RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
 
 abstract class ItemUpdater
 {
     protected $itemPath     = '';
-    protected $checkedFiles = array();
+    protected $checkedFiles = [];
 
     /**
      * Init the item updater with the item directory path
-     * 
+     *
      * @param string $itemRootPath
      * @throws \common_Exception
      */
@@ -51,34 +52,41 @@ abstract class ItemUpdater
      */
     public function update($changeItemContent = false)
     {
-        $returnValue = array();
-        $objects     = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->itemPath), RecursiveIteratorIterator::SELF_FIRST);
+        $returnValue = [];
+        $objects = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($this->itemPath),
+            RecursiveIteratorIterator::SELF_FIRST
+        );
         $i = 0;
         $fixed = 0;
-        
-        foreach ($objects as $itemFile => $cursor) {
 
+        foreach ($objects as $itemFile => $cursor) {
             if (is_file($itemFile)) {
-                
                 $this->checkedFiles[$itemFile] = false;
 
                 if (basename($itemFile) === 'qti.xml') {
-
                     $i++;
                     $xml = new \DOMDocument();
                     $xml->load($itemFile);
 
                     $parser = new ParserFactory($xml);
                     $item   = $parser->load();
-                    \common_Logger::i('checking item #'.$i.' id:'.$item->attr('identifier').' file:'.$itemFile);
+                    \common_Logger::i(
+                        'checking item #' . $i . ' id:' . $item->attr('identifier') . ' file:' . $itemFile
+                    );
 
                     if ($this->updateItem($item, $itemFile)) {
                         $this->checkedFiles[$itemFile] = true;
                         $returnValue[$itemFile]        = $item;
-                        \common_Logger::i('fixed required for #'.$i.' id:'.$item->attr('identifier').' file:'.$itemFile);
+                        \common_Logger::i(
+                            'fixed required for #' . $i . ' id:' . $item->attr('identifier') . ' file:' . $itemFile
+                        );
+
                         if ($changeItemContent) {
                             $fixed++;
-                            \common_Logger::i('item fixed #'.$i.' id:'.$item->attr('identifier').' file:'.$itemFile);
+                            \common_Logger::i(
+                                'item fixed #' . $i . ' id:' . $item->attr('identifier') . ' file:' . $itemFile
+                            );
                             file_put_contents($itemFile, $item->toXML());
                         }
                     }
@@ -86,12 +94,12 @@ abstract class ItemUpdater
             }
         }
 
-        \common_Logger::i('total item fixed : '.$fixed);
+        \common_Logger::i('total item fixed : ' . $fixed);
         return $returnValue;
     }
 
     /**
-     * Get the list of checked files 
+     * Get the list of checked files
      * @return array
      */
     public function getCheckedFiles()

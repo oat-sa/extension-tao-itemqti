@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 define([
     'lodash',
@@ -21,33 +21,40 @@ define([
     'jquery',
     'ckeditor',
     'core/promise',
+    'services/features',
     'taoQtiItem/qtiCreator/helper/ckConfigurator',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/widgets/helpers/content',
-    'taoQtiItem/qtiCreator/widgets/helpers/deletingState'
-], function(
+    'taoQtiItem/qtiCreator/widgets/helpers/deletingState',
+    'taoQtiItem/qtiCreator/editor/ckEditor/featureFlag',
+    'taoQtiItem/qtiCreator/helper/languages'
+], function (
     _,
     __,
     $,
     CKEditor,
     Promise,
+    features,
     ckConfigurator,
     Element,
     contentHelper,
-    deletingHelper
-){
-    "use strict";
+    deletingHelper,
+    featureFlag,
+    languages
+) {
+    'use strict';
 
-    var _defaults = {
-        placeholder : __('some text ...'),
-        shieldInnerContent : true,
-        passthroughInnerContent : false,
-        autofocus : true
+    const _defaults = {
+        placeholder: __('some text ...'),
+        shieldInnerContent: true,
+        passthroughInnerContent: false,
+        autofocus: true
     };
 
-    var placeholderClass = 'cke-placeholder';
+    const placeholderClass = 'cke-placeholder';
+    const languagePluginEnabled = features.isVisible('taoQtiItem/creator/editor/ckEditor/languagePlugin', false);
 
-    var editorFactory;
+    let editorFactory;
 
     //prevent auto inline editor creation:
     CKEditor.disableAutoInline = true;
@@ -61,20 +68,39 @@ define([
      * @param {Boolean} [options.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
      * @param {String} [options.removePlugins] - a coma-separated list of plugins that should not be loaded: 'plugin1,plugin2,plugin3'
      * @param {Boolean} [options.autofocus] - automatically focus
+     * @returns {Object} CKEditor
      */
-    function _buildEditor($editable, $editableContainer, options){
-
-        var ckConfig,
-            widget = (options.data || {}).widget,
+    function _buildEditor($editable, $editableContainer, options) {
+        const widget = (options.data || {}).widget,
             areaBroker = widget && widget.getAreaBroker && widget.getAreaBroker(),
             $toolbarArea = areaBroker && areaBroker.getToolbarArea && areaBroker.getToolbarArea();
 
         options = _.defaults(options, _defaults);
 
-        if( !($editable instanceof $) || !$editable.length){
+        const isHiddenPlugin = pluginName => !features.isVisible(`taoQtiItem/creator/content/plugin/${pluginName}`);
+
+        const registeredPluginNames = CKEditor.plugins.registered && Object.keys(CKEditor.plugins.registered);
+        const removePlugins = [];
+        registeredPluginNames.forEach(pluginName => {
+            if (isHiddenPlugin(pluginName)) {
+                removePlugins.push(pluginName);
+            }
+        });
+
+        if (options.removePlugins) {
+            options.removePlugins.split(',').forEach(removePluginName => {
+                removePlugins.push(removePluginName.trim());
+            });
+        }
+
+        if (!languagePluginEnabled) {
+            removePlugins.push('taolanguage');
+        }
+
+        if (!($editable instanceof $) || !$editable.length) {
             throw new Error('invalid jquery element for $editable');
         }
-        if( !($editableContainer instanceof $) || !$editableContainer.length){
+        if (!($editableContainer instanceof $) || !$editableContainer.length) {
             throw new Error('invalid jquery element for $editableContainer');
         }
 
@@ -86,67 +112,93 @@ define([
             }
         }
 
-        ckConfig = {
-            dtdMode : 'qti',
-            autoParagraph : false,
-            removePlugins : options.removePlugins || '',
-            enterMode : options.enterMode || CKEditor.ENTER_P,
-            floatSpaceDockedOffsetY : 10,
-            sharedSpaces : {
+        const ckConfig = {
+            dtdMode: 'qti',
+            autoParagraph: false,
+            removePlugins: removePlugins.join(','),
+            enterMode: options.enterMode || CKEditor.ENTER_P,
+            floatSpaceDockedOffsetY: 10,
+            language_list: options.language_list,
+            sharedSpaces: {
                 top: ($toolbarArea && $toolbarArea.attr('id')) || 'toolbar-top'
             },
-            taoQtiItem : {
+            taoQtiItem: {
                 /**
                  * @param {DOM} tempWidget - this contains the DOM nodes created by a ckEditor plugin,
                  *                           wrapped in a temporary widget container (= a widget container with a [data-new="true"] attribute)
                  */
-                insert : function(tempWidget){
-                    var $newContent = $(tempWidget).clone(); // we keep the original content for later use
-                    if(options.data && options.data.container && options.data.widget){
-                        contentHelper.createElements(options.data.container, $editable, _htmlEncode(this.getData()), function(createdWidget){
-                            var createdElement = createdWidget.element;
+                insert: function (tempWidget) {
+                    const $newContent = $(tempWidget).clone(); // we keep the original content for later use
+                    if (options.data && options.data.container && options.data.widget) {
+                        const $newImgPlaceholder = $editable.find('[data-new="true"][data-qti-class="img"]');
+                        if (
+                            $newImgPlaceholder.length &&
+                            !$editable.closest('.qti-choice, .qti-flow-container').length &&
+                            !$newImgPlaceholder.closest('.qti-table caption').length
+                        ) {
+                            // instead img will add figure element
+                            $newImgPlaceholder.attr('data-qti-class', 'figure');
+                            // span after for new line
+                            $('<span>&nbsp;</span>').insertAfter($newImgPlaceholder);
+                        }
+                        contentHelper.createElements(
+                            options.data.container,
+                            $editable,
+                            _htmlEncode(this.getData()),
+                            function (createdWidget) {
+                                const createdElement = createdWidget.element;
 
-                            if (_.isFunction(createdElement.initContainer)) {
-                                createdElement.body($newContent.html());
-                                createdWidget.rebuild();
-                                createdWidget = createdElement.data('widget');
+                                if (_.isFunction(createdElement.initContainer)) {
+                                    createdElement.body($newContent.html());
+                                    createdWidget.rebuild();
+                                    createdWidget = createdElement.data('widget');
+                                }
+                                _activateInnerWidget(options.data.widget, createdWidget);
                             }
-                            _activateInnerWidget(options.data.widget, createdWidget);
-                        });
+                        );
+                        // hide toolbar to prevent double click
+                        const editor = $editable.data('editor');
+                        editor.focusManager.blur(true);
                     }
                 }
             },
-            on : {
-                instanceReady : function(e){
-                    var widgets = {},
-                        editor = e.editor;
+            on: {
+                instanceReady: function (e) {
+                    let widgets = {};
+                    const editor = e.editor;
 
                     //store it in editable elt data attr
                     $editable.data('editor', editor);
                     $editable.data('editor-options', options);
 
                     //need to debounce the callback to prevent the changes made by undo to trigger the event change twice
-                    editor.on('change', _.debounce(function markupChanged(){
-                        _detectWidgetDeletion($editable, widgets, editor);
-                        if(_.isFunction(options.change)){
-                            options.change.call(editor, _htmlEncode(editor.getData()));
-                        }
-                    }, 100, {
-                        leading: true
-                    }));
+                    editor.on(
+                        'change',
+                        _.debounce(
+                            function markupChanged() {
+                                _detectWidgetDeletion($editable, widgets, editor);
+                                if (_.isFunction(options.change)) {
+                                    options.change.call(editor, _htmlEncode(editor.getData()));
+                                }
+                            },
+                            100,
+                            {
+                                leading: true
+                            }
+                        )
+                    );
 
                     managePlaceholder($editable, editor);
 
-                    if(options.data && options.data.container){
-
+                    if (options.data && options.data.container) {
                         //store in data-qti-container attribute the editor instance as soon as it is ready
                         $editable.data('qti-container', options.data.container);
 
                         //init editable
                         widgets = _rebuildWidgets(options.data.container, $editable, {
-                            restoreState : true
+                            restoreState: true
                         });
-                        if(options.shieldInnerContent){
+                        if (options.shieldInnerContent) {
                             _shieldInnerContent($editable, options.data.widget);
                         }
                     }
@@ -159,18 +211,18 @@ define([
 
                     $('.qti-item').trigger('toolbarchange');
                 },
-                blur : function() {
+                blur: function () {
                     if ($toolbarArea) {
                         $toolbarArea.hide();
                     }
                 },
-                focus : function(){
+                focus: function () {
                     if ($toolbarArea) {
                         $toolbarArea.show();
                     }
 
                     //callback:
-                    if(_.isFunction(options.focus)){
+                    if (_.isFunction(options.focus)) {
                         options.focus.call(this, _htmlEncode(this.getData()));
                     }
 
@@ -178,31 +230,34 @@ define([
 
                     $('.qti-item').trigger('toolbarchange');
                 },
-                configLoaded : function(e){
+                configLoaded: function (e) {
                     //@todo : do we really have to wait here to initialize the config?
-                    var toolbarType = '';
-                    if(options.toolbar && _.isArray(options.toolbar)){
+                    let toolbarType = options.toolbarType || '';
+                    if (options.toolbar && _.isArray(options.toolbar)) {
                         ckConfig.toolbar = options.toolbar;
-                    }else{
+                    } else {
                         toolbarType = getTooltypeFromContainer($editableContainer);
                     }
 
-                    if(typeof options.qtiMedia !== 'undefined'){
+                    if (typeof options.qtiMedia !== 'undefined') {
                         ckConfig.qtiMedia = options.qtiMedia;
                     }
-                    if(typeof options.qtiImage !== 'undefined'){
+                    if (typeof options.qtiImage !== 'undefined') {
                         ckConfig.qtiImage = options.qtiImage;
                     }
-                    if(typeof options.qtiInclude !== 'undefined'){
+                    if (typeof options.qtiInclude !== 'undefined') {
                         ckConfig.qtiInclude = options.qtiInclude;
                     }
-                    if(typeof options.highlight !== 'undefined'){
+                    if (typeof options.highlight !== 'undefined') {
                         ckConfig.highlight = options.highlight;
+                    }
+                    if (typeof options.mathJax !== 'undefined') {
+                        ckConfig.mathJax = options.mathJax;
                     }
 
                     e.editor.config = ckConfigurator.getConfig(e.editor, toolbarType, ckConfig);
                 },
-                afterPaste : function(){
+                afterPaste: function () {
                     //@todo : we may add some processing on the editor after paste
                 }
             }
@@ -215,12 +270,14 @@ define([
      * Handle the placeholder for non-input elements.
      * To avoid CK nasty side-effects of using the placeholder attribute on non-input elements,
      * we handle the placeholder with css.
+     * @param {JQuery} $editable
+     * @param {Object} editor
      */
     function managePlaceholder($editable, editor) {
         if (!$editable.is('input')) {
             togglePlaceholder($editable);
 
-            editor.on('change', function() {
+            editor.on('change', function () {
                 togglePlaceholder($editable);
             });
         }
@@ -228,13 +285,12 @@ define([
 
     /**
      * Toggle the placeholder class on the editable depending on its content
+     * @param {JQuery} $editable
      */
     function togglePlaceholder($editable) {
-        var nonEmptyContent = ['img', 'table', 'math', 'object', 'printedVariable', '.tooltip-target'];
+        const nonEmptyContent = ['img', 'table', 'math', 'object', 'printedVariable', '.tooltip-target', 'figure'];
 
-        if ($editable.text().trim() === ''
-            && ! $editable.find(nonEmptyContent.join(',')).length
-        ) {
+        if ($editable.text().trim() === '' && !$editable.find(nonEmptyContent.join(',')).length) {
             $editable.addClass(placeholderClass);
         } else {
             removePlaceholder($editable);
@@ -250,14 +306,22 @@ define([
      * @param {type} $editableContainer
      * @returns {String}
      */
-    function getTooltypeFromContainer($editableContainer){
-
-        var toolbarType = 'qtiFlow';
+    function getTooltypeFromContainer($editableContainer) {
+        let toolbarType = 'qtiFlow';
         // build parameter for toolbar
-        if($editableContainer.hasClass('widget-blockInteraction') || $editableContainer.hasClass('widget-textBlock') || $editableContainer.hasClass('widget-rubricBlock')){
+        if (
+            $editableContainer.hasClass('widget-blockInteraction') ||
+            $editableContainer.hasClass('widget-textBlock') ||
+            $editableContainer.hasClass('widget-rubricBlock')
+        ) {
             toolbarType = 'qtiBlock';
-        }else if($editableContainer.hasClass('qti-prompt-container') || $editableContainer.hasClass('widget-hottext')){
+        } else if (
+            $editableContainer.hasClass('qti-prompt-container') ||
+            $editableContainer.hasClass('widget-hottext')
+        ) {
             toolbarType = 'qtiInline';
+        } else if ($editableContainer.hasClass('widget-table') && !featureFlag.disableCellAlignment) {
+            toolbarType = 'qtiTable';
         }
         return toolbarType;
     }
@@ -266,15 +330,15 @@ define([
      * Find an inner element by its data attribute name
      * @param {JQuery} $container
      * @param {String} dataAttribute
+     * @returns {JQuery} collection
      */
-    function _find($container, dataAttribute){
+    function _find($container, dataAttribute) {
+        let $collection;
 
-        var $collection;
-
-        if($container.data(dataAttribute)){
+        if ($container.data(dataAttribute)) {
             $collection = $container;
-        }else{
-            $collection = $container.find('[data-' + dataAttribute + '=true]');
+        } else {
+            $collection = $container.find(`[data-${dataAttribute}=true]`);
         }
         return $collection;
     }
@@ -285,23 +349,23 @@ define([
      * @param {Object} container
      * @param {JQuery} $container
      * @param {Object} options
+     * @returns {Object} widgets
      */
-    function _rebuildWidgets(container, $container, options){
-        var widgets = {};
+    function _rebuildWidgets(container, $container, options) {
+        const widgets = {};
         options = options || {};
 
         //re-init all widgets:
-        _.each(_.values(container.elements), function(elt){
-
-            var widget = elt.data('widget'),
+        _.each(_.values(container.elements), function (elt) {
+            const widget = elt.data('widget'),
                 currentState = widget.getCurrentState().name;
 
             widgets[elt.serial] = widget.rebuild({
-                context : $container,
-                ready : function(widget){
-                    if(options.restoreState){
+                context: $container,
+                ready: function (widgetInner) {
+                    if (options.restoreState) {
                         //restore current state
-                        widget.changeState(currentState);
+                        widgetInner.changeState(currentState);
                     }
                 }
             });
@@ -317,9 +381,11 @@ define([
      *
      * @param {JQuery} $container
      * @param {String} serial
+     * @returns {JQuery} $widget
      */
-    function _findWidgetContainer($container, serial){
-        return $container.find('.widget-box[data-serial=' + serial + ']');
+    function _findWidgetContainer($container, serial) {
+        // re-query widget container to apply changes in case of deletion
+        return $($container.selector).find(`.widget-box[data-serial=${serial}]`);
     }
 
     /**
@@ -330,55 +396,49 @@ define([
      * @param {Object} editor
      * @returns {undefined}
      */
-    function _detectWidgetDeletion($container, widgets, editor){
+    function _detectWidgetDeletion($container, widgets, editor) {
+        const deleted = [];
+        const container = $container.data('qti-container');
 
-        var deleted = [];
-        var container = $container.data('qti-container');
-        var $widget;
-
-        _.each(widgets, function(w){
-
-            if(!w.element.data('removed')){
-                $widget = _findWidgetContainer($container, w.serial);
-                if(!$widget.length){
+        _.each(widgets, function (w) {
+            if (!w.element.data('removed')) {
+                const $widget = _findWidgetContainer($container, w.serial);
+                if (!$widget.length) {
                     deleted.push(w);
                 }
             }
-
         });
 
-        if(deleted.length){
-            var undoCmd = editor.getCommand( 'undo');
-            var $messageBox = deletingHelper.createInfoBox(deleted);
+        if (deleted.length) {
+            const undoCmd = editor.getCommand('undo');
+            const $messageBox = deletingHelper.createInfoBox(deleted);
 
-            $messageBox.on('confirm.deleting', function(){
+            $messageBox
+                .on('confirm.deleting', function () {
+                    _.each(deleted, function (w) {
+                        w.element.remove();
+                        w.destroy();
+                    });
 
-                _.each(deleted, function(w){
-                    w.element.remove();
-                    w.destroy();
+                    editor.resetUndo();
+                })
+                .on('undo.deleting', function () {
+                    editor.undoManager.undo();
+
+                    //need to rebuild the inner widgets in case the undo restored some qti elements
+                    _rebuildWidgets(container, $container, {
+                        restoreState: true
+                    });
+
+                    _shieldInnerContent($container, container.data('widget'));
                 });
 
-                editor.resetUndo();
-
-            }).on('undo.deleting', function(){
-
-                editor.undoManager.undo();
-
-                //need to rebuild the inner widgets in case the undo restored some qti elements
-                _rebuildWidgets(container, $container, {
-                    restoreState : true
-                });
-
-                _shieldInnerContent($container, container.data('widget'));
-            });
-
-            if (undoCmd){
+            if (undoCmd) {
                 //catch ckeditor's undo event to trigger the same behaviour as the undo action dialog
-                undoCmd.on('afterUndo', function(){
+                undoCmd.on('afterUndo', function () {
                     $messageBox.find('a.undo').click();
                 });
             }
-
         }
     }
 
@@ -386,9 +446,9 @@ define([
      * @param {JQuery} $widget - the widget to be protected
      * @returns {JQuery} The added layer (shield)
      */
-    function addShield($widget){
-        var $shield = $('<button>', {
-            'class' : 'html-editable-shield'
+    function addShield($widget) {
+        const $shield = $('<button>', {
+            class: 'html-editable-shield'
         });
 
         $widget.attr('contenteditable', false);
@@ -403,25 +463,21 @@ define([
      * @param {Object} containerWidget
      * @returns {undefined}
      */
-    function _shieldInnerContent($container, containerWidget){
+    function _shieldInnerContent($container, containerWidget) {
+        $container.find('.widget-box').each(function () {
+            const $widget = $(this);
 
-        $container.find('.widget-box').each(function(){
-            var $widget = $(this);
-
-            addShield($widget).on('click', function(e){
-                var innerWidget;
-
+            addShield($widget).on('click', function (e) {
                 //click on shield:
                 //1. this.widget.changeState('sleep');
                 //2. clicked widget.changeState('active');
 
                 e.stopPropagation();
 
-                innerWidget = $widget.data('widget');
+                const innerWidget = $widget.data('widget');
                 _activateInnerWidget(containerWidget, innerWidget);
             });
         });
-
     }
 
     /**
@@ -431,70 +487,57 @@ define([
      * @param {Object} innerWidget
      * @returns {undefined}
      */
-    function _activateInnerWidget(containerWidget, innerWidget){
-        var listenToWidgetCreation;
+    function _activateInnerWidget(containerWidget, innerWidget) {
+        let listenToWidgetCreation;
+        const event = `widgetCreated.${innerWidget.serial}`;
 
-        if(containerWidget && containerWidget.element && containerWidget.element.qtiClass){
-
-            listenToWidgetCreation = function(){
-                containerWidget.$container
-                    .on('widgetCreated.' + innerWidget.serial, function(e, widgets){
-                        var targetWidget = widgets[innerWidget.serial];
-                        if(targetWidget){
-                            containerWidget.$container.off('widgetCreated.' + innerWidget.serial);
-                            //FIXME potential race condition ? (debounce the enclosing event handler ?)
-                            _.delay(function(){
-                                if(Element.isA(targetWidget.element, 'interaction')){
-                                    targetWidget.changeState('question');
-                                } else{
-                                    targetWidget.changeState('active');
-                                }
-                            }, 100);
-                        }
-                    });
-
+        if (containerWidget && containerWidget.element && containerWidget.element.qtiClass) {
+            listenToWidgetCreation = function () {
+                containerWidget.$container.on(event, function (e, widgets) {
+                    const targetWidget = widgets[innerWidget.serial];
+                    if (targetWidget) {
+                        containerWidget.$container.off(event);
+                        //FIXME potential race condition ? (debounce the enclosing event handler ?)
+                        _.delay(function () {
+                            if (Element.isA(targetWidget.element, 'interaction')) {
+                                targetWidget.changeState('question');
+                            } else {
+                                targetWidget.changeState('active');
+                            }
+                        }, 100);
+                    }
+                });
             };
 
-            if(Element.isA(containerWidget.element, '_container') && !containerWidget.element.data('stateless')){
-
+            if (Element.isA(containerWidget.element, '_container') && !containerWidget.element.data('stateless')) {
                 //only _container that are NOT stateless need to change its state to sleep before activating the new one.
                 listenToWidgetCreation();
                 containerWidget.changeState('sleep');
-
-            }else if(Element.isA(containerWidget.element, 'interaction')){
-
+            } else if (Element.isA(containerWidget.element, 'interaction')) {
                 listenToWidgetCreation();
                 containerWidget.changeState('sleep');
-
-            }else if(Element.isA(containerWidget.element, 'choice')){
-
+            } else if (Element.isA(containerWidget.element, 'choice')) {
                 listenToWidgetCreation();
                 containerWidget.changeState('question');
-
-            }else if(Element.isA(containerWidget.element, 'table')){
-
+            } else if (Element.isA(containerWidget.element, 'table')) {
                 listenToWidgetCreation();
                 containerWidget.changeState('sleep');
-
-            }else if(Element.isA(innerWidget.element, 'choice')){
-
+            } else if (Element.isA(innerWidget.element, 'choice')) {
                 innerWidget.changeState('choice');
-
-            }else{
-
+            } else {
                 innerWidget.changeState('active');
             }
-
-        }else{
-
+        } else {
             innerWidget.changeState('active');
         }
     }
 
     /**
      * Special encoding of ouput html generated from ie8 : moved to xmlRenderer
+     * @param {String} encodedStr
+     * @returns {String} encodedStr
      */
-    function _htmlEncode(encodedStr){
+    function _htmlEncode(encodedStr) {
         return encodedStr;
     }
 
@@ -504,11 +547,10 @@ define([
      * @param {Object} editor - the ckeditor instance
      * @returns {undefined}
      */
-    function _focus(editor){
-        var range;
-        if (editor.editable() && editor.editable().$.parentNode){
+    function _focus(editor) {
+        if (editor.editable() && editor.editable().$.parentNode) {
             editor.focus();
-            range = editor.createRange();
+            const range = editor.createRange();
             range.moveToElementEditablePosition(editor.editable(), true);
             editor.getSelection().selectRanges([range]);
         }
@@ -521,11 +563,10 @@ define([
          * @param {type} $container
          * @returns {undefined}
          */
-        hasEditor : function($container){
+        hasEditor: function ($container) {
+            let hasEditor = false;
 
-            var hasEditor = false;
-
-            _find($container, 'html-editable').each(function(){
+            _find($container, 'html-editable').each(function () {
                 hasEditor = !!$(this).data('editor');
                 return hasEditor; //continue if true, break if false
             });
@@ -541,26 +582,37 @@ define([
          * @param {Boolean} [editorOptions.shieldInnerContent] - define if the inner widget content should be protected or not
          * @param {Boolean} [editorOptions.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
          * @param {Boolean} [editorOptions.enterMode] - what is the behavior of the "Enter" key (see ENTER_MODE_xxx in ckEditor configuration)
+         * @param {String} [editorOptions.removePlugins] - comma-separated list of plugins to disable
          * @returns {undefined}
          */
-        buildEditor : function($container, editorOptions){
-            var buildTasks = [];
-            _find($container, 'html-editable-container').each(function(){
+        buildEditor: function ($container, editorOptions) {
+            return languages
+                .getList()
+                .then(languages.useCKEFormatting)
+                .then(languagesData => {
+                    const buildTasks = [];
 
-                var $editableContainer = $(this),
-                    $editable = $editableContainer.find('[data-html-editable]');
+                    editorOptions.language_list = languagesData;
 
-                buildTasks.push(new Promise(function (resolve) {
-                    //need to make the element html editable to enable ck inline editing:
-                    $editable.attr('contenteditable', true);
+                    _find($container, 'html-editable-container').each(function () {
+                        const $editableContainer = $(this),
+                            $editable = $editableContainer.find('[data-html-editable]');
 
-                    //build it
-                    _buildEditor($editable, $editableContainer, editorOptions);
+                        buildTasks.push(
+                            new Promise(function (resolve) {
+                                //need to make the element html editable to enable ck inline editing:
+                                $editable.attr('contenteditable', true);
 
-                    $editable.on('editorready', resolve);
-                }));
-            });
-            return Promise.all(buildTasks);
+                                //build it
+                                _buildEditor($editable, $editableContainer, editorOptions);
+
+                                $editable.on('editorready', resolve);
+                            })
+                        );
+                    });
+
+                    return Promise.all(buildTasks);
+                });
         },
         /**
          * Destroy the editor
@@ -568,42 +620,40 @@ define([
          * @param {JQuery} $container
          * @returns {undefined}
          */
-        destroyEditor : function($container){
-            var destructTasks = [];
-            _find($container, 'html-editable-container').each(function(){
-
-                var editor,
-                    options,
-                    $editableContainer = $(this),
-                    $editable = $editableContainer.find('[data-html-editable]');
+        destroyEditor: function ($container) {
+            const destructTasks = [];
+            _find($container, 'html-editable-container').each(function () {
+                const $editableContainer = $(this);
+                const $editable = $editableContainer.find('[data-html-editable]');
 
                 $editable.removeAttr('contenteditable');
-                if($editable.data('editor')){
+                if ($editable.data('editor')) {
+                    destructTasks.push(
+                        new Promise(function (resolve) {
+                            const editor = $editable.data('editor');
+                            const options = $editable.data('editor-options');
 
-                    destructTasks.push(new Promise(function (resolve) {
-                        editor = $editable.data('editor');
-                        options = $editable.data('editor-options');
-
-                        //before destroying, ensure that data is stored
-                        if(_.isFunction(options.change)){
-                            options.change.call(editor, _htmlEncode(editor.getData()));
-                        }
-
-                        removePlaceholder($editable);
-
-                        editor.on('destroy', function () {
-                            $editable.removeData('editor').removeData('editor-options');
-                            if($editable.data('qti-container')){
-                                _rebuildWidgets($editable.data('qti-container'), $editable);
+                            //before destroying, ensure that data is stored
+                            if (_.isFunction(options.change)) {
+                                options.change.call(editor, _htmlEncode(editor.getData()));
                             }
 
-                            $editable.trigger('editordestroyed');
-                            resolve();
-                        });
+                            removePlaceholder($editable);
 
-                        editor.focusManager.blur(true);
-                        editor.destroy();
-                    }));
+                            editor.on('destroy', function () {
+                                $editable.removeData('editor').removeData('editor-options');
+                                if ($editable.data('qti-container')) {
+                                    _rebuildWidgets($editable.data('qti-container'), $editable);
+                                }
+
+                                $editable.trigger('editordestroyed');
+                                resolve();
+                            });
+
+                            editor.focusManager.blur(true);
+                            editor.destroy();
+                        })
+                    );
                 }
             });
             return Promise.all(destructTasks);
@@ -612,12 +662,13 @@ define([
          * Get the editor content
          *
          * @param {JQuery} $editable
+         * @returns {String}
          */
-        getData : function($editable){
-            var editor = $editable.data('editor');
-            if(editor){
+        getData: function ($editable) {
+            const editor = $editable.data('editor');
+            if (editor) {
                 return _htmlEncode(editor.getData());
-            }else{
+            } else {
                 throw new Error('no editor attached to the DOM element');
             }
         },
@@ -627,13 +678,13 @@ define([
          * @param {JQuery} $editable
          * @param {String} data
          */
-        setData : function($editable, data) {
-            var editor = $editable.data('editor');
-            if(editor){
+        setData: function ($editable, data) {
+            const editor = $editable.data('editor');
+            if (editor) {
                 if (_.isString(data)) {
                     editor.setData(_.escape(data));
                 }
-            }else{
+            } else {
                 throw new Error('no editor attached to the DOM element');
             }
         },
@@ -643,10 +694,10 @@ define([
          * @param {JQuery} $editable
          * @returns {undefined}
          */
-        focus : function($editable){
-            _find($editable, 'html-editable').each(function(){
-                var editor = $(this).data('editor');
-                if(editor){
+        focus: function ($editable) {
+            _find($editable, 'html-editable').each(function () {
+                const editor = $(this).data('editor');
+                if (editor) {
                     _focus(editor);
                 }
             });

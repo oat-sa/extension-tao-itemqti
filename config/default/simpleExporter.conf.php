@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,67 +24,67 @@ use oat\generis\model\OntologyRdfs;
 use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\model\Export\Extractor\MetaDataOntologyExtractor;
 
-return new oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter(array(
+return new oat\taoQtiItem\model\flyExporter\simpleExporter\ItemExporter([
     'fileSystem' => 'taoQtiItem',
     'fileLocation' => 'export' . DIRECTORY_SEPARATOR . 'export.csv',
-    'extractors' => array (
+    'extractors' =>  [
         'OntologyExtractor' => new \oat\taoQtiItem\model\flyExporter\extractor\OntologyExtractor(),
         'QtiExtractor' => new \oat\taoQtiItem\model\flyExporter\extractor\QtiExtractor(),
-        'MetaDataOntologyExtractor' => new MetaDataOntologyExtractor,
-    ),
-    'columns' => array (
-        'label' => array (
+        'MetaDataOntologyExtractor' => new MetaDataOntologyExtractor(),
+    ],
+    'columns' =>  [
+        'label' =>  [
             'extractor' => 'OntologyExtractor',
-            'parameters' => array (
+            'parameters' =>  [
                 'property' => OntologyRdfs::RDFS_LABEL
-            )
-        ),
-        'type' => array (
+            ]
+        ],
+        'type' =>  [
             'extractor' => 'QtiExtractor',
-            'parameters' => array (
+            'parameters' =>  [
                 'callback' => 'getInteractionType'
-            )
-        ),
-        'nb choice' => array (
+            ]
+        ],
+        'nb choice' =>  [
             'extractor' => 'QtiExtractor',
-            'parameters' => array (
+            'parameters' =>  [
                 'callback' => 'getNumberOfChoices'
-            )
-        ),
-        'responseIdentifier' => array (
+            ]
+        ],
+        'responseIdentifier' =>  [
             'extractor' => 'QtiExtractor',
-            'parameters' => array (
+            'parameters' =>  [
                 'callback' => 'getResponseIdentifier',
-            )
-        ),
-        'BR' => array (
+            ]
+        ],
+        'BR' =>  [
             'extractor' => 'QtiExtractor',
-            'parameters' => array(
+            'parameters' => [
                 'callback' => 'getRightAnswer',
-                'callbackParameters' => array(
+                'callbackParameters' => [
                     'delimiter' => '|',
-                ),
+                ],
                 'valuesAsColumns' => true
-            )
-        ),
-        'choiceInteraction' => array (
+            ]
+        ],
+        'choiceInteraction' =>  [
             'extractor' => 'QtiExtractor',
-            'parameters' => array (
+            'parameters' =>  [
                 'callback' => 'getChoices',
                 'valuesAsColumns' => true,
-            )
-        ),
-        'metadataProperties' => array(
+            ]
+        ],
+        'metadataProperties' => [
             'extractor' => 'MetaDataOntologyExtractor',
-            'parameters' => array(
+            'parameters' => [
                 'valuesAsColumns' => true,
-                'excludedProperties' => array(
+                'excludedProperties' => [
                     taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT,
                     taoItems_models_classes_ItemsService::PROPERTY_ITEM_MODEL,
                     taoItems_models_classes_ItemsService::PROPERTY_ITEM_CONTENT_SRC,
                     TaoOntology::PROPERTY_LOCK,
-                ),
-            )
-        ),
-    )
-));
+                ],
+            ]
+        ],
+    ]
+]);

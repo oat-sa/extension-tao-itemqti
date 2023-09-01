@@ -28,10 +28,9 @@ define([
     'use strict';
 
     function getInstance(fixture, config = {}) {
-        return itemAuthoringFactory(fixture, config)
-            .on('error ready', function () {
-                this.destroy();
-            });
+        return itemAuthoringFactory(fixture, config).on('error ready', function () {
+            this.destroy();
+        });
     }
 
     // Prevent the AJAX mocks to pollute the logs
@@ -39,40 +38,60 @@ define([
     $.mockjaxSettings.responseTime = 1;
 
     // Mock the item data query
-    $.mockjax({
-        url: /mockItemEndpoint/,
-        response: function() {
-            this.responseText = {
-                success: true,
+    $.mockjax([
+        {
+            url: /mockItemEndpoint/,
+            status: 200,
+            responseText: {
                 itemIdentifier: 'item-1',
                 itemData: gapMatchJson
-            };
+            }
+        },
+        {
+            url: 'undefined/tao/Languages/index',
+            responseText: {
+                success: true,
+                data: [{
+                    "uri":"http:\/\/www.tao.lu\/ontologies\/tao.rdf#langar-arb",
+                    "code":"ar-arb",
+                    "label":"arabic",
+                    "orientation":"rtl"
+                },{
+                    "uri":"http:\/\/www.tao.lu\/ontologies\/tao.rdf#langckb-ir",
+                    "code":"ckb-ir",
+                    "label":"kurdish (iran)",
+                    "orientation":"rtl"
+                }]
+            },
+            status: 200
         }
-    });
+    ]);
 
     QUnit.module('API');
 
-    QUnit.test('module', function(assert) {
+    QUnit.test('module', function (assert) {
         var fixture = '#fixture-api';
         assert.expect(3);
         assert.equal(typeof itemAuthoringFactory, 'function', 'The module exposes a function');
         assert.equal(typeof getInstance(fixture), 'object', 'The factory produces an object');
-        assert.notStrictEqual(getInstance(fixture), getInstance(fixture), 'The factory provides a different object on each call');
+        assert.notStrictEqual(
+            getInstance(fixture),
+            getInstance(fixture),
+            'The factory provides a different object on each call'
+        );
     });
 
-    QUnit.cases.init([
-        {title: 'getItemCreator'},
-        {title: 'getAreaBroker'}
-    ])
-    .test('component API ', function(data, assert) {
-        var instance = getInstance('#fixture-api');
-        assert.expect(1);
-        assert.equal(typeof instance[data.title], 'function', `The instance exposes a "${data.title}" function`);
-    });
+    QUnit.cases
+        .init([{ title: 'getItemCreator' }, { title: 'getAreaBroker' }])
+        .test('component API ', function (data, assert) {
+            var instance = getInstance('#fixture-api');
+            assert.expect(1);
+            assert.equal(typeof instance[data.title], 'function', `The instance exposes a "${data.title}" function`);
+        });
 
     QUnit.module('interact');
 
-    QUnit.test('create a choice (using button)', function(assert) {
+    QUnit.test('create a choice (using button)', function (assert) {
         var done = assert.async();
         var $container = $('#fixture-render');
         var config = {
@@ -93,7 +112,7 @@ define([
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
-            .on('ready', function() {
+            .on('ready', function () {
                 var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]', $container);
                 var $choiceArea = $('.choice-area', $interaction);
                 var $addChoiceBtn;
@@ -112,16 +131,20 @@ define([
                 $addChoiceBtn.click();
                 assert.equal($('.qti-choice', $choiceArea).length, 12, 'There are 12 choices in the item');
 
-                assert.equal($('.qti-choice', $choiceArea).last().children('div').text(), 'choice #2', 'The last added item got the right generated label');
+                assert.equal(
+                    $('.qti-choice', $choiceArea).last().children('div').text(),
+                    'choice #2',
+                    'The last added item got the right generated label'
+                );
 
                 instance.destroy();
             })
-            .after('destroy', function() {
+            .after('destroy', function () {
                 done();
             });
     });
 
-    QUnit.test('delete a choice', function(assert) {
+    QUnit.test('delete a choice', function (assert) {
         var done = assert.async();
         var $container = $('#visual-test');
         var config = {
@@ -142,32 +165,45 @@ define([
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
-            .on('ready', function() {
+            .on('ready', function () {
                 var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]');
                 var $choiceArea = $('.choice-area');
 
                 function deleteFirstChoice() {
-                    $('[data-role="delete"]', $choiceArea).eq(0).trigger('mousedown');
+                    $('[data-role="delete"]:visible', $choiceArea).eq(0).trigger('mousedown');
                 }
-                
+
                 assert.equal($interaction.length, 1, 'The interaction element is rendered');
 
                 // make interaction active
                 $interaction.click();
 
                 assert.equal($('.qti-choice', $choiceArea).length, 10, 'There are 10 choices in the item initially');
-                
+
+                // TODO: Implement and subscribe on ckEditor's ready event to get rid from timeout.
                 // wait till editor loads
                 setTimeout(() => {
                     deleteFirstChoice();
-                    
-                    assert.equal($('.qti-choice.edit-active', $choiceArea).length, 9, 'There are 9 choices in the item');
-                    assert.equal($.trim($('.qti-choice.edit-active', $choiceArea).first().children('div').text()), 'math', 'The 2nd choice is now in 1st position');
-                    
+
+                    assert.equal(
+                        $('.qti-choice.edit-active', $choiceArea).length,
+                        9,
+                        'There are 9 choices in the item'
+                    );
+                    assert.equal(
+                        $.trim($('.qti-choice.edit-active', $choiceArea).first().children('div').text()),
+                        'math',
+                        'The 2nd choice is now in 1st position'
+                    );
+
                     deleteFirstChoice();
-                    
-                    assert.equal($('.qti-choice.edit-active', $choiceArea).length, 8, 'There are 8 choices in the item');
-                    
+
+                    assert.equal(
+                        $('.qti-choice.edit-active', $choiceArea).length,
+                        8,
+                        'There are 8 choices in the item'
+                    );
+
                     // Leave only one choice
                     deleteFirstChoice();
                     deleteFirstChoice();
@@ -177,17 +213,32 @@ define([
                     deleteFirstChoice();
                     deleteFirstChoice();
 
-                    assert.equal($('.qti-choice.edit-active', $choiceArea).length, 1, 'There are 1 choices in the item');
-                    
-                    $('[data-role="delete"]', $choiceArea).eq(0).trigger('mousedown');
-                    
-                    assert.equal($('.qti-choice', $choiceArea).length, 1, 'There are 1 choices in the item - last cannot be deleted');
-                    assert.equal($('.qti-choice', $choiceArea).first().children('div').text(), 'select box', 'The final choice is now in 1st position');
-                    
+                    assert.equal(
+                        $('.qti-choice.edit-active', $choiceArea).length,
+                        1,
+                        'There are 1 choices in the item'
+                    );
+
+                    deleteFirstChoice();
+
+                    assert.equal(
+                        $('.qti-choice.edit-active', $choiceArea).length,
+                        1,
+                        'There are 1 choices in the item - last cannot be deleted'
+                    );
+                    assert.equal(
+                        $('.qti-choice.edit-active', $choiceArea)
+                            .first()
+                            .children('[data-html-editable="true"]')
+                            .text(),
+                        'select box',
+                        'The final choice is now in 1st position'
+                    );
+
                     instance.destroy();
-                }, 0);
+                }, 100);
             })
-            .after('destroy', function() {
+            .after('destroy', function () {
                 done();
             });
     });
@@ -202,7 +253,7 @@ define([
      * Test for state change when clicking 'Done'
      */
 
-    QUnit.test('visual', function(assert) {
+    QUnit.test('visual', function (assert) {
         var ready = assert.async();
         var $container = $('#visual-test');
         var config = {
@@ -223,7 +274,7 @@ define([
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
-            .on('ready', function() {
+            .on('ready', function () {
                 ready();
             });
     });

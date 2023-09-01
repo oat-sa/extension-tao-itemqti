@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -102,7 +103,6 @@ use oat\tao\model\ThemeRegistry;
  */
 class ItemThemeInstaller
 {
-
     use LoggerAwareTrait;
 
     private $extensionId;
@@ -114,7 +114,8 @@ class ItemThemeInstaller
      *
      * @param $extensionId
      */
-    public function __construct($extensionId) {
+    public function __construct($extensionId)
+    {
         $this->extensionId = $extensionId;
         $this->registry = ThemeRegistry::getRegistry();
     }
@@ -126,11 +127,12 @@ class ItemThemeInstaller
      *
      * @return bool
      */
-    public function remove($themeIds) {
+    public function remove($themeIds)
+    {
         $themeIds = (array)$themeIds;
-        foreach($themeIds as $themeId) {
+        foreach ($themeIds as $themeId) {
             $prefixedId = $this->getPrefixedThemeId($themeId);
-            if(!$this->themeExists($prefixedId)) {
+            if (!$this->themeExists($prefixedId)) {
                 continue;
             }
             $this->registry->unregisterTheme($prefixedId);
@@ -145,11 +147,12 @@ class ItemThemeInstaller
      *
      * @return bool
      */
-    public function add(array $themes) {
+    public function add(array $themes)
+    {
 
-        foreach($themes as $themeId => $label) {
+        foreach ($themes as $themeId => $label) {
             $prefixedId =  $this->getPrefixedThemeId($themeId);
-            if($this->themeExists($prefixedId)) {
+            if ($this->themeExists($prefixedId)) {
                 continue;
             }
             $this->register($themeId, $label);
@@ -165,8 +168,9 @@ class ItemThemeInstaller
      *
      * @return bool
      */
-    public function update(array $themes) {
-        foreach($themes as $themeId => $label) {
+    public function update(array $themes)
+    {
+        foreach ($themes as $themeId => $label) {
             $this->remove($themeId);
             $this->register($themeId, $label);
         }
@@ -182,9 +186,10 @@ class ItemThemeInstaller
      *
      * @return boolean|\common_report_Report
      */
-    public function setDefault($themeId) {
+    public function setDefault($themeId)
+    {
         $prefixedId =  $this->getPrefixedThemeId($themeId);
-        if(!$this->themeExists($prefixedId)) {
+        if (!$this->themeExists($prefixedId)) {
             $this->logInfo($themeId . ' not installed, could not set to default');
             return false;
         }
@@ -200,14 +205,15 @@ class ItemThemeInstaller
      *
      * @return bool|\common_report_Report
      */
-    public function reset() {
+    public function reset()
+    {
         $map = $this->registry->getMap();
-        if(empty($map['items']['available'])) {
+        if (empty($map['items']['available'])) {
             return false;
         }
-        foreach($map['items']['available'] as $theme) {
+        foreach ($map['items']['available'] as $theme) {
             // exclude themes that don't belong to this customer
-            if($theme['id'] === 'tao' || 0 !== strpos($theme['id'], $this->extensionId)) {
+            if ($theme['id'] === 'tao' || 0 !== strpos($theme['id'], $this->extensionId)) {
                 continue;
             }
             $this->registry->unregisterTheme($theme['id']);
@@ -215,22 +221,22 @@ class ItemThemeInstaller
         // get the now updated map
         $map = $this->registry->getMap();
 
-        $taoTheme = array(
+        $taoTheme = [
             'id' => 'tao',
             'name' => 'TAO',
             'path' => $this->getStylesheetPath('tao')
-        );
+        ];
 
-        if(!$this->themeExists('tao')) {
+        if (!$this->themeExists('tao')) {
             array_unshift($map['items']['available'], $taoTheme);
         }
 
-        $this->registry->set('items', array(
+        $this->registry->set('items', [
             'base'  => $map['items']['base'],
             // potential other themes have not been removed
             'available' => $map['items']['available'],
             'default' => 'tao'
-        ));
+        ]);
 
         $this->logInfo('Removed ' . $this->extensionId . ' themes, restored TAO default');
         return true;
@@ -243,16 +249,17 @@ class ItemThemeInstaller
      *
      * @return bool
      */
-    public function themeExists($themeId) {
+    public function themeExists($themeId)
+    {
         // while this seem to be obsolete in most cases
         // it can be useful when the function is called from the outside
         $prefixedId = $this->getPrefixedThemeId($themeId);
         $map = $this->registry->getMap();
-        if(empty($map['items']['available'])) {
+        if (empty($map['items']['available'])) {
             return false;
         }
-        foreach($map['items']['available'] as $theme) {
-            if($theme['id'] === $prefixedId) {
+        foreach ($map['items']['available'] as $theme) {
+            if ($theme['id'] === $prefixedId) {
                 return true;
             }
         }
@@ -267,11 +274,12 @@ class ItemThemeInstaller
      *
      * @return string
      */
-    protected function getPrefixedThemeId($themeId) {
-        if($themeId === 'tao') {
+    protected function getPrefixedThemeId($themeId)
+    {
+        if ($themeId === 'tao') {
             return $themeId;
         }
-        if(preg_match('~^' . $this->extensionId . '[A-Z]~', $themeId)) {
+        if (preg_match('~^' . $this->extensionId . '[A-Z]~', $themeId)) {
             return $themeId;
         }
         return $this->extensionId . ucfirst($themeId);
@@ -282,7 +290,8 @@ class ItemThemeInstaller
      *
      * @return string
      */
-    protected function getStylesheetPath($themeId) {
+    protected function getStylesheetPath($themeId)
+    {
         return $themeId === 'tao'
             ? 'taoQtiItem/views/css/themes/default.css'
             : sprintf('%s/views/css/themes/items/%s/theme.css', $this->extensionId, $themeId);
@@ -292,12 +301,13 @@ class ItemThemeInstaller
      * @param $themeId
      * @param $label
      */
-    protected function register($themeId, $label) {
+    protected function register($themeId, $label)
+    {
         $this->registry->registerTheme(
             $this->getPrefixedThemeId($themeId),
             $label,
             $this->getStylesheetPath($themeId),
-            array('items')
+            ['items']
         );
     }
 }
