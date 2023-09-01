@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2023 (original work) Open Assessment Technologies SA.
  *
  *
  */
@@ -23,7 +23,6 @@
 namespace oat\taoQtiItem\model\qti\datatype;
 
 use oat\taoQtiItem\model\qti\datatype\Boolean;
-use oat\taoQtiItem\model\qti\datatype\Datatype;
 
 /**
  * The basic boolean datatype
@@ -31,7 +30,6 @@ use oat\taoQtiItem\model\qti\datatype\Datatype;
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
-
  */
 class QtiBoolean extends Datatype
 {
