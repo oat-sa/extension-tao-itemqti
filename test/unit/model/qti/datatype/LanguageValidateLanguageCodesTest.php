@@ -45,9 +45,7 @@ class LanguageValidateLanguageCodesTest extends TestCase
         );
 
         return array_map(
-            function(array $localeData) {
-                return [true, $localeData['code']];
-            },
+            static fn (array $localeData): array => [true, $localeData['code']],
             $languageData
         );
     }
