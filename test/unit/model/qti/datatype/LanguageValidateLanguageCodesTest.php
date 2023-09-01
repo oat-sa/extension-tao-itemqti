@@ -80,7 +80,7 @@ class LanguageValidateLanguageCodesTest extends TestCase
             [false, '12'],
 
             // Numeric postfix should be 3, 5, 6, 7 or 8 chars long, and can
-            // be preceded by "x-"
+            // be preceded by "-x-"
             [false, 'aa-BB-1'],
             [false, 'aa-BB-1'],
             [false, 'aa-BB-12'],
@@ -91,6 +91,11 @@ class LanguageValidateLanguageCodesTest extends TestCase
             [false, 'aa-BB-x-12'],
             [false, 'aa-BB-x-1234'],
             [false, 'aa-BB-x-123456789'],
+            [false, 'lo-wer'],
+
+            // No uppercase letters allowed after "-x-"
+            [false, 'en-GB-x-Excscotl'],
+            [false, 'en-GB-x-excscotL'],
         ];
     }
 }
