@@ -28,15 +28,55 @@ class LanguageValidateLanguageCodesTest extends TestCase
     private const LANGUAGE_CODES_JSON_PATH = __DIR__ . '/../../../../resources/pisa-qa-translation-locales.json';
 
     /**
-     * @dataProvider provideLanguageCodes
+     * @dataProvider validLanguageCodesDataProvider
+     * @dataProvider invalidLanguageCodesDataProvider
      */
-    public function testValidate(string $languageCode): void
+    public function testValidate(bool $expected, string $languageCode): void
     {
-        $this->assertTrue(Language::validate($languageCode));
+        $this->assertEquals($expected, Language::validate($languageCode));
     }
 
-    public function provideLanguageCodes()
+    public function validLanguageCodesDataProvider(): array
     {
-        return json_decode(file_get_contents(realpath(self::LANGUAGE_CODES_JSON_PATH)), true);
+        $languageData = json_decode(
+            file_get_contents(realpath(self::LANGUAGE_CODES_JSON_PATH)),
+            true
+        );
+
+        return array_map(
+            function(array $localeData) {
+                return [true, $localeData['code']];
+            },
+            $languageData
+        );
+    }
+
+    public function invalidLanguageCodesDataProvider(): array
+    {
+        return [
+            [false, 'lorem ipsum'],
+            [false, 'fooBar'],
+            [false, 'sp-ACE '],
+            [false, ' sp-ACE'],
+            [false, ' sp-ACE '],
+            [false, 'long-EN'],
+            [false, 'en-LONG'],
+            [false, 'aa-bb-LONG'],
+            [false, 'aa-bb-1'],
+            [false, 'aa-bb-12'],
+
+            // Numeric postfix should be 3, 5, 6, 7 or 8 chars long, and can
+            // be preceded by "x-"
+            [false, 'aa-BB-1'],
+            [false, 'aa-BB-1'],
+            [false, 'aa-BB-12'],
+            [false, 'aa-BB-1234'],
+            [false, 'aa-BB-123456789'],
+            [false, 'aa-BB-x-1'],
+            [false, 'aa-BB-x-1'],
+            [false, 'aa-BB-x-12'],
+            [false, 'aa-BB-x-1234'],
+            [false, 'aa-BB-x-123456789'],
+        ];
     }
 }
