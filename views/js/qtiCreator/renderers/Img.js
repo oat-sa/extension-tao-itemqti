@@ -57,7 +57,9 @@ define([
             const figureRenderer = parent.getRenderer();
             if (figureRenderer) {
                 figure.setRenderer(figureRenderer);
-                figureRenderer.load(() => { }, ['figure']);
+                figureRenderer.load(() => {
+                    $container.trigger('graphicInteraction.ready');
+                }, ['figure']);
             }
             figure.setElement(img);
             const $wrap = $container.wrap(`<span data-serial="${figure.serial}">`).parent();

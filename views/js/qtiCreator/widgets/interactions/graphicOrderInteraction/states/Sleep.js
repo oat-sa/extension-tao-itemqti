@@ -28,12 +28,19 @@ define([
     var initSleepState = function initSleepState(){
         var widget      = this.widget;
         var interaction = widget.element;
+        var $container = widget.$container;
         widget.on('metaChange', function(data){
             if(data.key === 'responsive'){
                 if(data.value === true){
                     interaction.addClass('responsive');
                 } else {
                     interaction.removeClass('responsive');
+                }
+                if($container.find('.qti-prompt [data-qti-class="figure"]').length) {
+                    $container.on('graphicInteraction.ready', function (){
+                        widget.rebuild();
+                    });
+                    return;
                 }
                 widget.rebuild();
             }
