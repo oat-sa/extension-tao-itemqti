@@ -2,7 +2,8 @@
 
 namespace oat\taoQtiItem\test\unit\model\qti\datatype;
 
-use oat\generis\test\TestCase;
+//use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\taoQtiItem\model\qti\datatype\Language;
 
 class LanguageValidateLanguageCodesTest extends TestCase
@@ -14,7 +15,7 @@ class LanguageValidateLanguageCodesTest extends TestCase
      */
     public function testValidate(string $languageCode): void
     {
-        self::assertSame(1, Language::validate($languageCode));
+        $this->assertTrue(Language::validate($languageCode));
     }
 
     public function provideLanguageCodes()

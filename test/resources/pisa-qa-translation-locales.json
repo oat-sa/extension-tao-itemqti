@@ -75,6 +75,11 @@
     "title": "Arabic (AE)"
   },
   {
+    "code": "ar-ARB",
+    "uri": "https://www.oecd.org/ar-ARB",
+    "title": "Arabic (ARB)"
+  },
+  {
     "code": "ar-BH",
     "uri": "https://www.oecd.org/ar-BH",
     "title": "Arabic (BH)"

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,31 +15,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
+ * Copyright (c) 2013-2023 (original work) Open Assessment Technologies SA.
  */
 
 namespace oat\taoQtiItem\model\qti\datatype;
 
-use oat\taoQtiItem\model\qti\datatype\Language;
-use oat\taoQtiItem\model\qti\datatype\Datatype;
-
 /**
- * The string256 base data type
- *
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10724
-
  */
 class Language extends Datatype
 {
-    public static function validate($value)
+    public static function validate($value): bool
     {
         $pattern =
-            '/(?:^[a-z]{2}$)|(?:^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2}|-[0-9]{3})'
+            '/(?:^[a-z]{2}$)|(?:^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2,3}|-[0-9]{3})'
             . '(?:(?:-x)?-[a-z0-9]{5,8})?$)/';
 
         return preg_match($pattern, $value);
@@ -48,9 +39,11 @@ class Language extends Datatype
     public static function fix($value)
     {
         $languages = self::getLanguageMap();
+
         if (isset($languages[$value])) {
             $value = $languages[$value];
         }
+
         return self::validate($value) ? $value : null;
     }
 
