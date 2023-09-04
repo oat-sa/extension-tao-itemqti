@@ -21,7 +21,7 @@ define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory', 
     'taoQtiItem/qtiCreator/widgets/interactions/states/Sleep',
-    'taoQtiItem/qtiCreator/widgets/helpers/responsiveMetaChange'
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/responsiveMetaChange'
 ], function($, stateFactory, SleepState, responsiveMetaChange){
 
     'use strict';

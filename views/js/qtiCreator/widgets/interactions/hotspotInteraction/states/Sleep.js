@@ -21,7 +21,7 @@
 define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory', 
-    'taoQtiItem/qtiCreator/widgets/helpers/responsiveMetaChange',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/responsiveMetaChange',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Sleep'
 ], function($, stateFactory, responsiveMetaChange, SleepState){
 
