@@ -17,25 +17,19 @@
  *
  */
 
-define([], function () {
-    'use strict';
-
-    return function responsiveMetaChange(data, widget) {
-        var interaction = widget.element;
-        var $container = widget.$container;
-        if(data.key === 'responsive'){
-            if(data.value === true){
-                interaction.addClass('responsive');
+define([], () => (
+    function responsiveMetaChange({ key, value }, widget) {
+        const { element, $container } = widget;
+        if(key === 'responsive'){
+            if(value === true){
+                element.addClass('responsive');
             } else {
-                interaction.removeClass('responsive');
+                element.removeClass('responsive');
             }
             if($container.find('.qti-prompt [data-qti-class="figure"]').length) {
-                $container.on('graphicInteraction.ready', function (){
-                    widget.rebuild();
-                });
-                return;
+                return $container.on('graphicInteraction.ready', () => widget.rebuild());
             }
             widget.rebuild();
         }
     }
-});
+));

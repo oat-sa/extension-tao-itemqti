@@ -30,8 +30,8 @@ define([
     'use strict';
    
     var initSleepState = function initSleepState(){
-        var widget = this.widget;
-        widget.on('metaChange', function(data){
+        const widget = this.widget;
+        widget.on('metaChange', data => {
             responsiveMetaChange(data, widget);
         });
     };

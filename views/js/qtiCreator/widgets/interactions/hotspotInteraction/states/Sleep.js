@@ -21,15 +21,15 @@
 define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory', 
-    'taoQtiItem/qtiCreator/widgets/interactions/states/Sleep',
-    'taoQtiItem/qtiCreator/widgets/helpers/responsiveMetaChange'
-], function($, stateFactory, SleepState, responsiveMetaChange){
+    'taoQtiItem/qtiCreator/widgets/helpers/responsiveMetaChange',
+    'taoQtiItem/qtiCreator/widgets/interactions/states/Sleep'
+], function($, stateFactory, responsiveMetaChange, SleepState){
 
     'use strict';
 
     var initSleepState = function initSleepState(){
-        var widget = this.widget;
-        widget.on('metaChange', function(data){
+        const widget = this.widget;
+        widget.on('metaChange', data => {
             responsiveMetaChange(data, widget);
         });
     };
