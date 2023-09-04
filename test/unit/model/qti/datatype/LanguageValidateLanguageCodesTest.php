@@ -28,8 +28,8 @@ class LanguageValidateLanguageCodesTest extends TestCase
     private const LANGUAGE_CODES_JSON_PATH = __DIR__ . '/../../../../resources/supported-locales.json';
 
     /**
-     * @dataProvider validPisaLanguageCodesDataProvider
-     * @dataProvider validTwoLetterCodes
+     * @dataProvider supportedLocalesDataProvider
+     * @dataProvider validTwoLetterCodesDataProvider
      * @dataProvider invalidLanguageCodesDataProvider
      */
     public function testValidate(bool $expected, string $languageCode): void
@@ -37,7 +37,7 @@ class LanguageValidateLanguageCodesTest extends TestCase
         $this->assertEquals($expected, Language::validate($languageCode));
     }
 
-    public function validPisaLanguageCodesDataProvider(): array
+    public function supportedLocalesDataProvider(): array
     {
         $languageData = json_decode(
             file_get_contents(realpath(self::LANGUAGE_CODES_JSON_PATH)),
@@ -50,7 +50,7 @@ class LanguageValidateLanguageCodesTest extends TestCase
         );
     }
 
-    public function validTwoLetterCodes(): array
+    public function validTwoLetterCodesDataProvider(): array
     {
         return [
             [true, 'en'],
