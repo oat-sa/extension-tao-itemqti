@@ -21,30 +21,16 @@
 define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory', 
-    'taoQtiItem/qtiCreator/widgets/interactions/states/Sleep'
-], function($, stateFactory, SleepState){
+    'taoQtiItem/qtiCreator/widgets/interactions/states/Sleep',
+    'taoQtiItem/qtiCreator/widgets/helpers/responsiveMetaChange'
+], function($, stateFactory, SleepState, responsiveMetaChange){
 
     'use strict';
 
     var initSleepState = function initSleepState(){
-        var widget      = this.widget;
-        var interaction = widget.element;
-        var $container = widget.$container;
+        var widget = this.widget;
         widget.on('metaChange', function(data){
-            if(data.key === 'responsive'){
-                if(data.value === true){
-                    interaction.addClass('responsive');
-                } else {
-                    interaction.removeClass('responsive');
-                }
-                if($container.find('.qti-prompt [data-qti-class="figure"]').length) {
-                    $container.on('graphicInteraction.ready', function (){
-                        widget.rebuild();
-                    });
-                    return;
-                }
-                widget.rebuild();
-            }
+            responsiveMetaChange(data, widget);
         });
     };
 

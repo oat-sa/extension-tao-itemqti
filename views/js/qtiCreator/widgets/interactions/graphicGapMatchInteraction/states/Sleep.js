@@ -20,23 +20,16 @@
 
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory', 
-    'taoQtiItem/qtiCreator/widgets/interactions/states/Sleep'
-], function(stateFactory, SleepState){
+    'taoQtiItem/qtiCreator/widgets/interactions/states/Sleep',
+    'taoQtiItem/qtiCreator/widgets/helpers/responsiveMetaChange'
+], function(stateFactory, SleepState, responsiveMetaChange){
 
     'use strict';
 
     var initSleepState = function initSleepState(){
         var widget      = this.widget;
-        var interaction = widget.element;
         widget.on('metaChange', function(data){
-            if(data.key === 'responsive'){
-                if(data.value === true){
-                    interaction.addClass('responsive');
-                } else {
-                    interaction.removeClass('responsive');
-                }
-                widget.rebuild();
-            }
+            responsiveMetaChange(data, widget);
         });
     };
 
