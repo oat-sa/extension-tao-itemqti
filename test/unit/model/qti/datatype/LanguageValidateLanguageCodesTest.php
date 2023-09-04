@@ -25,7 +25,7 @@ use oat\taoQtiItem\model\qti\datatype\Language;
 
 class LanguageValidateLanguageCodesTest extends TestCase
 {
-    private const LANGUAGE_CODES_JSON_PATH = __DIR__ . '/../../../../resources/pisa-qa-translation-locales.json';
+    private const LANGUAGE_CODES_JSON_PATH = __DIR__ . '/../../../../resources/supported-locales.json';
 
     /**
      * @dataProvider validPisaLanguageCodesDataProvider
