@@ -19,14 +19,14 @@
 
 define([
     'jquery',
-    'taoQtiItem/qtiCreator/widgets/states/factory', 
+    'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Sleep',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/responsiveMetaChange'
-], function($, stateFactory, SleepState, responsiveMetaChange){
+], function ($, stateFactory, SleepState, responsiveMetaChange) {
 
     'use strict';
 
-    var initSleepState = function initSleepState(){
+    var initSleepState = function initSleepState() {
         const widget = this.widget;
         widget.on('metaChange', data => {
             responsiveMetaChange(data, widget);
@@ -34,9 +34,9 @@ define([
     };
 
 
-    var exitSleepState = function exitSleepState(){
+    var exitSleepState = function exitSleepState() {
         $('.image-editor.solid, .block-listing.source', this.widget.$container).css('min-width', 0);
     };
- 
-    return stateFactory.extend(SleepState, initSleepState, exitSleepState); 
+
+    return stateFactory.extend(SleepState, initSleepState, exitSleepState);
 });

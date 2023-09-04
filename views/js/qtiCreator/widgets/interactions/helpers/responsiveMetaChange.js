@@ -18,15 +18,15 @@
  */
 
 define([], () => (
-    function responsiveMetaChange({ key, value }, widget) {
-        const { element, $container } = widget;
-        if(key === 'responsive'){
-            if(value === true){
+    function responsiveMetaChange({key, value}, widget) {
+        const {element, $container} = widget;
+        if (key === 'responsive') {
+            if (value === true) {
                 element.addClass('responsive');
             } else {
                 element.removeClass('responsive');
             }
-            if($container.find('.qti-prompt [data-qti-class="figure"]').length) {
+            if ($container.find('.qti-prompt [data-qti-class="figure"]').length) {
                 return $container.on('graphicInteraction.ready', () => widget.rebuild());
             }
             widget.rebuild();
