@@ -29,11 +29,10 @@ class Language extends Datatype
 {
     public static function validate($value): bool
     {
-        $pattern =
-            '/(?:^[a-z]{2}$)|(?:^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2,3}|-[0-9]{3})'
-            . '(?:(?:-x)?-[a-z0-9]{5,8})?$)/';
-
-        return preg_match($pattern, $value);
+        return preg_match(
+            '/^[a-z]{2}$|^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[a-zA-Z]{2,3}|-\d{3})(?:(?:-x)?-[a-z\d]{5,8})?$/',
+            $value
+        );
     }
 
     public static function fix($value)
