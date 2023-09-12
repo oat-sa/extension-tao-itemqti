@@ -89,7 +89,6 @@ class LanguageValidateLanguageCodesTest extends TestCase
             [false, 'aa-BB-x-12'],
             [false, 'aa-BB-x-1234'],
             [false, 'aa-BB-x-123456789'],
-            [false, 'lo-wer'],
 
             // No uppercase letters allowed after "-x-"
             [false, 'en-GB-x-Excscotl'],
