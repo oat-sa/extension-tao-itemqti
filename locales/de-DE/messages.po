@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.04\n"
-"PO-Revision-Date: 2022-04-01T09:30:34\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-06-07 09:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: de-DE\n"
+"Language: de\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: de-DE\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: German\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Ersetze die Lücken im Text mit einer Auswahl an Textbausteinen."
@@ -68,7 +75,6 @@ msgid "A human interpretation of the variable's value."
 msgstr ""
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
@@ -168,7 +174,6 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr ""
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
@@ -202,7 +207,7 @@ msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metada
 msgstr ""
 
 msgid "Autostart"
-msgstr "Autostart"
+msgstr ""
 
 msgid "Back to Manage Items"
 msgstr ""
@@ -217,7 +222,7 @@ msgid "block"
 msgstr "Block"
 
 msgid "Block"
-msgstr "Block"
+msgstr ""
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Der Block enthält den Inhalt (Signal) des Elements, z.B. Text oder Bild. Er wird außerdem für Inline-Interaktionen benötigt."
@@ -489,7 +494,7 @@ msgstr ""
 msgid "edit choices"
 msgstr "Antworten bearbeiten"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "Mathematische Ausdrücke mit LaTex Typanweisungen bearbeiten, z.B. e^{i \\pi} = -1"
 
 msgid "Edit math expression using MathML"
@@ -564,7 +569,7 @@ msgstr ""
 msgid "Error to export item %s: %s"
 msgstr ""
 
-msgid "Euler\'s constant"
+msgid "Euler\\'s constant"
 msgstr ""
 
 msgid "Exponent"
@@ -610,7 +615,7 @@ msgid "Failed to publish %1$s in %2$s"
 msgstr "%1$s in %2$s konnte nicht veröffentlicht werden"
 
 msgid "Feedback"
-msgstr "Feedback"
+msgstr ""
 
 msgid "Feedback Style"
 msgstr ""
@@ -643,7 +648,7 @@ msgid "Font size"
 msgstr "Schriftgröße"
 
 msgid "Format"
-msgstr "Format"
+msgstr ""
 
 msgid "Fraction"
 msgstr ""
@@ -685,19 +690,19 @@ msgid "Height"
 msgstr "Höhe"
 
 msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
-msgstr "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
+msgstr ""
 
 msgid "Horizontal"
 msgstr ""
 
 msgid "Hotspot"
-msgstr "Hotspot"
+msgstr ""
 
 msgid "Hotspot Interaction"
 msgstr "Hotspot Interaktion"
 
 msgid "Hottext"
-msgstr "Hottext"
+msgstr ""
 
 msgid "Hottext Interaction"
 msgstr "Hottext-Interaktion"
@@ -742,7 +747,7 @@ msgid "If this box is checked the student will be able to eliminate choices."
 msgstr ""
 
 msgid "Import"
-msgstr "Import"
+msgstr ""
 
 msgid "Import a QTI/APIP Content Package"
 msgstr ""
@@ -881,7 +886,7 @@ msgid "LaTeX"
 msgstr ""
 
 msgid "Latex"
-msgstr "Latex"
+msgstr ""
 
 msgid "Layout"
 msgstr ""
@@ -964,7 +969,7 @@ msgid "MathJax is not installed."
 msgstr "MathJax ist nicht installiert."
 
 msgid "MathML"
-msgstr "MathML"
+msgstr ""
 
 msgid "Max"
 msgstr "Maximum"
@@ -1106,7 +1111,6 @@ msgid "one association pair"
 msgstr "Ein verbundenes Paar"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "Order"
@@ -1134,7 +1138,7 @@ msgid "Pattern"
 msgstr "Muster"
 
 msgid "Pause"
-msgstr "Pause"
+msgstr ""
 
 msgid "Pi"
 msgstr ""
@@ -1314,7 +1318,7 @@ msgid "remove"
 msgstr "entfernen"
 
 msgid "Remove"
-msgstr "Entfernen"
+msgstr ""
 
 msgid "Remove custom background color"
 msgstr "Benutzerdefinierte Hintergrundfarbe entfernen"
@@ -1401,7 +1405,7 @@ msgid "Rollback on..."
 msgstr "Zurücksetzen auf..."
 
 msgid "Save"
-msgstr "Speichern"
+msgstr ""
 
 msgid "Save the item"
 msgstr ""
@@ -1524,7 +1528,7 @@ msgid "Shuffle choices"
 msgstr "Antwortmöglichkeiten mischen"
 
 msgid "Single choice"
-msgstr ""
+msgstr "Einzelauswahl"
 
 msgid "Sinus"
 msgstr ""
@@ -1560,13 +1564,13 @@ msgid "string"
 msgstr ""
 
 msgid "Style Editor"
-msgstr "Style Editor"
+msgstr ""
 
 msgid "Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-apply."
 msgstr "Style Sheet <b>%s</b> wurde entfernt. <br> <i>Style Sheet hinzufügen</i> klicken, um es erneut anzuwenden."
 
 msgid "Style Sheet Manager"
-msgstr "Style Sheet Manager"
+msgstr ""
 
 msgid "Success"
 msgstr ""
@@ -1730,6 +1734,9 @@ msgstr "Die maximale Anzahl der Auswahlmöglichkeiten mit der diese Auswahlmögl
 msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
 msgstr "Die maximale Anzahl der Auswahlmöglichkeiten mit der diese Auswahlmöglichkeit verknüpft werden kann. Wenn matchMax 0 ist gibt es keine Beschränkung."
 
+msgid "The maximum number of choices that the candidate is required to select to form a valid response."
+msgstr ""
+
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
 msgstr "Das maxPlays Attribut gibt an wie oft ein Medienobjekt vom Kandidaten maximal abgespielt werden kann. Ein Wert von 0 (Standardeinstellung) gibt kein Limit vor."
 
@@ -1797,9 +1804,7 @@ msgid "The upper bound of the slider"
 msgstr "Oberer Grenzwert des Schiebereglers"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "Die Überprüfung des importierten QTI Elements schlug fehl. Fehlermeldung: %s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "Die ZIP-Datei mit dem IMS QTI Element kann nicht extrahiert werden."

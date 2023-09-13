@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.04\n"
-"PO-Revision-Date: 2022-04-01T09:30:49\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-06-07 09:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nl-NL\n"
+"Language: nl\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: nl-NL\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: nl\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: Dutch\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Vul de gaten in de tekst in met een vast set van keuzes."
@@ -68,9 +75,7 @@ msgid "A human interpretation of the variable's value."
 msgstr "Een menselijke interpretatie van de waarde van de variabele."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr "Een QTI-component wordt niet ondersteund. Het systeem heeft de volgende fout teruggegeven: %s\n"
-""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Een rubriek blok staat voor dat deel van een toets items' itembody dat instructies voor een of meer van de actoren bevat om dat item te bekijken. Hoewel rubriek blokken gedefinieerd zijn als simpleBlocks mogen ze geen interacties bevatten."
@@ -169,9 +174,7 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "Er is een onverwachte fout opgetreden tijdens het importeren van het IMS QTI Item Package. Het systeem heeft de volgende fout teruggegeven: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr "Er is een onverwachte fout opgetreden tijdens het importeren van het IMS QTI Item Package. Het systeem heeft de volgende fout teruggegeven: %s\n"
-""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr ""
@@ -491,7 +494,7 @@ msgstr "Aanpassen"
 msgid "edit choices"
 msgstr "pas keuzes aan"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr ""
 
 msgid "Edit math expression using MathML"
@@ -566,7 +569,7 @@ msgstr "Fout in item %s"
 msgid "Error to export item %s: %s"
 msgstr "Fout bij de export van het item %s: %s"
 
-msgid "Euler\'s constant"
+msgid "Euler\\'s constant"
 msgstr ""
 
 msgid "Exponent"
@@ -687,13 +690,13 @@ msgid "Height"
 msgstr "Hoogte"
 
 msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
-msgstr "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
+msgstr ""
 
 msgid "Horizontal"
 msgstr "Horizontaal"
 
 msgid "Hotspot"
-msgstr "Hotspot"
+msgstr ""
 
 msgid "Hotspot Interaction"
 msgstr "Hotspot interactie"
@@ -744,7 +747,7 @@ msgid "If this box is checked the student will be able to eliminate choices."
 msgstr "Als dit vakje is aangevinkt, kan de student keuzes elimineren."
 
 msgid "Import"
-msgstr "Import"
+msgstr ""
 
 msgid "Import a QTI/APIP Content Package"
 msgstr ""
@@ -868,10 +871,10 @@ msgstr "Item breedte"
 
 #, tao-public
 msgid "Items"
-msgstr "Items"
+msgstr ""
 
 msgid "Label"
-msgstr "Label"
+msgstr ""
 
 msgid "Language"
 msgstr "Taal"
@@ -883,7 +886,7 @@ msgid "LaTeX"
 msgstr ""
 
 msgid "Latex"
-msgstr "Latex"
+msgstr ""
 
 msgid "Layout"
 msgstr ""
@@ -970,7 +973,7 @@ msgid "MathML"
 msgstr "mathML"
 
 msgid "Max"
-msgstr "Max"
+msgstr ""
 
 msgid "Max Length"
 msgstr "Maximumlengte"
@@ -994,7 +997,7 @@ msgid "Maximal score for this interaction."
 msgstr "Maximale score voor deze interactie"
 
 msgid "maximum"
-msgstr "maximum"
+msgstr ""
 
 msgid "Maximum choices reached"
 msgstr "Maximaal aantal keuze bereikt"
@@ -1003,7 +1006,7 @@ msgid "Maximum number of choices reached."
 msgstr "Maximaal aantal keuze bereikt"
 
 msgid "Media"
-msgstr "Media"
+msgstr ""
 
 msgid "Media file path or YouTube video address"
 msgstr "Media bestand folder of YouTube video adres"
@@ -1027,10 +1030,10 @@ msgid "Metadata service successfully registered."
 msgstr ""
 
 msgid "MIME-type"
-msgstr "MIME-type"
+msgstr ""
 
 msgid "Min"
-msgstr "Min"
+msgstr ""
 
 msgid "Minimal  score for this interaction."
 msgstr "Minimum score voor deze interactie"
@@ -1109,9 +1112,7 @@ msgid "one association pair"
 msgstr "een paar associaties"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr "Een of meedere QTI-componenten worden niet door het systeem ondersteund. Het systeem heeft de volgende fout geretourneerd: %s\n"
-""
 
 msgid "Order"
 msgstr "Volgorde"
@@ -1318,7 +1319,7 @@ msgid "remove"
 msgstr "verwijder"
 
 msgid "Remove"
-msgstr "Verwijder"
+msgstr "Verwijderen"
 
 msgid "Remove custom background color"
 msgstr "Verwijder de aangepaste achtergrond kleur"
@@ -1414,10 +1415,10 @@ msgid "Scale size"
 msgstr ""
 
 msgid "score"
-msgstr "score"
+msgstr ""
 
 msgid "Score"
-msgstr "Score"
+msgstr ""
 
 msgid "Score range"
 msgstr "Scorebereik"
@@ -1528,7 +1529,7 @@ msgid "Shuffle choices"
 msgstr "Schud de keuzes"
 
 msgid "Single choice"
-msgstr ""
+msgstr "Enkele keus"
 
 msgid "Sinus"
 msgstr ""
@@ -1734,6 +1735,9 @@ msgstr "Het maximum aantal keuzen waarmee deze keuze mag worden geassocieerd."
 msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
 msgstr "Het maximaal aantal keuze waarmee deze keuze geassocieerd mag worden. Indien matchMax is 0 dan is er geen restrictie."
 
+msgid "The maximum number of choices that the candidate is required to select to form a valid response."
+msgstr ""
+
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
 msgstr "De maxPlays attribuut bepaalt dat media maximaal maxPlays keer gespeeld kan worden - Het mag niet mogelijk zijn voor een kandidaat om het media object vaker af te spelen dan maxPlays keer. Een waarde van 0 (de standaard) geeft aan dat er geen limiet is."
 
@@ -1801,9 +1805,7 @@ msgid "The upper bound of the slider"
 msgstr "De bovengrens van de schuifknop"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "De validatie van het geïmporteerde QTI item is mislukt. Het systeem gaf de volgende foutmelding:%s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "Het zip-bestand met het IMS QTI item kon niet worden uitgepakt."

@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.04\n"
-"PO-Revision-Date: 2022-04-01T09:30:40\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-06-07 09:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: fr-FR\n"
+"Language: fr\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: fr-FR\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: French\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Remplis les espaces libres dans un texte à partir d'un ensemble de choix."
@@ -29,7 +36,7 @@ msgid "%d Item(s) of %d imported from the given IMS QTI Package."
 msgstr ""
 
 msgid "%d/%d"
-msgstr "%d/%d"
+msgstr ""
 
 msgid "%s metadata values found in source by extractor(s)."
 msgstr "%s valeurs de métadonnées trouvées dans la source par l'/les extracteur(s)"
@@ -68,9 +75,7 @@ msgid "A human interpretation of the variable's value."
 msgstr "Une interprétation humaine de la valeur de la variable."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr "Un composant QTI n'est pas supporté. Le système a renvoyé l'erreur suivante : %s\n"
-""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Un bloc de rubrique identifie une partie du corps de l'item de l'item d'évaluation qui représente des instructions pour un ou plusieurs acteurs qui regardent l'item. Bien que les blocs de rubrique sont définis comme des blocs simples, ils ne doivent contenir aucune d'interaction."
@@ -169,9 +174,7 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "Une erreur inattendue s'est produite au cours de l'import du paquet d'items IMS QTI. Le système a renvoyé l'erreur suivante : \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr "Une erreur inattendue s'est produite au cours de l'import de l'item QTI. Le système a renvoyé l'erreur suivante : %s\n"
-""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr ""
@@ -213,7 +216,7 @@ msgid "Background color"
 msgstr "Couleur d'arrière-plan"
 
 msgid "Base"
-msgstr "Base"
+msgstr ""
 
 msgid "block"
 msgstr "bloc"
@@ -339,13 +342,13 @@ msgid "Control the playing parameters (auto-start, loop) of a video or audio fil
 msgstr "Contrôler les paramètres de lecture (auto-démarrage, en boucle) d'une vidéo ou d'un fichier audio et reporter le nombre de fois qu'il a été lu."
 
 msgid "Correct"
-msgstr "Correct"
+msgstr ""
 
 msgid "correct"
-msgstr "correct"
+msgstr ""
 
 msgid "Cosinus"
-msgstr "Cosinus"
+msgstr ""
 
 msgid "Create assocations and fill the score in the form below"
 msgstr "Créer les associations et remplir le score dans le formulaire ci-dessous"
@@ -432,7 +435,7 @@ msgid "Delimiter"
 msgstr "Séparateur"
 
 msgid "Description"
-msgstr "Description"
+msgstr ""
 
 msgid "Disable this stylesheet temporarily"
 msgstr "Désactiver cette feuille de style temporairement"
@@ -491,7 +494,7 @@ msgstr "Modifier"
 msgid "edit choices"
 msgstr "éditer les choix"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr ""
 
 msgid "Edit math expression using MathML"
@@ -566,7 +569,7 @@ msgstr "Erreur sur l'item %s"
 msgid "Error to export item %s: %s"
 msgstr "Erreur pour exporter l'item %s: %s"
 
-msgid "Euler\'s constant"
+msgid "Euler\\'s constant"
 msgstr ""
 
 msgid "Exponent"
@@ -645,10 +648,10 @@ msgid "Font size"
 msgstr "Taille de police"
 
 msgid "Format"
-msgstr "Format"
+msgstr ""
 
 msgid "Fraction"
-msgstr "Fraction"
+msgstr ""
 
 msgid "Full height"
 msgstr ""
@@ -690,16 +693,16 @@ msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CON
 msgstr "Ici, vous pouvez fournir des aspects de notation pour la notation manuelle, par exemple le CONTENU, la GRAMMAIRE, l'ORTHOGRAPHE"
 
 msgid "Horizontal"
-msgstr "Horizontal"
+msgstr ""
 
 msgid "Hotspot"
-msgstr "Hotspot"
+msgstr "Zone réactive"
 
 msgid "Hotspot Interaction"
 msgstr "Interaction hotspot"
 
 msgid "Hottext"
-msgstr "Hottext"
+msgstr ""
 
 msgid "Hottext Interaction"
 msgstr "Interaction hottext"
@@ -744,7 +747,7 @@ msgid "If this box is checked the student will be able to eliminate choices."
 msgstr "Si cette case est cochée l'étudiant pourra éliminer des choix."
 
 msgid "Import"
-msgstr "Import"
+msgstr ""
 
 msgid "Import a QTI/APIP Content Package"
 msgstr "Importer un paquet de contenus QTI/APIP"
@@ -777,10 +780,10 @@ msgid "In visual environments, string interactions are typically represented by 
 msgstr "Dans des environnements visuels, les interactions de type chaînes de caractères sont typiquement représentées par des boîtes vides dans lesquelles le candidat écrit ou tape.  Les moteurs de passation devraient utiliser la valeur de cet attribut (si fourni) plutôt que leur espace réservé de texte par défaut quand c'est nécessaire."
 
 msgid "incorrect"
-msgstr "incorrect"
+msgstr ""
 
 msgid "Index"
-msgstr "Index"
+msgstr ""
 
 msgid "Infinity"
 msgstr "Infinité"
@@ -880,10 +883,10 @@ msgid "Large editor"
 msgstr "Éditeur large"
 
 msgid "LaTeX"
-msgstr "LaTeX"
+msgstr ""
 
 msgid "Latex"
-msgstr "Latex"
+msgstr ""
 
 msgid "Layout"
 msgstr ""
@@ -913,7 +916,7 @@ msgid "List Style"
 msgstr "Style de liste"
 
 msgid "Ln"
-msgstr "Ln"
+msgstr ""
 
 msgid "Log"
 msgstr "Journal"
@@ -967,10 +970,10 @@ msgid "MathJax is not installed."
 msgstr "MathJax n'est pas installé."
 
 msgid "MathML"
-msgstr "MathML"
+msgstr ""
 
 msgid "Max"
-msgstr "Max"
+msgstr ""
 
 msgid "Max Length"
 msgstr "Longueur maximale"
@@ -994,7 +997,7 @@ msgid "Maximal score for this interaction."
 msgstr "Score maximal pour cette interaction"
 
 msgid "maximum"
-msgstr "maximum"
+msgstr ""
 
 msgid "Maximum choices reached"
 msgstr "Nombre maximal de choix atteint"
@@ -1030,7 +1033,7 @@ msgid "MIME-type"
 msgstr "Type MIME"
 
 msgid "Min"
-msgstr "Min"
+msgstr ""
 
 msgid "Minimal  score for this interaction."
 msgstr "Score minimal pour cette interaction"
@@ -1103,15 +1106,13 @@ msgid "of"
 msgstr "de"
 
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 msgid "one association pair"
 msgstr "une paire à associer"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr "Un ou plusieurs composants QTI ne sont pas supportés par le système. Le système renvoie l'erreur suivante : %s\n"
-""
 
 msgid "Order"
 msgstr "Ordre"
@@ -1123,7 +1124,7 @@ msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Ordonne les aires (hotspots) affichées sur une image."
 
 msgid "Orientation"
-msgstr "Orientation"
+msgstr ""
 
 msgid "Other constraints"
 msgstr ""
@@ -1138,10 +1139,10 @@ msgid "Pattern"
 msgstr "Motif"
 
 msgid "Pause"
-msgstr "Pause"
+msgstr ""
 
 msgid "Pi"
-msgstr "Pi"
+msgstr ""
 
 msgid "Placeholder Text"
 msgstr ""
@@ -1297,7 +1298,7 @@ msgid "QTI/APIP XML Item Document"
 msgstr "Document Item XML QTI/APIP"
 
 msgid "Question"
-msgstr "Question"
+msgstr ""
 
 msgid "Recommendations"
 msgstr "Recommandations"
@@ -1414,10 +1415,10 @@ msgid "Scale size"
 msgstr "Taille d'échelle"
 
 msgid "score"
-msgstr "score"
+msgstr ""
 
 msgid "Score"
-msgstr "Score"
+msgstr ""
 
 msgid "Score range"
 msgstr "Échelle de score"
@@ -1528,10 +1529,10 @@ msgid "Shuffle choices"
 msgstr "Mélanger les choix"
 
 msgid "Single choice"
-msgstr ""
+msgstr "Choix simple"
 
 msgid "Sinus"
-msgstr "Sinus"
+msgstr ""
 
 msgid "Size and position"
 msgstr "Taille et position"
@@ -1555,7 +1556,7 @@ msgid "Square root"
 msgstr "Racine carrée"
 
 msgid "standard"
-msgstr "standard"
+msgstr ""
 
 msgid "Step"
 msgstr "Étape"
@@ -1714,8 +1715,7 @@ msgid "The manifest argument must be an instance of DOMDocument."
 msgstr "L'argument manifest doit être une instance de DOMDocument."
 
 msgid "The mapping indicator to use between field name and field value when displaying variables of record cardinality. \"=\" is default when mappingIndicator is not declared. Implementations can override this default with personal preferences or locale settings."
-msgstr "L'indicateur de correspondance à utiliser entre le nom du champ et la valeur du champ lors de l'affichage de variables de cardinalité de registre. \"=\\n"
-"\"est choisi par défaut quand mappingIndicator n'est pas déclaré. Les implémentations peuvent outrepasser ce réglage par défaut avec les préférences personnelles ou les paramètres locaux."
+msgstr "L'indicateur de correspondance à utiliser entre le nom du champ et la valeur du champ lors de l'affichage de variables de cardinalité de registre. \"=\\n\"est choisi par défaut quand mappingIndicator n'est pas déclaré. Les implémentations peuvent outrepasser ce réglage par défaut avec les préférences personnelles ou les paramètres locaux."
 
 msgid "The mapping options are available when at least one map entry is defined."
 msgstr "Les options de correspondance sont disponibles lorsqu'au moins une entrée de correspondance a été définie."
@@ -1805,9 +1805,7 @@ msgid "The upper bound of the slider"
 msgstr "La limite supérieure du curseur"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "La validation de l'item QTI importé a échoué. Le système a renvoyé l'erreur suivante : %s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "L'archive ZIP contenant l'item IMS QTI ne peut être extraite."
@@ -1912,7 +1910,7 @@ msgid "Value"
 msgstr "Valeur"
 
 msgid "Vertical"
-msgstr "Vertical"
+msgstr ""
 
 msgid "warning"
 msgstr ""

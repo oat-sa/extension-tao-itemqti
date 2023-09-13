@@ -1,23 +1,23 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: tao-3x\n"
-"PO-Revision-Date: 2023-04-21 15:46\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-06-07 09:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: pt-BR\n"
+"Language: pt\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: pt-BR\n"
+"targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: tao-3x\n"
-"X-Crowdin-Project-ID: 582145\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: pt-BR\n"
-"X-Crowdin-File: /taoQtiItem/locales/en-US/messages.po\n"
-"X-Crowdin-File-ID: 1631\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
 "Language-Team: Portuguese, Brazilian\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
@@ -36,7 +36,7 @@ msgid "%d Item(s) of %d imported from the given IMS QTI Package."
 msgstr "%d item(s) de %d importados do pacote IMS QTI fornecido."
 
 msgid "%d/%d"
-msgstr "%d/%d"
+msgstr ""
 
 msgid "%s metadata values found in source by extractor(s)."
 msgstr "%s valores de metadados encontrados na fonte por extrator(s)."
@@ -207,7 +207,7 @@ msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metada
 msgstr "Tentando injetar \"%s\"valores de metadados para destino \"%s\" com injetor de metadados \"%s\"."
 
 msgid "Autostart"
-msgstr "Autostart"
+msgstr ""
 
 msgid "Back to Manage Items"
 msgstr "Voltar para Gerenciar Itens"
@@ -216,7 +216,7 @@ msgid "Background color"
 msgstr "Cor de fundo"
 
 msgid "Base"
-msgstr "Base"
+msgstr ""
 
 msgid "block"
 msgstr "Bloquear"
@@ -348,7 +348,7 @@ msgid "correct"
 msgstr "correto"
 
 msgid "Cosinus"
-msgstr "Cosinus"
+msgstr ""
 
 msgid "Create assocations and fill the score in the form below"
 msgstr "Crie assocations e preencha a pontuação no formulário abaixo"
@@ -507,7 +507,7 @@ msgid "Edit modal feedback title"
 msgstr "Editar título do feedback modal"
 
 msgid "Edit stylesheet label"
-msgstr "Edit stylesheet label"
+msgstr ""
 
 msgid "Editing Mode"
 msgstr "Modo de Edição"
@@ -549,7 +549,7 @@ msgid "Enter tooltip content"
 msgstr "Inserir conteúdo de dicas"
 
 msgid "Enter tooltip target"
-msgstr "Enter tooltip target"
+msgstr ""
 
 msgid "error"
 msgstr "Erro"
@@ -645,7 +645,7 @@ msgid "Font family"
 msgstr "Família da fonte"
 
 msgid "Font size"
-msgstr "Font size"
+msgstr ""
 
 msgid "Format"
 msgstr "Formato"
@@ -693,16 +693,16 @@ msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CON
 msgstr "Aqui você pode fornecer aspectos de pontuação para pontuação/marcação manual, por exemplo, CONTENT, GRAMMAR, ESPELODO"
 
 msgid "Horizontal"
-msgstr "Horizontal"
+msgstr ""
 
 msgid "Hotspot"
-msgstr "Hotspot"
+msgstr ""
 
 msgid "Hotspot Interaction"
 msgstr "Interação de Hotspot"
 
 msgid "Hottext"
-msgstr "Hottext"
+msgstr ""
 
 msgid "Hottext Interaction"
 msgstr "Interação de Hottext"
@@ -720,10 +720,10 @@ msgid "identical pair already exists"
 msgstr "par idêntico já existe"
 
 msgid "identifier"
-msgstr "identifier"
+msgstr ""
 
 msgid "Identifier"
-msgstr "Identifier"
+msgstr ""
 
 msgid "identifier already taken"
 msgstr "identificador já utilizado"
@@ -822,7 +822,7 @@ msgid "Invalid Outcome Declaration"
 msgstr "Declaração de resultado inválida"
 
 msgid "invalid QTI XML"
-msgstr "invalid QTI XML"
+msgstr ""
 
 msgid "Invalid response identifier"
 msgstr "Identificador de resposta inválido"
@@ -867,7 +867,7 @@ msgid "Item properties"
 msgstr "Propriedades do Item"
 
 msgid "Item width"
-msgstr "Item width"
+msgstr ""
 
 #, tao-public
 msgid "Items"
@@ -883,10 +883,10 @@ msgid "Large editor"
 msgstr "Editor grande"
 
 msgid "LaTeX"
-msgstr "LaTeX"
+msgstr ""
 
 msgid "Latex"
-msgstr "Latex"
+msgstr ""
 
 msgid "Layout"
 msgstr "Disposição"
@@ -938,8 +938,7 @@ msgstr "Menor ou igual"
 
 msgid "Malformed XML[%s]:\n"
 "%s"
-msgstr "Malformed XML[%s]:\n"
-"%s"
+msgstr ""
 
 msgid "Manage Items"
 msgstr "Gerenciar Itens"
@@ -970,7 +969,7 @@ msgid "MathJax is not installed."
 msgstr "MathJax não está instalado."
 
 msgid "MathML"
-msgstr "MathML"
+msgstr ""
 
 msgid "Max"
 msgstr "Máximo"
@@ -1142,7 +1141,7 @@ msgid "Pause"
 msgstr "Suspender"
 
 msgid "Pi"
-msgstr "Pi"
+msgstr ""
 
 msgid "Placeholder Text"
 msgstr "Texto placeholder"
@@ -1235,7 +1234,7 @@ msgid "Power form"
 msgstr "Formulário de energia"
 
 msgid "Pre-formatted text"
-msgstr "Pre-formatted text"
+msgstr ""
 
 msgid "Preparing CSS, please wait…"
 msgstr "Preparando CSS, por favor aguarde…"
@@ -1280,7 +1279,7 @@ msgid "QTI Item Runner"
 msgstr "Item Runner QTI"
 
 msgid "QTI Metadata"
-msgstr "QTI Metadata"
+msgstr ""
 
 msgid "QTI Package 2.1"
 msgstr "Pacote QTI 2.1"
@@ -1292,7 +1291,7 @@ msgid "QTI-XML error at line %1$d \"%2$s\"."
 msgstr "Erro QTI-XML na linha %1$d \"%2$s\"."
 
 msgid "QTI/APIP Content Package"
-msgstr "QTI/APIP Content Package"
+msgstr ""
 
 msgid "QTI/APIP XML Item Document"
 msgstr "Documento de Item XML QTI/APIP"
@@ -1334,7 +1333,7 @@ msgid "Remove custom font size"
 msgstr "Remover tamanho de fonte personalizado"
 
 msgid "Remove custom item width"
-msgstr "Remove custom item width"
+msgstr ""
 
 msgid "Remove custom text color"
 msgstr "Remover cor de texto personalizada"
@@ -1532,7 +1531,7 @@ msgid "Single choice"
 msgstr "Escolha única"
 
 msgid "Sinus"
-msgstr "Sinus"
+msgstr ""
 
 msgid "Size and position"
 msgstr "Tamanho e posição"
@@ -1586,7 +1585,7 @@ msgid "Table headings"
 msgstr "Títulos da tabela"
 
 msgid "TAO default styles"
-msgstr "TAO default styles"
+msgstr ""
 
 msgid "Target Class Lookup for resource \"%s\"..."
 msgstr "Alvo classe de pesquisa para recurso \"%s\"..."
@@ -1856,7 +1855,7 @@ msgid "Tooltip editor"
 msgstr "Editor de dicas"
 
 msgid "Tooltip Target"
-msgstr "Tooltip Target"
+msgstr ""
 
 msgid "Top"
 msgstr "Superior"
@@ -1910,7 +1909,7 @@ msgid "Value"
 msgstr "Valor"
 
 msgid "Vertical"
-msgstr "Vertical"
+msgstr ""
 
 msgid "warning"
 msgstr "advertência"
@@ -1919,7 +1918,7 @@ msgid "We will use the patternMask to do this, to be compliant with the IMS stan
 msgstr "Usaremos o patternMask para fazer isso, para estar de acordo com o padrão IMS"
 
 msgid "Width"
-msgstr "Width"
+msgstr ""
 
 msgid "words"
 msgstr "palavras"
@@ -1928,7 +1927,7 @@ msgid "Would you like to replace the alt text"
 msgstr "Gostaria de substituir o texto alternativo"
 
 msgid "WYSIWYG editor"
-msgstr "WYSIWYG editor"
+msgstr ""
 
 msgid "XML error \"%1$s\"."
 msgstr "Erro XML \"%1$s\"."

@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.04\n"
-"PO-Revision-Date: 2022-04-01T09:30:37\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-06-07 09:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: es-ES\n"
+"Language: es\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: es-ES\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: es-ES\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: Spanish\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Rellenar los huecos en un texto a partir de un conjunto de opciones."
@@ -68,7 +75,6 @@ msgid "A human interpretation of the variable's value."
 msgstr ""
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
@@ -168,7 +174,6 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr ""
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
@@ -489,7 +494,7 @@ msgstr ""
 msgid "edit choices"
 msgstr "editar elecciones"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "Editar la expresión matemática usando el sistema de ajuste del tipo de látex, por ejemplo, e^{i\\pi}=-1"
 
 msgid "Edit math expression using MathML"
@@ -564,7 +569,7 @@ msgstr ""
 msgid "Error to export item %s: %s"
 msgstr ""
 
-msgid "Euler\'s constant"
+msgid "Euler\\'s constant"
 msgstr ""
 
 msgid "Exponent"
@@ -691,7 +696,7 @@ msgid "Horizontal"
 msgstr ""
 
 msgid "Hotspot"
-msgstr "Zona activa"
+msgstr ""
 
 msgid "Hotspot Interaction"
 msgstr "Interacción de zona activa"
@@ -866,7 +871,7 @@ msgstr "Ancho del elemento"
 
 #, tao-public
 msgid "Items"
-msgstr "Elementos"
+msgstr ""
 
 msgid "Label"
 msgstr "Etiqueta"
@@ -881,7 +886,7 @@ msgid "LaTeX"
 msgstr ""
 
 msgid "Latex"
-msgstr "Latex"
+msgstr ""
 
 msgid "Layout"
 msgstr ""
@@ -964,7 +969,7 @@ msgid "MathJax is not installed."
 msgstr "MathJax no esta instalada."
 
 msgid "MathML"
-msgstr "MathML"
+msgstr ""
 
 msgid "Max"
 msgstr "Máximo"
@@ -1058,7 +1063,7 @@ msgid "New item"
 msgstr "Elemento nuevo"
 
 msgid "No"
-msgstr "No"
+msgstr ""
 
 msgid "no configuration property needed"
 msgstr "ninguna configuración propiemente necesaria"
@@ -1106,7 +1111,6 @@ msgid "one association pair"
 msgstr "una asociación par"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "Order"
@@ -1314,7 +1318,7 @@ msgid "remove"
 msgstr "eliminar"
 
 msgid "Remove"
-msgstr "Eliminar"
+msgstr ""
 
 msgid "Remove custom background color"
 msgstr "Eliminar color de fondo personalizado"
@@ -1401,7 +1405,7 @@ msgid "Rollback on..."
 msgstr "Retroceso en..."
 
 msgid "Save"
-msgstr "Guardar"
+msgstr ""
 
 msgid "Save the item"
 msgstr ""
@@ -1533,7 +1537,7 @@ msgid "Size and position"
 msgstr "Tamaño y posición"
 
 msgid "Slider"
-msgstr "Barra deslizadora"
+msgstr ""
 
 msgid "Slider Interaction"
 msgstr "Interacción de barra deslizadora"
@@ -1730,6 +1734,9 @@ msgstr "El número máximo de opciones de esta elección puede estar asociada co
 msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
 msgstr "El número máximo de opciones de esta elección puede estar asociada con. Si matchMax es 0 no hay ninguna restricción."
 
+msgid "The maximum number of choices that the candidate is required to select to form a valid response."
+msgstr ""
+
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
 msgstr "El atributo maxPlays indica que el objeto de comunicación se puede reproducir en la mayoría de maxPlays veces - no debe ser posible para el particpante reproducir la multimedia más veces que Maxplay. Un valor de 0 (predeterminado) indica que no hay límite."
 
@@ -1797,9 +1804,7 @@ msgid "The upper bound of the slider"
 msgstr "Límite superior del control deslizante"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "La validación del ítem QTI importado falló. El sistema devuelve el siguiente error:%s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "El archivo ZIP que contiene el Ítem IMS QTI no se puede extraer."
