@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-06-07 09:16\n"
+"PO-Revision-Date: 2023-09-13 14:47\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -36,7 +36,7 @@ msgid "%d Item(s) of %d imported from the given IMS QTI Package."
 msgstr "指定された IMS QTI パッケージから %d 個のアイテムがインポートされました。"
 
 msgid "%d/%d"
-msgstr ""
+msgstr "%d/%d"
 
 msgid "%s metadata values found in source by extractor(s)."
 msgstr "抽出プログラムによってソースで見つかったメタデータ値：％s"
@@ -883,7 +883,7 @@ msgid "Large editor"
 msgstr "編集画面"
 
 msgid "LaTeX"
-msgstr ""
+msgstr "LaTeX"
 
 msgid "Latex"
 msgstr "LaTeX"
@@ -916,7 +916,7 @@ msgid "List Style"
 msgstr "リストスタイル"
 
 msgid "Ln"
-msgstr ""
+msgstr "Ln"
 
 msgid "Log"
 msgstr "log"
@@ -970,7 +970,7 @@ msgid "MathJax is not installed."
 msgstr "MathJaxがインストールされていません"
 
 msgid "MathML"
-msgstr ""
+msgstr "MathML"
 
 msgid "Max"
 msgstr "最大"
@@ -1106,7 +1106,7 @@ msgid "of"
 msgstr "／"
 
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 msgid "one association pair"
 msgstr "１つの組み合わせ"
@@ -1736,7 +1736,7 @@ msgid "The maximum number of choices this choice may be associated with. If matc
 msgstr "この選択肢を選べる回数。0の場合は、選択回数の制限はありません。"
 
 msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr ""
+msgstr "受験者に最低限の選択数を求める場合に選択可能な最大数です。"
 
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
 msgstr "メディアの最大再生回数です。受験者はこの再生回数を超えて再生することはできません。0（デフォルト）は制限なく再生できます。"
@@ -1937,7 +1937,7 @@ msgid "XML error at line %1$d \"%2$s\"."
 msgstr "XMLエラー： line %1$d \"%2$s\"."
 
 msgid "Yes"
-msgstr ""
+msgstr "Yes"
 
 msgid "You can select maximum %d choice"
 msgstr "最大%dつ選べます"
