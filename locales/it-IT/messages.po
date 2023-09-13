@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.04\n"
-"PO-Revision-Date: 2022-04-01T09:30:43\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-06-07 09:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: it-IT\n"
+"Language: it\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: it-IT\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: it\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: Italian\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr "Riempi gli spazi mancanti sotto forma di testo da una serie di scelte."
@@ -68,7 +75,6 @@ msgid "A human interpretation of the variable's value."
 msgstr ""
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
@@ -168,7 +174,6 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr ""
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
@@ -382,10 +387,10 @@ msgid "Custom Response Processing Mode"
 msgstr "Modalità di elaborazione di risposta personalizzata"
 
 msgid "default"
-msgstr "default"
+msgstr ""
 
 msgid "Default"
-msgstr "Default"
+msgstr ""
 
 msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
 msgstr ""
@@ -436,7 +441,7 @@ msgid "Disable this stylesheet temporarily"
 msgstr "Disattiva temporaneamente questo foglio di stile"
 
 msgid "Display"
-msgstr "Display"
+msgstr ""
 
 msgid "Display the choices either horizontally or vertically"
 msgstr ""
@@ -481,7 +486,7 @@ msgid "e.g. 13"
 msgstr "es 13"
 
 msgid "e.g. 960"
-msgstr "e.g. 960"
+msgstr ""
 
 msgid "Edit"
 msgstr ""
@@ -489,7 +494,7 @@ msgstr ""
 msgid "edit choices"
 msgstr "modifica scelte"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "Modifica l'espressione matematica utilizzando un linguaggio tipo LaTex, per esempio e^{i \\pi} = -1"
 
 msgid "Edit math expression using MathML"
@@ -564,7 +569,7 @@ msgstr ""
 msgid "Error to export item %s: %s"
 msgstr ""
 
-msgid "Euler\'s constant"
+msgid "Euler\\'s constant"
 msgstr ""
 
 msgid "Exponent"
@@ -610,7 +615,7 @@ msgid "Failed to publish %1$s in %2$s"
 msgstr "Impossibile pubblicare %1$s in %2$s"
 
 msgid "Feedback"
-msgstr "Feedback"
+msgstr ""
 
 msgid "Feedback Style"
 msgstr ""
@@ -619,7 +624,7 @@ msgid "Field"
 msgstr ""
 
 msgid "File"
-msgstr "File"
+msgstr ""
 
 msgid "File name"
 msgstr "Nome del file"
@@ -652,25 +657,25 @@ msgid "Full height"
 msgstr ""
 
 msgid "Gap"
-msgstr "Gap"
+msgstr ""
 
 msgid "Gap Match"
-msgstr "Gap Match"
+msgstr ""
 
 msgid "Gap Match Interaction"
-msgstr "Gap Match Interaction"
+msgstr ""
 
 msgid "Graphic Associate Interaction"
-msgstr "Graphic Associate Interaction"
+msgstr ""
 
 msgid "Graphic Gap Match Interaction"
-msgstr "Graphic Gap Match Interaction"
+msgstr ""
 
 msgid "Graphic Interactions"
 msgstr ""
 
 msgid "Graphic Order Interaction"
-msgstr "Graphic Order Interaction"
+msgstr ""
 
 msgid "Greater than or equal"
 msgstr ""
@@ -691,16 +696,16 @@ msgid "Horizontal"
 msgstr ""
 
 msgid "Hotspot"
-msgstr "Hotspot"
+msgstr ""
 
 msgid "Hotspot Interaction"
 msgstr "Interazione Hotspot"
 
 msgid "Hottext"
-msgstr "Hottext"
+msgstr ""
 
 msgid "Hottext Interaction"
-msgstr "Hottext Interaction"
+msgstr ""
 
 msgid "How the math expression should be displayed."
 msgstr "Come deve essere visualizzata l'espressione matematica."
@@ -866,7 +871,7 @@ msgstr "Larghezza item"
 
 #, tao-public
 msgid "Items"
-msgstr "Item"
+msgstr ""
 
 msgid "Label"
 msgstr "Etichetta"
@@ -881,7 +886,7 @@ msgid "LaTeX"
 msgstr ""
 
 msgid "Latex"
-msgstr "Latex"
+msgstr ""
 
 msgid "Layout"
 msgstr ""
@@ -964,7 +969,7 @@ msgid "MathJax is not installed."
 msgstr "MathJax non è istallato"
 
 msgid "MathML"
-msgstr "MathML"
+msgstr ""
 
 msgid "Max"
 msgstr "Massimo"
@@ -1036,7 +1041,7 @@ msgid "Modal feedback is shown to the candidate directly following response proc
 msgstr "Un feedback modale viene mostrato al candidato subito dopo l'elaborazione della risposta."
 
 msgid "Modal Feedback Prop."
-msgstr "Modal Feedback Prop."
+msgstr ""
 
 msgid "modal feedback title"
 msgstr ""
@@ -1058,7 +1063,7 @@ msgid "New item"
 msgstr "Nuovo item"
 
 msgid "No"
-msgstr "No"
+msgstr ""
 
 msgid "no configuration property needed"
 msgstr "nessuna proprietà di configurazione necessaria"
@@ -1106,7 +1111,6 @@ msgid "one association pair"
 msgstr "Una coppia di associazioni"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "Order"
@@ -1272,7 +1276,7 @@ msgid "Published %s"
 msgstr "Pubblicato %s"
 
 msgid "QTI Item Runner"
-msgstr "QTI Item Runner"
+msgstr ""
 
 msgid "QTI Metadata"
 msgstr ""
@@ -1314,7 +1318,7 @@ msgid "remove"
 msgstr "rimuovi"
 
 msgid "Remove"
-msgstr "Rimuovi"
+msgstr ""
 
 msgid "Remove custom background color"
 msgstr "Rimuovi il colore di sfondo personalizzato"
@@ -1398,10 +1402,10 @@ msgid "Right bracket"
 msgstr ""
 
 msgid "Rollback on..."
-msgstr "Rollback on..."
+msgstr ""
 
 msgid "Save"
-msgstr "Salva"
+msgstr ""
 
 msgid "Save the item"
 msgstr ""
@@ -1524,7 +1528,7 @@ msgid "Shuffle choices"
 msgstr "Scelte casuali"
 
 msgid "Single choice"
-msgstr ""
+msgstr "Scelta singola"
 
 msgid "Sinus"
 msgstr ""
@@ -1730,6 +1734,9 @@ msgstr "Il numero massimo di scelte cui questa scelta puo' essere associata a"
 msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
 msgstr "Il numero massimo di scelte con cui questa scelta può essere associata. Se matchMax è 0 non vi sono restrizioni."
 
+msgid "The maximum number of choices that the candidate is required to select to form a valid response."
+msgstr ""
+
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
 msgstr "L'attributo maxPlays indica che l'oggetto multimediale può essere riprodotto nella maggior parte maxPlays volte - non deve essere possibile per il candidato riprodurre i supporti multimediali oggetto più di maxPlays volte. Un valore pari a 0 (default) indica che non ci sono limiti."
 
@@ -1797,9 +1804,7 @@ msgid "The upper bound of the slider"
 msgstr "Il limite superiore del cursore"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "La convalida dell'item QTI importato non è riuscita. Il sistema ha restituito il seguente errore: %s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "L'archivio ZIP contenente l'item IMS QTI non può essere estratto."
