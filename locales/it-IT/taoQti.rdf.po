@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-06-07 09:17\n"
+"PO-Revision-Date: 2023-09-13 14:47\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: it\n"
 "X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/taoQti.rdf.po\n"
-"X-Crowdin-File-ID: 523\n"
+"X-Crowdin-File-ID: 917\n"
 "Language-Team: Italian\n"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTI
