@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-06-07 09:16\n"
+"PO-Revision-Date: 2023-09-13 14:47\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nb_NO\n"
@@ -99,7 +99,7 @@ msgid "Add a ZIP file containing QTI/APIP items"
 msgstr "Legg til en ZIP-fil som inneholder QTI/APIP-oppgaver"
 
 msgid "Add an outcome"
-msgstr ""
+msgstr "Legg til vurderings-alternativ"
 
 msgid "Add another option"
 msgstr "Legg til et annet alternativ"
@@ -159,7 +159,7 @@ msgid "An error occurred at the level of the QTI model."
 msgstr "Det oppstod en feil på nivået til QTI-modellen."
 
 msgid "An optional link to an extended interpretation of the outcome variable."
-msgstr "En valgfri lenke til en utvidet tolkning av resultatvariabelen."
+msgstr "Lenke til veiledning/ kriterier til den som skal vurdere i skåringsverktøyet."
 
 msgid "An unexpected error occured during the import of the IMS QTI Item Package."
 msgstr "En uventet feil oppstod under importen av IMS QTI-oppgavene."
@@ -603,10 +603,10 @@ msgid "Extended Text Interaction"
 msgstr "Oppgavetype fritekst"
 
 msgid "External Machine"
-msgstr "Automatisk"
+msgstr "Plagiatkontroll"
 
 msgid "External Scored"
-msgstr "Ekstern skåring"
+msgstr "Manuell skåring / Plagiat"
 
 msgid "Fail to export item"
 msgstr "Kunne ikke eksportere oppgave"
@@ -690,7 +690,7 @@ msgid "Height"
 msgstr "Høyde"
 
 msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
-msgstr "Her kan du definere poeng for manuell skåring, f.eks. av INNHOLD, GRAMATIKK, STAVNING"
+msgstr "Her kan du definere alternativer for plagiatkontroll og manuell skåring, f.eks. av INNHOLD, GRAMATIKK, STAVING"
 
 msgid "Horizontal"
 msgstr "Horisontal"
@@ -714,7 +714,7 @@ msgid "How the math expression should be edited"
 msgstr "Hvordan det matematiske uttrykket skal redigeres"
 
 msgid "Human"
-msgstr "Manuell"
+msgstr "Manuell skåring"
 
 msgid "identical pair already exists"
 msgstr "identisk par eksisterer allerede"
@@ -922,7 +922,7 @@ msgid "Log"
 msgstr ""
 
 msgid "Long interpretation"
-msgstr "Kriterier"
+msgstr "Vurderingskriterier"
 
 msgid "Loop"
 msgstr ""
@@ -1129,7 +1129,7 @@ msgid "Other constraints"
 msgstr ""
 
 msgid "Outcome Declarations"
-msgstr "Skåringsvariabler"
+msgstr "Vurderingsalternativer"
 
 msgid "Pair scoring"
 msgstr "Skåring av par"
@@ -1468,7 +1468,7 @@ msgid "Select height of text block base of container height"
 msgstr ""
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
-msgstr "Velg om du vil at resultatet skal behandles av et eksternt system eller en menneskelig skårer. Dette er typisk for oppgaver der elever blir spurt om å skrive et essay."
+msgstr "Velg om oppgaven skal manuelt skåres i skåringsverktøyet eller sendes til plagiatkontroll. Du må legge til flere vurderingsalternativer dersom oppgaven både skal skåres manuelt og plagiatkontrolleres."
 
 msgid "Select image"
 msgstr "Velg bilde"
