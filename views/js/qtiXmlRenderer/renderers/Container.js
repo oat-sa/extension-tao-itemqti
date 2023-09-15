@@ -18,7 +18,7 @@
 
 define([
     'module',
-    'taoQtiItem/qtiCreator/widgets/static/helpers/comments',
+    'taoQtiItem/qtiCreator/widgets/helpers/comments',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/container'
 ], function (module, comments, tpl) {
     const config = module.config();
@@ -62,7 +62,6 @@ define([
         //@todo : check other names entities
         return html.replace(/&nbsp;/g, '&#160;');
     };
-
     const xhtmlEncode = function (encodedStr) {
         let returnValue = '';
 

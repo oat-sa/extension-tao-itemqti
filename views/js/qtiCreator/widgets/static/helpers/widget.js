@@ -15,7 +15,7 @@
  *
  * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
  */
-define(['taoQtiItem/qtiCreator/widgets/static/helpers/comments', 'jquery', 'lodash'], function (comments, $, _) {
+define(['taoQtiItem/qtiCreator/widgets/helpers/comments', 'jquery', 'lodash'], function (comments, $, _) {
     'use strict';
 
     var helper = {
