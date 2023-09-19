@@ -39,6 +39,7 @@ module.exports = function (grunt) {
             searchPattern: '/views/js/picCreator/**/picCreator.json'
         }
     ];
+    const deprecatedTypes = ['PCI', 'PIC'];
 
     grunt.config.merge({
         portableelement: {
@@ -239,8 +240,14 @@ module.exports = function (grunt) {
                 return Promise.resolve([]);
             }
 
+            let deprecationMsg = '';
+
+            if (deprecatedTypes.includes(model.type)) {
+                deprecationMsg = '[DEPRECATED] ';
+            }
+
             subcompilationPromises.push([
-                grunt.log.subhead.bind(null, `${model.type} "${model.id}" found in manifest "${file}" ...`)
+                grunt.log.subhead.bind(null, `${deprecationMsg}${model.type} "${model.id}" found in manifest "${file}" ...`)
             ]);
 
             model.map.forEach(compilMap => {
