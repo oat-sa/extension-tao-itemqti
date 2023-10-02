@@ -445,7 +445,8 @@ class ImportService extends ConfigurableService
         $enableMetadataValidators = true,
         $itemMustExist = false,
         $itemMustBeOverwritten = false,
-        &$overwrittenItems = []
+        &$overwrittenItems = [],
+        $saveItemAssetsStandalone = false
     ) {
         // if report can't be finished
         $report = common_report_Report::createFailure(
@@ -572,6 +573,7 @@ class ImportService extends ConfigurableService
                 $itemAssetManager->loadAssetHandler($peHandler);
 
                 if (
+                    $saveItemAssetsStandalone === false &&
                     $this
                         ->getServiceLocator()
                         ->get(\common_ext_ExtensionsManager::SERVICE_ID)
