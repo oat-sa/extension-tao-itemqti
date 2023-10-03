@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti\asset\factory;
 
+use core_kernel_classes_Class;
 use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\UserLanguageService;
@@ -38,13 +39,12 @@ class SharedStimulusFactory extends ConfigurableService
     use ServiceLocatorAwareTrait;
     use GenerisServiceTrait;
 
-    private const ASSET_ROOT_CLASS_URI = 'http://www.tao.lu/Ontologies/TAOMedia.rdf#Media';
-
     public function createShardedStimulusFromSourceFiles(
         string $newXmlFile,
         string $relativePath,
         string $absolutePath,
-        string $label
+        core_kernel_classes_Class $targetClass
+
     ): string {
         $assetWithCss = $this->getStoreService()->store(
             $newXmlFile,
@@ -54,7 +54,7 @@ class SharedStimulusFactory extends ConfigurableService
 
         return $this->getMediaService()->createSharedStimulusInstance(
             $assetWithCss . DIRECTORY_SEPARATOR . basename($relativePath),
-            $this->getParentClassUri($label),
+            $targetClass->getUri(),
             $this->getUserLanguageService()->getAuthoringLanguage()
         );
     }
@@ -97,16 +97,6 @@ class SharedStimulusFactory extends ConfigurableService
         }
 
         return false;
-    }
-
-    private function getParentClassUri(string $label): string
-    {
-        $parentClass = $this->createSubClass(
-            $this->getClass(self::ASSET_ROOT_CLASS_URI),
-            $label
-        );
-
-        return $parentClass->getUri();
     }
 
     private function getStoreService(): StoreService

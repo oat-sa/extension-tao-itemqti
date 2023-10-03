@@ -23,33 +23,22 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\test\unit\model\qti\asset\factory;
 
 use core_kernel_classes_Class;
-use oat\generis\model\data\Ontology;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use \PHPUnit\Framework\TestCase;
 use oat\oatbox\user\UserLanguageService;
 use oat\taoMediaManager\model\MediaService;
 use oat\taoMediaManager\model\sharedStimulus\service\StoreService;
 use oat\taoQtiItem\model\qti\asset\factory\SharedStimulusFactory;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class SharedStimulusFactoryTest extends TestCase
 {
-    /** @var SharedStimulusFactory */
-    private $subject;
+    use ServiceManagerMockTrait;
 
-    /** @var StoreService|MockObject */
-    private $storeServiceMock;
-
-    /** @var MediaService|MockObject */
-    private $mediaServiceMock;
-
-    /** @var UserLanguageService|MockObject */
-    private $userLanguageServiceMock;
-
-    /** @var Ontology|MockObject */
-    private $ontologyMock;
-
-    /** @var core_kernel_classes_Class|MockObject */
-    private $classMock;
+    private SharedStimulusFactory $subject;
+    private StoreService $storeServiceMock;
+    private MediaService $mediaServiceMock;
+    private UserLanguageService $userLanguageServiceMock;
+    private core_kernel_classes_Class $classMock;
 
     public function setUp(): void
     {
@@ -57,11 +46,10 @@ class SharedStimulusFactoryTest extends TestCase
         $this->storeServiceMock = $this->createMock(StoreService::class);
         $this->mediaServiceMock = $this->createMock(MediaService::class);
         $this->userLanguageServiceMock = $this->createMock(UserLanguageService::class);
-        $this->ontologyMock = $this->createMock(Ontology::class);
         $this->classMock = $this->createMock(core_kernel_classes_Class::class);
 
-        $this->subject->setServiceLocator(
-            $this->getServiceLocatorMock(
+        $this->subject->setServiceManager(
+            $this->getServiceManagerMock(
                 [
                     StoreService::class => $this->storeServiceMock,
                     MediaService::class => $this->mediaServiceMock,
@@ -70,18 +58,9 @@ class SharedStimulusFactoryTest extends TestCase
             )
         );
 
-        $this->subject->setModel(
-            $this->ontologyMock
-        );
-
-        $this->ontologyMock
-            ->expects($this->once())
-            ->method('getClass')
-            ->willReturn($this->classMock);
-
         $this->classMock
-            ->method('createSubClass')
-            ->willReturn($this->classMock);
+            ->method('getLabel')
+            ->willReturn('class label');
     }
 
     public function testCreateShardedStimulusFromSourceFiles(): void
@@ -95,16 +74,11 @@ class SharedStimulusFactoryTest extends TestCase
             ->method('createSharedStimulusInstance')
             ->willReturn('id');
 
-        $this->classMock
-            ->expects($this->once())
-            ->method('getUri')
-            ->willReturn('classUri');
-
         $result = $this->subject->createShardedStimulusFromSourceFiles(
             'file.xml',
             'path/to/xml/filename.xml',
             'absolute/path/to/asset/passage.xml',
-            'Item Label'
+            $this->classMock
         );
 
         $this->assertEquals($result, 'id');
