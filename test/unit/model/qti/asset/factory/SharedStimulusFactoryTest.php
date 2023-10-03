@@ -24,7 +24,7 @@ namespace oat\taoQtiItem\test\unit\model\qti\asset\factory;
 
 use core_kernel_classes_Class;
 use oat\generis\test\ServiceManagerMockTrait;
-use \PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\user\UserLanguageService;
 use oat\taoMediaManager\model\MediaService;
 use oat\taoMediaManager\model\sharedStimulus\service\StoreService;
@@ -81,7 +81,7 @@ class SharedStimulusFactoryTest extends TestCase
             $this->classMock
         );
 
-        $this->assertEquals($result, 'id');
+        $this->assertEquals('id', $result);
     }
 }
 

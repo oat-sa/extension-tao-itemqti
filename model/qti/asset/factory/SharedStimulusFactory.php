@@ -44,7 +44,6 @@ class SharedStimulusFactory extends ConfigurableService
         string $relativePath,
         string $absolutePath,
         core_kernel_classes_Class $targetClass
-
     ): string {
         $assetWithCss = $this->getStoreService()->store(
             $newXmlFile,

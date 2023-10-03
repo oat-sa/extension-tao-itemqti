@@ -24,7 +24,7 @@ namespace oat\taoQtiItem\test\unit\model\qti;
 
 use oat\generis\model\data\Ontology;
 use oat\generis\test\ServiceManagerMockTrait;
-use \PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 use core_kernel_classes_Class as RdfClass;
 use core_kernel_classes_Resource as RdfResource;
 use oat\tao\model\TaoOntology;
@@ -79,7 +79,7 @@ class ImportServiceTest extends TestCase
             ->method('getClass')
             ->willReturn($mediaRootClassMock);
 
-        $this->assertEquals($result, $this->subject->getTargetClassForAssets($itemClassMock,  $this->itemResourceMock));
+        $this->assertEquals($result, $this->subject->getTargetClassForAssets($itemClassMock, $this->itemResourceMock));
     }
 
     public function testGetTargetClassForAssetsReturnsExistingMediaClasses()
@@ -112,7 +112,7 @@ class ImportServiceTest extends TestCase
             ->method('getClass')
             ->willReturn($mediaRootClassMock);
 
-        $this->assertEquals($result, $this->subject->getTargetClassForAssets($itemClass,  $this->itemResourceMock));
+        $this->assertEquals($result, $this->subject->getTargetClassForAssets($itemClass, $this->itemResourceMock));
     }
 
     public function testGetTargetClassForAssetsCreatesMediaClasses()
@@ -157,7 +157,7 @@ class ImportServiceTest extends TestCase
             ->method('getClass')
             ->willReturn($mediaRootClassMock);
 
-        $this->assertEquals($result, $this->subject->getTargetClassForAssets($itemClass,  $this->itemResourceMock));
+        $this->assertEquals($result, $this->subject->getTargetClassForAssets($itemClass, $this->itemResourceMock));
     }
 
     private function prepareItemClassStructureMock($label1, $label2): RdfClass
