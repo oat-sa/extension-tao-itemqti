@@ -1,15 +1,14 @@
 define([
     'jquery',
-    'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
     'taoQtiItem/qtiItem/core/interactions/AssociateInteraction',
     'taoQtiItem/qtiCreator/model/choices/SimpleAssociableChoice'
-], function($, _, editable, editableInteraction, Interaction, Choice){
+], function($, editable, editableInteraction, Interaction, Choice){
     var methods = {};
-    _.extend(methods, editable);
-    _.extend(methods, editableInteraction);
-    _.extend(methods, {
+    Object.assign(methods, editable);
+    Object.assign(methods, editableInteraction);
+    Object.assign(methods, {
         getDefaultAttributes : function(){
             return {
                 'shuffle' : false,
@@ -30,7 +29,7 @@ define([
 
             this.addChoice(choice);
 
-            var rank = _.size(this.getChoices());
+            var rank = this.getChoices().length;
 
             choice
                 .body('choice' + ' #' + rank)

@@ -17,7 +17,6 @@
  *
  */
 define([
-    'lodash',
     'context',
     'i18n',
     'services/features',
@@ -28,12 +27,12 @@ define([
     'taoQtiItem/qtiCreator/model/ResponseProcessing',
     'taoQtiItem/qtiCreator/model/variables/OutcomeDeclaration',
     'taoQtiItem/qtiCreator/model/feedbacks/ModalFeedback'
-], function(_, context, __, features, editable, editableContainer, Item, Stylesheet, ResponseProcessing, OutcomeDeclaration, ModalFeedback){
+], function(context, __, features, editable, editableContainer, Item, Stylesheet, ResponseProcessing, OutcomeDeclaration, ModalFeedback){
     "use strict";
     var methods = {};
-    _.extend(methods, editable);
-    _.extend(methods, editableContainer);
-    _.extend(methods, {
+    Object.assign(methods, editable);
+    Object.assign(methods, editableContainer);
+    Object.assign(methods, {
         getDefaultAttributes : function(){
             return {
                 identifier : 'myItem_1',
@@ -50,7 +49,7 @@ define([
             return rp;
         },
         createStyleSheet : function(href){
-            if(href && _.isString(href)){
+            if (href && typeof href === 'string') {
                 var stylesheet = new Stylesheet({href : href});
                 stylesheet.setRenderer(this.getRenderer());
                 this.addStylesheet(stylesheet);
@@ -73,18 +72,18 @@ define([
         },
         getOutcomeDeclaration : function getOutcomeDeclaration(identifier){
             var found;
-            _.forEach(this.outcomes, function (outcome) {
+            for (let outcome of this.outcomes) {
                 if (outcome.id() === identifier) {
                     found = outcome;
-                    return false;
+                    break;
                 }
-            });
+            }
             return found;
         },
         removeOutcome : function removeOutcome(identifier){
             var outcome = this.getOutcomeDeclaration(identifier);
             if(outcome){
-                this.outcomes = _.omit(this.outcomes, outcome.getSerial());
+                delete this.outcomes[outcome.getSerial()];
             }
         },
         createModalFeedback : function(attributes, response){
@@ -105,14 +104,14 @@ define([
         deleteResponseDeclaration : function(response){
             var self = this;
             var serial;
-            if(_.isString(response)){
+            if (typeof response === "string") {
                 serial = response;
             }else if(response && response.qtiClass === 'responseDeclaration'){
                 serial = response.getSerial();
             }
             if(this.responses[serial]){
                 //remove feedback rules:
-                _.each(this.responses[serial].feedbackRules, function(rule){
+                this.responses[serial].feedbackRules.forEach(rule => {
                     var feedbacks = [];
                     if(rule.feedbackThen && rule.feedbackThen.is('modalFeedback')){
                         feedbacks.push(rule.feedbackThen.serial);
@@ -120,13 +119,25 @@ define([
                     if(rule.feedbackElse && rule.feedbackElse.is('modalFeedback')){
                         feedbacks.push(rule.feedbackElse.serial);
                     }
-                    self.modalFeedbacks = _.omit(self.modalFeedbacks, feedbacks);
+                    self.modalFeedbacks = Object.keys(self.modalFeedbacks)
+                        .reduce((acc, key) => {
+                            if (!feedbacks.includes(key)) {
+                                acc[key] = self.modalFeedbacks[key];
+                            }
+                            return acc;
+                        }, {});
 
-                    if(rule.feedbackOutcome && rule.feedbackOutcome.is('outcomeDeclaration')){
-                        self.outcomes = _.omit(self.outcomes, rule.feedbackOutcome.serial);
+                    if (rule.feedbackOutcome && rule.feedbackOutcome.is('outcomeDeclaration')) {
+                        self.outcomes = Object.keys(self.outcomes)
+                            .reduce((acc, key) => {
+                                if (key !== rule.feedbackOutcome.serial) {
+                                    acc[key] = self.outcomes[key];
+                                }
+                                return acc;
+                            }, {});
                     }
                 });
-                this.responses = _.omit(this.responses, serial);
+                delete this.responses[serial];
             }
             return this;
         }

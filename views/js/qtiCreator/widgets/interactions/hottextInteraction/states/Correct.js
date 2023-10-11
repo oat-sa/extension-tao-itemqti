@@ -17,14 +17,13 @@
  *
  */
 define([
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/HottextInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse){
+], function(__, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse){
     'use strict';
 
     /**
@@ -41,14 +40,14 @@ define([
         //really need to destroy before ?
         commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
-        
+
         //add a specific instruction
         instructionMgr.appendInstruction(interaction, __('Please select the correct hottext choices below.'));
-        
+
         //use the common Renderer
         commonRenderer.render.call(interaction.getRenderer(), interaction);
 
-        commonRenderer.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));
+        commonRenderer.setResponse(interaction, PciResponse.serialize(Object.values(response.getCorrect()), interaction));
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
             response.setCorrect(PciResponse.unserialize(data.response, interaction));

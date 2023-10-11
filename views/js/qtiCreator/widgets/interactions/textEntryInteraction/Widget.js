@@ -1,9 +1,8 @@
 define([
-    'lodash',
     'taoQtiItem/qtiCreator/widgets/interactions/inlineInteraction/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/textEntryInteraction/states/states',
     'tpl!taoQtiItem/qtiCreator/tpl/inlineInteraction/textEntryInteraction'
-], function(_, InteractionWidget, states, interactionTpl){
+], function(InteractionWidget, states, interactionTpl){
 
     var TextEntryInteractionWidget = InteractionWidget.clone();
 
@@ -49,7 +48,7 @@ define([
 
         //prepare html: interaction & choices:
         this.$itemContainer.append(this.renderInteraction());
-        
+
         this.$container = this.$itemContainer.find('.widget-textEntryInteraction[data-serial=' + this.element.getSerial() + ']');
     };
 

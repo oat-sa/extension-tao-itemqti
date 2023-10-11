@@ -17,11 +17,10 @@
  */
 define([
     'jquery',
-    'lodash',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
     'taoQtiItem/qtiCreator/model/helper/container',
     'taoQtiItem/qtiCreator/editor/gridEditor/content'
-], function($, _, creatorRenderer, containerHelper, gridContentHelper){
+], function($, creatorRenderer, containerHelper, gridContentHelper){
     'use strict';
 
     var contentHelper = {};
@@ -65,7 +64,7 @@ define([
                     //inform height modification
                     $widget.trigger('contentChange.gridEdit');
 
-                    if(_.isFunction(callback)){
+                    if(typeof callback === 'function'){
                         callback(widget);
                     }
                 }
@@ -78,8 +77,8 @@ define([
     contentHelper.changeInnerWidgetState = function _changeInnerWidgetState(outerWidget, state){
 
          var selector = [];
-        _.each(['img', 'math', 'object', 'include'], function(qtiClass){
-            selector.push('[data-html-editable] .widget-'+qtiClass);
+        ['img', 'math', 'object', 'include'].forEach(qtiClass => {
+            selector.push(`[data-html-editable] .widget-${qtiClass}`);
         });
 
         outerWidget.$container.find(selector.join(',')).each(function(){

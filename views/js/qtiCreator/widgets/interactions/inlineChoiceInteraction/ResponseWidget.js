@@ -18,11 +18,10 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/qtiCreator/widgets/helpers/placeholder'
-], function ($, _, __, CommonRenderer, placeholder) {
+], function ($, __, CommonRenderer, placeholder) {
     'use strict';
 
     var ResponseWidget = {
@@ -74,8 +73,8 @@ define([
             widget.$container.find('.padding').removeAttr('style');
         },
         formatResponse: function (response) {
-            if (!_.isString(response)) {
-                response = _.values(response);
+            if (typeof response !== 'string') {
+                response = Object.values(response);
                 if (response && response.length) {
                     response = response[0];
                 }

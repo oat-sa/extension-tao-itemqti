@@ -20,13 +20,12 @@
 
 define([
     'jquery',
-    'lodash',
     'i18n',
     'util/image',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/resourceManager',
     'ui/resourcemgr',
     'ui/tooltip'
-], function($, _, __, imageUtil, resourceManager){
+], function($, __, imageUtil, resourceManager){
 
     'use strict';
 
@@ -54,9 +53,9 @@ define([
                     $height.val(args.size.height).trigger('change');
                 }
                 $type.val(args.selected.mime).trigger('change');
-                _.defer(function(){
+                setTimeout(function() {
                     $src.val(args.selected.file).trigger('change');
-                });
+                }, 0);
 
             })
                 .on('open', function(){

@@ -5,9 +5,8 @@ define([
     'taoQtiItem/qtiCreator/editor/simpleContentEditableElement',
     'taoQtiItem/qtiCreator/editor/containerEditor',
     'tpl!samplePci/creator/tpl/propertiesForm',
-    'lodash',
     'jquery'
-], function(stateFactory, Question, formElement, simpleEditor, containerEditor, formTpl, _, $){
+], function(stateFactory, Question, formElement, simpleEditor, containerEditor, formTpl, $){
 
     var LikertInteractionStateQuestion = stateFactory.extend(Question, function(){
 
@@ -53,10 +52,10 @@ define([
             levelData = {};
 
         //build select option data for the template
-        _.each(levels, function(lvl){
+        levels.forEach(lvl => {
             levelData[lvl] = {
-                label : lvl,
-                selected : (lvl === level)
+                label: lvl,
+                selected: (lvl === level)
             };
         });
 
@@ -76,7 +75,7 @@ define([
 
                 //update the pci property value:
                 interaction.prop('level', value);
-                
+
                 //trigger change event:
                 interaction.triggerPci('levelchange', [parseInt(value)]);
             },

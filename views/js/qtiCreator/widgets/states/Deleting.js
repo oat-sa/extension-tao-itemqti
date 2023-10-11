@@ -1,12 +1,11 @@
 define([
-    'lodash',
     'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState',
     'taoQtiItem/qtiCreator/helper/gridUnits',
     'taoQtiItem/qtiCreator/editor/gridEditor/helper',
     'taoQtiItem/qtiCreator/editor/gridEditor/content'
-], function (_, $, stateFactory, deletingHelper, gridUnits, gridHelper, contentHelper) {
+], function ($, stateFactory, deletingHelper, gridUnits, gridHelper, contentHelper) {
     const DeletingState = stateFactory.create(
         'deleting',
         function init() {
@@ -144,7 +143,7 @@ define([
 
         cols = gridUnits.redistribute(cols);
 
-        _.each(cols, function (col) {
+        cols.forEach(col => {
             let oldClass = col.elt.context.classList.value
             col.elt.removeClass(oldClass.match(/col-([\d]+)/).input).addClass(`col-${col.refactoredUnits}`);
             gridHelper.setUnitsFromClass(col.elt);
@@ -174,7 +173,7 @@ define([
 
             if (_isCol($elt)) {
                 //restore the other units:
-                _.each(this.refactoredUnits, function (col) {
+                this.refactoredUnits.forEach(col => {
                     col.elt.removeClass(`col-${col.refactoredUnits}`).addClass(`col-${col.units}`);
                     gridHelper.setUnitsFromClass(col.elt);
                 });
@@ -207,7 +206,7 @@ define([
         const container = this.widget.element;
 
         if (container.getBody && container.getBody().elements) {
-            _.each(_.values(container.getBody().elements), function (elt) {
+            Object.values(container.getBody().elements).forEach(elt => {
                 if (elt.metaData && elt.metaData.widget) {
                     const widget = elt.metaData.widget;
                     widget.destroy();

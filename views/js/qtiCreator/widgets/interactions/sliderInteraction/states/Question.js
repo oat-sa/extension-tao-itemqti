@@ -17,13 +17,12 @@
  *
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/slider',
     'taoQtiItem/qtiCreator/widgets/interactions/sliderInteraction/Helper'
-], function(_, stateFactory, Question, formElement, formTpl, sliderInteractionHelper){
+], function(stateFactory, Question, formElement, formTpl, sliderInteractionHelper){
     'use strict';
 
     const initQuestionState = function () {};
@@ -32,7 +31,7 @@ define([
         const _widget = this.widget;
         const interaction = _widget.element;
         const responseDeclaration = interaction.getResponseDeclaration();
-        const currentResponse = _.values(responseDeclaration.getCorrect());
+        const currentResponse = Object.values(responseDeclaration.getCorrect());
         const responseManager = sliderInteractionHelper.responseManager(interaction, currentResponse);
 
         _widget.isValid('sliderInteraction', responseManager.isValid(), responseManager.getErrorMessage());

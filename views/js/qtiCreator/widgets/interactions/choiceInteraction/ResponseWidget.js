@@ -19,7 +19,6 @@
 
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/ChoiceInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
@@ -29,7 +28,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.score',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/simpleChoice.label'
-], function($, _, __, commonRenderer, instructionMgr, pciResponse, formElement, answerStateHelper, sizeAdapter, scoreTpl, labelTpl){
+], function($, __, commonRenderer, instructionMgr, pciResponse, formElement, answerStateHelper, sizeAdapter, scoreTpl, labelTpl){
 
     'use strict';
 
@@ -95,7 +94,7 @@ define([
         },
         setResponse : function(interaction, response){
 
-            commonRenderer.setResponse(interaction, pciResponse.serialize(_.values(response), interaction));
+            commonRenderer.setResponse(interaction, pciResponse.serialize(Object.values(response), interaction));
             if(interaction.attr('orientation') === 'horizontal') {
                 sizeAdapter.adaptSize(interaction.data('widget'));
             }
@@ -219,7 +218,7 @@ define([
 
         },
         formatResponse : function(response){
-            return pciResponse.serialize(_.values(response));
+            return pciResponse.serialize(Object.values(response));
         },
         unformatResponse : function(formatedResponse){
             return pciResponse.unserialize(formatedResponse);

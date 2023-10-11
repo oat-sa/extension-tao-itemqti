@@ -1,9 +1,8 @@
 define([
     'jquery',
-    'lodash',
     'ui/ckeditor/dtdHandler',
     'taoQtiItem/qtiCreator/helper/qtiElements'
-], function($, _, dtdHandler, qtiElements){
+], function($, dtdHandler, qtiElements){
     'use strict';
 
     var _qtiHtmlEditableTypes = {
@@ -58,7 +57,7 @@ define([
 
             }else{
 
-                $qtiContainers = context.find(_.values(_qtiHtmlEditableTypes).join(','));
+                $qtiContainers = context.querySelectorAll(Object.values(_qtiHtmlEditableTypes).join(','));
                 $qtiContainers = context.find(_qtiHtmlEditableTypes['itemBody']);//beta limitation
                 switch(qtiClass){
                     case 'math':
@@ -96,8 +95,8 @@ define([
         /**
          * return both parent and own functions
          */
-        return _.extend(inheritedFunctions, {
-            getTargetsFor : getTargetsFor
+        return Object.assign(inheritedFunctions, {
+            getTargetsFor: getTargetsFor
         });
 
     }($, _, dtdHandler));

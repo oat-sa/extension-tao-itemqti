@@ -28,7 +28,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'module',
     'core/eventifier',
@@ -46,7 +45,6 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor'
 ], function (
     $,
-    _,
     __,
     module,
     eventifier,
@@ -140,24 +138,24 @@ define([
         const pluginRun = function pluginRun(method) {
             const execStack = [];
 
-            _.forEach(plugins, function (plugin) {
-                if (_.isFunction(plugin[method])) {
+            for (let plugin of plugins) {
+                if (typeof plugin[method] === "function") {
                     execStack.push(plugin[method]());
                 }
-            });
+            }
 
             return Promise.all(execStack);
         };
 
         //validate parameters
-        if (!_.isPlainObject(config)) {
+        if (!isPlainObject(config)) {
             throw new TypeError('The item creator configuration is required');
         }
         if (
             !config.properties ||
-            _.isEmpty(config.properties.uri) ||
-            _.isEmpty(config.properties.label) ||
-            _.isEmpty(config.properties.baseUrl)
+            !config.properties.uri ||
+            !config.properties.label ||
+            !config.properties.baseUrl
         ) {
             throw new TypeError(
                 'The creator configuration must contains the required properties triples: uri, label and baseUrl'
@@ -185,10 +183,10 @@ define([
                 const self = this;
 
                 //instantiate the plugins first
-                _.forEach(pluginFactories, function (pluginFactory) {
+                for (let pluginFactory of pluginFactories) {
                     const plugin = pluginFactory(self, areaBroker);
                     plugins[plugin.getName()] = plugin;
-                });
+                }
 
                 // quick-fix: clear all ghost events listeners
                 // prevent ghosting of item states and other properties
@@ -206,7 +204,7 @@ define([
                     const itemWidget = item.data('widget');
                     const invalidElements = item.data('invalid') || {};
 
-                    if (_.size(invalidElements)) {
+                    if (Object.keys(invalidElements).length) {
                         const reasons = [];
                         Object.keys(invalidElements).forEach(serial => {
                             Object.keys(invalidElements[serial]).forEach(key => {
@@ -243,16 +241,16 @@ define([
                     config.properties.perInteractionRp
                 )
                     .then(function (item) {
-                        if (!_.isObject(item)) {
+                        if (typeof item !== "object" || item === null) {
                             self.trigger('error', new Error(`Unable to load the item ${config.properties.label}`));
                             return;
                         }
 
-                        _.forEach(item.getComposingElements(), function (element) {
+                        for (let element of item.getComposingElements()) {
                             if (element.is('customInteraction')) {
                                 usedCustomInteractionIds.push(element.typeIdentifier);
                             }
-                        });
+                        }
 
                         self.item = item;
                         return true;
@@ -270,7 +268,7 @@ define([
                                 responseKey => item.responses[responseKey].attributes.identifier
                             );
 
-                            _.forEach(responseIdentifiers, responseIdentifier => {
+                            for (let responseIdentifier of responseIdentifiers) {
                                 const outcomeIdentifier = `SCORE_${responseIdentifier}`;
 
                                 if (!item.getOutcomeDeclaration(outcomeIdentifier)) {
@@ -279,7 +277,7 @@ define([
                                         baseType: 'float'
                                     }).attr('identifier', outcomeIdentifier);
                                 }
-                            });
+                            }
                         }
                     })
                     .then(function () {
@@ -328,7 +326,7 @@ define([
                 const self = this;
                 const item = this.getItem();
 
-                if (!item || !_.isFunction(item.getUsedClasses)) {
+                if (!item || typeof item.getUsedClasses !== "function") {
                     return this.trigger('error', new Error('We need an item to render.'));
                 }
 
@@ -362,17 +360,17 @@ define([
                         areaBroker.getItemPanelArea().append(item.render());
 
                         //"post-render it" to initialize the widget
-                        Promise.all(item.postRender(_.clone(config.properties)))
+                        Promise.all(item.postRender({...config.properties}))
                             .then(function () {
                                 //set reference to item widget object
                                 areaBroker.getContainer().data('widget', item);
 
                                 widget = item.data('widget');
-                                _.each(item.getComposingElements(), function (element) {
+                                for (let element of item.getComposingElements()) {
                                     if (element.qtiClass === 'include') {
                                         xincludeRenderer.render(element.data('widget'), config.properties.baseUrl);
                                     }
-                                });
+                                }
 
                                 propertiesPanel(areaBroker.getPropertyPanelArea(), widget, config.properties);
 
@@ -440,6 +438,13 @@ define([
 
         return itemCreator;
     };
+
+    function isPlainObject (value) {
+        if (typeof value !== 'object' || value === null) return false;
+
+        const proto = Object.getPrototypeOf(value);
+        return proto === null || proto === Object.prototype;
+    }
 
     return itemCreatorFactory;
 });

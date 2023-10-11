@@ -17,23 +17,22 @@
  *
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/Container'
-], function(_, editable, Container){
+], function(editable, Container){
     "use strict";
     var methods = {};
-    _.extend(methods, editable);
-    _.extend(methods, {
-        afterCreate : function(){
+    Object.assign(methods, editable);
+    Object.assign(methods, {
+        afterCreate() {
             this.body('<p>Lorem ipsum dolor sit amet, consectetur adipisicing ...</p>');
         },
-        beforeRemove : function(){
-            _.each(this.getComposingElements(), function(element){
-                if(_.isFunction(element.beforeRemove)){
+        beforeRemove() {
+            for (let element of this.getComposingElements()) {
+                if (typeof element.beforeRemove === "function") {
                     element.beforeRemove();
                 }
-            });
+            }
         }
     });
     return Container.extend(methods);

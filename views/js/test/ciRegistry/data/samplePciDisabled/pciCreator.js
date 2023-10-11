@@ -1,8 +1,7 @@
 define([
-    'lodash',
     'samplePciDisabled/creator/widget/Widget',
     'tpl!samplePciDisabled/creator/tpl/markup'
-], function(_, Widget, markupTpl){
+], function(Widget, markupTpl){
 
     var _typeIdentifier = 'samplePciDisabled';
 

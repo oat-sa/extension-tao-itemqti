@@ -19,16 +19,15 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'lodash',
     'taoQtiItem/qtiItem/helper/util',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/Tooltip'
-], function(_, util, editable, PrintedVariable){
+], function(util, editable, PrintedVariable){
     "use strict";
 
     var methods = {};
-    _.extend(methods, editable);
-    _.extend(methods, {
+    Object.assign(methods, editable);
+    Object.assign(methods, {
         init : function(serial, attributes, newContent){
             this._super(serial, attributes, newContent);
         },

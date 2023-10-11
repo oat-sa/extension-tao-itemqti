@@ -125,13 +125,13 @@ define([
 
         //controls min and max choices
         minMaxComponentFactory($form.find('.min-max-panel'), {
-            min: { value: _.parseInt(interaction.attr('minChoices')) || 0 },
-            max: { value: _.parseInt(interaction.attr('maxChoices')) || 0 },
-            upperThreshold: _.size(interaction.getChoices())
+            min: { value: parseInt(interaction.attr('minChoices'), 10) || 0 },
+            max: { value: parseInt(interaction.attr('maxChoices'), 10) || 0 },
+            upperThreshold: interaction.getChoices().length
         }).on('render', function () {
             widget.on('choiceCreated choiceDeleted', data => {
                 if (data.interaction.serial === interaction.serial) {
-                    this.updateThresholds(1, _.size(interaction.getChoices()));
+                    this.updateThresholds(1, interaction.getChoices().length);
                 }
             });
         });

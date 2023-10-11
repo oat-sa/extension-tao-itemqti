@@ -16,12 +16,11 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  */
 define([
-    'lodash',
     'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Question',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/hottext'
-], function(_, $, stateFactory, QuestionState, gapTpl){
+], function($, stateFactory, QuestionState, gapTpl){
     'use strict';
 
     var HottextStateQuestion = stateFactory.extend(QuestionState);
@@ -51,7 +50,7 @@ define([
                     newBody = parent.body().replace(hottext.placeholder(), hottext.body());
 
                 //prepare the replacement of the hottext html rendering by prerendering inner element
-                var hottextHtmlReplacement = _.reduce(inlineStaticElements, function(hottextBody, elt){
+                var hottextHtmlReplacement = inlineStaticElements.reduce((hottextBody, elt) => {
                     //move all inner element of the hottext to its parent
                     parent.setElement(elt);
                     hottext.removeElement(elt);
@@ -69,7 +68,7 @@ define([
 
                 //render static elements
                 $container.replaceWith(hottextHtmlReplacement);
-                _.each(inlineStaticElements, function(elt){
+                inlineStaticElements.forEach(elt => {
                     elt.postRender();
                 });
             });

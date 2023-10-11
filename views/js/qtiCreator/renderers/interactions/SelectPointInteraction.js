@@ -20,10 +20,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/SelectPointInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/selectPointInteraction/Widget'
-], function(_, SelectPointInteraction, SelectPointInteractionWidget){
+], function(SelectPointInteraction, SelectPointInteractionWidget){
     'use strict';
 
     /**
@@ -31,7 +30,7 @@ define([
      * @extends taoQtiItem/qtiCommonRenderer/renderers/interactions/SelectPointInteraction
      * @exports taoQtiItem/qtiCreator/renderers/interactions/SelectPointInteraction
      */
-    var CreatorSelectPointInteraction = _.clone(SelectPointInteraction);
+    var CreatorSelectPointInteraction = {...SelectPointInteraction};
 
     /**
      * Render the interaction for authoring.

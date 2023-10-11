@@ -1,9 +1,8 @@
 define([
 
     'jquery',
-    'lodash',
     'taoQtiItem/portableLib/OAT/util/asset'
-], function($, _, assetMgr) {
+], function($, assetMgr) {
     'use strict';
 
     var containerId = 'interaction-container';
@@ -26,7 +25,7 @@ define([
         assert.expect(2);
         var $container = $('#' + containerId);
         var asset = assetMgr($container);
-        assert.equal(_.size(asset.getAll()), 8, 'all assets identified');
+        assert.equal(Object.keys(asset.getAll()).length, 8, 'all assets identified');
         assert.ok(asset.exists('asset/add.png'), 'asset url found');
     });
 
@@ -34,7 +33,7 @@ define([
         assert.expect(2);
         var $container = $('#' + containerId);
         var asset = assetMgr($container);
-        assert.equal(_.size(asset.getAll()), 8, 'all assets identified');
+        assert.equal(asset.getAll().length, 8, 'all assets identified');
         assert.equal(asset.get('asset/add.png'), 'some/path/to/asset/icon_add.png', 'asset url found');
     });
 

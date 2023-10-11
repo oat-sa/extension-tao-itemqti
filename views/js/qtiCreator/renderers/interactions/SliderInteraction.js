@@ -17,13 +17,12 @@
  */
 
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/SliderInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/sliderInteraction/Widget'
-], function(_, SliderInteraction, SliderInteractionWidget){
+], function(SliderInteraction, SliderInteractionWidget){
     'use strict';
 
-    var CreatorSliderInteraction = _.clone(SliderInteraction);
+    var CreatorSliderInteraction = {...SliderInteraction};
 
     CreatorSliderInteraction.render = function(interaction, options){
 

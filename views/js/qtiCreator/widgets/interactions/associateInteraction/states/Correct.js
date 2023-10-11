@@ -1,9 +1,8 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
-    'taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/ResponseWidget',
-    'lodash'
-], function(stateFactory, Correct, responseWidget, _){
+    'taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/ResponseWidget'
+], function(stateFactory, Correct, responseWidget){
 
     var AssociateInteractionStateCorrect = stateFactory.create(Correct, function(){
 
@@ -11,7 +10,7 @@ define([
             response = interaction.getResponseDeclaration();
 
         responseWidget.create(this.widget, false);
-        responseWidget.setResponse(interaction, _.values(response.getCorrect()));
+        responseWidget.setResponse(interaction, Object.values(response.getCorrect()));
 
         this.widget.$container.on('responseChange.qti-widget', function(e, data){
             response.setCorrect(responseWidget.unformatResponse(data.response));

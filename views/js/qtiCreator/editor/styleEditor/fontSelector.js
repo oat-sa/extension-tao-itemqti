@@ -1,11 +1,10 @@
 define([
     'jquery',
-    'lodash',
     'json!taoQtiItem/qtiCreator/editor/resources/font-stacks.json',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'i18n',
     'select2'
-], function ($, _, fontStacks, styleEditor, __) {
+], function ($, fontStacks, styleEditor, __) {
     'use strict';
 
     /**
@@ -55,20 +54,25 @@ define([
 
         $selector.append(`<option value="">${__('Default')}</option>`);
 
-        _.forEach(fontStacks, (value, key) => {
-            const optGroup = $('<optgroup>', { label: toLabel(key) });
-            _.forEach(value, font => {
-                const normalizeFont = normalize(font);
-                const option = $('<option>', {
-                    value: normalizeFont,
-                    text: clean(normalizeFont)
-                }).css({
-                    fontFamily: normalizeFont
+        for (let key in fontStacks) {
+            if (fontStacks.hasOwnProperty(key)) {
+                const optGroup = document.createElement('optgroup');
+                optGroup.setAttribute('label', toLabel(key));
+
+                fontStacks[key].forEach(font => {
+                    const normalizeFont = normalize(font);
+                    const option = document.createElement('option');
+
+                    option.value = normalizeFont;
+                    option.textContent = clean(normalizeFont);
+                    option.style.fontFamily = normalizeFont;
+
+                    optGroup.appendChild(option);
                 });
-                optGroup.append(option);
-            });
-            $selector.append(optGroup);
-        });
+
+                $selector[0].appendChild(optGroup);
+            }
+        }
 
         resetButton.on('click', reset);
 

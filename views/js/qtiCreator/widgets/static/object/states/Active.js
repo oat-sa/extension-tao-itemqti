@@ -268,7 +268,7 @@ define([
             },
             width: function (object, value) {
                 const val = parseInt(value, 10);
-                if (_.isNaN(val)) {
+                if (isNaN(Number(val))) {
                     qtiObject.removeAttr('width');
                 } else {
                     qtiObject.attr('width', val);
@@ -277,7 +277,7 @@ define([
             },
             height: function (object, value) {
                 const val = parseInt(value, 10);
-                if (_.isNaN(val)) {
+                if (isNaN(Number(val))) {
                     qtiObject.removeAttr('height');
                 } else {
                     qtiObject.attr('height', val);

@@ -17,7 +17,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'module',
     'taoQtiItem/qtiCreator/widgets/states/factory',
@@ -29,7 +28,6 @@ define([
     'services/features'
 ], function(
     $,
-    _,
     __,
     module,
     stateFactory,
@@ -167,7 +165,7 @@ define([
         // -- format Callback
         callbacks.format = function (interaction, attrValue) {
             var response = interaction.getResponseDeclaration();
-            var correctResponse = _.values(response.getCorrect());
+            var correctResponse = Object.values(response.getCorrect());
             var previousFormat = interaction.attr('format');
             var isMath = attrValue === 'math';
             var format = isMath ? 'xhtml' : attrValue;

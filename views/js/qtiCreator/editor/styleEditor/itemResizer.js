@@ -18,10 +18,9 @@
  */
 define([
     'jquery',
-    'lodash',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'nouislider'
-], function ($, _, styleEditor) {
+], function ($, styleEditor) {
     'use strict';
 
     /**
@@ -106,7 +105,7 @@ define([
 
         input.on('keydown', function(e) {
             var c = e.keyCode;
-            return (_.contains([8, 37, 39, 46], c)
+            return ([8, 37, 39, 46].includes(c)
                 || (c >= 48 && c <= 57)
                 || (c >= 96 && c <= 105));
         });

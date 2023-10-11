@@ -16,11 +16,10 @@
  * Copyright (c) 2014-2017 Open Assessment Technologies SA;
  */
 define([
-    'lodash',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/interactions/portableCustomInteraction/main',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/interactions/portableCustomInteraction/oat',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/interactions/portableCustomInteraction/ims'
-], function(_, tpl, oatTpl, imsTpl){
+], function(tpl, oatTpl, imsTpl){
     'use strict';
 
     var templates = {
@@ -34,7 +33,7 @@ define([
         getData : function getData(interaction, data){
             var ns = interaction.getNamespace();
             data.markup = interaction.markup;
-            data.portableCustomInteraction = _.isFunction(templates[ns.uri]) ? templates[ns.uri].call(null, data) : '';
+            data.portableCustomInteraction = typeof templates[ns.uri] === 'function' ? templates[ns.uri].call(null, data) : '';
             return data;
         }
     };

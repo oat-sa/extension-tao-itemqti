@@ -2,15 +2,15 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'jquery', 'lodash', 'raphael'
-], function($, _, Raphael){
+    'jquery', 'raphael'
+], function($, Raphael){
 
     /**
      * Creates handlers around a shape
      * @exports qtiCreator/widgets/interaction/helpers/shapeHandlers
      * @param {Raphael.Paper} paper - the raphael paper
      * @param {Raphael.Element} element - the shape
-     * @returns {Array<Raphael.Element>} the handlers 
+     * @returns {Array<Raphael.Element>} the handlers
      */
     var shapeHandlers = function (paper, element){
 
@@ -22,7 +22,7 @@ define([
             var half        = size / 2;
             var halfWidth   = bbox.width / 2;
             var halfHeight  = bbox.height / 2;
-            
+
             switch(element.type){
                 case 'circle' :
                     coords = {
@@ -34,7 +34,7 @@ define([
                     break;
                 case 'path' :
                     coords =  {};
-                    _.forEach(Raphael.parsePathString(element.attr('path')), function(segment, index){
+                    Raphael.parsePathString(element.attr('path')).forEach(function(segment, index) {
                         if(segment.length === 3){
                             coords['point' + index] = segment.slice(1).concat(half);
                         }
@@ -57,13 +57,13 @@ define([
             return coords;
         };
 
-        return _.map(getCoords(element), function(handlerCoords, name){
+        return Object.entries(getCoords(element)).map(([name, handlerCoords]) => {
             var handler, cursor, constraints, hshape;
             if(element.type === 'path'){
                 cursor = 'move';
-                hshape = 'circle'; 
+                hshape = 'circle';
             } else {
-                hshape = 'rect'; 
+                hshape = 'rect';
                 switch(name){
                     case 'topLeft' :
                         cursor = 'nw-resize';

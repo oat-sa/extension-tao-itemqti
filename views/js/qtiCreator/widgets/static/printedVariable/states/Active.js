@@ -20,7 +20,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'util/typeCaster',
     'taoQtiItem/qtiCreator/widgets/states/factory',
@@ -28,7 +27,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/printedVariable',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline'
-], function($, _, __, typeCaster, stateFactory, Active, formTpl, formElement, inlineHelper){
+], function($, __, typeCaster, stateFactory, Active, formTpl, formElement, inlineHelper){
     'use strict';
 
     var PrintedVariableStateActive = stateFactory.extend(Active, function(){
@@ -48,7 +47,7 @@ define([
             $form            = _widget.$form,
             rootElement      = printedVarEl.getRootElement();
 
-        var outcomes = _.isFunction(rootElement.data('getOutcomes')) && rootElement.data('getOutcomes')();
+        var outcomes = typeof rootElement.data('getOutcomes') === 'function' && rootElement.data('getOutcomes')();
 
         outcomes = (outcomes || []).map(function(entry) {
             var selected = (printedVarEl.attr('identifier') === entry);

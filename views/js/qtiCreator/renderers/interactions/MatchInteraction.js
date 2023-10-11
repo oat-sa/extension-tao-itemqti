@@ -17,13 +17,12 @@
  */
 
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/MatchInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/matchInteraction/Widget'
-], function(_, MatchInteraction,MatchInteractionWidget){
+], function(MatchInteraction,MatchInteractionWidget){
     'use strict';
 
-    var CreatorMatchInteraction = _.clone(MatchInteraction);
+    var CreatorMatchInteraction = {...MatchInteraction};
 
     CreatorMatchInteraction.render = function(interaction, options){
 

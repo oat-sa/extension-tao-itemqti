@@ -108,8 +108,8 @@ define([
         const rp = interaction.getRootElement().responseProcessing;
         const allTemplates = getAvailableTemplates();
         let templates = {};
-        if (!_.isEmpty(filteredTemplates)) {
-            _.forEach(filteredTemplates, function (templateName) {
+        if (filteredTemplates && filteredTemplates.length > 0) {
+            filteredTemplates.forEach(function (templateName) {
                 if (allTemplates[templateName]) {
                     templates[templateName] = allTemplates[templateName];
                 }
@@ -185,15 +185,15 @@ define([
             const template = responseHelper.getTemplateNameFromUri(response.template);
             const corrects = response.getCorrect();
 
-            if (_.isUndefined(newDefineCorrectActive)) {
+            if (typeof newDefineCorrectActive === 'undefined') {
                 //get:
 
                 if (template === 'MAP_RESPONSE' || template === 'MAP_RESPONSE_POINT') {
-                    if (!_.isUndefined(response.data('defineCorrect'))) {
+                    if (!typeof response.data('defineCorrect') === 'undefined') {
                         defineCorrectActive = !!response.data('defineCorrect');
                     } else {
                         //infer it :
-                        defineCorrectActive = corrects && _.size(corrects);
+                        defineCorrectActive = corrects && Object.keys(corrects).length;
                         response.data('defineCorrect', defineCorrectActive); //set it
                     }
                 } else if (template === 'MATCH_CORRECT') {
@@ -226,7 +226,7 @@ define([
                 response = interaction.getResponseDeclaration();
             let template = responseHelper.getTemplateNameFromUri(response.template);
             const listOfBaseType = response.attributes.baseType,
-                editMapping = _.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0,
+                editMapping = ['MAP_RESPONSE', 'MAP_RESPONSE_POINT'].includes(template),
                 defineCorrect = answerStateHelper.defineCorrect(response),
                 allQtiElements = qtiElements.getAvailableAuthoringElements();
 
@@ -242,9 +242,9 @@ define([
                 }
             };
 
-            options = _.defaults(options || {}, {
+            options = Object.assign({
                 rpTemplates: []
-            });
+            }, options || {});
 
             if (!template || rp.processingType === 'custom') {
                 template = 'CUSTOM';
@@ -257,7 +257,7 @@ define([
                     defineCorrect: defineCorrect,
                     editMapping: editMapping,
                     editFeedbacks: template !== 'CUSTOM' && features.isVisible(modalFeedbackConfigKey),
-                    mappingDisabled: _.isEmpty(response.mapEntries),
+                    mappingDisabled: Object.keys(response.mapEntries).length === 0,
                     template: template,
                     templates: _getAvailableRpTemplates(
                         interaction,
@@ -279,12 +279,12 @@ define([
             minMaxComponentFactory(widget.$responseForm.find('.response-mapping-attributes > .min-max-panel'), {
                 min: {
                     fieldName: 'lowerBound',
-                    value: _.parseInt(response.getMappingAttribute('lowerBound')) || 0,
+                    value: parseInt(response.getMappingAttribute('lowerBound'), 10) || 0,
                     helpMessage: __('Minimal  score for this interaction.')
                 },
                 max: {
                     fieldName: 'upperBound',
-                    value: _.parseInt(response.getMappingAttribute('upperBound')) || 0,
+                    value: parseInt(response.getMappingAttribute('upperBound'), 10) || 0,
                     helpMessage: __('Maximal score for this interaction.')
                 },
                 upperThreshold: Number.MAX_SAFE_INTEGER,
@@ -321,7 +321,7 @@ define([
 
             formChangeCallbacks.identifier = _.debounce(formChangeCallbacks.identifier, 500);
 
-            _.assign(
+            Object.assign(
                 formChangeCallbacks,
                 formElement.getLowerUpperAttributeCallbacks('lowerBound', 'upperBound', {
                     attrMethodNames: {
@@ -350,7 +350,7 @@ define([
          */
         isCorrectDefined: function isCorrectDefined(widget) {
             const response = widget.element.getResponseDeclaration();
-            return !!_.size(response.getCorrect());
+            return !!Object.keys(response.getCorrect()).length;
         }
     };
 

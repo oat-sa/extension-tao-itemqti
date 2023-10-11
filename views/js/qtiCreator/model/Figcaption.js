@@ -16,14 +16,14 @@
  * Copyright (c) 2022 (original work) Open Assessment Technologies SA
  *
  */
-define(['lodash', 'taoQtiItem/qtiItem/core/Figcaption'], function (_, Figcaption) {
+define(['taoQtiItem/qtiItem/core/Figcaption'], function (Figcaption) {
     'use strict';
     const methods = {};
-    _.extend(methods, {
-        getDefaultAttributes: function () {
+    Object.assign(methods, {
+        getDefaultAttributes() {
             return {};
         },
-        afterCreate: function () {
+        afterCreate() {
             this.getNamespace();
         }
     });

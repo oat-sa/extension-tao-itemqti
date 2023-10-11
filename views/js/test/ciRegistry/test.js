@@ -19,11 +19,10 @@
 define([
 
     'jquery',
-    'lodash',
     'taoQtiItem/portableElementRegistry/factory/ciRegistry',
     'taoQtiItem/test/ciRegistry/data/testProvider',
     'taoQtiItem/qtiCreator/helper/qtiElements'
-], function($, _, ciRegistry, testProvider, qtiElements) {
+], function($, ciRegistry, testProvider, qtiElements) {
     'use strict';
 
     var testReviewApi = [
@@ -58,8 +57,8 @@ define([
         assert.expect(4);
 
         registry.loadCreators().then(function(creators) {
-            assert.ok(_.isPlainObject(creators), 'creators loaded');
-            assert.ok(_.isObject(creators.samplePci), 'sample ci creator loaded');
+            assert.ok(isPlainObject(creators), 'creators loaded');
+            assert.ok(typeof creators.samplePci === "object" && creators.samplePci !== null, 'sample ci creator loaded');
             assert.equal(creators.samplePciDisabled, undefined, 'should have no ');
         }).then(function() {
             assert.ok(qtiElements.isBlock('customInteraction.samplePci'), 'sample ci loaded into model');
@@ -76,7 +75,7 @@ define([
 
         registry.loadCreators().then(function() {
             var authoringData = registry.getAuthoringData('samplePci');
-            assert.ok(_.isPlainObject(authoringData), 'authoring data is an object');
+            assert.ok(isPlainObject(authoringData), 'authoring data is an object');
             assert.equal(authoringData.label, 'Sample Pci', 'label ok');
             assert.equal(authoringData.qtiClass, 'customInteraction.samplePci', 'qti class ok');
             assert.ok(authoringData.icon.indexOf('taoQtiItem/views/js/test/ciRegistry/data/samplePcicreator/img/icon.svg') > 0, 'label ok');
@@ -94,13 +93,13 @@ define([
         registry.loadRuntimes().then(function() {
 
             var pci = registry.get('samplePci');
-            assert.ok(_.isPlainObject(pci), 'runtime data is loaded');
+            assert.ok(isPlainObject(pci), 'runtime data is loaded');
             assert.equal(pci.typeIdentifier, 'samplePci', 'type identifier ok');
             assert.equal(pci.version, '1.0.0', 'type version ok');
 
             //Get a specific version
             pci = registry.get('samplePci', '1.0.0');
-            assert.ok(_.isPlainObject(pci), 'runtime data is loaded');
+            assert.ok(isPlainObject(pci), 'runtime data is loaded');
             assert.equal(pci.typeIdentifier, 'samplePci', 'type identifier ok');
             assert.equal(pci.version, '1.0.0', 'type version ok');
 
@@ -122,14 +121,14 @@ define([
         registry.loadRuntimes().then(function() {
 
             var pci = registry.getRuntime('samplePci');
-            assert.ok(_.isPlainObject(pci), 'runtime data is loaded');
+            assert.ok(isPlainObject(pci), 'runtime data is loaded');
             assert.ok(pci.baseUrl, 'has base url set');
             assert.equal(pci.hook, 'samplePci/runtime/samplePci.amd.js', 'hook correct');
             assert.equal(pci.label, 'Sample Pci', 'label correct');
 
             //Get a specific version
             pci = registry.getRuntime('samplePci', '1.0.0');
-            assert.ok(_.isPlainObject(pci), 'runtime data is loaded');
+            assert.ok(isPlainObject(pci), 'runtime data is loaded');
             assert.ok(pci.baseUrl, 'has base url set');
             assert.equal(pci.hook, 'samplePci/runtime/samplePci.amd.js', 'hook correct');
             assert.equal(pci.label, 'Sample Pci', 'label correct');
@@ -152,13 +151,13 @@ define([
         registry.loadRuntimes().then(function() {
 
             var pci = registry.getRuntime('samplePci');
-            assert.ok(_.isPlainObject(pci), 'runtime data is loaded');
+            assert.ok(isPlainObject(pci), 'runtime data is loaded');
             assert.ok(pci.baseUrl, 'has base url set');
             assert.equal(pci.baseUrl, registry.getBaseUrl('samplePci'), 'has base url set');
 
             //Get a specific version
             pci = registry.getRuntime('samplePci', '1.0.0');
-            assert.ok(_.isPlainObject(pci), 'runtime data is loaded');
+            assert.ok(isPlainObject(pci), 'runtime data is loaded');
             assert.ok(pci.baseUrl, 'has base url set');
             assert.equal(pci.baseUrl, registry.getBaseUrl('samplePci'), 'has base url set');
 
@@ -179,14 +178,14 @@ define([
         registry.loadCreators().then(function() {
 
             var pci = registry.getCreator('samplePci');
-            assert.ok(_.isPlainObject(pci), 'runtime data is loaded');
+            assert.ok(isPlainObject(pci), 'runtime data is loaded');
             assert.ok(pci.baseUrl, 'has base url set');
             assert.equal(pci.hook, 'samplePci/pciCreator.js', 'hook correct');
             assert.equal(pci.label, 'Sample Pci', 'label correct');
 
             //Get a specific version
             pci = registry.getCreator('samplePci', '1.0.0');
-            assert.ok(_.isPlainObject(pci), 'runtime data is loaded');
+            assert.ok(isPlainObject(pci), 'runtime data is loaded');
             assert.ok(pci.baseUrl, 'has base url set');
             assert.equal(pci.hook, 'samplePci/pciCreator.js', 'hook correct');
             assert.equal(pci.label, 'Sample Pci', 'label correct');
@@ -209,10 +208,10 @@ define([
         registry.loadRuntimes().then(function() {
             var all = registry.getAllVersions();
 
-            assert.ok(_.isArray(all.samplePci), 'samplePci returned');
+            assert.ok(Array.isArray(all.samplePci), 'samplePci returned');
             assert.deepEqual(all.samplePci, ['1.0.0'], 'samplePci has one version loaded');
 
-            assert.ok(_.isArray(all.samplePciDisabled), 'samplePciDisabled returned');
+            assert.ok(Array.isArray(all.samplePciDisabled), 'samplePciDisabled returned');
             assert.deepEqual(all.samplePciDisabled, ['1.0.0'], 'samplePciDisabled has one version loaded');
 
             ready();
@@ -241,7 +240,7 @@ define([
             assert.ok(false, 'should not be resolved');
             ready();
         }).catch(function(err) {
-            assert.ok(_.isArray(err.requireModules), 'error module list ok');
+            assert.ok(Array.isArray(err.requireModules), 'error module list ok');
             assert.equal(err.requireModules.length, 1, 'error module list count ok');
             assert.equal(err.requireModules[0], inexistingProvider, 'error module list count ok');
             ready();
@@ -316,7 +315,7 @@ define([
 
             var pci;
 
-            assert.ok(_.isPlainObject(registry.get('samplePciA01')), 'runtime data is loaded');
+            assert.ok(isPlainObject(registry.get('samplePciA01')), 'runtime data is loaded');
 
             pci = registry.get('samplePciA01');
 
@@ -374,7 +373,7 @@ define([
 
             var pci;
 
-            assert.ok(_.isPlainObject(registry.get('samplePciA01')), 'runtime data is loaded');
+            assert.ok(isPlainObject(registry.get('samplePciA01')), 'runtime data is loaded');
 
             pci = registry.get('samplePciA01');
 
@@ -386,11 +385,11 @@ define([
                 .registerProvider('taoQtiItem/test/ciRegistry/data/testProvider')
                 .loadRuntimes().then(function() {
 
-                    assert.ok(_.isPlainObject(registry.get('samplePci')), 'runtime data is loaded');
+                    assert.ok(isPlainObject(registry.get('samplePci')), 'runtime data is loaded');
                     assert.equal(registry.get('samplePci').typeIdentifier, 'samplePci', 'type identifier ok');
                     assert.equal(registry.get('samplePci').version, '1.0.0', 'type version ok');
 
-                    assert.ok(_.isPlainObject(registry.get('samplePciDisabled')), 'runtime data is loaded');
+                    assert.ok(isPlainObject(registry.get('samplePciDisabled')), 'runtime data is loaded');
                     assert.equal(registry.get('samplePciDisabled').typeIdentifier, 'samplePciDisabled', 'type identifier ok');
                     assert.equal(registry.get('samplePciDisabled').version, '1.0.0', 'type version ok');
 
@@ -413,7 +412,7 @@ define([
             var all = registry.getAllVersions();
 
             //We can force loading disabled pci by using the include option
-            assert.ok(_.isArray(all.samplePciDisabled), 'samplePciDisabled loaded');
+            assert.ok(Array.isArray(all.samplePciDisabled), 'samplePciDisabled loaded');
             assert.deepEqual(all.samplePciDisabled, ['1.0.0'], 'samplePciDisabled has one version loaded');
 
             //Not included
@@ -426,11 +425,11 @@ define([
                 all = registry.getAllVersions();
 
                 //We can force loading disabled pci by using the include option
-                assert.ok(_.isArray(all.samplePciDisabled), 'samplePciDisabled loaded');
+                assert.ok(Array.isArray(all.samplePciDisabled), 'samplePciDisabled loaded');
                 assert.deepEqual(all.samplePciDisabled, ['1.0.0'], 'samplePciDisabled has one version loaded');
 
                 //Loaded the other pci
-                assert.ok(_.isArray(all.samplePci), 'samplePci loaded');
+                assert.ok(Array.isArray(all.samplePci), 'samplePci loaded');
                 assert.deepEqual(all.samplePci, ['1.0.0'], 'samplePci has one version loaded');
 
                 ready();
@@ -438,5 +437,12 @@ define([
 
         });
     });
+
+    function isPlainObject(value) {
+        if (typeof value !== 'object' || value === null) return false;
+
+        const proto = Object.getPrototypeOf(value);
+        return proto === null || proto === Object.prototype;
+    }
 });
 

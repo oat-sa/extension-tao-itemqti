@@ -22,9 +22,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'jquery', 'lodash', 
+    'jquery',
     'tpl!taoQtiItem/qtiCreator/tpl/graphicInteraction/sidebar'
-], function($, _, sidebarTmpl){
+], function($, sidebarTmpl){
 
     'use strict';
 
@@ -40,8 +40,8 @@ define([
          * @param {jQueryElement} $container - a graphic interaction container
          * @param {Boolean} [showTarget = false] - if the target data type has to be shown
          * @returns {jQueryElement} the side bar element
-         * @fires shapeSideBar#shapeactive.qti-widget 
-         * @fires shapeSideBar#shapedeactive.qti-widget 
+         * @fires shapeSideBar#shapeactive.qti-widget
+         * @fires shapeSideBar#shapedeactive.qti-widget
          * @fires resize.qti-widget
          */
         create : function create($container, showTarget){
@@ -49,17 +49,17 @@ define([
             var $imageEditor = $container.find('.image-editor');
             var serial = $container.data('serial');
             var $sideBar = $(sidebarTmpl({
-                    showTarget : !!showTarget 
+                    showTarget : !!showTarget
                  }));
             $imageEditor.prepend($sideBar);
             var $forms = $('li[data-type]', $sideBar);
             var $bin = $('li.bin', $sideBar);
 
-           
+
             /**
              * Set a form/shape into an active state
              * @param {jQueryElement} $form - the form/shape button
-             */ 
+             */
             var activate = function activate($form){
                 $forms.filter('.active').each(function(){
                     deactivate($(this));
@@ -67,33 +67,33 @@ define([
                 $form.addClass('active');
 
                 /**
-                 * When a shape is activated 
+                 * When a shape is activated
                  * @event shapeSideBar#shapeactive.qti-widget
                  * @param {jQueryElement} $form - the shape element
                  * @param {String} type - the shape type
                  */
                 $sideBar.trigger('shapeactive.qti-widget', [$form, $form.data('type')]);
-            }; 
-            
+            };
+
             /**
              * Set a form/shape into an inactive state
-             * @param {jQueryElement} $form - the form/shape button 
-             */ 
+             * @param {jQueryElement} $form - the form/shape button
+             */
             var deactivate = function deactivate($form){
                 $form.removeClass('active');
-                
+
                 /**
-                 * A shape is deactivated 
-                 * @event shapeSideBar#shapedeactive.qti-widget 
+                 * A shape is deactivated
+                 * @event shapeSideBar#shapedeactive.qti-widget
                  * @param {jQueryElement} $form - the shape element
                  * @param {String} type - the shape type
                  */
                 $sideBar.trigger('shapedeactive.qti-widget', [$form, $form.data('type')]);
-            }; 
+            };
 
             /**
-             * To enable the bin 
-             * @event shapeSideBar#enabalebin.qti-widget 
+             * To enable the bin
+             * @event shapeSideBar#enabalebin.qti-widget
              */
             $sideBar.on('enablebin.qti-widget', function(){
                $bin.removeClass('disabled')
@@ -102,14 +102,14 @@ define([
                         $sideBar.trigger('bin.qti-widget');
                     });
             });
-            
+
             /**
-             * To disable the bin 
-             * @event shapeSideBar#disabalebin.qti-widget 
+             * To disable the bin
+             * @event shapeSideBar#disabalebin.qti-widget
              */
             $sideBar.on('disablebin.qti-widget', function(){
                $bin.addClass('disabled')
-                   .off('click'); 
+                   .off('click');
             });
 
             $forms.click(function(e){
@@ -120,8 +120,8 @@ define([
                 } else {
                     deactivate($form);
                 }
-            }); 
-             
+            });
+
 
             return $sideBar;
         },

@@ -1,8 +1,8 @@
-define(['lodash', 'taoQtiItem/qtiCreator/model/mixin/editable', 'taoQtiItem/qtiItem/core/choices/SimpleAssociableChoice'], function(_, editable, Choice){
+define(['taoQtiItem/qtiCreator/model/mixin/editable', 'taoQtiItem/qtiItem/core/choices/SimpleAssociableChoice'], function(editable, Choice){
     "use strict";
     var methods = {};
-    _.extend(methods, editable);
-    _.extend(methods, {
+    Object.assign(methods, editable);
+    Object.assign(methods, {
         getDefaultAttributes : function(){
             return {
                 'fixed' : false,

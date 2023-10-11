@@ -21,15 +21,14 @@
  * Portable Info Control Creator Renderer
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/PortableInfoControl',
     'taoQtiItem/portableElementRegistry/icRegistry',
     'taoQtiItem/qtiCreator/helper/commonRenderer'
-], function(_, Renderer, icRegistry, commonRenderer){
+], function(Renderer, icRegistry, commonRenderer){
     'use strict';
 
     //clone the common renderer
-    var CreatorPortableInfoControl = _.clone(Renderer);
+    var CreatorPortableInfoControl = {...Renderer};
 
     /**
      * override the render method

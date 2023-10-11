@@ -24,10 +24,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
     'jquery',
     'taoQtiItem/qtiItem/helper/util'
-], function(_, $, util){
+], function($, util){
     'use strict';
 
     /**
@@ -45,7 +44,7 @@ define([
             getDefaultProperties : function(){
 
                 var creator = registry.getCreator(this.typeIdentifier);
-                if(creator && creator.module && _.isFunction(creator.module.getDefaultProperties)){
+                if (creator && creator.module && typeof creator.module.getDefaultProperties === 'function') {
                     return creator.getDefaultProperties(this);
                 }else{
                     return {};
@@ -71,7 +70,7 @@ define([
                     self.properties = creatorModule.getDefaultProperties();
 
                     //@todo fix this !
-                    if(creator.response && _.size(creator.response)){//for custom interaciton only
+                    if (creator.response && Object.keys(creator.response).length){//for custom interaciton only
                         //create response
                         response = self.createResponse({
                             cardinality : creator.response.cardinality
@@ -98,7 +97,7 @@ define([
                     self.setNamespace(creator.model, creator.xmlns);
 
                     //after create
-                    if(_.isFunction(creatorModule.afterCreate)){
+                    if (typeof creatorModule.afterCreate === "function") {
                         creatorModule.afterCreate(self);
                     }
 
@@ -112,7 +111,7 @@ define([
                     markupTpl = creatorModule.getMarkupTemplate(),
                     markupData = this.getDefaultMarkupTemplateData();
 
-                if(_.isFunction(creatorModule.getMarkupData)){
+                if (typeof creatorModule.getMarkupData === "function"){
                     //extends the default data with the custom one
                     markupData = creatorModule.getMarkupData(this, markupData);
                 }

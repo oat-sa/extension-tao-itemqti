@@ -116,7 +116,7 @@ define([
          * @throws {TypeError} if the field is unknown
          */
         const isFieldSupported = function isFieldSupported(field) {
-            if (!_.contains(fields, field)) {
+            if (!fields.includes(field)) {
                 throw new TypeError(`Unknown field "${field}". Please set "min" or "max"`);
             }
             return true;
@@ -147,7 +147,7 @@ define([
 
                     if (isFieldSupported(field)) {
                         if (this.is('rendered')) {
-                            return _.parseInt(controls[field].input.val());
+                            return parseInt(controls[field].input.val(), 10);
                         }
 
                         return config[field].value;
@@ -179,7 +179,7 @@ define([
                  */
                 setValue: function setValue(field, value) {
                     const config = this.getConfig();
-                    const intValue = _.parseInt(value);
+                    const intValue = parseInt(value, 10);
                     const lowerThreshold = config[field].lowerThreshold
                         ? config[field].lowerThreshold
                         : config.lowerThreshold;
@@ -189,7 +189,7 @@ define([
 
                     if (
                         isFieldSupported(field) &&
-                        _.isNumber(intValue) &&
+                        typeof intValue === 'number' &&
                         intValue >= lowerThreshold &&
                         intValue <= upperThreshold
                     ) {
@@ -231,10 +231,10 @@ define([
                  */
                 updateThresholds: function updateThresholds(lower, upper, field) {
                     const config = this.getConfig();
-                    if (_.isNumber(lower) && _.isNumber(upper) && upper >= lower) {
+                    if (typeof lower === 'number' && typeof upper === 'number' && upper >= lower) {
                         if (!field) {
-                            config.lowerThreshold = _.parseInt(lower);
-                            config.upperThreshold = _.parseInt(upper);
+                            config.lowerThreshold = parseInt(lower, 10);
+                            config.upperThreshold = parseInt(upper, 10);
 
                             if (this.is('rendered')) {
                                 const fieldOptions = {
@@ -252,8 +252,8 @@ define([
                                 }
                             }
                         } else if (field === 'min' || field === 'max') {
-                            config[field].lowerThreshold = _.parseInt(lower);
-                            config[field].upperThreshold = _.parseInt(upper);
+                            config[field].lowerThreshold = parseInt(lower, 10);
+                            config[field].upperThreshold = parseInt(upper, 10);
 
                             if (this.is('rendered')) {
                                 const fieldOptions = {
@@ -513,17 +513,18 @@ define([
                 this.syncValues();
             });
 
-        _.defer(function () {
+        setTimeout(() => {
             //we need to simulate a deep merge
             const deepConfig = _.cloneDeep(setUpConfig || {});
             if (deepConfig.min) {
-                deepConfig.min = _.defaults(setUpConfig.min, defaultConfig.min);
+                deepConfig.min = {...defaultConfig.min, ...setUpConfig.min};
             }
             if (deepConfig.max) {
-                deepConfig.max = _.defaults(setUpConfig.max, defaultConfig.max);
+                deepConfig.max = {...defaultConfig.max, ...setUpConfig.max};
             }
             minMax.init(deepConfig);
-        });
+        }, 0);
+
 
         return minMax;
     };

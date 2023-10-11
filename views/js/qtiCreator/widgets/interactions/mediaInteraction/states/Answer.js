@@ -21,11 +21,10 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Answer'
-], function($, _, __, stateFactory, Answer){
+], function($, __, stateFactory, Answer){
     'use strict';
     return stateFactory.extend(Answer, function initAnswerState(){
         this.widget.renderInteraction();

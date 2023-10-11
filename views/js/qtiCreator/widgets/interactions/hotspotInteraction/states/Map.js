@@ -22,7 +22,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
@@ -38,7 +37,6 @@ define([
     'ui/tooltip'
 ], function (
     $,
-    _,
     __,
     stateFactory,
     Map,
@@ -82,7 +80,7 @@ define([
         initResponseMapping(widget);
 
         //set the current corrects responses on the paper
-        commonRenderer.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));
+        commonRenderer.setResponse(interaction, PciResponse.serialize(Object.values(response.getCorrect()), interaction));
     };
 
     /**
@@ -119,10 +117,10 @@ define([
         const $imageBox = $('.main-image-box', $container);
         const response = interaction.getResponseDeclaration();
         const mapEntries = response.getMapEntries();
-        let corrects = _.values(response.getCorrect());
+        let corrects = Object.values(response.getCorrect());
 
         //get the shape of each choice
-        _.forEach(interaction.getChoices(), function (choice) {
+        interaction.getChoices().forEach(function (choice) {
             const shape = interaction.paper.getById(choice.serial);
             const $popup = grahicScorePopup(interaction.paper, shape, $imageBox, isResponsive);
             let scoreDefault = true;
@@ -146,7 +144,7 @@ define([
                 mappingFormTpl({
                     identifier: choice.id(),
                     correctDefined: answerStateHelper.isCorrectDefined(widget),
-                    correct: _.contains(response.getCorrect(), choice.id()),
+                    correct: corrects.includes(choice.id()),
                     score: score,
                     scoreMin: response.getMappingAttribute('lowerBound'),
                     scoreMax: response.getMappingAttribute('upperBound')
@@ -167,13 +165,13 @@ define([
                 },
                 correct: function (responseParam, value) {
                     if (value === true) {
-                        if (!_.contains(corrects, choice.id())) {
+                        if (!corrects.includes(choice.id())) {
                             corrects.push(choice.id());
                             shape.active = true;
                             graphicHelper.updateElementState(shape, 'active');
                         }
                     } else {
-                        corrects = _.without(corrects, choice.id());
+                        corrects = corrects.filter(item => item !== choice.id());
                         shape.active = false;
                         graphicHelper.updateElementState(shape, 'basic');
                     }
@@ -205,7 +203,7 @@ define([
         //update the elements on attribute changes
         widget.on('mappingAttributeChange', function (data) {
             if (data.key === 'defaultValue') {
-                _.forEach(scoreTexts, function (scoreText) {
+                Object.values(scoreTexts).forEach(scoreText => {
                     if (scoreText.data('default') === true) {
                         scoreText.attr({ text: data.value });
                     }

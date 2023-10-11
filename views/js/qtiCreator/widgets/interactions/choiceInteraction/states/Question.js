@@ -18,7 +18,6 @@
  */
 
 define([
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
@@ -29,7 +28,6 @@ define([
     'services/features',
     'ui/liststyler'
 ], function (
-    _,
     __,
     stateFactory,
     Question,
@@ -45,7 +43,7 @@ define([
         const widget = this.widget;
         const interaction = widget.element;
         const $choiceArea = widget.$container.find('.choice-area');
-        const choiceCount = _.size(interaction.getChoices());
+        const choiceCount = Object.keys(interaction.getChoices()).length;
         const realCount = $choiceArea.find('.qti-choice:visible').length;
         if (choiceCount !== realCount) {
             // widget is closed while undo phase of removing choice
@@ -100,7 +98,7 @@ define([
         const className = interaction.attr('class') || '';
         const listStyle = className.match(/\blist-style-[\w-]+/);
 
-        return !_.isNull(listStyle) ? listStyle.pop().replace(listStylePrefix, '') : null;
+        return (listStyle && listStyle.length > 0) ? listStyle.pop().replace(listStylePrefix, '') : null;
     }
 
     ChoiceInteractionStateQuestion.prototype.initForm = function initForm() {
@@ -119,17 +117,17 @@ define([
 
         // minValue and maxValue - number or underfined
         const minValue = interaction.attr('minChoices')
-            ? _.parseInt(interaction.attr('minChoices'))
+            ? parseInt(interaction.attr('minChoices'), 10)
             : interaction.attr('minChoices');
         const maxValue = interaction.attr('maxChoices')
-            ? _.parseInt(interaction.attr('maxChoices'))
+            ? parseInt(interaction.attr('maxChoices'), 10)
             : interaction.attr('maxChoices');
-        const numberOfChoices = _.size(interaction.getChoices());
+        const numberOfChoices = Object.keys(interaction.getChoices()).length;
 
         const checkOtherEdgeCases = () => {
             if(constraints === 'other' && minMaxComponent) {
-                const min = _.parseInt(interaction.attr('minChoices'));
-                const max = _.parseInt(interaction.attr('maxChoices'));
+                const min = parseInt(interaction.attr('minChoices'), 10);
+                const max = parseInt(interaction.attr('maxChoices'), 10);
                 const firstRender = typeof prevValues.min === 'undefined';
                 // deny case minChoices = 1 and maxChoices = Disabled(0) because it simiar to Multiple choice Constraint: Answer required
                 if ((min === 1 || min === 0) && (firstRender || prevValues.min > 1)) {
@@ -142,14 +140,14 @@ define([
                     minMaxComponent.disableToggler('min');
                     prevValues = {min, max}; // set before updateThresholds to prevent recursive call on update
                     // IF maxChoices = Disabled  THEN minChoices ≥ 2
-                    const choiceCount = _.size(interaction.getChoices());
+                    const choiceCount = Object.keys(interaction.getChoices()).length;
                     minMaxComponent.updateThresholds(DEFAULT_MIN + 1, choiceCount - 1, 'min');
                 } else if (max > 0 && (firstRender || prevValues.max === 0)) {
                     minMaxComponent.enableToggler('min');
                     if (!firstRender) {
                         prevValues = {min, max}; // set before updateThresholds to prevent recursive call on update
                         // reset DEFAULT_MIN
-                        const choiceCount = _.size(interaction.getChoices());
+                        const choiceCount = Object.keys(interaction.getChoices()).length;
                         minMaxComponent.updateThresholds(DEFAULT_MIN, choiceCount - 1, 'min');
                     }
                 }
@@ -320,7 +318,7 @@ define([
         //when the number of choices changes we update the range
         widget.on('choiceCreated choiceDeleted', function (data, e) {
             if (data.interaction.serial === interaction.serial) {
-                const choiceCount = _.size(interaction.getChoices());
+                const choiceCount = Object.keys(interaction.getChoices()).length;
                 if (
                     choiceCount <= 1 ||
                     ($choiceArea.find('.qti-choice:visible').length <= 1 && e.type === 'choiceDeleted')

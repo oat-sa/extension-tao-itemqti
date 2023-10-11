@@ -2,9 +2,8 @@ define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
-    'taoQtiItem/qtiCreator/widgets/interactions/matchInteraction/ResponseWidget',
-    'lodash'
-], function($, stateFactory, Map, responseWidget, _) {
+    'taoQtiItem/qtiCreator/widgets/interactions/matchInteraction/ResponseWidget'
+], function($, stateFactory, Map, responseWidget) {
 
     return stateFactory.create(Map, function() {
 
@@ -17,7 +16,7 @@ define([
         responseWidget.create(interactionContainer, true);
 
         //finally, apply defined correct response and response mapping:
-        responseWidget.setResponse(interaction, _.values(response.getCorrect()));
+        responseWidget.setResponse(interaction, Object.values(response.getCorrect()));
 
        //change the correct state
         interactionContainer.on('metaChange', function(meta) {

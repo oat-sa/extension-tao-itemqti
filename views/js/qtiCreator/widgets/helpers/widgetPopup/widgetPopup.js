@@ -19,7 +19,6 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'lodash',
     'i18n',
     'jquery',
     'ui/component',
@@ -27,7 +26,7 @@ define([
     'ui/component/containable',
     'ui/component/windowed',
     'tpl!taoQtiItem/qtiCreator/widgets/helpers/widgetPopup/popupControl'
-], function (_, __, $, componentFactory, makeAlignable, makeContainable, makeWindowed, popupControlTpl) {
+], function (__, $, componentFactory, makeAlignable, makeContainable, makeWindowed, popupControlTpl) {
     'use strict';
 
     var windowClass = 'widget-popup';
@@ -63,8 +62,9 @@ define([
                 control,
                 $controlsArea = this.$popupControls;
 
-            _.each(this.config.popupControls, function(isActive, controlId) {
-                control = popupControlsPresets[controlId];
+            Object.keys(this.config.popupControls).forEach(function(controlId) {
+                const isActive = this.config.popupControls[controlId];
+                const control = popupControlsPresets[controlId];
 
                 if (isActive && control) {
                     $controlsArea.append($(popupControlTpl(control)));
@@ -79,7 +79,7 @@ define([
                     var controlId = $(e.target).data('control');
                     e.stopPropagation();
 
-                    if (_.isString(controlsEvents[controlId])) {
+                    if (typeof controlsEvents[controlId] === 'string') {
                         self.trigger(controlsEvents[controlId]);
                     }
                 });
@@ -110,8 +110,8 @@ define([
     return function widgetPopupFactory(specs, config) {
         var widgetPopup;
 
-        config = _.defaults(config || {}, defaultConfig);
-        specs = _.defaults(specs || {}, widgetPopupApi);
+        config = Object.assign({}, defaultConfig, config);
+        specs = Object.assign({}, widgetPopupApi, specs);
 
         widgetPopup = componentFactory(specs, config);
 

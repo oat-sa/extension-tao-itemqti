@@ -17,7 +17,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'taoQtiItem/qtiItem/core/Loader',
     'taoQtiItem/qtiCreator/model/Item',
     'taoQtiItem/qtiCreator/model/qtiClasses',
@@ -25,7 +24,7 @@ define([
     'core/dataProvider/request',
     'taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier',
     'taoQtiItem/qtiCreator/helper/languages'
-], function ($, _, Loader, Item, qtiClasses, itemScoreHelper, request, qtiIdentifier, languages) {
+], function ($, Loader, Item, qtiClasses, itemScoreHelper, request, qtiIdentifier, languages) {
     'use strict';
     const _generateIdentifier = function _generateIdentifier(uri) {
         const pos = uri.lastIndexOf('#');
@@ -103,12 +102,10 @@ define([
                                 } = itemData;
                                 const responseIdentifiers = [];
 
-                                _.forOwn(responses, ({ identifier }) => {
-                                    responseIdentifiers.push(identifier);
-                                });
+                                responseIdentifiers.push(...Object.values(responses).map(({ identifier }) => identifier));
 
                                 const itemScoreRP = itemScoreHelper(responseIdentifiers);
-                                if (responseRules.some(responseRule => _.isEqual(responseRule, itemScoreRP))) {
+                                if (responseRules.some(responseRule => JSON.stringify(responseRule) === JSON.stringify(itemScoreRP))) {
                                     loadedItem.responseProcessing.setProcessingType('custom', data);
                                 }
                             }

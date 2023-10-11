@@ -16,7 +16,6 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 define([
-    'lodash',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
@@ -24,12 +23,12 @@ define([
     'taoQtiItem/qtiCreator/model/choices/GapText',
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/model/helper/response'
-], function(_, Element, editable, editableInteraction, Interaction, Choice, event, responseHelper){
+], function(Element, editable, editableInteraction, Interaction, Choice, event, responseHelper){
     "use strict";
     var methods = {};
-    _.extend(methods, editable);
-    _.extend(methods, editableInteraction);
-    _.extend(methods, {
+    Object.assign(methods, editable);
+    Object.assign(methods, editableInteraction);
+    Object.assign(methods, {
         getDefaultAttributes : function(){
             return {
                 shuffle : false
@@ -45,7 +44,7 @@ define([
         },
         getNextPlaceholder : function getNextPlaceholder() {
             var allChoices = this.getChoices(),
-                existingChoicesLabels = _.map(allChoices, function(choice) {
+                existingChoicesLabels = allChoices.map(function(choice) {
                     var choiceBody = choice.getBody() || {};
                     return choiceBody.bdy;
                 }),

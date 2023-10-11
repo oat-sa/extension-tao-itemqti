@@ -1,12 +1,12 @@
-define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/element', 'lodash'], function(tpl, _){
+define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/element'], function(tpl){
     return {
         qtiClass : 'rubricBlock',
         template : tpl,
-        getData : function(rubricBlock, data){
-            var newData = {
-                view : data.attributes.view ? _.values(data.attributes.view).join(' ') : ''
+        getData: function(rubricBlock, data) {
+            const newData = {
+                view: data.attributes.view ? Array.from(data.attributes.view).join(' ') : ''
             };
-            return _.merge(data || {}, newData);
+            return Object.assign({}, data || {}, newData);
         }
     };
 });

@@ -17,14 +17,13 @@
  *
  */
 define([
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/helpers/stringResponse',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/ExtendedTextInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
-], function (_, __, stringResponseHelper, stateFactory, Correct, renderer, instructionMgr) {
+], function (__, stringResponseHelper, stateFactory, Correct, renderer, instructionMgr) {
     'use strict';
 
     function start() {

@@ -17,19 +17,18 @@
  *
  */
 define([
-    'lodash',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responseProcessing',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/item_score',
     'taoQtiItem/qtiXmlRenderer/helper/responseProcessingTpl'
-], function (_, tpl, itemScoreTpl, responseProcessingTpl) {
+], function (tpl, itemScoreTpl, responseProcessingTpl) {
     'use strict';
 
     const renderFeedbackRules = (renderer, response) => {
         const ret = [];
 
-        _.forEach(response.getFeedbackRules(), (rule) => {
+        for (let rule of response.getFeedbackRules()) {
             ret.push(rule.render(renderer));
-        });
+        }
 
         return ret;
     };
@@ -48,25 +47,26 @@ define([
                 defaultData.responseRules = [];
                 const outcomeIdentifiers = [];
 
-                _.forEach(interactions, (interaction) => {
+                for (let interaction of interactions) {
                     const response = interaction.getResponseDeclaration();
                     const outcomeIdentifier = `SCORE_${response.id()}`;
                     const responseRule = responseProcessingTpl.renderInteractionRp(response, outcomeIdentifier);
 
-                    if (_.isString(responseRule) && responseRule.trim()) {
+                    if (typeof responseRule === 'string' && responseRule.trim()) {
                         defaultData.responseRules.push(responseRule);
-
                         outcomeIdentifiers.push(outcomeIdentifier);
                     }
-                });
+                }
 
                 defaultData.feedbackRules = [];
-                _.forEach(interactions, (interaction) => {
-                    defaultData.feedbackRules = _.union(
-                        defaultData.feedbackRules,
-                        renderFeedbackRules(this, interaction.getResponseDeclaration())
-                    );
-                });
+                for (let interaction of interactions) {
+                    const feedbackRules = renderFeedbackRules(this, interaction.getResponseDeclaration());
+                    for (let rule of feedbackRules) {
+                        if (!defaultData.feedbackRules.includes(rule)) {
+                            defaultData.feedbackRules.push(rule);
+                        }
+                    }
+                }
 
                 if (outcomeIdentifiers.length) {
                     defaultData.responseRules.push(itemScoreTpl({
@@ -80,7 +80,7 @@ define([
                 }
             }
 
-            return _.merge(data || {}, defaultData);
+            return Object.assign({}, defaultData, data || {});
         }
     };
 });

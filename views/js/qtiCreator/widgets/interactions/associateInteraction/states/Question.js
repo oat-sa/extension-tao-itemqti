@@ -17,7 +17,6 @@
  *
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
@@ -26,13 +25,12 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
     'services/features'
 ], function (
-    _, 
-    stateFactory, 
-    Question, 
-    formElement, 
-    minMaxComponentFactory, 
-    formTpl, 
-    sizeAdapter, 
+    stateFactory,
+    Question,
+    formElement,
+    minMaxComponentFactory,
+    formTpl,
+    sizeAdapter,
     features
 ) {
     'use strict';
@@ -55,12 +53,12 @@ define([
         minMaxComponentFactory($form.find('.min-max-panel'), {
             min : {
                 fieldName: 'minAssociations',
-                value:     _.parseInt(interaction.attr('minAssociations')) || 0,
+                value:     parseInt(interaction.attr('minAssociations'), 10) || 0,
                 toggler:   false
             },
             max : {
                 fieldName: 'maxAssociations',
-                value:     _.parseInt(interaction.attr('maxAssociations')) || 0,
+                value:     parseInt(interaction.attr('maxAssociations'), 10) || 0,
                 toggler:   false
             },
             lowerThreshold : 0,

@@ -18,7 +18,7 @@ define([
         var type = options.type || 'rect';
 
         var creator = {
-            
+
             states : {
                 drawing : false
             },
@@ -26,7 +26,7 @@ define([
             _events : {},
 
             on : function on(eventName, cb){
-                if(_.isFunction(cb)){
+                if(typeof cb === 'function'){
                     this._events[eventName] = cb;
                 }
             },
@@ -34,14 +34,14 @@ define([
             is : function is(state){
                 return this.states[state] === true;
             },
-            
+
             setState : function setState(state, value){
                 this.states[state] = value;
             },
 
             /**
              * Start the shape creation
-             */ 
+             */
             start : function(){
                 switch(type){
                     case 'path'     : this.startDrawingPath(); break;
@@ -57,18 +57,18 @@ define([
                 background.click(function(e){
                     e.preventDefault();
                     e.stopPropagation();
- 
+
                     //get the current mouse point, even on a responsive paper
                     var point = graphicHelper.getPoint(e, paper, $container, isResponsive);
-                    
+
                     //add the point to the paper
                     graphicHelper.createTarget(paper, {
-                        point : point, 
+                        point : point,
                         create : function created(target){
                             self.setState('drawing', false);
                             background.unclick();
                             if(self._events['created.qti-widget']){
-                               self._events['created.qti-widget'].call(this, target); 
+                               self._events['created.qti-widget'].call(this, target);
                             }
                         },
                         remove : false,
@@ -80,13 +80,13 @@ define([
             startDrawingPath : function startDrawingPath(){
                 var self = this;
                 var builder = pathBuilder(paper);
-                
+
                 self.setState('drawing', true);
-                
+
                 builder.onClose(created);
                 background.click(function(e){
                     e.preventDefault();
-                    e.stopPropagation();             
+                    e.stopPropagation();
                     if(self.is('drawing')){
                         builder.add(
                             graphicHelper.getPoint(e, paper, $container, isResponsive)
@@ -98,17 +98,17 @@ define([
                     self.setState('drawing', false);
                     background.unclick();
                     if(self._events['created.qti-widget']){
-                       self._events['created.qti-widget'].call(this, builder.getPath()); 
+                       self._events['created.qti-widget'].call(this, builder.getPath());
                     }
                 }
             },
-          
-            startWithMouse : function startWithMouse(){            
+
+            startWithMouse : function startWithMouse(){
                 var self = this;
                 var smoothResize = _.throttle(resize, 10);
                 var startPoint;
                 var shape;
-                
+
                 background.mousedown( function startDrawing(event){
                     event.preventDefault();
 
@@ -118,19 +118,19 @@ define([
                         startPoint = graphicHelper.getPoint(event, paper, $container, isResponsive);
 
                         //create a base shape
-                        shape = graphicHelper.createElement(paper, type, [startPoint.x, startPoint.y, 25, 25], { 
+                        shape = graphicHelper.createElement(paper, type, [startPoint.x, startPoint.y, 25, 25], {
                                 style       : 'creator',
-                                hover       : false, 
-                                touchEffect : false, 
+                                hover       : false,
+                                touchEffect : false,
                                 qtiCoords   : false
                             });
-    
+
                         shape.mouseup(created);
                         background.mouseup(created);
-                        
+
                         //resize it now
                         shape.mousemove(smoothResize);
-                        background.mousemove(smoothResize);    
+                        background.mousemove(smoothResize);
                     }
                 });
 
@@ -145,7 +145,7 @@ define([
                         .unmouseup()
                         .unmousemove();
                     if(self._events['created.qti-widget']){
-                       self._events['created.qti-widget'].call(this, shape); 
+                       self._events['created.qti-widget'].call(this, shape);
                     }
                 }
 

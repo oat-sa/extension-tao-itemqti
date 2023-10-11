@@ -3,15 +3,14 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GapMatchInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse', 
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm' 
-], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, PciResponse, scoringFormFactory){
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm'
+], function($, __, stateFactory, Map, commonRenderer, instructionMgr, PciResponse, scoringFormFactory){
 
     /**
      * Initialize the state.
@@ -20,41 +19,41 @@ define([
         var widget = this.widget;
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
-        var corrects  = _.values(response.getCorrect());
-        var currentResponses =  _.size(response.getMapEntries()) === 0 ? corrects : _.keys(response.getMapEntries());
+        var corrects = Object.values(response.getCorrect());
+        var currentResponses = Object.keys(response.getMapEntries()).length === 0 ? corrects : Object.keys(response.getMapEntries());
 
-        
-        //really need to destroy before ? 
-        commonRenderer.resetResponse(interaction); 
+
+        //really need to destroy before ?
+        commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
-        
+
         //add a specific instruction
         instructionMgr.appendInstruction(interaction, __('Please fill the gap with the texts below, then edit the score for each pair.'));
-        
+
         //set the current mapping mode, needed by the common renderer
         interaction.responseMappingMode = true;
- 
+
         //use the common Renderer
         commonRenderer.render.call(interaction.getRenderer(), interaction);
-    
+
         //change the display of the gaps
         displayGaps(widget.$container);
 
         //and initialize the scoring form
-        if(_.size(response.getMapEntries()) === 0){
+        if (Object.keys(response.getMapEntries()).length === 0) {
             updateForm(widget, corrects);
         } else {
             updateForm(widget);
         }
-        
+
         //each response change leads to an update of the scoring form
         widget.$container.on('responseChange.qti-widget', function(e, data){
             var type  = response.attr('cardinality') === 'single' ? 'base' : 'list';
             var pairs, entries;
             if(data && data.response &&  data.response[type]){
-               pairs = _.invoke(data.response[type].directedPair, Array.prototype.join, ' ');
-               entries = _.keys(response.getMapEntries());
-                
+                pairs = data.response[type].directedPair.map(pair => pair.join(' '));
+                entries = Object.keys(response.getMapEntries());
+
                //add new pairs from  the difference between the current entries and the given data
                _(pairs).difference(entries).forEach(interaction.pairScoringForm.addPair, interaction.pairScoringForm);
             }
@@ -69,7 +68,7 @@ define([
     function exitMapState(){
         var widget = this.widget;
         var interaction = widget.element;
-        
+
         widget.$container.off('responseChange.qti-widget');
 
         if(interaction.pairScoringForm){
@@ -77,7 +76,7 @@ define([
         }
 
         //destroy the common renderer
-        commonRenderer.resetResponse(interaction); 
+        commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
 
         instructionMgr.removeInstructions(interaction);
@@ -109,15 +108,16 @@ define([
         var mapEntries = response.getMapEntries();
 
         //keep a map of choices descriptions for the formatLeft callback
-        var formatedChoices = _.transform(interaction.getChoices(), function(acc, choice){
-            acc[choice.id()] = choice.id();
-        }, {});
+        var formatedChoices = {};
+        interaction.getChoices().forEach(choice => {
+            formatedChoices[choice.id()] = choice.id();
+        });
 
         var mappingChange = function mappingChange(){
             //set the current responses, either the mapEntries or the corrects if nothing else
             commonRenderer.setResponse(
-                interaction, 
-                PciResponse.serialize(_.invoke(_.keys(response.getMapEntries()), String.prototype.split, ' '), interaction)
+                interaction,
+                PciResponse.serialize(Object.keys(response.getMapEntries()).map(key => key.split(' ')), interaction)
             );
         };
 
@@ -127,18 +127,18 @@ define([
             rightTitle : __('Gap'),
             type : 'directedPair',
             pairLeft : function(){
-                return _.map(interaction.getChoices(), function(choice){
+                return interaction.getChoices().map(function(choice) {
                     return {
-                        id : choice.id(),
-                        value : choice.id()
+                        id: choice.id(),
+                        value: choice.id()
                     };
                 });
             },
             pairRight : function(){
-                return _.map(interaction.getGaps(), function(gap){
+                return interaction.getGaps().map(function(gap) {
                     return {
-                        id : gap.id(),
-                        value : gap.id()
+                        id: gap.id(),
+                        value: gap.id()
                     };
                 });
             },
@@ -149,12 +149,13 @@ define([
 
         //format the entries to match the needs of the scoring form
         if(entries){
-            options.entries = _.transform(entries, function(result, value){
+            options.entries = entries.reduce((result, value) => {
                 result[value] = mapEntries[value] !== undefined ? mapEntries[value] : response.mappingAttributes.defaultValue;
-            }, {}); 
+                return result;
+            }, {});
         }
 
-        //initialize the scoring form 
+        //initialize the scoring form
         interaction.pairScoringForm = scoringFormFactory(widget, options);
     }
 

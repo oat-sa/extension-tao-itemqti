@@ -1,9 +1,8 @@
 define([
 
     'jquery',
-    'lodash',
     'taoQtiItem/portableLib/OAT/util/tpl'
-], function($, _, tplMgr) {
+], function($, tplMgr) {
     'use strict';
 
     var containerId = 'interaction-container';

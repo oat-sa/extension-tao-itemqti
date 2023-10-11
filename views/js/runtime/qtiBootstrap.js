@@ -17,14 +17,13 @@
  */
 define([
     'jquery',
-    'lodash',
     'module',
     'taoQtiItem/qtiRunner/core/QtiRunner',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'iframeNotifier',
     'core/history',
     'taoQtiItem/runner/provider/manager/userModules'
-], function($, _, module, QtiRunner, Renderer, iframeNotifier, history, userModules){
+], function($, module, QtiRunner, Renderer, iframeNotifier, history, userModules){
     'use strict';
 
     //fix backspace going back into the history
@@ -44,7 +43,7 @@ define([
         window.onItemApiReady = function onItemApiReady(itemApi) {
             var qtiRunner = new QtiRunner();
             var coreItemData = runnerContext.itemData;
-            var variableElementsData = _.merge(runnerContext.variableElements, itemApi.params.contentVariables || {});
+            var variableElementsData = {...runnerContext.variableElements, ...itemApi.params.contentVariables};
 
             var renderer = new Renderer();
 
@@ -65,17 +64,17 @@ define([
                         //we use any user modules bound to this module configuration instead of the ones bound to the new test runner
                         var userModulesOverride;
                         var config = module.config();
-                        if (config && config.userModules && _.isArray(config.userModules) && config.userModules.length > 0) {
+                        if (config && config.userModules && Array.isArray(config.userModules) && config.userModules.length > 0) {
                             userModulesOverride = config.userModules;
                         }
                         userModules.load(userModulesOverride)
                             .then(function() {
 
                                 //exec user scripts
-                                if (_.isArray(runnerContext.userScripts)) {
-                                    require(runnerContext.userScripts, function() {
-                                        _.forEach(arguments, function(dependency) {
-                                            if (_.isFunction(dependency.exec)) {
+                                if (Array.isArray(runnerContext.userScripts)) {
+                                    require(runnerContext.userScripts, function(...args) {
+                                        args.forEach(dependency => {
+                                            if (typeof dependency.exec === "function") {
                                                 dependency.exec.call(null, runnerContext.userVars);
                                             }
                                         });
@@ -85,7 +84,7 @@ define([
                                 iframeNotifier.parent('itemloaded');
 
                                 //IE9/10 loose the iframe focus, so we force getting it back.
-                                _.defer(function(){
+                                setTimeout(() => {
                                     window.focus();
                                 });
                             })
@@ -99,10 +98,10 @@ define([
         };
 
         //if the item is longer to load,
-        _.defer(function(){
-           //tell the parent to connect the item api
-           iframeNotifier.parent('itemready');
-       });
+        setTimeout(() => {
+            //tell the parent to connect the item api
+            iframeNotifier.parent('itemready');
+        });
 
     };
 });

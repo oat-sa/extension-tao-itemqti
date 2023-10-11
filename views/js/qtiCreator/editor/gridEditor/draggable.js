@@ -18,11 +18,10 @@
  */
 define([
     'jquery',
-    'lodash',
     'taoQtiItem/qtiCreator/helper/qtiElements',
     'taoQtiItem/qtiCreator/editor/gridEditor/droppable',
     'taoQtiItem/lib/jqueryui_dragdrop'
-], function($, _, QtiElements, droppable){
+], function($, QtiElements, droppable){
     "use strict";
     var _insertableDefaultsOptions = {
         helper : function(){
@@ -32,7 +31,7 @@ define([
 
     var createInsertable = function createInsertable($el, $to, opts){
 
-        var options = _.defaults(opts, _insertableDefaultsOptions);
+        var options = {..._insertableDefaultsOptions, ...opts};
 
         createDraggable($el, $to, {
             helper : options.helper,
@@ -42,10 +41,11 @@ define([
 
     var createDraggable = function createDraggable($el, $to, opts){
 
-        var options = _.defaults(opts, {
-            distance : 1,
-            helper : 'original'
-        });
+        var options = {
+            distance: 1,
+            helper: 'original',
+            ...opts
+        };
 
         $el.draggable({
             distance : parseInt(options.distance),

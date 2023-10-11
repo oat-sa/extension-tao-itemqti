@@ -20,10 +20,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicGapMatchInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/Widget'
-], function(_, GraphicGapMatchInteraction, GraphicGapMatchInteractionWidget){
+], function(GraphicGapMatchInteraction, GraphicGapMatchInteractionWidget){
     'use strict';
 
     /**
@@ -31,7 +30,7 @@ define([
      * @extends taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicGapMatchInteraction
      * @exports taoQtiItem/qtiCreator/renderers/interactions/GraphicGapMatchInteraction
      */
-    var CreatorGraphicGapMatchInteraction = _.clone(GraphicGapMatchInteraction);
+    var CreatorGraphicGapMatchInteraction = {...GraphicGapMatchInteraction};
 
     /**
      * Render the interaction for authoring.

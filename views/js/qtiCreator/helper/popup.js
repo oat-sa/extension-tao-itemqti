@@ -15,7 +15,7 @@
  *
  * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA ;
  */
-define(['jquery', 'lodash', 'core/dataattrhandler'], function ($, _, dataAttrHandler) {
+define(['jquery', 'core/dataattrhandler'], function ($, dataAttrHandler) {
     'use strict';
 
     const init = function ($popups, options) {
@@ -25,7 +25,7 @@ define(['jquery', 'lodash', 'core/dataattrhandler'], function ($, _, dataAttrHan
             title: null // || string title
         };
 
-        options = _.assign(defaults, options || {});
+        options = Object.assign({}, defaults, options);
 
         // open the popup
         const open = function ($trigger, $popup) {
@@ -39,7 +39,7 @@ define(['jquery', 'lodash', 'core/dataattrhandler'], function ($, _, dataAttrHan
             const baseOffsetTop = $actionBar.offset().top - $actionBar.height();
             let maxHeight = $(window).height() - baseOffsetTop;
 
-            const top = _.isNull(options.top)
+            const top = options.top === null
                 ? $trigger.offset().top - baseOffsetTop - $popup.height() / 2
                 : options.top;
             const $titleArea = $popup.find('.sidebar-popup-title');

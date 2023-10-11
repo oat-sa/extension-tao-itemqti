@@ -1,17 +1,16 @@
 define([
     'jquery',
-    'lodash',
     'ui/hider',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiItem/core/variables/ResponseDeclaration',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/response/SimpleFeedbackRule',
     'taoQtiItem/qtiItem/helper/response'
-], function($, _, hider, Element, ResponseDeclaration, editable, SimpleFeedbackRule, responseHelper){
+], function($, hider, Element, ResponseDeclaration, editable, SimpleFeedbackRule, responseHelper){
     "use strict";
     var methods = {};
-    _.extend(methods, editable);
-    _.extend(methods, {
+    Object.assign(methods, editable);
+    Object.assign(methods, {
         setTemplate : function(template){
             var templateUri = responseHelper.getTemplateUriFromName(template) || null;
             if(this.template !== templateUri){
@@ -29,7 +28,7 @@ define([
             return this;
         },
         setCorrect : function(value){
-            if(_.isString(value)){
+            if(typeof value === 'string'){
                 value = [value];
             }
             this.correctResponse = value;
@@ -37,7 +36,7 @@ define([
             return this;
         },
         getCorrect : function(){
-            return _.clone(this.correctResponse);
+            return { ...this.correctResponse };
         },
         setMappingAttribute : function(name, value){
             this.mappingAttributes[name] = value;
@@ -51,7 +50,7 @@ define([
             return this.mappingAttributes[name];
         },
         toggleMappingForm: function toggleMappingForm() {
-            var mappingDisabled = _.isEmpty(this.mapEntries);
+            var mappingDisabled = !this.mapEntries
             var $panel = this.renderer.getAreaBroker().getPropertyPanelArea();
             $('.response-mapping-attributes input', $panel).each(function () {
                 $(this).attr("disabled", mappingDisabled);
@@ -128,7 +127,7 @@ define([
             return this;
         },
         getMapEntries : function(){
-            return _.clone(this.mapEntries);
+            return { ...this.mapEntries };
         },
         removeMapEntries : function(){
             _(this.mapEntries).keys().forEach(this.removeMapEntry, this);
@@ -169,7 +168,7 @@ define([
             return this.feedbackRules[serial];
         },
         getFeedbackRules : function(){
-            return _.clone(this.feedbackRules);
+            return { ...this.feedbackRules };
         },
         setCondition : function(rule, condition, value){
             rule.setCondition(this, condition, value);

@@ -19,12 +19,11 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/Table'
-], function(_, editable, Table){
+], function(editable, Table){
     "use strict";
     var methods = {};
-    _.extend(methods, editable);
+    Object.assign(methods, editable);
     return Table.extend(methods);
 });

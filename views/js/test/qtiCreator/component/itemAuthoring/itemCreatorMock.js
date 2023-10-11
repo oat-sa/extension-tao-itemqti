@@ -17,11 +17,10 @@
  */
 define([
     'jquery',
-    'lodash',
     'core/eventifier',
     'taoQtiItem/qtiCreator/helper/itemLoader',
     'taoQtiItem/qtiCreator/context/qtiCreatorContext'
-], function ($, _, eventifier, itemLoader, qtiCreatorContextFactory) {
+], function ($, eventifier, itemLoader, qtiCreatorContextFactory) {
     'use strict';
 
     const loadItem = (uri, label, itemDataUrl) => new Promise((resolve, reject) => {
@@ -41,8 +40,8 @@ define([
         const pluginRun = method => {
             const execStack = [];
 
-            _.forEach(plugins, plugin => {
-                if (_.isFunction(plugin[method])) {
+            plugins.forEach(plugin => {
+                if (typeof plugin[method] === "function") {
                     execStack.push(plugin[method]());
                 }
             });
@@ -50,10 +49,10 @@ define([
             return Promise.all(execStack);
         };
 
-        if (!_.isPlainObject(config)) {
+        if (!isPlainObject(config)) {
             throw new TypeError('The item creator configuration is required');
         }
-        if (!config.properties || _.isEmpty(config.properties.uri) || _.isEmpty(config.properties.label) || _.isEmpty(config.properties.baseUrl)) {
+        if (!config.properties || !config.properties.uri || !config.properties.label || !config.properties.baseUrl) {
             throw new TypeError('The creator configuration must contains the required properties triples: uri, label and baseUrl');
         }
         if (!areaBroker) {
@@ -62,7 +61,7 @@ define([
 
         const itemCreator = eventifier({
             init() {
-                _.forEach(pluginFactories, pluginFactory => {
+                pluginFactories.forEach(pluginFactory => {
                     const plugin = pluginFactory(this, areaBroker);
                     plugins[plugin.getName()] = plugin;
                 });
@@ -110,6 +109,13 @@ define([
         });
 
         return itemCreator;
+    }
+
+    function isPlainObject (value) {
+        if (typeof value !== 'object' || value === null) return false;
+
+        const proto = Object.getPrototypeOf(value);
+        return proto === null || proto === Object.prototype;
     }
 
     return itemCreatorFactory;

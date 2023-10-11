@@ -17,16 +17,15 @@
  */
 
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/Img',
     'taoQtiItem/qtiCreator/widgets/static/img/Widget',
     'taoQtiItem/qtiCreator/widgets/static/figure/Widget',
     'taoQtiItem/qtiCreator/model/Figure',
     'taoQtiItem/qtiCreator/helper/findParentElement'
-], function (_, Renderer, Widget, FigureWidget, FigureModel, findParentElement){
+], function (Renderer, Widget, FigureWidget, FigureModel, findParentElement){
     'use strict';
 
-    const CreatorImg = _.clone(Renderer);
+    const CreatorImg = {...Renderer};
 
     CreatorImg.render = function (img, options){
         const $container = Renderer.getContainer(img);

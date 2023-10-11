@@ -17,7 +17,6 @@
  *
  */
 define([
-    'lodash',
     'i18n',
     'jquery',
     'core/promise',
@@ -34,7 +33,6 @@ define([
     'taoQtiItem/qtiItem/helper/xmlNsHandler',
     'taoQtiItem/qtiCreator/editor/jquery.gridEditor'
 ], function (
-    _,
     __,
     $,
     Promise,
@@ -56,10 +54,10 @@ define([
 
     const _detachElements = function (container, elements) {
         const containerElements = {};
-        _.each(elements, function (elementSerial) {
+        for (let elementSerial of elements) {
             containerElements[elementSerial] = container.elements[elementSerial];
             delete container.elements[elementSerial];
-        });
+        }
         return containerElements;
     };
 
@@ -172,7 +170,7 @@ define([
             function (data) {
                 if (data.element.getSerial() === element.getSerial() && data.key === 'invalid') {
                     const invalid = element.data('invalid');
-                    if (_.size(invalid)) {
+                    if (Object.keys(invalid).length) {
                         $saveBtn.addClass('disabled');
                     } else {
                         $saveBtn.removeClass('disabled');
@@ -235,7 +233,7 @@ define([
 
                 containerHelper.createElements(container, contentHelper.getContent($editable), function (newElts) {
                     creatorRenderer.get().load(function () {
-                        _.forEach(newElts, elt => {
+                        newElts.forEach(elt => {
                             let $widgetNewElem, widget;
                             const $colParent = $placeholder.parent();
 
@@ -287,7 +285,7 @@ define([
             subContainers = [];
         let i = 1;
 
-        callback = callback || _.noop;
+        callback = callback || function() {};
 
         //temporarily tag col that need to be transformed into
         $originalContainer.find('.qti-itemBody > .grid-row').each(function () {
@@ -360,18 +358,18 @@ define([
 
         if (subContainers.length) {
             containerHelper.createElements(itemBody, serializedItemBody, newElts => {
-                if (_.size(newElts) !== subContainers.length) {
+                if (newElts.length !== subContainers.length) {
                     throw new Error('number of sub-containers mismatch');
                 } else {
-                    _.each(newElts, container => {
+                    for (const container of newElts) {
                         const containerData = subContainers.shift(); //get data in order
                         const containerElements = _detachElements(itemBody, containerData.elements);
 
                         container.setElements(containerElements, containerData.body);
                         this.initTextWidget(container, containerData.$original);
-                    });
+                    }
 
-                    _.defer(function () {
+                    setTimeout(() => {
                         callback.call(this);
                     });
                 }

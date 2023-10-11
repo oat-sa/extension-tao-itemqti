@@ -18,13 +18,12 @@
  */
 define([
     'jquery',
-    'lodash',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/ResponseWidget',
     'taoQtiItem/qtiCreator/widgets/helpers/placeholder',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/associableChoice.answer'
-], function($, _, stateFactory, Map, responseWidget, placeholder, responseToolbarTpl){
+], function($, stateFactory, Map, responseWidget, placeholder, responseToolbarTpl){
 
     'use strict';
 
@@ -41,7 +40,7 @@ define([
         this.bindResponseChangeListener();
 
         //finally, apply defined correct response and response mapping:
-        responseWidget.setResponse(interaction, _.keys(responseWidget.getResponseSummary(response)));
+        responseWidget.setResponse(interaction, Object.keys(responseWidget.getResponseSummary(response)));
         placeholder.score(_widget);
     }, function(){
 

@@ -17,13 +17,12 @@
  */
 
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GapMatchInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/gapMatchInteraction/Widget'
-], function(_, GapMatchInteraction, GapMatchInteractionWidget){
+], function(GapMatchInteraction, GapMatchInteractionWidget){
     'use strict';
 
-    var CreatorGapMatchInteraction = _.clone(GapMatchInteraction);
+    var CreatorGapMatchInteraction = {...GapMatchInteraction};
 
     CreatorGapMatchInteraction.render = function(interaction, options){
 

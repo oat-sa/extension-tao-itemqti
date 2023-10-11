@@ -22,7 +22,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
@@ -32,7 +31,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/selectPoint',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage',
     'ui/mediasizer'
-], function($, _, __, stateFactory, Question, imageSelector, formElement, minMaxComponentFactory, formTpl, bgImage){
+], function($, __, stateFactory, Question, imageSelector, formElement, minMaxComponentFactory, formTpl, bgImage){
     'use strict';
 
     /**
@@ -80,11 +79,11 @@ define([
         //min and max choices conrols, but without upper bound threshold (spec allows it)
         minMaxComponentFactory($form.find('.min-max-panel'), {
             min : {
-                value : _.parseInt(interaction.attr('minChoices')) || 0,
+                value : parseInt(interaction.attr('minChoices'), 10) || 0,
                 helpMessage : __('The minimum number of choices that the candidate is required to select to form a valid response.')
             },
             max : {
-                value : _.parseInt(interaction.attr('maxChoices')) || 0 ,
+                value : parseInt(interaction.attr('maxChoices'), 10) || 0 ,
                 helpMessage : __('The maximum number of choices that the candidate is allowed to select.')
             },
             upperThreshold : Infinity

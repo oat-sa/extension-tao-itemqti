@@ -17,8 +17,7 @@
  */
 define([
     'jquery',
-    'lodash'
-], function($, _) {
+], function($) {
     'use strict';
 
     var helper = {
@@ -54,7 +53,7 @@ define([
         createToolbar : function(widget, toolbarTpl){
             var $tlb;
 
-            if(_.isFunction(toolbarTpl)){
+            if(typeof toolbarTpl === 'function'){
 
                 $tlb = $(toolbarTpl({
                     serial : widget.serial,

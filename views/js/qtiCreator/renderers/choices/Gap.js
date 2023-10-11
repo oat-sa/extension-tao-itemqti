@@ -17,13 +17,12 @@
  */
 
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/choices/Gap',
     'taoQtiItem/qtiCreator/widgets/choices/gap/Widget'
-], function(_, Gap, GapWidget){
+], function(Gap, GapWidget){
     'use strict';
 
-    var CreatorGap = _.clone(Gap);
+    var CreatorGap = {...Gap};
 
     CreatorGap.render = function(choice, options){
 

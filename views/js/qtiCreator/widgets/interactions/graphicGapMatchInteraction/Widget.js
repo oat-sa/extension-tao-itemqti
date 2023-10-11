@@ -22,14 +22,13 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'ui/hider',
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicInteraction/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/states/states',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic'
-], function ($, _, __, hider, Widget, GraphicWidget, states, GraphicHelper) {
+], function ($, __, hider, Widget, GraphicWidget, states, GraphicHelper) {
     'use strict';
 
     /**
@@ -40,7 +39,7 @@ define([
      *
      * @exports taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/Widget
      */
-    const GraphicGapMatchInteractionWidget = _.extend(Widget.clone(), GraphicWidget, {
+    const GraphicGapMatchInteractionWidget = Object.assign(Widget.clone(), GraphicWidget, {
         /**
          * Initialize the widget
          * @see {taoQtiItem/qtiCreator/widgets/interactions/Widget#initCreator}
@@ -102,7 +101,7 @@ define([
             if (this.element.paper) {
                 const interaction = this.element;
                 const choices = interaction.getChoices();
-                _.forEach(choices, choice => {
+                choices.forEach(choice => {
                     choice.attr(
                         'coords',
                         GraphicHelper.qtiCoords(
@@ -124,7 +123,7 @@ define([
             const $gapList = $('ul.source', $container);
 
             $gapList.empty();
-            _.forEach(interaction.gapImgs, function (gapImg) {
+            interaction.gapImgs.forEach(gapImg => {
                 $gapList.append(gapImg.render());
             });
         },
@@ -164,7 +163,7 @@ define([
             return _(choiceCollection)
                 .map(function (choice) {
                     let matchMax = parseInt(choice.attr('matchMax'), 10);
-                    if (_.isNaN(matchMax)) {
+                    if (isNaN(matchMax)) {
                         matchMax = 0;
                     }
                     return {
@@ -189,7 +188,7 @@ define([
             const matchSet1 = this.getMatchMaxOrderedChoices(interaction.getGapImgs());
             const matchSet2 = this.getMatchMaxOrderedChoices(interaction.getChoices());
 
-            _.forEach(matchSet1, choice1 => _.forEach(matchSet2, choice2 => pairs.push([choice1.id, choice2.id])));
+            matchSet1.forEach(choice1 => matchSet2.forEach(choice2 => pairs.push([choice1.id, choice2.id])));
 
             return pairs;
         },
@@ -199,12 +198,13 @@ define([
             const mapDefault = parseFloat(response.mappingAttributes.defaultValue) || 0;
 
             // check possible pairs
-            const allPossibleMapEntries = _.clone(mapEntries);
+            const allPossibleMapEntries = { ...mapEntries };
             if (mapDefault && mapDefault > 0) {
                 const possiblePairs = this.calculatePossiblePairs(interaction);
-                _.forEachRight(possiblePairs, pair => {
-                    if (!this.pairExists(allPossibleMapEntries, pair)) {
-                        allPossibleMapEntries[`${pair[0]} ${pair[1]}`] = mapDefault;
+                possiblePairs.slice().reverse().forEach(pair => {
+                    const pairKey = `${pair[0]} ${pair[1]}`;
+                    if (!allPossibleMapEntries.hasOwnProperty(pairKey)) {
+                        allPossibleMapEntries[pairKey] = mapDefault;
                     }
                 });
             }

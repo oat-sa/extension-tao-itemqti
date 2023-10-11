@@ -3,17 +3,16 @@
  */
 define([
     'jquery',
-    'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
     'taoQtiItem/qtiItem/core/interactions/HotspotInteraction',
     'taoQtiItem/qtiCreator/model/choices/HotspotChoice'
-], function($, _, editable, editableInteraction, Interaction, Choice){
+], function($, editable, editableInteraction, Interaction, Choice){
     "use strict";
     var methods = {};
-    _.extend(methods, editable);
-    _.extend(methods, editableInteraction);
-    _.extend(methods, {
+    Object.assign(methods, editable);
+    Object.assign(methods, editableInteraction);
+    Object.assign(methods, {
 
         /**
          * Set the default values for the model

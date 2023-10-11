@@ -20,12 +20,11 @@
  */
 define([
     'IMSGlobal/jquery_2_1_1',
-    'OAT/lodash',
 
     // fixme: we should package a lightweight media player as a proper PCI shared lib with no dependencies
     'core/promise',
     'ui/mediaplayer'
-], function($, _, Promise, mediaplayer) {
+], function($, Promise, mediaplayer) {
     'use strict';
 
     //some default values
@@ -56,17 +55,24 @@ define([
      * @param {Object} mediaElement - player instance
      * @param {jQuery} $container   - container element to adapt
      */
-    var resize = _.debounce(function resize(mediaElement, $container, maxWidth) {
-        var newWidth, newHeight;
-        if (mediaElement){
+    var resize = (function() {
+        var timer;
 
-            newHeight = $container.height();
-            newWidth  = $container.width();
-            newWidth  = (maxWidth && newWidth > maxWidth) ? maxWidth : newWidth;
+        return function(mediaElement, $container, maxWidth) {
+            clearTimeout(timer);
 
-            mediaElement.resize(newWidth, newHeight);
-        }
-    }, 200);
+            timer = setTimeout(function() {
+                var newWidth, newHeight;
+                if (mediaElement) {
+                    newHeight = $container.height();
+                    newWidth  = $container.width();
+                    newWidth  = (maxWidth && newWidth > maxWidth) ? maxWidth : newWidth;
+
+                    mediaElement.resize(newWidth, newHeight);
+                }
+            }, 200);
+        };
+    })();
 
     /**
      * The Mediaplayer factory

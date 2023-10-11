@@ -18,12 +18,11 @@
  */
 define([
     'ui/validator/validators',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/helper/invalidator',
     'taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier'
-], function (validators, _, __, Element, invalidator, qtiIdentifier) {
+], function (validators, __, Element, invalidator, qtiIdentifier) {
     'use strict';
 
     const _qtiIdPattern = qtiIdentifier.pattern;
@@ -125,7 +124,7 @@ define([
         }
     ];
 
-    _.each(qtiValidators, function (rule) {
+    qtiValidators.forEach(function(rule) {
         validators.register(rule.name, rule);
     });
 

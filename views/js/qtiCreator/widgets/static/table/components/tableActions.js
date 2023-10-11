@@ -19,12 +19,11 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'lodash',
     'jquery',
     'ui/component',
     'ui/component/alignable',
     'tpl!taoQtiItem/qtiCreator/widgets/static/table/components/tableActions'
-], function(_, $, componentFactory, makeAlignable, tpl) {
+], function($, componentFactory, makeAlignable, tpl) {
     'use strict';
 
     var defaultConfig = {
@@ -67,7 +66,7 @@ define([
     return function tableActionsFactory(config) {
         var tableActionsComponent;
 
-        config = _.defaults(config || {}, defaultConfig);
+        config = Object.assign({}, defaultConfig, config || {});
 
         tableActionsComponent = componentFactory(tableActionsApi, config)
             .setTemplate(tpl)

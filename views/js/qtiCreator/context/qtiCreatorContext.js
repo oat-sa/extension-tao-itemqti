@@ -23,11 +23,10 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'lodash',
     'core/eventifier',
     'core/promise',
     'taoQtiItem/qtiCreator/context/loader'
-], function(_, eventifier, Promise, pluginLoader) {
+], function(eventifier, Promise, pluginLoader) {
     'use strict';
 
     /**
@@ -46,11 +45,11 @@ define([
         const pluginRun = method => {
             const execStack = [];
 
-            _.forEach(plugins, plugin => {
-                if(_.isFunction(plugin[method])){
+            for (let plugin of plugins) {
+                if (typeof plugin[method] === 'function') {
                     execStack.push(plugin[method]());
                 }
-            });
+            }
 
             return Promise.all(execStack);
         };
@@ -70,10 +69,10 @@ define([
                         const pluginFactories = pluginLoader.getPlugins();
 
                         // instantiate the plugins first
-                        _.forEach(pluginFactories, pluginFactory => {
+                        for (let pluginFactory of pluginFactories) {
                             const plugin = pluginFactory(this);
                             plugins[plugin.getName()] = plugin;
-                        });
+                        }
 
                         // then initialise them
                         return pluginRun('init')

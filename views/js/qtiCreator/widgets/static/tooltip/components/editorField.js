@@ -54,9 +54,9 @@ define([
             buildEditor: function buildEditor() {
                 var self = this,
                     $component = self.getElement(),
-                    changeCallback = _.noop;
+                    changeCallback = function () {};
 
-                if (_.isFunction(self.config.change)) {
+                if (typeof self.config.change === 'function') {
                     changeCallback = _.throttle(function(data) {
                         self.config.change.call(self, data);
                     }, 500);
@@ -110,7 +110,7 @@ define([
             }
         };
 
-        config = _.defaults(config || {}, defaultConfig);
+        config = Object.assign({}, defaultConfig, config || {});
 
         EditorFieldComponent = componentFactory(EditorFieldApi, config)
             .setTemplate(tpl)

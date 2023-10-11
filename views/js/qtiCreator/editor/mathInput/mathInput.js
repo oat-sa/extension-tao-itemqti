@@ -21,7 +21,6 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'lodash',
     'i18n',
     'jquery',
     'ui/component',
@@ -29,7 +28,6 @@ define([
     'tpl!taoQtiItem/qtiCreator/editor/mathInput/tpl/mathInput',
     'css!taoQtiItem/lib/mathquill/mathquill'
 ], function(
-    _,
     __,
     $,
     componentFactory,
@@ -90,10 +88,10 @@ define([
         $container.empty();
 
         // create buttons
-        _.forOwn(allToolGroups, function(toolGroup) {
-            $container.append(createToolGroup(toolGroup.tools, toolGroup.id));
+        Object.keys(allToolGroups).forEach(function(key) {
+            var toolGroup = allToolGroups[key];
+            $container.appendChild(createToolGroup(toolGroup.tools, toolGroup.id));
         });
-
         // add behaviour
         // using mousedown instead of click so we can apply the button command without loosing the current selection
         $container

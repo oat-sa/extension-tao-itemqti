@@ -19,14 +19,13 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/Table',
     'taoQtiItem/qtiCreator/widgets/static/table/Widget',
     'tpl!taoQtiItem/qtiCreator/tpl/table'
-], function(_, Renderer, Widget, tpl){
+], function(Renderer, Widget, tpl){
     'use strict';
 
-    var CreatorTable = _.clone(Renderer);
+    var CreatorTable = {...Renderer};
 
     CreatorTable.template = tpl;
 

@@ -82,7 +82,7 @@ define(['lodash'], function(_) {
             if (!registeredPCI) {
                 throw new Error('no portable custom interaction hook found with the id ' + pciTypeIdentifier);
             }
-
+            // TODO: im not sure we can use in this case JSON.parse(JSON.stringify(registeredPCI))
             return _.cloneDeep(registeredPCI);
         }
     };

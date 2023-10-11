@@ -16,10 +16,9 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
     'taoQtiItem/qtiCommonRenderer/helpers/container'
-], function(_, Renderer, containerHelper){
+], function(Renderer, containerHelper){
     "use strict";
 
     //store the current execution context of the common renderer (preview)
@@ -75,8 +74,8 @@ define([
         load : function(qtiClasses, done){
             var renderer = _renderer || this.get();
             return renderer.load(function(){
-                if(_.isFunction(done)){
-                    done.apply(this, arguments);
+                if (typeof done === "function") {
+                    done.apply(this, [...arguments]);
                 }
             }, qtiClasses);
         }

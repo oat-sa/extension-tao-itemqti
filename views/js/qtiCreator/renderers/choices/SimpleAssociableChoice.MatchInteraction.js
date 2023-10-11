@@ -17,14 +17,13 @@
  */
 
 define([
-    'lodash',
     'services/features',
     'taoQtiItem/qtiCommonRenderer/renderers/choices/SimpleAssociableChoice.MatchInteraction',
     'taoQtiItem/qtiCreator/widgets/choices/simpleAssociableChoice/Widget'
-], function(_, features, SimpleAssociableChoice, SimpleAssociableChoiceWidget){
+], function(features, SimpleAssociableChoice, SimpleAssociableChoiceWidget){
     'use strict';
 
-    var CreatorSimpleAssociableChoice = _.clone(SimpleAssociableChoice);
+    var CreatorSimpleAssociableChoice = {...SimpleAssociableChoice};
 
     CreatorSimpleAssociableChoice.render = function(choice, options){
 

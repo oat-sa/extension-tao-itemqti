@@ -16,13 +16,13 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  *
  */
-define(['taoQtiItem/portableLib/jquery_2_1_1', 'taoQtiItem/portableLib/lodash'], function($, _){
-    
+define(['taoQtiItem/portableLib/jquery_2_1_1'], function($){
+
     'use strict';
-    
+
     /**
      * Get all assets found in the $container and returns an object containing [assetId => assetUrl]
-     * 
+     *
      * @param {jQuery} $container
      * @returns {object}
      */
@@ -30,28 +30,28 @@ define(['taoQtiItem/portableLib/jquery_2_1_1', 'taoQtiItem/portableLib/lodash'],
         var assets = {};
         var $assets = $($container.find('[type="text/x-asset-manifest"]').html());
         $assets.each(function(){
-            
+
             var $asset = $(this),
                 id = $asset.data('asset-id'),
                 src = $asset.attr('src');
-                
+
             if(id && src){
                 assets[id] = src;
             }
         });
         return assets;
     }
-    
+
     /**
      * Create an asset manager object from a JQuery container
-     * 
+     *
      * @param {jQuery} $container
      * @returns {object}
      */
     return function asset($container){
-        
+
         var assets = getAllAssets($container);
-        
+
         return {
             exists : function exists(id){
                 return (id && assets[id]);
@@ -59,8 +59,11 @@ define(['taoQtiItem/portableLib/jquery_2_1_1', 'taoQtiItem/portableLib/lodash'],
             get : function get(id){
                 return assets[id] || '';
             },
-            getAll : function(){
-                return _.clone(assets);
+            getAll: function() {
+                if (Array.isArray(assets)) {
+                    return [...assets];
+                }
+                return Object.assign({}, assets);
             }
         };
     };

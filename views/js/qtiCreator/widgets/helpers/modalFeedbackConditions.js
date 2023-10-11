@@ -17,12 +17,11 @@
  *
  */
 define([
-    'lodash',
     'i18n',
     'jquery',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/formElement',
     'taoQtiItem/qtiCreator/editor/response/choiceSelector'
-], function(_, __, $, formElement, choiceSelector){
+], function(__, $, formElement, choiceSelector){
 
     'use strict';
 
@@ -72,7 +71,7 @@ define([
                 var choice;
                 var intialValue = [];
                 if(!response.isCardinality(['multiple', 'ordered'])){
-                    choice = _.head(_.values(interaction.getChoices()));
+                    choice = Object.values(interaction.getChoices())[0];
                     if(choice){
                         intialValue = [choice];//a single cardinality response comparison requires a choice selected
                     }
@@ -175,11 +174,11 @@ define([
 
     function getAvailableConditions(response){
 
-        return _.filter(_availableConditions, function(condition){
-            if(_.isFunction(condition.filter)){
+        return _availableConditions.filter(function(condition){
+            if (typeof condition.filter === 'function') {
                 return condition.filter(response);
             }
-            return true;//accept by default
+            return true; // accept by default
         });
     }
 

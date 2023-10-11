@@ -45,6 +45,7 @@ define([
         init : function init(){
             var qtiCreatorContext = this.getHost();
 
+            //TODO: not sure, create custom function?
             $window.on('resize' + ns, _.throttle(function() {
                 qtiCreatorContext.trigger('resize');
             }, throttleDelayMs));

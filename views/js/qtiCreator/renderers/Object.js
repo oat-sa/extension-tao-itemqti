@@ -17,13 +17,12 @@
  */
 
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/Object',
     'taoQtiItem/qtiCreator/widgets/static/object/Widget'
-], function(_, Renderer, Widget){
+], function(Renderer, Widget){
     'use strict';
 
-    var CreatorObject = _.clone(Renderer);
+    var CreatorObject = {...Renderer};
 
     CreatorObject.render = function(object, options){
 

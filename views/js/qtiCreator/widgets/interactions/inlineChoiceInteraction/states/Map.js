@@ -4,9 +4,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCreator/widgets/interactions/inlineChoiceInteraction/ResponseWidget',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiItem/helper/interactionHelper',
-    'lodash',
-], function($, stateFactory, Map, responseWidget, formElement, interactionHelper, _){
+    'taoQtiItem/qtiItem/helper/interactionHelper'
+], function($, stateFactory, Map, responseWidget, formElement, interactionHelper){
 
     var AssociateInteractionStateCorrect = stateFactory.create(Map, function(){
 
@@ -18,7 +17,7 @@ define([
         $container.find('[data-edit=map]').show();
 
         //init correct response radio group:
-        var correct = _.values(response.getCorrect());
+        var correct = Object.values(response.getCorrect());
         if(correct.length){
             var selectedChoice = interaction.getChoiceByIdentifier(correct.pop());
             if(selectedChoice){
@@ -26,12 +25,13 @@ define([
             }
         }
 
-        _.forEach(response.getMapEntries(), function(score, choice){
+        for (var choice in response.mapEntries) {
+            var score = response.mapEntries[choice];
             var element = interaction.getChoiceByIdentifier(choice);
             if(element){
                 $container.find('input[name=score][data-for="' + element.serial + '"]').val(score);
             }
-        });
+        }
 
         formElement.setChangeCallbacks($container, response, {
             correct : function(response, value){
@@ -49,7 +49,7 @@ define([
         responseWidget.create(_widget, true, function(){
 
             //set response
-            responseWidget.setResponse(_widget, _.values(response.getCorrect()));
+            responseWidget.setResponse(_widget, Object.values(response.getCorrect()));
 
             //save correct response on change
             _widget.$container.on('responseChange.qti-widget', function(e, data){

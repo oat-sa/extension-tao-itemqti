@@ -25,18 +25,18 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/outcomeDeclaration'], funct
             var defaultData,
                 defaultValue = [];
 
-            if (!_.isUndefined(outcomeDeclaration.defaultValue)) {
+            if (outcomeDeclaration.defaultValue !== undefined) {
                 if (typeof outcomeDeclaration.defaultValue === 'object') {
-                    defaultValue = _.values(outcomeDeclaration.defaultValue);
+                    defaultValue = Object.values(outcomeDeclaration.defaultValue);
                 } else {
                     defaultValue = [outcomeDeclaration.defaultValue];
                 }
             }
             defaultData = {
-                empty: !_.size(defaultValue),
+                empty: Object.keys(defaultValue).length === 0,
                 defaultValue: defaultValue
             };
-            const resultData = _.merge(data || {}, defaultData);
+            const resultData = Object.assign({}, data || {}, defaultData);
             // escape links for the XML
             if (resultData.attributes.interpretation) {
                 resultData.attributes.interpretation = _.escape(resultData.attributes.interpretation);

@@ -23,9 +23,8 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/matchInteraction.score',
-    'lodash',
     'i18n'
-], function($, commonRenderer, instructionMgr, formElement, scoreTpl, _, __){
+], function($, commonRenderer, instructionMgr, formElement, scoreTpl, __){
     'use strict';
 
     var ResponseWidget = {
@@ -131,12 +130,12 @@ define([
         formatResponse : function(response){
 
             var formatedRes = {list : {directedPair : []}};
-            if(_.size(response) === 1){
-                var pair = _.values(response).pop().split(' ');
+            if(Object.keys(response).length === 1){
+                var pair = Object.values(response).pop().split(' ');
                 formatedRes = {base : {directedPair : pair}};
             }else{
                 formatedRes = {list : {directedPair : []}};
-                _.each(response, function(pairString){
+                Object.keys(response).forEach(function (pairString) {
                     var pair = pairString.split(' ');
                     formatedRes.list.directedPair.push(pair);
                 });
@@ -148,7 +147,7 @@ define([
             var res = [];
 
             if(formatedResponse.list && formatedResponse.list.directedPair){
-                _.each(formatedResponse.list.directedPair, function(pair){
+                formatedResponse.list.directedPair.forEach(function (pair) {
                     res.push(pair.join(' '));
                 });
             }else if(formatedResponse.base && formatedResponse.base.directedPair){

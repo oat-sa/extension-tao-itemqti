@@ -3,13 +3,12 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicInteraction/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicOrderInteraction/states/states',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic'
-], function ($, _, __, Widget, GraphicWidget, states, GraphicHelper) {
+], function ($, __, Widget, GraphicWidget, states, GraphicHelper) {
     /**
      * The Widget that provides components used by the QTI Creator for the GraphicOrder Interaction
      *
@@ -18,7 +17,7 @@ define([
      *
      * @exports taoQtiItem/qtiCreator/widgets/interactions/graphicOrderInteraction/Widget
      */
-    var GraphicOrderInteractionWidget = _.extend(Widget.clone(), GraphicWidget, {
+    var GraphicOrderInteractionWidget = Object.assign({}, Widget.clone(), GraphicWidget, {
         /**
          * Initialize the widget
          * @see {taoQtiItem/qtiCreator/widgets/interactions/Widget#initCreator}
@@ -36,7 +35,7 @@ define([
             //call parent initCreator
             Widget.initCreator.call(this);
 
-            paper = this.createPaper(_.bind(this.scaleOrderList, this));
+            paper = this.createPaper(this.scaleOrderList.bind(this));
             if (paper) {
                 this.element.paper = paper;
                 this.createChoices();
@@ -70,7 +69,7 @@ define([
             if (this.element.paper) {
                 const interaction = this.element;
                 const choices = interaction.getChoices();
-                _.forEach(choices, choice => {
+                choices.forEach(choice => {
                     choice.attr(
                         'coords',
                         GraphicHelper.qtiCoords(
@@ -88,7 +87,7 @@ define([
          */
         renderOrderList: function renderOrderList() {
             var interaction = this.element;
-            var size = _.size(interaction.getChoices());
+            var size = interaction.getChoices().length;
             var min = interaction.attr('minChoices');
             var max = interaction.attr('maxChoices');
             var $orderList = $('ul.block-listing', this.$original);
@@ -103,14 +102,14 @@ define([
             $orderList.empty();
 
             //add them to the list
-            _.times(size, function (index) {
+            for (let index = 0; index < size; index++) {
                 var position = index + 1;
                 var $orderer = $(`<li class="selectable" data-number="${position}">${position}</li>`);
                 if (index === 0) {
                     $orderer.addClass('active');
                 }
                 $orderList.append($orderer);
-            });
+            }
         }
     });
 

@@ -2,7 +2,7 @@ define(['jquery', 'lodash'], function($, _){
 
     var _isValidStateDefinition = function(state){
 
-        if(!_.isFunction(state)){
+        if(typeof state !== 'function'){
             return false;
         }
 
@@ -10,7 +10,7 @@ define(['jquery', 'lodash'], function($, _){
             return false;
         }
 
-        if(!_.isFunction(state.prototype.init) || !_.isFunction(state.prototype.exit)){
+        if(typeof state.prototype.init !== 'function' || typeof state.prototype.exit !== 'function'){
             return false;
         }
 
@@ -88,42 +88,42 @@ define(['jquery', 'lodash'], function($, _){
          * (function) State, (function) init, (function) exit
          * @returns {State}
          */
-        create : function(){
+        create: function() {
 
             var State, name, superStates, init, exit;
 
-            if(_.isString(arguments[0])){
+            if (typeof arguments[0] === 'string') {
                 name = arguments[0];
-                if(_.isArray(arguments[1])){
+                if (Array.isArray(arguments[1])) {
                     superStates = arguments[1];
-                    if(_.isFunction(arguments[2]) && _.isFunction(arguments[3])){
+                    if (typeof arguments[2] === 'function' && typeof arguments[3] === 'function') {
                         init = arguments[2];
                         exit = arguments[3];
                         State = _create(name, superStates, init, exit);
-                    }else{
+                    } else {
                         throw new Error('the third and fourth arguments are expected to be functions: init() & exit()');
                     }
-                }else{
+                } else {
                     superStates = [];
-                    if(_.isFunction(arguments[1]) && _.isFunction(arguments[2])){
+                    if (typeof arguments[1] === 'function' && typeof arguments[2] === 'function') {
                         init = arguments[1];
                         exit = arguments[2];
                         State = _create(name, superStates, init, exit);
-                    }else{
+                    } else {
                         throw new Error('the second and third arguments are expected to be functions: init() & exit()');
                     }
                 }
-            }else if(_isValidStateDefinition(arguments[0])){
+            } else if (_isValidStateDefinition(arguments[0])) {
                 name = arguments[0].prototype.name;
                 superStates = arguments[0].prototype.superState;
-                if(_.isFunction(arguments[1]) && _.isFunction(arguments[2])){
+                if (typeof arguments[1] === 'function' && typeof arguments[2] === 'function') {
                     init = arguments[1];
                     exit = arguments[2];
                     State = _create(name, superStates, init, exit);
-                }else{
+                } else {
                     throw new Error('the second and third arguments are expected to be functions: init() & exit()');
                 }
-            }else{
+            } else {
                 throw new Error('invalid first argument : expected the state name (string) or a State (function)');
             }
 
@@ -135,13 +135,13 @@ define(['jquery', 'lodash'], function($, _){
 
             if(_isValidStateDefinition(State)){
 
-                if(_.isFunction(init)){
+                if(typeof init === 'function'){
                     initFn = function(){
                         State.init.call(this);
                         init.call(this);
                     };
                 }
-                if(_.isFunction(exit)){
+                if(typeof exit === 'function'){
                     exitFn = function(){
                         exit.call(this);
                         State.exit.call(this);
@@ -149,15 +149,18 @@ define(['jquery', 'lodash'], function($, _){
                 }
 
                 Clone = _create(State.prototype.name, State.prototype.superState, initFn, exitFn);
-                _.forIn(State.prototype, function(prop, name){
-                    if(_.isFunction(prop)){
-                        if((initFn && name === 'init') || (exitFn && name === 'exit')){
-                            return true;
+                for (let name in State.prototype) {
+                    if (State.prototype.hasOwnProperty(name)) {
+                        let prop = State.prototype[name];
+                        if (typeof prop === 'function') {
+                            if ((initFn && name === 'init') || (exitFn && name === 'exit')) {
+                                return true;
+                            }
+                            Clone.prototype[name] = prop;
+                            Clone[name] = prop;
                         }
-                        Clone.prototype[name] = prop;
-                        Clone[name] = prop;
                     }
-                });
+                }
             }else{
                 throw new Error('invalid state to be cloned');
             }
@@ -178,16 +181,16 @@ define(['jquery', 'lodash'], function($, _){
                 newStates = arguments[0];
             }
 
-            _.each(newStates, function(state){
-
-                if(_isValidStateDefinition(state)){
+            for (let state of newStates) {
+                if (_isValidStateDefinition(state)) {
                     stateBundle[state.prototype.name] = state;
                 }
-            });
+            }
 
-            _.each(excluded, function(state){
+            for (let state of excluded) {
                 delete stateBundle[state];
-            });
+            }
+
 
             return stateBundle;
         },

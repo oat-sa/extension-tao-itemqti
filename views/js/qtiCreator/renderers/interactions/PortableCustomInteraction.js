@@ -21,15 +21,14 @@
  * PCI Creator Renderer
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/PortableCustomInteraction',
     'taoQtiItem/portableElementRegistry/ciRegistry',
     'taoQtiItem/qtiCreator/helper/commonRenderer'
-], function(_, Renderer, ciRegistry, commonRenderer){
+], function(Renderer, ciRegistry, commonRenderer){
     'use strict';
 
     //clone the common renderer
-    var CreatorCustomInteraction = _.clone(Renderer);
+    var CreatorCustomInteraction = {...Renderer};
 
     /**
      * Override the render method

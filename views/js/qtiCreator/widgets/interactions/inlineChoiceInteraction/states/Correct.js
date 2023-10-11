@@ -1,9 +1,8 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
-    'taoQtiItem/qtiCreator/widgets/interactions/inlineChoiceInteraction/ResponseWidget',
-    'lodash'
-], function(stateFactory, Correct, responseWidget, _){
+    'taoQtiItem/qtiCreator/widgets/interactions/inlineChoiceInteraction/ResponseWidget'
+], function(stateFactory, Correct, responseWidget){
 
     var InlineChoiceInteractionStateCorrect = stateFactory.create(Correct, function(){
 
@@ -16,7 +15,7 @@ define([
         responseWidget.create(_widget, false, function(){
 
             //set response
-            responseWidget.setResponse(_widget, _.values(response.getCorrect()));
+            responseWidget.setResponse(_widget, Object.values(response.getCorrect()));
 
             //save correct response on change
             _widget.$container.on('responseChange.qti-widget', function(e, data){

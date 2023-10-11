@@ -17,12 +17,11 @@
  */
 define([
     'jquery',
-    'lodash',
     'taoQtiItem/qtiCreator/renderers/Renderer',
     'taoItems/assets/manager',
     'taoItems/assets/strategies',
     'util/dom'
-], function($, _, Renderer, assetManagerFactory, assetStrategies, dom){
+], function($, Renderer, assetManagerFactory, assetStrategies, dom){
     "use strict";
 
     //configure and instanciate once only:
@@ -41,8 +40,8 @@ define([
     var _extractInteractionsConfig = function _extractInteractionsConfig(config){
         var ret = {};
         if(config && config.properties){
-            _.each(_configurableInteractions, function(interactionName){
-                if(config.properties[interactionName]){
+            _configurableInteractions.forEach(function(interactionName) {
+                if (config.properties[interactionName]) {
                     ret[interactionName] = config.properties[interactionName];
                 }
             });
@@ -103,11 +102,9 @@ define([
                 _creatorRenderer.setAreaBroker(areaBroker);
 
                 // extend creator renderer to give access to the creator context
-                _.assign(_creatorRenderer, {
-                    getCreatorContext: function getCreatorContext() {
-                        return this.getOption('qtiCreatorContext');
-                    }
-                });
+                _creatorRenderer.getCreatorContext = function getCreatorContext() {
+                    return this.getOption('qtiCreatorContext');
+                };
             }
         }
 
@@ -126,7 +123,7 @@ define([
         },
         load : function(qtiClasses, done){
             return get().load(function(){
-                if(_.isFunction(done)){
+                if (typeof done === "function") {
                     done.apply(this, arguments);
                 }
             }, qtiClasses);

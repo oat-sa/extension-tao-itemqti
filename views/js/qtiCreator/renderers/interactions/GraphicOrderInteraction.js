@@ -20,10 +20,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicOrderInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicOrderInteraction/Widget'
-], function(_, GraphicOrderInteraction, GraphicOrderInteractionWidget){
+], function(GraphicOrderInteraction, GraphicOrderInteractionWidget){
     'use strict';
 
     /**
@@ -31,7 +30,7 @@ define([
      * @extends taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicOrderInteraction
      * @exports taoQtiItem/qtiCreator/renderers/interactions/GraphicOrderInteraction
      */
-    var CreatorGraphicOrderInteraction = _.clone(GraphicOrderInteraction);
+    var CreatorGraphicOrderInteraction = {...GraphicOrderInteraction};
 
     /**
      * Render the interaction for authoring.

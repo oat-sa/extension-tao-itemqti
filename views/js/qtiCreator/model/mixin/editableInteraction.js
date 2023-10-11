@@ -21,12 +21,11 @@
  * Mixins methods for editable interactions
  */
 define([
-    'lodash',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/variables/ResponseDeclaration',
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/model/helper/response'
-], function (_, Element, ResponseDeclaration, event, responseHelper) {
+], function (Element, ResponseDeclaration, event, responseHelper) {
     'use strict';
 
     const methods = {

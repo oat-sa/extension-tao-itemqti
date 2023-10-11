@@ -22,7 +22,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
@@ -37,7 +36,6 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage'
 ], function (
     $,
-    _,
     GraphicHelper,
     stateFactory,
     Question,
@@ -181,7 +179,7 @@ define([
         const widget = this.widget;
         const interaction = widget.element;
         const paper = interaction.paper;
-        const valid = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices);
+        const valid = !!interaction.object.attr('data') && interaction.choices.length > 0;
 
         widget.isValid('hotspotInteraction', valid);
 
@@ -225,13 +223,13 @@ define([
 
         //controls the min and max choices
         minMaxComponentFactory($form.find('.min-max-panel'), {
-            min: { value: _.parseInt(interaction.attr('minChoices')) || 0 },
-            max: { value: _.parseInt(interaction.attr('maxChoices')) || 0 },
-            upperThreshold: _.size(interaction.getChoices())
+            min: { value: parseInt(interaction.attr('minChoices'), 10) || 0 },
+            max: { value: parseInt(interaction.attr('maxChoices'), 10) || 0 },
+            upperThreshold: interaction.getChoices().length
         }).on('render', function () {
             widget.on('choiceCreated choiceDeleted', data => {
                 if (data.interaction.serial === interaction.serial) {
-                    this.updateThresholds(1, _.size(interaction.getChoices()));
+                    this.updateThresholds(1, interaction.getChoices().length);
                 }
             });
         });

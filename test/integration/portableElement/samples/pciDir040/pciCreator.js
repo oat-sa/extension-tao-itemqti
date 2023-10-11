@@ -18,10 +18,9 @@
  * [version=0.4.0]
  */
 define([
-    'lodash',
     'pciSampleA/creator/widget/Widget',
     'tpl!pciSampleA/creator/tpl/markup'
-], function(_, Widget, markupTpl){
+], function(Widget, markupTpl){
     'use strict';
 
     var _typeIdentifier = 'pciSampleA';

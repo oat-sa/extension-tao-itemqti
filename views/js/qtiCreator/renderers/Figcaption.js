@@ -17,12 +17,9 @@
  *
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/Figcaption'
-], function(_, Figcaption){
+], function(Figcaption){
     'use strict';
 
-    const CreatorFigcaption = _.clone(Figcaption);
-
-    return CreatorFigcaption;
+    return {...Figcaption};
 });

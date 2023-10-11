@@ -3,7 +3,6 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/SliderInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/interactions/sliderInteraction/Helper'
 ], function(
@@ -11,7 +10,6 @@ define([
     Correct,
     commonRenderer,
     instructionMgr,
-    _,
     __,
     sliderInteractionHelper,
 ){
@@ -25,7 +23,7 @@ define([
     const _createResponseWidget = function(widget){
         const interaction = widget.element;
         const response = interaction.getResponseDeclaration();
-        const correctResponse = _.values(response.getCorrect());
+        const correctResponse = Object.values(response.getCorrect());
         response.setCorrect(correctResponse);
         commonRenderer.setResponse(interaction, _formatResponse(correctResponse));
 
@@ -44,7 +42,7 @@ define([
         const lowerBound = widget.element.attributes.lowerBound;
         const interaction = widget.element;
         const responseDeclaration = interaction.getResponseDeclaration();
-        const currentResponse = _.values(responseDeclaration.getCorrect());
+        const currentResponse = Object.values(responseDeclaration.getCorrect());
         const responseManager = sliderInteractionHelper.responseManager(interaction, currentResponse);
 
         widget.isValid('sliderInteraction', responseManager.isValid(), responseManager.getErrorMessage());

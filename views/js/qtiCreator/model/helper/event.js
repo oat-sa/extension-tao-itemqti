@@ -20,7 +20,7 @@
 /**
  * Event helper
  */
-define(['jquery', 'lodash'], function($, _){
+define(['jquery'], function($){
     "use strict";
 
     var namespace = '.qti-creator';
@@ -75,12 +75,10 @@ define(['jquery', 'lodash'], function($, _){
             $(document).trigger('deleted.qti-widget', {element : element, parent : parent});
         },
         getList : function(addedNamespace){
-            var events = _.clone(eventList);
-            if(addedNamespace){
-                return _.map(events, function(e){
-                    return e + '.' + addedNamespace;
-                });
-            }else{
+            var events = [...eventList];
+            if (addedNamespace) {
+                return events.map(e => e + '.' + addedNamespace);
+            } else {
                 return events;
             }
         },

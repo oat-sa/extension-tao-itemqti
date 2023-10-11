@@ -16,8 +16,7 @@
  * Copyright (c) 2016-2021 (original work) Open Assessment Technlogies SA
  *
  */
-define(['lodash', 'jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletingInfoBox'], function (
-    _,
+define(['jquery', 'tpl!taoQtiItem/qtiCreator/tpl/notifications/deletingInfoBox'], function (
     $,
     deletingInfoTpl
 ) {

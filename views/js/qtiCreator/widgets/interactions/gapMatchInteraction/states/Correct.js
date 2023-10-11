@@ -16,14 +16,13 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
  */
 define([
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GapMatchInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, __,stateFactory, Correct, commonRenderer, instructionMgr, PciResponse){
+], function(__,stateFactory, Correct, commonRenderer, instructionMgr, PciResponse){
 
     var GapMatchInteractionStateCorrect = stateFactory.create(Correct, function(){
 
@@ -31,7 +30,7 @@ define([
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
 
-        var corrects  = _.values(response.getCorrect());
+        var corrects = Object.values(response.getCorrect());
 
         var instruction;
         var bodyLength = 0;
@@ -63,7 +62,7 @@ define([
 
         commonRenderer.setResponse(
             interaction,
-            PciResponse.serialize(_.invoke(corrects, String.prototype.split, ' '), interaction)
+            PciResponse.serialize(corrects.map(str => str.split(' ')), interaction)
         );
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
@@ -73,9 +72,7 @@ define([
                     response.setCorrect(data.response.base.directedPair.join(' '));
                 } else {
                     response.setCorrect(
-                        _.map(data.response.list.directedPair, function(pair){
-                            return pair.join(' ');
-                        })
+                        data.response.list.directedPair.map(pair => pair.join(' '))
                     );
                 }
             } else {

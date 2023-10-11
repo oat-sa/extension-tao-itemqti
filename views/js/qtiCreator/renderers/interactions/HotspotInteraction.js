@@ -20,10 +20,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/HotspotInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/Widget'
-], function(_, HotspotInteraction, HotspotInteractionWidget){
+], function(HotspotInteraction, HotspotInteractionWidget){
     'use strict';
 
     /**
@@ -31,7 +30,7 @@ define([
      * @extends taoQtiItem/qtiCommonRenderer/renderers/interactions/HotspotInteraction
      * @exports taoQtiItem/qtiCreator/renderers/interactions/HotspotInteraction
      */
-    var CreatorHotspotInteraction = _.clone(HotspotInteraction);
+    var CreatorHotspotInteraction = {...HotspotInteraction};
 
     /**
      * Render the interaction for authoring.

@@ -16,7 +16,7 @@
  * Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA ;
  *
  */
-define(['lodash', 'taoQtiItem/qtiCreator/helper/dummyElement', 'ui/validator/validators'], function (
+define(['taoQtiItem/qtiCreator/helper/dummyElement', 'ui/validator/validators'], function (
     _,
     dummyElement,
     validators
@@ -45,10 +45,13 @@ define(['lodash', 'taoQtiItem/qtiCreator/helper/dummyElement', 'ui/validator/val
             );
         },
         togglePlaceholder: function (widget, opts) {
-            const options = _.defaults(opts || {}, {
-                container: widget.$original,
-                type: widget.element.qtiClass
-            });
+            const options = {
+                ...{
+                    container: widget.$original,
+                    type: widget.element.qtiClass
+                },
+                ...(opts || {})
+            };
 
             const $container = options.container;
             let $placeholder = $container.siblings('.dummy-element');

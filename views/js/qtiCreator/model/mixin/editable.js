@@ -17,13 +17,12 @@
  *
  */
 define([
-    'lodash',
     'jquery',
     'core/encoder/entity',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/model/helper/invalidator'
-], function (_, $, entity, Element, event, invalidator) {
+], function ($, entity, Element, event, invalidator) {
     'use strict';
 
     const _removeSelf = function (element) {
@@ -49,15 +48,15 @@ define([
                         parent.removeChoice(element);
                     }
                     removed = true;
-                } else if (found.location === 'body' && _.isFunction(parent.initContainer)) {
-                    if (_.isFunction(element.beforeRemove)) {
+                } else if (found.location === 'body' && typeof parent.initContainer === 'function') {
+                    if (typeof element.beforeRemove === 'function') {
                         element.beforeRemove();
                     }
 
                     parent.getBody().removeElement(element);
                     removed = true;
                 } else if (Element.isA(parent, '_container')) {
-                    if (_.isFunction(element.beforeRemove)) {
+                    if (typeof element.beforeRemove === 'function') {
                         element.beforeRemove();
                     }
 
@@ -112,10 +111,10 @@ define([
                 serial = '';
             }
 
-            if (_.isFunction(this.getDefaultAttributes)) {
-                _.extend(attr, this.getDefaultAttributes());
+            if (typeof this.getDefaultAttributes === 'function') {
+                Object.assign(attr, this.getDefaultAttributes());
             }
-            _.extend(attr, attributes);
+            Object.assign(attr, attributes);
 
             this._super(serial, attr);
         },
@@ -136,7 +135,7 @@ define([
                     value: entity.encode(value)
                 });
             }
-            return _.isString(ret) ? entity.decode(ret) : ret;
+            return typeof ret === 'string' ? entity.decode(ret) : ret;
         },
 
         removeAttr: function (key) {

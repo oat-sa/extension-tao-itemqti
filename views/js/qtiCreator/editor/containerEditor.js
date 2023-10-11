@@ -40,7 +40,7 @@ define([
     var _ns = 'containereditor';
 
     var _defaults = {
-        change : _.noop,
+        change : function() {},
         markup : '',
         markupSelector : '',
         qtiMedia : false
@@ -92,7 +92,7 @@ define([
 
         var html, htmls, data, loader;
 
-        options = _.defaults(options || {}, _defaults);
+        options = Object.assign({}, _defaults, options || {});
 
         //assign proper markup
         if(options.markup){
@@ -126,9 +126,12 @@ define([
             container.setRootElement(item);
 
             if (options.metadata) {
-                _.each(options.metadata, function (value, name) {
-                    item.data(name, value);
-                });
+                for (const name in options.metadata) {
+                    if (options.metadata.hasOwnProperty(name)) {
+                        const value = options.metadata[name];
+                        item.dataset[name] = value;
+                    }
+                }
             }
 
             //associate it to the interaction?
@@ -150,9 +153,9 @@ define([
                 container.postRender();
 
                 //resolve xinclude
-                _.each(container.getComposingElements(), function(element){
-                    if(element.qtiClass === 'include'){
-                        xincludeRenderer.render(element.data('widget'), baseUrl);
+                container.getComposingElements().forEach(function(element) {
+                    if (element.qtiClass === 'include') {
+                        xincludeRenderer.render(element.dataset.widget, baseUrl);
                     }
                 });
 
@@ -173,7 +176,7 @@ define([
                         var editorContent = container.render(xmlRenderer.get());
                         $container.trigger('containerchange.' + _ns, [editorContent]);
 
-                        if(_.isFunction(options.change)){
+                        if (typeof options.change === 'function') {
                             options.change(editorContent);
                         }
                     }, 600));
@@ -228,7 +231,7 @@ define([
         var widget = {
             $container : $editableContainer,
             element : container,
-            changeState : _.noop,
+            changeState : function () {},
             getAreaBroker : function getAreaBroker() {
                 return options.areaBroker;
             }
@@ -245,15 +248,15 @@ define([
 
         if(!htmlEditor.hasEditor($editableContainer)){
 
-            htmlEditor.buildEditor($editableContainer, _.defaults(options || {}, {
-                shieldInnerContent : false,
-                passthroughInnerContent : false,
-                change : content.getChangeCallback(container),
-                data : {
-                    widget : createFakeWidget($editableContainer, container, options),
-                    container : container
+            htmlEditor.buildEditor($editableContainer, Object.assign({
+                shieldInnerContent: false,
+                passthroughInnerContent: false,
+                change: content.getChangeCallback(container),
+                data: {
+                    widget: createFakeWidget($editableContainer, container, options),
+                    container: container
                 }
-            }));
+            }, options));
         }
     }
 

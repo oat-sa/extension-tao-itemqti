@@ -19,14 +19,13 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'lodash',
     'jquery',
     'ui/component',
     'ui/component/draggable',
     'ui/component/resizable',
     'ui/component/stackable',
     'ui/component/windowed'
-], function (_, $, componentFactory, makeDraggable, makeResizable, makeStackable, makeWindowed) {
+], function ($, componentFactory, makeDraggable, makeResizable, makeStackable, makeWindowed) {
     'use strict';
 
     var defaultConfig = {
@@ -45,7 +44,7 @@ define([
     return function windowPopupFactory(specs, config) {
         var windowPopup;
 
-        config = _.defaults(config || {}, defaultConfig);
+        config = { ...defaultConfig, ...config };
 
         windowPopup = componentFactory(specs, config);
 

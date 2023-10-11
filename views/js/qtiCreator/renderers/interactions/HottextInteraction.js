@@ -17,13 +17,12 @@
  */
 
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/HottextInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/hottextInteraction/Widget'
-], function(_, HottextInteraction, HottextInteractionWidget){
+], function(HottextInteraction, HottextInteractionWidget){
     'use strict';
 
-    var CreatorHottextInteraction = _.clone(HottextInteraction);
+    var CreatorHottextInteraction = {...HottextInteraction};
 
     CreatorHottextInteraction.render = function(interaction, options){
 

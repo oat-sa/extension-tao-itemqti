@@ -17,7 +17,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'core/plugin',
     'taoQtiItem/qtiItem/core/Element',
@@ -30,7 +29,6 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/outcomeEditor/listing'
 ], function (
     $,
-    _,
     __,
     pluginFactory,
     Element,
@@ -79,7 +77,7 @@ define([
             variables.push(id);
         });
 
-        return _.uniq(variables);
+        return [...new Set(variables)];
     }
 
     /**
@@ -91,7 +89,7 @@ define([
     function renderListing(item, $outcomeEditorPanel) {
         const rpVariables = getRpUsedVariables(item);
 
-        const outcomesData = _.map(item.outcomes, function (outcome) {
+        const outcomesData = item.outcomes.map(outcome => {
             const readonly = rpVariables.indexOf(outcome.id()) >= 0;
 
             const externalScored = {
@@ -235,7 +233,7 @@ define([
                         formElement.setChangeCallbacks(
                             $outcomeContainer,
                             outcomeElement,
-                            _.assign(
+                            Object.assign(
                                 {
                                     identifier(outcome, value) {
                                         //update the html for real time update

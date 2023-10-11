@@ -19,7 +19,6 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'lodash',
     'i18n',
     'jquery',
     'taoQtiItem/qtiCreator/widgets/helpers/widgetPopup/widgetPopup',
@@ -27,7 +26,6 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/tooltip/components/editorField',
     'tpl!taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditor'
 ], function(
-    _,
     __,
     $,
     widgetPopupFactory,
@@ -56,7 +54,7 @@ define([
         var tooltip,
             tooltipEditorComponent;
 
-        config = _.defaults(config || {}, widgetPopupConfig);
+        config = Object.assign({}, widgetPopupConfig, config || {});
 
         tooltipEditorComponent = widgetPopupFactory({}, config)
             .on('init', function() {

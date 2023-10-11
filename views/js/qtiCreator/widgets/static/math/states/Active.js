@@ -27,7 +27,6 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'ui/dynamicComponent',
-    'lodash',
     'i18n',
     'mathJax',
     'ui/tooltip'
@@ -43,7 +42,6 @@ define([
     formElement,
     inlineHelper,
     dynamicComponent,
-    _,
     __,
     mathJax,
     tooltip
@@ -61,7 +59,13 @@ define([
 
         },
         function destroy(){
-            _.invoke(this.popups, 'destroy');
+            if (this.popups) {
+                for (const key in this.popups) {
+                    if (this.popups[key] && typeof this.popups[key].destroy === 'function') {
+                        this.popups[key].destroy();
+                    }
+                }
+            }
             this.popups = null;
             if (this.fields && this.fields.$mathml) {
                 this.fields.$mathml.data('$tooltip').dispose();
@@ -116,13 +120,15 @@ define([
                 mathml: this.createLargeEditorPopup('mathml')
             };
 
-            _.forOwn(this.popups, function(popup) {
-                popup
-                    .init()
-                    .render($popupsContainer)
-                    .center()
-                    .hide();
-            });
+            for (let key in this.popups) {
+                if (this.popups.hasOwnProperty(key)) {
+                    let popup = this.popups[key];
+                    popup.init()
+                        .render($popupsContainer)
+                        .center()
+                        .hide();
+                }
+            }
 
             //... init standard ui widget
             formElement.initWidget($form);
@@ -255,9 +261,9 @@ define([
                     mathInput = this.mathInput;
 
                 // defering fixes a bug in the scaling of some MQ characters (\sqrt)
-                _.defer(function() {
+                setTimeout(() => {
                     mathInput.setLatex(currentLatex);
-                });
+                }, 0);
                 self._disableForm();
             })
             .on('hide', function() {

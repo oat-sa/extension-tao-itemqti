@@ -1,10 +1,9 @@
 define([
     'jquery',
-    'lodash',
     'i18n',
     'tpl!taoQtiItem/qtiCreator/editor/elementSelector/tpl/popup',
     'tpl!taoQtiItem/qtiCreator/editor/elementSelector/tpl/content'
-], function($, _, __, popupTpl, contentTpl){
+], function($, __, popupTpl, contentTpl){
 
     var _ns = '.element-selector';
 
@@ -197,13 +196,13 @@ define([
     function _filterInteractions(interactions){
         var block;
         //remove all inline interactions, keep block container only
-        var filtered = _.filter(interactions, function(interaction){
+        var filtered = interactions.filter(function(interaction) {
             var tags = interaction.tags;
-            if(interaction.qtiClass === '_container'){
+            if (interaction.qtiClass === '_container') {
                 block = interaction;
                 interaction.tags[0] = 'Text Block';
                 return false;
-            }else if(tags && tags[0] !== 'Inline Interactions'){
+            } else if (tags && tags[0] !== 'Inline Interactions') {
                 return true;
             }
             return false;
@@ -222,10 +221,9 @@ define([
     function _renderContent(interactions){
 
         var groups = [];
-        _.each(_filterInteractions(interactions), function(interaction){
-
+        _filterInteractions(interactions).forEach(function(interaction) {
             var groupName = interaction.tags[0];
-            var panel = _.find(groups, {name : groupName});
+            var panel = groups.find(group => group.name === groupName);
             if(!panel){
                 panel = {
                     name : groupName,

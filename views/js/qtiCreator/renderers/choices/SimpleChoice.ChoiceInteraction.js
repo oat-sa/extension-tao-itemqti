@@ -17,14 +17,13 @@
  */
 
 define([
-    'lodash',
     'services/features',
     'taoQtiItem/qtiCommonRenderer/renderers/choices/SimpleChoice.ChoiceInteraction',
     'taoQtiItem/qtiCreator/widgets/choices/simpleChoice/Widget'
-], function(_, features, SimpleChoice, SimpleChoiceWidget){
+], function(features, SimpleChoice, SimpleChoiceWidget){
     'use strict';
 
-    var CreatorSimpleChoice = _.clone(SimpleChoice);
+    var CreatorSimpleChoice = {...SimpleChoice};
 
     CreatorSimpleChoice.render = function(choice, options){
 

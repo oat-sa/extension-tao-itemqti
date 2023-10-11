@@ -1,6 +1,5 @@
 define([
     'jquery',
-    'lodash',
     'tpl!taoQtiItem/qtiCreator/editor/blockAdder/tpl/addColumnRow',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/helper/creatorRenderer',
@@ -8,7 +7,7 @@ define([
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/editor/elementSelector/selector',
     'taoQtiItem/qtiCreator/widgets/static/text/Widget'
-], function ($, _, adderTpl, Element, creatorRenderer, containerHelper, contentHelper, elementSelector, TextWidget) {
+], function ($, adderTpl, Element, creatorRenderer, containerHelper, contentHelper, elementSelector, TextWidget) {
     'use strict';
 
     const _ns = '.block-adder';
@@ -138,9 +137,9 @@ define([
             _appendButton(widget.$container);
 
             //activate the new widget:
-            _.defer(function () {
+            setTimeout(() => {
                 if (widget) {
-                    if (widget.elemen && widget.element.is('interaction')) {
+                    if (widget.element && widget.element.is('interaction')) {
                         widget.changeState('question');
                     } else {
                         widget.changeState('active');

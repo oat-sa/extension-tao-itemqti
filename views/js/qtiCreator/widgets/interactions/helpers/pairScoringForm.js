@@ -3,7 +3,6 @@
  */
 define([
     'jquery',
-    'lodash' ,
     'i18n',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/pairScoreMappingForm',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/pairScoreForm',
@@ -11,7 +10,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'ui/tooltip',
     'ui/selecter'
-], function($, _, __, formTpl, pairTpl, answerStateHelper, formElementHelper, tooltip, selecter){
+], function($, __, formTpl, pairTpl, answerStateHelper, formElementHelper, tooltip, selecter){
     'use strict';
 
     //to bind html element to a pair, we use this separator to replace spaces in the pair name.
@@ -66,7 +65,7 @@ define([
 
                         //update the current map entries according to what we got in entry
                         response.removeMapEntries();
-                        _.forEach(pairs , function(pair){
+                        pairs.forEach(function(pair) {
                             if(typeof pair.score === 'undefined' || pair.score === null){
                                 pair.score = response.mappingAttributes.defaultValue || 0;
                             }
@@ -84,9 +83,9 @@ define([
                         'defineCorrect'     : answerStateHelper.defineCorrect(response),
                         'scoreMin'          : response.getMappingAttribute('lowerBound'),
                         'scoreMax'          : response.getMappingAttribute('upperBound'),
-                        'pairs'             : _.map(pairs, pairTpl),
-                        'pairLeft'          : _.isFunction(options.pairLeft) ? options.pairLeft() : _.values(interaction.getChoices()),
-                        'pairRight'         : _.isFunction(options.pairRight) ? options.pairRight() : _.values(interaction.getGapImgs())
+                        'pairs': pairs.map(pair => pairTpl(pair)),
+                        'pairLeft': typeof options.pairLeft === 'function' ? options.pairLeft() : Object.values(interaction.getChoices()),
+                        'pairRight': typeof options.pairRight === 'function' ? options.pairRight() : Object.values(interaction.getGapImgs())
                     }));
 
                     updateFormBindings();
@@ -124,7 +123,7 @@ define([
 
                 updateFormBindings();
 
-                if(_.isFunction(options.add)){
+                if(typeof options.add === 'function'){
                     options.add(key);
                 }
 
@@ -140,12 +139,12 @@ define([
             removePair : function removePair(key){
 
                 //update internal model
-                _.remove(pairs, {id : key.replace(separator.qti, separator.html)});
+                pairs = pairs.filter(pair => pair.id !== key.replace(separator.qti, separator.html));
 
                 //update the response
                 response.removeMapEntry(key);
 
-                if(_.isFunction(options.remove)){
+                if(typeof options.remove === 'function'){
                     options.remove(key);
                 }
 
@@ -274,9 +273,7 @@ define([
          */
         function preparePairs(entries){
             var defaultScore = parseFloat(response.mappingAttributes.defaultValue);
-            return _.map(entries, function(value, key){
-                return formatPair(value, key, parseFloat(value) === defaultScore);
-            });
+            return entries.map((value, key) => formatPair(value, key, parseFloat(value) === defaultScore));
         }
 
 
@@ -299,10 +296,10 @@ define([
                 defaultScore    : !!defaultScore,
                 leftId          : gap,
                 rightId         : choice,
-                left            : _.isFunction(options.formatLeft) ? options.formatLeft(gap) : gap,
-                right           : _.isFunction(options.formatRight) ? options.formatRight(choice) : choice,
+                left            : typeof options.formatLeft === 'function' ? options.formatLeft(gap) : gap,
+                right           : typeof options.formatRight === 'function' ? options.formatRight(choice) : choice,
                 defineCorrect   : answerStateHelper.defineCorrect(response),
-                correct         : _.contains(_.values(response.getCorrect()), key)
+                correct         : Object.values(response.getCorrect()).includes(key)
             };
         }
 
@@ -312,41 +309,47 @@ define([
          */
         function updateFormBindings(){
             var callbacks = {};
-            var corrects  = _.values(response.getCorrect());
+            var corrects = Object.values(response.getCorrect());
 
             if($form.length){
 
                //the default value changes
                 widget.on('mappingAttributeChange', function(data){
                     if(data.key === 'defaultValue'){
-                        _.forEach(pairs, function(pair){
+                        for(let i = 0; i < pairs.length; i++) {
                             var $score = $('[name="' +  pair.id + '-score"]', $form);
                             if($score.data('default')){
                                 $score.val(data.value);
                                 response.setMapEntry( pair.id.replace(separator.html, separator.qti), data.value);
                             }
-                        });
+                        }
                     }
                 });
 
                 //creates callbacls for score and correct, for each pair
-                _.forEach(pairs, function(pair){
+                for(let i = 0; i < pairs.length; i++) {
+                    var pair = pairs[i];
                     var id = pair.id.replace(separator.html, separator.qti);
+
                     callbacks[pair.id + '-score'] = function(response, value){
                         $('[name="' +  pair.id + '-score"]', $form).removeAttr('data-default').removeData('default');
                         response.setMapEntry(id, value);
                     };
+
                     callbacks[pair.id + '-correct'] = function(response, value){
                         if(value === true){
-                            if(!_.contains(corrects, id)){
+                            if(!corrects.includes(id)){
                                 corrects.push(id);
                             }
                         } else {
-                            corrects = _.without(corrects, id);
+                            var index = corrects.indexOf(id);
+                            if (index > -1) {
+                                corrects.splice(index, 1);
+                            }
                         }
                         response.setCorrect(corrects);
                     };
-                });
+                }
 
                 //set up the form data binding
                 formElementHelper.setChangeCallbacks($form, response, callbacks);

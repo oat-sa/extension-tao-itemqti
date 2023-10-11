@@ -15,7 +15,7 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  */
-define(['lodash', 'core/eventifier'], function(_, eventifier){
+define(['core/eventifier'], function(eventifier){
     'use strict';
 
     /**
@@ -32,9 +32,20 @@ define(['lodash', 'core/eventifier'], function(_, eventifier){
              * @returns {groupToggler}
              */
             register : function register($trigger){
+                var uniqueId = (function() {
+                    var count = {};
+                    return function(prefix) {
+                        prefix = prefix || '';
+                        if (!count[prefix]) {
+                            count[prefix] = 0;
+                        }
+                        count[prefix]++;
+                        return prefix + count[prefix];
+                    };
+                }());
 
                 var self = this,
-                    id = _.uniqueId('group-toggler-');
+                    id = uniqueId('group-toggler-');
 
                 if(!$trigger || !$trigger.length){
                     this.trigger('error', 'trigger does not exist');
@@ -59,12 +70,15 @@ define(['lodash', 'core/eventifier'], function(_, eventifier){
             }
         }).on('show', function(id){
 
-            _.each(_registry, function(element){
-                if(element.id !== id){
-                    //a single element has been shown, informe the others
-                    element.dom.trigger('showanother.grouptoggler', id);
+            for (var key in _registry) {
+                if (_registry.hasOwnProperty(key)) {
+                    var element = _registry[key];
+                    if (element.id !== id) {
+                        // a single element has been shown, inform the others
+                        element.dom.trigger('showanother.grouptoggler', id);
+                    }
                 }
-            });
+            }
         });
     }
 });

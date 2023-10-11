@@ -23,12 +23,11 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'taoQtiItem/qtiCreator/helper/popup',
     'lib/farbtastic/farbtastic'
-], function ($, _, __, styleEditor) {
+], function ($, __, styleEditor) {
     'use strict';
 
     // based on http://stackoverflow.com/a/14238466
@@ -41,14 +40,14 @@ define([
 
         // undefined can happen when no color is defined for a particular element
         // isString on top of that should cover all sorts of weird input
-        if(!_.isString(color)) {
+        if (typeof color !== 'string') {
             return color;
         }
 
         const rgbArr = /rgb\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)/i.exec(color);
 
         // color is not rgb
-        if(!_.isArray(rgbArr) || rgbArr.length !== 4) {
+        if(!Array.isArray(rgbArr) || rgbArr.length !== 4) {
             return color;
         }
 

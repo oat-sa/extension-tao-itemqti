@@ -22,10 +22,11 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'jquery', 'lodash', 'i18n',
+    'jquery',
+    'i18n',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCreator/helper/dummyElement'
-], function($, _, __, graphic, dummyElement){
+], function($, __, graphic, dummyElement){
 
     'use strict';
 
@@ -106,7 +107,7 @@ define([
          * call render choice for each interaction's choices
          */
         createChoices : function(){
-            _.forEach(this.element.getChoices(), this._currentChoices, this);
+            this.element.getChoices().forEach(this._currentChoices, this);
         },
 
         /**

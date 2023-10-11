@@ -1,12 +1,11 @@
 define([
-    'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/Stylesheet'
-], function(_, editable, Stylesheet){
+], function(editable, Stylesheet){
     "use strict";
     var methods = {};
-    _.extend(methods, editable);
-    _.extend(methods, {
+    Object.assign(methods, editable);
+    Object.assign(methods, {
         getDefaultAttributes : function(){
             return {
                 href : 'css/tao-user-styles.css',

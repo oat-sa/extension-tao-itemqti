@@ -23,7 +23,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/MediaInteraction'
 ], function($, _, Widget, states, commonRenderer){
 
-    var MediaInteractionWidget = _.extend(Widget.clone(), {
+    var MediaInteractionWidget = Object.assign({}, Widget.clone(), {
 
         initCreator : function(){
             var self        = this;

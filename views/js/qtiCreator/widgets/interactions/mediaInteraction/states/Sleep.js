@@ -1,8 +1,7 @@
 define([
-    'lodash',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Sleep'
-], function(_, stateFactory, SleepState) {
+], function(stateFactory, SleepState) {
 
     var initSleepState = function initSleepState() {
         this.widget.renderInteraction();

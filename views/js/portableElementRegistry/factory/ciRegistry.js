@@ -17,11 +17,10 @@
  *
  */
 define([
-    'lodash',
     'i18n',
     'taoQtiItem/portableElementRegistry/factory/factory',
     'taoQtiItem/qtiCreator/helper/qtiElements'
-], function (_, __, portableElementRegistry, qtiElements) {
+], function (__, portableElementRegistry, qtiElements) {
     'use strict';
 
     /**
@@ -41,7 +40,16 @@ define([
              * @returns {Object} the authoring info
              */
             getAuthoringData(typeIdentifier, options = {}) {
-                options = _.defaults(options || {}, { version: 0, enabledOnly: false });
+                options = options || {};
+
+                if (typeof options.version === 'undefined') {
+                    options.version = 0;
+                }
+
+                if (typeof options.enabledOnly === 'undefined') {
+                    options.enabledOnly = false;
+                }
+
                 const pciModel = this.get(typeIdentifier, options.version);
                 const qtiClass = `customInteraction.${pciModel.typeIdentifier}`;
                 if (

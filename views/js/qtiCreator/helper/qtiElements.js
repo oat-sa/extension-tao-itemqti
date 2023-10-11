@@ -18,7 +18,7 @@
 /**
  * Utility to retrieve and manipualte QTI Elements
  */
-define(['jquery', 'lodash', 'i18n', 'services/features'], function ($, _, __, featuresService) {
+define(['jquery', 'i18n', 'services/features'], function ($, __, featuresService) {
     'use strict';
 
     const QtiElements = {
@@ -180,12 +180,12 @@ define(['jquery', 'lodash', 'i18n', 'services/features'], function ($, _, __, fe
                 for (let aClass in QtiElements.classes) {
                     const model = QtiElements.classes[aClass];
                     if (model.contains) {
-                        const intersect = _.intersection(model.contains, parents);
+                        const intersect = model.contains.filter(value => parents.includes(value));
                         if (intersect.length) {
                             if (!model.abstract) {
                                 ret.push(aClass);
                             }
-                            ret = _.union(ret, QtiElements.getChildClasses(aClass, true));
+                            ret = [...new Set([...ret, ...QtiElements.getChildClasses(aClass, true)])];
                         }
                     }
                 }
@@ -220,14 +220,14 @@ define(['jquery', 'lodash', 'i18n', 'services/features'], function ($, _, __, fe
 
                                 //adding children allowed contents depends on the option "recursive"
                                 if (recursive) {
-                                    ret = _.union(ret, QtiElements.getAllowedContents(child, true, checked));
+                                    ret = [...new Set([...ret, ...QtiElements.getAllowedContents(child, true, checked)])];
                                 }
                             }
                         }
 
                         //adding allowed contents of qtiClass' allowed contents depends on the option "recursive"
                         if (recursive) {
-                            ret = _.union(ret, QtiElements.getAllowedContents(contain, true, checked));
+                            ret = [...new Set([...ret, ...QtiElements.getAllowedContents(contain, true, checked)])];
                         }
                     }
                 }
@@ -236,15 +236,15 @@ define(['jquery', 'lodash', 'i18n', 'services/features'], function ($, _, __, fe
             //qtiClass can contain all allowed contents of its parents:
             const parents = QtiElements.getParentClasses(qtiClass, true);
             for (let i in parents) {
-                ret = _.union(ret, QtiElements.getAllowedContents(parents[i], recursive, checked));
+                ret = [...new Set([...ret, ...QtiElements.getAllowedContents(parents[i], recursive, checked)])];
             }
 
-            return _.uniq(ret, false);
+            return [...new Set(ret)];
         },
 
         isAllowedClass(qtiContainerClass, qtiContentClass) {
             const allowedClasses = QtiElements.getAllowedContents(qtiContainerClass);
-            return _.indexOf(allowedClasses, qtiContentClass) >= 0;
+            return allowedClasses.includes(qtiContentClass);
         },
 
         getParentClasses(qtiClass, recursive) {
@@ -256,10 +256,10 @@ define(['jquery', 'lodash', 'i18n', 'services/features'], function ($, _, __, fe
                 if (QtiElements.classes[qtiClass]) {
                     ret = QtiElements.classes[qtiClass].parents;
                     if (recursive) {
-                        for (let i in ret) {
-                            ret = _.union(ret, QtiElements.getParentClasses(ret[i], recursive));
-                        }
-                        ret = _.uniq(ret, false);
+                        ret.forEach(item => {
+                            ret = [...ret, ...QtiElements.getParentClasses(item, recursive)];
+                        });
+                        ret = [...new Set(ret)];
                     }
                 }
                 QtiElements.cache.parents[qtiClass] = ret;
@@ -277,7 +277,7 @@ define(['jquery', 'lodash', 'i18n', 'services/features'], function ($, _, __, fe
                 ret = [];
                 for (let aClass in QtiElements.classes) {
                     const model = QtiElements.classes[aClass];
-                    if (_.indexOf(model.parents, qtiClass) >= 0) {
+                    if (model.parents.includes(qtiClass)) {
                         if (type) {
                             if (model[type]) {
                                 ret.push(aClass);
@@ -286,7 +286,7 @@ define(['jquery', 'lodash', 'i18n', 'services/features'], function ($, _, __, fe
                             ret.push(aClass);
                         }
                         if (recursive) {
-                            ret = _.union(ret, QtiElements.getChildClasses(aClass, recursive, type));
+                            ret = [...new Set([...ret, ...QtiElements.getChildClasses(aClass, recursive, type)])];
                         }
                     }
                 }
@@ -312,7 +312,7 @@ define(['jquery', 'lodash', 'i18n', 'services/features'], function ($, _, __, fe
                 return true;
             } else {
                 const parents = QtiElements.getParentClasses(qtiClass, true);
-                return _.indexOf(parents, topClass) >= 0;
+                return parents.includes(topClass);
             }
         },
 

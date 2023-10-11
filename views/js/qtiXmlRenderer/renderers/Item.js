@@ -39,37 +39,45 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/item'], function (_, tpl) {
                 apipAccessibility: item.getApipAccessibility() || ''
             };
 
-            _.forIn(item.getSchemaLocations(), function (url, uri) {
-                defaultData.schemaLocations += `${uri} ${url} `;
-            });
+            const schemaLocations = item.getSchemaLocations();
+            for (let uri in schemaLocations) {
+                if (schemaLocations.hasOwnProperty(uri)) {
+                    defaultData.schemaLocations += `${uri} ${schemaLocations[uri]} `;
+                }
+            }
             defaultData.schemaLocations = defaultData.schemaLocations.trim();
 
-            _.forEach(item.responses, response => {
+            item.responses.forEach(response => {
                 defaultData.responses.push(response.render(this));
             });
-            _.forEach(item.outcomes, outcome => {
+
+            item.outcomes.forEach(outcome => {
                 if (!defaultData.responseProcessing) {
-                    if(outcome.id() === 'SCORE' && !(outcome.attributes && outcome.attributes.externalScored)) {
-                        //should not export the SCORE outcome when there is no human/externalScored processing
+                    if (outcome.id() === 'SCORE' && !(outcome.attributes && outcome.attributes.externalScored)) {
                         return;
                     }
                 }
                 defaultData.outcomes.push(outcome.render(this));
             });
-            _.forEach(item.stylesheets, stylesheet => {
+
+            item.stylesheets.forEach(stylesheet => {
                 defaultData.stylesheets.push(stylesheet.render(this));
             });
-            _.forEach(item.modalFeedbacks, feedback => {
+
+            item.modalFeedbacks.forEach(feedback => {
                 defaultData.feedbacks.push(feedback.render(this));
             });
 
-            data = _.merge({}, data || {}, defaultData);
+            data = Object.assign({}, data || {}, defaultData);
             delete data.attributes.class;
             delete data.attributes.dir;
 
-            data.attributes = _.mapValues(data.attributes, function (val) {
-                return _.isString(val) ? _.escape(val) : val;
-            });
+            for (let key in data.attributes) {
+                if (data.attributes.hasOwnProperty(key)) {
+                    let val = data.attributes[key];
+                    data.attributes[key] = (typeof val === 'string') ? _.escape(val) : val;
+                }
+            }
 
             return data;
         }

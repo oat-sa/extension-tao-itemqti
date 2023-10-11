@@ -19,12 +19,10 @@
 
 define([
     'taoQtiItem/portableLib/jquery_2_1_1',
-    'taoQtiItem/portableLib/lodash',
     'taoQtiItem/portableLib/interact',
     'taoQtiItem/portableLib/OAT/interact-rotate'
 ], function(
     $,
-    _,
     interact,
     rotator
 ){
@@ -63,7 +61,7 @@ define([
 
     function init($container, config) {
         config.is = config.is || {};
-        
+
         // just in case...
         if(!$container.length){
             return;
@@ -135,7 +133,7 @@ define([
 
         // set up the controls for resize, rotate etc.
         setupControls($container, $controls);
-        
+
         if (config.is.movable) {
 
             $content.on('mousedown', function () {
@@ -160,7 +158,7 @@ define([
                 });
         }
 
-        if (_.any(config.is.rotatable)) {
+        if (config.is.rotatable.some(Boolean)) {
             rotator.init(tool, handleSelector);
         }
     }

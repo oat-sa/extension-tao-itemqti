@@ -35,7 +35,7 @@ define([
 
         //@todo : fix this!
         $correct.hide();
-        _.delay(function(){
+        setTimeout(function() {
             $correct.hide();
         }, 200);
 
@@ -87,7 +87,7 @@ define([
 
         var _this = this,
             response = this.widget.element.getResponseDeclaration(),
-            correctValue = _.values(response.getCorrect()).pop(),
+            correctValue = Object.values(response.getCorrect()).pop(),
             $container = this.widget.$container,
             $addOption = $container.find('tr[data-add-option]');
 
@@ -114,13 +114,13 @@ define([
             }
         };
 
-        if(!_.size(response.mapEntries)){
+        if (!Object.keys(response.mapEntries).length) {
             response.mapEntries = {'' : 0};
         }
 
-        _.forIn(response.mapEntries, function(score, text){
+        for (let [text, score] of Object.entries(response.mapEntries)) {
             appendOption(text, score);
-        });
+        }
 
         $container.on('click.map', '[data-role=delete-option]', function(){
 

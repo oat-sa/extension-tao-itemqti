@@ -16,7 +16,7 @@
  * Copyright (c) 2021-2022 (original work) Open Assessment Technologies SA;
  */
 
-define(['lodash'], function (_) {
+define([], function () {
     'use strict';
 
     /**
@@ -32,22 +32,26 @@ define(['lodash'], function (_) {
         if (parentElement.serial === serial) {
             return parentElement;
         }
-        let found = null;
-        _.some(parentElement['elements'], childElement => {
-            if (childElement.serial === serial) {
-                found = parentElement;
-            } else if (childElement['elements']) {
-                found = searchRecurse(childElement, serial);
-            } else if (childElement['prompt']) {
-                found = searchRecurse(childElement.prompt.bdy, serial);
-            } else if (childElement['bdy']) {
-                found = searchRecurse(childElement.bdy, serial);
+        return (parentElement, serial) => {
+            for (const childElement of parentElement['elements']) {
+                if (childElement.serial === serial) {
+                    return parentElement;
+                }
+                const foundInChildElements = childElement['elements'] && searchRecurse(childElement, serial);
+                if (foundInChildElements) {
+                    return foundInChildElements;
+                }
+                const foundInPrompt = childElement['prompt'] && searchRecurse(childElement.prompt.bdy, serial);
+                if (foundInPrompt) {
+                    return foundInPrompt;
+                }
+                const foundInBody = childElement['bdy'] && searchRecurse(childElement.bdy, serial);
+                if (foundInBody) {
+                    return foundInBody;
+                }
             }
-            if (found) {
-                return true;
-            }
-        });
-        return found;
+            return null;
+        };
     };
 
     /**

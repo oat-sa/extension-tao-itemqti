@@ -1,16 +1,15 @@
 define([
-    'lodash',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_condition',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_correct',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_incorrect',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_choices'
-], function(_, tpl, tplCondition, tplCorrect, tplIncorrect, tplChoices){
+], function(tpl, tplCondition, tplCorrect, tplIncorrect, tplChoices){
     return {
         qtiClass : '_simpleFeedbackRule',
         template : tpl,
         getData : function(rule, data){
-            
+
             var template = null, ruleXml = '';
             var _values;
             var tplData = {
@@ -43,18 +42,18 @@ define([
                     tplData.condition = rule.condition;
                     tplData.multiple = rule.comparedOutcome.isCardinality(['multiple', 'ordered']);
                     _values = [];
-                    _.each(rule.comparedValue, function(choice){
+                    rule.comparedValue.forEach(function(choice) {
                         //check if all the selected choices still exist
-                        if(choice.parent()){
+                        if (choice.parent()) {
                             _values.push(choice.id());
                         }
                     });
-                    
+
                     if(tplData.multiple){
                         tplData.choices = _values;
                     }else{
                         if(_values.length){
-                            tplData.choice = _.head(_values);
+                            tplData.choice = _values[0];
                         }else{
                             tplData.noData = true;
                         }
@@ -68,7 +67,7 @@ define([
                 ruleXml = template(tplData);
             }
 
-            return _.merge(data || {}, {rule : ruleXml});
+            return Object.assign({}, data || {}, {rule : ruleXml});
         }
     };
 });

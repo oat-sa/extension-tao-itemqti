@@ -22,13 +22,12 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicInteraction/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/states/states',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic'
-], function ($, _, __, Widget, GraphicWidget, states, GraphicHelper) {
+], function ($, __, Widget, GraphicWidget, states, GraphicHelper) {
     'use strict';
 
     /**
@@ -39,7 +38,7 @@ define([
      *
      * @exports taoQtiItem/qtiCreator/widgets/interactions/hotspotInteraction/Widget
      */
-    const HotspotInteractionWidget = _.extend(Widget.clone(), GraphicWidget, {
+    const HotspotInteractionWidget = Object.assign({}, Widget.clone(), GraphicWidget, {
         /**
          * Initialize the widget
          * @see {taoQtiItem/qtiCreator/widgets/interactions/Widget#initCreator}
@@ -69,7 +68,7 @@ define([
             if (this.element.paper) {
                 const interaction = this.element;
                 const choices = interaction.getChoices();
-                _.forEach(choices, choice => {
+                choices.forEach(choice => {
                     choice.attr(
                         'coords',
                         GraphicHelper.qtiCoords(interaction.paper.getById(choice.serial), interaction.paper, interaction.object.attr('width'))

@@ -1,14 +1,13 @@
 define([
-    'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
     'taoQtiItem/qtiItem/core/interactions/SliderInteraction'
-], function(_, editable, editableInteraction, Interaction){
+], function(editable, editableInteraction, Interaction){
     "use strict";
     var methods = {};
-    _.extend(methods, editable);
-    _.extend(methods, editableInteraction);
-    _.extend(methods, {
+    Object.assign(methods, editable);
+    Object.assign(methods, editableInteraction);
+    Object.assign(methods, {
         getDefaultAttributes : function(){
             return {
                 'lowerBound': 0.0,

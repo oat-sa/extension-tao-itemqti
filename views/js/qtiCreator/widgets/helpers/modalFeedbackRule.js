@@ -17,13 +17,12 @@
  *
  */
 define([
-    'lodash',
     'jquery',
     'ui/selecter',
     'tpl!taoQtiItem/qtiCreator/tpl/modalFeedback/rule',
     'tpl!taoQtiItem/qtiCreator/tpl/modalFeedback/panel',
     'taoQtiItem/qtiCreator/widgets/helpers/modalFeedbackConditions'
-], function(_, $, selecter, ruleTpl, panelTpl, modalFeedbackConditions){
+], function($, selecter, ruleTpl, panelTpl, modalFeedbackConditions){
     'use strict';
 
     var _renderFeedbackRule = function(feedbackRule){
@@ -52,7 +51,7 @@ define([
         selecter($rule);
 
         //init rule editing
-        var condition = _.find(availableConditions, {name : feedbackRule.condition});
+        var condition = availableConditions.find(condition => condition.name === feedbackRule.condition);
         condition.init(feedbackRule, $rule.find('select.feedbackRule-condition'));
 
         return $rule;
@@ -84,7 +83,7 @@ define([
             $fbContainer.replaceWith(_renderFeedbackRule(fbRule));
 
         }).on('click', '.feedbackRule-button-delete', function(){
-            
+
             var $deleteButton = $(this),
                 $fbContainer = $deleteButton.parents('.feedbackRule-container'),
                 fbSerial = $fbContainer.data('serial'),
@@ -106,16 +105,16 @@ define([
                 condition = $select.val(),
                 availableConditions = modalFeedbackConditions.get(response),
                 fbRule = response.getFeedbackRule($(this).parents('.feedbackRule-container').data('serial')),
-                newCondition = _.find(availableConditions, {name : condition}),
-                oldCondition = _.find(availableConditions, {name : fbRule.condition});
+                newCondition = availableConditions.find(condition => condition.name === condition),
+                oldCondition = availableConditions.find(condition => condition.name === fbRule.condition);
 
             //exec unset old condition callback
-            if(oldCondition && _.isFunction(oldCondition.onUnset)){
+            if(oldCondition && typeof oldCondition.onUnset === 'function'){
                 oldCondition.onUnset(fbRule, $select);
             }
 
             //exec set new condition callback
-            if(newCondition && _.isFunction(newCondition.onSet)){
+            if(newCondition && typeof newCondition.onSet === 'function'){
                 newCondition.onSet(fbRule, $select);
             }
 
@@ -170,9 +169,9 @@ define([
             var $feedbackRules = $feedbacksPanel.find('.feedbackRules'),
                 feedbackRules = response.getFeedbackRules();
 
-            if(feedbackRules && _.size(feedbackRules)){
+            if (feedbackRules && Object.keys(feedbackRules).length) {
                 $feedbackRules.empty();
-                _.each(feedbackRules, function(feedbackRule){
+                feedbackRules.forEach(feedbackRule => {
                     $feedbackRules.append(_renderFeedbackRule(feedbackRule));
                 });
             }

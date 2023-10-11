@@ -16,7 +16,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
-define(['lodash', 'taoQtiItem/portableElementRegistry/factory/icRegistry', 'module'], function (_, icRegistry, module){
+define(['taoQtiItem/portableElementRegistry/factory/icRegistry', 'module'], function (icRegistry, module){
     'use strict';
 
     //create a preregistered singleton of icRegistry
@@ -28,11 +28,23 @@ define(['lodash', 'taoQtiItem/portableElementRegistry/factory/icRegistry', 'modu
         providers = config.providers;
     }
 
-    _.each(providers, function(provider){
-        if(provider.name && provider.module){
-            registry.registerProvider(provider.module);
+    if (Array.isArray(providers)) {
+        for (var i = 0; i < providers.length; i++) {
+            var provider = providers[i];
+            if (provider.name && provider.module) {
+                registry.registerProvider(provider.module);
+            }
         }
-    });
+    } else {
+        for (var key in providers) {
+            if (providers.hasOwnProperty(key)) {
+                var provider = providers[key];
+                if (provider.name && provider.module) {
+                    registry.registerProvider(provider.module);
+                }
+            }
+        }
+    }
 
     return registry;
 });

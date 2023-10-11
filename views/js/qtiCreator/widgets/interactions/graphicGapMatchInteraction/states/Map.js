@@ -22,7 +22,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
@@ -31,11 +30,11 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm'
-], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, scoringFormFactory){
+], function($, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, scoringFormFactory){
     'use strict';
 
     var removeGapFillers = function removeGapFillers(interaction){
-        _.forEach(interaction.gapFillers, function(gapFiller){
+        interaction.gapFillers.forEach(gapFiller => {
             gapFiller.remove();
         });
         interaction.gapFillers = [];
@@ -43,12 +42,12 @@ define([
 
     var showChoicesId = function showChoicesId(interaction){
 
-        _.forEach(interaction.getChoices(), function(choice){
-            var element = interaction.paper.getById(choice.serial);
-            if(element){
+        interaction.getChoices().forEach(choice => {
+            let element = interaction.paper.getById(choice.serial);
+            if (element) {
                 graphicHelper.createShapeText(interaction.paper, element, {
                     shapeClick: true,
-                    content : choice.id()
+                    content: choice.id()
                 });
             }
         });
@@ -65,11 +64,12 @@ define([
         var response    = interaction.getResponseDeclaration();
         var mapEntries  = response.getMapEntries();
 
-        var gapSrcs  = _.transform(interaction.getGapImgs(), function(acc, gapImg){
-            if(gapImg.object && gapImg.object.attr('data')){
-                acc[gapImg.id()] = widget.options.baseUrl + gapImg.object.attr('data');
-            }
-        }, {});
+         var gapSrcs = {};
+         interaction.getGapImgs().forEach(gapImg => {
+             if (gapImg.object && gapImg.object.attr('data')) {
+                 gapSrcs[gapImg.id()] = widget.options.baseUrl + gapImg.object.attr('data');
+             }
+         });
 
         //set up the scoring form options
         var options = {
@@ -77,10 +77,10 @@ define([
             rightTitle : __('Choice'),
             type : 'directedPair',
             pairLeft : function(){
-                return _.map(interaction.getGapImgs(), function(gap){
+                return interaction.getGapImgs().map(gap => {
                     return {
-                        id : gap.id(),
-                        value : gap.id()
+                        id: gap.id(),
+                        value: gap.id()
                     };
                 });
             },
@@ -93,10 +93,10 @@ define([
                 return formated;
             },
             pairRight : function(){
-                return _.map(interaction.getChoices(), function(choice){
+                return interaction.getChoices().map(choice => {
                     return {
-                        id : choice.id(),
-                        value : choice.id()
+                        id: choice.id(),
+                        value: choice.id()
                     };
                 });
             },
@@ -105,8 +105,9 @@ define([
 
         //format the entries to match the needs of the scoring form
         if(entries){
-            options.entries = _.transform(entries, function(result, value){
+            options.entries = entries.reduce((result, value) => {
                 result[value] = typeof mapEntries[value] !== 'undefined' ? mapEntries[value] : response.mappingAttributes.defaultValue;
+                return result;
             }, {});
         }
 
@@ -121,7 +122,7 @@ define([
         var widget = this.widget;
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
-        var corrects  = _.values(response.getCorrect());
+        var corrects = Object.values(response.getCorrect());
 
         //really need to destroy before ?
         commonRenderer.resetResponse(interaction);
@@ -144,7 +145,7 @@ define([
         showChoicesId(interaction);
 
         //and initialize the scoring form
-        if(_.size(response.getMapEntries()) === 0){
+        if(Object.keys(response.getMapEntries()).length === 0) {
             updateForm(widget, corrects);
         } else {
             updateForm(widget);
@@ -162,14 +163,14 @@ define([
             var type  = response.attr('cardinality') === 'single' ? 'base' : 'list';
             var pairs, entries;
             if(data && data.response &&  data.response[type]){
-                pairs = _.map(data.response[type].directedPair, function(pair){
-                    if(commonRenderer.isDirectedPairFlipped){
+                pairs = data.response[type].directedPair.map(pair => {
+                    if (commonRenderer.isDirectedPairFlipped) {
                         return pair.reverse().join(' ');
                     } else {
                         return pair.join(' ');
                     }
                 });
-                entries = _.keys(response.getMapEntries());
+                entries = Object.keys(response.getMapEntries());
 
                 //add new pairs from  the difference between the current entries and the given data
                 _(pairs).difference(entries).forEach(interaction.pairScoringForm.addPair, interaction.pairScoringForm);
@@ -201,7 +202,7 @@ define([
         instructionMgr.removeInstructions(interaction);
 
         //initialize again the widget's paper
-        interaction.paper = widget.createPaper(_.bind(widget.scaleGapList, widget));
+        interaction.paper = widget.createPaper(widget.scaleGapList.bind(widget));
         widget.createChoices();
         widget.createGapImgs();
     };

@@ -17,14 +17,13 @@
  */
 
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/Math',
     'taoQtiItem/qtiCreator/widgets/static/math/Widget',
     'taoQtiItem/qtiItem/core/Element'
-], function(_, Renderer, Widget, Element){
+], function(Renderer, Widget, Element){
     'use strict';
 
-    var CreatorMath = _.clone(Renderer);
+    var CreatorMath = {...Renderer};
 
     /**
      * This could serve as a basis for a helper if generic support is needed for non-editable element rendering

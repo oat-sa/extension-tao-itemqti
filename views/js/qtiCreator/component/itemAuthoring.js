@@ -19,7 +19,6 @@
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
 define([
-    'lodash',
     'ui/component',
     'core/pluginLoader',
     'taoQtiItem/qtiCreator/itemCreator',
@@ -29,7 +28,6 @@ define([
     'css!taoQtiItemCss/themes/default.css',
     'css!taoQtiItemCss/item-creator.css'
 ], function (
-    _,
     componentFactory,
     pluginLoaderFactory,
     itemCreatorFactory,
@@ -99,7 +97,7 @@ define([
             // auto render on init
             .on('init', function () {
                 // load plugins dynamically
-                _.forEach(this.getConfig().plugins, plugin => {
+                this.getConfig().plugins.forEach(plugin => {
                     if (plugin && plugin.module) {
                         if (plugin.exclude) {
                             pluginLoader.remove(plugin.module);
@@ -152,7 +150,7 @@ define([
 
         // initialize the component with the provided config
         // defer the call to allow to listen to the init event
-        _.defer(() => itemAuthoring.init(config));
+        setTimeout(() => itemAuthoring.init(config), 0);
 
         return itemAuthoring;
     }

@@ -20,10 +20,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicAssociateInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/Widget'
-], function(_, GraphicAssociateInteraction, GraphicAssociateInteractionWidget){
+], function(GraphicAssociateInteraction, GraphicAssociateInteractionWidget){
     'use strict';
 
     /**
@@ -31,7 +30,7 @@ define([
      * @extends taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicAssociateInteraction
      * @exports taoQtiItem/qtiCreator/renderers/interactions/GraphicAssociateInteraction
      */
-    var CreatorGraphicAssociateInteraction = _.clone(GraphicAssociateInteraction);
+    var CreatorGraphicAssociateInteraction = {...GraphicAssociateInteraction};
 
     /**
      * Render the interaction for authoring.

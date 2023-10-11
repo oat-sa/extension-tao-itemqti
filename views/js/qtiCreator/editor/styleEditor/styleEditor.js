@@ -109,7 +109,7 @@ define([
             mProp, // property inside a media query
             css = '';
 
-        if (_.isEmpty(style)) {
+        if (!style || Object.keys(style).length === 0) {
             return erase();
         }
 
@@ -159,7 +159,7 @@ define([
         // delete this rule
         if (!value) {
             delete style[selector][property];
-            if (_.size(style[selector]) === 0) {
+            if (Object.keys(style[selector]).length === 0) {
                 delete style[selector];
             }
         } else { // add this rule
@@ -198,7 +198,7 @@ define([
     const save = function save() {
         return new Promise(function (resolve, reject) {
             verifyInit();
-            const isStyles = _.size(style) > 0;
+            const isStyles = Object.keys(style).length > 0;
             if (!isStyles && !customStylesheet) {
                 return resolve();
             }
@@ -211,10 +211,11 @@ define([
             }
             $.post(
                 _getUri('save'),
-                _.extend({}, itemConfig, {
+                {
+                    ...itemConfig,
                     cssJson: JSON.stringify(style),
                     stylesheetUri: customStylesheetHref
-                })
+                }
             )
                 .done(resolve)
                 .fail(function (xhr, status, err) {
@@ -234,7 +235,10 @@ define([
             failMessageHtml: common.failMessageHtml,
             successCallback: function () {},
             httpMethod: 'POST',
-            data: _.extend({}, itemConfig, { stylesheetUri: uri })
+            data: {
+                ...itemConfig,
+                stylesheetUri: uri
+            }
         });
     };
 
@@ -299,7 +303,7 @@ define([
         };
 
         // argument is uri
-        if (_.isString(stylesheet)) {
+        if (typeof stylesheet === "string") {
             stylesheet = currentItem.createStyleSheet(stylesheet);
         }
 
@@ -340,7 +344,7 @@ define([
     const addItemStylesheets = function () {
         let key;
         let currentStylesheet;
-        currentItem.pendingStylesheetsInit = _.size(currentItem.stylesheets);
+        currentItem.pendingStylesheetsInit = Object.keys(currentItem.stylesheets).length;
 
         for (key in currentItem.stylesheets) {
             if (!Object.prototype.hasOwnProperty.call(currentItem.stylesheets, key)) {
@@ -414,7 +418,7 @@ define([
 
         if (customStylesheet) {
             href = customStylesheet.attr('href');
-            $.when($.getJSON(_getUri('load'), _.extend({}, itemConfig, { stylesheetUri: href }))).then(function (
+            $.when($.getJSON(_getUri('load'), Object.assign({}, itemConfig, { stylesheetUri: href }))).then(function (
                 _style
             ) {
                 // copy style to global style

@@ -19,14 +19,13 @@
 
 define([
     'module',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCommonRenderer/helpers/uploadMime',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/upload'
-], function (module, _, __, stateFactory, Question, formElement, uploadHelper, formTpl) {
+], function (module, __, stateFactory, Question, formElement, uploadHelper, formTpl) {
     'use strict';
 
     const ANY_KIND = 'any/kind';

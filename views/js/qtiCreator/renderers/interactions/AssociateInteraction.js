@@ -17,13 +17,12 @@
  */
 
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/AssociateInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/Widget'
-], function(_, AssociateInteraction, AssociateInteractionWidget){
+], function(AssociateInteraction, AssociateInteractionWidget){
     'use strict';
 
-    var CreatorAssociateInteraction = _.clone(AssociateInteraction);
+    var CreatorAssociateInteraction = {...AssociateInteraction};
 
     CreatorAssociateInteraction.render = function(interaction, options){
 

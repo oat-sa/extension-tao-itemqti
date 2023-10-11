@@ -17,14 +17,13 @@
  *
  */
 define([
-    'lodash',
     'jquery',
     'core/promise',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/helper/invalidator',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'core/logger'
-], function (_, $, Promise, Element, invalidator, styleEditor, loggerFactory) {
+], function ($, Promise, Element, invalidator, styleEditor, loggerFactory) {
     'use strict';
 
     const _pushState = function (widget, stateName) {
@@ -93,7 +92,7 @@ define([
                 this.offEvents(); //not sure if still required after state definition
 
                 //pass the options to the initCreator for custom options usage
-                _.each(this.getRequiredOptions(), function (opt) {
+                this.getRequiredOptions().forEach(opt => {
                     if (!options[opt]) {
                         throw new Error(`missing required option for image creator : ${opt}`);
                     }
@@ -101,7 +100,7 @@ define([
                 this.options = options;
                 Promise.resolve(this.initCreator(options)).then(() => {
                     //communicate the widget readiness
-                    if (_.isFunction(this.options.ready)) {
+                    if (typeof this.options.ready === 'function') {
                         this.options.ready.call(this, this);
                     }
                     this.$container.trigger('ready.qti-widget', [this]);
@@ -144,7 +143,7 @@ define([
             return this.clone().init(element, $container, $form, options);
         },
         clone: function () {
-            return _.clone(this);
+            return {...this};
         },
         initCreator: function () {
             //prepare all common actions, event handlers and dom for every state of the widget
@@ -157,7 +156,7 @@ define([
             });
         },
         getCurrentState: function () {
-            return _.last(this.stateStack);
+            return this.stateStack[this.stateStack.length - 1];
         },
         /**
          * Very important method:
@@ -193,15 +192,15 @@ define([
 
                 if (currentState.name === state.name) {
                     return this;
-                } else if (_.indexOf(state.superState, currentState.name) >= 0) {
+                } else if (state.superState.includes(currentState.name)) {
                     //initialize super states in reverse order:
-                    for (i = _.indexOf(state.superState, currentState.name) - 1; i >= 0; i--) {
+                    for (i = state.superState.lastIndexOf(currentState.name) - 1; i >= 0; i--) {
                         superStateName = state.superState[i];
                         _pushState(this, superStateName);
                     }
-                } else if (_.indexOf(currentState.superState, state.name) >= 0) {
+                } else if (currentState.superState.includes(state.name)) {
                     //just exit as much state as needed to get to it:
-                    for (i = 0; i <= _.indexOf(currentState.superState, state.name); i++) {
+                    for (i = 0; i <= currentState.superState.indexOf(state.name); i++) {
                         _popState(this);
                     }
 
@@ -211,19 +210,19 @@ define([
                     _popState(this);
 
                     //then, exit super states in order:
-                    exitedStates = _.difference(currentState.superState, state.superState);
-                    _.each(exitedStates, () => {
+                    exitedStates = currentState.superState.filter(ss => !state.superState.includes(ss));
+                    exitedStates.forEach(() => {
                         _popState(this);
                     });
 
                     //finally, init super states in reverse order:
-                    enteredStates = _.difference(state.superState, currentState.superState);
-                    _.eachRight(enteredStates, _superStateName => {
+                    enteredStates = state.superState.filter(ss => !currentState.superState.includes(ss));
+                    [...enteredStates].reverse().forEach(_superStateName => {
                         _pushState(this, _superStateName);
                     });
                 }
             } else {
-                _.eachRight(state.superState, _superStateName => {
+                state.superState.slice().reverse().forEach(_superStateName => {
                     _pushState(this, _superStateName);
                 });
             }
@@ -239,7 +238,7 @@ define([
             }
         },
         registerStates: function (states) {
-            _.forIn(states, (State, name) => {
+            Object.entries(states).forEach(([name, State]) => {
                 this.registerState(name, State);
             });
         },
@@ -280,7 +279,7 @@ define([
 
             element = this.element;
             postRenderOpts = {};
-            if (_.isFunction(options.ready)) {
+            if (typeof options.ready === 'function') {
                 postRenderOpts.ready = options.ready;
             }
 
@@ -331,7 +330,7 @@ define([
             const eventNames = qtiElementEventName.replace(/\s+/g, ' ').split(' '),
                 $document = $(document);
 
-            _.each(eventNames, eventName => {
+            eventNames.forEach(eventName => {
                 const eventNameToken = [eventName, 'qti-widget', this.serial];
 
                 if (!live) {

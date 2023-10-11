@@ -20,11 +20,10 @@ define([
     'jquery',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'i18n',
-    'lodash',
     'taoQtiItem/qtiCreator/model/Stylesheet',
     'tpl!taoQtiItem/qtiCreator/tpl/notifications/genericFeedbackPopup',
     'ui/resourcemgr'
-], function ($, styleEditor, __, _, Stylesheet, genericFeedbackPopup) {
+], function ($, styleEditor, __, Stylesheet, genericFeedbackPopup) {
     'use strict';
 
     var $doc = $(document);

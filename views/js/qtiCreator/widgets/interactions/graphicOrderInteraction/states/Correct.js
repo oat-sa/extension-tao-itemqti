@@ -21,14 +21,13 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicOrderInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function (_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse) {
+], function (__, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse) {
     'use strict';
 
     /**
@@ -53,7 +52,7 @@ define([
         //use the common Renderer
         commonRenderer.render.call(interaction.getRenderer(), interaction);
 
-        commonRenderer.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));
+        commonRenderer.setResponse(interaction, PciResponse.serialize(Object.values(response.getCorrect()), interaction));
 
         widget.$container.on('responseChange.qti-widget', function (e, data) {
             response.setCorrect(PciResponse.unserialize(data.response, interaction));
@@ -81,7 +80,7 @@ define([
 
         //initialize again the widget's paper
         interaction.paper = null;
-        interaction.paper = widget.createPaper(_.bind(widget.scaleOrderList, widget));
+        interaction.paper = widget.createPaper(widget.scaleOrderList.bind(widget));
         widget.createChoices();
         widget.renderOrderList();
     }

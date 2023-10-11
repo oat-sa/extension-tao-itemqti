@@ -1,9 +1,8 @@
 define([
-    'lodash',
     'jquery',
     'mathJax',
     'ui/feedback'
-], function(_, $, MathJax, feedback){
+], function($, MathJax, feedback){
     "use strict";
     var MathEditor = function MathEditor(config){
 
@@ -50,13 +49,13 @@ define([
             callback : null
         };
 
-        _.each(args, function(arg){
-            if(_.isFunction(arg)){
+        for (let arg of args) {
+            if (typeof arg === 'function') {
                 ret.callback = arg;
-            }else if(arg instanceof $){
+            } else if (arg instanceof $) {
                 ret.target = arg;
             }
-        });
+        }
 
         if(!ret.target){
             if(mathEditor.$target){

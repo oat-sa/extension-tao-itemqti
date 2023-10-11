@@ -21,14 +21,13 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicGapMatchInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function (_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse) {
+], function (__, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse) {
     'use strict';
 
     /**
@@ -38,7 +37,7 @@ define([
         const widget = this.widget;
         const interaction = widget.element;
         const response = interaction.getResponseDeclaration();
-        const corrects = _.values(response.getCorrect());
+        const corrects = Object.values(response.getCorrect());
 
         commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
@@ -57,15 +56,13 @@ define([
 
         commonRenderer.setResponse(
             interaction,
-            PciResponse.serialize(_.invoke(corrects, String.prototype.split, ' '), interaction)
+            PciResponse.serialize(corrects.map(str => str.split(' ')), interaction)
         );
 
         widget.$container.on('responseChange.qti-widget', function (e, data) {
             if (data.response && data.response.list) {
                 response.setCorrect(
-                    _.map(data.response.list.directedPair, function (pair) {
-                        return pair.join(' ');
-                    })
+                    data.response.list.directedPair.map(pair => pair.join(' '))
                 );
             }
         });
@@ -92,7 +89,7 @@ define([
 
         //initialize again the widget's paper
         interaction.paper = null;
-        interaction.paper = widget.createPaper(_.bind(widget.scaleGapList, widget));
+        interaction.paper = widget.createPaper(widget.scaleGapList.bind(widget));
         widget.createChoices();
         widget.createGapImgs();
     }

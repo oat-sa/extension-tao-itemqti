@@ -17,7 +17,6 @@
  *
  */
 define([
-    'lodash',
     'services/features',
     'taoQtiItem/qtiCreator/helper/languages',
     'taoQtiItem/qtiCreator/widgets/states/factory',
@@ -25,7 +24,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/item',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'select2'
-], function (_, features, languages, stateFactory, Active, formTpl, formElement) {
+], function (features, languages, stateFactory, Active, formTpl, formElement) {
     'use strict';
 
     const ItemStateActive = stateFactory.create(
@@ -94,7 +93,7 @@ define([
                 }
             });
         },
-        _.noop
+        function () {}
     );
 
     return ItemStateActive;

@@ -51,7 +51,7 @@ define([
                 width:          480
             };
 
-        mediaProps = _.defaults(mediaProps, mediaPropsDefaults);
+        mediaProps = Object.assign({}, mediaPropsDefaults, mediaProps);
         interaction.properties.media = mediaProps;
 
         /**

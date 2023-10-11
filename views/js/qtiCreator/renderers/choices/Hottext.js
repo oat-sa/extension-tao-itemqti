@@ -17,13 +17,12 @@
  */
 
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/choices/Hottext',
     'taoQtiItem/qtiCreator/widgets/choices/hottext/Widget'
-], function(_, Hottext, HottextWidget){
+], function(Hottext, HottextWidget){
     'use strict';
 
-    var CreatorHottext = _.clone(Hottext);
+    var CreatorHottext = {...Hottext};
 
     CreatorHottext.render = function(choice, options){
 

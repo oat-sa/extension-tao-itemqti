@@ -1,11 +1,10 @@
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/helper/popup',
     'tpl!taoQtiItem/qtiCreator/editor/colorPicker/tpl/popup',
     'lib/farbtastic/farbtastic'
-], function($, _, __, popup, popupTpl){
+], function($, __, popup, popupTpl){
 
     'use strict';
 
@@ -16,7 +15,7 @@ define([
 
     /**
      * Create and attach a color picker to a JQuery container
-     * 
+     *
      * @param {Object} $colorTrigger - a JQuery container
      * @param {Object} config
      * @param {Integer} [config.offsetTop = -40] - the offset top relative to the trigger
@@ -25,7 +24,7 @@ define([
      */
     function create($colorTrigger, config){
 
-        config = _.defaults(config || {}, _defaults);
+        config = Object.assign({}, _defaults, config);
 
         var color, $input = $colorTrigger.siblings('input');
 
@@ -42,10 +41,10 @@ define([
         var $popup = $(popupTpl());
         $colorTrigger.data('color-picker', $popup);
         $('#item-editor-wrapper').append($popup);
-        
+
         // basic popup functionality
         popup.init($colorTrigger, {popup : $popup});
-        
+
 
         // after popup opens
         $colorTrigger.on('open.popup', function(e, params){
@@ -60,9 +59,9 @@ define([
                 $colorPickerInput = params.popup.find('.color-picker-input');
 
             params.popup.css({right : $(window).width() - $container.offset().left + 2, top : $trigger.offset().top + config.offsetTop - $('#item-editor-wrapper').offset().top});
-            if(_.isFunction(config.title)){
+            if (typeof config.title === 'function') {
                 title = config.title.call(this);
-            }else if(_.isString(config.title)){
+            } else if (typeof config.title === 'string') {
                 title = config.title;
             }
             params.popup.find('h3').text(title);
@@ -97,7 +96,7 @@ define([
 
     /**
      * Destroy the color picker attached to a JQuery conttainer
-     * 
+     *
      * @param {Object} $colorTrigger - a JQuery container
      * @returns {undefined}
      */

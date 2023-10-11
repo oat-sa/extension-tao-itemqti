@@ -17,9 +17,8 @@
  *
  */
 define([
-    'lodash',
     'taoQtiItem/portableElementRegistry/factory/factory'
-], function (_, portableElementRegistry){
+], function (portableElementRegistry){
     'use strict';
 
     /**

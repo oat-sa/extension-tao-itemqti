@@ -17,7 +17,6 @@
  *
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/Figure',
     'taoQtiItem/qtiCreator/model/Img',
@@ -25,8 +24,8 @@ define([
 ], function (_, editable, Figure, Img, Figcaption) {
     'use strict';
     const methods = {};
-    _.extend(methods, editable);
-    _.extend(methods, {
+    Object.assign(methods, editable);
+    Object.assign(methods, {
         getDefaultAttributes: function () {
             return {
                 showFigure: false
@@ -42,7 +41,7 @@ define([
         },
         addCaption: function (text) {
             // check that caption doesn't exist
-            let figcaption = _.find(this.getBody().elements, elem => elem.is('figcaption'));
+            let figcaption = this.getBody().elements.find(elem => elem.is('figcaption'));
             if (!figcaption) {
                 figcaption = new Figcaption();
                 figcaption.body(text);
@@ -58,7 +57,7 @@ define([
             return figcaption;
         },
         removeCaption: function () {
-            const figcaption = _.find(this.getBody().elements, elem => elem.is('figcaption'));
+            const figcaption = this.getBody().elements.find(elem => elem.is('figcaption'));
             if (figcaption) {
                 this.removeElement(figcaption);
             }

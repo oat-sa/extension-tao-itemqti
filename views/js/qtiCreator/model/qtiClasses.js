@@ -1,10 +1,10 @@
 /**
  * Define the location of all qti classes used in the QTI Creator
  */
-define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses){
+define(['taoQtiItem/qtiItem/core/qtiClasses'], function(qtiClasses){
     "use strict";
     //clone the qtiClasses instead of modifying it by direct extend:
-    return _.defaults({
+    return {
         'assessmentItem' : 'taoQtiItem/qtiCreator/model/Item',
         '_container' : 'taoQtiItem/qtiCreator/model/Container',
         'figure' : 'taoQtiItem/qtiCreator/model/Figure',
@@ -49,7 +49,8 @@ define(['lodash', 'taoQtiItem/qtiItem/core/qtiClasses'], function(_, qtiClasses)
         'infoControl' : 'taoQtiItem/qtiCreator/model/PortableInfoControl',
         'include' : 'taoQtiItem/qtiCreator/model/Include',
         'printedVariable' : 'taoQtiItem/qtiCreator/model/PrintedVariable',
-        '_tooltip' : 'taoQtiItem/qtiCreator/model/Tooltip'
-    }, qtiClasses);
+        '_tooltip' : 'taoQtiItem/qtiCreator/model/Tooltip',
+        ...qtiClasses
+    };
 
 });

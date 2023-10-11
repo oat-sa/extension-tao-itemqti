@@ -18,13 +18,12 @@
  */
 define([
     'jquery',
-    'lodash',
     'ckeditor',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Choice',
     'taoQtiItem/qtiCreator/widgets/choices/simpleAssociableChoice/states/Choice',
     'taoQtiItem/qtiItem/core/Element'
-], function($, _, CKEditor, stateFactory, Choice, SimpleAssociableChoice, Element){
+], function($, CKEditor, stateFactory, Choice, SimpleAssociableChoice, Element){
     'use strict';
 
     var GapTextStateChoice = stateFactory.extend(Choice, function(){

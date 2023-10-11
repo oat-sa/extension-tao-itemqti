@@ -17,7 +17,6 @@
  *
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Question',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/choice',
@@ -25,12 +24,12 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content'
-], function(_, stateFactory, Question){
+], function(stateFactory, Question){
     'use strict';
 
     var SimpleChoiceStateQuestion = stateFactory.extend(Question);
 
-    SimpleChoiceStateQuestion.prototype.initForm = _.noop();
+    SimpleChoiceStateQuestion.prototype.initForm = () => {};
 
     return SimpleChoiceStateQuestion;
 });

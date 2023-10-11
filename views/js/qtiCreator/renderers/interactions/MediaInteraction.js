@@ -17,14 +17,13 @@
  */
 
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/MediaInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/mediaInteraction/Widget',
     'tpl!taoQtiItem/qtiCreator/tpl/interactions/mediaInteraction'
-], function(_, MediaInteraction, MediaInteractionWidget, tpl){
+], function(MediaInteraction, MediaInteractionWidget, tpl){
     'use strict';
 
-    MediaInteraction = _.clone(MediaInteraction);
+    MediaInteraction = {...MediaInteraction};
 
     MediaInteraction.template = tpl;
 

@@ -19,15 +19,14 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/PrintedVariable'
-], function(_, editable, PrintedVariable){
+], function(editable, PrintedVariable){
     "use strict";
 
     var methods = {};
-    _.extend(methods, editable);
-    _.extend(methods, {
+    Object.assign(methods, editable);
+    Object.assign(methods, {
         getDefaultAttributes : function(){
             return {
                 format:           '%2g',

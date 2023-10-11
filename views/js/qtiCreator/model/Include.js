@@ -1,12 +1,11 @@
 define([
-    'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/Include'
-], function(_, editable, Include){
+], function(editable, Include){
     "use strict";
     var methods = {};
-    _.extend(methods, editable);
-    _.extend(methods, {
+    Object.assign(methods, editable);
+    Object.assign(methods, {
         getDefaultAttributes : function(){
             return {};
         },

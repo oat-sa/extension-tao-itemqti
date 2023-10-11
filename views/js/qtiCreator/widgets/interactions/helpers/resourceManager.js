@@ -24,11 +24,10 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'util/image',
     'ui/resourcemgr'
-], function ($, _, __, imageUtil) {
+], function ($, __, imageUtil) {
     'use strict';
 
     var ns = 'upload';

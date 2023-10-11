@@ -16,7 +16,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
-define(['lodash', 'context', 'core/promise'], function(_, context, Promise){
+define(['context', 'core/promise'], function(context, Promise){
     'use strict';
 
     var _portableElementManifests = {};
@@ -33,17 +33,19 @@ define(['lodash', 'context', 'core/promise'], function(_, context, Promise){
      */
     function setPortableElementPrefix(obj, prefix){
         var ret;
-        if(_.isArray(obj)){
-            ret = _.map(obj, function(v){
+        if (Array.isArray(obj)) {
+            ret = obj.map(function(v) {
                 return setPortableElementPrefix(v, prefix);
             });
-        }else if(_.isPlainObject(obj)){
+        } else if (typeof obj === 'object' && obj !== null && obj.constructor === Object) {
             ret = {};
-            _.forIn(obj, function(v, k){
-                ret[k] = setPortableElementPrefix(v, prefix);
-            });
-        }else if(_.isString(obj)){
-            ret = obj.replace('./', prefix+'/');
+            for (var k in obj) {
+                if (obj.hasOwnProperty(k)) {
+                    ret[k] = setPortableElementPrefix(obj[k], prefix);
+                }
+            }
+        } else if (typeof obj === 'string') {
+            ret = obj.replace('./', prefix + '/');
         }
         return ret;
     }
@@ -67,21 +69,23 @@ define(['lodash', 'context', 'core/promise'], function(_, context, Promise){
             // in case of a TAO bundled PCI (= we have a "src" entry),
             // we redirect the module to the entry point of the PCI instead of its minified version
             if (runtimeSrc.length) {
-                _.forOwn(runtimeModules, function(allModulesFiles, moduleKey) {
-                    if (moduleKey.indexOf('.min') === (moduleKey.length - '.min'.length)) {
-                        runtimeModules[moduleKey] = allModulesFiles.map(function(filePath) {
-                            return filePath.replace('.min.js', '.js');
-                        });
+                for (var moduleKey in runtimeModules) {
+                    if (runtimeModules.hasOwnProperty(moduleKey)) {
+                        if (moduleKey.indexOf('.min') === (moduleKey.length - '.min'.length)) {
+                            runtimeModules[moduleKey] = runtimeModules[moduleKey].map(function(filePath) {
+                                return filePath.replace('.min.js', '.js');
+                            });
+                        }
                     }
-                });
+                }
             }
 
         } else {
-            if(manifest.runtime && _.isArray(manifest.runtime.src)){
+            if(manifest.runtime && Array.isArray(manifest.runtime.src)){
                 delete manifest.runtime.hook;//hook is going to be removed with the support of IMS PCI v1
                 manifest.runtime.libraries = manifest.runtime.src;
             }
-            if(manifest.creator && _.isArray(manifest.creator.src)){
+            if(manifest.creator && Array.isArray(manifest.creator.src)){
                 delete manifest.creator.hook;//hook is going to be removed with the support of IMS PCI v1
                 manifest.creator.libraries = manifest.creator.src;
             }
@@ -125,12 +129,12 @@ define(['lodash', 'context', 'core/promise'], function(_, context, Promise){
          */
         load : function load(){
             return new Promise(function(resolve, reject){
-                var _requiredManifests = _.map(_portableElementManifests, function(manifest){
-                    return 'json!'+manifest;
+                var _requiredManifests = _portableElementManifests.map(function(manifest) {
+                    return 'json!' + manifest;
                 });
                 require(_requiredManifests, function(){
                     var ok = true;
-                    _.each([].slice.call(arguments), function(manifest){
+                    [].slice.call(arguments).forEach(function(manifest) {
                         var id;
                         if(manifest && manifest.typeIdentifier){
                             id = manifest.typeIdentifier;

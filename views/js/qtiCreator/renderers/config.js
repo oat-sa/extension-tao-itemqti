@@ -16,12 +16,11 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
  */
 define([
-    'lodash',
     'context',
     'taoQtiItem/qtiCommonRenderer/renderers/config',
     'taoItems/assets/manager',
     'taoItems/assets/strategies'
-], function(_,  context, commonRenderConfig, assetManagerFactory, assetStrategies){
+], function(context, commonRenderConfig, assetManagerFactory, assetStrategies){
     'use strict';
 
     //asset manager using base url
@@ -32,7 +31,7 @@ define([
         assetStrategies.baseUrl
     ], {baseUrl : ''});
 
-    var locations = _.defaults({
+    var locations = {
         '_container' : 'taoQtiItem/qtiCreator/renderers/Container',
         '_tooltip' : 'taoQtiItem/qtiCreator/renderers/Tooltip',
         'assessmentItem' : 'taoQtiItem/qtiCreator/renderers/Item',
@@ -73,8 +72,9 @@ define([
         'gap' : 'taoQtiItem/qtiCreator/renderers/choices/Gap',
         'gapText' : 'taoQtiItem/qtiCreator/renderers/choices/GapText',
         'hottext' : 'taoQtiItem/qtiCreator/renderers/choices/Hottext',
-        'printedVariable' : 'taoQtiItem/qtiCreator/renderers/PrintedVariable'
-    }, commonRenderConfig.locations);
+        'printedVariable' : 'taoQtiItem/qtiCreator/renderers/PrintedVariable',
+        ...commonRenderConfig.locations
+    };
 
     return {
         name : 'creatorRenderer',

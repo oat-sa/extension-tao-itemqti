@@ -18,7 +18,6 @@
  */
 
 define([
-    'lodash',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
@@ -28,11 +27,10 @@ define([
     'services/features',
     'ui/liststyler'
 ], function (
-    _, 
-    stateFactory, 
-    Question, 
-    formElement, 
-    minMaxComponentFactory, 
+    stateFactory,
+    Question,
+    formElement,
+    minMaxComponentFactory,
     formTpl,
     sizeAdapter,
     features
@@ -64,14 +62,14 @@ define([
 
         //usual min/maxChoices control
         minMaxComponentFactory($form.find('.min-max-panel'), {
-            min : { value : _.parseInt(interaction.attr('minChoices')) || 0 },
-            max : { value : _.parseInt(interaction.attr('maxChoices')) || 0 },
-            upperThreshold : _.size(interaction.getChoices())
+            min : { value : parseInt(interaction.attr('minChoices'), 10) || 0 },
+            max : { value : parseInt(interaction.attr('maxChoices'), 10) || 0 },
+            upperThreshold : interaction.getChoices().length
         }).on('render', function(){
             var self = this;
             widget.on('choiceCreated choiceDeleted', function(data){
                 if(data.interaction.serial === interaction.serial){
-                    self.updateThresholds(1, _.size(interaction.getChoices()));
+                    self.updateThresholds(1, interaction.getChoices().length);
                 }
             });
         });

@@ -23,7 +23,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
@@ -32,7 +31,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm'
-], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, scoringFormFactory){
+], function($, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, scoringFormFactory){
 
     'use strict';
 
@@ -43,8 +42,8 @@ define([
         var widget = this.widget;
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
-        var corrects  = _.values(response.getCorrect());
-        var currentResponses =  _.size(response.getMapEntries()) === 0 ? corrects : _.keys(response.getMapEntries());
+        var corrects = Object.values(response.getCorrect());
+        var currentResponses = Object.keys(response.getMapEntries()).length === 0 ? corrects : Object.keys(response.getMapEntries());
 
         //really need to destroy before ?
         commonRenderer.resetResponse(interaction);
@@ -65,7 +64,7 @@ define([
         showChoicesId(interaction);
 
         //and initialize the scoring form
-        if(_.size(response.getMapEntries()) === 0){
+        if(Object.keys(response.getMapEntries()).length === 0){
             updateForm(widget, corrects);
         } else {
             updateForm(widget);
@@ -76,22 +75,24 @@ define([
             var type  = response.attr('cardinality') === 'single' ? 'base' : 'list';
             var pairs, entries;
             if(data && data.response &&  data.response[type]){
-               pairs = _.invoke(data.response[type].pair, Array.prototype.join, ' ');
-               entries = _.keys(response.getMapEntries());
+                pairs = data.response[type].pair.map(pair => pair.join(' '));
+                entries = Object.keys(response.getMapEntries());
 
                //add new pairs from  the difference between the current entries and the given data
-               _(pairs).difference(entries).forEach(interaction.pairScoringForm.addPair, interaction.pairScoringForm);
+                pairs.filter(pair => !entries.includes(pair)).forEach(pair => interaction.pairScoringForm.addPair.call(interaction.pairScoringForm, pair));
 
 
-               removePaths(interaction);
+                removePaths(interaction);
             }
         });
     }
 
     function removePaths(interaction){
-        _.delay(function(){
-           _.forEach(interaction._vsets, function(vset){
-                _.invoke(vset, 'remove');
+        setTimeout(() => {
+            interaction._vsets.forEach(vset => {
+                if (vset && typeof vset.remove === 'function') {
+                    vset.remove();
+                }
             });
             interaction._vsets = [];
         }, 500);
@@ -125,12 +126,12 @@ define([
     }
 
     function showChoicesId(interaction){
-        _.forEach(interaction.getChoices(), function(choice){
-            var element = interaction.paper.getById(choice.serial);
-            if(element){
+        interaction.getChoices().forEach(choice => {
+            let element = interaction.paper.getById(choice.serial);
+            if (element) {
                 graphicHelper.createShapeText(interaction.paper, element, {
                     shapeClick: true,
-                    content : choice.id()
+                    content: choice.id()
                 }).transform('t0,-10').toFront();
             }
         });
@@ -151,15 +152,15 @@ define([
             //set the current responses, either the mapEntries or the corrects if nothing else
             commonRenderer.setResponse(
                 interaction,
-                PciResponse.serialize(_.invoke(_.keys(response.getMapEntries()), String.prototype.split, ' '), interaction)
+                PciResponse.serialize(Object.keys(response.getMapEntries()).map(key => key.split(' ')), interaction)
             );
         };
 
         var getPairValues = function getPairValues(){
-            return _.map(interaction.getChoices(), function(choice){
+            return interaction.getChoices().map(choice => {
                 return {
-                    id : choice.id(),
-                    value : choice.id()
+                    id: choice.id(),
+                    value: choice.id()
                 };
             });
         };
@@ -175,8 +176,9 @@ define([
 
         //format the entries to match the needs of the scoring form
         if(entries){
-            options.entries = _.transform(entries, function(result, value){
+            options.entries = entries.reduce((result, value) => {
                 result[value] = mapEntries[value] !== undefined ? mapEntries[value] : response.mappingAttributes.defaultValue;
+                return result;
             }, {});
         }
 

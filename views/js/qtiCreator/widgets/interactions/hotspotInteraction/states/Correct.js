@@ -22,14 +22,13 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/HotspotInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse){
+], function(__, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse){
 
     'use strict';
 
@@ -40,22 +39,22 @@ define([
         var widget = this.widget;
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
-        
-        //really need to destroy before ? 
+
+        //really need to destroy before ?
         commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
 
         if(!interaction.paper){
             return;
         }
-        
+
         //add a specific instruction
         instructionMgr.appendInstruction(interaction, __('Please select the correct hotspot choices below.'));
-        
+
         //use the common Renderer
         commonRenderer.render.call(interaction.getRenderer(), interaction);
 
-        commonRenderer.setResponse(interaction, PciResponse.serialize(_.values(response.getCorrect()), interaction));
+        commonRenderer.setResponse(interaction, PciResponse.serialize(Object.values(response.getCorrect()), interaction));
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
             response.setCorrect(PciResponse.unserialize(data.response, interaction));
@@ -68,22 +67,22 @@ define([
     var exitCorrectState = function exitCorrectState(){
         var widget = this.widget;
         var interaction = widget.element;
-        
+
         if(!interaction.paper){
             return;
         }
 
         //stop listening responses changes
         widget.$container.off('responseChange.qti-widget');
-        
+
         //destroy the common renderer
         commonRenderer.resetResponse(interaction);
-        commonRenderer.destroy(interaction); 
+        commonRenderer.destroy(interaction);
         instructionMgr.removeInstructions(interaction);
 
         //initialize again the widget's paper
         interaction.paper = widget.createPaper();
-        widget.createChoices(); 
+        widget.createChoices();
     };
 
     /**

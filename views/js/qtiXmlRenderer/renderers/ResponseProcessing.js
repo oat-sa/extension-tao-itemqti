@@ -1,15 +1,14 @@
 define([
-    'lodash',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responseProcessing',
     'taoQtiItem/qtiXmlRenderer/helper/responseProcessingTpl'
-], function(_, tpl, responseProcessingTpl){
+], function(tpl, responseProcessingTpl){
     'use strict';
 
     var _renderFeedbackRules = function _renderFeedbackRules(renderer, response){
         var ret = [];
-        _.forEach(response.getFeedbackRules(), function(rule){
+        for (let rule of response.getFeedbackRules()) {
             ret.push(rule.render(renderer));
-        });
+        }
         return ret;
     };
 
@@ -28,10 +27,10 @@ define([
                     break;
                 case 'templateDriven':
                     interactions = responseProcessing.getRootElement().getInteractions();
-                    if(interactions.length === 1 && !data.notAllowTemplate){
+                    if (interactions.length === 1 && !data.notAllowTemplate) {
                         response = interactions[0].getResponseDeclaration();
-                        if(_.size(response.getFeedbackRules()) === 0 && response.id() === 'RESPONSE'){
-                            if(response.template !== 'no_response_processing'){
+                        if (Object.keys(response.getFeedbackRules()).length === 0 && response.id() === 'RESPONSE') {
+                            if (response.template !== 'no_response_processing') {
                                 //the exact condition to serialize the rp as a standard template is met
                                 defaultData.template = response.template;
                             }
@@ -40,19 +39,20 @@ define([
                     }
 
                     defaultData.responseRules = [];
-                    _.forEach(interactions, function(interaction){
+                    for (let interaction of interactions) {
                         const response = interaction.getResponseDeclaration();
                         const responseRule = responseProcessingTpl.renderInteractionRp(response, 'SCORE');
 
-                        if(_.isString(responseRule) && responseRule.trim()){
+                        if (typeof responseRule === 'string' && responseRule.trim()) {
                             defaultData.responseRules.push(responseRule);
                         }
-                    });
+                    }
 
                     defaultData.feedbackRules = [];
-                    _.forEach(interactions, function(interaction){
-                        defaultData.feedbackRules = _.union(defaultData.feedbackRules, _renderFeedbackRules(self, interaction.getResponseDeclaration()));
-                    });
+                    for (let interaction of interactions) {
+                        const feedbacks = _renderFeedbackRules(self, interaction.getResponseDeclaration());
+                        defaultData.feedbackRules = Array.from(new Set([...defaultData.feedbackRules, ...feedbacks]));
+                    }
 
                     if(defaultData.responseRules.length || defaultData.feedbackRules.length){
                         defaultData.templateDriven = true;
@@ -61,7 +61,7 @@ define([
                     break;
             }
 
-            return _.merge(data || {}, defaultData);
+            return Object.assign({}, defaultData, data || {});
         }
     };
 });

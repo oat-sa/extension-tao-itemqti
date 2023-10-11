@@ -16,14 +16,13 @@
  * Copyright (c) 2014-2019 Open Assessment Technologies SA
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/Math'
-], function(_, editable, mathModel){
+], function(editable, mathModel){
     "use strict";
     var methods = {};
-    _.extend(methods, editable);
-    _.extend(methods, {
+    Object.assign(methods, editable);
+    Object.assign(methods, {
         getDefaultAttributes : function(){
             return {};
         },

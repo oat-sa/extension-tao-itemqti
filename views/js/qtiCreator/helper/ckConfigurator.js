@@ -18,7 +18,7 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define(['lodash', 'ui/ckeditor/ckConfigurator', 'mathJax'], function(_, ckConfigurator, mathJax) {
+define(['ui/ckeditor/ckConfigurator', 'mathJax'], function(ckConfigurator, mathJax) {
     'use strict';
 
     var _defaults = {
@@ -49,7 +49,7 @@ define(['lodash', 'ui/ckeditor/ckConfigurator', 'mathJax'], function(_, ckConfig
      * @see http://docs.ckeditor.com/#!/api/CKEDITOR.config
      */
     var getConfig = function(editor, toolbarType, options){
-        return ckConfigurator.getConfig(editor, toolbarType, _.defaults(options || {}, _defaults));
+        return ckConfigurator.getConfig(editor, toolbarType, { ..._defaults, ...options });
     };
 
     return {

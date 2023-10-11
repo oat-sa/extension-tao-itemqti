@@ -18,11 +18,10 @@
 define([
     'module',
     'context',
-    'lodash',
     'taoQtiItem/qtiCreator/helper/commonRenderer',
     'taoQtiItem/qtiItem/helper/xincludeLoader',
     'core/moduleLoader'
-], function (module, context, _, commonRenderer, xincludeLoader, moduleLoader) {
+], function (module, context, commonRenderer, xincludeLoader, moduleLoader) {
     'use strict';
 
     const moduleConfig = module.config();
@@ -31,7 +30,7 @@ define([
         /*
          * This loads all the modules from module configuration, which are in the `handlers` array.
          */
-        moduleLoader({}, _.isFunction)
+        moduleLoader({}, (val) => typeof val === "function")
             .addList(moduleConfig.handlers)
             .load(context.bundle)
             .then(handlers => xincludeHandlers = handlers);
@@ -65,7 +64,7 @@ define([
                     //loading success :
                     commonRenderer.get().load(function () {
                         //set commonRenderer to the composing elements only (because xinclude is "read-only")
-                        _.each(xinclude.getComposingElements(), function (elt) {
+                        xinclude.getComposingElements().forEach(elt => {
                             elt.setRenderer(commonRenderer.get());
                         });
 

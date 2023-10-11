@@ -17,10 +17,9 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiItem/core/Element'
-], function($, _, __, Element){
+], function($, __, Element){
     "use strict";
 
     var _getItemContainer = function(){
@@ -121,7 +120,7 @@ define([
         });
 
         //@todo : fix this timeout event
-        _.delay(function(){
+        setTimeout(() => {
             showPanel($formItemPanel);
         }, 200);
 

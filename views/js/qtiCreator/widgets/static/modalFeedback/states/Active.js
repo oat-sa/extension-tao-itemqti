@@ -24,11 +24,10 @@ define([
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiItem/helper/container',
-    'lodash',
     'i18n',
     'jquery',
     'ui/modal'
-], function(stateFactory, Active, commonRenderer, formTpl, formElement, htmlEditor, contentHelper, containerHelper, _, __, $){
+], function(stateFactory, Active, commonRenderer, formTpl, formElement, htmlEditor, contentHelper, containerHelper, __, $){
     'use strict';
 
     var buildTitleEditor = function buildTitleEditor($title, element, htmleditor){

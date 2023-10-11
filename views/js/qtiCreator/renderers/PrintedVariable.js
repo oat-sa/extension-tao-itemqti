@@ -18,14 +18,13 @@
 
 define([
     'jquery',
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/PrintedVariable',
     'taoQtiItem/qtiCreator/widgets/static/printedVariable/Widget',
     'tpl!taoQtiItem/qtiCreator/tpl/printedVariable'
-], function($, _, Renderer, Widget, tpl){
+], function($, Renderer, Widget, tpl){
     'use strict';
 
-    var CreatorPrintedVariable = _.clone(Renderer);
+    var CreatorPrintedVariable = {...Renderer};
 
     CreatorPrintedVariable.template = tpl;
 

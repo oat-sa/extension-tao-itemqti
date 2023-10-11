@@ -17,7 +17,6 @@
  *
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCreator/helper/panel',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleSheetToggler',
@@ -25,7 +24,7 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/colorSelector',
     'taoQtiItem/qtiCreator/editor/styleEditor/fontSizeChanger',
     'taoQtiItem/qtiCreator/editor/styleEditor/itemResizer',
-], function(_, panel, styleEditor, styleSheetToggler, fontSelector, colorSelector, fontSizeChanger, itemResizer){
+], function(panel, styleEditor, styleSheetToggler, fontSelector, colorSelector, fontSizeChanger, itemResizer){
     'use strict';
 
     /**

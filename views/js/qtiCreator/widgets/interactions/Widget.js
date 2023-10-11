@@ -1,5 +1,4 @@
 define([
-    'lodash',
     'jquery',
     'taoQtiItem/qtiCreator/widgets/Widget',
     'taoQtiItem/qtiCreator/widgets/helpers/movable',
@@ -7,7 +6,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/okButton',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     '../../helper/classTitles'
-], function (_, $, Widget, movable, toolbarTpl, okButtonTpl, contentHelper, getQtiClassTitle) {
+], function ($, Widget, movable, toolbarTpl, okButtonTpl, contentHelper, getQtiClassTitle) {
     /**
      *
      * Create a new widget definition from another prototype.
@@ -83,9 +82,7 @@ define([
      * Create a toolbar
      */
     InteractionWidget.createToolbar = function (options) {
-        options = _.defaults(options || {}, {
-            title: _convertToTitle(getQtiClassTitle(this.element.qtiClass))
-        });
+        options = Object.assign({ title: _convertToTitle(getQtiClassTitle(this.element.qtiClass)) }, options || {});
 
         const $toolbar = $(
             toolbarTpl({

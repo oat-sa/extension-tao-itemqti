@@ -17,15 +17,14 @@
  */
 
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/Include',
     'taoQtiItem/qtiCommonRenderer/helpers/container',
     'taoQtiItem/qtiCreator/widgets/static/include/Widget',
     'tpl!taoQtiItem/qtiCreator/tpl/include'
-], function(_, Renderer, containerHelper, Widget, tpl){
+], function(Renderer, containerHelper, Widget, tpl){
     'use strict';
 
-    var CreatorXInclude = _.clone(Renderer);
+    var CreatorXInclude = {...Renderer};
 
     CreatorXInclude.template = tpl;
 

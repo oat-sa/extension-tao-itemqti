@@ -6,9 +6,12 @@ define(['lodash', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/element'], function(_, tpl)
         template : tpl,
         getData : function(item, data) {
 
-            data.attributes = _.mapValues(data.attributes, function (val) {
-                return _.isString(val) ? _.escape(val) : val;
-            });
+            for (let key in data.attributes) {
+                if (data.attributes.hasOwnProperty(key)) {
+                    let val = data.attributes[key];
+                    data.attributes[key] = (typeof val === 'string') ? _.escape(val) : val;
+                }
+            }
 
             return data;
         }

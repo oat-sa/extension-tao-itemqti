@@ -1,13 +1,12 @@
 define([
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/feedbacks/ModalFeedback'
-], function (_, __, editable, ModalFeedback) {
+], function (__, editable, ModalFeedback) {
     "use strict";
     var methods = {};
-    _.extend(methods, editable);
-    _.extend(methods, {
+    Object.assign(methods, editable);
+    Object.assign(methods, {
         getDefaultAttributes : function(){
             return {
                 title : __('modal feedback title'),
@@ -15,6 +14,6 @@ define([
             };
         }
     });
-    
+
     return ModalFeedback.extend(methods);
 });

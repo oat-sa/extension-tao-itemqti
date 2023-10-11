@@ -19,7 +19,6 @@
 
 define([
     'jquery',
-    'lodash',
     'ckeditor',
     'services/features',
     'taoQtiItem/qtiCreator/widgets/states/factory',
@@ -27,7 +26,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content'
-], function ($, _, CKEditor, features, stateFactory, QuestionState, formElement, htmlEditor, contentHelper) {
+], function ($, CKEditor, features, stateFactory, QuestionState, formElement, htmlEditor, contentHelper) {
     'use strict';
     const ChoiceStateQuestion = stateFactory.extend(
         QuestionState,

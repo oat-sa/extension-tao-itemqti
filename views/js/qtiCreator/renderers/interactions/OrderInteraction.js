@@ -17,13 +17,12 @@
  */
 
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/OrderInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/orderInteraction/Widget'
-], function(_, OrderInteraction, OrderInteractionWidget){
+], function(OrderInteraction, OrderInteractionWidget){
     'use strict';
 
-    var CreatorOrderInteraction = _.clone(OrderInteraction);
+    var CreatorOrderInteraction = {...OrderInteraction};
 
     CreatorOrderInteraction.render = function(interaction, options){
 

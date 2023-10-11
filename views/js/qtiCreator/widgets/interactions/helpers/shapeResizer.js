@@ -2,9 +2,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'jquery', 'lodash', 
+    'jquery',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic'
-], function($, _, commonGraphicHelper){
+], function($, commonGraphicHelper){
 
 
     /**
@@ -21,17 +21,17 @@ define([
      */
     var resize =  function resize (element, options){
         var resizer;
-        
+
         if(element && element.type && options.stop){
-            resizer = _.bind(shapeResizer[element.type], shapeResizer);
-            
+            resizer = shapeResizer[element.type].bind(shapeResizer);
+
             if(!options.start){
                 options.start = getStartPoint(element);
             }
-            
-            if(_.isFunction(resizer)){
+
+            if(typeof resizer === 'function'){
                 element.attr(resizer(options));
-                if (_.isFunction(options.resized)) {
+                if (typeof options.resized === 'function') {
                     options.resized.call(element);
                 }
             }
@@ -45,18 +45,18 @@ define([
             var startPoint;
             switch(element.type){
                 case 'circle'   : startPoint = { x : element.attrs.cx, y : element.attrs.cy }; break;
-                case 'ellipse'  : 
+                case 'ellipse'  :
                 case 'rect'     : startPoint = element.getBBox(); break;
             }
             return startPoint;
-        }        
+        }
     };
-    
+
     /**
      * Provides resizing implementation based on the shape type
-     */ 
+     */
     var shapeResizer = {
-        
+
         /**
          * Resize a rectangle
          * @param {Object} options - see resize
@@ -67,13 +67,13 @@ define([
             var stop = options.stop;
             var constraints = options.constraints;
             var dest = {};
-            
+
             if(!constraints || constraints.x){
                 dest.width = stop.x - start.x;
                 if(dest.width < 0){
                     dest.x = stop.x;
                     dest.width = dest.width * -1;
-                } 
+                }
             }
 
             if(!constraints || constraints.y){
@@ -89,7 +89,7 @@ define([
                 if(dest.width < 0){
                     dest.x = stop.x;
                     dest.width = dest.width * -1;
-                } 
+                }
             }
 
             if(constraints && constraints.iy){
@@ -100,7 +100,7 @@ define([
                     dest.height = dest.height * -1;
                 }
             }
-            
+
             //we keep a minimal size
             if(dest.width < 10){
                 dest.width = 10;
@@ -110,7 +110,7 @@ define([
             }
             return dest;
         },
-        
+
         /**
          * Resize a circle
          * @param {Object} options - see resize
@@ -121,7 +121,7 @@ define([
             var stop = options.stop;
             var rw = (stop.x > start.x) ? stop.x - start.x  : start.x - stop.x;
             var rh = (stop.y > start.y) ? stop.y - start.y  : start.y - stop.y;
-            //thanks pythagore 
+            //thanks pythagore
             var r =  Math.floor( Math.sqrt(Math.pow(rw, 2) + Math.pow(rh, 2)));
 
             return {
@@ -136,7 +136,7 @@ define([
          */
         ellipse : function resizeEllipse(options){
             var dest = {};
-            var boxDest = this.rect(options); 
+            var boxDest = this.rect(options);
 
             if(boxDest.x){
                 dest.x = boxDest.x;
@@ -145,11 +145,11 @@ define([
             if(boxDest.y){
                 dest.y = boxDest.y;
             }
-            
+
             if(boxDest.width){
                 dest.rx = boxDest.width / 2;
             }
-            
+
             if(boxDest.height){
                 dest.ry = boxDest.height / 2;
             }
@@ -165,20 +165,20 @@ define([
             var dest = {};
             if(options.path && options.start){
                 dest.path = '';
-               _.forEach(options.path, function(point, index){
-                   dest.path += point[0];
-                   if(point.length === 3){
-                       if (index === options.pointIndex || options.pointIndex === 0 && index === 1){
+                options.path.forEach((point, index) => {
+                    dest.path += point[0];
+                    if (point.length === 3) {
+                        if (index === options.pointIndex || (options.pointIndex === 0 && index === 1)) {
                             dest.path += options.stop.x + ' ' + options.stop.y;
-                       } else {
+                        } else {
                             dest.path += point[1] + ' ' + point[2];
-                       }
-                   }                 
-               }); 
+                        }
+                    }
+                });
             }
             return dest;
         }
     };
-    
+
     return resize;
 });

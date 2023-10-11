@@ -21,19 +21,23 @@
  */
 define([
     'jquery',
-    'lodash',
     'core/eventifier',
     'taoQtiItem/qtiCreator/helper/changeTracker',
     'json!taoQtiItem/test/samples/json/space-shuttle.json'
-], function ($, _, eventifier, changeTrackerFactory, itemData) {
+], function ($, eventifier, changeTrackerFactory, itemData) {
     'use strict';
 
     function itemCreatorFactory(data = null) {
-        const item = _.defaults(data || _.cloneDeep(itemData), {
-            toArray() {
-                return this;
-            }
-        });
+        const item = {
+            ...{
+                toArray() {
+                    return this;
+                }
+            },
+            ...JSON.parse(JSON.stringify(itemData)),
+            ...data
+        };
+
         return eventifier({
             getItem() {
                 return item;

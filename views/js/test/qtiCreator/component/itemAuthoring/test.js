@@ -21,11 +21,10 @@
  */
 define([
     'jquery',
-    'lodash',
     'taoQtiItem/qtiCreator/component/itemAuthoring',
     'json!taoQtiItem/test/samples/json/space-shuttle.json',
     'lib/jquery.mockjax/jquery.mockjax'
-], function ($, _, itemAuthoringFactory, itemData) {
+], function ($, itemAuthoringFactory, itemData) {
     'use strict';
 
     function getInstance(fixture, config = {}) {

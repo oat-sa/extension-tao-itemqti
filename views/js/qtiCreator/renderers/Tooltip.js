@@ -19,16 +19,15 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'lodash',
     'services/features',
     'taoQtiItem/qtiCommonRenderer/renderers/Tooltip',
     'taoQtiItem/qtiCreator/widgets/static/tooltip/Widget',
     'tpl!taoQtiItem/qtiCreator/tpl/tooltip',
     'tpl!taoQtiItem/qtiCreator/tpl/notooltip'
-], function(_, features, Renderer, Widget, tooltipTpl, noTooltipTpl){
+], function(features, Renderer, Widget, tooltipTpl, noTooltipTpl){
     'use strict';
 
-    var CreatorTooltip = _.clone(Renderer);
+    var CreatorTooltip = {...Renderer};
     const tooltipsVisible = features.isVisible('taoQtiItem/creator/content/plugin/taotooltip');
     if(tooltipsVisible) {
         CreatorTooltip.template = tooltipTpl;

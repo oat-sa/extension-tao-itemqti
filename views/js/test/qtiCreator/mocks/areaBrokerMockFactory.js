@@ -19,7 +19,7 @@
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  * @author Christophe Noël <christophe@taotesting.com>
  */
-define(['jquery', 'lodash', 'ui/areaBroker'], function($, _, areaBrokerFactory) {
+define(['jquery', 'ui/areaBroker'], function($, areaBrokerFactory) {
     'use strict';
 
     var areaBroker;
@@ -63,10 +63,10 @@ define(['jquery', 'lodash', 'ui/areaBroker'], function($, _, areaBrokerFactory) 
             if (!config.areas) {
                 config.areas = defaultAreas;
             } else {
-                config.areas = _.keys(_.merge(_.object(config.areas), _.object(defaultAreas)));
+                config.areas = Object.keys({...Object.fromEntries(config.areas), ...Object.fromEntries(defaultAreas)});
             }
 
-            _.forEach(config.areas, function(areaId) {
+            config.areas.forEach(areaId => {
                 config.mapping[areaId] = $('<div />')
                     .addClass('test-area')
                     .addClass(areaId)
@@ -75,7 +75,7 @@ define(['jquery', 'lodash', 'ui/areaBroker'], function($, _, areaBrokerFactory) 
 
             // Create only missing areas
         } else {
-            _.union(defaultAreas, config.areas || []).forEach(function(areaId) {
+            [...new Set([...defaultAreas, ...(config.areas || [])])].forEach(areaId => {
                 // create missing areas
                 if (!config.mapping[areaId]) {
                     config.mapping[areaId] = $('<div />')

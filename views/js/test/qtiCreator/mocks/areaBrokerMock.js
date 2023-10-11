@@ -20,9 +20,8 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'lodash',
     'taoQtiItem/test/qtiCreator/mocks/areaBrokerMockFactory'
-], function (_, areaBrokerMockFactory) {
+], function (areaBrokerMockFactory) {
     'use strict';
 
     /**
@@ -54,10 +53,11 @@ define([
 
     function areaBrokerMock(config) {
 
-        config = _.defaults(config || {}, {
+        config = {
             defaultAreas: defaultAreas,
-            id: 'qti-creator'
-        });
+            id: 'qti-creator',
+            ...config
+        };
 
         areaBroker = areaBrokerMockFactory(config);
 

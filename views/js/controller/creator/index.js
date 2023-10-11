@@ -25,7 +25,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'module',
     'core/logger',
     'core/promise',
@@ -34,7 +33,7 @@ define([
     'taoQtiItem/qtiCreator/itemCreator',
     'taoQtiItem/qtiCreator/editor/areaBroker',
     'taoQtiItem/qtiCreator/plugins/loader'
-], function($, _, module, loggerFactory, Promise, feedback, loadingBar, itemCreatorFactory, areaBrokerFactory, pluginLoader){
+], function($, module, loggerFactory, Promise, feedback, loadingBar, itemCreatorFactory, areaBrokerFactory, pluginLoader){
     'use strict';
 
     /**
@@ -95,17 +94,17 @@ define([
                 if(config.plugins){
                     config.properties.allowCustomTemplate = config.plugins.some(({ name }) => name === 'xmlResponseProcessing');
 
-                    _.forEach(config.plugins, plugin => {
-                        if(plugin && plugin.module){
+                    config.plugins.forEach(plugin => {
+                        if (plugin && plugin.module) {
                             pluginLoader.add(plugin);
                         }
                     });
                 }
-                
+
                 if(config.contextPlugins){
-                    _.forEach(config.contextPlugins, plugin => {
-                        if(plugin && plugin.module){
-                            if(plugin.exclude){
+                    config.contextPlugins.forEach(plugin => {
+                        if (plugin && plugin.module) {
+                            if (plugin.exclude) {
                                 pluginLoader.remove(plugin.module);
                             } else {
                                 pluginLoader.add(plugin);

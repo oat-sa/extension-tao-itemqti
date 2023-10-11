@@ -15,7 +15,7 @@
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
-define(['lodash'], function(_){
+define([], function(){
     "use strict";
     /**
      * Argument cols format:
@@ -35,7 +35,7 @@ define(['lodash'], function(_){
         var totalUnits = 0, size = 0, _cols = {}, ret = {}, minimized = [], decimals = [];
 
         for(var i in cols){
-            _cols[i] = _.clone(cols[i]);
+            _cols[i] = {...cols[i]};
             totalUnits += cols[i].units;
             size++;
         }
@@ -123,7 +123,7 @@ define(['lodash'], function(_){
             positive = [],
             ret = [];
 
-        _.each(cols, function(col){
+        cols.forEach(col => {
             _cols.push(col);
             totalUnits += col.units;
         });
@@ -132,56 +132,49 @@ define(['lodash'], function(_){
             throw 'the total number of units exceed the maximum of ' + max;
         }
 
-        _.each(_cols, function(col){
-
-            var refactoredUnits = col.units * max / totalUnits;
-            var rounded = Math.round(refactoredUnits);
+        _cols.forEach(col => {
+            let refactoredUnits = col.units * max / totalUnits;
+            let rounded = Math.round(refactoredUnits);
             totalRefactoredUnits += rounded;
 
             col.refactoredUnits = rounded;
 
-            if(rounded > refactoredUnits){
+            if (rounded > refactoredUnits) {
                 positive.push(col);
-            }else{
+            } else {
                 negative.push(col);
             }
-
         });
 
-        positive = _.sortBy(positive, 'refactoredUnits');
-        negative = _.sortBy(negative, 'refactoredUnits');
+        positive.sort((a, b) => a.refactoredUnits - b.refactoredUnits);
+        negative.sort((a, b) => a.refactoredUnits - b.refactoredUnits);
 
         if(totalRefactoredUnits > max){
             //too much !
 
             //@todo : start with the hightest refactored
-            _.eachRight(positive, function(col){
-                col.refactoredUnits --;
+            for (let col of positive.reverse()) {
+                col.refactoredUnits--;
                 totalRefactoredUnits--;
-                if(totalRefactoredUnits === max){
-                    return false;
+                if (totalRefactoredUnits === max) {
+                    break;
                 }
-            });
+            }
 
         }else if(totalRefactoredUnits < max){
 
             //@todo : start with the lowest refactored
-            _.each(negative, function(col){
-                col.refactoredUnits ++;
+            for (let col of negative) {
+                col.refactoredUnits++;
                 totalRefactoredUnits++;
-                if(totalRefactoredUnits === max){
-                    return false;
+                if (totalRefactoredUnits === max) {
+                    break;
                 }
-            });
+            }
 
         }
 
-        _.each(negative, function(col){
-            ret.push(col);
-        });
-        _.each(positive, function(col){
-            ret.push(col);
-        });
+        ret.push(...negative, ...positive);
 
         return _cols;
     }

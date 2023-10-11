@@ -22,7 +22,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiItem/core/Element',
     'util/dom',
@@ -32,7 +31,7 @@ define([
     'ui/inplacer',
     'ui/groupvalidator',
     'taoQtiItem/qtiCreator/widgets/helpers/validators'
-], function ($, _, __, Element, dom, spinner, tooltip, select2) {
+], function ($, __, Element, dom, spinner, tooltip, select2) {
     'use strict';
 
     /**
@@ -60,13 +59,13 @@ define([
 
         if (maxChoice) {
             //always update the correct response then:
-            _.forEach(responseDeclaration.getCorrect(), function (c) {
+            for (const c of responseDeclaration.getCorrect()) {
                 if (correct.length < maxChoice) {
                     correct.push(c);
                 } else {
-                    return false;
+                    break;
                 }
-            });
+            }
             responseDeclaration.setCorrect(correct);
         }
     }
@@ -108,9 +107,7 @@ define([
 
             if (!valid) {
                 //invalid input!
-                rule = _.where(results, {
-                    type: 'failure'
-                })[0];
+                rule = results.find(result => result.type === 'failure');
                 if (rule && rule.data.message && !$('#mediaManager').children('.opened').length) {
                     $input.data('$tooltip').updateTitleContent(rule.data.message);
                     //only show it when the file manager is hidden
@@ -127,7 +124,7 @@ define([
      * @param {Object} options
      */
     function getAttrsOptions(options) {
-        return _.defaults(options || {}, {
+        return {
             allowNull: false,
             updateCardinality: true,
             attrMethodNames: {
@@ -135,8 +132,9 @@ define([
                 set: 'attr'
             },
             floatVal: false,
-            callback: _.noop
-        });
+            callback: () => {},
+            ...options
+        };
     }
 
     /**
@@ -181,7 +179,7 @@ define([
         setChangeCallbacks: function ($form, element, attributes, options) {
             const applyCallback = function applyCallback(name, value, $elt) {
                 const cb = attributes && attributes[name];
-                if (_.isFunction(cb)) {
+                if (typeof cb === 'function') {
                     cb.call($elt[0], element, value, name);
                 }
             };
@@ -213,10 +211,11 @@ define([
                 }
             };
 
-            options = _.defaults(options || {}, {
+            options = {
                 validateOnInit: false,
-                invalidate: false
-            });
+                invalidate: false,
+                ...options
+            };
 
             $form.off('.databinding');
             $form.on(
@@ -228,7 +227,7 @@ define([
 
             $form.on('validated.group.databinding', callbackWithValidation);
 
-            _.defer(function () {
+            setTimeout(() => {
                 $form.groupValidator({
                     validateOnInit: options.validateOnInit,
                     events: [

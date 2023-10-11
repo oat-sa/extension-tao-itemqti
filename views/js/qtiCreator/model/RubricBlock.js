@@ -1,12 +1,11 @@
 define([
-    'lodash',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/RubricBlock'
-], function(_, editable, RubricBlock){
+], function(editable, RubricBlock){
     "use strict";
     var methods = {};
-    _.extend(methods, editable);
-    _.extend(methods, {
+    Object.assign(methods, editable);
+    Object.assign(methods, {
         getDefaultAttributes : function(){
             return {
                 'view' : ['candidate'],

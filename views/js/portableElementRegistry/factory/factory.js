@@ -16,7 +16,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
-define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, eventifier){
+define(['core/promise', 'core/eventifier'], function (Promise, eventifier){
     'use strict';
 
     var _requirejs = window.require;
@@ -37,18 +37,24 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
             baseUrl = manifest.baseUrl;
 
-            if(_.isArray(manifest.runtime.config) && manifest.runtime.config.length){
-                _.forEach(manifest.runtime.config, function(pciConfig){
-                    if(_.isString(pciConfig)){
+            if (Array.isArray(manifest.runtime.config) && manifest.runtime.config.length) {
+                for (var i = 0; i < manifest.runtime.config.length; i++) {
+                    var pciConfig = manifest.runtime.config[i];
+
+                    if (typeof pciConfig === 'string') {
                         reqConfigs.push('json!' + baseUrl + '/' + pciConfig);
-                    }else{
-                        if(pciConfig.data){
-                            modules = _.defaults(modules, pciConfig.data.paths || {});
-                        }else if(pciConfig.file){
+                    } else {
+                        if (pciConfig.data) {
+                            for (var key in pciConfig.data.paths) {
+                                if (pciConfig.data.paths.hasOwnProperty(key) && typeof modules[key] === 'undefined') {
+                                    modules[key] = pciConfig.data.paths[key];
+                                }
+                            }
+                        } else if (pciConfig.file) {
                             reqConfigs.push('json!' + baseUrl + '/' + pciConfig.file);
                         }
                     }
-                });
+                }
             }
 
             require(reqConfigs, function(){
@@ -59,24 +65,43 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
 
                 if(manifest.model === 'IMSPCI'){
 
-                    modules = _.reduce(arguments, function(acc, conf){
-                        return _.defaults(acc, conf.paths || {});
-                    }, modules);
-
-                    _.forEach(manifest.runtime.modules || {}, function(paths, id){
-                        if(paths && (_.isString(paths) || (_.isArray(paths) && paths.length))){
-                            runtimeModules[id] = paths;
+                    var accumulatedModules = modules;
+                    for (var i = 0; i < arguments.length; i++) {
+                        var conf = arguments[i];
+                        for (var key in conf.paths) {
+                            if (conf.paths.hasOwnProperty(key) && typeof accumulatedModules[key] === 'undefined') {
+                                accumulatedModules[key] = conf.paths[key];
+                            }
                         }
-                    });
+                    }
+                    modules = accumulatedModules;
 
-                    modules = _.merge(modules, runtimeModules);
+                    var runtimeModules = {};
+                    for (var id in manifest.runtime.modules) {
+                        if (manifest.runtime.modules.hasOwnProperty(id)) {
+                            var paths = manifest.runtime.modules[id];
+                            if (paths && (typeof paths === 'string' || (Array.isArray(paths) && paths.length))) {
+                                runtimeModules[id] = paths;
+                            }
+                        }
+                    }
 
-                    _.forEach(modules, function(paths, id){
-                        paths = _.isArray(paths) ? paths : [paths];
-                        requireConfigAliases[id] = _.map(paths, function(path){
-                            return baseUrl+'/'+path.replace(/\.js$/, '');
-                        });
-                    });
+                    for (var key in runtimeModules) {
+                        if (runtimeModules.hasOwnProperty(key)) {
+                            modules[key] = runtimeModules[key];
+                        }
+                    }
+
+                    var requireConfigAliases = {};
+                    for (var id in modules) {
+                        if (modules.hasOwnProperty(id)) {
+                            var paths = modules[id];
+                            paths = Array.isArray(paths) ? paths : [paths];
+                            requireConfigAliases[id] = paths.map(function(path) {
+                                return baseUrl + '/' + path.replace(/\.js$/, '');
+                            });
+                        }
+                    }
                 }
 
                 resolve(requireConfigAliases);
@@ -93,7 +118,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
      * @returns {Boolean}
      */
     var isPortableElementProvider = function isPortableElementProvider(provider){
-        return (provider && _.isFunction(provider.load));
+        return (provider && typeof provider.load === 'function');
     };
 
     return function portableElementRegistry(methods){
@@ -105,7 +130,7 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
          * The portable element registry instance
          * @typedef {portableElementRegistry}
          */
-        return eventifier(_.defaults(methods || {}, {
+        return eventifier(Object.assign(methods || {}, {
             _registry : {},
 
             /**
@@ -116,13 +141,13 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
              */
             get : function get(typeIdentifier, version){
 
-                if(this._registry[typeIdentifier]){
+                if (this._registry[typeIdentifier]) {
                     //check version
-                    if(version){
-                        return _.find(this._registry[typeIdentifier], {version : version});
-                    }else{
+                    if (version) {
+                        return this._registry[typeIdentifier].find(pe => pe.version === version);
+                    } else {
                         //latest
-                        return _.last(this._registry[typeIdentifier]);
+                        return this._registry[typeIdentifier][this._registry[typeIdentifier].length - 1];
                     }
                 }
             },
@@ -163,15 +188,10 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                     loadPromise = Promise.resolve([]);
                 } else {
                     loadPromise = new Promise(function(resolve, reject) {
-                        var providerLoadingStack = [];
-                        _.forIn(__providers, function(provider, id){
-                            if(provider === null){
-                                providerLoadingStack.push(id);
-                            }
-                        });
-                        _requirejs(providerLoadingStack, function(){
-                            _.each([].slice.call(arguments), function(provider){
-                                if(isPortableElementProvider(provider)){
+                        var providerLoadingStack = Object.keys(__providers).filter(id => __providers[id] === null);
+                        _requirejs(providerLoadingStack, function() {
+                            Array.from(arguments).forEach(provider => {
+                                if (isPortableElementProvider(provider)) {
                                     __providers[providerLoadingStack.shift()] = provider;
                                 }
                             });
@@ -191,9 +211,9 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
              */
             getAllVersions : function getAllVersions(){
                 var all = {};
-                _.forIn(this._registry, function (versions, id){
-                    all[id] = _.map(versions, 'version');
-                });
+                for (let id in this._registry) {
+                    all[id] = this._registry[id].map(pe => pe.version);
+                }
                 return all;
             },
 
@@ -206,11 +226,11 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
             getRuntime : function getRuntime(typeIdentifier, version){
                 var portableElement = this.get(typeIdentifier, version);
                 if(portableElement){
-                    return _.assign(portableElement.runtime, {
-                        id : portableElement.typeIdentifier,
-                        label : portableElement.label,
-                        baseUrl : portableElement.baseUrl,
-                        model : portableElement.model
+                    return Object.assign(portableElement.runtime, {
+                        id: portableElement.typeIdentifier,
+                        label: portableElement.label,
+                        baseUrl: portableElement.baseUrl,
+                        model: portableElement.model
                     });
                 }else{
                     this.trigger('error', {
@@ -230,13 +250,13 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
             getCreator : function getCreator(typeIdentifier, version){
                 var portableElement = this.get(typeIdentifier, version);
                 if(portableElement && portableElement.creator){
-                    return _.assign(portableElement.creator, {
-                        id : portableElement.typeIdentifier,
-                        label : portableElement.label,
-                        baseUrl : portableElement.baseUrl,
-                        response : portableElement.response,
-                        model : portableElement.model,
-                        xmlns : portableElement.xmlns
+                    return Object.assign(portableElement.creator, {
+                        id: portableElement.typeIdentifier,
+                        label: portableElement.label,
+                        baseUrl: portableElement.baseUrl,
+                        response: portableElement.response,
+                        model: portableElement.model,
+                        xmlns: portableElement.xmlns
                     });
                 }else{
                     this.trigger('error', {
@@ -253,14 +273,14 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
              */
             getLatestCreators : function getLatestCreators(){
                 var all = {};
-                _.forIn(this._registry, function (versions, id){
-                    var lastVersion = _.last(versions);
+                for (const [id, versions] of Object.entries(this._registry)) {
+                    const lastVersion = versions[versions.length - 1];
 
-                    //check if the portable element is creatable:
-                    if(lastVersion.creator && lastVersion.creator.hook && lastVersion.enabled){
+                    // check if the portable element is creatable:
+                    if (lastVersion.creator && lastVersion.creator.hook && lastVersion.enabled) {
                         all[id] = lastVersion;
                     }
-                });
+                }
                 return all;
             },
 
@@ -290,17 +310,20 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                 var self = this;
                 var loadPromise;
 
-                options = _.defaults(options||{}, _defaultLoadingOptions);
+                options = {
+                    ..._defaultLoadingOptions,
+                    ...(options || {})
+                };
 
-                    loadPromise = self.loadProviders(options).then(function(providers){
+                loadPromise = self.loadProviders(options).then(function(providers){
 
                         var loadStack = [];
 
-                        _.forEach(providers, function (provider){
-                            if(provider){//check that the provider is loaded
-                                loadStack.push(provider.load());
-                            }
-                        });
+                    for (let provider of providers) {
+                        if (provider) {//check that the provider is loaded
+                            loadStack.push(provider.load());
+                        }
+                    }
 
                         //performs the loadings in parallel
                             return Promise.all(loadStack).then(function (results){//TODO could remove one level of promise
@@ -308,21 +331,23 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                                 var configLoadingStack = [];
 
                                 //update registry
-                                self._registry = _.reduce(results, function (acc, _pcis){
-                                    return _.merge(acc, _pcis);
-                                }, self._registry || {});//incremental loading
+                                self._registry = results.reduce(function(acc, _pcis) {
+                                    return Object.assign(acc, _pcis);
+                                }, self._registry || {}); // incremental loading
 
                                 //pre-configuring the baseUrl of the portable element's source
-                                _.forIn(self._registry, function (versions, typeIdentifier){
-                                    if(_.isArray(options.include) && _.indexOf(options.include, typeIdentifier) < 0){
-                                        return true;
+                                for (let typeIdentifier in self._registry) {
+                                    if (self._registry.hasOwnProperty(typeIdentifier)) {
+                                        if (Array.isArray(options.include) && !options.include.includes(typeIdentifier)) {
+                                            continue;
+                                        }
+                                        configLoadingStack.push(loadModuleConfig(self.get(typeIdentifier)));
                                     }
-                                    configLoadingStack.push(loadModuleConfig(self.get(typeIdentifier)));
-                                });
+                                }
 
                                 return Promise.all(configLoadingStack).then(function(moduleConfigs){
-                                    var requireConfigAliases = _.reduce(moduleConfigs, function(acc, paths){
-                                        return _.merge(acc, paths);
+                                    var requireConfigAliases = moduleConfigs.reduce(function(acc, paths){
+                                        return Object.assign(acc, paths);
                                     }, {});
 
                                     //save the required libs name => path to global require alias
@@ -357,39 +382,41 @@ define(['lodash', 'core/promise', 'core/eventifier'], function (_, Promise, even
                 var loadPromise;
                 var self = this;
 
-                options = _.defaults(options||{}, _defaultLoadingOptions);
+                options = Object.assign({}, _defaultLoadingOptions, options || {});
 
                 loadPromise = self.loadRuntimes(options).then(function(){
                     var requiredCreatorHooks = [];
 
-                    _.forIn(self._registry, function (versions, typeIdentifier){
-                        var portableElementModel = self.get(typeIdentifier);//currently use the latest version only
-                        if(portableElementModel.creator && portableElementModel.creator.hook){
-                            if(portableElementModel.enabled){
-                                if(_.isArray(options.include) && _.indexOf(options.include, typeIdentifier) < 0){
-                                    return true;
+                    for (const [typeIdentifier, versions] of Object.entries(self._registry)) {
+                        const portableElementModel = self.get(typeIdentifier); //currently use the latest version only
+                        if (portableElementModel.creator && portableElementModel.creator.hook) {
+                            if (portableElementModel.enabled) {
+                                if (Array.isArray(options.include) && !options.include.includes(typeIdentifier)) {
+                                    continue;
                                 }
-                            }else{
-                                if(!_.isArray(options.include) || _.indexOf(options.include, typeIdentifier) < 0){
-                                    return true;
+                            } else {
+                                if (!Array.isArray(options.include) || !options.include.includes(typeIdentifier)) {
+                                    continue;
                                 }
                             }
                             requiredCreatorHooks.push(portableElementModel.creator.hook.replace(/\.js$/, ''));
                         }
-                    });
+                    }
 
                     if(requiredCreatorHooks.length){
                         return new Promise(function(resolve, reject){
                             //@todo support caching?
                             _requirejs(requiredCreatorHooks, function (){
                                 var creators = {};
-                                _.each(arguments, function (creatorHook){
+                                Array.from(arguments).forEach(function(creatorHook) {
                                     var id = creatorHook.getTypeIdentifier();
                                     var portableElementModel = self.get(id);
-                                    var i = _.findIndex(self._registry[id], {version : portableElementModel.version});
-                                    if(i < 0){
+                                    var i = self._registry[id].findIndex(function(element) {
+                                        return element.version === portableElementModel.version;
+                                    });
+                                    if (i < 0) {
                                         self.trigger('error', 'no creator found for id/version ' + id + '/' + portableElementModel.version);
-                                    }else{
+                                    } else {
                                         self._registry[id][i].creator.module = creatorHook;
                                         creators[id] = creatorHook;
                                     }

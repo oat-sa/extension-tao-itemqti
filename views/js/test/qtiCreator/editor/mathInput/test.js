@@ -19,10 +19,9 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'lodash',
     'jquery',
     'taoQtiItem/qtiCreator/editor/mathInput/mathInput'
-], function(_, $, mathInputFactory) {
+], function($, mathInputFactory) {
     'use strict';
 
     var fixtureContainer = $('#qunit-fixture');
@@ -67,7 +66,7 @@ define([
 
                 mathInput.destroy();
 
-                assert.ok(_.isUndefined(mathInput.getLatex()), 'content has been destroyed');
+                assert.ok(mathInput.getLatex() === undefined, 'content has been destroyed');
                 ready();
             })
             .init()

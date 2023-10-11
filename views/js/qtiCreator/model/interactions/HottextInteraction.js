@@ -1,5 +1,4 @@
 define([
-    'lodash',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
@@ -7,12 +6,12 @@ define([
     'taoQtiItem/qtiCreator/model/choices/Hottext',
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/model/helper/response'
-], function(_, Element, editable, editableInteraction, Interaction, Choice,event, responseHelper){
+], function(Element, editable, editableInteraction, Interaction, Choice,event, responseHelper){
     "use strict";
     var methods = {};
-    _.extend(methods, editable);
-    _.extend(methods, editableInteraction);
-    _.extend(methods, {
+    Object.assign(methods, editable);
+    Object.assign(methods, editableInteraction);
+    Object.assign(methods, {
         getDefaultAttributes : function(){
             return {
                 maxChoices : 0,
@@ -33,43 +32,43 @@ define([
             this.addChoice(choice);
             choice.buildIdentifier('hottext');
             choice.body(body);
-                
+
             if(this.getRenderer()){
                 choice.setRenderer(this.getRenderer());
             }
-            
+
             event.choiceCreated(choice, this);
 
             return choice;
         },
         removeChoice : function(hottext){
-        
+
             var serial = '', c;
-            
+
             if(typeof(hottext) === 'string'){
                 serial = hottext;
             }else if(Element.isA(hottext, 'hottext')){
                 serial = hottext.getSerial();
             }
-            
+
             c = this.getBody().getElement(serial);
             if(c){
                 //remove choice
                 this.getBody().removeElement(c);
-                
+
                 //update the response
                 responseHelper.removeChoice(this.getResponseDeclaration(), c);
-                
+
                 //trigger event
                 event.deleted(c, this);
 
                 // trigger delete event
                 $(document).trigger('choiceDeleted.qti-widget', {interaction: this});
             }
-            
+
             return this;
         }
     });
-    
+
     return Interaction.extend(methods);
 });

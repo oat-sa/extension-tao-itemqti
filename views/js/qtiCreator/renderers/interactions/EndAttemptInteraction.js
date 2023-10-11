@@ -18,14 +18,13 @@
 
 define([
     'jquery',
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/EndAttemptInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/endAttemptInteraction/Widget',
     'tpl!taoQtiItem/qtiCreator/tpl/inlineInteraction/endAttemptInteraction.placeholder'
-], function($, _, EndAttemptInteraction, EndAttemptInteractionWidget, tpl){
+], function($, EndAttemptInteraction, EndAttemptInteractionWidget, tpl){
     'use strict';
 
-    var CreatorEndAttemptInteraction = _.clone(EndAttemptInteraction);
+    var CreatorEndAttemptInteraction = {...EndAttemptInteraction};
 
     CreatorEndAttemptInteraction.template = tpl;
 

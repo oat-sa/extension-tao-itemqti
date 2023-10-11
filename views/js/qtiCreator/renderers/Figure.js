@@ -17,16 +17,15 @@
  *
  */
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/Figure',
     'taoQtiItem/qtiCreator/widgets/static/figure/Widget'
-], function(_, Figure, FigureWidget){
+], function(Figure, FigureWidget){
     'use strict';
 
-    const CreatorFigure = _.clone(Figure);
+    const CreatorFigure = {...Figure};
 
     CreatorFigure.render = function(figure, options){
-        const imageElem = _.find(figure.getBody().elements, elem => elem.is('img'));
+        const imageElem = figure.getBody().elements.find(elem => elem.is('img'));
         options = options || {};
         options.baseUrl = this.getOption('baseUrl');
         options.uri = this.getOption('uri');

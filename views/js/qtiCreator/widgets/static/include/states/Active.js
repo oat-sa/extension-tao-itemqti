@@ -18,7 +18,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
@@ -28,7 +27,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods',
     'ui/resourcemgr',
     'ui/tooltip'
-], function ($, _, __, stateFactory, Active, formTpl, formElement, xincludeRenderer, itemScrollingMethods) {
+], function ($, __, stateFactory, Active, formTpl, formElement, xincludeRenderer, itemScrollingMethods) {
     'use strict';
 
     const wrapperCls = 'custom-include-box';
@@ -88,9 +87,9 @@ define([
                         //set the selected file as the new href and refresh rendering
                         xincludeRenderer.render(widget, options.baseUrl, file);
 
-                        _.defer(function () {
+                        setTimeout(() => {
                             $href.trigger('change');
-                        });
+                        }, 0);
                     }
                 },
                 open: function () {
@@ -144,7 +143,7 @@ define([
                         });
                         $head.append(styleTao);
                         $head.append(styleTaoQtiItem);
-                        _.each(xincludeRenderer.getXincludeHandlers(), handler => handler(file.file, '', '', $head, true));
+                        xincludeRenderer.getXincludeHandlers().forEach(handler => handler(file.file, '', '', $head, true));
                     });
                 }
             });

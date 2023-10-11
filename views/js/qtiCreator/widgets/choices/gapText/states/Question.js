@@ -18,14 +18,13 @@
  */
 define([
     'jquery',
-    'lodash',
     'ckeditor',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/choices/states/Question',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content'
-], function ($, _, CKEditor, stateFactory, Question, Element, htmlEditor, contentHelper) {
+], function ($, CKEditor, stateFactory, Question, Element, htmlEditor, contentHelper) {
     'use strict';
 
     const GapTextStateQuestion = stateFactory.extend(
@@ -38,7 +37,7 @@ define([
         }
     );
 
-    GapTextStateQuestion.prototype.initForm = _.noop();
+    GapTextStateQuestion.prototype.initForm = () => {};
 
     GapTextStateQuestion.prototype.buildEditor = function () {
         const _widget = this.widget,

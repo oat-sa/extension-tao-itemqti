@@ -18,21 +18,20 @@
  */
 define([
     'jquery',
-    'lodash',
     'taoQtiItem/qtiCreator/widgets/static/Widget',
     'taoQtiItem/qtiCreator/widgets/static/figure/states/states',
     'taoQtiItem/qtiCreator/widgets/static/helpers/widget',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'ui/mediaEditor/plugins/mediaAlignment/helper'
-], function ($, _, Widget, states, helper, toolbarTpl, inlineHelper, alignmentHelper) {
+], function ($, Widget, states, helper, toolbarTpl, inlineHelper, alignmentHelper) {
     'use strict';
 
     const FigureWidget = Widget.clone();
 
     FigureWidget.initCreator = function initCreator(options) {
         const figure = this.element;
-        const img = _.find(figure.getBody().elements, elem => elem.is('img'));
+        const img = Object.values(figure.getBody().elements).find(elem => elem.is('img'));
 
         this.registerStates(states);
 
@@ -68,7 +67,7 @@ define([
             // On inline aligment, it must be an Image
             helper.buildInlineContainer(this);
         }
-        const img = _.find(this.element.getBody().elements, elem => elem.is('img'));
+        const img = Object.values(this.element.getBody().elements).find(elem => elem.is('img'));
         const $img = this.$original.find('img');
         if ($img.length) {
             // move width from image to figure

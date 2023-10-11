@@ -18,12 +18,11 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'ui/component',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/choiceSelector',
     'select2'
-], function($, _, __, component, choiceSelectorTpl){
+], function($, __, component, choiceSelectorTpl){
 
     'use strict';
 
@@ -60,17 +59,17 @@ define([
      * Set some additional parameters
      */
     var init = function init(){
-        var selected =  _.map(this.config.choices || [], function(c){
+        var selected = (this.config.choices || []).map(function(c) {
             return c.id();
         });
         var choices = this.config.interaction.getChoices();
         var response = this.config.interaction.getResponseDeclaration();
-        var config = _.defaults(this.config || {}, _defaults);
-        
+        var config = Object.assign({}, _defaults, this.config || {});
+
         config.multiple = response.isCardinality(['multiple', 'ordered']);
         config.options = [];
 
-        _.each(choices, function(choice) {
+        choices.forEach(function(choice) {
             var id = choice.id();
             var choiceText = '';
             var option = {
@@ -78,7 +77,7 @@ define([
                 label: id,
                 selected: selected.indexOf(id) > -1
             };
-            
+
             if(choice.is('containerChoice')){
                 choiceText = choice.body();
             }else if(choice.is('textVariableChoice')){
@@ -86,7 +85,7 @@ define([
             }else{
                 return;//not available yet
             }
-            
+
             // 0 as titleLength => no title
             if(config.titleLength) {
                 option.title = createOptionTitle(choiceText, config.titleLength);
@@ -111,7 +110,7 @@ define([
 
         var self = this;
         var $selectBox = this.$component.find('select');
-        
+
         $selectBox.select2({
             dropdownAutoWidth: true,
             placeholder: $selectBox.attr('placeholder'),
@@ -120,7 +119,7 @@ define([
             formatSelection: formatOption
         }).on('change', function() {
             var selection = $selectBox.select2('val');
-            self.setSelectedChoices(_.isArray(selection) ? selection : [selection]);
+            self.setSelectedChoices(Array.isArray(selection) ? selection : [selection]);
             self.trigger('change', self.getSelectedChoices());
         });
     };
@@ -132,13 +131,13 @@ define([
      *
      */
     var choiceSelectorFactory = function choiceSelectorFactory(config) {
-        
+
         var _selectedChoices = {};
         var choices = {};
-        _.each(config.interaction.getChoices(), function(choice){
+        config.interaction.getChoices().forEach(function(choice) {
             choices[choice.id()] = choice;
         });
-        
+
         /**
         * Exposed methods
         * @type {{getChoices: choiceSelector.getChoices, getSelectedChoices: choiceSelector.getSelectedChoices}}
@@ -148,12 +147,12 @@ define([
                 return _selectedChoices;
             },
             setSelectedChoices : function(choicesId) {
-                _selectedChoices = _.map(choicesId, function(id){
+                _selectedChoices = choicesId.map(function(id) {
                     return choices[id];
                 });
             }
         };
-    
+
         return component(choiceSelector)
                 .on('init', init)
                 .on('destroy', destroy)

@@ -17,13 +17,12 @@
  */
 
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/RubricBlock',
     'taoQtiItem/qtiCreator/widgets/static/rubricBlock/Widget'
-], function(_, Renderer, Widget){
+], function(Renderer, Widget){
     'use strict';
 
-    var CreatorRubricBlock = _.clone(Renderer);
+    var CreatorRubricBlock = {...Renderer};
 
     CreatorRubricBlock.render = function(rubricBlock, options){
 

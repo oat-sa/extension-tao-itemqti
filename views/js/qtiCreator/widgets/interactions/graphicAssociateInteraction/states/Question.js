@@ -22,7 +22,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCreator/widgets/states/factory',
@@ -38,7 +37,6 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage'
 ], function (
     $,
-    _,
     __,
     GraphicHelper,
     stateFactory,
@@ -141,19 +139,19 @@ define([
                 minMaxComponentFactory($choiceForm.find('.min-max-panel'), {
                     min: {
                         fieldName: 'matchMin',
-                        value: _.parseInt(choice.attr('matchMin')) || 0,
+                        value: parseInt(choice.attr('matchMin'), 10) || 0,
                         helpMessage: __('The minimum number of choices this choice must be associated with to form a valid response.')
                     },
                     max: {
                         fieldName: 'matchMax',
-                        value: _.parseInt(choice.attr('matchMax')) || 0,
+                        value: parseInt(choice.attr('matchMax'), 10) || 0,
                         helpMessage: __('The maximum number of choices this choice may be associated with.')
                     },
-                    upperThreshold: _.size(interaction.getChoices())
+                    upperThreshold: interaction.getChoices().length
                 }).on('render', function () {
                     widget.on('choiceCreated choiceDeleted', data => {
                         if (data.interaction.serial === interaction.serial) {
-                            this.updateThresholds(1, _.size(interaction.getChoices()));
+                            this.updateThresholds(1, interaction.getChoices().length);
                         }
                     });
                 });
@@ -199,7 +197,7 @@ define([
         const widget = this.widget;
         const interaction = widget.element;
         const paper = interaction.paper;
-        const valid = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices);
+        const valid = !!interaction.object.attr('data') && interaction.choices.length > 0;
 
         widget.isValid('graphicAssociateInteraction', valid);
 
@@ -258,20 +256,20 @@ define([
         minMaxComponentFactory($form.find('.min-max-panel'), {
             min: {
                 fieldName: 'minAssociations',
-                value: _.parseInt(interaction.attr('minAssociations')) || 0,
+                value: parseInt(interaction.attr('minAssociations'), 10) || 0,
                 helpMessage: __('The minimum number of associations that the candidate is required to make to form a valid response.')
             },
             max: {
                 fieldName: 'maxAssociations',
-                value: _.parseInt(interaction.attr('maxAssociations')) || 0,
+                value: parseInt(interaction.attr('maxAssociations'), 10) || 0,
                 helpMessage: __('The maximum number of associations that the candidate is allowed to make.')
             },
-            upperThreshold: getMaxPairs(_.size(interaction.getChoices()))
+            upperThreshold: getMaxPairs(interaction.getChoices().length)
         }).on('render', function () {
             //the range is based on the number of possible associations
             widget.on('choiceCreated choiceDeleted', data => {
                 if (data.interaction.serial === interaction.serial) {
-                    this.updateThresholds(1, getMaxPairs(_.size(interaction.getChoices())));
+                    this.updateThresholds(1, getMaxPairs(interaction.getChoices().length));
                 }
             });
         });

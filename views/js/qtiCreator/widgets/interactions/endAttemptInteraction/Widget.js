@@ -1,12 +1,11 @@
 define([
-    'lodash',
     'taoQtiItem/qtiCreator/widgets/interactions/inlineInteraction/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/endAttemptInteraction/states/states',
     'tpl!taoQtiItem/qtiCreator/tpl/inlineInteraction/endAttemptInteraction'
-], function(_, InteractionWidget, states, interactionTpl){
+], function(InteractionWidget, states, interactionTpl){
     'use strict';
     var EndAttemptInteractionWidget = InteractionWidget.clone();
-    
+
     /**
      * Init the creator
      */
@@ -19,10 +18,10 @@ define([
         //remove toolbar title, because it is too large
         this.$container.find('.tlb-title').remove();
     };
-    
+
     /**
      * Render the interaction widget from template
-     * 
+     *
      * @returns {Object}
      */
     EndAttemptInteractionWidget.renderInteraction = function(){
@@ -36,7 +35,7 @@ define([
 
         return interactionTpl(tplData);
     };
-    
+
     /**
      * Prepare and define the end attempt interaction widget container
      */
@@ -60,7 +59,7 @@ define([
 
         //prepare html: interaction & choices:
         this.$itemContainer.append(this.renderInteraction());
-        
+
         this.$container = this.$itemContainer.find('.widget-endAttemptInteraction[data-serial=' + this.element.getSerial() + ']');
     };
 

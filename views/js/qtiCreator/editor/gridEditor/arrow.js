@@ -1,4 +1,4 @@
-define(['jquery', 'lodash'], function($, _){
+define(['jquery'], function($){
     "use strict";
     var _eventName = 'arrowenter.gridEdit.gridDragDrop';
 
@@ -10,7 +10,7 @@ define(['jquery', 'lodash'], function($, _){
             marginWidth : 0
         };
 
-        options = _.extend(defaults, options);
+        options = {...defaults, ...options};
 
         //create inter-column insertion helper
         var $insertRight = $('<div>', {'class' : 'grid-edit-insert-box'})

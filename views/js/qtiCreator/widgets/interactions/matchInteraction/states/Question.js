@@ -18,7 +18,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/states/Question',
@@ -26,7 +25,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/interactions/matchInteraction.row',
     'tpl!taoQtiItem/qtiCreator/tpl/interactions/matchInteraction.cell',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter'
-], function($, _, stateFactory, Question, AssociateInteractionQuestionState, adderTpl, rowTpl, cellTpl, sizeAdapter){
+], function($, stateFactory, Question, AssociateInteractionQuestionState, adderTpl, rowTpl, cellTpl, sizeAdapter){
 
     'use strict';
 
@@ -42,7 +41,7 @@ define([
             qtiChoiceClassName = 'simpleAssociableChoice.matchInteraction';
 
         var _postRender = function(choice){
-            
+
             choice.postRender({
                 ready : function(widget){
                     //transition state directly back to "question"
@@ -52,32 +51,32 @@ define([
         };
 
         if(!$matchArea.find('.add-option').length){
-            
+
             $matchArea.append(adderTpl());
-            
+
             $matchArea.find('.add-options').show();
-            
+
             $matchArea.find('.add-option[data-role=add-col]').on('click', function(){
-                
+
                 //match set 0
                 var choice = interaction.createChoice(0);
-                
+
                 $matchArea.find('thead > tr').append(choice.render(qtiChoiceClassName));
                 $matchArea.find('tbody > tr').append(cellTpl({}));
-                
+
                 _postRender(choice);
             });
 
             $matchArea.find('.add-option[data-role=add-row]').on('click', function(){
-                
+
                 //match set 1
                 var choice = interaction.createChoice(1);
-                
+
                 $matchArea.find('tbody').append(rowTpl({
                     choice : choice.render(qtiChoiceClassName),
-                    otherMatchSetCount : _.size(interaction.choices[0])
+                    otherMatchSetCount : interaction.choices[0].length
                 }));
-                
+
                 _postRender(choice);
             });
         }

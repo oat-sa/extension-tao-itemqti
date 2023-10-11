@@ -57,7 +57,7 @@ define([
              * @returns {shapeEditor.editor} for chaining
              */
             on : function on(eventName, cb){
-                if(_.isFunction(cb)){
+                if(typeof cb === 'function'){
                     this._events[eventName] = cb;
                 }
                 return this;
@@ -70,7 +70,7 @@ define([
              * @returns {shapeEditor.editor} for chaining
              */
             trigger : function(eventName){
-                if(_.isFunction(this._events[eventName])){
+                if(typeof this._events[eventName] === 'function'){
                     this._events[eventName].apply(this, Array.prototype.slice.call(arguments, 1));
                 }
                 return this;
@@ -144,7 +144,7 @@ define([
 
                 //create handlers to resize the shape
                 self.handlers = shapeHandlers(paper, self.shape);
-                _.forEach(self.handlers, function(handler){
+                self.handlers.forEach(function(handler) {
                     //drag the handlers to resize the shape
                     handler.drag(resize, startResize, resized);
                 });
@@ -193,18 +193,21 @@ define([
                     });
 
                     if(self.shape.type === 'path'){
-                       _.forEach(self.shape.attr('path'), function(point, index){
-                           if(point.length === 3 && point[1] === this.attr('cx') && point[2] === this.attr('cy')){
-                                this.pointIndex = index;
-                                return false;
-                           }
-                       }, handler);
+                        for(let i = 0; i < self.shape.attr('path').length; i++) {
+                            let point = self.shape.attr('path')[i];
+                            if(point.length === 3 && point[1] === handler.attr('cx') && point[2] === handler.attr('cy')) {
+                                handler.pointIndex = i;
+                                break;
+                            }
+                        }
                     }
 
                     //hide others
-                    _.invoke(_.reject(_.clone(self.handlers), function(elt){
-                        return elt === handler;
-                    }), 'hide');
+                    self.handlers.filter(elt => elt !== handler).forEach(elt => {
+                        if (elt && typeof elt.hide === 'function') {
+                            elt.hide();
+                        }
+                    });
                 }
 
                 /**
@@ -227,7 +230,10 @@ define([
                         };
 
                         if(self.shape.type === 'path'){
-                            options.start = _.pick(this.attrs, ['cx', 'cy']);
+                            options.start = {
+                                cx: this.attrs.cx,
+                                cy: this.attrs.cy
+                            };
                             options.path = self.layer.attr('path');
                             options.pointIndex = this.pointIndex;
                         }
@@ -253,9 +259,21 @@ define([
                  * @private
                  */
                 function resized(){
+                    const attrs = self.layer.attrs;
                     self.shape.animate(
-                        _.pick(self.layer.attrs, ['x', 'y', 'cx', 'cy', 'r', 'rx', 'ry', 'width', 'height', 'path']),
-                        200,
+                    {
+                        x: attrs.x,
+                        y: attrs.y,
+                        cx: attrs.cx,
+                        cy: attrs.cy,
+                        r: attrs.r,
+                        rx: attrs.rx,
+                        ry: attrs.ry,
+                        width: attrs.width,
+                        height: attrs.height,
+                        path: attrs.path
+                    },
+                    200,
                         function animationEnd(){
                             self.setState('resizing', false)
                                 .trigger('shapechange.qti-widget');
@@ -264,7 +282,11 @@ define([
                     self.layer.remove();
                     self.layerTxt.remove();
 
-                    _.invoke(self.handlers, 'remove');
+                    self.handlers.forEach(handler => {
+                        if (handler && typeof handler.remove === 'function') {
+                            handler.remove();
+                        }
+                    });
                     self.handlers = [];
                 }
 
@@ -281,7 +303,11 @@ define([
                         self.shape.attr('cursor', 'move');
                         background.attr('cursor', 'move');
 
-                        _.invoke(self.handlers, 'remove');
+                        self.handlers.forEach(handler => {
+                            if (handler && typeof handler.remove === 'function') {
+                                handler.remove();
+                            }
+                        });
 
                         attr = shape.attr();
 
@@ -339,7 +365,11 @@ define([
                     }
                     self.shape.attr('cursor', 'move');
                     background.attr('cursor', 'move');
-                    _.invoke(self.handlers, 'remove');
+                    self.handlers.forEach(handler => {
+                        if (handler && typeof handler.remove === 'function') {
+                            handler.remove();
+                        }
+                    });
                 }
 
                 /**
@@ -382,7 +412,11 @@ define([
                 $(document).off('keydown.qti-widget');
 
                 this.shape.undrag();
-                _.invoke(this.handlers, 'remove');
+                self.handlers.forEach(handler => {
+                    if (handler && typeof handler.remove === 'function') {
+                        handler.remove();
+                    }
+                });
                 this.handlers = [];
 
                 this.setState('moving', false)

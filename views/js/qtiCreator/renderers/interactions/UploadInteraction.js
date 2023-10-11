@@ -17,14 +17,13 @@
  */
 
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/UploadInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/uploadInteraction/Widget',
     'tpl!taoQtiItem/qtiCreator/tpl/interactions/uploadInteraction'
-], function(_, UploadInteraction, UploadInteractionWidget, tpl){
+], function(UploadInteraction, UploadInteractionWidget, tpl){
     'use strict';
 
-    UploadInteraction = _.clone(UploadInteraction);
+    UploadInteraction = {...UploadInteraction};
 
     UploadInteraction.template = tpl;
     UploadInteraction.render = function(interaction, options){

@@ -22,7 +22,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCreator/widgets/states/factory',
@@ -44,7 +43,6 @@ define([
     'ui/mediasizer'
 ], function (
     $,
-    _,
     __,
     GraphicHelper,
     stateFactory,
@@ -111,7 +109,7 @@ define([
         var options = widget.options;
         var paper = interaction.paper;
 
-        var gapImgSelectorOptions = _.clone(options);
+        var gapImgSelectorOptions = {...options};
         gapImgSelectorOptions.title = gapImgSelectorOptions.title
             ? gapImgSelectorOptions.title
             : __('Please select a choice picture for your interaction from the resource manager. \
@@ -165,7 +163,7 @@ define([
         //and create an instance
         widget._editor.create();
 
-        _.forEach(interaction.getGapImgs(), setUpGapImg);
+        interaction.getGapImgs().forEach(setUpGapImg);
 
         createGapImgAddOption();
 
@@ -283,15 +281,15 @@ define([
                 minMaxComponentFactory($choiceForm.find('.min-max-panel'), {
                     min: {
                         fieldName: 'matchMin',
-                        value: _.parseInt(choice.attr('matchMin')) || 0,
+                        value: parseInt(choice.attr('matchMin'), 10) || 0,
                         helpMessage: __('The minimum number of choices this choice must be associated with to form a valid response.')
                     },
                     max: {
                         fieldName: 'matchMax',
-                        value: _.parseInt(choice.attr('matchMax')) || 0,
+                        value: parseInt(choice.attr('matchMax'), 10) || 0,
                         helpMessage: __('The maximum number of choices this choice may be associated with.')
                     },
-                    upperThreshold: _.size(interaction.getChoices())
+                    upperThreshold: interaction.getChoices().length
                 })
                     .on('render', function () {
                         var self = this;
@@ -299,7 +297,7 @@ define([
                         //the range matches the number of choices
                         widget.on('choiceCreated choiceDeleted', function (data) {
                             if (data.interaction.serial === interaction.serial) {
-                                self.updateThresholds(1, _.size(interaction.getChoices()));
+                                self.updateThresholds(1, interaction.getChoices().length);
                             }
                         });
                         // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
@@ -374,15 +372,15 @@ define([
                 minMaxComponentFactory($choiceForm.find('.min-max-panel'), {
                     min: {
                         fieldName: 'matchMin',
-                        value: _.parseInt(gapImg.attr('matchMin')) || 0,
+                        value: parseInt(gapImg.attr('matchMin'), 10) || 0,
                         helpMessage: __('The minimum number of choices this choice must be associated with to form a valid response.')
                     },
                     max: {
                         fieldName: 'matchMax',
-                        value: _.parseInt(gapImg.attr('matchMax')) || 0,
+                        value: parseInt(gapImg.attr('matchMax'), 10) || 0,
                         helpMessage: __('The maximum number of choices this choice may be associated with.')
                     },
-                    upperThreshold: _.size(interaction.getChoices())
+                    upperThreshold: interaction.getChoices().length
                 })
                     .on('render', function () {
                         var self = this;
@@ -390,7 +388,7 @@ define([
                         //the range is matching the number of choices (not the number of gap img)
                         widget.on('choiceCreated choiceDeleted', function (data) {
                             if (data.interaction.serial === interaction.serial) {
-                                self.updateThresholds(1, _.size(interaction.getChoices()));
+                                self.updateThresholds(1, interaction.getChoices().length);
                             }
                         });
                         // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
@@ -500,7 +498,7 @@ define([
         var widget = this.widget;
         var interaction = widget.element;
         var paper = interaction.paper;
-        var valid = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices);
+        var valid = !!interaction.object.attr('data') && interaction.choices.length > 0;
 
         widget.isValid('graphicGapMatchInteraction', valid);
 

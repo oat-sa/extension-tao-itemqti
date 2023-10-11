@@ -16,27 +16,28 @@
  * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
  */
 define([
-    'lodash',
     'handlebars',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/interactions/portableCustomInteraction/properties'
-], function(_, Handlebars, propertiesTpl){
+], function(Handlebars, propertiesTpl){
     'use strict';
 
     function renderPortableElementProperties(properties, ns, name){
         var entries = [];
 
-        _.forIn(properties, function(value, key){
-            if(_.isObject(value)){
-                entries.push({
-                    value : renderPortableElementProperties(value, ns, key)
-                });
-            }else{
-                entries.push({
-                    key : key,
-                    value : value
-                });
+        for (let key in properties) {
+            if (properties.hasOwnProperty(key)) {
+                if (typeof properties[key] === 'object' && properties[key] !== null) {
+                    entries.push({
+                        value: renderPortableElementProperties(properties[key], ns, key)
+                    });
+                } else {
+                    entries.push({
+                        key: key,
+                        value: properties[key]
+                    });
+                }
             }
-        });
+        }
 
         return propertiesTpl({
             entries : entries,
@@ -48,12 +49,15 @@ define([
     function renderImsPortableElementProperties(properties, ns, name){
         var entries = [];
 
-        _.forIn(properties, function(value, key){
-            entries.push({
-                key : key,
-                value : (_.isObject(value) || _.isArray(value)) ? JSON.stringify(value) : value
-            });
-        });
+        for (let key in properties) {
+            if (properties.hasOwnProperty(key)) {
+                let value = properties[key];
+                entries.push({
+                    key: key,
+                    value: (typeof value === 'object' && value !== null) ? JSON.stringify(value) : value
+                });
+            }
+        }
 
         return propertiesTpl({
             entries : entries,

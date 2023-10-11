@@ -75,7 +75,7 @@ define([
             areaBroker = widget && widget.getAreaBroker && widget.getAreaBroker(),
             $toolbarArea = areaBroker && areaBroker.getToolbarArea && areaBroker.getToolbarArea();
 
-        options = _.defaults(options, _defaults);
+        options = Object.assign({}, _defaults, options);
 
         const isHiddenPlugin = pluginName => !features.isVisible(`taoQtiItem/creator/content/plugin/${pluginName}`);
 
@@ -148,7 +148,7 @@ define([
                             function (createdWidget) {
                                 const createdElement = createdWidget.element;
 
-                                if (_.isFunction(createdElement.initContainer)) {
+                                if (typeof createdElement.initContainer === "function") {
                                     createdElement.body($newContent.html());
                                     createdWidget.rebuild();
                                     createdWidget = createdElement.data('widget');
@@ -171,13 +171,14 @@ define([
                     $editable.data('editor', editor);
                     $editable.data('editor-options', options);
 
+                    // TODO: not sure with this debounce
                     //need to debounce the callback to prevent the changes made by undo to trigger the event change twice
                     editor.on(
                         'change',
                         _.debounce(
                             function markupChanged() {
                                 _detectWidgetDeletion($editable, widgets, editor);
-                                if (_.isFunction(options.change)) {
+                                if (typeof options.change === "function") {
                                     options.change.call(editor, _htmlEncode(editor.getData()));
                                 }
                             },
@@ -222,7 +223,7 @@ define([
                     }
 
                     //callback:
-                    if (_.isFunction(options.focus)) {
+                    if (typeof options.focus === "function") {
                         options.focus.call(this, _htmlEncode(this.getData()));
                     }
 
@@ -233,7 +234,7 @@ define([
                 configLoaded: function (e) {
                     //@todo : do we really have to wait here to initialize the config?
                     let toolbarType = options.toolbarType || '';
-                    if (options.toolbar && _.isArray(options.toolbar)) {
+                    if (options.toolbar && Array.isArray(options.toolbar)) {
                         ckConfig.toolbar = options.toolbar;
                     } else {
                         toolbarType = getTooltypeFromContainer($editableContainer);
@@ -356,7 +357,7 @@ define([
         options = options || {};
 
         //re-init all widgets:
-        _.each(_.values(container.elements), function (elt) {
+        Object.values(container.elements).forEach(function(elt) {
             const widget = elt.data('widget'),
                 currentState = widget.getCurrentState().name;
 
@@ -400,7 +401,7 @@ define([
         const deleted = [];
         const container = $container.data('qti-container');
 
-        _.each(widgets, function (w) {
+        widgets.forEach(function(w) {
             if (!w.element.data('removed')) {
                 const $widget = _findWidgetContainer($container, w.serial);
                 if (!$widget.length) {
@@ -415,7 +416,7 @@ define([
 
             $messageBox
                 .on('confirm.deleting', function () {
-                    _.each(deleted, function (w) {
+                    deleted.forEach(function(w) {
                         w.element.remove();
                         w.destroy();
                     });
@@ -498,7 +499,7 @@ define([
                     if (targetWidget) {
                         containerWidget.$container.off(event);
                         //FIXME potential race condition ? (debounce the enclosing event handler ?)
-                        _.delay(function () {
+                        setTimeout(function() {
                             if (Element.isA(targetWidget.element, 'interaction')) {
                                 targetWidget.changeState('question');
                             } else {
@@ -634,7 +635,7 @@ define([
                             const options = $editable.data('editor-options');
 
                             //before destroying, ensure that data is stored
-                            if (_.isFunction(options.change)) {
+                            if (typeof options.change === "function") {
                                 options.change.call(editor, _htmlEncode(editor.getData()));
                             }
 
@@ -681,8 +682,8 @@ define([
         setData: function ($editable, data) {
             const editor = $editable.data('editor');
             if (editor) {
-                if (_.isString(data)) {
-                    editor.setData(_.escape(data));
+                if (typeof data === "string") {
+                    editor.setData(_.escape(data)); //TODO
                 }
             } else {
                 throw new Error('no editor attached to the DOM element');

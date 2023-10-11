@@ -18,10 +18,9 @@
  */
 define([
     'jquery',
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'util/strPad'],
-    function($, _, pciResponse, strPad){
+    function($, pciResponse, strPad){
     'use strict';
 
     function QtiPreviewResultServerApi(endpoint, itemUri){
@@ -44,9 +43,15 @@ define([
         var previewConsole = $('#preview-console');
         var variableIdentifier;
 
+        function escapeHtml(text) {
+            const div = document.createElement("div");
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
         for (variableIdentifier in responses) {
             previewConsole.trigger('updateConsole', [
-                'Submitted data', strPad(variableIdentifier + ': ', 15, ' ') + _.escape(pciResponse.prettyPrint(responses[variableIdentifier]))
+                'Submitted data', strPad(variableIdentifier + ': ', 15, ' ') + escapeHtml(pciResponse.prettyPrint(responses[variableIdentifier]))
             ]);
         }
 

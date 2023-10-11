@@ -16,7 +16,7 @@
  * Copyright (c) 2014-2018 (original work) Open Assessment Technologies SA
  *
  */
-define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function($, _, qtiClasses){
+define(['jquery', 'taoQtiItem/qtiCreator/model/qtiClasses'], function($, qtiClasses){
     "use strict";
     var methods = {
         createElements : function(container, body, callback){
@@ -35,10 +35,10 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(
                 });
 
             //second pass after requiring classes:
-            require(_.values(required), function(){
+            require(Object.values(required), function(){
 
                 //register and name all loaded classes:
-                var Qti = _.reduce([].slice.call(arguments), function (acc, qtiClassElt) {
+                var Qti = [].slice.call(arguments).reduce((acc, qtiClassElt) => {
                     acc[qtiClassElt.prototype.qtiClass] = qtiClassElt;
 
                     return acc;
@@ -74,19 +74,19 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(
                 container.setElements(newElts, newBody);
 
                 //operations after insertions:
-                _.each(newElts, function(elt){
-                    if(_.isFunction(elt.buildIdentifier)){
+                newElts.forEach(elt => {
+                    if (typeof elt.buildIdentifier === 'function') {
                         elt.buildIdentifier();
                     }
-                    if(_.isFunction(elt.afterCreate)){
+                    if (typeof elt.afterCreate === 'function') {
                         promises.push(elt.afterCreate());
                     }
                 });
 
                 if(typeof(callback) === 'function'){
                     Promise.all(promises).then(function(){
-                        _.each(newElts, function(elt){
-                            $doc.trigger('elementCreated.qti-widget', {parent : container.parent(), element : elt});
+                        newElts.forEach(elt => {
+                            $doc.trigger('elementCreated.qti-widget', {parent: container.parent(), element: elt});
                         });
                         callback.call(container, newElts);
                     }).catch(function(err){

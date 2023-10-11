@@ -18,14 +18,13 @@
 
 define([
     'jquery',
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/Item',
     'taoQtiItem/qtiCreator/widgets/item/Widget',
     'tpl!taoQtiItem/qtiCreator/tpl/item'
-], function($, _, CommonRenderer, Widget, tpl){
+], function($, CommonRenderer, Widget, tpl){
     'use strict';
 
-    var CreatorItem = _.clone(CommonRenderer);
+    var CreatorItem = {...CommonRenderer};
 
     var _normalizeItemBody = function _normalizeItemBody($itemBody) {
 

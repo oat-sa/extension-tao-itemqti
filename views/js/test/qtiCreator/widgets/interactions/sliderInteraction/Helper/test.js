@@ -16,12 +16,10 @@
  * Copyright (c) 2020  (original work) Open Assessment Technologies SA;
  */
 define([
-    'lodash',
     'ui/feedback',
     'ui/dialog/confirm',
     'taoQtiItem/qtiCreator/widgets/interactions/sliderInteraction/Helper'
 ], function(
-    _,
     feedback,
     dialogConfirm,
     sliderInteractionHelper
@@ -54,7 +52,7 @@ define([
 
     QUnit.test('Check bound range', function (assert) {
         assert.expect(2);
-        const testInteraction = _.clone(interaction);
+        const testInteraction = { ...interaction };
         testInteraction.attributes.lowerBound = 2;
         testInteraction.attributes.upperBound = 1;
         const responseManager = sliderInteractionHelper.responseManager(testInteraction, 0);
@@ -64,7 +62,7 @@ define([
 
     QUnit.test('Check only possible response failed', function (assert) {
         assert.expect(2);
-        const testInteraction = _.clone(interaction);
+        const testInteraction = { ...interaction };
         testInteraction.attributes.lowerBound = 2;
         testInteraction.attributes.upperBound = 2;
         const responseManager = sliderInteractionHelper.responseManager(testInteraction, 0);
@@ -74,7 +72,7 @@ define([
 
     QUnit.test('Check only possible response correct', function (assert) {
         assert.expect(2);
-        const testInteraction = _.clone(interaction);
+        const testInteraction = { ...interaction };
         testInteraction.attributes.lowerBound = 2;
         testInteraction.attributes.upperBound = 2;
         sliderInteractionHelper.responseManager(testInteraction, 2);
@@ -85,7 +83,7 @@ define([
 
     QUnit.test('Current response is bigger than upper bound', function (assert) {
         assert.expect(2);
-        const testInteraction = _.clone(interaction);
+        const testInteraction = { ...interaction };
         testInteraction.attributes.lowerBound = 2;
         testInteraction.attributes.upperBound = 3;
         const responseManager = sliderInteractionHelper.responseManager(testInteraction, 5);
@@ -95,7 +93,7 @@ define([
 
     QUnit.test('Current response is lower than lower bound', function (assert) {
         assert.expect(2);
-        const testInteraction = _.clone(interaction);
+        const testInteraction = { ...interaction };
         testInteraction.attributes.lowerBound = 2;
         testInteraction.attributes.upperBound = 3;
         const responseManager = sliderInteractionHelper.responseManager(testInteraction, 1);

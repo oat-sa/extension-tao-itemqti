@@ -18,13 +18,12 @@
  */
 
 define([
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/AssociateInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCreator/widgets/helpers/placeholder'
-], function(_, __, commonRenderer, sizeAdapter, instructionMgr, placeholder){
+], function(__, commonRenderer, sizeAdapter, instructionMgr, placeholder){
 
     'use strict';
 
@@ -77,10 +76,10 @@ define([
         getResponseSummary : function(responseDeclaration){
 
             var pairs = [],
-                correctResponse = _.values(responseDeclaration.getCorrect()),
+                correctResponse = Object.values(responseDeclaration.getCorrect()),
                 mapEntries = responseDeclaration.getMapEntries();
 
-            _.each(correctResponse, function(pair) {
+            correctResponse.forEach(function(pair) {
 
                 var sortedIdPair = pair.split(' ').sort(),
                     sortedIdPairKey = sortedIdPair.join(' ');
@@ -92,8 +91,7 @@ define([
                 };
             });
 
-            _.forIn(mapEntries, function(score, pair) {
-
+            for (const [pair, score] of Object.entries(mapEntries)) {
                 var sortedIdPair = pair.split(' ').sort(),
                     sortedIdPairKey = sortedIdPair.join(' ');
 
@@ -106,7 +104,7 @@ define([
                 } else {
                     pairs[sortedIdPairKey].score = score;
                 }
-            });
+            };
 
             return pairs;
         },
@@ -119,7 +117,7 @@ define([
                 formatedRes = {list : { pair : [] }};
             }
 
-            _.each(response, function(pairString){
+            response.forEach(function(pairString) {
                 var pair = pairString.split(' ');
                 if(cardinality === 'single'){
                     formatedRes.base.pair = pair;
@@ -135,7 +133,7 @@ define([
             var res = [];
 
             if(formatedResponse.list && formatedResponse.list.pair){
-                _.each(formatedResponse.list.pair, function(pair){
+                formatedResponse.list.pair.forEach(function(pair) {
                     res.push(pair.join(' '));
                 });
             }else if(formatedResponse.base && formatedResponse.base.pair){

@@ -17,7 +17,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'ui/feedback',
     'taoQtiItem/qtiCreator/widgets/states/factory',
@@ -34,7 +33,6 @@ define([
     'services/features'
 ], function(
     $,
-    _,
     __,
     feedback,
     stateFactory,
@@ -259,7 +257,7 @@ define([
                 choice = data.element || data.choice;
 
             if(choice.qtiClass === 'gap'){
-                cardinality = _.size(interaction.getGaps()) === 1 ? 'single' : 'multiple';
+                cardinality = interaction.getGaps().length === 1 ? 'single' : 'multiple';
                 response.attr('cardinality', cardinality);
             }
         };
@@ -300,8 +298,8 @@ define([
             var choiceCount = 0,
                 $deleteButtons = $container.find('.choice-area .qti-choice [data-role=delete]');
 
-            _.each(interaction.getChoices(), function(choice){
-                if(!choice.data('deleting')){
+            interaction.getChoices().forEach(function(choice) {
+                if (!choice.data('deleting')) {
                     choiceCount++;
                 }
             });

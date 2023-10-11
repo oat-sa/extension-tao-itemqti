@@ -23,12 +23,11 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
     'core/plugin',
     'taoQtiItem/qtiCreator/editor/blockAdder/blockAdder',
     'taoQtiItem/qtiCreator/helper/qtiElements',
     'taoQtiItem/portableElementRegistry/ciRegistry'
-], function(_, pluginFactory, blockAdder, qtiElements, ciRegistry){
+], function(pluginFactory, blockAdder, qtiElements, ciRegistry){
     'use strict';
 
     /**
@@ -46,7 +45,7 @@ define([
 
             var interactions = qtiElements.getAvailableAuthoringElements() || {};
 
-            _.forIn(ciRegistry.getAllVersions(), function(versions, typeId){
+            Object.entries(ciRegistry.getAllVersions()).forEach(([typeId, versions]) => {
                 var data = ciRegistry.getAuthoringData(typeId, {enabledOnly : true});
                 if(data && data.tags){
                     interactions[data.qtiClass] = data;

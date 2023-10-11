@@ -22,13 +22,12 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'lib/uuid',
     'core/eventifier',
     'ui/dialog',
     'taoQtiItem/qtiCreator/helper/saveChanges'
-], function ($, _, __, uuid, eventifier, dialog, saveChanges) {
+], function ($, __, uuid, eventifier, dialog, saveChanges) {
     'use strict';
 
     /**

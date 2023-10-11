@@ -1,8 +1,7 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
-    'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/ResponseWidget',
-    'lodash'
+    'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/ResponseWidget'
 ], function(stateFactory, Correct, responseWidget, _){
 
     var ChoiceInteractionStateCorrect = stateFactory.create(Correct, function(){
@@ -15,7 +14,7 @@ define([
         responseWidget.create(_widget);
 
         //finally, apply defined correct response and response mapping:
-        responseWidget.setResponse(interaction, _.values(response.getCorrect()));
+        responseWidget.setResponse(interaction, Object.values(response.getCorrect()));
 
     }, function(){
 

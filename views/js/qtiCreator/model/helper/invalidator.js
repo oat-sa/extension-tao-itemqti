@@ -16,7 +16,7 @@
  * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
  *
  */
-define(['lodash'], function (_) {
+define([], function () {
     'use strict';
     const invalidator = {
         completelyValid: function (element) {
@@ -39,7 +39,7 @@ define(['lodash'], function (_) {
                 if (key) {
                     if (invalidElements[serial] && invalidElements[serial][key]) {
                         delete invalidElements[serial][key];
-                        if (!_.size(invalidElements[serial])) {
+                        if (!Object.keys(invalidElements[serial]).length) {
                             delete invalidElements[serial];
                         }
 

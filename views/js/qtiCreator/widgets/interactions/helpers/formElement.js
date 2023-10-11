@@ -22,12 +22,11 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiItem/core/Element',
     'ui/tooltip'
-], function($, _, __, formElement, Element, tooltip){
+], function($, __, formElement, Element, tooltip){
     'use strict';
 
     var _scoreTooltipContent = {
@@ -50,7 +49,7 @@ define([
          * @param {Object} widget - the interacion's widget (where widget.element is the interaction)
          * @param {String} [attributeNameMin = minChoices] - the name of the min field and attribute
          * @param {String} [attributeNameMax = maxChoices] - the name of the max field and attribute
-         * @param {Function} [getMax = _.size] - how to get the max value from the choices lists (in attributes)
+         * @param {Function} [getMax = size] - how to get the max value from the choices lists (in attributes)
          */
         syncMaxChoices : function syncMaxChoices(widget, attributeNameMin, attributeNameMax, getMax){
             var $min;
@@ -63,7 +62,15 @@ define([
 
             attributeNameMin = attributeNameMin || 'minChoices';
             attributeNameMax = attributeNameMax || 'maxChoices';
-            getMax = getMax || _.size;
+            getMax = getMax || function(obj) {
+                if (Array.isArray(obj)) {
+                    return obj.length;
+                } else if (typeof obj === 'object') {
+                    return Object.keys(obj).length;
+                } else {
+                    return 0;
+                }
+            };
             $min = widget.$form.find('input[name=' + attributeNameMin + ']');
             $max = widget.$form.find('input[name=' + attributeNameMax + ']');
 
@@ -91,7 +98,7 @@ define([
             var key;
             var formElementTooltip;
 
-            options = _.defaults(options || {}, {
+            options = Object.assign({
                 required : false,
                 empty : function(){
                 },
@@ -101,7 +108,7 @@ define([
                     return $(this).attr('name');
                 },
                 tooltipContent : _scoreTooltipContent
-            });
+            }, options || {});
 
             if(typeof $scoreInput.data('$tooltip') === 'undefined'){
                 formElementTooltip = tooltip.error($scoreInput, ' ', {

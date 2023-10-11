@@ -1,7 +1,7 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'lodash'], function($, _){
+define(['jquery'], function($){
 
     /**
      * Move a Raphael shape.
@@ -14,9 +14,9 @@ define(['jquery', 'lodash'], function($, _){
     var move =  function move (element, start, stop){
         var mover;
         if(element && element.type){
-            mover = _.bind(shapeMover[element.type], shapeMover);
+            mover = shapeMover[element.type].bind(shapeMover);
 
-            if(_.isFunction(mover)){
+            if(typeof mover === 'function'){
                 element.animate(
                     mover(start, stop, element)
                 );
@@ -26,9 +26,9 @@ define(['jquery', 'lodash'], function($, _){
 
     /**
      * Provides moving implementation based on the shape type
-     */ 
+     */
     var shapeMover = {
-        
+
         /**
          * Move a rectangle;
          * @param {Raphael.Element} element - the element to move
@@ -49,7 +49,7 @@ define(['jquery', 'lodash'], function($, _){
                 y : Math.max(y, 0),
             };
         },
-        
+
         /**
          * Move a circle.
          * @param {Raphael.Element} element - the element to move
@@ -112,7 +112,7 @@ define(['jquery', 'lodash'], function($, _){
                 maxX: 0,
                 maxY: 0,
             }
-            var clientShift = _.reduce(start.path, (result, point) => {
+            var clientShift = start.path.reduce((result, point) => {
                 if (point.length !== 3) {
                     return result;
                 }
@@ -123,12 +123,12 @@ define(['jquery', 'lodash'], function($, _){
                     minX: Math.min(result.minX, pointX),
                     maxX: Math.min(result.maxX, element.paper.w - pointX),
                     minY: Math.min(result.minY, pointY),
-                    maxY: Math.min(result.maxY, element.paper.h -pointY)
-                }
+                    maxY: Math.min(result.maxY, element.paper.h - pointY)
+                };
             }, defaultShift);
 
             // Generate the path
-            var path = _.reduce(start.path, function(result, point) {
+            var path = start.path.reduce((result, point) => {
                 var item = point[0];
 
                 if (point.length !== 3) {
@@ -147,6 +147,6 @@ define(['jquery', 'lodash'], function($, _){
             };
         }
     };
-    
+
     return move;
 });

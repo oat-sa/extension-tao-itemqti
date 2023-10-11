@@ -21,7 +21,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
@@ -32,7 +31,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/placeholder',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'tpl!taoQtiItem/qtiCreator/tpl/interactions/hottextInteraction.score'
-], function($, _, __, stateFactory, Map, commonRenderer, answerStateHelper, instructionMgr, formElement, placeholder, PciResponse, scoreTpl){
+], function($, __, stateFactory, Map, commonRenderer, answerStateHelper, instructionMgr, formElement, placeholder, PciResponse, scoreTpl){
     'use strict';
 
     /**
@@ -42,7 +41,7 @@ define([
         var widget = this.widget;
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
-        var corrects  = _.values(response.getCorrect());
+        var corrects  = Object.values(response.getCorrect());
 
         //really need to destroy before ?
         commonRenderer.resetResponse(interaction);
@@ -138,7 +137,7 @@ define([
             }
         });
 
-        _.forEach(interaction.getChoices(), function(choice){
+        interaction.getChoices().forEach(function (choice) {
             var id = choice.serial + '-score';
             var inputVal = typeof mapEntries[choice.id()] !== 'undefined' ? mapEntries[choice.id()] : '';
             var $hottext = $('[data-serial="' + choice.serial + '"]', $container);

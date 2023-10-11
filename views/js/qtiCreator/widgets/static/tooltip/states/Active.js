@@ -20,7 +20,6 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'lodash',
     'jquery',
     'i18n',
     'ckeditor',
@@ -31,7 +30,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'taoQtiItem/qtiCreator/widgets/static/tooltip/components/tooltipEditor',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/tooltip'
-], function(_, $, __, ckEditor, stateFactory, Active, htmlEditor, contentHelper, inlineHelper, tooltipEditorFactory, formTpl){
+], function($, __, ckEditor, stateFactory, Active, htmlEditor, contentHelper, inlineHelper, tooltipEditorFactory, formTpl){
     'use strict';
 
     var tooltipEditor;

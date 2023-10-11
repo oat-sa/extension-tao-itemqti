@@ -17,13 +17,12 @@
  */
 
 define([
-    'lodash',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/ChoiceInteraction',
     'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/Widget'
-], function(_, ChoiceInteraction, ChoiceInteractionWidget){
+], function(ChoiceInteraction, ChoiceInteractionWidget){
     'use strict';
 
-    var CreatorChoiceInteraction = _.clone(ChoiceInteraction);
+    var CreatorChoiceInteraction = {...ChoiceInteraction};
 
     CreatorChoiceInteraction.render = function(interaction, options){
 

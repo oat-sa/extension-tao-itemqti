@@ -1,18 +1,16 @@
-define(['lodash'], function(_){
+define([], function(){
     "use strict";
     return {
         removeChoice : function(response, choice){
 
             var escapedIdentifier = choice.id().replace(/([.-])/g, '\\$1'),
                 regex = new RegExp('([^a-z_\-\d\.]*)(' + escapedIdentifier + ')([^a-z_\-\d\.]*)');
-            
-            _.remove(response.correctResponse, function(entry){
-                return entry.match(regex);
-            });
-            
+
+            response.correctResponse = response.correctResponse.filter(entry => !entry.match(regex));
+
             var mapEntries = {};
-            _.forIn(response.mapEntries, function(value, mapKey){
-                if(!mapKey.match(regex)){
+            Object.entries(response.mapEntries).forEach(([mapKey, value]) => {
+                if (!mapKey.match(regex)) {
                     mapEntries[mapKey] = value;
                 }
             });

@@ -17,13 +17,12 @@
  */
 
 define([
-'lodash',
 'taoQtiItem/qtiCommonRenderer/renderers/interactions/ExtendedTextInteraction',
 'taoQtiItem/qtiCreator/widgets/interactions/extendedTextInteraction/Widget'
-], function(_, ExtendedTextInteraction,ExtendedTextInteractionWidget){
+], function(ExtendedTextInteraction,ExtendedTextInteractionWidget){
     'use strict';
 
-    var CreatorExtendedTextInteraction = _.clone(ExtendedTextInteraction);
+    var CreatorExtendedTextInteraction = {...ExtendedTextInteraction};
 
     CreatorExtendedTextInteraction.render = function(interaction, options) {
 

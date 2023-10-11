@@ -18,14 +18,13 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'ui/hider',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionButton',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/insertInteractionGroup',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/tooltip',
     'ui/tooltip'
-], function($, _, __, hider, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
+], function($, __, hider, insertInteractionTpl, insertSectionTpl, tooltipTpl, tooltip){
     'use strict';
 
     /**
@@ -72,7 +71,7 @@ define([
 
     function create($sidebar, interactions){
 
-        _.each(interactions, function(interactionAuthoringData){
+        interactions.forEach(function(interactionAuthoringData){
             add($sidebar, interactionAuthoringData);
         });
 
