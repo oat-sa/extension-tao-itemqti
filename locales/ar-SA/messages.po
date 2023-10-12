@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-09-13 14:47\n"
+"PO-Revision-Date: 2023-10-12 11:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -871,7 +871,7 @@ msgstr "عرض البند"
 
 #, tao-public
 msgid "Items"
-msgstr ""
+msgstr "بنود"
 
 msgid "Label"
 msgstr "اسم"
@@ -1319,7 +1319,7 @@ msgid "remove"
 msgstr "إزالة"
 
 msgid "Remove"
-msgstr ""
+msgstr "إزالة"
 
 msgid "Remove custom background color"
 msgstr "قم بإزالة لون الخلفية المخصص"
@@ -1406,7 +1406,7 @@ msgid "Rollback on..."
 msgstr "التراجع عن ..."
 
 msgid "Save"
-msgstr ""
+msgstr "حفظ"
 
 msgid "Save the item"
 msgstr "احفظ البند"
