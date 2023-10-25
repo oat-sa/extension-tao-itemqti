@@ -580,10 +580,10 @@ define([
          * @param {Boolean} [editorOptions.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
          * @param {Boolean} [editorOptions.enterMode] - what is the behavior of the "Enter" key (see ENTER_MODE_xxx in ckEditor configuration)
          * @param {String} [editorOptions.removePlugins] - comma-separated list of plugins to disable
-         * @returns {undefined}
+         * @returns {Promise}
          */
         buildEditor: function ($container, editorOptions) {
-            languages
+            return languages
                 .getList()
                 .then(languages.useCKEFormatting)
                 .then(languagesData => {
