@@ -11,7 +11,7 @@
  * Styles: core basic css3
  *
  * =====================================================================
- * OAT WARNING : Line 25 has been changed from the original source code.
+ * OAT WARNING : Lines 25 and 1946 have been changed from the original source code.
  * =====================================================================
  */
 /*global window: false, jQuery: false, console: false, define: false */
@@ -1943,7 +1943,7 @@
 		QTIP.inactiveEvents = INACTIVE_EVENTS;
 
 // Base z-index for all qTips
-		QTIP.zindex = 15000;
+		QTIP.zindex = 1500000;
 
 // Define configuration defaults
 		QTIP.defaults = {
