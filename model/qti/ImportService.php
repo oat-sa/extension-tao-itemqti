@@ -901,11 +901,6 @@ class ImportService extends ConfigurableService
         return $path;
     }
 
-    private function deleteEmptyMediaClass(core_kernel_classes_Class $mediaClass)
-    {
-       
-    }
-
     private function getItemEventDispatcher(): UpdatedItemEventDispatcher
     {
         return $this->getServiceLocator()->get(UpdatedItemEventDispatcher::class);
