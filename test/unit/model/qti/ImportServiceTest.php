@@ -66,18 +66,7 @@ class ImportServiceTest extends TestCase
             ->method('getUri')
             ->willReturn(TaoOntology::CLASS_URI_ITEM);
 
-        $result = new \core_kernel_classes_Class('fake uri');
-
-        $mediaRootClassMock = $this->createMock(RdfClass::class);
-        $mediaRootClassMock->expects($this->once())
-            ->method('retrieveSubClassByLabel')
-            ->with(self::ITEM_LABEL)
-            ->willReturn($result);
-
-        $this->ontologyMock
-            ->expects($this->once())
-            ->method('getClass')
-            ->willReturn($mediaRootClassMock);
+        $result = ['item label'];
 
         $this->assertEquals($result, $this->subject->getTargetClassForAssets($itemClassMock, $this->itemResourceMock));
     }
@@ -89,28 +78,7 @@ class ImportServiceTest extends TestCase
 
         $itemClass = $this->prepareItemClassStructureMock($label1, $label2);
 
-        $result = new \core_kernel_classes_Class('fake uri');
-        $mediaSubclass2 = $this->createMock(RdfClass::class);
-        $mediaSubclass2->expects($this->once())
-            ->method('retrieveSubClassByLabel')
-            ->with(self::ITEM_LABEL)
-            ->willReturn($result);
-
-        $mediaSubclass1 = $this->createMock(RdfClass::class);
-        $mediaSubclass1->expects($this->once())
-            ->method('retrieveSubClassByLabel')
-            ->with($label2)
-            ->willReturn($mediaSubclass2);
-
-        $mediaRootClassMock = $this->createMock(RdfClass::class);
-        $mediaRootClassMock->expects($this->once())
-            ->method('retrieveSubClassByLabel')
-            ->with($label1)
-            ->willReturn($mediaSubclass1);
-
-        $this->ontologyMock->expects($this->once())
-            ->method('getClass')
-            ->willReturn($mediaRootClassMock);
+        $result = [$label1, $label2, 'item label'];
 
         $this->assertEquals($result, $this->subject->getTargetClassForAssets($itemClass, $this->itemResourceMock));
     }
@@ -122,40 +90,7 @@ class ImportServiceTest extends TestCase
 
         $itemClass = $this->prepareItemClassStructureMock($label1, $label2);
 
-        $result = new \core_kernel_classes_Class('fake uri');
-        $mediaSubclass2 = $this->createMock(RdfClass::class);
-        $mediaSubclass2->expects($this->once())
-            ->method('retrieveSubClassByLabel')
-            ->with(self::ITEM_LABEL)
-            ->willReturn(null);
-        $mediaSubclass2->expects($this->once())
-            ->method('createSubClass')
-            ->with(self::ITEM_LABEL)
-            ->willReturn($result);
-
-        $mediaSubclass1 = $this->createMock(RdfClass::class);
-        $mediaSubclass1->expects($this->once())
-            ->method('retrieveSubClassByLabel')
-            ->with($label2)
-            ->willReturn(null);
-        $mediaSubclass1->expects($this->once())
-            ->method('createSubClass')
-            ->with($label2)
-            ->willReturn($mediaSubclass2);
-
-        $mediaRootClassMock = $this->createMock(RdfClass::class);
-        $mediaRootClassMock->expects($this->once())
-            ->method('retrieveSubClassByLabel')
-            ->with($label1)
-            ->willReturn(null);
-        $mediaRootClassMock->expects($this->once())
-            ->method('createSubClass')
-            ->with($label1)
-            ->willReturn($mediaSubclass1);
-
-        $this->ontologyMock->expects($this->once())
-            ->method('getClass')
-            ->willReturn($mediaRootClassMock);
+        $result = [$label1, $label2, 'item label'];
 
         $this->assertEquals($result, $this->subject->getTargetClassForAssets($itemClass, $this->itemResourceMock));
     }
