@@ -30,6 +30,7 @@ use oat\tao\model\GenerisServiceTrait;
 use oat\taoMediaManager\model\MediaService;
 use oat\taoMediaManager\model\sharedStimulus\service\StoreService;
 use oat\taoQtiItem\model\Export\AbstractQTIItemExporter;
+use oat\taoQtiItem\model\qti\ImportService;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
@@ -43,7 +44,7 @@ class SharedStimulusFactory extends ConfigurableService
         string $newXmlFile,
         string $relativePath,
         string $absolutePath,
-        core_kernel_classes_Class $targetClass
+        array $targetClassPath
     ): string {
         $assetWithCss = $this->getStoreService()->store(
             $newXmlFile,
@@ -53,7 +54,7 @@ class SharedStimulusFactory extends ConfigurableService
 
         return $this->getMediaService()->createSharedStimulusInstance(
             $assetWithCss . DIRECTORY_SEPARATOR . basename($relativePath),
-            $targetClass->getUri(),
+            $this->buildParentClassUri($targetClassPath),
             $this->getUserLanguageService()->getAuthoringLanguage()
         );
     }
@@ -111,5 +112,18 @@ class SharedStimulusFactory extends ConfigurableService
     private function getUserLanguageService(): UserLanguageService
     {
         return $this->getServiceLocator()->get(UserLanguageService::SERVICE_ID);
+    }
+
+    private function buildParentClassUri(array $labelPath): string
+    {
+        $mediaClass = $this->getClass(ImportService::MEDIA_ROOT_CLASS);
+
+        // Creating same classes in the media root
+        foreach ($labelPath as $classLabel) {
+            $mediaClass = $mediaClass->retrieveSubClassByLabel($classLabel)
+                ?: $mediaClass->createSubClass($classLabel);
+        }
+
+        return $mediaClass->getUri();
     }
 }

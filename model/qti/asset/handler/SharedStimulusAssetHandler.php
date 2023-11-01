@@ -49,7 +49,7 @@ class SharedStimulusAssetHandler implements AssetHandler
 
     protected $qtiModel;
     protected $sharedFiles = [];
-    private core_kernel_classes_Class $targetClass;
+    private array $targetClassPath;
 
     /**
      * MediaAssetHandler constructor.
@@ -99,7 +99,7 @@ class SharedStimulusAssetHandler implements AssetHandler
             $newXmlFile,
             $relativePath,
             $absolutePath,
-            $this->getTargetClass()
+            $this->getTargetClassPath()
         );
 
         \common_Logger::i('Auxiliary file \'' . $absolutePath . '\' added to shared storage.');
@@ -184,14 +184,14 @@ class SharedStimulusAssetHandler implements AssetHandler
         return $this;
     }
 
-    public function getTargetClass(): core_kernel_classes_Class
+    public function getTargetClassPath(): array
     {
-        return $this->targetClass;
+        return $this->targetClassPath;
     }
 
-    public function setTargetClass(core_kernel_classes_Class $targetClass): self
+    public function setTargetClassPath(array $targetClassPath): self
     {
-        $this->targetClass = $targetClass;
+        $this->targetClassPath = $targetClassPath;
         return $this;
     }
 
