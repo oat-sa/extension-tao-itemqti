@@ -115,7 +115,8 @@ class SharedStimulusFactoryTest extends TestCase
             ->with(
                 '/filename.xml',
                 'ClassUri',
-                '')
+                ''
+            )
             ->willReturn('id');
 
         $mediaRootClassMock = $this->createMock(RdfClass::class);
@@ -123,7 +124,7 @@ class SharedStimulusFactoryTest extends TestCase
             ->method('retrieveSubClassByLabel');
         $mediaRootClassMock->expects($this->once())
             ->method('getUri')
-            ->willReturn('ClassUri');    
+            ->willReturn('ClassUri');
 
         $this->ontologyMock
             ->expects($this->once())
@@ -152,7 +153,8 @@ class SharedStimulusFactoryTest extends TestCase
             ->with(
                 '/filename.xml',
                 'ClassMediaUri',
-                '')
+                ''
+            )
             ->willReturn('id');
 
         $mediaRootClassMock = $this->createMock(RdfClass::class);
@@ -162,8 +164,8 @@ class SharedStimulusFactoryTest extends TestCase
 
         $mediaSubclass = $this->createMock(RdfClass::class);
         $mediaSubclass->expects($this->once())
-        ->method('getUri')
-        ->willReturn('ClassMediaUri');   
+            ->method('getUri')
+            ->willReturn('ClassMediaUri');
 
         $mediaRootClassMock->expects($this->once())
             ->method('createSubClass')
@@ -197,7 +199,8 @@ class SharedStimulusFactoryTest extends TestCase
             ->with(
                 '/filename.xml',
                 'Class2MediaUri',
-                '')
+                ''
+            )
             ->willReturn('id');
 
         $mediaRootClassMock = $this->createMock(RdfClass::class);
@@ -213,17 +216,17 @@ class SharedStimulusFactoryTest extends TestCase
         $mediaSubclass2 = $this->createMock(RdfClass::class);
         $mediaSubclass2->expects($this->once())
             ->method('getUri')
-            ->willReturn('Class2MediaUri');   
+            ->willReturn('Class2MediaUri');
 
         $mediaRootClassMock->expects($this->once())
             ->method('createSubClass')
             ->with('class1')
             ->willReturn($mediaSubclass);
-        
+
         $mediaSubclass->expects($this->once())
             ->method('createSubClass')
             ->with('class2')
-            ->willReturn($mediaSubclass2);    
+            ->willReturn($mediaSubclass2);
 
         $this->ontologyMock
             ->expects($this->once())
