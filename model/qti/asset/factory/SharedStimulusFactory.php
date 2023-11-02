@@ -40,6 +40,8 @@ class SharedStimulusFactory extends ConfigurableService
     use ServiceLocatorAwareTrait;
     use GenerisServiceTrait;
 
+    private const MEDIA_ROOT_CLASS = 'http://www.tao.lu/Ontologies/TAOMedia.rdf#Media';
+
     public function createShardedStimulusFromSourceFiles(
         string $newXmlFile,
         string $relativePath,
@@ -116,7 +118,7 @@ class SharedStimulusFactory extends ConfigurableService
 
     private function buildParentClassUri(array $labelPath): string
     {
-        $mediaClass = $this->getClass(ImportService::MEDIA_ROOT_CLASS);
+        $mediaClass = $this->getClass(self::MEDIA_ROOT_CLASS);
 
         // Creating same classes in the media root
         foreach ($labelPath as $classLabel) {

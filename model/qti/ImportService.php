@@ -94,8 +94,6 @@ class ImportService extends ConfigurableService
 
     public const PROPERTY_QTI_ITEM_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAOItem.rdf#QtiItemIdentifier';
 
-    public const MEDIA_ROOT_CLASS = 'http://www.tao.lu/Ontologies/TAOMedia.rdf#Media';
-
     /**
      * @return ImportService
      */
