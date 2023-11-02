@@ -94,8 +94,6 @@ class ImportService extends ConfigurableService
 
     public const PROPERTY_QTI_ITEM_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAOItem.rdf#QtiItemIdentifier';
 
-    private const MEDIA_ROOT_CLASS = 'http://www.tao.lu/Ontologies/TAOMedia.rdf#Media';
-
     /**
      * @return ImportService
      */
@@ -579,7 +577,7 @@ class ImportService extends ConfigurableService
                         ->get(\common_ext_ExtensionsManager::SERVICE_ID)
                         ->isInstalled('taoMediaManager')
                 ) {
-                    $mediaClass = $this->getTargetClassForAssets($itemClass, $rdfItem);
+                    $mediaClassPath = $this->getTargetClassForAssets($itemClass, $rdfItem);
                     /** Shared stimulus handler */
                     $sharedStimulusHandler = new SharedStimulusAssetHandler();
                     $sharedStimulusHandler->setServiceLocator($this->getServiceLocator());
@@ -587,7 +585,7 @@ class ImportService extends ConfigurableService
                         ->setQtiModel($qtiModel)
                         ->setItemSource(new ItemMediaResolver($rdfItem, ''))
                         ->setSharedFiles($sharedFiles)
-                        ->setTargetClass($mediaClass);
+                        ->setTargetClassPath($mediaClassPath);
                     $itemAssetManager->loadAssetHandler($sharedStimulusHandler);
                 } else {
                     $handler = new StimulusHandler();
@@ -884,7 +882,7 @@ class ImportService extends ConfigurableService
     public function getTargetClassForAssets(
         core_kernel_classes_Class $itemClass,
         core_kernel_classes_Resource $itemResource
-    ): core_kernel_classes_Class {
+    ): array {
         // Collecting labels path from item root to the class where the item resource is stored
         $labels = [];
         while ($itemClass->getUri() !== TaoOntology::CLASS_URI_ITEM) {
@@ -898,15 +896,7 @@ class ImportService extends ConfigurableService
         // Adding item's label as the leaf class.
         $path[] = $itemResource->getLabel();
 
-        $mediaClass = $this->getClass(self::MEDIA_ROOT_CLASS);
-
-        // Creating same classes in the media root
-        foreach ($path as $classLabel) {
-            $mediaClass = $mediaClass->retrieveSubClassByLabel($classLabel)
-                ?: $mediaClass->createSubClass($classLabel);
-        }
-
-        return $mediaClass;
+        return $path;
     }
 
     private function getItemEventDispatcher(): UpdatedItemEventDispatcher
