@@ -22,11 +22,12 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\qti\asset\factory;
 
-use core_kernel_classes_Class;
+use core_kernel_classes_Class as RdfClass;
 use oat\generis\test\ServiceManagerMockTrait;
 use PHPUnit\Framework\TestCase;
 use oat\oatbox\user\UserLanguageService;
 use oat\taoMediaManager\model\MediaService;
+use oat\generis\model\data\Ontology;
 use oat\taoMediaManager\model\sharedStimulus\service\StoreService;
 use oat\taoQtiItem\model\qti\asset\factory\SharedStimulusFactory;
 
@@ -34,11 +35,13 @@ class SharedStimulusFactoryTest extends TestCase
 {
     use ServiceManagerMockTrait;
 
+    private const ITEM_LABEL = 'item label';
     private SharedStimulusFactory $subject;
     private StoreService $storeServiceMock;
     private MediaService $mediaServiceMock;
     private UserLanguageService $userLanguageServiceMock;
-    private core_kernel_classes_Class $classMock;
+    private RdfClass $classMock;
+    private Ontology $ontologyMock;
 
     public function setUp(): void
     {
@@ -46,7 +49,8 @@ class SharedStimulusFactoryTest extends TestCase
         $this->storeServiceMock = $this->createMock(StoreService::class);
         $this->mediaServiceMock = $this->createMock(MediaService::class);
         $this->userLanguageServiceMock = $this->createMock(UserLanguageService::class);
-        $this->classMock = $this->createMock(core_kernel_classes_Class::class);
+        $this->classMock = $this->createMock(RdfClass::class);
+        $this->ontologyMock = $this->createMock(Ontology::class);
 
         $this->subject->setServiceManager(
             $this->getServiceManagerMock(
@@ -56,6 +60,9 @@ class SharedStimulusFactoryTest extends TestCase
                     UserLanguageService::SERVICE_ID => $this->userLanguageServiceMock,
                 ]
             )
+        );
+        $this->subject->setModel(
+            $this->ontologyMock
         );
 
         $this->classMock
@@ -74,11 +81,163 @@ class SharedStimulusFactoryTest extends TestCase
             ->method('createSharedStimulusInstance')
             ->willReturn('id');
 
+        $result = new \core_kernel_classes_Class('fake uri');
+        $mediaRootClassMock = $this->createMock(RdfClass::class);
+        $mediaRootClassMock->expects($this->once())
+            ->method('retrieveSubClassByLabel')
+            ->with(self::ITEM_LABEL)
+            ->willReturn($result);
+
+        $this->ontologyMock
+            ->expects($this->once())
+            ->method('getClass')
+            ->willReturn($mediaRootClassMock);
+
         $result = $this->subject->createShardedStimulusFromSourceFiles(
             'file.xml',
             'path/to/xml/filename.xml',
             'absolute/path/to/asset/passage.xml',
-            $this->classMock
+            [self::ITEM_LABEL]
+        );
+
+        $this->assertEquals('id', $result);
+    }
+
+    public function testCreateShardedStimulusFromSourceFilesWithEmptyPath(): void
+    {
+        $this->storeServiceMock
+            ->expects($this->once())
+            ->method('store');
+
+        $this->mediaServiceMock
+            ->expects($this->once())
+            ->method('createSharedStimulusInstance')
+            ->with(
+                '/filename.xml',
+                'ClassUri',
+                ''
+            )
+            ->willReturn('id');
+
+        $mediaRootClassMock = $this->createMock(RdfClass::class);
+        $mediaRootClassMock->expects($this->never())
+            ->method('retrieveSubClassByLabel');
+        $mediaRootClassMock->expects($this->once())
+            ->method('getUri')
+            ->willReturn('ClassUri');
+
+        $this->ontologyMock
+            ->expects($this->once())
+            ->method('getClass')
+            ->willReturn($mediaRootClassMock);
+
+        $result = $this->subject->createShardedStimulusFromSourceFiles(
+            'file.xml',
+            'path/to/xml/filename.xml',
+            'absolute/path/to/asset/passage.xml',
+            []
+        );
+
+        $this->assertEquals('id', $result);
+    }
+
+    public function testCreateShardedStimulusFromSourceFilesWithItemClassInPath(): void
+    {
+        $this->storeServiceMock
+            ->expects($this->once())
+            ->method('store');
+
+        $this->mediaServiceMock
+            ->expects($this->once())
+            ->method('createSharedStimulusInstance')
+            ->with(
+                '/filename.xml',
+                'ClassMediaUri',
+                ''
+            )
+            ->willReturn('id');
+
+        $mediaRootClassMock = $this->createMock(RdfClass::class);
+        $mediaRootClassMock->expects($this->once())
+            ->method('retrieveSubClassByLabel')
+            ->willReturn(null);
+
+        $mediaSubclass = $this->createMock(RdfClass::class);
+        $mediaSubclass->expects($this->once())
+            ->method('getUri')
+            ->willReturn('ClassMediaUri');
+
+        $mediaRootClassMock->expects($this->once())
+            ->method('createSubClass')
+            ->with('class1')
+            ->willReturn($mediaSubclass);
+
+        $this->ontologyMock
+            ->expects($this->once())
+            ->method('getClass')
+            ->willReturn($mediaRootClassMock);
+
+        $result = $this->subject->createShardedStimulusFromSourceFiles(
+            'file.xml',
+            'path/to/xml/filename.xml',
+            'absolute/path/to/asset/passage.xml',
+            ['class1']
+        );
+
+        $this->assertEquals('id', $result);
+    }
+
+    public function testCreateShardedStimulusFromSourceFilesWithItemClassesInPath(): void
+    {
+        $this->storeServiceMock
+            ->expects($this->once())
+            ->method('store');
+
+        $this->mediaServiceMock
+            ->expects($this->once())
+            ->method('createSharedStimulusInstance')
+            ->with(
+                '/filename.xml',
+                'Class2MediaUri',
+                ''
+            )
+            ->willReturn('id');
+
+        $mediaRootClassMock = $this->createMock(RdfClass::class);
+        $mediaRootClassMock->expects($this->once())
+            ->method('retrieveSubClassByLabel')
+            ->willReturn(null);
+
+        $mediaSubclass = $this->createMock(RdfClass::class);
+        $mediaSubclass->expects($this->once())
+            ->method('retrieveSubClassByLabel')
+            ->willReturn(null);
+
+        $mediaSubclass2 = $this->createMock(RdfClass::class);
+        $mediaSubclass2->expects($this->once())
+            ->method('getUri')
+            ->willReturn('Class2MediaUri');
+
+        $mediaRootClassMock->expects($this->once())
+            ->method('createSubClass')
+            ->with('class1')
+            ->willReturn($mediaSubclass);
+
+        $mediaSubclass->expects($this->once())
+            ->method('createSubClass')
+            ->with('class2')
+            ->willReturn($mediaSubclass2);
+
+        $this->ontologyMock
+            ->expects($this->once())
+            ->method('getClass')
+            ->willReturn($mediaRootClassMock);
+
+        $result = $this->subject->createShardedStimulusFromSourceFiles(
+            'file.xml',
+            'path/to/xml/filename.xml',
+            'absolute/path/to/asset/passage.xml',
+            ['class1', 'class2']
         );
 
         $this->assertEquals('id', $result);
