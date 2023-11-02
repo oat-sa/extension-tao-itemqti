@@ -66,7 +66,7 @@ class ImportServiceTest extends TestCase
             ->method('getUri')
             ->willReturn(TaoOntology::CLASS_URI_ITEM);
 
-        $result = ['item label'];
+        $result = [self::ITEM_LABEL];
 
         $this->assertEquals($result, $this->subject->getTargetClassForAssets($itemClassMock, $this->itemResourceMock));
     }
@@ -78,19 +78,7 @@ class ImportServiceTest extends TestCase
 
         $itemClass = $this->prepareItemClassStructureMock($label1, $label2);
 
-        $result = [$label1, $label2, 'item label'];
-
-        $this->assertEquals($result, $this->subject->getTargetClassForAssets($itemClass, $this->itemResourceMock));
-    }
-
-    public function testGetTargetClassForAssetsCreatesMediaClasses()
-    {
-        $label1 = 'First subclass label';
-        $label2 = 'Second subclass label';
-
-        $itemClass = $this->prepareItemClassStructureMock($label1, $label2);
-
-        $result = [$label1, $label2, 'item label'];
+        $result = [$label1, $label2, self::ITEM_LABEL];
 
         $this->assertEquals($result, $this->subject->getTargetClassForAssets($itemClass, $this->itemResourceMock));
     }
