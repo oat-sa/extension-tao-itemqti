@@ -28,7 +28,6 @@ use PHPUnit\Framework\TestCase;
 use oat\oatbox\user\UserLanguageService;
 use oat\taoMediaManager\model\MediaService;
 use oat\generis\model\data\Ontology;
-use PHPUnit\Framework\MockObject\MockObject;
 use oat\taoMediaManager\model\sharedStimulus\service\StoreService;
 use oat\taoQtiItem\model\qti\asset\factory\SharedStimulusFactory;
 
@@ -38,11 +37,11 @@ class SharedStimulusFactoryTest extends TestCase
 
     private const ITEM_LABEL = 'item label';
     private SharedStimulusFactory $subject;
-    private StoreService|MockObject $storeServiceMock;
-    private MediaService|MockObject $mediaServiceMock;
-    private UserLanguageService|MockObject $userLanguageServiceMock;
-    private RdfClass|MockObject $classMock;
-    private Ontology|MockObject $ontologyMock;
+    private StoreService $storeServiceMock;
+    private MediaService $mediaServiceMock;
+    private UserLanguageService $userLanguageServiceMock;
+    private RdfClass $classMock;
+    private Ontology $ontologyMock;
 
     public function setUp(): void
     {
