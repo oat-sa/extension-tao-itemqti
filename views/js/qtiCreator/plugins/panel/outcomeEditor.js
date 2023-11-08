@@ -68,10 +68,7 @@ define([
      */
     function getRpUsedVariables(item) {
         const rpXml = xmlRenderer.render(item.responseProcessing);
-        const variables = [  ];
-        if (rpXml !== '') {
-            variables.push('SCORE', 'MAXSCORE');
-        }
+        const variables = ['MAXSCORE'];
         const $rp = $(rpXml);
 
         $rp.find('variable,setOutcomeValue').each(function () {
@@ -89,10 +86,10 @@ define([
      * @param {JQuery} $outcomeEditorPanel
      */
     function renderListing(item, $outcomeEditorPanel) {
-        const rpVariables = getRpUsedVariables(item);
+        const readOnlyRpVariables = getRpUsedVariables(item);
 
         const outcomesData = _.map(item.outcomes, function (outcome) {
-            const readonly = rpVariables.indexOf(outcome.id()) >= 0;
+            const readonly = readOnlyRpVariables.indexOf(outcome.id()) >= 0;
 
             const externalScored = {
                 none: { label: __('None'), selected: !outcome.attr('externalScored') },
