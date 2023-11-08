@@ -48,7 +48,8 @@ define([
 
         if (
             !$container.closest('.qti-choice, .qti-flow-container').length &&
-            !$container.closest('.qti-table caption').length
+            !$container.closest('.qti-table caption').length &&
+            !$container.closest('.qti-modalFeedback').length
         ) {
             const parent = findParentElement(img.rootElement, img.serial);
             parent.removeElement(img);
