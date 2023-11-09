@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "^0.8.2",
-        "@oat-sa/tao-item-runner-qti": "github:oat-sa/tao-item-runner-qti-fe#feature/RFE-707/common"
+        "@oat-sa/tao-item-runner-qti": "^1.11.2"
     }
 }
