@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-10-12 11:16\n"
+"PO-Revision-Date: 2023-11-10 13:41\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -1529,7 +1529,7 @@ msgid "Shuffle choices"
 msgstr "تبديل الخيارات عشوائيًا"
 
 msgid "Single choice"
-msgstr ""
+msgstr "اختيار واحد"
 
 msgid "Sinus"
 msgstr "جيب"
@@ -1538,7 +1538,7 @@ msgid "Size and position"
 msgstr "الحجم والموقف"
 
 msgid "Slider"
-msgstr ""
+msgstr "شريط التمرير"
 
 msgid "Slider Interaction"
 msgstr "تفاعل واجهة رسومية"
@@ -1868,7 +1868,7 @@ msgid "Unable to load item from the given data."
 msgstr ""
 
 msgid "Unable to process your request"
-msgstr ""
+msgstr "غير قادر على معالجة طلبك"
 
 msgid "Unable to retrieve asset \"%s"
 msgstr "غير قادر على استرداد الأصل \"%s"
