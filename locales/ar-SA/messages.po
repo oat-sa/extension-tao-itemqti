@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-11-12 14:02\n"
+"PO-Revision-Date: 2023-11-13 14:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -33,22 +33,22 @@ msgid "%d characters allowed"
 msgstr "مسموح بـ %d حرف"
 
 msgid "%d Item(s) of %d imported from the given IMS QTI Package."
-msgstr ""
+msgstr "%d عنصر(عناصر) من %d مستورد من حُزْمَة IMS QTI المتوفرة."
 
 msgid "%d/%d"
-msgstr ""
+msgstr "%d/%d"
 
 msgid "%s metadata values found in source by extractor(s)."
 msgstr "تم العثور على %s من قيم بيانات التعريف في المصدر بواسطة المستخرج (المستخرجين)"
 
 msgid "%s of %s characters maximum."
-msgstr ""
+msgstr "%s من أحرف %s كحد أقصى."
 
 msgid "%s of %s characters recommended."
-msgstr ""
+msgstr "%s من الأحرف %s الموصى بها."
 
 msgid "%s of %s words maximum."
-msgstr ""
+msgstr "%s من %s الكلمات كحد أقصى."
 
 msgid "-- Any kind of file --"
 msgstr "- أي نوع من الملفات -"
@@ -57,16 +57,16 @@ msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr "تم استيراد بند واحد من مستند بند QTI/APIP XML المحدد."
 
 msgid "1/3 of height"
-msgstr ""
+msgstr "1/3 من الارتفاع"
 
 msgid "1/4 of height"
-msgstr ""
+msgstr "1/4 من الارتفاع"
 
 msgid "2/3 of height"
-msgstr ""
+msgstr "2/3 من الارتفاع"
 
 msgid "3/4 of height"
-msgstr ""
+msgstr "3/4 من الارتفاع"
 
 msgid "A choice must be selected"
 msgstr "يجب تحديد خيار"
@@ -87,7 +87,7 @@ msgid "Add"
 msgstr "أضف"
 
 msgid "Add a CSV file"
-msgstr ""
+msgstr "أضف مِلَفّ CSV"
 
 msgid "Add a modal feedback"
 msgstr "أضف ملاحظات التغذية الراجعة"
@@ -99,7 +99,7 @@ msgid "Add a ZIP file containing QTI/APIP items"
 msgstr "أضف ملف ZIP يحتوي على بنود QTI / APIP"
 
 msgid "Add an outcome"
-msgstr ""
+msgstr "أضف نتيجة"
 
 msgid "Add another option"
 msgstr "أضف خيارًا آخر"
@@ -111,13 +111,13 @@ msgid "Add else feedback"
 msgstr "إضافة ملاحظات أخرى"
 
 msgid "Add new column"
-msgstr ""
+msgstr "أضف عمودا جديدا"
 
 msgid "Add new pairs"
 msgstr "أضف أزواجًا جديدة"
 
 msgid "Add new row"
-msgstr ""
+msgstr "أضف صفا جديدا"
 
 msgid "Add Style Sheet"
 msgstr "أضف ورقة الأنماط"
@@ -177,10 +177,10 @@ msgid "An unexpected error occurred during the import of the QTI Item. The syste
 msgstr "حدث خطأ غير متوقع أثناء استيراد بند QTI.أرجع النظام الخطأ التالي: %s\n"
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
-msgstr ""
+msgstr "حدث خطأ غير معروف خلال استيراد حُزْمَة IMS QTI مع المعرف: "
 
 msgid "Answer required"
-msgstr ""
+msgstr "الإجابة مطلوبة"
 
 msgid "APIP Content Package"
 msgstr "حزمة محتوى APIP"
@@ -192,7 +192,7 @@ msgid "Arrange a list of choices in the correct order."
 msgstr "رتب قائمة بالاختيارات بالترتيب الصحيح."
 
 msgid "Associate"
-msgstr ""
+msgstr "ارتباط"
 
 msgid "Associate Interaction"
 msgstr "تفاعل الشريك"
@@ -204,7 +204,7 @@ msgid "at least"
 msgstr "على الأقل"
 
 msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
-msgstr ""
+msgstr "محاولة حقن قيم البيانات الوصفية \"%s\" للهدف \"%s\" مع حاقن البيانات الوصفية \"%s\"."
 
 msgid "Autostart"
 msgstr "بدء أتوماتيكي"
@@ -249,13 +249,13 @@ msgid "Cannot create gap from this selection. Please check that you do not have 
 msgstr "لا يمكن خلق فجوة من هذا الرائز. تحقق من عدم وجود عناصر محددة جزئيا."
 
 msgid "Cannot create hottext from this selection."
-msgstr ""
+msgstr "لا يمكن إنشاء نص تفاعلي من هذا الاختيار."
 
 msgid "Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words."
-msgstr ""
+msgstr "لا يمكن إنشاء نص تفاعلي من هذا الاختيار. يرجى التأكد من أن الاختيار لا يحتوي على كلمات منسقة وغير منسقة في نفس الوقت."
 
 msgid "Cannot create hottext from this selection. Please make sure the selection does not contain multiple lines."
-msgstr ""
+msgstr "لا يمكن إنشاء نص تفاعلي من هذا الاختيار. يرجى التأكد من أن الاختيار لا يحتوي على أسطر متعددة."
 
 msgid "Cannot delete a variable currently used in response processing"
 msgstr "لا يمكن حذف المتغير المستخدم حاليا في معالجة الجواب"
@@ -273,10 +273,10 @@ msgid "Cannot locate the file \"%s"
 msgstr "لا يمكن تحديد موقع الملف \"%s"
 
 msgid "Center"
-msgstr ""
+msgstr "مركز"
 
 msgid "Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with."
-msgstr ""
+msgstr "قم بتغيير عرض العنصر. يبلغ عرض العنصر افتراضيا 100٪ ويتكيف مع حجم أي شاشة. الحد الأقصى للعرض هو افتراضيا 1024 بكسل - سيتغير هذا أيضا عند تعيين عرض مخصص."
 
 msgid "chars"
 msgstr "حرف"
@@ -303,7 +303,7 @@ msgid "Choose the horizontal alignment for the table."
 msgstr "اختر المحاذاة الأفقية للجدول."
 
 msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
-msgstr ""
+msgstr "نجح البحث عن الفصل. سيتم تخزين الموارد \"%s\" في فئة RDFS \"%s\"."
 
 msgid "Class successfully created."
 msgstr "تم إنشاء الفصل بنجاح."
@@ -342,7 +342,7 @@ msgid "Control the playing parameters (auto-start, loop) of a video or audio fil
 msgstr "تحكم في معلمات التشغيل (بدء أتوماتيكي ، حلقة) لملف فيديو أو صوت وأبلغ عن عدد مرات تشغيله."
 
 msgid "Correct"
-msgstr ""
+msgstr "صحيح"
 
 msgid "correct"
 msgstr "صحيح"
@@ -369,7 +369,7 @@ msgid "Create pair(s) from a series of choices."
 msgstr "قم بإنشاء زوج (أزواج) من سلسلة من الاختيارات."
 
 msgid "CSV content + metadata"
-msgstr ""
+msgstr "محتوى CSV + البيانات الوصفية"
 
 msgid "Current value:"
 msgstr "القيمة الحالية:"
@@ -381,19 +381,19 @@ msgid "custom"
 msgstr "العادة"
 
 msgid "Custom Interactions"
-msgstr ""
+msgstr "تفاعلات مخصصة"
 
 msgid "Custom Response Processing Mode"
 msgstr "وضع معالجةالجواب المخصصة"
 
 msgid "default"
-msgstr ""
+msgstr "افتراضي"
 
 msgid "Default"
 msgstr "افتراضي"
 
 msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
-msgstr ""
+msgstr "حدد القيود المفروضة على عدد الخيارات المطلوبة لتشكيل إجابة صحيحة. لا شيء: لا تحدد أي قيود إضافية. الإجابة المطلوبة: اطلب من المتقدمين للاختبار اختيار جواب واحد على الأقل. قيود أخرى: تحديد الحد الأدنى و/أو الحد الأقصى المخصص للقيود (متوفر فقط للخيارات المتعددة)"
 
 msgid "Define correct response"
 msgstr "حدد الجواب الصحيح"
@@ -420,7 +420,7 @@ msgid "Defines the maximum magnitude of numeric outcome variables, the maximum m
 msgstr "يحدد الحد الأقصى لمقدار متغيرات النتيجة الرقمية ، يجب أن يكون الحد الأقصى قيمة موجبة والحد الأدنى قد يكون سالبًا."
 
 msgid "Delete"
-msgstr ""
+msgstr "حذف"
 
 msgid "delete"
 msgstr "حذف"
