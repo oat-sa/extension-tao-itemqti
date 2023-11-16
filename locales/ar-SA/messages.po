@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-11-15 14:36\n"
+"PO-Revision-Date: 2023-11-16 14:45\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -33,7 +33,7 @@ msgid "%d characters allowed"
 msgstr "مسموح بـ %d حرف"
 
 msgid "%d Item(s) of %d imported from the given IMS QTI Package."
-msgstr "%d عنصر(عناصر) من %d مستورد من حُزْمَة IMS QTI المتوفرة."
+msgstr "%d بند(بنود) من %d مستورد من حُزْمَة IMS QTI المتوفرة."
 
 msgid "%d/%d"
 msgstr "%d/%d"
