@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-11-15 14:36\n"
+"PO-Revision-Date: 2023-11-16 14:45\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -25,7 +25,7 @@ msgstr "جار بند QTI"
 # http://www.tao.lu/Ontologies/TAOItem.rdf#ServiceQtiItemRunner
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Embed a run an item into a Delivery. This service initialize the TAO Apis and contexts"
-msgstr "قم بتضمين تشغيل عنصر في التسليم. تقوم هذه الخدمة بتهيئة TAO Apis والسياقات"
+msgstr "قم بتضمين تشغيل بند في التسليم. تقوم هذه الخدمة بتهيئة TAO Apis والسياقات"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#ServiceQtiItemRunner
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
