@@ -73,7 +73,9 @@ define([
 
         $rp.find('variable,setOutcomeValue').each(function () {
             const id = $(this).attr('identifier');
-            variables.push(id);
+            if (id !== 'SCORE') {
+                variables.push(id);
+            }
         });
 
         return _.uniq(variables);
@@ -106,8 +108,8 @@ define([
                 interpretation: outcome.attr('interpretation'),
                 longInterpretation: outcome.attr('longInterpretation'),
                 externalScored: externalScored,
-                normalMaximum: outcome.attr('normalMaximum'),
-                normalMinimum: outcome.attr('normalMinimum'),
+                normalMaximum: typeof outcome.attr('normalMaximum') !== 'undefined' ? outcome.attr('normalMaximum') : 1,
+                normalMinimum: typeof outcome.attr('normalMinimum') !== 'undefined' ? outcome.attr('normalMinimum') : 0,
                 titleDelete: readonly
                     ? __('Cannot delete a variable currently used in response processing')
                     : __('Delete'),
