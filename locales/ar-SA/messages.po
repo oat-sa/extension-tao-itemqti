@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-11-16 14:45\n"
+"PO-Revision-Date: 2023-11-17 15:00\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -654,7 +654,7 @@ msgid "Fraction"
 msgstr "جزء"
 
 msgid "Full height"
-msgstr ""
+msgstr "ارتفاع كامل"
 
 msgid "Gap"
 msgstr "الفارق"
@@ -732,7 +732,7 @@ msgid "If given, the pattern mask specifies a regular expression that the candid
 msgstr "إذا تم توفيره ، يحدد قناع النمط تعبيرًا عاديًا يجب أن تتطابق معه استجابة المرشح حتى يتم اعتباره صالحًا"
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
-msgstr ""
+msgstr "إذا كانت سمة الخلط صحيحة، فسيقوم محرك التسليم بتوزيع الترتيب الذي يتم به تقديم الخيارات في البداية. ومع ذلك، يمكن \"خلط\" أو \"تثبيت\" كل خِيار على حدة."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
 msgstr "إذا كانت سمة الخلط صحيحة، فسيقوم محرك التسليم بتوزيع الترتيب الذي يتم به تقديم الخيارات في البداية. ومع ذلك، يمكن \"خلط\" أو \"تثبيت\" كل خِيار بشكل فردي."
