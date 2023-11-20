@@ -64,7 +64,9 @@ define([
             if (!outcome) {
                 outcome = item.createOutcomeDeclaration({
                     cardinality: 'single',
-                    baseType: 'float'
+                    baseType: 'float',
+                    normalMinimum: 0.0,
+                    normalMaximum: 0.0
                 });
 
                 buildIdentifier

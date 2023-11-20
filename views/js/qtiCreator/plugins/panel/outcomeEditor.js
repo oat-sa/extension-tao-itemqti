@@ -59,6 +59,10 @@ define([
         human: 'human',
         externalMachine: 'externalMachine'
     };
+    const externalScoredValidOptions = [
+        externalScoredOptions.human,
+        externalScoredOptions.externalMachine
+    ];
 
     /**
      * Get the identifiers of the variables that are used in the response declaration
@@ -108,8 +112,8 @@ define([
                 interpretation: outcome.attr('interpretation'),
                 longInterpretation: outcome.attr('longInterpretation'),
                 externalScored: externalScored,
-                normalMaximum: typeof outcome.attr('normalMaximum') !== 'undefined' ? outcome.attr('normalMaximum') : 1,
-                normalMinimum: typeof outcome.attr('normalMinimum') !== 'undefined' ? outcome.attr('normalMinimum') : 0,
+                normalMaximum: outcome.attr('normalMaximum'),
+                normalMinimum: outcome.attr('normalMinimum'),
                 titleDelete: readonly
                     ? __('Cannot delete a variable currently used in response processing')
                     : __('Delete'),
@@ -196,10 +200,22 @@ define([
                         const serial = $outcomeContainer.data('serial');
                         const outcomeElement = Element.getElementBySerial(serial);
                         const $labelContainer = $outcomeContainer.find('.identifier-label');
+                        const $incrementerContainer = $outcomeContainer.find(".incrementer");
                         const $identifierLabel = $labelContainer.find('.label');
                         const $identifierInput = $labelContainer.find('.identifier');
+                        const isScoreOutcome = outcomeElement.attributes.identifier === 'SCORE';
                         let isScoringTraitValidationEnabled =
                             outcomeElement.attr('externalScored') === externalScoredOptions.human;
+                        if (
+                          isScoreOutcome &&
+                          !externalScoredValidOptions.includes(
+                            outcomeElement.attr("externalScored")
+                          )
+                        ) {
+                          $incrementerContainer.incrementer("disable");
+                        } else {
+                          $incrementerContainer.incrementer("enable");
+                        }
 
                         $outcomeContainer.addClass('editing');
                         $outcomeContainer.removeClass('editable');
@@ -260,6 +276,11 @@ define([
                                     externalScored(outcome, value) {
                                         //Turn off scoring trait validation if externalScored is not human
                                         isScoringTraitValidationEnabled = value === externalScoredOptions.human;
+                                        if (isScoreOutcome && value !== externalScoredOptions.none) {
+                                            $incrementerContainer.incrementer("enable");
+                                        } else if (isScoreOutcome) {
+                                            $incrementerContainer.incrementer("disable");
+                                        }
 
                                         /**
                                          * Attaches scoring trait warning tooltips when `externalScored` is `human`
