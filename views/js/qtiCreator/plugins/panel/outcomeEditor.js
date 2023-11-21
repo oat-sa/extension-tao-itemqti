@@ -279,6 +279,10 @@ define([
                                         if (isScoreOutcome && value !== externalScoredOptions.none) {
                                             $incrementerContainer.incrementer("enable");
                                         } else if (isScoreOutcome) {
+                                            outcome.attr('normalMaximum', 0);
+                                            $outcomeValueContainer.find('[name="normalMaximum"]').val(0);
+                                            outcome.attr('normalMinimum', 0);
+                                            $outcomeValueContainer.find('[name="normalMinimum"]').val(0);
                                             $incrementerContainer.incrementer("disable");
                                         }
 
