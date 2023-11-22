@@ -59,6 +59,10 @@ define([
         human: 'human',
         externalMachine: 'externalMachine'
     };
+    const externalScoredValidOptions = [
+        externalScoredOptions.human,
+        externalScoredOptions.externalMachine
+    ];
 
     /**
      * Get the identifiers of the variables that are used in the response declaration
@@ -68,15 +72,14 @@ define([
      */
     function getRpUsedVariables(item) {
         const rpXml = xmlRenderer.render(item.responseProcessing);
-        const variables = [  ];
-        if (rpXml !== '') {
-            variables.push('SCORE', 'MAXSCORE');
-        }
+        const variables = ['MAXSCORE'];
         const $rp = $(rpXml);
 
         $rp.find('variable,setOutcomeValue').each(function () {
             const id = $(this).attr('identifier');
-            variables.push(id);
+            if (id !== 'SCORE') {
+                variables.push(id);
+            }
         });
 
         return _.uniq(variables);
@@ -89,10 +92,10 @@ define([
      * @param {JQuery} $outcomeEditorPanel
      */
     function renderListing(item, $outcomeEditorPanel) {
-        const rpVariables = getRpUsedVariables(item);
+        const readOnlyRpVariables = getRpUsedVariables(item);
 
         const outcomesData = _.map(item.outcomes, function (outcome) {
-            const readonly = rpVariables.indexOf(outcome.id()) >= 0;
+            const readonly = readOnlyRpVariables.indexOf(outcome.id()) >= 0;
 
             const externalScored = {
                 none: { label: __('None'), selected: !outcome.attr('externalScored') },
@@ -197,10 +200,22 @@ define([
                         const serial = $outcomeContainer.data('serial');
                         const outcomeElement = Element.getElementBySerial(serial);
                         const $labelContainer = $outcomeContainer.find('.identifier-label');
+                        const $incrementerContainer = $outcomeContainer.find(".incrementer");
                         const $identifierLabel = $labelContainer.find('.label');
                         const $identifierInput = $labelContainer.find('.identifier');
+                        const isScoreOutcome = outcomeElement.attributes.identifier === 'SCORE';
                         let isScoringTraitValidationEnabled =
                             outcomeElement.attr('externalScored') === externalScoredOptions.human;
+                        if (
+                          isScoreOutcome &&
+                          !externalScoredValidOptions.includes(
+                            outcomeElement.attr("externalScored")
+                          )
+                        ) {
+                          $incrementerContainer.incrementer("disable");
+                        } else {
+                          $incrementerContainer.incrementer("enable");
+                        }
 
                         $outcomeContainer.addClass('editing');
                         $outcomeContainer.removeClass('editable');
@@ -261,6 +276,15 @@ define([
                                     externalScored(outcome, value) {
                                         //Turn off scoring trait validation if externalScored is not human
                                         isScoringTraitValidationEnabled = value === externalScoredOptions.human;
+                                        if (isScoreOutcome && value !== externalScoredOptions.none) {
+                                            $incrementerContainer.incrementer("enable");
+                                        } else if (isScoreOutcome) {
+                                            outcome.attr('normalMaximum', 0);
+                                            $outcomeValueContainer.find('[name="normalMaximum"]').val(0);
+                                            outcome.attr('normalMinimum', 0);
+                                            $outcomeValueContainer.find('[name="normalMinimum"]').val(0);
+                                            $incrementerContainer.incrementer("disable");
+                                        }
 
                                         /**
                                          * Attaches scoring trait warning tooltips when `externalScored` is `human`
