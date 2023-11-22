@@ -187,7 +187,7 @@ define([
         constraints = selectedCase.constraints;
 
         const allowElimination = features.isVisible('taoQtiItem/creator/interaction/choice/property/allowElimination');
-        const shuffleChoices = features.isVisible('taoQtiItem/creator/interaction/choice/property/allowElimination');
+        const shuffleChoices = features.isVisible('taoQtiItem/creator/interaction/choice/property/shuffle');
         const choiceOptionsAvailable = allowElimination || shuffleChoices;
         $form.html(
             formTpl({
