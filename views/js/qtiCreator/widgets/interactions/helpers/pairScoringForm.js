@@ -302,7 +302,7 @@ define([
                 left            : _.isFunction(options.formatLeft) ? options.formatLeft(gap) : gap,
                 right           : _.isFunction(options.formatRight) ? options.formatRight(choice) : choice,
                 defineCorrect   : answerStateHelper.defineCorrect(response),
-                correct         : _.contains(_.values(response.getCorrect()), key)
+                correct         : _.includes(_.values(response.getCorrect()), key)
             };
         }
 
@@ -338,7 +338,7 @@ define([
                     };
                     callbacks[pair.id + '-correct'] = function(response, value){
                         if(value === true){
-                            if(!_.contains(corrects, id)){
+                            if(!_.includes(corrects, id)){
                                 corrects.push(id);
                             }
                         } else {

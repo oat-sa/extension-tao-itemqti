@@ -84,7 +84,7 @@ define([
         removeOutcome : function removeOutcome(identifier){
             var outcome = this.getOutcomeDeclaration(identifier);
             if(outcome){
-                this.outcomes = _.omit(this.outcomes, outcome.getSerial());
+                this.outcomes = _.omitBy(this.outcomes, outcome.getSerial());
             }
         },
         createModalFeedback : function(attributes, response){
@@ -112,7 +112,7 @@ define([
             }
             if(this.responses[serial]){
                 //remove feedback rules:
-                _.each(this.responses[serial].feedbackRules, function(rule){
+                _.forEach(this.responses[serial].feedbackRules, function(rule){
                     var feedbacks = [];
                     if(rule.feedbackThen && rule.feedbackThen.is('modalFeedback')){
                         feedbacks.push(rule.feedbackThen.serial);
@@ -120,13 +120,13 @@ define([
                     if(rule.feedbackElse && rule.feedbackElse.is('modalFeedback')){
                         feedbacks.push(rule.feedbackElse.serial);
                     }
-                    self.modalFeedbacks = _.omit(self.modalFeedbacks, feedbacks);
+                    self.modalFeedbacks = _.omitBy(self.modalFeedbacks, feedbacks);
 
                     if(rule.feedbackOutcome && rule.feedbackOutcome.is('outcomeDeclaration')){
-                        self.outcomes = _.omit(self.outcomes, rule.feedbackOutcome.serial);
+                        self.outcomes = _.omitBy(self.outcomes, rule.feedbackOutcome.serial);
                     }
                 });
-                this.responses = _.omit(this.responses, serial);
+                this.responses = _.omitBy(this.responses, serial);
             }
             return this;
         }

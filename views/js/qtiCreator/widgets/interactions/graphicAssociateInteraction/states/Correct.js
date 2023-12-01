@@ -56,7 +56,7 @@ define([
 
         commonRenderer.setResponse(
             interaction, 
-            PciResponse.serialize(_.invoke(corrects, String.prototype.split, ' '), interaction)
+            PciResponse.serialize(_.invokeMap(corrects, String.prototype.split, ' '), interaction)
         );
 
         widget.$container.on('responseChange.qti-widget', function(e, data){

@@ -41,7 +41,7 @@ define([
     var _extractInteractionsConfig = function _extractInteractionsConfig(config){
         var ret = {};
         if(config && config.properties){
-            _.each(_configurableInteractions, function(interactionName){
+            _.forEach(_configurableInteractions, function(interactionName){
                 if(config.properties[interactionName]){
                     ret[interactionName] = config.properties[interactionName];
                 }

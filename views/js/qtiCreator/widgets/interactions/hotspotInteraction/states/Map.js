@@ -146,7 +146,7 @@ define([
                 mappingFormTpl({
                     identifier: choice.id(),
                     correctDefined: answerStateHelper.isCorrectDefined(widget),
-                    correct: _.contains(response.getCorrect(), choice.id()),
+                    correct: _.includes(response.getCorrect(), choice.id()),
                     score: score,
                     scoreMin: response.getMappingAttribute('lowerBound'),
                     scoreMax: response.getMappingAttribute('upperBound')
@@ -167,7 +167,7 @@ define([
                 },
                 correct: function (responseParam, value) {
                     if (value === true) {
-                        if (!_.contains(corrects, choice.id())) {
+                        if (!_.includes(corrects, choice.id())) {
                             corrects.push(choice.id());
                             shape.active = true;
                             graphicHelper.updateElementState(shape, 'active');

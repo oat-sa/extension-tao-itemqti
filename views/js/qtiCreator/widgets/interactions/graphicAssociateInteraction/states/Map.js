@@ -76,7 +76,7 @@ define([
             var type  = response.attr('cardinality') === 'single' ? 'base' : 'list';
             var pairs, entries;
             if(data && data.response &&  data.response[type]){
-               pairs = _.invoke(data.response[type].pair, Array.prototype.join, ' ');
+               pairs = _.invokeMap(data.response[type].pair, Array.prototype.join, ' ');
                entries = _.keys(response.getMapEntries());
 
                //add new pairs from  the difference between the current entries and the given data
@@ -91,7 +91,7 @@ define([
     function removePaths(interaction){
         _.delay(function(){
            _.forEach(interaction._vsets, function(vset){
-                _.invoke(vset, 'remove');
+                _.invokeMap(vset, 'remove');
             });
             interaction._vsets = [];
         }, 500);
@@ -151,7 +151,7 @@ define([
             //set the current responses, either the mapEntries or the corrects if nothing else
             commonRenderer.setResponse(
                 interaction,
-                PciResponse.serialize(_.invoke(_.keys(response.getMapEntries()), String.prototype.split, ' '), interaction)
+                PciResponse.serialize(_.invokeMap(_.keys(response.getMapEntries()), String.prototype.split, ' '), interaction)
             );
         };
 

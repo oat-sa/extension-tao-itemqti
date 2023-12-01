@@ -45,7 +45,7 @@ define(['lodash', 'util/converter'], function (_, converter) {
             }
 
             if (value) {
-                const convertConfig = _.omit(config, ['trim']);
+                const convertConfig = _.omitBy(config, ['trim']);
                 response.setCorrect(converter.convert(value, convertConfig));
             } else {
                 response.resetCorrect();

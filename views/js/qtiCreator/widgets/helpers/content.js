@@ -78,7 +78,7 @@ define([
     contentHelper.changeInnerWidgetState = function _changeInnerWidgetState(outerWidget, state){
 
          var selector = [];
-        _.each(['img', 'math', 'object', 'include'], function(qtiClass){
+        _.forEach(['img', 'math', 'object', 'include'], function(qtiClass){
             selector.push('[data-html-editable] .widget-'+qtiClass);
         });
 

@@ -126,7 +126,7 @@ define([
             container.setRootElement(item);
 
             if (options.metadata) {
-                _.each(options.metadata, function (value, name) {
+                _.forEach(options.metadata, function (value, name) {
                     item.data(name, value);
                 });
             }
@@ -150,7 +150,7 @@ define([
                 container.postRender();
 
                 //resolve xinclude
-                _.each(container.getComposingElements(), function(element){
+                _.forEach(container.getComposingElements(), function(element){
                     if(element.qtiClass === 'include'){
                         xincludeRenderer.render(element.data('widget'), baseUrl);
                     }

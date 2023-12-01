@@ -9,8 +9,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GapMatchInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse', 
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm' 
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm'
 ], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, PciResponse, scoringFormFactory){
 
     /**
@@ -23,20 +23,20 @@ define([
         var corrects  = _.values(response.getCorrect());
         var currentResponses =  _.size(response.getMapEntries()) === 0 ? corrects : _.keys(response.getMapEntries());
 
-        
-        //really need to destroy before ? 
-        commonRenderer.resetResponse(interaction); 
+
+        //really need to destroy before ?
+        commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
-        
+
         //add a specific instruction
         instructionMgr.appendInstruction(interaction, __('Please fill the gap with the texts below, then edit the score for each pair.'));
-        
+
         //set the current mapping mode, needed by the common renderer
         interaction.responseMappingMode = true;
- 
+
         //use the common Renderer
         commonRenderer.render.call(interaction.getRenderer(), interaction);
-    
+
         //change the display of the gaps
         displayGaps(widget.$container);
 
@@ -46,15 +46,15 @@ define([
         } else {
             updateForm(widget);
         }
-        
+
         //each response change leads to an update of the scoring form
         widget.$container.on('responseChange.qti-widget', function(e, data){
             var type  = response.attr('cardinality') === 'single' ? 'base' : 'list';
             var pairs, entries;
             if(data && data.response &&  data.response[type]){
-               pairs = _.invoke(data.response[type].directedPair, Array.prototype.join, ' ');
+               pairs = _.invokeMap(data.response[type].directedPair, Array.prototype.join, ' ');
                entries = _.keys(response.getMapEntries());
-                
+
                //add new pairs from  the difference between the current entries and the given data
                _(pairs).difference(entries).forEach(interaction.pairScoringForm.addPair, interaction.pairScoringForm);
             }
@@ -69,7 +69,7 @@ define([
     function exitMapState(){
         var widget = this.widget;
         var interaction = widget.element;
-        
+
         widget.$container.off('responseChange.qti-widget');
 
         if(interaction.pairScoringForm){
@@ -77,7 +77,7 @@ define([
         }
 
         //destroy the common renderer
-        commonRenderer.resetResponse(interaction); 
+        commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
 
         instructionMgr.removeInstructions(interaction);
@@ -116,8 +116,8 @@ define([
         var mappingChange = function mappingChange(){
             //set the current responses, either the mapEntries or the corrects if nothing else
             commonRenderer.setResponse(
-                interaction, 
-                PciResponse.serialize(_.invoke(_.keys(response.getMapEntries()), String.prototype.split, ' '), interaction)
+                interaction,
+                PciResponse.serialize(_.invokeMap(_.keys(response.getMapEntries()), String.prototype.split, ' '), interaction)
             );
         };
 
@@ -151,10 +151,10 @@ define([
         if(entries){
             options.entries = _.transform(entries, function(result, value){
                 result[value] = mapEntries[value] !== undefined ? mapEntries[value] : response.mappingAttributes.defaultValue;
-            }, {}); 
+            }, {});
         }
 
-        //initialize the scoring form 
+        //initialize the scoring form
         interaction.pairScoringForm = scoringFormFactory(widget, options);
     }
 

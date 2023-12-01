@@ -48,7 +48,7 @@ define([
                 var interaction = widget.element;
                 var paper       = interaction.paper;
                 var image       = paper.getById('bg-image-' + interaction.serial);
-                var currents    = options.currents || _.pluck(interaction.getChoices(), 'serial');
+                var currents    = options.currents || _.map(interaction.getChoices(), 'serial');
 
                 //set up shape cnotextual options
                 var shapeOptions = {
@@ -120,7 +120,7 @@ define([
                     editor.on('enterhandling.qti-widget', function(){
 
                         //only one shape handling at a time
-                        _.invoke(_.reject(editors, editor), 'quitHandling');
+                        _.invokeMap(_.reject(editors, editor), 'quitHandling');
 
                         //enable to bin the shape
                         $sideBar
@@ -251,11 +251,11 @@ define([
                 var $container  = widget.$original;
                 var interaction = widget.element;
                 var paper       = interaction.paper;
-                var currents    = options.currents || _.pluck(interaction.getChoices(), 'serial');
+                var currents    = options.currents || _.map(interaction.getChoices(), 'serial');
 
                 shapeSideBar.remove($container);
                 
-                _.invoke(this.editors, 'destroy');
+                _.invokeMap(this.editors, 'destroy');
 
                 //reset the shape style
                 _.forEach(currents, function(id){

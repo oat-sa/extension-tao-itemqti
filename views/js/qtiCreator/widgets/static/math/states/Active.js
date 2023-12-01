@@ -61,7 +61,7 @@ define([
 
         },
         function destroy(){
-            _.invoke(this.popups, 'destroy');
+            _.invokeMap(this.popups, 'destroy');
             this.popups = null;
             if (this.fields && this.fields.$mathml) {
                 this.fields.$mathml.data('$tooltip').dispose();

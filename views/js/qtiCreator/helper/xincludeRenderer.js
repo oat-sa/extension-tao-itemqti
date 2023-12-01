@@ -65,7 +65,7 @@ define([
                     //loading success :
                     commonRenderer.get().load(function () {
                         //set commonRenderer to the composing elements only (because xinclude is "read-only")
-                        _.each(xinclude.getComposingElements(), function (elt) {
+                        _.forEach(xinclude.getComposingElements(), function (elt) {
                             elt.setRenderer(commonRenderer.get());
                         });
 
