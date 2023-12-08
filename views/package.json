@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "^0.8.2",
-        "@oat-sa/tao-item-runner-qti": "^1.11.2"
+        "@oat-sa/tao-item-runner-qti": "https://github.com/oat-sa/tao-item-runner-qti-fe#backport/BSA-391/allow-to-disable-figure-widgets"
     }
 }
