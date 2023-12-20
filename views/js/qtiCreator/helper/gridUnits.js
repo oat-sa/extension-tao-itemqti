@@ -155,13 +155,13 @@ define(['lodash'], function(_){
             //too much !
 
             //@todo : start with the hightest refactored
-            for (let i = positive.length - 1; i >= 0; i--) {
+            _.forEachRight(positive, function(col){
                 col.refactoredUnits --;
                 totalRefactoredUnits--;
                 if(totalRefactoredUnits === max){
-                    break;
+                    return false;
                 }
-            }
+            });
 
         }else if(totalRefactoredUnits < max){
 

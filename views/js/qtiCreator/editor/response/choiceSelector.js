@@ -70,7 +70,7 @@ define([
         config.multiple = response.isCardinality(['multiple', 'ordered']);
         config.options = [];
 
-        _.some(choices, function(choice) {
+        _.forEach(choices, function(choice) {
             var id = choice.id();
             var choiceText = '';
             var option = {
@@ -84,7 +84,7 @@ define([
             }else if(choice.is('textVariableChoice')){
                 choiceText = choice.val();
             }else{
-                return true;//not available yet
+                return false;//not available yet
             }
 
             // 0 as titleLength => no title

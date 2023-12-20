@@ -63,7 +63,7 @@ define(['jquery', 'lodash', 'ui/areaBroker'], function($, _, areaBrokerFactory) 
             if (!config.areas) {
                 config.areas = defaultAreas;
             } else {
-                config.areas = _.keys(_.merge(_.fromPairs(config.areas), _.fromPairs(defaultAreas)));
+                config.areas = _.keys(_.zipObject(config.areas, defaultAreas));
             }
 
             _.forEach(config.areas, function(areaId) {
