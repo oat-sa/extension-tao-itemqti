@@ -186,14 +186,14 @@ define([
 
                 $options.removeProp('disabled');
 
-                _(pairs).where({leftId : currentLeft}).forEach(function(pair){
+                _(pairs).filter({leftId : currentLeft}).forEach(function(pair){
                     $right.find('option[value="' + pair.rightId+ '"]').prop('disabled', true);
                 });
-                _(pairs).where({rightId : currentRight}).forEach(function(pair){
+                _(pairs).filter({rightId : currentRight}).forEach(function(pair){
                     $left.find('option[value="' + pair.leftId+ '"]').prop('disabled', true);
                 });
                 if(options.type === 'pair'){
-                    _(pairs).where({rightId : currentLeft}).forEach(function(pair){
+                    _(pairs).filter({rightId : currentLeft}).forEach(function(pair){
                         $right.find('option[value="' + pair.leftId+ '"]').prop('disabled', true);
                     });
                 }
@@ -204,14 +204,14 @@ define([
 
                 $options.removeProp('disabled');
 
-                _(pairs).where({rightId : currentRight}).forEach(function(pair){
+                _(pairs).filter({rightId : currentRight}).forEach(function(pair){
                     $left.find('option[value="' + pair.leftId+ '"]').prop('disabled', true);
                 });
-                _(pairs).where({leftId : currentLeft}).forEach(function(pair){
+                _(pairs).filter({leftId : currentLeft}).forEach(function(pair){
                     $right.find('option[value="' + pair.rightId+ '"]').prop('disabled', true);
                 });
                 if(options.type === 'pair'){
-                    _(pairs).where({leftId : currentRight}).forEach(function(pair){
+                    _(pairs).filter({leftId : currentRight}).forEach(function(pair){
                         $left.find('option[value="' + pair.rightId+ '"]').prop('disabled', true);
                     });
                 }
