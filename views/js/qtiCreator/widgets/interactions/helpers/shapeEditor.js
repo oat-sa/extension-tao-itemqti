@@ -227,7 +227,7 @@ define([
                         };
 
                         if(self.shape.type === 'path'){
-                            options.start = _.pickBy(this.attrs, ['cx', 'cy']);
+                            options.start = _.pick(this.attrs, ['cx', 'cy']);
                             options.path = self.layer.attr('path');
                             options.pointIndex = this.pointIndex;
                         }
@@ -254,7 +254,7 @@ define([
                  */
                 function resized(){
                     self.shape.animate(
-                        _.pickBy(self.layer.attrs, ['x', 'y', 'cx', 'cy', 'r', 'rx', 'ry', 'width', 'height', 'path']),
+                        _.pick(self.layer.attrs, ['x', 'y', 'cx', 'cy', 'r', 'rx', 'ry', 'width', 'height', 'path']),
                         200,
                         function animationEnd(){
                             self.setState('resizing', false)
