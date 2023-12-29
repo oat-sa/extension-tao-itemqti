@@ -82,7 +82,7 @@ define([
             }
         });
 
-        return _.uniqBy(variables);
+        return _.uniq(variables);
     }
 
     /**
