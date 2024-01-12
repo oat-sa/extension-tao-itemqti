@@ -22,8 +22,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/stringResponse',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
-    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
-], function ($, __, stringResponseHelper, stateFactory, Correct, instructionMgr) {
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
+    'taoQtiItem/qtiCreator/helper/textEntryConverterHelper'
+], function ($, __, stringResponseHelper, stateFactory, Correct, instructionMgr, textEntryConverterHelper) {
     'use strict';
 
     function start() {
@@ -32,8 +33,10 @@ define([
         const correctResponse = stringResponseHelper.getCorrectResponse(response);
 
         $container.find('tr[data-edit=correct] input[name=correct]').focus().val(correctResponse);
-        $container.on('keyup.correct', 'tr[data-edit=correct] input[name=correct]', function () {
-            const value = $(this).val();
+        $container.on('blur.correct', 'tr[data-edit=correct] input[name=correct]', function () {
+            const $input = $(this);
+            let value = textEntryConverterHelper($input.val(), response.attributes);
+            $input.val(value);
             stringResponseHelper.setCorrectResponse(response, `${value}`, { trim: true });
         });
         instructionMgr.appendInstruction(this.widget.element, __('Please type the correct response in the box below.'));
