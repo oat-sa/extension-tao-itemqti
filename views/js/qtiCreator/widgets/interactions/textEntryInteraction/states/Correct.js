@@ -28,18 +28,24 @@ define([
     'use strict';
 
     function start() {
+        const element = this.widget.element;
         const $container = this.widget.$container;
-        const response = this.widget.element.getResponseDeclaration();
+        const response = element.getResponseDeclaration();
         const correctResponse = stringResponseHelper.getCorrectResponse(response);
-
         $container.find('tr[data-edit=correct] input[name=correct]').focus().val(correctResponse);
         $container.on('blur.correct', 'tr[data-edit=correct] input[name=correct]', function () {
             const $input = $(this);
-            let value = textEntryConverterHelper($input.val(), response.attributes);
+            const value = textEntryConverterHelper($input.val(), response.attributes);
             $input.val(value);
+            if (value === '') {
+                return instructionMgr.appendInstruction(element, __('This is not a valid value'));
+            }
+            instructionMgr.removeInstructions(element);
+            instructionMgr.appendInstruction(element, __('Please type the correct response in the box below.'));
             stringResponseHelper.setCorrectResponse(response, `${value}`, { trim: true });
         });
-        instructionMgr.appendInstruction(this.widget.element, __('Please type the correct response in the box below.'));
+        instructionMgr.removeInstructions(element);
+        instructionMgr.appendInstruction(element, __('Please type the correct response in the box below.'));
     }
     function exit() {
         // Make sure to adjust the response when exiting the state even if not modified

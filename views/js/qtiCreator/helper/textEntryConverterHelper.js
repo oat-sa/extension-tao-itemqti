@@ -36,7 +36,7 @@ define([
            case 'string':
                return convertedValue;
            default:
-               return '';
+               return ''; // all unparsable values returns as empty string
        }
    }
 
