@@ -13,22 +13,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2022-2023 (original work) Open Assessment Technologies SA ;
  *
  */
 define([
     'jquery',
     'lodash',
+    'context',
     'taoQtiItem/qtiCreator/widgets/static/Widget',
     'taoQtiItem/qtiCreator/widgets/static/figure/states/states',
     'taoQtiItem/qtiCreator/widgets/static/helpers/widget',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'ui/mediaEditor/plugins/mediaAlignment/helper'
-], function ($, _, Widget, states, helper, toolbarTpl, inlineHelper, alignmentHelper) {
+], function ($, _, context, Widget, states, helper, toolbarTpl, inlineHelper, alignmentHelper) {
     'use strict';
 
     const FigureWidget = Widget.clone();
+    const DISABLE_FIGURE_WIDGET = context.featureFlags['FEATURE_FLAG_DISABLE_FIGURE_WIDGET'];
 
     FigureWidget.initCreator = function initCreator(options) {
         const figure = this.element;
@@ -61,7 +63,7 @@ define([
     };
 
     FigureWidget.buildContainer = function buildContainer() {
-        if (this.element.attr('showFigure')) {
+        if (DISABLE_FIGURE_WIDGET || this.element.attr('showFigure')) {
             // If it is aligned to left or right, it will have FigCaption and will need Figure tag
             helper.buildBlockContainer(this);
         } else {
