@@ -20,7 +20,7 @@ define(['context', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/figure', 'tpl!taoQtiItem/q
     figureTpl,
     elementTpl
 ) {
-    const DISABLE_FIGURE_WIDGET = context.featureFlags['FEATURE_FLAG_DISABLE_FIGURE_WIDGET'];
+    const DISABLE_FIGURE_WIDGET = context.featureFlags && context.featureFlags.FEATURE_FLAG_DISABLE_FIGURE_WIDGET;
 
     return {
         qtiClass: 'figure',
