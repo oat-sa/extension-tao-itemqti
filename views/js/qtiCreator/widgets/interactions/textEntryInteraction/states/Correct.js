@@ -32,20 +32,20 @@ define([
         const $container = this.widget.$container;
         const response = element.getResponseDeclaration();
         const correctResponse = stringResponseHelper.getCorrectResponse(response);
+        instructionMgr.removeInstructions(element);
+        instructionMgr.appendInstruction(element, __('Please type the correct response in the box below.'));
         $container.find('tr[data-edit=correct] input[name=correct]').focus().val(correctResponse);
         $container.on('blur.correct', 'tr[data-edit=correct] input[name=correct]', function () {
+            instructionMgr.removeInstructions(element);
+            instructionMgr.appendInstruction(element, __('Please type the correct response in the box below.'));
             const $input = $(this);
             const value = textEntryConverterHelper($input.val(), response.attributes);
             $input.val(value);
             if (value === '') {
                 return instructionMgr.appendInstruction(element, __('This is not a valid value'));
             }
-            instructionMgr.removeInstructions(element);
-            instructionMgr.appendInstruction(element, __('Please type the correct response in the box below.'));
             stringResponseHelper.setCorrectResponse(response, `${value}`, { trim: true });
         });
-        instructionMgr.removeInstructions(element);
-        instructionMgr.appendInstruction(element, __('Please type the correct response in the box below.'));
     }
     function exit() {
         // Make sure to adjust the response when exiting the state even if not modified

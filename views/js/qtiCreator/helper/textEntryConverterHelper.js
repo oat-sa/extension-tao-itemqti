@@ -31,8 +31,7 @@ define([
                value = locale.parseInt(convertedValue, numericBase);
                return isNaN(value) ? '' : value;
            case 'float':
-               const separatorsPattern = /,/;
-               value = locale.parseFloat(convertedValue.replace(separatorsPattern, '.'));
+               value = locale.parseFloat(convertedValue);
                return isNaN(value) ? '' : value;
            case 'string':
                return convertedValue;
