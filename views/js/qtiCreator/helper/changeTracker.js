@@ -41,6 +41,8 @@ define([
         exit: __('The item has unsaved changes, would you like to save it ?')
     };
 
+    const DISABLE_FIGURE_WIDGET = context.featureFlags && context.featureFlags.FEATURE_FLAG_DISABLE_FIGURE_WIDGET;
+
     /**
      *
      * @param {HTMLElement} container
@@ -120,8 +122,7 @@ define([
                         !$.contains(container, e.target) &&
                         !$(e.target).parents('#feedback-box').length &&
                         !$(e.target).parents('.outcome-container').length &&
-                        (context.featureFlags['FEATURE_FLAG_DISABLE_FIGURE_WIDGET'] ||
-                            !$(e.target).parents('.media-alignment').length) &&
+                        (DISABLE_FIGURE_WIDGET || !$(e.target).parents('.media-alignment').length) &&
                         !$(e.target).hasClass('icon-close') &&
                         this.hasChanged()
                     ) {

@@ -25,7 +25,7 @@ define([
     'taoQtiItem/qtiCreator/model/Figcaption'
 ], function (_, context, editable, Figure, Img, Figcaption) {
     'use strict';
-    const DISABLE_FIGURE_WIDGET = context.featureFlags['FEATURE_FLAG_DISABLE_FIGURE_WIDGET'];
+    const DISABLE_FIGURE_WIDGET = context.featureFlags && context.featureFlags.FEATURE_FLAG_DISABLE_FIGURE_WIDGET;
     const methods = {};
     _.extend(methods, editable);
     _.extend(methods, {

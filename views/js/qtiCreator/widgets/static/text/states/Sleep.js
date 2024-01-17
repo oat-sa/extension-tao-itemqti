@@ -4,7 +4,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/states/Sleep',
     'taoQtiItem/qtiCreator/editor/gridEditor/content'
 ], function (context, stateFactory, SleepState, contentHelper) {
-    const DISABLE_FIGURE_WIDGET = context.featureFlags['FEATURE_FLAG_DISABLE_FIGURE_WIDGET'];
+    const DISABLE_FIGURE_WIDGET = context.featureFlags && context.featureFlags.FEATURE_FLAG_DISABLE_FIGURE_WIDGET;
 
     const TextBlockStateSleep = stateFactory.extend(
         SleepState,
