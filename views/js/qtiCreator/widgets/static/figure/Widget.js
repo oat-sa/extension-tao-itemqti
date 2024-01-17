@@ -30,7 +30,7 @@ define([
     'use strict';
 
     const FigureWidget = Widget.clone();
-    const DISABLE_FIGURE_WIDGET = context.featureFlags['FEATURE_FLAG_DISABLE_FIGURE_WIDGET'];
+    const DISABLE_FIGURE_WIDGET = context.featureFlags && context.featureFlags.FEATURE_FLAG_DISABLE_FIGURE_WIDGET;
 
     FigureWidget.initCreator = function initCreator(options) {
         const figure = this.element;

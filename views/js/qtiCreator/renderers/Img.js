@@ -29,7 +29,7 @@ define([
 
     const CreatorImg = _.clone(Renderer);
 
-    const DISABLE_FIGURE_WIDGET = context.featureFlags['FEATURE_FLAG_DISABLE_FIGURE_WIDGET'];
+    const DISABLE_FIGURE_WIDGET = context.featureFlags && context.featureFlags.FEATURE_FLAG_DISABLE_FIGURE_WIDGET;
 
     CreatorImg.render = function (img, options) {
         const $container = Renderer.getContainer(img);
