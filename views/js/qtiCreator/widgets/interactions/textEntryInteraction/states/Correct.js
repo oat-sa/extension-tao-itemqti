@@ -23,8 +23,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
+    'util/locale',
     'taoQtiItem/qtiCreator/helper/textEntryConverterHelper'
-], function ($, __, stringResponseHelper, stateFactory, Correct, instructionMgr, textEntryConverterHelper) {
+], function ($, __, stringResponseHelper, stateFactory, Correct, instructionMgr, locale, textEntryConverterHelper) {
     'use strict';
 
     function start() {
@@ -32,16 +33,21 @@ define([
         const $container = this.widget.$container;
         const response = element.getResponseDeclaration();
         const correctResponse = stringResponseHelper.getCorrectResponse(response);
+        const $submitButton = $container.find('button.widget-ok');
         instructionMgr.removeInstructions(element);
         instructionMgr.appendInstruction(element, __('Please type the correct response in the box below.'));
         $container.find('tr[data-edit=correct] input[name=correct]').focus().val(correctResponse);
         $container.on('blur.correct', 'tr[data-edit=correct] input[name=correct]', function () {
+            $submitButton.attr('disabled', false);
             instructionMgr.removeInstructions(element);
             instructionMgr.appendInstruction(element, __('Please type the correct response in the box below.'));
             const $input = $(this);
             const value = textEntryConverterHelper($input.val(), response.attributes);
-            $input.val(value);
+            if (locale.getDecimalSeparator()  !== '.') {
+                $input.val(value.replace('.', locale.getDecimalSeparator()));
+            }
             if (value === '') {
+                $submitButton.attr('disabled', true);
                 return instructionMgr.appendInstruction(element, __('This is not a valid value'));
             }
             stringResponseHelper.setCorrectResponse(response, `${value}`, { trim: true });
