@@ -24,9 +24,18 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'util/locale',
-    'taoQtiItem/qtiCreator/helper/textEntryConverterHelper'
-], function ($, __, stringResponseHelper, stateFactory, Correct, instructionMgr, locale, textEntryConverterHelper) {
+    'util/converter'
+], function ($, __, stringResponseHelper, stateFactory, Correct, instructionMgr, locale, converter) {
     'use strict';
+
+    function setErrorNotification(submitButton, element, baseType) {
+        submitButton.attr('disabled', true);
+        instructionMgr
+            .appendInstruction(
+                element,
+                __('This is not a valid value. Expected %s', baseType)
+            );
+    }
 
     function start() {
         const element = this.widget.element;
@@ -42,15 +51,38 @@ define([
             instructionMgr.removeInstructions(element);
             instructionMgr.appendInstruction(element, __('Please type the correct response in the box below.'));
             const $input = $(this);
-            const value = textEntryConverterHelper($input.val(), response.attributes);
-            if (locale.getDecimalSeparator()  !== '.') {
-                $input.val(value.replace('.', locale.getDecimalSeparator()));
+            let value = $input.val();
+            let responseValue = '';
+            const attributes = response.attributes;
+            const numericBase = attributes.base || 10;
+            const convertedValue = converter.convert(value.trim());
+            switch (attributes.baseType) {
+                case 'integer':
+                    value = locale.parseInt(convertedValue, numericBase);
+                    responseValue = isNaN(value) ? '' : value;
+                    // check for parsing and integer
+                    if (responseValue === '' || !/^[+-]?[0-9]+(e-?\d*)?$/.test(convertedValue)) {
+                        return setErrorNotification($submitButton, element, attributes.baseType)
+                    }
+                    break;
+                case 'float':
+                    value = locale.parseFloat(convertedValue);
+                    responseValue = isNaN(value) ? '' : value;
+                    const regex = new RegExp(`^[+-]?[0-9]+\\${locale.getDecimalSeparator()}[0-9]+(e-?\\d*)?$`)
+                    if (responseValue === '' || !regex.test(convertedValue)) { // check for parsing and float
+                        return setErrorNotification($submitButton, element, attributes.baseType)
+                    }
+                    break;
+                case 'string':
+                    responseValue = convertedValue;
+                    if (responseValue === '') {
+                        return setErrorNotification($submitButton, element, attributes.baseType)
+                    }
+                    break;
+                default:
+                    return false;
             }
-            if (value === '') {
-                $submitButton.attr('disabled', true);
-                return instructionMgr.appendInstruction(element, __('This is not a valid value'));
-            }
-            stringResponseHelper.setCorrectResponse(response, `${value}`, { trim: true });
+            stringResponseHelper.setCorrectResponse(response, `${responseValue}`, { trim: true });
         });
     }
     function exit() {
