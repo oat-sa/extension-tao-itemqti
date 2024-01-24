@@ -40,12 +40,17 @@ define([
     function start() {
         const element = this.widget.element;
         const $container = this.widget.$container;
+        const $responseForm = this.widget.$responseForm;
         const response = element.getResponseDeclaration();
         const correctResponse = stringResponseHelper.getCorrectResponse(response);
         const $submitButton = $container.find('button.widget-ok');
         instructionMgr.removeInstructions(element);
         instructionMgr.appendInstruction(element, __('Please type the correct response in the box below.'));
         $container.find('tr[data-edit=correct] input[name=correct]').focus().val(correctResponse);
+        $responseForm.on('change', '#responseBaseType',function () {
+            $container.find('tr[data-edit=correct] input[name=correct]').val('');
+            stringResponseHelper.setCorrectResponse(response, '', { trim: true });
+        });
         $container.on('blur.correct', 'tr[data-edit=correct] input[name=correct]', function () {
             $submitButton.attr('disabled', false);
             instructionMgr.removeInstructions(element);
