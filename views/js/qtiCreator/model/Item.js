@@ -84,7 +84,7 @@ define([
         removeOutcome : function removeOutcome(identifier){
             var outcome = this.getOutcomeDeclaration(identifier);
             if(outcome){
-                this.outcomes = _.omitBy(this.outcomes, outcome.getSerial());
+                this.outcomes = _.omit(this.outcomes, outcome.getSerial());
             }
         },
         createModalFeedback : function(attributes, response){
@@ -120,13 +120,13 @@ define([
                     if(rule.feedbackElse && rule.feedbackElse.is('modalFeedback')){
                         feedbacks.push(rule.feedbackElse.serial);
                     }
-                    self.modalFeedbacks = _.omitBy(self.modalFeedbacks, feedbacks);
+                    self.modalFeedbacks = _.omit(self.modalFeedbacks, feedbacks);
 
                     if(rule.feedbackOutcome && rule.feedbackOutcome.is('outcomeDeclaration')){
-                        self.outcomes = _.omitBy(self.outcomes, rule.feedbackOutcome.serial);
+                        self.outcomes = _.omit(self.outcomes, rule.feedbackOutcome.serial);
                     }
                 });
-                this.responses = _.omitBy(this.responses, serial);
+                this.responses = _.omit(this.responses, serial);
             }
             return this;
         }
