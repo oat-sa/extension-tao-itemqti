@@ -38,15 +38,24 @@ define([
     }
 
     function start() {
-        const element = this.widget.element;
-        const $container = this.widget.$container;
-        const $responseForm = this.widget.$responseForm;
+        const widget = this.widget;
+        const element = widget.element;
+        const $container = widget.$container;
+        const $responseForm = widget.$responseForm;
         const response = element.getResponseDeclaration();
+        const attributes = response.attributes;
         const correctResponse = stringResponseHelper.getCorrectResponse(response);
         const $submitButton = $container.find('button.widget-ok');
+
         instructionMgr.removeInstructions(element);
         instructionMgr.appendInstruction(element, __('Please type the correct response in the box below.'));
+
+        if (attributes.baseType === 'float' && locale.getDecimalSeparator() !== '.') {
+            correctResponse.replace('.', locale.getDecimalSeparator())
+        }
+
         $container.find('tr[data-edit=correct] input[name=correct]').focus().val(correctResponse);
+
         $responseForm.on('change', '#responseBaseType',function () {
             $container.find('tr[data-edit=correct] input[name=correct]').val('');
             stringResponseHelper.setCorrectResponse(response, '', { trim: true });
@@ -58,7 +67,6 @@ define([
             const $input = $(this);
             let value = $input.val();
             let responseValue = '';
-            const attributes = response.attributes;
             const numericBase = attributes.base || 10;
             const convertedValue = converter.convert(value.trim());
             switch (attributes.baseType) {
@@ -67,6 +75,7 @@ define([
                     responseValue = isNaN(value) ? '' : value;
                     // check for parsing and integer
                     if (responseValue === '' || !/^[+-]?[0-9]+(e-?\d*)?$/.test(convertedValue)) {
+                        widget.isValid(widget.serial, false);
                         return setErrorNotification($submitButton, element, attributes.baseType)
                     }
                     break;
@@ -75,28 +84,32 @@ define([
                     responseValue = isNaN(value) ? '' : value;
                     const regex = new RegExp(`^[+-]?[0-9]+\\${locale.getDecimalSeparator()}[0-9]+(e-?\\d*)?$`)
                     if (responseValue === '' || !regex.test(convertedValue)) { // check for parsing and float
+                        widget.isValid(widget.serial, false);
                         return setErrorNotification($submitButton, element, attributes.baseType)
                     }
                     break;
                 case 'string':
                     responseValue = convertedValue;
                     if (responseValue === '') {
+                        widget.isValid(widget.serial, false);
                         return setErrorNotification($submitButton, element, attributes.baseType)
                     }
                     break;
                 default:
                     return false;
             }
+            widget.isValid(widget.serial, true);
             stringResponseHelper.setCorrectResponse(response, `${responseValue}`, { trim: true });
         });
     }
     function exit() {
         // Make sure to adjust the response when exiting the state even if not modified
-        const response = this.widget.element.getResponseDeclaration();
+        const widget = this.widget;
+        const response = widget.element.getResponseDeclaration();
         stringResponseHelper.rewriteCorrectResponse(response, { trim: true });
 
         this.widget.$container.off('.correct');
-        instructionMgr.removeInstructions(this.widget.element);
+        instructionMgr.removeInstructions(widget.element);
     }
 
     return stateFactory.create(Correct, start, exit);
