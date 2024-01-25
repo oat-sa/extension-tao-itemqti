@@ -17,11 +17,11 @@ define([
                 modalFeedbacks.push(rule.feedbackElse);
             }
         });
-        _.some(modalFeedbacks, function(fb){
+        _.forEach(modalFeedbacks, function(fb){
             var elt = fb.getBody().getElement(searchSerial);
             if(elt){
                 found = true;
-                return true;//break
+                return false;//break
             }
         });
 

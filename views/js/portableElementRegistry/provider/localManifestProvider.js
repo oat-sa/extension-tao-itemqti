@@ -130,14 +130,14 @@ define(['lodash', 'context', 'core/promise'], function(_, context, Promise){
                 });
                 require(_requiredManifests, function(){
                     var ok = true;
-                    _.some([].slice.call(arguments), function(manifest){
+                    _.forEach([].slice.call(arguments), function(manifest){
                         var id;
                         if(manifest && manifest.typeIdentifier){
                             id = manifest.typeIdentifier;
                             if(!_portableElementManifests[id]){
                                 reject('typeIdentifier mismatch');
                                 ok = false;
-                                return true;
+                                return false;
                             }
 
                             manifest = useSource(manifest);

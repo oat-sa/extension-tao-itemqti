@@ -166,11 +166,11 @@ define(['lodash'], function(_){
         }else if(totalRefactoredUnits < max){
 
             //@todo : start with the lowest refactored
-            _.some(negative, function(col){
+            _.forEach(negative, function(col){
                 col.refactoredUnits ++;
                 totalRefactoredUnits++;
                 if(totalRefactoredUnits === max){
-                    return true;
+                    return false;
                 }
             });
 
