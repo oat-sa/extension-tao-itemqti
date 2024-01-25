@@ -46,17 +46,28 @@ define([
         const attributes = response.attributes;
         const correctResponse = stringResponseHelper.getCorrectResponse(response);
         const $submitButton = $container.find('button.widget-ok');
+        const decimalSeparator = locale.getDecimalSeparator();
+        const $correctInput = $container.find('tr[data-edit=correct] input[name=correct]');
 
         instructionMgr.removeInstructions(element);
         instructionMgr.appendInstruction(element, __('Please type the correct response in the box below.'));
 
-        if (attributes.baseType === 'float' && locale.getDecimalSeparator() !== '.') {
-            correctResponse.replace('.', locale.getDecimalSeparator())
+        if (attributes.baseType === 'float' && decimalSeparator !== '.') {
+            $correctInput
+                .focus()
+                .val(correctResponse.replace('.', decimalSeparator));
+        } else {
+            $correctInput.find('tr[data-edit=correct] input[name=correct]').focus().val(correctResponse);
         }
 
-        $container.find('tr[data-edit=correct] input[name=correct]').focus().val(correctResponse);
+
 
         $responseForm.on('change', '#responseBaseType',function () {
+            if ($(this).val() === 'float') {
+                $correctInput.attr('placeholder', `example: 999${decimalSeparator}99`);
+            } else {
+                $correctInput.removeAttr('placeholder');
+            }
             $container.find('tr[data-edit=correct] input[name=correct]').val('');
             stringResponseHelper.setCorrectResponse(response, '', { trim: true });
         });
@@ -82,17 +93,21 @@ define([
                 case 'float':
                     value = locale.parseFloat(convertedValue);
                     responseValue = isNaN(value) ? '' : value;
-                    const regex = new RegExp(`^[+-]?[0-9]+\\${locale.getDecimalSeparator()}[0-9]+(e-?\\d*)?$`)
+                    const regex = new RegExp(`^[+-]?[0-9]+\\${decimalSeparator}[0-9]+(e-?\\d*)?$`);
                     if (responseValue === '' || !regex.test(convertedValue)) { // check for parsing and float
                         widget.isValid(widget.serial, false);
-                        return setErrorNotification($submitButton, element, attributes.baseType)
+                        return setErrorNotification(
+                            $submitButton,
+                            element,
+                            `value is a decimal number as example: 999${decimalSeparator}99`
+                        );
                     }
                     break;
                 case 'string':
                     responseValue = convertedValue;
                     if (responseValue === '') {
                         widget.isValid(widget.serial, false);
-                        return setErrorNotification($submitButton, element, attributes.baseType)
+                        return setErrorNotification($submitButton, element, attributes.baseType);
                     }
                     break;
                 default:
