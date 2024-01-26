@@ -140,7 +140,7 @@ define([
             removePair : function removePair(key){
 
                 //update internal model
-                _.remove(pairs, {id : key.replace(separator.qti, separator.html)});
+                _.remove(pairs, o => o.id === key.replace(separator.qti, separator.html));
 
                 //update the response
                 response.removeMapEntry(key);
