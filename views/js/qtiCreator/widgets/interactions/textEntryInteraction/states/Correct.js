@@ -57,10 +57,8 @@ define([
                 .focus()
                 .val(correctResponse.replace('.', decimalSeparator));
         } else {
-            $correctInput.find('tr[data-edit=correct] input[name=correct]').focus().val(correctResponse);
+            $correctInput.focus().val(correctResponse);
         }
-
-
 
         $responseForm.on('change', '#responseBaseType',function () {
             if ($(this).val() === 'float') {
