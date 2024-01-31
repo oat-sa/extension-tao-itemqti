@@ -62,7 +62,7 @@ define([
 
         $responseForm.on('change', '#responseBaseType',function () {
             if ($(this).val() === 'float') {
-                $correctInput.attr('placeholder', `example: 999${decimalSeparator}99`);
+                $correctInput.attr('placeholder', __(`example: 999${decimalSeparator}99`));
             } else {
                 $correctInput.removeAttr('placeholder');
             }
