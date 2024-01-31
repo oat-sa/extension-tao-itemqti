@@ -22,29 +22,113 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/stringResponse',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
-    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager'
-], function ($, __, stringResponseHelper, stateFactory, Correct, instructionMgr) {
+    'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
+    'util/locale',
+    'util/converter'
+], function ($, __, stringResponseHelper, stateFactory, Correct, instructionMgr, locale, converter) {
     'use strict';
 
-    function start() {
-        const $container = this.widget.$container;
-        const response = this.widget.element.getResponseDeclaration();
-        const correctResponse = stringResponseHelper.getCorrectResponse(response);
+    function setErrorNotification(submitButton, element, baseType) {
+        submitButton.attr('disabled', true);
+        instructionMgr
+            .appendInstruction(
+                element,
+                __('This is not a valid value. Expected %s', baseType)
+            );
+    }
 
-        $container.find('tr[data-edit=correct] input[name=correct]').focus().val(correctResponse);
-        $container.on('keyup.correct', 'tr[data-edit=correct] input[name=correct]', function () {
-            const value = $(this).val();
-            stringResponseHelper.setCorrectResponse(response, `${value}`, { trim: true });
+    function start() {
+        const widget = this.widget;
+        const element = widget.element;
+        const $container = widget.$container;
+        const $responseForm = widget.$responseForm;
+        const $submitButton = $container.find('button.widget-ok');
+        const $correctInput = $container.find('tr[data-edit=correct] input[name=correct]');
+        const response = element.getResponseDeclaration();
+        const attributes = response.attributes;
+        const decimalSeparator = locale.getDecimalSeparator();
+        let correctResponse = stringResponseHelper.getCorrectResponse(response);
+
+        instructionMgr.removeInstructions(element);
+        instructionMgr.appendInstruction(element, __('Please type the correct response in the box below.'));
+
+        if (attributes.baseType === 'float') {
+            $correctInput.attr('placeholder', __(`example: 999${decimalSeparator}99`));
+            // converting preloaded number to float if it not
+            correctResponse = (+correctResponse % 1) ? correctResponse : `${correctResponse}.0`;
+        }
+
+        if (attributes.baseType === 'float' && decimalSeparator !== '.') {
+            $correctInput
+                .focus()
+                .val(correctResponse.replace('.', decimalSeparator));
+        } else {
+            $correctInput.focus().val(correctResponse);
+        }
+
+        $responseForm.on('change', '#responseBaseType',function () {
+            if ($(this).val() === 'float') {
+                $correctInput.attr('placeholder', __(`example: 999${decimalSeparator}99`));
+            } else {
+                $correctInput.removeAttr('placeholder');
+            }
+            $correctInput.val('');
+            stringResponseHelper.setCorrectResponse(response, '', { trim: true });
         });
-        instructionMgr.appendInstruction(this.widget.element, __('Please type the correct response in the box below.'));
+        $container.on('blur.correct', 'tr[data-edit=correct] input[name=correct]', function () {
+            $submitButton.attr('disabled', false);
+            instructionMgr.removeInstructions(element);
+            instructionMgr.appendInstruction(element, __('Please type the correct response in the box below.'));
+            const $input = $(this);
+            let value = $input.val();
+            let responseValue = '';
+            const numericBase = attributes.base || 10;
+            const convertedValue = converter.convert(value.trim());
+            switch (attributes.baseType) {
+                case 'integer':
+                    value = locale.parseInt(convertedValue, numericBase);
+                    responseValue = isNaN(value) ? '' : value;
+                    // check for parsing and integer
+                    if (responseValue === '' || !/^[+-]?[0-9]+(e-?\d*)?$/.test(convertedValue)) {
+                        widget.isValid(widget.serial, false);
+                        return setErrorNotification($submitButton, element, attributes.baseType)
+                    }
+                    break;
+                case 'float':
+                    value = locale.parseFloat(convertedValue);
+                    responseValue = isNaN(value) ? '' : value;
+                    const regex = new RegExp(`^[+-]?[0-9]+\\${decimalSeparator}[0-9]+(e-?\\d*)?$`);
+                    if (responseValue === '' || !regex.test(convertedValue)) { // check for parsing and float
+                        widget.isValid(widget.serial, false);
+                        return setErrorNotification(
+                            $submitButton,
+                            element,
+                            `value is a decimal number as example: 999${decimalSeparator}99`
+                        );
+                    }
+                    break;
+                case 'string':
+                    responseValue = convertedValue;
+                    if (responseValue === '') {
+                        widget.isValid(widget.serial, false);
+                        return setErrorNotification($submitButton, element, attributes.baseType);
+                    }
+                    break;
+                default:
+                    return false;
+            }
+            widget.isValid(widget.serial, true);
+            stringResponseHelper.setCorrectResponse(response, `${responseValue}`, { trim: true });
+        });
     }
     function exit() {
         // Make sure to adjust the response when exiting the state even if not modified
-        const response = this.widget.element.getResponseDeclaration();
+        const widget = this.widget;
+        const response = widget.element.getResponseDeclaration();
         stringResponseHelper.rewriteCorrectResponse(response, { trim: true });
 
         this.widget.$container.off('.correct');
-        instructionMgr.removeInstructions(this.widget.element);
+        instructionMgr.removeInstructions(widget.element);
     }
 
     return stateFactory.create(Correct, start, exit);
