@@ -42,15 +42,21 @@ define([
         const element = widget.element;
         const $container = widget.$container;
         const $responseForm = widget.$responseForm;
+        const $submitButton = $container.find('button.widget-ok');
+        const $correctInput = $container.find('tr[data-edit=correct] input[name=correct]');
         const response = element.getResponseDeclaration();
         const attributes = response.attributes;
-        const correctResponse = stringResponseHelper.getCorrectResponse(response);
-        const $submitButton = $container.find('button.widget-ok');
         const decimalSeparator = locale.getDecimalSeparator();
-        const $correctInput = $container.find('tr[data-edit=correct] input[name=correct]');
+        let correctResponse = stringResponseHelper.getCorrectResponse(response);
 
         instructionMgr.removeInstructions(element);
         instructionMgr.appendInstruction(element, __('Please type the correct response in the box below.'));
+
+        if (attributes.baseType === 'float') {
+            $correctInput.attr('placeholder', __(`example: 999${decimalSeparator}99`));
+            // converting preloaded number to float if it not
+            correctResponse = (+correctResponse % 1) ? correctResponse : `${correctResponse}.0`;
+        }
 
         if (attributes.baseType === 'float' && decimalSeparator !== '.') {
             $correctInput
@@ -66,7 +72,7 @@ define([
             } else {
                 $correctInput.removeAttr('placeholder');
             }
-            $container.find('tr[data-edit=correct] input[name=correct]').val('');
+            $correctInput.val('');
             stringResponseHelper.setCorrectResponse(response, '', { trim: true });
         });
         $container.on('blur.correct', 'tr[data-edit=correct] input[name=correct]', function () {
