@@ -300,6 +300,7 @@ define([
                 $form.find('[name="constraints"][value="other"]').prop('disabled', true);
                 deleteMinMax();
                 response.attr('cardinality', 'single');
+                response.setCorrect({});
             } else {
                 $form.find('[name="constraints"][value="other"]').prop('disabled', false);
                 response.attr('cardinality', 'multiple');

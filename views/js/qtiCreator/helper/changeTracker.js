@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 Open Assessment Technologies SA ;
+ * Copyright (c) 2019-2023 Open Assessment Technologies SA ;
  */
 /**
  * Track the change within the itemCreator
@@ -24,11 +24,12 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'context',
     'lib/uuid',
     'core/eventifier',
     'ui/dialog',
     'taoQtiItem/qtiCreator/helper/saveChanges'
-], function ($, _, __, uuid, eventifier, dialog, saveChanges) {
+], function ($, _, __, context, uuid, eventifier, dialog, saveChanges) {
     'use strict';
 
     /**
@@ -39,6 +40,8 @@ define([
         leave: __('The item has unsaved changes, are you sure you want to leave ?'),
         exit: __('The item has unsaved changes, would you like to save it ?')
     };
+
+    const DISABLE_FIGURE_WIDGET = context.featureFlags && context.featureFlags.FEATURE_FLAG_DISABLE_FIGURE_WIDGET;
 
     /**
      *
@@ -119,7 +122,7 @@ define([
                         !$.contains(container, e.target) &&
                         !$(e.target).parents('#feedback-box').length &&
                         !$(e.target).parents('.outcome-container').length &&
-                        !$(e.target).parents('.media-alignment').length &&
+                        (DISABLE_FIGURE_WIDGET || !$(e.target).parents('.media-alignment').length) &&
                         !$(e.target).hasClass('icon-close') &&
                         this.hasChanged()
                     ) {

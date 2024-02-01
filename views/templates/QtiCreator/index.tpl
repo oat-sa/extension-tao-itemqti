@@ -50,7 +50,7 @@ use oat\tao\helpers\Template;
     </main>
 
     <!-- properties panel -->
-    <div class="item-editor-sidebar-wrapper right-bar sidebar-popup-parent">
+    <div class="select2-container item-editor-sidebar-wrapper right-bar sidebar-popup-parent">
         <div class="item-editor-sidebar" id="item-editor-item-widget-bar">
             <div class="item-editor-item-related sidebar-right-section-box" id="item-style-editor-bar">
                 <section class="tool-group clearfix" id="sidebar-right-css-manager">
