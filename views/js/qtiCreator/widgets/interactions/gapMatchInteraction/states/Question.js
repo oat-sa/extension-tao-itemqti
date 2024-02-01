@@ -300,7 +300,7 @@ define([
             var choiceCount = 0,
                 $deleteButtons = $container.find('.choice-area .qti-choice [data-role=delete]');
 
-            _.each(interaction.getChoices(), function(choice){
+            _.forEach(interaction.getChoices(), function(choice){
                 if(!choice.data('deleting')){
                     choiceCount++;
                 }

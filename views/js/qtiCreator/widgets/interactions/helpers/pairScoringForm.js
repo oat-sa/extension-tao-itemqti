@@ -140,7 +140,7 @@ define([
             removePair : function removePair(key){
 
                 //update internal model
-                _.remove(pairs, {id : key.replace(separator.qti, separator.html)});
+                _.remove(pairs, o => o.id === key.replace(separator.qti, separator.html));
 
                 //update the response
                 response.removeMapEntry(key);
@@ -186,14 +186,14 @@ define([
 
                 $options.removeProp('disabled');
 
-                _(pairs).where({leftId : currentLeft}).forEach(function(pair){
+                _(pairs).filter({leftId : currentLeft}).forEach(function(pair){
                     $right.find('option[value="' + pair.rightId+ '"]').prop('disabled', true);
                 });
-                _(pairs).where({rightId : currentRight}).forEach(function(pair){
+                _(pairs).filter({rightId : currentRight}).forEach(function(pair){
                     $left.find('option[value="' + pair.leftId+ '"]').prop('disabled', true);
                 });
                 if(options.type === 'pair'){
-                    _(pairs).where({rightId : currentLeft}).forEach(function(pair){
+                    _(pairs).filter({rightId : currentLeft}).forEach(function(pair){
                         $right.find('option[value="' + pair.leftId+ '"]').prop('disabled', true);
                     });
                 }
@@ -204,14 +204,14 @@ define([
 
                 $options.removeProp('disabled');
 
-                _(pairs).where({rightId : currentRight}).forEach(function(pair){
+                _(pairs).filter({rightId : currentRight}).forEach(function(pair){
                     $left.find('option[value="' + pair.leftId+ '"]').prop('disabled', true);
                 });
-                _(pairs).where({leftId : currentLeft}).forEach(function(pair){
+                _(pairs).filter({leftId : currentLeft}).forEach(function(pair){
                     $right.find('option[value="' + pair.rightId+ '"]').prop('disabled', true);
                 });
                 if(options.type === 'pair'){
-                    _(pairs).where({leftId : currentRight}).forEach(function(pair){
+                    _(pairs).filter({leftId : currentRight}).forEach(function(pair){
                         $left.find('option[value="' + pair.rightId+ '"]').prop('disabled', true);
                     });
                 }
@@ -302,7 +302,7 @@ define([
                 left            : _.isFunction(options.formatLeft) ? options.formatLeft(gap) : gap,
                 right           : _.isFunction(options.formatRight) ? options.formatRight(choice) : choice,
                 defineCorrect   : answerStateHelper.defineCorrect(response),
-                correct         : _.contains(_.values(response.getCorrect()), key)
+                correct         : _.includes(_.values(response.getCorrect()), key)
             };
         }
 
@@ -338,7 +338,7 @@ define([
                     };
                     callbacks[pair.id + '-correct'] = function(response, value){
                         if(value === true){
-                            if(!_.contains(corrects, id)){
+                            if(!_.includes(corrects, id)){
                                 corrects.push(id);
                             }
                         } else {

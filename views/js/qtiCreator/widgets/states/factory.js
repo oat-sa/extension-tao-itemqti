@@ -178,14 +178,14 @@ define(['jquery', 'lodash'], function($, _){
                 newStates = arguments[0];
             }
 
-            _.each(newStates, function(state){
+            _.forEach(newStates, function(state){
 
                 if(_isValidStateDefinition(state)){
                     stateBundle[state.prototype.name] = state;
                 }
             });
 
-            _.each(excluded, function(state){
+            _.forEach(excluded, function(state){
                 delete stateBundle[state];
             });
 

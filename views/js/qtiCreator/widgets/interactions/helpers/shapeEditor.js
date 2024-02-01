@@ -202,7 +202,7 @@ define([
                     }
 
                     //hide others
-                    _.invoke(_.reject(_.clone(self.handlers), function(elt){
+                    _.invokeMap(_.reject(_.clone(self.handlers), function(elt){
                         return elt === handler;
                     }), 'hide');
                 }
@@ -264,7 +264,7 @@ define([
                     self.layer.remove();
                     self.layerTxt.remove();
 
-                    _.invoke(self.handlers, 'remove');
+                    _.invokeMap(self.handlers, 'remove');
                     self.handlers = [];
                 }
 
@@ -281,7 +281,7 @@ define([
                         self.shape.attr('cursor', 'move');
                         background.attr('cursor', 'move');
 
-                        _.invoke(self.handlers, 'remove');
+                        _.invokeMap(self.handlers, 'remove');
 
                         attr = shape.attr();
 
@@ -339,7 +339,7 @@ define([
                     }
                     self.shape.attr('cursor', 'move');
                     background.attr('cursor', 'move');
-                    _.invoke(self.handlers, 'remove');
+                    _.invokeMap(self.handlers, 'remove');
                 }
 
                 /**
@@ -382,7 +382,7 @@ define([
                 $(document).off('keydown.qti-widget');
 
                 this.shape.undrag();
-                _.invoke(this.handlers, 'remove');
+                _.invokeMap(this.handlers, 'remove');
                 this.handlers = [];
 
                 this.setState('moving', false)

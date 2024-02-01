@@ -59,7 +59,7 @@ define(['lodash', 'core/eventifier'], function(_, eventifier){
             }
         }).on('show', function(id){
 
-            _.each(_registry, function(element){
+            _.forEach(_registry, function(element){
                 if(element.id !== id){
                     //a single element has been shown, informe the others
                     element.dom.trigger('showanother.grouptoggler', id);

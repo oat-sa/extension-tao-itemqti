@@ -56,7 +56,7 @@ define([
 
     const _detachElements = function (container, elements) {
         const containerElements = {};
-        _.each(elements, function (elementSerial) {
+        _.forEach(elements, function (elementSerial) {
             containerElements[elementSerial] = container.elements[elementSerial];
             delete container.elements[elementSerial];
         });
@@ -363,7 +363,7 @@ define([
                 if (_.size(newElts) !== subContainers.length) {
                     throw new Error('number of sub-containers mismatch');
                 } else {
-                    _.each(newElts, container => {
+                    _.forEach(newElts, container => {
                         const containerData = subContainers.shift(); //get data in order
                         const containerElements = _detachElements(itemBody, containerData.elements);
 

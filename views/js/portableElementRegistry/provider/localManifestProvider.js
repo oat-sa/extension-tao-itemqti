@@ -130,7 +130,7 @@ define(['lodash', 'context', 'core/promise'], function(_, context, Promise){
                 });
                 require(_requiredManifests, function(){
                     var ok = true;
-                    _.each([].slice.call(arguments), function(manifest){
+                    _.forEach([].slice.call(arguments), function(manifest){
                         var id;
                         if(manifest && manifest.typeIdentifier){
                             id = manifest.typeIdentifier;
