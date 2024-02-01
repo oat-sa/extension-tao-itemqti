@@ -368,7 +368,7 @@ define([
                                 areaBroker.getContainer().data('widget', item);
 
                                 widget = item.data('widget');
-                                _.each(item.getComposingElements(), function (element) {
+                                _.forEach(item.getComposingElements(), function (element) {
                                     if (element.qtiClass === 'include') {
                                         xincludeRenderer.render(element.data('widget'), config.properties.baseUrl);
                                     }

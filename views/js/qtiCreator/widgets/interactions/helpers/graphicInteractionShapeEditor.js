@@ -11,7 +11,7 @@ define([
 ], function($, _, GraphicHelper, shapeSideBar, shapeFactory, shapeEditor){
 
     /**
-     * This factory creates an new shape editor. 
+     * This factory creates an new shape editor.
      * The editor manages to create the side bar to add, move, resize and delete the interaction shapes.
      * @exports taoQtiItem/qtiCreator/widgets/interactions/helpers/graphicInteractionShapeEditor
      * @param {Object} widget - the graphic interaction widget
@@ -48,36 +48,36 @@ define([
                 var interaction = widget.element;
                 var paper       = interaction.paper;
                 var image       = paper.getById('bg-image-' + interaction.serial);
-                var currents    = options.currents || _.pluck(interaction.getChoices(), 'serial');
+                var currents    = options.currents || _.map(interaction.getChoices(), 'serial');
 
                 //set up shape cnotextual options
                 var shapeOptions = {
-                    paper : interaction.paper, 
-                    background : image, 
-                    $container : $container.find('.main-image-box'), 
+                    paper : interaction.paper,
+                    background : image,
+                    $container : $container.find('.main-image-box'),
                     isResponsive : $original.hasClass('responsive')
                 };
-            
-                //create the side bar 
-                var $sideBar = shapeSideBar.create($original, !!options.target); 
+
+                //create the side bar
+                var $sideBar = shapeSideBar.create($original, !!options.target);
 
                 //once a shape type is selected
                 $sideBar.on('shapeactive.qti-widget', function(e, $form, type){
-                
+
                     //enable to create a shape of the given type
                     createShape(type, function shapeCreated (shape){
-                        
+
                         if(_.isFunction(options.shapeCreated)){
-                        
+
                             /**
                              * Called back when a shape is created
                              * @callback shapeCreated
                              * @param {Raphael.Element} shape - the new shape
-                             * @param {String} type - the new shape type 
+                             * @param {String} type - the new shape type
                              */
                             options.shapeCreated(shape, type);
-                        }                
-                        
+                        }
+
                         //deactivate the form in the sidebar
                         $form.removeClass('active');
 
@@ -116,68 +116,68 @@ define([
                  */
                 function editShape(shape, enterHandling){
 
-                    var editor = shapeEditor(shape, shapeOptions); 
+                    var editor = shapeEditor(shape, shapeOptions);
                     editor.on('enterhandling.qti-widget', function(){
 
                         //only one shape handling at a time
-                        _.invoke(_.reject(editors, editor), 'quitHandling');
+                        _.invokeMap(_.reject(editors, editor), 'quitHandling');
 
                         //enable to bin the shape
                         $sideBar
                             .trigger('enablebin.qti-widget')
                             .on('bin.qti-widget', function(){
-                                
+
                                 //remove the shape and the editor
                                 editor.removeShape();
                                 editor.destroy();
                                 editors = _.reject(editors, editor);
                                 editor = undefined;
                             });
-                         
+
                         if(_.isFunction(options.enterHandling)){
-                            
+
                             /**
                              * Called back when a shape is being handled
                              * @callback enterHandling
                              * @param {Raphael.Element} shape - the shape
                              */
                             options.enterHandling(shape);
-                        }                
+                        }
                     }).on('shapechanging.qti-widget', function(){
 
                         if(_.isFunction(options.shapeChanging)){
-                            
+
                             /**
                              * Called back when a shape is being changed
                              * @callback shapeChanging
                              * @param {Raphael.Element} shape - the shape
                              */
                             options.shapeChanging(shape);
-                        }                
+                        }
 
                     }).on('shapechange.qti-widget', function(){
 
                         if(_.isFunction(options.shapeChange)){
-                            
+
                             /**
                              * Called back when a shape has changed
                              * @callback shapeChange
                              * @param {Raphael.Element} shape - the shape
                              */
                             options.shapeChange(shape);
-                        }                
+                        }
 
                     }).on('quithandling.qti-widget', function(){
 
                         if(_.isFunction(options.quitHandling)){
-                            
+
                             /**
                              * Called back when the handling is left on a shape
                              * @callback quitHandling
                              * @param {Raphael.Element} shape - the shape
                              */
                             options.quitHandling(shape);
-                        }                
+                        }
 
                         //update the side bar
                         $sideBar
@@ -187,15 +187,15 @@ define([
 
                     }).on('remove.qti-widget', function(id, data){
                         if(_.isFunction(options.shapeRemoved)){
-                            
+
                             /**
                              * Called back when a shape is removed
                              * @callback shapeRemoved
                              * @param {String} id - the id of the passed away shape
                              */
                             options.shapeRemoved(id, data);
-                        }                
-                        _.remove(currents, id);
+                        }
+                        _.pull(currents, id);
                     });
 
                     editors.push(editor);
@@ -215,9 +215,9 @@ define([
                     if(!factories[type]){
                         factory = shapeFactory(_.merge({type : type}, shapeOptions));
                         factories[type] = factory;
-                    } 
-                    
-                    factory.on('created.qti-widget', created); 
+                    }
+
+                    factory.on('created.qti-widget', created);
                     factory.start();
                 }
 
@@ -237,7 +237,7 @@ define([
                         layer    = paper.getById('layer-' + shape.id);
                         set      = paper.set(shape, layer);
                         set.id   = shape.id;
-                        set.data = shape.data(); 
+                        set.data = shape.data();
                         editShape(set, enterHandling);
                     }
                 }
@@ -251,11 +251,11 @@ define([
                 var $container  = widget.$original;
                 var interaction = widget.element;
                 var paper       = interaction.paper;
-                var currents    = options.currents || _.pluck(interaction.getChoices(), 'serial');
+                var currents    = options.currents || _.map(interaction.getChoices(), 'serial');
 
                 shapeSideBar.remove($container);
-                
-                _.invoke(this.editors, 'destroy');
+
+                _.invokeMap(this.editors, 'destroy');
 
                 //reset the shape style
                 _.forEach(currents, function(id){
@@ -265,7 +265,7 @@ define([
                             .attr(GraphicHelper._style.basic)
                             .hover(function(){
                                 if(!element.flashing){
-                                    GraphicHelper.updateElementState(this, 'hover'); 
+                                    GraphicHelper.updateElementState(this, 'hover');
                                 }
                           }, function(){
                                 if(!element.flashing){
@@ -276,7 +276,7 @@ define([
                 });
             }
         };
-    
+
         return interactionShapeEditor;
     };
 });

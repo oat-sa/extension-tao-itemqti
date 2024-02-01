@@ -222,7 +222,7 @@ define([
     function _renderContent(interactions){
 
         var groups = [];
-        _.each(_filterInteractions(interactions), function(interaction){
+        _.forEach(_filterInteractions(interactions), function(interaction){
 
             var groupName = interaction.tags[0];
             var panel = _.find(groups, {name : groupName});

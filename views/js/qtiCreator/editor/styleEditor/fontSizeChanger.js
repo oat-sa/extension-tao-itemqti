@@ -68,7 +68,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/styleEditor/styleEdito
          */
         $input.on('keydown', function (e) {
             const c = e.keyCode;
-            return _.contains([8, 37, 39, 46], c) || (c >= 48 && c <= 57) || (c >= 96 && c <= 105);
+            return _.includes([8, 37, 39, 46], c) || (c >= 48 && c <= 57) || (c >= 96 && c <= 105);
         });
 
         /**

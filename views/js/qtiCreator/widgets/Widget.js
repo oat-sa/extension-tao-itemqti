@@ -93,7 +93,7 @@ define([
                 this.offEvents(); //not sure if still required after state definition
 
                 //pass the options to the initCreator for custom options usage
-                _.each(this.getRequiredOptions(), function (opt) {
+                _.forEach(this.getRequiredOptions(), function (opt) {
                     if (!options[opt]) {
                         throw new Error(`missing required option for image creator : ${opt}`);
                     }
@@ -212,18 +212,18 @@ define([
 
                     //then, exit super states in order:
                     exitedStates = _.difference(currentState.superState, state.superState);
-                    _.each(exitedStates, () => {
+                    _.forEach(exitedStates, () => {
                         _popState(this);
                     });
 
                     //finally, init super states in reverse order:
                     enteredStates = _.difference(state.superState, currentState.superState);
-                    _.eachRight(enteredStates, _superStateName => {
+                    _.forEachRight(enteredStates, _superStateName => {
                         _pushState(this, _superStateName);
                     });
                 }
             } else {
-                _.eachRight(state.superState, _superStateName => {
+                _.forEachRight(state.superState, _superStateName => {
                     _pushState(this, _superStateName);
                 });
             }
@@ -331,7 +331,7 @@ define([
             const eventNames = qtiElementEventName.replace(/\s+/g, ' ').split(' '),
                 $document = $(document);
 
-            _.each(eventNames, eventName => {
+            _.forEach(eventNames, eventName => {
                 const eventNameToken = [eventName, 'qti-widget', this.serial];
 
                 if (!live) {

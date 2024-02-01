@@ -239,7 +239,7 @@ define(['jquery', 'lodash', 'i18n', 'services/features'], function ($, _, __, fe
                 ret = _.union(ret, QtiElements.getAllowedContents(parents[i], recursive, checked));
             }
 
-            return _.uniq(ret, false);
+            return _.uniq(ret);
         },
 
         isAllowedClass(qtiContainerClass, qtiContentClass) {
@@ -259,7 +259,7 @@ define(['jquery', 'lodash', 'i18n', 'services/features'], function ($, _, __, fe
                         for (let i in ret) {
                             ret = _.union(ret, QtiElements.getParentClasses(ret[i], recursive));
                         }
-                        ret = _.uniq(ret, false);
+                        ret = _.uniq(ret);
                     }
                 }
                 QtiElements.cache.parents[qtiClass] = ret;

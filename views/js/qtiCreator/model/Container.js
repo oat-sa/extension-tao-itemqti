@@ -29,7 +29,7 @@ define([
             this.body('<p>Lorem ipsum dolor sit amet, consectetur adipisicing ...</p>');
         },
         beforeRemove : function(){
-            _.each(this.getComposingElements(), function(element){
+            _.forEach(this.getComposingElements(), function(element){
                 if(_.isFunction(element.beforeRemove)){
                     element.beforeRemove();
                 }

@@ -72,7 +72,7 @@ define([
 
     function create($sidebar, interactions){
 
-        _.each(interactions, function(interactionAuthoringData){
+        _.forEach(interactions, function(interactionAuthoringData){
             add($sidebar, interactionAuthoringData);
         });
 

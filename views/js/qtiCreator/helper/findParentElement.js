@@ -33,7 +33,7 @@ define(['lodash'], function (_) {
             return parentElement;
         }
         let found = null;
-        _.some(parentElement['elements'], childElement => {
+        _.forEach(parentElement['elements'], childElement => {
             if (childElement.serial === serial) {
                 found = parentElement;
             } else if (childElement['elements']) {
@@ -44,7 +44,7 @@ define(['lodash'], function (_) {
                 found = searchRecurse(childElement.bdy, serial);
             }
             if (found) {
-                return true;
+                return false;
             }
         });
         return found;

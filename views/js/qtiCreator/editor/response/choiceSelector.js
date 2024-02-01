@@ -66,11 +66,11 @@ define([
         var choices = this.config.interaction.getChoices();
         var response = this.config.interaction.getResponseDeclaration();
         var config = _.defaults(this.config || {}, _defaults);
-        
+
         config.multiple = response.isCardinality(['multiple', 'ordered']);
         config.options = [];
 
-        _.each(choices, function(choice) {
+        _.forEach(choices, function(choice) {
             var id = choice.id();
             var choiceText = '';
             var option = {
@@ -78,15 +78,15 @@ define([
                 label: id,
                 selected: selected.indexOf(id) > -1
             };
-            
+
             if(choice.is('containerChoice')){
                 choiceText = choice.body();
             }else if(choice.is('textVariableChoice')){
                 choiceText = choice.val();
             }else{
-                return;//not available yet
+                return false;//not available yet
             }
-            
+
             // 0 as titleLength => no title
             if(config.titleLength) {
                 option.title = createOptionTitle(choiceText, config.titleLength);
@@ -111,7 +111,7 @@ define([
 
         var self = this;
         var $selectBox = this.$component.find('select');
-        
+
         $selectBox.select2({
             dropdownAutoWidth: true,
             placeholder: $selectBox.attr('placeholder'),
@@ -132,13 +132,13 @@ define([
      *
      */
     var choiceSelectorFactory = function choiceSelectorFactory(config) {
-        
+
         var _selectedChoices = {};
         var choices = {};
-        _.each(config.interaction.getChoices(), function(choice){
+        _.forEach(config.interaction.getChoices(), function(choice){
             choices[choice.id()] = choice;
         });
-        
+
         /**
         * Exposed methods
         * @type {{getChoices: choiceSelector.getChoices, getSelectedChoices: choiceSelector.getSelectedChoices}}
@@ -153,7 +153,7 @@ define([
                 });
             }
         };
-    
+
         return component(choiceSelector)
                 .on('init', init)
                 .on('destroy', destroy)

@@ -160,7 +160,7 @@ define([
                     }else{
                         $newCol.attr('class', 'new-col col-' + distributedUnits.middle);
                     }
-                    _.each(distributedUnits.cols, function(col){
+                    _.forEach(distributedUnits.cols, function(col){
                         col.elt.attr('class', 'col-' + col.refactoredUnits);
                     });
                 }

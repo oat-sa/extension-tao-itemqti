@@ -116,7 +116,7 @@ define([
          * @throws {TypeError} if the field is unknown
          */
         const isFieldSupported = function isFieldSupported(field) {
-            if (!_.contains(fields, field)) {
+            if (!_.includes(fields, field)) {
                 throw new TypeError(`Unknown field "${field}". Please set "min" or "max"`);
             }
             return true;

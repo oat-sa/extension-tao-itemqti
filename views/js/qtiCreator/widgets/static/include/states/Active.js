@@ -144,7 +144,7 @@ define([
                         });
                         $head.append(styleTao);
                         $head.append(styleTaoQtiItem);
-                        _.each(xincludeRenderer.getXincludeHandlers(), handler => handler(file.file, '', '', $head, true));
+                        _.forEach(xincludeRenderer.getXincludeHandlers(), handler => handler(file.file, '', '', $head, true));
                     });
                 }
             });

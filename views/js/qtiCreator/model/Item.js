@@ -112,7 +112,7 @@ define([
             }
             if(this.responses[serial]){
                 //remove feedback rules:
-                _.each(this.responses[serial].feedbackRules, function(rule){
+                _.forEach(this.responses[serial].feedbackRules, function(rule){
                     var feedbacks = [];
                     if(rule.feedbackThen && rule.feedbackThen.is('modalFeedback')){
                         feedbacks.push(rule.feedbackThen.serial);
