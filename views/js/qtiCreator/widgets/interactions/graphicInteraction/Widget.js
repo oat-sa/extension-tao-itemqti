@@ -106,7 +106,7 @@ define([
          * call render choice for each interaction's choices
          */
         createChoices : function(){
-            _.forEach(this.element.getChoices(), this._currentChoices, this);
+            _.forEach(this.element.getChoices(), _.bind(this._currentChoices, this));
         },
 
         /**
@@ -114,7 +114,7 @@ define([
          * @private
          * @param {Object} choice - the QTI choice
          */
-        _currentChoices : (choice) => {
+        _currentChoices : function(){
             graphic.createElement(this.element.paper, choice.attr('shape'), choice.attr('coords'), {
                 id          : choice.serial,
                 touchEffect : false
