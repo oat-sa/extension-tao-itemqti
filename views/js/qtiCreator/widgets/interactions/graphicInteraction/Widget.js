@@ -114,7 +114,7 @@ define([
          * @private
          * @param {Object} choice - the QTI choice
          */
-        _currentChoices : function(){
+        _currentChoices : function(choice){
             graphic.createElement(this.element.paper, choice.attr('shape'), choice.attr('coords'), {
                 id          : choice.serial,
                 touchEffect : false
