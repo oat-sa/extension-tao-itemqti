@@ -106,7 +106,7 @@ define([
          * call render choice for each interaction's choices
          */
         createChoices : function(){
-            _.forEach(this.element.getChoices(), this._currentChoices, this);
+            _.forEach(this.element.getChoices(), _.bind(this._currentChoices, this));
         },
 
         /**
