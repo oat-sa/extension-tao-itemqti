@@ -43,16 +43,6 @@ define([
 
     const modalFeedbackConfigKey = 'taoQtiItem/creator/interaction/property/modalFeedback';
 
-    const _saveCallbacks = {
-        mappingAttr: function mappingAttr(response, value, key) {
-            if (value === '') {
-                response.removeMappingAttribute(key);
-            } else {
-                response.setMappingAttribute(key, value);
-            }
-        }
-    };
-
     /**
      * Get the list of all available response processing templates available in the platform
      * @returns {Object}
@@ -302,7 +292,9 @@ define([
                         answerStateHelper.initResponseForm(widget);
                     }
                 },
-                defaultValue: _saveCallbacks.mappingAttr,
+                defaultValue: function (response, value, key) {
+                    response.setMappingAttribute(key, value);
+                },
                 template: function (res, value) {
                     rp.setProcessingType(value === 'CUSTOM' ? 'custom' : 'templateDriven');
                     response.setTemplate(value);

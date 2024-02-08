@@ -108,7 +108,7 @@ define([
 
             if (!valid) {
                 //invalid input!
-                rule = _.where(results, {
+                rule = _.filter(results, {
                     type: 'failure'
                 })[0];
                 if (rule && rule.data.message && !$('#mediaManager').children('.opened').length) {

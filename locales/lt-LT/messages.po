@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.04\n"
-"PO-Revision-Date: 2022-04-01T09:30:47\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-12-05 09:23\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: lt-LT\n"
+"Language: lt\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: lt-LT\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && (n%100>19 || n%100<11) ? 0 : (n%10>=2 && n%10<=9) && (n%100>19 || n%100<11) ? 1 : n%1!=0 ? 2: 3);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: lt\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: Lithuanian\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Užpildyti tarpus su tekstu iš pasirikimų rinkinio."
@@ -29,7 +36,7 @@ msgid "%d Item(s) of %d imported from the given IMS QTI Package."
 msgstr ""
 
 msgid "%d/%d"
-msgstr "%d/%d"
+msgstr ""
 
 msgid "%s metadata values found in source by extractor(s)."
 msgstr "Rastos %s metaduomenų reikšmės šaltinyje pagal .ekstraktorių."
@@ -68,7 +75,6 @@ msgid "A human interpretation of the variable's value."
 msgstr "Žmogiška kintamojo reikšmės interpretacija."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
@@ -168,9 +174,7 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "Netikėta klaida įvyko IMS QTI Elemento Paketo importavimo metu. Sistema gražino šią klaidą: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr "Netikėta klaida įvyko QTI Elemento importavimo metu. Sistema gražino šią klaidą: \"%s\n"
-""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr ""
@@ -490,7 +494,7 @@ msgstr "Keisti"
 msgid "edit choices"
 msgstr "keisti pasirinkimus"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr ""
 
 msgid "Edit math expression using MathML"
@@ -565,7 +569,7 @@ msgstr "Klaida elemente %s"
 msgid "Error to export item %s: %s"
 msgstr "Klaida eksportuojant elementą %s: %s"
 
-msgid "Euler\'s constant"
+msgid "Euler\\'s constant"
 msgstr ""
 
 msgid "Exponent"
@@ -692,7 +696,7 @@ msgid "Horizontal"
 msgstr "Horizontalus"
 
 msgid "Hotspot"
-msgstr "Karštas taškas"
+msgstr ""
 
 msgid "Hotspot Interaction"
 msgstr "Karšto-taško Užduotis"
@@ -867,7 +871,7 @@ msgstr "Elemento plotis"
 
 #, tao-public
 msgid "Items"
-msgstr "Elementai"
+msgstr "Klausimai"
 
 msgid "Label"
 msgstr "Pavadinimas"
@@ -879,10 +883,10 @@ msgid "Large editor"
 msgstr "Didelis redaguoklis"
 
 msgid "LaTeX"
-msgstr "LaTeX"
+msgstr ""
 
 msgid "Latex"
-msgstr "Latex"
+msgstr ""
 
 msgid "Layout"
 msgstr ""
@@ -912,7 +916,7 @@ msgid "List Style"
 msgstr "Sąrašo Stilius"
 
 msgid "Ln"
-msgstr "Ln"
+msgstr ""
 
 msgid "Log"
 msgstr "Žurnalas"
@@ -966,7 +970,7 @@ msgid "MathJax is not installed."
 msgstr "MathJax neįdiegtas."
 
 msgid "MathML"
-msgstr "MathML"
+msgstr ""
 
 msgid "Max"
 msgstr "Maks"
@@ -1108,9 +1112,7 @@ msgid "one association pair"
 msgstr "vieną asocijuotą porą "
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr "Vienas ar daugiau QTI komponentų nėra palaikomas sistemos. Sistema gražino šią klaidą: %s\n"
-""
 
 msgid "Order"
 msgstr "Eiliškumas"
@@ -1140,7 +1142,7 @@ msgid "Pause"
 msgstr "Pristabdyti"
 
 msgid "Pi"
-msgstr "Pi"
+msgstr ""
 
 msgid "Placeholder Text"
 msgstr ""
@@ -1527,7 +1529,7 @@ msgid "Shuffle choices"
 msgstr "Sumaišyti atsakymus"
 
 msgid "Single choice"
-msgstr ""
+msgstr "Vienas pasirinkimas"
 
 msgid "Sinus"
 msgstr "Sinusas"
@@ -1733,6 +1735,9 @@ msgstr "Maksimalus kiekis variantų, kurių šiam variantui galima asocijuoti."
 msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
 msgstr "Maksimalus kiekis pasirinkimų, kuriuos galima susieti. Jeigu matchMax yra 0, nėra jokio apribojimo."
 
+msgid "The maximum number of choices that the candidate is required to select to form a valid response."
+msgstr ""
+
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
 msgstr ""
 
@@ -1800,9 +1805,7 @@ msgid "The upper bound of the slider"
 msgstr "Slankiklio viršutinė riba"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "Patvirtinimas importuotam QTI elementui nepavyko. Sistema gražino šią klaidą:%s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "ZIP archyvas turintis IMS QTI Elementą negali būti išskleistas."

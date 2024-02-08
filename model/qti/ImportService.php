@@ -577,12 +577,7 @@ class ImportService extends ConfigurableService
                         ->get(\common_ext_ExtensionsManager::SERVICE_ID)
                         ->isInstalled('taoMediaManager')
                 ) {
-                    // Media manager path where to store the stimulus.
-                    $path = $this->retrieveFullPathLabels($itemClass);
-                    // Uses the first created item's label as the leaf class.
-                    if (is_array($path)) {
-                        array_unshift($path, $rdfItem->getLabel());
-                    }
+                    $mediaClassPath = $this->getTargetClassForAssets($itemClass, $rdfItem);
                     /** Shared stimulus handler */
                     $sharedStimulusHandler = new SharedStimulusAssetHandler();
                     $sharedStimulusHandler->setServiceLocator($this->getServiceLocator());
@@ -590,7 +585,7 @@ class ImportService extends ConfigurableService
                         ->setQtiModel($qtiModel)
                         ->setItemSource(new ItemMediaResolver($rdfItem, ''))
                         ->setSharedFiles($sharedFiles)
-                        ->setParentPath(json_encode($path));
+                        ->setTargetClassPath($mediaClassPath);
                     $itemAssetManager->loadAssetHandler($sharedStimulusHandler);
                 } else {
                     $handler = new StimulusHandler();
@@ -883,28 +878,25 @@ class ImportService extends ConfigurableService
 
     /**
      * Retrieve the labels of all parent classes up to base item class.
-     *
-     * Return values: an empty string if the $class parameter is not a class object
-     *                an empty array if the $class parameter is the base item class
-     *                an array in other cases, ordered from base item class to the class given as parameter
-     *
-     * @param mixed $class Class from which to retrieve.
-     * @return array|string
      */
-    public function retrieveFullPathLabels($class)
-    {
-        if (!$class instanceof core_kernel_classes_Class) {
-            return '';
-        }
-
+    public function getTargetClassForAssets(
+        core_kernel_classes_Class $itemClass,
+        core_kernel_classes_Resource $itemResource
+    ): array {
+        // Collecting labels path from item root to the class where the item resource is stored
         $labels = [];
-        while ($class->getUri() !== TaoOntology::CLASS_URI_ITEM) {
-            $labels [] = $class->getLabel();
-            $parentClasses = $class->getParentClasses();
-            $class = reset($parentClasses);
+        while ($itemClass->getUri() !== TaoOntology::CLASS_URI_ITEM) {
+            $labels [] = $itemClass->getLabel();
+            $parentClasses = $itemClass->getParentClasses();
+            $itemClass = reset($parentClasses);
         }
 
-        return array_reverse($labels);
+        $path = array_reverse($labels);
+
+        // Adding item's label as the leaf class.
+        $path[] = $itemResource->getLabel();
+
+        return $path;
     }
 
     private function getItemEventDispatcher(): UpdatedItemEventDispatcher

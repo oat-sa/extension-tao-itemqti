@@ -1,2272 +1,1826 @@
 [
   {
     "code": "aa-DJ",
-    "uri": "https://www.oecd.org/aa-DJ",
     "title": "Afar (DJ)"
   },
   {
     "code": "aa-ER",
-    "uri": "https://www.oecd.org/aa-ER",
     "title": "Afar (ER)"
   },
   {
     "code": "aa-ET",
-    "uri": "https://www.oecd.org/aa-ET",
     "title": "Afar (ET)"
   },
   {
     "code": "af-NA",
-    "uri": "https://www.oecd.org/af-NA",
     "title": "Afrikaans (NA)"
   },
   {
     "code": "af-ZA",
-    "uri": "https://www.oecd.org/af-ZA",
     "title": "Afrikaans (ZA)"
   },
   {
     "code": "ak-GH",
-    "uri": "https://www.oecd.org/ak-GH",
     "title": "Akan / Twi (GH)"
   },
   {
     "code": "sq-AL",
-    "uri": "https://www.oecd.org/sq-AL",
     "title": "Albanian (AL)"
   },
   {
     "code": "sq-ME",
-    "uri": "https://www.oecd.org/sq-ME",
     "title": "Albanian (ME)"
   },
   {
     "code": "sq-MK",
-    "uri": "https://www.oecd.org/sq-MK",
     "title": "Albanian (MK)"
   },
   {
     "code": "sq-XK",
-    "uri": "https://www.oecd.org/sq-XK",
     "title": "Albanian (XK)"
   },
   {
     "code": "sq-ZZ",
-    "uri": "https://www.oecd.org/sq-ZZ",
     "title": "Albanian (ZZ)"
   },
   {
     "code": "am-ET",
-    "uri": "https://www.oecd.org/am-ET",
     "title": "Amharic (ET)"
   },
   {
     "code": "am-ZZ",
-    "uri": "https://www.oecd.org/am-ZZ",
     "title": "Amharic (ZZ)"
   },
   {
     "code": "ife-BJ",
-    "uri": "https://www.oecd.org/ife-BJ",
     "title": "Anago (Ifè) (BJ)"
   },
   {
     "code": "ar-AE",
-    "uri": "https://www.oecd.org/ar-AE",
     "title": "Arabic (AE)"
   },
   {
+    "code": "ar-ARB",
+    "title": "Arabic (ARB)"
+  },
+  {
+    "code": "ar-arb",
+    "title": "Arabic (ARB)"
+  },
+  {
     "code": "ar-BH",
-    "uri": "https://www.oecd.org/ar-BH",
     "title": "Arabic (BH)"
   },
   {
     "code": "ar-DJ",
-    "uri": "https://www.oecd.org/ar-DJ",
     "title": "Arabic (DJ)"
   },
   {
     "code": "ar-AE-dubai",
-    "uri": "https://www.oecd.org/ar-AE-dubai",
     "title": "Arabic (dubai)"
   },
   {
     "code": "ar-DZ",
-    "uri": "https://www.oecd.org/ar-DZ",
     "title": "Arabic (DZ)"
   },
   {
     "code": "ar-EG",
-    "uri": "https://www.oecd.org/ar-EG",
     "title": "Arabic (EG)"
   },
   {
     "code": "ar-IL",
-    "uri": "https://www.oecd.org/ar-IL",
     "title": "Arabic (IL)"
   },
   {
     "code": "ar-IQ",
-    "uri": "https://www.oecd.org/ar-IQ",
     "title": "Arabic (IQ)"
   },
   {
     "code": "ar-JO",
-    "uri": "https://www.oecd.org/ar-JO",
     "title": "Arabic (JO)"
   },
   {
     "code": "ar-KW",
-    "uri": "https://www.oecd.org/ar-KW",
     "title": "Arabic (KW)"
   },
   {
     "code": "ar-LB",
-    "uri": "https://www.oecd.org/ar-LB",
     "title": "Arabic (LB)"
   },
   {
     "code": "ar-LY",
-    "uri": "https://www.oecd.org/ar-LY",
     "title": "Arabic (LY)"
   },
   {
     "code": "ar-MA",
-    "uri": "https://www.oecd.org/ar-MA",
     "title": "Arabic (MA)"
   },
   {
     "code": "ar-OM",
-    "uri": "https://www.oecd.org/ar-OM",
     "title": "Arabic (OM)"
   },
   {
     "code": "ar-PS",
-    "uri": "https://www.oecd.org/ar-PS",
     "title": "Arabic (PS)"
   },
   {
     "code": "ar-QA",
-    "uri": "https://www.oecd.org/ar-QA",
     "title": "Arabic (QA)"
   },
   {
     "code": "ar-SA",
-    "uri": "https://www.oecd.org/ar-SA",
     "title": "Arabic (SA)"
   },
   {
     "code": "ar-SY",
-    "uri": "https://www.oecd.org/ar-SY",
     "title": "Arabic (SY)"
   },
   {
     "code": "ar-TN",
-    "uri": "https://www.oecd.org/ar-TN",
     "title": "Arabic (TN)"
   },
   {
     "code": "ar-TR",
-    "uri": "https://www.oecd.org/ar-TR",
     "title": "Arabic (TR)"
   },
   {
     "code": "ar-YE",
-    "uri": "https://www.oecd.org/ar-YE",
     "title": "Arabic (YE)"
   },
   {
     "code": "ar-ZZ",
-    "uri": "https://www.oecd.org/ar-ZZ",
     "title": "Arabic (ZZ)"
   },
   {
     "code": "hy-AM",
-    "uri": "https://www.oecd.org/hy-AM",
     "title": "Armenian (AM)"
   },
   {
     "code": "hy-GE",
-    "uri": "https://www.oecd.org/hy-GE",
     "title": "Armenian (GE)"
   },
   {
     "code": "as-IN",
-    "uri": "https://www.oecd.org/as-IN",
     "title": "Assamese (IN)"
   },
   {
     "code": "teo-UG",
-    "uri": "https://www.oecd.org/teo-UG",
     "title": "Ateso / Teso (UG)"
   },
   {
     "code": "ay-BO",
-    "uri": "https://www.oecd.org/ay-BO",
     "title": "Aymara (BO)"
   },
   {
     "code": "ay-PE",
-    "uri": "https://www.oecd.org/ay-PE",
     "title": "Aymara (PE)"
   },
   {
     "code": "az-AZ",
-    "uri": "https://www.oecd.org/az-AZ",
     "title": "Azerbaijani (AZ)"
   },
   {
     "code": "az-GE",
-    "uri": "https://www.oecd.org/az-GE",
     "title": "Azerbaijani (GE)"
   },
   {
     "code": "az-QZ",
-    "uri": "https://www.oecd.org/az-QZ",
     "title": "Azerbaijani (QZ)"
   },
   {
     "code": "bm-ML",
-    "uri": "https://www.oecd.org/bm-ML",
     "title": "Bambara (Bamanankan) (ML)"
   },
   {
     "code": "bba-BJ",
-    "uri": "https://www.oecd.org/bba-BJ",
     "title": "Bariba (Baatonum) (BJ)"
   },
   {
     "code": "eu-ES",
-    "uri": "https://www.oecd.org/eu-ES",
     "title": "Basque (ES)"
   },
   {
     "code": "kmr-Arab-IQ",
-    "uri": "https://www.oecd.org/kmr-Arab-IQ",
     "title": "Behdini (Northern Kurdish) (IQ)"
   },
   {
     "code": "be-BY",
-    "uri": "https://www.oecd.org/be-BY",
     "title": "Belarusian (BY)"
   },
   {
     "code": "be-ZZ",
-    "uri": "https://www.oecd.org/be-ZZ",
     "title": "Belarusian (ZZ)"
   },
   {
     "code": "bem-ZM",
-    "uri": "https://www.oecd.org/bem-ZM",
     "title": "Bemba (ZM)"
   },
   {
     "code": "bn-BD",
-    "uri": "https://www.oecd.org/bn-BD",
     "title": "Bengali / Bangla (BD)"
   },
   {
     "code": "bn-IN",
-    "uri": "https://www.oecd.org/bn-IN",
     "title": "Bengali / Bangla (IN)"
   },
   {
     "code": "bik-PH",
-    "uri": "https://www.oecd.org/bik-PH",
     "title": "Bikol / Bicolano (PH)"
   },
   {
     "code": "bs-BA",
-    "uri": "https://www.oecd.org/bs-BA",
     "title": "Bosnian (BA)"
   },
   {
     "code": "bs-Cyrl-BA",
-    "uri": "https://www.oecd.org/bs-Cyrl-BA",
     "title": "Bosnian (Cyrillic) (BA)"
   },
   {
     "code": "bs-RS",
-    "uri": "https://www.oecd.org/bs-RS",
     "title": "Bosnian (RS)"
   },
   {
     "code": "bg-BG",
-    "uri": "https://www.oecd.org/bg-BG",
     "title": "Bulgarian (BG)"
   },
   {
     "code": "my-MM",
-    "uri": "https://www.oecd.org/my-MM",
     "title": "Burmese (MM)"
   },
   {
     "code": "ca-AD",
-    "uri": "https://www.oecd.org/ca-AD",
     "title": "Catalan (AD)"
   },
   {
     "code": "ca-ES",
-    "uri": "https://www.oecd.org/ca-ES",
     "title": "Catalan (ES)"
   },
   {
     "code": "ceb-PH",
-    "uri": "https://www.oecd.org/ceb-PH",
     "title": "Cebuano (PH)"
   },
   {
     "code": "fuq-NE",
-    "uri": "https://www.oecd.org/fuq-NE",
     "title": "Central-Eastern Niger Fulfulde (NE)"
   },
   {
     "code": "shu-TD",
-    "uri": "https://www.oecd.org/shu-TD",
     "title": "Chadian Arabic (TD)"
   },
   {
     "code": "ny-MW",
-    "uri": "https://www.oecd.org/ny-MW",
     "title": "Chichewa / Nyanja (MW)"
   },
   {
     "code": "ny-ZM",
-    "uri": "https://www.oecd.org/ny-ZM",
     "title": "Chichewa / Nyanja (ZM)"
   },
   {
     "code": "cmn-Hant-HK",
-    "uri": "https://www.oecd.org/cmn-Hant-HK",
     "title": "Chinese (Mandarin, traditional) (HK)"
   },
   {
     "code": "zh-CN",
-    "uri": "https://www.oecd.org/zh-CN",
     "title": "Chinese (simplified) (CN)"
   },
   {
     "code": "zh-Hans-HK",
-    "uri": "https://www.oecd.org/zh-Hans-HK",
     "title": "Chinese (simplified) (HK)"
   },
   {
     "code": "zh-MY",
-    "uri": "https://www.oecd.org/zh-MY",
     "title": "Chinese (simplified) (MY)"
   },
   {
     "code": "zh-SG",
-    "uri": "https://www.oecd.org/zh-SG",
     "title": "Chinese (simplified) (SG)"
   },
   {
     "code": "zh-CN-shanghai",
-    "uri": "https://www.oecd.org/zh-CN-shanghai",
     "title": "Chinese (simplified) (shanghai)"
   },
   {
     "code": "zh-Hans-ZZ",
-    "uri": "https://www.oecd.org/zh-Hans-ZZ",
     "title": "Chinese (simplified) (ZZ)"
   },
   {
     "code": "zh-HK",
-    "uri": "https://www.oecd.org/zh-HK",
     "title": "Chinese (traditional) (HK)"
   },
   {
     "code": "zh-MO",
-    "uri": "https://www.oecd.org/zh-MO",
     "title": "Chinese (traditional) (MO)"
   },
   {
     "code": "zh-TW",
-    "uri": "https://www.oecd.org/zh-TW",
     "title": "Chinese (traditional) (TW)"
   },
   {
     "code": "zh-Hant-ZZ",
-    "uri": "https://www.oecd.org/zh-Hant-ZZ",
     "title": "Chinese (traditional) (ZZ)"
   },
   {
     "code": "hr-BA",
-    "uri": "https://www.oecd.org/hr-BA",
     "title": "Croatian (BA)"
   },
   {
     "code": "hr-HR",
-    "uri": "https://www.oecd.org/hr-HR",
     "title": "Croatian (HR)"
   },
   {
     "code": "hr-RS",
-    "uri": "https://www.oecd.org/hr-RS",
     "title": "Croatian (RS)"
   },
   {
     "code": "cs-CZ",
-    "uri": "https://www.oecd.org/cs-CZ",
     "title": "Czech (CZ)"
   },
   {
     "code": "dag-GH",
-    "uri": "https://www.oecd.org/dag-GH",
     "title": "Dagbani (GH)"
   },
   {
     "code": "da-DK",
-    "uri": "https://www.oecd.org/da-DK",
     "title": "Danish (DK)"
   },
   {
     "code": "ary-MA",
-    "uri": "https://www.oecd.org/ary-MA",
     "title": "Darija (Moroccan Arabic) (MA)"
   },
   {
     "code": "dyu-BF",
-    "uri": "https://www.oecd.org/dyu-BF",
     "title": "Dioula / Dyula (BF)"
   },
   {
     "code": "nl-BE",
-    "uri": "https://www.oecd.org/nl-BE",
     "title": "Dutch (BE)"
   },
   {
     "code": "nl-NL",
-    "uri": "https://www.oecd.org/nl-NL",
     "title": "Dutch (NL)"
   },
   {
     "code": "nl-ZZ",
-    "uri": "https://www.oecd.org/nl-ZZ",
     "title": "Dutch (ZZ)"
   },
   {
     "code": "dyo-SN",
-    "uri": "https://www.oecd.org/dyo-SN",
     "title": "Dyola / Jola-Fonyi (SN)"
   },
   {
     "code": "dz-BT",
-    "uri": "https://www.oecd.org/dz-BT",
     "title": "Dzongkha (BT)"
   },
   {
     "code": "en-AE-abudhabi",
-    "uri": "https://www.oecd.org/en-AE-abudhabi",
     "title": "English (abudhabi)"
   },
   {
     "code": "en-AE",
-    "uri": "https://www.oecd.org/en-AE",
     "title": "English (AE)"
   },
   {
     "code": "en-AT",
-    "uri": "https://www.oecd.org/en-AT",
     "title": "English (AT)"
   },
   {
     "code": "en-AU",
-    "uri": "https://www.oecd.org/en-AU",
     "title": "English (AU)"
   },
   {
     "code": "en-BH",
-    "uri": "https://www.oecd.org/en-BH",
     "title": "English (BH)"
   },
   {
     "code": "en-BN",
-    "uri": "https://www.oecd.org/en-BN",
     "title": "English (BN)"
   },
   {
     "code": "en-BT",
-    "uri": "https://www.oecd.org/en-BT",
     "title": "English (BT)"
   },
   {
     "code": "en-BW",
-    "uri": "https://www.oecd.org/en-BW",
     "title": "English (BW)"
   },
   {
     "code": "en-BZ",
-    "uri": "https://www.oecd.org/en-BZ",
     "title": "English (BZ)"
   },
   {
     "code": "en-CA",
-    "uri": "https://www.oecd.org/en-CA",
     "title": "English (CA)"
   },
   {
     "code": "en-CH",
-    "uri": "https://www.oecd.org/en-CH",
     "title": "English (CH)"
   },
   {
     "code": "en-CY",
-    "uri": "https://www.oecd.org/en-CY",
     "title": "English (CY)"
   },
   {
     "code": "en-EG",
-    "uri": "https://www.oecd.org/en-EG",
     "title": "English (EG)"
   },
   {
     "code": "en-GB-england",
-    "uri": "https://www.oecd.org/en-GB-england",
     "title": "English (england)"
   },
   {
     "code": "en-GB-x-excscotl",
-    "uri": "https://www.oecd.org/en-GB-x-excscotl",
     "title": "English (excscotl)"
   },
   {
     "code": "en-GB",
-    "uri": "https://www.oecd.org/en-GB",
     "title": "English (GB)"
   },
   {
     "code": "en-GH",
-    "uri": "https://www.oecd.org/en-GH",
     "title": "English (GH)"
   },
   {
     "code": "en-HK",
-    "uri": "https://www.oecd.org/en-HK",
     "title": "English (HK)"
   },
   {
     "code": "en-IE",
-    "uri": "https://www.oecd.org/en-IE",
     "title": "English (IE)"
   },
   {
     "code": "en-IN",
-    "uri": "https://www.oecd.org/en-IN",
     "title": "English (IN)"
   },
   {
     "code": "en-IS",
-    "uri": "https://www.oecd.org/en-IS",
     "title": "English (IS)"
   },
   {
     "code": "en-JM",
-    "uri": "https://www.oecd.org/en-JM",
     "title": "English (JM)"
   },
   {
     "code": "en-KE",
-    "uri": "https://www.oecd.org/en-KE",
     "title": "English (KE)"
   },
   {
     "code": "en-KW",
-    "uri": "https://www.oecd.org/en-KW",
     "title": "English (KW)"
   },
   {
     "code": "en-LB",
-    "uri": "https://www.oecd.org/en-LB",
     "title": "English (LB)"
   },
   {
     "code": "en-LK",
-    "uri": "https://www.oecd.org/en-LK",
     "title": "English (LK)"
   },
   {
     "code": "en-LU",
-    "uri": "https://www.oecd.org/en-LU",
     "title": "English (LU)"
   },
   {
     "code": "en-ES-madrid",
-    "uri": "https://www.oecd.org/en-ES-madrid",
     "title": "English (madrid)"
   },
   {
     "code": "en-MO",
-    "uri": "https://www.oecd.org/en-MO",
     "title": "English (MO)"
   },
   {
     "code": "en-MT",
-    "uri": "https://www.oecd.org/en-MT",
     "title": "English (MT)"
   },
   {
     "code": "en-MU",
-    "uri": "https://www.oecd.org/en-MU",
     "title": "English (MU)"
   },
   {
     "code": "en-MY",
-    "uri": "https://www.oecd.org/en-MY",
     "title": "English (MY)"
   },
   {
     "code": "en-NG",
-    "uri": "https://www.oecd.org/en-NG",
     "title": "English (NG)"
   },
   {
     "code": "en-NO",
-    "uri": "https://www.oecd.org/en-NO",
     "title": "English (NO)"
   },
   {
     "code": "en-NZ",
-    "uri": "https://www.oecd.org/en-NZ",
     "title": "English (NZ)"
   },
   {
     "code": "en-OM",
-    "uri": "https://www.oecd.org/en-OM",
     "title": "English (OM)"
   },
   {
     "code": "en-CA-ontario",
-    "uri": "https://www.oecd.org/en-CA-ontario",
     "title": "English (ontario)"
   },
   {
     "code": "en-PA",
-    "uri": "https://www.oecd.org/en-PA",
     "title": "English (PA)"
   },
   {
     "code": "en-PH",
-    "uri": "https://www.oecd.org/en-PH",
     "title": "English (PH)"
   },
   {
     "code": "en-PK",
-    "uri": "https://www.oecd.org/en-PK",
     "title": "English (PK)"
   },
   {
     "code": "en-PS",
-    "uri": "https://www.oecd.org/en-PS",
     "title": "English (PS)"
   },
   {
     "code": "en-QA",
-    "uri": "https://www.oecd.org/en-QA",
     "title": "English (QA)"
   },
   {
     "code": "en-RW",
-    "uri": "https://www.oecd.org/en-RW",
     "title": "English (RW)"
   },
   {
     "code": "en-SA",
-    "uri": "https://www.oecd.org/en-SA",
     "title": "English (SA)"
   },
   {
     "code": "en-GB-scotland",
-    "uri": "https://www.oecd.org/en-GB-scotland",
     "title": "English (scotland)"
   },
   {
     "code": "en-SE",
-    "uri": "https://www.oecd.org/en-SE",
     "title": "English (SE)"
   },
   {
     "code": "en-SG",
-    "uri": "https://www.oecd.org/en-SG",
     "title": "English (SG)"
   },
   {
     "code": "en-TT",
-    "uri": "https://www.oecd.org/en-TT",
     "title": "English (TT)"
   },
   {
     "code": "en-TW",
-    "uri": "https://www.oecd.org/en-TW",
     "title": "English (TW)"
   },
   {
     "code": "en-KW-ukeng",
-    "uri": "https://www.oecd.org/en-KW-ukeng",
     "title": "English (UK) (ukeng)"
   },
   {
     "code": "en-GB-ulster",
-    "uri": "https://www.oecd.org/en-GB-ulster",
     "title": "English (ulster)"
   },
   {
     "code": "en-US",
-    "uri": "https://www.oecd.org/en-US",
     "title": "English (US)"
   },
   {
     "code": "en-KW-useng",
-    "uri": "https://www.oecd.org/en-KW-useng",
     "title": "English (US) (useng)"
   },
   {
     "code": "en-ZA",
-    "uri": "https://www.oecd.org/en-ZA",
     "title": "English (ZA)"
   },
   {
     "code": "en-ZM",
-    "uri": "https://www.oecd.org/en-ZM",
     "title": "English (ZM)"
   },
   {
     "code": "en-ZZ",
-    "uri": "https://www.oecd.org/en-ZZ",
     "title": "English (ZZ)"
   },
   {
     "code": "et-EE",
-    "uri": "https://www.oecd.org/et-EE",
     "title": "Estonian (EE)"
   },
   {
     "code": "et-EE-x-russchoo",
-    "uri": "https://www.oecd.org/et-EE-x-russchoo",
     "title": "Estonian for Russian Schools (russchoo)"
   },
   {
     "code": "ee-GH",
-    "uri": "https://www.oecd.org/ee-GH",
     "title": "Ewe (GH)"
   },
   {
     "code": "ee-TG",
-    "uri": "https://www.oecd.org/ee-TG",
     "title": "Ewe (TG)"
   },
   {
     "code": "fo-DK",
-    "uri": "https://www.oecd.org/fo-DK",
     "title": "Faroese (DK)"
   },
   {
     "code": "fa-AF",
-    "uri": "https://www.oecd.org/fa-AF",
     "title": "Farsi / Dari / Persiani (AF)"
   },
   {
     "code": "fa-IR",
-    "uri": "https://www.oecd.org/fa-IR",
     "title": "Farsi / Persian (IR)"
   },
   {
     "code": "fa-ZZ",
-    "uri": "https://www.oecd.org/fa-ZZ",
     "title": "Farsi / Persian (ZZ)"
   },
   {
     "code": "hif-FJ",
-    "uri": "https://www.oecd.org/hif-FJ",
     "title": "Fiji Hindi (FJ)"
   },
   {
     "code": "fj-FJ",
-    "uri": "https://www.oecd.org/fj-FJ",
     "title": "Fijian (FJ)"
   },
   {
     "code": "fil-PH",
-    "uri": "https://www.oecd.org/fil-PH",
     "title": "Filipino (PH)"
   },
   {
     "code": "fi-FI",
-    "uri": "https://www.oecd.org/fi-FI",
     "title": "Finnish (FI)"
   },
   {
     "code": "fon-BJ",
-    "uri": "https://www.oecd.org/fon-BJ",
     "title": "Fon (Fongbe) (BJ)"
   },
   {
     "code": "fr-BE",
-    "uri": "https://www.oecd.org/fr-BE",
     "title": "French (BE)"
   },
   {
     "code": "fr-BF",
-    "uri": "https://www.oecd.org/fr-BF",
     "title": "French (BF)"
   },
   {
     "code": "fr-CA",
-    "uri": "https://www.oecd.org/fr-CA",
     "title": "French (CA)"
   },
   {
     "code": "fr-CD",
-    "uri": "https://www.oecd.org/fr-CD",
     "title": "French (CD)"
   },
   {
     "code": "fr-CH",
-    "uri": "https://www.oecd.org/fr-CH",
     "title": "French (CH)"
   },
   {
     "code": "fr-CI",
-    "uri": "https://www.oecd.org/fr-CI",
     "title": "French (CI)"
   },
   {
     "code": "fr-CM",
-    "uri": "https://www.oecd.org/fr-CM",
     "title": "French (CM)"
   },
   {
     "code": "fr-AE-dubai",
-    "uri": "https://www.oecd.org/fr-AE-dubai",
     "title": "French (dubai)"
   },
   {
     "code": "fr-FR",
-    "uri": "https://www.oecd.org/fr-FR",
     "title": "French (FR)"
   },
   {
     "code": "fr-LB",
-    "uri": "https://www.oecd.org/fr-LB",
     "title": "French (LB)"
   },
   {
     "code": "fr-LU",
-    "uri": "https://www.oecd.org/fr-LU",
     "title": "French (LU)"
   },
   {
     "code": "fr-MA",
-    "uri": "https://www.oecd.org/fr-MA",
     "title": "French (MA)"
   },
   {
     "code": "fr-NE",
-    "uri": "https://www.oecd.org/fr-NE",
     "title": "French (NE)"
   },
   {
     "code": "fr-RW",
-    "uri": "https://www.oecd.org/fr-RW",
     "title": "French (RW)"
   },
   {
     "code": "fr-SN",
-    "uri": "https://www.oecd.org/fr-SN",
     "title": "French (SN)"
   },
   {
     "code": "fr-TN",
-    "uri": "https://www.oecd.org/fr-TN",
     "title": "French (TN)"
   },
   {
     "code": "fr-ZZ",
-    "uri": "https://www.oecd.org/fr-ZZ",
     "title": "French (ZZ)"
   },
   {
     "code": "fy-NL",
-    "uri": "https://www.oecd.org/fy-NL",
     "title": "Frisian (NL)"
   },
   {
     "code": "fub-CM",
-    "uri": "https://www.oecd.org/fub-CM",
     "title": "Fulfulde / Adamawa (CM)"
   },
   {
     "code": "gaa-GH",
-    "uri": "https://www.oecd.org/gaa-GH",
     "title": "Ga (GH)"
   },
   {
     "code": "gd-GB",
-    "uri": "https://www.oecd.org/gd-GB",
     "title": "Gaelic / Scottish, Gàidhlig (GB)"
   },
   {
     "code": "gl-ES",
-    "uri": "https://www.oecd.org/gl-ES",
     "title": "Galician (ES)"
   },
   {
     "code": "cab-HN",
-    "uri": "https://www.oecd.org/cab-HN",
     "title": "Garifuna (HN)"
   },
   {
     "code": "ka-GE",
-    "uri": "https://www.oecd.org/ka-GE",
     "title": "Georgian (GE)"
   },
   {
     "code": "de-AT",
-    "uri": "https://www.oecd.org/de-AT",
     "title": "German (AT)"
   },
   {
     "code": "de-BE",
-    "uri": "https://www.oecd.org/de-BE",
     "title": "German (BE)"
   },
   {
     "code": "de-CH",
-    "uri": "https://www.oecd.org/de-CH",
     "title": "German (CH)"
   },
   {
     "code": "de-DE",
-    "uri": "https://www.oecd.org/de-DE",
     "title": "German (DE)"
   },
   {
     "code": "de-IT",
-    "uri": "https://www.oecd.org/de-IT",
     "title": "German (IT)"
   },
   {
     "code": "de-LI",
-    "uri": "https://www.oecd.org/de-LI",
     "title": "German (LI)"
   },
   {
     "code": "de-LU",
-    "uri": "https://www.oecd.org/de-LU",
     "title": "German (LU)"
   },
   {
     "code": "de-ZZ",
-    "uri": "https://www.oecd.org/de-ZZ",
     "title": "German (ZZ)"
   },
   {
     "code": "el-AL",
-    "uri": "https://www.oecd.org/el-AL",
     "title": "Greek (AL)"
   },
   {
     "code": "el-CY",
-    "uri": "https://www.oecd.org/el-CY",
     "title": "Greek (CY)"
   },
   {
     "code": "el-GR",
-    "uri": "https://www.oecd.org/el-GR",
     "title": "Greek (GR)"
   },
   {
     "code": "el-ZZ",
-    "uri": "https://www.oecd.org/el-ZZ",
     "title": "Greek (ZZ)"
   },
   {
     "code": "gn-PY",
-    "uri": "https://www.oecd.org/gn-PY",
     "title": "Guarani (PY)"
   },
   {
     "code": "gu-IN",
-    "uri": "https://www.oecd.org/gu-IN",
     "title": "Gujarati (IN)"
   },
   {
     "code": "ht-HT",
-    "uri": "https://www.oecd.org/ht-HT",
     "title": "Haitian Creole (HT)"
   },
   {
     "code": "ha-GH",
-    "uri": "https://www.oecd.org/ha-GH",
     "title": "Hausa (GH)"
   },
   {
     "code": "ha-NE",
-    "uri": "https://www.oecd.org/ha-NE",
     "title": "Hausa (NE)"
   },
   {
     "code": "ha-NG",
-    "uri": "https://www.oecd.org/ha-NG",
     "title": "Hausa (NG)"
   },
   {
     "code": "he-IL",
-    "uri": "https://www.oecd.org/he-IL",
     "title": "Hebrew (IL)"
   },
   {
     "code": "he-IL-x-haredi",
-    "uri": "https://www.oecd.org/he-IL-x-haredi",
     "title": "Hebrew for Ultra-orthodox schools (haredi)"
   },
   {
     "code": "hil-PH",
-    "uri": "https://www.oecd.org/hil-PH",
     "title": "Hiligaynon / Ilonggo (PH)"
   },
   {
     "code": "hi-IN",
-    "uri": "https://www.oecd.org/hi-IN",
     "title": "Hindi (IN)"
   },
   {
     "code": "ho-PG",
-    "uri": "https://www.oecd.org/ho-PG",
     "title": "Hiri Motu (PG)"
   },
   {
     "code": "hmn-ZZ",
-    "uri": "https://www.oecd.org/hmn-ZZ",
     "title": "Hmong (ZZ)"
   },
   {
     "code": "hu-HU",
-    "uri": "https://www.oecd.org/hu-HU",
     "title": "Hungarian (HU)"
   },
   {
     "code": "hu-RO",
-    "uri": "https://www.oecd.org/hu-RO",
     "title": "Hungarian (RO)"
   },
   {
     "code": "hu-RS",
-    "uri": "https://www.oecd.org/hu-RS",
     "title": "Hungarian (RS)"
   },
   {
     "code": "hu-SI",
-    "uri": "https://www.oecd.org/hu-SI",
     "title": "Hungarian (SI)"
   },
   {
     "code": "hu-SK",
-    "uri": "https://www.oecd.org/hu-SK",
     "title": "Hungarian (SK)"
   },
   {
     "code": "is-IS",
-    "uri": "https://www.oecd.org/is-IS",
     "title": "Icelandic (IS)"
   },
   {
     "code": "ig-NG",
-    "uri": "https://www.oecd.org/ig-NG",
     "title": "Igbo / Ibo (NG)"
   },
   {
     "code": "ilo-PH",
-    "uri": "https://www.oecd.org/ilo-PH",
     "title": "Ilocano / Iloko (PH)"
   },
   {
     "code": "id-ID",
-    "uri": "https://www.oecd.org/id-ID",
     "title": "Indonesian (ID)"
   },
   {
     "code": "id-TL",
-    "uri": "https://www.oecd.org/id-TL",
     "title": "Indonesian (TL)"
   },
   {
     "code": "ga-GB",
-    "uri": "https://www.oecd.org/ga-GB",
     "title": "Irish, Gaeilge (GB)"
   },
   {
     "code": "ga-IE",
-    "uri": "https://www.oecd.org/ga-IE",
     "title": "Irish, Gaeilge (IE)"
   },
   {
     "code": "nd-ZW",
-    "uri": "https://www.oecd.org/nd-ZW",
     "title": "isiNdebele (Northern Ndebele, Matabele) (ZW)"
   },
   {
     "code": "it-CH",
-    "uri": "https://www.oecd.org/it-CH",
     "title": "Italian (CH)"
   },
   {
     "code": "it-IT",
-    "uri": "https://www.oecd.org/it-IT",
     "title": "Italian (IT)"
   },
   {
     "code": "it-SI",
-    "uri": "https://www.oecd.org/it-SI",
     "title": "Italian (SI)"
   },
   {
     "code": "jam-JM",
-    "uri": "https://www.oecd.org/jam-JM",
     "title": "Jamaican Patois (JM)"
   },
   {
     "code": "ja-JP",
-    "uri": "https://www.oecd.org/ja-JP",
     "title": "Japanese (JP)"
   },
   {
     "code": "jv-ID",
-    "uri": "https://www.oecd.org/jv-ID",
     "title": "Javanese (ID)"
   },
   {
     "code": "pga-SS",
-    "uri": "https://www.oecd.org/pga-SS",
     "title": "Juba Arabic / Sudanese Creole Arabic (SS)"
   },
   {
     "code": "kbp-TG",
-    "uri": "https://www.oecd.org/kbp-TG",
     "title": "Kabiye (TG)"
   },
   {
     "code": "kn-IN",
-    "uri": "https://www.oecd.org/kn-IN",
     "title": "Kannada (IN)"
   },
   {
     "code": "kr-NE",
-    "uri": "https://www.oecd.org/kr-NE",
     "title": "Kanuri (NE)"
   },
   {
     "code": "kaa-UZ",
-    "uri": "https://www.oecd.org/kaa-UZ",
     "title": "Karakalpak (UZ)"
   },
   {
     "code": "kdj-UG",
-    "uri": "https://www.oecd.org/kdj-UG",
     "title": "Karamojong (UG)"
   },
   {
     "code": "kar-MM",
-    "uri": "https://www.oecd.org/kar-MM",
     "title": "Karen languages (MM)"
   },
   {
     "code": "ks-IN",
-    "uri": "https://www.oecd.org/ks-IN",
     "title": "Kashmiri (IN)"
   },
   {
     "code": "kk-KZ",
-    "uri": "https://www.oecd.org/kk-KZ",
     "title": "Kazakh (KZ)"
   },
   {
     "code": "kk-MN",
-    "uri": "https://www.oecd.org/kk-MN",
     "title": "Kazakh (MN)"
   },
   {
     "code": "kha-IN",
-    "uri": "https://www.oecd.org/kha-IN",
     "title": "Khasi (IN)"
   },
   {
     "code": "km-KH",
-    "uri": "https://www.oecd.org/km-KH",
     "title": "Khmer (KH)"
   },
   {
     "code": "kg-CD",
-    "uri": "https://www.oecd.org/kg-CD",
     "title": "Kikongo / Kongo (CD)"
   },
   {
     "code": "ki-KE",
-    "uri": "https://www.oecd.org/ki-KE",
     "title": "Kikuyu (Gikuyu, Gĩkũyũ) (KE)"
   },
   {
     "code": "rw-RW",
-    "uri": "https://www.oecd.org/rw-RW",
     "title": "Kinyarwanda (RW)"
   },
   {
     "code": "mkw-CG",
-    "uri": "https://www.oecd.org/mkw-CG",
     "title": "Kituba (CG)"
   },
   {
     "code": "kok-IN",
-    "uri": "https://www.oecd.org/kok-IN",
     "title": "Konkani (IN)"
   },
   {
     "code": "ko-KR",
-    "uri": "https://www.oecd.org/ko-KR",
     "title": "Korean (KR)"
   },
   {
     "code": "ku-IQ",
-    "uri": "https://www.oecd.org/ku-IQ",
     "title": "Kurdish (IQ)"
   },
   {
     "code": "ku-IR",
-    "uri": "https://www.oecd.org/ku-IR",
     "title": "Kurdish (IR)"
   },
   {
     "code": "ku",
-    "uri": "https://www.oecd.org/ku",
     "title": "Kurdish (ku)"
   },
   {
     "code": "ku-TR",
-    "uri": "https://www.oecd.org/ku-TR",
     "title": "Kurdish (TR)"
   },
   {
     "code": "ky-KG",
-    "uri": "https://www.oecd.org/ky-KG",
     "title": "Kyrgyz / Kirghiz (KG)"
   },
   {
     "code": "lad-IT",
-    "uri": "https://www.oecd.org/lad-IT",
     "title": "Ladino (IT)"
   },
   {
     "code": "lo-LA",
-    "uri": "https://www.oecd.org/lo-LA",
     "title": "Lao (LA)"
   },
   {
     "code": "lv-LV",
-    "uri": "https://www.oecd.org/lv-LV",
     "title": "Latvian (LV)"
   },
   {
     "code": "ln-CD",
-    "uri": "https://www.oecd.org/ln-CD",
     "title": "Lingala (CD)"
   },
   {
     "code": "lt-LT",
-    "uri": "https://www.oecd.org/lt-LT",
     "title": "Lithuanian (LT)"
   },
   {
     "code": "ngl-MZ",
-    "uri": "https://www.oecd.org/ngl-MZ",
     "title": "Lomwe (MZ)"
   },
   {
     "code": "loz-ZM",
-    "uri": "https://www.oecd.org/loz-ZM",
     "title": "Lozi (ZM)"
   },
   {
     "code": "lg-UG",
-    "uri": "https://www.oecd.org/lg-UG",
     "title": "Luganda / Ganda (UG)"
   },
   {
     "code": "lgg-UG",
-    "uri": "https://www.oecd.org/lgg-UG",
     "title": "Lugbara (UG)"
   },
   {
     "code": "luo-UG",
-    "uri": "https://www.oecd.org/luo-UG",
     "title": "Luo / Dholuo (UG)"
   },
   {
     "code": "lb-LU",
-    "uri": "https://www.oecd.org/lb-LU",
     "title": "Luxembourgish / Letzeburgesch (LU)"
   },
   {
     "code": "ffm-ML",
-    "uri": "https://www.oecd.org/ffm-ML",
     "title": "Maasina Fulfulde (ML)"
   },
   {
     "code": "ymn-SO",
-    "uri": "https://www.oecd.org/ymn-SO",
     "title": "Maay (Maay Maay) (SO)"
   },
   {
     "code": "mk-MK",
-    "uri": "https://www.oecd.org/mk-MK",
     "title": "Macedonian (MK)"
   },
   {
     "code": "vmw-MZ",
-    "uri": "https://www.oecd.org/vmw-MZ",
     "title": "Macua / eMakhuwa (MZ)"
   },
   {
     "code": "mg-MG",
-    "uri": "https://www.oecd.org/mg-MG",
     "title": "Malagasy (MG)"
   },
   {
     "code": "ms-MY",
-    "uri": "https://www.oecd.org/ms-MY",
     "title": "Malay (Bahasa Melayu, Bahasa Malaysia) (MY)"
   },
   {
     "code": "ms-BN",
-    "uri": "https://www.oecd.org/ms-BN",
     "title": "Malay (BN)"
   },
   {
     "code": "ms-SG",
-    "uri": "https://www.oecd.org/ms-SG",
     "title": "Malay (SG)"
   },
   {
     "code": "ml-IN",
-    "uri": "https://www.oecd.org/ml-IN",
     "title": "Malayalam (IN)"
   },
   {
     "code": "mt-MT",
-    "uri": "https://www.oecd.org/mt-MT",
     "title": "Maltese (MT)"
   },
   {
     "code": "mnk-SN",
-    "uri": "https://www.oecd.org/mnk-SN",
     "title": "Mandinka / Mandingue (SN)"
   },
   {
     "code": "bpy-IN",
-    "uri": "https://www.oecd.org/bpy-IN",
     "title": "Manipuri (Bishnupriya) (IN)"
   },
   {
     "code": "mni-IN",
-    "uri": "https://www.oecd.org/mni-IN",
     "title": "Manipuri / Meitei (IN)"
   },
   {
     "code": "mi-NZ",
-    "uri": "https://www.oecd.org/mi-NZ",
     "title": "Maori (NZ)"
   },
   {
     "code": "mr-IN",
-    "uri": "https://www.oecd.org/mr-IN",
     "title": "Marathi (IN)"
   },
   {
     "code": "msb-PH",
-    "uri": "https://www.oecd.org/msb-PH",
     "title": "Masbatenyo (PH)"
   },
   {
     "code": "miq-HN",
-    "uri": "https://www.oecd.org/miq-HN",
     "title": "Miskito (HN)"
   },
   {
     "code": "lus-IN",
-    "uri": "https://www.oecd.org/lus-IN",
     "title": "Mizo (or Lushai, Lusei) (IN)"
   },
   {
     "code": "mn-MN",
-    "uri": "https://www.oecd.org/mn-MN",
     "title": "Mongolian (MN)"
   },
   {
     "code": "cnr-ME",
-    "uri": "https://www.oecd.org/cnr-ME",
     "title": "Montenegrin (ME)"
   },
   {
     "code": "mos-BF",
-    "uri": "https://www.oecd.org/mos-BF",
     "title": "Moore / Mossi (BF)"
   },
   {
     "code": "ndc-MZ",
-    "uri": "https://www.oecd.org/ndc-MZ",
     "title": "Ndau (MZ)"
   },
   {
     "code": "ne-IN",
-    "uri": "https://www.oecd.org/ne-IN",
     "title": "Nepali (IN)"
   },
   {
     "code": "ne-NP",
-    "uri": "https://www.oecd.org/ne-NP",
     "title": "Nepali (NP)"
   },
   {
     "code": "ngp-MZ",
-    "uri": "https://www.oecd.org/ngp-MZ",
     "title": "Ngulu (MZ)"
   },
   {
     "code": "nso-ZA",
-    "uri": "https://www.oecd.org/nso-ZA",
     "title": "Northern Sotho (Sesotho sa Leboa) (ZA)"
   },
   {
     "code": "nb-NO",
-    "uri": "https://www.oecd.org/nb-NO",
     "title": "Norwegian Bokmål (NO)"
   },
   {
     "code": "nn-NO",
-    "uri": "https://www.oecd.org/nn-NO",
     "title": "Norwegian Nynorsk (NO)"
   },
   {
     "code": "or-IN",
-    "uri": "https://www.oecd.org/or-IN",
     "title": "Oriya / Odia (IN)"
   },
   {
     "code": "om-ET",
-    "uri": "https://www.oecd.org/om-ET",
     "title": "Oromo / Oromiya (ET)"
   },
   {
     "code": "ng-NA",
-    "uri": "https://www.oecd.org/ng-NA",
     "title": "Oshiwambo (Ovambo), Ndonga standard (NA)"
   },
   {
     "code": "ps-AF",
-    "uri": "https://www.oecd.org/ps-AF",
     "title": "Pashto / Pushto (AF)"
   },
   {
     "code": "ps-PK",
-    "uri": "https://www.oecd.org/ps-PK",
     "title": "Pashto / Pushto (PK)"
   },
   {
     "code": "pcm-NG",
-    "uri": "https://www.oecd.org/pcm-NG",
     "title": "Pidgin English (NG)"
   },
   {
     "code": "pl-LT",
-    "uri": "https://www.oecd.org/pl-LT",
     "title": "Polish (LT)"
   },
   {
     "code": "pl-NO",
-    "uri": "https://www.oecd.org/pl-NO",
     "title": "Polish (NO)"
   },
   {
     "code": "pl-PL",
-    "uri": "https://www.oecd.org/pl-PL",
     "title": "Polish (PL)"
   },
   {
     "code": "pt-AO",
-    "uri": "https://www.oecd.org/pt-AO",
     "title": "Portuguese (AO)"
   },
   {
     "code": "pt-BR",
-    "uri": "https://www.oecd.org/pt-BR",
     "title": "Portuguese (BR)"
   },
   {
     "code": "pt-MO",
-    "uri": "https://www.oecd.org/pt-MO",
     "title": "Portuguese (MO)"
   },
   {
     "code": "pt-MZ",
-    "uri": "https://www.oecd.org/pt-MZ",
     "title": "Portuguese (MZ)"
   },
   {
     "code": "pt-PT",
-    "uri": "https://www.oecd.org/pt-PT",
     "title": "Portuguese (PT)"
   },
   {
     "code": "pt-TL",
-    "uri": "https://www.oecd.org/pt-TL",
     "title": "Portuguese (TL)"
   },
   {
     "code": "pt-ZZ",
-    "uri": "https://www.oecd.org/pt-ZZ",
     "title": "Portuguese (ZZ)"
   },
   {
     "code": "fuc-SN",
-    "uri": "https://www.oecd.org/fuc-SN",
     "title": "Pulaar / Peul (SN)"
   },
   {
     "code": "pa-PK",
-    "uri": "https://www.oecd.org/pa-PK",
     "title": "Punjabi (PK)"
   },
   {
     "code": "pa-IN",
-    "uri": "https://www.oecd.org/pa-IN",
     "title": "Punjabi / Panjabi (IN)"
   },
   {
     "code": "pa-ZZ",
-    "uri": "https://www.oecd.org/pa-ZZ",
     "title": "Punjabi / Panjabi (ZZ)"
   },
   {
     "code": "qu-PE",
-    "uri": "https://www.oecd.org/qu-PE",
     "title": "Quechua (PE)"
   },
   {
     "code": "rki-MM",
-    "uri": "https://www.oecd.org/rki-MM",
     "title": "Rakhine (Arakanese) (MM)"
   },
   {
     "code": "rom-HU",
-    "uri": "https://www.oecd.org/rom-HU",
     "title": "Roma / Romany (HU)"
   },
   {
     "code": "ro-RO",
-    "uri": "https://www.oecd.org/ro-RO",
     "title": "Romanian (RO)"
   },
   {
     "code": "ro-ZZ",
-    "uri": "https://www.oecd.org/ro-ZZ",
     "title": "Romanian (ZZ)"
   },
   {
     "code": "ro-MD",
-    "uri": "https://www.oecd.org/ro-MD",
     "title": "Romanian / Moldavian / Moldovan (MD)"
   },
   {
     "code": "rm-CH",
-    "uri": "https://www.oecd.org/rm-CH",
     "title": "Romansh (Rumantsch Grischun) (CH)"
   },
   {
     "code": "rn-BI",
-    "uri": "https://www.oecd.org/rn-BI",
     "title": "Rundi (Kirundi) (BI)"
   },
   {
     "code": "nyn-UG",
-    "uri": "https://www.oecd.org/nyn-UG",
     "title": "Runyankole Rukiga / Nyankole (UG)"
   },
   {
     "code": "nyo-UG",
-    "uri": "https://www.oecd.org/nyo-UG",
     "title": "Runyoro / Routooro / Nyoro (UG)"
   },
   {
     "code": "ru-AZ",
-    "uri": "https://www.oecd.org/ru-AZ",
     "title": "Russian (AZ)"
   },
   {
     "code": "ru-BY",
-    "uri": "https://www.oecd.org/ru-BY",
     "title": "Russian (BY)"
   },
   {
     "code": "ru-EE",
-    "uri": "https://www.oecd.org/ru-EE",
     "title": "Russian (EE)"
   },
   {
     "code": "ru-GE",
-    "uri": "https://www.oecd.org/ru-GE",
     "title": "Russian (GE)"
   },
   {
     "code": "ru-IL",
-    "uri": "https://www.oecd.org/ru-IL",
     "title": "Russian (IL)"
   },
   {
     "code": "ru-KG",
-    "uri": "https://www.oecd.org/ru-KG",
     "title": "Russian (KG)"
   },
   {
     "code": "ru-KZ",
-    "uri": "https://www.oecd.org/ru-KZ",
     "title": "Russian (KZ)"
   },
   {
     "code": "ru-LT",
-    "uri": "https://www.oecd.org/ru-LT",
     "title": "Russian (LT)"
   },
   {
     "code": "ru-LV",
-    "uri": "https://www.oecd.org/ru-LV",
     "title": "Russian (LV)"
   },
   {
     "code": "ru-MD",
-    "uri": "https://www.oecd.org/ru-MD",
     "title": "Russian (MD)"
   },
   {
     "code": "ru-QR",
-    "uri": "https://www.oecd.org/ru-QR",
     "title": "Russian (QR)"
   },
   {
     "code": "ru-QZ",
-    "uri": "https://www.oecd.org/ru-QZ",
     "title": "Russian (QZ)"
   },
   {
     "code": "ru-RU",
-    "uri": "https://www.oecd.org/ru-RU",
     "title": "Russian (RU)"
   },
   {
     "code": "ru-UA",
-    "uri": "https://www.oecd.org/ru-UA",
     "title": "Russian (UA)"
   },
   {
     "code": "ru-UZ",
-    "uri": "https://www.oecd.org/ru-UZ",
     "title": "Russian (UZ)"
   },
   {
     "code": "ru-ZZ",
-    "uri": "https://www.oecd.org/ru-ZZ",
     "title": "Russian (ZZ)"
   },
   {
     "code": "ksw-MM",
-    "uri": "https://www.oecd.org/ksw-MM",
     "title": "S&rsquo;gaw Karen (MM)"
   },
   {
     "code": "sm-SM",
-    "uri": "https://www.oecd.org/sm-SM",
     "title": "Samoan (SM)"
   },
   {
     "code": "sm-ZZ",
-    "uri": "https://www.oecd.org/sm-ZZ",
     "title": "Samoan (ZZ)"
   },
   {
     "code": "sg-CF",
-    "uri": "https://www.oecd.org/sg-CF",
     "title": "Sangho / Sango (CF)"
   },
   {
     "code": "mwm-TD",
-    "uri": "https://www.oecd.org/mwm-TD",
     "title": "Sar (Sara, Madjingay, Sara Madjingay) (TD)"
   },
   {
     "code": "seh-MZ",
-    "uri": "https://www.oecd.org/seh-MZ",
     "title": "Sena / chiSena (MZ)"
   },
   {
     "code": "sr-Cyrl-BA",
-    "uri": "https://www.oecd.org/sr-Cyrl-BA",
     "title": "Serbian (BA)"
   },
   {
     "code": "sr-ME",
-    "uri": "https://www.oecd.org/sr-ME",
     "title": "Serbian (Ekavian) (ME)"
   },
   {
     "code": "sr-RS",
-    "uri": "https://www.oecd.org/sr-RS",
     "title": "Serbian (Ekavian) (RS)"
   },
   {
     "code": "sr-Cyrl-HR",
-    "uri": "https://www.oecd.org/sr-Cyrl-HR",
     "title": "Serbian (HR)"
   },
   {
     "code": "sr-XK",
-    "uri": "https://www.oecd.org/sr-XK",
     "title": "Serbian (XK)"
   },
   {
     "code": "sh-AT",
-    "uri": "https://www.oecd.org/sh-AT",
     "title": "Serbo-Croatian (AT)"
   },
   {
     "code": "srr-SN",
-    "uri": "https://www.oecd.org/srr-SN",
     "title": "Serer (Sereer) (SN)"
   },
   {
     "code": "shn-MM",
-    "uri": "https://www.oecd.org/shn-MM",
     "title": "Shan (MM)"
   },
   {
     "code": "ts-MZ",
-    "uri": "https://www.oecd.org/ts-MZ",
     "title": "Shangaan (xiChangana) (MZ)"
   },
   {
     "code": "ts-ZW",
-    "uri": "https://www.oecd.org/ts-ZW",
     "title": "Shangani (XiTsonga) (ZW)"
   },
   {
     "code": "wni-KM",
-    "uri": "https://www.oecd.org/wni-KM",
     "title": "Shikomori (KM)"
   },
   {
     "code": "sn-MZ",
-    "uri": "https://www.oecd.org/sn-MZ",
     "title": "Shona / chiShona (MZ)"
   },
   {
     "code": "sd-PK",
-    "uri": "https://www.oecd.org/sd-PK",
     "title": "Sindhi (PK)"
   },
   {
     "code": "si-LK",
-    "uri": "https://www.oecd.org/si-LK",
     "title": "Sinhalese / Sinhala (LK)"
   },
   {
     "code": "ss-SZ",
-    "uri": "https://www.oecd.org/ss-SZ",
     "title": "SiSwati (Swazi, Swati) (SZ)"
   },
   {
     "code": "ss-ZA",
-    "uri": "https://www.oecd.org/ss-ZA",
     "title": "SiSwati (Swazi, Swati) (ZA)"
   },
   {
     "code": "sk-SK",
-    "uri": "https://www.oecd.org/sk-SK",
     "title": "Slovak (SK)"
   },
   {
     "code": "sk-SK-x-hunschoo",
-    "uri": "https://www.oecd.org/sk-SK-x-hunschoo",
     "title": "Slovak for Hungarian schools (hunschoo)"
   },
   {
     "code": "sl-AT",
-    "uri": "https://www.oecd.org/sl-AT",
     "title": "Slovenian (AT)"
   },
   {
     "code": "sl-IT",
-    "uri": "https://www.oecd.org/sl-IT",
     "title": "Slovenian (IT)"
   },
   {
     "code": "sl-SI",
-    "uri": "https://www.oecd.org/sl-SI",
     "title": "Slovenian (SI)"
   },
   {
     "code": "sl-SI-x-isced2",
-    "uri": "https://www.oecd.org/sl-SI-x-isced2",
     "title": "Slovenian ISCED-2 (isced2)"
   },
   {
     "code": "so-SO",
-    "uri": "https://www.oecd.org/so-SO",
     "title": "Somali (SO)"
   },
   {
     "code": "so-ZZ",
-    "uri": "https://www.oecd.org/so-ZZ",
     "title": "Somali (ZZ)"
   },
   {
     "code": "dje-NE",
-    "uri": "https://www.oecd.org/dje-NE",
     "title": "Songhai-Zarma (NE)"
   },
   {
     "code": "son-ML",
-    "uri": "https://www.oecd.org/son-ML",
     "title": "Songhoi (ML)"
   },
   {
     "code": "ckb-Arab-IQ",
-    "uri": "https://www.oecd.org/ckb-Arab-IQ",
     "title": "Sorani (Central Kurdish) (IQ)"
   },
   {
     "code": "nr-ZA",
-    "uri": "https://www.oecd.org/nr-ZA",
     "title": "Southern Ndebele (Transvaal Ndebele) (ZA)"
   },
   {
     "code": "st-ZA",
-    "uri": "https://www.oecd.org/st-ZA",
     "title": "Southern Sotho (Sesotho) (ZA)"
   },
   {
     "code": "es-419",
-    "uri": "https://www.oecd.org/es-419",
     "title": "Spanish (419)"
   },
   {
     "code": "es-AR",
-    "uri": "https://www.oecd.org/es-AR",
     "title": "Spanish (AR)"
   },
   {
     "code": "es-BO",
-    "uri": "https://www.oecd.org/es-BO",
     "title": "Spanish (BO)"
   },
   {
     "code": "es-CL",
-    "uri": "https://www.oecd.org/es-CL",
     "title": "Spanish (CL)"
   },
   {
     "code": "es-CO",
-    "uri": "https://www.oecd.org/es-CO",
     "title": "Spanish (CO)"
   },
   {
     "code": "es-CR",
-    "uri": "https://www.oecd.org/es-CR",
     "title": "Spanish (CR)"
   },
   {
     "code": "es-DO",
-    "uri": "https://www.oecd.org/es-DO",
     "title": "Spanish (DO)"
   },
   {
     "code": "es-EC",
-    "uri": "https://www.oecd.org/es-EC",
     "title": "Spanish (EC)"
   },
   {
     "code": "es-ES",
-    "uri": "https://www.oecd.org/es-ES",
     "title": "Spanish (ES)"
   },
   {
     "code": "es-GT",
-    "uri": "https://www.oecd.org/es-GT",
     "title": "Spanish (GT)"
   },
   {
     "code": "es-HN",
-    "uri": "https://www.oecd.org/es-HN",
     "title": "Spanish (HN)"
   },
   {
     "code": "es-MX",
-    "uri": "https://www.oecd.org/es-MX",
     "title": "Spanish (MX)"
   },
   {
     "code": "es-NI",
-    "uri": "https://www.oecd.org/es-NI",
     "title": "Spanish (NI)"
   },
   {
     "code": "es-PA",
-    "uri": "https://www.oecd.org/es-PA",
     "title": "Spanish (PA)"
   },
   {
     "code": "es-PE",
-    "uri": "https://www.oecd.org/es-PE",
     "title": "Spanish (PE)"
   },
   {
     "code": "es-PR",
-    "uri": "https://www.oecd.org/es-PR",
     "title": "Spanish (PR)"
   },
   {
     "code": "es-PY",
-    "uri": "https://www.oecd.org/es-PY",
     "title": "Spanish (PY)"
   },
   {
     "code": "es-SV",
-    "uri": "https://www.oecd.org/es-SV",
     "title": "Spanish (SV)"
   },
   {
     "code": "es-TT",
-    "uri": "https://www.oecd.org/es-TT",
     "title": "Spanish (TT)"
   },
   {
     "code": "es-US",
-    "uri": "https://www.oecd.org/es-US",
     "title": "Spanish (US)"
   },
   {
     "code": "es-UY",
-    "uri": "https://www.oecd.org/es-UY",
     "title": "Spanish (UY)"
   },
   {
     "code": "es-VE",
-    "uri": "https://www.oecd.org/es-VE",
     "title": "Spanish (VE)"
   },
   {
     "code": "es-ZZ",
-    "uri": "https://www.oecd.org/es-ZZ",
     "title": "Spanish (ZZ)"
   },
   {
     "code": "zgh-MA",
-    "uri": "https://www.oecd.org/zgh-MA",
     "title": "Standard Moroccan Amazigh (Berber, Tamazight) (MA)"
   },
   {
     "code": "apd-SD",
-    "uri": "https://www.oecd.org/apd-SD",
     "title": "Sudanese Arabic (SD)"
   },
   {
     "code": "sw-CD",
-    "uri": "https://www.oecd.org/sw-CD",
     "title": "Swahili (CD)"
   },
   {
     "code": "sw-KE",
-    "uri": "https://www.oecd.org/sw-KE",
     "title": "Swahili (KE)"
   },
   {
     "code": "sw-TZ",
-    "uri": "https://www.oecd.org/sw-TZ",
     "title": "Swahili (TZ)"
   },
   {
     "code": "sv-FI",
-    "uri": "https://www.oecd.org/sv-FI",
     "title": "Swedish (FI)"
   },
   {
     "code": "sv-SE",
-    "uri": "https://www.oecd.org/sv-SE",
     "title": "Swedish (SE)"
   },
   {
     "code": "tl-PH",
-    "uri": "https://www.oecd.org/tl-PH",
     "title": "Tagalog (PH)"
   },
   {
     "code": "oan-TW",
-    "uri": "https://www.oecd.org/oan-TW",
     "title": "Taiwanese Hokkien (tai-oan) (TW)"
   },
   {
     "code": "tg-TJ",
-    "uri": "https://www.oecd.org/tg-TJ",
     "title": "Tajik (TJ)"
   },
   {
     "code": "tzm-MA",
-    "uri": "https://www.oecd.org/tzm-MA",
     "title": "Tamazight (Central Atlas Tamazight, Berber) (MA)"
   },
   {
     "code": "tzm-DZ",
-    "uri": "https://www.oecd.org/tzm-DZ",
     "title": "Tamazight (DZ)"
   },
   {
     "code": "ta-IN",
-    "uri": "https://www.oecd.org/ta-IN",
     "title": "Tamil (IN)"
   },
   {
     "code": "ta-LK",
-    "uri": "https://www.oecd.org/ta-LK",
     "title": "Tamil (LK)"
   },
   {
     "code": "ta-MY",
-    "uri": "https://www.oecd.org/ta-MY",
     "title": "Tamil (MY)"
   },
   {
     "code": "ta-SG",
-    "uri": "https://www.oecd.org/ta-SG",
     "title": "Tamil (SG)"
   },
   {
     "code": "tt-ZZ",
-    "uri": "https://www.oecd.org/tt-ZZ",
     "title": "Tatar (ZZ)"
   },
   {
     "code": "tsg-PH",
-    "uri": "https://www.oecd.org/tsg-PH",
     "title": "Tausug (PH)"
   },
   {
     "code": "ttq-NE",
-    "uri": "https://www.oecd.org/ttq-NE",
     "title": "Tawallammat Tamajaq (NE)"
   },
   {
     "code": "ctd-MM",
-    "uri": "https://www.oecd.org/ctd-MM",
     "title": "Tedim (Tedim Chin, Tiddim) (MM)"
   },
   {
     "code": "te-IN",
-    "uri": "https://www.oecd.org/te-IN",
     "title": "Telugu (IN)"
   },
   {
     "code": "tet-TL",
-    "uri": "https://www.oecd.org/tet-TL",
     "title": "Tetum (TL)"
   },
   {
     "code": "th-TH",
-    "uri": "https://www.oecd.org/th-TH",
     "title": "Thai (TH)"
   },
   {
     "code": "ti-ER",
-    "uri": "https://www.oecd.org/ti-ER",
     "title": "Tigrinya (ER)"
   },
   {
     "code": "ti-ET",
-    "uri": "https://www.oecd.org/ti-ET",
     "title": "Tigrinya (ET)"
   },
   {
     "code": "tpi-PG",
-    "uri": "https://www.oecd.org/tpi-PG",
     "title": "Tok Pisin (PG)"
   },
   {
     "code": "lua-CD",
-    "uri": "https://www.oecd.org/lua-CD",
     "title": "Tshiluba / Luba-Lulua (CD)"
   },
   {
     "code": "ve-ZA",
-    "uri": "https://www.oecd.org/ve-ZA",
     "title": "Tshivenda (Venda) (ZA)"
   },
   {
     "code": "ts-ZA",
-    "uri": "https://www.oecd.org/ts-ZA",
     "title": "Tsonga (XiTsonga) (ZA)"
   },
   {
     "code": "tn-BW",
-    "uri": "https://www.oecd.org/tn-BW",
     "title": "Tswana (Setswana) (BW)"
   },
   {
     "code": "tn-ZA",
-    "uri": "https://www.oecd.org/tn-ZA",
     "title": "Tswana (Setswana) (ZA)"
   },
   {
     "code": "tum-MW",
-    "uri": "https://www.oecd.org/tum-MW",
     "title": "Tumbuka (MW)"
   },
   {
     "code": "aeb-TN",
-    "uri": "https://www.oecd.org/aeb-TN",
     "title": "Tunisian Arabic (TN)"
   },
   {
     "code": "tr-AT",
-    "uri": "https://www.oecd.org/tr-AT",
     "title": "Turkish, Türkçe (AT)"
   },
   {
     "code": "tr-CY",
-    "uri": "https://www.oecd.org/tr-CY",
     "title": "Turkish, Türkçe (CY)"
   },
   {
     "code": "tr-TR",
-    "uri": "https://www.oecd.org/tr-TR",
     "title": "Turkish, Türkçe (TR)"
   },
   {
     "code": "tr-ZZ",
-    "uri": "https://www.oecd.org/tr-ZZ",
     "title": "Turkish, Türkçe (ZZ)"
   },
   {
     "code": "tk-TM",
-    "uri": "https://www.oecd.org/tk-TM",
     "title": "Turkmen (Түркмен) (TM)"
   },
   {
     "code": "uk-UA",
-    "uri": "https://www.oecd.org/uk-UA",
     "title": "Ukrainian (UA)"
   },
   {
     "code": "uk-ZZ",
-    "uri": "https://www.oecd.org/uk-ZZ",
     "title": "Ukrainian (ZZ)"
   },
   {
     "code": "umb-AO",
-    "uri": "https://www.oecd.org/umb-AO",
     "title": "Umbundu (AO)"
   },
   {
     "code": "ur-IN",
-    "uri": "https://www.oecd.org/ur-IN",
     "title": "Urdu (IN)"
   },
   {
     "code": "ur-PK",
-    "uri": "https://www.oecd.org/ur-PK",
     "title": "Urdu (PK)"
   },
   {
     "code": "ur-ZZ",
-    "uri": "https://www.oecd.org/ur-ZZ",
     "title": "Urdu (ZZ)"
   },
   {
     "code": "uz-KG",
-    "uri": "https://www.oecd.org/uz-KG",
     "title": "Uzbek (KG)"
   },
   {
     "code": "uz-UZ",
-    "uri": "https://www.oecd.org/uz-UZ",
     "title": "Uzbek (UZ)"
   },
   {
     "code": "ca-ES-valencia",
-    "uri": "https://www.oecd.org/ca-ES-valencia",
     "title": "Valencian (valencia)"
   },
   {
     "code": "vi-VN",
-    "uri": "https://www.oecd.org/vi-VN",
     "title": "Vietnamese (VN)"
   },
   {
     "code": "vi-ZZ",
-    "uri": "https://www.oecd.org/vi-ZZ",
     "title": "Vietnamese (ZZ)"
   },
   {
     "code": "war-PH",
-    "uri": "https://www.oecd.org/war-PH",
     "title": "Waray (PH)"
   },
   {
     "code": "cy-GB",
-    "uri": "https://www.oecd.org/cy-GB",
     "title": "Welsh (GB)"
   },
   {
     "code": "fuh-BF",
-    "uri": "https://www.oecd.org/fuh-BF",
     "title": "Western Niger Fulfulde (BF)"
   },
   {
     "code": "wof-GM",
-    "uri": "https://www.oecd.org/wof-GM",
     "title": "Wolof (GM)"
   },
   {
     "code": "wo-SN",
-    "uri": "https://www.oecd.org/wo-SN",
     "title": "Wolof (SN)"
   },
   {
     "code": "xh-ZA",
-    "uri": "https://www.oecd.org/xh-ZA",
     "title": "Xhosa (isiXhosa) (ZA)"
   },
   {
     "code": "yi-IL",
-    "uri": "https://www.oecd.org/yi-IL",
     "title": "Yiddish (IL)"
   },
   {
     "code": "yi-ZZ",
-    "uri": "https://www.oecd.org/yi-ZZ",
     "title": "Yiddish (ZZ)"
   },
   {
     "code": "yo-BJ",
-    "uri": "https://www.oecd.org/yo-BJ",
     "title": "Yoruba (BJ)"
   },
   {
     "code": "yo-NG",
-    "uri": "https://www.oecd.org/yo-NG",
     "title": "Yoruba (NG)"
   },
   {
     "code": "zd-ZD",
-    "uri": "https://www.oecd.org/zd-ZD",
     "title": "Zedish (ZD)"
   },
   {
     "code": "zu-ZA",
-    "uri": "https://www.oecd.org/zu-ZA",
     "title": "Zulu (isiZulu) (ZA)"
   }
 ]

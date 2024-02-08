@@ -13,20 +13,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2022-2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-define(['tpl!taoQtiItem/qtiXmlRenderer/tpl/figure'], function (tpl) {
+define(['context', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/figure', 'tpl!taoQtiItem/qtiXmlRenderer/tpl/element'], function (
+    context,
+    figureTpl,
+    elementTpl
+) {
+    const DISABLE_FIGURE_WIDGET = context.featureFlags && context.featureFlags.FEATURE_FLAG_DISABLE_FIGURE_WIDGET;
+
     return {
         qtiClass: 'figure',
-        template: tpl,
-        getData: function (figure, data) {
+        template: DISABLE_FIGURE_WIDGET ? elementTpl : figureTpl,
+        getData(figure, data) {
             const ns = figure.getNamespace();
 
             if (ns && ns.name) {
                 data.tag = `${ns.name}:figure`;
             }
 
-            if (!figure.attr('showFigure')) {
+            if (!DISABLE_FIGURE_WIDGET && !figure.attr('showFigure')) {
                 data.tag = 'img';
                 const cleanImg = data.body.split('<qh5:figcaption');
                 data.body = cleanImg[0];

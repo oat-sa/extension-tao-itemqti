@@ -1,0 +1,2007 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-11-25 18:19\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: ar\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: ar\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: Arabic\n"
+
+msgid " Fill in the gaps in a text from a set of choices."
+msgstr "املأ الفراغات في النص من مجموعة من الاختيارات."
+
+msgid " For Resource "
+msgstr "من أجل الموارد"
+
+msgid " or "
+msgstr "أو"
+
+msgid "%d characters allowed"
+msgstr "مسموح بـ %d حرف"
+
+msgid "%d Item(s) of %d imported from the given IMS QTI Package."
+msgstr "%d بند(بنود) من %d مستورد من حُزْمَة IMS QTI المتوفرة."
+
+msgid "%d/%d"
+msgstr "%d/%d"
+
+msgid "%s metadata values found in source by extractor(s)."
+msgstr "تم العثور على %s من قيم بيانات التعريف في المصدر بواسطة المستخرج (المستخرجين)"
+
+msgid "%s of %s characters maximum."
+msgstr "%s من أحرف %s كحد أقصى."
+
+msgid "%s of %s characters recommended."
+msgstr "%s من الأحرف %s الموصى بها."
+
+msgid "%s of %s words maximum."
+msgstr "%s من %s الكلمات كحد أقصى."
+
+msgid "-- Any kind of file --"
+msgstr "- أي نوع من الملفات -"
+
+msgid "1 item imported from the given QTI/APIP XML Item Document."
+msgstr "تم استيراد بند واحد من مستند بند QTI/APIP XML المحدد."
+
+msgid "1/3 of height"
+msgstr "1/3 من الارتفاع"
+
+msgid "1/4 of height"
+msgstr "1/4 من الارتفاع"
+
+msgid "2/3 of height"
+msgstr "2/3 من الارتفاع"
+
+msgid "3/4 of height"
+msgstr "3/4 من الارتفاع"
+
+msgid "A choice must be selected"
+msgstr "يجب تحديد خيار"
+
+msgid "A human interpretation of the variable's value."
+msgstr "تفسير بشري لقيمة المتغير."
+
+msgid "A QTI component is not supported. The system returned the following error: %s\n"
+msgstr "مكون QTI غير مدعوم.أرجع النظام الخطأ التالي: %s\n"
+
+msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
+msgstr "حدد مجموعة نموذج التقييم جزءًا من بند التقييم ، وهو الجزء الذي يمثل الإرشادات لواحد أو أكثر من الممثلين الذين يعرضون البند. على الرغم من تعريف كتل القاعدة على أنها كتل بسيطة ، إلا أنها يجب ألا تحتوي على تفاعلات."
+
+msgid "Adapt to screen size"
+msgstr "التكيف مع حجم الشاشة"
+
+msgid "Add"
+msgstr "أضف"
+
+msgid "Add a CSV file"
+msgstr "أضف مِلَفّ CSV"
+
+msgid "Add a modal feedback"
+msgstr "أضف ملاحظات التغذية الراجعة"
+
+msgid "Add a QTI/APIP XML Item Document"
+msgstr "قم بإضافة مستند بند QTI / APIP XML"
+
+msgid "Add a ZIP file containing QTI/APIP items"
+msgstr "أضف ملف ZIP يحتوي على بنود QTI / APIP"
+
+msgid "Add an outcome"
+msgstr "أضف نتيجة"
+
+msgid "Add another option"
+msgstr "أضف خيارًا آخر"
+
+msgid "Add choice"
+msgstr "إضافة خيار"
+
+msgid "Add else feedback"
+msgstr "إضافة ملاحظات أخرى"
+
+msgid "Add new column"
+msgstr "أضف عمودا جديدا"
+
+msgid "Add new pairs"
+msgstr "أضف أزواجًا جديدة"
+
+msgid "Add new row"
+msgstr "أضف صفا جديدا"
+
+msgid "Add Style Sheet"
+msgstr "أضف ورقة الأنماط"
+
+msgid "Alignment"
+msgstr "المحاذاة"
+
+msgid "Allow elimination"
+msgstr "السماح بالحذف"
+
+msgid "Allowed associations"
+msgstr "الجمعيات المسموح بها"
+
+msgid "Allowed choices"
+msgstr "الخيارات المسموح بها"
+
+msgid "Allowed number of matches"
+msgstr "عدد التطابقات المسموح بها"
+
+msgid "Allowed number of uses"
+msgstr "عدد الاستخدامات المسموح بها"
+
+msgid "Alt Text"
+msgstr "نص بديل"
+
+msgid "An error occured while exporting an item."
+msgstr "حدث خطأ أثناء تصدير بند."
+
+msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
+msgstr "حدث خطأ أثناء استخراج أرشيف ZIP الذي يمثل حزمة محتوى IMS."
+
+msgid "An error occured while loading a shared stimulus."
+msgstr "حدث خطأ أثناء تحميل حافز مشترك."
+
+msgid "An error occured while parsing IMS QTI data."
+msgstr "حدث خطأ أثناء تحليل بيانات IMS QTI."
+
+msgid "An error occurred at the level of the QTI model."
+msgstr "حدث خطأ على مستوى نموذج QTI."
+
+msgid "An optional link to an extended interpretation of the outcome variable."
+msgstr "رابط اختياري لتفسير موسع لمتغير النتيجة."
+
+msgid "An unexpected error occured during the import of the IMS QTI Item Package."
+msgstr "حدث خطأ غير متوقع أثناء استيراد حزمةبنود IMS QTI."
+
+msgid "An unexpected error occured while dealing with Response Processing."
+msgstr "حدث خطأ غير متوقع أثناء التعامل مع معالجة الاستجابة."
+
+msgid "An unexpected error occurred during the import of the IMS QTI Item Package. "
+msgstr "حدث خطأ غير متوقع أثناء استيراد حزمة بنود. IMS QTI."
+
+msgid "An unexpected error occurred during the import of the IMS QTI Item Package. The system returned the following error: \"%s"
+msgstr "حدث خطأ غير متوقع أثناء استيراد حزمة بنود IMS QTI . أرجع النظام الخطأ التالي.: \"%s"
+
+msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
+msgstr "حدث خطأ غير متوقع أثناء استيراد بند QTI.أرجع النظام الخطأ التالي: %s\n"
+
+msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
+msgstr "حدث خطأ غير معروف خلال استيراد حُزْمَة IMS QTI مع المعرف: "
+
+msgid "Answer required"
+msgstr "الإجابة مطلوبة"
+
+msgid "APIP Content Package"
+msgstr "حزمة محتوى APIP"
+
+msgid "Apip Package successfully exported."
+msgstr "تم تصدير حزمة Apip بنجاح."
+
+msgid "Arrange a list of choices in the correct order."
+msgstr "رتب قائمة بالاختيارات بالترتيب الصحيح."
+
+msgid "Associate"
+msgstr "ارتباط"
+
+msgid "Associate Interaction"
+msgstr "تفاعل الشريك"
+
+msgid "association pairs"
+msgstr "شراكة مزدوجة"
+
+msgid "at least"
+msgstr "على الأقل"
+
+msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
+msgstr "محاولة حقن قيم البيانات الوصفية \"%s\" للهدف \"%s\" مع حاقن البيانات الوصفية \"%s\"."
+
+msgid "Autostart"
+msgstr "بدء أتوماتيكي"
+
+msgid "Back to Manage Items"
+msgstr "عودة إلى إدارة البنود"
+
+msgid "Background color"
+msgstr "لون الخلفية"
+
+msgid "Base"
+msgstr "قاعدة"
+
+msgid "block"
+msgstr "منع"
+
+msgid "Block"
+msgstr "منع"
+
+msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
+msgstr "يحتوي الحظر على محتوى (التحفيز) الخاص بالبند مثل النص أو الصورة. وهو مطلوب أيضًا للتفاعلات المضمنة."
+
+msgid "Block height (%)"
+msgstr "ارتفاع الكتلة (٪)"
+
+msgid "Border color"
+msgstr "لون الحدود"
+
+msgid "Browse your computer and select the appropriate file."
+msgstr "تصفح جهاز الكمبيوتر الخاص بك وحدد الملف المناسب."
+
+msgid "Browse..."
+msgstr "تصفح..."
+
+msgid "cancel"
+msgstr "إلغاء"
+
+msgid "Cancel"
+msgstr "إلغاء"
+
+msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
+msgstr "لا يمكن خلق فجوة من هذا الرائز. تحقق من عدم وجود عناصر محددة جزئيا."
+
+msgid "Cannot create hottext from this selection."
+msgstr "لا يمكن إنشاء نص تفاعلي من هذا الاختيار."
+
+msgid "Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words."
+msgstr "لا يمكن إنشاء نص تفاعلي من هذا الاختيار. يرجى التأكد من أن الاختيار لا يحتوي على كلمات منسقة وغير منسقة في نفس الوقت."
+
+msgid "Cannot create hottext from this selection. Please make sure the selection does not contain multiple lines."
+msgstr "لا يمكن إنشاء نص تفاعلي من هذا الاختيار. يرجى التأكد من أن الاختيار لا يحتوي على أسطر متعددة."
+
+msgid "Cannot delete a variable currently used in response processing"
+msgstr "لا يمكن حذف المتغير المستخدم حاليا في معالجة الجواب"
+
+msgid "Cannot edit a variable currently used in response processing"
+msgstr "لا يمكن تحرير المتغير المستخدم حاليا في معالجةالجواب"
+
+msgid "cannot find QTI XML"
+msgstr "لا يمكن العثور على QTI XML"
+
+msgid "cannot load QTI XML"
+msgstr "لا يمكن تحميل QTI XML"
+
+msgid "Cannot locate the file \"%s"
+msgstr "لا يمكن تحديد موقع الملف \"%s"
+
+msgid "Center"
+msgstr "مركز"
+
+msgid "Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with."
+msgstr "قم بتغيير عرض العنصر. يبلغ عرض العنصر افتراضيا 100٪ ويتكيف مع حجم أي شاشة. الحد الأقصى للعرض هو افتراضيا 1024 بكسل - سيتغير هذا أيضا عند تعيين عرض مخصص."
+
+msgid "chars"
+msgstr "حرف"
+
+msgid "Choice"
+msgstr "خيار"
+
+msgid "Choice Image"
+msgstr "اختر صورة"
+
+msgid "Choice Interaction"
+msgstr "اختر تفاعلا"
+
+msgid "Choice Properties"
+msgstr "اختر خصائص"
+
+msgid "Choices"
+msgstr "خيارات"
+
+msgid "choices"
+msgstr "خيارات"
+
+msgid "Choose the horizontal alignment for the table."
+msgstr "اختر المحاذاة الأفقية للجدول."
+
+msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
+msgstr "نجح البحث عن الفصل. سيتم تخزين الموارد \"%s\" في فئة RDFS \"%s\"."
+
+msgid "Class successfully created."
+msgstr "تم إنشاء الفصل بنجاح."
+
+msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
+msgstr "يجب أن تكون إدخالات التصنيف مثيلاً لـ ClassificationEntryMetadataValue"
+
+msgid "Classification metadata is required to be extracted."
+msgstr "البيانات الوصفية للتصنيف مطلوبة ليتم استخلاصها."
+
+msgid "Classification value to map has to a string"
+msgstr "يجب أن تكون قيمة التصنيف المراد تعيينها مرتبطة بسلسلة"
+
+msgid "Click again to remove"
+msgstr "انقر مرة أخرى للإزالة"
+
+msgid "Click to display interaction widget"
+msgstr "انقر لعرض أداة التفاعل"
+
+msgid "Collect open-ended information in a short text input (strings or numeric values)."
+msgstr "اجمع المعلومات ذات النهايات المفتوحة في إدخال نص قصير (سلاسل أو قيم رقمية)."
+
+msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
+msgstr "اجمع المعلومات ذات النهايات المفتوحة في منطقة (مناطق) نصية واحدة أو أكثر (سلاسل أو قيم رقمية)."
+
+msgid "Color Picker"
+msgstr "أداة انتقاء اللون"
+
+msgid "Common Interactions"
+msgstr "التفاعلات المشتركة"
+
+msgid "Constraints"
+msgstr "ملف تار المضغوط"
+
+msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
+msgstr "تحكم في معلمات التشغيل (بدء أتوماتيكي ، حلقة) لملف فيديو أو صوت وأبلغ عن عدد مرات تشغيله."
+
+msgid "Correct"
+msgstr "صحيح"
+
+msgid "correct"
+msgstr "صحيح"
+
+msgid "Cosinus"
+msgstr "كوسينوس"
+
+msgid "Create assocations and fill the score in the form below"
+msgstr "أنشئ ارتباطات واملأ النتيجة في النموذج أدناه"
+
+msgid "Create association(s) between areas (hotspots) displayed on a picture."
+msgstr "قم بإنشاء روابط بين  hotspots المعروضة على الصورة"
+
+msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
+msgstr "قم بإنشاء اقتران (روابط) بين مجموعتين من الاختيارات المعروضة في جدول (صف وعمود)."
+
+msgid "Create gap"
+msgstr "خلق فجوة"
+
+msgid "Create hottext"
+msgstr "إنشاء نص مرتبط hottext"
+
+msgid "Create pair(s) from a series of choices."
+msgstr "قم بإنشاء زوج (أزواج) من سلسلة من الاختيارات."
+
+msgid "CSV content + metadata"
+msgstr "محتوى CSV + البيانات الوصفية"
+
+msgid "Current value:"
+msgstr "القيمة الحالية:"
+
+msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
+msgstr "التحويل من MathML إلى LaTeX غير متاح حاليًا. عند تحرير MathML هنا ، سيتم تجاهل كود LaTex."
+
+msgid "custom"
+msgstr "العادة"
+
+msgid "Custom Interactions"
+msgstr "تفاعلات مخصصة"
+
+msgid "Custom Response Processing Mode"
+msgstr "وضع معالجةالجواب المخصصة"
+
+msgid "default"
+msgstr "افتراضي"
+
+msgid "Default"
+msgstr "افتراضي"
+
+msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
+msgstr "حدد القيود المفروضة على عدد الخيارات المطلوبة لتشكيل إجابة صحيحة. لا شيء: لا تحدد أي قيود إضافية. الإجابة المطلوبة: اطلب من المتقدمين للاختبار اختيار جواب واحد على الأقل. قيود أخرى: تحديد الحد الأدنى و/أو الحد الأقصى المخصص للقيود (متوفر فقط للخيارات المتعددة)"
+
+msgid "Define correct response"
+msgstr "حدد الجواب الصحيح"
+
+msgid "Define item language."
+msgstr "حدد لغة البند"
+
+msgid "define prompt"
+msgstr "تحديد موجه"
+
+msgid "Define the correct response."
+msgstr "حدد الجواب الصحيح"
+
+msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
+msgstr "حدد ما إذا كان يجب تحديد خيار من قبل المرشح من أجل تكوين استجابة صحيحة للتفاعل."
+
+msgid "Define whether the item should be time dependent on delivery."
+msgstr "حدد ما إذا كان البند يجب أن يعتمد على الوقت على التسليم."
+
+msgid "Defined width"
+msgstr "العرض المحدد"
+
+msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
+msgstr "يحدد الحد الأقصى لمقدار متغيرات النتيجة الرقمية ، يجب أن يكون الحد الأقصى قيمة موجبة والحد الأدنى قد يكون سالبًا."
+
+msgid "Delete"
+msgstr "حذف"
+
+msgid "delete"
+msgstr "حذف"
+
+msgid "Delete else statement"
+msgstr "تحذف عبارة \"else\""
+
+msgid "Delete this modal feedback"
+msgstr "احذف هذه الملاحظات المشروطة"
+
+msgid "Delimiter"
+msgstr "محدد"
+
+msgid "Description"
+msgstr "وصف"
+
+msgid "Disable this stylesheet temporarily"
+msgstr "قم بتعطيل ورقة الأنماط هذه مؤقتًا"
+
+msgid "Display"
+msgstr "عرض"
+
+msgid "Display the choices either horizontally or vertically"
+msgstr "اعرض الاختيارات إما أفقيًا أو رأسيًا"
+
+msgid "Divide"
+msgstr "يقسم"
+
+msgid "Don't save"
+msgstr "لا تحفظ"
+
+msgid "done"
+msgstr "منجز"
+
+msgid "Done"
+msgstr "منجز"
+
+msgid "Download"
+msgstr "تنزيل"
+
+msgid "Download sample csv file"
+msgstr "قم بتنزيل عينة من ملف csv"
+
+msgid "Download this stylesheet"
+msgstr "قم بتنزيل ورقة الأنماط هذه"
+
+msgid "Draw a circle on the image"
+msgstr "ارسم دائرة على الصورة"
+
+msgid "Draw a free form on the image"
+msgstr "ارسم استمارة حرة على الصورة"
+
+msgid "Draw a rectangle on the image"
+msgstr "ارسم مستطيلاً على الصورة"
+
+msgid "Draw an ellipsis on the image"
+msgstr "ارسم علامة حذف على الصورة"
+
+msgid "Drop the target to select a point"
+msgstr "أسقط الهدف لتحديد نقطة"
+
+msgid "e.g. 13"
+msgstr "على سبيل المثال 13"
+
+msgid "e.g. 960"
+msgstr "على سبيل المثال 960"
+
+msgid "Edit"
+msgstr "الإصدار"
+
+msgid "edit choices"
+msgstr "تحرير الاختيارات"
+
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
+msgstr "تحرير التعبير الرياضي باستخدام نظام إعداد نوع LaTex ، على سبيل المثالe ^ {i \\pi} = -1"
+
+msgid "Edit math expression using MathML"
+msgstr "قم بتحرير التعبير الرياضي باستخدام MathML"
+
+msgid "Edit modal feedback"
+msgstr "تحرير الملاحظات المشروطة"
+
+msgid "Edit modal feedback title"
+msgstr "تحرير عنوان الملاحظات المشروطة"
+
+msgid "Edit stylesheet label"
+msgstr "تحرير تسمية ورقة الأنماط"
+
+msgid "Editing Mode"
+msgstr "وضع التحرير"
+
+msgid "Element Properties"
+msgstr "خصائص العنصر"
+
+msgid "elements"
+msgstr "عناصر"
+
+msgid "Eliminate"
+msgstr "ألغي"
+
+msgid "Enable Scrolling"
+msgstr "تمكين التمرير"
+
+msgid "Enable the test taker to pause and restart the playing."
+msgstr "قم بتمكين المتقدم للاختبار من إيقاف التشغيل مؤقتًا وإعادة تشغيله."
+
+msgid "Enable/disable scrolling."
+msgstr "تمكين / تعطيل التمرير."
+
+msgid "End Attempt"
+msgstr "إنهاء المحاولة"
+
+msgid "End Attempt Interaction"
+msgstr "إنهاء محاولة التفاعل"
+
+msgid "Enlarge font size"
+msgstr "تكبير حجم الخط"
+
+msgid "Enter a select MIME-type"
+msgstr "أدخل نوع MIME محدد"
+
+msgid "Enter choices…"
+msgstr "أدخل الاختيارات ..."
+
+msgid "Enter tooltip content"
+msgstr "أدخل محتوى تلميح الأداة"
+
+msgid "Enter tooltip target"
+msgstr "أدخل هدف تلميح الأداة"
+
+msgid "error"
+msgstr "خَطَأ"
+
+msgid "Error in post rendering: %s"
+msgstr "خطأ في عرض المنشور: %s"
+
+msgid "Error in template rendering: %s"
+msgstr "خطأ في عرض القالب: %s"
+
+msgid "Error on item %1$s : %2$s"
+msgstr "خطأ في البند %1$s : %2$s"
+
+msgid "Error on item %s"
+msgstr "خطأ في البند %s"
+
+msgid "Error to export item %s: %s"
+msgstr "خطأ في تصدير البند   %s: %s"
+
+msgid "Euler\\'s constant"
+msgstr "ثابت أويلر"
+
+msgid "Exponent"
+msgstr "متسارع"
+
+msgid "Export"
+msgstr "تصدير"
+
+msgid "Export APIP 1.0 Package"
+msgstr "تصدير حزمة APIP 1.0"
+
+msgid "Export failed for the item \"%s\": %s"
+msgstr "فشل تصدير البند : \"%s\": %s"
+
+msgid "Export metadata"
+msgstr "تصدير البيانات الوصفية"
+
+msgid "Export metadata item"
+msgstr "تصدير عنصر البيانات الوصفية"
+
+msgid "Export QTI 2.1 Package"
+msgstr "تصدير حزمة QTI 2.1"
+
+msgid "Export QTI 2.2 Package"
+msgstr "تصدير حزمة QTI 2.1"
+
+msgid "Extended Text"
+msgstr "تصدير حزمة QTI 2.1"
+
+msgid "Extended Text Interaction"
+msgstr "ممتد النص التفاعل"
+
+msgid "External Machine"
+msgstr "آلة خارجية"
+
+msgid "External Scored"
+msgstr "سجل خارجي"
+
+msgid "Fail to export item"
+msgstr "فشل تصدير البند"
+
+msgid "Failed to publish %1$s in %2$s"
+msgstr "فشل نشر %1$s في %2$s"
+
+msgid "Feedback"
+msgstr "التغذية الراجعة"
+
+msgid "Feedback Style"
+msgstr "أسلوب التغذية الراجعة"
+
+msgid "Field"
+msgstr "مجال"
+
+msgid "File"
+msgstr "ملف"
+
+msgid "File name"
+msgstr "اسم الملف"
+
+msgid "File Upload"
+msgstr "تحميل الملف"
+
+msgid "File Upload Interaction"
+msgstr "تفاعل تحميل الملف"
+
+msgid "Fill in the gaps on a picture with a set of image choices."
+msgstr "املأ الفجوات في الصورة بمجموعة من اختيارات الصورة."
+
+msgid "float"
+msgstr "يطفو"
+
+msgid "Font family"
+msgstr "خط العائلة"
+
+msgid "Font size"
+msgstr "حجم الخط"
+
+msgid "Format"
+msgstr "صيغة"
+
+msgid "Fraction"
+msgstr "جزء"
+
+msgid "Full height"
+msgstr "ارتفاع كامل"
+
+msgid "Gap"
+msgstr "الفارق"
+
+msgid "Gap Match"
+msgstr "فارق التطابق"
+
+msgid "Gap Match Interaction"
+msgstr "تفاعل فارق التطابق"
+
+msgid "Graphic Associate Interaction"
+msgstr "تفاعل مشارك الرسم"
+
+msgid "Graphic Gap Match Interaction"
+msgstr "تفاعل مطابقة الفجوة الرسومية"
+
+msgid "Graphic Interactions"
+msgstr "التفاعلات الرسومية"
+
+msgid "Graphic Order Interaction"
+msgstr "تفاعل ترتيب الرسم"
+
+msgid "Greater than or equal"
+msgstr "أكبر من أو يساوي"
+
+msgid "Guard for resource \"%s\"..."
+msgstr "حماية للمورد \"%s\" ..."
+
+msgid "Half height"
+msgstr "نصف ارتفاع"
+
+msgid "Height"
+msgstr "ارتفاع"
+
+msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
+msgstr "هنا يمكنك تقديم جوانب تسجيل الدرجات للتسجيل اليدوي / وضع العلامات ، على سبيل المثال المحتوى ، القواعد النحوية ، الإملاء"
+
+msgid "Horizontal"
+msgstr "أفقيا"
+
+msgid "Hotspot"
+msgstr "نقطة اتصال"
+
+msgid "Hotspot Interaction"
+msgstr "تفاعل نقطة الاتصال"
+
+msgid "Hottext"
+msgstr "نص مرتبط"
+
+msgid "Hottext Interaction"
+msgstr "تفاعل مع نص مرتبط"
+
+msgid "How the math expression should be displayed."
+msgstr "كيف يجب أن يتم عرض التعبير الرياضي."
+
+msgid "How the math expression should be edited"
+msgstr "كيف يجب تحرير التعبير الرياضي"
+
+msgid "Human"
+msgstr "بشري"
+
+msgid "identical pair already exists"
+msgstr "زوج متطابق موجود بالفعل"
+
+msgid "identifier"
+msgstr "تعرف"
+
+msgid "Identifier"
+msgstr "معرف"
+
+msgid "identifier already taken"
+msgstr "المعرف مأخوذ بالفعل"
+
+msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
+msgstr "إذا تم توفيره ، يحدد قناع النمط تعبيرًا عاديًا يجب أن تتطابق معه استجابة المرشح حتى يتم اعتباره صالحًا"
+
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
+msgstr "إذا كانت سمة الخلط صحيحة، فسيقوم محرك التسليم بتوزيع الترتيب الذي يتم به تقديم الخيارات في البداية. ومع ذلك، يمكن \"خلط\" أو \"تثبيت\" كل خِيار على حدة."
+
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
+msgstr "إذا كانت سمة الخلط صحيحة، فسيقوم محرك التسليم بتوزيع الترتيب الذي يتم به تقديم الخيارات في البداية. ومع ذلك، يمكن \"خلط\" أو \"تثبيت\" كل خِيار بشكل فردي."
+
+msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
+msgstr "إذا كان تفاعل السلسلة مرتبطًا بمتغير استجابة رقمي ، فيجب استخدام السمة الأساسية لتعيين قاعدة الأرقام التي يتم فيها تفسير القيمة التي أدخلها المرشح."
+
+msgid "If the variable value is a float and powerForm is set to 'false', the variable will be rendered using the 'e' or 'E' format. If the powerform is set to 'true', the form 'e+n' is changed to 'x 10n'."
+msgstr "إذا كانت قيمة المتغير عائمة وتم تعيين powerForm على \"خطأ\" ، فسيتم عرض المتغير باستخدام التنسيق \"e\" أو \"E\". إذا تم ضبط powerform على \"true\" ، يتم تغيير النموذج \"e + n\" إلى \"x 10n\"."
+
+msgid "If this box is checked the student will be able to eliminate choices."
+msgstr "إذا تم تحديد هذا المربع ، فسيكون الطالب قادرًا على حذف الخيارات."
+
+msgid "Import"
+msgstr "استورد"
+
+msgid "Import a QTI/APIP Content Package"
+msgstr "قم باستيراد حزمة محتوى QTI/APIP"
+
+msgid "Import a QTI/APIP XML Item Document"
+msgstr "قم باستيراد مستند البند QTI/APIP XML"
+
+msgid "Import item content and metadata from CSV file. Only choice interactions are supported."
+msgstr "استيراد محتوى البند والبيانات الوصفية من مِلَفّ CSV. يتم دعم تفاعلات الاختيار فقط."
+
+msgid "Import QTI ITEM into \"%s"
+msgstr "قم باستيراد محتوى البند QTI إلى \"%s"
+
+msgid "IMS QTI Item referenced as \"%s\" cannot be imported."
+msgstr "لا يمكن استيراد عنصر IMS QTI المشار إليه على أنه \"%s\"."
+
+msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
+msgstr "يحتوي عنصر IMS QTI المشار إليه على أنه \"%s\" على عنصر محمول ولا يمكن استيراده."
+
+msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
+msgstr "لا يمكن استيراد عنصر IMS QTI المشار إليه على أنه \"%s\" في مِلَفّ IMS Manifest."
+
+msgid "In Progress"
+msgstr "في تقدم"
+
+msgid "In seconds. Delay during which the replay of the media is allowed. Once reached, the media is disabled and cannot be played anymore."
+msgstr "في ثوان. التأخير الذي يُسمح خلاله بإعادة تشغيل الوسائط. بمجرد الوصول ، يتم تعطيل الوسائط ولا يمكن تشغيلها بعد الآن."
+
+msgid "In visual environments, string interactions are typically represented by empty boxes into which the candidate writes or types.  Delivery engines should use the value of this attribute (if provided) instead of their default placeholder text when this is required."
+msgstr "في البيئات المرئية ، يتم تمثيل تفاعلات السلسلة عادةً بواسطة مربعات فارغة يكتب فيها المرشح أو يكتب. يجب أن تستخدم محركات التسليم قيمة هذه السمة (إذا تم توفيرها) بدلاً من نص البندالنائب الافتراضي الخاص بها عندما يكون ذلك مطلوبًا."
+
+msgid "incorrect"
+msgstr "غير صحيح"
+
+msgid "Index"
+msgstr "فهرس"
+
+msgid "Infinity"
+msgstr "لانهاية"
+
+msgid "inline"
+msgstr "مضمنة"
+
+msgid "Inline Choice"
+msgstr "اختيار مضمن"
+
+msgid "Inline Choice Interaction"
+msgstr "تفاعل الاختيار المضمن"
+
+msgid "Inline Interactions"
+msgstr "التفاعلات المضمنة"
+
+msgid "Inline interactions need to be inserted into a text block."
+msgstr "يجب إدراج التفاعلات المضمنة في كتلة نصية."
+
+msgid "integer"
+msgstr "عدد صحيح"
+
+msgid "Interaction Background"
+msgstr "خلفية التفاعل"
+
+msgid "Interaction Properties"
+msgstr "خصائص التفاعل"
+
+msgid "Interpretation"
+msgstr "تأويل"
+
+msgid "Invalid identifier"
+msgstr "معرف غير صالح"
+
+msgid "Invalid Outcome Declaration"
+msgstr "إعلان النتيجة غير صالح"
+
+msgid "invalid QTI XML"
+msgstr "QTI XML غير صالح"
+
+msgid "Invalid response identifier"
+msgstr "معرف الاستجابة غير صالح"
+
+msgid "Invalid URL"
+msgstr "URL غير صالح"
+
+msgid "Is this choice the correct response?"
+msgstr "هل هذا الاختيار هو الرد الصحيح؟"
+
+msgid "Is this pair the correct response?"
+msgstr "هل هذا الزوج هو الرد الصحيح؟"
+
+msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
+msgstr "يبدو أن هناك خطأ أثناء تحميل البند. تم الإبلاغ عن الخطأ. سيتم إيقاف الرائز مؤقتا."
+
+msgid "Item \"%s\" cannot be exported: %s"
+msgstr "لا يمكن تصدير البند \"%s\": %s"
+
+msgid "Item \"%s\" has no xml document"
+msgstr "البند \"%s\" ليس له مستند xml"
+
+msgid "Item \"%s\" is not available in any language"
+msgstr "البند \"%s\" غير متوفر بأي لغة"
+
+msgid "Item \"%s\" is ready to be exported"
+msgstr "البند \"%s\" جاهز للتصدير"
+
+msgid "Item cannot be saved."
+msgstr "لا يمكن حفظ البند."
+
+msgid "Item metadata successfully exported."
+msgstr "تم تصدير البيانات الوصفية للبند بنجاح."
+
+msgid "Item metadata with identifier \"%s\" is not valid: "
+msgstr "البيانات الوصفية للبند مع المعرف \"%s\" غير صالحة: "
+
+msgid "Item Properties"
+msgstr "خصائص البند"
+
+msgid "Item properties"
+msgstr "خصائص البند"
+
+msgid "Item width"
+msgstr "عرض البند"
+
+#, tao-public
+msgid "Items"
+msgstr "بنود"
+
+msgid "Label"
+msgstr "اسم"
+
+msgid "Language"
+msgstr "لغة"
+
+msgid "Large editor"
+msgstr "محرر كبير"
+
+msgid "LaTeX"
+msgstr "اللاتكس"
+
+msgid "Latex"
+msgstr "اللاتكس"
+
+msgid "Layout"
+msgstr "تخطيط"
+
+msgid "--- leave empty ---"
+msgstr "--- يترك فارغا ---"
+
+msgid "left"
+msgstr "يسار"
+
+msgid "Left"
+msgstr "يسار"
+
+msgid "Left bracket"
+msgstr "قوس اليسار"
+
+msgid "Length"
+msgstr "الطول"
+
+msgid "Level"
+msgstr "مستوى"
+
+msgid "Lines"
+msgstr "خطوط"
+
+msgid "List Style"
+msgstr "نمط القائمة"
+
+msgid "Ln"
+msgstr "Ln"
+
+msgid "Log"
+msgstr "سجل"
+
+msgid "Long interpretation"
+msgstr "تفسير طويل"
+
+msgid "Loop"
+msgstr "حلقه"
+
+msgid "Lower Bound"
+msgstr "الأدنى"
+
+msgid "Lower bound is bigger than upper bound."
+msgstr "الحد الأدنى أكبر من الحد الأعلى."
+
+msgid "Lower than or equal"
+msgstr "أقل من أو يساوي"
+
+msgid "Malformed XML[%s]:\n"
+"%s"
+msgstr "XML غير صحيح[%s]: \n"
+"%s"
+
+msgid "Manage Items"
+msgstr "إدارة البنود"
+
+#, tao-public
+msgid "Manage items"
+msgstr "إدارة البنود"
+
+msgid "map response"
+msgstr "استجابة الخريطة"
+
+msgid "Mapping default"
+msgstr "تعيين الافتراضي"
+
+msgid "Mapping Indicator"
+msgstr "مؤشر رسم الخرائط"
+
+msgid "Match"
+msgstr "تطابق"
+
+msgid "match correct"
+msgstr "تطابق بشكل صحيح"
+
+msgid "Match Interaction"
+msgstr "تفاعل التطابق"
+
+msgid "MathJax is not installed."
+msgstr "MathJax غير مثبت."
+
+msgid "MathML"
+msgstr "MathML"
+
+msgid "Max"
+msgstr "الأعلى"
+
+msgid "Max Length"
+msgstr "الحد الاقصى للطول"
+
+msgid "Max length"
+msgstr "الحد الأقصى للطول"
+
+msgid "Max plays count"
+msgstr "عدد مرات اللعب القصوى"
+
+msgid "Max Words"
+msgstr "الحد الاقصى للكلمات"
+
+msgid "Max words"
+msgstr "الحد الأقصى للكلمات"
+
+msgid "Max. number of matches"
+msgstr "الحد الأقصى للمطابقات"
+
+msgid "Maximal score for this interaction."
+msgstr "الدرجة القصوى لهذا التفاعل."
+
+msgid "maximum"
+msgstr "الحد الأقصى"
+
+msgid "Maximum choices reached"
+msgstr "تم الوصول إلى الحد الأقصى من الخيارات"
+
+msgid "Maximum number of choices reached."
+msgstr "تم الوصول إلى الحد الأقصى من الخيارات"
+
+msgid "Media"
+msgstr "وسائط"
+
+msgid "Media file path or YouTube video address"
+msgstr "مسار ملف الوسائط أو عنوان فيديو YouTube"
+
+msgid "Media Interaction"
+msgstr "تفاعل الوسائط"
+
+msgid "Metadata export requires an instance of core_kernel_classes_Resource to extract metadata"
+msgstr "يتطلب تصدير الميتبيانات مثيلاً لـ core_kernel_classes_Resource لاستخراج البيانات الأولية"
+
+msgid "Metadata export requires an instance of DomManifest to inject metadata"
+msgstr "يتطلب تصدير الميتبيانات  نسخة من DomManifest لإدخال البيانات الوصفية"
+
+msgid "Metadata import requires an instance of core_kernel_classes_Resource to inject metadata"
+msgstr "يتطلب استيراد الميتبيانات  مثيلاً لـ core_kernel_classes_Resource لإدخال البيانات الأولية"
+
+msgid "Metadata import requires an instance of DomManifest to extract metadata"
+msgstr "يتطلب استيراد الldjبيانات نسخة من DomManifest لاستخراج البيانات الأولية"
+
+msgid "Metadata service successfully registered."
+msgstr "تم تسجيل خدمة البيانات الوصفية بنجاح."
+
+msgid "MIME-type"
+msgstr "نوع الوسيط"
+
+msgid "Min"
+msgstr "الحد الأدنى"
+
+msgid "Minimal  score for this interaction."
+msgstr "الحد الأدنى من النقاط لهذا التفاعل."
+
+msgid "Modal feedback is shown to the candidate directly following response processing."
+msgstr "يتم عرض ردود الفعل المشروطة على المرشح مباشرة بعد معالجة الجواب."
+
+msgid "Modal Feedback Prop."
+msgstr "دعامة التعليقات المشروطة."
+
+msgid "modal feedback title"
+msgstr "عنوان ردود الفعل المشروطة"
+
+msgid "Modal Feedbacks"
+msgstr "التقيمات المشروطة"
+
+msgid "Multiple choices"
+msgstr "خيارات متعددة"
+
+msgid "Multiply"
+msgstr "ضاعف"
+
+msgid "negative"
+msgstr "نفي"
+
+#, tao-public
+msgid "New item"
+msgstr "بند جديد"
+
+msgid "No"
+msgstr "لا"
+
+msgid "no configuration property needed"
+msgstr "لا حاجة لخاصية التكوين"
+
+msgid "No file selected"
+msgstr "لم يتم اختيار اي ملف"
+
+msgid "no item content"
+msgstr "لا يوجد محتوى البند"
+
+msgid "No Items could be imported from the given IMS QTI package."
+msgstr "لا يمكن استيراد أي بنود من حزمة IMS QTI المحددة."
+
+msgid "No preview available"
+msgstr "لا تتوفر معاينة"
+
+msgid "No uploaded file"
+msgstr "لا يوجد مِلَفّ تم تحميله"
+
+msgid "No value set"
+msgstr "لم يتم تعيين قيمة"
+
+msgid "none"
+msgstr "لا أحد"
+
+msgid "None"
+msgstr "لا شيء"
+
+msgid "None defined yet."
+msgstr "لم يتم تعريف أي شيء حتى الآن."
+
+msgid "not a QTI item"
+msgstr "ليس بندا QTI"
+
+msgid "Number of associations"
+msgstr "عدد الروابط"
+
+msgid "of"
+msgstr "ل"
+
+msgid "OK"
+msgstr "نعم"
+
+msgid "one association pair"
+msgstr "رابط مزدوج واحد"
+
+msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
+msgstr "لا يدعم النظام مكونًا أو أكثر من مكونات QTI. أرجع النظام الخطأ التالي: %s\n"
+
+msgid "Order"
+msgstr "ترتيب"
+
+msgid "Order Interaction"
+msgstr "طلب التفاعل"
+
+msgid "Order the areas (hotspots) displayed on a picture."
+msgstr "اطلب المناطق (النقاط الفعالة) المعروضة على الصورة."
+
+msgid "Orientation"
+msgstr "اتجاه"
+
+msgid "Other constraints"
+msgstr "قيود أخرى"
+
+msgid "Outcome Declarations"
+msgstr "إقرارات النتائج"
+
+msgid "Pair scoring"
+msgstr "تهديف مزدوج"
+
+msgid "Pattern"
+msgstr "ملف باسكال (.pas)"
+
+msgid "Pause"
+msgstr "وقفة"
+
+msgid "Pi"
+msgstr "Pi"
+
+msgid "Placeholder Text"
+msgstr "نص العنصر النائب"
+
+msgid "Plain text"
+msgstr "نص عادي"
+
+msgid "Please add one or more gaps to the text in question mode."
+msgstr "الرجاء إضافة فجوة واحدة أو أكثر إلى النص في وضع السؤال."
+
+msgid "Please create areas that correspond to the response and associate them a score. You can also position the target to the exact point as the correct response."
+msgstr "يرجى إنشاء مناطق تتوافق مع الاستجابة وربطها بنقطة. يمكنك أيضا وضع الهدف في النقطة الدقيقة كاستجابة صحيحة."
+
+msgid "Please define association pairs and their scores below."
+msgstr "يرجى تحديد أزواج الرابطة ودرجاتهم أدناه."
+
+msgid "Please define the correct association pairs below."
+msgstr "يرجى تحديد أزواج الاقتران الصحيحة أدناه."
+
+msgid "Please define the correct order in the box to the right."
+msgstr "يرجى تحديد الترتيب الصحيح في المربع الموجود على اليمين"
+
+msgid "Please define the correct response and the score below."
+msgstr "يرجى تحديد الإجابة الصحيحة والنتيجة أدناه."
+
+msgid "Please define the correct response below."
+msgstr "يرجى تحديد الرد الصحيح أدناه."
+
+msgid "Please define the correct response using the slider."
+msgstr "يرجى تحديد الإجابة الصحيحة باستخدام شريط التمرير."
+
+msgid "Please enter the score for the given hottexts."
+msgstr "الرجاء إدخال النتيجة للنصوص الهامة المعطاة."
+
+msgid "Please fill the gap with the correct choices below."
+msgstr "يرجى ملء الفراغ بالخيارات الصحيحة أدناه."
+
+msgid "Please fill the gap with the correct choices."
+msgstr "يرجى ملء الفراغ بالخيارات الصحيحة."
+
+msgid "Please fill the gap with the images below, then edit the score for each gap/image pair."
+msgstr "يرجى ملء الفراغ بالصور أدناه ، ثم تعديل النتيجة لكل زوج من الفراغات / الصور."
+
+msgid "Please fill the gap with the texts below, then edit the score for each pair."
+msgstr "يرجى ملء الفراغ بالنصوص أدناه ، ثم تحرير النتيجة لكل زوج."
+
+msgid "Please order the choices below to set the correct answer"
+msgstr "يرجى ترتيب الاختيارات أدناه لتعيين الإجابة الصحيحة"
+
+msgid "Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
+msgstr "يرجى اختيار صورة خلفية لتفاعلك من مدير الموارد. يمكنك إضافة ملفات جديدة من جهاز الكمبيوتر الخاص بك باستخدام الزر \"إضافة ملف (ملفات)\"."
+
+msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr "الرجاء تحديد ملف وسائط (فيديو أو صوت) من مدير الموارد. يمكنك إضافة ملفات من جهاز الكمبيوتر الخاص بك باستخدام الزر \"إضافة ملف (ملفات)\"."
+
+msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr "يرجى اختيار ملف وسائط من مدير الموارد. يمكنك إضافة ملفات من جهاز الكمبيوتر الخاص بك باستخدام الزر \"إضافة ملف (ملفات)\"."
+
+msgid "Please select a shared stimulus file from the resource manager."
+msgstr "الرجاء تحديد ملف تحفيز مشترك من مدير الموارد."
+
+msgid "Please select the correct hotspot choices below."
+msgstr "الرجاء تحديد خيارات نقطة الاتصال الصحيحة أدناه."
+
+msgid "Please select the correct hottext choices below."
+msgstr "الرجاء تحديد اختيارات النص المرتبط"
+
+msgid "Please set the correct associations by linking the choices."
+msgstr "يرجى تحديد الاقترانات الصحيحة عن طريق ربط الاختيارات."
+
+msgid "Please the score of each hotspot choice."
+msgstr "رجاء معدل أو درجة كل هوت سبوت"
+
+msgid "Please type the correct response below."
+msgstr "الرجاء كتابة الرد الصحيح أدناه."
+
+msgid "Please type the correct response in the box below."
+msgstr "الرجاء كتابة الإجابة الصحيحة في المربع أدناه."
+
+msgid "Portable element model %s not found. Required extension might be missing"
+msgstr "لم يتم العثور على نوع البند المحمول %s. قد يكون الامتداد المطلوب مفقودًا"
+
+msgid "Position one or more points on a picture (response areas are not displayed)."
+msgstr "ضع نقطة واحدة أو أكثر على الصورة (لا يتم عرض مناطق الاستجابة)."
+
+msgid "positive"
+msgstr "إيجابي"
+
+msgid "Power form"
+msgstr "شكل السلطة"
+
+msgid "Pre-formatted text"
+msgstr "نص منسق مسبقًا"
+
+msgid "Preparing CSS, please wait…"
+msgstr "جارٍ تحضير CSS ، الرجاء الانتظار ..."
+
+msgid "Preparing Metadata Values for target \"%s\"..."
+msgstr "جاري تحضير قيم بيانات التعريف للهدف \"%s\"..."
+
+msgid "Preview"
+msgstr "معاينة"
+
+msgid "Preview the item"
+msgstr "معاينة البند"
+
+msgid "Print"
+msgstr "طبع"
+
+msgid "Print the item"
+msgstr "طبع البند"
+
+msgid "Printed Variable"
+msgstr "طبعت المتغيرة"
+
+msgid "Properties"
+msgstr "خصائص"
+
+msgid "PropertyUri to map has to a valid uri"
+msgstr "معرف الموارد الموحد المراد تعيينه يجب أن يكون صالحا "
+
+msgid "Provides a hint to the candidate as to the expected number of lines of input required. A line is expected to have about 72 characters."
+msgstr "يقدم تلميحًا للمرشح فيما يتعلق بالعدد المتوقع لأسطر الإدخال المطلوبة. من المتوقع أن يتكون السطر من 72 حرفًا تقريبًا."
+
+msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."
+msgstr "يقدم تلميحًا للمرشح فيما يتعلق بالطول الإجمالي المتوقع للاستجابة المرغوبة المقاسة بعدد الأحرف."
+
+msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters. This is not a validity constraint."
+msgstr "يقدم تلميحًا للمرشح فيما يتعلق بالطول الإجمالي المتوقع للاستجابة المرغوبة المقاسة بعدد الأحرف. هذا ليس قيد صلاحية."
+
+msgid "Published %s"
+msgstr "تم نشر %s"
+
+msgid "QTI Item Runner"
+msgstr "عداء بند QTI"
+
+msgid "QTI Metadata"
+msgstr "بيانات تعريف QTI"
+
+msgid "QTI Package 2.1"
+msgstr "حزمة QTI 2.1"
+
+msgid "QTI Package 2.2"
+msgstr "حزمة QTI 2.2"
+
+msgid "QTI-XML error at line %1$d \"%2$s\"."
+msgstr "خطأ في QTI-XML في السطر %1$d \"%2$s\"."
+
+msgid "QTI/APIP Content Package"
+msgstr "حزمة محتوى QTI / APIP"
+
+msgid "QTI/APIP XML Item Document"
+msgstr "مستند بند QTI / APIP XML"
+
+msgid "Question"
+msgstr "سؤال"
+
+msgid "Recommendations"
+msgstr "التوصيات"
+
+msgid "recommended"
+msgstr "موصى به"
+
+msgid "Reduce font size"
+msgstr "تصغير حجم الحروف"
+
+msgid "Register method expects $key and $name parameters"
+msgstr "يتوقع أسلوب التسجيل معلمات ومفاتيح وأسماء $ key و $ name"
+
+msgid "Register method expects $key and $name parameters."
+msgstr "يتوقع أسلوب التسجيل معلمات ومفاتيح وأسماء $ key و $ name."
+
+msgid "remove"
+msgstr "إزالة"
+
+msgid "Remove"
+msgstr "إزالة"
+
+msgid "Remove custom background color"
+msgstr "قم بإزالة لون الخلفية المخصص"
+
+msgid "Remove custom border color"
+msgstr "قم بإزالة لون الحدود المخصص"
+
+msgid "Remove custom font family"
+msgstr "قم بإزالة عائلة الخطوط المخصصة"
+
+msgid "Remove custom font size"
+msgstr "إزالة حجم الخط المخصص"
+
+msgid "Remove custom item width"
+msgstr "قم بإزالة عرض البند المخصص"
+
+msgid "Remove custom text color"
+msgstr "قم بإزالة لون النص المخصص"
+
+msgid "Remove Message"
+msgstr "قم بإزالة هذه الرسالة"
+
+msgid "Remove pair"
+msgstr "إزالة الزوج"
+
+msgid "Remove the selected shape"
+msgstr "قم بإزالة الشكل المحدد"
+
+msgid "Remove this stylesheet"
+msgstr "قم بإزالة ورقة الأنماط هذه"
+
+msgid "Replay timeout"
+msgstr "مهلة إعادة التشغيل"
+
+msgid "required"
+msgstr "مطلوب"
+
+msgid "Resource "
+msgstr "الموارد"
+
+msgid "Resource(s) successfully exported."
+msgstr "تم تصدير المورد (الموارد) بنجاح."
+
+msgid "Response"
+msgstr "استجابة"
+
+msgid "Response [\"%s\"] is bigger than the upper bound value \"%s\"."
+msgstr "الاستجابة [\"%s\"] أكبر من قيمة الحد الأعلى \"%s\"."
+
+msgid "Response [\"%s\"] is lower than the lower bound value \"%s\"."
+msgstr "الاستجابة [\"%s\"] أقل من قيمة الحد الأدنى \"%s\"."
+
+msgid "Response [\"%s\"] should be the only possible value \"%s\"."
+msgstr "يجب أن تكون الاستجابة [\"%s\"] هي القيمة الوحيدة الممكنة \"%s\"."
+
+msgid "Response base type"
+msgstr "نوع قاعدة الاستجابة"
+
+msgid "Response identifier"
+msgstr "معرف الاستجابة"
+
+msgid "Response processing"
+msgstr "معالجة الاستجابة"
+
+msgid "Response Properties"
+msgstr "خصائص الاستجابة"
+
+msgid "Rich text"
+msgstr "النص الغني"
+
+msgid "Rich text + math"
+msgstr "نص منسق + رياضيات"
+
+msgid "Right"
+msgstr "صحيح"
+
+msgid "right"
+msgstr "صحيح"
+
+msgid "Right bracket"
+msgstr "القوس الأيمن"
+
+msgid "Rollback on..."
+msgstr "التراجع عن ..."
+
+msgid "Save"
+msgstr "حفظ"
+
+msgid "Save the item"
+msgstr "احفظ البند"
+
+msgid "Scale size"
+msgstr "حجم المقياس"
+
+msgid "score"
+msgstr "نتيجة"
+
+msgid "Score"
+msgstr "نتيجة"
+
+msgid "Score range"
+msgstr "نطاق النتيجة"
+
+msgid "Score value"
+msgstr "قيمة النتيجة"
+
+msgid "Scrollable multi-column"
+msgstr "عمود متعدد قابل للتمرير"
+
+msgid "Select"
+msgstr "اختر"
+
+msgid "select a choice"
+msgstr "حدد خيارا"
+
+msgid "Select a choice from a drop-down list."
+msgstr "حدد اختيارًا من القائمة المنسدلة."
+
+msgid "Select a left"
+msgstr "اختر يسارا"
+
+msgid "Select a response identifier from the list."
+msgstr "حدد معرف استجابة من القائمة."
+
+msgid "Select a right"
+msgstr "اختر يمينا"
+
+msgid "Select a single (radio buttons) or multiple (check boxes) responses among a set of choices."
+msgstr "حدد استجابات واحدة (أزرار اختيار) أو متعددة (مربعات اختيار) من بين مجموعة من الاختيارات."
+
+msgid "Select a value within a numerical range."
+msgstr "حدد قيمة ضمن النطاق العددي."
+
+msgid "Select an image first"
+msgstr "حدد صورة أولا"
+
+msgid "Select an image first."
+msgstr "حدد صورة أولا."
+
+msgid "select correct choice"
+msgstr "حدد الاختيار الصحيح"
+
+msgid "Select height of passage base of container height"
+msgstr "حدد ارتفاع قاعدة النص من ارتفاع الحاوية"
+
+msgid "Select height of text block base of container height"
+msgstr "حدد ارتفاع قاعدة كتلة النص من ارتفاع الحاوية"
+
+msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
+msgstr "حدد ما إذا كنت تريد معالجة إعلان النتيجة بواسطة نظام خارجي أو مسجل بشري. هذا هو الحال عادةً بالنسبة للبنود التي تطلب من المرشحين كتابة مقال."
+
+msgid "Select image"
+msgstr "اختر صورة"
+
+msgid "Select media file"
+msgstr "حدد ملف الوسائط"
+
+msgid "Select object"
+msgstr "حدد الموضوع"
+
+msgid "Select one or more areas (hotspots) displayed on an picture."
+msgstr "حدد منطقة واحدة أو أكثر (نقاط فعالة) معروضة على الصورة."
+
+msgid "Select one or more text parts (hottext) within a text."
+msgstr "حدد جزءًا نصيًا أو أكثر (نص مشهور) داخل النص."
+
+msgid "Select Point"
+msgstr "حدد النقطة"
+
+msgid "Select Point Interaction"
+msgstr "حدد نقطة التفاعل"
+
+msgid "Select predefined feedback style from the list."
+msgstr "حدد نمط التغذية الراجعة المحدد مسبقًا في القائمة."
+
+msgid "Select shared stimulus"
+msgstr "حدد التحفيز المشترك"
+
+msgid "Select the area to add an image"
+msgstr "حدد المنطقة لإضافة صورة"
+
+msgid "Select the expected input value type that will define the way the response of your interaction will be processed."
+msgstr "حدد نوع قيمة الإدخال المتوقع الذي سيحدد الطريقة التي ستتم بها معالجة استجابة تفاعلك."
+
+msgid "Select the outcome variable you want to display."
+msgstr "حدد متغير النتيجة الذي تريد عرضه."
+
+msgid "Select the way the response of your interaction should be processed"
+msgstr "حدد الطريقة التي يجب أن تتم بها معالجة استجابة تفاعلك"
+
+msgid "Select this area"
+msgstr "حدد هذه المنطقة"
+
+msgid "Select this area to start an association"
+msgstr "حدد هذه المنطقة لبدء ارتباط"
+
+msgid "Set a CSS class name in order to customize the display style."
+msgstr "قم بتعيين اسم فئة CSS لتخصيص نمط العرض."
+
+msgid "Set the score for this response"
+msgstr "حدد النتيجة لهذه الاستجابة"
+
+msgid "Shape position"
+msgstr "موضع الشكل"
+
+msgid "Shuffle choices"
+msgstr "تبديل الخيارات عشوائيًا"
+
+msgid "Single choice"
+msgstr "اختيار واحد"
+
+msgid "Sinus"
+msgstr "جيب"
+
+msgid "Size and position"
+msgstr "الحجم والموقف"
+
+msgid "Slider"
+msgstr "شريط التمرير"
+
+msgid "Slider Interaction"
+msgstr "تفاعل واجهة رسومية"
+
+msgid "Some feedback text."
+msgstr "بعض نصوص التعليقات."
+
+msgid "some text ..."
+msgstr "بعض النصوص ..."
+
+msgid "Something went wrong while destroying an interaction: %s"
+msgstr "حدث خطأ ما أثناء تدمير التفاعل: %s"
+
+msgid "Square root"
+msgstr "الجذر التربيعي"
+
+msgid "standard"
+msgstr "موحد"
+
+msgid "Step"
+msgstr "خطوة"
+
+msgid "string"
+msgstr "سلسلة"
+
+msgid "Style Editor"
+msgstr "نمط التحرير"
+
+msgid "Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-apply."
+msgstr "تمت إزالة ورقة الأنماط <b>%s</b> <br> انقر فوق <i> إضافة ورقة أنماط </i> لإعادة التطبيق."
+
+msgid "Style Sheet Manager"
+msgstr "مدير ورقة الأنماط"
+
+msgid "Success"
+msgstr "نجاح"
+
+msgid "Successfully compiled \"%s"
+msgstr "تم بنجاح تجميع \"%s"
+
+msgid "Successfully created item \"%s"
+msgstr "تم بنجاح إنشاء البند \"%s"
+
+msgid "Table headings"
+msgstr "عناوين الجدول"
+
+msgid "TAO default styles"
+msgstr "أنماط TAO الافتراضية"
+
+msgid "Target Class Lookup for resource \"%s\"..."
+msgstr "بحث فئة الهدف عن المورد \"%s\" ..."
+
+msgid "Text Block"
+msgstr "كتلة النص"
+
+msgid "Text Block CSS Class"
+msgstr "فئة CSS نص كتلة  صفحات التنسيق النمطية"
+
+msgid "Text Block Properties"
+msgstr "خصائص كتلة النص"
+
+msgid "Text color"
+msgstr "لون النص"
+
+msgid "Text Entry"
+msgstr "إدخال نص"
+
+msgid "Text Entry Interaction"
+msgstr "تفاعل إدخال النص"
+
+msgid "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."
+msgstr "تحدد سمة التشغيل التلقائي ما إذا كان يجب أن يبدأ كائن الوسائط بمجرد أن يبدأ المرشح المحاولة (تم التحقق منه) أو إذا كان يجب بدء تشغيل كائن الوسائط تحت سيطرة المرشح (غير محدد)."
+
+msgid "The button label."
+msgstr "تسمية الزر."
+
+msgid "The default value from the target set to be used when no explicit mapping for a source value is given."
+msgstr "القيمة الافتراضية من المجموعة المستهدفة لاستخدامها في حالة عدم إعطاء تعيين صريح لقيمة مصدر."
+
+msgid "The delimiter to use between values when displaying variables of ordered, multiple or record cardinality. \";\" is default when delimiter is not declared. Implementations can override this default with personal preferences or locale settings."
+msgstr "المحدد الذي سيتم استخدامه بين القيم عند عرض متغيرات من أصل مرتب أو متعدد أو سجل. \"؛\" هو الافتراضي عندما لا يتم التصريح عن المحدد. يمكن أن تتجاوز التطبيقات هذا الإعداد الافتراضي بالتفضيلات الشخصية أو الإعدادات المحلية."
+
+msgid "The field specifier to use when displaying variables of record cardinality."
+msgstr "محدد المجال المراد استخدامه عند عرض متغيرات السجل الأساسي."
+
+msgid "The file path to the image."
+msgstr "مسار الملف للصورة."
+
+msgid "The file path to the object."
+msgstr "مسار الملف إلى الكائن."
+
+msgid "The file path to the shared stimulus."
+msgstr "مسار الملف إلى الحافز المشترك."
+
+msgid "The format conversion specifier to use when converting numerical values to strings. See QTI Number Formatting Rules for details."
+msgstr "محدد تحويل التنسيق المراد استخدامه عند تحويل القيم الرقمية إلى سلاسل. راجع قواعد تنسيق رقم QTI للحصول على التفاصيل."
+
+msgid "The given target is not an instance of core_kernel_classes_Resource"
+msgstr "الهدف المحدد ليس مثيلاً للموارد-النواة (نظم التشغيل)ـ core_kernel_classes_Resource"
+
+msgid "The highlighted choice cannot be associated more than %d time(s)."
+msgstr "لا يمكن إقران الخيار المميز بأكثر من %d مرة (مرات)."
+
+msgid "The identifier of the choice. This identifier must not be used by any other choice or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "معرّف الاختيار. يجب ألا يتم استخدام هذا المعرف من قبل أي خيار آخر أو متغير بند. المعرّف هو سلسلة من الأحرف التي يجب أن تبدأ بحرف أو شرطة سفلية (\"_\") وتحتوي فقط على أحرف ، وشرطات سفلية ، وواصلات (\"-\") ، ونقطة (\".\" ، ويعرف أيضًا باسم النقطة الكاملة) ، وأرقام ، و CombiningChars والموسعات."
+
+msgid "The identifier of the choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "معرّف الاختيار. يجب عدم استخدام هذا المعرف من قبل أي استجابة أخرى أو متغير بند. المعرّف هو سلسلة من الأحرف التي يجب أن تبدأ بحرف أو شرطة سفلية (\"_\") وتحتوي فقط على أحرف ، وشرطات سفلية ، وواصلات (\"-\") ، ونقطة (\".\" ، ويعرف أيضًا باسم النقطة الكاملة) ، وأرقام ، و CombiningChars والموسعات."
+
+msgid "The identifier of the modal feedback. This identifier must not be used by any other modal feedback or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "معرف ردود الفعل المشروطة. يجب ألا يتم استخدام هذا المعرف بواسطة أي ملاحظات نمطية أخرى أو متغير بند. المعرّف هو سلسلة من الأحرف التي يجب أن تبدأ بحرف أو شرطة سفلية (\"_\") وتحتوي فقط على أحرف ، وشرطات سفلية ، وواصلات (\"-\") ، ونقطة (\".\" ، ويعرف أيضًا باسم النقطة الكاملة) ، وأرقام ، و CombiningChars والموسعات."
+
+msgid "The identifier of the response identifier. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "معرف معرف الاستجابة. يجب عدم استخدام هذا المعرف من قبل أي استجابة أخرى أو متغير بند. المعرّف هو سلسلة من الأحرف التي يجب أن تبدأ بحرف أو شرطة سفلية (\"_\") وتحتوي فقط على أحرف ، وشرطات سفلية ، وواصلات (\"-\") ، ونقطة (\".\" ، ويعرف أيضًا باسم النقطة الكاملة) ، وأرقام ، و CombiningChars والموسعات."
+
+msgid "The IMS QTI Item could not be imported."
+msgstr "تعذر استيراد بند IMS QTI."
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
+msgstr "فشل عنصر IMS QTI المشار إليه باسم \"%s\" في ملف بيان IMS: %s"
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
+msgstr "يحتوي بند IMS QTI المشار إليه على أنه \"%s\" في ملف IMS Manifest على تعاريف غير صحيحة لمعالجة الاستجابة والنتائج."
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
+msgstr "كان ينبغي العثور على بند IMS QTI المشار إليه على أنه \"%s\" في ملف IMS Manifest في بنك العناصر. لم يتم العثور على البند."
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
+msgstr "تم مسبقا تخزين عنصر IMS QTI المشار إليه على أنه \"%s\" في ملف IMS Manifest في بنك البنود."
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
+msgstr "تم استيراد بند IMS QTI المشار إليه على أنه \"%s\" في ملف IMS Manifest بنجاح."
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
+msgstr "تمت الكتابة فوق بند IMS QTI المشار إليه على أنه \"%s\" في ملف IMS Manifest بنجاح."
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
+msgstr "تم بنجاح التراجع عن بند IMS QTI المشار إليه كـ \"%s\" في بيان IMS."
+
+msgid "The IMS QTI Item was successfully imported."
+msgstr "تم استيراد بند IMS QTI بنجاح."
+
+msgid "The index to use when displaying a variable of ordered cardinality. If a variable of ordered cardinality is to be displayed and index is not set, all the values in the container are displayed."
+msgstr "الفهرس المراد استخدامه عند عرض متغير من أصل مرتب. إذا تم عرض متغير من أصل مرتب ولم يتم تعيين الفهرس ، فسيتم عرض جميع القيم الموجودة في الحاوية."
+
+msgid "The item cannot be saved because it contains an unsupported custom interaction."
+msgstr "لا يمكن حفظ البند لأنه يحتوي على تفاعل مخصص غير مدعوم."
+
+msgid "The item has not been saved!"
+msgstr "لم يتم حفظ البند!"
+
+msgid "The item has unsaved changes, are you sure you want to leave ?"
+msgstr "البند به تغييرات غير محفوظة ، هل أنت متأكد أنك تريد المغادرة?"
+
+msgid "The item has unsaved changes, would you like to save it ?"
+msgstr "البند به تغييرات غير محفوظة ، هل ترغب في حفظه?"
+
+msgid "The item needs to be saved before it can be previewed"
+msgstr "يجب حفظ البند قبل أن تتم معاينته"
+
+msgid "The item of the qti item. It is currently used as a meta data only. It is required by the QTI standard."
+msgstr "البند محدد حسب إجرائية الأسئلة والرائز. يتم استخدامه عادةكميتابيانات. "
+
+msgid "The left position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr "ترك موضع الشكل بالنسبة إلى الزاوية اليسرى العليا للخلفية بالبكسل. يمكن تغيير حجم هذه القيمة عندما يتم تكييف حجم صورة الخلفية مع الحاوية الخاصة بها"
+
+msgid "The loop attribute is used to set continuous play mode. In continuous play mode, once the media object has started to play it should play continuously (subject to maxPlays)."
+msgstr "تُستخدم سمة الحلقة لضبط وضع التشغيل المستمر. في وضع التشغيل المستمر ، بمجرد أن يبدأ الوسيط في التشغيل ، يجب أن يتم تشغيله بشكل مستمر (يخضع لـ maxPlays)."
+
+msgid "The lower bound of the slider"
+msgstr "الحد السفلي لشريط التمرير"
+
+msgid "The manifest argument must be an instance of DOMDocument."
+msgstr "يجب أن تكون الوسيطة الواضحة مثيلاً لـ DOMDocument."
+
+msgid "The mapping indicator to use between field name and field value when displaying variables of record cardinality. \"=\" is default when mappingIndicator is not declared. Implementations can override this default with personal preferences or locale settings."
+msgstr "مؤشر التعيين المراد استخدامه بين اسم الحقل وقيمة الحقل عند عرض متغيرات السجل الأساسي. يكون \"=\" افتراضيًا عندما لا يتم التصريح عن mappingIndicator. يمكن أن تتجاوز التطبيقات هذا الإعداد الافتراضي بالتفضيلات الشخصية أو الإعدادات المحلية."
+
+msgid "The mapping options are available when at least one map entry is defined."
+msgstr "تكون خيارات التعيين متاحة عند تحديد إدخال خريطة واحدة على الأقل."
+
+msgid "The maximum number of association is unlimited."
+msgstr "الحد الأقصى لعدد الروابط غير محدود."
+
+msgid "The maximum number of associations that the candidate is allowed to make."
+msgstr "الحد الأقصى لعدد الروابط التي يُسمح للمرشح بإنشائها."
+
+msgid "The maximum number of choices that the candidate is allowed to select."
+msgstr "الحد الأقصى لعدد الاختيارات التي يُسمح للمرشح بتحديدها."
+
+msgid "The maximum number of choices this choice may be associated with."
+msgstr "الحد الأقصى لعدد الاختيارات التي قد يقترن بها هذا الرائز"
+
+msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
+msgstr "الحد الأقصى لعدد الاختيارات التي قد يقترن بها هذا الاختيار. إذا كانت matchMax 0 فلا يوجد أي قيود."
+
+msgid "The maximum number of choices that the candidate is required to select to form a valid response."
+msgstr "الحد الأقصى لعدد الخيارات التي يتعين على المرشح اختيارها لتشكيل استجابة صحيحة."
+
+msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
+msgstr "تشير السمة maxPlays إلى أنه يمكن تشغيل كائن الوسائط في معظم مرات maxPlays - يجب ألا يكون من الممكن للمرشح تشغيل كائن الوسائط أكثر من مرات maxPlay. تشير القيمة 0 (القيمة الافتراضية) إلى عدم وجود حد."
+
+msgid "The MIME-type attribute describes which kind of file may be uploaded."
+msgstr "تصف سمة نوع MIME نوع الملف الذي يمكن تحميله."
+
+msgid "The minimum number of answers is "
+msgstr "الحد الأدنى لعدد الإجابات هو"
+
+msgid "The minimum number of associations that the candidate is required to make to form a valid response."
+msgstr "الحد الأدنى لعدد الروابط التي يجب على المرشح إجراؤها لتكوين إجابة صالحة."
+
+msgid "The minimum number of choices that the candidate is required to select to form a valid response."
+msgstr "الحد الأدنى لعدد الاختيارات المطلوب من المرشح تحديدها لتكوين رد صالح."
+
+msgid "The minimum number of choices this choice must be associated with to form a valid response."
+msgstr "الحد الأدنى لعدد الاختيارات التي يجب أن يقترن بها هذا الاختيار لتكوين استجابة صالحة."
+
+msgid "The number base to use when converting integer variables to strings with the i conversion type code."
+msgstr "الأساس الرقمي المراد استخدامه عند تحويل متغيرات عدد صحيح إلى سلاسل برمز نوع التحويل i."
+
+msgid "The number of units corresponding to a step on the slider"
+msgstr "عدد الوحدات المقابلة لخطوة على شريط التمرير"
+
+msgid "The path argument for extractor must be a non-empty array."
+msgstr "يجب أن تكون وسيطة المسار الخاصة بالمستخرج مصفوفة غير فارغة."
+
+msgid "The principle identifier of the item. This identifier must have a corresponding entry in the item's metadata."
+msgstr "المعرّف الأساسي للبند. يجب أن يحتوي هذا المعرف على إدخال مقابل في البيانات الوصفية للعنصر."
+
+msgid "The purpose for which the rubric is intended to be used. As a reading passage for multiple items, or instructions for a particular section, for example."
+msgstr "الغرض من استخدام نموذج التقييم من أجله. كممر قراءة لبنود متعددة ، أو تعليمات لقسم معين ، على سبيل المثال."
+
+msgid "The QTI class \"%1$s\" located at line \"%2$d\" is currently not supported."
+msgstr "فئة QTI \"%1$s\"  الموجودة في السطر \"%2$d\" غير مدعومة حاليًا."
+
+msgid "The Response Processing Template \"%s\" is not supported."
+msgstr "قالب معالجة الجواب \"%s\" غير معتمد."
+
+msgid "The score format is not numeric"
+msgstr "صيغة المعدل غير رقمية"
+
+msgid "The scrollable multi-column layout configuration is optimized for items with a single row of content only. Both columns will scroll independently and fit the available page height."
+msgstr "تم تحسين تكوين تخطيط متعدد الأعمدة القابل لتمرير للعناصر التي تحتوي على صف واحد من المحتوى فقط. سيتم تمرير كلا العمودين بشكل مستقل وتناسب ارتفاع الصفحة المتاح."
+
+msgid "The selected file is ready to be sent."
+msgstr "الملف الذي تم اختياره جاهز للإرسال."
+
+msgid "The shape height in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr "ارتفاع الشكل بالبكسل. يمكن تغيير حجم هذه القيمة عندما يتم تكييف حجم صورة الخلفية مع الحاوية الخاصة بها"
+
+msgid "The shape width in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr "عرض الشكل بالبكسل. يمكن تغيير حجم هذه القيمة عندما يتم تكييف حجم صورة الخلفية مع الحاوية الخاصة بها"
+
+msgid "The target must be an instance of DOMDocument"
+msgstr "يجب أن يكون الهدف مثيل DOMDocument"
+
+msgid "The text to be displayed if the image is not available."
+msgstr "النص الذي سيتم عرضه في حالة عدم توفر الصورة."
+
+msgid "The top position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr "الموضع العلوي للشكل بالنسبة إلى الزاوية اليسرى العليا للخلفية بالبكسل. يمكن تغيير حجم هذه القيمة عندما يتم تكييف حجم صورة الخلفية مع الحاوية الخاصة بها"
+
+msgid "The upper bound of the slider"
+msgstr "الحد العلوي لشريط التمرير"
+
+msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
+msgstr "فشل التحقق من صحة بند QTI الذي تم استيراده. أرجع النظام الخطأ التالي: %s\n"
+
+msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
+msgstr "لا يمكن استخراج أرشيف ZIP الذي يحتوي على بند IMS QTI."
+
+msgid "The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive."
+msgstr "لا يحتوي أرشيف ZIP على ملف imsmanifest.xml أو أنه أرشيف ZIP غير صالح."
+
+msgid "There are errors in the following shared stimulus : "
+msgstr "توجد أخطاء في الحافز المشترك التالي:"
+
+msgid "There is an incomplete element in your item: please click on it to complete it."
+msgstr "يوجد عنصر غير مكتمل في البند الخاص بك: الرجاء النقر فوقه لإكماله."
+
+msgid "There was a problem downloading your CSS, please try again."
+msgstr "حدثت مشكلة أثناء تنزيل CSS ، يرجى المحاولة مرة أخرى."
+
+msgid "This identifier must not be used by any other response or item variable."
+msgstr "هذا المعرف قيد الاستخدام بالفعل"
+
+msgid "This interaction has no text defined in question mode."
+msgstr "هذا التفاعل ليس له نص محدد في وضع السؤال."
+
+msgid "This is not a valid answer"
+msgstr "هذه ليست إجابة صحيحة"
+
+msgid "This is required"
+msgstr "هذا مطلوب"
+
+msgid "This stylesheet has not been found on the server. you may want to delete this reference"
+msgstr "لم يتم العثور على ورقة الأنماط هذه على الخادم. قد ترغب في حذف هذا المرجع"
+
+msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
+msgstr "لا تتبع هذه القيمة إرشادات سمات التنقيط. لن يكون متوافقًا مع التنقيط اليدوي لـ TAO"
+
+msgid "Time dependent"
+msgstr "حسب الوقت"
+
+msgid "Title"
+msgstr "عنوان"
+
+msgid "to"
+msgstr "إلى"
+
+msgid "Tooltip Content"
+msgstr "محتوى تلميح الأدوات"
+
+msgid "Tooltip editor"
+msgstr "محرر تلميح"
+
+msgid "Tooltip Target"
+msgstr "تلميح الهدف"
+
+msgid "Top"
+msgstr "أعلى"
+
+msgid "Trigger the end of the item attempt."
+msgstr "تشغيل نهاية محاولة التمرين."
+
+msgid "Unable to load item from the given data."
+msgstr "غير قادر على تحميل البند من البيانات المتوفرة."
+
+msgid "Unable to process your request"
+msgstr "غير قادر على معالجة طلبك"
+
+msgid "Unable to retrieve asset \"%s"
+msgstr "غير قادر على استرداد الأصل \"%s"
+
+msgid "Unable to retrieve item : "
+msgstr "تعذر استرداد التمرين:"
+
+msgid "Unable to retrieve item : \"%s"
+msgstr "تعذر استرداد البند: \"%s"
+
+msgid "Unable to validate %s: %s"
+msgstr "غير قادر على التحقق من صحة %s: %s"
+
+msgid "Undo"
+msgstr "الغاء التحميل"
+
+msgid "undo"
+msgstr "الغاء التحميل"
+
+msgid "Unknown $key to register MetadataService instance"
+msgstr "key$  غير معروف لتسجيل مثيل MetadataService"
+
+msgid "Unregister method expects $key and $name parameters."
+msgstr "تتوقع طريقة إلغاء التسجيل معايير key$ و name$."
+
+msgid "Upload a file (e.g. document, picture...) as a response."
+msgstr "قم بتحميل ملف (على سبيل المثال ، مستند ، صورة ...) كرد."
+
+msgid "Upper Bound"
+msgstr "الحد الاعلى"
+
+msgid "Use this if you want the list of choices to be prefixed (e.g. 1,2,3 a,b,c)"
+msgstr "استخدم هذا إذا كنت تريد أن تكون قائمة الاختيارات مسبوقة (على سبيل المثال ، 1 ، 2 ، 3 أ ، ب ، ج)"
+
+msgid "Used to control the format of the text entered by the candidate."
+msgstr "تستخدم للتحكم في تنسيق النص الذي يدخله المترشح."
+
+msgid "Value"
+msgstr "قيمة"
+
+msgid "Vertical"
+msgstr "عمودي"
+
+msgid "warning"
+msgstr "تحذير"
+
+msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
+msgstr "سوف نستخدم patternMask للقيام بذلك ، لتكون متوافقة مع معيار IMS"
+
+msgid "Width"
+msgstr "العرض"
+
+msgid "words"
+msgstr "كلمات"
+
+msgid "Would you like to replace the alt text"
+msgstr "هل ترغب في استبدال النص البديل"
+
+msgid "WYSIWYG editor"
+msgstr "محرر (ما تراه هو ما تحصل عليه) WYSIWYG"
+
+msgid "XML error \"%1$s\"."
+msgstr "خطأ XML \"%1$s\"."
+
+msgid "XML error at line %1$d \"%2$s\"."
+msgstr "خطأ XML في السطر %1$d \"%2$s\"."
+
+msgid "Yes"
+msgstr "نعم"
+
+msgid "You can select maximum %d choice"
+msgstr "يمكنك تحديد أقصى خيار %d"
+
+msgid "You can select maximum %d choices"
+msgstr "يمكنك تحديد %d كحد أقصى من الاختيارات "
+
+msgid "You can select up to %s choices."
+msgstr "يمكنك اختيار ما يصل إلى %s من الخيارات."
+
+msgid "You can use maximum %d choices"
+msgstr "يمكنك تحديد %d خيار  كحد أقصى"
+
+msgid "You have deleted"
+msgstr "لقد حذفت"
+
+msgid "You have deleted an element"
+msgstr "لقد قمت بحذف عنصر"
+
+msgid "You have deleted an element."
+msgstr "لقد قمت بحذف عنصر."
+
+msgid "You may make as many association pairs as you want."
+msgstr "يمكنك عمل العديد من أزواج الربط كما تريد."
+
+msgid "You must select %1$d to %2$d choices."
+msgstr "يجب تحديد %1$d إلى %2$d اختيارًا."
+
+msgid "You must select 0 to %d choices."
+msgstr "يجب تحديد 0 إلى %d اختيار."
+
+msgid "You must select at least %d choice"
+msgstr "يجب عليك تحديد  %d اختيار على الأقل"
+
+msgid "You must select at least %d choices"
+msgstr "يجب تحديد %d اختيار على الأقل"
+
+msgid "You must select exactly %d choice"
+msgstr "يجب عليك تحديد %d اختيار بالضبط"
+
+msgid "You must select exactly %d choice(s)."
+msgstr "يجب تحديد %d اختيار (خيارات) بالضبط."
+
+msgid "You must select exactly %d choices"
+msgstr "يجب تحديد  %d اختيارًا بالضبط"
+
+msgid "You must use at least %d choices"
+msgstr "يجب عليك استخدام %d اختيار على الأقل"
+
+msgid "You need to make"
+msgstr "تحتاج إلى جعل"
+
+msgid "You need to select %s choices"
+msgstr "تحتاج إلى تحديد خيارات %s"
+
+msgid "You need to select at least %s choices."
+msgstr "تحتاج إلى تحديد خيارات %s على الأقل."
+
+msgid "You need to select at least 1 choice."
+msgstr "تحتاج إلى تحديد اختيار واحد على الأقل."
+
+msgid "You need to select from %s to %s choices."
+msgstr "تحتاج إلى الاختيار من %s إلى %s اختيارات."
+
+msgid "Your item has been saved"
+msgstr "تم حفظ البند الخاص بك"
+

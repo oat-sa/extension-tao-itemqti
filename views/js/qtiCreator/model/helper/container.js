@@ -74,7 +74,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(
                 container.setElements(newElts, newBody);
 
                 //operations after insertions:
-                _.each(newElts, function(elt){
+                _.forEach(newElts, function(elt){
                     if(_.isFunction(elt.buildIdentifier)){
                         elt.buildIdentifier();
                     }
@@ -85,7 +85,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/model/qtiClasses'], function(
 
                 if(typeof(callback) === 'function'){
                     Promise.all(promises).then(function(){
-                        _.each(newElts, function(elt){
+                        _.forEach(newElts, function(elt){
                             $doc.trigger('elementCreated.qti-widget', {parent : container.parent(), element : elt});
                         });
                         callback.call(container, newElts);

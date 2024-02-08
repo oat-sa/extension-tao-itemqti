@@ -125,7 +125,7 @@ define([
         }
     ];
 
-    _.each(qtiValidators, function (rule) {
+    _.forEach(qtiValidators, function (rule) {
         validators.register(rule.name, rule);
     });
 

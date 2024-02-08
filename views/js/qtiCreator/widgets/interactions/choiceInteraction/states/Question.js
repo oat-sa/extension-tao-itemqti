@@ -187,7 +187,7 @@ define([
         constraints = selectedCase.constraints;
 
         const allowElimination = features.isVisible('taoQtiItem/creator/interaction/choice/property/allowElimination');
-        const shuffleChoices = features.isVisible('taoQtiItem/creator/interaction/choice/property/allowElimination');
+        const shuffleChoices = features.isVisible('taoQtiItem/creator/interaction/choice/property/shuffle');
         const choiceOptionsAvailable = allowElimination || shuffleChoices;
         $form.html(
             formTpl({
@@ -300,6 +300,7 @@ define([
                 $form.find('[name="constraints"][value="other"]').prop('disabled', true);
                 deleteMinMax();
                 response.attr('cardinality', 'single');
+                response.setCorrect({});
             } else {
                 $form.find('[name="constraints"][value="other"]').prop('disabled', false);
                 response.attr('cardinality', 'multiple');

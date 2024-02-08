@@ -356,7 +356,7 @@ define([
         options = options || {};
 
         //re-init all widgets:
-        _.each(_.values(container.elements), function (elt) {
+        _.forEach(_.values(container.elements), function (elt) {
             const widget = elt.data('widget'),
                 currentState = widget.getCurrentState().name;
 
@@ -400,7 +400,7 @@ define([
         const deleted = [];
         const container = $container.data('qti-container');
 
-        _.each(widgets, function (w) {
+        _.forEach(widgets, function (w) {
             if (!w.element.data('removed')) {
                 const $widget = _findWidgetContainer($container, w.serial);
                 if (!$widget.length) {
@@ -415,7 +415,7 @@ define([
 
             $messageBox
                 .on('confirm.deleting', function () {
-                    _.each(deleted, function (w) {
+                    _.forEach(deleted, function (w) {
                         w.element.remove();
                         w.destroy();
                     });

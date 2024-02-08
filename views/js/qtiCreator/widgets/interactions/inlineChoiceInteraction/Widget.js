@@ -35,7 +35,7 @@ define([
         InteractionWidget.initCreator.call(this);
 
         this.$choiceOptionForm = options.choiceOptionForm;
-        _.each(this.element.getChoices(), choice => {
+        _.forEach(this.element.getChoices(), choice => {
             this.buildChoice(choice);
         });
 
@@ -81,7 +81,7 @@ define([
             dir: dir
         };
 
-        _.each(interaction.getChoices(), choice => {
+        _.forEach(interaction.getChoices(), choice => {
             if (Element.isA(choice, 'choice')) {
                 tplData.choices.push(this.renderChoice(choice, shuffleChoice));
             }

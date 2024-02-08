@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti\asset\factory;
 
+use core_kernel_classes_Class;
 use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\UserLanguageService;
@@ -29,6 +30,7 @@ use oat\tao\model\GenerisServiceTrait;
 use oat\taoMediaManager\model\MediaService;
 use oat\taoMediaManager\model\sharedStimulus\service\StoreService;
 use oat\taoQtiItem\model\Export\AbstractQTIItemExporter;
+use oat\taoQtiItem\model\qti\ImportService;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
@@ -38,13 +40,13 @@ class SharedStimulusFactory extends ConfigurableService
     use ServiceLocatorAwareTrait;
     use GenerisServiceTrait;
 
-    private const ASSET_ROOT_CLASS_URI = 'http://www.tao.lu/Ontologies/TAOMedia.rdf#Media';
+    private const MEDIA_ROOT_CLASS = 'http://www.tao.lu/Ontologies/TAOMedia.rdf#Media';
 
     public function createShardedStimulusFromSourceFiles(
         string $newXmlFile,
         string $relativePath,
         string $absolutePath,
-        string $label
+        array $targetClassPath
     ): string {
         $assetWithCss = $this->getStoreService()->store(
             $newXmlFile,
@@ -54,7 +56,7 @@ class SharedStimulusFactory extends ConfigurableService
 
         return $this->getMediaService()->createSharedStimulusInstance(
             $assetWithCss . DIRECTORY_SEPARATOR . basename($relativePath),
-            $this->getParentClassUri($label),
+            $this->buildParentClassUri($targetClassPath),
             $this->getUserLanguageService()->getAuthoringLanguage()
         );
     }
@@ -99,16 +101,6 @@ class SharedStimulusFactory extends ConfigurableService
         return false;
     }
 
-    private function getParentClassUri(string $label): string
-    {
-        $parentClass = $this->createSubClass(
-            $this->getClass(self::ASSET_ROOT_CLASS_URI),
-            $label
-        );
-
-        return $parentClass->getUri();
-    }
-
     private function getStoreService(): StoreService
     {
         return $this->getServiceLocator()->get(StoreService::class);
@@ -122,5 +114,18 @@ class SharedStimulusFactory extends ConfigurableService
     private function getUserLanguageService(): UserLanguageService
     {
         return $this->getServiceLocator()->get(UserLanguageService::SERVICE_ID);
+    }
+
+    private function buildParentClassUri(array $labelPath): string
+    {
+        $mediaClass = $this->getClass(self::MEDIA_ROOT_CLASS);
+
+        // Creating same classes in the media root
+        foreach ($labelPath as $classLabel) {
+            $mediaClass = $mediaClass->retrieveSubClassByLabel($classLabel)
+                ?: $mediaClass->createSubClass($classLabel);
+        }
+
+        return $mediaClass->getUri();
     }
 }

@@ -69,7 +69,7 @@ define([
 
                 //render static elements
                 $container.replaceWith(hottextHtmlReplacement);
-                _.each(inlineStaticElements, function(elt){
+                _.forEach(inlineStaticElements, function(elt){
                     elt.postRender();
                 });
             });

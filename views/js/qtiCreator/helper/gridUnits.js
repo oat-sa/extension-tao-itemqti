@@ -123,7 +123,7 @@ define(['lodash'], function(_){
             positive = [],
             ret = [];
 
-        _.each(cols, function(col){
+        _.forEach(cols, function(col){
             _cols.push(col);
             totalUnits += col.units;
         });
@@ -132,7 +132,7 @@ define(['lodash'], function(_){
             throw 'the total number of units exceed the maximum of ' + max;
         }
 
-        _.each(_cols, function(col){
+        _.forEach(_cols, function(col){
 
             var refactoredUnits = col.units * max / totalUnits;
             var rounded = Math.round(refactoredUnits);
@@ -155,7 +155,7 @@ define(['lodash'], function(_){
             //too much !
 
             //@todo : start with the hightest refactored
-            _.eachRight(positive, function(col){
+            _.forEachRight(positive, function(col){
                 col.refactoredUnits --;
                 totalRefactoredUnits--;
                 if(totalRefactoredUnits === max){
@@ -166,7 +166,7 @@ define(['lodash'], function(_){
         }else if(totalRefactoredUnits < max){
 
             //@todo : start with the lowest refactored
-            _.each(negative, function(col){
+            _.forEach(negative, function(col){
                 col.refactoredUnits ++;
                 totalRefactoredUnits++;
                 if(totalRefactoredUnits === max){
@@ -176,10 +176,10 @@ define(['lodash'], function(_){
 
         }
 
-        _.each(negative, function(col){
+        _.forEach(negative, function(col){
             ret.push(col);
         });
-        _.each(positive, function(col){
+        _.forEach(positive, function(col){
             ret.push(col);
         });
 

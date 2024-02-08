@@ -109,7 +109,9 @@ class PortableElementFileStorage extends ConfigurableService
             } else {
                 $registered = $fileSystem->writeStream($fileId, $resource);
             }
-            fclose($resource);
+            if (is_resource($resource)) {
+                fclose($resource);
+            }
             \common_Logger::i('Portable element asset file "' . $fileId . '" copied.');
         }
         return $registered;

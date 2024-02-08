@@ -13,26 +13,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2022-2023 (original work) Open Assessment Technologies SA
  *
  */
 define([
     'lodash',
+    'context',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiItem/core/Figure',
     'taoQtiItem/qtiCreator/model/Img',
     'taoQtiItem/qtiCreator/model/Figcaption'
-], function (_, editable, Figure, Img, Figcaption) {
+], function (_, context, editable, Figure, Img, Figcaption) {
     'use strict';
+    const DISABLE_FIGURE_WIDGET = context.featureFlags && context.featureFlags.FEATURE_FLAG_DISABLE_FIGURE_WIDGET;
     const methods = {};
     _.extend(methods, editable);
     _.extend(methods, {
-        getDefaultAttributes: function () {
+        getDefaultAttributes() {
             return {
-                showFigure: false
+                showFigure: DISABLE_FIGURE_WIDGET || false
             };
         },
-        afterCreate: function () {
+        afterCreate() {
             this.getNamespace();
             const img = new Img();
             this.setElement(img);
@@ -40,7 +42,7 @@ define([
                 img.setRenderer(this.getRenderer());
             }
         },
-        addCaption: function (text) {
+        addCaption(text) {
             // check that caption doesn't exist
             let figcaption = _.find(this.getBody().elements, elem => elem.is('figcaption'));
             if (!figcaption) {
@@ -57,7 +59,7 @@ define([
             }
             return figcaption;
         },
-        removeCaption: function () {
+        removeCaption() {
             const figcaption = _.find(this.getBody().elements, elem => elem.is('figcaption'));
             if (figcaption) {
                 this.removeElement(figcaption);

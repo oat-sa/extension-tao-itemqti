@@ -9,7 +9,7 @@ define([
         var found = false,
             modalFeedbacks = [];
 
-        _.each(response.feedbackRules, function(rule){
+        _.forEach(response.feedbackRules, function(rule){
             if(rule.feedbackThen && rule.feedbackThen.qtiClass === 'modalFeedback'){
                 modalFeedbacks.push(rule.feedbackThen);
             }
@@ -17,7 +17,7 @@ define([
                 modalFeedbacks.push(rule.feedbackElse);
             }
         });
-        _.each(modalFeedbacks, function(fb){
+        _.forEach(modalFeedbacks, function(fb){
             var elt = fb.getBody().getElement(searchSerial);
             if(elt){
                 found = true;
@@ -29,7 +29,7 @@ define([
     };
 
     var InteractionStateActive = stateFactory.extend(Active, function(){
-        
+
         var _widget = this.widget,
             $container = _widget.$container,
             interaction = _widget.element,
@@ -38,15 +38,15 @@ define([
         $container.attr('contenteditable', false);
 
         _widget.beforeStateInit(function(e, element, state){
-            
+
             var serial = element.getSerial();
-            
+
             if(element.qtiClass === 'modalFeedback'){
                 return false;
             }
-            
+
             if(state.name === 'active' && serial !== _widget.serial){
-                
+
                 //when it does not click on itself, check if the newly activated element is its own composing element:
                 var composingElts = interaction.getComposingElements();
                 var inModalFeedback = _containsInModalFeedbackElts(response, serial);

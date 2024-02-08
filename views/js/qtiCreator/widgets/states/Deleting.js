@@ -145,7 +145,7 @@ define([
 
         cols = gridUnits.redistribute(cols);
 
-        _.each(cols, function (col) {
+        _.forEach(cols, function (col) {
             let oldClass = col.elt.context.classList.value;
             col.elt.removeClass(oldClass.match(/col-([\d]+)/).input).addClass(`col-${col.refactoredUnits}`);
             gridHelper.setUnitsFromClass(col.elt);
@@ -175,7 +175,7 @@ define([
 
             if (_isCol($elt)) {
                 //restore the other units:
-                _.each(this.refactoredUnits, function (col) {
+                _.forEach(this.refactoredUnits, function (col) {
                     col.elt.removeClass(`col-${col.refactoredUnits}`).addClass(`col-${col.units}`);
                     gridHelper.setUnitsFromClass(col.elt);
                 });
@@ -208,7 +208,7 @@ define([
         const container = this.widget.element;
 
         if (container.getBody && container.getBody().elements) {
-            _.each(_.values(container.getBody().elements), function (elt) {
+            _.forEach(_.values(container.getBody().elements), function (elt) {
                 if (elt.metaData && elt.metaData.widget) {
                     const widget = elt.metaData.widget;
                     widget.destroy();

@@ -43,7 +43,7 @@ define([
                     tplData.condition = rule.condition;
                     tplData.multiple = rule.comparedOutcome.isCardinality(['multiple', 'ordered']);
                     _values = [];
-                    _.each(rule.comparedValue, function(choice){
+                    _.forEach(rule.comparedValue, function(choice){
                         //check if all the selected choices still exist
                         if(choice.parent()){
                             _values.push(choice.id());
