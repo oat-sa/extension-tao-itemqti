@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2021-2024 (original work) Open Assessment Technologies SA ;
  */
 define([
     'jquery',
@@ -25,13 +25,19 @@ define([
     'use strict';
 
     const dualColClass = 'dual-column-layout';
+    const separatorClass = 'separator-between-columns';
 
     return pluginFactory({
         name: 'layoutEditor',
+
         /**
          * Initialize the plugin (called during runner's init)
          */
         init: function init() {
+            const qtiCreatorProperties = this.getHost().getConfig().properties || {};
+            const multiColEnabled = qtiCreatorProperties['scrollable-multi-column'];
+            const separatorEnabled = qtiCreatorProperties['separator-between-columns'];
+
             const item = this.getHost().getItem();
             const $container = this.getAreaBroker().getContainer();
             // get style editor side panel
@@ -41,7 +47,11 @@ define([
             $stylePanel.find('#item-editor-layout-panel').remove();
 
             // create item layout panel
-            const $layoutEditorPanel = $(panelTpl());
+            const tplData = {
+                multiColEnabled,
+                separatorEnabled
+            };
+            const $layoutEditorPanel = $(panelTpl(tplData));
 
             // attach to the style editor panel
             $stylePanel.append($layoutEditorPanel);
@@ -64,6 +74,66 @@ define([
             function _getItemBody() {
                 return $itemEditorPanel.find('.qti-itemBody');
             }
+
+            /**
+             * Encapsulate the separator-between-columns checkbox logic
+             * (Only used if separatorEnabled is true)
+             */
+            const separatorManager = {
+                $panel: $('#item-editor-separator-between-columns'),
+                // set on separatorManager init:
+                $checkbox: null,
+                $target: null,
+
+                /**
+                 * Sets checkbox state based on item class
+                 */
+                setCheckBox() {
+                    if (item.hasClass(separatorClass)) {
+                        this.$checkbox.prop('checked', true);
+                    }
+                },
+
+                /**
+                 * Checks checkbox state
+                 */
+                isCheckboxChecked() {
+                    return this.$checkbox.prop('checked');
+                },
+
+                /**
+                 * Sets correct class to item model's itemBody and itemBody DOM element
+                 */
+                setTargetClass(checked) {
+                    if (checked) {
+                        item.addClass(separatorClass);
+                        addClassToTarget(this.$target, separatorClass);
+                    } else {
+                        item.removeClass(separatorClass);
+                        removeClassFromTarget(this.$target, separatorClass);
+                    }
+                    console.log('setTargetClass ran');
+                },
+
+                /**
+                 * Runs on editor init to set the correct checkbox state and classes
+                 * and wires up checkbox
+                 */
+                init() {
+                    this.$checkbox = this.$panel.find('[name="separator-between-columns"]');
+                    this.$target = $itemEditorPanel.find(this.$panel.data('target'));
+
+                    this.setCheckBox();
+                    this.setTargetClass(this.isCheckboxChecked());
+
+                    this.$checkbox.on('click', e => {
+                        console.log('onclick');
+                        this.setTargetClass(e.target.checked);
+                    });
+                    console.log('init ran');
+                }
+            };
+
 
             /**
              * Checks scrollable multi-column checkbox if css class is present
@@ -124,9 +194,13 @@ define([
                 setMultiColCssClass(this.checked);
             });
 
-            $(document).on('ready.qti-widget', function () {
+            $container.on('ready.qti-widget', function () {
                 setMultiColCheckbox();
                 setMultiColCssClass();
+                if (separatorEnabled) {
+                    separatorManager.init();
+                }
+                $container.trigger('initDone.layout-editor');
             });
         }
     });
