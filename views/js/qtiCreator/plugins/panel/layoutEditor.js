@@ -59,11 +59,6 @@ define([
             // show tooltip
             tooltip.lookup($layoutEditorPanel);
 
-            // get scrollable multi-column checkbox and target element
-            const selector = $('#item-editor-scrollable-multi-column'),
-                target = selector.data('target'),
-                $scrollableMultiCol = selector.find('[name="scrollable-multi-column"]');
-
             const $itemEditorPanel = $('#item-editor-panel');
 
             /**
@@ -74,6 +69,62 @@ define([
             function _getItemBody() {
                 return $itemEditorPanel.find('.qti-itemBody');
             }
+
+            /**
+             * Encapsulate the dual-column-layout checkbox logic
+             * (Only used if multiColEnabled is true)
+             */
+            const multiColManager = {
+                $panel: $('#item-editor-scrollable-multi-column'),
+                // set on multiColManager init:
+                $checkbox: null,
+                $target: null,
+
+                /**
+                 * Sets checkbox state based on item class
+                 */
+                setCheckBox() {
+                    if (this.$target.hasClass(dualColClass)) {
+                        this.$checkbox.prop('checked', true);
+                    }
+                },
+
+                /**
+                 * Checks checkbox state
+                 * @returns {boolean}
+                 */
+                isCheckboxChecked() {
+                    return this.$checkbox.prop('checked');
+                },
+
+                /**
+                 * Sets correct class to item model's itemBody and itemBody DOM element
+                 * @param {boolean} checked
+                 */
+                setTargetClass(checked) {
+                    if (checked) {
+                        addClassToTarget(this.$target, dualColClass);
+                    } else {
+                        removeClassFromTarget(this.$target, dualColClass);
+                    }
+                },
+
+                /**
+                 * Runs on editor init to set the correct checkbox state and classes
+                 * and wires up checkbox
+                 */
+                init() {
+                    this.$checkbox = this.$panel.find('[name="scrollable-multi-column"]');
+                    this.$target = $itemEditorPanel.find(this.$panel.data('target'));
+
+                    this.setCheckBox();
+                    this.setTargetClass(this.isCheckboxChecked());
+
+                    this.$checkbox.on('click', e => {
+                        this.setTargetClass(e.target.checked);
+                    });
+                }
+            };
 
             /**
              * Encapsulate the separator-between-columns checkbox logic
@@ -134,48 +185,14 @@ define([
                 }
             };
 
-
-            /**
-             * Checks scrollable multi-column checkbox if css class is present
-             */
-            function setMultiColCheckbox() {
-                const $target = $(target);
-                if ($target.hasClass(dualColClass)) {
-                    $scrollableMultiCol.prop('checked', true);
-                }
-            }
-
-            /**
-             * Sets scrollable multi-column css class if checkbox is checked
-             * @param checked
-             */
-            function setMultiColCssClass(checked = isMultiColChecked()) {
-                const $target = $(target);
-                if (checked) {
-                    addClassToTarget($target, dualColClass);
-                } else {
-                    removeClassFromTarget($target, dualColClass);
-                }
-            }
-
-            /**
-             * Returns true if multi-column checkbox is checked
-             *
-             * @returns {boolean}
-             */
-            function isMultiColChecked() {
-                return $scrollableMultiCol.prop('checked');
-            }
-
             /**
              * Adds css class to the data target and updates item body
              *
-             * @param {JQuery} $target - element to remove class from
+             * @param {JQuery} $target - element to add class to
              * @param {string} cssClass
              */
             function addClassToTarget($target, cssClass) {
                 $target.addClass(cssClass);
-                //need to update item body
                 item.body(contentHelper.getContent(_getItemBody()));
             }
 
@@ -190,13 +207,10 @@ define([
                 item.body(contentHelper.getContent(_getItemBody()));
             }
 
-            $scrollableMultiCol.on('click', function () {
-                setMultiColCssClass(this.checked);
-            });
-
             $container.on('ready.qti-widget', function () {
-                setMultiColCheckbox();
-                setMultiColCssClass();
+                if (multiColEnabled) {
+                    multiColManager.init();
+                }
                 if (separatorEnabled) {
                     separatorManager.init();
                 }

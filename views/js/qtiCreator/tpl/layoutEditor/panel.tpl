@@ -2,7 +2,7 @@
 <div class="panel" id="item-editor-layout-panel">
     <h3>{{__ "Layout"}}</h3>
     {{#if multiColEnabled}}
-        <div id="item-editor-scrollable-multi-column" data-target="body div.grid-row">
+        <div id="item-editor-scrollable-multi-column" data-target=".qti-itemBody div.grid-row">
             <label>
                 <input name="scrollable-multi-column" type="checkbox"/>
                 <span class="icon-checkbox"></span>
