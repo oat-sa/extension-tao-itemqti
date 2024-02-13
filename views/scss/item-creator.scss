@@ -17,6 +17,9 @@ $itemCreatorAddOptionBgColor: $itemCreatorBlue90;
 $itemCreatorMiniTlbBorderColor: $itemCreatorBlue20;
 $itemCreatorMiniTlbBgColor: $itemCreatorBlue95;
 
+// colors ported from nextgen TAO design system
+$colorGsDark: #121212;
+
 // @todo this a temporary solution, see taoQtiItem/views/js/qtiCreator/editor/gridEditor/draggable.js, createDraggable()
 span.dragging, img.dragging.ui-draggable-dragging {
     opacity: 0.8 !important;
@@ -1401,6 +1404,22 @@ img.dragging.ui-draggable-dragging {
         z-index:-1;
     }
 }
+.qti-itemBody.separator-between-columns {
+    & > .grid-row {
+        /* column separator pseudo-element */
+        /* expected layout for this feature is col-6 col-6, but we try to support other variants */
+        & > [class^='col-'] + [class^='col-']::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: -8px; /* approximate, given responsive columns */
+            width: 2px;
+            background: $colorGsDark;
+        }
+    }
+}
+
 // jquery draggable widget has issue with RTL
 // fix: pass rtl to widget inside colimns and set ltr for grid
 .qti-itemBody[dir="rtl"] .grid-row {
