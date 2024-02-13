@@ -147,6 +147,7 @@ define([
 
                 /**
                  * Checks checkbox state
+                 * @returns {boolean}
                  */
                 isCheckboxChecked() {
                     return this.$checkbox.prop('checked');
@@ -154,6 +155,7 @@ define([
 
                 /**
                  * Sets correct class to item model's itemBody and itemBody DOM element
+                 * @param {boolean} checked
                  */
                 setTargetClass(checked) {
                     if (checked) {
@@ -163,7 +165,6 @@ define([
                         item.removeClass(separatorClass);
                         removeClassFromTarget(this.$target, separatorClass);
                     }
-                    console.log('setTargetClass ran');
                 },
 
                 /**
@@ -178,10 +179,8 @@ define([
                     this.setTargetClass(this.isCheckboxChecked());
 
                     this.$checkbox.on('click', e => {
-                        console.log('onclick');
                         this.setTargetClass(e.target.checked);
                     });
-                    console.log('init ran');
                 }
             };
 
@@ -207,7 +206,7 @@ define([
                 item.body(contentHelper.getContent(_getItemBody()));
             }
 
-            $container.on('ready.qti-widget', function () {
+            $container.on('ready.qti-widget', function() {
                 if (multiColEnabled) {
                     multiColManager.init();
                 }
