@@ -1,11 +1,10 @@
 define(function() {
     'use strict';
 
-    return function EventMgr(){
+    return function EventMgr() {
+        const events = {};
 
-        var events = {};
-
-        this.get = function get(event){
+        this.get = event => {
             if (event && events[event]) {
                 return [...events[event]];
             } else {
@@ -13,31 +12,31 @@ define(function() {
             }
         };
 
-        this.on = function on(event, callback){
-            var name;
-            var tokens = event.split('.');
-            if(tokens[0]){
+        this.on = (event, callback) => {
+            let name;
+            const tokens = event.split('.');
+            if (tokens[0]) {
                 name = tokens.shift();
                 events[name] = events[name] || [];
                 events[name].push({
-                    ns : tokens,
-                    callback : callback
+                    ns: tokens,
+                    callback: callback
                 });
             }
         };
 
-        this.off = function off(event){
-            if(event && events[event]){
+        this.off = event => {
+            if (event && events[event]) {
                 events[event] = [];
             }
         };
 
-        this.trigger = function trigger(event, data){
-            if(events[event]){
+        this.trigger = (event, data) => {
+            if (events[event]) {
                 events[event].forEach(e => {
                     e.callback.apply({
-                        type : event,
-                        ns : []
+                        type: event,
+                        ns: []
                     }, data);
                 });
             }
