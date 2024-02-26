@@ -43,7 +43,8 @@ define([
     'taoQtiItem/qtiCreator/editor/interactionsPanel',
     'taoQtiItem/qtiCreator/editor/propertiesPanel',
     'taoQtiItem/qtiCreator/model/helper/event',
-    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor'
+    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
+    'taoQtiItem/qtiCreator/helper/xincludeLoader'
 ], function (
     $,
     _,
@@ -61,7 +62,8 @@ define([
     interactionPanel,
     propertiesPanel,
     eventHelper,
-    styleEditor
+    styleEditor,
+    xincludeLoader
 ) {
     'use strict';
 
@@ -248,14 +250,50 @@ define([
                             return;
                         }
 
+                        const elementPromises = []; // Prepare to collect promises for asynchronous operations
+
                         _.forEach(item.getComposingElements(), function (element) {
                             if (element.is('customInteraction')) {
                                 usedCustomInteractionIds.push(element.typeIdentifier);
+
+                                // Directly iterate over element.properties.pages as it's already an array
+                                if (element.properties && Array.isArray(element.properties.pages) && element.typeIdentifier === 'textReaderInteraction') {
+                                    const pages = element.properties.pages;
+
+                                    const pagePromises = pages.map(page => {
+                                        const contentPromises = page.content.map(contentItem => {
+                                            const tempDiv = document.createElement('div');
+                                            tempDiv.innerHTML = contentItem;
+                                            const xiIncludeElements = tempDiv.querySelectorAll('xi\\:include');
+
+                                            const xiIncludePromises = Array.from(xiIncludeElements).map(xiIncludeElement => {
+                                                const $xiIncludeElement = $(xiIncludeElement);
+                                                return xincludeLoader.load($xiIncludeElement, config.properties.baseUrl).then(newContent => {
+                                                    $xiIncludeElement.replaceWith(newContent.data);
+                                                });
+                                            });
+
+                                            return Promise.all(xiIncludePromises).then(() => tempDiv.innerHTML);
+                                        });
+
+                                        return Promise.all(contentPromises).then(updatedContentItems => {
+                                            page.content = updatedContentItems;
+                                            return page;
+                                        });
+                                    });
+
+                                    elementPromises.push(Promise.all(pagePromises).then(updatedPages => {
+                                        element.properties.pages = updatedPages; // No need for JSON.stringify
+                                    }));
+                                }
                             }
                         });
 
-                        self.item = item;
-                        return true;
+                        // Wait for all elements' xi:include elements to be processed
+                        return Promise.all(elementPromises).then(() => {
+                            self.item = item;
+                            return true;
+                        });
                     })
                     .then(() => {
                         const item = self.item;
