@@ -1406,6 +1406,9 @@ img.dragging.ui-draggable-dragging {
 }
 .qti-itemBody.separator-between-columns {
     & > .grid-row {
+        & > [class^='col-'] {
+            position: relative;
+        }
         /* column separator pseudo-element */
         /* expected layout for this feature is col-6 col-6, but we try to support other variants */
         & > [class^='col-'] + [class^='col-']::before {
