@@ -76,6 +76,29 @@ define(
 
                 // Convert the XML document to HTML
                 return convertXMLToHTML(xmlDoc.documentElement);
+            },
+            loadByElementPages: function loadByElementPages(pages, baseUrl) {
+                return pages.map(page => {
+                    const contentPromises = page.content.map(contentItem => {
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = contentItem;
+                        const xiIncludeElements = tempDiv.querySelectorAll('xi\\:include');
+
+                        const xiIncludePromises = Array.from(xiIncludeElements).map(xiIncludeElement => {
+                            const $xiIncludeElement = $(xiIncludeElement);
+                            return xincludeLoader.load($xiIncludeElement, baseUrl).then(newContent => {
+                                $xiIncludeElement.replaceWith(newContent.data);
+                            });
+                        });
+
+                        return Promise.all(xiIncludePromises).then(() => tempDiv.innerHTML);
+                    });
+
+                    return Promise.all(contentPromises).then(updatedContentItems => {
+                        page.content = updatedContentItems;
+                        return page;
+                    });
+                });
             }
         };
         return xincludeLoader;

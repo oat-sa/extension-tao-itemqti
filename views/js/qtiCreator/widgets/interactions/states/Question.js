@@ -3,8 +3,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Question',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/addChoice',
-    'i18n'
-], function($, stateFactory, Question, addChoiceTpl, __){
+    'i18n',
+    'taoQtiItem/qtiCreator/helper/xincludeLoader',
+], function($, stateFactory, Question, addChoiceTpl, __, xincludeLoader){
 
     var InteractionStateQuestion = stateFactory.create(Question, function(){
 
@@ -23,10 +24,18 @@ define([
 
 
     }, function(){
-
         //destroy and hide it
         this.widget.$form.empty().hide();
-
+        //render textReaderInteraction possible xi:include elements
+        let element = this.widget.element;
+        const baseUrl = this.widget.options.baseUrl;
+        if (element.properties && Array.isArray(element.properties.pages) && element.typeIdentifier === 'textReaderInteraction') {
+            const pagePromises = xincludeLoader.loadByElementPages(element.properties.pages, baseUrl)
+            Promise.all(pagePromises).then(updatedPages => {
+                element.properties.pages = updatedPages;
+                element.widgetRenderer.renderPages(element.properties);
+            });
+        }
         //disable/destroy editor, hide mini-toolbar
     });
 
