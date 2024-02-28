@@ -140,7 +140,7 @@ define([
             //activate the new widget:
             _.defer(function () {
                 if (widget) {
-                    if (widget.elemen && widget.element.is('interaction')) {
+                    if (widget.element && widget.element.is('interaction')) {
                         widget.changeState('question');
                     } else {
                         widget.changeState('active');
