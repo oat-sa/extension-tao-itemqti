@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,6 +17,8 @@ declare(strict_types=1);
  *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\metadata;
 
@@ -48,7 +48,8 @@ final class ImsManifestMetadataInjectorTest extends TestCase
     private function createXmlTemplate(string $resourceId): string
     {
         return sprintf(
-            '<manifest xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            '<manifest xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" 
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                 <resources>
                     <resource identifier="%s"/>
                 </resources>
