@@ -213,6 +213,10 @@ module.exports = function (grunt) {
             grunt.log.error('Missing the extension in param, e.g. "grunt portableelement -e=qtiItemPci"');
             return done();
         }
+        if (type && !portableModels.find(model => model.type === type)) {
+            grunt.log.error(`Unrecognised type "${type}"`);
+            return done();
+        }
 
         grunt.log.writeln(`Started optimizing portable elements in extension "${extension}"`);
 
