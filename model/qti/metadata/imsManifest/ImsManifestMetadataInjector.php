@@ -270,7 +270,7 @@ class ImsManifestMetadataInjector implements MetadataInjector
                     }
                 }
             } else {
-                $node->nodeValue = $metadata->getValue();
+                $node->nodeValue = htmlspecialchars($metadata->getValue());
             }
             $oldChildNode = $node;
         }
