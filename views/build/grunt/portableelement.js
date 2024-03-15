@@ -206,10 +206,15 @@ module.exports = function (grunt) {
         const done = this.async();
         const extension = grunt.option('extension') || grunt.option('e');
         const selectedId = grunt.option('identifier') || grunt.option('i');
-        let manifests, compileTasks;
+        const type = grunt.option('type');
+        let models, manifests, compileTasks;
 
         if (!extension) {
             grunt.log.error('Missing the extension in param, e.g. "grunt portableelement -e=qtiItemPci"');
+            return done();
+        }
+        if (type && !portableModels.find(model => model.type === type)) {
+            grunt.log.error(`Unrecognised type "${type}"`);
             return done();
         }
 
@@ -219,7 +224,9 @@ module.exports = function (grunt) {
             grunt.log.writeln(`Only searching portable element "${selectedId}"`);
         }
 
-        manifests = portableModels.reduce(
+        models = type ? portableModels.filter(model => model.type === type) : portableModels;
+
+        manifests = models.reduce(
             (acc, model) => grunt.file.expand(join(root, extension, model.searchPattern)).concat(acc),
             []
         );
