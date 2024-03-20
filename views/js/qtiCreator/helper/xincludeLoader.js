@@ -17,7 +17,7 @@
  */
 
 /**
- * Helper for loading xinclude elements for PCI
+ * Helper for loading xinclude elements outside PCI
  */
 define(function () {
     'use strict';
