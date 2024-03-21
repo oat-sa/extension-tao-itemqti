@@ -125,9 +125,13 @@ define([
         // Make sure to adjust the response when exiting the state even if not modified
         const widget = this.widget;
         const response = widget.element.getResponseDeclaration();
+        if(response.template === "no_response_processing") {
+            widget.$container.find('button.widget-ok').attr('disabled', false);
+            widget.isValid(widget.serial, true);
+        }
         stringResponseHelper.rewriteCorrectResponse(response, { trim: true });
 
-        this.widget.$container.off('.correct');
+        widget.$container.off('.correct');
         instructionMgr.removeInstructions(widget.element);
     }
 
