@@ -84,16 +84,28 @@ define(function () {
         loadXIncludeElement,
         parseXmlToDom,
         loadByElementPages(pages, baseUrl) {
-            return Promise.all(pages.map(page => {
-                if (!baseUrl) {
-                    return Promise.reject(new Error('baseUrl is missing'));
+            if (!baseUrl) {
+                return Promise.reject(new Error('baseUrl is missing'));
+            }
+            function containsXIInclude(contentItem) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = contentItem;
+                const xiIncludeElements = tempDiv.querySelectorAll('xi\\:include');
+                return xiIncludeElements.length > 0;
+            }
+            const pageUpdatePromises = pages.map(page => {
+                const hasXIInclude = page.content.some(containsXIInclude);
+                if (!hasXIInclude) {
+                    return Promise.resolve(page);
                 }
                 const contentPromises = page.content.map(contentItem => processContentItem(contentItem, baseUrl));
                 return Promise.all(contentPromises).then(updatedContentItems => {
                     page.content = updatedContentItems;
                     return page;
                 });
-            }));
+            });
+
+            return Promise.all(pageUpdatePromises);
         }
     };
 });
