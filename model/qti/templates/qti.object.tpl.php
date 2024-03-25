@@ -19,7 +19,7 @@
  *
  */
 ?>
-<?php if (trim(get_data('_alt')) == '') :?>
+<?php if (has_data('_alt') && trim(get_data('_alt')) == '') :?>
     <object <?=get_data('attributes')?>/>
 <?php else :?>
     <object <?=get_data('attributes')?>><?=get_data('_alt')?></object>

@@ -69,7 +69,7 @@ class OutcomeDeclaration extends VariableDeclaration
         $variables = parent::getTemplateQtiVariables();
         $variables['defaultValue'] = null;
         $defaultValue = $this->getDefaultValue();
-        if (!is_null($defaultValue) || trim($defaultValue) != '') {
+        if (!is_null($defaultValue) && trim($defaultValue) != '') {
             $variables['defaultValue'] = $defaultValue;
         }
         return $variables;
