@@ -20,6 +20,7 @@
 
 namespace oat\taoQtiItem\test\integration\metadata;
 
+use oat\generis\test\OntologyMockTrait;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMapping;
 use oat\tao\test\TaoPhpUnitTestRunner;
@@ -33,12 +34,14 @@ include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
 
 class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
 {
+    use OntologyMockTrait;
     protected $imsManifestInjector;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->imsManifestInjector = new ImsManifestMetadataInjector();
+        $this->imsManifestInjector->setModel($this->getOntologyMock());
     }
 
     public function tearDown(): void

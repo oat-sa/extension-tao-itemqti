@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
 use DOMDocument;
 use DOMElement;
+use oat\generis\model\OntologyAwareTrait;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationMetadataValue;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationValue;
 use oat\taoQtiItem\model\qti\metadata\MetadataInjectionException;
@@ -40,6 +41,8 @@ use InvalidArgumentException;
  */
 class ImsManifestMetadataInjector implements MetadataInjector
 {
+    use OntologyAwareTrait;
+
     /**
      * An array of IMSManifesMapping object.
      *
@@ -270,7 +273,10 @@ class ImsManifestMetadataInjector implements MetadataInjector
                     }
                 }
             } else {
-                $node->nodeValue = $metadata->getValue();
+                $node->nodeValue = htmlspecialchars($metadata->getValue());
+                if ($this->getResource($metadata->getValue())->exists()) {
+                    $node->nodeValue .='|' . $this->getResource($metadata->getValue())->getLabel();
+                }
             }
             $oldChildNode = $node;
         }
