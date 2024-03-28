@@ -20,7 +20,6 @@
 
 namespace oat\taoQtiItem\test\integration\metadata;
 
-use oat\generis\test\OntologyMockTrait;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMapping;
 use oat\tao\test\TaoPhpUnitTestRunner;
@@ -41,7 +40,6 @@ class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
     {
         parent::setUp();
         $this->imsManifestInjector = new ImsManifestMetadataInjector();
-        $this->imsManifestInjector->setModel($this->getOntologyMock());
     }
 
     public function tearDown(): void
