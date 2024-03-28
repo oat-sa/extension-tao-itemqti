@@ -234,11 +234,10 @@ class ImsManifestMetadataInjector implements MetadataInjector
      */
     protected function createMetadataElement(
         MetadataValue $metadata,
-        DOMElement    $metadataNode,
-                      $map,
-        DOMDocument   $imsManifest
-    )
-    {
+        DOMElement $metadataNode,
+        $map,
+        DOMDocument $imsManifest
+    ) {
         $path = $metadata->getPath();
         $path = array_reverse($path);
 
