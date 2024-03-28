@@ -178,7 +178,8 @@ class ImsManifestMetadataInjector implements MetadataInjector
             $root->setAttribute('xmlns:' . $mapping->getPrefix(), $mapping->getNamespace());
             $root->setAttribute(
                 'xsi:schemaLocation',
-                $root->getAttribute('xsi:schemaLocation') . ' ' . $mapping->getNamespace() . ' ' . $mapping->getSchemaLocation()
+                $root->getAttribute('xsi:schemaLocation') . ' ' . $mapping->getNamespace(
+                    ) . ' ' . $mapping->getSchemaLocation()
             );
 
             $map[$mapping->getNamespace()] = $mapping->getPrefix();
