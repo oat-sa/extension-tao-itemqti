@@ -22,7 +22,9 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\metadata;
 
+use core_kernel_classes_Resource;
 use DOMDocument;
+use oat\generis\model\data\Ontology;
 use PHPUnit\Framework\TestCase;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMapping;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\ImsManifestMetadataInjector;
@@ -43,6 +45,22 @@ final class ImsManifestMetadataInjectorTest extends TestCase
         ];
 
         $this->imsManifestInjector = new ImsManifestMetadataInjector($mappings);
+        $this->resourceMock = $this->createMock(core_kernel_classes_Resource::class);
+        $this->ontologyMock = $this->createMock(Ontology::class);
+
+        $this->ontologyMock
+            ->method('getResource')
+            ->willReturn($this->resourceMock);
+
+        $this->resourceMock
+            ->method('exists')
+            ->willReturn(true);
+
+        $this->resourceMock
+            ->method('getLabel')
+            ->willReturn('label');
+
+        $this->imsManifestInjector->setModel($this->ontologyMock);
     }
 
     private function createXmlTemplate(string $resourceId): string
@@ -93,5 +111,11 @@ final class ImsManifestMetadataInjectorTest extends TestCase
         $this->assertMatchesRegularExpression('/Amp &amp;/', $xml);
         $this->assertMatchesRegularExpression('/Gt &gt;/', $xml);
         $this->assertMatchesRegularExpression('/Lt &lt;/', $xml);
+
+        $this->assertMatchesRegularExpression(
+            '/\|label/',
+            $xml,
+            'All elemets are resources so label should be present along with |'
+        );
     }
 }
