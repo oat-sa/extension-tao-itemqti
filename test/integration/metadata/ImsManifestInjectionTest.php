@@ -33,7 +33,6 @@ include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
 
 class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
 {
-    use OntologyMockTrait;
     protected $imsManifestInjector;
 
     public function setUp(): void
