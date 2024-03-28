@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
 use DOMDocument;
 use DOMElement;
+use DOMNode;
 use oat\generis\model\OntologyAwareTrait;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationMetadataValue;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationValue;
@@ -164,7 +165,7 @@ class ImsManifestMetadataInjector implements MetadataInjector
     public function inject($target, array $values)
     {
         /** @var $target DOMDocument */
-        if (! $target instanceof DOMDocument) {
+        if (!$target instanceof DOMDocument) {
             throw new MetadataInjectionException(__('The target must be an instance of DOMDocument'));
         }
 
@@ -177,8 +178,7 @@ class ImsManifestMetadataInjector implements MetadataInjector
             $root->setAttribute('xmlns:' . $mapping->getPrefix(), $mapping->getNamespace());
             $root->setAttribute(
                 'xsi:schemaLocation',
-                $root->getAttribute('xsi:schemaLocation') . ' ' . $mapping->getNamespace(
-                ) . ' ' . $mapping->getSchemaLocation()
+                $root->getAttribute('xsi:schemaLocation') . ' ' . $mapping->getNamespace() . ' ' . $mapping->getSchemaLocation()
             );
 
             $map[$mapping->getNamespace()] = $mapping->getPrefix();
@@ -234,10 +234,11 @@ class ImsManifestMetadataInjector implements MetadataInjector
      */
     protected function createMetadataElement(
         MetadataValue $metadata,
-        DOMElement $metadataNode,
-        $map,
-        DOMDocument $imsManifest
-    ) {
+        DOMElement    $metadataNode,
+                      $map,
+        DOMDocument   $imsManifest
+    )
+    {
         $path = $metadata->getPath();
         $path = array_reverse($path);
 
@@ -273,14 +274,27 @@ class ImsManifestMetadataInjector implements MetadataInjector
                     }
                 }
             } else {
-                $node->nodeValue = htmlspecialchars($metadata->getValue());
-                if ($this->getResource($metadata->getValue())->exists()) {
-                    $node->nodeValue .='|' . $this->getResource($metadata->getValue())->getLabel();
-                }
+                $node->nodeValue = htmlspecialchars($this->getResourceMetadataValue($metadata));
             }
+
             $oldChildNode = $node;
         }
 
         $metadataNode->appendChild($oldChildNode);
+    }
+
+    /**
+     * Will check if value of a metadata is a Tao Resource and return the resource label if it exists.
+     */
+    private function getResourceMetadataValue(MetadataValue $metadata): string
+    {
+        if ($this->getResource($metadata->getValue())->exists()) {
+            return sprintf(
+                '%s|%s',
+                $metadata->getValue(),
+                $this->getResource($metadata->getValue())->getLabel()
+            );
+        }
+        return $metadata->getValue();
     }
 }
