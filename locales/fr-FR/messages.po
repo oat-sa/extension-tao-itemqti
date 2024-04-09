@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-06-07 09:16\n"
+"PO-Revision-Date: 2024-04-09 08:31\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr\n"
@@ -1868,7 +1868,7 @@ msgid "Unable to load item from the given data."
 msgstr ""
 
 msgid "Unable to process your request"
-msgstr ""
+msgstr "Votre requête n’a pu aboutir"
 
 msgid "Unable to retrieve asset \"%s"
 msgstr "Impossible de récupérer l'actif \"%s"
