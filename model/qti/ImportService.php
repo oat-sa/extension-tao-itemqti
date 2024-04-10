@@ -30,6 +30,7 @@ use core_kernel_classes_Resource;
 use DOMDocument;
 use Exception;
 use helpers_File;
+use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\TaoOntology;
 use oat\oatbox\mutex\LockTrait;
@@ -51,6 +52,9 @@ use oat\taoQtiItem\model\qti\exception\TemplateException;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardianResource;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
+use oat\taoQtiItem\model\qti\metaMetadata\Exception as MetaMetadataException;
+use oat\taoQtiItem\model\qti\metaMetadata\Importer as MetaMetadataImporter;
+use oat\taoQtiItem\model\qti\metaMetadata\MetaMetadataService;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
 use oat\taoQtiItem\model\event\ItemImported;
 use qtism\data\QtiComponentCollection;
@@ -65,6 +69,8 @@ use taoItems_models_classes_ItemsService;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
+use core_kernel_classes_Property as Property;
+use oat\oatbox\reporting\Report as Reporter;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\ImportService
@@ -106,6 +112,11 @@ class ImportService extends ConfigurableService
      * @var MetadataImporter Service to manage Lom metadata during package import
      */
     protected $metadataImporter;
+
+    /**
+     * @var MetadataImporter Service to manage metaMetadata during package import
+     */
+    protected MetadataImporter $metaMetadataImporter;
 
     /**
      * Short description of method importQTIFile
@@ -175,6 +186,7 @@ class ImportService extends ConfigurableService
         if (!$qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem)) {
             throw new \common_Exception('Unable to save item');
         }
+
 
         return $rdfItem;
     }
@@ -322,6 +334,7 @@ class ImportService extends ConfigurableService
             $qtiItemResources = $this->createQtiManifest($folder . 'imsmanifest.xml');
 
             $metadataValues = $this->getMetadataImporter()->extract($domManifest);
+            $metaMetadataValues = $this->getMetaMetadataImporter()->extract($domManifest);
 
             $sharedFiles = [];
             $createdClasses = [];
@@ -339,7 +352,8 @@ class ImportService extends ConfigurableService
                     $enableMetadataValidators,
                     $itemMustExist,
                     $itemMustBeOverwritten,
-                    $overwrittenItems
+                    $overwrittenItems,
+                    $metaMetadataValues
                 );
 
                 $allCreatedClasses = array_merge($allCreatedClasses, $createdClasses);
@@ -445,7 +459,8 @@ class ImportService extends ConfigurableService
         $enableMetadataValidators = true,
         $itemMustExist = false,
         $itemMustBeOverwritten = false,
-        &$overwrittenItems = []
+        &$overwrittenItems = [],
+        $metaMedataValues = []
     ) {
         // if report can't be finished
         $report = common_report_Report::createFailure(
@@ -553,6 +568,7 @@ class ImportService extends ConfigurableService
                 } else {
                     $rdfItem = $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel);
                 }
+                $this->validateClassMetadata($itemClass, $metaMedataValues);
 
                 // Setting qtiIdentifier property
                 $qtiIdentifierProperty = new \core_kernel_classes_Property(self::PROPERTY_QTI_ITEM_IDENTIFIER);
@@ -694,7 +710,13 @@ class ImportService extends ConfigurableService
                 if (isset($rdfItem) && !is_null($rdfItem) && $rdfItem->exists() && !$overWriting) {
                     $rdfItem->delete();
                 }
-            } catch (Exception $e) {
+            } catch (MetaMetadataException $e) {
+                $report = Reporter::createError(
+                    sprintf('Import failed at validating metametadata with message: "%s"', $e->getMessage())
+                );
+                common_Logger::e($e->getMessage());
+            }
+            catch (Exception $e) {
                 // an error occurred during a specific item
                 $report = new common_report_Report(
                     common_report_Report::TYPE_ERROR,
@@ -716,12 +738,37 @@ class ImportService extends ConfigurableService
         } catch (common_exception_UserReadableException $e) {
             $report = new common_report_Report(common_report_Report::TYPE_ERROR, __($e->getUserMessage()));
             $report->add($e);
-        } finally {
+        }
+        finally {
             $this->checkImportLockTime($startImportTime, $qtiItemResource->getIdentifier());
             $lock->release();
         }
 
         return $report;
+    }
+
+    /**
+     * TODO: REPLACE IT WITH PROPERTY SERVICE
+     * @param Property $property
+     * @return string
+     */
+    private function getRangeChecksum(Property $property): string
+    {
+        $checksum = '';
+
+        $listValues = array_filter($property->getRange()->getNestedResources(), function ($range) {
+            return $range['isclass'] === 0;
+        });
+
+        if (empty($listValues)) {
+            return '';
+        }
+
+        foreach ($listValues as $value) {
+            $checksum .= $this->getResource($value['id'])->getLabel();
+        }
+
+        return sha1($checksum);
     }
 
     protected function validResponseProcessing(Item $qtiModel)
@@ -876,6 +923,11 @@ class ImportService extends ConfigurableService
         return $this->metadataImporter;
     }
 
+    protected function getMetaMetadataImporter(): MetaMetadataImporter
+    {
+        return $this->getServiceLocator()->get(MetaMetadataService::SERVICE_ID)->getImporter();
+    }
+
     /**
      * Retrieve the labels of all parent classes up to base item class.
      */
@@ -902,5 +954,39 @@ class ImportService extends ConfigurableService
     private function getItemEventDispatcher(): UpdatedItemEventDispatcher
     {
         return $this->getServiceLocator()->get(UpdatedItemEventDispatcher::class);
+    }
+
+    public function validateClassMetadata($itemClass, array $metaMedataValues)
+    {
+        $props = $itemClass->getProperties();
+        foreach ($props as $prop) {
+            $label = $prop->getLabel();
+            $foundMetadata = array_filter($metaMedataValues, function ($metadataItem) use ($label) {
+                return $metadataItem['label'] === $label;
+            });
+            if (empty($foundMetadata)) {
+                throw new MetaMetadataException(sprintf('No metadata found for class property "%s"', $label));
+            }
+            if (count($foundMetadata) > 1) {
+                throw new MetaMetadataException(
+                    sprintf('Duplicate metadata name found for class property "%s"', $label)
+                );
+            }
+            $foundMetadata = reset($foundMetadata);
+            if (strlen($foundMetadata['multiple']) > 0) {
+                $multiple = $prop->getOnePropertyValue(new Property(GenerisRdf::PROPERTY_MULTIPLE));
+                if ($multiple instanceof Property && $multiple->getUri() !== $foundMetadata['multiple']) {
+                    throw new MetaMetadataException(
+                        sprintf('Multiple property mismatch for class property "%s"', $label)
+                    );
+                }
+            }
+
+            if (strlen($foundMetadata['checksum']) > 0
+                && $this->getRangeChecksum($prop) !== $foundMetadata['checksum']
+            ) {
+                throw new MetaMetadataException(sprintf('Checksum mismatch for class property "%s"', $label));
+            }
+        }
     }
 }
