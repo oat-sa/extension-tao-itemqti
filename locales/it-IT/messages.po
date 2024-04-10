@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-06-07 09:16\n"
+"PO-Revision-Date: 2024-04-09 08:31\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it\n"
@@ -357,22 +357,22 @@ msgid "Create association(s) between areas (hotspots) displayed on a picture."
 msgstr "Crea associazione(i) tra aree (hotspot) visualizzate su una foto."
 
 msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
-msgstr "Crea associazione(i) tra due gruppi di scelte visualizzate in una tabella (riga e colonna)"
+msgstr "Crea associazione(i) tra due gruppi di scelte visualizzate in una tabella (riga e colonna)."
 
 msgid "Create gap"
 msgstr "Crea divario"
 
 msgid "Create hottext"
-msgstr "Crea hottest"
+msgstr "Crea hottext"
 
 msgid "Create pair(s) from a series of choices."
-msgstr "Crea coppia(e) da una serie di scelte"
+msgstr "Crea coppia(e) da una serie di scelte."
 
 msgid "CSV content + metadata"
 msgstr ""
 
 msgid "Current value:"
-msgstr "Valore corrente"
+msgstr "Valore corrente:"
 
 msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
 msgstr "Attualmente la conversione da MathML a LaTeX non è disponibile. La modifica MathML qui non avrà validità in LaTex."
@@ -414,7 +414,7 @@ msgid "Define whether the item should be time dependent on delivery."
 msgstr "Stabilisci se nella somministrazione l'item deve essere dipendente dal tempo."
 
 msgid "Defined width"
-msgstr "Definisci la larghezza "
+msgstr "Definisci la larghezza"
 
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr ""
@@ -525,7 +525,7 @@ msgid "Enable Scrolling"
 msgstr ""
 
 msgid "Enable the test taker to pause and restart the playing."
-msgstr "Abilita il partecipante al test a mettere in pausa e a riavviare la riproduzione"
+msgstr "Abilita il partecipante al test a mettere in pausa e a riavviare la riproduzione."
 
 msgid "Enable/disable scrolling."
 msgstr ""
@@ -780,7 +780,7 @@ msgid "In visual environments, string interactions are typically represented by 
 msgstr "In ambienti visivi, le interazioni delle stringhe sono in genere rappresentate da scatole vuote in cui il candidato scrive o digita. I motori della somministrazione devono utilizzare il valore di questo attributo (se presente) invece del loro testo segnaposto di default quando questo è richiesto."
 
 msgid "incorrect"
-msgstr "Non corretto"
+msgstr "non corretto"
 
 msgid "Index"
 msgstr ""
@@ -789,7 +789,7 @@ msgid "Infinity"
 msgstr ""
 
 msgid "inline"
-msgstr "In linea"
+msgstr "in linea"
 
 msgid "Inline Choice"
 msgstr "Scelta in linea"
@@ -801,7 +801,7 @@ msgid "Inline Interactions"
 msgstr ""
 
 msgid "Inline interactions need to be inserted into a text block."
-msgstr "interazioni inline devono essere inserite in un blocco di testo."
+msgstr "Interazioni inline devono essere inserite in un blocco di testo."
 
 msgid "integer"
 msgstr ""
@@ -966,7 +966,7 @@ msgid "Match Interaction"
 msgstr "Interazione corrispondenza"
 
 msgid "MathJax is not installed."
-msgstr "MathJax non è istallato"
+msgstr "MathJax non è istallato."
 
 msgid "MathML"
 msgstr ""
@@ -1084,7 +1084,7 @@ msgid "No uploaded file"
 msgstr ""
 
 msgid "No value set"
-msgstr "nessun valore impostato"
+msgstr "Nessun valore impostato"
 
 msgid "none"
 msgstr ""
@@ -1108,7 +1108,7 @@ msgid "OK"
 msgstr ""
 
 msgid "one association pair"
-msgstr "Una coppia di associazioni"
+msgstr "una coppia di associazioni"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
 msgstr ""
@@ -1156,7 +1156,7 @@ msgid "Please create areas that correspond to the response and associate them a 
 msgstr ""
 
 msgid "Please define association pairs and their scores below."
-msgstr "Prego definisci le coppie di associazione e relativi punteggi di seguito"
+msgstr "Prego definisci le coppie di associazione e relativi punteggi di seguito."
 
 msgid "Please define the correct association pairs below."
 msgstr "Prego indica le corrette coppie di associazione sotto."
@@ -1216,7 +1216,7 @@ msgid "Please the score of each hotspot choice."
 msgstr "Prego, il punteggio di ciascuna scelta hotspot."
 
 msgid "Please type the correct response below."
-msgstr "Prego inserisci la risposta corretta sotto"
+msgstr "Prego inserisci la risposta corretta sotto."
 
 msgid "Please type the correct response in the box below."
 msgstr "Prego inserisci la risposta corretta nella casella qui sotto."
@@ -1432,7 +1432,7 @@ msgid "Select"
 msgstr ""
 
 msgid "select a choice"
-msgstr "Seleziona una scelta"
+msgstr "seleziona una scelta"
 
 msgid "Select a choice from a drop-down list."
 msgstr "Seleziona una scelta da un elenco a discesa."
