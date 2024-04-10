@@ -30,6 +30,7 @@ use core_kernel_classes_Resource;
 use DOMDocument;
 use Exception;
 use helpers_File;
+use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\TaoOntology;
@@ -57,6 +58,7 @@ use oat\taoQtiItem\model\qti\metaMetadata\Importer as MetaMetadataImporter;
 use oat\taoQtiItem\model\qti\metaMetadata\MetaMetadataService;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
 use oat\taoQtiItem\model\event\ItemImported;
+use oat\taoQtiTest\models\classes\metadata\ChecksumGenerator;
 use qtism\data\QtiComponentCollection;
 use qtism\data\rules\SetOutcomeValue;
 use qtism\data\storage\xml\XmlDocument;
@@ -747,30 +749,6 @@ class ImportService extends ConfigurableService
         return $report;
     }
 
-    /**
-     * TODO: REPLACE IT WITH PROPERTY SERVICE
-     * @param Property $property
-     * @return string
-     */
-    private function getRangeChecksum(Property $property): string
-    {
-        $checksum = '';
-
-        $listValues = array_filter($property->getRange()->getNestedResources(), function ($range) {
-            return $range['isclass'] === 0;
-        });
-
-        if (empty($listValues)) {
-            return '';
-        }
-
-        foreach ($listValues as $value) {
-            $checksum .= $this->getResource($value['id'])->getLabel();
-        }
-
-        return sha1($checksum);
-    }
-
     protected function validResponseProcessing(Item $qtiModel)
     {
         // <outcomeDeclaration> from the items qti
@@ -956,9 +934,23 @@ class ImportService extends ConfigurableService
         return $this->getServiceLocator()->get(UpdatedItemEventDispatcher::class);
     }
 
+    private function getChecksumGeneratorService(): ChecksumGenerator
+    {
+        $ontology = $this->getServiceManager()->getContainer()->get(Ontology::SERVICE_ID);
+        return new ChecksumGenerator($ontology);
+    }
+
     public function validateClassMetadata($itemClass, array $metaMedataValues)
     {
+        if (empty($metaMedataValues)) {
+            return;
+        }
+
         $props = $itemClass->getProperties();
+
+        if (empty($props)) {
+            throw new MetaMetadataException('No properties found for class where import requires it.');
+        }
         foreach ($props as $prop) {
             $label = $prop->getLabel();
             $foundMetadata = array_filter($metaMedataValues, function ($metadataItem) use ($label) {
@@ -983,7 +975,7 @@ class ImportService extends ConfigurableService
             }
 
             if (strlen($foundMetadata['checksum']) > 0
-                && $this->getRangeChecksum($prop) !== $foundMetadata['checksum']
+                && $this->getChecksumGeneratorService()->getRangeChecksum($prop) !== $foundMetadata['checksum']
             ) {
                 throw new MetaMetadataException(sprintf('Checksum mismatch for class property "%s"', $label));
             }
