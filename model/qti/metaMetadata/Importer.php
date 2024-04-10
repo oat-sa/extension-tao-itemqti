@@ -22,32 +22,37 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti\metaMetadata;
 
-
+use DOMDocument;
+use DOMXPath;
+use InvalidArgumentException;
 use oat\oatbox\service\ConfigurableService;
 
 class Importer extends ConfigurableService
 {
+    private const NAMESPACE_LOM = 'http://ltsc.ieee.org/xsd/LOM';
+    private const NAMESPACE_DEFAULT = 'http://www.imsglobal.org/xsd/imscp_v1p1';
+
     public function extract($manifest): array
     {
-        if ($manifest instanceof \DOMDocument === false) {
-            throw new \InvalidArgumentException(
+        if ($manifest instanceof DOMDocument === false) {
+            throw new InvalidArgumentException(
                 __('Metadata import requires an instance of DomManifest to extract metadata')
             );
         }
 
-        $xpath = new \DOMXPath($manifest);
-        $xpath->registerNamespace('imsmd', 'http://ltsc.ieee.org/xsd/LOM');
-        $xpath->registerNamespace('def', 'http://www.imsglobal.org/xsd/imscp_v1p1');
+        $xpath = new DOMXPath($manifest);
+        $xpath->registerNamespace('imsmd', self::NAMESPACE_LOM);
+        $xpath->registerNamespace('default', self::NAMESPACE_DEFAULT);
 
         $metaMetadata = [];
 
-        $properties  = $xpath->query('//imsmd:metaMetadata/def:extension/def:customProperties/def:property');
+        $properties  = $xpath->query('//imsmd:metaMetadata/default:extension/default:customProperties/default:property');
         foreach ($properties as $property) {
-            $uri = $xpath->evaluate('string(def:uri)', $property);
-            $alias = $xpath->evaluate('string(def:alias)', $property);
-            $label = $xpath->evaluate('string(def:label)', $property);
-            $multiple = $xpath->evaluate('string(def:multiple)', $property);
-            $checksum = $xpath->evaluate('string(def:checksum)', $property);
+            $uri = $xpath->evaluate('string(default:uri)', $property);
+            $alias = $xpath->evaluate('string(default:alias)', $property);
+            $label = $xpath->evaluate('string(default:label)', $property);
+            $multiple = $xpath->evaluate('string(default:multiple)', $property);
+            $checksum = $xpath->evaluate('string(default:checksum)', $property);
 
             if (strlen($uri) === 0 || strlen($label) === 0) {
                 continue;
