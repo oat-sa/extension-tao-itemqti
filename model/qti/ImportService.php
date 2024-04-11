@@ -717,6 +717,9 @@ class ImportService extends ConfigurableService
                     sprintf('Import failed at validating metametadata with message: "%s"', $e->getMessage())
                 );
                 common_Logger::e($e->getMessage());
+                if (isset($rdfItem) && !is_null($rdfItem) && $rdfItem->exists() && !$overWriting) {
+                    $rdfItem->delete();
+                }
             }
             catch (Exception $e) {
                 // an error occurred during a specific item
