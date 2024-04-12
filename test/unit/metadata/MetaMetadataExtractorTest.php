@@ -20,26 +20,25 @@
 
 declare(strict_types=1);
 
-
-namespace oat\taoQtiItem\test\unit\metaMetadata;
+namespace oat\taoQtiItem\test\unit\metadata;
 
 use DOMDocument;
 use InvalidArgumentException;
-use oat\taoQtiItem\model\qti\metaMetadata\Importer;
+use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataExtractor;
 use \PHPUnit\Framework\TestCase;
 
-class importerTest extends TestCase
+class metaMetadataExtractorTest extends TestCase
 {
     public function testExtractInvalidArgumentException(): void
     {
-        $importer = new Importer();
+        $extractor = new MetaMetadataExtractor();
         $this->expectException(InvalidArgumentException::class);
-        $importer->extract('test');
+        $extractor->extract('test');
     }
 
     public function testExtractSuccess(): void
     {
-        $importer = new Importer();
+        $extractor = new MetaMetadataExtractor();
         $dom = new DOMDocument();
         $dom->loadXML('<?xml version="1.0" encoding="UTF-8"?>
             <imsmd:metaMetadata xmlns:imsmd="http://ltsc.ieee.org/xsd/LOM">
@@ -55,7 +54,7 @@ class importerTest extends TestCase
                     </def:customProperties>
                 </def:extension>
             </imsmd:metaMetadata>');
-        $result = $importer->extract($dom);
+        $result = $extractor->extract($dom);
         $this->assertEquals([
             [
                 'uri' => 'http://example.com',
@@ -69,7 +68,7 @@ class importerTest extends TestCase
 
     public function testExtractFailure(): void
     {
-        $importer = new Importer();
+        $extractor = new MetaMetadataExtractor();
         $dom = new DOMDocument();
         $dom->loadXML('<?xml version="1.0" encoding="UTF-8"?>
             <imsmd:metaMetadata xmlns:imsmd="http://ltsc.ieee.org/xsd/LOM">
@@ -85,7 +84,7 @@ class importerTest extends TestCase
                     </def:customProperties>
                 </def:extension>
             </imsmd:metaMetadata>');
-        $result = $importer->extract($dom);
+        $result = $extractor->extract($dom);
         $this->assertEquals([], $result);
     }
 }

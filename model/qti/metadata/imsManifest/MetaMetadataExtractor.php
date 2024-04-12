@@ -20,17 +20,17 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\qti\metaMetadata;
+namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
 use DOMDocument;
 use DOMXPath;
 use InvalidArgumentException;
-use oat\oatbox\service\ConfigurableService;
 
-class Importer extends ConfigurableService
+class MetaMetadataExtractor
 {
     private const NAMESPACE_LOM = 'http://ltsc.ieee.org/xsd/LOM';
     private const NAMESPACE_DEFAULT = 'http://www.imsglobal.org/xsd/imscp_v1p1';
+    const META_METADATA_PROPERTIES_QUERY_STRING = '//imsmd:metaMetadata/default:extension/default:customProperties/default:property';
 
     public function extract($manifest): array
     {
@@ -46,7 +46,7 @@ class Importer extends ConfigurableService
 
         $metaMetadata = [];
 
-        $properties  = $xpath->query('//imsmd:metaMetadata/default:extension/default:customProperties/default:property');
+        $properties  = $xpath->query(self::META_METADATA_PROPERTIES_QUERY_STRING);
         foreach ($properties as $property) {
             $uri = $xpath->evaluate('string(default:uri)', $property);
             $alias = $xpath->evaluate('string(default:alias)', $property);

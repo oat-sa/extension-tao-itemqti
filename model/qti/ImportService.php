@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2016-2024 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -30,8 +30,6 @@ use core_kernel_classes_Resource;
 use DOMDocument;
 use Exception;
 use helpers_File;
-use oat\generis\model\data\Ontology;
-use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\TaoOntology;
 use oat\oatbox\mutex\LockTrait;
@@ -51,14 +49,13 @@ use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\TemplateException;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
+use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataExtractor;
+use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataValidator;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardianResource;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
-use oat\taoQtiItem\model\qti\metaMetadata\Exception as MetaMetadataException;
-use oat\taoQtiItem\model\qti\metaMetadata\Importer as MetaMetadataImporter;
-use oat\taoQtiItem\model\qti\metaMetadata\MetaMetadataService;
+use oat\taoQtiItem\model\qti\metaMetadata\imsManifest\MetaMetadataException;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
 use oat\taoQtiItem\model\event\ItemImported;
-use oat\taoQtiTest\models\classes\metadata\ChecksumGenerator;
 use qtism\data\QtiComponentCollection;
 use qtism\data\rules\SetOutcomeValue;
 use qtism\data\storage\xml\XmlDocument;
@@ -71,7 +68,6 @@ use taoItems_models_classes_ItemsService;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
-use core_kernel_classes_Property as Property;
 use oat\oatbox\reporting\Report as Reporter;
 
 /**
@@ -114,11 +110,6 @@ class ImportService extends ConfigurableService
      * @var MetadataImporter Service to manage Lom metadata during package import
      */
     protected $metadataImporter;
-
-    /**
-     * @var MetadataImporter Service to manage metaMetadata during package import
-     */
-    protected MetadataImporter $metaMetadataImporter;
 
     /**
      * Short description of method importQTIFile
@@ -336,7 +327,7 @@ class ImportService extends ConfigurableService
             $qtiItemResources = $this->createQtiManifest($folder . 'imsmanifest.xml');
 
             $metadataValues = $this->getMetadataImporter()->extract($domManifest);
-            $metaMetadataValues = $this->getMetaMetadataImporter()->extract($domManifest);
+            $metaMetadataValues = $this->getMetaMetadataExtractor()->extract($domManifest);
 
             $sharedFiles = [];
             $createdClasses = [];
@@ -570,7 +561,7 @@ class ImportService extends ConfigurableService
                 } else {
                     $rdfItem = $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel);
                 }
-                $this->validateClassMetadata($itemClass, $metaMedataValues);
+                $this->getMetaMetadataValidator()->validateClass($itemClass, $metaMedataValues);
 
                 // Setting qtiIdentifier property
                 $qtiIdentifierProperty = new \core_kernel_classes_Property(self::PROPERTY_QTI_ITEM_IDENTIFIER);
@@ -904,9 +895,14 @@ class ImportService extends ConfigurableService
         return $this->metadataImporter;
     }
 
-    protected function getMetaMetadataImporter(): MetaMetadataImporter
+    protected function getMetaMetadataExtractor(): MetaMetadataExtractor
     {
-        return $this->getServiceLocator()->get(MetaMetadataService::SERVICE_ID)->getImporter();
+        return $this->getServiceManager()->getContainer()->get(MetaMetadataExtractor::class);
+    }
+
+    protected function getMetaMetadataValidator(): MetaMetadataValidator
+    {
+        return $this->getServiceManager()->getContainer()->get(MetaMetadataValidator::class);
     }
 
     /**
@@ -935,53 +931,5 @@ class ImportService extends ConfigurableService
     private function getItemEventDispatcher(): UpdatedItemEventDispatcher
     {
         return $this->getServiceLocator()->get(UpdatedItemEventDispatcher::class);
-    }
-
-    private function getChecksumGeneratorService(): ChecksumGenerator
-    {
-        $ontology = $this->getServiceManager()->getContainer()->get(Ontology::SERVICE_ID);
-        return new ChecksumGenerator($ontology);
-    }
-
-    public function validateClassMetadata($itemClass, array $metaMedataValues)
-    {
-        if (empty($metaMedataValues)) {
-            return;
-        }
-
-        $props = $itemClass->getProperties();
-
-        if (empty($props)) {
-            throw new MetaMetadataException('No properties found for class where import requires it.');
-        }
-        foreach ($props as $prop) {
-            $label = $prop->getLabel();
-            $foundMetadata = array_filter($metaMedataValues, function ($metadataItem) use ($label) {
-                return $metadataItem['label'] === $label;
-            });
-            if (empty($foundMetadata)) {
-                throw new MetaMetadataException(sprintf('No metadata found for class property "%s"', $label));
-            }
-            if (count($foundMetadata) > 1) {
-                throw new MetaMetadataException(
-                    sprintf('Duplicate metadata name found for class property "%s"', $label)
-                );
-            }
-            $foundMetadata = reset($foundMetadata);
-            if (strlen($foundMetadata['multiple']) > 0) {
-                $multiple = $prop->getOnePropertyValue(new Property(GenerisRdf::PROPERTY_MULTIPLE));
-                if ($multiple instanceof Property && $multiple->getUri() !== $foundMetadata['multiple']) {
-                    throw new MetaMetadataException(
-                        sprintf('Multiple property mismatch for class property "%s"', $label)
-                    );
-                }
-            }
-
-            if (strlen($foundMetadata['checksum']) > 0
-                && $this->getChecksumGeneratorService()->getRangeChecksum($prop) !== $foundMetadata['checksum']
-            ) {
-                throw new MetaMetadataException(sprintf('Checksum mismatch for class property "%s"', $label));
-            }
-        }
     }
 }

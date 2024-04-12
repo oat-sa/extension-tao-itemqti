@@ -21,8 +21,8 @@
 declare(strict_types=1);
 
 
-namespace oat\taoQtiItem\model\qti\metaMetadata;
+namespace oat\taoQtiItem\model\qti\metaMetadata\imsManifest;
 
-class Exception extends \common_Exception
+class MetaMetadataException extends \common_Exception
 {
 }
