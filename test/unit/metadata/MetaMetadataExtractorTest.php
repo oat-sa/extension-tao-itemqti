@@ -27,7 +27,7 @@ use InvalidArgumentException;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataExtractor;
 use \PHPUnit\Framework\TestCase;
 
-class metaMetadataExtractorTest extends TestCase
+final class MetaMetadataExtractorTest extends TestCase
 {
     public function testExtractInvalidArgumentException(): void
     {
