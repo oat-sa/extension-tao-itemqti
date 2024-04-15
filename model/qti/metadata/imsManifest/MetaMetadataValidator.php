@@ -70,8 +70,9 @@ class MetaMetadataValidator
                 }
             }
 
-            if (strlen($foundMetadata['checksum']) > 0
-                && $this->checksumGenerator->getRangeChecksum($prop) !== $foundMetadata['checksum']
+            if (
+                strlen($foundMetadata['checksum']) > 0 &&
+                $this->checksumGenerator->getRangeChecksum($prop) !== $foundMetadata['checksum']
             ) {
                 throw new MetaMetadataException(sprintf('Checksum mismatch for class property "%s"', $label));
             }

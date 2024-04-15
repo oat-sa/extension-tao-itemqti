@@ -28,6 +28,7 @@ use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataExtractor;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataValidator;
 use oat\taoQtiTest\models\classes\metadata\ChecksumGenerator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class MetadataServiceProvider implements ContainerServiceProviderInterface

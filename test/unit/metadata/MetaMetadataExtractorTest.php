@@ -25,7 +25,7 @@ namespace oat\taoQtiItem\test\unit\metadata;
 use DOMDocument;
 use InvalidArgumentException;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataExtractor;
-use \PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 
 final class MetaMetadataExtractorTest extends TestCase
 {

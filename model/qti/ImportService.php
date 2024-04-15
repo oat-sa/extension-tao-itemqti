@@ -711,8 +711,7 @@ class ImportService extends ConfigurableService
                 if (isset($rdfItem) && !is_null($rdfItem) && $rdfItem->exists() && !$overWriting) {
                     $rdfItem->delete();
                 }
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 // an error occurred during a specific item
                 $report = new common_report_Report(
                     common_report_Report::TYPE_ERROR,
@@ -734,8 +733,7 @@ class ImportService extends ConfigurableService
         } catch (common_exception_UserReadableException $e) {
             $report = new common_report_Report(common_report_Report::TYPE_ERROR, __($e->getUserMessage()));
             $report->add($e);
-        }
-        finally {
+        } finally {
             $this->checkImportLockTime($startImportTime, $qtiItemResource->getIdentifier());
             $lock->release();
         }

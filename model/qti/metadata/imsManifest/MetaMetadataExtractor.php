@@ -30,7 +30,9 @@ class MetaMetadataExtractor
 {
     private const NAMESPACE_LOM = 'http://ltsc.ieee.org/xsd/LOM';
     private const NAMESPACE_DEFAULT = 'http://www.imsglobal.org/xsd/imscp_v1p1';
-    const META_METADATA_PROPERTIES_QUERY_STRING = '//imsmd:metaMetadata/default:extension/default:customProperties/default:property';
+    // phpcs:disable Generic.Files.LineLength
+    private const META_METADATA_PROPERTIES_QUERY_STRING = '//imsmd:metaMetadata/default:extension/default:customProperties/default:property';
+    // phpcs:enable Generic.Files.LineLength
 
     public function extract($manifest): array
     {
