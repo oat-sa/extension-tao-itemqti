@@ -23,9 +23,9 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
 use oat\generis\model\GenerisRdf;
-use oat\taoQtiItem\model\qti\metaMetadata\imsManifest\MetaMetadataException;
 use oat\taoQtiTest\models\classes\metadata\ChecksumGenerator;
 use core_kernel_classes_Property as Property;
+use core_kernel_classes_Class as RdfClass;
 
 class MetaMetadataValidator
 {
@@ -36,7 +36,7 @@ class MetaMetadataValidator
         $this->checksumGenerator = $checksumGenerator;
     }
 
-    public function validateClass($itemClass, array $metaMedataValues): void
+    public function validateClass(RdfClass $itemClass, array $metaMedataValues): void
     {
         if (empty($metaMedataValues)) {
             return;

@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\qti\metaMetadata\imsManifest;
+namespace oat\taoQtiItem\model\qti\metadata\imsManifest;
 
 class MetaMetadataException extends \common_Exception
 {
