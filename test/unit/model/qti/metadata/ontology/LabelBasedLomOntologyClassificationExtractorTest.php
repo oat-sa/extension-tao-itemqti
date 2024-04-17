@@ -94,7 +94,6 @@ class LabelBasedLomOntologyClassificationExtractorTest extends TestCase
                 reset($entry)
             );
         }
-
     }
 
     public function testExtractWithNonResource()

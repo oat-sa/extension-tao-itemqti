@@ -25,8 +25,8 @@ namespace oat\taoQtiItem\scripts\install;
 use oat\oatbox\extension\InstallAction;
 use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
-use oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationExtractor;
-use oat\taoQtiItem\model\qti\metadata\ontology\LabelBasedLomOntologyClassificationExtractor;
+use oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationExtractor as GenericExtractor;
+use oat\taoQtiItem\model\qti\metadata\ontology\LabelBasedLomOntologyClassificationExtractor as LabelExtractor;
 
 class ReplaceMetadataExtractor extends InstallAction
 {
@@ -35,14 +35,12 @@ class ReplaceMetadataExtractor extends InstallAction
         /** @var MetadataExporter $metadataExporter */
         $metadataService = $this->getServiceManager()->get(MetadataService::SERVICE_ID);
         $metadataExporter = $metadataService->getOption('export');
-        if (
-            in_array(
-                GenericLomOntologyClassificationExtractor::class,
-                $metadataExporter->getOption('extractors')
-            )
-        ) {
-            $metadataExporter->setOption('extractors', LabelBasedLomOntologyClassificationExtractor::class);
+        $exportExtractors = $metadataExporter->getOption('extractors');
+        if (($key = array_search(GenericExtractor::class, $exportExtractors)) !== false) {
+            $exportExtractors[$key] = LabelExtractor::class;
+            $metadataExporter->setOption('extractors', $exportExtractors);
         }
+
         $metadataService->setOption('export', $metadataExporter);
 
         $this->getServiceManager()->register(MetadataService::SERVICE_ID, $metadataService);
