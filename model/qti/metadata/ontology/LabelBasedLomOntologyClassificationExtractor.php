@@ -21,6 +21,9 @@
 
 namespace oat\taoQtiItem\model\qti\metadata\ontology;
 
+use core_kernel_classes_Property as Property;
+use core_kernel_classes_Resource as Resource;
+use core_kernel_classes_Triple as Triple;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
@@ -29,6 +32,7 @@ use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\Classif
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationSourceMetadataValue;
 use oat\taoQtiItem\model\qti\metadata\MetadataExtractionException;
 use oat\taoQtiItem\model\qti\metadata\MetadataExtractor;
+use tao_helpers_Uri;
 use taoItems_models_classes_ItemsService;
 use taoTests_models_classes_TestsService;
 
@@ -47,7 +51,7 @@ class LabelBasedLomOntologyClassificationExtractor implements MetadataExtractor
     /**
      * Extract resource metadata and transform it to ClassificationMetadataValue
      *
-     * @param \core_kernel_classes_Resource $resource
+     * @param Resource $resource
      *
      * @return array
      *
@@ -56,33 +60,36 @@ class LabelBasedLomOntologyClassificationExtractor implements MetadataExtractor
      */
     public function extract($resource)
     {
-        if (! $resource instanceof \core_kernel_classes_Resource) {
+        if (!$resource instanceof Resource) {
             throw new MetadataExtractionException(
                 __('The given target is not an instance of core_kernel_classes_Resource')
             );
         }
 
-        $identifier = \tao_helpers_Uri::getUniqueId($resource->getUri());
-        $metadata = [$identifier => []];
+        $resourceUri = $resource->getUri();
+        $identifier = tao_helpers_Uri::getUniqueId($resourceUri);
+        $metadata = [
+            $identifier => []
+        ];
 
-        $triples = $resource->getRdfTriples();
+        /** @var Triple $triple */
+        foreach ($resource->getRdfTriples() as $triple) {
 
-
-        /** @var \core_kernel_classes_Triple $triple */
-        foreach ($triples->getIterator() as $triple) {
-
-            /** @var \core_kernel_classes_Resource $property */
-            $property = $this->getResource($triple->predicate);
+            /** @var Property $property */
+            $property = $this->getProperty($triple->predicate);
             $value = $this->getResource($triple->object)->getLabel() ?? $triple->object;
+            $propertyUri = $property->getUri();
 
             if (
-                trim($value) != ''
+                trim($value) !== ''
                 && $property->isProperty()
-                && !in_array($property->getUri(), self::$excludedProperties)
+                && !in_array($propertyUri, self::$excludedProperties)
             ) {
                 $metadata[$identifier][] = new ClassificationMetadataValue(
-                    new ClassificationSourceMetadataValue($resource->getUri(), $property->getUri()),
-                    [new ClassificationEntryMetadataValue($resource->getUri(), $value)]
+                    new ClassificationSourceMetadataValue($resourceUri, $propertyUri),
+                    [
+                        new ClassificationEntryMetadataValue($resourceUri, $value)
+                    ]
                 );
             }
         }
