@@ -53,7 +53,7 @@ use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataExtractor;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataValidator;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardianResource;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
-use oat\taoQtiItem\model\qti\metaMetadata\imsManifest\MetaMetadataException;
+use oat\taoQtiItem\model\qti\metadata\ontology\MappedMetadataInjector;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
 use oat\taoQtiItem\model\event\ItemImported;
 use qtism\data\QtiComponentCollection;
@@ -626,6 +626,15 @@ class ImportService extends ConfigurableService
 
                 $this->getMetadataImporter()->inject($resourceIdentifier, $rdfItem);
 
+                if (isset($metadataValues[$resourceIdentifier])) {
+                    $this->getMappedMetadataInjector()->inject(
+                        $metaMedataValues,
+                        $metadataValues[$resourceIdentifier],
+                        $rdfItem
+                    );
+                }
+
+
                 $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
                 $eventManager->trigger(new ItemImported($rdfItem, $qtiModel));
 
@@ -930,5 +939,10 @@ class ImportService extends ConfigurableService
     private function getItemEventDispatcher(): UpdatedItemEventDispatcher
     {
         return $this->getServiceLocator()->get(UpdatedItemEventDispatcher::class);
+    }
+
+    private function getMappedMetadataInjector(): MappedMetadataInjector
+    {
+        return $this->getServiceManager()->getContainer()->get(MappedMetadataInjector::class);
     }
 }
