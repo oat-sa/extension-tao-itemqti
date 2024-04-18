@@ -22,10 +22,11 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti\ServiceProvider;
 
+use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\taoQtiItem\model\import\ChecksumGenerator;
 use oat\taoQtiItem\model\presentation\web\UpdateMetadataRequestHandler;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataExtractor;
-use oat\taoQtiTest\models\classes\metadata\ChecksumGenerator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -36,6 +37,10 @@ class MetadataServiceProvider implements ContainerServiceProviderInterface
     {
         $services = $configurator->services();
         $services->set(UpdateMetadataRequestHandler::class, UpdateMetadataRequestHandler::class)
+            ->public();
+
+        $services->set(ChecksumGenerator::class, ChecksumGenerator::class)
+            ->args([service(Ontology::SERVICE_ID)])
             ->public();
 
         $services->set(MetaMetadataExtractor::class, MetaMetadataExtractor::class)

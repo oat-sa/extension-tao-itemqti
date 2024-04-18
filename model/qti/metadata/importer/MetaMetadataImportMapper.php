@@ -26,7 +26,7 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Property as Property;
 use core_kernel_classes_Resource;
 use oat\generis\model\GenerisRdf;
-use oat\taoQtiTest\models\classes\metadata\ChecksumGenerator;
+use oat\taoQtiItem\model\import\ChecksumGenerator;
 
 class MetaMetadataImportMapper
 {

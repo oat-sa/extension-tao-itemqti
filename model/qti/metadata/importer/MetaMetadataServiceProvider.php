@@ -23,10 +23,9 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\qti\metadata\importer;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\taoQtiItem\model\import\ChecksumGenerator;
 use oat\taoQtiItem\model\qti\metadata\ontology\MappedMetadataInjector;
-use oat\taoQtiTest\models\classes\metadata\ChecksumGenerator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class MetaMetadataServiceProvider implements ContainerServiceProviderInterface
