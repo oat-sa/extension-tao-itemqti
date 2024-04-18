@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\qti\metadata\importer;
 
 use Exception;
+
 class PropertyDoesNotExistException extends Exception
 {
     public function __construct(array $message)
@@ -34,5 +35,4 @@ class PropertyDoesNotExistException extends Exception
             )
         );
     }
-
 }
