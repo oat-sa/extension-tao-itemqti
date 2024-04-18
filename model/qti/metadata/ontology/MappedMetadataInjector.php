@@ -37,17 +37,18 @@ class MappedMetadataInjector
         /** @var SimpleMetadataValue $metadataValue */
         foreach ($metadataValues as $metadataValue) {
             foreach ($metadataValue->getPath() as $mappedPath) {
-                if(isset($mappedProperties[$mappedPath]) && $mappedProperties[$mappedPath] instanceof Property) {
+                if (isset($mappedProperties[$mappedPath]) && $mappedProperties[$mappedPath] instanceof Property) {
                     /** @var core_kernel_classes_Class $rangeClass */
                     $rangeClass = $mappedProperties[$mappedPath]->getRange();
                     /** @var Resource $nestedResource */
                     foreach ($rangeClass->getNestedResources() as $nestedResource) {
-                        if(
+                        if (
                             $nestedResource['isclass'] !== 1
                             && $this->getResource($nestedResource['id'])->getLabel() === $metadataValue->getValue()
                         ) {
                             $resource->setPropertyValue(
-                                $mappedProperties[$mappedPath], $this->getResource($nestedResource['id'])
+                                $mappedProperties[$mappedPath],
+                                $this->getResource($nestedResource['id'])
                             );
                         }
                     }

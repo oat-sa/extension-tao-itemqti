@@ -41,7 +41,8 @@ class MetaMetadataImportMapper
         array $metaMetadataProperties,
         core_kernel_classes_Class $itemClass,
         core_kernel_classes_Class $testClass
-    ): array {
+    ): array
+    {
 
         $matchedProperties = [];
         foreach ($metaMetadataProperties as $metaMetadataProperty) {
@@ -50,12 +51,12 @@ class MetaMetadataImportMapper
                 continue;
             }
 
-            if($match = $this->matchProperty($metaMetadataProperty, $testClass->getProperties(true))) {
+            if ($match = $this->matchProperty($metaMetadataProperty, $testClass->getProperties(true))) {
                 $matchedProperties['testProperties'][$metaMetadataProperty['uri']] = $match;
                 continue;
             }
-            if($match === null) {
-               throw new PropertyDoesNotExistException($metaMetadataProperty);
+            if ($match === null) {
+                throw new PropertyDoesNotExistException($metaMetadataProperty);
             }
         }
         return $matchedProperties;

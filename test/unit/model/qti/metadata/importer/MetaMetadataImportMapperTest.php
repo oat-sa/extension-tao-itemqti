@@ -74,7 +74,12 @@ class MetaMetadataImportMapperTest extends TestCase
         $testClass->method('getProperties')
             ->willReturn([$propertyMock, $propertyMock, $propertyMock]);
         $propertyMock->method('getUri')
-            ->willReturn('http://example.com/uri1', 'http://some-other-uri', 'http://some-other-uri', 'http://some-other-uri');
+            ->willReturn(
+                'http://example.com/uri1',
+                'http://some-other-uri',
+                'http://some-other-uri',
+                'http://some-other-uri'
+            );
         $propertyMock->method('getLabel')
             ->willReturn('label2', 'some-other-label', 'some-other-other-label');
         $propertyMock->method('getAlias')

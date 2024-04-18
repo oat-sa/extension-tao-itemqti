@@ -78,14 +78,13 @@ class LabelBasedLomOntologyClassificationExtractorTest extends TestCase
             ->willReturn('uri');
 
 
-
         $result = $this->subject->extract($resourceMock);
         self::assertIsArray($result);
         self::assertArrayHasKey('identifier', $result);
         self::assertEquals(3, count($result['identifier']));
         foreach ($result['identifier'] as $classificationMetadataValue) {
             self::assertInstanceOf(ClassificationMetadataValue::class, $classificationMetadataValue);
-            self::assertEquals(5 , count($classificationMetadataValue->getPath()));
+            self::assertEquals(5, count($classificationMetadataValue->getPath()));
             self::assertEquals('uri', $classificationMetadataValue->getValue());
             self::assertIsArray($classificationMetadataValue->getEntries());
             $entry = $classificationMetadataValue->getEntries();
@@ -101,5 +100,4 @@ class LabelBasedLomOntologyClassificationExtractorTest extends TestCase
         $this->expectException(MetadataExtractionException::class);
         $this->subject->extract('non_resource');
     }
-
 }
