@@ -41,9 +41,7 @@ class MetaMetadataImportMapper
         array $metaMetadataProperties,
         core_kernel_classes_Class $itemClass,
         core_kernel_classes_Class $testClass
-    ): array
-    {
-
+    ): array {
         $matchedProperties = [];
         foreach ($metaMetadataProperties as $metaMetadataProperty) {
             if ($match = $this->matchProperty($metaMetadataProperty, $itemClass->getProperties(true))) {
