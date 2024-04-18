@@ -36,12 +36,7 @@ class MetaMetadataImportMapper
     {
         $this->checksumGenerator = $checksumGenerator;
     }
-    /**
-     *
-     * Valid and matchedProperties
-     * @return Property[]
-     * @throws PropertyDoesNotExistException
-     */
+
     public function mapMetaMetadataToProperties(
         array $metaMetadataProperties,
         core_kernel_classes_Class $itemClass,
@@ -66,10 +61,6 @@ class MetaMetadataImportMapper
         return $matchedProperties;
     }
 
-    /**
-     * @params array $metaMetadataProperty
-     * @params Property[] $itemClassProperties
-     */
     private function matchProperty(array $metaMetadataProperty, array $classProperties): ?Property
     {
         /** @var Property $itemClassProperty */

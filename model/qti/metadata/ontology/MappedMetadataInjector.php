@@ -46,7 +46,9 @@ class MappedMetadataInjector
                             $nestedResource['isclass'] !== 1
                             && $this->getResource($nestedResource['id'])->getLabel() === $metadataValue->getValue()
                         ) {
-                            $resource->setPropertyValue($mappedProperties[$mappedPath], $this->getResource($nestedResource['id']));
+                            $resource->setPropertyValue(
+                                $mappedProperties[$mappedPath], $this->getResource($nestedResource['id'])
+                            );
                         }
                     }
                 }
