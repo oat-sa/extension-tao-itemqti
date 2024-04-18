@@ -26,14 +26,15 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Property as Property;
 use core_kernel_classes_Resource as Resource;
 use oat\generis\model\OntologyAwareTrait;
+use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 
 class MappedMetadataInjector
 {
     use OntologyAwareTrait;
 
-    public function inject(array $mappedProperties, array $metadataValues, Resource $resource)
+    public function inject(array $mappedProperties, array $metadataValues, Resource $resource): void
     {
-        /** @var Property $property */
+        /** @var SimpleMetadataValue $metadataValue */
         foreach ($metadataValues as $metadataValue) {
             foreach ($metadataValue->getPath() as $mappedPath) {
                 if(isset($mappedProperties[$mappedPath]) && $mappedProperties[$mappedPath] instanceof Property) {
