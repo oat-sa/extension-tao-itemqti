@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\model\qti\metadata\importer;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property as Property;
+use core_kernel_classes_Resource;
 use oat\generis\model\GenerisRdf;
 use oat\taoQtiTest\models\classes\metadata\ChecksumGenerator;
 
@@ -51,12 +52,14 @@ class MetaMetadataImportMapper
         foreach ($metaMetadataProperties as $metaMetadataProperty) {
             if ($match = $this->matchProperty($metaMetadataProperty, $itemClass->getProperties(true))) {
                 $matchedProperties['itemProperties'][$metaMetadataProperty['uri']] = $match;
+                continue;
             }
 
             if($match = $this->matchProperty($metaMetadataProperty, $testClass->getProperties(true))) {
                 $matchedProperties['testProperties'][$metaMetadataProperty['uri']] = $match;
+                continue;
             }
-            if($match) {
+            if($match === null) {
                throw new PropertyDoesNotExistException($metaMetadataProperty);
             }
         }
@@ -73,7 +76,6 @@ class MetaMetadataImportMapper
         foreach ($classProperties as $classProperty) {
             if (
                 $classProperty->getUri() === $metaMetadataProperty['uri']
-                && $this->isSynced($classProperty, $metaMetadataProperty)
             ) {
                 return $classProperty;
             }
@@ -97,6 +99,8 @@ class MetaMetadataImportMapper
     {
         $multiple = $classProperty->getOnePropertyValue(new Property(GenerisRdf::PROPERTY_MULTIPLE));
         $checksum = $this->checksumGenerator->getRangeChecksum($classProperty);
-        return $multiple === $metaMetadataProperty['multiple'] && $checksum === $metaMetadataProperty['checksum'];
+        return $multiple instanceof core_kernel_classes_Resource
+            && $multiple->getUri() === $metaMetadataProperty['multiple']
+            && $checksum === $metaMetadataProperty['checksum'];
     }
 }
