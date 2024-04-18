@@ -90,7 +90,7 @@ define([
                     responseValue = isNaN(value) ? '' : value;
                     // check for parsing and integer
                     if (responseValue === '' || !/^[+-]?[0-9]+(e-?\d*)?$/.test(convertedValue)) {
-                        widget.isValid(widget.serial, false);
+                        widget.isValid(widget.serial, false, __('Invalid value in correct response. Expected integer value.'));
                         return setErrorNotification($submitButton, element, attributes.baseType)
                     }
                     break;
@@ -99,7 +99,7 @@ define([
                     responseValue = isNaN(value) ? '' : value;
                     const regex = new RegExp(`^[+-]?[0-9]+\\${decimalSeparator}[0-9]+(e-?\\d*)?$`);
                     if (responseValue === '' || !regex.test(convertedValue)) { // check for parsing and float
-                        widget.isValid(widget.serial, false);
+                        widget.isValid(widget.serial, false, __('Invalid value in correct response. Expected decimal value.'));
                         return setErrorNotification(
                             $submitButton,
                             element,
@@ -110,7 +110,7 @@ define([
                 case 'string':
                     responseValue = convertedValue;
                     if (responseValue === '') {
-                        widget.isValid(widget.serial, false);
+                        widget.isValid(widget.serial, false, __('Empty value in correct response.'));
                         return setErrorNotification($submitButton, element, attributes.baseType);
                     }
                     break;
