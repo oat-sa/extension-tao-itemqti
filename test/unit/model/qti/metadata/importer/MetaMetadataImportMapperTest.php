@@ -32,7 +32,7 @@ use PHPUnit\Framework\TestCase;
 
 class MetaMetadataImportMapperTest extends TestCase
 {
-    protected function setUp(): void
+    public function setUp(): void
     {
         $this->checksumGeneratorMock = $this->createMock(ChecksumGenerator::class);
         $this->subject = new MetaMetadataImportMapper($this->checksumGeneratorMock);
