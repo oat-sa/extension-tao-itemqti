@@ -711,9 +711,10 @@ class ImportService extends ConfigurableService
                     $rdfItem->delete();
                 }
             } catch (MetaMetadataException $e) {
-                $report = Reporter::createError(
+                $error = Reporter::createError(
                     sprintf('Import failed at validating metametadata with message: "%s"', $e->getMessage())
                 );
+                $report->add($error);
                 common_Logger::e($e->getMessage());
                 if (isset($rdfItem) && !is_null($rdfItem) && $rdfItem->exists() && !$overWriting) {
                     $rdfItem->delete();
