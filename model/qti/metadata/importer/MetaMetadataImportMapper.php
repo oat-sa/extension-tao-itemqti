@@ -24,10 +24,17 @@ namespace oat\taoQtiItem\model\qti\metadata\importer;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property as Property;
-use function Webmozart\Assert\Tests\StaticAnalysis\length;
+use oat\generis\model\GenerisRdf;
+use oat\taoQtiTest\models\classes\metadata\ChecksumGenerator;
 
 class MetaMetadataImportMapper
 {
+    private ChecksumGenerator $checksumGenerator;
+
+    public function __construct(ChecksumGenerator $checksumGenerator)
+    {
+        $this->checksumGenerator = $checksumGenerator;
+    }
     /**
      *
      * Valid and matchedProperties
@@ -49,8 +56,7 @@ class MetaMetadataImportMapper
             if($match = $this->matchProperty($metaMetadataProperty, $testClass->getProperties(true))) {
                 $matchedProperties['testProperties'][$metaMetadataProperty['uri']] = $match;
             }
-
-            if(!isset($matchedProperties['testProperties']) && !isset($matchedProperties['itemProperties'])) {
+            if($match) {
                throw new PropertyDoesNotExistException($metaMetadataProperty);
             }
         }
@@ -65,16 +71,32 @@ class MetaMetadataImportMapper
     {
         /** @var Property $itemClassProperty */
         foreach ($classProperties as $classProperty) {
-            if ($classProperty->getUri() === $metaMetadataProperty['uri']) {
+            if (
+                $classProperty->getUri() === $metaMetadataProperty['uri']
+                && $this->isSynced($classProperty, $metaMetadataProperty)
+            ) {
                 return $classProperty;
             }
-            if ($classProperty->getLabel() === $metaMetadataProperty['label']) {
+            if (
+                $classProperty->getLabel() === $metaMetadataProperty['label']
+                && $this->isSynced($classProperty, $metaMetadataProperty)
+            ) {
                 return $classProperty;
             }
-            if ($classProperty->getAlias() === $metaMetadataProperty['alias']) {
+            if (
+                $classProperty->getAlias() === $metaMetadataProperty['alias']
+                && $this->isSynced($classProperty, $metaMetadataProperty)
+            ) {
                 return $classProperty;
             }
         }
         return null;
+    }
+
+    private function isSynced(Property $classProperty, array $metaMetadataProperty): bool
+    {
+        $multiple = $classProperty->getOnePropertyValue(new Property(GenerisRdf::PROPERTY_MULTIPLE));
+        $checksum = $this->checksumGenerator->getRangeChecksum($classProperty);
+        return $multiple === $metaMetadataProperty['multiple'] && $checksum === $metaMetadataProperty['checksum'];
     }
 }

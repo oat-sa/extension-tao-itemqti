@@ -25,9 +25,14 @@ namespace oat\taoQtiItem\model\qti\metadata\importer;
 use Exception;
 class PropertyDoesNotExistException extends Exception
 {
-    public function __construct(string $message)
+    public function __construct(array $message)
     {
-        parent::__construct($message);
+        parent::__construct(
+            sprintf('Property with label %s and alias %s does not exist.',
+                $message['label'] ?? 'unknown label',
+                $message['alias'] ?? 'unknown alias'
+            )
+        );
     }
 
 }

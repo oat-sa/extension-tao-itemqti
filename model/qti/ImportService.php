@@ -50,7 +50,6 @@ use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\TemplateException;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataExtractor;
-use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataValidator;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardianResource;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\metadata\ontology\MappedMetadataInjector;
@@ -561,7 +560,6 @@ class ImportService extends ConfigurableService
                 } else {
                     $rdfItem = $this->createRdfItem((($targetClass !== false) ? $targetClass : $itemClass), $qtiModel);
                 }
-                $this->getMetaMetadataValidator()->validateClass($itemClass, $metaMedataValues);
 
                 // Setting qtiIdentifier property
                 $qtiIdentifierProperty = new \core_kernel_classes_Property(self::PROPERTY_QTI_ITEM_IDENTIFIER);
@@ -905,11 +903,6 @@ class ImportService extends ConfigurableService
     protected function getMetaMetadataExtractor(): MetaMetadataExtractor
     {
         return $this->getServiceManager()->getContainer()->get(MetaMetadataExtractor::class);
-    }
-
-    protected function getMetaMetadataValidator(): MetaMetadataValidator
-    {
-        return $this->getServiceManager()->getContainer()->get(MetaMetadataValidator::class);
     }
 
     /**

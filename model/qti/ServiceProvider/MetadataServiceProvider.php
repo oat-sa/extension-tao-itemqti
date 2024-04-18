@@ -25,7 +25,6 @@ namespace oat\taoQtiItem\model\qti\ServiceProvider;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\taoQtiItem\model\presentation\web\UpdateMetadataRequestHandler;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataExtractor;
-use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataValidator;
 use oat\taoQtiTest\models\classes\metadata\ChecksumGenerator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -40,10 +39,6 @@ class MetadataServiceProvider implements ContainerServiceProviderInterface
             ->public();
 
         $services->set(MetaMetadataExtractor::class, MetaMetadataExtractor::class)
-            ->public();
-
-        $services->set(MetaMetadataValidator::class, MetaMetadataValidator::class)
-            ->args([service(ChecksumGenerator::class)])
             ->public();
     }
 }
