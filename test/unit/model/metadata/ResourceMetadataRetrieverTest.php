@@ -80,7 +80,7 @@ class ResourceMetadataRetrieverTest extends TestCase
         self::assertIsArray($result);
         self::assertArrayHasKey('propertyLabel', $result);
         self::assertIsArray($result['propertyLabel']);
-        self::assertEquals($result['propertyLabel'], ['propertyValue', 'someUri']);
+        self::assertEquals($result['propertyLabel'], ['Resource Label', 'someUri']);
     }
 
 }
