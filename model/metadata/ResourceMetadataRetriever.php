@@ -31,7 +31,7 @@ use oat\taoItems\model\TaoItemOntology;
 
 class ResourceMetadataRetriever
 {
-    const ignoredProperties = [
+    private const IGNORED_PROPERTIES = [
         TaoItemOntology::PROPERTY_ITEM_CONTENT,
         TaoItemOntology::PROPERTY_ITEM_MODEL,
         OntologyRdf::RDF_TYPE,
@@ -53,7 +53,7 @@ class ResourceMetadataRetriever
 
         /** @var Triple $triple */
         foreach ($resource->getRdfTriples() as $triple) {
-            if (in_array($triple->predicate, self::ignoredProperties)) {
+            if (in_array($triple->predicate, self::IGNORED_PROPERTIES)) {
                 continue;
             }
 
