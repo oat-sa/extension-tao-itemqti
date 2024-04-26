@@ -82,5 +82,4 @@ class ResourceMetadataRetrieverTest extends TestCase
         self::assertIsArray($result['propertyLabel']);
         self::assertEquals($result['propertyLabel'], ['Resource Label', 'someUri']);
     }
-
 }
