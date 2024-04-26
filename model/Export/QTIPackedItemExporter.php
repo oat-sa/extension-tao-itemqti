@@ -24,10 +24,12 @@
 
 namespace oat\taoQtiItem\model\Export;
 
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
 use oat\taoQtiItem\model\qti\exception\ExportException;
 use oat\taoQtiItem\model\qti\Service;
 use core_kernel_classes_Resource;
+use oat\taoQtiTest\models\classes\metadata\GenericLomOntologyExtractor;
 use ZipArchive;
 use DOMDocument;
 use tao_helpers_Uri;
@@ -199,6 +201,7 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
 
             $manifest = $this->getManifest();
             $this->getMetadataExporter()->export($this->getItem(), $manifest);
+            $this->injectMetadataToManifest($manifest, $this->getItem());
             $this->setManifest($manifest);
 
 
@@ -246,5 +249,22 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
     protected function getQTIVersion(): string
     {
         return '2p1';
+    }
+    private function injectMetadataToManifest($manifest, core_kernel_classes_Resource $item)
+    {
+        if ($this->getFeatureFlagChecker()->isEnabled(GenericLomOntologyExtractor::FEATURE_FLAG)) {
+            $this->genericLomOntologyExtractor()->extract(
+                [$item],
+                $manifest
+            );
+        }
+    }
+    private function genericLomOntologyExtractor(): GenericLomOntologyExtractor
+    {
+        return $this->getServiceManager()->getContainer()->get(GenericLomOntologyExtractor::class);
+    }
+    private function getFeatureFlagChecker(): FeatureFlagChecker
+    {
+        return $this->getServiceManager()->getContainer()->get(FeatureFlagChecker::class);
     }
 }
