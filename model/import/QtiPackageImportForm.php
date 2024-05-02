@@ -108,8 +108,11 @@ class QtiPackageImportForm extends tao_helpers_form_FormContainer
         $this->form->addElement($rollbackElt);
 
         //Check if value is set in array
-        if (!in_array(
-            QtiPackageImport::METADATA_IMPORT_ELEMENT_NAME, $this->options[QtiPackageImport::DISABLED_ELEMENTS])
+        if (
+            !in_array(
+                QtiPackageImport::METADATA_IMPORT_ELEMENT_NAME,
+                $this->options[QtiPackageImport::DISABLED_ELEMENTS]
+            )
         ) {
             $metadataImport = tao_helpers_form_FormFactory::getElement(self::METADATA_FORM_ELEMENT_NAME, 'Checkbox');
             $metadataImport->setOptions(['metadata' => __('Import metadata or fail')]);
