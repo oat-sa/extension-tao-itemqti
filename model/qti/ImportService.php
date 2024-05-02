@@ -284,7 +284,8 @@ class ImportService extends ConfigurableService
         $enableMetadataGuardians = true,
         $enableMetadataValidators = true,
         $itemMustExist = false,
-        $itemMustBeOverwritten = false
+        $itemMustBeOverwritten = false,
+        $importMetadataEnabled = false
     ) {
         $initialLogMsg = "Importing QTI Package with the following options:\n";
         $initialLogMsg .= '- Rollback On Warning: ' . json_encode($rollbackOnWarning) . "\n";
@@ -293,6 +294,7 @@ class ImportService extends ConfigurableService
         $initialLogMsg .= '- Enable Metadata Validators: ' . json_encode($enableMetadataValidators) . "\n";
         $initialLogMsg .= '- Item Must Exist: ' . json_encode($itemMustExist) . "\n";
         $initialLogMsg .= '- Item Must Be Overwritten: ' . json_encode($itemMustBeOverwritten) . "\n";
+        $initialLogMsg .= '- Import Metadata Enabled: ' . json_encode($importMetadataEnabled) . "\n";
         \common_Logger::d($initialLogMsg);
 
         //load and validate the package
@@ -345,7 +347,8 @@ class ImportService extends ConfigurableService
                     $itemMustExist,
                     $itemMustBeOverwritten,
                     $overwrittenItems,
-                    $metaMetadataValues
+                    $metaMetadataValues,
+                    $importMetadataEnabled
                 );
 
                 $allCreatedClasses = array_merge($allCreatedClasses, $createdClasses);
@@ -452,7 +455,8 @@ class ImportService extends ConfigurableService
         $itemMustExist = false,
         $itemMustBeOverwritten = false,
         &$overwrittenItems = [],
-        $metaMedataValues = []
+        $metaMedataValues = [],
+        $importMetadataEnabled = false
     ) {
         // if report can't be finished
         $report = common_report_Report::createFailure(
@@ -624,7 +628,7 @@ class ImportService extends ConfigurableService
 
                 $this->getMetadataImporter()->inject($resourceIdentifier, $rdfItem);
 
-                if (isset($metadataValues[$resourceIdentifier])) {
+                if ($importMetadataEnabled && isset($metadataValues[$resourceIdentifier])) {
                     $this->getMappedMetadataInjector()->inject(
                         $metaMedataValues,
                         $metadataValues[$resourceIdentifier],
