@@ -32,7 +32,7 @@ use oat\taoQtiItem\model\event\QtiItemImportEvent;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
-use oat\taoQtiTest\models\classes\metadata\GenericLomOntologyExtractor;
+use oat\taoQtiTest\models\classes\metadata\MetadataLomService;
 use tao_models_classes_import_ImportHandler;
 use helpers_TimeOutHelper;
 use common_report_Report;
@@ -59,7 +59,7 @@ class QtiPackageImport implements
     }
 
     public const METADATA_IMPORT_ELEMENT_NAME = 'metadataImport';
-    public const DISABLED_ELEMENTS = 'disableElements';
+    public const DISABLED_ELEMENTS = 'disabledFields';
 
     /**
      * @see tao_models_classes_import_ImportHandler::getLabel()
@@ -170,7 +170,7 @@ class QtiPackageImport implements
     private function getDisabledElements(): array
     {
         $disabledElements = [];
-        if (!$this->getFeatureFlagChecker()->isEnabled(GenericLomOntologyExtractor::FEATURE_FLAG)) {
+        if (!$this->getFeatureFlagChecker()->isEnabled(MetadataLomService::FEATURE_FLAG)) {
             $disabledElements[] = self::METADATA_IMPORT_ELEMENT_NAME;
         }
         return $disabledElements;

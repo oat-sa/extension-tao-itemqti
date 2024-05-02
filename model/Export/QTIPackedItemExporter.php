@@ -25,17 +25,16 @@
 namespace oat\taoQtiItem\model\Export;
 
 use oat\tao\model\featureFlag\FeatureFlagChecker;
-use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
 use oat\taoQtiItem\model\qti\exception\ExportException;
 use oat\taoQtiItem\model\qti\Service;
 use core_kernel_classes_Resource;
 use oat\taoQtiTest\models\classes\metadata\GenericLomOntologyExtractor;
+use oat\taoQtiTest\models\classes\metadata\MetadataLomService;
 use ZipArchive;
 use DOMDocument;
 use tao_helpers_Uri;
 use taoItems_models_classes_TemplateRenderer;
 use tao_helpers_Display;
-use common_Exception;
 
 class QTIPackedItemExporter extends AbstractQTIItemExporter
 {
@@ -252,7 +251,7 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
     }
     private function injectMetadataToManifest($manifest, core_kernel_classes_Resource $item)
     {
-        if ($this->getFeatureFlagChecker()->isEnabled(GenericLomOntologyExtractor::FEATURE_FLAG)) {
+        if ($this->getFeatureFlagChecker()->isEnabled(MetadataLomService::FEATURE_FLAG)) {
             $this->genericLomOntologyExtractor()->extract(
                 [$item],
                 $manifest
