@@ -23,29 +23,22 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import;
 
 use core_kernel_classes_Property as Property;
-use oat\generis\model\data\Ontology;
+use oat\taoBackOffice\model\lists\ListService;
 
 class ChecksumGenerator
 {
-    private Ontology $ontology;
+    private ListService $listService;
 
-    public function __construct(Ontology $ontology)
+    public function __construct(ListService $listService)
     {
-        $this->ontology = $ontology;
+        $this->listService = $listService;
     }
 
     public function getRangeChecksum(Property $property): string
     {
-        $resourceList = array_filter($property->getRange()->getNestedResources(), function ($range) {
-            return $range['isclass'] === 0;
-        });
-
-        if (empty($resourceList)) {
-            return '';
-        }
         $labels = [];
-        foreach ($resourceList as $resource) {
-            $labels[] = strtolower($this->ontology->getResource($resource['id'])->getLabel());
+        foreach ($this->listService->getListElements($property->getRange()) as $listEntry) {
+            $labels[] = strtolower($listEntry->getLabel());
         }
         asort($labels);
         $checksum = implode('', $labels);
