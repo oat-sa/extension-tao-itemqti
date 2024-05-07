@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-06-07 09:16\n"
+"PO-Revision-Date: 2024-04-09 08:31\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt\n"
@@ -36,7 +36,7 @@ msgid "%d Item(s) of %d imported from the given IMS QTI Package."
 msgstr "%d item(s) de %d importados do pacote IMS QTI fornecido."
 
 msgid "%d/%d"
-msgstr ""
+msgstr "%d/%d"
 
 msgid "%s metadata values found in source by extractor(s)."
 msgstr "%s valores de metadados encontrados na fonte por extrator(s)."
@@ -207,7 +207,7 @@ msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metada
 msgstr "Tentando injetar \"%s\"valores de metadados para destino \"%s\" com injetor de metadados \"%s\"."
 
 msgid "Autostart"
-msgstr ""
+msgstr "Começo Automático"
 
 msgid "Back to Manage Items"
 msgstr "Voltar para Gerenciar Itens"
@@ -216,7 +216,7 @@ msgid "Background color"
 msgstr "Cor de fundo"
 
 msgid "Base"
-msgstr ""
+msgstr "Base"
 
 msgid "block"
 msgstr "Bloquear"
@@ -348,7 +348,7 @@ msgid "correct"
 msgstr "correto"
 
 msgid "Cosinus"
-msgstr ""
+msgstr "Cosseno"
 
 msgid "Create assocations and fill the score in the form below"
 msgstr "Crie assocations e preencha a pontuação no formulário abaixo"
@@ -507,7 +507,7 @@ msgid "Edit modal feedback title"
 msgstr "Editar título do feedback modal"
 
 msgid "Edit stylesheet label"
-msgstr ""
+msgstr "Editar label da folha de estilo"
 
 msgid "Editing Mode"
 msgstr "Modo de Edição"
@@ -549,7 +549,7 @@ msgid "Enter tooltip content"
 msgstr "Inserir conteúdo de dicas"
 
 msgid "Enter tooltip target"
-msgstr ""
+msgstr "Inserir tooltip"
 
 msgid "error"
 msgstr "Erro"
@@ -645,7 +645,7 @@ msgid "Font family"
 msgstr "Família da fonte"
 
 msgid "Font size"
-msgstr ""
+msgstr "Tamanho da fonte"
 
 msgid "Format"
 msgstr "Formato"
@@ -693,16 +693,16 @@ msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CON
 msgstr "Aqui você pode fornecer aspectos de pontuação para pontuação/marcação manual, por exemplo, CONTENT, GRAMMAR, ESPELODO"
 
 msgid "Horizontal"
-msgstr ""
+msgstr "Horizontal"
 
 msgid "Hotspot"
-msgstr ""
+msgstr "Hotspot"
 
 msgid "Hotspot Interaction"
 msgstr "Interação de Hotspot"
 
 msgid "Hottext"
-msgstr ""
+msgstr "Hottext"
 
 msgid "Hottext Interaction"
 msgstr "Interação de Hottext"
@@ -720,10 +720,10 @@ msgid "identical pair already exists"
 msgstr "par idêntico já existe"
 
 msgid "identifier"
-msgstr ""
+msgstr "identificador"
 
 msgid "Identifier"
-msgstr ""
+msgstr "Identificador"
 
 msgid "identifier already taken"
 msgstr "identificador já utilizado"
@@ -822,7 +822,7 @@ msgid "Invalid Outcome Declaration"
 msgstr "Declaração de resultado inválida"
 
 msgid "invalid QTI XML"
-msgstr ""
+msgstr "QTI XML inválido"
 
 msgid "Invalid response identifier"
 msgstr "Identificador de resposta inválido"
@@ -867,7 +867,7 @@ msgid "Item properties"
 msgstr "Propriedades do Item"
 
 msgid "Item width"
-msgstr ""
+msgstr "Largura do item"
 
 #, tao-public
 msgid "Items"
@@ -883,10 +883,10 @@ msgid "Large editor"
 msgstr "Editor grande"
 
 msgid "LaTeX"
-msgstr ""
+msgstr "LaTeX"
 
 msgid "Latex"
-msgstr ""
+msgstr "Latex"
 
 msgid "Layout"
 msgstr "Disposição"
@@ -938,7 +938,8 @@ msgstr "Menor ou igual"
 
 msgid "Malformed XML[%s]:\n"
 "%s"
-msgstr ""
+msgstr "XML mal formatado [%s]:\n"
+"%s"
 
 msgid "Manage Items"
 msgstr "Gerenciar Itens"
@@ -969,7 +970,7 @@ msgid "MathJax is not installed."
 msgstr "MathJax não está instalado."
 
 msgid "MathML"
-msgstr ""
+msgstr "MathML"
 
 msgid "Max"
 msgstr "Máximo"
@@ -1141,7 +1142,7 @@ msgid "Pause"
 msgstr "Suspender"
 
 msgid "Pi"
-msgstr ""
+msgstr "Pi"
 
 msgid "Placeholder Text"
 msgstr "Texto placeholder"
@@ -1234,7 +1235,7 @@ msgid "Power form"
 msgstr "Formulário de energia"
 
 msgid "Pre-formatted text"
-msgstr ""
+msgstr "Texto pré formatado"
 
 msgid "Preparing CSS, please wait…"
 msgstr "Preparando CSS, por favor aguarde…"
@@ -1279,7 +1280,7 @@ msgid "QTI Item Runner"
 msgstr "Item Runner QTI"
 
 msgid "QTI Metadata"
-msgstr ""
+msgstr "QTI Metadata"
 
 msgid "QTI Package 2.1"
 msgstr "Pacote QTI 2.1"
@@ -1291,7 +1292,7 @@ msgid "QTI-XML error at line %1$d \"%2$s\"."
 msgstr "Erro QTI-XML na linha %1$d \"%2$s\"."
 
 msgid "QTI/APIP Content Package"
-msgstr ""
+msgstr "QTI/APIP Content Package"
 
 msgid "QTI/APIP XML Item Document"
 msgstr "Documento de Item XML QTI/APIP"
