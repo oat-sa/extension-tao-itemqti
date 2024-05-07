@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2016-2024 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -49,8 +49,11 @@ use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\TemplateException;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
+use oat\taoQtiItem\model\qti\metadata\importer\MetaMetadataImportMapper;
+use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataExtractor;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardianResource;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
+use oat\taoQtiItem\model\qti\metadata\ontology\MappedMetadataInjector;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
 use oat\taoQtiItem\model\event\ItemImported;
 use qtism\data\QtiComponentCollection;
@@ -65,6 +68,7 @@ use taoItems_models_classes_ItemsService;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\reporting\Report as Reporter;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\ImportService
@@ -176,6 +180,7 @@ class ImportService extends ConfigurableService
             throw new \common_Exception('Unable to save item');
         }
 
+
         return $rdfItem;
     }
 
@@ -280,7 +285,8 @@ class ImportService extends ConfigurableService
         $enableMetadataGuardians = true,
         $enableMetadataValidators = true,
         $itemMustExist = false,
-        $itemMustBeOverwritten = false
+        $itemMustBeOverwritten = false,
+        $importMetadataEnabled = false
     ) {
         $initialLogMsg = "Importing QTI Package with the following options:\n";
         $initialLogMsg .= '- Rollback On Warning: ' . json_encode($rollbackOnWarning) . "\n";
@@ -289,6 +295,7 @@ class ImportService extends ConfigurableService
         $initialLogMsg .= '- Enable Metadata Validators: ' . json_encode($enableMetadataValidators) . "\n";
         $initialLogMsg .= '- Item Must Exist: ' . json_encode($itemMustExist) . "\n";
         $initialLogMsg .= '- Item Must Be Overwritten: ' . json_encode($itemMustBeOverwritten) . "\n";
+        $initialLogMsg .= '- Import Metadata Enabled: ' . json_encode($importMetadataEnabled) . "\n";
         \common_Logger::d($initialLogMsg);
 
         //load and validate the package
@@ -322,6 +329,11 @@ class ImportService extends ConfigurableService
             $qtiItemResources = $this->createQtiManifest($folder . 'imsmanifest.xml');
 
             $metadataValues = $this->getMetadataImporter()->extract($domManifest);
+            $metaMetadataValues = $this->getMetaMetadataExtractor()->extract($domManifest);
+            $mappedMetadataValues = $this->getMetaMetadataImportMapper()->mapMetaMetadataToProperties(
+                $metaMetadataValues,
+                $itemClass
+            );
 
             $sharedFiles = [];
             $createdClasses = [];
@@ -339,7 +351,9 @@ class ImportService extends ConfigurableService
                     $enableMetadataValidators,
                     $itemMustExist,
                     $itemMustBeOverwritten,
-                    $overwrittenItems
+                    $overwrittenItems,
+                    $mappedMetadataValues['itemProperties'],
+                    $importMetadataEnabled
                 );
 
                 $allCreatedClasses = array_merge($allCreatedClasses, $createdClasses);
@@ -445,7 +459,9 @@ class ImportService extends ConfigurableService
         $enableMetadataValidators = true,
         $itemMustExist = false,
         $itemMustBeOverwritten = false,
-        &$overwrittenItems = []
+        &$overwrittenItems = [],
+        $metaMedataValues = [],
+        $importMetadataEnabled = false
     ) {
         // if report can't be finished
         $report = common_report_Report::createFailure(
@@ -617,6 +633,15 @@ class ImportService extends ConfigurableService
 
                 $this->getMetadataImporter()->inject($resourceIdentifier, $rdfItem);
 
+                if ($importMetadataEnabled && isset($metadataValues[$resourceIdentifier])) {
+                    $this->getMappedMetadataInjector()->inject(
+                        $metaMedataValues,
+                        $metadataValues[$resourceIdentifier],
+                        $rdfItem
+                    );
+                }
+
+
                 $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
                 $eventManager->trigger(new ItemImported($rdfItem, $qtiModel));
 
@@ -691,6 +716,15 @@ class ImportService extends ConfigurableService
                     __('The IMS QTI Item referenced as "%s" in the IMS Manifest file failed:  %s', $resourceIdentifier, $e->getMessage())
                     // phpcs:enable Generic.Files.LineLength
                 );
+                if (isset($rdfItem) && !is_null($rdfItem) && $rdfItem->exists() && !$overWriting) {
+                    $rdfItem->delete();
+                }
+            } catch (MetaMetadataException $e) {
+                $error = Reporter::createError(
+                    sprintf('Import failed at validating metametadata with message: "%s"', $e->getMessage())
+                );
+                $report->add($error);
+                common_Logger::e($e->getMessage());
                 if (isset($rdfItem) && !is_null($rdfItem) && $rdfItem->exists() && !$overWriting) {
                     $rdfItem->delete();
                 }
@@ -876,6 +910,11 @@ class ImportService extends ConfigurableService
         return $this->metadataImporter;
     }
 
+    protected function getMetaMetadataExtractor(): MetaMetadataExtractor
+    {
+        return $this->getServiceManager()->getContainer()->get(MetaMetadataExtractor::class);
+    }
+
     /**
      * Retrieve the labels of all parent classes up to base item class.
      */
@@ -902,5 +941,15 @@ class ImportService extends ConfigurableService
     private function getItemEventDispatcher(): UpdatedItemEventDispatcher
     {
         return $this->getServiceLocator()->get(UpdatedItemEventDispatcher::class);
+    }
+
+    private function getMappedMetadataInjector(): MappedMetadataInjector
+    {
+        return $this->getServiceManager()->getContainer()->get(MappedMetadataInjector::class);
+    }
+
+    private function getMetaMetadataImportMapper(): MetaMetadataImportMapper
+    {
+        return $this->getServiceManager()->getContainer()->get(MetaMetadataImportMapper::class);
     }
 }

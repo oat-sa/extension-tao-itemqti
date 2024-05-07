@@ -15,44 +15,35 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022-2024 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2024 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\qti\ServiceProvider;
+namespace oat\taoQtiItem\model\qti\metadata\importer;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use oat\taoBackOffice\model\lists\ListService;
 use oat\taoQtiItem\model\import\ChecksumGenerator;
-use oat\generis\model\data\Ontology;
-use oat\taoQtiItem\model\metadata\ResourceMetadataRetriever;
-use oat\taoQtiItem\model\presentation\web\UpdateMetadataRequestHandler;
-use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataExtractor;
+use oat\taoQtiItem\model\qti\metadata\ontology\MappedMetadataInjector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
-class MetadataServiceProvider implements ContainerServiceProviderInterface
+class MetaMetadataServiceProvider implements ContainerServiceProviderInterface
 {
     public function __invoke(ContainerConfigurator $configurator): void
     {
         $services = $configurator->services();
 
-        $services->set(ResourceMetadataRetriever::class, ResourceMetadataRetriever::class)
-            ->args([service(Ontology::SERVICE_ID)])
+        $services
+            ->set(MappedMetadataInjector::class, MappedMetadataInjector::class)
             ->public();
 
-        $services->set(UpdateMetadataRequestHandler::class, UpdateMetadataRequestHandler::class)
-            ->public();
-
-        $services->set(ChecksumGenerator::class, ChecksumGenerator::class)
+        $services
+            ->set(MetaMetadataImportMapper::class, MetaMetadataImportMapper::class)
             ->args([
-                service(ListService::class)
+                service(ChecksumGenerator::class)
             ])
-            ->public();
-
-        $services->set(MetaMetadataExtractor::class, MetaMetadataExtractor::class)
             ->public();
     }
 }

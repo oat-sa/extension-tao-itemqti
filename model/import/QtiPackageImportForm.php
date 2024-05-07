@@ -40,12 +40,8 @@ use tao_helpers_Environment;
  */
 class QtiPackageImportForm extends tao_helpers_form_FormContainer
 {
-    // --- ASSOCIATIONS ---
+    public const METADATA_FORM_ELEMENT_NAME = 'metadata';
 
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
     /**
      * (non-PHPdoc)
      * @see tao_helpers_form_FormContainer::initForm()
@@ -111,8 +107,29 @@ class QtiPackageImportForm extends tao_helpers_form_FormContainer
         $rollbackElt->setDescription(__('Rollback on...'));
         $this->form->addElement($rollbackElt);
 
-        $this->form->createGroup('file', __('Import a QTI/APIP Content Package'), ['source', 'rollback']);
+        //Check if value is set in array
+        if (
+            !in_array(
+                QtiPackageImport::METADATA_IMPORT_ELEMENT_NAME,
+                $this->options[QtiPackageImport::DISABLED_ELEMENTS]
+            )
+        ) {
+            $metadataImport = tao_helpers_form_FormFactory::getElement(self::METADATA_FORM_ELEMENT_NAME, 'Checkbox');
+            $metadataImport->setOptions(['metadata' => __('Import metadata or fail')]);
+            $metadataImport->setDescription(__('Metadata import'));
+            $metadataImport->setLevel(1);
+            $this->form->addElement($metadataImport);
+        }
 
+        $this->form->createGroup(
+            'file',
+            __('Import a QTI/APIP Content Package'),
+            [
+                'source',
+                'rollback',
+                self::METADATA_FORM_ELEMENT_NAME
+            ]
+        );
 
         $qtiSentElt = tao_helpers_form_FormFactory::getElement('import_sent_qti', 'Hidden');
         $qtiSentElt->setValue(1);

@@ -25,12 +25,14 @@ namespace oat\taoQtiItem\model\import;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\PhpSerializable;
 use oat\oatbox\PhpSerializeStateless;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\import\ImportHandlerHelperTrait;
 use oat\tao\model\import\TaskParameterProviderInterface;
 use oat\taoQtiItem\model\event\QtiItemImportEvent;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
+use oat\taoQtiTest\models\classes\metadata\MetadataLomService;
 use tao_models_classes_import_ImportHandler;
 use helpers_TimeOutHelper;
 use common_report_Report;
@@ -56,6 +58,9 @@ class QtiPackageImport implements
         getTaskParameters as getDefaultTaskParameters;
     }
 
+    public const METADATA_IMPORT_ELEMENT_NAME = 'metadataImport';
+    public const DISABLED_ELEMENTS = 'disabledFields';
+
     /**
      * @see tao_models_classes_import_ImportHandler::getLabel()
      */
@@ -69,7 +74,12 @@ class QtiPackageImport implements
      */
     public function getForm()
     {
-        $form = new QtiPackageImportForm();
+        $form = new QtiPackageImportForm(
+            [],
+            [
+                self::DISABLED_ELEMENTS => $this->getDisabledElements(),
+            ]
+        );
 
         return $form->getForm();
     }
@@ -100,7 +110,12 @@ class QtiPackageImport implements
                 $class,
                 true,
                 in_array('error', $rollbackInfo),
-                in_array('warning', $rollbackInfo)
+                in_array('warning', $rollbackInfo),
+                null,
+                null,
+                null,
+                null,
+                count($form[QtiPackageImportForm::METADATA_FORM_ELEMENT_NAME]) !== 0
             );
 
             helpers_TimeOutHelper::reset();
@@ -140,8 +155,24 @@ class QtiPackageImport implements
         return array_merge(
             [
                 'rollback' => $form->getValue('rollback'),
+                QtiPackageImportForm::METADATA_FORM_ELEMENT_NAME => $form->getValue(
+                    QtiPackageImportForm::METADATA_FORM_ELEMENT_NAME
+                ) ?? null,
             ],
             $this->getDefaultTaskParameters($form)
         );
+    }
+    private function getFeatureFlagChecker(): FeatureFlagChecker
+    {
+        return $this->serviceLocator->getContainer()->get(FeatureFlagChecker::class);
+    }
+
+    private function getDisabledElements(): array
+    {
+        $disabledElements = [];
+        if (!$this->getFeatureFlagChecker()->isEnabled(MetadataLomService::FEATURE_FLAG)) {
+            $disabledElements[] = self::METADATA_IMPORT_ELEMENT_NAME;
+        }
+        return $disabledElements;
     }
 }
