@@ -26,6 +26,7 @@ use core_kernel_classes_Class as ClassResource;
 use core_kernel_classes_Property as Property;
 use core_kernel_classes_Resource as Resource;
 use oat\generis\model\data\Ontology;
+use oat\taoBackOffice\model\lists\ListService;
 use oat\taoQtiItem\model\import\ChecksumGenerator;
 use PHPUnit\Framework\TestCase;
 
@@ -34,8 +35,8 @@ class ChecksumGeneratorTest extends TestCase
     public function setUp(): void
     {
         $this->propertyMock = $this->createMock(Property::class);
-        $this->ontologyMock = $this->createMock(Ontology::class);
-        $this->checksumGenerator = new ChecksumGenerator($this->ontologyMock);
+        $this->listServiceMock = $this->createMock(ListService::class);
+        $this->checksumGenerator = new ChecksumGenerator($this->listServiceMock);
     }
 
     public function testGetRangeChecksum(): void
@@ -65,14 +66,8 @@ class ChecksumGeneratorTest extends TestCase
             ->willReturn('label');
 
         $this->propertyMock->method('getRange')->willReturn($classMock);
-        $this->ontologyMock
-            ->expects($this->exactly(2))
-            ->method('getResource')
-            ->with($this->logicalOr(
-                $this->equalTo('non_class_id'),
-                $this->equalTo('non_class_id_2')
-            ))
-            ->willReturn($resourceMock);
+
+        $this->listServiceMock->method('getListElements')->willReturn([$resourceMock, $resourceMock]);
 
         $this->assertEquals(
             'c315a4bd4fa0f4479b1ea4b5998aa548eed3b670',
