@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2022-2024 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -25,6 +25,8 @@ namespace oat\taoQtiItem\model\qti\ServiceProvider;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\taoBackOffice\model\lists\ListService;
 use oat\taoQtiItem\model\import\ChecksumGenerator;
+use oat\generis\model\data\Ontology;
+use oat\taoQtiItem\model\metadata\ResourceMetadataRetriever;
 use oat\taoQtiItem\model\presentation\web\UpdateMetadataRequestHandler;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataExtractor;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -36,6 +38,11 @@ class MetadataServiceProvider implements ContainerServiceProviderInterface
     public function __invoke(ContainerConfigurator $configurator): void
     {
         $services = $configurator->services();
+
+        $services->set(ResourceMetadataRetriever::class, ResourceMetadataRetriever::class)
+            ->args([service(Ontology::SERVICE_ID)])
+            ->public();
+
         $services->set(UpdateMetadataRequestHandler::class, UpdateMetadataRequestHandler::class)
             ->public();
 
