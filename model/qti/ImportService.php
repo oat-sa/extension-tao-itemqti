@@ -49,6 +49,7 @@ use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\exception\TemplateException;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
+use oat\taoQtiItem\model\qti\metadata\importer\MetaMetadataImportMapper;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataExtractor;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardianResource;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
@@ -329,6 +330,10 @@ class ImportService extends ConfigurableService
 
             $metadataValues = $this->getMetadataImporter()->extract($domManifest);
             $metaMetadataValues = $this->getMetaMetadataExtractor()->extract($domManifest);
+            $mappedMetadataValues = $this->getMetaMetadataImportMapper()->mapMetaMetadataToProperties(
+                $metaMetadataValues,
+                $itemClass
+            );
 
             $sharedFiles = [];
             $createdClasses = [];
@@ -347,7 +352,7 @@ class ImportService extends ConfigurableService
                     $itemMustExist,
                     $itemMustBeOverwritten,
                     $overwrittenItems,
-                    $metaMetadataValues,
+                    $mappedMetadataValues['itemProperties'],
                     $importMetadataEnabled
                 );
 
@@ -941,5 +946,10 @@ class ImportService extends ConfigurableService
     private function getMappedMetadataInjector(): MappedMetadataInjector
     {
         return $this->getServiceManager()->getContainer()->get(MappedMetadataInjector::class);
+    }
+
+    private function getMetaMetadataImportMapper(): MetaMetadataImportMapper
+    {
+        return $this->getServiceManager()->getContainer()->get(MetaMetadataImportMapper::class);
     }
 }

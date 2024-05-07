@@ -40,7 +40,7 @@ class MetaMetadataImportMapper
     public function mapMetaMetadataToProperties(
         array $metaMetadataProperties,
         core_kernel_classes_Class $itemClass,
-        core_kernel_classes_Class $testClass
+        core_kernel_classes_Class $testClass = null
     ): array {
         $matchedProperties = [];
         foreach ($metaMetadataProperties as $metaMetadataProperty) {
@@ -49,7 +49,7 @@ class MetaMetadataImportMapper
                 continue;
             }
 
-            if ($match = $this->matchProperty($metaMetadataProperty, $testClass->getProperties(true))) {
+            if ($testClass && $match = $this->matchProperty($metaMetadataProperty, $testClass->getProperties(true))) {
                 $matchedProperties['testProperties'][$metaMetadataProperty['uri']] = $match;
                 continue;
             }
