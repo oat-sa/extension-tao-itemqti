@@ -22,15 +22,22 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti\metadata\ontology;
 
-use core_kernel_classes_Class;
 use core_kernel_classes_Property as Property;
 use core_kernel_classes_Resource as Resource;
 use oat\generis\model\OntologyAwareTrait;
+use oat\taoBackOffice\model\lists\ListService;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 
 class MappedMetadataInjector
 {
     use OntologyAwareTrait;
+
+    private ListService $listService;
+
+    public function __construct(ListService $listService)
+    {
+        $this->listService = $listService;
+    }
 
     public function inject(array $mappedProperties, array $metadataValues, Resource $resource): void
     {
@@ -38,18 +45,17 @@ class MappedMetadataInjector
         foreach ($metadataValues as $metadataValue) {
             foreach ($metadataValue->getPath() as $mappedPath) {
                 if (isset($mappedProperties[$mappedPath]) && $mappedProperties[$mappedPath] instanceof Property) {
-                    /** @var core_kernel_classes_Class $rangeClass */
-                    $rangeClass = $mappedProperties[$mappedPath]->getRange();
-                    /** @var Resource $nestedResource */
-                    foreach ($rangeClass->getNestedResources() as $nestedResource) {
+                    $list = $this->listService->getListElements($mappedProperties[$mappedPath]->getRange());
+                    foreach ($list as $listElement) {
                         if (
-                            $nestedResource['isclass'] !== 1
-                            && $this->getResource($nestedResource['id'])->getLabel() === $metadataValue->getValue()
+                            $listElement->getLabel() === $metadataValue->getValue()
+                            || $listElement->getOriginalUri() === $metadataValue->getValue()
                         ) {
                             $resource->setPropertyValue(
                                 $mappedProperties[$mappedPath],
-                                $this->getResource($nestedResource['id'])
+                                $this->getResource($listElement->getUri())
                             );
+                            break;
                         }
                     }
                 }
