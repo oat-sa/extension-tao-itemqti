@@ -107,7 +107,7 @@ class QtiPackageImport implements
 
             $isImportMetadataEnabled = false;
             if (isset($form[QtiPackageImportForm::METADATA_FORM_ELEMENT_NAME])) {
-                $isImportMetadataEnabled = count($form[QtiPackageImportForm::METADATA_FORM_ELEMENT_NAME]) !== 0;
+                $isImportMetadataEnabled = (bool) $form[QtiPackageImportForm::METADATA_FORM_ELEMENT_NAME] === true;
             }
 
             $report = ImportService::singleton()->importQTIPACKFile(
