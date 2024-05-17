@@ -115,8 +115,8 @@ class QtiPackageImportForm extends tao_helpers_form_FormContainer
             )
         ) {
             $metadataImport = tao_helpers_form_FormFactory::getElement(self::METADATA_FORM_ELEMENT_NAME, 'Checkbox');
-            $metadataImport->setOptions(['metadata' => __('Import metadata or fail')]);
-            $metadataImport->setDescription(__('Metadata import'));
+            $metadataImport->setOptions(['metadata' => __('QTI metadata as properties')]);
+            $metadataImport->setDescription(__('Import'));
             $metadataImport->setLevel(1);
             $this->form->addElement($metadataImport);
         }

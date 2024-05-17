@@ -69,6 +69,8 @@ class LabelBasedLomOntologyClassificationExtractorTest extends TestCase
             ->method('getLabel')
             ->willReturn('resource label');
 
+        $resourceMock->method('exists')->willReturn(true);
+
         $propertyMock
             ->method('isProperty')
             ->willReturn(true);

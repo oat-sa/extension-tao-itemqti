@@ -73,7 +73,7 @@ class LabelBasedLomOntologyClassificationExtractor implements MetadataExtractor
         /** @var Triple $triple */
         foreach ($resource->getRdfTriples() as $triple) {
             $property = $this->getProperty($triple->predicate);
-            $value = $this->getResource($triple->object)->getLabel() ?? $triple->object;
+            $value = $this->getResourceValue($triple);
             $propertyUri = $property->getUri();
 
             if (
@@ -95,5 +95,17 @@ class LabelBasedLomOntologyClassificationExtractor implements MetadataExtractor
         }
 
         return $metadata;
+    }
+
+    private function getResourceValue(Triple $triple): string
+    {
+        if (
+            $this->getResource($triple->object)->exists()
+            && $this->getResource($triple->object)->getLabel() !== ''
+        ) {
+            return $this->getResource($triple->object)->getLabel();
+        }
+
+        return $triple->object;
     }
 }
