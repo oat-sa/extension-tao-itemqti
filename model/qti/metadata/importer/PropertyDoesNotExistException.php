@@ -28,6 +28,16 @@ class PropertyDoesNotExistException extends Exception
 {
     public function __construct(array $message)
     {
+        if (isset($message['checksum_result']) && $message['checksum_result'] === false) {
+            parent::__construct(
+                sprintf(
+                    'The property %s selected list is not defined as expected by the imported package',
+                    $message['label'] ?? 'unknown label',
+                )
+            );
+            return;
+        }
+
         parent::__construct(
             sprintf(
                 'Property with label %s and alias %s does not exist.',
