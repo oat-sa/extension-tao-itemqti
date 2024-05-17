@@ -45,6 +45,11 @@ class MappedMetadataInjector
         foreach ($metadataValues as $metadataValue) {
             foreach ($metadataValue->getPath() as $mappedPath) {
                 if (isset($mappedProperties[$mappedPath]) && $mappedProperties[$mappedPath] instanceof Property) {
+                    if ($mappedProperties[$mappedPath]->getRange()->getUri() === RDFS_LITERAL) {
+                        $resource->setPropertyValue($mappedProperties[$mappedPath], $metadataValue->getValue());
+                        break;
+                    }
+
                     $list = $this->listService->getListElements($mappedProperties[$mappedPath]->getRange());
                     foreach ($list as $listElement) {
                         if (
