@@ -44,7 +44,9 @@ class MappedMetadataInjector
         /** @var SimpleMetadataValue $metadataValue */
         foreach ($metadataValues as $metadataValue) {
             foreach ($metadataValue->getPath() as $mappedPath) {
-                if (isset($mappedProperties[$mappedPath]) && $mappedProperties[$mappedPath] instanceof Property) {
+                if ($this->isInjectableProperty($mappedProperties, $mappedPath)
+                    && !$this->isPropertyDefined($resource, $mappedProperties[$mappedPath])
+                ) {
                     if ($mappedProperties[$mappedPath]->getRange()->getUri() === RDFS_LITERAL) {
                         $resource->setPropertyValue($mappedProperties[$mappedPath], $metadataValue->getValue());
                         break;
@@ -66,5 +68,16 @@ class MappedMetadataInjector
                 }
             }
         }
+    }
+
+    private function isInjectableProperty(array $mappedProperties, string $mappedPath): bool
+    {
+        return isset($mappedProperties[$mappedPath])
+            && $mappedProperties[$mappedPath] instanceof Property;
+    }
+
+    private function isPropertyDefined(Resource $resource, Property $property): bool
+    {
+        return count($resource->getPropertyValues($property)) !== 0;
     }
 }
