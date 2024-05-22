@@ -86,9 +86,11 @@ class MetaMetadataImportMapper
         $multiple = $classProperty->getOnePropertyValue(new Property(GenerisRdf::PROPERTY_MULTIPLE));
         $checksum = $this->checksumGenerator->getRangeChecksum($classProperty);
         $metaMetadataProperty['checksum_result'] = $checksum === $metaMetadataProperty['checksum'];
+        $metaMetadataProperty['widget_result'] = $classProperty->getWidget() === $metaMetadataProperty['widget'];
 
         return $multiple instanceof core_kernel_classes_Resource
             && $multiple->getUri() === $metaMetadataProperty['multiple']
-            && $checksum === $metaMetadataProperty['checksum'];
+            && $checksum === $metaMetadataProperty['checksum']
+            && $classProperty->getWidget() === $metaMetadataProperty['widget'];
     }
 }
