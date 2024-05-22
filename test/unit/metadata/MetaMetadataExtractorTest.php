@@ -50,6 +50,7 @@ final class MetaMetadataExtractorTest extends TestCase
                             <def:label>Example</def:label>
                             <def:multiple>1</def:multiple>
                             <def:checksum>123</def:checksum>
+                            <def:widget>Password</def:widget>
                         </def:property>
                     </def:customProperties>
                 </def:extension>
@@ -61,7 +62,8 @@ final class MetaMetadataExtractorTest extends TestCase
                 'alias' => 'example',
                 'label' => 'Example',
                 'multiple' => '1',
-                'checksum' => '123'
+                'checksum' => '123',
+                'widget' => 'Password'
             ]
         ], $result);
     }
