@@ -91,6 +91,6 @@ class MetaMetadataImportMapper
         return $multiple instanceof core_kernel_classes_Resource
             && $multiple->getUri() === $metaMetadataProperty['multiple']
             && $checksum === $metaMetadataProperty['checksum']
-            && $classProperty->getWidget() === $metaMetadataProperty['widget'];
+            && $classProperty->getWidget()->getUri() === $metaMetadataProperty['widget'];
     }
 }
