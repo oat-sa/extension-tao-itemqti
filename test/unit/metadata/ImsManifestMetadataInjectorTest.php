@@ -90,8 +90,8 @@ final class ImsManifestMetadataInjectorTest extends TestCase
 
         $xml = $dom->saveXML();
 
-        $this->assertMatchesRegularExpression('/Amp &amp;/', $xml);
-        $this->assertMatchesRegularExpression('/Gt &gt;/', $xml);
-        $this->assertMatchesRegularExpression('/Lt &lt;/', $xml);
+        $this->assertRegExp('/Amp &amp;/', $xml);
+        $this->assertRegExp('/Gt &gt;/', $xml);
+        $this->assertRegExp('/Lt &lt;/', $xml);
     }
 }

@@ -105,6 +105,11 @@ class QtiPackageImport implements
             //the zip extraction is a long process that can exced the 30s timeout
             helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);
 
+            $isImportMetadataEnabled = false;
+            if (isset($form[QtiPackageImportForm::METADATA_FORM_ELEMENT_NAME])) {
+                $isImportMetadataEnabled = (bool) $form[QtiPackageImportForm::METADATA_FORM_ELEMENT_NAME] === true;
+            }
+
             $report = ImportService::singleton()->importQTIPACKFile(
                 $uploadedFile,
                 $class,
@@ -115,7 +120,7 @@ class QtiPackageImport implements
                 null,
                 null,
                 null,
-                count($form[QtiPackageImportForm::METADATA_FORM_ELEMENT_NAME]) !== 0
+                $isImportMetadataEnabled
             );
 
             helpers_TimeOutHelper::reset();
