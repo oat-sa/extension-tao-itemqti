@@ -1,0 +1,187 @@
+@import "inc/solar/mixins/bootstrap";
+
+body.solar-design {
+    #item-editor-panel {
+        background: var(--sub-form-background);
+
+        .item-editor-bar {
+            color: var(--form-color);
+            background: var(--form-background);
+            border: none;
+            border-bottom: var(--border-thin) solid var(--color-gs-light-secondary);
+            box-shadow: none;
+            min-height: var(--label-height);
+
+            & > h1 {
+                font-size: var(--fontsize-heading);
+                font-weight: bold;
+                height: var(--label-height);
+                line-height: var(--label-height);
+                position: static;
+                padding: 0;
+                margin: 0;
+            }
+        }
+    }
+    #item-editor-scope {
+        & > .action-bar {
+            .menu-right {
+                flex: 0 0 300px;
+            }
+        }
+        .tooltip[role="tooltip"] {
+            line-height: 1.5;
+            font-size: var(--fontsize-body-xs);
+            border-radius: 0;
+            border: var(--border-thin) solid var(--feedback-info-border-color);
+            background-color: var(--feedback-info-background);
+            color: var(--color-text-default);
+            padding: 8px 16px;
+        }
+    }
+    .item-editor-sidebar-wrapper {
+        background: var(--form-background);
+        padding-bottom: var(--action-bar-height);
+
+        &.left-bar {
+            border-right: var(--border-thin) solid var(--color-gs-light-secondary);
+        }
+        &.right-bar {
+            flex: 0 0 300px;
+            border-left: var(--border-thin) solid var(--color-gs-light-secondary);
+        }
+    }
+    .item-editor-sidebar {
+        .tool-group {
+            border-bottom: var(--border-thin) solid var(--color-gs-light-secondary);
+
+            h2 {
+                font-size: var(--fontsize-heading);
+                font-weight: bold;
+                color: var(--form-color);
+                background: var(--form-background);
+                height: var(--label-height);
+                line-height: var(--label-height);
+                padding: 0 8px;
+                margin: 0;
+
+                span {
+                    font-weight: bold;
+                    font-size: var(--fontsize-heading-l);
+                    top: 8px;
+                    right: 8px;
+                }
+                &.toggler:after {
+                    float: right;
+                    top: 0;
+                }
+            }
+            .panel {
+                padding: 8px;
+                margin: 0;
+
+                .icon-help.tooltipstered {
+                    color: var(--color-text-default);
+                    font-size: var(--fontsize-body);
+                }
+            }
+        }
+    }
+    #item-editor-interaction-bar {
+        .tool-list {
+            margin: 0;
+            gap: 5px 0;
+
+            li {
+                font-size: var(--fontsize-body-xs);
+                border: 0;
+                border-radius: var(--radius-large);
+                height: var(--label-height);
+                line-height: var(--label-height);
+                padding: 0 8px;
+
+                &:hover {
+                    background: var(--color-gs-light-hover-bg);
+                    border: 0;
+                }
+                span {
+                    margin: 0 8px;
+                    font-size: var(--fontsize-heading-l);
+                    opacity: 1;
+                }
+                img.icon {
+                    max-height: 32px;
+                    margin: 0 8px;
+                }
+                &.disabled {
+                    background-color: var(--color-bg-disabled) !important;
+
+                    &:hover {
+                        background: var(--color-gs-light-hover-bg);
+                        border: 0;
+                    }
+                }
+                &.dev {
+                    color: var(--color-brand);
+                    background-color: var(--color-brand-light);
+
+                    &:hover {
+                        background: var(--color-gs-light-hover-bg);
+                        border: 0;
+                    }
+                }
+            }
+        }
+        .tool-group {
+            .panel.sub-group {
+                padding: 0 8px;
+                margin: 0 0 8px 0;
+
+                .tool-list {
+                    padding: 8px;
+                }
+                .sub-group-cover {
+                    background: var(--sub-form-background);
+                    border-radius: var(--radius-large);
+                    border: var(--border-thin) solid var(--color-gs-light-secondary);
+                }
+            }
+        }
+    }
+}
+// 1920x1080
+@media screen and (min-width: 1920px) {
+    body.solar-design {
+        .item-editor-sidebar-wrapper.left-bar {
+
+            #item-editor-interaction-bar {
+                .tool-list {
+                    li {
+                        font-size: var(--fontsize-body-s);
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        width: 50%;
+                        height: calc(var(--label-height) * 2);
+                        padding: 8px;
+
+                        span {
+                            font-size: var(--fontsize-heading-xl);
+                        }
+                    }
+                }
+                .tool-group {
+                    .panel.sub-group {
+                        .sub-group-cover:after {
+                            margin-left: 33px;
+                        }
+
+                        .sub-group-cover:before {
+                            margin-left: 32px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
