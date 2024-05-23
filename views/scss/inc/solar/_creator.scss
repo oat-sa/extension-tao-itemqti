@@ -21,6 +21,15 @@ body.solar-design {
                 padding: 0;
                 margin: 0;
             }
+            .cke {
+                .cke_top {
+                    color: var(--form-color);
+                    background: var(--color-gs-light);
+                    border-color: var(--color-gs-light);
+                    box-shadow: none;
+                    @include toolbar-sd-cke();
+                }
+            }
         }
     }
     #item-editor-scope {
