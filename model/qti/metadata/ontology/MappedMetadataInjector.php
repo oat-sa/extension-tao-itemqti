@@ -44,7 +44,8 @@ class MappedMetadataInjector
         /** @var SimpleMetadataValue $metadataValue */
         foreach ($metadataValues as $metadataValue) {
             foreach ($metadataValue->getPath() as $mappedPath) {
-                if ($this->isInjectableProperty($mappedProperties, $mappedPath)
+                if (
+                    $this->isInjectableProperty($mappedProperties, $mappedPath)
                     && !$this->isPropertyDefined($resource, $mappedProperties[$mappedPath])
                 ) {
                     if ($mappedProperties[$mappedPath]->getRange()->getUri() === RDFS_LITERAL) {
