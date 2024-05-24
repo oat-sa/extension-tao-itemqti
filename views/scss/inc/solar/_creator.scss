@@ -233,6 +233,10 @@ body.solar-design {
                             &.edit-choice {
                                 border: var(--border-medium) solid var(--color-gs-dark) !important;
                                 box-shadow: none;
+
+                                &.qti-hottext {
+                                    border: var(--border-thin) solid var(--color-gs-dark) !important;
+                                }
                             }
                         }
                     }
@@ -303,10 +307,10 @@ body.solar-design {
                     }
                     .qti-hottextInteraction {
                         .qti-hottext {
-                            margin-top: 16px;
+                            margin-top: 26px;
 
                             .mini-tlb[data-edit] {
-                                top: -16px;
+                                top: -26px;
                                 right: 0 !important;
                                 height: 26px;
                             }
@@ -463,6 +467,21 @@ body.solar-design {
             }
             [data-edit].mini-tlb {
                 @extend %mini-tlb-sd;
+            }
+        }
+        .qti-hottextInteraction {
+            .widget-box.qti-hottext {
+                color: var(--form-color);
+                background: var(--color-gs-light-alternative-bg);
+                border: solid var(--border-thin) var(--color-gs-light-alternative-bg) !important;
+                border-radius: var(--radius-medium);
+                padding: 0 8px;
+
+                &:hover {
+                    color: var(--form-color) !important;
+                    background: var(--color-gs-light-hover-bg) !important;
+                    border: var(--border-thin) solid var(--color-gs-light-secondary) !important;
+                }
             }
         }
         .qti-matchInteraction {
