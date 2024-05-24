@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\qti\metadata\importer;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\taoBackOffice\model\lists\ListService;
 use oat\taoQtiItem\model\import\ChecksumGenerator;
 use oat\taoQtiItem\model\qti\metadata\ontology\MappedMetadataInjector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -37,6 +38,9 @@ class MetaMetadataServiceProvider implements ContainerServiceProviderInterface
 
         $services
             ->set(MappedMetadataInjector::class, MappedMetadataInjector::class)
+            ->args([
+                service(ListService::class)
+            ])
             ->public();
 
         $services

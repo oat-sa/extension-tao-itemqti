@@ -60,7 +60,7 @@ class MetaMetadataImportMapper
         return $matchedProperties;
     }
 
-    private function matchProperty(array $metaMetadataProperty, array $classProperties): ?Property
+    private function matchProperty(array &$metaMetadataProperty, array $classProperties): ?Property
     {
         /** @var Property $itemClassProperty */
         foreach ($classProperties as $classProperty) {
@@ -71,24 +71,22 @@ class MetaMetadataImportMapper
             }
             if (
                 $classProperty->getLabel() === $metaMetadataProperty['label']
-                && $this->isSynced($classProperty, $metaMetadataProperty)
+                || $classProperty->getAlias() === $metaMetadataProperty['alias']
             ) {
-                return $classProperty;
-            }
-            if (
-                $classProperty->getAlias() === $metaMetadataProperty['alias']
-                && $this->isSynced($classProperty, $metaMetadataProperty)
-            ) {
-                return $classProperty;
+                if ($this->isSynced($classProperty, $metaMetadataProperty)) {
+                    return $classProperty;
+                }
             }
         }
         return null;
     }
 
-    private function isSynced(Property $classProperty, array $metaMetadataProperty): bool
+    private function isSynced(Property $classProperty, array &$metaMetadataProperty): bool
     {
         $multiple = $classProperty->getOnePropertyValue(new Property(GenerisRdf::PROPERTY_MULTIPLE));
         $checksum = $this->checksumGenerator->getRangeChecksum($classProperty);
+        $metaMetadataProperty['checksum_result'] = $checksum === $metaMetadataProperty['checksum'];
+
         return $multiple instanceof core_kernel_classes_Resource
             && $multiple->getUri() === $metaMetadataProperty['multiple']
             && $checksum === $metaMetadataProperty['checksum'];
