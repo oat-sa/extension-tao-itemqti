@@ -93,6 +93,7 @@ body.solar-design {
     }
     #item-editor-scope {
         --side-bar-width: 300px;
+        --input-width-text: 210px;
 
         & > .action-bar {
             .menu-right {
@@ -114,315 +115,315 @@ body.solar-design {
             color: var(--form-color);
             padding: 8px 16px;
         }
-    }
-    .item-editor-sidebar-wrapper {
-        background: var(--form-background);
-        padding-bottom: var(--action-bar-height);
+        .item-editor-sidebar-wrapper {
+            background: var(--form-background);
+            padding-bottom: var(--action-bar-height);
 
-        &.left-bar {
-            border-right: var(--border-thin) solid var(--color-gs-light-secondary);
+            &.left-bar {
+                border-right: var(--border-thin) solid var(--color-gs-light-secondary);
 
-            .item-editor-sidebar {
-                .tool-group {
-                    .panel {
-                        padding: 8px;
-                    }
-                }
-            }
-        }
-        &.right-bar {
-            flex: 0 0 var(--side-bar-width);
-            border-left: var(--border-thin) solid var(--color-gs-light-secondary);
-
-            [class^="btn-"], [class*=" btn-"] {
-                @include button-sd-secondary();
-            }
-            a.adder {
-                display: block;
-                text-align: center;
-                @include button-sd-setup();
-                @include button-sd-font();
-                @include button-sd-size();
-                @include button-sd-secondary();
-
-                &:before {
-                    @include icon-sd-add();
-                }
-            }
-            label, h3 {
-                font-family: var(--font-ui);
-                font-size: var(--fontsize-body);
-                font-weight: normal;
-                line-height: var(--input-height);
-                margin: 0;
-                padding: 0;
-
-                .icon-radio, .icon-checkbox {
-                    margin-inline-end: 8px;
-                }
-            }
-            input[type="color"],
-            input[type="date"],
-            input[type="datetime"],
-            input[type="datetime-local"],
-            input[type="email"],
-            input[type="month"],
-            input[type="number"],
-            input[type="range"],
-            input[type="search"],
-            input[type="tel"],
-            input[type="time"],
-            input[type="text"],
-            input[type="password"],
-            input[type="url"],
-            input[type="week"],
-            textarea,
-            select {
-                @include form-sd-input();
-            }
-            .duration-ctrl-wrapper, .incrementer-ctrl-wrapper {
-                input[type="text"] {
-                    width: calc(var(--input-height) + 16px) !important;
-                    min-width: var(--input-height) !important;
-                }
-            }
-            .item-editor-sidebar {
-                --input-width-text: 210px;
-
-                .tool-group {
-                    .panel {
-                        padding: 0;
-
-                        .icon-help.tooltipstered {
-                            position: relative;
-                            top: 12px;
-                        }
-                        & > div {
-                            font-family: var(--font-ui);
-                            font-size: var(--fontsize-body);
-                            line-height: var(--label-height);
-                            min-height: var(--label-height);
-                        }
-                        label, select, input[type="text"], textarea {
-                            &.has-icon {
-                                width: var(--input-width-text);
-                                min-width: var(--input-width-text);
-                                max-width: var(--input-width-text);
-                            }
-                        }
-                    }
-                    & > .panel {
-                        padding: 16px;
-
-                        & > .panel {
-                            padding: 8px 0;
-                        }
-                        .min-max {
-                            label {
-                                margin-bottom: 16px;
-                            }
+                .item-editor-sidebar {
+                    .tool-group {
+                        .panel {
+                            padding: 8px;
                         }
                     }
                 }
-                .reset-group .reset-button,
-                .item-editor-color-picker .color-trigger {
+            }
+            &.right-bar {
+                flex: 0 0 var(--side-bar-width);
+                border-left: var(--border-thin) solid var(--color-gs-light-secondary);
+
+                [class^="btn-"], [class*=" btn-"] {
+                    @include button-sd-secondary();
+                }
+                a.adder {
+                    display: block;
+                    text-align: center;
+                    @include button-sd-setup();
+                    @include button-sd-font();
+                    @include button-sd-size();
+                    @include button-sd-secondary();
+
+                    &:before {
+                        @include icon-sd-add();
+                    }
+                }
+                label, h3 {
+                    font-family: var(--font-ui);
+                    font-size: var(--fontsize-body);
+                    font-weight: normal;
+                    line-height: var(--input-height);
+                    margin: 0;
                     padding: 0;
-                    @include trigger-sd();
-                    @include hoverable-sd-btn-hover();
-                }
-                .reset-group {
-                    .reset-button {
-                        border: var(--border-thin) solid transparent;
-                        top: 0;
-                        right: 0;
-                    }
-                }
-                .item-editor-color-picker {
-                    .color-trigger {
-                        border: var(--border-thin) solid var(--color-gs-light-secondary);
-                    }
-                    .color-picker-container {
-                        input[type="text"] {
-                            border: none;
-                        }
-                    }
-                }
-                #item-editor-font-size-changer {
-                    a {
-                        display: inline-block;
-                        @include hoverable-sd-btn-hover();
 
-                        &[class^="icon-"], &[class*=" icon-"] {
-                            font-size: var(--fontsize-body);
-                            @include trigger-sd();
-                        }
+                    .icon-radio, .icon-checkbox {
+                        margin-inline-end: 8px;
                     }
                 }
-                .item-editor-unit-input-box {
-                    display: inline-block;
-                    position: relative;
-
+                input[type="color"],
+                input[type="date"],
+                input[type="datetime"],
+                input[type="datetime-local"],
+                input[type="email"],
+                input[type="month"],
+                input[type="number"],
+                input[type="range"],
+                input[type="search"],
+                input[type="tel"],
+                input[type="time"],
+                input[type="text"],
+                input[type="password"],
+                input[type="url"],
+                input[type="week"],
+                textarea,
+                select {
+                    @include form-sd-input();
+                }
+                .duration-ctrl-wrapper, .incrementer-ctrl-wrapper {
                     input[type="text"] {
-                        padding-inline-end: var(--label-height);
-                    }
-                    .unit-indicator {
-                        position: absolute;
-                        @include trigger-sd();
-                        color: var(--color-gs-light-secondary);
-                        top: 0;
-                        right: 0;
+                        width: calc(var(--input-height) + 16px) !important;
+                        min-width: var(--input-height) !important;
                     }
                 }
-                .sidebar-popup {
-                    color: var(--form-color);
-                    background: var(--color-gs-light);
-                    border: var(--border-thin) solid var(--color-gs-light-secondary);
-                    border-radius: 0;
-                    box-shadow: none;
-                    width: 100%;
-                    padding: 0;
+                .item-editor-sidebar {
+                    .tool-group {
+                        .panel {
+                            padding: 0;
 
-                    .sidebar-popup-title {
-                        font-size: var(--fontsize-heading);
-                        font-weight: normal;
-                        height: var(--label-height);
-                        line-height: var(--label-height);
-                        padding: 0;
-                        margin: 0;
-                        color: var(--form-color);
-                        background: var(--color-gs-light-alternative-bg);
-
-                        .closer {
-                            color: var(--form-color);
-                            width: var(--label-height);
-                            height: var(--label-height);
-                            padding: 10px;
-                            @include icon-sd-close();
-                            @include hoverable-sd-btn-hover();
-                        }
-                    }
-                }
-                .noUi-target {
-                    margin: 32px 0;
-                }
-                .noUi-horizontal {
-                    height: 8px;
-
-                    .noUi-handle {
-                        top: -6px;
-                    }
-                }
-                .outcomes {
-                    .outcome-container {
-                        border: var(--border-thin) solid var(--input-border-color);
-                        height: var(--input-height);
-                        min-height: var(--input-height);
-                        line-height: var(--input-height);
-                        font-family: var(--font-ui);
-                        font-size: var(--fontsize-body);
-                        color: var(--input-color);
-                        margin: 8px 0;
-                        padding: 0 0 0 12px;
-                        position: relative;
-
-                        &.editing {
-                            height: auto;
-                            padding-top: 8px;
-
-                            .trigger {
-                                top: 8px;
+                            .icon-help.tooltipstered {
+                                position: relative;
+                                top: 12px;
                             }
-                            .outcome-properties-form {
-                                padding: 0 12px 8px 0;
-                                display: flex;
-                                flex-direction: column;
-                                gap: 16px;
+                            & > div {
+                                font-family: var(--font-ui);
+                                font-size: var(--fontsize-body);
+                                line-height: var(--label-height);
+                                min-height: var(--label-height);
+                            }
+                            label, select, input[type="text"], textarea {
+                                &.has-icon {
+                                    width: var(--input-width-text);
+                                    min-width: var(--input-width-text);
+                                    max-width: var(--input-width-text);
+                                }
                             }
                         }
-                        .trigger {
-                            position: absolute;
-                            top: 0;
-                            @include trigger-sd();
-                            @include hoverable-sd-btn();
-                            @include hoverable-sd-btn-hover();
+                        & > .panel {
+                            padding: 16px;
 
-                            &.icon-bin {
-                                right: 0;
+                            & > .panel {
+                                padding: 8px 0;
                             }
-                            &.icon-edit {
-                                right: var(--label-height);
-                            }
-                        }
-                        .identifier-label {
-                            width: calc(100% - var(--label-height) * 2);
-                            height: var(--input-height);
-                            margin: 0;
-
-                            input {
-                                margin: 0;
-                            }
-                        }
-                        .minimum-maximum {
-                            .incrementer-ctrl-wrapper {
-                                .incrementer {
-                                    width: calc(var(--input-height) + 16px) !important;
-                                    min-width: var(--input-height) !important;
+                            .min-max {
+                                label {
+                                    margin-bottom: 16px;
                                 }
                             }
                         }
                     }
-                }
-                .feedbackRule-panel {
-                    i, .i {
-                        font-style: normal;
+                    .reset-group .reset-button,
+                    .item-editor-color-picker .color-trigger {
+                        padding: 0;
+                        @include trigger-sd();
+                        @include hoverable-sd-btn-hover();
                     }
-                    p i {
-                        font-size: var(--fontsize-body);
-                        font-weight: bold;
+                    .reset-group {
+                        .reset-button {
+                            border: var(--border-thin) solid transparent;
+                            top: 0;
+                            right: 0;
+                        }
                     }
-                    .feedbackRule-container {
-                        border-radius: 0;
-                        border: var(--border-thin) solid var(--color-gs-light-secondary);
-                        margin: 8px 0;
-                        background: var(--form-background);
+                    .item-editor-color-picker {
+                        .color-trigger {
+                            border: var(--border-thin) solid var(--color-gs-light-secondary);
+                        }
+                        .color-picker-container {
+                            input[type="text"] {
+                                border: none;
+                            }
+                        }
+                    }
+                    #item-editor-font-size-changer {
+                        a, button {
+                            display: inline-block;
+                            @include hoverable-sd-btn-hover();
 
-                        .feedbackRule-desc {
+                            &[class^="icon-"], &[class*=" icon-"] {
+                                font-size: var(--fontsize-body);
+                                margin: 0;
+                                @include trigger-sd();
+                            }
+                        }
+                    }
+                    .item-editor-unit-input-box {
+                        display: inline-block;
+                        position: relative;
+
+                        input[type="text"] {
+                            padding-inline-end: var(--label-height);
+                        }
+                        .unit-indicator {
+                            position: absolute;
+                            @include trigger-sd();
+                            color: var(--color-gs-light-secondary);
+                            top: 0;
+                            right: 0;
+                        }
+                    }
+                    .sidebar-popup {
+                        color: var(--form-color);
+                        background: var(--color-gs-light);
+                        border: var(--border-thin) solid var(--color-gs-light-secondary);
+                        border-radius: 0;
+                        box-shadow: none;
+                        width: 100%;
+                        max-width: var(--side-bar-width);
+                        padding: 0;
+
+                        .sidebar-popup-title {
+                            font-size: var(--fontsize-heading);
+                            font-weight: normal;
+                            height: var(--label-height);
+                            line-height: var(--label-height);
+                            padding: 0;
+                            margin: 0;
+                            color: var(--form-color);
+                            background: var(--color-gs-light-alternative-bg);
+
+                            .closer {
+                                color: var(--form-color);
+                                width: var(--label-height);
+                                height: var(--label-height);
+                                padding: 10px;
+                                @include icon-sd-close();
+                                @include hoverable-sd-btn-hover();
+                            }
+                        }
+                    }
+                    .noUi-target {
+                        margin: 32px 0;
+                    }
+                    .noUi-horizontal {
+                        height: 8px;
+
+                        .noUi-handle {
+                            top: -6px;
+                        }
+                    }
+                    .outcomes {
+                        .outcome-container {
+                            border: var(--border-thin) solid var(--input-border-color);
+                            height: var(--input-height);
                             min-height: var(--input-height);
                             line-height: var(--input-height);
                             font-family: var(--font-ui);
                             font-size: var(--fontsize-body);
-                            text-transform: capitalize;
-                            width: 25%;
-                        }
-                        .feedbackRule-condition {
-                            width: 50% !important;
-                            min-width: 50% !important;
-                        }
-                        .feedbackRule-then-else {
-                            button {
-                                width: 50%;
+                            color: var(--input-color);
+                            margin: 8px 0;
+                            padding: 0 0 0 12px;
+                            position: relative;
+
+                            &.editing {
+                                height: auto;
+                                padding-top: 8px;
+
+                                .trigger {
+                                    top: 8px;
+                                }
+                                .outcome-properties-form {
+                                    padding: 0 12px 8px 0;
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 16px;
+                                }
+                            }
+                            .trigger {
+                                position: absolute;
+                                top: 0;
+                                @include trigger-sd();
+                                @include hoverable-sd-btn();
+                                @include hoverable-sd-btn-hover();
+
+                                &.icon-bin {
+                                    right: 0;
+                                }
+                                &.icon-edit {
+                                    right: var(--label-height);
+                                }
+                            }
+                            .identifier-label {
+                                width: calc(100% - var(--label-height) * 2);
+                                height: var(--input-height);
+                                margin: 0;
+
+                                input {
+                                    margin: 0;
+                                }
+                            }
+                            .minimum-maximum {
+                                .incrementer-ctrl-wrapper {
+                                    .incrementer {
+                                        width: calc(var(--input-height) + 16px) !important;
+                                        min-width: var(--input-height) !important;
+                                    }
+                                }
                             }
                         }
-                        .select2-container .select2-choice > .select2-chosen {
-                            margin: 0;
-                        }
                     }
-                    .feedbackRule-button-delete {
-                        @include trigger-sd();
-                        @include hoverable-sd-btn();
-                        @include hoverable-sd-btn-hover();
+                    .feedbackRule-panel {
+                        i, .i {
+                            font-style: normal;
+                        }
+                        p i {
+                            font-size: var(--fontsize-body);
+                            font-weight: bold;
+                        }
+                        .feedbackRule-container {
+                            border-radius: 0;
+                            border: var(--border-thin) solid var(--color-gs-light-secondary);
+                            margin: 8px 0;
+                            background: var(--form-background);
 
-                        &:before {
-                            @include icon-sd-bin-small;
+                            .feedbackRule-desc {
+                                min-height: var(--input-height);
+                                line-height: var(--input-height);
+                                font-family: var(--font-ui);
+                                font-size: var(--fontsize-body);
+                                text-transform: capitalize;
+                                width: 25%;
+                            }
+                            .feedbackRule-condition {
+                                width: 50% !important;
+                                min-width: 50% !important;
+                            }
+                            .feedbackRule-then-else {
+                                button {
+                                    width: 50%;
+                                }
+                            }
+                            .select2-container .select2-choice > .select2-chosen {
+                                margin: 0;
+                            }
                         }
-                    }
-                    a.adder {
-                        &.feedbackRule-add-else {
-                            display: inline-block;
-                            border: none;
+                        .feedbackRule-button-delete {
+                            @include trigger-sd();
+                            @include hoverable-sd-btn();
+                            @include hoverable-sd-btn-hover();
+
+                            &:before {
+                                @include icon-sd-bin-small;
+                            }
                         }
-                        &.feedbackRule-add {
-                            margin-top: 16px;
+                        a.adder {
+                            &.feedbackRule-add-else {
+                                display: inline-block;
+                                border: none;
+                            }
+                            &.feedbackRule-add {
+                                margin-top: 16px;
+                            }
                         }
                     }
                 }
