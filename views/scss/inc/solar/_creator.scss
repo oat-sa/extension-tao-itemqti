@@ -312,6 +312,37 @@ body.solar-design {
                             top: -6px;
                         }
                     }
+                    .selectMediaFile, button[data-role="upload-trigger"] {
+                        margin: 16px 0;
+                    }
+                    .media-sizer {
+                        .item-editor-unit-input-box {
+                            position: relative;
+
+                            &, input[type="text"] {
+                                width: calc(var(--input-height) * 2) !important;
+                                min-width: none !important;
+                            }
+                        }
+                        .unit-indicator {
+                            top: 27px;
+                            right: 24px;
+                        }
+                        .media-sizer-reset {
+                            @include trigger-sd();
+                            @include hoverable-sd-btn();
+                            @include hoverable-sd-btn-hover();
+                            opacity: 1;
+                            left: auto;
+                            right: 0;
+                            top: 2px;
+
+                            span {
+                                top: 9px;
+                                right: 9px;
+                            }
+                        }
+                    }
                     .outcomes {
                         .outcome-container {
                             border: var(--border-thin) solid var(--input-border-color);
