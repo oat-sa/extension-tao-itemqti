@@ -691,10 +691,39 @@ body.solar-design {
             border-radius: var(--radius-large);
             padding: var(--widget-padding);
 
+            &.widget-inline {
+                &.edit-active {
+                    // inline widgets cannot be styled with a flexbox as their display property is controlled programmatically
+                    padding-top: calc(var(--label-height) + var(--widget-padding) * 3);
+                }
+            }
+            &.widget-blockInteraction {
+                &.edit-active {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 0;
+                    padding-bottom: var(--widget-padding);
+
+                    .tlb-wrapper {
+                        position: static;
+                        order: 0;
+                    }
+                    .qti-interaction {
+                        padding: var(--widget-padding);
+                        padding-bottom: 0;
+                        order: 1;
+                    }
+                    & > .widget-ok {
+                        order: 2;
+                        align-self: flex-end;
+                        flex: 0 0 auto;
+                    }
+                }
+            }
+
             &.widget-blockInteraction, &.widget-inline {
                 &.edit-active {
                     border: var(--border-medium) solid var(--color-gs-dark);
-                    padding-top: calc(var(--label-height) + var(--widget-padding) * 3);
 
                     &:before {
                         content: "";
@@ -827,10 +856,13 @@ body.solar-design {
                     padding: 0;
                     height: var(--label-height);
                     line-height: var(--label-height);
-
                 }
 
                 .tlb {
+                    display: flex;
+                    flex-direction: row-reverse;
+                    justify-content: space-between;
+
                     &:before {
                         content: none;
                     }
@@ -846,6 +878,7 @@ body.solar-design {
                         display: flex;
                         gap: 8px;
                         margin: 0;
+                        float: none;
 
                         .selected, .link {
                             font-size: var(--fontsize-heading);
@@ -875,12 +908,13 @@ body.solar-design {
                         line-height: var(--label-height);
                         text-align: center;
                         padding: 0;
-                        margin-left: 32px;
+                        float: none;
                         @include hoverable-sd-btn-hover();
 
                         [class^="icon-"], [class*=" icon-"] {
                             font-size: var(--fontsize-heading);
                             text-shadow: none;
+                            line-height: var(--label-height);
                         }
                         .icon-bin:before {
                             @include icon-sd-bin;
