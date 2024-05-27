@@ -146,6 +146,7 @@ body.solar-design {
                     @include button-sd-secondary();
 
                     &:before {
+                        margin-right: 8px;
                         @include icon-sd-add();
                     }
                 }
@@ -557,7 +558,79 @@ body.solar-design {
             }
         }
     }
+    .qti-item {
+        .qti-itemBody, #modalFeedbacks {
+            .qti-modalFeedback {
+                color: var(--modal-color);
+                background: var(--modal-background);
+                border: var(--border-thick) solid var(--color-brand);
+                border-radius: var(--radius-large);
+                padding: 16px;
+
+                &.positive{
+                    border-color : var(--color-success);
+                }
+                &.negative{
+                    border-color: var(--color-alert);
+                }
+                &.edit-active {
+                    [data-html-editable-container] {
+                        border: var(--border-thin) solid transparent;
+
+                        &:hover {
+                            border: var(--border-thin) dotted var(--modal-button-focus-border-color);
+
+                            [data-html-editable][contenteditable=true] {
+                                border: var(--border-thin) solid transparent;
+                            }
+                        }
+                    }
+                    [data-html-editable][contenteditable=true]:focus {
+                        @include form-sd-input();
+                        color: var(--form-color);
+                        background: var(--form-background);
+                        padding: 8px;
+                    }
+                }
+                .qti-title {
+                    margin-right: var(--button-height);
+
+                    &.inplace {
+                        &:hover, &:focus {
+                            border: var(--border-thin) dotted var(--modal-button-focus-border-color);
+                        }
+                        input[type="text"] {
+                            @include form-sd-input();
+                            font-size: var(--fontsize-heading-l);
+                            font-weight: bold;
+                            width: 100%;
+                        }
+                    }
+                }
+                .modal-close {
+                    display: inline-block;
+                    top: 16px;
+                    right: 16px;
+
+                    .icon-close{
+                        top: 0;
+
+                        &:before {
+                            filter: invert(100%);
+                        }
+                    }
+                    &:hover {
+                        .icon-close:before {
+                            filter: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
     .item-editor-item {
+        border: var(--border-thin) solid var(--color-gs-light-secondary);
+        border-radius: 0;
         padding: 16px;
 
         .hoverable {
