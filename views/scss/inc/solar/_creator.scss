@@ -147,6 +147,8 @@ body.solar-design {
 
                     &:before {
                         margin-right: 8px;
+                        position: relative;
+                        top: 2px;
                         @include icon-sd-add();
                     }
                 }
