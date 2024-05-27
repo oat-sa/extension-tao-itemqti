@@ -644,6 +644,12 @@ body.solar-design {
                         box-shadow: none;
                     }
                 }
+                &.widget-figure {
+                    &.edit-active {
+                        border: var(--border-thin) solid var(--color-gs-dark);
+                        box-shadow: 1px 1px 3px 1px var(--color-gs-dark);
+                    }
+                }
                 &.widget-blockInteraction {
                     &.edit-question {
                         th.qti-choice {
@@ -720,7 +726,6 @@ body.solar-design {
                     }
                 }
             }
-
             &.widget-blockInteraction, &.widget-inline {
                 &.edit-active {
                     border: var(--border-medium) solid var(--color-gs-dark);
@@ -800,6 +805,18 @@ body.solar-design {
                         .padding {
                             display: none;
                         }
+                    }
+                }
+            }
+            &.widget-figure {
+                padding: 0;
+                border-radius: 0;
+
+                &.edit-active {
+                    padding: 0;
+
+                    &:before {
+                        content: none;
                     }
                 }
             }
