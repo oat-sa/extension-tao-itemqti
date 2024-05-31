@@ -647,7 +647,7 @@ body.solar-design {
                         box-shadow: none;
                     }
                 }
-                &.widget-figure, &.widget-math, &.widget-object, &.widget-_tooltip {
+                &.widget-include, &.widget-figure, &.widget-math, &.widget-object, &.widget-_tooltip {
                     &.edit-active {
                         border: var(--border-thin) solid var(--color-gs-dark);
                         box-shadow: 1px 1px 3px 1px var(--color-gs-dark);
@@ -811,7 +811,7 @@ body.solar-design {
                     }
                 }
             }
-            &.widget-figure, &.widget-math, &.widget-object, &.widget-_tooltip {
+            &.widget-include, &.widget-figure, &.widget-math, &.widget-object, &.widget-_tooltip {
                 padding: 0;
                 border-radius: 0;
 
@@ -990,6 +990,10 @@ body.solar-design {
                 }
             }
         }
+    }
+    .tao-xml-editor.qti-creator-source {
+        height: calc(100vh - var(--header-bar-height) - var(--action-bar-height) - var(--footer-bar-height) - var(--border-thin));
+        top: calc(var(--header-bar-height) + var(--action-bar-height) + var(--border-thin));
     }
 }
 // 1920x1080
