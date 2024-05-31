@@ -25,7 +25,7 @@ define([
     'use strict';
 
     /**
-     * Create a ney interaction registry instance
+     * Create a new interaction registry instance
      * interaction registry need to register newly loaded creator hooks in the list of available qti authoring elements
      *
      * @returns {Object} registry instance
