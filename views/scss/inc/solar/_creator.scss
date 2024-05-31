@@ -992,7 +992,7 @@ body.solar-design {
         }
     }
     .tao-xml-editor.qti-creator-source {
-        height: calc(100vh - var(--header-bar-height) - var(--action-bar-height) - var(--footer-bar-height) + var(--border-thin));
+        height: calc(100vh - var(--header-bar-height) - var(--action-bar-height) - var(--footer-bar-height) - var(--border-thin));
         top: calc(var(--header-bar-height) + var(--action-bar-height) + var(--border-thin));
     }
 }
