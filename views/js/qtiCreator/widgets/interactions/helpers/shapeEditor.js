@@ -192,15 +192,13 @@ define([
                         content : parseInt(bbox.width, 10) + ' x ' + parseInt(bbox.height, 10)
                     });
 
-                    function setPointIndex(point, index){
-                        if(point.length === 3 && point[1] === this.attr('cx') && point[2] === this.attr('cy')){
-                            this.pointIndex = index;
-                            return false;
-                        }
-                    }
-
                     if(self.shape.type === 'path'){
-                        self.shape.attr('path').forEach(setPointIndex.bind(handler));
+                        self.shape.attr('path').forEach(function(point, index){
+                            if(point.length === 3 && point[1] === this.attr('cx') && point[2] === this.attr('cy')){
+                                this.pointIndex = index;
+                                return false;
+                            }
+                        }, handler);
                     }
 
                     //hide others
