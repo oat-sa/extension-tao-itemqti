@@ -42,6 +42,7 @@ define([
     'use strict';
 
     const modalFeedbackConfigKey = 'taoQtiItem/creator/interaction/property/modalFeedback';
+    const showResponseIdentifierKey = 'taoQtiItem/creator/interaction/response/property/identifier';
 
     /**
      * Get the list of all available response processing templates available in the platform
@@ -243,6 +244,7 @@ define([
             widget.$responseForm.html(
                 responseFormTpl({
                     identifier: response.id(),
+                    showIdentifier: features.isVisible(showResponseIdentifierKey),
                     serial: response.getSerial(),
                     defineCorrect: defineCorrect,
                     editMapping: editMapping,

@@ -1,3 +1,4 @@
+{{#if showIdentifier}}
 <div class="panel">
     <label for="responseIdentifier" class="has-icon">{{__ "Response identifier"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
@@ -10,6 +11,7 @@
            placeholder="e.g. RESPONSE"
            data-validate="$notEmpty; $qtiResponseIdentifier(serial={{serial}}); $availableIdentifier(serial={{serial}});">
 </div>
+{{/if}}
 
 <div class="panel">
     <label for="responseProcessing" class="has-icon">{{__ "Response processing"}}</label>
