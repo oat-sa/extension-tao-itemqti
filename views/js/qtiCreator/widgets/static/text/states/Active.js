@@ -5,11 +5,14 @@ define([
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/text',
-    'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods'
-], function (stateFactory, Active, htmlEditor, content, formElement, formTpl, itemScrollingMethods) {
+    'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods',
+    'services/features'
+], function (stateFactory, Active, htmlEditor, content, formElement, formTpl, itemScrollingMethods, features) {
     'use strict';
 
     const wrapperCls = 'custom-text-box';
+
+    const scrollingAvailable = features.isVisible('taoQtiItem/creator/static/text/scrolling');
 
     const TextActive = stateFactory.extend(
         Active,
@@ -66,6 +69,7 @@ define([
             formTpl({
                 textBlockCssClass: blockCls.replace(wrapperCls, '').trim(),
                 scrolling: isScrolling,
+                scrollingAvailable,
                 scrollingHeights: itemScrollingMethods.options()
             })
         );
