@@ -46,7 +46,10 @@ class MappedMetadataInjector
             foreach ($metadataValue->getPath() as $mappedPath) {
                 if (
                     $this->isInjectableProperty($mappedProperties, $mappedPath)
-                    && !$this->isPropertyDefined($resource, $mappedProperties[$mappedPath])
+                    && (
+                        $this->isPropertyNonMultiplePropertyNotDefined($resource, $mappedProperties[$mappedPath])
+                        || $mappedProperties[$mappedPath]->isMultiple() === true
+                    )
                 ) {
                     if ($mappedProperties[$mappedPath]->getRange()->getUri() === RDFS_LITERAL) {
                         $resource->setPropertyValue($mappedProperties[$mappedPath], $metadataValue->getValue());
@@ -59,14 +62,20 @@ class MappedMetadataInjector
                             $listElement->getLabel() === $metadataValue->getValue()
                             || $listElement->getOriginalUri() === $metadataValue->getValue()
                         ) {
+                            /** @var \core_kernel_classes_Property $property */
+                            $property = $mappedProperties[$mappedPath];
+                            if ($property->isMultiple() === false) {
+                                $resource->setPropertyValue(
+                                    $mappedProperties[$mappedPath],
+                                    $this->getResource($listElement->getUri())
+                                );
+                                break;
+                            }
+
                             $resource->setPropertyValue(
                                 $mappedProperties[$mappedPath],
                                 $this->getResource($listElement->getUri())
                             );
-
-                            if ($mappedProperties[$mappedPath]->isMultiple() === false) {
-                                break;
-                            }
                         }
                     }
                 }
@@ -83,5 +92,10 @@ class MappedMetadataInjector
     private function isPropertyDefined(Resource $resource, Property $property): bool
     {
         return count($resource->getPropertyValues($property)) !== 0;
+    }
+
+    private function isPropertyNonMultiplePropertyNotDefined(Resource $resource, Property $property)
+    {
+        return ($property->isMultiple() === false && !$this->isPropertyDefined($resource, $property));
     }
 }
