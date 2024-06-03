@@ -181,7 +181,7 @@ define([
                     self.setState('resizing', true)
                         .trigger('shapechanging.qti-widget');
 
-                    //create a layer to be reiszed
+                    //create a layer to be resized
                     self.layer = self.shape.clone();
                     self.layer.attr(graphicHelper._style.basic);
                     self.layer.attr('cursor', handler.attrs.cursor);
@@ -193,12 +193,12 @@ define([
                     });
 
                     if(self.shape.type === 'path'){
-                       _.forEach(self.shape.attr('path'), function(point, index){
-                           if(point.length === 3 && point[1] === this.attr('cx') && point[2] === this.attr('cy')){
+                        self.shape.attr('path').forEach(function(point, index){
+                            if(point.length === 3 && point[1] === this.attr('cx') && point[2] === this.attr('cy')){
                                 this.pointIndex = index;
                                 return false;
-                           }
-                       }, handler);
+                            }
+                        }, handler);
                     }
 
                     //hide others
