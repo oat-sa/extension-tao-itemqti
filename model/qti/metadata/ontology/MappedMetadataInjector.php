@@ -63,7 +63,10 @@ class MappedMetadataInjector
                                 $mappedProperties[$mappedPath],
                                 $this->getResource($listElement->getUri())
                             );
-                            break;
+
+                            if ($mappedProperties[$mappedPath]->isMultiple() === false) {
+                                break;
+                            }
                         }
                     }
                 }
