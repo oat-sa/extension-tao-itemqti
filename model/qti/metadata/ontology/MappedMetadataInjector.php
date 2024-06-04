@@ -44,7 +44,13 @@ class MappedMetadataInjector
         /** @var SimpleMetadataValue $metadataValue */
         foreach ($metadataValues as $metadataValue) {
             foreach ($metadataValue->getPath() as $mappedPath) {
-                if (isset($mappedProperties[$mappedPath]) && $mappedProperties[$mappedPath] instanceof Property) {
+                if (
+                    $this->isInjectableProperty($mappedProperties, $mappedPath)
+                    && (
+                        $this->isPropertyNonMultiplePropertyNotDefined($resource, $mappedProperties[$mappedPath])
+                        || $mappedProperties[$mappedPath]->isMultiple() === true
+                    )
+                ) {
                     if ($mappedProperties[$mappedPath]->getRange()->getUri() === RDFS_LITERAL) {
                         $resource->setPropertyValue($mappedProperties[$mappedPath], $metadataValue->getValue());
                         break;
@@ -56,15 +62,40 @@ class MappedMetadataInjector
                             $listElement->getLabel() === $metadataValue->getValue()
                             || $listElement->getOriginalUri() === $metadataValue->getValue()
                         ) {
+                            /** @var \core_kernel_classes_Property $property */
+                            $property = $mappedProperties[$mappedPath];
+                            if ($property->isMultiple() === false) {
+                                $resource->setPropertyValue(
+                                    $mappedProperties[$mappedPath],
+                                    $this->getResource($listElement->getUri())
+                                );
+                                break;
+                            }
+
                             $resource->setPropertyValue(
                                 $mappedProperties[$mappedPath],
                                 $this->getResource($listElement->getUri())
                             );
-                            break;
                         }
                     }
                 }
             }
         }
+    }
+
+    private function isInjectableProperty(array $mappedProperties, string $mappedPath): bool
+    {
+        return isset($mappedProperties[$mappedPath])
+            && $mappedProperties[$mappedPath] instanceof Property;
+    }
+
+    private function isPropertyDefined(Resource $resource, Property $property): bool
+    {
+        return count($resource->getPropertyValues($property)) !== 0;
+    }
+
+    private function isPropertyNonMultiplePropertyNotDefined(Resource $resource, Property $property)
+    {
+        return ($property->isMultiple() === false && !$this->isPropertyDefined($resource, $property));
     }
 }

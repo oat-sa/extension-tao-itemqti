@@ -55,6 +55,7 @@ class MetaMetadataExtractor
             $label = $xpath->evaluate('string(default:label)', $property);
             $multiple = $xpath->evaluate('string(default:multiple)', $property);
             $checksum = $xpath->evaluate('string(default:checksum)', $property);
+            $widget = $xpath->evaluate('string(default:widget)', $property);
 
             if (strlen($uri) === 0 || strlen($label) === 0) {
                 continue;
@@ -66,6 +67,7 @@ class MetaMetadataExtractor
                 'label' => trim($label),
                 'multiple' => trim($multiple),
                 'checksum' => trim($checksum),
+                'widget' => trim($widget),
             ];
         }
 

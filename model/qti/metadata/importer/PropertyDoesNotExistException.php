@@ -38,6 +38,16 @@ class PropertyDoesNotExistException extends Exception
             return;
         }
 
+        if (isset($message['widget_result']) && $message['widget_result'] === false) {
+            parent::__construct(
+                sprintf(
+                    'The property %s selected widget is not defined as expected by the imported package',
+                    $message['label'] ?? 'unknown label',
+                )
+            );
+            return;
+        }
+
         parent::__construct(
             sprintf(
                 'Property with label %s and alias %s does not exist.',

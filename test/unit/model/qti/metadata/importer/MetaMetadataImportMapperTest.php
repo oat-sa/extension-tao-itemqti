@@ -46,21 +46,24 @@ class MetaMetadataImportMapperTest extends TestCase
                 'label' => 'label1',
                 'alias' => 'alias1',
                 'checksum' => 'qwerty1234',
-                'multiple' => 'http://resource.uri/false'
+                'multiple' => 'http://resource.uri/false',
+                'widget' => 'http://widget.uri'
             ],
             [
                 'uri' => 'http://example.com/uri2',
                 'label' => 'label2',
                 'alias' => 'alias2',
                 'checksum' => '4321qwerty',
-                'multiple' => 'http://resource.uri/false'
+                'multiple' => 'http://resource.uri/false',
+                'widget' => 'http://widget.uri'
             ],
             [
                 'uri' => 'http://example.com/uri3',
                 'label' => 'label3',
                 'alias' => 'alias3',
                 'checksum' => '4321qwerty',
-                'multiple' => 'http://resource.uri/false'
+                'multiple' => 'http://resource.uri/false',
+                'widget' => 'http://widget.uri'
             ],
         ];
 
@@ -69,6 +72,7 @@ class MetaMetadataImportMapperTest extends TestCase
         $propertyMock = $this->createMock(core_kernel_classes_Property::class);
         $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
 
+
         $itemClass->method('getProperties')
             ->willReturn([$propertyMock, $propertyMock, $propertyMock]);
         $testClass->method('getProperties')
@@ -76,9 +80,13 @@ class MetaMetadataImportMapperTest extends TestCase
         $propertyMock->method('getUri')
             ->willReturn(
                 'http://example.com/uri1',
+                'http://widget.uri',
                 'http://some-other-uri',
+                'http://widget.uri',
                 'http://some-other-uri',
-                'http://some-other-uri'
+                'http://widget.uri',
+                'http://some-other-uri',
+                'http://widget.uri'
             );
         $propertyMock->method('getLabel')
             ->willReturn('label2', 'some-other-label', 'some-other-other-label');
@@ -86,6 +94,8 @@ class MetaMetadataImportMapperTest extends TestCase
             ->willReturn('alias2', 'alias3', 'some-other-other-alias');
         $propertyMock->method('getOnePropertyValue')
             ->willReturn($resourceMock);
+        $propertyMock->method('getWidget')
+            ->willReturn($propertyMock);
         $this->checksumGeneratorMock->method('getRangeChecksum')
             ->willReturn('4321qwerty');
 
