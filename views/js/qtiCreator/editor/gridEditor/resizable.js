@@ -111,7 +111,7 @@ define([
                         : [
                             $col.offset().left + min * unitWidth - marginWidth - activeWidth / 2 - 10,
                             $col.offset().top,
-                            $row.offset().left + $row.outerWidth() - marginWidth - activeWidth / 2 - 12,
+                            $row.offset() ? ($row.offset().left + $row.outerWidth() - marginWidth - activeWidth / 2 - 12) : 0,
                             $col.offset().top + $col.height()
                         ],
                     axis: 'x',
