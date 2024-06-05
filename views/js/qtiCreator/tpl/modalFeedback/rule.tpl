@@ -1,6 +1,6 @@
 <div class="feedbackRule-container" data-serial="{{serial}}">
     <div class="feedbackRule-rule-if">
-        <span class="feedbackRule-desc i">if</span>
+        <span class="feedbackRule-desc i">{{__ 'if'}}</span>
         <select class="feedbackRule-condition select2" data-has-search="false">
             {{#each availableConditions}}
             <option value="{{name}}" {{#equal name ../condition}}selected="selected"{{/equal}}>{{label}}</option>
@@ -9,11 +9,11 @@
         <input class="feedbackRule-compared-value score" type="text" value="{{comparedValue}}" {{#if hideScore}}style="display:none"{{/if}}/>
     </div>
     <div class="feedbackRule-then-else">
-        <span class="feedbackRule-desc i">then</span>
+        <span class="feedbackRule-desc i">{{__ 'then'}}</span>
         <button class="btn-info small" type="button" data-feedback="then">{{__ 'Feedback'}}</button>
     </div>
     {{#if addElse}}
-    <a title="{{__ 'Add else feedback'}}" href="#" class="adder feedbackRule-add-else">else</a>
+    <a title="{{__ 'Add else feedback'}}" href="#" class="adder feedbackRule-add-else">{{__ 'else'}}</a>
     {{/if}}
     {{#if feedbackElse}}
      <div class="feedbackRule-then-else">
