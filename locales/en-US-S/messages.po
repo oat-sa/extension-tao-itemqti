@@ -1938,7 +1938,7 @@ msgid "Unable to process your request"
 msgstr ""
 
 msgid "Unable to retrieve asset \"%s"
-msgstr ""
+msgstr "Unable to retrieve resource \"%s"
 
 msgid "Unable to retrieve item : "
 msgstr "Unable to retrieve question : "
