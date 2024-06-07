@@ -135,7 +135,7 @@ define([
                 break;
         }
 
-        if (rp.processingType === 'templateDriven' && !allowCustomTemplate) {
+        if ((rp.processingType === 'templateDriven' && !allowCustomTemplate) || !features.isVisible('taoQtiItem/creator/interaction/response/responseProcessing/custom')) {
             delete templates.CUSTOM;
         } else {
             //consider as custom
