@@ -99,31 +99,31 @@ define([
         },
         {
             name : 'lt',
-            label : '<',
+            label : __('<'),
             init : initCompare,
             onSet : onSetScore
         },
         {
             name : 'lte',
-            label : '<=',
+            label : __('<='),
             init : initCompare,
             onSet : onSetScore
         },
         {
             name : 'equal',
-            label : '=',
+            label : __('='),
             init : initCompare,
             onSet : onSetScore
         },
         {
             name : 'gte',
-            label : '>=',
+            label : __('>='),
             init : initCompare,
             onSet : onSetScore
         },
         {
             name : 'gt',
-            label : '>',
+            label : __('>'),
             init : initCompare,
             onSet : onSetScore
         }
