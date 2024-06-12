@@ -474,7 +474,7 @@ body.solar-design {
                 font-weight: bold;
                 color: var(--form-color);
                 background: var(--form-background);
-                height: var(--label-height);
+                min-height: var(--label-height);
                 line-height: var(--label-height);
                 padding: 0 8px;
                 margin: 0;
