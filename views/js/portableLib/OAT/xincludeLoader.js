@@ -1,35 +1,18 @@
-/**
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; under version 2
- * of the License (non-upgradable).
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * Copyright (c) 2024 (original work) Open Assessment Technologies SA;
- */
-
-/**
- * Helper for loading xinclude elements for PCI
- */
 define(function () {
     'use strict';
 
-    function convertXMLToHTML(xmlNode) {
+    function convertXMLToHTML(xmlNode, baseUrl) {
         const htmlNode = document.createElement(xmlNode.nodeName);
         Array.from(xmlNode.attributes).forEach(attr => {
-            htmlNode.setAttribute(attr.name, attr.value);
+            let attrValue = attr.value;
+            if (attrValue.startsWith('taomedia://')) {
+                attrValue = baseUrl + attrValue;
+            }
+            htmlNode.setAttribute(attr.name, attrValue);
         });
         xmlNode.childNodes.forEach(childNode => {
             if (childNode.nodeType === Node.ELEMENT_NODE) {
-                htmlNode.appendChild(convertXMLToHTML(childNode));
+                htmlNode.appendChild(convertXMLToHTML(childNode, baseUrl));
             } else if (childNode.nodeType === Node.TEXT_NODE) {
                 htmlNode.appendChild(document.createTextNode(childNode.nodeValue));
             }
@@ -38,11 +21,11 @@ define(function () {
         return htmlNode;
     }
 
-    function parseXmlToDom(xmlString) {
+    function parseXmlToDom(xmlString, baseUrl) {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlString, "application/xml");
 
-        return convertXMLToHTML(xmlDoc.documentElement);
+        return convertXMLToHTML(xmlDoc.documentElement, baseUrl);
     }
 
     function loadXIncludeElement(xiIncludeElementHref, baseUrl) {
@@ -53,7 +36,7 @@ define(function () {
             const fileUrl = `text!${baseUrl}${xiIncludeElementHref}`;
             require.undef(fileUrl);
             require([fileUrl], stimulusXml => {
-                const data = parseXmlToDom(stimulusXml);
+                const data = parseXmlToDom(stimulusXml, baseUrl);
                 resolve(data);
             }, () => {
                 reject(new Error('File not found'));
@@ -67,7 +50,7 @@ define(function () {
         const xiIncludeElements = tempDiv.querySelectorAll('xi\\:include');
 
         const xiIncludePromises = Array.from(xiIncludeElements).flatMap(xiElement => {
-            const xiIncludeElementHref = xiElement.getAttribute('href')
+            const xiIncludeElementHref = xiElement.getAttribute('href');
             if (!xiIncludeElementHref) {
                 return [];
             }
