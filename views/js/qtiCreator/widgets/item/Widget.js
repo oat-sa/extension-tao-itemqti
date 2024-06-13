@@ -137,7 +137,7 @@ define([
 
             const xml = xmlNsHandler
                 .restoreNs(xmlRenderer.render(this.element), this.element.getNamespaces(), true)
-                .replace('&lcub;', '{');
+                .replace(/&lcub;/g, '{');
 
             //@todo : remove this hotfix : prevent unsupported custom interaction to be saved
             if (hasUnsupportedInteraction(xml)) {
