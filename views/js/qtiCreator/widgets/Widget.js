@@ -296,6 +296,7 @@ define([
                 //otherwise use less performance efficient selector
                 $container = $(`.widget-box[data-serial=${element.serial}]`);
             }
+            let contentEditableState = $container.attr('contenteditable');
 
             //once required data ref has been set, destroy it:
             this.destroy();
@@ -307,6 +308,7 @@ define([
                 if (renderer.name === 'creatorRenderer') {
                     element.render($container);
                     element.postRender(postRenderOpts);
+                    element.data('widget').$container.attr('contenteditable', contentEditableState);
                     return element.data('widget');
                 } else {
                     throw new Error('The renderer is no longer the creatorRenderer');
