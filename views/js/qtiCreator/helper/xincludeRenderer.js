@@ -47,11 +47,11 @@ define([
          * @returns {undefined}
          */
         render: function render(xincludeWidget, baseUrl, newHref) {
+            xincludeWidget.$container.attr('contenteditable', false);
             const xinclude = xincludeWidget.element;
             if (newHref) {
                 xinclude.attr('href', newHref);
             }
-
             xincludeLoader.load(xinclude, baseUrl, function (xi, data, loadedClasses) {
                 if (data) {
                     const dataBody = data.body.body;
@@ -61,7 +61,6 @@ define([
                     if (hasClass && hasClass.groups && hasClass.groups.className) {
                         className = hasClass.groups.className;
                     }
-
                     //loading success :
                     commonRenderer.get().load(function () {
                         //set commonRenderer to the composing elements only (because xinclude is "read-only")

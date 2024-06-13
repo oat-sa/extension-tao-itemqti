@@ -22,14 +22,18 @@
 define(function () {
     'use strict';
 
-    function convertXMLToHTML(xmlNode) {
+    function convertXMLToHTML(xmlNode, baseUrl) {
         const htmlNode = document.createElement(xmlNode.nodeName);
         Array.from(xmlNode.attributes).forEach(attr => {
-            htmlNode.setAttribute(attr.name, attr.value);
+            let attrValue = attr.value;
+            if (attrValue.startsWith('taomedia://')) {
+                attrValue = baseUrl + attrValue;
+            }
+            htmlNode.setAttribute(attr.name, attrValue);
         });
         xmlNode.childNodes.forEach(childNode => {
             if (childNode.nodeType === Node.ELEMENT_NODE) {
-                htmlNode.appendChild(convertXMLToHTML(childNode));
+                htmlNode.appendChild(convertXMLToHTML(childNode, baseUrl));
             } else if (childNode.nodeType === Node.TEXT_NODE) {
                 htmlNode.appendChild(document.createTextNode(childNode.nodeValue));
             }
@@ -38,11 +42,11 @@ define(function () {
         return htmlNode;
     }
 
-    function parseXmlToDom(xmlString) {
+    function parseXmlToDom(xmlString, baseUrl) {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlString, "application/xml");
 
-        return convertXMLToHTML(xmlDoc.documentElement);
+        return convertXMLToHTML(xmlDoc.documentElement, baseUrl);
     }
 
     function loadXIncludeElement(xiIncludeElementHref, baseUrl) {
@@ -53,7 +57,7 @@ define(function () {
             const fileUrl = `text!${baseUrl}${xiIncludeElementHref}`;
             require.undef(fileUrl);
             require([fileUrl], stimulusXml => {
-                const data = parseXmlToDom(stimulusXml);
+                const data = parseXmlToDom(stimulusXml, baseUrl);
                 resolve(data);
             }, () => {
                 reject(new Error('File not found'));
@@ -67,7 +71,7 @@ define(function () {
         const xiIncludeElements = tempDiv.querySelectorAll('xi\\:include');
 
         const xiIncludePromises = Array.from(xiIncludeElements).flatMap(xiElement => {
-            const xiIncludeElementHref = xiElement.getAttribute('href')
+            const xiIncludeElementHref = xiElement.getAttribute('href');
             if (!xiIncludeElementHref) {
                 return [];
             }
