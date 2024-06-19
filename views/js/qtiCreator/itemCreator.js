@@ -206,6 +206,31 @@ define([
                     const itemWidget = item.data('widget');
                     const invalidElements = item.data('invalid') || {};
 
+                    function escapeCurlyBraces(str) {
+                        return str.replace(/([{}])/g, '\\$1');
+                    }
+
+                    for (let element of Object.values(item.bdy.elements)) {
+                        let originalString = element.bdy;
+                        let escapedString = originalString;
+
+                        for (let item of Object.values(element.elements)) {
+                            let specialTagRegex = new RegExp(`\\{\\{${item.serial}\\}\\}`, 'g');
+                            escapedString = escapedString.replace(specialTagRegex, `SPECIAL_TAG_PLACEHOLDER${item.serial}`);
+                        }
+
+                        escapedString = escapeCurlyBraces(escapedString);
+
+                        for (let item of Object.values(element.elements)) {
+                            let placeholder = `SPECIAL_TAG_PLACEHOLDER${item.serial}`;
+                            let specialTag = `{{${item.serial}}}`;
+                            escapedString = escapedString.replace(new RegExp(placeholder, 'g'), specialTag);
+                        }
+
+                        element.bdy = escapedString;
+                    }
+
+
                     if (_.size(invalidElements)) {
                         const reasons = [];
                         Object.keys(invalidElements).forEach(serial => {
