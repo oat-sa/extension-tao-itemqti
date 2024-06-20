@@ -26,6 +26,7 @@ define([
     'taoQtiItem/qtiCreator/model/variables/OutcomeDeclaration',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'ui/tooltip',
+    'services/features',
     'tpl!taoQtiItem/qtiCreator/tpl/outcomeEditor/panel',
     'tpl!taoQtiItem/qtiCreator/tpl/outcomeEditor/listing'
 ], function (
@@ -39,6 +40,7 @@ define([
     OutcomeDeclaration,
     xmlRenderer,
     tooltip,
+    features,
     panelTpl,
     listingTpl
 ) {
@@ -93,6 +95,7 @@ define([
      */
     function renderListing(item, $outcomeEditorPanel) {
         const readOnlyRpVariables = getRpUsedVariables(item);
+        const scoreMaxScoreVisible = features.isVisible('taoQtiItem/creator/interaction/response/outcomeDeclarations/scoreMaxScore');
 
         const outcomesData = _.map(item.outcomes, function (outcome) {
             const readonly = readOnlyRpVariables.indexOf(outcome.id()) >= 0;
@@ -109,6 +112,7 @@ define([
             return {
                 serial: outcome.serial,
                 identifier: outcome.id(),
+                hidden: (outcome.id() === 'SCORE' || outcome.id() === 'MAXSCORE') && !scoreMaxScoreVisible,
                 interpretation: outcome.attr('interpretation'),
                 longInterpretation: outcome.attr('longInterpretation'),
                 externalScored: externalScored,
