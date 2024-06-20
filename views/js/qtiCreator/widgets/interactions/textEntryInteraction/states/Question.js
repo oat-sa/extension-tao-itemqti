@@ -63,6 +63,7 @@ define([
             expectedLength : parseInt(interaction.attr('expectedLength')),
             constraints,
             constraintsAvailable,
+            recommendationsAvailable,
             patternMask : patternMask,
             maxLength : maxChars,
         }));
