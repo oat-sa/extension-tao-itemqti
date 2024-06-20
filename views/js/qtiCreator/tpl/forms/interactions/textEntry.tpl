@@ -20,7 +20,7 @@
 
 <hr>
 
-{{#if constraintAvailable}}
+{{#if constraintsAvailable}}
 <div class="panel">
     <h3 class="full-width">{{__ "Constraints"}}</h3>
     <select name="constraint" class="select2" data-has-search="false">
