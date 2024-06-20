@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "^1.0.0",
-        "@oat-sa/tao-item-runner-qti": "https://github.com/oat-sa/tao-item-runner-qti-fe#0408ac525ffc2f51eb990ed31c81c7aeb0df6ceb"
+        "@oat-sa/tao-item-runner-qti": "https://github.com/oat-sa/tao-item-runner-qti-fe#ef77b308bb74827fabdf5ed0c92e02521cfe9d57"
     }
 }
