@@ -98,6 +98,8 @@ class MappedMetadataInjectorTest extends TestCase
             ->method('setPropertyValue')
             ->with($propertyMock, $resourceMock);
 
+        $resourceMock->method('getPropertyValues')->willReturn([]);
+
         $this->subject->inject($mappedProperties, $metadataValues, $resourceMock);
     }
 }
