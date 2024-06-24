@@ -25,7 +25,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/item',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'select2'
-], function (_, features, languages, stateFactory, Active, formTpl, formElement) {
+], function (_, features, languages, stateFactory, Active, formTpl, formElement ) {
     'use strict';
 
     const ItemStateActive = stateFactory.create(
@@ -37,11 +37,14 @@ define([
             const areaBroker = this.widget.getAreaBroker();
             const $itemBody = _widget.$container.find('.qti-itemBody');
 
+            const showIdentifier = features.isVisible('taoQtiItem/creator/item/property/identifier');
+
             //build form:
             $form.html(
                 formTpl({
                     serial: item.getSerial(),
                     identifier: item.id(),
+                    showIdentifier,
                     title: item.attr('title'),
                     timeDependent: !!item.attr('timeDependent'),
                     showTimeDependent: features.isVisible('taoQtiItem/creator/item/property/timeDependant'),

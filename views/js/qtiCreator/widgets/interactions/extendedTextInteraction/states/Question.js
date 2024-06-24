@@ -82,6 +82,7 @@ define([
             xhtml: { label: __('Rich text'), selected: false }
         };
 
+        
         if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/preFormatted')) {
             formats.preformatted = {
                 label: __('Pre-formatted text'),
@@ -92,7 +93,8 @@ define([
         if (config.hasMath) {
             formats.math = { label: __('Rich text + math'), selected: false };
         }
-
+        
+        const constraintsAvailable = features.isVisible('taoQtiItem/creator/interaction/extendedText/property/constraints')
         var constraints = {
             none: { label: __('None'), selected: true },
             maxLength: { label: __('Max Length'), selected: false },
@@ -133,7 +135,8 @@ define([
                 maxLength: maxChars,
                 expectedLength: expectedLength,
                 expectedLines: expectedLines,
-                constraints: constraints
+                constraints: constraints,
+                constraintsAvailable
             })
         );
 

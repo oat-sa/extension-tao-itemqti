@@ -26,8 +26,9 @@ define([
     'taoQtiItem/qtiCreator/editor/interactionsToolbar',
     'taoQtiItem/qtiCreator/helper/panel',
     'taoQtiItem/qtiCreator/helper/qtiElements',
-    'taoQtiItem/portableElementRegistry/ciRegistry'
-], function (interactionsToolbar, panel, qtiElements, ciRegistry) {
+    'taoQtiItem/portableElementRegistry/ciRegistry',
+    'services/features'
+], function (interactionsToolbar, panel, qtiElements, ciRegistry, features) {
     'use strict';
 
     /**
@@ -36,8 +37,10 @@ define([
      */
     return function setUpInteractionPanel($container) {
         const interactions = qtiElements.getAvailableAuthoringElements();
-
+        const liquidsInteractionAvailable = features.isVisible('taoQtiItem/creator/interaction/pci/liquidsInteraction');
+        const liquidsInteractionId = 'liquidsInteraction';
         for (const typeId in ciRegistry.getAllVersions()) {
+            if(typeId === liquidsInteractionId && !liquidsInteractionAvailable) continue;
             const data = ciRegistry.getAuthoringData(typeId, { enabledOnly: true });
             if (data && data.tags && data.tags[0] === interactionsToolbar.getCustomInteractionTag()) {
                 interactions[data.qtiClass] = data;

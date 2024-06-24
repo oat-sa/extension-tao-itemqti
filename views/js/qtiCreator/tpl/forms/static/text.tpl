@@ -5,6 +5,7 @@
     <input type="text" name="textBlockCssClass" value="{{textBlockCssClass}}" />
 </div>
 
+{{#if scrollingAvailable}}
 <div class="panel">
     <label>
         <input name="scrolling" type="checkbox" {{#if scrolling}}checked="checked"{{/if}}/>
@@ -16,6 +17,7 @@
         {{__ "Enable/disable scrolling."}}
     </span>
 </div>
+{{/if}}
 
 <div class="panel scrollingSelect">
     <label for="scrollingHeight" class="spinner">{{__ "Block height (%)"}}</label>

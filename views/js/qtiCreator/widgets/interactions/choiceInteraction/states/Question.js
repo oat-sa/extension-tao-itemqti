@@ -189,6 +189,7 @@ define([
         const allowElimination = features.isVisible('taoQtiItem/creator/interaction/choice/property/allowElimination');
         const shuffleChoices = features.isVisible('taoQtiItem/creator/interaction/choice/property/shuffle');
         const choiceOptionsAvailable = allowElimination || shuffleChoices;
+        const orientationAvailable = features.isVisible('taoQtiItem/creator/interaction/choice/property/orientation');
         $form.html(
             formTpl({
                 type,
@@ -200,7 +201,8 @@ define([
                     allowElimination,
                     shuffleChoices,
                     choiceOptionsAvailable,
-                    listStyle: features.isVisible('taoQtiItem/creator/interaction/choice/property/listStyle')
+                    listStyle: features.isVisible('taoQtiItem/creator/interaction/choice/property/listStyle'),
+                    orientationAvailable
                 }
             })
         );
