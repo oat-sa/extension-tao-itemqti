@@ -33,6 +33,12 @@ define([
         return uri.substring(pos + 1, pos + 1 + qtiIdentifier.maxQtiIdLength);
     };
 
+    const _generateUuidIdentifier = function _generateUuidIdentifier() {
+        const dateString = Math.floor(Date.now() / 100000).toString().slice(0,7);
+        const randString = (Math.floor(Math.random() * 90) + 10).toString().slice(0, 2);
+        return dateString + randString;
+    }
+
     const decodeHtml = function (str) {
         const map = {
             '&amp;': '&',
@@ -116,7 +122,13 @@ define([
                             callback(loadedItem, this.getLoadedClasses());
                         });
                     } else {
-                        const newItem = new Item().id(_generateIdentifier(config.uri)).attr('title', config.label);
+                        let uuid;
+                        if (config.identifierGenerationStrategy === 'uuid') {
+                            uuid = _generateUuidIdentifier();
+                        } else {
+                            uuid = _generateIdentifier(config.uri);
+                        }
+                        const newItem = new Item().id(uuid).attr('title', config.label);
 
                         newItem.createResponseProcessing();
 

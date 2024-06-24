@@ -34,6 +34,7 @@ use oat\taoQtiItem\model\FeatureFlag\ServiceProvider\FeatureFlagFlaServiceProvid
 use oat\taoQtiItem\model\qti\metadata\importer\MetaMetadataServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\ItemIdentifierValidatorServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\MetadataServiceProvider;
+use oat\taoQtiItem\scripts\install\EnableUuidQtiIdentifier;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\ItemEventRegister;
 use oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist;
@@ -89,7 +90,8 @@ return [
             RegisterItemCompilerBlacklist::class,
             RegisterNpmPaths::class,
             ExtendConfigurationRegistry::class,
-            SetupQtiMetadataImportExportService::class
+            SetupQtiMetadataImportExportService::class,
+            EnableUuidQtiIdentifier::class
         ]
     ],
     'local' => [
