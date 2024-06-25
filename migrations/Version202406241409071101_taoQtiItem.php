@@ -6,7 +6,7 @@ namespace oat\taoQtiItem\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
-use oat\taoQtiItem\scripts\install\EnableUuidQtiIdentifier;
+use oat\taoQtiItem\scripts\install\EnableUniqueNumericQtiIdentifier;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -23,7 +23,7 @@ final class Version202406241409071101_taoQtiItem extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->addReport(
-            $this->propagate(new EnableUuidQtiIdentifier())([])
+            $this->propagate(new EnableUniqueNumericQtiIdentifier())([])
         );
     }
 

@@ -33,7 +33,7 @@ define([
         return uri.substring(pos + 1, pos + 1 + qtiIdentifier.maxQtiIdLength);
     };
 
-    const _generateUuidIdentifier = function _generateUuidIdentifier() {
+    const _generateUniqueNumericIdentifier = function _generateUniqueNumericIdentifier() {
         const dateString = Math.floor(Date.now() / 100000).toString().slice(0,7);
         const randString = (Math.floor(Math.random() * 90) + 10).toString().slice(0, 2);
         return dateString + randString;
@@ -122,13 +122,13 @@ define([
                             callback(loadedItem, this.getLoadedClasses());
                         });
                     } else {
-                        let uuid;
+                        let identifier;
                         if (config.identifierGenerationStrategy === 'uuid') {
-                            uuid = _generateUuidIdentifier();
+                            identifier = _generateUniqueNumericIdentifier();
                         } else {
-                            uuid = _generateIdentifier(config.uri);
+                            identifier = _generateIdentifier(config.uri);
                         }
-                        const newItem = new Item().id(uuid).attr('title', config.label);
+                        const newItem = new Item().id(identifier).attr('title', config.label);
 
                         newItem.createResponseProcessing();
 

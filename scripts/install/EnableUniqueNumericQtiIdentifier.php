@@ -27,11 +27,11 @@ use oat\oatbox\extension\InstallAction;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 
-class EnableUuidQtiIdentifier extends InstallAction
+class EnableUniqueNumericQtiIdentifier extends InstallAction
 {
     public function __invoke($params): void
     {
-        if ($this->customIdentifierGenerationStrategyEnabled()) {
+        if ($this->uniqueNumericIdentifierGenerationStrategyEnabled()) {
             $this->addQtiCreatorConfig();
             $this->addClientLibRegistryEntry();
         }
@@ -63,17 +63,17 @@ class EnableUuidQtiIdentifier extends InstallAction
             ->getConfig('qtiCreator');
 
         if (!isset($config['identifierGenerationStrategy'])) {
-            $config['identifierGenerationStrategy'] = 'uuid';
+            $config['identifierGenerationStrategy'] = 'uniqueNumeric';
         }
 
         $taoQtiItemExtension->setConfig('qtiCreator', $config);
     }
 
-    private function customIdentifierGenerationStrategyEnabled(): bool
+    private function uniqueNumericIdentifierGenerationStrategyEnabled(): bool
     {
         return $this->getServiceManager()
             ->getContainer()
             ->get(FeatureFlagChecker::class)
-            ->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_UUID_QTI_IDENTIFIER);
+            ->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER);
     }
 }
