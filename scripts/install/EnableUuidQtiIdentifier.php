@@ -29,7 +29,6 @@ use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 
 class EnableUuidQtiIdentifier extends InstallAction
 {
-
     public function __invoke($params): void
     {
         if ($this->customIdentifierGenerationStrategyEnabled()) {
@@ -78,5 +77,3 @@ class EnableUuidQtiIdentifier extends InstallAction
             ->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_UUID_QTI_IDENTIFIER);
     }
 }
-
-
