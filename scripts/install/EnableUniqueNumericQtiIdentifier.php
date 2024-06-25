@@ -47,7 +47,8 @@ class EnableUniqueNumericQtiIdentifier extends InstallAction
 
         if (!isset($config['taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier'])) {
             $config['taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier'] = [
-                'qtiIdPattern' => '/^\d{9}$/'
+                'qtiIdPattern' => '/^\d{9}$/',
+                'invalidQtiIdMessage' => 'The QTI identifier must be a 9-digit number.',
             ];
         }
 
