@@ -90,7 +90,7 @@ return [
             RegisterItemCompilerBlacklist::class,
             RegisterNpmPaths::class,
             ExtendConfigurationRegistry::class,
-            SetupQtiMetadataImportExportService::class,
+            SetupQtiMetadataImportExportService::class
         ]
     ],
     'local' => [
