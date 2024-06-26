@@ -35,7 +35,6 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class FeatureFlagQtiIdentifierServiceProvider implements ContainerServiceProviderInterface
 {
-
     public function __invoke(ContainerConfigurator $configurator): void
     {
         $services = $configurator->services();
