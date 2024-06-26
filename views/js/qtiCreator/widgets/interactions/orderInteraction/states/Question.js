@@ -90,6 +90,8 @@ define([
             
         const makeSignleOrder = () => {
             interaction.attr('order', 'single');
+            interaction.attr('minChoices', 0);
+            interaction.attr('maxChoices', 0);
             $interaction.addClass('qti-single');
             deleteMinMax();
         }
