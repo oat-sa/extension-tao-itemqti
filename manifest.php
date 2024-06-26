@@ -206,7 +206,6 @@ return [
         MetadataServiceProvider::class,
         MetaMetadataServiceProvider::class,
         IdentifierGenerationStrategyServiceProvider::class,
-        MetaMetadataServiceProvider::class,
         FeatureFlagQtiIdentifierServiceProvider::class,
     ],
 ];
