@@ -36,12 +36,16 @@ class UniqueNumericQtiIdentifierQtiCreator implements FeatureFlagConfigHandlerIn
 
     public function __invoke(array $configs): array
     {
-        if ($this->featureFlagChecker
-            ->isEnabled(UniqueNumericFeatureFlag::FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER)
-        ) {
+        if ($this->isEnabled()) {
             $configs['identifierGenerationStrategy'] = 'uniqueNumeric';
         }
 
         return $configs;
+    }
+
+    private function isEnabled(): bool
+    {
+        return $this->featureFlagChecker
+            ->isEnabled(UniqueNumericFeatureFlag::FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER);
     }
 }
