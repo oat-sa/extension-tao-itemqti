@@ -32,6 +32,7 @@ use oat\taoQtiItem\model\qti\CustomInteractionAsset\ServiceProvider\{
 };
 use oat\taoQtiItem\model\FeatureFlag\ServiceProvider\FeatureFlagFlaServiceProvider;
 use oat\taoQtiItem\model\qti\metadata\importer\MetaMetadataServiceProvider;
+use oat\taoQtiItem\model\qti\ServiceProvider\IdentifierGenerationStrategyServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\ItemIdentifierValidatorServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\MetadataServiceProvider;
 use oat\taoQtiItem\scripts\install\EnableUniqueNumericQtiIdentifier;
@@ -204,6 +205,7 @@ return [
         FeatureFlagFlaServiceProvider::class,
         ItemIdentifierValidatorServiceProvider::class,
         MetadataServiceProvider::class,
-        MetaMetadataServiceProvider::class
+        MetaMetadataServiceProvider::class,
+        IdentifierGenerationStrategyServiceProvider::class,
     ],
 ];
