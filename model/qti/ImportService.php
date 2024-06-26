@@ -54,6 +54,7 @@ use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataExtractor;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardianResource;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\metadata\ontology\MappedMetadataInjector;
+use oat\taoQtiItem\model\qti\parser\UniqueNumericQtiIdentifierReplacer;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
 use oat\taoQtiItem\model\event\ItemImported;
 use qtism\data\QtiComponentCollection;
@@ -187,6 +188,7 @@ class ImportService extends ConfigurableService
     protected function createQtiItemModel($qtiFile, $validate = true)
     {
         $qtiXml = Authoring::sanitizeQtiXml($qtiFile);
+        $qtiXml = $this->replaceUniqueNumericQtiIdentifier($qtiXml);
         //validate the file to import
         $qtiParser = new Parser($qtiXml);
 
@@ -951,5 +953,15 @@ class ImportService extends ConfigurableService
     private function getMetaMetadataImportMapper(): MetaMetadataImportMapper
     {
         return $this->getServiceManager()->getContainer()->get(MetaMetadataImportMapper::class);
+    }
+
+    private function getUniqueNumericQtiIdentifierReplacer(): UniqueNumericQtiIdentifierReplacer
+    {
+        return $this->getServiceManager()->getContainer()->get(UniqueNumericQtiIdentifierReplacer::class);
+    }
+
+    private function replaceUniqueNumericQtiIdentifier(string $qtiXml)
+    {
+        return $this->getUniqueNumericQtiIdentifierReplacer()->replace($qtiXml);
     }
 }
