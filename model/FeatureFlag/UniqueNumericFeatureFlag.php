@@ -21,6 +21,7 @@
 declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\FeatureFlag;
+
 interface UniqueNumericFeatureFlag
 {
     public const FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER = 'FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER';
