@@ -21,27 +21,7 @@
 declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\FeatureFlag;
-
-use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
-use oat\tao\model\featureFlag\FeatureFlagConfigHandlerInterface;
-
-class UniqueNumericQtiIdentifierQtiCreator implements FeatureFlagConfigHandlerInterface
+interface UniqueNumericFeatureFlag
 {
-    private FeatureFlagCheckerInterface $featureFlagChecker;
-
-    public function __construct(FeatureFlagCheckerInterface $featureFlagChecker)
-    {
-        $this->featureFlagChecker = $featureFlagChecker;
-    }
-
-    public function __invoke(array $configs): array
-    {
-        if ($this->featureFlagChecker
-            ->isEnabled(UniqueNumericFeatureFlag::FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER)
-        ) {
-            $configs['identifierGenerationStrategy'] = 'uniqueNumeric';
-        }
-
-        return $configs;
-    }
+    public const FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER = 'FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER';
 }
