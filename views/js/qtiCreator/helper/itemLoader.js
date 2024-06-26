@@ -123,7 +123,7 @@ define([
                         });
                     } else {
                         let identifier;
-                        if (config.identifierGenerationStrategy === 'uuid') {
+                        if (config.identifierGenerationStrategy === 'uniqueNumeric') {
                             identifier = _generateUniqueNumericIdentifier();
                         } else {
                             identifier = _generateIdentifier(config.uri);
