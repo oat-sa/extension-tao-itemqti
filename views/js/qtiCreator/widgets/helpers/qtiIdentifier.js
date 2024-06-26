@@ -24,10 +24,12 @@ define(['module', 'i18n'], function (module, __) {
     const defaultInvalidQtiIdMessage = 'Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - ).';
     const message = module.config().invalidQtiIdMessage || defaultInvalidQtiIdMessage;
     const invalidQtiIdMessage = __(message);
+    const isDisabled = module.config().isDisabled || false;
 
     return {
         pattern: new RegExp(patternContent, flags),
         invalidQtiIdMessage,
-        maxQtiIdLength: 32
+        maxQtiIdLength: 32,
+        isDisabled
     };
 });

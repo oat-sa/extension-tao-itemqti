@@ -37,6 +37,7 @@ class UniqueNumericQtiIdentifierClientConfig implements FeatureFlagConfigHandler
             $configs['taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier']['qtiIdPattern'] = '/^\\d{9}$/';
             $configs['taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier']['invalidQtiIdMessage'] =
                 'The QTI identifier must be a 9-digit number.';
+            $configs['taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier']['isDisabled'] = true;
         }
 
         return $configs;

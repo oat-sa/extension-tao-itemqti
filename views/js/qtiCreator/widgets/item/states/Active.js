@@ -24,8 +24,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Active',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/item',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier',
     'select2'
-], function (_, features, languages, stateFactory, Active, formTpl, formElement ) {
+], function (_, features, languages, stateFactory, Active, formTpl, formElement, qtiIdentifier) {
     'use strict';
 
     const ItemStateActive = stateFactory.create(
@@ -38,6 +39,7 @@ define([
             const $itemBody = _widget.$container.find('.qti-itemBody');
 
             const showIdentifier = features.isVisible('taoQtiItem/creator/item/property/identifier');
+            const disableIdentifier = qtiIdentifier.isDisabled
 
             //build form:
             $form.html(
@@ -49,7 +51,8 @@ define([
                     timeDependent: !!item.attr('timeDependent'),
                     showTimeDependent: features.isVisible('taoQtiItem/creator/item/property/timeDependant'),
                     'xml:lang': item.attr('xml:lang'),
-                    languagesList: item.data('languagesList')
+                    languagesList: item.data('languagesList'),
+                    disableIdentifier
                 })
             );
 
