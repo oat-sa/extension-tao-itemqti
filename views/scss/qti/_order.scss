@@ -106,6 +106,15 @@
             }
         }
     }
+
+    &.qti-single {
+        .order-interaction-area {
+            > .arrow-bar,
+            > .result-area {
+                display: none;
+            }
+        }
+    }
     li {
         &.dragged {
             border-color: whiten($info, .2) !important;
