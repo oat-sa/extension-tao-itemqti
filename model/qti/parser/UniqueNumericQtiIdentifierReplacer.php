@@ -54,6 +54,10 @@ class UniqueNumericQtiIdentifierReplacer
         return $doc->saveXML();
     }
 
+    /**
+     * This will return 9 digits unique numeric identifier base on time and random number
+     * i.e: 123456789
+     */
     private function getNumericIdentifier(): string
     {
         return substr((string)floor(time() / 1000), 0, 7)
