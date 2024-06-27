@@ -114,6 +114,18 @@
                 display: none;
             }
         }
+        &.test-preview {
+            .order-interaction-area {
+                > .arrow-bar:not(.middle),
+                > .result-area {
+                    display: table-cell;
+                    width: 100%;
+                }
+                > .choice-area {
+                    display: none;
+                }
+            }
+        }
     }
     li {
         &.dragged {
