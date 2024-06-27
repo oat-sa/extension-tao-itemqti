@@ -24,21 +24,10 @@ define([
     'taoQtiItem/qtiItem/helper/itemScore',
     'core/dataProvider/request',
     'taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier',
-    'taoQtiItem/qtiCreator/helper/languages'
-], function ($, _, Loader, Item, qtiClasses, itemScoreHelper, request, qtiIdentifier, languages) {
+    'taoQtiItem/qtiCreator/helper/languages',
+    'taoQtiItem/qtiCreator/helper/itemIdentifier'
+], function ($, _, Loader, Item, qtiClasses, itemScoreHelper, request, qtiIdentifier, languages, itemIdentifier) {
     'use strict';
-    const _generateIdentifier = function _generateIdentifier(uri) {
-        const pos = uri.lastIndexOf('#');
-        // identifier by default should be no more then 32
-        return uri.substring(pos + 1, pos + 1 + qtiIdentifier.maxQtiIdLength);
-    };
-
-    const _generateUniqueNumericIdentifier = function _generateUniqueNumericIdentifier() {
-        const dateString = Math.floor(Date.now() / 100000).toString().slice(0,7);
-        const randString = (Math.floor(Math.random() * 90) + 10).toString().slice(0, 2);
-        return dateString + randString;
-    }
-
     const decodeHtml = function (str) {
         const map = {
             '&amp;': '&',
@@ -124,9 +113,9 @@ define([
                     } else {
                         let identifier;
                         if (config.identifierGenerationStrategy === 'uniqueNumeric') {
-                            identifier = _generateUniqueNumericIdentifier();
+                            identifier = itemIdentifier.uniqueNumericIdentifier();
                         } else {
-                            identifier = _generateIdentifier(config.uri);
+                            identifier = itemIdentifier.defaultIdentifier(config.uri, qtiIdentifier);
                         }
                         const newItem = new Item().id(identifier).attr('title', config.label);
 
