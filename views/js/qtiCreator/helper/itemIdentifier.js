@@ -18,20 +18,24 @@
 
 define([], function() {
     const itemIdentifier = {
-        uniqueNumericIdentifier: function uniqueNumericIdentifier() {
-            const dateString = Math.floor(Date.now() / 100000).toString().slice(0,7);
-            const randString = (Math.floor(Math.random() * 90) + 10).toString().slice(0, 2);
-            return dateString + randString;
-        },
-        defaultIdentifier: function defaultIdentifier(uri, qtiIdentifier) {
-            if (!uri || !qtiIdentifier) {
-                throw new Error('Missing uri or qtiIdentifier');
-            }
-            const pos = uri.lastIndexOf('#');
-            // identifier by default should be no more then 32
-            return uri.substring(pos + 1, pos + 1 + qtiIdentifier.maxQtiIdLength);
+      uniqueNumericIdentifier() {
+        const dateString = Math.floor(Date.now() / 100000)
+          .toString()
+          .slice(0, 7);
+        const randString = (Math.floor(Math.random() * 90) + 10)
+          .toString()
+          .slice(0, 2);
+        return dateString + randString;
+      },
+      defaultIdentifier(uri, qtiIdentifier) {
+        if (!uri || !qtiIdentifier) {
+          throw new Error("Missing uri or qtiIdentifier");
         }
-    }
+        const pos = uri.lastIndexOf("#");
+        // identifier by default should be no more then 32
+        return uri.substring(pos + 1, pos + 1 + qtiIdentifier.maxQtiIdLength);
+      },
+    };
 
     return itemIdentifier;
 });
