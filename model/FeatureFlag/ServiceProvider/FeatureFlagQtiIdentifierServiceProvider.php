@@ -25,8 +25,6 @@ namespace oat\taoQtiItem\model\FeatureFlag\ServiceProvider;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
-use oat\taoDeliverConnect\model\FeatureFlag\FeatureFlagClientConfigHandler;
-use oat\taoDeliverConnect\model\FeatureFlag\FeatureFlagQtiCreatorConfigHandler;
 use oat\taoQtiItem\model\FeatureFlag\UniqueNumericQtiIdentifierClientConfig;
 use oat\taoQtiItem\model\FeatureFlag\UniqueNumericQtiIdentifierQtiCreator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -41,12 +39,21 @@ class FeatureFlagQtiIdentifierServiceProvider implements ContainerServiceProvide
 
         $services
             ->set(UniqueNumericQtiIdentifierClientConfig::class)
-            ->public()
             ->args(
                 [
                     service(FeatureFlagChecker::class),
                 ]
-            );
+            )
+            ->public();
+
+        $services
+            ->set(UniqueNumericQtiIdentifierQtiCreator::class)
+            ->args(
+                [
+                    service(FeatureFlagChecker::class),
+                ]
+            )
+            ->public();
 
         $services->get(FeatureFlagConfigSwitcher::class)
             ->call(
