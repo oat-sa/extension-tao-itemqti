@@ -46,6 +46,6 @@ class UniqueNumericQtiIdentifierQtiCreator implements FeatureFlagConfigHandlerIn
     private function isEnabled(): bool
     {
         return $this->featureFlagChecker
-            ->isEnabled(UniqueNumericFeatureFlag::FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER);
+            ->isEnabled('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER');
     }
 }
