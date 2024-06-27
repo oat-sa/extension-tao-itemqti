@@ -960,7 +960,7 @@ class ImportService extends ConfigurableService
         return $this->getServiceManager()->getContainer()->get(UniqueNumericQtiIdentifierReplacer::class);
     }
 
-    private function replaceUniqueNumericQtiIdentifier(string $qtiXml)
+    private function replaceUniqueNumericQtiIdentifier(string $qtiXml): string
     {
         return $this->getUniqueNumericQtiIdentifierReplacer()->replace($qtiXml);
     }
