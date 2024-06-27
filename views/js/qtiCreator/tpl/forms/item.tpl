@@ -7,6 +7,7 @@
     <input type="text"
            name="identifier"
            value="{{identifier}}"
+           {{#if disableIdentifier}} disabled {{/if}}
            placeholder="e.g. my-item_123456"
            data-validate="$notEmpty; $qtiIdentifier(serial={{serial}}); $availableIdentifier(serial={{serial}});">
 
