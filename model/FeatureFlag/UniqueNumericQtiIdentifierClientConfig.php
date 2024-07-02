@@ -27,7 +27,7 @@ use oat\tao\model\featureFlag\FeatureFlagConfigHandlerInterface;
 
 class UniqueNumericQtiIdentifierClientConfig implements FeatureFlagConfigHandlerInterface
 {
-    public const QTI_ID_PATTERN = '/^\\d{9}$/';
+    public const QTI_ID_PATTERN = '/^[^\t\n\r]*$/';
     public function __construct(FeatureFlagCheckerInterface $featureFlagChecker)
     {
         $this->featureFlagChecker = $featureFlagChecker;
