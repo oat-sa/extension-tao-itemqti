@@ -24,15 +24,10 @@ define([
     'taoQtiItem/qtiItem/helper/itemScore',
     'core/dataProvider/request',
     'taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier',
-    'taoQtiItem/qtiCreator/helper/languages'
-], function ($, _, Loader, Item, qtiClasses, itemScoreHelper, request, qtiIdentifier, languages) {
+    'taoQtiItem/qtiCreator/helper/languages',
+    'taoQtiItem/qtiCreator/helper/itemIdentifier'
+], function ($, _, Loader, Item, qtiClasses, itemScoreHelper, request, qtiIdentifier, languages, itemIdentifier) {
     'use strict';
-    const _generateIdentifier = function _generateIdentifier(uri) {
-        const pos = uri.lastIndexOf('#');
-        // identifier by default should be no more then 32
-        return uri.substring(pos + 1, pos + 1 + qtiIdentifier.maxQtiIdLength);
-    };
-
     const decodeHtml = function (str) {
         const map = {
             '&amp;': '&',
@@ -116,7 +111,13 @@ define([
                             callback(loadedItem, this.getLoadedClasses());
                         });
                     } else {
-                        const newItem = new Item().id(_generateIdentifier(config.uri)).attr('title', config.label);
+                        let identifier;
+                        if (config.identifierGenerationStrategy === 'uniqueNumeric') {
+                            identifier = itemIdentifier.uniqueNumericIdentifier();
+                        } else {
+                            identifier = itemIdentifier.defaultIdentifier(config.uri, qtiIdentifier);
+                        }
+                        const newItem = new Item().id(identifier).attr('title', config.label);
 
                         newItem.createResponseProcessing();
 
