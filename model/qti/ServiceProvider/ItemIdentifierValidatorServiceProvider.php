@@ -51,14 +51,14 @@ class ItemIdentifierValidatorServiceProvider implements ContainerServiceProvider
             ->public()
             ->args(
                 [
+                    service(FeatureFlagChecker::class),
                     env(
                         sprintf(
                             'default:%s:%s',
                             ItemIdentifierValidator::DEFAULT_PATTERN_PARAMETER_NAME,
                             ItemIdentifierValidator::ENV_QTI_IDENTIFIER_VALIDATOR_PATTERN
                         )
-                    ),
-                    service(FeatureFlagChecker::class),
+                    )
                 ]
             );
     }

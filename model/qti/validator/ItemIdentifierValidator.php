@@ -39,7 +39,7 @@ class ItemIdentifierValidator
     private $pattern;
     private FeatureFlagChecker $featureFlagChecker;
 
-    public function __construct(string $pattern = self::DEFAULT_PATTERN, FeatureFlagChecker $featureFlagChecker)
+    public function __construct(FeatureFlagChecker $featureFlagChecker, string $pattern = self::DEFAULT_PATTERN)
     {
         $this->pattern = $pattern;
         $this->featureFlagChecker = $featureFlagChecker;
