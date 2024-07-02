@@ -38,8 +38,8 @@ class ItemIdentifierValidatorTest extends TestCase
         $this->item = $this->createMock(Item::class);
         $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
         $this->subject = new ItemIdentifierValidator(
+            $this->featureFlagChecker,
             '/^[a-zA-Z_]{1}[a-zA-Z0-9_\.-]*$/u',
-            $this->featureFlagChecker
         );
     }
 
