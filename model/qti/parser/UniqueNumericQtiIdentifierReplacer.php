@@ -38,7 +38,7 @@ class UniqueNumericQtiIdentifierReplacer
     }
     public function replace(string $qti): string
     {
-        if (!$this->featureFlagChecker->isEnabled(FeatureFlagChecker::FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER)) {
+        if (!$this->featureFlagChecker->isEnabled('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')) {
             return $qti;
         }
         $doc = $this->qtiXmlLoader->load($qti);

@@ -27,6 +27,7 @@ use oat\tao\model\featureFlag\FeatureFlagConfigHandlerInterface;
 
 class UniqueNumericQtiIdentifierClientConfig implements FeatureFlagConfigHandlerInterface
 {
+    public const QTI_ID_PATTERN = '/^[^\t\n\r]*$/';
     public function __construct(FeatureFlagCheckerInterface $featureFlagChecker)
     {
         $this->featureFlagChecker = $featureFlagChecker;
@@ -34,7 +35,7 @@ class UniqueNumericQtiIdentifierClientConfig implements FeatureFlagConfigHandler
     public function __invoke(array $configs): array
     {
         if ($this->isEnabled()) {
-            $configs['taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier']['qtiIdPattern'] = '/^\\d{9}$/';
+            $configs['taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier']['qtiIdPattern'] = self::QTI_ID_PATTERN;
             $configs['taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier']['invalidQtiIdMessage'] =
                 'The QTI identifier must be a 9-digit number.';
             $configs['taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier']['isDisabled'] = true;
