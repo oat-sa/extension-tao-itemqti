@@ -107,13 +107,15 @@ body.solar-design {
             }
         }
         .tooltip[role="tooltip"] {
-            line-height: 1.5;
-            font-size: var(--fontsize-body-xs);
             border-radius: 0;
             border: var(--border-thin) solid var(--feedback-info-border-color);
             background-color: var(--feedback-info-background);
             color: var(--form-color);
             padding: 8px 16px;
+            .tooltip-content {
+                line-height: 1.5;
+                font-size: var(--fontsize-body-xs);    
+            }
         }
         .item-editor-sidebar-wrapper {
             background: var(--form-background);
