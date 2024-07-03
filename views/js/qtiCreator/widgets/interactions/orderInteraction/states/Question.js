@@ -93,6 +93,7 @@ define([
             interaction.attr('minChoices', 0);
             interaction.attr('maxChoices', 0);
             $interaction.addClass('qti-single');
+            $interaction.removeClass('test-preview');
             deleteMinMax();
         }
 
