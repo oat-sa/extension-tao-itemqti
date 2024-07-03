@@ -123,11 +123,14 @@ define([
 
             itemCreator.on('saved', () => enablePreviewIfNotEmpty(this));
 
-            const createButton = ({id, label, title} = {}) => {
+            const createButton = ({ id, label, title } = {}) => {
+                // configured labels will need to to be registered elsewhere for the translations
+                const translate = text => text && __(text);
+
                 return $(buttonTpl({
                     icon: 'preview',
-                    title: title || __('Preview the item'),
-                    text : label || __('Preview'),
+                    title: translate(title) || __('Preview the item'),
+                    text : translate(label) || __('Preview'),
                     cssClass: 'preview-trigger',
                     testId: 'preview-the-item'
                 })).on('click', e => previewHandler(e, this, id))
