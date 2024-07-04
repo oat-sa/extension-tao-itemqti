@@ -55,9 +55,9 @@ define([
      * Handler for preview
      * @param {Object} e - Preview event fired
      * @param {Object} plugin - Context of preview
+     * @param {string} provider - The identifier of the preview provider to use
      */
     function previewHandler(e, plugin, provider) {
-        console.log(e, plugin, provider);
         if (!$(e.currentTarget).hasClass('disabled')) {
             const itemCreator = plugin.getHost();
             $(document).trigger('open-preview.qti-item');
