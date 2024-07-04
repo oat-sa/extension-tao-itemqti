@@ -1,4 +1,3 @@
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,8 +30,8 @@ define([
     'core/plugin',
     'ui/hider',
     'taoItems/previewer/factory',
-    'tpl!taoQtiItem/qtiCreator/plugins/button',
-], function(module, $, __, pluginFactory, hider, previewerFactory, buttonTpl){
+    'tpl!taoQtiItem/qtiCreator/plugins/button'
+], function (module, $, __, pluginFactory, hider, previewerFactory, buttonTpl) {
     'use strict';
 
     /**
@@ -58,7 +57,7 @@ define([
      * @param {Object} plugin - Context of preview
      */
     function previewHandler(e, plugin, provider) {
-        console.log(e, plugin, provider)
+        console.log(e, plugin, provider);
         if (!$(e.currentTarget).hasClass('disabled')) {
             const itemCreator = plugin.getHost();
             $(document).trigger('open-preview.qti-item');
@@ -93,14 +92,13 @@ define([
      * @returns {Function} the plugin
      */
     return pluginFactory({
-
-        name : 'preview',
+        name: 'preview',
 
         /**
          * Initialize the plugin (called during itemCreator's init)
          * @fires {itemCreator#preview}
          */
-        init(){
+        init() {
             const itemCreator = this.getHost();
             const config = module.config();
 
@@ -109,15 +107,20 @@ define([
              * @event itemCreator#preview
              * @param {String} uri - the uri of this item to preview
              */
-            itemCreator.on('preview', function(uri, provider) {
+            itemCreator.on('preview', function (uri, provider) {
                 const type = provider || config.provider || 'qtiItem';
 
                 if (!this.isEmpty()) {
-                    previewerFactory(type, uri, {}, {
-                        readOnly: false,
-                        fullPage: true,
-                        pluginsOptions: config.pluginsOptions
-                    });
+                    previewerFactory(
+                        type,
+                        uri,
+                        {},
+                        {
+                            readOnly: false,
+                            fullPage: true,
+                            pluginsOptions: config.pluginsOptions
+                        }
+                    );
                 }
             });
 
@@ -127,14 +130,16 @@ define([
                 // configured labels will need to to be registered elsewhere for the translations
                 const translate = text => text && __(text);
 
-                return $(buttonTpl({
-                    icon: 'preview',
-                    title: translate(title) || __('Preview the item'),
-                    text : translate(label) || __('Preview'),
-                    cssClass: 'preview-trigger',
-                    testId: 'preview-the-item'
-                })).on('click', e => previewHandler(e, this, id))
-            }
+                return $(
+                    buttonTpl({
+                        icon: 'preview',
+                        title: translate(title) || __('Preview the item'),
+                        text: translate(label) || __('Preview'),
+                        cssClass: 'preview-trigger',
+                        testId: 'preview-the-item'
+                    })
+                ).on('click', e => previewHandler(e, this, id));
+            };
 
             //creates the preview button
             this.elements = config.providers ? config.providers.map(createButton) : [createButton()];
@@ -147,7 +152,7 @@ define([
         /**
          * Initialize the plugin (called during itemCreator's render)
          */
-        render(){
+        render() {
             //attach the element to the menu area
             const $container = this.getAreaBroker().getMenuArea();
             if (this.getHost().isEmpty()) {
@@ -180,7 +185,7 @@ define([
         /**
          * Show the button
          */
-        show(){
+        show() {
             this.elements.forEach($element => hider.show($element));
         },
 
