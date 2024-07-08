@@ -24,6 +24,40 @@ define([
 ], function($) {
     'use strict';
 
+    /**
+     * Checks if element is broken into lines
+     * @param {JQuery} element 
+     * @returns {boolean}
+     */
+    function isTextBroken($element) {
+        const rects = $element[0].getClientRects();
+        return rects.length > 1;
+    }
+
+    /**
+     * Calculates positioning for tooltip
+     * @param {JQuery} $element 
+     * @returns {object}
+     */
+    function calculatePosition($element) {
+      const isRtl = getComputedStyle($element[0]).direction === 'rtl';
+      if(isTextBroken($element)) {
+        const target = $('<span></span>').css('width', '0');
+        $element.after(target);
+        return {
+          target,
+          my: 'top center',
+          at: `bottom ${isRtl ? 'left' : 'right'}`,          
+        }
+      }else{
+        return {
+          target: $element,
+          my: 'top center',
+          at: 'bottom center',
+        }
+      }
+    }
+  
     return {
         render: function render($container) {
             $container.find('[data-role="tooltip-target"]').each(function(){
@@ -37,17 +71,22 @@ define([
                     if ($content.length) {
                         contentHtml = $content.html();
 
+                        $target.attr('tabindex', 0);
+                        $target.on('keydown', (event) => {
+                            if (event.key === 'Escape' || event.keyCode === 27) {
+                                $target.qtip('hide');
+                            }
+                        });
+
                         $target.qtip({
                             overwrite: true,
                             theme: 'default',
                             content: {
                                 text: contentHtml
                             },
-                            position: {
-                                target: 'mouse',
-                                my: 'bottom center',
-                                at: 'top center'
-                            }
+                            position: calculatePosition($target),
+                            show: 'mouseover focus click',
+                            hide: 'mouseout blur',
                         });
                     }
                 }
