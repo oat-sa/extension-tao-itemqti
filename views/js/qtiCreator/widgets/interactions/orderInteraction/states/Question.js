@@ -80,7 +80,7 @@ define([
             });
         };
         
-        const deleteMinMax = () => {
+        const deleteMinMaxComponent = () => {
             $form.find('.min-max-panel').hide();
             if (minMaxComponent) {
                 minMaxComponent.destroy();
@@ -94,7 +94,12 @@ define([
             interaction.attr('maxChoices', 0);
             $interaction.addClass('qti-single');
             $interaction.removeClass('test-preview');
-            deleteMinMax();
+            const $choices = $choiceArea.children('.qti-choice');
+            if (!$choices.length) {
+                const $resultItems = $resultArea.children('.qti-choice');
+                $choiceArea.append($resultItems);
+            }
+            deleteMinMaxComponent();
         }
 
         const makeSortOrder = () => {
