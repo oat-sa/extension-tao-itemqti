@@ -249,14 +249,13 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
     {
         return '2p1';
     }
+
     private function injectMetadataToManifest($manifest, core_kernel_classes_Resource $item)
     {
-        if ($this->getFeatureFlagChecker()->isEnabled(MetadataLomService::FEATURE_FLAG)) {
-            $this->genericLomOntologyExtractor()->extract(
-                [$item],
-                $manifest
-            );
-        }
+        $this->genericLomOntologyExtractor()->extract(
+            [$item],
+            $manifest
+        );
     }
     private function genericLomOntologyExtractor(): GenericLomOntologyExtractor
     {
