@@ -33,6 +33,11 @@ class AddLabelInjectorForExport extends InstallAction
         $metadataService = $this->getServiceManager()->get(MetadataService::SERVICE_ID);
         $exportOption = $metadataService->getOption(MetadataService::EXPORTER_KEY);
         $extractors = $exportOption->getOption('extractors');
+
+        if (in_array(LabelBasedLomOntologyClassificationExtractor::class, $extractors)) {
+            return;
+        }
+
         $extractors[] = LabelBasedLomOntologyClassificationExtractor::class;
         $exportOption->setOption('extractors', $extractors);
         $metadataService->setOption(MetadataService::EXPORTER_KEY, $exportOption);
