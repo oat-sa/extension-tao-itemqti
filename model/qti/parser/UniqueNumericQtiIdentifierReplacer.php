@@ -25,16 +25,19 @@ namespace oat\taoQtiItem\model\qti\parser;
 use DOMXPath;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\taoQtiItem\helpers\QtiXmlLoader;
+use oat\taoQtiItem\model\qti\identifierGenerator\IdentifierGenerator;
 
 class UniqueNumericQtiIdentifierReplacer
 {
     private FeatureFlagChecker $featureFlagChecker;
     private QtiXmlLoader $qtiXmlLoader;
+    private IdentifierGenerator $identifierGenerator;
 
-    public function __construct(FeatureFlagChecker $featureFlagChecker, QtiXmlLoader $qtiXmlLoader)
+    public function __construct(FeatureFlagChecker $featureFlagChecker, QtiXmlLoader $qtiXmlLoader, IdentifierGenerator $identifierGenerator)
     {
         $this->featureFlagChecker = $featureFlagChecker;
         $this->qtiXmlLoader = $qtiXmlLoader;
+        $this->identifierGenerator = $identifierGenerator;
     }
     public function replace(string $qti): string
     {
@@ -48,19 +51,9 @@ class UniqueNumericQtiIdentifierReplacer
         $identifierNodes = $xpath->query('//qti:assessmentItem/@identifier');
 
         foreach ($identifierNodes as $identifierNode) {
-            $identifierNode->nodeValue = $this->getNumericIdentifier();
+            $identifierNode->nodeValue = $this->identifierGenerator->generate();
         }
 
         return $doc->saveXML();
-    }
-
-    /**
-     * This will return 9 digits unique numeric identifier base on time and random number
-     * i.e: 123456789
-     */
-    private function getNumericIdentifier(): string
-    {
-        return substr((string)floor(time() / 1000), 0, 7)
-            . substr((string)floor(mt_rand(10, 100)), 0, 2);
     }
 }

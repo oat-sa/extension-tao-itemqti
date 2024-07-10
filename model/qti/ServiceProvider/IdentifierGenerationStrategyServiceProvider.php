@@ -26,6 +26,8 @@ use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use common_ext_ExtensionsManager as ExtensionsManager;
 use oat\taoQtiItem\helpers\QtiXmlLoader;
+use oat\taoQtiItem\model\qti\identifierGenerator\IdentifierGenerator;
+use oat\taoQtiItem\model\qti\identifierGenerator\UniqueNumericQtiIdentifierGenerator;
 use oat\taoQtiItem\model\qti\parser\UniqueNumericQtiIdentifierReplacer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -42,10 +44,14 @@ class IdentifierGenerationStrategyServiceProvider implements ContainerServicePro
                 service(ExtensionsManager::SERVICE_ID)
             ]);
 
+        $services->set(IdentifierGenerator::class, UniqueNumericQtiIdentifierGenerator::class)
+            ->public();
+
         $services->set(UniqueNumericQtiIdentifierReplacer::class, UniqueNumericQtiIdentifierReplacer::class)
             ->args([
                 service(FeatureFlagChecker::class),
-                service(QtiXmlLoader::class)
+                service(QtiXmlLoader::class),
+                service(IdentifierGenerator::class)
             ])
             ->public();
     }

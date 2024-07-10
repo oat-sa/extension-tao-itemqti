@@ -22,11 +22,11 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\qti\parser;
 
-use DOMAttr;
 use DOMDocument;
 use DOMXPath;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\taoQtiItem\helpers\QtiXmlLoader;
+use oat\taoQtiItem\model\qti\identifierGenerator\IdentifierGenerator;
 use oat\taoQtiItem\model\qti\parser\UniqueNumericQtiIdentifierReplacer;
 use PHPUnit\Framework\TestCase;
 
@@ -36,15 +36,21 @@ class UniqueNumericQtiIdentifierReplacerTest extends TestCase
     {
         $this->featureFlagCheckerMock = $this->createMock(FeatureFlagChecker::class);
         $this->qtiXmlLoaderMock = $this->createMock(QtiXmlLoader::class);
+        $this->identifierGeneratorMock = $this->createMock(IdentifierGenerator::class);
 
         $this->subject = new UniqueNumericQtiIdentifierReplacer(
             $this->featureFlagCheckerMock,
-            $this->qtiXmlLoaderMock
+            $this->qtiXmlLoaderMock,
+            $this->identifierGeneratorMock
         );
     }
 
     public function testReplace(): void
     {
+        $this->identifierGeneratorMock
+            ->expects(self::once())
+            ->method('generate')
+            ->willReturn('123456789');
 
         $qti = file_get_contents(__DIR__ . '/qti.xml');
         $this->featureFlagCheckerMock->method('isEnabled')
@@ -72,6 +78,9 @@ class UniqueNumericQtiIdentifierReplacerTest extends TestCase
 
     public function testReplaceWhenFeatureFlagDisabled(): void
     {
+        $this->identifierGeneratorMock
+            ->expects($this->never())
+            ->method('generate');
 
         $qti = file_get_contents(__DIR__ . '/qti.xml');
         $this->featureFlagCheckerMock->method('isEnabled')
