@@ -41,21 +41,30 @@ define([
      */
     function calculatePosition($element) {
       const isRtl = getComputedStyle($element[0]).direction === 'rtl';
+      const shiftDownPx = 4;
+      let position;
+      
       if(isTextBroken($element)) {
         const target = $('<span></span>').css('width', '0');
         $element.after(target);
-        return {
+        position = {
           target,
-          my: 'top center',
-          at: `bottom ${isRtl ? 'left' : 'right'}`,          
+          my: `top ${isRtl ? 'right' : 'left'}`,
+          at: `bottom ${isRtl ? 'left' : 'right'}`,
         }
       }else{
-        return {
+        position = {
           target: $element,
           my: 'top center',
           at: 'bottom center',
         }
       }
+
+      position.adjust = {
+        y: shiftDownPx
+      }
+
+      return position;
     }
   
     return {
@@ -68,6 +77,7 @@ define([
 
                 if (contentId) {
                     $content = $container.find('#' + contentId);
+                    $content.attr('role', 'tooltip');
                     if ($content.length) {
                         contentHtml = $content.html();
 
