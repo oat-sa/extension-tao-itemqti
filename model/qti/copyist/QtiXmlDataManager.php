@@ -34,8 +34,10 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\taoQtiItem\helpers\QtiFile;
 use oat\oatbox\filesystem\File;
+use oat\taoQtiItem\model\qti\identifierGenerator\IdentifierGenerator;
 use tao_models_classes_FileNotFoundException;
 use taoItems_models_classes_ItemsService;
 
@@ -108,15 +110,13 @@ class QtiXmlDataManager extends ConfigurableService
     private function replaceFileContent(File $file, string $fromSourceId, string $toSourceId): void
     {
         if (preg_match('/' . QtiFile::FILE . '$/', $file->getBasename()) === 1) {
-            $replaceWith = $this->detectId($toSourceId);
-
             $xml = $file->read();
             $dom = new DOMDocument('1.0', 'UTF-8');
             if ($dom->loadXML($xml) === true) {
                 $assessmentItemNodes = $dom->getElementsByTagName('assessmentItem');
                 /** @var DOMElement $item */
                 foreach ($assessmentItemNodes as $item) {
-                    $item->setAttribute('identifier', $replaceWith);
+                    $item->setAttribute('identifier', $this->getQtiIdentifier($toSourceId));
                 }
             } else {
                 $this->logWarning('Qti.xml does not have a valid xml, identifier will not be replaced');
@@ -162,6 +162,15 @@ class QtiXmlDataManager extends ConfigurableService
         return $this->prefix;
     }
 
+    private function getQtiIdentifier(string $toSourceId): string
+    {
+        if ($this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')) {
+            return $this->getIdentifierGenerator()->generate();
+        }
+
+        return $this->detectId($toSourceId);
+    }
+
     /**
      * Get serializer to persist filesystem object
      *
@@ -170,5 +179,15 @@ class QtiXmlDataManager extends ConfigurableService
     protected function getFileReferenceSerializer(): FileReferenceSerializer
     {
         return $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagChecker
+    {
+        return $this->getServiceManager()->getContainer()->get(FeatureFlagChecker::class);
+    }
+
+    private function getIdentifierGenerator(): IdentifierGenerator
+    {
+        return $this->getServiceManager()->getContainer()->get(IdentifierGenerator::class);
     }
 }
