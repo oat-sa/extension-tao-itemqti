@@ -186,7 +186,7 @@ class QtiXmlDataManager extends ConfigurableService
         return $this->getServiceManager()->getContainer()->get(FeatureFlagChecker::class);
     }
 
-    private function getIdentifierGenerator()
+    private function getIdentifierGenerator(): IdentifierGenerator
     {
         return $this->getServiceManager()->getContainer()->get(IdentifierGenerator::class);
     }
