@@ -33,8 +33,11 @@ class UniqueNumericQtiIdentifierReplacer
     private QtiXmlLoader $qtiXmlLoader;
     private IdentifierGenerator $identifierGenerator;
 
-    public function __construct(FeatureFlagChecker $featureFlagChecker, QtiXmlLoader $qtiXmlLoader, IdentifierGenerator $identifierGenerator)
-    {
+    public function __construct(
+        FeatureFlagChecker $featureFlagChecker,
+        QtiXmlLoader $qtiXmlLoader,
+        IdentifierGenerator $identifierGenerator
+    ) {
         $this->featureFlagChecker = $featureFlagChecker;
         $this->qtiXmlLoader = $qtiXmlLoader;
         $this->identifierGenerator = $identifierGenerator;
