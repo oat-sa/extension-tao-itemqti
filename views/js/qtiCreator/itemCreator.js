@@ -71,13 +71,14 @@ define([
      * @param {String} label - the item label
      * @param {String} itemDataUrl - the data url
      * @param {Boolean} perInteractionRp - per interaction processing enabled
+     * @param {String} identifierGenerationStrategy - per interaction processing enabled
      *
      * @returns {Promise} that resolve with the loaded item model
      */
-    const loadItem = function loadItem(uri, label, itemDataUrl, perInteractionRp) {
+    const loadItem = function loadItem(uri, label, itemDataUrl, perInteractionRp, identifierGenerationStrategy) {
         return new Promise(function (resolve, reject) {
             itemLoader.loadItem(
-                { uri: uri, label: label, itemDataUrl: itemDataUrl, perInteractionRp },
+                { uri: uri, label: label, itemDataUrl: itemDataUrl, perInteractionRp, identifierGenerationStrategy },
                 function (item) {
                     if (!item) {
                         reject(new Error('Unable to load the item'));
@@ -240,7 +241,8 @@ define([
                     config.properties.uri,
                     config.properties.label,
                     config.properties.itemDataUrl,
-                    config.properties.perInteractionRp
+                    config.properties.perInteractionRp,
+                    config.properties.identifierGenerationStrategy
                 )
                     .then(function (item) {
                         if (!_.isObject(item)) {

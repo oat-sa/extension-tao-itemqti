@@ -23,10 +23,12 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\qti\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\taoQtiItem\model\qti\validator\ItemIdentifierValidator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class ItemIdentifierValidatorServiceProvider implements ContainerServiceProviderInterface
 {
@@ -49,6 +51,7 @@ class ItemIdentifierValidatorServiceProvider implements ContainerServiceProvider
             ->public()
             ->args(
                 [
+                    service(FeatureFlagChecker::class),
                     env(
                         sprintf(
                             'default:%s:%s',
