@@ -24,6 +24,8 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\qti\validator;
 
 use common_exception_Error;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\taoQtiItem\model\FeatureFlag\UniqueNumericQtiIdentifierClientConfig;
 use oat\taoQtiItem\model\qti\Item;
 
 class ItemIdentifierValidator
@@ -35,10 +37,12 @@ class ItemIdentifierValidator
 
     /** @var string */
     private $pattern;
+    private FeatureFlagChecker $featureFlagChecker;
 
-    public function __construct(string $pattern = self::DEFAULT_PATTERN)
+    public function __construct(FeatureFlagChecker $featureFlagChecker, string $pattern = self::DEFAULT_PATTERN)
     {
         $this->pattern = $pattern;
+        $this->featureFlagChecker = $featureFlagChecker;
     }
 
     /**
@@ -46,9 +50,16 @@ class ItemIdentifierValidator
      */
     public function validate(Item $item): void
     {
-        //validate assessmentItem identifier
+        $this->overrideEnvironmentVariablePattern();
         if (preg_match($this->pattern, $item->getAttributeValue('identifier')) !== 1) {
             throw new common_exception_Error("The item identifier is not valid");
+        }
+    }
+
+    private function overrideEnvironmentVariablePattern(): void
+    {
+        if ($this->featureFlagChecker->isEnabled('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')) {
+            $this->pattern = UniqueNumericQtiIdentifierClientConfig::QTI_ID_PATTERN;
         }
     }
 }

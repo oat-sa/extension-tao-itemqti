@@ -15,50 +15,58 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2024 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\qti\ServiceProvider;
+namespace oat\taoQtiItem\model\FeatureFlag\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
-use oat\taoQtiItem\model\qti\validator\ItemIdentifierValidator;
+use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
+use oat\taoQtiItem\model\FeatureFlag\UniqueNumericQtiIdentifierClientConfig;
+use oat\taoQtiItem\model\FeatureFlag\UniqueNumericQtiIdentifierQtiCreator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
-class ItemIdentifierValidatorServiceProvider implements ContainerServiceProviderInterface
+class FeatureFlagQtiIdentifierServiceProvider implements ContainerServiceProviderInterface
 {
     public function __invoke(ContainerConfigurator $configurator): void
     {
         $services = $configurator->services();
-        $parameters = $configurator->parameters();
 
-        /**
-         * Please specify the QTI Identifier Validator Pattern that will be used to validate the item identifier
-         * Ex: /^[a-zA-Z_]{1}[a-zA-Z0-9_-]*$/u
-         * The Default is /^[a-zA-Z_]{1}[a-zA-Z0-9_\.-]*$/u
-         */
-        $parameters->set(
-            ItemIdentifierValidator::DEFAULT_PATTERN_PARAMETER_NAME,
-            ItemIdentifierValidator::DEFAULT_PATTERN
-        );
-
-        $services->set(ItemIdentifierValidator::class, ItemIdentifierValidator::class)
-            ->public()
+        $services
+            ->set(UniqueNumericQtiIdentifierClientConfig::class)
             ->args(
                 [
                     service(FeatureFlagChecker::class),
-                    env(
-                        sprintf(
-                            'default:%s:%s',
-                            ItemIdentifierValidator::DEFAULT_PATTERN_PARAMETER_NAME,
-                            ItemIdentifierValidator::ENV_QTI_IDENTIFIER_VALIDATOR_PATTERN
-                        )
-                    )
+                ]
+            )
+            ->public();
+
+        $services
+            ->set(UniqueNumericQtiIdentifierQtiCreator::class)
+            ->args(
+                [
+                    service(FeatureFlagChecker::class),
+                ]
+            )
+            ->public();
+
+        $services->get(FeatureFlagConfigSwitcher::class)
+            ->call(
+                'addClientConfigHandler',
+                [
+                    UniqueNumericQtiIdentifierClientConfig::class,
+                ]
+            )->call(
+                'addExtensionConfigHandler',
+                [
+                    'taoQtiItem',
+                    'qtiCreator',
+                    UniqueNumericQtiIdentifierQtiCreator::class
                 ]
             );
     }
