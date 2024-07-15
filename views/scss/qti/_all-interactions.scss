@@ -12,4 +12,10 @@
     }
 }
 
-
+.__custom__remove-instructions, .remove-instructions {
+    .qti-interaction {
+        .instruction-container {
+            display: none;
+        }
+    }
+}
