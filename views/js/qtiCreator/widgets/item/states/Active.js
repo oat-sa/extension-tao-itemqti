@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2014-2024 (original work) Open Assessment Technologies SA ;
  *
  */
 define([
@@ -39,7 +39,7 @@ define([
             const $itemBody = _widget.$container.find('.qti-itemBody');
 
             const showIdentifier = features.isVisible('taoQtiItem/creator/item/property/identifier');
-            const disableIdentifier = qtiIdentifier.isDisabled
+            const disableIdentifier = qtiIdentifier.isDisabled;
 
             //build form:
             $form.html(
@@ -69,20 +69,17 @@ define([
                 timeDependent: formElement.getAttributeChangeCallback(),
                 'xml:lang': function langChange(i, lang) {
                     item.attr('xml:lang', lang);
-                    languages
-                        .isRTLbyLanguageCode(lang)
-                        .then((isRTL) => {
-                            if (isRTL) {
-                                item.bdy.attr('dir', 'rtl');
-                                $itemBody.attr('dir', 'rtl');
-                            } else {
-                                item.bdy.removeAttr('dir');
-                                $itemBody.removeAttr('dir');
-                            }
-
-                            $itemBody.trigger('item-dir-changed');
+                    languages.isRTLbyLanguageCode(lang).then(isRTL => {
+                        if (isRTL) {
+                            item.bdy.attr('dir', 'rtl');
+                            $itemBody.attr('dir', 'rtl');
+                        } else {
+                            item.bdy.removeAttr('dir');
+                            $itemBody.removeAttr('dir');
                         }
-                    );
+
+                        $itemBody.trigger('item-dir-changed');
+                    });
                 }
             });
 
