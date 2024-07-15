@@ -31,9 +31,12 @@ use oat\taoQtiItem\model\qti\CustomInteractionAsset\ServiceProvider\{
     CustomInteractionAssetExtractorAllocatorServiceProvider
 };
 use oat\taoQtiItem\model\FeatureFlag\ServiceProvider\FeatureFlagFlaServiceProvider;
+use oat\taoQtiItem\model\FeatureFlag\ServiceProvider\FeatureFlagQtiIdentifierServiceProvider;
 use oat\taoQtiItem\model\qti\metadata\importer\MetaMetadataServiceProvider;
+use oat\taoQtiItem\model\qti\ServiceProvider\IdentifierGenerationStrategyServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\ItemIdentifierValidatorServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\MetadataServiceProvider;
+use oat\taoQtiItem\scripts\install\AddLabelInjectorForExport;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\ItemEventRegister;
 use oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist;
@@ -89,7 +92,8 @@ return [
             RegisterItemCompilerBlacklist::class,
             RegisterNpmPaths::class,
             ExtendConfigurationRegistry::class,
-            SetupQtiMetadataImportExportService::class
+            SetupQtiMetadataImportExportService::class,
+            AddLabelInjectorForExport::class
         ]
     ],
     'local' => [
@@ -202,6 +206,8 @@ return [
         FeatureFlagFlaServiceProvider::class,
         ItemIdentifierValidatorServiceProvider::class,
         MetadataServiceProvider::class,
-        MetaMetadataServiceProvider::class
+        MetaMetadataServiceProvider::class,
+        IdentifierGenerationStrategyServiceProvider::class,
+        FeatureFlagQtiIdentifierServiceProvider::class,
     ],
 ];

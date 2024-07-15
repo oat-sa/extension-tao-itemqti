@@ -74,13 +74,7 @@ class QtiPackageImport implements
      */
     public function getForm()
     {
-        $form = new QtiPackageImportForm(
-            [],
-            [
-                self::DISABLED_ELEMENTS => $this->getDisabledElements(),
-            ]
-        );
-
+        $form = new QtiPackageImportForm();
         return $form->getForm();
     }
 
@@ -166,18 +160,5 @@ class QtiPackageImport implements
             ],
             $this->getDefaultTaskParameters($form)
         );
-    }
-    private function getFeatureFlagChecker(): FeatureFlagChecker
-    {
-        return $this->serviceLocator->getContainer()->get(FeatureFlagChecker::class);
-    }
-
-    private function getDisabledElements(): array
-    {
-        $disabledElements = [];
-        if (!$this->getFeatureFlagChecker()->isEnabled(MetadataLomService::FEATURE_FLAG)) {
-            $disabledElements[] = self::METADATA_IMPORT_ELEMENT_NAME;
-        }
-        return $disabledElements;
     }
 }

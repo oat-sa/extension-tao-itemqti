@@ -106,20 +106,11 @@ class QtiPackageImportForm extends tao_helpers_form_FormContainer
         $rollbackElt->setOptions(['error' => __('error'), 'warning' => __('warning')]);
         $rollbackElt->setDescription(__('Rollback on...'));
         $this->form->addElement($rollbackElt);
-
-        //Check if value is set in array
-        if (
-            !in_array(
-                QtiPackageImport::METADATA_IMPORT_ELEMENT_NAME,
-                $this->options[QtiPackageImport::DISABLED_ELEMENTS]
-            )
-        ) {
-            $metadataImport = tao_helpers_form_FormFactory::getElement(self::METADATA_FORM_ELEMENT_NAME, 'Checkbox');
-            $metadataImport->setOptions(['metadata' => __('QTI metadata as properties')]);
-            $metadataImport->setDescription(__('Import'));
-            $metadataImport->setLevel(1);
-            $this->form->addElement($metadataImport);
-        }
+        $metadataImport = tao_helpers_form_FormFactory::getElement(self::METADATA_FORM_ELEMENT_NAME, 'Checkbox');
+        $metadataImport->setOptions(['metadata' => __('QTI metadata as properties')]);
+        $metadataImport->setDescription(__('Import'));
+        $metadataImport->setLevel(1);
+        $this->form->addElement($metadataImport);
 
         $this->form->createGroup(
             'file',
