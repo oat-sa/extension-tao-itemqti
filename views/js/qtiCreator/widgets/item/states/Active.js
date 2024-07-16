@@ -29,6 +29,13 @@ define([
 ], function (_, features, languages, stateFactory, Active, formTpl, formElement, qtiIdentifier) {
     'use strict';
 
+    // These classes are supported for removing the instructions.
+    // Therefore, they are verified for checking the related option.
+    const removeInstructionClasses = ['remove-instructions', '__custom__remove-instructions'];
+
+    // This class will be set for removing the instructions
+    const removeInstructionClass = 'remove-instructions';
+
     const ItemStateActive = stateFactory.create(
         Active,
         function enterActiveState() {
@@ -41,6 +48,12 @@ define([
             const showIdentifier = features.isVisible('taoQtiItem/creator/item/property/identifier');
             const disableIdentifier = qtiIdentifier.isDisabled;
 
+            const itemElements = [$itemBody, item];
+            const itemHasClass = classes => classes.some(cls => $itemBody.hasClass(cls));
+            const itemAddClass = cls => itemElements.forEach(el => el.addClass(cls));
+            const itemRemoveClass = cls => itemElements.forEach(el => el.removeClass(cls));
+            const itemRemoveClasses = classes => classes.forEach(itemRemoveClass);
+
             //build form:
             $form.html(
                 formTpl({
@@ -50,6 +63,8 @@ define([
                     title: item.attr('title'),
                     timeDependent: !!item.attr('timeDependent'),
                     showTimeDependent: features.isVisible('taoQtiItem/creator/item/property/timeDependant'),
+                    removeInstructions: itemHasClass(removeInstructionClasses),
+                    showRemoveInstructions: true,
                     'xml:lang': item.attr('xml:lang'),
                     languagesList: item.data('languagesList'),
                     disableIdentifier
@@ -67,6 +82,13 @@ define([
                     areaBroker.getTitleArea().text(item.attr('title'));
                 },
                 timeDependent: formElement.getAttributeChangeCallback(),
+                removeInstructions(i, value) {
+                    if (value) {
+                        itemAddClass(removeInstructionClass);
+                    } else {
+                        itemRemoveClasses(removeInstructionClasses);
+                    }
+                },
                 'xml:lang': function langChange(i, lang) {
                     item.attr('xml:lang', lang);
                     languages.isRTLbyLanguageCode(lang).then(isRTL => {
