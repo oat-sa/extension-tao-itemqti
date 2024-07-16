@@ -25,13 +25,19 @@ define([
     'use strict';
 
     /**
-     * Checks if element is broken into lines
-     * @param {JQuery} element 
-     * @returns {boolean}
+     * Checks if the text in the element is broken into multiple lines using Range API.
+     *
+     * @param {JQuery} $element - The jQuery-wrapped element to check.
+     * @returns {boolean} - True if the text is broken into multiple lines, otherwise false.
      */
     function isTextBroken($element) {
-        const rects = $element[0].getClientRects();
-        return rects.length > 1;
+        const $lineMeasureSpan = $('<span></span>').css('width', '0');
+        $element.before($lineMeasureSpan);
+        const lineHeight = $lineMeasureSpan[0].getBoundingClientRect().height;
+        const lineBroken = $element[0].getBoundingClientRect().height > lineHeight;
+        $lineMeasureSpan.remove();
+        return lineBroken;
+
     }
 
     /**
@@ -70,10 +76,14 @@ define([
     return {
         render: function render($container) {
             $container.find('[data-role="tooltip-target"]').each(function(){
-                var $target = $(this),
-                    $content,
-                    contentHtml,
-                    contentId = $target.attr('aria-describedBy');
+
+                const $target = $(this);
+                const tooltipScaleFactor = 0.75;
+                const contentId = $target.attr('aria-describedBy');
+                
+                
+                let $content;
+                let contentHtml;
 
                 if (contentId) {
                     $content = $container.find('#' + contentId);
@@ -97,6 +107,15 @@ define([
                             position: calculatePosition($target),
                             show: 'mouseover focus click',
                             hide: 'mouseout blur',
+                            events: {
+                                render: function(event, api) {
+                                    const $tooltip = api.elements.tooltip;
+                                    $tooltip.bind('tooltipshow', function(event, api) {
+                                        const targetFontSizePx = parseInt(api.elements.target.css('font-size'), 10);
+                                        $tooltip.css('font-size', targetFontSizePx * tooltipScaleFactor);
+                                    })
+                                }
+                            }
                         });
                     }
                 }
