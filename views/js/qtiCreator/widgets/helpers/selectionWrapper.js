@@ -206,9 +206,9 @@ define(['jquery'], function ($) {
                     nextSibling = currentNode.childNodes[0];
                 } else if (currentNode.nextSibling) {
                     nextSibling = currentNode.nextSibling;
-                } else if (currentNode.parentNode?.nextSibling) {
+                } else if (currentNode.parentNode && currentNode.parentNode.nextSibling) {
                     nextSibling = currentNode.parentNode.nextSibling;
-                } else if (currentNode.parentNode?.parentNode) {
+                } else if (currentNode.parentNode && currentNode.parentNode.parentNode) {
                     return getNextTextSibling(currentNode.parentNode.parentNode, true);
                 }
                 if (nextSibling && nextSibling.nodeType !== Node.TEXT_NODE) {
