@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016-2024 (original work) Open Assessment Technologies SA;
  */
 define([
     'jquery',
@@ -31,7 +31,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/selectionWrapper',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/hottext',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/hottext-create'
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/hottext-create',
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/hottext-create-separated'
 ], function (
     $,
     _,
@@ -48,7 +49,8 @@ define([
     selectionWrapper,
     formTpl,
     toolbarTpl,
-    newHottextBtnTpl
+    newHottextBtnTpl,
+    newHottextSeparatedBtnTpl
 ) {
     'use strict';
 
@@ -115,6 +117,39 @@ define([
         $flowContainer.find('.mini-tlb[data-role=cke-launcher-tlb]').remove();
     };
 
+    HottextInteractionStateQuestion.prototype.validateAndCreateHottext =
+        async function validateAndCreateHottext({
+            wrapper,
+            clone: $newHottextClone,
+            content: $cloneContent,
+            range,
+        }) {
+            if ($cloneContent.find("p").length) {
+                feedback().error(
+                    __("Cannot create hottext from this selection. Please make sure the selection does not contain multiple lines.")
+                );
+                return;
+            }
+            if (!config.disallowHTMLInHottext) {
+                if (wrapper.wrapHTMLWith($newHottextClone, range)) {
+                    await this.createNewHottext($newHottextClone);
+                } else {
+                    feedback().error(__("Cannot create hottext from this selection."));
+                }
+            } else {
+                if (
+                    $cloneContent.text() === $cloneContent.html() &&
+                    wrapper.wrapWith($newHottextClone)
+                ) {
+                    await this.createNewHottext($newHottextClone);
+                } else {
+                    feedback().error(
+                        __("Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words.")
+                    );
+                }
+            }
+        };
+
     HottextInteractionStateQuestion.prototype.initForm = function initForm() {
         const widget = this.widget;
         const $form = widget.$form;
@@ -151,6 +186,7 @@ define([
             $flowContainer = interactionWidget.$container.find('.qti-flow-container'),
             $toolbar = $flowContainer.find('.mini-tlb[data-role=cke-launcher-tlb]'),
             $newHottextBtn = $(newHottextBtnTpl()),
+            $newHottextSeparatedBtn = $(newHottextSeparatedBtnTpl()),
             $newHottext = $('<span>', {
                 class: 'widget-box',
                 'data-new': true,
@@ -162,47 +198,52 @@ define([
                 whiteListQtiClasses: !config.disallowHTMLInHottext ? allowedInlineStaticElts : []
             });
 
+        $toolbar.append($newHottextSeparatedBtn);
         $toolbar.append($newHottextBtn);
         $newHottextBtn.hide();
+        $newHottextSeparatedBtn.hide();
 
         $editable
             .on('mouseup.hottextcreator', function () {
                 if (wrapper.canWrap()) {
                     $newHottextBtn.show();
+                    if (wrapper.isMultipleSelection()) {
+                        $newHottextSeparatedBtn.show();
+                    }
                 } else {
                     $newHottextBtn.hide();
+                    $newHottextSeparatedBtn.hide();
                 }
             })
             .on('blur.hottextcreator', function () {
                 $newHottextBtn.hide();
+                $newHottextSeparatedBtn.hide();
             });
 
-        $newHottextBtn.on('mousedown.hottextcreator', () => {
+        $newHottextBtn.on('mousedown.hottextcreator', async () => {
+            $newHottextBtn.hide();
             $newHottextBtn.hide();
             const $newHottextClone = $newHottext.clone();
             const $cloneContent = wrapper.getCloneOfContents();
-            if ($cloneContent.find('p').length) {
-                feedback().error(
-                    __('Cannot create hottext from this selection. Please make sure the selection does not contain multiple lines.')
-                );
-                return;
-            }
-            if (!config.disallowHTMLInHottext) {
-                if (wrapper.wrapHTMLWith($newHottextClone)) {
-                    this.createNewHottext($newHottextClone);
-                } else {
-                    feedback().error(
-                        __('Cannot create hottext from this selection.')
-                    );
-                }
-            } else {
-                if ($cloneContent.text() === $cloneContent.html() && wrapper.wrapWith($newHottextClone)) {
-                    this.createNewHottext($newHottextClone);
-                } else {
-                    feedback().error(
-                        __('Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words.')
-                    );
-                }
+            await this.validateAndCreateHottext({
+                wrapper,
+                clone: $newHottextClone,
+                content: $cloneContent,
+            });
+        });
+
+        $newHottextSeparatedBtn.on('mousedown.hottextcreator', async () => {
+            $newHottextSeparatedBtn.hide();
+            const cloneContentBatch = wrapper.getCloneOfContentsInBatch();
+            for (const content of cloneContentBatch) {
+                const { node: $cloneContent, range } = content;
+                const $newHottextClone = $newHottext.clone();
+                await this.validateAndCreateHottext({
+                  wrapper,
+                  clone: $newHottextClone,
+                  content: $cloneContent,
+                  range,
+                });
             }
         });
     };
@@ -211,12 +252,16 @@ define([
      * Create a new hottext
      * @param {JQueryElement} $hottextContent - content of the hottext. May contain plain text and html if not disallowed by flag disallowHTMLInHottext
      */
-    HottextInteractionStateQuestion.prototype.createNewHottext = function createNewHottext($hottextContent) {
+    HottextInteractionStateQuestion.prototype.createNewHottext = async function createNewHottext($hottextContent) {
         const interactionWidget = this.widget,
             interaction = interactionWidget.element,
             $editable = interactionWidget.$container.find('.qti-flow-container [data-html-editable]');
 
         let $inlineStaticWidgets, newHottextElt, newHottextBody;
+        let resolveCreateNewHottext;
+        const onceCreatingFinished = new Promise(resolve => {
+            resolveCreateNewHottext = resolve;
+        });
 
         htmlContentHelper.createElements(
             interaction.getBody(),
@@ -271,8 +316,10 @@ define([
                     // trigger create event
                     $(document).trigger('choiceCreated.qti-widget', {interaction});
                 }
+                resolveCreateNewHottext();
             }
         );
+        return onceCreatingFinished;
     };
 
     return HottextInteractionStateQuestion;

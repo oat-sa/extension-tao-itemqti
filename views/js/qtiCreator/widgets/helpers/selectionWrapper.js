@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016-2024 (original work) Open Assessment Technologies SA;
  */
 /**
  * @author Christophe Noël <christophe@taotesting.com>
@@ -111,20 +111,20 @@ define(['jquery'], function ($) {
              * Can the content of the active selection be wrapped?
              * @returns {boolean|*}
              */
-            canWrap: function canWrap() {
-                const range = !selection.isCollapsed && selection.getRangeAt(0);
-                if (range && isInRuby(range.startContainer)) {
+            canWrap: function canWrap(providedRange) {
+                const range = providedRange || selection.getRangeAt(0);
+                if (!range) {
                     return false;
                 }
-                if (range) {
-                    containForbiddenQtiElement = false;
-                    if (!allowQtiElements) {
-                        searchQtiElement(range.cloneContents());
-                    }
-
-                    return range.toString().trim() !== '' && isRangeValid(range) && !containForbiddenQtiElement;
+                if (range.isCollapsed || isInRuby(range.startContainer)) {
+                    return false;
                 }
-                return false;
+                containForbiddenQtiElement = false;
+                if (!allowQtiElements) {
+                    searchQtiElement(range.cloneContents());
+                }
+
+                return range.toString().trim() !== '' && isRangeValid(range) && !containForbiddenQtiElement;
             },
 
             /**
@@ -157,14 +157,16 @@ define(['jquery'], function ($) {
              * @param {jQuery} $wrapper - the element that will wrap the selection
              * @returns {boolean}
              */
-            wrapHTMLWith: function wrapWith($wrapper) {
-                const range = selection.getRangeAt(0);
+            wrapHTMLWith: function wrapWith($wrapper, providedRange) {
+                const range = providedRange || selection.getRangeAt(0);
 
-                if (this.canWrap()) {
+                if (this.canWrap(range)) {
                     try {
                         $wrapper[0].appendChild(range.extractContents());
                         range.insertNode($wrapper[0]);
-                        selection.removeAllRanges();
+                        if (!providedRange) {
+                            selection.removeAllRanges();
+                        }
                         return true;
                     } catch (err) {
                         // this happens when wrapping of partially selected nodes is attempted, which would result in an invalid markup
@@ -175,7 +177,19 @@ define(['jquery'], function ($) {
             },
 
             /**
-             * Return span with selected fragment
+             * Returns true if the current selection is a multiple selection, false otherwise
+             *
+             * @returns {boolean}
+             */
+            isMultipleSelection: function isMultipleSelection() {
+                const words = selection
+                  .toString()
+                  ?.replace(/(\r\n|\n|\r)/g, " ")
+                  ?.split(/\s+/)?.length;
+                return words && words > 1;
+            },
+            /**
+             * Returns span with selected fragment
              *
              * @returns {JQueryElement}
              */
@@ -183,6 +197,96 @@ define(['jquery'], function ($) {
                 const range = selection.getRangeAt(0);
                 return $('<span>').append(range.cloneContents());
             },
+            /**
+             * Returns next text node sibling
+             *
+             * @returns {Node}
+             */
+            getNextTextSibling: function getNextTextSibling(currentNode, isParent = false) {
+                let nextSibling = null;
+                if (currentNode.childNodes.length > 0 && !isParent) {
+                    nextSibling = currentNode.childNodes[0];
+                } else if (currentNode.nextSibling) {
+                    nextSibling = currentNode.nextSibling;
+                } else if (currentNode.parentNode?.nextSibling) {
+                    nextSibling = currentNode.parentNode.nextSibling;
+                } else if (currentNode.parentNode?.parentNode) {
+                    return getNextTextSibling(currentNode.parentNode.parentNode, true);
+                }
+                if (nextSibling && nextSibling.nodeType !== Node.TEXT_NODE) {
+                    return getNextTextSibling(nextSibling);
+                }
+                return nextSibling;
+            },
+            /**
+             * Returns an array of objects with selected fragments and it's ranges
+             *
+             * @returns {Array}
+             */
+            getCloneOfContentsInBatch: function getCloneOfContentsInBatch() {
+                const selection = window.getSelection();
+                const range = selection.getRangeAt(0);
+                const text = selection.toString().replace(/(\r\n|\n|\r)/g, ' ');
+                const words = text.split(/\s+/).filter(Boolean);
+                const results = [];
+                let startOffset = range.startOffset;
+                let currentNode = range.startContainer;
+            
+                words.forEach(word => {
+                    let wordLength = word.length;
+                    let remainingLength = wordLength;
+                    let wordRange = document.createRange();
+                    let rollover = false;
+                    
+                    while (currentNode && remainingLength > 0) {
+                        if (currentNode.nodeType === Node.TEXT_NODE) {
+                            if (currentNode.textContent.trim().length === 0) {
+                                currentNode = this.getNextTextSibling(currentNode);
+                                continue;
+                            }
+                            const nextTextPart = currentNode.textContent.slice(startOffset);
+                            const match = nextTextPart.match(/^[ \xA0]*/);
+                            const spaces = match[0].length;
+                            startOffset += spaces;
+                            if (!rollover) {
+                                wordRange.setStart(currentNode, startOffset);
+                            }
+                            const currentNodeText = currentNode.textContent.replace(/\s+$/, '');
+                            let currentNodeLength = currentNodeText.length - startOffset;
+                            let takeLength = Math.min(remainingLength, currentNodeLength);
+                            remainingLength -= takeLength;
+            
+                            if (currentNodeLength === takeLength) {
+                                if (remainingLength > 0) {
+                                    currentNode = this.getNextTextSibling(currentNode);
+                                    startOffset = 0;
+                                    rollover = true;
+                                    continue;
+                                }
+                                wordRange.setEnd(currentNode, startOffset + takeLength);
+                                currentNode = this.getNextTextSibling(currentNode);
+                                startOffset = 0;
+                                rollover = false;
+                            } else {
+                                wordRange.setEnd(currentNode, startOffset + takeLength);
+                                startOffset += takeLength;
+                                rollover = false;
+                            }
+                        } else {
+                            currentNode = this.getNextTextSibling(currentNode);
+                        }
+                    }
+            
+                    if (!currentNode && remainingLength > 0) {
+                        throw new Error('Reached the end of the document while processing words');
+                    }
+            
+                    results.push({ node: $('<span>').append(wordRange.cloneContents()), range: wordRange });
+                });
+            
+                return results;
+            }
+            
         };
     };
 });
