@@ -182,11 +182,9 @@ define(['jquery'], function ($) {
              * @returns {boolean}
              */
             isMultipleSelection: function isMultipleSelection() {
-                const words = selection
-                  .toString()
-                  ?.replace(/(\r\n|\n|\r)/g, " ")
-                  ?.split(/\s+/)?.length;
-                return words && words > 1;
+                const selectionText = selection.toString().replace(/(\r\n|\n|\r)/g, " ");
+                const words = selectionText.split(/\s+/).length;
+                return words > 1;
             },
             /**
              * Returns span with selected fragment
