@@ -32,7 +32,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/hottext',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/htmlEditorTrigger',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/hottext-create',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/hottext-create-separated'
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/hottext-create-multiple'
 ], function (
     $,
     _,
@@ -50,7 +50,7 @@ define([
     formTpl,
     toolbarTpl,
     newHottextBtnTpl,
-    newHottextSeparatedBtnTpl
+    newHottextMultipleBtnTpl
 ) {
     'use strict';
 
@@ -186,7 +186,7 @@ define([
             $flowContainer = interactionWidget.$container.find('.qti-flow-container'),
             $toolbar = $flowContainer.find('.mini-tlb[data-role=cke-launcher-tlb]'),
             $newHottextBtn = $(newHottextBtnTpl()),
-            $newHottextSeparatedBtn = $(newHottextSeparatedBtnTpl()),
+            $newHottextMultipleBtn = $(newHottextMultipleBtnTpl()),
             $newHottext = $('<span>', {
                 class: 'widget-box',
                 'data-new': true,
@@ -198,30 +198,29 @@ define([
                 whiteListQtiClasses: !config.disallowHTMLInHottext ? allowedInlineStaticElts : []
             });
 
-        $toolbar.append($newHottextSeparatedBtn);
+        $toolbar.append($newHottextMultipleBtn);
         $toolbar.append($newHottextBtn);
         $newHottextBtn.hide();
-        $newHottextSeparatedBtn.hide();
+        $newHottextMultipleBtn.hide();
 
         $editable
             .on('mouseup.hottextcreator', function () {
                 if (wrapper.canWrap()) {
                     $newHottextBtn.show();
                     if (wrapper.isMultipleSelection()) {
-                        $newHottextSeparatedBtn.show();
+                        $newHottextMultipleBtn.show();
                     }
                 } else {
                     $newHottextBtn.hide();
-                    $newHottextSeparatedBtn.hide();
+                    $newHottextMultipleBtn.hide();
                 }
             })
             .on('blur.hottextcreator', function () {
                 $newHottextBtn.hide();
-                $newHottextSeparatedBtn.hide();
+                $newHottextMultipleBtn.hide();
             });
 
         $newHottextBtn.on('mousedown.hottextcreator', async () => {
-            $newHottextBtn.hide();
             $newHottextBtn.hide();
             const $newHottextClone = $newHottext.clone();
             const $cloneContent = wrapper.getCloneOfContents();
@@ -232,8 +231,8 @@ define([
             });
         });
 
-        $newHottextSeparatedBtn.on('mousedown.hottextcreator', async () => {
-            $newHottextSeparatedBtn.hide();
+        $newHottextMultipleBtn.on('mousedown.hottextcreator', async () => {
+            $newHottextMultipleBtn.hide();
             const cloneContentBatch = wrapper.getCloneOfContentsInBatch();
             for (const content of cloneContentBatch) {
                 const { node: $cloneContent, range } = content;
