@@ -1222,7 +1222,7 @@ img.dragging.ui-draggable-dragging {
         .mini-tlb {
             right: -31px !important;
 
-            &:has(div.separate:not([style*="display: none"])) {
+            &:has(div.multiple:not([style*="display: none"])) {
                 right: -58px !important;
             }
             & > div:nth-last-child(2) {
