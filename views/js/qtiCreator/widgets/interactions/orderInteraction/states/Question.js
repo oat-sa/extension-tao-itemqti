@@ -97,7 +97,7 @@ define([
             const $choices = $choiceArea.children('.qti-choice');
             if (!$choices.length) {
                 const $resultItems = $resultArea.children('.qti-choice');
-                $choiceArea.append($resultItems);
+                $choiceArea.prepend($resultItems);
             }
             deleteMinMaxComponent();
         }
