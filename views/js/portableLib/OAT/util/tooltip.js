@@ -25,7 +25,7 @@ define([
     'use strict';
 
     /**
-     * Checks if the text in the element is broken into multiple lines using Range API.
+     * Checks if the text in the element is broken into multiple lines using lineHeight measurement element.
      *
      * @param {JQuery} $element - The jQuery-wrapped element to check.
      * @returns {boolean} - True if the text is broken into multiple lines, otherwise false.
@@ -55,7 +55,7 @@ define([
         $element.after(target);
         position = {
           target,
-          my: `top ${isRtl ? 'right' : 'left'}`,
+          my: `top ${isRtl ? 'left' : 'right'}`,
           at: `bottom ${isRtl ? 'left' : 'right'}`,
         }
       }else{
@@ -98,6 +98,10 @@ define([
                             }
                         });
 
+                        $target.on('click', (event) => {
+                            $target.qtip('toggle');
+                        });
+
                         $target.qtip({
                             overwrite: true,
                             theme: 'default',
@@ -105,7 +109,7 @@ define([
                                 text: contentHtml
                             },
                             position: calculatePosition($target),
-                            show: 'mouseover focus click',
+                            show: 'mouseover focus',
                             hide: 'mouseout blur',
                             events: {
                                 render: function(event, api) {
