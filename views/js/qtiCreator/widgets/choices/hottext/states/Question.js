@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016-2024 (original work) Open Assessment Technologies SA;
  */
 define([
     'lodash',
@@ -72,6 +72,8 @@ define([
                 _.forEach(inlineStaticElements, function(elt){
                     elt.postRender();
                 });
+                //refresh the widget in order to rebuild the text markup for the following selections
+                parent.metaData.widget.refresh();
             });
         }
 

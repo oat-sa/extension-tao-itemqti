@@ -1221,7 +1221,15 @@ img.dragging.ui-draggable-dragging {
     .qti-hottextInteraction {
         .mini-tlb {
             right: -31px !important;
+
+            &:has(div.multiple:not([style*="display: none"])) {
+                right: -58px !important;
+            }
+            & > div:nth-last-child(2) {
+                border-left: 1px solid $itemCreatorMiniTlbBorderColor;
+            }
         }
+       
     }
 
     .qti-interaction {
