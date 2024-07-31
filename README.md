@@ -40,6 +40,7 @@ php tao/scripts/taoUpdate.php
 ### Feature Flags
 
 
-| Variable         | Description                                                               | Default value |
-|------------------|---------------------------------------------------------------------------|---------------|
-| FEATURE_FLAG_FLA | Toggles certain media-interaction options' availability in item authoring | false         |
+| Variable                                    | Description                                                               | Default value |
+|---------------------------------------------|---------------------------------------------------------------------------|---------------|
+| FEATURE_FLAG_FLA                            | Toggles certain media-interaction options' availability in item authoring | false         |
+| FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER  | This will replace Item Qti Identifier to 9 digits non editable field      | -             |

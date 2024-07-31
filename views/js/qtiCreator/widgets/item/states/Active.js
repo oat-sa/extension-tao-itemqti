@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2014-2024 (original work) Open Assessment Technologies SA ;
  *
  */
 define([
@@ -24,9 +24,17 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Active',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/item',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier',
     'select2'
-], function (_, features, languages, stateFactory, Active, formTpl, formElement ) {
+], function (_, features, languages, stateFactory, Active, formTpl, formElement, qtiIdentifier) {
     'use strict';
+
+    // These classes are supported for removing the instructions.
+    // Therefore, they are verified for checking the related option.
+    const removeInstructionClasses = ['remove-instructions', '__custom__remove-instructions'];
+
+    // This class will be set for removing the instructions
+    const removeInstructionClass = 'remove-instructions';
 
     const ItemStateActive = stateFactory.create(
         Active,
@@ -38,6 +46,13 @@ define([
             const $itemBody = _widget.$container.find('.qti-itemBody');
 
             const showIdentifier = features.isVisible('taoQtiItem/creator/item/property/identifier');
+            const disableIdentifier = qtiIdentifier.isDisabled;
+
+            const itemElements = [$itemBody, item];
+            const itemHasClass = classes => classes.some(cls => $itemBody.hasClass(cls));
+            const itemAddClass = cls => itemElements.forEach(el => el.addClass(cls));
+            const itemRemoveClass = cls => itemElements.forEach(el => el.removeClass(cls));
+            const itemRemoveClasses = classes => classes.forEach(itemRemoveClass);
 
             //build form:
             $form.html(
@@ -48,8 +63,11 @@ define([
                     title: item.attr('title'),
                     timeDependent: !!item.attr('timeDependent'),
                     showTimeDependent: features.isVisible('taoQtiItem/creator/item/property/timeDependant'),
+                    removeInstructions: itemHasClass(removeInstructionClasses),
+                    showRemoveInstructions: true,
                     'xml:lang': item.attr('xml:lang'),
-                    languagesList: item.data('languagesList')
+                    languagesList: item.data('languagesList'),
+                    disableIdentifier
                 })
             );
 
@@ -64,22 +82,26 @@ define([
                     areaBroker.getTitleArea().text(item.attr('title'));
                 },
                 timeDependent: formElement.getAttributeChangeCallback(),
+                removeInstructions(i, value) {
+                    if (value) {
+                        itemAddClass(removeInstructionClass);
+                    } else {
+                        itemRemoveClasses(removeInstructionClasses);
+                    }
+                },
                 'xml:lang': function langChange(i, lang) {
                     item.attr('xml:lang', lang);
-                    languages
-                        .isRTLbyLanguageCode(lang)
-                        .then((isRTL) => {
-                            if (isRTL) {
-                                item.bdy.attr('dir', 'rtl');
-                                $itemBody.attr('dir', 'rtl');
-                            } else {
-                                item.bdy.removeAttr('dir');
-                                $itemBody.removeAttr('dir');
-                            }
-
-                            $itemBody.trigger('item-dir-changed');
+                    languages.isRTLbyLanguageCode(lang).then(isRTL => {
+                        if (isRTL) {
+                            item.bdy.attr('dir', 'rtl');
+                            $itemBody.attr('dir', 'rtl');
+                        } else {
+                            item.bdy.removeAttr('dir');
+                            $itemBody.removeAttr('dir');
                         }
-                    );
+
+                        $itemBody.trigger('item-dir-changed');
+                    });
                 }
             });
 
