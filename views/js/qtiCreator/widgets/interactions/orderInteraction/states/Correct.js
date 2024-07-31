@@ -22,8 +22,12 @@ define([
         var interaction = widget.element,
             response = interaction.getResponseDeclaration(),
             correctResponse = _.values(response.getCorrect());
-
-        instructionMgr.appendInstruction(widget.element, __('Please define the correct order in the box to the right.'));
+        instructionMgr.appendInstruction(
+          widget.element,
+          interaction.attr('order') === 'single'
+            ? __('Please define the correct order.')
+            : __('Please define the correct order in the box to the right.')
+        );
 
         commonRenderer.render(widget.element);
         commonRenderer.setResponse(interaction, _formatResponse(correctResponse));

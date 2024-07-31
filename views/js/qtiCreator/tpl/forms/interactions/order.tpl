@@ -1,4 +1,25 @@
+<div class="panel">
+    <div>
+        <label class="smaller-prompt">
+        <input type="radio" name="order" value="single" {{#if single}}checked{{/if}} />
+            <span class="icon-radio"></span>
+            {{__ 'order single list'}}
+        </label>
+        <br>
+        <label class="smaller-prompt">
+            <input type="radio" name="order" value="sort" {{#unless single}}checked{{/unless}} />
+            <span class="icon-radio"></span>
+            {{__ 'sort from source to target list'}}
+        </label>
+    </div>
+</div>
+
+<div class="panel min-max-panel">
+    <h3>{{__ "Allowed choices"}}</h3>
+</div>
+
 {{#if enabledFeatures.shuffleChoices}}
+<hr/>
 <div class="panel">
     <label>
         <input name="shuffle" type="checkbox" {{#if shuffle}}checked="checked"{{/if}}/>
@@ -11,10 +32,6 @@
     </span>
 </div>
 {{/if}}
-<hr/>
-<div class="panel min-max-panel">
-    <h3>{{__ "Allowed choices"}}</h3>
-</div>
 {{#if enabledFeatures.orientation}}
 <hr/>
 <div class="panel">
