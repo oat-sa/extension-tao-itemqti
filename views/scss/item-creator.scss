@@ -832,6 +832,9 @@ img.dragging.ui-draggable-dragging {
                 &.edit-active {
                     @extend %editActive;
                 }
+                &.tao-centered {
+                    display: block;
+                }
             }
             &.widget-block {
                 display: block;
@@ -1153,6 +1156,9 @@ img.dragging.ui-draggable-dragging {
         }
         .mini-tlb[data-edit]{
             right:-32px !important;
+        }
+        &.tao-centered {
+            display: block;
         }
     }
 
