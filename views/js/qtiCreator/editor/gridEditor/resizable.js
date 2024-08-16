@@ -57,6 +57,12 @@ define([
         $el.find('[class^="col-"], [class*=" col-"]').each(function () {
             let $col = $(this);
 
+            // Skip if the element is inside a PCI.
+            // In this case, this is most probably a custom style rather than a TAO controlled grid.
+            if ($col.closest('.qti-customInteraction').length) {
+                return true;
+            }
+
             //@todo this should be more generic
             //see draggable etc for more references
             if ($col.parent().hasClass('fixed-grid-row')) {
