@@ -91,7 +91,7 @@ define([
                     uploadUrl: itemConfig.fileUploadUrl,
                     deleteUrl: itemConfig.fileDeleteUrl,
                     downloadUrl: itemConfig.fileDownloadUrl,
-                    fileExistsUrl : itemConfig.fileExistsUrl,
+                    fileExistsUrl: itemConfig.fileExistsUrl,
                     params: {
                         uri: itemConfig.uri,
                         lang: itemConfig.lang,
@@ -103,6 +103,21 @@ define([
                         for (i = 0; i < l; i++) {
                             styleEditor.addStylesheet(files[i].file);
                         }
+                    },
+                    close: function () {
+                        $('#mediaManager').off('filedelete.resourcemgr');
+                    }
+                });
+
+                // watch for file deletion inside the media manager that are related to a linked stylesheet
+                $('#mediaManager').on('filedelete.resourcemgr', function (e, file) {
+                    if (file.startsWith('/')) {
+                        file = file.substring(1);
+                    }
+
+                    const $style = cssToggler.find(`[data-css-res="${file}"]`);
+                    if ($style.length) {
+                        deleteStylesheet($style);
                     }
                 });
             });
