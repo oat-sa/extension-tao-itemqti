@@ -103,6 +103,7 @@ define([
         slider.on('slide', function() {
             var value = Math.round(slider.val());
             input.val(value);
+            customCSSItemWidth = value;
             resizeItem(value);
         });
 
