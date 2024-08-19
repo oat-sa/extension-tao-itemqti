@@ -60,7 +60,7 @@ define([
                     responsive  : $container.hasClass('responsive'),
                     resize      : function() {
                         if(typeof resize === 'function') {
-                            resize.apply(this, arguments);
+                            resize.bind(arguments);
                         }
                     }
                 });
