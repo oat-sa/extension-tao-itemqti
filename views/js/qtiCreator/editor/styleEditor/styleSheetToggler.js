@@ -98,24 +98,25 @@ define([
                         filters: 'text/css'
                     },
                     pathParam: 'path',
-                    select: function (e, files) {
+                    select(e, files) {
                         var i, l = files.length;
                         for (i = 0; i < l; i++) {
                             styleEditor.addStylesheet(files[i].file);
                         }
                     },
-                    close: function () {
+                    close() {
                         $('#mediaManager').off('filedelete.resourcemgr');
                     }
                 });
 
                 // watch for file deletion inside the media manager that are related to a linked stylesheet
-                $('#mediaManager').on('filedelete.resourcemgr', function (e, file) {
+                $('#mediaManager').on('filedelete.resourcemgr', (e, file) => {
+                    const filePath = [file]
                     if (file.startsWith('/')) {
-                        file = file.substring(1);
+                        filePath.push(file.substring(1));
                     }
 
-                    const $style = cssToggler.find(`[data-css-res="${file}"]`);
+                    const $style = cssToggler.find(filePath.map(path => `[data-css-res="${path}"]`).join(', '));
                     if ($style.length) {
                         deleteStylesheet($style);
                     }
