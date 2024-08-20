@@ -119,6 +119,7 @@ define([
                 // every click outside the authoring (except feedback message)
                 $(wrapperSelector).on(`click${eventNS}`, e => {
                     if (
+                        e.target.isConnected && // check if the target is still in the DOM, if not there is no need to check further since parent will be null
                         !$.contains(container, e.target) &&
                         !$(e.target).parents('#feedback-box').length &&
                         !$(e.target).parents('.outcome-container').length &&
