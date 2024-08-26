@@ -91,18 +91,34 @@ define([
                     uploadUrl: itemConfig.fileUploadUrl,
                     deleteUrl: itemConfig.fileDeleteUrl,
                     downloadUrl: itemConfig.fileDownloadUrl,
-                    fileExistsUrl : itemConfig.fileExistsUrl,
+                    fileExistsUrl: itemConfig.fileExistsUrl,
                     params: {
                         uri: itemConfig.uri,
                         lang: itemConfig.lang,
                         filters: 'text/css'
                     },
                     pathParam: 'path',
-                    select: function (e, files) {
+                    select(e, files) {
                         var i, l = files.length;
                         for (i = 0; i < l; i++) {
                             styleEditor.addStylesheet(files[i].file);
                         }
+                    },
+                    close() {
+                        $('#mediaManager').off('filedelete.resourcemgr');
+                    }
+                });
+
+                // watch for file deletion inside the media manager that are related to a linked stylesheet
+                $('#mediaManager').on('filedelete.resourcemgr', (e, file) => {
+                    const filePath = [file]
+                    if (file.startsWith('/')) {
+                        filePath.push(file.substring(1));
+                    }
+
+                    const $style = cssToggler.find(filePath.map(path => `[data-css-res="${path}"]`).join(', '));
+                    if ($style.length) {
+                        deleteStylesheet($style);
                     }
                 });
             });
