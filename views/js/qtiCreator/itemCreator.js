@@ -222,11 +222,12 @@ define([
                         .then(() => styleEditor.save())
                         .then(() => itemWidget.save())
                         .then(() => {
-                            if (!silent){
+                            if (!silent) {
                                 self.trigger('success', __('Your item has been saved'));
                             }
                             self.trigger('saved');
-                        }).catch(err => {
+                        })
+                        .catch(err => {
                             self.trigger('error', err);
                         });
                 });
@@ -351,6 +352,9 @@ define([
                 // pass an context reference to the renderer
                 config.qtiCreatorContext = qtiCreatorContext;
 
+                // listen to save requests from the DOM components (like the style editor)
+                areaBroker.getContentCreatorPanelArea().on('save.qti-creator', () => this.trigger('save'));
+
                 creatorRenderer
                     .get(true, config, areaBroker)
                     .setOptions(config.properties)
@@ -404,6 +408,7 @@ define([
                 pluginRun('destroy')
                     .then(() => qtiCreatorContext.destroy())
                     .then(() => {
+                        areaBroker.getContentCreatorPanelArea().off('.qti-creator');
                         this.trigger('destroy');
                     })
                     .catch(err => {
