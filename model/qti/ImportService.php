@@ -330,7 +330,7 @@ class ImportService extends ConfigurableService
             /** @var Resource[] $qtiItemResources */
             $qtiItemResources = $this->createQtiManifest($folder . 'imsmanifest.xml');
 
-            if($importMetadataEnabled) {
+            if ($importMetadataEnabled) {
                 $metadataValues = $this->getMetadataImporter()->extract($domManifest);
                 $metaMetadataValues = $this->getMetaMetadataExtractor()->extract($domManifest);
                 $mappedMetadataValues = $this->getMetaMetadataImportMapper()->mapMetaMetadataToProperties(
