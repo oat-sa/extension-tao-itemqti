@@ -32,6 +32,7 @@ use oat\taoQtiItem\model\qti\CustomInteractionAsset\ServiceProvider\{
 };
 use oat\taoQtiItem\model\FeatureFlag\ServiceProvider\FeatureFlagFlaServiceProvider;
 use oat\taoQtiItem\model\FeatureFlag\ServiceProvider\FeatureFlagQtiIdentifierServiceProvider;
+use oat\taoQtiItem\model\Form\ServiceProvider\FormServiceProvider;
 use oat\taoQtiItem\model\qti\metadata\importer\MetaMetadataServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\IdentifierGenerationStrategyServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\ItemIdentifierValidatorServiceProvider;
@@ -209,5 +210,6 @@ return [
         MetaMetadataServiceProvider::class,
         IdentifierGenerationStrategyServiceProvider::class,
         FeatureFlagQtiIdentifierServiceProvider::class,
+        FormServiceProvider::class,
     ],
 ];
