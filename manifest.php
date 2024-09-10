@@ -31,8 +31,8 @@ use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
 use oat\taoQtiItem\install\scripts\setXMLParserConfig;
 use oat\taoQtiItem\model\FeatureFlag\ServiceProvider\FeatureFlagFlaServiceProvider;
 use oat\taoQtiItem\model\FeatureFlag\ServiceProvider\FeatureFlagQtiIdentifierServiceProvider;
-use oat\taoQtiItem\model\qti\CustomInteractionAsset\ServiceProvider\{
-    CustomInteractionAssetExtractorAllocatorServiceProvider};
+// phpcs:ignore Generic.Files.LineLength
+use oat\taoQtiItem\model\qti\CustomInteractionAsset\ServiceProvider\CustomInteractionAssetExtractorAllocatorServiceProvider;
 use oat\taoQtiItem\model\qti\metadata\importer\MetaMetadataServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\IdentifierGenerationStrategyServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\ItemIdentifierValidatorServiceProvider;

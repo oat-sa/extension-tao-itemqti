@@ -29,6 +29,7 @@ use oat\taoItems\model\Translation\Form\Modifier\TranslationFormModifierProxy;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\Translation\Form\Modifier\TranslationFormModifier;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class TranslationServiceProvider implements ContainerServiceProviderInterface
