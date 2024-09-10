@@ -20,20 +20,21 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\Form\Modifier;
+namespace oat\taoQtiItem\model\Translation\Form\Modifier;
 
 use oat\generis\model\data\Ontology;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\form\Modifier\AbstractFormModifier;
 use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\model\qti\Service;
-use tao_helpers_form_Form as Form;
+use tao_helpers_form_Form;
 use tao_helpers_Uri;
 
-class TranslationInstanceFormModifier extends AbstractFormModifier
+class TranslationFormModifier extends AbstractFormModifier
 {
-    public const ID = 'tao_qti_item.form_modifier.translation_instance';
+    private const FORM_INSTANCE_URI = 'uri';
 
+    private Ontology $ontology;
     private Service $itemQtiService;
     private FeatureFlagCheckerInterface $featureFlagChecker;
 
@@ -42,25 +43,17 @@ class TranslationInstanceFormModifier extends AbstractFormModifier
         Service $itemQtiService,
         FeatureFlagCheckerInterface $featureFlagChecker
     ) {
-        parent::__construct($ontology);
-
+        $this->ontology = $ontology;
         $this->itemQtiService = $itemQtiService;
         $this->featureFlagChecker = $featureFlagChecker;
     }
 
-    public function supports(Form $form, array $options = []): bool
+    public function modify(tao_helpers_form_Form $form, array $options = []): void
     {
-        if (!$this->featureFlagChecker->isEnabled(FeatureFlagCheckerInterface::FEATURE_TRANSLATION_ENABLED)) {
-            return false;
+        if (!$this->featureFlagChecker->isEnabled('FEATURE_TRANSLATION_ENABLED')) {
+            return;
         }
 
-        $instance = $this->getInstance($form, $options);
-
-        return $instance !== null && $instance->isInstanceOf($this->ontology->getClass(TaoOntology::CLASS_URI_ITEM));
-    }
-
-    public function modify(Form $form, array $options = []): void
-    {
         $uniqueIdElement = $form->getElement(tao_helpers_Uri::encode(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER));
 
         if (!$uniqueIdElement) {
