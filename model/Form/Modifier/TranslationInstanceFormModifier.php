@@ -67,6 +67,12 @@ class TranslationInstanceFormModifier extends AbstractFormModifier
             return;
         }
 
+        $elementValue = $uniqueIdElement->getRawValue();
+
+        if ($elementValue !== null) {
+            return;
+        }
+
         $instance = $this->ontology->getResource($form->getValue(self::FORM_INSTANCE_URI));
         $itemData = $this->itemQtiService->getDataItemByRdfItem($instance);
 
