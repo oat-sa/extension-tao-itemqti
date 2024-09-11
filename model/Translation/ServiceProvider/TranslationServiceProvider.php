@@ -24,10 +24,13 @@ namespace oat\taoQtiItem\model\Translation\ServiceProvider;
 
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\oatbox\log\LoggerService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\taoItems\model\Translation\Form\Modifier\TranslationFormModifierProxy;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\Translation\Form\Modifier\TranslationFormModifier;
+use oat\taoQtiItem\model\Translation\Listener\ItemUpdatedEventListener;
+use oat\taoQtiItem\model\Translation\Service\QtiIdentifierRetriever;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -39,10 +42,17 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
         $services = $configurator->services();
 
         $services
+            ->set(QtiIdentifierRetriever::class, QtiIdentifierRetriever::class)
+            ->args([
+                service(Service::class),
+                service(LoggerService::SERVICE_ID),
+            ]);
+
+        $services
             ->set(TranslationFormModifier::class, TranslationFormModifier::class)
             ->args([
                 service(Ontology::SERVICE_ID),
-                service(Service::class),
+                service(QtiIdentifierRetriever::class),
                 service(FeatureFlagChecker::class),
             ]);
 
@@ -56,5 +66,15 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                     service(TranslationFormModifier::class),
                 ]
             );
+
+        $services
+            ->set(ItemUpdatedEventListener::class, ItemUpdatedEventListener::class)
+            ->public()
+            ->args([
+                service(FeatureFlagChecker::class),
+                service(Ontology::SERVICE_ID),
+                service(QtiIdentifierRetriever::class),
+                service(LoggerService::SERVICE_ID),
+            ]);
     }
 }
