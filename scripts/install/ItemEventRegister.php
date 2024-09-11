@@ -26,9 +26,11 @@ use oat\oatbox\extension\InstallAction;
 use oat\taoItems\model\event\ItemContentClonedEvent;
 use oat\taoItems\model\event\ItemCreatedEvent;
 use oat\taoItems\model\event\ItemRdfUpdatedEvent;
+use oat\taoItems\model\event\ItemUpdatedEvent;
 use oat\taoQtiItem\model\Listener\ItemUpdater;
 use oat\taoQtiItem\model\Listener\ReplaceCopiedQtiXmlIdentifierListener;
 use oat\taoQtiItem\model\qti\Service;
+use oat\taoQtiItem\model\Translation\Listener\ItemUpdatedEventListener;
 
 /**
  * Description of ItemEventRegister
@@ -50,6 +52,10 @@ class ItemEventRegister extends InstallAction
         $this->registerEvent(
             ItemContentClonedEvent::class,
             [ReplaceCopiedQtiXmlIdentifierListener::class, 'catchItemCreatedFromSource']
+        );
+        $this->registerEvent(
+            ItemUpdatedEvent::class,
+            [ItemUpdatedEventListener::class, 'populateTranslationProperties']
         );
     }
 }
