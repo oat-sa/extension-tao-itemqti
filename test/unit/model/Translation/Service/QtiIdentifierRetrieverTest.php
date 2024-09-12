@@ -23,12 +23,14 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\test\unit\model\Translation\Service;
 
 use core_kernel_classes_Resource;
+use Exception;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\Translation\Service\QtiIdentifierRetriever;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 class QtiIdentifierRetrieverTest extends TestCase
 {
@@ -41,6 +43,9 @@ class QtiIdentifierRetrieverTest extends TestCase
     /** @var Service|MockObject */
     private Service $qtiItemService;
 
+    /** @var LoggerInterface|MockObject */
+    private $logger;
+
     private QtiIdentifierRetriever $sut;
 
     protected function setUp(): void
@@ -49,11 +54,9 @@ class QtiIdentifierRetrieverTest extends TestCase
         $this->itemData = $this->createMock(Item::class);
 
         $this->qtiItemService = $this->createMock(Service::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
 
-        $this->sut = new QtiIdentifierRetriever(
-            $this->qtiItemService,
-            $this->createMock(LoggerInterface::class)
-        );
+        $this->sut = new QtiIdentifierRetriever($this->qtiItemService, $this->logger);
     }
 
     public function testRetrieve(): void
@@ -85,5 +88,27 @@ class QtiIdentifierRetrieverTest extends TestCase
             ->method('getIdentifier');
 
         $this->assertEquals(null, $this->sut->retrieve($this->item));
+    }
+
+    public function testRetrieveException(): void
+    {
+        $this->qtiItemService
+            ->expects($this->once())
+            ->method('getDataItemByRdfItem')
+            ->with($this->item)
+            ->willThrowException(new Exception('error'));
+
+        $this->logger
+            ->expects($this->once())
+            ->method('error')
+            ->with('An error occurred while retrieving item data: error');
+
+        $this->itemData
+            ->expects($this->never())
+            ->method('getIdentifier');
+
+        $this->expectException(Throwable::class);
+
+        $this->sut->retrieve($this->item);
     }
 }
