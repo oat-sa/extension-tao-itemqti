@@ -105,8 +105,8 @@ class LabelBasedLomOntologyClassificationExtractor implements MetadataExtractor
 
         if (
             !empty($triple->object) &&
-            $this->getResource($triple->object)->exists()
-            && $this->getResource($triple->object)->getLabel() !== ''
+            $this->getResource($triple->object)->exists() &&
+            $this->getResource($triple->object)->getLabel() !== ''
         ) {
             return $this->getResource($triple->object)->getLabel();
         }
