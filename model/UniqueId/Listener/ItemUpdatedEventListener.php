@@ -57,7 +57,7 @@ class ItemUpdatedEventListener
         $uniqueIdProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER);
         $item = $this->ontology->getResource($event->getItemUri());
 
-        if (!empty((string) $item->getOnePropertyValue($uniqueIdProperty))) {
+        if (!empty($item->getOnePropertyValue($uniqueIdProperty))) {
             $this->logger->info(
                 sprintf(
                     'The property "%s" for the item "%s" has already been set.',

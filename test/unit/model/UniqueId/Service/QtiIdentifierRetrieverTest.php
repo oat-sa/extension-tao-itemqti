@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\test\unit\model\Translation\Service;
+namespace oat\taoQtiItem\test\unit\model\UniqueId\Service;
 
 use core_kernel_classes_Resource;
 use Exception;

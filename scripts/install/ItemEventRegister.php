@@ -55,7 +55,7 @@ class ItemEventRegister extends InstallAction
         );
         $this->registerEvent(
             ItemUpdatedEvent::class,
-            [ItemUpdatedEventListener::class, 'populateTranslationProperties']
+            [ItemUpdatedEventListener::class, 'populateUniqueId']
         );
     }
 }

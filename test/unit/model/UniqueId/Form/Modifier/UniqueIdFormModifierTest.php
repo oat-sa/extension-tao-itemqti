@@ -20,20 +20,20 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\test\unit\model\Translation\Form\Modifier;
+namespace oat\taoQtiItem\test\unit\model\UniqueId\Form\Modifier;
 
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\TaoOntology;
-use oat\taoQtiItem\model\Translation\Form\Modifier\TranslationFormModifier;
+use oat\taoQtiItem\model\UniqueId\Modifier\UniqueIdFormModifier;
 use oat\taoQtiItem\model\UniqueId\Service\QtiIdentifierRetriever;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use tao_helpers_form_Form;
 use tao_helpers_Uri;
 
-class TranslationFormModifierTest extends TestCase
+class UniqueIdFormModifierTest extends TestCase
 {
     /** @var tao_helpers_form_Form|MockObject */
     private tao_helpers_form_Form $form;
@@ -49,7 +49,7 @@ class TranslationFormModifierTest extends TestCase
     /** @var FeatureFlagCheckerInterface|MockObject */
     private FeatureFlagCheckerInterface $featureFlagChecker;
 
-    private TranslationFormModifier $sut;
+    private UniqueIdFormModifier $sut;
 
     protected function setUp(): void
     {
@@ -60,19 +60,19 @@ class TranslationFormModifierTest extends TestCase
         $this->qtiIdentifierRetriever = $this->createMock(QtiIdentifierRetriever::class);
         $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
 
-        $this->sut = new TranslationFormModifier(
+        $this->sut = new UniqueIdFormModifier(
             $this->ontology,
             $this->qtiIdentifierRetriever,
             $this->featureFlagChecker
         );
     }
 
-    public function testModifyTranslationDisabled(): void
+    public function testModifyFeatureDisabled(): void
     {
         $this->featureFlagChecker
             ->expects($this->once())
             ->method('isEnabled')
-            ->with('FEATURE_FLAG_TRANSLATION_ENABLED')
+            ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
             ->willReturn(false);
 
         $this->form
@@ -94,12 +94,12 @@ class TranslationFormModifierTest extends TestCase
         $this->sut->modify($this->form);
     }
 
-    public function testModifyTranslationEnabledButValueSet(): void
+    public function testModifyFeatureEnabledButValueSet(): void
     {
         $this->featureFlagChecker
             ->expects($this->once())
             ->method('isEnabled')
-            ->with('FEATURE_FLAG_TRANSLATION_ENABLED')
+            ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
             ->willReturn(true);
 
         $this->form
@@ -123,12 +123,12 @@ class TranslationFormModifierTest extends TestCase
         $this->sut->modify($this->form);
     }
 
-    public function testModifyTranslationEnabledButNoIdentifier(): void
+    public function testModifyFeatureEnabledButNoIdentifier(): void
     {
         $this->featureFlagChecker
             ->expects($this->once())
             ->method('isEnabled')
-            ->with('FEATURE_FLAG_TRANSLATION_ENABLED')
+            ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
             ->willReturn(true);
 
         $this->form
@@ -166,7 +166,7 @@ class TranslationFormModifierTest extends TestCase
         $this->featureFlagChecker
             ->expects($this->once())
             ->method('isEnabled')
-            ->with('FEATURE_FLAG_TRANSLATION_ENABLED')
+            ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
             ->willReturn(true);
 
         $this->form

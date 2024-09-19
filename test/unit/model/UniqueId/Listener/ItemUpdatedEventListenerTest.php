@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\test\unit\model\Translation\Listener;
+namespace oat\taoQtiItem\test\unit\model\UniqueId\Listener;
 
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
@@ -78,12 +78,12 @@ class ItemUpdatedEventListenerTest extends TestCase
         );
     }
 
-    public function testPopulateTranslationPropertiesTranslationDisabled(): void
+    public function testPopulateUniqueIdFeatureDisabled(): void
     {
         $this->featureFlagChecker
             ->expects($this->once())
             ->method('isEnabled')
-            ->with('FEATURE_FLAG_TRANSLATION_ENABLED')
+            ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
             ->willReturn(false);
 
         $this->ontology
@@ -102,15 +102,15 @@ class ItemUpdatedEventListenerTest extends TestCase
             ->expects($this->never())
             ->method($this->anything());
 
-        $this->sut->populateTranslationProperties($this->itemUpdatedEvent);
+        $this->sut->populateUniqueId($this->itemUpdatedEvent);
     }
 
-    public function testPopulateTranslationProperties(): void
+    public function testPopulateUniqueId(): void
     {
         $this->featureFlagChecker
             ->expects($this->once())
             ->method('isEnabled')
-            ->with('FEATURE_FLAG_TRANSLATION_ENABLED')
+            ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
             ->willReturn(true);
 
         $this->ontology
@@ -151,15 +151,15 @@ class ItemUpdatedEventListenerTest extends TestCase
             ->method('setPropertyValue')
             ->with($this->property, 'qtiIdentifier');
 
-        $this->sut->populateTranslationProperties($this->itemUpdatedEvent);
+        $this->sut->populateUniqueId($this->itemUpdatedEvent);
     }
 
-    public function testPopulateTranslationPropertiesValueSet(): void
+    public function testPopulateUniqueIdValueSet(): void
     {
         $this->featureFlagChecker
             ->expects($this->once())
             ->method('isEnabled')
-            ->with('FEATURE_FLAG_TRANSLATION_ENABLED')
+            ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
             ->willReturn(true);
 
         $this->ontology
@@ -197,6 +197,6 @@ class ItemUpdatedEventListenerTest extends TestCase
             ->expects($this->never())
             ->method('setPropertyValue');
 
-        $this->sut->populateTranslationProperties($this->itemUpdatedEvent);
+        $this->sut->populateUniqueId($this->itemUpdatedEvent);
     }
 }
