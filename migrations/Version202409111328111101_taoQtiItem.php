@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 use oat\oatbox\event\EventManager;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 use oat\taoItems\model\event\ItemUpdatedEvent;
-use oat\taoQtiItem\model\Translation\Listener\ItemUpdatedEventListener;
+use oat\taoQtiItem\model\UniqueId\Listener\ItemUpdatedEventListener;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -28,7 +28,7 @@ final class Version202409111328111101_taoQtiItem extends AbstractMigration
         $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
         $eventManager->attach(
             ItemUpdatedEvent::class,
-            [ItemUpdatedEventListener::class, 'populateTranslationProperties']
+            [ItemUpdatedEventListener::class, 'populateUniqueId']
         );
     }
 
@@ -38,7 +38,7 @@ final class Version202409111328111101_taoQtiItem extends AbstractMigration
         $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
         $eventManager->detach(
             ItemUpdatedEvent::class,
-            [ItemUpdatedEventListener::class, 'populateTranslationProperties']
+            [ItemUpdatedEventListener::class, 'populateUniqueId']
         );
     }
 }

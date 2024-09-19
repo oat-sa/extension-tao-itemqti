@@ -27,7 +27,7 @@ use oat\generis\model\data\Ontology;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\model\Translation\Form\Modifier\TranslationFormModifier;
-use oat\taoQtiItem\model\Translation\Service\QtiIdentifierRetriever;
+use oat\taoQtiItem\model\UniqueId\Service\QtiIdentifierRetriever;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use tao_helpers_form_Form;

@@ -20,22 +20,22 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\Translation\ServiceProvider;
+namespace oat\taoQtiItem\model\UniqueId\ServiceProvider;
 
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
-use oat\taoItems\model\Translation\Form\Modifier\TranslationFormModifierProxy;
+use oat\taoItems\model\Form\Modifier\FormModifierProxy;
 use oat\taoQtiItem\model\qti\Service;
-use oat\taoQtiItem\model\Translation\Form\Modifier\TranslationFormModifier;
-use oat\taoQtiItem\model\Translation\Listener\ItemUpdatedEventListener;
-use oat\taoQtiItem\model\Translation\Service\QtiIdentifierRetriever;
+use oat\taoQtiItem\model\UniqueId\Listener\ItemUpdatedEventListener;
+use oat\taoQtiItem\model\UniqueId\Modifier\UniqueIdFormModifier;
+use oat\taoQtiItem\model\UniqueId\Service\QtiIdentifierRetriever;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
-class TranslationServiceProvider implements ContainerServiceProviderInterface
+class UniqueIdServiceProvider implements ContainerServiceProviderInterface
 {
     public function __invoke(ContainerConfigurator $configurator): void
     {
@@ -49,21 +49,19 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
             ]);
 
         $services
-            ->set(TranslationFormModifier::class, TranslationFormModifier::class)
+            ->set(UniqueIdFormModifier::class, UniqueIdFormModifier::class)
             ->args([
                 service(Ontology::SERVICE_ID),
                 service(QtiIdentifierRetriever::class),
                 service(FeatureFlagChecker::class),
             ]);
 
-        $services = $configurator->services();
-
         $services
-            ->get(TranslationFormModifierProxy::class)
+            ->get(FormModifierProxy::class)
             ->call(
                 'addModifier',
                 [
-                    service(TranslationFormModifier::class),
+                    service(UniqueIdFormModifier::class),
                 ]
             );
 

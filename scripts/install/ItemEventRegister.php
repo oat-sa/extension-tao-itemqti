@@ -30,7 +30,7 @@ use oat\taoItems\model\event\ItemUpdatedEvent;
 use oat\taoQtiItem\model\Listener\ItemUpdater;
 use oat\taoQtiItem\model\Listener\ReplaceCopiedQtiXmlIdentifierListener;
 use oat\taoQtiItem\model\qti\Service;
-use oat\taoQtiItem\model\Translation\Listener\ItemUpdatedEventListener;
+use oat\taoQtiItem\model\UniqueId\Listener\ItemUpdatedEventListener;
 
 /**
  * Description of ItemEventRegister

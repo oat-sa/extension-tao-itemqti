@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\Translation\Service;
+namespace oat\taoQtiItem\model\UniqueId\Service;
 
 use core_kernel_classes_Resource;
 use oat\taoQtiItem\model\qti\Service;
