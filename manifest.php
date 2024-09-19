@@ -37,7 +37,7 @@ use oat\taoQtiItem\model\qti\metadata\importer\MetaMetadataServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\IdentifierGenerationStrategyServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\ItemIdentifierValidatorServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\MetadataServiceProvider;
-use oat\taoQtiItem\model\Translation\ServiceProvider\TranslationServiceProvider;
+use oat\taoQtiItem\model\UniqueId\ServiceProvider\UniqueIdServiceProvider;
 use oat\taoQtiItem\scripts\install\AddLabelInjectorForExport;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\ItemEventRegister;
@@ -209,6 +209,6 @@ return [
         MetaMetadataServiceProvider::class,
         IdentifierGenerationStrategyServiceProvider::class,
         FeatureFlagQtiIdentifierServiceProvider::class,
-        TranslationServiceProvider::class,
+        UniqueIdServiceProvider::class,
     ],
 ];

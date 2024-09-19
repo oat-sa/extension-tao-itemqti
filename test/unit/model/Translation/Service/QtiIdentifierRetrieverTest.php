@@ -26,7 +26,7 @@ use core_kernel_classes_Resource;
 use Exception;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\Service;
-use oat\taoQtiItem\model\Translation\Service\QtiIdentifierRetriever;
+use oat\taoQtiItem\model\UniqueId\Service\QtiIdentifierRetriever;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
