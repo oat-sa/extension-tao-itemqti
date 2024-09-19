@@ -330,12 +330,14 @@ class ImportService extends ConfigurableService
             /** @var Resource[] $qtiItemResources */
             $qtiItemResources = $this->createQtiManifest($folder . 'imsmanifest.xml');
 
-            $metadataValues = $this->getMetadataImporter()->extract($domManifest);
-            $metaMetadataValues = $this->getMetaMetadataExtractor()->extract($domManifest);
-            $mappedMetadataValues = $this->getMetaMetadataImportMapper()->mapMetaMetadataToProperties(
-                $metaMetadataValues,
-                $itemClass
-            );
+            if ($importMetadataEnabled) {
+                $metadataValues = $this->getMetadataImporter()->extract($domManifest);
+                $metaMetadataValues = $this->getMetaMetadataExtractor()->extract($domManifest);
+                $mappedMetadataValues = $this->getMetaMetadataImportMapper()->mapMetaMetadataToProperties(
+                    $metaMetadataValues,
+                    $itemClass
+                );
+            }
 
             $sharedFiles = [];
             $createdClasses = [];
@@ -347,14 +349,14 @@ class ImportService extends ConfigurableService
                     $itemClass,
                     $sharedFiles,
                     [],
-                    $metadataValues,
+                    $metadataValues ?? [],
                     $createdClasses,
                     $enableMetadataGuardians,
                     $enableMetadataValidators,
                     $itemMustExist,
                     $itemMustBeOverwritten,
                     $overwrittenItems,
-                    $mappedMetadataValues['itemProperties'],
+                    isset($mappedMetadataValues['itemProperties']) ? $mappedMetadataValues['itemProperties'] : [],
                     $importMetadataEnabled
                 );
 

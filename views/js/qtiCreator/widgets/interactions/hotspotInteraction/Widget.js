@@ -70,10 +70,12 @@ define([
                 const interaction = this.element;
                 const choices = interaction.getChoices();
                 _.forEach(choices, choice => {
-                    choice.attr(
-                        'coords',
-                        GraphicHelper.qtiCoords(interaction.paper.getById(choice.serial), interaction.paper, interaction.object.attr('width'))
-                    );
+                    if (choice.attributes.shape !== 'poly') {
+                        choice.attr(
+                            'coords',
+                            GraphicHelper.qtiCoords(interaction.paper.getById(choice.serial), interaction.paper, interaction.object.attr('width'))
+                        );
+                    }
                 });
             }
         },
