@@ -99,9 +99,14 @@ class LabelBasedLomOntologyClassificationExtractor implements MetadataExtractor
 
     private function getResourceValue(Triple $triple): string
     {
+        if ($triple->object === null) {
+            return '';
+        }
+
         if (
-            $this->getResource($triple->object)->exists()
-            && $this->getResource($triple->object)->getLabel() !== ''
+            !empty($triple->object) &&
+            $this->getResource($triple->object)->exists() &&
+            $this->getResource($triple->object)->getLabel() !== ''
         ) {
             return $this->getResource($triple->object)->getLabel();
         }

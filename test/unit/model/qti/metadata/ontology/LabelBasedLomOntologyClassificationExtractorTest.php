@@ -47,15 +47,27 @@ class LabelBasedLomOntologyClassificationExtractorTest extends TestCase
     {
         $resourceMock = $this->createMock(Resource::class);
         $resourceMock->method('getUri')->willReturn('uri#identifier');
-        $rdfTriple = $this->createMock(Triple::class);
+
+        //Should be exported
+        $rdfTripleUri = $this->createMock(Triple::class);
+        $rdfTripleUri->object = 'ResourceUri';
+
+        //Should be iported
+        $rdfTriple0 = $this->createMock(Triple::class);
+        $rdfTriple0->object = '0';
+
+        //Should be ignored
+        $rdfTripleNull = $this->createMock(Triple::class);
+        $rdfTripleNull->object = null;
+
         $propertyMock = $this->createMock(Property::class);
 
         $resourceMock
             ->method('getRdfTriples')
             ->willReturn([
-                $rdfTriple,
-                $rdfTriple,
-                $rdfTriple
+                $rdfTripleUri,
+                $rdfTriple0,
+                $rdfTripleNull
             ]);
         $this->ontologyMock
             ->method('getProperty')
@@ -83,7 +95,7 @@ class LabelBasedLomOntologyClassificationExtractorTest extends TestCase
         $result = $this->subject->extract($resourceMock);
         self::assertIsArray($result);
         self::assertArrayHasKey('identifier', $result);
-        self::assertEquals(3, count($result['identifier']));
+        self::assertEquals(2, count($result['identifier']));
         foreach ($result['identifier'] as $classificationMetadataValue) {
             self::assertInstanceOf(ClassificationMetadataValue::class, $classificationMetadataValue);
             self::assertEquals(5, count($classificationMetadataValue->getPath()));
