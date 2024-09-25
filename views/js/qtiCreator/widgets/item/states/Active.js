@@ -67,7 +67,9 @@ define([
                     showRemoveInstructions: true,
                     'xml:lang': item.attr('xml:lang'),
                     languagesList: item.data('languagesList'),
-                    disableIdentifier
+                    disableIdentifier,
+                    translation: _widget.options.translation,
+                    translationStatus: _widget.options.translationStatus
                 })
             );
 
@@ -102,6 +104,10 @@ define([
 
                         $itemBody.trigger('item-dir-changed');
                     });
+                },
+                translationStatus(i, status) {
+                    // TODO: find a way to save the status with the item
+                    _widget.options.translationStatus = status;
                 }
             });
 
