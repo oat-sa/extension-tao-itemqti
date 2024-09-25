@@ -88,7 +88,11 @@ define([
             //TODO move module config away from controllers
             const config = module.config();
             const logger = loggerFactory('controller/creator');
-            const panels = [interactionsPanelTpl, itemPanelTpl, propertiesPanelTpl];
+            let panels = [itemPanelTpl, propertiesPanelTpl];
+
+            if (!config.properties.translation) {
+                panels.unshift(interactionsPanelTpl);
+            }
 
             /**
              * Report errors

@@ -328,7 +328,11 @@ define([
                 commonRenderer.setContext(areaBroker.getItemPanelArea());
                 commonRenderer.get(true, config).setOption('baseUrl', config.properties.baseUrl);
 
-                interactionPanel(areaBroker.getInteractionPanelArea());
+                // the interactions panel may not be rendered, and therefore not available
+                const $interactionPanel = areaBroker.getInteractionPanelArea();
+                if ($interactionPanel.length > 0) {
+                    interactionPanel($interactionPanel);
+                }
 
                 //the renderers' widgets do not handle async yet, so we rely on this event
                 //TODO ready should be triggered once every renderer's widget is done (ie. promisify everything)
