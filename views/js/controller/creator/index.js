@@ -31,16 +31,34 @@ define([
     'layout/loading-bar',
     'taoQtiItem/qtiCreator/itemCreator',
     'taoQtiItem/qtiCreator/editor/areaBroker',
-    'taoQtiItem/qtiCreator/plugins/loader'
-], function ($, _, module, loggerFactory, feedback, loadingBar, itemCreatorFactory, areaBrokerFactory, pluginLoader) {
+    'taoQtiItem/qtiCreator/plugins/loader',
+    'tpl!taoQtiItem/qtiCreator/tpl/layout/interactionsPanel',
+    'tpl!taoQtiItem/qtiCreator/tpl/layout/itemPanel',
+    'tpl!taoQtiItem/qtiCreator/tpl/layout/propertiesPanel'
+], function (
+    $,
+    _,
+    module,
+    loggerFactory,
+    feedback,
+    loadingBar,
+    itemCreatorFactory,
+    areaBrokerFactory,
+    pluginLoader,
+    interactionsPanelTpl,
+    itemPanelTpl,
+    propertiesPanelTpl
+) {
     'use strict';
 
     /**
      * Set up the areaBroker mapping from the actual DOM
      * @returns {areaBroker} already mapped
      */
-    function loadAreaBroker(panels = defaultPanels) {
+    function loadAreaBroker(panels = []) {
         const $container = $('#item-editor-scope');
+        const $wrapper = $('#item-editor-wrapper', '#item-editor-scope');
+        panels.forEach(panel => $wrapper.append(panel()));
         return areaBrokerFactory($container, {
             menu: $('.menu', $container),
             menuLeft: $('.menu-left', $container),
@@ -70,6 +88,7 @@ define([
             //TODO move module config away from controllers
             const config = module.config();
             const logger = loggerFactory('controller/creator');
+            const panels = [interactionsPanelTpl, itemPanelTpl, propertiesPanelTpl];
 
             /**
              * Report errors
@@ -119,7 +138,7 @@ define([
                 .load()
                 .then(() => {
                     //build a new item creator
-                    itemCreatorFactory(config, loadAreaBroker(), pluginLoader.getPlugins())
+                    itemCreatorFactory(config, loadAreaBroker(panels), pluginLoader.getPlugins())
                         .on('error', reportError)
                         .on('success', message => feedback().success(message))
                         .on('init', function onInit() {
