@@ -34,7 +34,8 @@ define([
     'taoQtiItem/qtiCreator/plugins/loader',
     'tpl!taoQtiItem/qtiCreator/tpl/layout/interactionsPanel',
     'tpl!taoQtiItem/qtiCreator/tpl/layout/itemPanel',
-    'tpl!taoQtiItem/qtiCreator/tpl/layout/propertiesPanel'
+    'tpl!taoQtiItem/qtiCreator/tpl/layout/propertiesPanel',
+    'tpl!taoQtiItem/qtiCreator/tpl/layout/viewerPanel'
 ], function (
     $,
     _,
@@ -47,7 +48,8 @@ define([
     pluginLoader,
     interactionsPanelTpl,
     itemPanelTpl,
-    propertiesPanelTpl
+    propertiesPanelTpl,
+    viewerPanelTpl
 ) {
     'use strict';
 
@@ -88,11 +90,11 @@ define([
             //TODO move module config away from controllers
             const config = module.config();
             const logger = loggerFactory('controller/creator');
-            let panels = [itemPanelTpl, propertiesPanelTpl];
-
-            if (!config.properties.translation) {
-                panels.unshift(interactionsPanelTpl);
-            }
+            const panels = [
+                config.properties.translation ? viewerPanelTpl : interactionsPanelTpl,
+                itemPanelTpl,
+                propertiesPanelTpl
+            ];
 
             /**
              * Report errors
