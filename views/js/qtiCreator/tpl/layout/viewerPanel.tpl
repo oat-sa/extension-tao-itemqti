@@ -5,9 +5,9 @@
         <h1 class="truncate">MASTER ITEM</h1>
     </div>
 
-    <div id="item-viewer-scroll-container">
-        <div id="item-viewer-scroll-outer">
-            <div id="item-viewer-scroll-inner">
+    <div class="item-viewer-scroll-container">
+        <div class="item-viewer-scroll-outer">
+            <div class="item-viewer-scroll-inner">
                 <!-- item goes here -->
             </div>
         </div>

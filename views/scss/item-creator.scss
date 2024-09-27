@@ -748,12 +748,12 @@ img.dragging.ui-draggable-dragging {
     border-right: 2px solid $itemCreatorSeparatorBar;
     position: relative;
     overflow: visible;
-    padding: 0;
+    padding: 31px 0 0 0;
     width: 40%;
     height: 100%;
 
     &.has-item {
-        #item-viewer-scroll-outer {
+        .item-viewer-scroll-outer {
             background-image: none;
         }
     }
@@ -765,6 +765,8 @@ img.dragging.ui-draggable-dragging {
 
     .item-viewer-bar {
         position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         min-height: 31px;
         z-index: 100;
@@ -812,7 +814,7 @@ img.dragging.ui-draggable-dragging {
 }
 
 .side-by-side-authoring {
-    #item-viewer-scroll-inner, #item-editor-scroll-inner {
+    .item-viewer-scroll-inner, #item-editor-scroll-inner {
         min-width: 700px;
     }
 }
