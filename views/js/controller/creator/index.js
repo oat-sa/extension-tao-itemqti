@@ -57,9 +57,17 @@ define([
      * Set up the areaBroker mapping from the actual DOM
      * @returns {areaBroker} already mapped
      */
-    function loadAreaBroker(panels = []) {
+    function loadAreaBroker(config) {
         const $container = $('#item-editor-scope');
         const $wrapper = $('#item-editor-wrapper', '#item-editor-scope');
+        const panels = [
+            config.properties.translation ? viewerPanelTpl : interactionsPanelTpl,
+            itemPanelTpl,
+            propertiesPanelTpl
+        ];
+        if (config.properties.translation) {
+            $container.addClass('side-by-side-authoring');
+        }
         panels.forEach(panel => $wrapper.append(panel()));
         return areaBrokerFactory($container, {
             menu: $('.menu', $container),
@@ -90,11 +98,6 @@ define([
             //TODO move module config away from controllers
             const config = module.config();
             const logger = loggerFactory('controller/creator');
-            const panels = [
-                config.properties.translation ? viewerPanelTpl : interactionsPanelTpl,
-                itemPanelTpl,
-                propertiesPanelTpl
-            ];
 
             /**
              * Report errors
@@ -144,7 +147,7 @@ define([
                 .load()
                 .then(() => {
                     //build a new item creator
-                    itemCreatorFactory(config, loadAreaBroker(panels), pluginLoader.getPlugins())
+                    itemCreatorFactory(config, loadAreaBroker(config), pluginLoader.getPlugins())
                         .on('error', reportError)
                         .on('success', message => feedback().success(message))
                         .on('init', function onInit() {
