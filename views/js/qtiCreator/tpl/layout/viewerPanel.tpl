@@ -2,8 +2,7 @@
 <div class="item-viewer-panel">
 
     <div class="item-viewer-bar">
-        <h1 class="truncate"></h1>
-        <div id="toolbar-top"></div>
+        <h1 class="truncate">MASTER ITEM</h1>
     </div>
 
     <div id="item-viewer-scroll-container">
