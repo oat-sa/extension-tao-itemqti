@@ -18,6 +18,7 @@
  */
 define([
     'lodash',
+    'i18n',
     'services/features',
     'taoQtiItem/qtiCreator/helper/languages',
     'taoQtiItem/qtiCreator/widgets/states/factory',
@@ -26,7 +27,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier',
     'select2'
-], function (_, features, languages, stateFactory, Active, formTpl, formElement, qtiIdentifier) {
+], function (_, __, features, languages, stateFactory, Active, formTpl, formElement, qtiIdentifier) {
     'use strict';
 
     // These classes are supported for removing the instructions.
@@ -53,6 +54,11 @@ define([
             const itemAddClass = cls => itemElements.forEach(el => el.addClass(cls));
             const itemRemoveClass = cls => itemElements.forEach(el => el.removeClass(cls));
             const itemRemoveClasses = classes => classes.forEach(itemRemoveClass);
+
+            let titleFormat = '%s';
+            if (_widget.options.translation) {
+                titleFormat = __('%s - Translation');
+            }
 
             //build form:
             $form.html(
@@ -81,7 +87,7 @@ define([
                 identifier: formElement.getAttributeChangeCallback(),
                 title: function titleChange(i, title) {
                     item.attr('title', title);
-                    areaBroker.getTitleArea().text(item.attr('title'));
+                    areaBroker.getTitleArea().text(titleFormat.replace('%s', item.attr('title')));
                 },
                 timeDependent: formElement.getAttributeChangeCallback(),
                 removeInstructions(i, value) {

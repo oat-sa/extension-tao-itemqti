@@ -19,13 +19,14 @@
 /**
  * This plugin adds an item viewer aside from the item being edited.
  */
-define(['jquery', 'i18n', 'core/plugin', 'ui/hider', 'tpl!taoQtiItem/qtiCreator/tpl/layout/viewerPanel'], function (
-    $,
-    __,
-    pluginFactory,
-    hider,
-    viewerPanelTpl
-) {
+define([
+    'jquery',
+    'i18n',
+    'services/translation',
+    'core/plugin',
+    'ui/hider',
+    'tpl!taoQtiItem/qtiCreator/tpl/layout/viewerPanel'
+], function ($, __, translationService, pluginFactory, hider, viewerPanelTpl) {
     'use strict';
 
     const sideBySideAuthoringClass = 'side-by-side-authoring';
@@ -56,10 +57,22 @@ define(['jquery', 'i18n', 'core/plugin', 'ui/hider', 'tpl!taoQtiItem/qtiCreator/
                 return;
             }
 
-            const areaBroker = this.getAreaBroker();
-            const $container = areaBroker.getEditorWrapperArea();
+            this.getAreaBroker().getEditorWrapperArea().prepend(this.$element);
 
-            $container.prepend(this.$element);
+            const $title = this.$element.find('.item-viewer-bar h1');
+            const $container = this.$element.find('.item-viewer-scroll-inner');
+            const originResourceUri = config.properties.origin;
+
+            translationService
+                .getTranslatable(originResourceUri)
+                .then(data => (data && data.resources[0]) || {})
+                .then(translatable => {
+                    $title.text(__('%s - Original', translatable.resourceLabel));
+                })
+                .catch(error => itemCreator.trigger('error', error));
+
+            $container.html(config.properties.origin); // todo: replace with the actual content
+
             this.show();
         },
 
