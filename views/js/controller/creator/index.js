@@ -34,8 +34,7 @@ define([
     'taoQtiItem/qtiCreator/plugins/loader',
     'tpl!taoQtiItem/qtiCreator/tpl/layout/interactionsPanel',
     'tpl!taoQtiItem/qtiCreator/tpl/layout/itemPanel',
-    'tpl!taoQtiItem/qtiCreator/tpl/layout/propertiesPanel',
-    'tpl!taoQtiItem/qtiCreator/tpl/layout/viewerPanel'
+    'tpl!taoQtiItem/qtiCreator/tpl/layout/propertiesPanel'
 ], function (
     $,
     _,
@@ -48,8 +47,7 @@ define([
     pluginLoader,
     interactionsPanelTpl,
     itemPanelTpl,
-    propertiesPanelTpl,
-    viewerPanelTpl
+    propertiesPanelTpl
 ) {
     'use strict';
 
@@ -59,14 +57,10 @@ define([
      */
     function loadAreaBroker(config) {
         const $container = $('#item-editor-scope');
-        const $wrapper = $('#item-editor-wrapper', '#item-editor-scope');
-        const panels = [
-            config.properties.translation ? viewerPanelTpl : interactionsPanelTpl,
-            itemPanelTpl,
-            propertiesPanelTpl
-        ];
-        if (config.properties.translation) {
-            $container.addClass('side-by-side-authoring');
+        const $wrapper = $('#item-editor-wrapper', $container);
+        const panels = [itemPanelTpl, propertiesPanelTpl];
+        if (!config || !config.properties || !config.properties.translation) {
+            panels.unshift(interactionsPanelTpl);
         }
         panels.forEach(panel => $wrapper.append(panel()));
         return areaBrokerFactory($container, {
@@ -75,6 +69,7 @@ define([
             menuRight: $('.menu-right', $container),
             contentCreatorPanel: $('#item-editor-panel', $container),
             editorBar: $('#item-editor-panel .item-editor-bar', $container),
+            editorWrapper: $('#item-editor-wrapper', $container),
             title: $('#item-editor-panel .item-editor-bar h1', $container),
             toolbar: $('#item-editor-panel .item-editor-bar #toolbar-top', $container),
             interactionPanel: $('#item-editor-interaction-bar', $container),
