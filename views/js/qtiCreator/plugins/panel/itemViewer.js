@@ -37,7 +37,7 @@ define([
      * @returns {Function} the plugin
      */
     return pluginFactory({
-        name: 'save',
+        name: 'itemViewer',
 
         /**
          * Initialize the plugin (called during itemCreator's init)
