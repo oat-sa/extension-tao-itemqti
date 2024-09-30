@@ -25,8 +25,9 @@ define([
     'services/translation',
     'core/plugin',
     'ui/hider',
+    'interact',
     'tpl!taoQtiItem/qtiCreator/tpl/layout/viewerPanel'
-], function ($, __, translationService, pluginFactory, hider, viewerPanelTpl) {
+], function ($, __, translationService, pluginFactory, hider, interact, viewerPanelTpl) {
     'use strict';
 
     const sideBySideAuthoringClass = 'side-by-side-authoring';
@@ -52,16 +53,29 @@ define([
         render() {
             const itemCreator = this.getHost();
             const config = itemCreator.getConfig();
+            const originResourceUri = config.properties.origin;
 
             if (!config.properties || !config.properties.translation) {
                 return;
             }
 
-            this.getAreaBroker().getEditorWrapperArea().prepend(this.$element);
-
+            const $editorArea = this.getAreaBroker().getEditorWrapperArea();
+            const $container = this.$element.closest('.item-viewer-panel');
             const $title = this.$element.find('.item-viewer-bar h1');
-            const $container = this.$element.find('.item-viewer-scroll-inner');
-            const originResourceUri = config.properties.origin;
+            const $viewerContainer = this.$element.find('.item-viewer-scroll-inner');
+            const $separator = this.$element.find('.item-viewer-separator-handle');
+
+            $editorArea.prepend(this.$element);
+
+            this.handleSeparator = interact($separator[0]).draggable({
+                onmove(event) {
+                    const editorWidth = $editorArea.outerWidth();
+                    const currentWidth = parseFloat($container.css('width'));
+                    const newWidth = currentWidth + event.dx;
+                    const percentWidth = Math.round((newWidth / editorWidth) * 10000) / 100;
+                    $container.css('width', `${percentWidth}%`);
+                }
+            });
 
             translationService
                 .getTranslatable(originResourceUri)
@@ -71,7 +85,7 @@ define([
                 })
                 .catch(error => itemCreator.trigger('error', error));
 
-            $container.html(config.properties.origin); // todo: replace with the actual content
+            $viewerContainer.html(config.properties.origin); // todo: replace with the actual content
 
             this.show();
         },
@@ -80,6 +94,7 @@ define([
          * Called during the itemCreator's destroy phase
          */
         destroy() {
+            this.handleSeparator.unset();
             this.$element.remove();
         },
 
