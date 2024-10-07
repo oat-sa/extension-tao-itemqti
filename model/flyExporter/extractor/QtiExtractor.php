@@ -22,7 +22,7 @@
 
 namespace oat\taoQtiItem\model\flyExporter\extractor;
 
-use League\Flysystem\FileNotFoundException;
+use League\Flysystem\FilesystemException;
 use oat\taoQtiItem\model\qti\Service;
 
 /**
@@ -106,7 +106,7 @@ class QtiExtractor implements Extractor
             if (empty($xml)) {
                 throw new ExtractorException('No content found for item ' . $item->getUri());
             }
-        } catch (FileNotFoundException $e) {
+        } catch (FilesystemException $e) {
             throw new ExtractorException(
                 'qti.xml file was not found for item ' . $item->getUri() . '; The item might be empty.'
             );

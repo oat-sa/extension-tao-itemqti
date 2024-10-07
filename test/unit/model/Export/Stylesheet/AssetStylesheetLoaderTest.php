@@ -24,7 +24,7 @@ namespace oat\taoQtiItem\test\unit\model\Export\Stylesheet;
 
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 use oat\generis\model\data\Ontology;
 use oat\generis\test\TestCase;
 use oat\oatbox\filesystem\FileSystem;
@@ -36,7 +36,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class AssetStylesheetLoaderTest extends TestCase
 {
-    /** @var FilesystemInterface|MockObject */
+    /** @var FilesystemOperator|MockObject */
     private $fileSystemMock;
 
     /** @var AssetStylesheetLoader */
@@ -110,7 +110,7 @@ class AssetStylesheetLoaderTest extends TestCase
         $this->fileSystemMock
             ->expects($this->once())
             ->method('listContents')
-            ->willReturn([$fileInfo]);
+            ->willReturn(new DirectoryListing([$fileInfo]));
 
         $this->fileSystemMock
             ->expects($this->once())
@@ -148,7 +148,7 @@ class AssetStylesheetLoaderTest extends TestCase
         $this->fileSystemMock
             ->expects($this->once())
             ->method('listContents')
-            ->willReturn([]);
+            ->willReturn(new DirectoryListing());
 
         $result = $this->subject->loadAssetsFromAssetResource('encodedLinkToResource');
         $this->assertEquals([], $result);
