@@ -51,7 +51,7 @@ class AssetStylesheetLoader extends ConfigurableService
 
             $stylesheetPath = $this->buildAssetPathFromPropertyName($property);
             try {
-                $cssFiles = $this->getFileSystem()->listContents($stylesheetPath);
+                $cssFiles = $this->getFileSystem()->listContents($stylesheetPath)->toArray();
                 foreach ($cssFiles as $key => $file) {
                     $cssFiles[$key]['stream'] = $this->getFileSystem()->readStream(
                         $stylesheetPath . DIRECTORY_SEPARATOR . $file['basename']

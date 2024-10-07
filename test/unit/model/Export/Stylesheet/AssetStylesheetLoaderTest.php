@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\test\unit\model\Export\Stylesheet;
 
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use League\Flysystem\DirectoryListing;
 use League\Flysystem\FilesystemOperator;
 use oat\generis\model\data\Ontology;
 use oat\generis\test\TestCase;
@@ -148,7 +149,7 @@ class AssetStylesheetLoaderTest extends TestCase
         $this->fileSystemMock
             ->expects($this->once())
             ->method('listContents')
-            ->willReturn(new DirectoryListing());
+            ->willReturn(new DirectoryListing([]));
 
         $result = $this->subject->loadAssetsFromAssetResource('encodedLinkToResource');
         $this->assertEquals([], $result);
