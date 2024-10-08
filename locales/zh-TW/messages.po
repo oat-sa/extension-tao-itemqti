@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.04\n"
-"PO-Revision-Date: 2022-04-01T09:30:56\n"
+"Project-Id-Version: TAO 2024.10\n"
+"PO-Revision-Date: 2024-10-03T15:14:02\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -43,8 +43,20 @@ msgstr ""
 msgid "%s of %s words maximum."
 msgstr ""
 
+msgid "(comma)"
+msgstr ""
+
+msgid "(dot)"
+msgstr ""
+
+msgid "(space)"
+msgstr ""
+
 msgid "-- Any kind of file --"
 msgstr "-- 任何類型的檔案 --"
+
+msgid "--- leave empty ---"
+msgstr "--- 留空 ---"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr ""
@@ -115,6 +127,9 @@ msgstr ""
 
 msgid "Add Style Sheet"
 msgstr "新增樣式表"
+
+msgid "after"
+msgstr ""
 
 msgid "Alignment"
 msgstr "對齊方式"
@@ -213,10 +228,13 @@ msgstr "背景色彩"
 msgid "Base"
 msgstr ""
 
-msgid "block"
-msgstr "區塊"
+msgid "Be aware, if you choose to remove the instructions, the system will not provide any warnings to the test takers if constraints are set."
+msgstr ""
 
 msgid "Block"
+msgstr "區塊"
+
+msgid "block"
 msgstr "區塊"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -234,10 +252,10 @@ msgstr "瀏覽你的電腦，並選擇檔案。"
 msgid "Browse..."
 msgstr "瀏覽..."
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "取消"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "取消"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -288,11 +306,11 @@ msgstr "選擇的互動"
 msgid "Choice Properties"
 msgstr "選擇的屬性"
 
-msgid "Choices"
-msgstr "選擇"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "選擇"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -327,6 +345,9 @@ msgstr "使用一個或多個文本字段的方式來收集開放式資料(串�
 msgid "Color Picker"
 msgstr "顏色挑選器"
 
+msgid "Column separator"
+msgstr ""
+
 msgid "Common Interactions"
 msgstr ""
 
@@ -345,6 +366,9 @@ msgstr "正確"
 msgid "Cosinus"
 msgstr ""
 
+msgid "Create a single hottext from the selection"
+msgstr ""
+
 msgid "Create assocations and fill the score in the form below"
 msgstr "創建關聯然後在以下的表格填寫比分"
 
@@ -359,6 +383,9 @@ msgstr "建立空格"
 
 msgid "Create hottext"
 msgstr "建立突出文字"
+
+msgid "Create multiple hottexts from the selection"
+msgstr ""
 
 msgid "Create pair(s) from a series of choices."
 msgstr "從一系列的選擇創建對組"
@@ -381,10 +408,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "訂製回應處理模式"
 
-msgid "default"
+msgid "Default"
 msgstr "預設值"
 
-msgid "Default"
+msgid "default"
 msgstr "預設值"
 
 msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
@@ -437,6 +464,9 @@ msgstr "暫時禁用此樣式表"
 
 msgid "Display"
 msgstr "顯示"
+
+msgid "Display media player"
+msgstr ""
 
 msgid "Display the choices either horizontally or vertically"
 msgstr ""
@@ -741,6 +771,12 @@ msgstr ""
 msgid "If this box is checked the student will be able to eliminate choices."
 msgstr ""
 
+msgid "Image caption"
+msgstr ""
+
+msgid "Image caption not enabled when position is set to inline"
+msgstr ""
+
 msgid "Import"
 msgstr "匯入"
 
@@ -778,6 +814,9 @@ msgid "incorrect"
 msgstr "不對"
 
 msgid "Index"
+msgstr ""
+
+msgid "Indicates that the audio forms part of a sequence with other sequential interactions. The advancing of the sequence is handled by the delivery engine. Delays are also respected."
 msgstr ""
 
 msgid "Infinity"
@@ -825,6 +864,12 @@ msgstr ""
 msgid "Invalid URL"
 msgstr ""
 
+msgid "Invalid value in correct response property."
+msgstr ""
+
+msgid "Invalid value, use %s %s for decimal point."
+msgstr ""
+
 msgid "Is this choice the correct response?"
 msgstr "這個選擇是對的答案嗎？"
 
@@ -855,10 +900,10 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "題目屬性"
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "題目屬性"
 
 msgid "Item width"
@@ -886,13 +931,10 @@ msgstr "LaTeX"
 msgid "Layout"
 msgstr ""
 
-msgid "--- leave empty ---"
-msgstr "--- 留空 ---"
-
-msgid "left"
+msgid "Left"
 msgstr "左"
 
-msgid "Left"
+msgid "left"
 msgstr "左"
 
 msgid "Left bracket"
@@ -969,19 +1011,19 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大值"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "最大長度"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "最大長度"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "最多字數"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "最多字數"
 
 msgid "Max. number of matches"
@@ -1081,11 +1123,11 @@ msgstr ""
 msgid "No value set"
 msgstr "沒有設定數值"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "無"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "還未定義。"
@@ -1114,6 +1156,9 @@ msgstr "排序"
 
 msgid "Order Interaction"
 msgstr "排序互動"
+
+msgid "order single list"
+msgstr ""
 
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "在圖片上排列這些區域(熱點)。"
@@ -1159,6 +1204,9 @@ msgstr "請定義以下正確的關聯配對。"
 
 msgid "Please define the correct order in the box to the right."
 msgstr "請在右側的框中定義該正確順序。"
+
+msgid "Please define the correct order."
+msgstr ""
 
 msgid "Please define the correct response and the score below."
 msgstr "請定義以下的正確回應和分數。"
@@ -1277,6 +1325,9 @@ msgstr ""
 msgid "QTI Metadata"
 msgstr ""
 
+msgid "QTI metadata as properties"
+msgstr ""
+
 msgid "QTI Package 2.1"
 msgstr "QTI 包 2.1"
 
@@ -1334,6 +1385,9 @@ msgstr "刪除自訂題目寬度"
 msgid "Remove custom text color"
 msgstr "刪除自定文字顏色"
 
+msgid "Remove Instructions"
+msgstr ""
+
 msgid "Remove Message"
 msgstr "移除信件"
 
@@ -1345,6 +1399,9 @@ msgstr "移除選取的形狀"
 
 msgid "Remove this stylesheet"
 msgstr "移除此樣式表"
+
+msgid "Removes all instruction messages generated by the system from the interface."
+msgstr ""
 
 msgid "Replay timeout"
 msgstr ""
@@ -1388,11 +1445,11 @@ msgstr ""
 msgid "Rich text + math"
 msgstr ""
 
-msgid "Right"
-msgstr ""
-
 msgid "right"
 msgstr "右"
+
+msgid "Right"
+msgstr ""
 
 msgid "Right bracket"
 msgstr ""
@@ -1409,10 +1466,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr "分數"
 
-msgid "Score"
+msgid "score"
 msgstr "分數"
 
 msgid "Score range"
@@ -1422,6 +1479,9 @@ msgid "Score value"
 msgstr "分值"
 
 msgid "Scrollable multi-column"
+msgstr ""
+
+msgid "seconds"
 msgstr ""
 
 msgid "Select"
@@ -1511,6 +1571,9 @@ msgstr "選擇這個區域"
 msgid "Select this area to start an association"
 msgstr "選擇這個區域來開始一個關聯"
 
+msgid "Sequential"
+msgstr ""
+
 msgid "Set a CSS class name in order to customize the display style."
 msgstr ""
 
@@ -1545,6 +1608,9 @@ msgid "some text ..."
 msgstr "一些文本..."
 
 msgid "Something went wrong while destroying an interaction: %s"
+msgstr ""
+
+msgid "sort from source to target list"
 msgstr ""
 
 msgid "Square root"
@@ -1733,6 +1799,9 @@ msgstr "這選擇可以與多少其他選擇有相關聯(最多數量）。如�
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
 msgstr "maxPlays屬性所述媒體對象可以播放的最多次數。考生播放媒體對象必須不能多於maxPlay次數。 當指數是0(預設)就表示沒有限制。"
 
+msgid "The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score."
+msgstr ""
+
 msgid "The MIME-type attribute describes which kind of file may be uploaded."
 msgstr "MIME類型屬性描述哪一種文件可以上載。"
 
@@ -1787,6 +1856,9 @@ msgstr "形狀寬度以像素為單位。當背景圖像的尺寸適於容器，
 msgid "The target must be an instance of DOMDocument"
 msgstr "目標必須是 DOMDocument 的一個實例"
 
+msgid "The text to be displayed below the image."
+msgstr ""
+
 msgid "The text to be displayed if the image is not available."
 msgstr "如果沒有提供圖像，此文本會顯示。"
 
@@ -1824,7 +1896,13 @@ msgstr ""
 msgid "This is not a valid answer"
 msgstr "這不是一個有效的答案"
 
+msgid "This is not a valid value. Expected %s"
+msgstr ""
+
 msgid "This is required"
+msgstr ""
+
+msgid "This shows or hides the entire audio player from view. Test takers will not be able to play, pause, or change the volume level."
 msgstr ""
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
@@ -1840,6 +1918,9 @@ msgid "Title"
 msgstr "標題"
 
 msgid "to"
+msgstr ""
+
+msgid "Toggles the display of a vertical separator between columns."
 msgstr ""
 
 msgid "Tooltip Content"
