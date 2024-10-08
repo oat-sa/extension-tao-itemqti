@@ -293,9 +293,10 @@ class QtiCreator extends tao_actions_CommonModule
 
         // TODO: better implement the following parameters
         // --- start
+        $config->setProperty('translation', $this->getRequestParameter('translation'));
+        $config->setProperty('origin', $this->getRequestParameter('originResourceUri'));
+        $config->setProperty('translationStatus', null);
         if ($this->getRequestParameter('translation')) {
-            $config->setProperty('translation', $this->getRequestParameter('translation'));
-            $config->setProperty('origin', $this->getRequestParameter('originResourceUri'));
             $config->setProperty('translationStatus', 'translating'); // todo: use the status from the translation
         }
         // --- end
