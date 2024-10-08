@@ -25,12 +25,14 @@ namespace oat\taoQtiItem\model\import;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\PhpSerializable;
 use oat\oatbox\PhpSerializeStateless;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\import\ImportHandlerHelperTrait;
 use oat\tao\model\import\TaskParameterProviderInterface;
 use oat\taoQtiItem\model\event\QtiItemImportEvent;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
+use oat\taoQtiTest\models\classes\metadata\MetadataLomService;
 use tao_models_classes_import_ImportHandler;
 use helpers_TimeOutHelper;
 use common_report_Report;
@@ -56,6 +58,9 @@ class QtiPackageImport implements
         getTaskParameters as getDefaultTaskParameters;
     }
 
+    public const METADATA_IMPORT_ELEMENT_NAME = 'metadataImport';
+    public const DISABLED_ELEMENTS = 'disabledFields';
+
     /**
      * @see tao_models_classes_import_ImportHandler::getLabel()
      */
@@ -70,7 +75,6 @@ class QtiPackageImport implements
     public function getForm()
     {
         $form = new QtiPackageImportForm();
-
         return $form->getForm();
     }
 
@@ -95,12 +99,22 @@ class QtiPackageImport implements
             //the zip extraction is a long process that can exced the 30s timeout
             helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);
 
+            $isImportMetadataEnabled = false;
+            if (isset($form[QtiPackageImportForm::METADATA_FORM_ELEMENT_NAME])) {
+                $isImportMetadataEnabled = (bool) $form[QtiPackageImportForm::METADATA_FORM_ELEMENT_NAME] === true;
+            }
+
             $report = ImportService::singleton()->importQTIPACKFile(
                 $uploadedFile,
                 $class,
                 true,
                 in_array('error', $rollbackInfo),
-                in_array('warning', $rollbackInfo)
+                in_array('warning', $rollbackInfo),
+                null,
+                null,
+                null,
+                null,
+                $isImportMetadataEnabled
             );
 
             helpers_TimeOutHelper::reset();
@@ -140,6 +154,9 @@ class QtiPackageImport implements
         return array_merge(
             [
                 'rollback' => $form->getValue('rollback'),
+                QtiPackageImportForm::METADATA_FORM_ELEMENT_NAME => $form->getValue(
+                    QtiPackageImportForm::METADATA_FORM_ELEMENT_NAME
+                ) ?? null,
             ],
             $this->getDefaultTaskParameters($form)
         );

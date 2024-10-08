@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\test\unit\model\qti\validator;
 
 use common_exception_Error;
 use oat\generis\test\TestCase;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\validator\ItemIdentifierValidator;
 
@@ -35,53 +36,79 @@ class ItemIdentifierValidatorTest extends TestCase
     protected function setUp(): void
     {
         $this->item = $this->createMock(Item::class);
+        $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
+        $this->subject = new ItemIdentifierValidator(
+            $this->featureFlagChecker,
+            '/^[a-zA-Z_]{1}[a-zA-Z0-9_\.-]*$/u',
+        );
     }
 
     public function testValidationSuccess(): void
     {
-        $subject = new ItemIdentifierValidator();
+        $this->featureFlagChecker->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(false);
 
         $this->item->expects($this->once())
             ->method('getAttributeValue')
             ->willReturn('some-fake-id-64228-217055');
 
-        $subject->validate($this->item);
+        $this->subject->validate($this->item);
     }
 
     public function testValidationSuccessWithDifferentPattern(): void
     {
-        $subject = new ItemIdentifierValidator('/^[a-zA-Z_]{1}[a-zA-Z0-9_-]*$/u');
+        $this->featureFlagChecker->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(false);
 
         $this->item->expects($this->once())
             ->method('getAttributeValue')
             ->willReturn('some-fake-id-64228-217055-not-allowed-dots');
 
-        $subject->validate($this->item);
+        $this->subject->validate($this->item);
     }
 
     public function testValidationFailureThrowsException(): void
     {
-        $this->expectException(common_exception_Error::class);
+        $this->featureFlagChecker->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(false);
 
-        $subject = new ItemIdentifierValidator();
+        $this->expectException(common_exception_Error::class);
 
         $this->item->expects($this->once())
             ->method('getAttributeValue')
             ->willReturn('$some.fake.id.64228.217055');
 
-        $subject->validate($this->item);
+        $this->subject->validate($this->item);
     }
 
     public function testValidationFailureWithDifferentPatternThrowsException(): void
     {
-        $this->expectException(common_exception_Error::class);
+        $this->featureFlagChecker->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(false);
 
-        $subject = new ItemIdentifierValidator('/^[a-zA-Z_]{1}[a-zA-Z0-9_-]*$/u');
+        $this->expectException(common_exception_Error::class);
 
         $this->item->expects($this->once())
             ->method('getAttributeValue')
-            ->willReturn('some.fake.id.64228.217055.not.allowed.dots');
+            ->willReturn('some.fake.id.64228.217055!not.allowed.dots');
 
-        $subject->validate($this->item);
+        $this->subject->validate($this->item);
+    }
+
+    public function testValidationSuccessWithFeatureFlag()
+    {
+        $this->featureFlagChecker->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $this->item->expects($this->once())
+            ->method('getAttributeValue')
+            ->willReturn('999999999');
+
+        $this->subject->validate($this->item);
     }
 }

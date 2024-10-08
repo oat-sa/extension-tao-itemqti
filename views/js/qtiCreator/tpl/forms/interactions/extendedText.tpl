@@ -8,6 +8,7 @@
     	{{/each}}
     </select>
 </div>
+{{#if constraintsAvailable}}
 <div id="constraints">
     <hr>
     <div class="panel">
@@ -48,6 +49,7 @@
         </div>
     </div>
 </div>
+{{/if}}
 <div id="recommendations">
     <hr>
     <div class="panel extendedText">

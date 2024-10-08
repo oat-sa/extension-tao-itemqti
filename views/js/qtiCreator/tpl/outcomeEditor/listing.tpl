@@ -1,5 +1,5 @@
 {{#each outcomes}}
-<div class="outcome-container panel subpanel{{#if readonly}} readonly{{else}} editable deletable{{/if}}" data-serial="{{serial}}">
+<div class="outcome-container panel subpanel{{#if readonly}} readonly{{else}} editable deletable{{/if}} {{#if hidden}}hidden{{/if}}" data-serial="{{serial}}">
     <div class="identifier-label" title="{{interpretation}}">
         <span class="label">{{identifier}}</span>
         <input class="identifier"

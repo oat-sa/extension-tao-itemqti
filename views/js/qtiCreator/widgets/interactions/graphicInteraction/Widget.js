@@ -58,9 +58,9 @@ define([
                     imgId       : `bg-image-${serial}`,
                     container   : $container,
                     responsive  : $container.hasClass('responsive'),
-                    resize      : function() {
+                    resize      : function(...args) {
                         if(typeof resize === 'function') {
-                            resize.apply(this, arguments);
+                            resize.apply(this, args);
                         }
                     }
                 });

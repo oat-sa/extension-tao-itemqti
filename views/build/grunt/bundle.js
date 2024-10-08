@@ -61,7 +61,8 @@ module.exports = function (grunt) {
                                 'taoQtiItem/qtiItem/**/*',
                                 'taoQtiItem/runner/**/*',
                                 'qtiCustomInteractionContext',
-                                'qtiInfoControlContext'
+                                'qtiInfoControlContext',
+                                'taoQtiItem/qtiCreator/helper/xincludeLoader'
                             ],
                             dependencies: ['taoItems/loader/taoItemsRunner.min']
                         },

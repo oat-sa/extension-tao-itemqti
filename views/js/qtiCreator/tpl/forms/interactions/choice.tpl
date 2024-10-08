@@ -80,6 +80,7 @@
 </div>
 <hr/>
 {{/if}}
+{{#if enabledFeatures.orientationAvailable}}
 <div class="panel">
     <h3>{{__ 'Orientation'}}</h3>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
@@ -100,3 +101,4 @@
         </label>
     </div>
 </div>
+{{/if}}

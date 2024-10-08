@@ -71,13 +71,14 @@ define([
      * @param {String} label - the item label
      * @param {String} itemDataUrl - the data url
      * @param {Boolean} perInteractionRp - per interaction processing enabled
+     * @param {String} identifierGenerationStrategy - per interaction processing enabled
      *
      * @returns {Promise} that resolve with the loaded item model
      */
-    const loadItem = function loadItem(uri, label, itemDataUrl, perInteractionRp) {
+    const loadItem = function loadItem(uri, label, itemDataUrl, perInteractionRp, identifierGenerationStrategy) {
         return new Promise(function (resolve, reject) {
             itemLoader.loadItem(
-                { uri: uri, label: label, itemDataUrl: itemDataUrl, perInteractionRp },
+                { uri: uri, label: label, itemDataUrl: itemDataUrl, perInteractionRp, identifierGenerationStrategy },
                 function (item) {
                     if (!item) {
                         reject(new Error('Unable to load the item'));
@@ -221,11 +222,12 @@ define([
                         .then(() => styleEditor.save())
                         .then(() => itemWidget.save())
                         .then(() => {
-                            if (!silent){
+                            if (!silent) {
                                 self.trigger('success', __('Your item has been saved'));
                             }
                             self.trigger('saved');
-                        }).catch(err => {
+                        })
+                        .catch(err => {
                             self.trigger('error', err);
                         });
                 });
@@ -240,7 +242,8 @@ define([
                     config.properties.uri,
                     config.properties.label,
                     config.properties.itemDataUrl,
-                    config.properties.perInteractionRp
+                    config.properties.perInteractionRp,
+                    config.properties.identifierGenerationStrategy
                 )
                     .then(function (item) {
                         if (!_.isObject(item)) {
@@ -349,6 +352,9 @@ define([
                 // pass an context reference to the renderer
                 config.qtiCreatorContext = qtiCreatorContext;
 
+                // listen to save requests from the DOM components (like the style editor)
+                areaBroker.getContentCreatorPanelArea().on('save.qti-creator', () => this.trigger('save'));
+
                 creatorRenderer
                     .get(true, config, areaBroker)
                     .setOptions(config.properties)
@@ -402,6 +408,7 @@ define([
                 pluginRun('destroy')
                     .then(() => qtiCreatorContext.destroy())
                     .then(() => {
+                        areaBroker.getContentCreatorPanelArea().off('.qti-creator');
                         this.trigger('destroy');
                     })
                     .catch(err => {
