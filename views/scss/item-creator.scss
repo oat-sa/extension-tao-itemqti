@@ -785,6 +785,28 @@ img.dragging.ui-draggable-dragging {
             margin: 0;
         }
     }
+
+    .item-viewer-scroll-container {
+        position: relative;
+        height: 100%;
+        @include simple-flex-box(auto);
+        overflow: auto;
+
+        .item-viewer-scroll-inner {
+            padding: 50px 20px 20px;
+        }
+
+        .item-viewer-scroll-outer {
+            background-image: url(data:image/gif;base64,R0lGODlhKwALAPEAAN3d3TMzM4mJiTMzMyH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAKwALAAACMoSOCMuW2diD88UKG95W88uF4DaGWFmhZid93pq+pwxnLUnXh8ou+sSz+T64oCAyTBUAACH5BAkKAAAALAAAAAArAAsAAAI9xI4IyyAPYWOxmoTHrHzzmGHe94xkmJifyqFKQ0pwLLgHa82xrekkDrIBZRQab1jyfY7KTtPimixiUsevAAAh+QQJCgAAACwAAAAAKwALAAACPYSOCMswD2FjqZpqW9xv4g8KE7d54XmMpNSgqLoOpgvC60xjNonnyc7p+VKamKw1zDCMR8rp8pksYlKorgAAIfkECQoAAAAsAAAAACsACwAAAkCEjgjLltnYmJS6Bxt+sfq5ZUyoNJ9HHlEqdCfFrqn7DrE2m7Wdj/2y45FkQ13t5itKdshFExC8YCLOEBX6AhQAADsAAAAAAAAAAAA=);
+            background-position: center 250px;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+    }
+    .item-viewer {
+        @include box-shadow(0px, 6px, 8px, 0px, mix(#fff, $darkBrown, 50%));
+        max-width: 1024px;
+    }
 }
 .item-viewer-separator-handle {
     background: $uiGeneralContentBg;
@@ -814,8 +836,14 @@ img.dragging.ui-draggable-dragging {
 }
 
 .side-by-side-authoring {
-    .item-viewer-scroll-inner, #item-editor-scroll-inner {
-        min-width: 700px;
+    .item-viewer-scroll-inner {
+        min-width: 600px;
+    }
+    #item-editor-scoll-container {
+        #item-editor-scroll-inner {
+            min-width: 700px;
+            padding: 80px 20px 20px;
+        }
     }
 }
 

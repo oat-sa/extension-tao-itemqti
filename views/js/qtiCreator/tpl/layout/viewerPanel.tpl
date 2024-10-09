@@ -8,7 +8,9 @@
     <div class="item-viewer-scroll-container">
         <div class="item-viewer-scroll-outer">
             <div class="item-viewer-scroll-inner">
-                <!-- item goes here -->
+                <div class="item-viewer">
+                    <!-- item goes here -->
+                </div>
             </div>
         </div>
     </div>

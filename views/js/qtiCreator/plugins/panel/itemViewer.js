@@ -26,8 +26,9 @@ define([
     'core/plugin',
     'ui/hider',
     'interact',
+    'taoItems/previewer/factory',
     'tpl!taoQtiItem/qtiCreator/tpl/layout/viewerPanel'
-], function ($, __, translationService, pluginFactory, hider, interact, viewerPanelTpl) {
+], function ($, __, translationService, pluginFactory, hider, interact, previewerFactory, viewerPanelTpl) {
     'use strict';
 
     const sideBySideAuthoringClass = 'side-by-side-authoring';
@@ -62,7 +63,7 @@ define([
             const $editorArea = this.getAreaBroker().getEditorWrapperArea();
             const $container = this.$element.closest('.item-viewer-panel');
             const $title = this.$element.find('.item-viewer-bar h1');
-            const $viewerContainer = this.$element.find('.item-viewer-scroll-inner');
+            const $viewerContainer = this.$element.find('.item-viewer');
             const $separator = this.$element.find('.item-viewer-separator-handle');
 
             $editorArea.prepend(this.$element);
@@ -85,7 +86,18 @@ define([
                 })
                 .catch(error => itemCreator.trigger('error', error));
 
-            $viewerContainer.html(config.properties.origin); // todo: replace with the actual content
+            previewerFactory(
+                'qtiItem',
+                config.properties.origin,
+                {},
+                {
+                    container: $viewerContainer,
+                    disableDefaultPlugins: true,
+                    view: 'viewer',
+                    fullPage: false,
+                    pluginsOptions: {}
+                }
+            );
 
             this.show();
         },
