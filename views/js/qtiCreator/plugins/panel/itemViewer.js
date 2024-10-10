@@ -59,11 +59,16 @@ define([
             return translationService
                 .getTranslations(originResourceUri, translation => translation.resourceUri === resourceUri)
                 .then(data => {
+                    const language = data && translationService.getTranslationsLanguage(data.resources)[0];
                     let translation = data && translationService.getTranslationsProgress(data.resources)[0];
                     if (!translation || translation == 'pending') {
                         translation = 'translating';
                     }
                     config.properties.translationStatus = translation;
+                    if (language) {
+                        config.properties.translationLanguageUri = language.value;
+                        config.properties.translationLanguageCode = language.literal;
+                    }
                 })
                 .catch(error => itemCreator.trigger('error', error));
         },

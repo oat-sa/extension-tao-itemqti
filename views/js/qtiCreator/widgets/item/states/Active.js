@@ -55,9 +55,9 @@ define([
             const itemRemoveClass = cls => itemElements.forEach(el => el.removeClass(cls));
             const itemRemoveClasses = classes => classes.forEach(itemRemoveClass);
 
-            let titleFormat = '%s';
+            let titleFormat = '%title%';
             if (_widget.options.translation) {
-                titleFormat = __('%s - Translation');
+                titleFormat = __('%title% - Translation (%lang%)');
             }
 
             //build form:
@@ -87,7 +87,13 @@ define([
                 identifier: formElement.getAttributeChangeCallback(),
                 title: function titleChange(i, title) {
                     item.attr('title', title);
-                    areaBroker.getTitleArea().text(titleFormat.replace('%s', item.attr('title')));
+                    areaBroker
+                        .getTitleArea()
+                        .text(
+                            titleFormat
+                                .replace('%title%', item.attr('title'))
+                                .replace('%lang%', _widget.options.translationLanguageCode)
+                        );
                 },
                 timeDependent: formElement.getAttributeChangeCallback(),
                 removeInstructions(i, value) {

@@ -38,9 +38,9 @@ define(['lodash', 'i18n', 'core/plugin'], function (_, __, pluginFactory) {
             const config = this.getHost().getConfig();
             const item = this.getHost().getItem();
 
-            this.format = '%s';
+            this.format = '%title%';
             if (config.properties && config.properties.translation) {
-                this.format = __('%s - Translation');
+                this.format = __('%title% - Translation (%lang%)');
             }
 
             if (item && !_.isEmpty(item.attr('title'))) {
@@ -54,9 +54,16 @@ define(['lodash', 'i18n', 'core/plugin'], function (_, __, pluginFactory) {
          * Hook to the host's render
          */
         render() {
+            const config = this.getHost().getConfig();
             if (this.title) {
                 //attach the element to the title area
-                this.getAreaBroker().getTitleArea().text(this.format.replace('%s', this.title));
+                this.getAreaBroker()
+                    .getTitleArea()
+                    .text(
+                        this.format
+                            .replace('%title%', this.title)
+                            .replace('%lang%', config.properties.translationLanguageCode)
+                    );
             }
         }
     });
