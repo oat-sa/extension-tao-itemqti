@@ -22,8 +22,8 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\Export\Stylesheet;
 
-use League\Flysystem\FileNotFoundException;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemException;
+use League\Flysystem\FilesystemOperator;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
@@ -51,7 +51,7 @@ class AssetStylesheetLoader extends ConfigurableService
 
             $stylesheetPath = $this->buildAssetPathFromPropertyName($property);
             try {
-                $cssFiles = $this->getFileSystem()->listContents($stylesheetPath);
+                $cssFiles = $this->getFileSystem()->listContents($stylesheetPath)->toArray();
                 foreach ($cssFiles as $key => $file) {
                     $cssFiles[$key]['stream'] = $this->getFileSystem()->readStream(
                         $stylesheetPath . DIRECTORY_SEPARATOR . $file['basename']
@@ -59,7 +59,7 @@ class AssetStylesheetLoader extends ConfigurableService
                 }
 
                 return $cssFiles;
-            } catch (FileNotFoundException $exception) {
+            } catch (FilesystemException $exception) {
                 $this->getLogger()->notice(
                     sprintf(
                         'Stylesheet %s not found for resource %s',
@@ -85,7 +85,7 @@ class AssetStylesheetLoader extends ConfigurableService
         );
     }
 
-    private function getFileSystem(): FilesystemInterface
+    private function getFileSystem(): FilesystemOperator
     {
         return $this->getFileSystemService()
             ->getFileSystem($this->getFlySystemManagement()->getOption(FlySystemManagement::OPTION_FS));
