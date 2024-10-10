@@ -291,6 +291,12 @@ class QtiCreator extends tao_actions_CommonModule
         $lang = \common_session_SessionManager::getSession()->getDataLanguage();
         $config->setProperty('lang', $lang);
 
+        // TODO: better implement the following parameters
+        // --- start
+        $config->setProperty('translation', $this->getRequestParameter('translation'));
+        $config->setProperty('origin', $this->getRequestParameter('originResourceUri'));
+        // --- end
+
         //base url:
         $url = tao_helpers_Uri::url('getFile', 'QtiCreator', 'taoQtiItem', [
             'uri' => $item->getUri(),
