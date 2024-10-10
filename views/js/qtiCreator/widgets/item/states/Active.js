@@ -112,7 +112,6 @@ define([
                     });
                 },
                 translationStatus(i, status) {
-                    // TODO: find a way to save the status with the item
                     _widget.options.translationStatus = status;
                 }
             });

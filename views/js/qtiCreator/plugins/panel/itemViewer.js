@@ -46,6 +46,26 @@ define([
         init() {
             this.$element = $(viewerPanelTpl());
             this.hide();
+
+            const itemCreator = this.getHost();
+            const config = itemCreator.getConfig();
+            const resourceUri = config.properties.uri;
+            const originResourceUri = config.properties.origin;
+
+            if (!config.properties || !config.properties.translation) {
+                return;
+            }
+
+            return translationService
+                .getTranslations(originResourceUri, translation => translation.resourceUri === resourceUri)
+                .then(data => {
+                    let translation = data && translationService.getTranslationsProgress(data.resources)[0];
+                    if (!translation || translation == 'pending') {
+                        translation = 'translating';
+                    }
+                    config.properties.translationStatus = translation;
+                })
+                .catch(error => itemCreator.trigger('error', error));
         },
 
         /**
@@ -54,6 +74,7 @@ define([
         render() {
             const itemCreator = this.getHost();
             const config = itemCreator.getConfig();
+            const resourceUri = config.properties.uri;
             const originResourceUri = config.properties.origin;
 
             if (!config.properties || !config.properties.translation) {
@@ -98,6 +119,17 @@ define([
                     pluginsOptions: {}
                 }
             );
+
+            itemCreator.on('save', () => {
+                const item = itemCreator.getItem();
+                const itemWidget = item.data('widget');
+                const progress = itemWidget && itemWidget.options && itemWidget.options.translationStatus;
+                const progressUri = translationService.translationProgress[progress];
+
+                if (progressUri) {
+                    return translationService.updateTranslation(resourceUri, progressUri);
+                }
+            });
 
             this.show();
         },
