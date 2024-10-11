@@ -1,0 +1,49 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2024-10-11 13:08\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: fa\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: fa\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/taoQti.rdf.po\n"
+"X-Crowdin-File-ID: 917\n"
+"Language-Team: Persian\n"
+
+# http://www.tao.lu/Ontologies/TAOItem.rdf#QTI
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "QTI"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAOItem.rdf#QTI
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "IMS Question and Test Interoperability"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "QTI Manager"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "QTI Manager Role"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAOItem.rdf#QTI
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "QTI"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "QTI Manager"
+msgstr ""
+
