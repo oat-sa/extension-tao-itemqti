@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2024.10\n"
-"PO-Revision-Date: 2024-10-03T15:12:48\n"
+"Project-Id-Version: TAO 2022.04\n"
+"PO-Revision-Date: 2022-04-01T09:30:36\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: en-US\n"
@@ -43,19 +43,7 @@ msgstr ""
 msgid "%s of %s words maximum."
 msgstr ""
 
-msgid "(comma)"
-msgstr ""
-
-msgid "(dot)"
-msgstr ""
-
-msgid "(space)"
-msgstr ""
-
 msgid "-- Any kind of file --"
-msgstr ""
-
-msgid "--- leave empty ---"
 msgstr ""
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
@@ -126,9 +114,6 @@ msgid "Add new row"
 msgstr ""
 
 msgid "Add Style Sheet"
-msgstr ""
-
-msgid "after"
 msgstr ""
 
 msgid "Alignment"
@@ -228,13 +213,10 @@ msgstr ""
 msgid "Base"
 msgstr ""
 
-msgid "Be aware, if you choose to remove the instructions, the system will not provide any warnings to the test takers if constraints are set."
+msgid "block"
 msgstr ""
 
 msgid "Block"
-msgstr ""
-
-msgid "block"
 msgstr ""
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -252,10 +234,10 @@ msgstr ""
 msgid "Browse..."
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -306,10 +288,10 @@ msgstr ""
 msgid "Choice Properties"
 msgstr ""
 
-msgid "choices"
+msgid "Choices"
 msgstr ""
 
-msgid "Choices"
+msgid "choices"
 msgstr ""
 
 msgid "Choose the horizontal alignment for the table."
@@ -345,9 +327,6 @@ msgstr ""
 msgid "Color Picker"
 msgstr ""
 
-msgid "Column separator"
-msgstr ""
-
 msgid "Common Interactions"
 msgstr ""
 
@@ -366,9 +345,6 @@ msgstr ""
 msgid "Cosinus"
 msgstr ""
 
-msgid "Create a single hottext from the selection"
-msgstr ""
-
 msgid "Create assocations and fill the score in the form below"
 msgstr ""
 
@@ -382,9 +358,6 @@ msgid "Create gap"
 msgstr ""
 
 msgid "Create hottext"
-msgstr ""
-
-msgid "Create multiple hottexts from the selection"
 msgstr ""
 
 msgid "Create pair(s) from a series of choices."
@@ -408,10 +381,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr ""
 
-msgid "Default"
+msgid "default"
 msgstr ""
 
-msgid "default"
+msgid "Default"
 msgstr ""
 
 msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
@@ -463,9 +436,6 @@ msgid "Disable this stylesheet temporarily"
 msgstr ""
 
 msgid "Display"
-msgstr ""
-
-msgid "Display media player"
 msgstr ""
 
 msgid "Display the choices either horizontally or vertically"
@@ -771,12 +741,6 @@ msgstr ""
 msgid "If this box is checked the student will be able to eliminate choices."
 msgstr ""
 
-msgid "Image caption"
-msgstr ""
-
-msgid "Image caption not enabled when position is set to inline"
-msgstr ""
-
 msgid "Import"
 msgstr ""
 
@@ -814,9 +778,6 @@ msgid "incorrect"
 msgstr ""
 
 msgid "Index"
-msgstr ""
-
-msgid "Indicates that the audio forms part of a sequence with other sequential interactions. The advancing of the sequence is handled by the delivery engine. Delays are also respected."
 msgstr ""
 
 msgid "Infinity"
@@ -864,12 +825,6 @@ msgstr ""
 msgid "Invalid URL"
 msgstr ""
 
-msgid "Invalid value in correct response property."
-msgstr ""
-
-msgid "Invalid value, use %s %s for decimal point."
-msgstr ""
-
 msgid "Is this choice the correct response?"
 msgstr ""
 
@@ -900,10 +855,10 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr ""
 
 msgid "Item width"
@@ -931,10 +886,13 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-msgid "Left"
+msgid "--- leave empty ---"
 msgstr ""
 
 msgid "left"
+msgstr ""
+
+msgid "Left"
 msgstr ""
 
 msgid "Left bracket"
@@ -1011,19 +969,19 @@ msgstr ""
 msgid "Max"
 msgstr ""
 
-msgid "Max length"
+msgid "Max Length"
 msgstr ""
 
-msgid "Max Length"
+msgid "Max length"
 msgstr ""
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max words"
+msgid "Max Words"
 msgstr ""
 
-msgid "Max Words"
+msgid "Max words"
 msgstr ""
 
 msgid "Max. number of matches"
@@ -1123,10 +1081,10 @@ msgstr ""
 msgid "No value set"
 msgstr ""
 
-msgid "None"
+msgid "none"
 msgstr ""
 
-msgid "none"
+msgid "None"
 msgstr ""
 
 msgid "None defined yet."
@@ -1155,9 +1113,6 @@ msgid "Order"
 msgstr ""
 
 msgid "Order Interaction"
-msgstr ""
-
-msgid "order single list"
 msgstr ""
 
 msgid "Order the areas (hotspots) displayed on a picture."
@@ -1203,9 +1158,6 @@ msgid "Please define the correct association pairs below."
 msgstr ""
 
 msgid "Please define the correct order in the box to the right."
-msgstr ""
-
-msgid "Please define the correct order."
 msgstr ""
 
 msgid "Please define the correct response and the score below."
@@ -1325,9 +1277,6 @@ msgstr ""
 msgid "QTI Metadata"
 msgstr ""
 
-msgid "QTI metadata as properties"
-msgstr ""
-
 msgid "QTI Package 2.1"
 msgstr ""
 
@@ -1385,9 +1334,6 @@ msgstr ""
 msgid "Remove custom text color"
 msgstr ""
 
-msgid "Remove Instructions"
-msgstr ""
-
 msgid "Remove Message"
 msgstr ""
 
@@ -1398,9 +1344,6 @@ msgid "Remove the selected shape"
 msgstr ""
 
 msgid "Remove this stylesheet"
-msgstr ""
-
-msgid "Removes all instruction messages generated by the system from the interface."
 msgstr ""
 
 msgid "Replay timeout"
@@ -1445,10 +1388,10 @@ msgstr ""
 msgid "Rich text + math"
 msgstr ""
 
-msgid "right"
+msgid "Right"
 msgstr ""
 
-msgid "Right"
+msgid "right"
 msgstr ""
 
 msgid "Right bracket"
@@ -1466,10 +1409,10 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "Score"
+msgid "score"
 msgstr ""
 
-msgid "score"
+msgid "Score"
 msgstr ""
 
 msgid "Score range"
@@ -1479,9 +1422,6 @@ msgid "Score value"
 msgstr ""
 
 msgid "Scrollable multi-column"
-msgstr ""
-
-msgid "seconds"
 msgstr ""
 
 msgid "Select"
@@ -1571,9 +1511,6 @@ msgstr ""
 msgid "Select this area to start an association"
 msgstr ""
 
-msgid "Sequential"
-msgstr ""
-
 msgid "Set a CSS class name in order to customize the display style."
 msgstr ""
 
@@ -1608,9 +1545,6 @@ msgid "some text ..."
 msgstr ""
 
 msgid "Something went wrong while destroying an interaction: %s"
-msgstr ""
-
-msgid "sort from source to target list"
 msgstr ""
 
 msgid "Square root"
@@ -1790,19 +1724,16 @@ msgstr ""
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr ""
 
-msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr ""
-
 msgid "The maximum number of choices this choice may be associated with."
 msgstr ""
 
 msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
 msgstr ""
 
-msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
+msgid "The maximum number of choices that the candidate is required to select to form a valid response."
 msgstr ""
 
-msgid "The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score."
+msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
 msgstr ""
 
 msgid "The MIME-type attribute describes which kind of file may be uploaded."
@@ -1859,9 +1790,6 @@ msgstr ""
 msgid "The target must be an instance of DOMDocument"
 msgstr ""
 
-msgid "The text to be displayed below the image."
-msgstr ""
-
 msgid "The text to be displayed if the image is not available."
 msgstr ""
 
@@ -1899,13 +1827,7 @@ msgstr ""
 msgid "This is not a valid answer"
 msgstr ""
 
-msgid "This is not a valid value. Expected %s"
-msgstr ""
-
 msgid "This is required"
-msgstr ""
-
-msgid "This shows or hides the entire audio player from view. Test takers will not be able to play, pause, or change the volume level."
 msgstr ""
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
@@ -1921,9 +1843,6 @@ msgid "Title"
 msgstr ""
 
 msgid "to"
-msgstr ""
-
-msgid "Toggles the display of a vertical separator between columns."
 msgstr ""
 
 msgid "Tooltip Content"
