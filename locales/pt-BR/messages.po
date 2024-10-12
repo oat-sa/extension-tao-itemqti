@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2024.10\n"
-"PO-Revision-Date: 2024-10-03T15:13:47\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2024-10-11 13:07\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: pt-BR\n"
+"Language: pt\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: pt-BR\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: pt-BR\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: Portuguese, Brazilian\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Preencha as lacunas em um texto a partir de um conjunto de opções."
@@ -80,9 +87,7 @@ msgid "A human interpretation of the variable's value."
 msgstr "Uma interpretação humana do valor da variável."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr "Um componente QTI não é suportado. O sistema retornou o seguinte erro: %s\n"
-""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Um bloco de rubrica identifica parte do corpo do item da avaliação que representa instruções para um ou mais atores que visualizam o item. Embora blocos de rubrica sejam definidos como blocos, eles não devem conter interações."
@@ -184,9 +189,7 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "Um erro inesperado ocorreu durante a importação do pacote de item IMS QTI. O sistema retornou o seguinte erro: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr "Ocorreu um erro inesperado durante a importação do Item QTI. O sistema retornou o seguinte erro: %s\n"
-""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr "Ocorreu um erro desconhecido ao importar o pacote IMS QTI com identificador: "
@@ -524,9 +527,6 @@ msgstr "editar escolhas"
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "Edite a expressão matemática usando o sistema de configuração do tipo LaTex, por exemplo, e^{i \\pi} = -1"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr ""
-
 msgid "Edit math expression using MathML"
 msgstr "Editar expressão matemática usando MathML"
 
@@ -598,9 +598,6 @@ msgstr "Erro no item %s"
 
 msgid "Error to export item %s: %s"
 msgstr "Erro ao exportar item %s: %s"
-
-msgid "Euler\'s constant"
-msgstr ""
 
 msgid "Euler\\'s constant"
 msgstr "Euler constante"
@@ -1157,9 +1154,7 @@ msgid "one association pair"
 msgstr "um par de associação"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr "Um ou mais componentes QTI não são suportados pelo sistema. O sistema retornou o seguinte erro: %s\n"
-""
 
 msgid "Order"
 msgstr "Encomenda"
@@ -1390,7 +1385,7 @@ msgid "Remove custom font size"
 msgstr "Remover tamanho de fonte personalizado"
 
 msgid "Remove custom item width"
-msgstr ""
+msgstr "Remover largura de item customizado"
 
 msgid "Remove custom text color"
 msgstr "Remover cor de texto personalizada"
@@ -1492,7 +1487,7 @@ msgid "Scrollable multi-column"
 msgstr "Multicoluna rolável"
 
 msgid "seconds"
-msgstr ""
+msgstr "segundos"
 
 msgid "Select"
 msgstr "Selecionar"
@@ -1600,7 +1595,7 @@ msgid "Single choice"
 msgstr "Escolha única"
 
 msgid "Sinus"
-msgstr ""
+msgstr "Seno"
 
 msgid "Size and position"
 msgstr "Tamanho e posição"
@@ -1657,7 +1652,7 @@ msgid "Table headings"
 msgstr "Títulos da tabela"
 
 msgid "TAO default styles"
-msgstr ""
+msgstr "TAO estilo padrão"
 
 msgid "Target Class Lookup for resource \"%s\"..."
 msgstr "Alvo classe de pesquisa para recurso \"%s\"..."
@@ -1882,9 +1877,7 @@ msgid "The upper bound of the slider"
 msgstr "O limite superior do controle deslizante"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "A validação do item importado QTI falhou. O sistema retornou o seguinte erro:%s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "O arquivo ZIP que contém o item IMS QTI não pode ser extraído."
@@ -1944,7 +1937,7 @@ msgid "Tooltip editor"
 msgstr "Editor de dicas"
 
 msgid "Tooltip Target"
-msgstr ""
+msgstr "Localização da dica"
 
 msgid "Top"
 msgstr "Superior"
@@ -1998,7 +1991,7 @@ msgid "Value"
 msgstr "Valor"
 
 msgid "Vertical"
-msgstr ""
+msgstr "Vertical"
 
 msgid "warning"
 msgstr "advertência"
@@ -2007,7 +2000,7 @@ msgid "We will use the patternMask to do this, to be compliant with the IMS stan
 msgstr "Usaremos o patternMask para fazer isso, para estar de acordo com o padrão IMS"
 
 msgid "Width"
-msgstr ""
+msgstr "Largura"
 
 msgid "words"
 msgstr "palavras"
@@ -2016,7 +2009,7 @@ msgid "Would you like to replace the alt text"
 msgstr "Gostaria de substituir o texto alternativo"
 
 msgid "WYSIWYG editor"
-msgstr ""
+msgstr "Editor WYSIWYG "
 
 msgid "XML error \"%1$s\"."
 msgstr "Erro XML \"%1$s\"."
