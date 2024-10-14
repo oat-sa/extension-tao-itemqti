@@ -13,9 +13,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2024 (original work) Open Assessment Technologies SA ;
  */
-
 
 /**
  * The plugin loader with the "required" plugins
@@ -29,16 +28,17 @@ define([
     'taoQtiItem/qtiCreator/plugins/menu/print',
     'taoQtiItem/qtiCreator/plugins/content/title',
     'taoQtiItem/qtiCreator/plugins/content/changeTracker',
-    'taoQtiItem/qtiCreator/plugins/panel/outcomeEditor'
-], function(pluginLoader, save, preview, print, title, changeTracker, outcomeEditor){
+    'taoQtiItem/qtiCreator/plugins/panel/outcomeEditor',
+    'taoQtiItem/qtiCreator/plugins/panel/itemViewer'
+], function (pluginLoader, save, preview, print, title, changeTracker, outcomeEditor, itemViewer) {
     'use strict';
 
     /**
      * Instantiate the plugin loader with all the required plugins configured
      */
     return pluginLoader({
-        menu       : [save, preview, print],
-        content    : [title, changeTracker],
-        panel : [outcomeEditor]
+        menu: [save, preview, print],
+        content: [title, changeTracker],
+        panel: [outcomeEditor, itemViewer]
     });
 });
