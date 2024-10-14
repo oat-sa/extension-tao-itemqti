@@ -49,12 +49,12 @@ define([
 
             const itemCreator = this.getHost();
             const config = itemCreator.getConfig();
-            const resourceUri = config.properties.uri;
-            const originResourceUri = config.properties.origin;
 
             if (!config.properties || !config.properties.translation) {
                 return;
             }
+
+            const { uri: resourceUri, originResourceUri } = config.properties;
 
             return translationService
                 .getTranslations(originResourceUri, translation => translation.resourceUri === resourceUri)
@@ -79,12 +79,12 @@ define([
         render() {
             const itemCreator = this.getHost();
             const config = itemCreator.getConfig();
-            const resourceUri = config.properties.uri;
-            const originResourceUri = config.properties.origin;
 
             if (!config.properties || !config.properties.translation) {
                 return;
             }
+
+            const { uri: resourceUri, originResourceUri } = config.properties;
 
             const $editorArea = this.getAreaBroker().getEditorWrapperArea();
             const $container = this.$element.closest('.item-viewer-panel');
@@ -114,7 +114,7 @@ define([
 
             previewerFactory(
                 'qtiItem',
-                config.properties.origin,
+                originResourceUri,
                 {},
                 {
                     container: $viewerContainer,
