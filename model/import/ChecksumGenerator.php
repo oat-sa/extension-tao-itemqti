@@ -37,13 +37,9 @@ class ChecksumGenerator
     public function getRangeChecksum(Property $property): string
     {
         $labels = [];
-
-        if ($property->getRange()) {//@TODO @FIXME Validate the fix with Bart before merge
-            foreach ($this->listService->getListElements($property->getRange()) as $listEntry) {
-                $labels[] = strtolower($listEntry->getLabel());
-            }    
+        foreach ($this->listService->getListElements($property->getRange()) as $listEntry) {
+            $labels[] = strtolower($listEntry->getLabel());
         }
-
         asort($labels);
         $checksum = implode('', $labels);
 
