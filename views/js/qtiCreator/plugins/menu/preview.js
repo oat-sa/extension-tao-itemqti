@@ -54,16 +54,17 @@ define([
     /**
      * Handler for preview
      * @param {Object} e - Preview event fired
+     * @param {string} uri - Item uri
      * @param {Object} plugin - Context of preview
      * @param {string} provider - The identifier of the preview provider to use
      */
-    function previewHandler(e, plugin, provider) {
+    function previewHandler(e, uri, plugin, provider) {
         if (!$(e.currentTarget).hasClass('disabled')) {
             const itemCreator = plugin.getHost();
             $(document).trigger('open-preview.qti-item');
             e.preventDefault();
             plugin.disable();
-            itemCreator.trigger('preview', itemCreator.getItem().data('uri'), provider);
+            itemCreator.trigger('preview', uri, provider);
             plugin.enable();
         }
     }
@@ -102,6 +103,8 @@ define([
             const itemCreator = this.getHost();
             const config = module.config();
 
+            const itemCreatorConfig = itemCreator.getConfig();
+            const { translation, originResourceUri: originalItemUri, uri: translatedItemUri} = itemCreatorConfig.properties;
             /**
              * Preview an item
              * @event itemCreator#preview
@@ -126,9 +129,12 @@ define([
 
             itemCreator.on('saved', () => enablePreviewIfNotEmpty(this));
 
-            const createButton = ({ id, label, title } = {}) => {
+            const createButton = ({ id, label, title, uri } = {}) => {
                 // configured labels will need to to be registered elsewhere for the translations
                 const translate = text => text && __(text);
+
+                //if uri has not been specified explicitly, that means we can take one from config
+                uri = uri || this.getHost().getConfig().properties.uri;
 
                 return $(
                     buttonTpl({
@@ -138,11 +144,21 @@ define([
                         cssClass: 'preview-trigger',
                         testId: 'preview-the-item'
                     })
-                ).on('click', e => previewHandler(e, this, id));
+                ).on('click', e => previewHandler(e, uri, this, id));
             };
 
-            //creates the preview button
-            this.elements = config.providers ? config.providers.map(createButton) : [createButton()];
+            /* creates the preview buttons 
+            in some cases there are more preview buttons than one, that can happen if there are different preview providers
+            or different items to be previewed (when we are editing item translation in creator)*/
+            if(translation) {
+                this.elements = [
+                    createButton({uri: originalItemUri, label: 'Preview original', title: 'Preview original item'}),
+                    createButton({uri: translatedItemUri, label: 'Preview translation', title: 'Preview item translation'})
+                ]
+            }else{
+                //if configured with multiple preview providers, will show button for each
+                this.elements = config.providers ? config.providers.map(createButton) : [createButton()];
+            }
 
             this.getAreaBroker()
                 .getItemPanelArea()
