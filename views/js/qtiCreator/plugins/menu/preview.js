@@ -104,7 +104,11 @@ define([
             const config = module.config();
 
             const itemCreatorConfig = itemCreator.getConfig();
-            const { translation, originResourceUri: originalItemUri, uri: translatedItemUri} = itemCreatorConfig.properties;
+            const {
+                translation,
+                originResourceUri: originalItemUri,
+                uri: translatedItemUri
+            } = itemCreatorConfig.properties;
             /**
              * Preview an item
              * @event itemCreator#preview
@@ -150,12 +154,20 @@ define([
             /* creates the preview buttons 
             in some cases there are more preview buttons than one, that can happen if there are different preview providers
             or different items to be previewed (when we are editing item translation in creator)*/
-            if(translation) {
+            if (translation) {
                 this.elements = [
-                    createButton({uri: originalItemUri, label: 'Preview original', title: 'Preview original item'}),
-                    createButton({uri: translatedItemUri, label: 'Preview translation', title: 'Preview item translation'})
-                ]
-            }else{
+                    createButton({
+                        uri: originalItemUri,
+                        label: 'Preview original',
+                        title: 'Preview original item'
+                    }),
+                    createButton({
+                        uri: translatedItemUri,
+                        label: 'Preview translation',
+                        title: 'Preview item translation'
+                    })
+                ];
+            } else {
                 //if configured with multiple preview providers, will show button for each
                 this.elements = config.providers ? config.providers.map(createButton) : [createButton()];
             }
