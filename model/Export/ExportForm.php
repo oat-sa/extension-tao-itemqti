@@ -27,7 +27,7 @@ use common_Exception;
 use common_exception_UserReadableException;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
-use League\Flysystem\FileNotFoundException;
+use League\Flysystem\FilesystemException;
 use oat\tao\model\export\ExportElementException;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\Service;
@@ -202,7 +202,7 @@ abstract class ExportForm extends tao_helpers_form_FormContainer
     {
         try {
             $xml = Service::singleton()->getXmlByRdfItem($item);
-        } catch (FileNotFoundException $e) {
+        } catch (FilesystemException $e) {
         }
 
         if (empty($xml)) {

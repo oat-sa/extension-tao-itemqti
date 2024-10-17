@@ -23,6 +23,7 @@ namespace oat\taoQtiItem\model\qti;
 
 use common_exception_Error;
 use common_exception_NotFound;
+use League\Flysystem\FilesystemException;
 use oat\oatbox\filesystem\File;
 use oat\taoQtiItem\model\qti\parser\XmlToItemParser;
 use tao_helpers_Uri;
@@ -45,7 +46,6 @@ use common_Logger;
 use common_Exception;
 use Exception;
 use oat\taoItems\model\media\ItemMediaResolver;
-use League\Flysystem\FileNotFoundException;
 
 /**
  * The QTI_Service gives you a central access to the managment methods of the
@@ -99,7 +99,7 @@ class Service extends ConfigurableService
             if (!$returnValue->getAttributeValue('xml:lang')) {
                 $returnValue->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
             }
-        } catch (FileNotFoundException $e) {
+        } catch (FilesystemException $e) {
             // fail silently, since file might not have been created yet
             // $returnValue is then NULL.
             common_Logger::d('item(' . $item->getUri() . ') is empty, newly created?');

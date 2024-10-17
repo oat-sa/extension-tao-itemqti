@@ -30,7 +30,7 @@ $dir = \taoItems_models_classes_ItemsService::singleton()->getDefaultItemDirecto
 
 // maybe it's a dirty way but it's quicker. too much modification would have been required in ItemUpdater
 $adapter = $dir->getFileSystem()->getAdapter();
-if (!$adapter instanceof \League\Flysystem\Adapter\Local) {
+if (!$adapter instanceof \League\Flysystem\Local\LocalFilesystemAdapter) {
     throw new \Exception(__CLASS__ . ' can only handle local files');
 }
 
