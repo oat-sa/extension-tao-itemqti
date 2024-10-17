@@ -449,6 +449,15 @@ define([
                     .on(`click${_ns}`, '.deletable [data-role="delete"]', function () {
                         //delete the outcome
                         const $outcomeContainer = $(this).closest('.outcome-container');
+                        const serial = $outcomeContainer.data('serial');
+                        // Check the states of other outcomes before enabling SCORE
+                        const shouldDisable = shouldDisableScoreBasedOnOtherVariables($responsePanel, serial);
+
+                        // Enable or disable SCORE based on the result
+                        updateExternalScored($responsePanel, serial, function (id) {
+                            return id === 'SCORE';
+                        }, shouldDisable); // Disable SCORE if any other outcomes is not 'none'
+
                         $outcomeContainer.remove();
                         item.remove('outcomes', $outcomeContainer.data('serial'));
                     })
