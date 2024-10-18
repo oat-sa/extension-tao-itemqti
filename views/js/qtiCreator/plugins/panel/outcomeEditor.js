@@ -96,7 +96,7 @@ define([
     function renderListing(item, $outcomeEditorPanel) {
         const readOnlyRpVariables = getRpUsedVariables(item);
         const scoreMaxScoreVisible = features.isVisible('taoQtiItem/creator/interaction/response/outcomeDeclarations/scoreMaxScore');
-        let scoreExternalScored = _.get(_.find(item.outcomes, function (outcome) {
+        const scoreExternalScored = _.get(_.find(item.outcomes, function (outcome) {
             return outcome.attributes && outcome.attributes.identifier === 'SCORE';
         }), 'attributes.externalScored', externalScoredOptions.none);
 
