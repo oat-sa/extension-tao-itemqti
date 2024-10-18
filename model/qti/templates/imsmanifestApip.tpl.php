@@ -23,7 +23,7 @@
 <manifest xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xmlns:lomm="http://ltsc.ieee.org/xsd/apipv1p0/LOM/manifest"
-          xsi:schemaLocation="http://ltsc.ieee.org/xsd/apipv1p0/LOM/resource http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_lomresourcev1p0_v1p0.xsd http://ltsc.ieee.org/xsd/apipv1p0/LOM/manifest http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_lommanifestv1p0_v1p0.xsd http://www.imsglobal.org/xsd/apip/apipv1p0/qtimetadata/imsqti_v2p1 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_qtimetadatav2p1_v1p0.xsd http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_imscpv1p2_v1p0.xsd"
+          xsi:schemaLocation="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1 http://www.imsglobal.org/profile/apip/apipv1p0/apipv1p0_imscpv1p2_v1p0.xsd"
           identifier="<?php echo $manifestIdentifier; ?>">
     <metadata>
         <schema>APIP Package</schema>
@@ -33,7 +33,7 @@
     <organizations/>
     <resources>
         <?php foreach ($qtiItems as $qtiItem) : ?>
-        <resource identifier="<?php echo $qtiItem['identifier']; ?>" type="imsqti_apipitem_xmlv2p1" href="<?php echo str_replace(DIRECTORY_SEPARATOR, '/', $qtiItem['filePath']); ?>">
+        <resource identifier="<?php echo $qtiItem['identifier']; ?>" type="imsqti_apipitem_xmlv2p2" href="<?php echo str_replace(DIRECTORY_SEPARATOR, '/', $qtiItem['filePath']); ?>">
             <file href="<?php echo str_replace(DIRECTORY_SEPARATOR, '/', $qtiItem['filePath']);?>"/>
             <?php foreach ($qtiItem['medias'] as $media) :?>
             <file href="<?php echo str_replace(DIRECTORY_SEPARATOR, '/', $media);?>"/>
