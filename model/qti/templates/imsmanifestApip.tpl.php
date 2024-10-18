@@ -19,6 +19,7 @@
  *
  */
 
+/* phpcs:disable Generic.Files.LineLength.TooLong */
 ?>
 <manifest xmlns="http://www.imsglobal.org/xsd/apip/apipv1p0/imscp_v1p1"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
