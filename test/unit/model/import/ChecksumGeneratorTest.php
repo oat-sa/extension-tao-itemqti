@@ -78,7 +78,9 @@ class ChecksumGeneratorTest extends TestCase
     public function testThrowExceptionOnPropertyWithoutRange(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Property propertyUri does not have range set. Only properties with range can have checksum');
+        $this->expectExceptionMessage(
+            'Property propertyUri does not have range set. Only properties with range can have checksum'
+        );
         $this->propertyMock->method('getRange')->willReturn(null);
         $this->propertyMock->method('getUri')->willReturn('propertyUri');
 
