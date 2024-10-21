@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\import;
 
 use core_kernel_classes_Property as Property;
+use InvalidArgumentException;
 use oat\taoBackOffice\model\lists\ListService;
 
 class ChecksumGenerator
@@ -36,6 +37,15 @@ class ChecksumGenerator
 
     public function getRangeChecksum(Property $property): string
     {
+        if ($property->getRange() === null) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Property %s does not have range set. Only properties with range can have checksum',
+                    $property->getUri()
+                )
+            );
+        }
+
         $labels = [];
         foreach ($this->listService->getListElements($property->getRange()) as $listEntry) {
             $labels[] = strtolower($listEntry->getLabel());
