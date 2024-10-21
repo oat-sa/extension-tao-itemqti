@@ -80,9 +80,7 @@ msgid "A human interpretation of the variable's value."
 msgstr "Uma interpretação humana do valor da variável."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr "Um componente QTI não é suportado. O sistema retornou o seguinte erro: %s\n"
-""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Um bloco de rubrica identifica parte do corpo do item da avaliação que representa instruções para um ou mais atores que visualizam o item. Embora blocos de rubrica sejam definidos como blocos, eles não devem conter interações."
@@ -184,9 +182,7 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "Um erro inesperado ocorreu durante a importação do pacote de item IMS QTI. O sistema retornou o seguinte erro: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr "Ocorreu um erro inesperado durante a importação do Item QTI. O sistema retornou o seguinte erro: %s\n"
-""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr "Ocorreu um erro desconhecido ao importar o pacote IMS QTI com identificador: "
@@ -1157,9 +1153,7 @@ msgid "one association pair"
 msgstr "um par de associação"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr "Um ou mais componentes QTI não são suportados pelo sistema. O sistema retornou o seguinte erro: %s\n"
-""
 
 msgid "Order"
 msgstr "Encomenda"
@@ -1882,9 +1876,7 @@ msgid "The upper bound of the slider"
 msgstr "O limite superior do controle deslizante"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "A validação do item importado QTI falhou. O sistema retornou o seguinte erro:%s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "O arquivo ZIP que contém o item IMS QTI não pode ser extraído."
