@@ -38,7 +38,12 @@ class ChecksumGenerator
     public function getRangeChecksum(Property $property): string
     {
         if ($property->getRange() === null) {
-            throw new InvalidArgumentException('Property range is not set');
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Property %s does not have range set. Only properties with range can have checksum',
+                    $property->getUri()
+                )
+            );
         }
 
         $labels = [];
