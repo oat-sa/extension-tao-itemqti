@@ -112,32 +112,32 @@ define([
                     selected: outcome.attr('externalScored') === externalScoredOptions.externalMachine
                 }
             };
-function setExternalScoredToNone() {
-    externalScored.none.selected = true;
-    externalScored.human.selected = false;
-    externalScored.externalMachine.selected = false;
-    externalScoredDisabled = 1;
-}
+            function setExternalScoredToNone() {
+                externalScored.none.selected = true;
+                externalScored.human.selected = false;
+                externalScored.externalMachine.selected = false;
+                externalScoredDisabled = 1;
+            }
 
-function hasExternalScoredOutcome(outcomes) {
-    return outcomes.some(outcome => 
-        outcome.attributes &&
-        outcome.attributes.identifier !== 'SCORE' &&
-        outcome.attributes.externalScored &&
-        outcome.attributes.externalScored !== externalScoredOptions.none
-    );
-}
+            function hasExternalScoredOutcome(outcomes) {
+                return _.some(outcomes, function (outcome) {
+                    return outcome.attributes &&
+                    outcome.attributes.identifier !== 'SCORE' &&
+                    outcome.attributes.externalScored &&
+                    outcome.attributes.externalScored !== externalScoredOptions.none
+                });
+            }
 
-function shouldSetExternalScoredToNone() {
-    if (id !== 'SCORE') {
-        return scoreExternalScored && scoreExternalScored !== externalScoredOptions.none;
-    }
-    return hasExternalScoredOutcome(item.outcomes);
-}
+            function shouldSetExternalScoredToNone() {
+                if (id !== 'SCORE') {
+                    return scoreExternalScored && scoreExternalScored !== externalScoredOptions.none;
+                }
+                return hasExternalScoredOutcome(item.outcomes);
+            }
 
-if (shouldSetExternalScoredToNone()) {
-    setExternalScoredToNone();
-}
+            if (shouldSetExternalScoredToNone()) {
+                setExternalScoredToNone();
+            }
 
             return {
                 serial: outcome.serial,
