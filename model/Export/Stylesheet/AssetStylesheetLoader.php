@@ -22,9 +22,9 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\Export\Stylesheet;
 
-use League\Flysystem\FilesystemException;
-use League\Flysystem\FilesystemOperator;
 use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\filesystem\FilesystemException;
+use oat\oatbox\filesystem\FilesystemInterface;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
 
@@ -85,7 +85,7 @@ class AssetStylesheetLoader extends ConfigurableService
         );
     }
 
-    private function getFileSystem(): FilesystemOperator
+    private function getFileSystem(): FilesystemInterface
     {
         return $this->getFileSystemService()
             ->getFileSystem($this->getFlySystemManagement()->getOption(FlySystemManagement::OPTION_FS));

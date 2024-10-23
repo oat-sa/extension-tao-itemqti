@@ -27,7 +27,7 @@ use common_Exception;
 use common_exception_UserReadableException;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
-use League\Flysystem\FilesystemException;
+use oat\oatbox\filesystem\FilesystemException;
 use oat\tao\model\export\ExportElementException;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\Service;

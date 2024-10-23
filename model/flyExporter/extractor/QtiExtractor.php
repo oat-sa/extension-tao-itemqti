@@ -22,7 +22,7 @@
 
 namespace oat\taoQtiItem\model\flyExporter\extractor;
 
-use League\Flysystem\FilesystemException;
+use oat\oatbox\filesystem\FilesystemException;
 use oat\taoQtiItem\model\qti\Service;
 
 /**

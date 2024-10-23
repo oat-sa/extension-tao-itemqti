@@ -23,8 +23,8 @@ namespace oat\taoQtiItem\model\qti;
 
 use common_exception_Error;
 use common_exception_NotFound;
-use League\Flysystem\FilesystemException;
 use oat\oatbox\filesystem\File;
+use oat\oatbox\filesystem\FilesystemException;
 use oat\taoQtiItem\model\qti\parser\XmlToItemParser;
 use tao_helpers_Uri;
 use common_exception_FileSystemError;

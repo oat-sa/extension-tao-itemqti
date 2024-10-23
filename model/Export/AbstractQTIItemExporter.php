@@ -24,7 +24,7 @@
 
 namespace oat\taoQtiItem\model\Export;
 
-use League\Flysystem\FilesystemException;
+use oat\oatbox\filesystem\FilesystemException;
 use oat\oatbox\reporting\Report;
 use oat\tao\helpers\Base64;
 use oat\tao\model\media\MediaBrowser;

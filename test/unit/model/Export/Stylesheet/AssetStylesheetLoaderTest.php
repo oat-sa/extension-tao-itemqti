@@ -25,10 +25,10 @@ namespace oat\taoQtiItem\test\unit\model\Export\Stylesheet;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use League\Flysystem\DirectoryListing;
-use League\Flysystem\FilesystemOperator;
 use oat\generis\model\data\Ontology;
 use oat\generis\test\TestCase;
 use oat\oatbox\filesystem\FileSystem;
+use oat\oatbox\filesystem\FilesystemInterface;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\taoMediaManager\model\fileManagement\FileManagement;
 use oat\taoMediaManager\model\fileManagement\FlySystemManagement;
@@ -37,7 +37,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class AssetStylesheetLoaderTest extends TestCase
 {
-    /** @var FilesystemOperator|MockObject */
+    /** @var FilesystemInterface|MockObject */
     private $fileSystemMock;
 
     /** @var AssetStylesheetLoader */
