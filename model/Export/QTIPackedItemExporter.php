@@ -199,8 +199,9 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
             }
 
             $manifest = $this->getManifest();
+            $isApip = isset($options['apip']) && $options['apip'] === true;
             // APIP Package could not include metadata
-            if (!(isset($options['apip']) && $options['apip'] === true)) {
+            if (!$isApip) {
                 $this->getMetadataExporter()->export($this->getItem(), $manifest);
                 $this->injectMetadataToManifest($manifest, $this->getItem());
             }
