@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2024-10-11 13:07\n"
+"PO-Revision-Date: 2024-10-24 14:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nb_NO\n"
@@ -1162,7 +1162,7 @@ msgid "Order Interaction"
 msgstr "Oppgavetype sortering"
 
 msgid "order single list"
-msgstr ""
+msgstr "Sorter i gjeldende listed"
 
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Ordne områdene (hotspots) som vises på et bildet i riktig rekkefølge."
@@ -1615,7 +1615,7 @@ msgid "Something went wrong while destroying an interaction: %s"
 msgstr ""
 
 msgid "sort from source to target list"
-msgstr ""
+msgstr "Sorter inn i ny listed"
 
 msgid "Square root"
 msgstr "Kvadratrot"
