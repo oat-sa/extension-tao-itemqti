@@ -80,9 +80,7 @@ msgid "A human interpretation of the variable's value."
 msgstr "En manuell tolkning av variablens verdi."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr "En QTI-komponent støttes ikke. Systemet returnerte følgende feil: %s\n"
-""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "En boks identifiserer en del av en vurdering som representerer instruksjoner til en eller flere av aktørene som ser oppgaven. Selv om bokser er definert som \"simple Blocks\", må de ikke inneholde oppgavetyper."
@@ -184,9 +182,7 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "En uventet feil oppstod under importen av IMS QTI-oppgavene. Systemet returnerte følgende feil: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr "Det oppstod en uventet feil under importen av QTI-oppgaven. Systemet returnerte følgende feil: %s\n"
-""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr ""
@@ -1156,9 +1152,7 @@ msgid "one association pair"
 msgstr "kobling av et par"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr "En eller flere QTI-komponenter støttes ikke av systemet. Systemet returnerte følgende feil: %s\n"
-""
 
 msgid "Order"
 msgstr "Sortering"
@@ -1881,9 +1875,7 @@ msgid "The upper bound of the slider"
 msgstr "Linjalens øvre grense"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "Valideringen av den importerte QTI-oppgaven mislyktes. Systemet returnerte følgende feil:%s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "ZIP-arkivet som inneholder IMS QTI-oppgaven kan ikke hentes."

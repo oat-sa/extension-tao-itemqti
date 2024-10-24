@@ -80,9 +80,7 @@ msgid "A human interpretation of the variable's value."
 msgstr "Une interprétation humaine de la valeur de la variable."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr "Un composant QTI n'est pas supporté. Le système a renvoyé l'erreur suivante : %s\n"
-""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Un bloc de rubrique identifie une partie du corps de l'item de l'item d'évaluation qui représente des instructions pour un ou plusieurs acteurs qui regardent l'item. Bien que les blocs de rubrique sont définis comme des blocs simples, ils ne doivent contenir aucune d'interaction."
@@ -184,9 +182,7 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "Une erreur inattendue s'est produite au cours de l'import du paquet d'items IMS QTI. Le système a renvoyé l'erreur suivante : \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr "Une erreur inattendue s'est produite au cours de l'import de l'item QTI. Le système a renvoyé l'erreur suivante : %s\n"
-""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr ""
@@ -1157,9 +1153,7 @@ msgid "one association pair"
 msgstr "une paire à associer"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr "Un ou plusieurs composants QTI ne sont pas supportés par le système. Le système renvoie l'erreur suivante : %s\n"
-""
 
 msgid "Order"
 msgstr "Ordre"
@@ -1883,9 +1877,7 @@ msgid "The upper bound of the slider"
 msgstr "La limite supérieure du curseur"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "La validation de l'item QTI importé a échoué. Le système a renvoyé l'erreur suivante : %s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "L'archive ZIP contenant l'item IMS QTI ne peut être extraite."
