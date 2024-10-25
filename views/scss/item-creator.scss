@@ -821,7 +821,7 @@ img.dragging.ui-draggable-dragging {
     position: absolute;
     top: 50%;
     right: calc(-1 * $itemCreatorSeparatorSize / 2);
-    z-index: 1000;
+    z-index: 10;
     cursor: pointer;
     user-select: none;
 
