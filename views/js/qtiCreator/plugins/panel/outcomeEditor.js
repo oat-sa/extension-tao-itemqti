@@ -287,7 +287,6 @@ define([
                         let isScoringTraitValidationEnabled =
                             outcomeElement.attr('externalScored') === externalScoredOptions.human;
                         if (
-                          isScoreOutcome &&
                           !externalScoredValidOptions.includes(
                             outcomeElement.attr("externalScored")
                           )
@@ -361,6 +360,14 @@ define([
                                         } else if (isScoreOutcome) {
                                             outcome.attr('normalMaximum', 0);
                                             $outcomeValueContainer.find('[name="normalMaximum"]').val(0);
+                                            outcome.attr('normalMinimum', 0);
+                                            $outcomeValueContainer.find('[name="normalMinimum"]').val(0);
+                                            $incrementerContainer.incrementer("disable");
+                                        } else if (value !== externalScoredOptions.none) {
+                                            $incrementerContainer.incrementer("enable");
+                                        } else {
+                                            outcome.attr('normalMaximum', 1);
+                                            $outcomeValueContainer.find('[name="normalMaximum"]').val(1);
                                             outcome.attr('normalMinimum', 0);
                                             $outcomeValueContainer.find('[name="normalMinimum"]').val(0);
                                             $incrementerContainer.incrementer("disable");
