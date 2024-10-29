@@ -27,8 +27,19 @@ define([
     'ui/hider',
     'interact',
     'taoItems/previewer/factory',
+    'taoQtiItem/qtiCreator/helper/commonRenderer',
     'tpl!taoQtiItem/qtiCreator/tpl/layout/viewerPanel'
-], function ($, __, translationService, pluginFactory, hider, interact, previewerFactory, viewerPanelTpl) {
+], function (
+    $,
+    __,
+    translationService,
+    pluginFactory,
+    hider,
+    interact,
+    previewerFactory,
+    qtiCommonRenderer,
+    viewerPanelTpl
+) {
     'use strict';
 
     const sideBySideAuthoringClass = 'side-by-side-authoring';
@@ -92,6 +103,10 @@ define([
             const $viewerContainer = this.$element.find('.item-viewer');
             const $separator = this.$element.find('.item-viewer-separator-handle');
 
+            const restoreCreatorContext = () => {
+                qtiCommonRenderer.setContext(this.getAreaBroker().getContentCreatorPanelArea());
+            };
+
             $editorArea.prepend(this.$element);
 
             this.handleSeparator = interact($separator[0]).draggable({
@@ -120,10 +135,19 @@ define([
                     container: $viewerContainer,
                     disableDefaultPlugins: true,
                     view: 'viewer',
+                    readOnly: true, // set to read-only as we need to restore the context and keeping access to the viewed item might introduce issues
                     fullPage: false,
                     pluginsOptions: {}
                 }
-            );
+            ).then(viewer => {
+                viewer.on('ready', () => {
+                    // Force to restore the context after rendering the item.
+                    // This is needed as the editor needs to access the context of the item being edited.
+                    // Otherwise, the editor might not work properly.
+                    viewer.getRunner().on('renderitem', restoreCreatorContext);
+                    restoreCreatorContext();
+                });
+            });
 
             itemCreator.on('save', () => {
                 const item = itemCreator.getItem();
