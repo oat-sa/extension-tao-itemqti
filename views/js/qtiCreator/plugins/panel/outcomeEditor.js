@@ -117,6 +117,7 @@ define([
                 externalScored.human.selected = false;
                 externalScored.externalMachine.selected = false;
                 externalScoredDisabled = 1;
+                outcome.removeAttr('externalScored');
             }
 
             function hasExternalScoredOutcome(outcomes) {
@@ -197,6 +198,14 @@ define([
             $field.data('$tooltip', widgetTooltip);
         }
     };
+
+    function hasAllNotExternalScored(outcomes) {
+        return _.every(outcomes, function (outcome) {
+            return outcome.attributes &&
+            outcome.attributes.externalScored === externalScoredOptions.none
+        });
+    }
+
 
     function updateExternalScored(responsePanel, serial, disableCondition, shouldDisable) {
         // Iterate over each outcome container
@@ -291,9 +300,9 @@ define([
                             outcomeElement.attr("externalScored")
                           )
                         ) {
-                          $incrementerContainer.incrementer("disable");
+                            $incrementerContainer.incrementer("disable");
                         } else {
-                          $incrementerContainer.incrementer("enable");
+                            $incrementerContainer.incrementer("enable");
                         }
 
                         $outcomeContainer.addClass('editing');
@@ -323,6 +332,10 @@ define([
 
                             // shows tooltips in case of invalid value
                             showScoringTraitWarningOnInvalidValue();
+                        }
+
+                        if (hasAllNotExternalScored(item.outcome)) {
+                            $outcomeContainer.find("select[name='externalScored']").attr('disabled', false);
                         }
 
                         //attach form change callbacks
