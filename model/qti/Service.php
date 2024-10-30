@@ -99,22 +99,6 @@ class Service extends ConfigurableService
             if (!$returnValue->getAttributeValue('xml:lang')) {
                 $returnValue->setAttribute('xml:lang', \common_session_SessionManager::getSession()->getDataLanguage());
             }
-            // Validate during publishing and exporting
-            $isExternalScore = false;
-            $isExternalSomeOutcome = false;
-            foreach ($returnValue->getOutcomes() as $outcome) {
-                $externalScored = $outcome->getAttributeValue('externalScored');
-                if ($outcome->getIdentifier() === 'SCORE' && $externalScored && $externalScored !== 'none') {
-                    $isExternalScore = true;
-                }
-                if ($outcome->getIdentifier() !== 'SCORE' && $externalScored && $externalScored !== 'none') {
-                    $isExternalSomeOutcome = true;
-                }
-            }
-
-            if ($isExternalScore && $isExternalSomeOutcome) {
-                throw new \Exception('ExternalScored attribute is not allowed for multiple outcomes in item');
-            }
         } catch (FileNotFoundException $e) {
             // fail silently, since file might not have been created yet
             // $returnValue is then NULL.
