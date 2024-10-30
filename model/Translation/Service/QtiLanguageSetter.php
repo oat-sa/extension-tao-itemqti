@@ -27,6 +27,7 @@ use oat\generis\model\data\Ontology;
 use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\model\qti\Service;
 use Psr\Log\LoggerInterface;
+use tao_models_classes_LanguageService;
 use Throwable;
 
 class QtiLanguageSetter
@@ -34,12 +35,18 @@ class QtiLanguageSetter
     private Service $qtiItemService;
     private LoggerInterface $logger;
     private Ontology $ontology;
+    private tao_models_classes_LanguageService $languageService;
 
-    public function __construct(Service $qtiItemService, LoggerInterface $logger, Ontology $ontology)
-    {
+    public function __construct(
+        Service $qtiItemService,
+        LoggerInterface $logger,
+        Ontology $ontology,
+        tao_models_classes_LanguageService $languageService
+    ) {
         $this->qtiItemService = $qtiItemService;
         $this->logger = $logger;
         $this->ontology = $ontology;
+        $this->languageService = $languageService;
     }
 
     public function __invoke(core_kernel_classes_Resource $item): core_kernel_classes_Resource
@@ -73,10 +80,14 @@ class QtiLanguageSetter
             return $item;
         }
 
-        $itemData->setAttribute(
-            'xml:lang',
-            str_replace(TaoOntology::LANGUAGE_PREFIX, '', $language->getUri())
-        );
+        $localeCode = str_replace(TaoOntology::LANGUAGE_PREFIX, '', $language->getUri());
+
+        if ($this->languageService->isRtlLanguage($localeCode)) {
+            $itemData->getBody()->setAttribute('dir', 'rtl');   
+        }
+
+        $itemData->setAttribute('xml:lang', $localeCode);
+
         $this->qtiItemService->saveDataItemToRdfItem($itemData, $item);
 
         return $item;
