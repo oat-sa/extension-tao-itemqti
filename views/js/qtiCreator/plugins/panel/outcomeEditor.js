@@ -206,6 +206,13 @@ define([
         });
     }
 
+    function setMinumumMaximumValue(outcomeElement, outcomeValueContainer, min, max) {
+        outcomeElement.attr('normalMaximum', max);
+        outcomeValueContainer.find('[name="normalMaximum"]').val(max);
+        outcomeElement.attr('normalMinimum', min);
+        outcomeValueContainer.find('[name="normalMinimum"]').val(min);
+    }
+
 
     function updateExternalScored(responsePanel, serial, disableCondition, shouldDisable) {
         // Iterate over each outcome container
@@ -292,6 +299,7 @@ define([
                         const $incrementerContainer = $outcomeContainer.find(".incrementer");
                         const $identifierLabel = $labelContainer.find('.label');
                         const $identifierInput = $labelContainer.find('.identifier');
+                        const $outcomeValueContainer = $outcomeContainer.find('div.minimum-maximum');
                         const isScoreOutcome = outcomeElement.attributes.identifier === 'SCORE';
                         let isScoringTraitValidationEnabled =
                             outcomeElement.attr('externalScored') === externalScoredOptions.human;
@@ -301,6 +309,7 @@ define([
                           )
                         ) {
                             $incrementerContainer.incrementer("disable");
+                            setMinumumMaximumValue(outcomeElement, $outcomeValueContainer, 0, 0);
                         } else {
                             $incrementerContainer.incrementer("enable");
                         }
@@ -312,8 +321,6 @@ define([
                         $identifierInput.focus();
                         $identifierInput.val('');
                         $identifierInput.val(outcomeElement.id());
-
-                        const $outcomeValueContainer = $outcomeContainer.find('div.minimum-maximum');
 
                         const showScoringTraitWarningOnInvalidValue = () => {
                             if (
@@ -371,18 +378,12 @@ define([
                                         if (isScoreOutcome && value !== externalScoredOptions.none) {
                                             $incrementerContainer.incrementer("enable");
                                         } else if (isScoreOutcome) {
-                                            outcome.attr('normalMaximum', 0);
-                                            $outcomeValueContainer.find('[name="normalMaximum"]').val(0);
-                                            outcome.attr('normalMinimum', 0);
-                                            $outcomeValueContainer.find('[name="normalMinimum"]').val(0);
+                                            setMinumumMaximumValue(outcome, $outcomeValueContainer, 0, 0);
                                             $incrementerContainer.incrementer("disable");
                                         } else if (value !== externalScoredOptions.none) {
                                             $incrementerContainer.incrementer("enable");
                                         } else {
-                                            outcome.attr('normalMaximum', 1);
-                                            $outcomeValueContainer.find('[name="normalMaximum"]').val(1);
-                                            outcome.attr('normalMinimum', 0);
-                                            $outcomeValueContainer.find('[name="normalMinimum"]').val(0);
+                                            setMinumumMaximumValue(outcome, $outcomeValueContainer, 0, 0);
                                             $incrementerContainer.incrementer("disable");
                                         }
 
