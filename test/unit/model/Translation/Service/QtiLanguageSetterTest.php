@@ -27,12 +27,14 @@ use core_kernel_classes_Resource;
 use Exception;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\TaoOntology;
+use oat\taoQtiItem\model\qti\container\ContainerItemBody;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\Translation\Service\QtiLanguageSetter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use tao_models_classes_LanguageService;
 
 class QtiLanguageSetterTest extends TestCase
 {
@@ -50,6 +52,9 @@ class QtiLanguageSetterTest extends TestCase
 
     private QtiLanguageSetter $sut;
 
+    /** @var tao_models_classes_LanguageService|MockObject */
+    private tao_models_classes_LanguageService $languageService;
+
     protected function setUp(): void
     {
         $this->item = $this->createMock(core_kernel_classes_Resource::class);
@@ -60,13 +65,20 @@ class QtiLanguageSetterTest extends TestCase
         $this->qtiItemService = $this->createMock(Service::class);
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->ontology = $this->createMock(Ontology::class);
+        $this->languageService = $this->createMock(tao_models_classes_LanguageService::class);
 
-        $this->sut = new QtiLanguageSetter($this->qtiItemService, $this->logger, $this->ontology);
+        $this->sut = new QtiLanguageSetter(
+            $this->qtiItemService,
+            $this->logger,
+            $this->ontology,
+            $this->languageService
+        );
     }
 
     public function testSetter(): void
     {
         $itemData = $this->createMock(Item::class);
+        $body = $this->createMock(ContainerItemBody::class);
 
         $this->qtiItemService
             ->expects($this->once())
@@ -85,6 +97,11 @@ class QtiLanguageSetterTest extends TestCase
             ->method('getProperty')
             ->with(TaoOntology::PROPERTY_LANGUAGE)
             ->willReturn($property);
+        
+        $this->languageService
+            ->expects($this->once())
+            ->method('isRtlLanguage')
+            ->willReturn(true);
 
         $propertyValue = $this->createMock(core_kernel_classes_Resource::class);
 
@@ -97,12 +114,22 @@ class QtiLanguageSetterTest extends TestCase
         $propertyValue
             ->expects($this->once())
             ->method('getUri')
-            ->willReturn(TaoOntology::LANGUAGE_PREFIX . 'en-US');
+            ->willReturn(TaoOntology::LANGUAGE_PREFIX . 'ar-arb');
+
+        $itemData
+            ->expects($this->once())
+            ->method('getBody')
+            ->willReturn($body);
 
         $itemData
             ->expects($this->once())
             ->method('setAttribute')
-            ->with('xml:lang', 'en-US');
+            ->with('xml:lang', 'ar-arb');
+
+        $body
+            ->expects($this->once())
+            ->method('setAttribute')
+            ->with('dir', 'rtl');
 
         $this->qtiItemService
             ->expects($this->once())

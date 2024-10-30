@@ -33,6 +33,7 @@ use oat\taoQtiItem\model\Translation\Service\QtiLanguageRetriever;
 use oat\taoQtiItem\model\Translation\Service\QtiLanguageSetter;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
+use tao_models_classes_LanguageService;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class TranslationServiceProvider implements ContainerServiceProviderInterface
@@ -64,6 +65,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 service(Service::class),
                 service(LoggerService::SERVICE_ID),
                 service(Ontology::SERVICE_ID),
+                service(tao_models_classes_LanguageService::class),
             ]);
 
         $services
