@@ -25,7 +25,7 @@ namespace oat\taoQtiItem\test\unit\model\import;
 use core_kernel_classes_Class as ClassResource;
 use core_kernel_classes_Property as Property;
 use core_kernel_classes_Resource as Resource;
-use oat\generis\model\data\Ontology;
+use InvalidArgumentException;
 use oat\taoBackOffice\model\lists\ListService;
 use oat\taoQtiItem\model\import\ChecksumGenerator;
 use PHPUnit\Framework\TestCase;
@@ -73,5 +73,17 @@ class ChecksumGeneratorTest extends TestCase
             'c315a4bd4fa0f4479b1ea4b5998aa548eed3b670',
             $this->checksumGenerator->getRangeChecksum($this->propertyMock)
         );
+    }
+
+    public function testThrowExceptionOnPropertyWithoutRange(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'Property propertyUri does not have range set. Only properties with range can have checksum'
+        );
+        $this->propertyMock->method('getRange')->willReturn(null);
+        $this->propertyMock->method('getUri')->willReturn('propertyUri');
+
+        $this->checksumGenerator->getRangeChecksum($this->propertyMock);
     }
 }

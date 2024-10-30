@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-09-13 14:47\n"
+"PO-Revision-Date: 2024-10-24 14:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nb_NO\n"
@@ -50,8 +50,20 @@ msgstr ""
 msgid "%s of %s words maximum."
 msgstr ""
 
+msgid "(comma)"
+msgstr ""
+
+msgid "(dot)"
+msgstr ""
+
+msgid "(space)"
+msgstr ""
+
 msgid "-- Any kind of file --"
 msgstr "--Hvilken som helst fil--"
+
+msgid "--- leave empty ---"
+msgstr "la stå tom"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr "1 oppgave importert fra det gitte QTI/APIP XML-oppgavedokumentet."
@@ -121,6 +133,9 @@ msgstr ""
 
 msgid "Add Style Sheet"
 msgstr "Legg til stilark"
+
+msgid "after"
+msgstr ""
 
 msgid "Alignment"
 msgstr "Justering"
@@ -218,11 +233,14 @@ msgstr "Bakgrunnsfarge"
 msgid "Base"
 msgstr "Utgangspunkt"
 
-msgid "block"
-msgstr "tekstboks"
+msgid "Be aware, if you choose to remove the instructions, the system will not provide any warnings to the test takers if constraints are set."
+msgstr ""
 
 msgid "Block"
 msgstr "Tekstboks"
+
+msgid "block"
+msgstr "tekstboks"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Tekstboksen inneholder stimuliet til oppgaven, for eksempel tekst eller bilde. Det er også nødvendig for integrerte oppgavetyper."
@@ -239,11 +257,11 @@ msgstr "Søk gjennom maskinen din og velg riktig fil."
 msgid "Browse..."
 msgstr "Søk..."
 
-msgid "cancel"
-msgstr "avbryt"
-
 msgid "Cancel"
 msgstr "Avbryt"
+
+msgid "cancel"
+msgstr "avbryt"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr "Kan ikke lage mellomrom fra dette valget. Kontroller at du ikke har delvis utvalgte elementer."
@@ -293,11 +311,11 @@ msgstr "Oppgavetype alternativer"
 msgid "Choice Properties"
 msgstr "Egenskaper for alternativer"
 
-msgid "Choices"
-msgstr "Alternativer"
-
 msgid "choices"
 msgstr "alternativ"
+
+msgid "Choices"
+msgstr "Alternativer"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr "Velg den horisontale justeringen for tabellen."
@@ -332,6 +350,9 @@ msgstr "Samle åpen informasjon i ett eller flere tekstområder (strenger eller 
 msgid "Color Picker"
 msgstr "Fargevelger"
 
+msgid "Column separator"
+msgstr ""
+
 msgid "Common Interactions"
 msgstr "Vanlige oppgavetyper"
 
@@ -350,6 +371,9 @@ msgstr "riktig"
 msgid "Cosinus"
 msgstr ""
 
+msgid "Create a single hottext from the selection"
+msgstr ""
+
 msgid "Create assocations and fill the score in the form below"
 msgstr "Opprett koblingerer og fyll ut poengsummen i skjemaet under"
 
@@ -364,6 +388,9 @@ msgstr "Lag mellomrom"
 
 msgid "Create hottext"
 msgstr "Lag klikk-ord-oppgave"
+
+msgid "Create multiple hottexts from the selection"
+msgstr ""
 
 msgid "Create pair(s) from a series of choices."
 msgstr "Lag par ut fra en rekke valg."
@@ -386,11 +413,11 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "Egendefinert skåringsinnstilling"
 
-msgid "default"
-msgstr "standard"
-
 msgid "Default"
 msgstr "Standard"
+
+msgid "default"
+msgstr "standard"
 
 msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
 msgstr ""
@@ -442,6 +469,9 @@ msgstr "Deaktiver dette stilarket midlertidig"
 
 msgid "Display"
 msgstr "Vise"
+
+msgid "Display media player"
+msgstr ""
 
 msgid "Display the choices either horizontally or vertically"
 msgstr "Vis valgene enten horisontalt eller vertikalt"
@@ -746,6 +776,12 @@ msgstr "Hvis variabelverdien er et flyt- og powerForm som er satt til \"false\",
 msgid "If this box is checked the student will be able to eliminate choices."
 msgstr "Hvis denne boksen er huket av, vil eleven kunne eliminere ulike valgalternativer."
 
+msgid "Image caption"
+msgstr ""
+
+msgid "Image caption not enabled when position is set to inline"
+msgstr ""
+
 msgid "Import"
 msgstr "Importer"
 
@@ -784,6 +820,9 @@ msgstr "feil"
 
 msgid "Index"
 msgstr "Indeks"
+
+msgid "Indicates that the audio forms part of a sequence with other sequential interactions. The advancing of the sequence is handled by the delivery engine. Delays are also respected."
+msgstr ""
 
 msgid "Infinity"
 msgstr "Evighet"
@@ -830,6 +869,12 @@ msgstr "Ugyldig svaridentifikator"
 msgid "Invalid URL"
 msgstr "Ugyldig URL"
 
+msgid "Invalid value in correct response property."
+msgstr ""
+
+msgid "Invalid value, use %s %s for decimal point."
+msgstr ""
+
 msgid "Is this choice the correct response?"
 msgstr "Er dette valget det riktig svaret?"
 
@@ -860,10 +905,10 @@ msgstr "Oppgavemetadata er eksportert."
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "Oppgaveegenskaper"
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "Oppgaveegenskaper"
 
 msgid "Item width"
@@ -891,14 +936,11 @@ msgstr ""
 msgid "Layout"
 msgstr "Oppsett"
 
-msgid "--- leave empty ---"
-msgstr "la stå tom"
+msgid "Left"
+msgstr "Venstre"
 
 msgid "left"
 msgstr "venstre"
-
-msgid "Left"
-msgstr "Venstre"
 
 msgid "Left bracket"
 msgstr "Venstre parentes"
@@ -974,19 +1016,19 @@ msgstr ""
 msgid "Max"
 msgstr "Maks"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "Maks lengde"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "Maks lengde"
 
 msgid "Max plays count"
 msgstr "Maks antall avspillinger"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "Maks antall ord"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "Maks antall ord"
 
 msgid "Max. number of matches"
@@ -1086,11 +1128,11 @@ msgstr "Ingen opplastet fil"
 msgid "No value set"
 msgstr "Ingen verdi er angitt"
 
-msgid "none"
-msgstr "ingen"
-
 msgid "None"
 msgstr "Ingen"
+
+msgid "none"
+msgstr "ingen"
 
 msgid "None defined yet."
 msgstr "Ingen er definert ennå."
@@ -1118,6 +1160,9 @@ msgstr "Sortering"
 
 msgid "Order Interaction"
 msgstr "Oppgavetype sortering"
+
+msgid "order single list"
+msgstr "Sorter i gjeldende listed"
 
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Ordne områdene (hotspots) som vises på et bildet i riktig rekkefølge."
@@ -1163,6 +1208,9 @@ msgstr "Sammenstill par som kan kobles med hverandre nedenfor."
 
 msgid "Please define the correct order in the box to the right."
 msgstr "Angi riktig rekkefølge i boksen til høyre."
+
+msgid "Please define the correct order."
+msgstr ""
 
 msgid "Please define the correct response and the score below."
 msgstr "Angi riktig svar og poengsum nedenfor."
@@ -1281,6 +1329,9 @@ msgstr ""
 msgid "QTI Metadata"
 msgstr ""
 
+msgid "QTI metadata as properties"
+msgstr ""
+
 msgid "QTI Package 2.1"
 msgstr "QTI-Pakke 2.1"
 
@@ -1338,6 +1389,9 @@ msgstr "Fjern egendefinert oppgavebredde"
 msgid "Remove custom text color"
 msgstr "Fjern egendefinert tekstfarge"
 
+msgid "Remove Instructions"
+msgstr ""
+
 msgid "Remove Message"
 msgstr "Fjern medling"
 
@@ -1349,6 +1403,9 @@ msgstr "Fjern den valgte formen"
 
 msgid "Remove this stylesheet"
 msgstr "Fjern dette stilarket"
+
+msgid "Removes all instruction messages generated by the system from the interface."
+msgstr ""
 
 msgid "Replay timeout"
 msgstr "Tidsavbrudd"
@@ -1392,11 +1449,11 @@ msgstr "Rik tekst"
 msgid "Rich text + math"
 msgstr "Rik tekst + math"
 
-msgid "Right"
-msgstr "Høyre"
-
 msgid "right"
 msgstr "høyre"
+
+msgid "Right"
+msgstr "Høyre"
 
 msgid "Right bracket"
 msgstr "Høyre parentes"
@@ -1413,11 +1470,11 @@ msgstr "Lagre oppgaven"
 msgid "Scale size"
 msgstr "Skala størrelse"
 
-msgid "score"
-msgstr "skåre"
-
 msgid "Score"
 msgstr "Skåre"
+
+msgid "score"
+msgstr "skåre"
 
 msgid "Score range"
 msgstr "Poenggrense"
@@ -1427,6 +1484,9 @@ msgstr "Poengsum"
 
 msgid "Scrollable multi-column"
 msgstr "Skrollbar flerkolonne"
+
+msgid "seconds"
+msgstr "sekunder"
 
 msgid "Select"
 msgstr "Velge"
@@ -1515,6 +1575,9 @@ msgstr "Velg dette området"
 msgid "Select this area to start an association"
 msgstr "Velg dette området for å starte en kobling"
 
+msgid "Sequential"
+msgstr ""
+
 msgid "Set a CSS class name in order to customize the display style."
 msgstr "Angi et CSS-mappenavn for å tilpasse visningsstilen."
 
@@ -1550,6 +1613,9 @@ msgstr "litt tekst ..."
 
 msgid "Something went wrong while destroying an interaction: %s"
 msgstr ""
+
+msgid "sort from source to target list"
+msgstr "Sorter inn i ny listed"
 
 msgid "Square root"
 msgstr "Kvadratrot"
@@ -1728,17 +1794,20 @@ msgstr "Maksimalt antall forbindelser som eleven har lov til å lage."
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "Maks antall valg som eleven har lov til å velge."
 
+msgid "The maximum number of choices that the candidate is required to select to form a valid response."
+msgstr "Maksimalt antall valg som eleven må velge for å lage et gyldig svar."
+
 msgid "The maximum number of choices this choice may be associated with."
 msgstr "Maksimalt antall valg dette alternativet kan være kobles med."
 
 msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
 msgstr "Maksimalt antall valg dette alternativet kan være koblet med. Hvis matchMax er 0 er det ingen begrensning."
 
-msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr "Maksimalt antall valg som eleven må velge for å lage et gyldig svar."
-
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
 msgstr "MaxPlays-attributtet indikerer at medieobjektet kan spilles opptil maxPlays ganger - det må ikke være mulig for eleven å spille medieobjektet mer enn maxPlay ganger. En verdi på 0 (standard) indikerer at det ikke er noen grense."
+
+msgid "The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score."
+msgstr ""
 
 msgid "The MIME-type attribute describes which kind of file may be uploaded."
 msgstr "Attributtet MIME-type beskriver hvilken type fil som kan lastes opp."
@@ -1794,6 +1863,9 @@ msgstr "Formbredden i piksler. Denne verdien kan skaleres når bakgrunnsbildest�
 msgid "The target must be an instance of DOMDocument"
 msgstr "Målet må være en forekomst av DOMDocumentet"
 
+msgid "The text to be displayed below the image."
+msgstr ""
+
 msgid "The text to be displayed if the image is not available."
 msgstr "Teksten som skal vises hvis bildet ikke er tilgjengelig."
 
@@ -1830,8 +1902,14 @@ msgstr "Denne oppgavetypen har ingen tekst definert i spørsmålsfeletet."
 msgid "This is not a valid answer"
 msgstr "Dette er ikke et gyldig svar"
 
+msgid "This is not a valid value. Expected %s"
+msgstr ""
+
 msgid "This is required"
 msgstr "Dette er påkrevd"
+
+msgid "This shows or hides the entire audio player from view. Test takers will not be able to play, pause, or change the volume level."
+msgstr ""
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "Dette stilarket er ikke funnet på serveren. Det kan være lurt å slette denne referansen"
@@ -1847,6 +1925,9 @@ msgstr "Tittel"
 
 msgid "to"
 msgstr "til"
+
+msgid "Toggles the display of a vertical separator between columns."
+msgstr ""
 
 msgid "Tooltip Content"
 msgstr "Verktøytips"

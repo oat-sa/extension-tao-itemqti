@@ -1,13 +1,13 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2024.07\n"
-"PO-Revision-Date: 2024-07-17T14:43:35\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2024-10-11 13:07\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: it-IT\n"
+"Language: it\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: it-IT\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
@@ -371,6 +371,9 @@ msgstr "corretto"
 msgid "Cosinus"
 msgstr ""
 
+msgid "Create a single hottext from the selection"
+msgstr ""
+
 msgid "Create assocations and fill the score in the form below"
 msgstr ""
 
@@ -385,6 +388,9 @@ msgstr "Crea divario"
 
 msgid "Create hottext"
 msgstr "Crea hottext"
+
+msgid "Create multiple hottexts from the selection"
+msgstr ""
 
 msgid "Create pair(s) from a series of choices."
 msgstr "Crea coppia(e) da una serie di scelte."
@@ -521,9 +527,6 @@ msgstr "modifica scelte"
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "Modifica l'espressione matematica utilizzando un linguaggio tipo LaTex, per esempio e^{i \\pi} = -1"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr ""
-
 msgid "Edit math expression using MathML"
 msgstr "Modifica espressione matematica utilizzando MathML"
 
@@ -594,9 +597,6 @@ msgid "Error on item %s"
 msgstr ""
 
 msgid "Error to export item %s: %s"
-msgstr ""
-
-msgid "Euler\'s constant"
 msgstr ""
 
 msgid "Euler\\'s constant"
@@ -1161,6 +1161,9 @@ msgstr "Ordine"
 msgid "Order Interaction"
 msgstr "Ordina un interazione"
 
+msgid "order single list"
+msgstr ""
+
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Ordina le aree (hotspot) visualizzate su una foto."
 
@@ -1205,6 +1208,9 @@ msgstr "Prego indica le corrette coppie di associazione sotto."
 
 msgid "Please define the correct order in the box to the right."
 msgstr "Prego indica l'ordine corretto nella casella a destra."
+
+msgid "Please define the correct order."
+msgstr ""
 
 msgid "Please define the correct response and the score below."
 msgstr "Prego indica la risposta corretta e il punteggio sotto."
@@ -1608,6 +1614,9 @@ msgstr "del testo..."
 msgid "Something went wrong while destroying an interaction: %s"
 msgstr ""
 
+msgid "sort from source to target list"
+msgstr ""
+
 msgid "Square root"
 msgstr ""
 
@@ -1867,9 +1876,7 @@ msgid "The upper bound of the slider"
 msgstr "Il limite superiore del cursore"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "La convalida dell'item QTI importato non è riuscita. Il sistema ha restituito il seguente errore: %s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "L'archivio ZIP contenente l'item IMS QTI non può essere estratto."

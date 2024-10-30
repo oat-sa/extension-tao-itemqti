@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.04\n"
-"PO-Revision-Date: 2022-04-01T09:30:42\n"
+"Project-Id-Version: TAO 2024.10\n"
+"PO-Revision-Date: 2024-10-03T15:13:14\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -43,8 +43,20 @@ msgstr ""
 msgid "%s of %s words maximum."
 msgstr ""
 
+msgid "(comma)"
+msgstr ""
+
+msgid "(dot)"
+msgstr ""
+
+msgid "(space)"
+msgstr ""
+
 msgid "-- Any kind of file --"
 msgstr "-- Hvaða skráartegund sem er --"
+
+msgid "--- leave empty ---"
+msgstr "--- hafa autt ---"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr ""
@@ -68,7 +80,6 @@ msgid "A human interpretation of the variable's value."
 msgstr ""
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
@@ -115,6 +126,9 @@ msgstr ""
 
 msgid "Add Style Sheet"
 msgstr "Bæta við hönnunarlýsingu"
+
+msgid "after"
+msgstr ""
 
 msgid "Alignment"
 msgstr "Jöfnun"
@@ -168,7 +182,6 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr ""
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
@@ -213,11 +226,14 @@ msgstr "Bakgrunnslitur"
 msgid "Base"
 msgstr ""
 
-msgid "block"
-msgstr "blokk"
+msgid "Be aware, if you choose to remove the instructions, the system will not provide any warnings to the test takers if constraints are set."
+msgstr ""
 
 msgid "Block"
 msgstr "Blokk"
+
+msgid "block"
+msgstr "blokk"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "Í blokkinni er efnið (hvati) atriðisins svo sem texti eða mynd. Hennar er líka þörf í samskiptum á línunni."
@@ -234,11 +250,11 @@ msgstr "Vafraðu um tölvuna þína og veldu viðeigandi skrá."
 msgid "Browse..."
 msgstr "Velja..."
 
-msgid "cancel"
-msgstr "hætta við"
-
 msgid "Cancel"
 msgstr "Hætta við"
+
+msgid "cancel"
+msgstr "hætta við"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
 msgstr ""
@@ -288,11 +304,11 @@ msgstr "Valin samskipti"
 msgid "Choice Properties"
 msgstr "Eiginleikar valmöguleika"
 
-msgid "Choices"
-msgstr "Valmöguleikar"
-
 msgid "choices"
 msgstr ""
+
+msgid "Choices"
+msgstr "Valmöguleikar"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr ""
@@ -327,6 +343,9 @@ msgstr "Safnaðu óloknum upplýsingum í eitt eða fleiri textasvæði (strengi
 msgid "Color Picker"
 msgstr "Litaval"
 
+msgid "Column separator"
+msgstr ""
+
 msgid "Common Interactions"
 msgstr ""
 
@@ -345,6 +364,9 @@ msgstr "rétt"
 msgid "Cosinus"
 msgstr ""
 
+msgid "Create a single hottext from the selection"
+msgstr ""
+
 msgid "Create assocations and fill the score in the form below"
 msgstr "Búa til vensl og skrá skor á eyðublaðið fyrir neðan"
 
@@ -359,6 +381,9 @@ msgstr "Búa til bil"
 
 msgid "Create hottext"
 msgstr "Búa til hottext"
+
+msgid "Create multiple hottexts from the selection"
+msgstr ""
 
 msgid "Create pair(s) from a series of choices."
 msgstr "Búa til par/pör úr syrpum af valkostum."
@@ -381,10 +406,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "Úrvinnsluhamur fyrir staðlað svar"
 
-msgid "default"
+msgid "Default"
 msgstr "Sjálfgefið"
 
-msgid "Default"
+msgid "default"
 msgstr "Sjálfgefið"
 
 msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
@@ -437,6 +462,9 @@ msgstr "Aftengið þetta háttarblað tímabundið"
 
 msgid "Display"
 msgstr "Sýna/Skjár"
+
+msgid "Display media player"
+msgstr ""
 
 msgid "Display the choices either horizontally or vertically"
 msgstr ""
@@ -741,6 +769,12 @@ msgstr ""
 msgid "If this box is checked the student will be able to eliminate choices."
 msgstr ""
 
+msgid "Image caption"
+msgstr ""
+
+msgid "Image caption not enabled when position is set to inline"
+msgstr ""
+
 msgid "Import"
 msgstr "Flytja inn"
 
@@ -778,6 +812,9 @@ msgid "incorrect"
 msgstr "rangt"
 
 msgid "Index"
+msgstr ""
+
+msgid "Indicates that the audio forms part of a sequence with other sequential interactions. The advancing of the sequence is handled by the delivery engine. Delays are also respected."
 msgstr ""
 
 msgid "Infinity"
@@ -825,6 +862,12 @@ msgstr ""
 msgid "Invalid URL"
 msgstr ""
 
+msgid "Invalid value in correct response property."
+msgstr ""
+
+msgid "Invalid value, use %s %s for decimal point."
+msgstr ""
+
 msgid "Is this choice the correct response?"
 msgstr "Er þessi valkostur rétta svarið?"
 
@@ -855,11 +898,11 @@ msgstr ""
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item Properties"
-msgstr "Eiginleikar Atriðis"
-
 msgid "Item properties"
 msgstr "Eiginleikar atriðis"
+
+msgid "Item Properties"
+msgstr "Eiginleikar Atriðis"
 
 msgid "Item width"
 msgstr "Breidd atriðis"
@@ -886,14 +929,11 @@ msgstr "Latex"
 msgid "Layout"
 msgstr ""
 
-msgid "--- leave empty ---"
-msgstr "--- hafa autt ---"
+msgid "Left"
+msgstr "Vinstri"
 
 msgid "left"
 msgstr "vinstri"
-
-msgid "Left"
-msgstr "Vinstri"
 
 msgid "Left bracket"
 msgstr ""
@@ -969,20 +1009,20 @@ msgstr "MathML"
 msgid "Max"
 msgstr "Hámark"
 
-msgid "Max Length"
-msgstr "Hámarks Lengd"
-
 msgid "Max length"
 msgstr "Hámarks lengd"
+
+msgid "Max Length"
+msgstr "Hámarks Lengd"
 
 msgid "Max plays count"
 msgstr ""
 
-msgid "Max Words"
-msgstr "Hámarksfjöldi Orða"
-
 msgid "Max words"
 msgstr "Hámarksfjöldi orða"
+
+msgid "Max Words"
+msgstr "Hámarksfjöldi Orða"
 
 msgid "Max. number of matches"
 msgstr "Hámarksfjöldi tenginga"
@@ -1081,11 +1121,11 @@ msgstr ""
 msgid "No value set"
 msgstr "Ekkert gildi sett"
 
-msgid "none"
-msgstr ""
-
 msgid "None"
 msgstr "Ekkert"
+
+msgid "none"
+msgstr ""
 
 msgid "None defined yet."
 msgstr "Ekkert skilgreint enn."
@@ -1106,7 +1146,6 @@ msgid "one association pair"
 msgstr "eitt venslapar"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "Order"
@@ -1114,6 +1153,9 @@ msgstr "Röð"
 
 msgid "Order Interaction"
 msgstr "Röðunar Samverkun"
+
+msgid "order single list"
+msgstr ""
 
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Raðaðu svæðunum (heitreitum) sem sýnd eru á myndinni."
@@ -1159,6 +1201,9 @@ msgstr "Skilgreina rétt venslapör fyrir neðan."
 
 msgid "Please define the correct order in the box to the right."
 msgstr "Skilgreina rétta röð í kassanum til hægri."
+
+msgid "Please define the correct order."
+msgstr ""
 
 msgid "Please define the correct response and the score below."
 msgstr "Skilgreina rétt svar og skor fyrir neðan."
@@ -1277,6 +1322,9 @@ msgstr ""
 msgid "QTI Metadata"
 msgstr ""
 
+msgid "QTI metadata as properties"
+msgstr ""
+
 msgid "QTI Package 2.1"
 msgstr "QTI Pakki 2.1"
 
@@ -1334,6 +1382,9 @@ msgstr "Fjarlægja umbeðna atriðisbreidd"
 msgid "Remove custom text color"
 msgstr "Fjarlægja umbeðinn lit á texta"
 
+msgid "Remove Instructions"
+msgstr ""
+
 msgid "Remove Message"
 msgstr "Fjarlægja skeyti"
 
@@ -1345,6 +1396,9 @@ msgstr "Fjarlægja valið form"
 
 msgid "Remove this stylesheet"
 msgstr "Fjarlægja þetta háttarblað"
+
+msgid "Removes all instruction messages generated by the system from the interface."
+msgstr ""
 
 msgid "Replay timeout"
 msgstr ""
@@ -1388,11 +1442,11 @@ msgstr ""
 msgid "Rich text + math"
 msgstr ""
 
-msgid "Right"
-msgstr ""
-
 msgid "right"
 msgstr "hægri"
+
+msgid "Right"
+msgstr ""
 
 msgid "Right bracket"
 msgstr ""
@@ -1409,11 +1463,11 @@ msgstr ""
 msgid "Scale size"
 msgstr ""
 
-msgid "score"
-msgstr "stig"
-
 msgid "Score"
 msgstr "Stig"
+
+msgid "score"
+msgstr "stig"
 
 msgid "Score range"
 msgstr "Stigabil"
@@ -1422,6 +1476,9 @@ msgid "Score value"
 msgstr "Stigagildi"
 
 msgid "Scrollable multi-column"
+msgstr ""
+
+msgid "seconds"
 msgstr ""
 
 msgid "Select"
@@ -1511,6 +1568,9 @@ msgstr "Veldu þetta svæði"
 msgid "Select this area to start an association"
 msgstr "Veldu þetta svæði til að hefja vensl"
 
+msgid "Sequential"
+msgstr ""
+
 msgid "Set a CSS class name in order to customize the display style."
 msgstr ""
 
@@ -1545,6 +1605,9 @@ msgid "some text ..."
 msgstr "einhver texti ..."
 
 msgid "Something went wrong while destroying an interaction: %s"
+msgstr ""
+
+msgid "sort from source to target list"
 msgstr ""
 
 msgid "Square root"
@@ -1733,6 +1796,9 @@ msgstr "Hámarksfjöldi valkosta sem geta tengst þessum valkosti. Ef matchMax e
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
 msgstr "maxPlays eiginleikinn gefur til kynna að hægt sé að leika miðlunarefnið í mesta lagi maxPlays sinnum - próftakinn má ekki geta leikið miðlunarefnið oftar en maxPalay sinnum. Gildi 0 (sjálfgefið) gefur til kynna að engin mörk séu."
 
+msgid "The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score."
+msgstr ""
+
 msgid "The MIME-type attribute describes which kind of file may be uploaded."
 msgstr "MIME-háttar eiginleikinn lýsir því hvers konar skrá er hægt að hlaða upp."
 
@@ -1787,6 +1853,9 @@ msgstr "Breidd forms í pixlum. Gildir má kvarða þegar stærð bakgrunnsmynda
 msgid "The target must be an instance of DOMDocument"
 msgstr "Markmiðið verður að vera tilfelli í DOMDocument"
 
+msgid "The text to be displayed below the image."
+msgstr ""
+
 msgid "The text to be displayed if the image is not available."
 msgstr "Textinn sem á að birta ef myndin er ekki tiltæk."
 
@@ -1797,7 +1866,6 @@ msgid "The upper bound of the slider"
 msgstr "Efri mörk sleðans"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr ""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
@@ -1824,7 +1892,13 @@ msgstr ""
 msgid "This is not a valid answer"
 msgstr "Þetta er ekki gilt svar"
 
+msgid "This is not a valid value. Expected %s"
+msgstr ""
+
 msgid "This is required"
+msgstr ""
+
+msgid "This shows or hides the entire audio player from view. Test takers will not be able to play, pause, or change the volume level."
 msgstr ""
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
@@ -1840,6 +1914,9 @@ msgid "Title"
 msgstr "Titill"
 
 msgid "to"
+msgstr ""
+
+msgid "Toggles the display of a vertical separator between columns."
 msgstr ""
 
 msgid "Tooltip Content"

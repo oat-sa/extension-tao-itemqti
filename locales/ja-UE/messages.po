@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.04\n"
-"PO-Revision-Date: 2022-04-01T09:30:46\n"
+"Project-Id-Version: TAO 2024.10\n"
+"PO-Revision-Date: 2024-10-03T15:13:24\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-UE\n"
@@ -43,8 +43,20 @@ msgstr ""
 msgid "%s of %s words maximum."
 msgstr ""
 
+msgid "(comma)"
+msgstr ""
+
+msgid "(dot)"
+msgstr ""
+
+msgid "(space)"
+msgstr ""
+
 msgid "-- Any kind of file --"
 msgstr "-- すべてのファイル --"
+
+msgid "--- leave empty ---"
+msgstr "--- ------ ---"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr "指定されたQTI/APIP XML Item Documentから1アイテムがインポートされました"
@@ -68,9 +80,7 @@ msgid "A human interpretation of the variable's value."
 msgstr "変数値の翻訳"
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr "QTIコンポーネントはサポートされていません。システムは次のエラーを返しました: %s\n"
-""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "ルーブリックブロックは、アイテムを表示する1つ以上のアクターへの指示を表す評価アイテムののitemBodyの一部を識別します。ルーブリックブロックはsimpleBlocks要素として定義されているのでインタラクションを含めることはできません。"
@@ -116,6 +126,9 @@ msgstr ""
 
 msgid "Add Style Sheet"
 msgstr "スタイルシート追加"
+
+msgid "after"
+msgstr ""
 
 msgid "Alignment"
 msgstr "配置"
@@ -169,9 +182,7 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "QTIアイテムパッケージのインポート中に予期しないエラーが発生しました。システムは次のエラーを返しました: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr "QTIアイテムパッケージのインポート中に予期しないエラーが発生しました。システムは次のエラーを返しました: %s\n"
-""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr ""
@@ -215,11 +226,14 @@ msgstr "背景色"
 msgid "Base"
 msgstr "ベース"
 
-msgid "block"
-msgstr "ブロック"
+msgid "Be aware, if you choose to remove the instructions, the system will not provide any warnings to the test takers if constraints are set."
+msgstr "制約条件が設定されていても、アラートを非表示すると受験者にアラートが表示されません"
 
 msgid "Block"
 msgstr "文字ブロック"
+
+msgid "block"
+msgstr "ブロック"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
 msgstr "文字ブロックは、テキストや画像などのコンテンツを表示します。文章中の穴埋め問題作成にも利用します。"
@@ -236,10 +250,10 @@ msgstr "コンピュータを参照し、適切なファイルを選択してく
 msgid "Browse..."
 msgstr "参照..."
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "キャンセル"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "キャンセル"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -290,10 +304,10 @@ msgstr "操作の選択"
 msgid "Choice Properties"
 msgstr "選択肢プロパティ"
 
-msgid "Choices"
+msgid "choices"
 msgstr "選択肢"
 
-msgid "choices"
+msgid "Choices"
 msgstr "選択肢"
 
 msgid "Choose the horizontal alignment for the table."
@@ -329,6 +343,9 @@ msgstr "1つまたは複数のテキストエリア（文字列または数値�
 msgid "Color Picker"
 msgstr "色の取得"
 
+msgid "Column separator"
+msgstr ""
+
 msgid "Common Interactions"
 msgstr ""
 
@@ -347,6 +364,9 @@ msgstr "正しい"
 msgid "Cosinus"
 msgstr "cos"
 
+msgid "Create a single hottext from the selection"
+msgstr ""
+
 msgid "Create assocations and fill the score in the form below"
 msgstr "組合せを作成し、以下のフォームにスコアを記入"
 
@@ -361,6 +381,9 @@ msgstr "穴埋め作成"
 
 msgid "Create hottext"
 msgstr "ホットテキスト作成"
+
+msgid "Create multiple hottexts from the selection"
+msgstr ""
 
 msgid "Create pair(s) from a series of choices."
 msgstr "選択肢からペアを作成"
@@ -383,10 +406,10 @@ msgstr ""
 msgid "Custom Response Processing Mode"
 msgstr "カスタムレスポンス処理モード"
 
-msgid "default"
+msgid "Default"
 msgstr "デフォルト"
 
-msgid "Default"
+msgid "default"
 msgstr "デフォルト"
 
 msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
@@ -439,6 +462,9 @@ msgstr "一時的にこのスタイルシートを無効にします"
 
 msgid "Display"
 msgstr "画面表示"
+
+msgid "Display media player"
+msgstr ""
 
 msgid "Display the choices either horizontally or vertically"
 msgstr "選択肢を水平または垂直に並べる"
@@ -743,6 +769,12 @@ msgstr "変数の値が float で powerForm が 'false' に設定されている
 msgid "If this box is checked the student will be able to eliminate choices."
 msgstr "ボックスにチェックを入れると、選択肢を消去することができます。"
 
+msgid "Image caption"
+msgstr ""
+
+msgid "Image caption not enabled when position is set to inline"
+msgstr ""
+
 msgid "Import"
 msgstr "インポート"
 
@@ -781,6 +813,9 @@ msgstr "不正解"
 
 msgid "Index"
 msgstr "インデックス"
+
+msgid "Indicates that the audio forms part of a sequence with other sequential interactions. The advancing of the sequence is handled by the delivery engine. Delays are also respected."
+msgstr ""
 
 msgid "Infinity"
 msgstr "∞"
@@ -827,6 +862,12 @@ msgstr "無効なレスポンス識別子"
 msgid "Invalid URL"
 msgstr ""
 
+msgid "Invalid value in correct response property."
+msgstr ""
+
+msgid "Invalid value, use %s %s for decimal point."
+msgstr ""
+
 msgid "Is this choice the correct response?"
 msgstr "この選択は正しい答えですか？"
 
@@ -857,10 +898,10 @@ msgstr "アイテムのメタデータは正常にエクスポートされまし
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr ""
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "アイテムプロパティ"
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "アイテムプロパティ"
 
 msgid "Item width"
@@ -888,13 +929,10 @@ msgstr "LaTeX"
 msgid "Layout"
 msgstr ""
 
-msgid "--- leave empty ---"
-msgstr "--- ------ ---"
-
-msgid "left"
+msgid "Left"
 msgstr "左"
 
-msgid "Left"
+msgid "left"
 msgstr "左"
 
 msgid "Left bracket"
@@ -972,19 +1010,19 @@ msgstr "MathML"
 msgid "Max"
 msgstr "最大"
 
-msgid "Max Length"
+msgid "Max length"
 msgstr "最大文字数"
 
-msgid "Max length"
+msgid "Max Length"
 msgstr "最大文字数"
 
 msgid "Max plays count"
 msgstr "最大再生回数"
 
-msgid "Max Words"
+msgid "Max words"
 msgstr "最大単語数"
 
-msgid "Max words"
+msgid "Max Words"
 msgstr "最大単語数"
 
 msgid "Max. number of matches"
@@ -1084,10 +1122,10 @@ msgstr ""
 msgid "No value set"
 msgstr "何もセットされていません"
 
-msgid "none"
+msgid "None"
 msgstr "なし"
 
-msgid "None"
+msgid "none"
 msgstr "なし"
 
 msgid "None defined yet."
@@ -1109,15 +1147,16 @@ msgid "one association pair"
 msgstr "１つの組み合わせ"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr "1つ以上のQTIコンポーネントがシステムでサポートされていません。システムは次のエラーを返しました：%s\n"
-""
 
 msgid "Order"
 msgstr "並び替え"
 
 msgid "Order Interaction"
 msgstr "並べ替え問題"
+
+msgid "order single list"
+msgstr ""
 
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "画像の領域（ホットスポット）を選んでください"
@@ -1163,6 +1202,9 @@ msgstr "正しい組合せを設定してください。"
 
 msgid "Please define the correct order in the box to the right."
 msgstr "右側のボックスに正しい順序を設定してください"
+
+msgid "Please define the correct order."
+msgstr ""
 
 msgid "Please define the correct response and the score below."
 msgstr "正解とスコアを設定してください"
@@ -1281,6 +1323,9 @@ msgstr "QTIアイテムランナー"
 msgid "QTI Metadata"
 msgstr "QTIメタデータ"
 
+msgid "QTI metadata as properties"
+msgstr ""
+
 msgid "QTI Package 2.1"
 msgstr "QTIパッケージ2.1"
 
@@ -1338,6 +1383,9 @@ msgstr "アイテム幅を元に戻す"
 msgid "Remove custom text color"
 msgstr "文字色を元に戻す"
 
+msgid "Remove Instructions"
+msgstr "アラート非表示"
+
 msgid "Remove Message"
 msgstr "メッセージを削除"
 
@@ -1349,6 +1397,9 @@ msgstr "選択した図形を削除"
 
 msgid "Remove this stylesheet"
 msgstr "このスタイルシートを削除"
+
+msgid "Removes all instruction messages generated by the system from the interface."
+msgstr "すべてのアラートを非表示にします"
 
 msgid "Replay timeout"
 msgstr "再生タイムアウト"
@@ -1392,10 +1443,10 @@ msgstr ""
 msgid "Rich text + math"
 msgstr ""
 
-msgid "Right"
+msgid "right"
 msgstr "右"
 
-msgid "right"
+msgid "Right"
 msgstr "右"
 
 msgid "Right bracket"
@@ -1413,10 +1464,10 @@ msgstr "アイテム保存"
 msgid "Scale size"
 msgstr "縮尺"
 
-msgid "score"
+msgid "Score"
 msgstr "スコア"
 
-msgid "Score"
+msgid "score"
 msgstr "スコア"
 
 msgid "Score range"
@@ -1426,6 +1477,9 @@ msgid "Score value"
 msgstr "スコア値"
 
 msgid "Scrollable multi-column"
+msgstr ""
+
+msgid "seconds"
 msgstr ""
 
 msgid "Select"
@@ -1515,6 +1569,9 @@ msgstr "この範囲を選択してください"
 msgid "Select this area to start an association"
 msgstr "組み合わせを開始するには、この範囲を選んでください。"
 
+msgid "Sequential"
+msgstr ""
+
 msgid "Set a CSS class name in order to customize the display style."
 msgstr "画面表示をカスタマイズするためのCSSクラス名を設定します"
 
@@ -1549,6 +1606,9 @@ msgid "some text ..."
 msgstr "テキストを入力 ..."
 
 msgid "Something went wrong while destroying an interaction: %s"
+msgstr ""
+
+msgid "sort from source to target list"
 msgstr ""
 
 msgid "Square root"
@@ -1737,6 +1797,9 @@ msgstr "この選択肢を選べる回数。0の場合は、選択回数の制�
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
 msgstr "メディアの最大再生回数です。受検者はこの再生回数を超えて再生することはできません。0（デフォルト）は制限なく再生できます。"
 
+msgid "The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score."
+msgstr ""
+
 msgid "The MIME-type attribute describes which kind of file may be uploaded."
 msgstr "MIMEタイプ属性は、アップロードできるファイル形式を設定します"
 
@@ -1791,6 +1854,9 @@ msgstr "ピクセル単位の図形の幅。この値は、背景画像のサイ
 msgid "The target must be an instance of DOMDocument"
 msgstr "ターゲットはのDOMDocumentのインスタンスである必要があります"
 
+msgid "The text to be displayed below the image."
+msgstr ""
+
 msgid "The text to be displayed if the image is not available."
 msgstr "代替えテキスト（画像が使用できない場合に表示されるテキスト）"
 
@@ -1801,9 +1867,7 @@ msgid "The upper bound of the slider"
 msgstr "スライダー最大値"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "QTIアイテムのインポートに失敗しました。エラー内容:%s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "QTIアイテムを含むZIPファイルを抽出できません"
@@ -1829,8 +1893,14 @@ msgstr "このインタラクションには、質問モードで定義された
 msgid "This is not a valid answer"
 msgstr "有効な解答ではありません"
 
+msgid "This is not a valid value. Expected %s"
+msgstr ""
+
 msgid "This is required"
 msgstr "これは必須です"
+
+msgid "This shows or hides the entire audio player from view. Test takers will not be able to play, pause, or change the volume level."
+msgstr ""
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "このスタイルシートがサーバ上で見つかりません。この参照を削除してください"
@@ -1846,6 +1916,9 @@ msgstr "タイトル"
 
 msgid "to"
 msgstr "ー"
+
+msgid "Toggles the display of a vertical separator between columns."
+msgstr ""
 
 msgid "Tooltip Content"
 msgstr "Tips内容"

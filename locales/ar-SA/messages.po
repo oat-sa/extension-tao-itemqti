@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-11-25 18:19\n"
+"PO-Revision-Date: 2024-10-11 13:07\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -50,8 +50,20 @@ msgstr "%s من الأحرف %s الموصى بها."
 msgid "%s of %s words maximum."
 msgstr "%s من %s الكلمات كحد أقصى."
 
+msgid "(comma)"
+msgstr ""
+
+msgid "(dot)"
+msgstr ""
+
+msgid "(space)"
+msgstr ""
+
 msgid "-- Any kind of file --"
 msgstr "- أي نوع من الملفات -"
+
+msgid "--- leave empty ---"
+msgstr "--- يترك فارغا ---"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr "تم استيراد بند واحد من مستند بند QTI/APIP XML المحدد."
@@ -121,6 +133,9 @@ msgstr "أضف صفا جديدا"
 
 msgid "Add Style Sheet"
 msgstr "أضف ورقة الأنماط"
+
+msgid "after"
+msgstr ""
 
 msgid "Alignment"
 msgstr "المحاذاة"
@@ -218,10 +233,13 @@ msgstr "لون الخلفية"
 msgid "Base"
 msgstr "قاعدة"
 
-msgid "block"
-msgstr "منع"
+msgid "Be aware, if you choose to remove the instructions, the system will not provide any warnings to the test takers if constraints are set."
+msgstr ""
 
 msgid "Block"
+msgstr "منع"
+
+msgid "block"
 msgstr "منع"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
@@ -239,10 +257,10 @@ msgstr "تصفح جهاز الكمبيوتر الخاص بك وحدد الملف
 msgid "Browse..."
 msgstr "تصفح..."
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "إلغاء"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "إلغاء"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
@@ -293,10 +311,10 @@ msgstr "اختر تفاعلا"
 msgid "Choice Properties"
 msgstr "اختر خصائص"
 
-msgid "Choices"
+msgid "choices"
 msgstr "خيارات"
 
-msgid "choices"
+msgid "Choices"
 msgstr "خيارات"
 
 msgid "Choose the horizontal alignment for the table."
@@ -332,6 +350,9 @@ msgstr "اجمع المعلومات ذات النهايات المفتوحة ف�
 msgid "Color Picker"
 msgstr "أداة انتقاء اللون"
 
+msgid "Column separator"
+msgstr ""
+
 msgid "Common Interactions"
 msgstr "التفاعلات المشتركة"
 
@@ -350,6 +371,9 @@ msgstr "صحيح"
 msgid "Cosinus"
 msgstr "كوسينوس"
 
+msgid "Create a single hottext from the selection"
+msgstr ""
+
 msgid "Create assocations and fill the score in the form below"
 msgstr "أنشئ ارتباطات واملأ النتيجة في النموذج أدناه"
 
@@ -364,6 +388,9 @@ msgstr "خلق فجوة"
 
 msgid "Create hottext"
 msgstr "إنشاء نص مرتبط hottext"
+
+msgid "Create multiple hottexts from the selection"
+msgstr ""
 
 msgid "Create pair(s) from a series of choices."
 msgstr "قم بإنشاء زوج (أزواج) من سلسلة من الاختيارات."
@@ -386,10 +413,10 @@ msgstr "تفاعلات مخصصة"
 msgid "Custom Response Processing Mode"
 msgstr "وضع معالجةالجواب المخصصة"
 
-msgid "default"
+msgid "Default"
 msgstr "افتراضي"
 
-msgid "Default"
+msgid "default"
 msgstr "افتراضي"
 
 msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
@@ -442,6 +469,9 @@ msgstr "قم بتعطيل ورقة الأنماط هذه مؤقتًا"
 
 msgid "Display"
 msgstr "عرض"
+
+msgid "Display media player"
+msgstr ""
 
 msgid "Display the choices either horizontally or vertically"
 msgstr "اعرض الاختيارات إما أفقيًا أو رأسيًا"
@@ -746,6 +776,12 @@ msgstr "إذا كانت قيمة المتغير عائمة وتم تعيين pow
 msgid "If this box is checked the student will be able to eliminate choices."
 msgstr "إذا تم تحديد هذا المربع ، فسيكون الطالب قادرًا على حذف الخيارات."
 
+msgid "Image caption"
+msgstr ""
+
+msgid "Image caption not enabled when position is set to inline"
+msgstr ""
+
 msgid "Import"
 msgstr "استورد"
 
@@ -784,6 +820,9 @@ msgstr "غير صحيح"
 
 msgid "Index"
 msgstr "فهرس"
+
+msgid "Indicates that the audio forms part of a sequence with other sequential interactions. The advancing of the sequence is handled by the delivery engine. Delays are also respected."
+msgstr ""
 
 msgid "Infinity"
 msgstr "لانهاية"
@@ -830,6 +869,12 @@ msgstr "معرف الاستجابة غير صالح"
 msgid "Invalid URL"
 msgstr "URL غير صالح"
 
+msgid "Invalid value in correct response property."
+msgstr ""
+
+msgid "Invalid value, use %s %s for decimal point."
+msgstr ""
+
 msgid "Is this choice the correct response?"
 msgstr "هل هذا الاختيار هو الرد الصحيح؟"
 
@@ -860,10 +905,10 @@ msgstr "تم تصدير البيانات الوصفية للبند بنجاح."
 msgid "Item metadata with identifier \"%s\" is not valid: "
 msgstr "البيانات الوصفية للبند مع المعرف \"%s\" غير صالحة: "
 
-msgid "Item Properties"
+msgid "Item properties"
 msgstr "خصائص البند"
 
-msgid "Item properties"
+msgid "Item Properties"
 msgstr "خصائص البند"
 
 msgid "Item width"
@@ -891,13 +936,10 @@ msgstr "اللاتكس"
 msgid "Layout"
 msgstr "تخطيط"
 
-msgid "--- leave empty ---"
-msgstr "--- يترك فارغا ---"
-
-msgid "left"
+msgid "Left"
 msgstr "يسار"
 
-msgid "Left"
+msgid "left"
 msgstr "يسار"
 
 msgid "Left bracket"
@@ -975,20 +1017,20 @@ msgstr "MathML"
 msgid "Max"
 msgstr "الأعلى"
 
-msgid "Max Length"
-msgstr "الحد الاقصى للطول"
-
 msgid "Max length"
 msgstr "الحد الأقصى للطول"
+
+msgid "Max Length"
+msgstr "الحد الاقصى للطول"
 
 msgid "Max plays count"
 msgstr "عدد مرات اللعب القصوى"
 
-msgid "Max Words"
-msgstr "الحد الاقصى للكلمات"
-
 msgid "Max words"
 msgstr "الحد الأقصى للكلمات"
+
+msgid "Max Words"
+msgstr "الحد الاقصى للكلمات"
 
 msgid "Max. number of matches"
 msgstr "الحد الأقصى للمطابقات"
@@ -1087,11 +1129,11 @@ msgstr "لا يوجد مِلَفّ تم تحميله"
 msgid "No value set"
 msgstr "لم يتم تعيين قيمة"
 
-msgid "none"
-msgstr "لا أحد"
-
 msgid "None"
 msgstr "لا شيء"
+
+msgid "none"
+msgstr "لا أحد"
 
 msgid "None defined yet."
 msgstr "لم يتم تعريف أي شيء حتى الآن."
@@ -1119,6 +1161,9 @@ msgstr "ترتيب"
 
 msgid "Order Interaction"
 msgstr "طلب التفاعل"
+
+msgid "order single list"
+msgstr ""
 
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "اطلب المناطق (النقاط الفعالة) المعروضة على الصورة."
@@ -1164,6 +1209,9 @@ msgstr "يرجى تحديد أزواج الاقتران الصحيحة أدنا�
 
 msgid "Please define the correct order in the box to the right."
 msgstr "يرجى تحديد الترتيب الصحيح في المربع الموجود على اليمين"
+
+msgid "Please define the correct order."
+msgstr ""
 
 msgid "Please define the correct response and the score below."
 msgstr "يرجى تحديد الإجابة الصحيحة والنتيجة أدناه."
@@ -1282,6 +1330,9 @@ msgstr "عداء بند QTI"
 msgid "QTI Metadata"
 msgstr "بيانات تعريف QTI"
 
+msgid "QTI metadata as properties"
+msgstr ""
+
 msgid "QTI Package 2.1"
 msgstr "حزمة QTI 2.1"
 
@@ -1339,6 +1390,9 @@ msgstr "قم بإزالة عرض البند المخصص"
 msgid "Remove custom text color"
 msgstr "قم بإزالة لون النص المخصص"
 
+msgid "Remove Instructions"
+msgstr ""
+
 msgid "Remove Message"
 msgstr "قم بإزالة هذه الرسالة"
 
@@ -1350,6 +1404,9 @@ msgstr "قم بإزالة الشكل المحدد"
 
 msgid "Remove this stylesheet"
 msgstr "قم بإزالة ورقة الأنماط هذه"
+
+msgid "Removes all instruction messages generated by the system from the interface."
+msgstr ""
 
 msgid "Replay timeout"
 msgstr "مهلة إعادة التشغيل"
@@ -1393,10 +1450,10 @@ msgstr "النص الغني"
 msgid "Rich text + math"
 msgstr "نص منسق + رياضيات"
 
-msgid "Right"
+msgid "right"
 msgstr "صحيح"
 
-msgid "right"
+msgid "Right"
 msgstr "صحيح"
 
 msgid "Right bracket"
@@ -1414,10 +1471,10 @@ msgstr "احفظ البند"
 msgid "Scale size"
 msgstr "حجم المقياس"
 
-msgid "score"
+msgid "Score"
 msgstr "نتيجة"
 
-msgid "Score"
+msgid "score"
 msgstr "نتيجة"
 
 msgid "Score range"
@@ -1428,6 +1485,9 @@ msgstr "قيمة النتيجة"
 
 msgid "Scrollable multi-column"
 msgstr "عمود متعدد قابل للتمرير"
+
+msgid "seconds"
+msgstr "ثواني"
 
 msgid "Select"
 msgstr "اختر"
@@ -1516,6 +1576,9 @@ msgstr "حدد هذه المنطقة"
 msgid "Select this area to start an association"
 msgstr "حدد هذه المنطقة لبدء ارتباط"
 
+msgid "Sequential"
+msgstr ""
+
 msgid "Set a CSS class name in order to customize the display style."
 msgstr "قم بتعيين اسم فئة CSS لتخصيص نمط العرض."
 
@@ -1551,6 +1614,9 @@ msgstr "بعض النصوص ..."
 
 msgid "Something went wrong while destroying an interaction: %s"
 msgstr "حدث خطأ ما أثناء تدمير التفاعل: %s"
+
+msgid "sort from source to target list"
+msgstr ""
 
 msgid "Square root"
 msgstr "الجذر التربيعي"
@@ -1729,17 +1795,20 @@ msgstr "الحد الأقصى لعدد الروابط التي يُسمح للم
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "الحد الأقصى لعدد الاختيارات التي يُسمح للمرشح بتحديدها."
 
+msgid "The maximum number of choices that the candidate is required to select to form a valid response."
+msgstr "الحد الأقصى لعدد الخيارات التي يتعين على المرشح اختيارها لتشكيل استجابة صحيحة."
+
 msgid "The maximum number of choices this choice may be associated with."
 msgstr "الحد الأقصى لعدد الاختيارات التي قد يقترن بها هذا الرائز"
 
 msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
 msgstr "الحد الأقصى لعدد الاختيارات التي قد يقترن بها هذا الاختيار. إذا كانت matchMax 0 فلا يوجد أي قيود."
 
-msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr "الحد الأقصى لعدد الخيارات التي يتعين على المرشح اختيارها لتشكيل استجابة صحيحة."
-
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
 msgstr "تشير السمة maxPlays إلى أنه يمكن تشغيل كائن الوسائط في معظم مرات maxPlays - يجب ألا يكون من الممكن للمرشح تشغيل كائن الوسائط أكثر من مرات maxPlay. تشير القيمة 0 (القيمة الافتراضية) إلى عدم وجود حد."
+
+msgid "The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score."
+msgstr ""
 
 msgid "The MIME-type attribute describes which kind of file may be uploaded."
 msgstr "تصف سمة نوع MIME نوع الملف الذي يمكن تحميله."
@@ -1795,6 +1864,9 @@ msgstr "عرض الشكل بالبكسل. يمكن تغيير حجم هذه ال
 msgid "The target must be an instance of DOMDocument"
 msgstr "يجب أن يكون الهدف مثيل DOMDocument"
 
+msgid "The text to be displayed below the image."
+msgstr ""
+
 msgid "The text to be displayed if the image is not available."
 msgstr "النص الذي سيتم عرضه في حالة عدم توفر الصورة."
 
@@ -1831,8 +1903,14 @@ msgstr "هذا التفاعل ليس له نص محدد في وضع السؤال
 msgid "This is not a valid answer"
 msgstr "هذه ليست إجابة صحيحة"
 
+msgid "This is not a valid value. Expected %s"
+msgstr ""
+
 msgid "This is required"
 msgstr "هذا مطلوب"
+
+msgid "This shows or hides the entire audio player from view. Test takers will not be able to play, pause, or change the volume level."
+msgstr ""
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "لم يتم العثور على ورقة الأنماط هذه على الخادم. قد ترغب في حذف هذا المرجع"
@@ -1848,6 +1926,9 @@ msgstr "عنوان"
 
 msgid "to"
 msgstr "إلى"
+
+msgid "Toggles the display of a vertical separator between columns."
+msgstr ""
 
 msgid "Tooltip Content"
 msgstr "محتوى تلميح الأدوات"
