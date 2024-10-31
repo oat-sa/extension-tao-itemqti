@@ -28,6 +28,8 @@ use core_kernel_classes_Resource;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManager;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\media\MediaService;
@@ -41,7 +43,8 @@ use oat\taoQtiItem\model\HookRegistry;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\event\UpdatedItemEventDispatcher;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
-use oat\taoQtiItem\model\qti\Item;
+use oat\taoQtiItem\model\qti\identifierGenerator\IdentifierGenerator;
+use oat\taoQtiItem\model\qti\identifierGenerator\IdentifierGeneratorProxy;
 use oat\taoQtiItem\model\qti\parser\XmlToItemParser;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\validator\ItemIdentifierValidator;
@@ -161,7 +164,6 @@ class QtiCreator extends tao_actions_CommonModule
 
     public function getItemData()
     {
-
         $returnValue = [
             'itemData' => null
         ];
@@ -174,9 +176,9 @@ class QtiCreator extends tao_actions_CommonModule
             // do not resolve xinclude here, leave it to the client side
             $item = Service::singleton()->getDataItemByRdfItem($itemResource, $lang, false);
 
-            if (!is_null($item)) {
-                $returnValue['itemData'] = $item->toArray();
-            }
+            $returnValue['itemData'] = $item
+                ? $item->toArray()
+                : ['identifier' => $this->getItemIdentifier($itemResource)];
 
             $availableLangs = \tao_helpers_I18n::getAvailableLangsByUsage(
                 new core_kernel_classes_Resource(TaoOntology::PROPERTY_STANCE_LANGUAGE_USAGE_DATA)
@@ -368,5 +370,32 @@ class QtiCreator extends tao_actions_CommonModule
             throw new common_exception_Error('Empty string given');
         }
         \tao_helpers_Xml::getSimpleXml($xml);
+    }
+
+    private function getItemIdentifier(core_kernel_classes_Resource $item): ?string
+    {
+        $identifier = $this->getIdentifierGenerator()->generate([
+            IdentifierGenerator::OPTION_RESOURCE_ID => $item->getUri(),
+        ]);
+
+        if (!$this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')) {
+            return $identifier;
+        }
+
+        $uniqueId = $item->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER));
+
+        return $uniqueId
+            ? $uniqueId->literal
+            : $identifier;
+    }
+
+    private function getIdentifierGenerator(): IdentifierGenerator
+    {
+        return $this->getServiceLocator()->getContainer()->get(IdentifierGeneratorProxy::class);
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceLocator()->getContainer()->get(FeatureFlagChecker::class);
     }
 }

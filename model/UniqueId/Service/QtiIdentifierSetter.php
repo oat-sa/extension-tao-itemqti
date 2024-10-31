@@ -20,33 +20,26 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\Translation\Service;
+namespace oat\taoQtiItem\model\UniqueId\Service;
 
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\model\qti\Service;
 use Psr\Log\LoggerInterface;
-use tao_models_classes_LanguageService;
 use Throwable;
 
-class QtiLanguageSetter
+class QtiIdentifierSetter
 {
     private Service $qtiItemService;
     private LoggerInterface $logger;
     private Ontology $ontology;
-    private tao_models_classes_LanguageService $languageService;
 
-    public function __construct(
-        Service $qtiItemService,
-        LoggerInterface $logger,
-        Ontology $ontology,
-        tao_models_classes_LanguageService $languageService
-    ) {
+    public function __construct(Service $qtiItemService, LoggerInterface $logger, Ontology $ontology)
+    {
         $this->qtiItemService = $qtiItemService;
         $this->logger = $logger;
         $this->ontology = $ontology;
-        $this->languageService = $languageService;
     }
 
     public function __invoke(core_kernel_classes_Resource $item): core_kernel_classes_Resource
@@ -71,23 +64,16 @@ class QtiLanguageSetter
             return $item;
         }
 
-        $languageProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_LANGUAGE);
-        $language = $item->getOnePropertyValue($languageProperty);
+        $uniqueIdProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER);
+        $uniqueId = $item->getOnePropertyValue($uniqueIdProperty);
 
-        if (empty($language)) {
-            $this->logger->info(sprintf('There is no language for item %s.', $item->getUri()));
+        if (empty($uniqueId)) {
+            $this->logger->info(sprintf('There is no unique ID for item %s.', $item->getUri()));
 
             return $item;
         }
 
-        $localeCode = str_replace(TaoOntology::LANGUAGE_PREFIX, '', $language->getUri());
-
-        if ($this->languageService->isRtlLanguage($localeCode)) {
-            $itemData->getBody()->setAttribute('dir', 'rtl');   
-        }
-
-        $itemData->setAttribute('xml:lang', $localeCode);
-
+        $itemData->setAttribute('identifier', $uniqueId->literal);
         $this->qtiItemService->saveDataItemToRdfItem($itemData, $item);
 
         return $item;

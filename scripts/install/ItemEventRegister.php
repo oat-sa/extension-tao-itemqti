@@ -25,11 +25,14 @@ namespace oat\taoQtiItem\scripts\install;
 use oat\oatbox\extension\InstallAction;
 use oat\taoItems\model\event\ItemContentClonedEvent;
 use oat\taoItems\model\event\ItemCreatedEvent;
+use oat\taoItems\model\event\ItemDuplicatedEvent;
 use oat\taoItems\model\event\ItemRdfUpdatedEvent;
 use oat\taoItems\model\event\ItemUpdatedEvent;
+use oat\taoQtiItem\model\event\ItemImported;
 use oat\taoQtiItem\model\Listener\ItemUpdater;
 use oat\taoQtiItem\model\Listener\ReplaceCopiedQtiXmlIdentifierListener;
 use oat\taoQtiItem\model\qti\Service;
+use oat\taoQtiItem\model\UniqueId\Listener\ItemCreatedEventListener;
 use oat\taoQtiItem\model\UniqueId\Listener\ItemUpdatedEventListener;
 
 /**
@@ -56,6 +59,18 @@ class ItemEventRegister extends InstallAction
         $this->registerEvent(
             ItemUpdatedEvent::class,
             [ItemUpdatedEventListener::class, 'populateUniqueId']
+        );
+        $this->registerEvent(
+            ItemCreatedEvent::class,
+            [ItemCreatedEventListener::class, 'populateUniqueId']
+        );
+        $this->registerEvent(
+            ItemImported::class,
+            [ItemCreatedEventListener::class, 'populateUniqueId']
+        );
+        $this->registerEvent(
+            ItemDuplicatedEvent::class,
+            [ItemCreatedEventListener::class, 'populateUniqueId']
         );
     }
 }
