@@ -55,16 +55,13 @@ define([
                 // request doesn't handle empty response with 200 code. See: core/request.js:240
                 const itemRdf = request(config.itemDataUrl, { uri: config.uri }).catch(d => d);
 
-                const nullOrContainsOnlyIdentifier = (data) => {
-                    if(data === null) {
-                        return true;
-                    }
+                const containsOnlyIdentifier = (data) => {
                     const keys = Object.keys(data);
                     return keys && keys.length === 1 && keys[0] === 'identifier';
                 }
 
                 Promise.all([langList, itemRdf]).then(([languagesList, data]) => {
-                    if (!nullOrContainsOnlyIdentifier(data.itemData)) {
+                    if (!containsOnlyIdentifier(data.itemData)) {
                         for (const response in data.itemData.responses) {
                             const newObject = {};
                             for (const mapKey in data.itemData.responses[response].mapping) {
@@ -74,7 +71,7 @@ define([
                         }
                     }
 
-                    if (!nullOrContainsOnlyIdentifier(data.itemData) && data.itemData.qtiClass === 'assessmentItem') {
+                    if (!containsOnlyIdentifier(data.itemData) && data.itemData.qtiClass === 'assessmentItem') {
                         const loader = new Loader().setClassesLocation(qtiClasses);
                         const itemData = data.itemData;
 
@@ -119,15 +116,7 @@ define([
                             callback(loadedItem, this.getLoadedClasses());
                         });
                     } else {
-                        let identifier = data.itemData && data.itemData.identifier;
-                        if(!identifier) {
-                            if (config.identifierGenerationStrategy === 'uniqueNumeric') {
-                                identifier = itemIdentifier.uniqueNumericIdentifier();
-                            } else {
-                                identifier = itemIdentifier.defaultIdentifier(config.uri, qtiIdentifier);
-                            }
-                        }
-                        const newItem = new Item().id(identifier).attr('title', config.label);
+                        const newItem = new Item().id(data.itemData.identifier).attr('title', config.label);
 
                         newItem.createResponseProcessing();
 
