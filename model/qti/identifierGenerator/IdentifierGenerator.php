@@ -24,5 +24,7 @@ namespace oat\taoQtiItem\model\qti\identifierGenerator;
 
 interface IdentifierGenerator
 {
-    public function generate(): string;
+    public const OPTION_RESOURCE_ID = 'resourceId';
+
+    public function generate(array $options = []): string;
 }
