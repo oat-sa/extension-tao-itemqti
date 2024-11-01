@@ -49,12 +49,7 @@ define([
 
         if (widget && widget.$container) {
             widget.$container.attr('contenteditable', 'false');
-            widget.$container.css({
-                'user-select': 'none',
-                'pointer-events': 'none'
-            });
         }
-
     };
 
     return CreatorXInclude;
