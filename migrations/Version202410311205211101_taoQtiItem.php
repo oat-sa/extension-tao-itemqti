@@ -29,15 +29,15 @@ final class Version202410311205211101_taoQtiItem extends AbstractMigration
 
         $eventManager->attach(
             ItemCreatedEvent::class,
-            [ItemCreatedEventListener::class, 'populateUniqueId']
+            [ItemCreatedEventListener::class, 'generateUniqueId']
         );
         $eventManager->attach(
             ItemImported::class,
-            [ItemCreatedEventListener::class, 'populateUniqueId']
+            [ItemCreatedEventListener::class, 'generateUniqueId']
         );
         $eventManager->attach(
             ItemDuplicatedEvent::class,
-            [ItemCreatedEventListener::class, 'populateUniqueId']
+            [ItemCreatedEventListener::class, 'generateUniqueId']
         );
 
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
@@ -50,15 +50,15 @@ final class Version202410311205211101_taoQtiItem extends AbstractMigration
 
         $eventManager->detach(
             ItemCreatedEvent::class,
-            [ItemCreatedEventListener::class, 'populateUniqueId']
+            [ItemCreatedEventListener::class, 'generateUniqueId']
         );
         $eventManager->detach(
             ItemImported::class,
-            [ItemCreatedEventListener::class, 'populateUniqueId']
+            [ItemCreatedEventListener::class, 'generateUniqueId']
         );
         $eventManager->detach(
             ItemDuplicatedEvent::class,
-            [ItemCreatedEventListener::class, 'populateUniqueId']
+            [ItemCreatedEventListener::class, 'generateUniqueId']
         );
 
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);

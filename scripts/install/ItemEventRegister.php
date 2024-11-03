@@ -62,15 +62,15 @@ class ItemEventRegister extends InstallAction
         );
         $this->registerEvent(
             ItemCreatedEvent::class,
-            [ItemCreatedEventListener::class, 'populateUniqueId']
+            [ItemCreatedEventListener::class, 'generateUniqueId']
         );
         $this->registerEvent(
             ItemImported::class,
-            [ItemCreatedEventListener::class, 'populateUniqueId']
+            [ItemCreatedEventListener::class, 'generateUniqueId']
         );
         $this->registerEvent(
             ItemDuplicatedEvent::class,
-            [ItemCreatedEventListener::class, 'populateUniqueId']
+            [ItemCreatedEventListener::class, 'generateUniqueId']
         );
     }
 }
