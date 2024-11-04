@@ -32,7 +32,7 @@ use oat\taoQtiItem\model\event\ItemImported;
 use oat\taoQtiItem\model\Listener\ItemUpdater;
 use oat\taoQtiItem\model\Listener\ReplaceCopiedQtiXmlIdentifierListener;
 use oat\taoQtiItem\model\qti\Service;
-use oat\taoQtiItem\model\UniqueId\Listener\ItemCreatedEventListener;
+use oat\taoQtiItem\model\UniqueId\Listener\ItemCreationListener;
 use oat\taoQtiItem\model\UniqueId\Listener\ItemUpdatedEventListener;
 
 /**
@@ -62,15 +62,15 @@ class ItemEventRegister extends InstallAction
         );
         $this->registerEvent(
             ItemCreatedEvent::class,
-            [ItemCreatedEventListener::class, 'generateUniqueId']
+            [ItemCreationListener::class, 'populateUniqueId']
         );
         $this->registerEvent(
             ItemImported::class,
-            [ItemCreatedEventListener::class, 'generateUniqueId']
+            [ItemCreationListener::class, 'populateUniqueId']
         );
         $this->registerEvent(
             ItemDuplicatedEvent::class,
-            [ItemCreatedEventListener::class, 'generateUniqueId']
+            [ItemCreationListener::class, 'populateUniqueId']
         );
     }
 }

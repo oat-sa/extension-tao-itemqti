@@ -32,6 +32,8 @@ use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\http\HttpJsonResponseTrait;
+use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorInterface;
+use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorProxy;
 use oat\tao\model\media\MediaService;
 use oat\tao\model\TaoOntology;
 use oat\taoItems\model\event\ItemCreatedEvent;
@@ -43,8 +45,6 @@ use oat\taoQtiItem\model\HookRegistry;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\event\UpdatedItemEventDispatcher;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
-use oat\taoQtiItem\model\qti\identifierGenerator\IdentifierGenerator;
-use oat\taoQtiItem\model\qti\identifierGenerator\IdentifierGeneratorProxy;
 use oat\taoQtiItem\model\qti\parser\XmlToItemParser;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\validator\ItemIdentifierValidator;
@@ -374,22 +374,18 @@ class QtiCreator extends tao_actions_CommonModule
 
     private function getItemIdentifier(core_kernel_classes_Resource $item): ?string
     {
-        $identifier = $this->getIdentifierGenerator()->generate([
-            IdentifierGenerator::OPTION_RESOURCE_ID => $item->getUri(),
-        ]);
+        if ($this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')) {
+            $uniqueId = $item->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER));
 
-        if (!$this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')) {
-            return $identifier;
+            if (!empty($uniqueId)) {
+                return $uniqueId;
+            }
         }
 
-        $uniqueId = $item->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER));
-
-        return $uniqueId
-            ? $uniqueId->literal
-            : $identifier;
+        return $this->getIdentifierGenerator()->generate([IdentifierGeneratorInterface::OPTION_RESOURCE => $item]);
     }
 
-    private function getIdentifierGenerator(): IdentifierGenerator
+    private function getIdentifierGenerator(): IdentifierGeneratorInterface
     {
         return $this->getServiceLocator()->getContainer()->get(IdentifierGeneratorProxy::class);
     }

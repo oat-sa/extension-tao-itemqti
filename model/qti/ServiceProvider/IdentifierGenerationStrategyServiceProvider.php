@@ -25,10 +25,11 @@ namespace oat\taoQtiItem\model\qti\ServiceProvider;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use common_ext_ExtensionsManager as ExtensionsManager;
+use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorProxy;
+use oat\tao\model\IdentifierGenerator\Generator\NumericIdentifierGenerator;
+use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\helpers\QtiXmlLoader;
-use oat\taoQtiItem\model\qti\identifierGenerator\IdentifierGeneratorProxy;
-use oat\taoQtiItem\model\qti\identifierGenerator\SimpleQtiIdentifierGenerator;
-use oat\taoQtiItem\model\qti\identifierGenerator\UniqueNumericQtiIdentifierGenerator;
+use oat\taoQtiItem\model\qti\identifierGenerator\QtiIdentifierGenerator;
 use oat\taoQtiItem\model\qti\parser\UniqueNumericQtiIdentifierReplacer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -46,25 +47,29 @@ class IdentifierGenerationStrategyServiceProvider implements ContainerServicePro
                 service(ExtensionsManager::SERVICE_ID)
             ]);
 
-        $services->set(SimpleQtiIdentifierGenerator::class, SimpleQtiIdentifierGenerator::class);
-
-        $services->set(UniqueNumericQtiIdentifierGenerator::class, UniqueNumericQtiIdentifierGenerator::class);
+        $services
+            ->set(QtiIdentifierGenerator::class, QtiIdentifierGenerator::class)
+            ->args([
+                service(FeatureFlagChecker::class),
+                service(NumericIdentifierGenerator::class),
+            ]);
 
         $services
-            ->set(IdentifierGeneratorProxy::class, IdentifierGeneratorProxy::class)
-            ->public()
-            ->args([
-                service(SimpleQtiIdentifierGenerator::class),
-                service(UniqueNumericQtiIdentifierGenerator::class),
-                service(FeatureFlagChecker::class)
-            ]);
+            ->get(IdentifierGeneratorProxy::class)
+            ->call(
+                'addIdentifierGenerator',
+                [
+                    service(QtiIdentifierGenerator::class),
+                    TaoOntology::CLASS_URI_ITEM,
+                ]
+            );
 
         $services
             ->set(UniqueNumericQtiIdentifierReplacer::class, UniqueNumericQtiIdentifierReplacer::class)
             ->args([
                 service(FeatureFlagChecker::class),
                 service(QtiXmlLoader::class),
-                service(UniqueNumericQtiIdentifierGenerator::class)
+                service(NumericIdentifierGenerator::class)
             ])
             ->public();
     }

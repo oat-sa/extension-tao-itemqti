@@ -24,28 +24,28 @@ namespace oat\taoQtiItem\model\UniqueId\Listener;
 
 use core_kernel_classes_Resource;
 use InvalidArgumentException;
-use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\Ontology;
 use oat\oatbox\event\Event;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorInterface;
+use oat\tao\model\resources\Event\InstanceCopiedEvent;
 use oat\tao\model\TaoOntology;
 use oat\taoItems\model\event\ItemCreatedEvent;
 use oat\taoItems\model\event\ItemDuplicatedEvent;
 use oat\taoQtiItem\model\event\ItemImported;
-use oat\taoQtiItem\model\qti\identifierGenerator\IdentifierGenerator;
 use oat\taoQtiItem\model\qti\Service;
 
-class ItemCreatedEventListener
+class ItemCreationListener
 {
     private FeatureFlagCheckerInterface $featureFlagChecker;
     private Ontology $ontology;
-    private IdentifierGenerator $identifierGenerator;
+    private IdentifierGeneratorInterface $identifierGenerator;
     private Service $qtiItemService;
 
     public function __construct(
         FeatureFlagCheckerInterface $featureFlagChecker,
         Ontology $ontology,
-        IdentifierGenerator $identifierGenerator,
+        IdentifierGeneratorInterface $identifierGenerator,
         Service $qtiItemService
     ) {
         $this->featureFlagChecker = $featureFlagChecker;
@@ -54,12 +54,13 @@ class ItemCreatedEventListener
         $this->qtiItemService = $qtiItemService;
     }
 
-    public function generateUniqueId(Event $event): void
+    public function populateUniqueId(Event $event): void
     {
         if (
             !$event instanceof ItemCreatedEvent
             && !$event instanceof ItemImported
             && !$event instanceof ItemDuplicatedEvent
+            && !$event instanceof InstanceCopiedEvent
         ) {
             return;
         }
@@ -68,9 +69,13 @@ class ItemCreatedEventListener
             return;
         }
 
-        $identifier = $this->identifierGenerator->generate();
-
         $item = $this->getEventItem($event);
+
+        if (!$item->isInstanceOf($this->ontology->getClass(TaoOntology::CLASS_URI_ITEM))) {
+            return;
+        }
+
+        $identifier = $this->identifierGenerator->generate([IdentifierGeneratorInterface::OPTION_RESOURCE => $item]);
         $item->editPropertyValues(
             $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER),
             $identifier
@@ -98,6 +103,10 @@ class ItemCreatedEventListener
 
         if ($event instanceof ItemDuplicatedEvent) {
             return $this->ontology->getResource($event->getCloneUri());
+        }
+
+        if ($event instanceof InstanceCopiedEvent) {
+            return $this->ontology->getResource($event->getInstanceUri());
         }
 
         throw new InvalidArgumentException('Cannot retrieve event item: event %s is not supported', get_class($event));

@@ -32,10 +32,10 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorInterface;
+use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorProxy;
 use oat\taoQtiItem\helpers\QtiFile;
 use oat\oatbox\filesystem\File;
-use oat\taoQtiItem\model\qti\identifierGenerator\IdentifierGenerator;
-use oat\taoQtiItem\model\qti\identifierGenerator\IdentifierGeneratorProxy;
 use tao_models_classes_FileNotFoundException;
 use taoItems_models_classes_ItemsService;
 
@@ -118,7 +118,7 @@ class QtiXmlDataManager extends ConfigurableService
                 /** @var DOMElement $item */
                 foreach ($assessmentItemNodes as $item) {
                     $identifier = $identifierGenerator->generate([
-                        IdentifierGenerator::OPTION_RESOURCE_ID => $toSourceId
+                        IdentifierGeneratorInterface::OPTION_RESOURCE_ID => $toSourceId
                     ]);
 
                     $item->setAttribute('identifier', $identifier);
@@ -146,7 +146,7 @@ class QtiXmlDataManager extends ConfigurableService
         return $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
     }
 
-    private function getIdentifierGenerator(): IdentifierGenerator
+    private function getIdentifierGenerator(): IdentifierGeneratorInterface
     {
         return $this->getServiceManager()->getContainer()->get(IdentifierGeneratorProxy::class);
     }

@@ -10,7 +10,7 @@ use oat\tao\scripts\tools\migrations\AbstractMigration;
 use oat\taoItems\model\event\ItemCreatedEvent;
 use oat\taoItems\model\event\ItemDuplicatedEvent;
 use oat\taoQtiItem\model\event\ItemImported;
-use oat\taoQtiItem\model\UniqueId\Listener\ItemCreatedEventListener;
+use oat\taoQtiItem\model\UniqueId\Listener\ItemCreationListener;
 
 /**
  * phpcs:disable Squiz.Classes.ValidClassName
@@ -29,15 +29,15 @@ final class Version202410311205211101_taoQtiItem extends AbstractMigration
 
         $eventManager->attach(
             ItemCreatedEvent::class,
-            [ItemCreatedEventListener::class, 'generateUniqueId']
+            [ItemCreationListener::class, 'populateUniqueId']
         );
         $eventManager->attach(
             ItemImported::class,
-            [ItemCreatedEventListener::class, 'generateUniqueId']
+            [ItemCreationListener::class, 'populateUniqueId']
         );
         $eventManager->attach(
             ItemDuplicatedEvent::class,
-            [ItemCreatedEventListener::class, 'generateUniqueId']
+            [ItemCreationListener::class, 'populateUniqueId']
         );
 
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
@@ -50,15 +50,15 @@ final class Version202410311205211101_taoQtiItem extends AbstractMigration
 
         $eventManager->detach(
             ItemCreatedEvent::class,
-            [ItemCreatedEventListener::class, 'generateUniqueId']
+            [ItemCreationListener::class, 'populateUniqueId']
         );
         $eventManager->detach(
             ItemImported::class,
-            [ItemCreatedEventListener::class, 'generateUniqueId']
+            [ItemCreationListener::class, 'populateUniqueId']
         );
         $eventManager->detach(
             ItemDuplicatedEvent::class,
-            [ItemCreatedEventListener::class, 'generateUniqueId']
+            [ItemCreationListener::class, 'populateUniqueId']
         );
 
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
