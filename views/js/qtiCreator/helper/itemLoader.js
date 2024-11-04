@@ -55,10 +55,10 @@ define([
                 // request doesn't handle empty response with 200 code. See: core/request.js:240
                 const itemRdf = request(config.itemDataUrl, { uri: config.uri }).catch(d => d);
 
-                const containsOnlyIdentifier = (data) => {
+                const containsOnlyIdentifier = data => {
                     const keys = Object.keys(data);
                     return keys && keys.length === 1 && keys[0] === 'identifier';
-                }
+                };
 
                 Promise.all([langList, itemRdf]).then(([languagesList, data]) => {
                     if (!containsOnlyIdentifier(data.itemData)) {
@@ -94,13 +94,8 @@ define([
 
                             const { responseProcessing: { processingType } = {} } = loadedItem;
                             if (!config.perInteractionRp && processingType === 'templateDriven') {
-                                const {
-                                    responses = {},
-                                    responseProcessing: {
-                                        data,
-                                        responseRules = []
-                                    } = {}
-                                } = itemData;
+                                const { responses = {}, responseProcessing: { data, responseRules = [] } = {} } =
+                                    itemData;
                                 const responseIdentifiers = [];
 
                                 _.forOwn(responses, ({ identifier }) => {
