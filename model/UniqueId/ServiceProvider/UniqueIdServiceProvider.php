@@ -26,11 +26,15 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorProxy;
+use oat\tao\model\TaoOntology;
+use oat\tao\model\Translation\Service\TranslationCreationService;
 use oat\taoItems\model\Form\Modifier\FormModifierProxy;
 use oat\taoQtiItem\model\qti\Service;
-use oat\taoQtiItem\model\UniqueId\Listener\ItemUpdatedEventListener;
+use oat\taoQtiItem\model\UniqueId\Listener\ItemCreationListener;
 use oat\taoQtiItem\model\UniqueId\Modifier\UniqueIdFormModifier;
 use oat\taoQtiItem\model\UniqueId\Service\QtiIdentifierRetriever;
+use oat\taoQtiItem\model\UniqueId\Service\QtiIdentifierSetter;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -66,13 +70,31 @@ class UniqueIdServiceProvider implements ContainerServiceProviderInterface
             );
 
         $services
-            ->set(ItemUpdatedEventListener::class, ItemUpdatedEventListener::class)
+            ->set(ItemCreationListener::class, ItemCreationListener::class)
             ->public()
             ->args([
                 service(FeatureFlagChecker::class),
                 service(Ontology::SERVICE_ID),
-                service(QtiIdentifierRetriever::class),
-                service(LoggerService::SERVICE_ID),
+                service(IdentifierGeneratorProxy::class),
+                service(Service::class),
             ]);
+
+        $services
+            ->set(QtiIdentifierSetter::class, QtiIdentifierSetter::class)
+            ->args([
+                service(Service::class),
+                service(LoggerService::SERVICE_ID),
+                service(Ontology::SERVICE_ID),
+            ]);
+
+        $services
+            ->get(TranslationCreationService::class)
+            ->call(
+                'addPostCreation',
+                [
+                    TaoOntology::CLASS_URI_ITEM,
+                    service(QtiIdentifierSetter::class),
+                ]
+            );
     }
 }

@@ -24,19 +24,19 @@ namespace oat\taoQtiItem\model\qti\parser;
 
 use DOMXPath;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorInterface;
 use oat\taoQtiItem\helpers\QtiXmlLoader;
-use oat\taoQtiItem\model\qti\identifierGenerator\IdentifierGenerator;
 
 class UniqueNumericQtiIdentifierReplacer
 {
     private FeatureFlagChecker $featureFlagChecker;
     private QtiXmlLoader $qtiXmlLoader;
-    private IdentifierGenerator $identifierGenerator;
+    private IdentifierGeneratorInterface $identifierGenerator;
 
     public function __construct(
         FeatureFlagChecker $featureFlagChecker,
         QtiXmlLoader $qtiXmlLoader,
-        IdentifierGenerator $identifierGenerator
+        IdentifierGeneratorInterface $identifierGenerator
     ) {
         $this->featureFlagChecker = $featureFlagChecker;
         $this->qtiXmlLoader = $qtiXmlLoader;
