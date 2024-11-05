@@ -71,7 +71,16 @@ class ItemCreationListener
 
         $item = $this->getEventItem($event);
 
-        if (!$item->isInstanceOf($this->ontology->getClass(TaoOntology::CLASS_URI_ITEM))) {
+        // We are not going to populate Unique ID for translations
+        if ($item->getRootId() !== TaoOntology::CLASS_URI_ITEM) {
+            return;
+        }
+
+        $originalResourceUriProperty = $this->ontology->getProperty(
+            TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI
+        );
+
+        if (!empty($item->getOnePropertyValue($originalResourceUriProperty))) {
             return;
         }
 

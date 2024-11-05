@@ -6,6 +6,7 @@ namespace oat\taoQtiItem\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use oat\oatbox\event\EventManager;
+use oat\tao\model\resources\Event\InstanceCopiedEvent;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 use oat\taoItems\model\event\ItemCreatedEvent;
 use oat\taoItems\model\event\ItemDuplicatedEvent;
@@ -39,6 +40,10 @@ final class Version202410311205211101_taoQtiItem extends AbstractMigration
             ItemDuplicatedEvent::class,
             [ItemCreationListener::class, 'populateUniqueId']
         );
+        $eventManager->attach(
+            InstanceCopiedEvent::class,
+            [ItemCreationListener::class, 'populateUniqueId']
+        );
 
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
     }
@@ -58,6 +63,10 @@ final class Version202410311205211101_taoQtiItem extends AbstractMigration
         );
         $eventManager->detach(
             ItemDuplicatedEvent::class,
+            [ItemCreationListener::class, 'populateUniqueId']
+        );
+        $eventManager->detach(
+            InstanceCopiedEvent::class,
             [ItemCreationListener::class, 'populateUniqueId']
         );
 
