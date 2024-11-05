@@ -32,7 +32,6 @@ use oat\tao\model\Translation\Service\TranslationCreationService;
 use oat\taoItems\model\Form\Modifier\FormModifierProxy;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\UniqueId\Listener\ItemCreationListener;
-use oat\taoQtiItem\model\UniqueId\Listener\ItemUpdatedEventListener;
 use oat\taoQtiItem\model\UniqueId\Modifier\UniqueIdFormModifier;
 use oat\taoQtiItem\model\UniqueId\Service\QtiIdentifierRetriever;
 use oat\taoQtiItem\model\UniqueId\Service\QtiIdentifierSetter;
@@ -69,16 +68,6 @@ class UniqueIdServiceProvider implements ContainerServiceProviderInterface
                     service(UniqueIdFormModifier::class),
                 ]
             );
-
-        $services
-            ->set(ItemUpdatedEventListener::class, ItemUpdatedEventListener::class)
-            ->public()
-            ->args([
-                service(FeatureFlagChecker::class),
-                service(Ontology::SERVICE_ID),
-                service(QtiIdentifierRetriever::class),
-                service(LoggerService::SERVICE_ID),
-            ]);
 
         $services
             ->set(ItemCreationListener::class, ItemCreationListener::class)
