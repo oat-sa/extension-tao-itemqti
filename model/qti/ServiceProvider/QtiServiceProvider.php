@@ -20,17 +20,16 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\qti\Identifier\ServiceProvider;
+namespace oat\taoQtiItem\model\qti\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
 use oat\taoQtiItem\model\qti\Identifier\Service\QtiIdentifierSetter;
 use oat\taoQtiItem\model\qti\Service;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
-class QtiIdentifierServiceProvider implements ContainerServiceProviderInterface
+class QtiServiceProvider implements ContainerServiceProviderInterface
 {
     public function __invoke(ContainerConfigurator $configurator): void
     {
