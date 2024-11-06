@@ -145,7 +145,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 
         foreach ($contents as $file) {
             if ($file['type'] === 'file') {
-                $identifier = $file['filename'];
+                $identifier = $file['path'];
                 $elements[$identifier] = $this->get($identifier);
             }
         }
