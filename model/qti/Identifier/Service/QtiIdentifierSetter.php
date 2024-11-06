@@ -20,36 +20,33 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\UniqueId\Service;
+namespace oat\taoQtiItem\model\qti\Identifier\Service;
 
-use core_kernel_classes_Resource;
+use oat\tao\model\Translation\Service\AbstractQtiIdentifierSetter;
 use oat\taoQtiItem\model\qti\Service;
 use Psr\Log\LoggerInterface;
-use Throwable;
 
-class QtiIdentifierRetriever
+class QtiIdentifierSetter extends AbstractQtiIdentifierSetter
 {
     private Service $qtiItemService;
-    private LoggerInterface $logger;
 
     public function __construct(Service $qtiItemService, LoggerInterface $logger)
     {
+        parent::__construct($logger);
+
         $this->qtiItemService = $qtiItemService;
-        $this->logger = $logger;
     }
 
-    public function retrieve(core_kernel_classes_Resource $item): ?string
+    protected function applyIdentifier(array $options): void
     {
-        try {
-            $itemData = $this->qtiItemService->getDataItemByRdfItem($item);
-        } catch (Throwable $exception) {
-            $this->logger->error('An error occurred while retrieving item data: ' . $exception->getMessage());
+        $item = $this->getResource($options);
+        $itemData = $this->qtiItemService->getDataItemByRdfItem($item);
 
-            throw $exception;
+        if (!$itemData) {
+            return;
         }
 
-        return $itemData
-            ? $itemData->getIdentifier()
-            : null;
+        $itemData->setAttribute('identifier', $this->getIdentifier($options));
+        $this->qtiItemService->saveDataItemToRdfItem($itemData, $item);
     }
 }

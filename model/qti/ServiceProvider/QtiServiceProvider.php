@@ -20,32 +20,26 @@
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\UniqueId\ServiceProvider;
+namespace oat\taoQtiItem\model\qti\ServiceProvider;
 
-use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use oat\tao\model\featureFlag\FeatureFlagChecker;
-use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorProxy;
+use oat\oatbox\log\LoggerService;
 use oat\taoQtiItem\model\qti\Identifier\Service\QtiIdentifierSetter;
-use oat\taoQtiItem\model\UniqueId\Listener\ItemCreationListener;
+use oat\taoQtiItem\model\qti\Service;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
-class UniqueIdServiceProvider implements ContainerServiceProviderInterface
+class QtiServiceProvider implements ContainerServiceProviderInterface
 {
     public function __invoke(ContainerConfigurator $configurator): void
     {
         $services = $configurator->services();
 
         $services
-            ->set(ItemCreationListener::class, ItemCreationListener::class)
-            ->public()
+            ->set(QtiIdentifierSetter::class, QtiIdentifierSetter::class)
             ->args([
-                service(FeatureFlagChecker::class),
-                service(Ontology::SERVICE_ID),
-                service(IdentifierGeneratorProxy::class),
-                service(QtiIdentifierSetter::class),
+                service(Service::class),
+                service(LoggerService::SERVICE_ID),
             ]);
     }
 }
