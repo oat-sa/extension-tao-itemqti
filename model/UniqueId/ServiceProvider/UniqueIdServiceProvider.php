@@ -28,13 +28,13 @@ use oat\oatbox\log\LoggerService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorProxy;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\Translation\Service\ResourceMetadataRetriever;
 use oat\tao\model\Translation\Service\TranslationCreationService;
-use oat\taoItems\model\Form\Modifier\FormModifierProxy;
+use oat\tao\model\UniqueId\Service\ResourceUniqueIdRetriever;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\UniqueId\Listener\ItemCreationListener;
-use oat\taoQtiItem\model\UniqueId\Modifier\UniqueIdFormModifier;
-use oat\taoQtiItem\model\UniqueId\Service\QtiIdentifierRetriever;
 use oat\taoQtiItem\model\UniqueId\Service\QtiIdentifierSetter;
+use oat\taoQtiItem\model\UniqueId\Service\UniqueIdSetter;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -46,28 +46,21 @@ class UniqueIdServiceProvider implements ContainerServiceProviderInterface
         $services = $configurator->services();
 
         $services
-            ->set(QtiIdentifierRetriever::class, QtiIdentifierRetriever::class)
+            ->set(QtiIdentifierSetter::class, QtiIdentifierSetter::class)
             ->args([
                 service(Service::class),
                 service(LoggerService::SERVICE_ID),
             ]);
 
         $services
-            ->set(UniqueIdFormModifier::class, UniqueIdFormModifier::class)
+            ->set(UniqueIdSetter::class, UniqueIdSetter::class)
             ->args([
-                service(Ontology::SERVICE_ID),
-                service(QtiIdentifierRetriever::class),
                 service(FeatureFlagChecker::class),
+                service(ResourceMetadataRetriever::class),
+                service(ResourceUniqueIdRetriever::class),
+                service(QtiIdentifierSetter::class),
+                service(LoggerService::SERVICE_ID),
             ]);
-
-        $services
-            ->get(FormModifierProxy::class)
-            ->call(
-                'addModifier',
-                [
-                    service(UniqueIdFormModifier::class),
-                ]
-            );
 
         $services
             ->set(ItemCreationListener::class, ItemCreationListener::class)
@@ -76,15 +69,7 @@ class UniqueIdServiceProvider implements ContainerServiceProviderInterface
                 service(FeatureFlagChecker::class),
                 service(Ontology::SERVICE_ID),
                 service(IdentifierGeneratorProxy::class),
-                service(Service::class),
-            ]);
-
-        $services
-            ->set(QtiIdentifierSetter::class, QtiIdentifierSetter::class)
-            ->args([
-                service(Service::class),
-                service(LoggerService::SERVICE_ID),
-                service(Ontology::SERVICE_ID),
+                service(QtiIdentifierSetter::class),
             ]);
 
         $services
@@ -93,7 +78,7 @@ class UniqueIdServiceProvider implements ContainerServiceProviderInterface
                 'addPostCreation',
                 [
                     TaoOntology::CLASS_URI_ITEM,
-                    service(QtiIdentifierSetter::class),
+                    service(UniqueIdSetter::class),
                 ]
             );
     }

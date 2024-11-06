@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\model\UniqueId\Service;
 
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\model\qti\Service;
 use Psr\Log\LoggerInterface;
@@ -33,49 +34,30 @@ class QtiIdentifierSetter
 {
     private Service $qtiItemService;
     private LoggerInterface $logger;
-    private Ontology $ontology;
 
-    public function __construct(Service $qtiItemService, LoggerInterface $logger, Ontology $ontology)
-    {
+    public function __construct(
+        Service $qtiItemService,
+        LoggerInterface $logger,
+    ) {
         $this->qtiItemService = $qtiItemService;
         $this->logger = $logger;
-        $this->ontology = $ontology;
     }
 
-    public function __invoke(core_kernel_classes_Resource $item): core_kernel_classes_Resource
+    public function set(core_kernel_classes_Resource $item, string $identifier): void
     {
         try {
             $itemData = $this->qtiItemService->getDataItemByRdfItem($item);
+
+            if (!$itemData) {
+                return;
+            }
+
+            $itemData->setAttribute('identifier', $identifier);
+            $this->qtiItemService->saveDataItemToRdfItem($itemData, $item);
         } catch (Throwable $exception) {
-            $this->logger->error(
-                sprintf(
-                    'An error occurred while retrieving item data: %s. Trace: %s',
-                    $exception->getMessage(),
-                    $exception->getTraceAsString()
-                )
-            );
+            $this->logger->error('An error occurred while setting QTI test identifier: ' . $exception->getMessage());
 
             throw $exception;
         }
-
-        if (!$itemData) {
-            $this->logger->info(sprintf('There is no item data for item %s.', $item->getUri()));
-
-            return $item;
-        }
-
-        $uniqueIdProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER);
-        $uniqueId = $item->getOnePropertyValue($uniqueIdProperty);
-
-        if (empty($uniqueId)) {
-            $this->logger->info(sprintf('There is no unique ID for item %s.', $item->getUri()));
-
-            return $item;
-        }
-
-        $itemData->setAttribute('identifier', $uniqueId->literal);
-        $this->qtiItemService->saveDataItemToRdfItem($itemData, $item);
-
-        return $item;
     }
 }

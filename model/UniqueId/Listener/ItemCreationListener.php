@@ -33,25 +33,25 @@ use oat\tao\model\TaoOntology;
 use oat\taoItems\model\event\ItemCreatedEvent;
 use oat\taoItems\model\event\ItemDuplicatedEvent;
 use oat\taoQtiItem\model\event\ItemImported;
-use oat\taoQtiItem\model\qti\Service;
+use oat\taoQtiItem\model\UniqueId\Service\QtiIdentifierSetter;
 
 class ItemCreationListener
 {
     private FeatureFlagCheckerInterface $featureFlagChecker;
     private Ontology $ontology;
     private IdentifierGeneratorInterface $identifierGenerator;
-    private Service $qtiItemService;
+    private QtiIdentifierSetter $qtiIdentifierSetter;
 
     public function __construct(
         FeatureFlagCheckerInterface $featureFlagChecker,
         Ontology $ontology,
         IdentifierGeneratorInterface $identifierGenerator,
-        Service $qtiItemService
+        QtiIdentifierSetter $qtiIdentifierSetter
     ) {
         $this->featureFlagChecker = $featureFlagChecker;
         $this->ontology = $ontology;
         $this->identifierGenerator = $identifierGenerator;
-        $this->qtiItemService = $qtiItemService;
+        $this->qtiIdentifierSetter = $qtiIdentifierSetter;
     }
 
     public function populateUniqueId(Event $event): void
@@ -76,28 +76,13 @@ class ItemCreationListener
             return;
         }
 
-        $originalResourceUriProperty = $this->ontology->getProperty(
-            TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI
-        );
-
-        if (!empty($item->getOnePropertyValue($originalResourceUriProperty))) {
-            return;
-        }
-
         $identifier = $this->identifierGenerator->generate([IdentifierGeneratorInterface::OPTION_RESOURCE => $item]);
         $item->editPropertyValues(
             $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER),
             $identifier
         );
 
-        $itemData = $this->qtiItemService->getDataItemByRdfItem($item);
-
-        if (!$itemData) {
-            return;
-        }
-
-        $itemData->setAttribute('identifier', $identifier);
-        $this->qtiItemService->saveDataItemToRdfItem($itemData, $item);
+        $this->qtiIdentifierSetter->set($item, $identifier);
     }
 
     private function getEventItem(Event $event): core_kernel_classes_Resource
