@@ -60,7 +60,7 @@ class MappedMetadataInjector
                 }
 
                 $list = $this->listService->getListElements($mappedProperties[$mappedPath]->getRange());
-                if (!$list) {
+                if (!$list || !$list->valid()) {
                     $resource->setPropertyValue(
                         $mappedProperties[$mappedPath],
                         $this->getResource($metadataValue->getValue())
