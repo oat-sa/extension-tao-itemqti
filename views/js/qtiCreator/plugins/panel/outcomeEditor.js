@@ -93,7 +93,7 @@ define([
      * @param {Object} item
      * @param {JQuery} $outcomeEditorPanel
      */
-    function renderListing(item, $outcomeEditorPanel) {
+    function renderListing(item, $outcomeEditorPanel, isNewItem = false) {
         const readOnlyRpVariables = getRpUsedVariables(item);
         const scoreMaxScoreVisible = features.isVisible('taoQtiItem/creator/interaction/response/outcomeDeclarations/scoreMaxScore');
         const scoreExternalScored = _.get(_.find(item.outcomes, function (outcome) {
@@ -154,7 +154,7 @@ define([
                     : __('Delete'),
                 titleEdit: readonly ? __('Cannot edit a variable currently used in response processing') : __('Edit'),
                 readonly: readonly,
-                externalScoredDisabled: externalScoredDisabled || 0
+                externalScoredDisabled: isNewItem ? (externalScoredDisabled || 0) : 0
             };
         });
 
@@ -199,13 +199,6 @@ define([
         }
     };
 
-    function hasAllNotExternalScored(outcomes) {
-        return _.every(outcomes, function (outcome) {
-            return outcome.attributes &&
-            outcome.attributes.externalScored === externalScoredOptions.none
-        });
-    }
-
     function setMinumumMaximumValue(outcomeElement, outcomeValueContainer, min, max) {
         outcomeElement.attr('normalMaximum', max);
         outcomeValueContainer.find('[name="normalMaximum"]').val(max);
@@ -241,9 +234,10 @@ define([
         // Iterate over each element in responsePanel and check if any value != none
         responsePanel.find('.outcome-container').each(function () {
             const currentSerial = $(this).data('serial');
+            const id = $(this).find(".identifier").val();
 
             // Skip the element with the same serial, as we're focusing on other elements
-            if (currentSerial === serial) {
+            if (currentSerial === serial || id === 'SCORE') {
                 return;
             }
 
@@ -339,10 +333,6 @@ define([
 
                             // shows tooltips in case of invalid value
                             showScoringTraitWarningOnInvalidValue();
-                        }
-
-                        if (hasAllNotExternalScored(item.outcome)) {
-                            $outcomeContainer.find("select[name='externalScored']").attr('disabled', false);
                         }
 
                         //attach form change callbacks
@@ -503,7 +493,7 @@ define([
                         newOutcome.buildIdentifier('OUTCOME');
 
                         //refresh the list
-                        renderListing(item, $outcomeEditorPanel);
+                        renderListing(item, $outcomeEditorPanel, true);
                     });
 
                 //attach to response form side panel
