@@ -33,6 +33,7 @@ use oat\taoQtiItem\model\FeatureFlag\ServiceProvider\FeatureFlagFlaServiceProvid
 use oat\taoQtiItem\model\FeatureFlag\ServiceProvider\FeatureFlagQtiIdentifierServiceProvider;
 // phpcs:ignore Generic.Files.LineLength
 use oat\taoQtiItem\model\qti\CustomInteractionAsset\ServiceProvider\CustomInteractionAssetExtractorAllocatorServiceProvider;
+use oat\taoQtiItem\model\qti\Identifier\ServiceProvider\QtiIdentifierServiceProvider;
 use oat\taoQtiItem\model\qti\metadata\importer\MetaMetadataServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\IdentifierGenerationStrategyServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\ItemIdentifierValidatorServiceProvider;
@@ -212,5 +213,6 @@ return [
         FeatureFlagQtiIdentifierServiceProvider::class,
         UniqueIdServiceProvider::class,
         TranslationServiceProvider::class,
+        QtiIdentifierServiceProvider::class,
     ],
 ];

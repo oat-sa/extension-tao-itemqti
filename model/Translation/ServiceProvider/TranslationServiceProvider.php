@@ -28,12 +28,14 @@ use oat\oatbox\log\LoggerService;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Service\ResourceLanguageRetriever;
 use oat\tao\model\Translation\Service\TranslationCreationService;
+use oat\tao\model\Translation\Service\TranslationUniqueIdSetter;
+use oat\taoQtiItem\model\qti\Identifier\Service\QtiIdentifierSetter;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\Translation\Service\QtiLanguageRetriever;
 use oat\taoQtiItem\model\Translation\Service\QtiLanguageSetter;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
 use tao_models_classes_LanguageService;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class TranslationServiceProvider implements ContainerServiceProviderInterface
@@ -69,12 +71,29 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
             ]);
 
         $services
+            ->get(TranslationUniqueIdSetter::class)
+            ->call(
+                'addQtiIdentifierSetter',
+                [
+                    service(QtiIdentifierSetter::class),
+                    TaoOntology::CLASS_URI_ITEM,
+                ]
+            );
+
+        $services
             ->get(TranslationCreationService::class)
             ->call(
                 'addPostCreation',
                 [
                     TaoOntology::CLASS_URI_ITEM,
                     service(QtiLanguageSetter::class),
+                ]
+            )
+            ->call(
+                'addPostCreation',
+                [
+                    TaoOntology::CLASS_URI_ITEM,
+                    service(TranslationUniqueIdSetter::class),
                 ]
             );
     }

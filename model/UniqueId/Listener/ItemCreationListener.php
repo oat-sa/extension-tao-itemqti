@@ -30,10 +30,11 @@ use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorInterface;
 use oat\tao\model\resources\Event\InstanceCopiedEvent;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\Translation\Service\AbstractQtiIdentifierSetter;
 use oat\taoItems\model\event\ItemCreatedEvent;
 use oat\taoItems\model\event\ItemDuplicatedEvent;
 use oat\taoQtiItem\model\event\ItemImported;
-use oat\taoQtiItem\model\UniqueId\Service\QtiIdentifierSetter;
+use oat\taoQtiItem\model\qti\Identifier\Service\QtiIdentifierSetter;
 
 class ItemCreationListener
 {
@@ -82,7 +83,10 @@ class ItemCreationListener
             $identifier
         );
 
-        $this->qtiIdentifierSetter->set($item, $identifier);
+        $this->qtiIdentifierSetter->set([
+            AbstractQtiIdentifierSetter::OPTION_RESOURCE => $item,
+            AbstractQtiIdentifierSetter::OPTION_IDENTIFIER => $identifier,
+        ]);
     }
 
     private function getEventItem(Event $event): core_kernel_classes_Resource
