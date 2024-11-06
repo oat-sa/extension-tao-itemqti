@@ -199,13 +199,6 @@ define([
         }
     };
 
-    function hasAnyNotExternalScored(outcomes) {
-        return _.every(outcomes, function (outcome) {
-            return outcome.attributes &&
-            outcome.attributes.externalScored === externalScoredOptions.none
-        });
-    }
-
     function setMinumumMaximumValue(outcomeElement, outcomeValueContainer, min, max) {
         outcomeElement.attr('normalMaximum', max);
         outcomeValueContainer.find('[name="normalMaximum"]').val(max);
