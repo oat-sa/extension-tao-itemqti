@@ -23,26 +23,25 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\scripts\install;
 
 use oat\oatbox\extension\InstallAction;
-use oat\taoQtiItem\model\qti\metadata\exporter\MetadataExporter;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
-use oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationExtractor as GenericExtractor;
-use oat\taoQtiItem\model\qti\metadata\ontology\LabelBasedLomOntologyClassificationExtractor as LabelExtractor;
 
-class ReplaceMetadataExtractor extends InstallAction
+class RemoveLabelInjectorFromExport extends InstallAction
 {
     public function __invoke($params)
     {
-        /** @var MetadataExporter $metadataExporter */
         $metadataService = $this->getServiceManager()->get(MetadataService::SERVICE_ID);
-        $metadataExporter = $metadataService->getOption('export');
-        $exportExtractors = $metadataExporter->getOption('extractors');
-        if (($key = array_search(GenericExtractor::class, $exportExtractors)) !== false) {
-            $exportExtractors[$key] = LabelExtractor::class;
-            $metadataExporter->setOption('extractors', $exportExtractors);
+        $exportOption = $metadataService->getOption(MetadataService::EXPORTER_KEY);
+        $extractors = $exportOption->getOption('extractors');
+
+        $classToRemove = 'oat\taoQtiItem\model\qti\metadata\ontology\LabelBasedLomOntologyClassificationExtractor';
+
+        if (($key = array_search($classToRemove, $extractors)) !== false) {
+            unset($extractors[$key]);
+            $extractors = array_values($extractors);
+
+            $exportOption->setOption('extractors', $extractors);
+            $metadataService->setOption(MetadataService::EXPORTER_KEY, $exportOption);
+            $this->getServiceManager()->register(MetadataService::SERVICE_ID, $metadataService);
         }
-
-        $metadataService->setOption('export', $metadataExporter);
-
-        $this->getServiceManager()->register(MetadataService::SERVICE_ID, $metadataService);
     }
 }

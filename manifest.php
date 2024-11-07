@@ -36,12 +36,12 @@ use oat\taoQtiItem\model\qti\metadata\importer\MetaMetadataServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\IdentifierGenerationStrategyServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\ItemIdentifierValidatorServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\MetadataServiceProvider;
-use oat\taoQtiItem\scripts\install\AddLabelInjectorForExport;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\ItemEventRegister;
 use oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist;
 use oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries;
 use oat\taoQtiItem\scripts\install\RegisterNpmPaths;
+use oat\taoQtiItem\scripts\install\RemoveLabelInjectorFromExport;
 use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\scripts\install\SetQtiCreatorConfig;
 use oat\taoQtiItem\scripts\install\SetupQtiMetadataImportExportService;
@@ -93,7 +93,7 @@ return [
             RegisterNpmPaths::class,
             ExtendConfigurationRegistry::class,
             SetupQtiMetadataImportExportService::class,
-            AddLabelInjectorForExport::class
+            RemoveLabelInjectorFromExport::class
         ]
     ],
     'local' => [
