@@ -41,31 +41,32 @@ class MappedMetadataInjector
 
     public function inject(array $mappedProperties, array $metadataValues, Resource $resource): void
     {
+        $mappedPathArray = [];
+
         /** @var SimpleMetadataValue $metadataValue */
         foreach ($metadataValues as $metadataValue) {
             foreach ($metadataValue->getPath() as $mappedPath) {
                 if ($this->isInjectableProperty($mappedProperties, $mappedPath) === false) {
                     continue;
                 }
-                $currentValue = $resource->getPropertyValues($mappedProperties[$mappedPath]);
-                if (is_array($currentValue) && count($currentValue) > 0) {
-                    $currentValue = reset($currentValue);
-                }
-                if ($currentValue && $currentValue === $metadataValue->getValue()) {
-                    continue;
-                }
                 if ($mappedProperties[$mappedPath]->getRange()->getUri() === RDFS_LITERAL) {
                     $resource->setPropertyValue($mappedProperties[$mappedPath], $metadataValue->getValue());
                     break;
                 }
+                if (in_array($mappedPath, $mappedPathArray)) {
+                    continue;
+                }
+                $propertyValue = $resource->getUniquePropertyValue($mappedProperties[$mappedPath]);
+                $resource->removePropertyValue($mappedProperties[$mappedPath], $propertyValue);
 
                 $list = $this->listService->getListElements($mappedProperties[$mappedPath]->getRange());
                 if (!$list || !$list->valid()) {
                     $resource->setPropertyValue(
                         $mappedProperties[$mappedPath],
-                        $this->getResource($metadataValue->getValue())
+                        $metadataValue->getValue()
                     );
                 }
+
                 foreach ($list as $listElement) {
                     if (
                         $listElement->getLabel() === $metadataValue->getValue()
@@ -73,7 +74,7 @@ class MappedMetadataInjector
                     ) {
                         $resource->setPropertyValue(
                             $mappedProperties[$mappedPath],
-                            $this->getResource($listElement->getUri())
+                            $listElement->getUri()
                         );
                         /** @var Property $property */
                         $property = $mappedProperties[$mappedPath];
@@ -82,6 +83,7 @@ class MappedMetadataInjector
                         }
                     }
                 }
+                $mappedPathArray[] = $mappedPath;
             }
         }
     }
