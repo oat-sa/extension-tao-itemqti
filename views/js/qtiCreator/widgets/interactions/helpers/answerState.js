@@ -268,18 +268,23 @@ define([
                 _toggleCorrectWidgets(defineCorrect);
             }
 
+            const lowerBoundValue = response.getMappingAttribute('lowerBound');
             minMaxComponentFactory(widget.$responseForm.find('.response-mapping-attributes > .min-max-panel'), {
                 min: {
                     fieldName: 'lowerBound',
-                    value: _.parseInt(response.getMappingAttribute('lowerBound')) || 0,
-                    helpMessage: __('Minimal  score for this interaction.')
+                    value: !isNaN(lowerBoundValue) ? _.parseInt(lowerBoundValue) : null,
+                    helpMessage: __('Minimal  score for this interaction.'),
+                    canBeNull: true,
+                    lowerThreshold: 0,
                 },
                 max: {
                     fieldName: 'upperBound',
                     value: _.parseInt(response.getMappingAttribute('upperBound')) || 0,
-                    helpMessage: __('Maximal score for this interaction.')
+                    helpMessage: __('Maximal score for this interaction.'),
+                    lowerThreshold: 1,
                 },
                 upperThreshold: Number.MAX_SAFE_INTEGER,
+                lowerThreshold: 0,
                 syncValues: true
             });
 

@@ -47,7 +47,10 @@ define([
             //default help message
             helpMessage: __(
                 'The minimum number of choices that the candidate is required to select to form a valid response.'
-            )
+            ),
+
+            // determines if field can be null
+            canBeNull: false,
         },
         max: {
             //name of the max field
@@ -146,11 +149,12 @@ define([
                     const config = this.getConfig();
 
                     if (isFieldSupported(field)) {
-                        if (this.is('rendered')) {
-                            return _.parseInt(controls[field].input.val());
+                        if (!this.is('rendered')) {
+                            return config[field].value;
                         }
 
-                        return config[field].value;
+                        const inputValue = controls[field].input.val();
+                        return inputValue === '' ? null : _.parseInt(inputValue);
                     }
                 },
 
@@ -171,6 +175,26 @@ define([
                 },
 
                 /**
+                 * Get the lower threshold for a field
+                 * @param {String} field - min or max
+                 * @returns {Number} the lower threshold value
+                 */
+                getLowerThreshold: function(field) {
+                    const config = this.getConfig();
+                    return config[field].lowerThreshold ? config[field].lowerThreshold : config.lowerThreshold;
+                },
+
+                /**
+                 * Get the upper threshold for a field
+                 * @param {String} field - min or max
+                 * @returns {Number} the upper threshold value
+                 */
+                getUpperThreshold: function(field) {
+                    const config = this.getConfig();
+                    return config[field].upperThreshold ? config[field].upperThreshold : config.upperThreshold;
+                },
+
+                /**
                  * Set the value of a given field
                  * @param {String} field - min or max
                  * @param {Number} value - the value to set
@@ -178,23 +202,26 @@ define([
                  * @throws {TypeError} if the field is unknown
                  */
                 setValue: function setValue(field, value) {
+                    if (!isFieldSupported(field)) {
+                        return this;
+                    }
+
                     const config = this.getConfig();
                     const intValue = _.parseInt(value);
-                    const lowerThreshold = config[field].lowerThreshold
-                        ? config[field].lowerThreshold
-                        : config.lowerThreshold;
-                    const upperThreshold = config[field].upperThreshold
-                        ? config[field].upperThreshold
-                        : config.upperThreshold;
+                    const lowerThreshold = this.getLowerThreshold(field);
+                    const upperThreshold = this.getUpperThreshold(field);
 
-                    if (
-                        isFieldSupported(field) &&
-                        _.isNumber(intValue) &&
-                        intValue >= lowerThreshold &&
-                        intValue <= upperThreshold
-                    ) {
+                    if (config[field].canBeNull && value === null) {
+                        if (this.is('rendered')) {
+                            controls[field].input.val(null).trigger('change');
+                        }
+                        config[field].value = null;
+                        return this;
+                    }
+
+                    if (_.isNumber(intValue) && (intValue >= lowerThreshold) && intValue <= upperThreshold) {
                         if (this.is('rendered') && controls[field].input.val() !== `${intValue}`) {
-                            return controls[field].input.val(intValue).trigger('change');
+                            controls[field].input.val(intValue).trigger('change');
                         }
 
                         config[field].value = intValue;
@@ -286,7 +313,7 @@ define([
                             return true;
                         }
 
-                        return this.getValue(field) > 0;
+                        return config[field].canBeNull ? config[field].value !== null : config[field].value > 0;
                     }
                     return false;
                 },
@@ -301,9 +328,18 @@ define([
                  * @fires  minMax#enablemax
                  */
                 enableField: function enableField(field, initialValue) {
-                    if (isFieldSupported(field) && this.is('rendered') && !this.isFieldEnabled(field)) {
+                    if (isFieldSupported(field) && this.is('rendered')) {
+                        const config = this.getConfig();
+
+                        let valueToSet;
+                        if (config[field].canBeNull) {
+                            valueToSet = initialValue >= 0 ? initialValue : 0;
+                        } else {
+                            valueToSet = initialValue > 1 ? initialValue : 1;
+                        }
+
                         controls[field].input
-                            .val(initialValue > 1 ? initialValue : 1)
+                            .val(valueToSet)
                             .incrementer('enable')
                             .trigger('change');
 
@@ -334,10 +370,13 @@ define([
                     if (
                         isFieldSupported(field) &&
                         this.is('rendered') &&
-                        config[field].toggler === true &&
-                        this.isFieldEnabled(field)
+                        config[field].toggler === true
                     ) {
-                        controls[field].input.val(0).incrementer('disable').trigger('change');
+                        config[field].value = config[field].canBeNull ? null : 0;
+                        controls[field].input
+                            .val(config[field].canBeNull ? '' : 0)
+                            .incrementer('disable')
+                            .trigger('change');
 
                         /**
                          * One of the field is enabled
@@ -384,7 +423,7 @@ define([
                             (document.querySelector('.edit-active > .qti-orderInteraction') ||
                                 document.querySelector('.edit-active > .qti-graphicOrderInteraction'))
                         ) {
-                            this.enableField(fields.min, 1);
+                            this.enableField(fields.min, this.getLowerThreshold(fields.min) || 1);
                             controls.min.toggler.prop('checked', true);
                         }
                     }
@@ -465,10 +504,14 @@ define([
                         if (fieldConfig.toggler) {
                             fieldControl.toggler = $(`[name=${fieldConfig.fieldName}-toggler]`, $element);
 
-                            //does the toggler starts checked ?
-                            if (fieldConfig.value > 0) {
+                            const shouldEnableField = fieldConfig.canBeNull
+                                ? fieldConfig.value !== null
+                                : fieldConfig.value > 0;
+
+                            if (shouldEnableField) {
                                 fieldControl.toggler.prop('checked', true);
                             } else {
+                                fieldControl.toggler.prop('checked', false);
                                 self.disableField(field);
                             }
 
@@ -478,7 +521,7 @@ define([
                                     self.enableField(
                                         field,
                                         Math.max(
-                                            fieldConfig.lowerThreshold || config.lowerThreshold || 1,
+                                            fieldConfig.canBeNull ? 0 : (fieldConfig.lowerThreshold || config.lowerThreshold || 1),
                                             self.getMinValue()
                                         )
                                     );
