@@ -26,16 +26,15 @@ use core_kernel_classes_Resource;
 use InvalidArgumentException;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorInterface;
-use oat\tao\model\IdentifierGenerator\Generator\NumericIdentifierGenerator;
 
 class QtiIdentifierGenerator implements IdentifierGeneratorInterface
 {
     private FeatureFlagCheckerInterface $featureFlagChecker;
-    private NumericIdentifierGenerator $numericIdentifierGenerator;
+    private IdentifierGeneratorInterface $numericIdentifierGenerator;
 
     public function __construct(
         FeatureFlagCheckerInterface $featureFlagChecker,
-        NumericIdentifierGenerator $numericIdentifierGenerator
+        IdentifierGeneratorInterface $numericIdentifierGenerator
     ) {
         $this->featureFlagChecker = $featureFlagChecker;
         $this->numericIdentifierGenerator = $numericIdentifierGenerator;
