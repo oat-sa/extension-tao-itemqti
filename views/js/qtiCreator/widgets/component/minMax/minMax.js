@@ -213,7 +213,7 @@ define([
 
                     if (config[field].canBeNull && value === null) {
                         if (this.is('rendered')) {
-                            controls[field].input.val(null).trigger('change');
+                            controls[field].input.val('').trigger('change');
                         }
                         config[field].value = null;
                         return this;
