@@ -371,7 +371,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             foreach ($assetStylesheets as $stylesheetFile) {
                 $this->addFile(
                     $stylesheetFile['stream'],
-                    $this->buildAssetStylesheetPath($basepath, $baseDirectoryName, $stylesheetFile['basename'])
+                    $this->buildAssetStylesheetPath($basepath, $baseDirectoryName, basename($stylesheetFile['path']))
                 );
             }
         }

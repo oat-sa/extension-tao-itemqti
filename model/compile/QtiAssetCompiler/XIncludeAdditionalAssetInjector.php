@@ -96,7 +96,7 @@ class XIncludeAdditionalAssetInjector extends ConfigurableService
         foreach ($stylesheetFiles as $stylesheetFile) {
             $targetPath = implode(DIRECTORY_SEPARATOR, [
                 $stylesheetTargetPubDirectory,
-                $stylesheetFile['basename']
+                basename($stylesheetFile['path'])
             ]);
 
             $publicDirectory->getFile($targetPath)->write($stylesheetFile['stream']);
@@ -104,7 +104,7 @@ class XIncludeAdditionalAssetInjector extends ConfigurableService
             $qtiStylesheet = new Stylesheet(
                 [
                     'href' => $targetPath,
-                    'title' => $stylesheetFile['basename'],
+                    'title' => basename($stylesheetFile['path']),
                     'type' => 'text/css'
                 ]
             );
