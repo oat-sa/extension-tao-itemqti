@@ -8,15 +8,15 @@ define([
 ], function(stateFactory, Correct, commonRenderer, instructionMgr, _, __){
 
     var InlineChoiceInteractionStateCorrect = stateFactory.create(Correct, function(){
-        
+
         _createResponseWidget(this.widget);
-        
+
     }, function(){
-        
+
         _destroyResponseWidget(this.widget);
-        
+
     });
-    
+
     var _createResponseWidget = function(widget){
 
         var interaction = widget.element,
@@ -24,7 +24,7 @@ define([
             correctResponse = _.values(response.getCorrect());
         instructionMgr.appendInstruction(
           widget.element,
-          interaction.attr('order') === 'single'
+          interaction.attr('data-order') === 'single'
             ? __('Please define the correct order.')
             : __('Please define the correct order in the box to the right.')
         );
@@ -36,16 +36,16 @@ define([
             response.setCorrect(_unformatResponse(data.response));
         });
     };
-    
+
     var _destroyResponseWidget = function(widget){
-        
+
         widget.$container.off('responseChange.qti-widget');
 
         commonRenderer.resetResponse(widget.element);
 
         commonRenderer.destroy(widget.element);
     };
-    
+
     var _formatResponse = function(response){
         return {list : {identifier : response}};
     };
@@ -57,6 +57,6 @@ define([
         }
         return res;
     };
-    
+
     return InlineChoiceInteractionStateCorrect;
 });
