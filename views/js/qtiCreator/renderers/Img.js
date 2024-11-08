@@ -24,7 +24,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/figure/Widget',
     'taoQtiItem/qtiCreator/model/Figure',
     'taoQtiItem/qtiCreator/helper/findParentElement',
-    'taoQtiItem/qtiCreator/helper/elementSupportHelper',
+    'taoQtiItem/qtiCreator/helper/elementSupport',
 ], function (_, context, Renderer, Widget, FigureWidget, FigureModel, findParentElement, elementSupportHelper) {
     'use strict';
 
