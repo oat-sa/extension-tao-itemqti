@@ -31,7 +31,7 @@ define([], function () {
             $container.closest('.qti-choice, .qti-flow-container').length ||
             $container.closest('.qti-table caption').length ||
             $container.closest('.qti-modalFeedback').length ||
-            ($container.closest('.qti-customInteraction').length && !$container.closest('.qti-interaction.textReaderInteraction').length)
+            ($container.closest('.qti-customInteraction').length && !$container.closest('[data-element-support-figure="true"]').length)
         );
         return !notSupported;
     };
