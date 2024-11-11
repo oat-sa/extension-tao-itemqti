@@ -46,6 +46,7 @@ define([
             responseText: {
                 itemIdentifier: 'item-1',
                 itemData: {
+                    identifier: 'item-1',
                     content: {
                         type: 'qti',
                         data: itemData
