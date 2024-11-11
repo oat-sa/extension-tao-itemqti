@@ -23,7 +23,7 @@ define([], function () {
      * Before inserting Figure widget, check if parent element supports it.
      * If supported, image wrap will be implemented as `<figure class="wrap-right"><img></figure>`.
      * If not supported, image wrap will be implemented as `<img class="wrap-right">`
-     * @param {String} $container
+     * @param {JQuery} $container
      * @returns {boolean}
      */
     const isFigureSupportedInParent = ($container) => {
