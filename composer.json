@@ -65,10 +65,10 @@
         "oat-sa/lib-tao-qti": "^7.8.1",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
         "naneau/semver": "~0.0.7",
-        "oat-sa/generis": "dev-feat/HKD-6/integration as 99",
-        "oat-sa/tao-core": "dev-feat/HKD-6/integration as 99",
-        "oat-sa/extension-tao-item": "dev-feat/HKD-6/integration as 99",
-        "oat-sa/extension-tao-test": "dev-feat/HKD-6/integration as 99"
+        "oat-sa/generis": ">=15.39.0",
+        "oat-sa/tao-core": ">=54.23.0",
+        "oat-sa/extension-tao-item": ">=12.4.0",
+        "oat-sa/extension-tao-test": ">=16.3.0"
     },
     "autoload": {
         "psr-4": {
