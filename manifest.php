@@ -17,9 +17,12 @@
  *
  * Copyright (c) 2013-2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
+ * phpcs:disable Generic.Files.LineLength
  */
 
+use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\user\TaoRoles;
+use oat\taoItems\model\user\TaoItemsRoles;
 use oat\taoQtiItem\controller\QtiCreator;
 use oat\taoQtiItem\controller\QtiCssAuthoring;
 use oat\taoQtiItem\controller\QtiPreview;
@@ -27,15 +30,16 @@ use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\ExtendConfigurationRegistry;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
 use oat\taoQtiItem\install\scripts\setXMLParserConfig;
-use oat\taoQtiItem\model\qti\CustomInteractionAsset\ServiceProvider\{
-    CustomInteractionAssetExtractorAllocatorServiceProvider
-};
 use oat\taoQtiItem\model\FeatureFlag\ServiceProvider\FeatureFlagFlaServiceProvider;
 use oat\taoQtiItem\model\FeatureFlag\ServiceProvider\FeatureFlagQtiIdentifierServiceProvider;
+use oat\taoQtiItem\model\qti\CustomInteractionAsset\ServiceProvider\CustomInteractionAssetExtractorAllocatorServiceProvider;
 use oat\taoQtiItem\model\qti\metadata\importer\MetaMetadataServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\IdentifierGenerationStrategyServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\ItemIdentifierValidatorServiceProvider;
 use oat\taoQtiItem\model\qti\ServiceProvider\MetadataServiceProvider;
+use oat\taoQtiItem\model\qti\ServiceProvider\QtiServiceProvider;
+use oat\taoQtiItem\model\Translation\ServiceProvider\TranslationServiceProvider;
+use oat\taoQtiItem\model\UniqueId\ServiceProvider\UniqueIdServiceProvider;
 use oat\taoQtiItem\scripts\install\AddLabelInjectorForExport;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\ItemEventRegister;
@@ -47,8 +51,6 @@ use oat\taoQtiItem\scripts\install\SetQtiCreatorConfig;
 use oat\taoQtiItem\scripts\install\SetupQtiMetadataImportExportService;
 use oat\taoQtiItem\scripts\install\SetUpQueueTasks;
 use oat\taoQtiItem\scripts\update\Updater;
-use oat\taoItems\model\user\TaoItemsRoles;
-use oat\tao\model\accessControl\func\AccessRule;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
 $taopath = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR;
@@ -209,5 +211,8 @@ return [
         MetaMetadataServiceProvider::class,
         IdentifierGenerationStrategyServiceProvider::class,
         FeatureFlagQtiIdentifierServiceProvider::class,
+        UniqueIdServiceProvider::class,
+        TranslationServiceProvider::class,
+        QtiServiceProvider::class,
     ],
 ];
