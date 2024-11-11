@@ -27,6 +27,7 @@ use oat\oatbox\log\LoggerService;
 use oat\taoQtiItem\model\qti\Identifier\Service\QtiIdentifierSetter;
 use oat\taoQtiItem\model\qti\Service;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class QtiServiceProvider implements ContainerServiceProviderInterface

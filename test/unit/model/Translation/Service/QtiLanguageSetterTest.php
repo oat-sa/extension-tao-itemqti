@@ -97,7 +97,7 @@ class QtiLanguageSetterTest extends TestCase
             ->method('getProperty')
             ->with(TaoOntology::PROPERTY_LANGUAGE)
             ->willReturn($property);
-        
+
         $this->languageService
             ->expects($this->once())
             ->method('isRtlLanguage')
