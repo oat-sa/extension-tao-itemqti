@@ -38,7 +38,7 @@ class RemoveLegacyGenericLomExtractor extends InstallAction
             return $extractor !== 'oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationExtractor';
         });
 
-        $exportOption->setOption('extractors', ... $extractors);
+        $exportOption->setOption('extractors', [... $extractors]);
         $metadataService->setOption(MetadataService::EXPORTER_KEY, $exportOption);
         $this->getServiceManager()->register(MetadataService::SERVICE_ID, $metadataService);
     }
