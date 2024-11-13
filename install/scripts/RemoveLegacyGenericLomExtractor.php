@@ -27,7 +27,6 @@ use oat\taoQtiItem\model\qti\metadata\MetadataService;
 
 class RemoveLegacyGenericLomExtractor extends InstallAction
 {
-
     public function __invoke($params)
     {
         $metadataService = $this->getServiceManager()->getContainer()->get(MetadataService::SERVICE_ID);
@@ -35,6 +34,7 @@ class RemoveLegacyGenericLomExtractor extends InstallAction
         $extractors = $exportOption->getOption('extractors');
 
         $extractors = array_filter($extractors, function ($extractor) {
+            //phpcs:ignore
             return $extractor !== 'oat\taoQtiItem\model\qti\metadata\ontology\GenericLomOntologyClassificationExtractor';
         });
 
