@@ -93,14 +93,14 @@ define([
      * @param {Object} item
      * @param {JQuery} $outcomeEditorPanel
      */
-    function renderListing(item, $outcomeEditorPanel, isNewItem = false) {
+    function renderListing(item, $outcomeEditorPanel) {
         const readOnlyRpVariables = getRpUsedVariables(item);
         const scoreMaxScoreVisible = features.isVisible('taoQtiItem/creator/interaction/response/outcomeDeclarations/scoreMaxScore');
         const scoreExternalScored = _.get(_.find(item.outcomes, function (outcome) {
             return outcome.attributes && outcome.attributes.identifier === 'SCORE';
         }), 'attributes.externalScored', externalScoredOptions.none);
 
-        const outcomesData = _.map(item.outcomes, function (outcome) {
+        let outcomesData = _.map(item.outcomes, function (outcome) {
             const readonly = readOnlyRpVariables.indexOf(outcome.id()) >= 0;
             const id = outcome.id();
             let externalScoredDisabled = outcome.attr('externalScoredDisabled');
@@ -113,9 +113,6 @@ define([
                 }
             };
             function setExternalScoredToNone() {
-                externalScored.none.selected = true;
-                externalScored.human.selected = false;
-                externalScored.externalMachine.selected = false;
                 externalScoredDisabled = 1;
                 outcome.removeAttr('externalScored');
             }
@@ -154,9 +151,16 @@ define([
                     : __('Delete'),
                 titleEdit: readonly ? __('Cannot edit a variable currently used in response processing') : __('Edit'),
                 readonly: readonly,
-                externalScoredDisabled: isNewItem ? (externalScoredDisabled || 0) : 0
+                externalScoredDisabled: externalScoredDisabled || 0
             };
         });
+
+        const allExternalScoredDisabled = outcomesData.every(outcomeData => outcomeData.externalScoredDisabled === 1);
+
+        if (allExternalScoredDisabled) {
+            // Update all externalScoredDisabled values to false if we have inconsistente data from bad items
+            outcomesData.forEach(outcomeData => outcomeData.externalScoredDisabled = 0);
+        }
 
         $outcomeEditorPanel.find('.outcomes').html(
             listingTpl({
@@ -493,7 +497,7 @@ define([
                         newOutcome.buildIdentifier('OUTCOME');
 
                         //refresh the list
-                        renderListing(item, $outcomeEditorPanel, true);
+                        renderListing(item, $outcomeEditorPanel);
                     });
 
                 //attach to response form side panel

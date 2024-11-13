@@ -25,8 +25,8 @@ namespace oat\taoQtiItem\test\unit\model\qti\parser;
 use DOMDocument;
 use DOMXPath;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorInterface;
 use oat\taoQtiItem\helpers\QtiXmlLoader;
-use oat\taoQtiItem\model\qti\identifierGenerator\IdentifierGenerator;
 use oat\taoQtiItem\model\qti\parser\UniqueNumericQtiIdentifierReplacer;
 use PHPUnit\Framework\TestCase;
 
@@ -36,7 +36,7 @@ class UniqueNumericQtiIdentifierReplacerTest extends TestCase
     {
         $this->featureFlagCheckerMock = $this->createMock(FeatureFlagChecker::class);
         $this->qtiXmlLoaderMock = $this->createMock(QtiXmlLoader::class);
-        $this->identifierGeneratorMock = $this->createMock(IdentifierGenerator::class);
+        $this->identifierGeneratorMock = $this->createMock(IdentifierGeneratorInterface::class);
 
         $this->subject = new UniqueNumericQtiIdentifierReplacer(
             $this->featureFlagCheckerMock,

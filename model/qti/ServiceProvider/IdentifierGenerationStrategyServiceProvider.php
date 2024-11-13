@@ -25,9 +25,11 @@ namespace oat\taoQtiItem\model\qti\ServiceProvider;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use common_ext_ExtensionsManager as ExtensionsManager;
+use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorProxy;
+use oat\tao\model\IdentifierGenerator\Generator\NumericIdentifierGenerator;
+use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\helpers\QtiXmlLoader;
-use oat\taoQtiItem\model\qti\identifierGenerator\IdentifierGenerator;
-use oat\taoQtiItem\model\qti\identifierGenerator\UniqueNumericQtiIdentifierGenerator;
+use oat\taoQtiItem\model\qti\identifierGenerator\QtiIdentifierGenerator;
 use oat\taoQtiItem\model\qti\parser\UniqueNumericQtiIdentifierReplacer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -39,19 +41,35 @@ class IdentifierGenerationStrategyServiceProvider implements ContainerServicePro
     {
         $services = $configurator->services();
 
-        $services->set(QtiXmlLoader::class, QtiXmlLoader::class)
+        $services
+            ->set(QtiXmlLoader::class, QtiXmlLoader::class)
             ->args([
                 service(ExtensionsManager::SERVICE_ID)
             ]);
 
-        $services->set(IdentifierGenerator::class, UniqueNumericQtiIdentifierGenerator::class)
-            ->public();
+        $services
+            ->set(QtiIdentifierGenerator::class, QtiIdentifierGenerator::class)
+            ->args([
+                service(FeatureFlagChecker::class),
+                service(NumericIdentifierGenerator::class),
+            ]);
 
-        $services->set(UniqueNumericQtiIdentifierReplacer::class, UniqueNumericQtiIdentifierReplacer::class)
+        $services
+            ->get(IdentifierGeneratorProxy::class)
+            ->call(
+                'addIdentifierGenerator',
+                [
+                    service(QtiIdentifierGenerator::class),
+                    TaoOntology::CLASS_URI_ITEM,
+                ]
+            );
+
+        $services
+            ->set(UniqueNumericQtiIdentifierReplacer::class, UniqueNumericQtiIdentifierReplacer::class)
             ->args([
                 service(FeatureFlagChecker::class),
                 service(QtiXmlLoader::class),
-                service(IdentifierGenerator::class)
+                service(NumericIdentifierGenerator::class)
             ])
             ->public();
     }
