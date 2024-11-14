@@ -97,7 +97,8 @@ define([
                 data : {
                     container : container,
                     widget : _widget
-                }
+                },
+                qtiInclude: false
             });
 
             //restore gaps
