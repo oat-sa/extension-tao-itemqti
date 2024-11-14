@@ -25,6 +25,7 @@ use oat\taoQtiItem\controller\QtiCssAuthoring;
 use oat\taoQtiItem\controller\QtiPreview;
 use oat\taoQtiItem\install\scripts\addValidationSettings;
 use oat\taoQtiItem\install\scripts\ExtendConfigurationRegistry;
+use oat\taoQtiItem\install\scripts\RemoveLegacyGenericLomExtractor;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
 use oat\taoQtiItem\install\scripts\setXMLParserConfig;
 use oat\taoQtiItem\model\qti\CustomInteractionAsset\ServiceProvider\{
@@ -93,7 +94,8 @@ return [
             RegisterNpmPaths::class,
             ExtendConfigurationRegistry::class,
             SetupQtiMetadataImportExportService::class,
-            AddLabelInjectorForExport::class
+            AddLabelInjectorForExport::class,
+            RemoveLegacyGenericLomExtractor::class,
         ]
     ],
     'local' => [
