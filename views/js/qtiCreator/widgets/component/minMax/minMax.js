@@ -65,7 +65,10 @@ define([
             //default help message
             helpMessage: __(
                 'The maximum number of choices that the candidate is required to select to form a valid response.'
-            )
+            ),
+
+            // determines if field can be null
+            canBeNull: false,
         },
 
         //Minimum threshold for both
@@ -78,7 +81,7 @@ define([
         syncValues: true,
 
         //does the input can have decimal value
-        allowDecimal: false
+        allowDecimal: true
     };
 
     /**
@@ -154,7 +157,7 @@ define([
                         }
 
                         const inputValue = controls[field].input.val();
-                        return inputValue === '' ? null : _.parseInt(inputValue);
+                        return inputValue === '' ? null : this.parseNumber(inputValue);
                     }
                 },
 
@@ -207,7 +210,7 @@ define([
                     }
 
                     const config = this.getConfig();
-                    const intValue = _.parseInt(value);
+                    const intValue = this.parseNumber(value);
                     const lowerThreshold = this.getLowerThreshold(field);
                     const upperThreshold = this.getUpperThreshold(field);
 
@@ -260,8 +263,8 @@ define([
                     const config = this.getConfig();
                     if (_.isNumber(lower) && _.isNumber(upper) && upper >= lower) {
                         if (!field) {
-                            config.lowerThreshold = _.parseInt(lower);
-                            config.upperThreshold = _.parseInt(upper);
+                            config.lowerThreshold = this.parseNumber(lower);
+                            config.upperThreshold = this.parseNumber(upper);
 
                             if (this.is('rendered')) {
                                 const fieldOptions = {
@@ -279,8 +282,8 @@ define([
                                 }
                             }
                         } else if (field === 'min' || field === 'max') {
-                            config[field].lowerThreshold = _.parseInt(lower);
-                            config[field].upperThreshold = _.parseInt(upper);
+                            config[field].lowerThreshold = this.parseNumber(lower);
+                            config[field].upperThreshold = this.parseNumber(upper);
 
                             if (this.is('rendered')) {
                                 const fieldOptions = {
@@ -400,10 +403,10 @@ define([
                     fromField = fromField || fields.min;
 
                     if (isNaN(this.getMinValue())) {
-                        this.setMinValue(config.lowerThreshold);
+                        this.setMinValue(this.getLowerThreshold(fromField));
                     }
                     if (isNaN(this.getMaxValue())) {
-                        this.setMaxValue(config.lowerThreshold);
+                        this.setMaxValue(this.getLowerThreshold(fromField));
                     }
 
                     if (isFieldSupported(fromField) && this.is('rendered') && config.syncValues) {
@@ -440,13 +443,21 @@ define([
                 convertToNumber: function convertToNumber(fromField) {
                     if (isFieldSupported(fromField) && this.is('rendered')) {
                         if (fromField === fields.max) {
-                            this.setMaxValue(parseInt(this.getMaxValue()));
+                            this.setMaxValue(this.parseNumber(this.getMaxValue()));
                         } else {
-                            this.setMinValue(parseInt(this.getMinValue()));
+                            this.setMinValue(this.parseNumber(this.getMinValue()));
                         }
                     }
 
                     return this;
+                },
+
+                parseNumber: function parseNumber(value) {
+                    const config = this.getConfig();
+                    if (config.allowDecimal) {
+                        return parseFloat(value);
+                    }
+                    return parseInt(value);
                 },
 
                 /**
@@ -521,7 +532,7 @@ define([
                                     self.enableField(
                                         field,
                                         Math.max(
-                                            fieldConfig.canBeNull ? 0 : (fieldConfig.lowerThreshold || config.lowerThreshold || 1),
+                                            fieldConfig.canBeNull ? 0 : (this.getLowerThreshold(field) || 1),
                                             self.getMinValue()
                                         )
                                     );
@@ -535,11 +546,7 @@ define([
 
                         fieldControl.input.on('change', function () {
                             self.syncValues(field);
-
-                            if (!config.allowDecimal) {
-                                self.convertToNumber(field);
-                            }
-
+                            self.convertToNumber(field);
                             self.trigger('change');
                         });
                     }

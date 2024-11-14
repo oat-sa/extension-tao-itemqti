@@ -269,23 +269,26 @@ define([
             }
 
             const lowerBoundValue = response.getMappingAttribute('lowerBound');
+            const upperBoundValue = response.getMappingAttribute('upperBound');
             minMaxComponentFactory(widget.$responseForm.find('.response-mapping-attributes > .min-max-panel'), {
                 min: {
                     fieldName: 'lowerBound',
-                    value: !isNaN(lowerBoundValue) ? _.parseInt(lowerBoundValue) : null,
+                    value: !isNaN(lowerBoundValue) ? parseFloat(lowerBoundValue) : null,
                     helpMessage: __('Minimal  score for this interaction.'),
                     canBeNull: true,
-                    lowerThreshold: 0,
+                    lowerThreshold: Number.NEGATIVE_INFINITY,
                 },
                 max: {
                     fieldName: 'upperBound',
-                    value: _.parseInt(response.getMappingAttribute('upperBound')) || 0,
+                    value: !isNaN(upperBoundValue) ? parseFloat(upperBoundValue) : null,
                     helpMessage: __('Maximal score for this interaction.'),
-                    lowerThreshold: 1,
+                    canBeNull: true,
+                    lowerThreshold: 0,
                 },
                 upperThreshold: Number.MAX_SAFE_INTEGER,
                 lowerThreshold: 0,
-                syncValues: true
+                syncValues: true,
+                allowDecimal: true
             });
 
             const formChangeCallbacks = {
@@ -325,8 +328,9 @@ define([
                 formElement.getLowerUpperAttributeCallbacks('lowerBound', 'upperBound', {
                     attrMethodNames: {
                         set: 'setMappingAttribute',
-                        remove: 'removeMappingAttribute'
-                    }
+                        remove: 'removeMappingAttribute',
+                    },
+                    floatVal: true
                 })
             );
 
