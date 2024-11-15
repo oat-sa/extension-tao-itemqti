@@ -46,7 +46,7 @@ define([
         qtiMedia : false
     };
 
-    var qtiClasses = ['img', 'object', 'math', 'include', 'printedVariable', '_container', '_tooltip', 'figure', 'figcaption'];
+    var qtiClasses = ['img', 'object', 'math', 'include', 'printedVariable', '_container', '_tooltip', 'figure', 'figcaption', 'table'];
 
     event.initElementToWidgetListeners();
 
