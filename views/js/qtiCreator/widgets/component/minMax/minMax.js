@@ -532,7 +532,7 @@ define([
                                     self.enableField(
                                         field,
                                         Math.max(
-                                            fieldConfig.canBeNull ? 0 : (this.getLowerThreshold(field) || 1),
+                                            fieldConfig.canBeNull ? 0 : (self.getLowerThreshold(field) || 1),
                                             self.getMinValue()
                                         )
                                     );
