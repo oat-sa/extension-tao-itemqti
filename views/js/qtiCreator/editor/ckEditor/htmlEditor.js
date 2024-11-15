@@ -654,7 +654,7 @@ define([
                             const editor = $editable.data('editor');
                             const options = $editable.data('editor-options');
 
-                            if (options.flushDeletingWidgetsOnDestroy) {
+                            if (options.flushDeletingWidgetsOnDestroy && $editable.data('qti-container')) {
                                 _flushDeletingWidgets($editable.data('qti-container'));
                             }
 
