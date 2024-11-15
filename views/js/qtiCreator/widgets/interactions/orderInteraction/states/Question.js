@@ -56,6 +56,10 @@ define([
         let minMaxComponent = null;
 
         const order = interaction.attr('data-order') || interaction.attr('order'); // legacy attr support
+        // legacy attr remove
+        if (interaction.attr('order')) {
+            interaction.removeAttr('order');
+        }
         const isSingleOrder = order === 'single';
         const minValue = interaction.attr('minChoices')
             ? _.parseInt(interaction.attr('minChoices'))
