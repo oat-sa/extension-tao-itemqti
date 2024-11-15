@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "^1.0.0",
-        "@oat-sa/tao-item-runner-qti": "oat-sa/tao-item-runner-qti-fe#8a8adb608aa0dc9a21ed4b1bc4e4616c3cd35635"
+        "@oat-sa/tao-item-runner-qti": "oat-sa/tao-item-runner-qti-fe#3c6b2ec484f5c2639bc1b425616269a1431d8a05"
     }
 }
