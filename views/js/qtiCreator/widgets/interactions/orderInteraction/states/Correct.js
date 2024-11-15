@@ -3,25 +3,20 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/OrderInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'lodash',
     'i18n'
-], function(stateFactory, Correct, commonRenderer, instructionMgr, _, __){
+], function(stateFactory, Correct, commonRenderer, instructionMgr, __){
 
-    var InlineChoiceInteractionStateCorrect = stateFactory.create(Correct, function(){
+    const InlineChoiceInteractionStateCorrect = stateFactory.create(
+        Correct,
+        () => _createResponseWidget(this.widget),
+        () => _destroyResponseWidget(this.widget)
+    );
 
-        _createResponseWidget(this.widget);
+    const _createResponseWidget = widget => {
 
-    }, function(){
-
-        _destroyResponseWidget(this.widget);
-
-    });
-
-    var _createResponseWidget = function(widget){
-
-        var interaction = widget.element,
+        const interaction = widget.element,
             response = interaction.getResponseDeclaration(),
-            correctResponse = _.values(response.getCorrect());
+            correctResponse = Object.values(response.getCorrect());
         instructionMgr.appendInstruction(
           widget.element,
           interaction.attr('data-order') === 'single'
@@ -37,21 +32,16 @@ define([
         });
     };
 
-    var _destroyResponseWidget = function(widget){
-
+    const _destroyResponseWidget = widget => {
         widget.$container.off('responseChange.qti-widget');
-
         commonRenderer.resetResponse(widget.element);
-
         commonRenderer.destroy(widget.element);
     };
 
-    var _formatResponse = function(response){
-        return {list : {identifier : response}};
-    };
+    const _formatResponse = response => ({ list : { identifier : response } });
 
-    var _unformatResponse = function(formatedResponse){
-        var res = [];
+    const _unformatResponse = function(formatedResponse){
+        let res = [];
         if(formatedResponse.list && formatedResponse.list.identifier){
             res = formatedResponse.list.identifier;
         }
