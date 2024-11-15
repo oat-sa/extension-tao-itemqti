@@ -39,24 +39,23 @@ define([
 ) {
     'use strict';
 
-    const OrderInteractionStateQuestion = stateFactory.extend(Question);
+    var OrderInteractionStateQuestion = stateFactory.extend(Question);
 
     OrderInteractionStateQuestion.prototype.initForm = function initForm(){
 
-        let callbacks;
-        const widget      = this.widget;
-        const $form       = widget.$form;
-        const $container  = widget.$container;
-        const interaction = widget.element;
-        const $choiceArea = $container.find('.choice-area');
-        const $resultArea = $container.find('.result-area');
-        const $interaction = $container.find('.qti-interaction');
-        const $iconAdd = $container.find('.icon-add-to-selection');
-        const $iconRemove = $container.find('.icon-remove-from-selection');
+        var callbacks;
+        var widget      = this.widget;
+        var $form       = this.widget.$form;
+        var interaction = this.widget.element;
+        var $choiceArea = this.widget.$container.find('.choice-area');
+        var $resultArea = this.widget.$container.find('.result-area');
+        var $interaction = this.widget.$container.find('.qti-interaction');
+        var $iconAdd = this.widget.$container.find('.icon-add-to-selection');
+        var $iconRemove = this.widget.$container.find('.icon-remove-from-selection');
         let minMaxComponent = null;
 
         const order = interaction.attr('data-order') || interaction.attr('order'); // legacy attr support
-        // legacy attr remove
+        // legacy attr support
         if (interaction.attr('order')) {
             interaction.removeAttr('order');
         }
@@ -75,9 +74,9 @@ define([
                 min: { value: minValue },
                 max: { value: maxValue },
                 upperThreshold: _.size(interaction.getChoices()),
-            }).on('render', () => {
-                const self = this;
-                widget.on('choiceCreated choiceDeleted', (data) => {
+            }).on('render', function () {
+                var self = this;
+                widget.on('choiceCreated choiceDeleted', function (data) {
                     if (data.interaction.serial === interaction.serial) {
                         self.updateThresholds(1, _.size(interaction.getChoices()));
                     }
@@ -134,7 +133,7 @@ define([
         callbacks.shuffle = formElement.getAttributeChangeCallback();
 
         //data change for orientation, change also the current css class
-        callbacks.orientation = (interaction, value) => {
+        callbacks.orientation = function(interaction, value){
             interaction.attr('orientation', value);
             $interaction.attr('data-orientation', value);
 
@@ -155,7 +154,7 @@ define([
         };
 
         // data change for order
-        callbacks.order = (interaction, value) => {
+        callbacks.order = function (interaction, value) {
             value === 'sort' ? makeSortOrder() : makeSingleOrder();
         };
 
@@ -166,7 +165,7 @@ define([
             sizeAdapter.adaptSize(widget);
         }
 
-        widget.on('choiceCreated', () => {
+        widget.on('choiceCreated', function(){
             if(interaction.attr('orientation') === 'horizontal') {
                 sizeAdapter.adaptSize(widget);
             }
