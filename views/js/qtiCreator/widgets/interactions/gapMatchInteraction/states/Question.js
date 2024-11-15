@@ -98,7 +98,8 @@ define([
                     container : container,
                     widget : _widget
                 },
-                qtiInclude: false
+                qtiInclude: false,
+                flushDeletingWidgetsOnDestroy: true
             });
 
             //restore gaps
