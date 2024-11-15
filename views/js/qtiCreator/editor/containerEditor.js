@@ -81,11 +81,15 @@ define([
      * @param {String} [options.placeholder] - the placeholder text of the container editor when
      * @param {Array} [options.toolbar] - the ck toolbar
      * @param {Boolean} [options.qtiMedia=false] - allow insert media object
+     * @param {Boolean?} [options.qtiInclude] - allow insert Include object
+     * @param {Boolean?} [options.mathJax]
+     * @param {Boolean?} [options.qtiImage] - allow insert image object
      * @param {Object} [options.areaBroker] - allow to set a custom areaBroker on the renderer
      * @param {String} [options.removePlugins] - a coma-separated plugin list that should not be loaded
      * @param {Object} [options.metadata] - some metadata to attach to the root element (ex: { myDataName: 'myDataValue' })
      * @param {Boolean} [options.resetRenderer] - force resetting the renderer
      * @param {Boolean} [options.autofocus] - automatically focus the editor
+     * @param {Boolean?} [options.flushDeletingWidgetsOnDestroy] - before editor destroy, remove widgets which are waiting for delete confirmation
      * @returns {undefined}
      */
     function create($container, options){
@@ -160,11 +164,16 @@ define([
                 buildEditor($container, container, {
                     placeholder : options.placeholder || undefined,
                     toolbar : options.toolbar || undefined,
-                    qtiMedia : options.qtiMedia,
                     highlight : options.highlight,
                     removePlugins : options.removePlugins || '',
                     areaBroker : options.areaBroker,
-                    autofocus : options.autofocus || false
+                    autofocus: options.autofocus || false,
+                    flushDeletingWidgetsOnDestroy: options.flushDeletingWidgetsOnDestroy,
+                    qtiMedia: options.qtiMedia,
+                    qtiInclude: options.qtiInclude,
+                    mathJax: options.mathJax,
+                    qtiImage: options.qtiImage
+
                 });
 
                 $container
