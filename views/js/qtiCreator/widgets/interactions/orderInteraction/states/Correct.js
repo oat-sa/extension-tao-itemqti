@@ -8,8 +8,12 @@ define([
 
     const InlineChoiceInteractionStateCorrect = stateFactory.create(
         Correct,
-        () => _createResponseWidget(this.widget),
-        () => _destroyResponseWidget(this.widget)
+        function () {
+            _createResponseWidget(this.widget);
+        },
+        function () {
+            _destroyResponseWidget(this.widget);
+        }
     );
 
     const _createResponseWidget = widget => {
