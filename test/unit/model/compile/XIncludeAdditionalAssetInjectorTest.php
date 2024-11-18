@@ -43,7 +43,7 @@ class XIncludeAdditionalAssetInjectorTest extends TestCase
     private const RESOURCE_ID_FIXTURE = 'fixture-id';
 
     private const STYLESHEETS_LOADER_FILE = [
-        'basename' => 'file.css',
+        'path' => 'file.css',
         'stream' => 'dummy resource string'
     ];
 
@@ -113,9 +113,9 @@ class XIncludeAdditionalAssetInjectorTest extends TestCase
                 'href' => implode(DIRECTORY_SEPARATOR, [
                     $this->subject::COMPILED_PASSAGE_STYLESHEET_FILENAME_PREFIX,
                     AssetStylesheetLoader::ASSET_CSS_DIRECTORY_NAME,
-                    self::STYLESHEETS_LOADER_FILE['basename']
+                    self::STYLESHEETS_LOADER_FILE['path']
                 ]),
-                'title' => self::STYLESHEETS_LOADER_FILE['basename'],
+                'title' => self::STYLESHEETS_LOADER_FILE['path'],
                 'type' => 'text/css'
             ],
             null,
