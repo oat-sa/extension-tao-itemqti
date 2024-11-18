@@ -18,9 +18,9 @@ define([
 
     const _createResponseWidget = widget => {
 
-        const interaction = widget.element,
-            response = interaction.getResponseDeclaration(),
-            correctResponse = Object.values(response.getCorrect());
+        const interaction = widget.element;
+        const response = interaction.getResponseDeclaration();
+        const correctResponse = response.getCorrect() ? Object.values(response.getCorrect()) : [];
         instructionMgr.appendInstruction(
           widget.element,
           interaction.attr('data-order') === 'single'
