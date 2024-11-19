@@ -150,7 +150,7 @@ define([
         const numericValue = options.floatVal ? parseFloat(value) : parseInt(value, 10);
         let isActualNumber = !isNaN(numericValue);
 
-        if (!options.allowNull && !isActualNumber) {
+        if (!options.allowNull && (numericValue === 0 || !isActualNumber)) {
             //if a null attribute is not allowed, remove it !
             element[options.attrMethodNames.remove](name);
         } else if (isActualNumber) {
