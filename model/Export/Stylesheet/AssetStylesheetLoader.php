@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\Export\Stylesheet;
 
+use League\Flysystem\StorageAttributes;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\filesystem\FilesystemException;
 use oat\oatbox\filesystem\FilesystemInterface;
@@ -52,13 +53,16 @@ class AssetStylesheetLoader extends ConfigurableService
             $stylesheetPath = $this->buildAssetPathFromPropertyName($property);
             try {
                 $cssFiles = $this->getFileSystem()->listContents($stylesheetPath)->toArray();
+                $cssFilesInfo = [];
+
                 foreach ($cssFiles as $key => $file) {
-                    $cssFiles[$key]['stream'] = $this->getFileSystem()->readStream(
+                    $cssFilesInfo[$key] = $file instanceof StorageAttributes ? $file->jsonSerialize() : $file;
+                    $cssFilesInfo[$key]['stream'] = $this->getFileSystem()->readStream(
                         $stylesheetPath . DIRECTORY_SEPARATOR . basename($file['path'])
                     );
                 }
 
-                return $cssFiles;
+                return $cssFilesInfo;
             } catch (FilesystemException $exception) {
                 $this->getLogger()->notice(
                     sprintf(
@@ -80,7 +84,7 @@ class AssetStylesheetLoader extends ConfigurableService
             DIRECTORY_SEPARATOR,
             [
                 dirname($property),
-                self::ASSET_CSS_DIRECTORY_NAME
+                self::ASSET_CSS_DIRECTORY_NAME,
             ]
         );
     }
