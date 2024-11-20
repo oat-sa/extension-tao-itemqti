@@ -55,6 +55,8 @@ class MappedMetadataInjector
                     continue;
                 }
                 if ($mappedProperties[$mappedPath]->getRange()->getUri() === RDFS_LITERAL) {
+                    $propertyValue = $resource->getUniquePropertyValue($mappedProperties[$mappedPath]);
+                    $resource->removePropertyValue($mappedProperties[$mappedPath], $propertyValue);
                     $resource->setPropertyValue($mappedProperties[$mappedPath], $metadataValue->getValue());
                     break;
                 }
