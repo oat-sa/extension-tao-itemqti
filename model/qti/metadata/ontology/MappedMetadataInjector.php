@@ -54,6 +54,9 @@ class MappedMetadataInjector
                 if ($currentValue && $currentValue === $metadataValue->getValue()) {
                     continue;
                 }
+                if ($mappedProperties[$mappedPath]->getRange() === null) {
+                    continue;
+                }
                 if ($mappedProperties[$mappedPath]->getRange()->getUri() === RDFS_LITERAL) {
                     $propertyValue = $resource->getUniquePropertyValue($mappedProperties[$mappedPath]);
                     $resource->removePropertyValue($mappedProperties[$mappedPath], $propertyValue);
