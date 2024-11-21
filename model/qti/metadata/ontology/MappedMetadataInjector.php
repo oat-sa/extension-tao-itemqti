@@ -58,7 +58,7 @@ class MappedMetadataInjector
                     continue;
                 }
                 if ($mappedProperties[$mappedPath]->getRange()->getUri() === RDFS_LITERAL) {
-                    // If resource already has
+                    // If resource already has property value, remove it.
                     if ($resource->getPropertyValuesCollection($mappedProperties[$mappedPath])->count() > 0) {
                         $propertyValue = $resource->getUniquePropertyValue($mappedProperties[$mappedPath]);
                         $resource->removePropertyValue($mappedProperties[$mappedPath], $propertyValue);
