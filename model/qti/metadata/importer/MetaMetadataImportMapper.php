@@ -46,15 +46,10 @@ class MetaMetadataImportMapper
         foreach ($metaMetadataProperties as $metaMetadataProperty) {
             if ($match = $this->matchProperty($metaMetadataProperty, $itemClass->getProperties(true))) {
                 $matchedProperties['itemProperties'][$metaMetadataProperty['uri']] = $match;
-                continue;
             }
 
             if ($testClass && $match = $this->matchProperty($metaMetadataProperty, $testClass->getProperties(true))) {
                 $matchedProperties['testProperties'][$metaMetadataProperty['uri']] = $match;
-                continue;
-            }
-            if ($match === null) {
-                throw new PropertyDoesNotExistException($metaMetadataProperty);
             }
         }
         return $matchedProperties;
