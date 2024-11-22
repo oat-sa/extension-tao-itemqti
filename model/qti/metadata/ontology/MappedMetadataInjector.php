@@ -27,6 +27,7 @@ use core_kernel_classes_Resource as Resource;
 use oat\generis\model\OntologyAwareTrait;
 use oat\taoBackOffice\model\lists\ListService;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
+use tao_helpers_form_elements_Readonly as ReadOnlyWidget;
 
 class MappedMetadataInjector
 {
@@ -54,27 +55,37 @@ class MappedMetadataInjector
                 if ($currentValue && $currentValue === $metadataValue->getValue()) {
                     continue;
                 }
-                if ($mappedProperties[$mappedPath]->getRange()->getUri() === RDFS_LITERAL) {
+                if (
+                    $mappedProperties[$mappedPath]->getWidget()
+                    && $mappedProperties[$mappedPath]->getWidget()->getUri() === ReadOnlyWidget::WIDGET_ID
+                ) {
+                    continue;
+                }
+                if (
+                    $mappedProperties[$mappedPath]->getRange()
+                    && $mappedProperties[$mappedPath]->getRange()->getUri() === RDFS_LITERAL
+                ) {
+                    // If resource already has property value, remove it.
+                    if ($resource->getPropertyValuesCollection($mappedProperties[$mappedPath])->count() > 0) {
+                        $propertyValue = $resource->getUniquePropertyValue($mappedProperties[$mappedPath]);
+                        $resource->removePropertyValue($mappedProperties[$mappedPath], $propertyValue);
+                    }
+
                     $resource->setPropertyValue($mappedProperties[$mappedPath], $metadataValue->getValue());
                     break;
                 }
 
-                $list = $this->listService->getListElements($mappedProperties[$mappedPath]->getRange());
-                foreach ($list as $listElement) {
-                    if (
-                        $listElement->getLabel() === $metadataValue->getValue()
-                        || $listElement->getOriginalUri() === $metadataValue->getValue()
-                    ) {
-                        $resource->setPropertyValue(
-                            $mappedProperties[$mappedPath],
-                            $this->getResource($listElement->getUri())
-                        );
-                        /** @var Property $property */
-                        $property = $mappedProperties[$mappedPath];
-                        if ($property->isMultiple() === false) {
-                            break;
-                        }
-                    }
+                if ($mappedProperties[$mappedPath]->getRange() !== null) {
+                    $this->setListValue($mappedProperties[$mappedPath], $resource, $metadataValue);
+                    break;
+                }
+
+                if ($mappedProperties[$mappedPath]->getRange() === null) {
+                    $resource->setPropertyValue(
+                        $mappedProperties[$mappedPath],
+                        $this->getResource($metadataValue->getValue())
+                    );
+                    break;
                 }
             }
         }
@@ -83,5 +94,25 @@ class MappedMetadataInjector
     private function isInjectableProperty(array $mappedProperties, string $mappedPath): bool
     {
         return isset($mappedProperties[$mappedPath]) && $mappedProperties[$mappedPath] instanceof Property;
+    }
+
+    private function setListValue(Property $property, Resource $resource, SimpleMetadataValue $metadataValue): void
+    {
+        $list = $this->listService->getListElements($property->getRange());
+        foreach ($list as $listElement) {
+            if (
+                $listElement->getLabel() === $metadataValue->getValue()
+                || $listElement->getOriginalUri() === $metadataValue->getValue()
+            ) {
+                $resource->setPropertyValue(
+                    $property,
+                    $this->getResource($listElement->getUri())
+                );
+
+                if ($property->isMultiple() === false) {
+                    break;
+                }
+            }
+        }
     }
 }
