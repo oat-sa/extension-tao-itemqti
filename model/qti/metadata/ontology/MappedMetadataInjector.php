@@ -55,7 +55,10 @@ class MappedMetadataInjector
                 if ($currentValue && $currentValue === $metadataValue->getValue()) {
                     continue;
                 }
-                if ($mappedProperties[$mappedPath]->getWidget()->getUri() === ReadOnlyWidget::WIDGET_ID) {
+                if (
+                    $mappedProperties[$mappedPath]->getWidget()
+                    && $mappedProperties[$mappedPath]->getWidget()->getUri() === ReadOnlyWidget::WIDGET_ID
+                ) {
                     continue;
                 }
                 if (
