@@ -49,6 +49,7 @@ class MappedMetadataInjectorTest extends TestCase
         $classMock = $this->createMock(core_kernel_classes_Class::class);
         $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
         $valueMock = $this->createMock(Value::class);
+        $widgetPropertyMock = $this->createMock(core_kernel_classes_Property::class);
 
         $mappedProperties = [
             'mappedPath1' => $propertyMock,
@@ -70,6 +71,12 @@ class MappedMetadataInjectorTest extends TestCase
         $propertyMock->method('getRange')
             ->willReturn($classMock);
 
+        $propertyMock->method('getWidget')
+            ->willReturn($widgetPropertyMock);
+
+        $widgetPropertyMock->method('getUri')
+            ->willReturn('someUri');
+
         $valueMock->method('getLabel')
             ->willReturn(
                 'label',
@@ -79,6 +86,7 @@ class MappedMetadataInjectorTest extends TestCase
                 'otherLabel',
                 'otherLabel'
             );
+
 
 
         $this->ontologyMock->method('getResource')
@@ -94,7 +102,7 @@ class MappedMetadataInjectorTest extends TestCase
             ->willReturn('matchedUri', 'otherUri', 'otherUri');
 
         $resourceMock
-            ->expects(self::exactly(4))
+            ->expects(self::exactly(2))
             ->method('setPropertyValue')
             ->with($propertyMock, $resourceMock);
 
