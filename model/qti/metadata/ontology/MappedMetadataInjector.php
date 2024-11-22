@@ -58,7 +58,10 @@ class MappedMetadataInjector
                 if ($mappedProperties[$mappedPath]->getWidget()->getUri() === ReadOnlyWidget::WIDGET_ID) {
                     continue;
                 }
-                if ($mappedProperties[$mappedPath]->getRange() && $mappedProperties[$mappedPath]->getRange()->getUri() === RDFS_LITERAL) {
+                if (
+                    $mappedProperties[$mappedPath]->getRange()
+                    && $mappedProperties[$mappedPath]->getRange()->getUri() === RDFS_LITERAL
+                    ) {
                     // If resource already has property value, remove it.
                     if ($resource->getPropertyValuesCollection($mappedProperties[$mappedPath])->count() > 0) {
                         $propertyValue = $resource->getUniquePropertyValue($mappedProperties[$mappedPath]);
