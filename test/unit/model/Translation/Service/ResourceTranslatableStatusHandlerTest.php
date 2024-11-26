@@ -64,6 +64,7 @@ class ResourceTranslatableStatusHandlerTest extends TestCase
         $this->status = new ResourceTranslatableStatus(
             'itemUri',
             TaoOntology::CLASS_URI_ITEM,
+            'languageUri',
             true,
             true
         );
