@@ -152,7 +152,7 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
         //@todo add support of multi language packages
         $rdfItem = $this->getItem();
         $qtiItem = $qtiItemService->getDataItemByRdfItem($rdfItem);
-
+        $qtiItem->validateOutcomes();
         if (!is_null($qtiItem)) {
             // -- Prepare data transfer to the imsmanifest.tpl template.
             $qtiItemData = [];

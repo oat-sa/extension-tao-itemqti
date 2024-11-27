@@ -80,7 +80,6 @@ msgid "A human interpretation of the variable's value."
 msgstr ""
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
@@ -183,7 +182,6 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr ""
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
@@ -1148,7 +1146,6 @@ msgid "one association pair"
 msgstr ""
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "Order"
@@ -1872,7 +1869,6 @@ msgid "The upper bound of the slider"
 msgstr ""
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr ""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."

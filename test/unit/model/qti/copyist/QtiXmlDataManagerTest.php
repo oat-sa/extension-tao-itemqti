@@ -32,6 +32,8 @@ use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorInterface;
+use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorProxy;
 use oat\taoQtiItem\model\qti\copyist\QtiXmlDataManager;
 use tao_models_classes_FileNotFoundException;
 use taoItems_models_classes_ItemsService;
@@ -98,10 +100,13 @@ class QtiXmlDataManagerTest extends TestCase
 
         $this->featureFlagCheckerMock = $this->createMock(FeatureFlagChecker::class);
 
+        $identifierGenerator = $this->createMock(IdentifierGeneratorInterface::class);
+
         $serviceLocatorMock = $this->getServiceLocatorMock([
             FileReferenceSerializer::SERVICE_ID => $fileReferenceSerializerMock,
             taoItems_models_classes_ItemsService::class => $itemsServiceMock,
             FeatureFlagChecker::class => $this->featureFlagCheckerMock,
+            IdentifierGeneratorProxy::class => $identifierGenerator,
         ]);
 
         $self = $this;

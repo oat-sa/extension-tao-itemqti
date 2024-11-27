@@ -78,6 +78,9 @@ define([
             $img.attr('width', '100%');
             $img.removeAttr('style');
         }
+
+        this.$container.attr('contenteditable', false); //case: textReaderInteraction PCI
+
         return this;
     };
 

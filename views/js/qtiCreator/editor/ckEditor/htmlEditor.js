@@ -27,7 +27,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState',
     'taoQtiItem/qtiCreator/editor/ckEditor/featureFlag',
-    'taoQtiItem/qtiCreator/helper/languages'
+    'taoQtiItem/qtiCreator/helper/languages',
+    'taoQtiItem/qtiCreator/helper/elementSupport',
 ], function (
     _,
     __,
@@ -40,7 +41,8 @@ define([
     contentHelper,
     deletingHelper,
     featureFlag,
-    languages
+    languages,
+    elementSupportHelper
 ) {
     'use strict';
 
@@ -133,8 +135,7 @@ define([
                         const $newImgPlaceholder = $editable.find('[data-new="true"][data-qti-class="img"]');
                         if (
                             $newImgPlaceholder.length &&
-                            !$editable.closest('.qti-choice, .qti-flow-container').length &&
-                            !$newImgPlaceholder.closest('.qti-table caption').length
+                            elementSupportHelper.isFigureSupportedInParent($newImgPlaceholder)
                         ) {
                             // instead img will add figure element
                             $newImgPlaceholder.attr('data-qti-class', 'figure');
