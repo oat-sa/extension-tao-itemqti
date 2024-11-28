@@ -24,6 +24,8 @@ namespace oat\taoQtiItem\test\unit\model\qti;
 
 use common_ext_Extension;
 use common_ext_ExtensionsManager;
+use League\Flysystem\FilesystemException;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 use oat\generis\test\ServiceManagerMockTrait;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
@@ -31,7 +33,6 @@ use oat\tao\model\service\ApplicationService;
 use oat\taoQtiItem\model\qti\Item;
 use PHPUnit\Framework\TestCase;
 use League\Flysystem\Filesystem;
-use League\Flysystem\Adapter\Local;
 
 class ItemTest extends TestCase
 {
@@ -112,11 +113,11 @@ class ItemTest extends TestCase
     /**
      * @param string $name
      * @return string
-     * @throws \League\Flysystem\FileNotFoundException
+     * @throws FilesystemException
      */
     private function readSampleFile(string $name): string
     {
-        $adapter = new Local(
+        $adapter = new LocalFilesystemAdapter(
             dirname(__DIR__, 2) . '/samples/model/qti/item'
         );
 
