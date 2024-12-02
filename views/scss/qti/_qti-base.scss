@@ -239,6 +239,49 @@ $mainContainer : '.qti-item';
         border:1px solid transparent;
     }
 
+    //start vertical writing
+    .qti-itemBody {
+        .qti-interaction.qti-choiceInteraction {
+            writing-mode: vertical-rl;
+
+            .qti-prompt-container {
+                margin-bottom: 2rem;
+            }
+
+            .plain.block-listing {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .qti-choice {
+                writing-mode: vertical-rl;
+                margin-left: 2rem;
+                &::before {
+                    transform: rotate(270deg);
+                    left: 1.1rem;
+                    margin-top: 1rem;
+                }
+
+                .pseudo-label-box {
+                    display: flex;
+                    flex-direction: column;
+
+                    .label-box {
+                        margin-left: 0;
+                        .label-content {
+                            writing-mode: vertical-rl;
+                            display: flex;
+                            margin-top: 3rem;
+                            margin-left: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //end vertical writing
+
     .qti-interaction {
         &:focus {
             outline-color: $colorWheel-05;
