@@ -337,6 +337,12 @@ class ImportService extends ConfigurableService
                     $metaMetadataValues,
                     $itemClass
                 );
+                if (empty($mappedMetadataValues)) {
+                    $mappedMetadataValues = $this->getMetaMetadataImportMapper()->mapMetadataToProperties(
+                        $metadataValues,
+                        $itemClass
+                    );
+                }
             }
 
             $sharedFiles = [];

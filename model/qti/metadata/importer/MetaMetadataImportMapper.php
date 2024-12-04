@@ -55,6 +55,19 @@ class MetaMetadataImportMapper
         return $matchedProperties;
     }
 
+    public function mapMetadataToProperties(array $metadataProperties, core_kernel_classes_Class $itemClass, core_kernel_classes_Class $testClass = null): array
+    {
+        $parsedMetadataProperties = [];
+        foreach ($metadataProperties as $metadataProperty) {
+            foreach ($metadataProperty as $property) {
+                $parsedMetadataProperties[] = [
+                    'uri' => $property->getPath()[1],
+                ];
+            }
+        }
+        return $this->mapMetaMetadataToProperties($parsedMetadataProperties, $itemClass, $testClass);
+    }
+
     private function matchProperty(array &$metaMetadataProperty, array $classProperties): ?Property
     {
         /** @var Property $itemClassProperty */
@@ -79,14 +92,18 @@ class MetaMetadataImportMapper
     private function isSynced(Property $classProperty, array &$metaMetadataProperty): bool
     {
         $multiple = $classProperty->getOnePropertyValue(new Property(GenerisRdf::PROPERTY_MULTIPLE));
-        $checksum = $this->checksumGenerator->getRangeChecksum($classProperty);
+        try {
+            $checksum = $this->checksumGenerator->getRangeChecksum($classProperty);
+        } catch (\InvalidArgumentException $e) {
+            return false;
+        }
         $metaMetadataProperty['checksum_result'] = $checksum === $metaMetadataProperty['checksum'];
         $metaMetadataProperty['widget_result'] =
-            $classProperty->getWidget()->getUri() === $metaMetadataProperty['widget'];
+            $classProperty->getWidget() && $classProperty->getWidget()->getUri() === $metaMetadataProperty['widget'];
 
         return $multiple instanceof core_kernel_classes_Resource
             && $multiple->getUri() === $metaMetadataProperty['multiple']
             && $checksum === $metaMetadataProperty['checksum']
-            && $classProperty->getWidget()->getUri() === $metaMetadataProperty['widget'];
+            && $classProperty->getWidget() && $classProperty->getWidget()->getUri() === $metaMetadataProperty['widget'];
     }
 }
