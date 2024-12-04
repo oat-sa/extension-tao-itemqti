@@ -25,6 +25,7 @@ namespace oat\taoQtiItem\model\qti\metadata\importer;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property as Property;
 use core_kernel_classes_Resource;
+use InvalidArgumentException;
 use oat\generis\model\GenerisRdf;
 use oat\taoQtiItem\model\import\ChecksumGenerator;
 
@@ -94,7 +95,7 @@ class MetaMetadataImportMapper
         $multiple = $classProperty->getOnePropertyValue(new Property(GenerisRdf::PROPERTY_MULTIPLE));
         try {
             $checksum = $this->checksumGenerator->getRangeChecksum($classProperty);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             return false;
         }
         $metaMetadataProperty['checksum_result'] = $checksum === $metaMetadataProperty['checksum'];
