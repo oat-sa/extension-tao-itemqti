@@ -25,6 +25,7 @@ namespace oat\taoQtiItem\test\unit\model\qti\metadata\importer;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use InvalidArgumentException;
 use oat\taoQtiItem\model\import\ChecksumGenerator;
 use oat\taoQtiItem\model\qti\metadata\importer\MetaMetadataImportMapper;
 use PHPUnit\Framework\TestCase;
@@ -165,7 +166,7 @@ class MetaMetadataImportMapperTest extends TestCase
         $propertyMock->method('getLabel')->willReturn('label1');
 
         $this->checksumGeneratorMock->method('getRangeChecksum')
-            ->willThrowException(new \InvalidArgumentException());
+            ->willThrowException(new InvalidArgumentException());
 
         $result = $this->subject->mapMetaMetadataToProperties($metaMetadataProperties, $itemClass);
 
