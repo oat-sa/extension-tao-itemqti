@@ -63,8 +63,7 @@ class MetaMetadataImportMapper
         array $metadataProperties,
         kernelClass $itemClass,
         kernelClass $testClass = null
-    ): array
-    {
+    ): array {
         $parsedMetadataProperties = [];
         foreach ($metadataProperties as $metadataProperty) {
             foreach ($metadataProperty as $property) {
