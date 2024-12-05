@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti\metadata\importer;
 
-use core_kernel_classes_Class;
+use core_kernel_classes_Class as kernelClass;
 use core_kernel_classes_Property as Property;
 use core_kernel_classes_Resource;
 use InvalidArgumentException;
@@ -40,8 +40,8 @@ class MetaMetadataImportMapper
 
     public function mapMetaMetadataToProperties(
         array $metaMetadataProperties,
-        core_kernel_classes_Class $itemClass,
-        core_kernel_classes_Class $testClass = null
+        kernelClass $itemClass,
+        kernelClass $testClass = null
     ): array {
         $matchedProperties = [];
         foreach ($metaMetadataProperties as $metaMetadataProperty) {
@@ -49,14 +49,21 @@ class MetaMetadataImportMapper
                 $matchedProperties['itemProperties'][$metaMetadataProperty['uri']] = $match;
             }
 
-            if ($testClass && $match = $this->matchProperty($metaMetadataProperty, $testClass->getProperties(true))) {
+            if (
+                $testClass &&
+                $match = $this->matchProperty($metaMetadataProperty, $testClass->getProperties(true))
+            ) {
                 $matchedProperties['testProperties'][$metaMetadataProperty['uri']] = $match;
             }
         }
         return $matchedProperties;
     }
 
-    public function mapMetadataToProperties(array $metadataProperties, core_kernel_classes_Class $itemClass, core_kernel_classes_Class $testClass = null): array
+    public function mapMetadataToProperties(
+        array $metadataProperties,
+        kernelClass $itemClass,
+        kernelClass $testClass = null
+    ): array
     {
         $parsedMetadataProperties = [];
         foreach ($metadataProperties as $metadataProperty) {
