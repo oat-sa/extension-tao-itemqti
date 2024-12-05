@@ -143,7 +143,10 @@ class MetaMetadataImportMapperTest extends TestCase
         $result = $this->subject->mapMetadataToProperties($metadataProperties, $itemClass);
 
         $this->assertArrayHasKey('itemProperties', $result);
-        $this->assertInstanceOf(core_kernel_classes_Property::class, $result['itemProperties']['http://example.com/uri1']);
+        $this->assertInstanceOf(
+            core_kernel_classes_Property::class,
+            $result['itemProperties']['http://example.com/uri1']
+        );
     }
 
     public function testHandlesInvalidArgumentExceptionInIsSynced(): void
