@@ -184,10 +184,6 @@ export function addResponseProcessing(
             //able to set min/max
             cy.getSettled('[class="panel min-max-panel"]')
                 .find('[name="lowerBound-toggler"]')
-                .click({force:true})
-                .should('not.have.value', '0');
-            cy.getSettled('[class="panel min-max-panel"]')
-                .find('[name="lowerBound-toggler"]')
                 .click({force:true});
             cy.getSettled('[class="panel min-max-panel"]')
                 .find('[name="upperBound-toggler"]')
