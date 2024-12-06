@@ -5,7 +5,7 @@
         <sections>
             <section id="manage_items" name="Manage items" url="/taoItems/Items/index">
                 <actions>
-                    <action id="item-new" name="New item" url="/taoQtiItem/QtiCreator/createItem" context="resource" group="tree" binding="instanciate">
+                    <action id="item-new" name="New item" url="/taoQtiItem/QtiCreator/createItem" context="resource" group="tree" binding="instanciate" weight="9">
                         <icon id="icon-item"/>
                     </action>
                 </actions>
