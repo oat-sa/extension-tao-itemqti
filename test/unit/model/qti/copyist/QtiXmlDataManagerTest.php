@@ -27,7 +27,6 @@ use core_kernel_classes_ContainerCollection;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use core_kernel_persistence_Exception;
-use League\Flysystem\FileExistsException;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\generis\test\MockObject;
@@ -162,7 +161,6 @@ class QtiXmlDataManagerTest extends TestCase
 
 
     /**
-     * @throws FileExistsException
      * @throws common_Exception
      * @throws core_kernel_persistence_Exception
      * @throws tao_models_classes_FileNotFoundException
@@ -173,7 +171,6 @@ class QtiXmlDataManagerTest extends TestCase
     }
 
     /**
-     * @throws FileExistsException
      * @throws common_Exception
      * @throws core_kernel_persistence_Exception
      * @throws tao_models_classes_FileNotFoundException
@@ -184,7 +181,6 @@ class QtiXmlDataManagerTest extends TestCase
     }
 
     /**
-     * @throws FileExistsException
      * @throws common_Exception
      * @throws core_kernel_persistence_Exception
      * @throws tao_models_classes_FileNotFoundException

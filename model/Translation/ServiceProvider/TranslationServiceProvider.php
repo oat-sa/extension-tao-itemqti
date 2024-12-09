@@ -27,12 +27,14 @@ use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Service\ResourceLanguageRetriever;
+use oat\tao\model\Translation\Service\ResourceTranslatableStatusRetriever;
 use oat\tao\model\Translation\Service\TranslationCreationService;
 use oat\tao\model\Translation\Service\TranslationUniqueIdSetter;
 use oat\taoQtiItem\model\qti\Identifier\Service\QtiIdentifierSetter;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\Translation\Service\QtiLanguageRetriever;
 use oat\taoQtiItem\model\Translation\Service\QtiLanguageSetter;
+use oat\taoQtiItem\model\Translation\Service\ResourceTranslatableStatusHandler;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use tao_models_classes_LanguageService;
 
@@ -71,6 +73,14 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
             ]);
 
         $services
+            ->set(ResourceTranslatableStatusHandler::class, ResourceTranslatableStatusHandler::class)
+            ->args([
+                service(Service::class),
+                service(LoggerService::SERVICE_ID),
+                service(Ontology::SERVICE_ID),
+            ]);
+
+        $services
             ->get(TranslationUniqueIdSetter::class)
             ->call(
                 'addQtiIdentifierSetter',
@@ -94,6 +104,16 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 [
                     TaoOntology::CLASS_URI_ITEM,
                     service(TranslationUniqueIdSetter::class),
+                ]
+            );
+
+        $services
+            ->get(ResourceTranslatableStatusRetriever::class)
+            ->call(
+                'addCallable',
+                [
+                    TaoOntology::CLASS_URI_ITEM,
+                    service(ResourceTranslatableStatusHandler::class),
                 ]
             );
     }

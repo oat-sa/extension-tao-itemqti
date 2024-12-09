@@ -22,9 +22,10 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti\metadata\importer;
 
-use core_kernel_classes_Class;
+use core_kernel_classes_Class as kernelClass;
 use core_kernel_classes_Property as Property;
 use core_kernel_classes_Resource;
+use InvalidArgumentException;
 use oat\generis\model\GenerisRdf;
 use oat\taoQtiItem\model\import\ChecksumGenerator;
 
@@ -39,25 +40,39 @@ class MetaMetadataImportMapper
 
     public function mapMetaMetadataToProperties(
         array $metaMetadataProperties,
-        core_kernel_classes_Class $itemClass,
-        core_kernel_classes_Class $testClass = null
+        kernelClass $itemClass,
+        kernelClass $testClass = null
     ): array {
         $matchedProperties = [];
         foreach ($metaMetadataProperties as $metaMetadataProperty) {
             if ($match = $this->matchProperty($metaMetadataProperty, $itemClass->getProperties(true))) {
                 $matchedProperties['itemProperties'][$metaMetadataProperty['uri']] = $match;
-                continue;
             }
 
-            if ($testClass && $match = $this->matchProperty($metaMetadataProperty, $testClass->getProperties(true))) {
+            if (
+                $testClass &&
+                $match = $this->matchProperty($metaMetadataProperty, $testClass->getProperties(true))
+            ) {
                 $matchedProperties['testProperties'][$metaMetadataProperty['uri']] = $match;
-                continue;
-            }
-            if ($match === null) {
-                throw new PropertyDoesNotExistException($metaMetadataProperty);
             }
         }
         return $matchedProperties;
+    }
+
+    public function mapMetadataToProperties(
+        array $metadataProperties,
+        kernelClass $itemClass,
+        kernelClass $testClass = null
+    ): array {
+        $parsedMetadataProperties = [];
+        foreach ($metadataProperties as $metadataProperty) {
+            foreach ($metadataProperty as $property) {
+                $parsedMetadataProperties[] = [
+                    'uri' => $property->getPath()[1],
+                ];
+            }
+        }
+        return $this->mapMetaMetadataToProperties($parsedMetadataProperties, $itemClass, $testClass);
     }
 
     private function matchProperty(array &$metaMetadataProperty, array $classProperties): ?Property
@@ -84,14 +99,18 @@ class MetaMetadataImportMapper
     private function isSynced(Property $classProperty, array &$metaMetadataProperty): bool
     {
         $multiple = $classProperty->getOnePropertyValue(new Property(GenerisRdf::PROPERTY_MULTIPLE));
-        $checksum = $this->checksumGenerator->getRangeChecksum($classProperty);
+        try {
+            $checksum = $this->checksumGenerator->getRangeChecksum($classProperty);
+        } catch (InvalidArgumentException $e) {
+            return false;
+        }
         $metaMetadataProperty['checksum_result'] = $checksum === $metaMetadataProperty['checksum'];
         $metaMetadataProperty['widget_result'] =
-            $classProperty->getWidget()->getUri() === $metaMetadataProperty['widget'];
+            $classProperty->getWidget() && $classProperty->getWidget()->getUri() === $metaMetadataProperty['widget'];
 
         return $multiple instanceof core_kernel_classes_Resource
             && $multiple->getUri() === $metaMetadataProperty['multiple']
             && $checksum === $metaMetadataProperty['checksum']
-            && $classProperty->getWidget()->getUri() === $metaMetadataProperty['widget'];
+            && $classProperty->getWidget() && $classProperty->getWidget()->getUri() === $metaMetadataProperty['widget'];
     }
 }

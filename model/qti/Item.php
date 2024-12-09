@@ -759,4 +759,9 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
             throw new \Exception('ExternalScored attribute is not allowed for multiple outcomes in item');
         }
     }
+
+    public function isEmpty(): bool
+    {
+        return empty($this->getBody()) || strpos((string)$this->getBody(), '<div class="empty"') !== false;
+    }
 }

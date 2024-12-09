@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\compile;
 
-use League\Flysystem\FileExistsException;
 use oat\generis\test\TestCase;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\File;
@@ -44,7 +43,7 @@ class XIncludeAdditionalAssetInjectorTest extends TestCase
     private const RESOURCE_ID_FIXTURE = 'fixture-id';
 
     private const STYLESHEETS_LOADER_FILE = [
-        'basename' => 'file.css',
+        'path' => 'file.css',
         'stream' => 'dummy resource string'
     ];
 
@@ -114,9 +113,9 @@ class XIncludeAdditionalAssetInjectorTest extends TestCase
                 'href' => implode(DIRECTORY_SEPARATOR, [
                     $this->subject::COMPILED_PASSAGE_STYLESHEET_FILENAME_PREFIX,
                     AssetStylesheetLoader::ASSET_CSS_DIRECTORY_NAME,
-                    self::STYLESHEETS_LOADER_FILE['basename']
+                    self::STYLESHEETS_LOADER_FILE['path']
                 ]),
-                'title' => self::STYLESHEETS_LOADER_FILE['basename'],
+                'title' => self::STYLESHEETS_LOADER_FILE['path'],
                 'type' => 'text/css'
             ],
             null,
@@ -178,22 +177,6 @@ class XIncludeAdditionalAssetInjectorTest extends TestCase
 
         $this->item->method('addStylesheet')
             ->willThrowException(new QtiModelException(self::DUMMY_EXCEPTION_MESSAGE));
-
-        $this->loggerMock->expects($this->atLeastOnce())
-            ->method('warning')
-            ->with($this->stringContains(self::DUMMY_EXCEPTION_MESSAGE));
-
-        $this->subject->injectNonRDFXincludeRelatedAssets($this->item, $this->directory, $packedAsset);
-    }
-
-    public function testInjectNonRDFXincludeRelatedAssetsWritesWarningLogOnFileException()
-    {
-        $packedAsset = $this->getPackedAssetMock();
-        $this->assetStylesheetLoader->method('loadAssetsFromAssetResource')
-            ->willReturn([self::STYLESHEETS_LOADER_FILE]);
-
-        $this->fileMock->method('write')
-            ->willThrowException(new FileExistsException(self::DUMMY_EXCEPTION_MESSAGE));
 
         $this->loggerMock->expects($this->atLeastOnce())
             ->method('warning')
