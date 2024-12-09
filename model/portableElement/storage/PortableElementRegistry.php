@@ -131,7 +131,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
     {
         $fileSystem = $this->getConfigFileSystem();
 
-        if ($fileSystem->has($identifier)) {
+        if (!empty($identifier) && $fileSystem->fileExists($identifier)) {
             return json_decode($fileSystem->read($identifier), true);
         }
 
@@ -145,7 +145,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
 
         foreach ($contents as $file) {
             if ($file['type'] === 'file') {
-                $identifier = $file['filename'];
+                $identifier = $file['path'];
                 $elements[$identifier] = $this->get($identifier);
             }
         }
@@ -161,7 +161,7 @@ abstract class PortableElementRegistry implements ServiceLocatorAwareInterface
      */
     private function set($identifier, $value)
     {
-        $this->getConfigFileSystem()->put($identifier, json_encode($value));
+        $this->getConfigFileSystem()->write($identifier, json_encode($value));
     }
 
     /**

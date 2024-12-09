@@ -21,7 +21,6 @@
 
 namespace oat\taoQtiItem\model\portableElement\parser\itemParser;
 
-use League\Flysystem\FileNotFoundException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInconsistencyModelException;
 use oat\taoQtiItem\model\portableElement\element\PortableElementObject;
 use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
@@ -276,7 +275,7 @@ class PortableElementItemParser implements ServiceLocatorAwareInterface
                                     $configData['paths'][$id] = $this->getSourceAdjustedNodulePath($path);
                                     ;
                                 } else {
-                                    throw new FileNotFoundException(
+                                    throw new \tao_models_classes_FileNotFoundException(
                                         "The portable config {$configFile} references a missing module file "
                                             . "{$id} => {$path}"
                                     );
