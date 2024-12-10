@@ -19,44 +19,29 @@
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Custom',
-    'i18n',
-    'taoQtiItem/qtiCommonRenderer/renderers/interactions/OrderInteraction',
+    'taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/ResponseWidget',
+    'lodash',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
-], function(stateFactory, Custom, __, commonRenderer, answerState){
+], function(stateFactory, Custom, responseWidget, _, answerState){
 
-    var InlineChoiceInteractionStateCustom = stateFactory.create(Custom, function(){
+    var AssociateInteractionStateCustom = stateFactory.create(Custom, function(){
+
         var interaction = this.widget.element,
-            response = interaction.getResponseDeclaration(),
-            correctResponse = _.values(response.getCorrect());
+            response = interaction.getResponseDeclaration();
 
-        commonRenderer.render(this.widget.element);
-        commonRenderer.setResponse(interaction, _formatResponse(correctResponse));
-        
+        responseWidget.create(this.widget, false);
+        responseWidget.setResponse(interaction, _.values(response.getCorrect()));
 
         this.widget.$container.on('responseChange.qti-widget', function(e, data){
-            response.setCorrect(_unformatResponse(data.response));
+            response.setCorrect(responseWidget.unformatResponse(data.response));
         });
+
     }, function(){
         answerState.createOutcomeScore(this.widget);
-
         this.widget.$container.off('responseChange.qti-widget');
 
-        commonRenderer.resetResponse(this.widget.element);
-
-        commonRenderer.destroy(this.widget.element);
+        responseWidget.destroy(this.widget);
     });
 
-    var _formatResponse = function(response){
-        return {list : {identifier : response}};
-    };
-
-    var _unformatResponse = function(formatedResponse){
-        var res = [];
-        if(formatedResponse.list && formatedResponse.list.identifier){
-            res = formatedResponse.list.identifier;
-        }
-        return res;
-    };
-
-    return InlineChoiceInteractionStateCustom;
+    return AssociateInteractionStateCustom;
 });
