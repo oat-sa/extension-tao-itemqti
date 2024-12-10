@@ -25,13 +25,16 @@ namespace oat\taoQtiItem\test\unit\model\qti\metadata\importer;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use InvalidArgumentException;
 use oat\taoQtiItem\model\import\ChecksumGenerator;
 use oat\taoQtiItem\model\qti\metadata\importer\MetaMetadataImportMapper;
-use oat\taoQtiItem\model\qti\metadata\importer\PropertyDoesNotExistException;
 use PHPUnit\Framework\TestCase;
 
 class MetaMetadataImportMapperTest extends TestCase
 {
+    private ChecksumGenerator $checksumGeneratorMock;
+    private MetaMetadataImportMapper $subject;
+
     public function setUp(): void
     {
         $this->checksumGeneratorMock = $this->createMock(ChecksumGenerator::class);
@@ -113,5 +116,63 @@ class MetaMetadataImportMapperTest extends TestCase
         $result = $this->subject->mapMetaMetadataToProperties($metaMetadataProperties, $itemClass, $testClass);
         self::assertNotNull($result);
         self::assertEquals(1, count($result['itemProperties']));
+    }
+
+    public function testMapMetadataToProperties(): void
+    {
+        $metadataProperty = $this->getMockBuilder(\stdClass::class)
+            ->addMethods(['getPath'])
+            ->getMock();
+        $metadataProperty->method('getPath')->willReturn(['somePath', 'http://example.com/uri1']);
+
+        $metadataProperties = [[$metadataProperty]];
+
+        $itemClass = $this->createMock(core_kernel_classes_Class::class);
+        $propertyMock = $this->createMock(core_kernel_classes_Property::class);
+        $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
+
+        $itemClass->method('getProperties')->willReturn([$propertyMock]);
+        $propertyMock->method('getUri')->willReturn('http://example.com/uri1');
+        $propertyMock->method('getOnePropertyValue')->willReturn($resourceMock);
+        $propertyMock->method('getWidget')->willReturn($propertyMock);
+
+        $resourceMock->method('getUri')->willReturn('http://resource.uri/false');
+
+        $this->checksumGeneratorMock->method('getRangeChecksum')->willReturn('qwerty1234');
+
+        $result = $this->subject->mapMetadataToProperties($metadataProperties, $itemClass);
+
+        $this->assertArrayHasKey('itemProperties', $result);
+        $this->assertInstanceOf(
+            core_kernel_classes_Property::class,
+            $result['itemProperties']['http://example.com/uri1']
+        );
+    }
+
+    public function testHandlesInvalidArgumentExceptionInIsSynced(): void
+    {
+        $metaMetadataProperties = [
+            [
+                'uri' => 'http://example.com/uri1',
+                'label' => 'label1',
+                'alias' => 'alias1',
+                'checksum' => 'qwerty1234',
+                'multiple' => 'http://resource.uri/false',
+                'widget' => 'http://widget.uri'
+            ]
+        ];
+
+        $itemClass = $this->createMock(core_kernel_classes_Class::class);
+        $propertyMock = $this->createMock(core_kernel_classes_Property::class);
+
+        $itemClass->method('getProperties')->willReturn([$propertyMock]);
+        $propertyMock->method('getLabel')->willReturn('label1');
+
+        $this->checksumGeneratorMock->method('getRangeChecksum')
+            ->willThrowException(new InvalidArgumentException());
+
+        $result = $this->subject->mapMetaMetadataToProperties($metaMetadataProperties, $itemClass);
+
+        $this->assertEmpty($result);
     }
 }
