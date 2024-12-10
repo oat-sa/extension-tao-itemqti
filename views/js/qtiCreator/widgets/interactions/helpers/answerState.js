@@ -26,7 +26,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/responseForm',
     'taoQtiItem/qtiCreator/widgets/helpers/modalFeedbackRule',
-    'taoQtiItem/qtiCreator/helper/qtiElements'
+    'taoQtiItem/qtiCreator/helper/qtiElements',
+    'taoQtiItem/qtiCreator/helper/xmlRenderer',
 ], function (
     $,
     _,
@@ -37,7 +38,8 @@ define([
     minMaxComponentFactory,
     responseFormTpl,
     modalFeedbackRule,
-    qtiElements
+    qtiElements,
+    xmlRenderer
 ) {
     'use strict';
 
@@ -345,6 +347,26 @@ define([
         isCorrectDefined: function isCorrectDefined(widget) {
             const response = widget.element.getResponseDeclaration();
             return !!_.size(response.getCorrect());
+        },
+
+        /** 
+         * Create the outcome score if rp required
+         * @param {Object} widget
+         * @returns {void}
+         */
+        createOutcomeScore: function createOutcomeScore(widget) {
+            const interaction = widget.element;
+            const item = interaction.getRootElement();
+            const outcomeScore = item.getOutcomeDeclaration('SCORE');
+            const rp = item.responseProcessing;
+            const rpXml = xmlRenderer.render(rp);
+
+            if (rpXml && !outcomeScore) {
+                item.createOutcomeDeclaration({
+                    cardinality: 'single',
+                    baseType: 'float'
+                }).buildIdentifier('SCORE', false);
+            }
         }
     };
 
