@@ -4204,6 +4204,53 @@ define(['jquery'], function(jQuery) {
     LatexCmds.overline = LatexCmds.bar = bind(Style, '\\overline', 'span', 'class="mq-non-leaf mq-overline"');
     LatexCmds.overrightarrow = bind(Style, '\\overrightarrow', 'span', 'class="mq-non-leaf mq-overarrow mq-arrow-right"');
     LatexCmds.overleftarrow = bind(Style, '\\overleftarrow', 'span', 'class="mq-non-leaf mq-overarrow mq-arrow-left"');
+    LatexCmds.overleftrightarrow = bind(Style, '\\overleftrightarrow', 'span', 'class="mq-non-leaf mq-overleftrightarrow"');
+    LatexCmds.overset = bind(Style, '\\overset', 'span', 'class="mq-non-leaf mq-overset"');
+
+
+    LatexCmds.stackrel = P(MathCommand, function(_, super_) {
+        _.ctrlSeq = '\\stackrel';
+        _.htmlTemplate =
+            '<span class="mq-stackrel mq-non-leaf">'
+            +   '<span class="mq-top">&0</span>'
+            +   '<span class="mq-bottom">&1</span>'
+            + '</span>';
+
+        _.textTemplate = ['stackrel(', ',', ')'];
+
+        _.numBlocks = function() { return 2; };
+
+        _.parser = function() {
+            var self = this;
+            var string = Parser.string;
+            var block = latexMathParser.block;
+            var optWhitespace = Parser.optWhitespace;
+
+            return optWhitespace
+                .then(block)
+                .then(function(top) {
+                    self.blocks = [top];
+                    top.adopt(self, 0, 0);
+                    return optWhitespace
+                        .then(block)
+                        .map(function(bottom) {
+                            bottom.adopt(self, top, 0);
+                            self.blocks.push(bottom);
+                            return self;
+                        });
+                });
+        };
+
+        _.createBlocks = function() {
+            this.blocks = [MathBlock(), MathBlock()];
+            this.blocks[0].adopt(this, 0, 0);
+            this.blocks[1].adopt(this, this.blocks[0], 0);
+        };
+
+        _.latex = function() {
+            return '\\stackrel{' + this.blocks[0].latex() + '}{' + this.blocks[1].latex() + '}';
+        };
+    });
 
 // `\textcolor{color}{math}` will apply a color to the given math content, where
 // `color` is any valid CSS Color Value (see [SitePoint docs][] (recommended),
