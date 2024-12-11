@@ -349,6 +349,13 @@ img.dragging.ui-draggable-dragging {
             .panel {
                 padding: 0;
                 margin-bottom: 15px;
+
+                .min-max {
+                    input[name=lowerBound],
+                    input[name=upperBound] {
+                        width: 50px !important;
+                    }
+                }
             }
             hr {
                 margin-bottom: 15px;
