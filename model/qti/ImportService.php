@@ -337,6 +337,12 @@ class ImportService extends ConfigurableService
                     $metaMetadataValues,
                     $itemClass
                 );
+                if (empty($mappedMetadataValues)) {
+                    $mappedMetadataValues = $this->getMetaMetadataImportMapper()->mapMetadataToProperties(
+                        $metadataValues,
+                        $itemClass
+                    );
+                }
             }
 
             $sharedFiles = [];
@@ -486,8 +492,6 @@ class ImportService extends ConfigurableService
             //load the information about resources in the manifest
             try {
                 $resourceIdentifier = $qtiItemResource->getIdentifier();
-
-                $this->getMetadataImporter()->setMetadataValues($metadataValues);
                 $guardian = false;
 
                 if ($enableMetadataGuardians === true) {
@@ -544,11 +548,8 @@ class ImportService extends ConfigurableService
                 }
 
                 $targetClass = $this->getMetadataImporter()->classLookUp($resourceIdentifier, $createdClasses);
-
                 $tmpQtiFile = $tmpFolder . helpers_File::urlToPath($qtiItemResource->getFile());
-
                 common_Logger::i('file :: ' . $qtiItemResource->getFile());
-
                 $qtiModel = $this->createQtiItemModel($tmpQtiFile);
 
                 if (
@@ -634,8 +635,6 @@ class ImportService extends ConfigurableService
 
                 $qtiModel = $this->createQtiItemModel($itemAssetManager->getItemContent(), false);
                 $qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem);
-
-                $this->getMetadataImporter()->inject($resourceIdentifier, $rdfItem);
 
                 if ($importMetadataEnabled && isset($metadataValues[$resourceIdentifier])) {
                     $this->getMappedMetadataInjector()->inject(

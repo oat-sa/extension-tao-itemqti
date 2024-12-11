@@ -18,6 +18,7 @@
  */
 define([
     'lodash',
+    'i18n',
     'services/features',
     'taoQtiItem/qtiCreator/helper/languages',
     'taoQtiItem/qtiCreator/widgets/states/factory',
@@ -26,7 +27,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier',
     'select2'
-], function (_, features, languages, stateFactory, Active, formTpl, formElement, qtiIdentifier) {
+], function (_, __, features, languages, stateFactory, Active, formTpl, formElement, qtiIdentifier) {
     'use strict';
 
     // These classes are supported for removing the instructions.
@@ -54,6 +55,11 @@ define([
             const itemRemoveClass = cls => itemElements.forEach(el => el.removeClass(cls));
             const itemRemoveClasses = classes => classes.forEach(itemRemoveClass);
 
+            let titleFormat = '%title%';
+            if (_widget.options.translation) {
+                titleFormat = __('%title% - Translation (%lang%)');
+            }
+
             //build form:
             $form.html(
                 formTpl({
@@ -67,7 +73,9 @@ define([
                     showRemoveInstructions: true,
                     'xml:lang': item.attr('xml:lang'),
                     languagesList: item.data('languagesList'),
-                    disableIdentifier
+                    disableIdentifier,
+                    translation: _widget.options.translation,
+                    translationStatus: _widget.options.translationStatus
                 })
             );
 
@@ -79,7 +87,13 @@ define([
                 identifier: formElement.getAttributeChangeCallback(),
                 title: function titleChange(i, title) {
                     item.attr('title', title);
-                    areaBroker.getTitleArea().text(item.attr('title'));
+                    areaBroker
+                        .getTitleArea()
+                        .text(
+                            titleFormat
+                                .replace('%title%', item.attr('title'))
+                                .replace('%lang%', _widget.options.translationLanguageCode)
+                        );
                 },
                 timeDependent: formElement.getAttributeChangeCallback(),
                 removeInstructions(i, value) {
@@ -102,6 +116,9 @@ define([
 
                         $itemBody.trigger('item-dir-changed');
                     });
+                },
+                translationStatus(i, status) {
+                    _widget.options.translationStatus = status;
                 }
             });
 

@@ -24,6 +24,7 @@
 
 namespace oat\taoQtiItem\model\Export;
 
+use oat\oatbox\filesystem\FilesystemException;
 use oat\oatbox\reporting\Report;
 use oat\tao\helpers\Base64;
 use oat\tao\model\media\MediaBrowser;
@@ -31,7 +32,6 @@ use oat\taoQtiItem\model\Export\Exception\AssetStylesheetZipTransferException;
 use oat\taoQtiItem\model\Export\Stylesheet\AssetStylesheetLoader;
 use core_kernel_classes_Property;
 use DOMDocument;
-use League\Flysystem\FileNotFoundException;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\media\ProcessedFileStreamAware;
@@ -180,7 +180,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
         try {
             $xml = Service::singleton()->getXmlByRdfItem($this->getItem());
-        } catch (FileNotFoundException $e) {
+        } catch (FilesystemException $e) {
             $report->setMessage($this->getExportErrorMessage(__('cannot find QTI XML')));
             $report->setType(\common_report_Report::TYPE_ERROR);
             return $report;
@@ -371,7 +371,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             foreach ($assetStylesheets as $stylesheetFile) {
                 $this->addFile(
                     $stylesheetFile['stream'],
-                    $this->buildAssetStylesheetPath($basepath, $baseDirectoryName, $stylesheetFile['basename'])
+                    $this->buildAssetStylesheetPath($basepath, $baseDirectoryName, basename($stylesheetFile['path']))
                 );
             }
         }

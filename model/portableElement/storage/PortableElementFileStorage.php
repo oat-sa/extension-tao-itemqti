@@ -104,11 +104,8 @@ class PortableElementFileStorage extends ConfigurableService
             }
 
             $fileId = $this->getPrefix($object) . $object->getRegistrationFileId($file);
-            if ($fileSystem->has($fileId)) {
-                $registered = $fileSystem->updateStream($fileId, $resource);
-            } else {
-                $registered = $fileSystem->writeStream($fileId, $resource);
-            }
+            $fileSystem->writeStream($fileId, $resource);
+            $registered = true;
             if (is_resource($resource)) {
                 fclose($resource);
             }
@@ -127,16 +124,15 @@ class PortableElementFileStorage extends ConfigurableService
      */
     public function unregisterFiles(PortableElementObject $object, $files)
     {
-        $deleted = true;
         $filesystem = $this->getFileStorage();
         foreach ($files as $relPath) {
             $fileId = $this->getPrefix($object) . $relPath;
-            if (!$filesystem->has($fileId)) {
+            if (!$filesystem->fileExists($fileId)) {
                 throw new \common_Exception('File does not exists in the filesystem: ' . $relPath);
             }
-            $deleted = $filesystem->delete($fileId);
+            $filesystem->delete($fileId);
         }
-        return $deleted;
+        return true;
     }
 
     /**
@@ -146,13 +142,13 @@ class PortableElementFileStorage extends ConfigurableService
      */
     public function unregisterAllFiles(PortableElementObject $object)
     {
-        return $this->getFileStorage()->deleteDir($this->getPrefix($object));
+        return $this->getFileStorage()->deleteDirectory($this->getPrefix($object));
     }
 
     public function getFileContentFromModelStorage(PortableElementObject $object, $file)
     {
         $filePath = $this->getPrefix($object) . $file;
-        if ($this->getFileStorage()->has($filePath)) {
+        if ($this->getFileStorage()->fileExists($filePath)) {
             return $this->getFileStorage()->read($filePath);
         }
         throw new PortableElementFileStorageException('Unable to find file "' . $file . '"' .
@@ -168,7 +164,7 @@ class PortableElementFileStorage extends ConfigurableService
     public function getFileStream(PortableElementObject $object, $file)
     {
         $filePath = $this->getPrefix($object) . $file;
-        if ($this->getFileStorage()->has($filePath)) {
+        if ($this->getFileStorage()->fileExists($filePath)) {
             return new Stream($this->getFileStorage()->readStream($filePath));
         }
         throw new PortableElementFileStorageException($filePath);
