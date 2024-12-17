@@ -24,6 +24,9 @@ namespace oat\taoQtiItem\model\qti\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
+use oat\taoQtiItem\model\qti\converter\CaseConversionService;
+use oat\taoQtiItem\model\qti\converter\ItemConverter;
+use oat\taoQtiItem\model\qti\converter\ManifestConverter;
 use oat\taoQtiItem\model\qti\Identifier\Service\QtiIdentifierSetter;
 use oat\taoQtiItem\model\qti\Service;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -42,5 +45,17 @@ class QtiServiceProvider implements ContainerServiceProviderInterface
                 service(Service::class),
                 service(LoggerService::SERVICE_ID),
             ]);
+
+        $services->set(CaseConversionService::class);
+
+        $services
+            ->set(ManifestConverter::class, ManifestConverter::class)
+            ->public();
+
+        $services->set(ItemConverter::class)
+            ->args([
+                service(CaseConversionService::class),
+            ])
+            ->public();
     }
 }

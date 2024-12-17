@@ -31,6 +31,7 @@ use DOMDocument;
 use Exception;
 use helpers_File;
 use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\reporting\Report;
 use oat\tao\model\TaoOntology;
 use oat\oatbox\mutex\LockTrait;
 use oat\taoItems\model\media\ItemMediaResolver;
@@ -44,6 +45,7 @@ use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\PortableAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\SharedStimulusAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\StimulusHandler;
+use oat\taoQtiItem\model\qti\converter\ItemConverter;
 use oat\taoQtiItem\model\qti\event\UpdatedItemEventDispatcher;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
@@ -474,7 +476,7 @@ class ImportService extends ConfigurableService
         $importMetadataEnabled = false
     ) {
         // if report can't be finished
-        $report = common_report_Report::createFailure(
+        $report = Report::createError(
             __('IMS QTI Item referenced as "%s" cannot be imported.', $qtiItemResource->getIdentifier())
         );
 
@@ -550,6 +552,7 @@ class ImportService extends ConfigurableService
                 $targetClass = $this->getMetadataImporter()->classLookUp($resourceIdentifier, $createdClasses);
                 $tmpQtiFile = $tmpFolder . helpers_File::urlToPath($qtiItemResource->getFile());
                 common_Logger::i('file :: ' . $qtiItemResource->getFile());
+                $this->convertItem($tmpQtiFile);
                 $qtiModel = $this->createQtiItemModel($tmpQtiFile);
 
                 if (
@@ -964,5 +967,15 @@ class ImportService extends ConfigurableService
     private function replaceUniqueNumericQtiIdentifier(string $qtiXml): string
     {
         return $this->getUniqueNumericQtiIdentifierReplacer()->replace($qtiXml);
+    }
+
+    private function convertItem(string $tmpQtiFile): void
+    {
+        $this->getItemConverter()->convert($tmpQtiFile);
+    }
+
+    private function getItemConverter(): ItemConverter
+    {
+        return $this->getServiceManager()->getContainer()->get(ItemConverter::class);
     }
 }
