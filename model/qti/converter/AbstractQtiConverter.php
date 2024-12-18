@@ -75,7 +75,7 @@ abstract class AbstractQtiConverter
             if ($child instanceof DOMElement) {
                 $childNodes = null;
                 if ($child->hasChildNodes()) {
-                    $this->convertRootElementsRecursively(iterator_to_array($child->childNodes), $report);
+                    $this->convertRootElementsRecursively(iterator_to_array($child->childNodes));
                     $childNodes = $child->childNodes;
                 }
             }
