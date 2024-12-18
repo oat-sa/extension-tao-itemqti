@@ -971,7 +971,7 @@ class ImportService extends ConfigurableService
 
     private function convertItem(string $tmpQtiFile): void
     {
-        $this->getItemConverter()->convert($tmpQtiFile);
+        $this->getItemConverter()->convertToQti2($tmpQtiFile);
     }
 
     private function getItemConverter(): ItemConverter

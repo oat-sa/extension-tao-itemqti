@@ -47,7 +47,7 @@ class ManifestConverter
         self::TEST_RESOURCE_TYPE => 'imsqti_test_xmlv2p2',
     ];
 
-    public function convert(string $manifestFile, ManifestParser $manifestParser): void
+    public function convertToQti2(string $manifestFile, ManifestParser $manifestParser): void
     {
         //Check if folder exist and contains QTI 3.0 files
         if (!is_readable($manifestFile)) {

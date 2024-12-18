@@ -44,7 +44,7 @@ abstract class AbstractQtiConverter
         $this->caseConversionService = $caseConversionService;
     }
 
-    public function convert(string $filename): void
+    public function convertToQti2(string $filename): void
     {
         // Load the QTI XML document
         $dom = new DOMDocument();

@@ -43,7 +43,7 @@ class ItemConverterTest extends TestCase
             ->method('kebabToCamelCase')
             ->willReturn('camelCase');
 
-        $this->subject->convert($modifiedFile);
+        $this->subject->convertToQti2($modifiedFile);
 
         //Delete file
         unlink($modifiedFile);
