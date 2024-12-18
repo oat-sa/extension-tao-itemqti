@@ -20,14 +20,13 @@
 
 declare(strict_types=1);
 
-
 namespace oat\taoQtiItem\test\unit\model\Export\Qti3Package;
 
 use oat\taoQtiItem\model\Export\Qti3Package\TransformationService;
 use DOMDocument;
 use PHPUnit\Framework\TestCase;
 
-class TransformationServiceTest  extends TestCase
+class TransformationServiceTest extends TestCase
 {
     private TransformationService $service;
 

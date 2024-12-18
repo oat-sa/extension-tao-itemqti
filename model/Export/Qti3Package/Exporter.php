@@ -32,10 +32,10 @@ use ZipArchive;
 
 class Exporter extends QTIPackedItemExporter
 {
-
     private const QTI_SCHEMA_NAMESPACE = 'http://www.imsglobal.org/xsd/imsqtiasi_v3p0';
     private const XML_SCHEMA_INSTANCE = 'http://www.w3.org/2001/XMLSchema-instance';
     private const XSI_SCHEMA_LOCATION = 'http://www.imsglobal.org/xsd/imsqtiasi_v3p0';
+    // phpcs:ignore Generic.Files.LineLength.TooLong
     private const XSI_SCHEMA_LOCATION_XSD = 'https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_asiv3p0_v1p0.xsd';
 
     private TransformationService $transformationService;
@@ -98,7 +98,8 @@ class Exporter extends QTIPackedItemExporter
         //QTI3 namespace
         $newRoot->setAttribute('xmlns', self::QTI_SCHEMA_NAMESPACE);
         $newRoot->setAttribute('xmlns:xsi', self::XML_SCHEMA_INSTANCE);
-        $newRoot->setAttribute('xsi:schemaLocation',
+        $newRoot->setAttribute(
+            'xsi:schemaLocation',
             sprintf('%s %s', self::XSI_SCHEMA_LOCATION, self::XSI_SCHEMA_LOCATION_XSD)
         );
 

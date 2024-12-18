@@ -20,7 +20,6 @@
 
 declare(strict_types=1);
 
-
 namespace oat\taoQtiItem\model\Export\Qti3Package;
 
 use core_kernel_classes_Resource;

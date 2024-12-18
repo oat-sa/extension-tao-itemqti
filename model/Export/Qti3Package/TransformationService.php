@@ -20,7 +20,6 @@
 
 declare(strict_types=1);
 
-
 namespace oat\taoQtiItem\model\Export\Qti3Package;
 
 use DOMDocument;
@@ -45,8 +44,10 @@ class TransformationService
         }
 
         foreach ($sourceElement->attributes as $attribute) {
-            if (!str_starts_with($attribute->nodeName, 'xmlns') &&
-                $attribute->nodeName !== 'xsi:schemaLocation') {
+            if (
+                !str_starts_with($attribute->nodeName, 'xmlns') &&
+                $attribute->nodeName !== 'xsi:schemaLocation')
+            {
                 $attrName = $this->camelToHyphen($attribute->nodeName);
                 if (!empty($attrName)) {
                     $targetElement->setAttribute($attrName, $attribute->value);
@@ -72,7 +73,6 @@ class TransformationService
                 }
 
                 $newParent->appendChild($newElement);
-
             } elseif ($child->nodeType === XML_TEXT_NODE && trim($child->nodeValue) !== '') {
                 $newParent->appendChild($newDom->createTextNode($child->nodeValue));
             }

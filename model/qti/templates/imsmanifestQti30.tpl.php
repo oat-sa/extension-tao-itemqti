@@ -17,7 +17,7 @@
  *
  * Copyright (c) 2024 (original work) Open Assessment Technologies SA;
  */
-
+// phpcs:ignoreFile
 ?>
 
 <manifest
