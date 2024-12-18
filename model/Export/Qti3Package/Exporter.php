@@ -70,7 +70,7 @@ class Exporter extends QTIPackedItemExporter
         return $newManifest;
     }
 
-    protected function getQTIVersion(): string
+    public function getQTIVersion(): string
     {
         return '3p0';
     }

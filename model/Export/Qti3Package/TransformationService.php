@@ -28,18 +28,6 @@ use DOMElement;
 
 class TransformationService
 {
-
-    private const ELEMENT_MAPPINGS = [
-        'assessmentItem' => 'qti-assessment-item',
-        'responseDeclaration' => 'qti-response-declaration',
-        'outcomeDeclaration' => 'qti-outcome-declaration',
-        'responseProcessing' => 'qti-response-processing',
-        'itemBody' => 'qti-item-body',
-        'defaultValue' => 'qti-default-value',
-        'value' => 'qti-value',
-        'choiceInteraction' => 'qti-choice-interaction',
-        'simpleChoice' => 'qti-simple-choice',
-    ];
     private const QTI_ELEMENT_PREFIXES = [
         'response',
         'outcome',
@@ -48,30 +36,6 @@ class TransformationService
         'simple',
         'default',
         'value'
-    ];
-    private const ATTRIBUTES_MAPPINGS = [
-        'responseIdentifier' => 'response-identifier',
-        'baseType' => 'base-type',
-        'timeDependent' => 'time-dependent',
-        'maxChoices' => 'max-choices',
-        'minChoices' => 'min-choices',
-        'navigationMode' => 'navigation-mode',
-        'submissionMode' => 'submission-mode',
-        'maxAttempts' => 'max-attempts',
-        'showFeedback' => 'show-feedback',
-        'allowReview' => 'allow-review',
-        'showSolution' => 'show-solution',
-        'allowComment' => 'allow-comment',
-        'allowSkipping' => 'allow-skipping',
-        'validateResponses' => 'validate-responses'
-    ];
-    private const QTI_ELEMENT_SUFFIXES = [
-        'Response',
-        'Interaction',
-        'Choice',
-        'Declaration',
-        'Processing',
-        'Value'
     ];
 
     public function transformAttributes(DOMElement $sourceElement, DOMElement $targetElement): void
@@ -84,7 +48,7 @@ class TransformationService
             if (!str_starts_with($attribute->nodeName, 'xmlns') &&
                 $attribute->nodeName !== 'xsi:schemaLocation') {
 
-                $attrName = self::ATTRIBUTES_MAPPINGS[$attribute->nodeName] ?? $this->camelToHyphen($attribute->nodeName);
+                $attrName = $this->camelToHyphen($attribute->nodeName);
 
                 if (!empty($attrName)) {
                     $targetElement->setAttribute($attrName, $attribute->value);
@@ -97,9 +61,7 @@ class TransformationService
     {
         foreach ($oldElement->childNodes as $child) {
             if ($child instanceof DOMElement) {
-                $newName = self::ELEMENT_MAPPINGS[$child->nodeName] ?? ($this->isQtiElement($child->nodeName)
-                    ? 'qti-' . $this->camelToHyphen($child->nodeName)
-                    : $child->nodeName);
+                $newName = $this->isQtiElement($child->nodeName) ? $this->getElementName($child) : $child->nodeName;
 
                 $newElement = $newDom->createElement($newName);
 
@@ -120,16 +82,17 @@ class TransformationService
     }
 
 
-    public function getElementName(?DOMElement $oldRoot): string
+    public function getElementName(DOMElement $element): string
     {
-        return self::ELEMENT_MAPPINGS[$oldRoot->nodeName] ?? 'qti-' . $this->camelToHyphen($oldRoot->nodeName);
+        return sprintf('qti-%s', $this->camelToHyphen($element->nodeName));
     }
 
     public function cleanNamespaces(string $content): string
     {
-        $content = preg_replace('/xmlns[^=]*="[^"]*"/i', '', $content);
-        $content = preg_replace('/<[a-z0-9]+:([^>]+)>/i', '<$1>', $content);
-        return (string)preg_replace('/<\/[a-z0-9]+:([^>]+)>/i', '</$1>', $content);
+        $content = preg_replace('/\s*xmlns[^=]*="[^"]*"\s*/i', '', $content);
+        $content = preg_replace('/<([a-z0-9]+):([^>\s]+)(\s+[^>]*)?>/i', '<$2$3>', $content);
+        $content = preg_replace('/<\/[a-z0-9]+:([^>]+)>/i', '</$1>', $content);
+        return preg_replace('/\s{2,}/', ' ', $content);
     }
 
     private function isQtiElement(string $nodeName): bool
@@ -138,10 +101,7 @@ class TransformationService
             if (str_starts_with($nodeName, $prefix)) {
                 return true;
             }
-        }
-
-        foreach (self::QTI_ELEMENT_SUFFIXES as $suffix) {
-            if (str_ends_with($nodeName, $suffix)) {
+            if (str_ends_with($nodeName, ucfirst($prefix))) {
                 return true;
             }
         }
