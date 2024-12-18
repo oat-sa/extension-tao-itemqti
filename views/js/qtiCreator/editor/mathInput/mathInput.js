@@ -74,7 +74,7 @@ define([
             gte:        { label: '&ge;',        latex: '\\ge',          fn: 'cmd',      desc: __('Greater than or equal') },
 
             // Trigonometry and functions
-            exp0:       { label: 'x&#8320;',    latex: '_',             fn: 'cmd',      desc: __('Subscript') },
+            degrees:    { label: 'x°',          latex: '\^\\circ',      fn: 'write',    desc: __('Degrees') },
             pi:         { label: '&pi;',        latex: '\\pi',          fn: 'cmd',      desc: __('Pi') },
             sin:        { label: 'sin',         latex: '\\sin',         fn: 'cmd',      desc: __('Sine') },
             cos:        { label: 'cos',         latex: '\\cos',         fn: 'cmd',      desc: __('Cosine') },
@@ -92,7 +92,6 @@ define([
             // Geometry
             parallel:   { label: '∥',           latex: '\\parallel',    fn: 'cmd',      desc: __('Parallel') },
             perp:       { label: '⊥',           latex: '\\perp',        fn: 'cmd',      desc: __('Perpendicular') },
-            perp2:      { label: '⊥',           latex: '\\perp',        fn: 'cmd',      desc: __('Perpendicular') },
 
             // Basic geometry
             triangle:   { label: '△',           latex: '\\triangle',    fn: 'cmd',      desc: __('Triangle') },
@@ -125,7 +124,7 @@ define([
             },
             arc: {
                 label: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mover accent="true"><mrow><mi>A</mi><mi>B</mi></mrow><mo stretchy="true" style="font-size: 150%">&#x2322;</mo></mover></math>',
-                latex: '\\overset{AB}',
+                latex: '\\wideparen{AB}',
                 fn: 'write',
                 desc: __('Arc')
             },
@@ -141,10 +140,10 @@ define([
             { id: 'group1', tools: ['sqrt', 'frac', 'exp', 'log', 'ln'] },
             { id: 'group2', tools: ['e', 'infinity', 'colon', 'lbrack', 'rbrack', 'lparen', 'rparen'] },
             { id: 'group3', tools: ['lte', 'gte'] },
-            { id: 'group4', tools: ['exp0', 'pi', 'sin', 'cos'] },
+            { id: 'group4', tools: ['degrees', 'pi', 'sin', 'cos'] },
             { id: 'group5', tools: ['times', 'divide', 'plusminus', 'equals'] },
             { id: 'group6', tools: ['equiv', 'sim'] },
-            { id: 'group7', tools: ['parallel', 'perp', 'perp2'] },
+            { id: 'group7', tools: ['parallel', 'perp'] },
             { id: 'group8', tools: ['triangle', 'angle'] },
             { id: 'group9', tools: ['segment', 'vector', 'ray', 'line', 'arc', ] },
             { id: 'group10', tools: ['alpha', 'beta', 'theta', 'delta'] },
@@ -180,7 +179,6 @@ define([
                         mathField.cmd(latex);
                         break;
                     case 'write':
-                        console.log('WRITE', latex);
                         mathField.write(latex);
                         break;
                 }
