@@ -100,14 +100,14 @@ class Template extends ResponseProcessing implements Rule
      * @var string
      */
     public const MAP_RESPONSE_POINT_qtiv2p2 = 'http://www.imsglobal.org/question/qti_v2p2/rptemplates/map_response_point';
-    // phpcs:enable Generic.NamingConventions.UpperCaseConstantName,Generic.Files.LineLength
 
     /**
      * QTI 3.0
      */
-    public const MAP_RESPONSE_POINT_qtiv3 = 'https://www.imsglobal.org/question/qti_v3p0/rptemplates/map_response_point';
-    public const MATCH_CORRECT_qtiv3 = 'https://www.imsglobal.org/question/qti_v3p0/rptemplates/match_correct.xml';
-    public const MAP_RESPONSE_qtiv3 = 'https://www.imsglobal.org/question/qti_v3p0/rptemplates//map_response';
+    public const MAP_RESPONSE_POINT_QTI_V3 = 'https://www.imsglobal.org/question/qti_v3p0/rptemplates/map_response_point';
+    public const MATCH_CORRECT_QTI_V3 = 'https://www.imsglobal.org/question/qti_v3p0/rptemplates/match_correct.xml';
+    public const MAP_RESPONSE_QTI_V3 = 'https://www.imsglobal.org/question/qti_v3p0/rptemplates//map_response';
+    // phpcs:enable Generic.NamingConventions.UpperCaseConstantName,Generic.Files.LineLength
 
     /**
      * Template to apply when no response processing should take place
@@ -201,19 +201,19 @@ class Template extends ResponseProcessing implements Rule
             case self::MATCH_CORRECT:
             case self::MATCH_CORRECT_qtiv2p0:
             case self::MATCH_CORRECT_qtiv2p2:
-            case self::MATCH_CORRECT_qtiv3:
+            case self::MATCH_CORRECT_QTI_V3:
                 $this->uri = self::MATCH_CORRECT;
                 break;
             case self::MAP_RESPONSE:
             case self::MAP_RESPONSE_qtiv2p0:
             case self::MAP_RESPONSE_qtiv2p2:
-            case self::MAP_RESPONSE_qtiv3:
+            case self::MAP_RESPONSE_QTI_V3:
                 $this->uri = self::MAP_RESPONSE;
                 break;
             case self::MAP_RESPONSE_POINT:
             case self::MAP_RESPONSE_POINT_qtiv2p0:
             case self::MAP_RESPONSE_POINT_qtiv2p2:
-            case self::MAP_RESPONSE_POINT_qtiv3:
+            case self::MAP_RESPONSE_POINT_QTI_V3:
                 $this->uri = self::MAP_RESPONSE_POINT;
                 break;
             case self::NONE:

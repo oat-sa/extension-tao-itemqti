@@ -48,7 +48,4 @@ class ItemConverterTest extends TestCase
         //Delete file
         unlink($modifiedFile);
     }
-
-
-
 }
