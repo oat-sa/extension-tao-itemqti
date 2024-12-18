@@ -104,12 +104,14 @@ class ManifestConverter
         $resources = $dom->getElementsByTagName('resource');
 
         foreach ($resources as $resource) {
-            //Each resource type will be handle by different converter
-            $resourceHrefs[$resource->getAttribute('type')][] = $resource->getAttribute('href');
-            $resource->setAttribute(
-                'type',
-                self::RESOURCE_TYPE_REPLACEMENTS[$resource->getAttribute('type')]
-            );
+            // If resource type is mapped replace it with mapped value
+            if (isset(self::RESOURCE_TYPE_REPLACEMENTS[$resource->getAttribute('type')])) {
+                $resource->setAttribute(
+                    'type',
+                    self::RESOURCE_TYPE_REPLACEMENTS[$resource->getAttribute('type')]
+                );
+            }
+
         }
 
         // Save the modified XML

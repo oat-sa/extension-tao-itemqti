@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\qti\converter;
 
 use common_Logger;
+use DOMComment;
 use DOMDocument;
 use DOMElement;
 use DOMText;
@@ -68,7 +69,7 @@ abstract class AbstractQtiConverter
     private function convertRootElementsRecursively(array $children): void
     {
         foreach ($children as $child) {
-            if ($child instanceof DOMText) {
+            if ($child instanceof DOMText || $child instanceof DOMComment) {
                 continue;
             }
 
