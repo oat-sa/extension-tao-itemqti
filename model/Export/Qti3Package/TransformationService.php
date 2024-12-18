@@ -47,9 +47,7 @@ class TransformationService
         foreach ($sourceElement->attributes as $attribute) {
             if (!str_starts_with($attribute->nodeName, 'xmlns') &&
                 $attribute->nodeName !== 'xsi:schemaLocation') {
-
                 $attrName = $this->camelToHyphen($attribute->nodeName);
-
                 if (!empty($attrName)) {
                     $targetElement->setAttribute($attrName, $attribute->value);
                 }
