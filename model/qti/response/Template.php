@@ -107,6 +107,8 @@ class Template extends ResponseProcessing implements Rule
     public const MAP_RESPONSE_POINT_QTI_V3 = 'https://www.imsglobal.org/question/qti_v3p0/rptemplates/map_response_point';
     public const MATCH_CORRECT_QTI_V3 = 'https://www.imsglobal.org/question/qti_v3p0/rptemplates/match_correct.xml';
     public const MAP_RESPONSE_QTI_V3 = 'https://www.imsglobal.org/question/qti_v3p0/rptemplates//map_response';
+    public const SPEC_RESPONSE_QTI_V3 = 'https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct.xml';
+
     // phpcs:enable Generic.NamingConventions.UpperCaseConstantName,Generic.Files.LineLength
 
     /**
@@ -202,6 +204,8 @@ class Template extends ResponseProcessing implements Rule
             case self::MATCH_CORRECT_qtiv2p0:
             case self::MATCH_CORRECT_qtiv2p2:
             case self::MATCH_CORRECT_QTI_V3:
+            case self::SPEC_RESPONSE_QTI_V3:
+
                 $this->uri = self::MATCH_CORRECT;
                 break;
             case self::MAP_RESPONSE:

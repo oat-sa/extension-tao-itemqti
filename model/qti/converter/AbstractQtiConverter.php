@@ -22,9 +22,12 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti\converter;
 
+use common_Logger;
 use DOMDocument;
 use DOMElement;
 use DOMText;
+use DOMXPath;
+use oat\taoQtiItem\model\ValidationService;
 
 abstract class AbstractQtiConverter
 {
@@ -38,10 +41,12 @@ abstract class AbstractQtiConverter
     private const QUALIFIED_NAME_XSI = self::QUALIFIED_NAME_NS . ':xsi';
 
     private CaseConversionService $caseConversionService;
+    private ValidationService $validationService;
 
-    public function __construct(CaseConversionService $caseConversionService)
+    public function __construct(CaseConversionService $caseConversionService, ValidationService $validationService)
     {
         $this->caseConversionService = $caseConversionService;
+        $this->validationService = $validationService;
     }
 
     public function convertToQti2(string $filename): void
@@ -51,11 +56,12 @@ abstract class AbstractQtiConverter
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
         $dom->load($filename);
-        $rootElement = $dom->firstChild;
-        if ($rootElement instanceof DOMElement) {
-            $this->convertRootElementsRecursively(iterator_to_array($rootElement->childNodes));
-            $this->convertRootElement($rootElement);
-            $dom->save($filename);
+        foreach (iterator_to_array($dom->childNodes) as $child) {
+            if ($child instanceof DOMElement && $child->tagName === $this->getRootElement()) {
+                $this->convertRootElementsRecursively(iterator_to_array($child->childNodes));
+                $this->convertRootElement($child);
+                $dom->save($filename);
+            }
         }
     }
 
@@ -69,7 +75,7 @@ abstract class AbstractQtiConverter
             if ($child instanceof DOMElement) {
                 $childNodes = null;
                 if ($child->hasChildNodes()) {
-                    $this->convertRootElementsRecursively(iterator_to_array($child->childNodes));
+                    $this->convertRootElementsRecursively(iterator_to_array($child->childNodes), $report);
                     $childNodes = $child->childNodes;
                 }
             }
@@ -78,8 +84,16 @@ abstract class AbstractQtiConverter
             // When elements has child we do not want to create literal value
             $nodeValue = $child->childElementCount === 0 ? $child->nodeValue : '';
 
+            $convertedTag = $this->caseConversionService->kebabToCamelCase($tagName);
+            // Check if converted tag name is valid against defined QTI 2.2 namespace
+            if (!$this->isTagValid($convertedTag)) {
+                common_Logger::w(sprintf('Invalid tag name: %s, When importing', $convertedTag));
+                $child->remove();
+                continue;
+            }
+
             $newElement = $child->ownerDocument->createElement(
-                $this->caseConversionService->kebabToCamelCase($tagName),
+                $convertedTag,
                 $nodeValue
             );
 
@@ -155,4 +169,24 @@ abstract class AbstractQtiConverter
     }
 
     abstract protected function getRootElement(): string;
+
+    private function isTagValid(string $convertedTag): bool
+    {
+        $validationSchema = $this->validationService->getContentValidationSchema(self::QTI_22_NS);
+        foreach ($validationSchema as $schema) {
+            $xsdDom = new DOMDocument();
+            $xsdDom->load($schema);
+            $xpath = new DOMXPath($xsdDom);
+            $xpath->registerNamespace('xs', 'http://www.w3.org/2001/XMLSchema');
+            $elements = $xpath->query(sprintf("//xs:element[@name='%s']", $convertedTag));
+
+            if ($elements->count() === 0) {
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
 }

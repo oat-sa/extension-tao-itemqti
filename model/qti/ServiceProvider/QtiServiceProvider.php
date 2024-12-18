@@ -29,6 +29,7 @@ use oat\taoQtiItem\model\qti\converter\ItemConverter;
 use oat\taoQtiItem\model\qti\converter\ManifestConverter;
 use oat\taoQtiItem\model\qti\Identifier\Service\QtiIdentifierSetter;
 use oat\taoQtiItem\model\qti\Service;
+use oat\taoQtiItem\model\ValidationService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -55,6 +56,7 @@ class QtiServiceProvider implements ContainerServiceProviderInterface
         $services->set(ItemConverter::class)
             ->args([
                 service(CaseConversionService::class),
+                service(ValidationService::SERVICE_ID)
             ])
             ->public();
     }
