@@ -24,10 +24,43 @@ namespace oat\taoQtiItem\model\qti\converter;
 
 class ItemConverter extends AbstractQtiConverter
 {
+    private const CUSTOM_ELEMENT_MAPPING = [
+        [
+            'tag' => 'img',
+            'parent' => 'graphicOrderInteraction',
+            'replace' => 'object',
+        ],
+        [
+            'tag' => 'img',
+            'parent' => 'graphicAssociateInteraction',
+            'replace' => 'object',
+        ],
+        [
+            'tag' => 'img',
+            'parent' => 'graphicGapMatchInteraction',
+            'replace' => 'object',
+        ],
+        [
+            'tag' => 'img',
+            'parent' => 'gapMatchInteraction',
+            'replace' => 'object',
+        ],
+    ];
     private const ROOT_ELEMENT = 'qti-assessment-item';
-
     protected function getRootElement(): string
     {
         return self::ROOT_ELEMENT;
+    }
+
+
+    protected function customElementMapping(string $convertedTag, string $parentTag): ?string
+    {
+        $match = array_filter(self::CUSTOM_ELEMENT_MAPPING, function ($element) use ($convertedTag, $parentTag) {
+            return $element['tag'] === $convertedTag && $element['parent'] === $parentTag;
+        });
+
+        $result = reset($match);
+
+        return !empty($result) ? $result['replace'] : null;
     }
 }

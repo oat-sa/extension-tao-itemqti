@@ -87,6 +87,11 @@ abstract class AbstractQtiConverter
             $nodeValue = $child->childElementCount === 0 ? $child->nodeValue : '';
 
             $convertedTag = $this->caseConversionService->kebabToCamelCase($tagName);
+            //if custom mapping is defined we should use it instead convertedTag
+            $convertedTag = $this->customElementMapping(
+                $convertedTag,
+                $this->caseConversionService->kebabToCamelCase($child->parentNode->tagName)
+            ) ?? $convertedTag;
             // Check if converted tag name is valid against defined QTI 2.2 namespace
             if (!$this->isTagValid($convertedTag)) {
                 common_Logger::w(sprintf('Invalid tag name: %s, When importing', $convertedTag));
@@ -204,4 +209,6 @@ abstract class AbstractQtiConverter
             && $child->getAttributeNode('xmlns') !== null
             && $child->getAttributeNode('xmlns')->nodeValue === self::QTI_3_NS;
     }
+
+    abstract protected function customElementMapping(string $convertedTag, string $parentTag): ?string;
 }
