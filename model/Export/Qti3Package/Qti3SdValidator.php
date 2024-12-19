@@ -27,7 +27,7 @@ use SimpleXMLElement;
 class Qti3SdValidator
 {
     private const LOCAL_XSD_PATH = __DIR__ . '/../../qti/data/qtiv3p0/imsqti_asiv3p0_v1p0.xsd';
-    const SCHEMA = 'http://www.w3.org/2001/XMLSchema';
+    private const SCHEMA = 'http://www.w3.org/2001/XMLSchema';
 
     private ?array $qtiElementNames = null;
 
