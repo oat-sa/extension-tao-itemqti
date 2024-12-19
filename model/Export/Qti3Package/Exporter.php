@@ -25,6 +25,7 @@ namespace oat\taoQtiItem\model\Export\Qti3Package;
 use common_ext_ExtensionsManager;
 use core_kernel_classes_Resource;
 use DOMDocument;
+use DOMException;
 use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 use tao_helpers_Display;
 use taoItems_models_classes_TemplateRenderer as TemplateRenderer;
@@ -77,7 +78,7 @@ class Exporter extends QTIPackedItemExporter
 
 
     /**
-     * @throws \DOMException
+     * @throws DOMException
      */
     protected function itemContentPostProcessing($content): string
     {
