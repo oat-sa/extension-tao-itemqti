@@ -33,6 +33,7 @@ use oat\taoQtiItem\model\ValidationService;
 abstract class AbstractQtiConverter
 {
     private const QTI_22_NS = 'http://www.imsglobal.org/xsd/imsqti_v2p2';
+    private const QTI_3_NS = 'http://www.imsglobal.org/xsd/imsqtiasi_v3p0';
     private const XSI_NAMESPACE = 'http://www.w3.org/2001/XMLSchema-instance';
     private const XSI_SCHEMA_LOCATION = 'xsi:schemaLocation';
     private const SCHEMA_LOCATION = 'http://www.imsglobal.org/xsd/imsqti_v2p2 ' .
@@ -58,7 +59,7 @@ abstract class AbstractQtiConverter
         $dom->formatOutput = true;
         $dom->load($filename);
         foreach (iterator_to_array($dom->childNodes) as $child) {
-            if ($child instanceof DOMElement && $child->tagName === $this->getRootElement()) {
+            if ($this->canBeConverted($child)) {
                 $this->convertRootElementsRecursively(iterator_to_array($child->childNodes));
                 $this->convertRootElement($child);
                 $dom->save($filename);
@@ -189,5 +190,18 @@ abstract class AbstractQtiConverter
         }
 
         return false;
+    }
+
+    /**
+     * We can only apply conversion into root element equal to defined root element const
+     * We should ignore other dom object other DOMElement
+     * We should only apply if the namespace is equal to QTI 3.0
+     */
+    private function canBeConverted(mixed $child): bool
+    {
+        return $child instanceof DOMElement
+            && $child->tagName === $this->getRootElement()
+            && $child->getAttributeNode('xmlns') !== null
+            && $child->getAttributeNode('xmlns')->nodeValue === self::QTI_3_NS;
     }
 }
