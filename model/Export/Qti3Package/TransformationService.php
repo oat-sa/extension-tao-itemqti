@@ -27,40 +27,22 @@ use DOMElement;
 
 class TransformationService
 {
-    private const QTI_ELEMENT_PREFIXES = [
-        'response',
-        'outcome',
-        'item',
-        'choice',
-        'simple',
-        'default',
-        'value'
-    ];
+    private Qti3SdValidator $validator;
 
-    public function transformAttributes(DOMElement $sourceElement, DOMElement $targetElement): void
+    public function __construct()
     {
-        if (!$sourceElement->hasAttributes()) {
-            return;
-        }
-
-        foreach ($sourceElement->attributes as $attribute) {
-            if (
-                !str_starts_with($attribute->nodeName, 'xmlns') &&
-                $attribute->nodeName !== 'xsi:schemaLocation'
-            ) {
-                $attrName = $this->camelToHyphen($attribute->nodeName);
-                if (!empty($attrName)) {
-                    $targetElement->setAttribute($attrName, $attribute->value);
-                }
-            }
-        }
+        $this->validator = new Qti3SdValidator();
     }
 
     public function transformChildren(DOMElement $oldElement, DOMElement $newParent, DOMDocument $newDom): void
     {
         foreach ($oldElement->childNodes as $child) {
             if ($child instanceof DOMElement) {
-                $newName = $this->isQtiElement($child->nodeName) ? $this->getElementName($child) : $child->nodeName;
+                $newName = $this->createQtiElementName($child->nodeName);
+
+                if (!$this->validator->isQtiElementName($newName)) {
+                    $newName = $child->nodeName;
+                }
 
                 $newElement = $newDom->createElement($newName);
 
@@ -79,32 +61,27 @@ class TransformationService
         }
     }
 
-
-    public function getElementName(DOMElement $element): string
+    public function transformAttributes(DOMElement $sourceElement, DOMElement $targetElement): void
     {
-        return sprintf('qti-%s', $this->camelToHyphen($element->nodeName));
-    }
-
-    public function cleanNamespaces(string $content): string
-    {
-        $content = preg_replace('/\s*xmlns[^=]*="[^"]*"\s*/i', '', $content);
-        $content = preg_replace('/<([a-z0-9]+):([^>\s]+)(\s+[^>]*)?>/i', '<$2$3>', $content);
-        $content = preg_replace('/<\/[a-z0-9]+:([^>]+)>/i', '</$1>', $content);
-        return preg_replace('/\s{2,}/', ' ', $content);
-    }
-
-    private function isQtiElement(string $nodeName): bool
-    {
-        foreach (self::QTI_ELEMENT_PREFIXES as $prefix) {
-            if (str_starts_with($nodeName, $prefix)) {
-                return true;
-            }
-            if (str_ends_with($nodeName, ucfirst($prefix))) {
-                return true;
-            }
+        if (!$sourceElement->hasAttributes()) {
+            return;
         }
 
-        return false;
+        foreach ($sourceElement->attributes as $attribute) {
+            if (!str_starts_with($attribute->nodeName, 'xmlns') 
+                && $attribute->nodeName !== 'xsi:schemaLocation'
+            ) {
+                $attrName = $this->camelToHyphen($attribute->nodeName);
+                if (!empty($attrName)) {
+                    $targetElement->setAttribute($attrName, $attribute->value);
+                }
+            }
+        }
+    }
+
+    public function createQtiElementName(string $nodeName): string
+    {
+        return sprintf('qti-%s', $this->camelToHyphen($nodeName));
     }
 
     private function camelToHyphen(string $string): string

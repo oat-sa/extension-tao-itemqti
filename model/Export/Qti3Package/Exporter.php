@@ -84,16 +84,12 @@ class Exporter extends QTIPackedItemExporter
         $dom = new DOMDocument('1.0', 'UTF-8');
         $dom->loadXML($content);
 
-        $content = $this->transformationService->cleanNamespaces($content);
-
-        $dom->loadXML($content);
-
         $newDom = new DOMDocument('1.0', 'UTF-8');
         $newDom->preserveWhiteSpace = false;
         $newDom->formatOutput = true;
 
         $oldRoot = $dom->documentElement;
-        $newRoot = $newDom->createElement($this->transformationService->getElementName($oldRoot));
+        $newRoot = $newDom->createElement($this->transformationService->createQtiElementName($oldRoot->nodeName));
 
         //QTI3 namespace
         $newRoot->setAttribute('xmlns', self::QTI_SCHEMA_NAMESPACE);
