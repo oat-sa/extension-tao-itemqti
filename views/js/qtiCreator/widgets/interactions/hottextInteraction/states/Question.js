@@ -139,7 +139,7 @@ define([
             } else {
                 if (
                     $cloneContent.text() === $cloneContent.html() &&
-                    wrapper.wrapWith($newHottextClone)
+                    wrapper.wrapWith($newHottextClone, range)
                 ) {
                     await this.createNewHottext($newHottextClone);
                 } else {
