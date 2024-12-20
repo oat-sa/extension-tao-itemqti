@@ -229,7 +229,7 @@ define([
         var self = this,
             popupOptions = {
                 windowTitle: 'LaTeX (WYSIWYG)',
-                width: 640,
+                width: 655,
                 height: 280,
                 minWidth: 460,
                 maxWidth: 960,
