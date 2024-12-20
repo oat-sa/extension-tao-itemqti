@@ -107,6 +107,7 @@ define([
 
             //se the default value for the score default value
             response.mappingAttributes.defaultValue = 0;
+            response.mappingAttributes.lowerBound = 0;
 
             //set renderer
             renderer = this.getRenderer();
