@@ -25,7 +25,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/ExtendedTextInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
-], function (_, __, stringResponseHelper, stateFactory, Correct, renderer, instructionMgr, answerState) {
+], function (_, __, stringResponseHelper, stateFactory, Custom, renderer, instructionMgr, answerState) {
     'use strict';
 
     function start() {
@@ -56,5 +56,5 @@ define([
         this.widget.$container.off('responseChange.qti-widget');
     }
 
-    return stateFactory.create(Correct, start, exit);
+    return stateFactory.create(Custom, start, exit);
 });
