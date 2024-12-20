@@ -15,9 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
- *
+ * Copyright (c) 2015-2024 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\taoQtiItem\model;
@@ -41,12 +39,19 @@ class ValidationService extends ConfigurableService
         'http://www.imsglobal.org/xsd/imsqti_v2p2' => [
             '/qti/data/qtiv2p2p4/imsqti_v2p2p4.xsd'
         ],
+        'http://www.imsglobal.org/xsd/imsqtiasi_v3p0' => [
+            '/qti/data/qtiv3p0/imsqti_asiv3p0_v1p0.xsd'
+        ],
         'default' => [
             '/qti/data/qtiv2p1p1/imsqti_v2p1p1.xsd'
         ]
     ];
 
     private $manifestValidation = [
+        'http://www.imsglobal.org/xsd/qti/qtiv3p0/imscp_v1p1' => [
+            '/qti/data/imscp_v1p1.xsd',
+            '/qti/data/qtiv3p0/imsqtiv3p0_imscpv1p2_v1p0.xsd'
+        ],
         'default' => [
             '/qti/data/imscp_v1p1.xsd',
             '/qti/data/qtiv2p2/qtiv2p2_imscpv1p2_v1p0.xsd',
