@@ -37,9 +37,7 @@ class Handler extends QtiPackageExportHandler
 
     protected function createExporter($item, ZipArchive $zipArchive, DOMDocument $manifest = null): Exporter
     {
-        /**
- * @var ExporterFactory $factory 
-*/
+        /** @var ExporterFactory $factory */
         $factory = $this->getServiceManager()->getContainer()->get(ExporterFactory::class);
         return $factory->create($item, $zipArchive, $manifest);
     }

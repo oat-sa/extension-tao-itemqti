@@ -74,9 +74,6 @@ class Exporter extends QTIPackedItemExporter
      */
     protected function itemContentPostProcessing($content): string
     {
-        /**
- * @var TransformationService $transformationService 
-*/
         $transformationService = $this->getTransformationService();
         $dom = new DOMDocument('1.0', 'UTF-8');
         $dom->loadXML($content);
