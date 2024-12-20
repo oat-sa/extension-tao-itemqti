@@ -27,11 +27,11 @@ use DOMElement;
 
 class TransformationService
 {
-    private Qti3SdValidator $validator;
+    private Qti3XsdValidator $validator;
 
-    public function __construct()
+    public function __construct(Qti3XsdValidator $validator)
     {
-        $this->validator = new Qti3SdValidator();
+        $this->validator = $validator;
     }
 
     public function transformChildren(DOMElement $oldElement, DOMElement $newParent, DOMDocument $newDom): void
@@ -68,9 +68,8 @@ class TransformationService
         }
 
         foreach ($sourceElement->attributes as $attribute) {
-            if (
-                !str_starts_with($attribute->nodeName, 'xmlns') &&
-                $attribute->nodeName !== 'xsi:schemaLocation'
+            if (!str_starts_with($attribute->nodeName, 'xmlns') 
+                && $attribute->nodeName !== 'xsi:schemaLocation'
             ) {
                 $attrName = $this->camelToHyphen($attribute->nodeName);
                 if (!empty($attrName)) {

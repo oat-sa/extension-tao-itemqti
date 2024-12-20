@@ -23,13 +23,11 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\Export\Qti3Package;
 
 use common_ext_ExtensionsManager;
-use core_kernel_classes_Resource;
 use DOMDocument;
 use DOMException;
 use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 use tao_helpers_Display;
 use taoItems_models_classes_TemplateRenderer as TemplateRenderer;
-use ZipArchive;
 
 class Exporter extends QTIPackedItemExporter
 {
@@ -39,13 +37,7 @@ class Exporter extends QTIPackedItemExporter
     // phpcs:ignore Generic.Files.LineLength.TooLong
     private const XSI_SCHEMA_LOCATION_XSD = 'https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_asiv3p0_v1p0.xsd';
 
-    private TransformationService $transformationService;
-
-    public function __construct(core_kernel_classes_Resource $item, ZipArchive $zip, DOMDocument $manifest = null)
-    {
-        parent::__construct($item, $zip, $manifest);
-        $this->transformationService = new TransformationService();
-    }
+    private ?TransformationService $transformationService = null;
 
     /**
      * @throws \common_ext_ExtensionException
@@ -82,6 +74,10 @@ class Exporter extends QTIPackedItemExporter
      */
     protected function itemContentPostProcessing($content): string
     {
+        /**
+ * @var TransformationService $transformationService 
+*/
+        $transformationService = $this->getTransformationService();
         $dom = new DOMDocument('1.0', 'UTF-8');
         $dom->loadXML($content);
 
@@ -90,7 +86,7 @@ class Exporter extends QTIPackedItemExporter
         $newDom->formatOutput = true;
 
         $oldRoot = $dom->documentElement;
-        $newRoot = $newDom->createElement($this->transformationService->createQtiElementName($oldRoot->nodeName));
+        $newRoot = $newDom->createElement($transformationService->createQtiElementName($oldRoot->nodeName));
 
         //QTI3 namespace
         $newRoot->setAttribute('xmlns', self::QTI_SCHEMA_NAMESPACE);
@@ -100,12 +96,22 @@ class Exporter extends QTIPackedItemExporter
             sprintf('%s %s', self::XSI_SCHEMA_LOCATION, self::XSI_SCHEMA_LOCATION_XSD)
         );
 
-        $this->transformationService->transformAttributes($oldRoot, $newRoot);
+        $transformationService->transformAttributes($oldRoot, $newRoot);
 
         $newDom->appendChild($newRoot);
 
-        $this->transformationService->transformChildren($oldRoot, $newRoot, $newDom);
+        $transformationService->transformChildren($oldRoot, $newRoot, $newDom);
 
         return $newDom->saveXML();
+    }
+
+    public function setTransformationService(TransformationService $service): void
+    {
+        $this->transformationService = $service;
+    }
+
+    public function getTransformationService(): TransformationService
+    {
+        return $this->transformationService;
     }
 }

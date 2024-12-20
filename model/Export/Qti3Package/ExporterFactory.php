@@ -24,28 +24,22 @@ namespace oat\taoQtiItem\model\Export\Qti3Package;
 
 use core_kernel_classes_Resource;
 use DOMDocument;
-use oat\taoQtiItem\model\Export\QtiPackageExportHandler;
-use tao_helpers_form_Form;
 use ZipArchive;
 
-class Handler extends QtiPackageExportHandler
+class ExporterFactory
 {
-    public function getLabel(): string
+    private TransformationService $transformationService;
+
+    public function __construct(TransformationService $transformationService)
     {
-        return __('QTI Package 3.0');
+        $this->transformationService = $transformationService;
     }
 
-    protected function createExporter($item, ZipArchive $zipArchive, DOMDocument $manifest = null): Exporter
+    public function create(core_kernel_classes_Resource $item, ZipArchive $zip, ?DOMDocument $manifest = null): Exporter
     {
-        /**
- * @var ExporterFactory $factory 
-*/
-        $factory = $this->getServiceManager()->getContainer()->get(ExporterFactory::class);
-        return $factory->create($item, $zipArchive, $manifest);
-    }
+        $exporter = new Exporter($item, $zip, $manifest);
+        $exporter->setTransformationService($this->transformationService);
 
-    public function getExportForm(core_kernel_classes_Resource $resource): tao_helpers_form_Form
-    {
-        return (new Form($this->getFormData($resource)))->getForm();
+        return $exporter;
     }
 }

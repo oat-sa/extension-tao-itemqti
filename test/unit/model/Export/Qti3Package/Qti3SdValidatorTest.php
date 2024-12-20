@@ -22,17 +22,20 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\Export\Qti3Package;
 
-use oat\taoQtiItem\model\Export\Qti3Package\Qti3SdValidator;
+use oat\taoQtiItem\model\Export\Qti3Package\Qti3XsdValidator;
+use oat\taoQtiItem\model\ValidationService;
 use PHPUnit\Framework\TestCase;
 
 class Qti3SdValidatorTest extends TestCase
 {
-    private Qti3SdValidator $validator;
+    private Qti3XsdValidator $validator;
+    private ValidationService $validationService;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->validator = new Qti3SdValidator();
+        $this->validationService = new ValidationService();
+        $this->validator = new Qti3XsdValidator($this->validationService);
     }
 
     /**
