@@ -124,7 +124,7 @@ define([
             },
             arc: {
                 label: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mover accent="true"><mrow><mi>A</mi><mi>B</mi></mrow><mo stretchy="true" style="font-size: 150%">&#x2322;</mo></mover></math>',
-                latex: '\\wideparen{AB}',
+                latex: '\\overparen{AB}',
                 fn: 'write',
                 desc: __('Arc')
             },

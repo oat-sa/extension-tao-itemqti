@@ -528,11 +528,11 @@
   padding: 0.1em 0.3em;
   vertical-align: baseline;
 }
-.mq-math-mode .mq-wideparen {
+.mq-math-mode .mq-overparen {
   position: relative;
   padding-top: 0.5em;
 }
-.mq-math-mode .mq-wideparen:before {
+.mq-math-mode .mq-overparen:before {
   content: '';
   position: absolute;
   top: 0.3em;

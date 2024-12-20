@@ -6513,8 +6513,8 @@ define(['jquery'], function(jQuery) {
             '<span class="mq-empty-box">&0</span>' +
             '</span></span>');
     };
-    LatexCmds.wideparen = function () {
-        return new Style('\\wideparen', 'span', 'class="mq-non-leaf mq-wideparen"', 'Wideparen');
+    LatexCmds.overparen = function () {
+        return new Style('\\overparen', 'span', 'class="mq-non-leaf mq-overparen"', 'overparen');
     };
     var StackrelCommand = /** @class */ (function (_super) {
         __extends(StackrelCommand, _super);
@@ -6536,14 +6536,10 @@ define(['jquery'], function(jQuery) {
             // Remove unused string import
             var block = latexMathParser.block;
             var optWhitespace = Parser.optWhitespace;
-            return optWhitespace
-                .then(block)
-                .then(function (top) {
+            return optWhitespace.then(block).then(function (top) {
                 self.blocks = [top];
                 top.adopt(self, 0, 0);
-                return optWhitespace
-                    .then(block)
-                    .map(function (bottom) {
+                return optWhitespace.then(block).map(function (bottom) {
                     bottom.adopt(self, top, 0);
                     self.blocks.push(bottom); // Add non-null assertion
                     return self;
@@ -6556,7 +6552,11 @@ define(['jquery'], function(jQuery) {
             this.blocks[1].adopt(this, this.blocks[0], 0);
         };
         StackrelCommand.prototype.latex = function () {
-            return '\\stackrel{' + this.blocks[0].latex() + '}{' + this.blocks[1].latex() + '}'; // Add non-null assertions
+            return ('\\stackrel{' +
+                this.blocks[0].latex() +
+                '}{' +
+                this.blocks[1].latex() +
+                '}'); // Add non-null assertions
         };
         return StackrelCommand;
     }(MathCommand));
