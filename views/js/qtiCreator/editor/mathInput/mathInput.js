@@ -86,7 +86,7 @@ define([
             equals:     { label: '=',           latex: '=',             fn: 'write',    desc: __('Equals') },
 
             // Comparison
-            equiv:      { label: '≡',           latex: '\\equiv',       fn: 'cmd',      desc: __('Equivalent') },
+            cong:       { label: '≅',           latex: '\\cong',        fn: 'cmd',      desc: __('Congruent') },
             sim:        { label: '~',           latex: '\\sim',         fn: 'cmd',      desc: __('Similar') },
 
             // Geometry
@@ -142,7 +142,7 @@ define([
             { id: 'group3', tools: ['lte', 'gte'] },
             { id: 'group4', tools: ['degrees', 'pi', 'sin', 'cos'] },
             { id: 'group5', tools: ['times', 'divide', 'plusminus', 'equals'] },
-            { id: 'group6', tools: ['equiv', 'sim'] },
+            { id: 'group6', tools: ['cong', 'sim'] },
             { id: 'group7', tools: ['parallel', 'perp'] },
             { id: 'group8', tools: ['triangle', 'angle'] },
             { id: 'group9', tools: ['segment', 'vector', 'ray', 'line', 'arc', ] },
@@ -264,6 +264,16 @@ define([
                         handlers: {
                             edit: function onChange() {
                                 self.trigger('change', self.mathField.latex());
+                            }
+                        },
+                        keystroke: function(key) {
+                            if (key === '[') {
+                                self.mathField.cmd('\\lbrack');
+                                return false;
+                            }
+                            if (key === ']') {
+                                self.mathField.cmd('\\rbrack');
+                                return false;
                             }
                         }
                     };
