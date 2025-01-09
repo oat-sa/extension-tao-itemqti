@@ -265,16 +265,6 @@ define([
                             edit: function onChange() {
                                 self.trigger('change', self.mathField.latex());
                             }
-                        },
-                        keystroke: function(key) {
-                            if (key === '[') {
-                                self.mathField.cmd('\\lbrack');
-                                return false;
-                            }
-                            if (key === ']') {
-                                self.mathField.cmd('\\rbrack');
-                                return false;
-                            }
                         }
                     };
 
