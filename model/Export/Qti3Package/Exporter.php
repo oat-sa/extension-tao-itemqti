@@ -22,9 +22,11 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\Export\Qti3Package;
 
+use common_ext_ExtensionException;
 use common_ext_ExtensionsManager;
 use DOMDocument;
 use DOMException;
+use Exception;
 use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 use tao_helpers_Display;
 use taoItems_models_classes_TemplateRenderer as TemplateRenderer;
@@ -40,8 +42,8 @@ class Exporter extends QTIPackedItemExporter
     private ?TransformationService $transformationService = null;
 
     /**
-     * @throws \common_ext_ExtensionException
-     * @throws \Exception
+     * @throws common_ext_ExtensionException
+     * @throws Exception
      */
     protected function renderManifest(array $options, array $qtiItemData): DOMDocument
     {
