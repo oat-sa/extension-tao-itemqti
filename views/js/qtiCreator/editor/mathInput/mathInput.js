@@ -66,8 +66,8 @@ define([
             e:          { label: '&#8494;',     latex: '\\mathrm{e}',   fn: 'write',    desc: __('Euler\'s constant') },
             infinity:   { label: '&#8734;',     latex: '\\infty',       fn: 'cmd',      desc: __('Infinity') },
             colon:      { label: ':',           latex: ':',             fn: 'write',    desc: __('Colon') },
-            lbrack:     { label: '[',           latex: '\\lbrack',      fn: 'cmd',      desc: __('Left bracket') },
-            rbrack:     { label: ']',           latex: '\\rbrack',      fn: 'cmd',      desc: __('Right bracket') },
+            lbrack:     { label: '[',           latex: '[',             fn: 'typedText',desc: __('Left bracket') },
+            rbrack:     { label: ']',           latex: ']',             fn: 'typedText',desc: __('Right bracket') },
             lparen:     { label: '(',           latex: '(',             fn: 'write',    desc: __('Left parenthesis') },
             rparen:     { label: ')',           latex: ')',             fn: 'write',    desc: __('Right parenthesis') },
             lte:        { label: '&le;',        latex: '\\le',          fn: 'cmd',      desc: __('Less than or equal') },
@@ -180,6 +180,9 @@ define([
                         break;
                     case 'write':
                         mathField.write(latex);
+                        break;
+                    case 'typedText':
+                        mathField.typedText(latex);
                         break;
                 }
                 mathField.focus();
