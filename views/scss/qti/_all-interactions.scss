@@ -10,6 +10,13 @@
     .instruction-container {
         clear: both;
     }
+
+    ruby rt {
+        // Chrome >=128 and Firefox support
+        ruby-align: start;
+        // Safari support
+        text-align: left;
+    }
 }
 
 .__custom__remove-instructions, .remove-instructions {
