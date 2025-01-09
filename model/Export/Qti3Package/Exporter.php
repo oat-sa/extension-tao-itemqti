@@ -38,7 +38,7 @@ class Exporter extends QTIPackedItemExporter
     private const XSI_SCHEMA_LOCATION = 'http://www.imsglobal.org/xsd/imsqtiasi_v3p0';
     // phpcs:ignore Generic.Files.LineLength.TooLong
     private const XSI_SCHEMA_LOCATION_XSD = 'https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_asiv3p0_v1p0.xsd';
-    const IMSMANIFEST_QTI_30_TEMPLATE_PATH = 'model/qti/templates/imsmanifestQti30.tpl.php';
+    private const IMSMANIFEST_QTI_30_TEMPLATE_PATH = 'model/qti/templates/imsmanifestQti30.tpl.php';
 
     private ?TransformationService $transformationService = null;
 
