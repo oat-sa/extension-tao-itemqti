@@ -28,7 +28,7 @@ use DOMDocument;
 use DOMException;
 use Exception;
 use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
-use tao_helpers_Display;
+use tao_helpers_Display as Display;
 use taoItems_models_classes_TemplateRenderer as TemplateRenderer;
 
 class Exporter extends QTIPackedItemExporter
@@ -38,6 +38,7 @@ class Exporter extends QTIPackedItemExporter
     private const XSI_SCHEMA_LOCATION = 'http://www.imsglobal.org/xsd/imsqtiasi_v3p0';
     // phpcs:ignore Generic.Files.LineLength.TooLong
     private const XSI_SCHEMA_LOCATION_XSD = 'https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_asiv3p0_v1p0.xsd';
+    const IMSMANIFEST_QTI_30_TEMPLATE_PATH = 'model/qti/templates/imsmanifestQti30.tpl.php';
 
     private ?TransformationService $transformationService = null;
 
@@ -48,14 +49,14 @@ class Exporter extends QTIPackedItemExporter
     protected function renderManifest(array $options, array $qtiItemData): DOMDocument
     {
         $tpl = common_ext_ExtensionsManager::singleton()->getExtensionById('taoQtiItem')->getDir()
-            . 'model/qti/templates/imsmanifestQti30.tpl.php';
+            . self::IMSMANIFEST_QTI_30_TEMPLATE_PATH;
 
         $templateRenderer = new TemplateRenderer(
             $tpl,
             [
                 'qtiItems' => [$qtiItemData],
                 'manifestIdentifier' => 'MANIFEST-' .
-                    tao_helpers_Display::textCleaner(uniqid('tao', true), '-')
+                    Display::textCleaner(uniqid('tao', true), '-')
             ]
         );
 
