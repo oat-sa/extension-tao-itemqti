@@ -55,30 +55,98 @@ define([
      * src: https://github.com/mathquill/mathquill/issues/74
      */
     var allTools = {
-            frac:       { label: 'x/y',         latex: '\\frac',        fn: 'cmd',      desc: __('Fraction') },
+            // Basic operations and functions
             sqrt:       { label: '&radic;',     latex: '\\sqrt',        fn: 'cmd',      desc: __('Square root') },
+            frac:       { label: 'x/y',         latex: '\\frac',        fn: 'cmd',      desc: __('Fraction') },
             exp:        { label: 'x&#8319;',    latex: '^',             fn: 'cmd',      desc: __('Exponent') },
             log:        { label: 'log',         latex: '\\log',         fn: 'cmd',      desc: __('Log') },
             ln:         { label: 'ln',          latex: '\\ln',          fn: 'cmd',      desc: __('Ln') },
+
+            // Constants and brackets
             e:          { label: '&#8494;',     latex: '\\mathrm{e}',   fn: 'write',    desc: __('Euler\'s constant') },
             infinity:   { label: '&#8734;',     latex: '\\infty',       fn: 'cmd',      desc: __('Infinity') },
-            lbrack:     { label: '[',           latex: '\\lbrack',      fn: 'cmd',      desc: __('Left bracket') },
-            rbrack:     { label: ']',           latex: '\\rbrack',      fn: 'cmd',      desc: __('Right bracket') },
-            pi:         { label: '&pi;',        latex: '\\pi',          fn: 'cmd',      desc: __('Pi') },
-            cos:        { label: 'cos',         latex: '\\cos',         fn: 'cmd',      desc: __('Cosinus') },
-            sin:        { label: 'sin',         latex: '\\sin',         fn: 'cmd',      desc: __('Sinus') },
-            lte:        { label: '&le;',        latex: '\\le',          fn: 'cmd',      desc: __('Lower than or equal') },
+            colon:      { label: ':',           latex: ':',             fn: 'write',    desc: __('Colon') },
+            lbrack:     { label: '[',           latex: '[',             fn: 'typedText',desc: __('Left bracket') },
+            rbrack:     { label: ']',           latex: ']',             fn: 'typedText',desc: __('Right bracket') },
+            lparen:     { label: '(',           latex: '(',             fn: 'write',    desc: __('Left parenthesis') },
+            rparen:     { label: ')',           latex: ')',             fn: 'write',    desc: __('Right parenthesis') },
+            lte:        { label: '&le;',        latex: '\\le',          fn: 'cmd',      desc: __('Less than or equal') },
             gte:        { label: '&ge;',        latex: '\\ge',          fn: 'cmd',      desc: __('Greater than or equal') },
+
+            // Trigonometry and functions
+            degrees:    { label: 'x°',          latex: '\^\\circ',      fn: 'write',    desc: __('Degrees') },
+            pi:         { label: '&pi;',        latex: '\\pi',          fn: 'cmd',      desc: __('Pi') },
+            sin:        { label: 'sin',         latex: '\\sin',         fn: 'cmd',      desc: __('Sine') },
+            cos:        { label: 'cos',         latex: '\\cos',         fn: 'cmd',      desc: __('Cosine') },
+
+            // Operators
             times:      { label: '&times;',     latex: '\\times',       fn: 'cmd',      desc: __('Multiply') },
             divide:     { label: '&divide;',    latex: '\\div',         fn: 'cmd',      desc: __('Divide') },
-            plusminus:  { label: '&#177;',      latex: '\\pm',          fn: 'cmd',      desc:__( 'Plus/minus') }
+            plusminus:  { label: '&#177;',      latex: '\\pm',          fn: 'cmd',      desc: __('Plus/minus') },
+            equals:     { label: '=',           latex: '=',             fn: 'write',    desc: __('Equals') },
+
+            // Comparison
+            cong:       { label: '≅',           latex: '\\cong',        fn: 'cmd',      desc: __('Congruent') },
+            sim:        { label: '~',           latex: '\\sim',         fn: 'cmd',      desc: __('Similar') },
+
+            // Geometry
+            parallel:   { label: '∥',           latex: '\\parallel',    fn: 'cmd',      desc: __('Parallel') },
+            perp:       { label: '⊥',           latex: '\\perp',        fn: 'cmd',      desc: __('Perpendicular') },
+
+            // Basic geometry
+            triangle:   { label: '△',           latex: '\\triangle',    fn: 'cmd',      desc: __('Triangle') },
+            angle:      { label: '∠',           latex: '\\angle',       fn: 'cmd',      desc: __('Angle') },
+
+            // Lines and vectors
+            segment: {
+                label: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mover accent="true"><mrow><mi>A</mi><mi>B</mi></mrow><mo>&#x27F7;</mo></mover></math>',
+                latex: '\\overleftrightarrow{AB}',
+                fn: 'write',
+                desc: __('Line Segment')
+            },
+            vector: {
+                label: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mover accent="true"><mrow><mi>A</mi><mi>B</mi></mrow><mo>&#x27F6;</mo></mover></math>',
+                latex: '\\overrightarrow{AB}',
+                fn: 'write',
+                desc: __('Vector')
+            },
+            ray: {
+                label: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mover accent="true"><mrow><mi>A</mi><mi>B</mi></mrow><mo style="margin-bottom: 0.2rem;">&#x21c0;</mo></mover></math>',
+                latex: '\\stackrel{\\rightharpoonup}{AB}',
+                fn: 'write',
+                desc: __('Ray')
+            },
+            line: {
+                label: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mover accent="true"><mrow><mi>A</mi><mi>B</mi></mrow><mo style="margin-bottom: 0.2rem;">&#x2E3A;</mo></mover></math>',
+                latex: '\\overline{AB}',
+                fn: 'write',
+                desc: __('Line')
+            },
+            arc: {
+                label: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mover accent="true"><mrow><mi>A</mi><mi>B</mi></mrow><mo stretchy="true" style="font-size: 150%">&#x2322;</mo></mover></math>',
+                latex: '\\overparen{AB}',
+                fn: 'write',
+                desc: __('Arc')
+            },
+
+            // Greek letters
+            alpha:      { label: 'α',           latex: '\\alpha',       fn: 'cmd',      desc: __('Alpha') },
+            beta:       { label: 'β',           latex: '\\beta',        fn: 'cmd',      desc: __('Beta') },
+            theta:      { label: 'θ',           latex: '\\theta',       fn: 'cmd',      desc: __('Theta') },
+            delta:      { label: 'Δ',           latex: '\\Delta',       fn: 'cmd',      desc: __('Delta') }
         },
+
         allToolGroups = [
-            { id: 'functions',  tools: ['sqrt', 'frac', 'exp', 'log', 'ln'] },
-            { id: 'symbols',    tools: ['e', 'infinity', 'lbrack', 'rbrack'] },
-            { id: 'trigo',      tools: ['pi', 'sin', 'cos'] },
-            { id: 'comparison', tools: ['lte', 'gte'] },
-            { id: 'operands',   tools: ['times', 'divide', 'plusminus'] }
+            { id: 'group1', tools: ['sqrt', 'frac', 'exp', 'log', 'ln'] },
+            { id: 'group2', tools: ['e', 'infinity', 'colon', 'lbrack', 'rbrack', 'lparen', 'rparen'] },
+            { id: 'group3', tools: ['lte', 'gte'] },
+            { id: 'group4', tools: ['degrees', 'pi', 'sin', 'cos'] },
+            { id: 'group5', tools: ['times', 'divide', 'plusminus', 'equals'] },
+            { id: 'group6', tools: ['cong', 'sim'] },
+            { id: 'group7', tools: ['parallel', 'perp'] },
+            { id: 'group8', tools: ['triangle', 'angle'] },
+            { id: 'group9', tools: ['segment', 'vector', 'ray', 'line', 'arc', ] },
+            { id: 'group10', tools: ['alpha', 'beta', 'theta', 'delta'] },
         ];
 
     /**
@@ -112,6 +180,9 @@ define([
                         break;
                     case 'write':
                         mathField.write(latex);
+                        break;
+                    case 'typedText':
+                        mathField.typedText(latex);
                         break;
                 }
                 mathField.focus();
