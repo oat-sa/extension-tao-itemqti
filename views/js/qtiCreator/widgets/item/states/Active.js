@@ -105,6 +105,9 @@ define([
                 },
                 'xml:lang': function langChange(i, lang) {
                     item.attr('xml:lang', lang);
+                    $itemBody.attr('lang', lang);
+                    $itemBody.trigger('item-lang-changed');
+
                     languages.isRTLbyLanguageCode(lang).then(isRTL => {
                         if (isRTL) {
                             item.bdy.attr('dir', 'rtl');

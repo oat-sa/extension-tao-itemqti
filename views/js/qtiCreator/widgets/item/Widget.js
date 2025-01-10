@@ -97,6 +97,11 @@ define([
 
                 const item = this.element;
                 const $itemBody = this.$container.find('.qti-itemBody');
+
+                if (item.attr('xml:lang')) {
+                    $itemBody.attr('lang', item.attr('xml:lang'));
+                }
+
                 if (!item.bdy.attr('dir') && $itemBody.find('.grid-row[dir="rtl"]').length) {
                     // old xml with dir='rtl' in div.grid-row should be updated
                     item.bdy.attr('dir', 'rtl');
