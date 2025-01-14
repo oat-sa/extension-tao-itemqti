@@ -37,6 +37,8 @@ define([
     // This class will be set for removing the instructions
     const removeInstructionClass = 'remove-instructions';
 
+    const writingModeVerticalRlClass = 'writing-mode-vertical-rl';
+
     const ItemStateActive = stateFactory.create(
         Active,
         function enterActiveState() {
@@ -61,6 +63,7 @@ define([
             }
 
             //build form:
+            const initialXmlLang = item.attr('xml:lang');
             $form.html(
                 formTpl({
                     serial: item.getSerial(),
@@ -71,11 +74,13 @@ define([
                     showTimeDependent: features.isVisible('taoQtiItem/creator/item/property/timeDependant'),
                     removeInstructions: itemHasClass(removeInstructionClasses),
                     showRemoveInstructions: true,
-                    'xml:lang': item.attr('xml:lang'),
+                    'xml:lang': initialXmlLang,
                     languagesList: item.data('languagesList'),
                     disableIdentifier,
                     translation: _widget.options.translation,
-                    translationStatus: _widget.options.translationStatus
+                    translationStatus: _widget.options.translationStatus,
+                    writingModeSupported: languages.supportsVerticalWritingMode(initialXmlLang),
+                    writingModeVertical: itemHasClass([writingModeVerticalRlClass])
                 })
             );
 
@@ -116,9 +121,26 @@ define([
 
                         $itemBody.trigger('item-dir-changed');
                     });
+                    if (languages.supportsVerticalWritingMode(lang)) {
+                        $form.find('#writingMode-panel').show();
+                    } else {
+                        $form.find('#writingMode-panel').hide();
+                        if (itemHasClass([writingModeVerticalRlClass])) {
+                            itemRemoveClasses([writingModeVerticalRlClass]);
+                            $form.find('#writingMode-radio-vertical').prop('checked', false);
+                            $form.find('#writingMode-radio-horizontal').prop('checked', true);
+                        }
+                    }
                 },
                 translationStatus(i, status) {
                     _widget.options.translationStatus = status;
+                },
+                writingMode(i, mode) {
+                    if (mode === 'vertical') {
+                        itemAddClass(writingModeVerticalRlClass);
+                    } else {
+                        itemRemoveClasses([writingModeVerticalRlClass]);
+                    }
                 }
             });
 

@@ -400,6 +400,9 @@ img.dragging.ui-draggable-dragging {
                     max-width: 140px;
                     display: inline-block
                 }
+                &.no-margin {
+                    margin: 0;
+                }
             }
 
             input.score {

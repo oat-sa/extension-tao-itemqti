@@ -87,10 +87,20 @@ define(['util/url', 'core/dataProvider/request'], function (urlUtil, request) {
         });
     };
 
+    /**
+     * Does language support vertical writing mode
+     * @param {String} code language code ex: 'ar-arb'
+     * @returns {boolean}
+     */
+    const supportsVerticalWritingMode = code => {
+        return code && code.startsWith('ja-');
+    }
+
     return {
         useLegacyFormatting,
         useCKEFormatting,
         getList,
-        isRTLbyLanguageCode
+        isRTLbyLanguageCode,
+        supportsVerticalWritingMode
     };
 });
