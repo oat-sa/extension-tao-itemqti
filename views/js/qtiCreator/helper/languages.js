@@ -88,12 +88,15 @@ define(['util/url', 'core/dataProvider/request'], function (urlUtil, request) {
     };
 
     /**
-     * Does language support vertical writing mode
-     * @param {String} code language code ex: 'ar-arb'
-     * @returns {boolean}
+     * Does language support vertical writing mode; and if does, which one - rl or lr.
+     * @param {String} code language code ex: 'ja-JP'
+     * @returns {Promise<string|null>} Promise with resolved with: null, 'vertical-rl', 'vertical-lr'
      */
-    const supportsVerticalWritingMode = code => {
-        return code && code.startsWith('ja-');
+    const getVerticalWritingModeByLang = code => {
+        return getList().then(languages => {
+            const lang = languages.filter(lang => lang.code === code);
+            return lang[0] && lang[0].verticalWritingMode || null;
+        });
     }
 
     return {
@@ -101,6 +104,6 @@ define(['util/url', 'core/dataProvider/request'], function (urlUtil, request) {
         useCKEFormatting,
         getList,
         isRTLbyLanguageCode,
-        supportsVerticalWritingMode
+        getVerticalWritingModeByLang
     };
 });

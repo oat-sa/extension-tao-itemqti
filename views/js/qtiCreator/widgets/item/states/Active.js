@@ -57,6 +57,23 @@ define([
             const itemRemoveClass = cls => itemElements.forEach(el => el.removeClass(cls));
             const itemRemoveClasses = classes => classes.forEach(itemRemoveClass);
 
+            /**
+             * @param {string} lang
+             * @returns {Promise<void>}
+             */
+            const toggleVerticalWritingModeByLang = lang =>
+                languages.getVerticalWritingModeByLang(lang).then(supportedVerticalMode => {
+                    const isSupported = supportedVerticalMode === 'vertical-rl';
+                    if (!isSupported && itemHasClass([writingModeVerticalRlClass])) {
+                        itemRemoveClasses([writingModeVerticalRlClass]);
+                    }
+                    $form.find('#writingMode-panel').toggle(isSupported);
+
+                    const isVertical = itemHasClass([writingModeVerticalRlClass]);
+                    $form.find('#writingMode-radio-vertical').prop('checked', isVertical);
+                    $form.find('#writingMode-radio-horizontal').prop('checked', !isVertical);
+                });
+
             let titleFormat = '%title%';
             if (_widget.options.translation) {
                 titleFormat = __('%title% - Translation (%lang%)');
@@ -78,11 +95,10 @@ define([
                     languagesList: item.data('languagesList'),
                     disableIdentifier,
                     translation: _widget.options.translation,
-                    translationStatus: _widget.options.translationStatus,
-                    writingModeSupported: languages.supportsVerticalWritingMode(initialXmlLang),
-                    writingModeVertical: itemHasClass([writingModeVerticalRlClass])
+                    translationStatus: _widget.options.translationStatus
                 })
             );
+            toggleVerticalWritingModeByLang(initialXmlLang);
 
             //init widget
             formElement.initWidget($form);
@@ -121,16 +137,7 @@ define([
 
                         $itemBody.trigger('item-dir-changed');
                     });
-                    if (languages.supportsVerticalWritingMode(lang)) {
-                        $form.find('#writingMode-panel').show();
-                    } else {
-                        $form.find('#writingMode-panel').hide();
-                        if (itemHasClass([writingModeVerticalRlClass])) {
-                            itemRemoveClasses([writingModeVerticalRlClass]);
-                            $form.find('#writingMode-radio-vertical').prop('checked', false);
-                            $form.find('#writingMode-radio-horizontal').prop('checked', true);
-                        }
-                    }
+                    toggleVerticalWritingModeByLang(lang);
                 },
                 translationStatus(i, status) {
                     _widget.options.translationStatus = status;

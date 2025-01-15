@@ -81,21 +81,19 @@
                 {{/each}}
             </select>
         </div>
-        <div class="panel" {{#unless writingModeSupported}}style="display:none;"{{/unless}}" id="writingMode-panel">
+        <div class="panel" style="display:none;" id="writingMode-panel">
             <label for="">{{__ "Direction of writing"}}</label>
             <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
             <span class="tooltip-content">{{__ "Switches the whole item's direction of writing between horizontal and vertical."}}</span>
             <div>
                 <label class="no-margin">
-                    <input type="radio" name="writingMode" value="horizontal" {{#unless writingModeVertical }}checked{{/unless}}
-                        id="writingMode-radio-horizontal" />
+                    <input type="radio" name="writingMode" value="horizontal" id="writingMode-radio-horizontal" />
                     <span class="icon-radio"></span>
                     <label for="writingMode-radio-horizontal">{{__ "Horizontal"}} </label>
                 </label>
                 <br>
                 <label class="no-margin">
-                    <input type="radio" name="writingMode" value="vertical" {{#if writingModeVertical }}checked{{/if}}
-                        id="writingMode-radio-vertical" />
+                    <input type="radio" name="writingMode" value="vertical" id="writingMode-radio-vertical" />
                     <span class="icon-radio"></span>
                     <label for="writingMode-radio-vertical">{{__ "Vertical"}} </label>
                 </label>
