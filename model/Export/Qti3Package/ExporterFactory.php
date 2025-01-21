@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\Export\Qti3Package;
 
-use core_kernel_classes_Resource;
+use core_kernel_classes_Resource as Resource;
 use DOMDocument;
 use ZipArchive;
 
@@ -35,7 +35,7 @@ class ExporterFactory
         $this->transformationService = $transformationService;
     }
 
-    public function create(core_kernel_classes_Resource $item, ZipArchive $zip, ?DOMDocument $manifest = null): Exporter
+    public function create(Resource $item, ZipArchive $zip, ?DOMDocument $manifest = null): Exporter
     {
         $exporter = new Exporter($item, $zip, $manifest);
         $exporter->setTransformationService($this->transformationService);

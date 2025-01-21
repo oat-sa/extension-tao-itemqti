@@ -35,15 +35,20 @@ class Handler extends QtiPackageExportHandler
         return __('QTI Package 3.0');
     }
 
+
     protected function createExporter($item, ZipArchive $zipArchive, DOMDocument $manifest = null): Exporter
     {
-        /** @var ExporterFactory $factory */
-        $factory = $this->getServiceManager()->getContainer()->get(ExporterFactory::class);
+        $factory = $this->getExporterFactory();
         return $factory->create($item, $zipArchive, $manifest);
     }
 
     public function getExportForm(core_kernel_classes_Resource $resource): tao_helpers_form_Form
     {
         return (new Form($this->getFormData($resource)))->getForm();
+    }
+
+    private function getExporterFactory(): ExporterFactory
+    {
+        return $this->getServiceManager()->getContainer()->get(ExporterFactory::class);
     }
 }
