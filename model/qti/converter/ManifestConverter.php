@@ -111,7 +111,6 @@ class ManifestConverter
                     self::RESOURCE_TYPE_REPLACEMENTS[$resource->getAttribute('type')]
                 );
             }
-
         }
 
         // Save the modified XML
