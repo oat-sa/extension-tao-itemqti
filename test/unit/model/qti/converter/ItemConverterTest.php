@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\test\unit\model\qti\converter;
 
 use oat\taoQtiItem\model\qti\converter\CaseConversionService;
 use oat\taoQtiItem\model\qti\converter\ItemConverter;
+use oat\taoQtiItem\model\ValidationService;
 use PHPUnit\Framework\TestCase;
 
 class ItemConverterTest extends TestCase
@@ -31,7 +32,8 @@ class ItemConverterTest extends TestCase
     public function setUp(): void
     {
         $this->caseConversionMock = $this->createMock(CaseConversionService::class);
-        $this->subject = new ItemConverter($this->caseConversionMock);
+        $this->validationMock = $this->createMock(ValidationService::class);
+        $this->subject = new ItemConverter($this->caseConversionMock, $this->validationMock);
     }
 
     public function testConvert()
@@ -39,9 +41,15 @@ class ItemConverterTest extends TestCase
         //Copy file
         $modifiedFile = dirname(__FILE__) . '/../../../samples/model/qti/item/qti3_copy.xml';
         copy(dirname(__FILE__) . '/../../../samples/model/qti/item/qti3.xml', $modifiedFile);
-        $this->caseConversionMock->expects($this->exactly(17))
+        $this->caseConversionMock->expects($this->exactly(10))
             ->method('kebabToCamelCase')
             ->willReturn('camelCase');
+
+        $this->validationMock
+            ->method('getContentValidationSchema')
+            ->willReturn([
+                '/qti/data/qtiv3p0/imsqti_asiv3p0_v1p0.xsd'
+            ]);
 
         $this->subject->convertToQti2($modifiedFile);
 
