@@ -141,11 +141,17 @@ define([
                 }
             ).then(viewer => {
                 viewer.on('ready', () => {
-                    // Force to restore the context after rendering the item.
-                    // This is needed as the editor needs to access the context of the item being edited.
-                    // Otherwise, the editor might not work properly.
-                    viewer.getRunner().on('renderitem', restoreCreatorContext);
-                    restoreCreatorContext();
+                    const preventAutoPlay = () => {
+                        document.querySelectorAll('audio, video').forEach(media => {
+                            media.pause();
+                        });
+                        // Force to restore the context after rendering the item.
+                        // This is needed as the editor needs to access the context of the item being edited.
+                        // Otherwise, the editor might not work properly.
+                        restoreCreatorContext();
+                    };
+                    viewer.getRunner().on('renderitem', preventAutoPlay);
+                    preventAutoPlay();
                 });
             });
 
