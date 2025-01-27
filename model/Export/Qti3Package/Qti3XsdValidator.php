@@ -23,6 +23,8 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\Export\Qti3Package;
 
 use oat\taoQtiItem\model\ValidationService;
+use RuntimeException;
+use SimpleXMLElement;
 
 class Qti3XsdValidator
 {
@@ -50,13 +52,13 @@ class Qti3XsdValidator
         $schemaFiles = $this->validationService->getContentValidationSchema(self::QTI3_NAMESPACE);
 
         if (empty($schemaFiles)) {
-            throw new \RuntimeException('QTI3 XSD schema files not found');
+            throw new RuntimeException('QTI3 XSD schema files not found');
         }
 
         $mainSchema = $schemaFiles[0]; // Use the first schema file
 
         if (!file_exists($mainSchema)) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 sprintf(
                     'QTI3 XSD schema file not found at path: %s',
                     $mainSchema
@@ -64,7 +66,7 @@ class Qti3XsdValidator
             );
         }
 
-        $xml = new \SimpleXMLElement(file_get_contents($mainSchema));
+        $xml = new SimpleXMLElement(file_get_contents($mainSchema));
         $xml->registerXPathNamespace('xs', 'http://www.w3.org/2001/XMLSchema');
 
         $elements = $xml->xpath('//xs:element[@name]');
