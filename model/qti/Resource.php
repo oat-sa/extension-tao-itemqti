@@ -50,7 +50,8 @@ class Resource
         'imsqti_apiptestroot_xmlv2p1',
         'imsqti_test_xmlv2p1',
         'imsqti_test_xmlv2p2',
-        'imsqti_assessment_xmlv2p1'
+        'imsqti_assessment_xmlv2p1',
+        'imsqti_test_xmlv3p0'
     ];
 
     /**
@@ -65,6 +66,7 @@ class Resource
         'imsqti_apipitemroot_xmlv2p1',
         'imsqti_apipitem_xmlv2p1',
         'imsqti_apipitem_xmlv2p2',
+        'imsqti_item_xmlv3p0'
     ];
 
     /**
