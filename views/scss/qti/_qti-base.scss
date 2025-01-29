@@ -289,6 +289,27 @@ $mainContainer : '.qti-item';
         }
     }
 
+    .writing-mode-vertical-rl {
+        writing-mode: vertical-rl;
+
+        /* TEMP, for Item Previewer */
+        &.qti-itemBody {
+            height: calc(100vh - 160px);
+            min-width: 100%;
+        }
+        .grid-row, .fixed-grid-row {
+            block-size: auto;
+            inline-size: 100%;
+
+            [class*=" col-"], [class^="col-"] {
+                &.col-12 {
+                    block-size: auto;
+                    inline-size: 100%;
+                }
+            }
+        }
+    }
+
     @import "all-interactions";
     @import "object";
     @import "choice";
