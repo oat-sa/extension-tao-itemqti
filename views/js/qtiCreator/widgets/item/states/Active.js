@@ -37,6 +37,8 @@ define([
     // This class will be set for removing the instructions
     const removeInstructionClass = 'remove-instructions';
 
+    const writingModeVerticalRlClass = 'writing-mode-vertical-rl';
+
     const ItemStateActive = stateFactory.create(
         Active,
         function enterActiveState() {
@@ -55,12 +57,30 @@ define([
             const itemRemoveClass = cls => itemElements.forEach(el => el.removeClass(cls));
             const itemRemoveClasses = classes => classes.forEach(itemRemoveClass);
 
+            /**
+             * @param {string} lang
+             * @returns {Promise<void>}
+             */
+            const toggleVerticalWritingModeByLang = lang =>
+                languages.getVerticalWritingModeByLang(lang).then(supportedVerticalMode => {
+                    const isSupported = supportedVerticalMode === 'vertical-rl';
+                    if (!isSupported && itemHasClass([writingModeVerticalRlClass])) {
+                        itemRemoveClasses([writingModeVerticalRlClass]);
+                    }
+                    $form.find('#writingMode-panel').toggle(isSupported);
+
+                    const isVertical = itemHasClass([writingModeVerticalRlClass]);
+                    $form.find('#writingMode-radio-vertical').prop('checked', isVertical);
+                    $form.find('#writingMode-radio-horizontal').prop('checked', !isVertical);
+                });
+
             let titleFormat = '%title%';
             if (_widget.options.translation) {
                 titleFormat = __('%title% - Translation (%lang%)');
             }
 
             //build form:
+            const initialXmlLang = item.attr('xml:lang');
             $form.html(
                 formTpl({
                     serial: item.getSerial(),
@@ -71,13 +91,14 @@ define([
                     showTimeDependent: features.isVisible('taoQtiItem/creator/item/property/timeDependant'),
                     removeInstructions: itemHasClass(removeInstructionClasses),
                     showRemoveInstructions: true,
-                    'xml:lang': item.attr('xml:lang'),
+                    'xml:lang': initialXmlLang,
                     languagesList: item.data('languagesList'),
                     disableIdentifier,
                     translation: _widget.options.translation,
                     translationStatus: _widget.options.translationStatus
                 })
             );
+            toggleVerticalWritingModeByLang(initialXmlLang);
 
             //init widget
             formElement.initWidget($form);
@@ -116,9 +137,17 @@ define([
 
                         $itemBody.trigger('item-dir-changed');
                     });
+                    toggleVerticalWritingModeByLang(lang);
                 },
                 translationStatus(i, status) {
                     _widget.options.translationStatus = status;
+                },
+                writingMode(i, mode) {
+                    if (mode === 'vertical') {
+                        itemAddClass(writingModeVerticalRlClass);
+                    } else {
+                        itemRemoveClasses([writingModeVerticalRlClass]);
+                    }
                 }
             });
 
