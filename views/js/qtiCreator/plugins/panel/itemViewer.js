@@ -142,7 +142,7 @@ define([
             ).then(viewer => {
                 viewer.on('ready', () => {
                     const preventAutoPlay = () => {
-                        document.querySelectorAll('audio, video').forEach(media => {
+                        $viewerContainer.find('audio, video').each((i, media) => {
                             media.pause();
                         });
                         // Force to restore the context after rendering the item.
