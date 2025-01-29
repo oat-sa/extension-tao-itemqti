@@ -24,8 +24,15 @@ namespace oat\taoQtiItem\model\qti\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
+use oat\taoQtiItem\model\Export\Qti3Package\ExporterFactory;
+use oat\taoQtiItem\model\Export\Qti3Package\Qti3XsdValidator;
+use oat\taoQtiItem\model\Export\Qti3Package\TransformationService;
+use oat\taoQtiItem\model\qti\converter\CaseConversionService;
+use oat\taoQtiItem\model\qti\converter\ItemConverter;
+use oat\taoQtiItem\model\qti\converter\ManifestConverter;
 use oat\taoQtiItem\model\qti\Identifier\Service\QtiIdentifierSetter;
 use oat\taoQtiItem\model\qti\Service;
+use oat\taoQtiItem\model\ValidationService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -42,5 +49,31 @@ class QtiServiceProvider implements ContainerServiceProviderInterface
                 service(Service::class),
                 service(LoggerService::SERVICE_ID),
             ]);
+
+        $services->set(Qti3XsdValidator::class, Qti3XsdValidator::class)->args([
+            service(ValidationService::class),
+        ])->public();
+
+        $services->set(TransformationService::class, TransformationService::class)->args([
+            service(Qti3XsdValidator::class),
+        ])->public();
+
+        $services->set(ExporterFactory::class, ExporterFactory::class)
+        ->args([
+            service(TransformationService::class),
+        ])->public();
+
+        $services->set(CaseConversionService::class);
+
+        $services
+            ->set(ManifestConverter::class, ManifestConverter::class)
+            ->public();
+
+        $services->set(ItemConverter::class)
+            ->args([
+                service(CaseConversionService::class),
+                service(ValidationService::SERVICE_ID)
+            ])
+            ->public();
     }
 }
