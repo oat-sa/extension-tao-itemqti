@@ -25,7 +25,6 @@ ENV_QTI_IDENTIFIER_VALIDATOR_PATTERN='/^[a-zA-Z_]{1}[a-zA-Z0-9_-]*$/u'
 This would mean that case the user tries to save or import an item with an identifier with dots, this would return an 
 error:
 
-
 ![Error Provided by ENV_QTI_IDENTIFIER_VALIDATOR_PATTERN environment variable](https://user-images.githubusercontent.com/11900046/151952020-e6ed4ff3-a499-4aa9-bd3e-d2bc81a83bd8.jpg)
 
 

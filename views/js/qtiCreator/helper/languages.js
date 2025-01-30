@@ -87,10 +87,23 @@ define(['util/url', 'core/dataProvider/request'], function (urlUtil, request) {
         });
     };
 
+    /**
+     * Does language support vertical writing mode; and if does, which one - rl or lr.
+     * @param {String} code language code ex: 'ja-JP'
+     * @returns {Promise<string|null>} Promise with resolved with: null, 'vertical-rl', 'vertical-lr'
+     */
+    const getVerticalWritingModeByLang = code => {
+        return getList().then(languages => {
+            const lang = languages.filter(lang => lang.code === code);
+            return lang[0] && lang[0].verticalWritingMode || null;
+        });
+    }
+
     return {
         useLegacyFormatting,
         useCKEFormatting,
         getList,
-        isRTLbyLanguageCode
+        isRTLbyLanguageCode,
+        getVerticalWritingModeByLang
     };
 });

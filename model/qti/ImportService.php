@@ -24,13 +24,13 @@ namespace oat\taoQtiItem\model\qti;
 use common_exception_Error;
 use common_exception_UserReadableException;
 use common_Logger;
-use common_report_Report;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use DOMDocument;
 use Exception;
 use helpers_File;
 use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\reporting\Report;
 use oat\tao\model\TaoOntology;
 use oat\oatbox\mutex\LockTrait;
 use oat\taoItems\model\media\ItemMediaResolver;
@@ -44,6 +44,7 @@ use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\PortableAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\SharedStimulusAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\StimulusHandler;
+use oat\taoQtiItem\model\qti\converter\ItemConverter;
 use oat\taoQtiItem\model\qti\event\UpdatedItemEventDispatcher;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
@@ -69,7 +70,6 @@ use taoItems_models_classes_ItemsService;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\reporting\Report as Reporter;
 
 /**
  * Short description of class oat\taoQtiItem\model\qti\ImportService
@@ -119,7 +119,7 @@ class ImportService extends ConfigurableService
      * @param $qtiFile
      * @param core_kernel_classes_Class $itemClass
      * @param bool $validate
-     * @return common_report_Report
+     * @return Report
      * @throws \common_ext_ExtensionException
      * @throws common_exception_Error
      * @throws \common_Exception
@@ -127,15 +127,13 @@ class ImportService extends ConfigurableService
      */
     public function importQTIFile($qtiFile, core_kernel_classes_Class $itemClass, $validate = true)
     {
-        $report = null;
-
         try {
             $qtiModel = $this->createQtiItemModel($qtiFile, $validate);
             $rdfItem = $this->createRdfItem($itemClass, $qtiModel);
 
-            $report = \common_report_Report::createSuccess(__('The IMS QTI Item was successfully imported.'), $rdfItem);
+            $report = Report::createSuccess(__('The IMS QTI Item was successfully imported.'), $rdfItem);
         } catch (ValidationException $ve) {
-            $report = \common_report_Report::createFailure(__('The IMS QTI Item could not be imported.'));
+            $report = Report::createFailure(__('The IMS QTI Item could not be imported.'));
             $report->add($ve->getReport());
         }
 
@@ -269,7 +267,7 @@ class ImportService extends ConfigurableService
      * @param bool $enableMetadataValidators
      * @param bool $itemMustExist
      * @param bool $itemMustBeOverwritten
-     * @return common_report_Report
+     * @return Report
      * @throws Exception
      * @throws ExtractException
      * @throws ParsingException
@@ -316,7 +314,7 @@ class ImportService extends ConfigurableService
             throw new ExtractException();
         }
 
-        $report = new common_report_Report(common_report_Report::TYPE_SUCCESS, '');
+        $report = new Report(Report::TYPE_SUCCESS, '');
         $successItems = [];
         $allCreatedClasses = [];
         $overwrittenItems = [];
@@ -377,13 +375,13 @@ class ImportService extends ConfigurableService
                 $report->add($itemReport);
             }
         } catch (ValidationException $ve) {
-            $validationReport = \common_report_Report::createFailure("The IMS Manifest file could not be validated");
+            $validationReport = Report::createFailure("The IMS Manifest file could not be validated");
             $validationReport->add($ve->getReport());
             $report->setMessage(__("No Items could be imported from the given IMS QTI package."));
-            $report->setType(common_report_Report::TYPE_ERROR);
+            $report->setType(Report::TYPE_ERROR);
             $report->add($validationReport);
         } catch (common_exception_UserReadableException $e) {
-            $report = new common_report_Report(common_report_Report::TYPE_ERROR, $e->getUserMessage());
+            $report = new Report(Report::TYPE_ERROR, $e->getUserMessage());
             $report->add($e);
         }
 
@@ -394,23 +392,23 @@ class ImportService extends ConfigurableService
             );
 
             if (count($successItems) !== $itemCount) {
-                $report->setType(common_report_Report::TYPE_WARNING);
+                $report->setType(Report::TYPE_WARNING);
             }
         } else {
             $report->setMessage(__('No Items could be imported from the given IMS QTI package.'));
-            $report->setType(common_report_Report::TYPE_ERROR);
+            $report->setType(Report::TYPE_ERROR);
         }
 
         if ($rollbackOnError === true) {
             if (
-                $report->getType() === common_report_Report::TYPE_ERROR || $report->contains(
-                    common_report_Report::TYPE_ERROR
+                $report->getType() === Report::TYPE_ERROR || $report->contains(
+                    Report::TYPE_ERROR
                 )
             ) {
                 $this->rollback($successItems, $report, $allCreatedClasses, $overwrittenItems);
             }
         } elseif ($rollbackOnWarning === true) {
-            if ($report->contains(common_report_Report::TYPE_WARNING)) {
+            if ($report->contains(Report::TYPE_WARNING)) {
                 $this->rollback($successItems, $report, $allCreatedClasses, $overwrittenItems);
             }
         }
@@ -454,7 +452,7 @@ class ImportService extends ConfigurableService
      * @param bool $itemMustExist
      * @param bool $itemMustBeOverwritten
      * @param array $overwrittenItems
-     * @return common_report_Report
+     * @return Report
      * @throws common_exception_Error
      */
     public function importQtiItem(
@@ -474,7 +472,7 @@ class ImportService extends ConfigurableService
         $importMetadataEnabled = false
     ) {
         // if report can't be finished
-        $report = common_report_Report::createFailure(
+        $report = Report::createError(
             __('IMS QTI Item referenced as "%s" cannot be imported.', $qtiItemResource->getIdentifier())
         );
 
@@ -510,7 +508,7 @@ class ImportService extends ConfigurableService
                                     . '" is already stored in the database and will not be imported.'
                             );
 
-                            return common_report_Report::createInfo(
+                            return Report::createInfo(
                                 // phpcs:disable Generic.Files.LineLength
                                 __('The IMS QTI Item referenced as "%s" in the IMS Manifest file was already stored in the Item Bank.', $resourceIdentifier),
                                 // phpcs:enable Generic.Files.LineLength
@@ -523,8 +521,8 @@ class ImportService extends ConfigurableService
                                 . '" must be already stored in the database in order to proceed.'
                         );
 
-                        return new common_report_Report(
-                            common_report_Report::TYPE_ERROR,
+                        return new Report(
+                            Report::TYPE_ERROR,
                             // phpcs:disable Generic.Files.LineLength
                             __('The IMS QTI Item referenced as "%s" in the IMS Manifest file should have been found the Item Bank. Item not found.', $resourceIdentifier)
                             // phpcs:enable Generic.Files.LineLength
@@ -535,7 +533,7 @@ class ImportService extends ConfigurableService
                 if ($enableMetadataValidators === true) {
                     $validationReport = $this->getMetadataImporter()->validate($resourceIdentifier);
 
-                    if ($validationReport->getType() !== \common_report_Report::TYPE_SUCCESS) {
+                    if ($validationReport->getType() !== Report::TYPE_SUCCESS) {
                         $validationReport->setMessage(
                             // phpcs:disable Generic.Files.LineLength
                             __('Item metadata with identifier "%s" is not valid: ', $resourceIdentifier) . $validationReport->getMessage()
@@ -550,6 +548,7 @@ class ImportService extends ConfigurableService
                 $targetClass = $this->getMetadataImporter()->classLookUp($resourceIdentifier, $createdClasses);
                 $tmpQtiFile = $tmpFolder . helpers_File::urlToPath($qtiItemResource->getFile());
                 common_Logger::i('file :: ' . $qtiItemResource->getFile());
+                $this->convertToQti2($tmpQtiFile);
                 $qtiModel = $this->createQtiItemModel($tmpQtiFile);
 
                 if (
@@ -557,7 +556,7 @@ class ImportService extends ConfigurableService
                         $qtiModel
                     )
                 ) {
-                    return common_report_Report::createFailure(
+                    return Report::createError(
                         // phpcs:disable Generic.Files.LineLength
                         __('The IMS QTI Item referenced as "%s" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions.', $resourceIdentifier)
                         // phpcs:enable Generic.Files.LineLength
@@ -661,13 +660,13 @@ class ImportService extends ConfigurableService
 
                 $this->getItemEventDispatcher()->dispatch($qtiModel, $rdfItem);
 
-                $report = common_report_Report::createSuccess($msg, $rdfItem);
+                $report = Report::createSuccess($msg, $rdfItem);
             } catch (ParsingException $e) {
                 $message = __('Resource "' . $resourceIdentifier . 'has an error. ') . $e->getUserMessage();
 
-                $report = new common_report_Report(common_report_Report::TYPE_ERROR, $message);
+                $report = new Report(Report::TYPE_ERROR, $message);
             } catch (ValidationException $ve) {
-                $report = common_report_Report::createFailure(
+                $report = Report::createFailure(
                     // phpcs:disable Generic.Files.LineLength
                     __('IMS QTI Item referenced as "%s" in the IMS Manifest file could not be imported.', $resourceIdentifier)
                     // phpcs:enable Generic.Files.LineLength
@@ -686,12 +685,12 @@ class ImportService extends ConfigurableService
                 }
                 $message .= __(' For Resource "' . $resourceIdentifier);
 
-                $report = new common_report_Report(
-                    common_report_Report::TYPE_ERROR,
+                $report = new Report(
+                    Report::TYPE_ERROR,
                     $message
                 );
             } catch (PortableElementInvalidModelException $pe) {
-                $report = common_report_Report::createFailure(
+                $report = Report::createFailure(
                     // phpcs:disable Generic.Files.LineLength
                     __('IMS QTI Item referenced as "%s" contains a portable element and cannot be imported.', $resourceIdentifier)
                     // phpcs:enable Generic.Files.LineLength
@@ -708,13 +707,13 @@ class ImportService extends ConfigurableService
                     $msg = __('Error on item %s', $resourceIdentifier);
                     common_Logger::d($e->getMessage());
                 }
-                $report = new common_report_Report(common_report_Report::TYPE_ERROR, $msg);
+                $report = new Report(Report::TYPE_ERROR, $msg);
                 if (isset($rdfItem) && !is_null($rdfItem) && $rdfItem->exists() && !$overWriting) {
                     $rdfItem->delete();
                 }
             } catch (TemplateException $e) {
-                $report = new common_report_Report(
-                    common_report_Report::TYPE_ERROR,
+                $report = new Report(
+                    Report::TYPE_ERROR,
                     // phpcs:disable Generic.Files.LineLength
                     __('The IMS QTI Item referenced as "%s" in the IMS Manifest file failed:  %s', $resourceIdentifier, $e->getMessage())
                     // phpcs:enable Generic.Files.LineLength
@@ -733,8 +732,8 @@ class ImportService extends ConfigurableService
                 }
             } catch (Exception $e) {
                 // an error occurred during a specific item
-                $report = new common_report_Report(
-                    common_report_Report::TYPE_ERROR,
+                $report = new Report(
+                    Report::TYPE_ERROR,
                     // phpcs:disable Generic.Files.LineLength
                     __("An unknown error occured while importing the IMS QTI Package with identifier: " . $resourceIdentifier)
                     // phpcs:enable Generic.Files.LineLength
@@ -745,13 +744,13 @@ class ImportService extends ConfigurableService
                 common_Logger::e($e->getMessage());
             }
         } catch (ValidationException $ve) {
-            $validationReport = common_report_Report::createFailure("The IMS Manifest file could not be validated");
+            $validationReport = Report::createFailure("The IMS Manifest file could not be validated");
             $validationReport->add($ve->getReport());
             $report->setMessage(__("No Items could be imported from the given IMS QTI package."));
-            $report->setType(common_report_Report::TYPE_ERROR);
+            $report->setType(Report::TYPE_ERROR);
             $report->add($validationReport);
         } catch (common_exception_UserReadableException $e) {
-            $report = new common_report_Report(common_report_Report::TYPE_ERROR, __($e->getUserMessage()));
+            $report = new Report(Report::TYPE_ERROR, __($e->getUserMessage()));
             $report->add($e);
         } finally {
             $this->checkImportLockTime($startImportTime, $qtiItemResource->getIdentifier());
@@ -861,13 +860,13 @@ class ImportService extends ConfigurableService
 
     /**
      * @param array $items
-     * @param common_report_Report $report
+     * @param Report $report
      * @param array $createdClasses (optional)
      * @throws common_exception_Error
      */
     protected function rollback(
         array $items,
-        common_report_Report $report,
+        Report $report,
         array $createdClasses = [],
         array $overwrittenItems = []
     ) {
@@ -881,8 +880,8 @@ class ImportService extends ConfigurableService
                 @taoItems_models_classes_ItemsService::singleton()->deleteResource($item);
 
                 $report->add(
-                    new common_report_Report(
-                        common_report_Report::TYPE_WARNING,
+                    new Report(
+                        Report::TYPE_WARNING,
                         __('The IMS QTI Item referenced as "%s" in the IMS Manifest was successfully rolled back.', $id)
                     )
                 );
@@ -964,5 +963,15 @@ class ImportService extends ConfigurableService
     private function replaceUniqueNumericQtiIdentifier(string $qtiXml): string
     {
         return $this->getUniqueNumericQtiIdentifierReplacer()->replace($qtiXml);
+    }
+
+    private function convertToQti2(string $tmpQtiFile): void
+    {
+        $this->getItemConverter()->convertToQti2($tmpQtiFile);
+    }
+
+    private function getItemConverter(): ItemConverter
+    {
+        return $this->getServiceManager()->getContainer()->get(ItemConverter::class);
     }
 }

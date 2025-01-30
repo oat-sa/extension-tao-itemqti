@@ -409,26 +409,29 @@ define([
                         this.setMaxValue(this.getLowerThreshold(fromField));
                     }
 
-                    if (isFieldSupported(fromField) && this.is('rendered') && config.syncValues) {
-                        const minValue = this.getMinValue();
-                        const maxValue = this.getMaxValue();
+                    if (!isFieldSupported(fromField) || !this.is('rendered') || !config.syncValues) {
+                        return this;
+                    }
 
-                        if (minValue > 0 && maxValue > 0) {
-                            if (fromField === fields.max && minValue > maxValue) {
-                                this.setMinValue(maxValue);
-                            }
-                            if (fromField === fields.min && minValue > maxValue) {
-                                this.setMaxValue(minValue);
-                            }
-                        } else if (
-                            minValue === 0 &&
-                            maxValue > 0 &&
-                            (document.querySelector('.edit-active > .qti-orderInteraction') ||
-                                document.querySelector('.edit-active > .qti-graphicOrderInteraction'))
-                        ) {
-                            this.enableField(fields.min, this.getLowerThreshold(fields.min) || 1);
-                            controls.min.toggler.prop('checked', true);
+                    const minValue = this.getMinValue();
+                    const maxValue = this.getMaxValue();
+
+                    if (minValue > 0 && maxValue >= 0) {
+                        if (fromField === fields.max && minValue > maxValue) {
+                            _.isNumber(maxValue) && this.isFieldEnabled('min') && this.setMinValue(maxValue);
                         }
+                        if (fromField === fields.min && minValue > maxValue) {
+                            _.isNumber(maxValue) && this.isFieldEnabled('min') && this.setMaxValue(minValue);
+                        }
+                    }
+                    if (
+                        minValue === 0 &&
+                        maxValue > 0 &&
+                        (document.querySelector('.edit-active > .qti-orderInteraction') ||
+                            document.querySelector('.edit-active > .qti-graphicOrderInteraction'))
+                    ) {
+                        this.enableField(fields.min, this.getLowerThreshold(fields.min) || 1);
+                        controls.min.toggler.prop('checked', true);
                     }
                     return this;
                 },
