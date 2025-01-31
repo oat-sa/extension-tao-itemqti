@@ -329,12 +329,25 @@ class ImportService extends ConfigurableService
             $qtiItemResources = $this->createQtiManifest($folder . 'imsmanifest.xml');
 
             if ($importMetadataEnabled) {
-                $metadataValues = $this->getMetadataImporter()->extract($domManifest);
                 $metaMetadataValues = $this->getMetaMetadataExtractor()->extract($domManifest);
                 $mappedMetadataValues = $this->getMetaMetadataImportMapper()->mapMetaMetadataToProperties(
                     $metaMetadataValues,
                     $itemClass
                 );
+                $metadataValues = $this->getMetadataImporter()->extract($domManifest);
+                $metadataValueUris = $this->getMetadataImporter()->metadataValueUris($metadataValues);
+                $notMatchingProperties = array_diff(
+                    $metadataValueUris,
+                    array_keys($mappedMetadataValues['itemProperties'])
+                );
+                if (!empty($notMatchingProperties)) {
+                    return Report::createError(
+                        sprintf(
+                            __('Target class is missing the following metadata properties: %s'),
+                            implode(', ', $notMatchingProperties)
+                        )
+                    );
+                }
                 if (empty($mappedMetadataValues)) {
                     $mappedMetadataValues = $this->getMetaMetadataImportMapper()->mapMetadataToProperties(
                         $metadataValues,
