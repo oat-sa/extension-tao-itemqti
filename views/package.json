@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "^1.0.0",
-        "@oat-sa/tao-item-runner-qti": "github:oat-sa/tao-item-runner-qti-fe#fix/AUT-4062/cut_maxscore_to_zero_upperBound"
+        "@oat-sa/tao-item-runner-qti": "^2.5.3"
     }
 }
