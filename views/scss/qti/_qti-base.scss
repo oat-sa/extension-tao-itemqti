@@ -292,10 +292,12 @@ $mainContainer : '.qti-item';
     .writing-mode-vertical-rl {
         writing-mode: vertical-rl;
 
-        /* TEMP, for Item Previewer */
         &.qti-itemBody {
-            height: calc(100vh - 160px);
-            min-width: 100%;
+            block-size: 100%;
+            inline-size: 100%;
+            overflow: auto;
+            overscroll-behavior: contain;
+            line-height: 1.8; /* assuming ruby tags */
         }
         .grid-row, .fixed-grid-row {
             block-size: auto;
@@ -335,4 +337,10 @@ $mainContainer : '.qti-item';
 
 .tao-preview-scope{
     padding-top: 20px;
+}
+
+.item-writing-mode-vertical-rl {
+    & .qti-item {
+        height: 100%;
+    }
 }
