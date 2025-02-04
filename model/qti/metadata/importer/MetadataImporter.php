@@ -247,7 +247,7 @@ class MetadataImporter extends AbstractMetadataService
             }
         }
 
-        return $metadataUriList;
+        return array_unique($metadataUriList);
     }
 
     /**
