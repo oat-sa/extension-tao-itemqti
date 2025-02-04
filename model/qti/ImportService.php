@@ -335,10 +335,9 @@ class ImportService extends ConfigurableService
                     $itemClass
                 );
                 $metadataValues = $this->getMetadataImporter()->extract($domManifest);
-                $metadataValueUris = $this->getMetadataImporter()->metadataValueUris($metadataValues);
-                $notMatchingProperties = array_diff(
-                    $metadataValueUris,
-                    array_keys($mappedMetadataValues['itemProperties'])
+                $notMatchingProperties = $this->checkMissingClassProperties(
+                    $metadataValues,
+                    $mappedMetadataValues['itemProperties']
                 );
                 if (!empty($notMatchingProperties)) {
                     return Report::createError(
@@ -986,5 +985,20 @@ class ImportService extends ConfigurableService
     private function getItemConverter(): ItemConverter
     {
         return $this->getServiceManager()->getContainer()->get(ItemConverter::class);
+    }
+
+    /**
+     * Checks if target class has all the properties needed to import the metadata.
+     * @param array $metadataValues
+     * @param $itemProperties
+     * @return array
+     */
+    private function checkMissingClassProperties(array $metadataValues, $itemProperties): array
+    {
+        $metadataValueUris = $this->getMetadataImporter()->metadataValueUris($metadataValues);
+        return array_diff(
+            $metadataValueUris,
+            array_keys($itemProperties)
+        );
     }
 }
