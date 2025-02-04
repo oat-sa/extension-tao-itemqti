@@ -52,7 +52,7 @@ define([
             const disableIdentifier = qtiIdentifier.isDisabled;
 
             const itemElements = [$itemBody, item];
-            const itemHasClass = classes => classes.some(cls => $itemBody.hasClass(cls));
+            const itemHasClass = classes => classes.some(cls => item.hasClass(cls));
             const itemAddClass = cls => itemElements.forEach(el => el.addClass(cls));
             const itemRemoveClass = cls => itemElements.forEach(el => el.removeClass(cls));
             const itemRemoveClasses = classes => classes.forEach(itemRemoveClass);
@@ -98,6 +98,8 @@ define([
                     translationStatus: _widget.options.translationStatus
                 })
             );
+            //don't apply vertical class in editor widget ($itemBody), only save it to QTI attribute
+            $itemBody.removeClass(writingModeVerticalRlClass);
             toggleVerticalWritingModeByLang(initialXmlLang);
 
             //init widget
@@ -144,7 +146,7 @@ define([
                 },
                 writingMode(i, mode) {
                     if (mode === 'vertical') {
-                        itemAddClass(writingModeVerticalRlClass);
+                        item.addClass(writingModeVerticalRlClass);
                     } else {
                         itemRemoveClasses([writingModeVerticalRlClass]);
                     }
