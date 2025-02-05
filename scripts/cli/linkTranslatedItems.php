@@ -31,7 +31,7 @@ use taoItems_models_classes_ItemsService as ItemService;
 /**
  * Class linkTranslatedItems
  *
- * php index.php '\oat\taoQtiItem\scripts\cli\linkTranslatedItems' -w -c 'http://www.tao.lu/Ontologies/TAO.rdf#QtiItem' -m 'en-US'
+ * php index.php '\oat\taoQtiItem\scripts\cli\linkTranslatedItems'
  *
  * @package oat\taoQtiItem\scripts\cli
  */
@@ -125,10 +125,15 @@ class linkTranslatedItems extends ScriptAction
                     $this->getProperty(TaoOntology::PROPERTY_TRANSLATION_STATUS),
                     TaoOntology::PROPERTY_VALUE_TRANSLATION_STATUS_READY
                 );
-                $item->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER), $importedUniqueId);
+                $item->editPropertyValues(
+                    $this->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER),
+                    $importedUniqueId
+                );
             }
             $mainItem++;
-            $translatedIn = $item->getPropertyValues($this->getProperty(TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES));
+            $translatedIn = $item->getPropertyValues(
+                $this->getProperty(TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES)
+            );
             foreach ($translatedIn as $lang) {
                 $linkedItems =  $this->getItemService()->getRootClass()->searchInstances(
                     [
@@ -161,7 +166,12 @@ class linkTranslatedItems extends ScriptAction
                 }
             }
         }
-        $this->report->add(new Report(Report::TYPE_SUCCESS, 'Linked ' . $translations . ' translations to ' . $mainItem . ' main items'));
+        $this->report->add(
+            new Report(
+                Report::TYPE_SUCCESS,
+                'Linked ' . $translations . ' translations to ' . $mainItem . ' main items'
+            )
+        );
         return $this->report;
     }
 
