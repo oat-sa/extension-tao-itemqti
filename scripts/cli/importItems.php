@@ -299,7 +299,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
                     true,
                     $this->rollbackOnError,
                     $this->rollbackOnWarning,
-                    true, 
+                    true,
                     true,
                     false,
                     false,
@@ -316,10 +316,9 @@ class importItems implements Action, ServiceLocatorAwareInterface
                     false,
                     true
                 );
-    
+
                 $report = new Report(Report::TYPE_INFO, printf('Task %s created', $task->getId()));
             }
-            
         } catch (ExtractException $e) {
             $report = common_report_Report::createFailure(
                 __('The ZIP archive containing the IMS QTI Item cannot be extracted.')
@@ -337,7 +336,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
         helpers_TimeOutHelper::reset();
 
         $this->showReport($report);
-        $this->processed ++;
+        $this->processed++;
 
         return new Report($report->getType());
     }

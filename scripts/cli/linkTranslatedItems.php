@@ -108,15 +108,17 @@ class linkTranslatedItems extends ScriptAction
             }
         }
 
-        $items = $this->getItemService()->getRootClass()->searchInstances([
+        $items = $this->getItemService()->getRootClass()->searchInstances(
+            [
             TaoOntology::PROPERTY_TRANSLATION_TYPE => TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL,
             TaoOntology::PROPERTY_LANGUAGE => 'http://www.tao.lu/Ontologies/TAO.rdf#Lang' . $this->mainLanguage
-        ],
-        ['like' => false, 'recursive' => true]);
+            ],
+            ['like' => false, 'recursive' => true]
+        );
         $mainItem = 0;
         $translations = 0;
-        
-        foreach($items as $item){
+
+        foreach ($items as $item) {
             $importedUniqueId = $item->getOnePropertyValue($this->getProperty($uniqueIdentifierProperty));
             if ($this->wetRun) {
                 $item->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_TRANSLATION_STATUS), TaoOntology::PROPERTY_VALUE_TRANSLATION_STATUS_READY);
@@ -124,17 +126,19 @@ class linkTranslatedItems extends ScriptAction
             }
             $mainItem++;
             $translatedIn = $item->getPropertyValues($this->getProperty(TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES));
-            foreach ($translatedIn as $lang){
-                $linkedItems =  $this->getItemService()->getRootClass()->searchInstances([
+            foreach ($translatedIn as $lang) {
+                $linkedItems =  $this->getItemService()->getRootClass()->searchInstances(
+                    [
                     TaoOntology::PROPERTY_LANGUAGE => $lang,
                     $uniqueIdentifierProperty => $importedUniqueId
-                    
-                ],
-                ['like' => false, 'recursive' => true]);
-                foreach($linkedItems as $linkedItem){
+
+                    ],
+                    ['like' => false, 'recursive' => true]
+                );
+                foreach ($linkedItems as $linkedItem) {
                     $translations++;
                     if ($this->wetRun) {
-                        $linkedItem->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_TRANSLATION_STATUS),  TaoOntology::PROPERTY_VALUE_TRANSLATION_STATUS_READY);
+                        $linkedItem->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_TRANSLATION_STATUS), TaoOntology::PROPERTY_VALUE_TRANSLATION_STATUS_READY);
                         $linkedItem->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_TRANSLATION_TYPE), TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION);
                         $linkedItem->setPropertyValue($this->getProperty(TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI), $item->getUri());
                         $linkedItem->setPropertyValue($this->getProperty(TaoOntology::PROPERTY_TRANSLATION_PROGRESS), TaoOntology::PROPERTY_VALUE_TRANSLATION_PROGRESS_TRANSLATED);
@@ -159,5 +163,4 @@ class linkTranslatedItems extends ScriptAction
     {
         return $this->getServiceLocator()->get(ItemService::class);
     }
-
 }
