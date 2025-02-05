@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2024-10-11 13:07\n"
+"PO-Revision-Date: 2024-11-28 11:11\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de\n"
@@ -51,13 +51,13 @@ msgid "%s of %s words maximum."
 msgstr "%s von maximal %s Wörtern."
 
 msgid "(comma)"
-msgstr ""
+msgstr "(Komma)"
 
 msgid "(dot)"
-msgstr ""
+msgstr "(Punkt)"
 
 msgid "(space)"
-msgstr ""
+msgstr "(Leerzeichen)"
 
 msgid "-- Any kind of file --"
 msgstr "-- Jede Art von Datei --"
@@ -135,7 +135,7 @@ msgid "Add Style Sheet"
 msgstr "Stilvorlage hinzufügen"
 
 msgid "after"
-msgstr ""
+msgstr "nach"
 
 msgid "Alignment"
 msgstr "Ausrichtung"
@@ -234,7 +234,7 @@ msgid "Base"
 msgstr "Basis"
 
 msgid "Be aware, if you choose to remove the instructions, the system will not provide any warnings to the test takers if constraints are set."
-msgstr ""
+msgstr "Bitte beachten Sie, dass, wenn Sie die Anweisungen entfernen, das System keine Warnungen an die Testteilnehmer ausgibt, wenn Einschränkungen festgelegt sind."
 
 msgid "Block"
 msgstr "Block"
@@ -351,7 +351,7 @@ msgid "Color Picker"
 msgstr "Farbauswahl"
 
 msgid "Column separator"
-msgstr ""
+msgstr "Spaltentrennzeichen"
 
 msgid "Common Interactions"
 msgstr "Allgemeine Interaktionen"
@@ -372,7 +372,7 @@ msgid "Cosinus"
 msgstr "Kosinus"
 
 msgid "Create a single hottext from the selection"
-msgstr ""
+msgstr "Erstellen Sie einen einzigen \"Hottext\" aus der Auswahl"
 
 msgid "Create assocations and fill the score in the form below"
 msgstr "Stelle Assoziationen her und trage das Ergebnis in das unten stehende Formular ein"
@@ -390,7 +390,7 @@ msgid "Create hottext"
 msgstr "Hot-Text erstellen"
 
 msgid "Create multiple hottexts from the selection"
-msgstr ""
+msgstr "Erstellen Sie mehrere \"Hottext\" aus der Auswahl"
 
 msgid "Create pair(s) from a series of choices."
 msgstr "Bilde Paare aus einer Reihe von Auswahlmöglichkeiten."
@@ -471,7 +471,7 @@ msgid "Display"
 msgstr "Anzeige"
 
 msgid "Display media player"
-msgstr ""
+msgstr "Media Player anzeigen"
 
 msgid "Display the choices either horizontally or vertically"
 msgstr "Zeige die Auswahlmöglichkeiten entweder horizontal oder vertikal an"
@@ -777,10 +777,10 @@ msgid "If this box is checked the student will be able to eliminate choices."
 msgstr "Wenn dieses Kästchen aktiviert ist, kann der Schüler Auswahlmöglichkeiten eliminieren."
 
 msgid "Image caption"
-msgstr ""
+msgstr "Bildunterschrift"
 
 msgid "Image caption not enabled when position is set to inline"
-msgstr ""
+msgstr "Bildunterschrift ist nicht aktiviert, wenn die Position auf 'Inline' gesetzt ist"
 
 msgid "Import"
 msgstr "Importieren"
@@ -822,7 +822,7 @@ msgid "Index"
 msgstr "Index"
 
 msgid "Indicates that the audio forms part of a sequence with other sequential interactions. The advancing of the sequence is handled by the delivery engine. Delays are also respected."
-msgstr ""
+msgstr "Zeigt an, dass die Audio-Interaktion Teil einer Sequenz mit anderen aufeinanderfolgenden Interaktionen ist. Das Voranschreiten der Sequenz wird von der Auslieferungs-Engine (Testauslieferung) gesteuert. Verzögerungen werden ebenfalls berücksichtigt."
 
 msgid "Infinity"
 msgstr "Unendlich"
@@ -870,10 +870,10 @@ msgid "Invalid URL"
 msgstr "Ungültige URL"
 
 msgid "Invalid value in correct response property."
-msgstr ""
+msgstr "Ungültiger Wert in der Eigenschaft für die richtige Antwort."
 
 msgid "Invalid value, use %s %s for decimal point."
-msgstr ""
+msgstr "Ungültiger Wert, verwenden Sie %s %s als Dezimaltrennzeichen."
 
 msgid "Is this choice the correct response?"
 msgstr "Ist diese Auswahl die korrekte Antwort?"
@@ -1163,7 +1163,7 @@ msgid "Order Interaction"
 msgstr "Interaktionsreihenfolge"
 
 msgid "order single list"
-msgstr ""
+msgstr "Einzelliste ordnen"
 
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Ordne die Bereiche (hotspots) auf einem Bild."
@@ -1211,7 +1211,7 @@ msgid "Please define the correct order in the box to the right."
 msgstr "Bitte legen Sie die korrekte Reihenfolge in der rechten Box fest."
 
 msgid "Please define the correct order."
-msgstr ""
+msgstr "Bitte geben Sie die richtige Reihenfolge an."
 
 msgid "Please define the correct response and the score below."
 msgstr "Bitte legen Sie unten die korrekte Antwort und die Punktzahl fest."
@@ -1331,7 +1331,7 @@ msgid "QTI Metadata"
 msgstr "QTI Metadaten"
 
 msgid "QTI metadata as properties"
-msgstr ""
+msgstr "QTI-Metadaten als Eigenschaften"
 
 msgid "QTI Package 2.1"
 msgstr "QTI Paket 2.1"
@@ -1391,7 +1391,7 @@ msgid "Remove custom text color"
 msgstr "Benutzerdefinierte Textfarbe entfernen"
 
 msgid "Remove Instructions"
-msgstr ""
+msgstr "Anweisungen entfernen"
 
 msgid "Remove Message"
 msgstr "Nachricht entfernen"
@@ -1406,7 +1406,7 @@ msgid "Remove this stylesheet"
 msgstr "Dieses Stylesheet entfernen"
 
 msgid "Removes all instruction messages generated by the system from the interface."
-msgstr ""
+msgstr "Entfernt alle vom System generierten Anweisungen aus der Benutzeroberfläche."
 
 msgid "Replay timeout"
 msgstr "Wiedergabezeitüberschreitung"
@@ -1577,7 +1577,7 @@ msgid "Select this area to start an association"
 msgstr "Diesen Bereich auswählen um eine Assoziation zu beginnen"
 
 msgid "Sequential"
-msgstr ""
+msgstr "Sequenziell"
 
 msgid "Set a CSS class name in order to customize the display style."
 msgstr "Setze einen CSS-Klassennamen, um den Anzeigestil anzupassen."
@@ -1616,7 +1616,7 @@ msgid "Something went wrong while destroying an interaction: %s"
 msgstr "Es ist ein Fehler aufgetreten, während eine Interaktion zerstört wurde: %s"
 
 msgid "sort from source to target list"
-msgstr ""
+msgstr "Von der Quellliste zur Zielliste sortieren"
 
 msgid "Square root"
 msgstr "Quadratwurzel"
@@ -1808,7 +1808,7 @@ msgid "The maxPlays attribute indicates that the media object can be played at m
 msgstr "Das maxPlays Attribut gibt an wie oft ein Medienobjekt vom Kandidaten maximal abgespielt werden kann. Ein Wert von 0 (Standardeinstellung) gibt kein Limit vor."
 
 msgid "The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score."
-msgstr ""
+msgstr "Der MAXSCORE dieses Elements wurde entfernt, da die aktuellen Interaktionseinstellungen einen unendlichen Wert für die Punktzahl zulassen."
 
 msgid "The MIME-type attribute describes which kind of file may be uploaded."
 msgstr "Das MIME-type Attribut beschreibt welche Art von Datei hochgeladen werden kann."
@@ -1865,7 +1865,7 @@ msgid "The target must be an instance of DOMDocument"
 msgstr "Das Ziel muss eine Instanz eines DOMDocument sein"
 
 msgid "The text to be displayed below the image."
-msgstr ""
+msgstr "Der Text, der unter dem Bild angezeigt werden soll."
 
 msgid "The text to be displayed if the image is not available."
 msgstr "Der Text, der angezeigt wird, falls das Bild nicht verfügbar sein sollte."
@@ -1904,13 +1904,13 @@ msgid "This is not a valid answer"
 msgstr "Das ist keine gültige Antwort"
 
 msgid "This is not a valid value. Expected %s"
-msgstr ""
+msgstr "Dies ist kein gültiger Wert. Erwartet wird %s"
 
 msgid "This is required"
 msgstr "Dies ist erforderlich"
 
 msgid "This shows or hides the entire audio player from view. Test takers will not be able to play, pause, or change the volume level."
-msgstr ""
+msgstr "Dies zeigt oder verbirgt den gesamten Audioplayer. Testteilnehmer können das Audio nicht abspielen, pausieren oder die Lautstärke ändern."
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "Dieses Stylesheet wurde auf dem Server nicht gefunden. Diese Referenz sollte gelöscht werden."
@@ -1928,7 +1928,7 @@ msgid "to"
 msgstr "zu"
 
 msgid "Toggles the display of a vertical separator between columns."
-msgstr ""
+msgstr "Wechselt die Anzeige eines vertikalen Trennstrichs zwischen den Spalten."
 
 msgid "Tooltip Content"
 msgstr "Tooltip-Inhalt"
