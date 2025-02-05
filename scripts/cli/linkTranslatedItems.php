@@ -121,7 +121,10 @@ class linkTranslatedItems extends ScriptAction
         foreach ($items as $item) {
             $importedUniqueId = $item->getOnePropertyValue($this->getProperty($uniqueIdentifierProperty));
             if ($this->wetRun) {
-                $item->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_TRANSLATION_STATUS), TaoOntology::PROPERTY_VALUE_TRANSLATION_STATUS_READY);
+                $item->editPropertyValues(
+                    $this->getProperty(TaoOntology::PROPERTY_TRANSLATION_STATUS),
+                    TaoOntology::PROPERTY_VALUE_TRANSLATION_STATUS_READY
+                );
                 $item->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER), $importedUniqueId);
             }
             $mainItem++;
@@ -138,10 +141,22 @@ class linkTranslatedItems extends ScriptAction
                 foreach ($linkedItems as $linkedItem) {
                     $translations++;
                     if ($this->wetRun) {
-                        $linkedItem->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_TRANSLATION_STATUS), TaoOntology::PROPERTY_VALUE_TRANSLATION_STATUS_READY);
-                        $linkedItem->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_TRANSLATION_TYPE), TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION);
-                        $linkedItem->setPropertyValue($this->getProperty(TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI), $item->getUri());
-                        $linkedItem->setPropertyValue($this->getProperty(TaoOntology::PROPERTY_TRANSLATION_PROGRESS), TaoOntology::PROPERTY_VALUE_TRANSLATION_PROGRESS_TRANSLATED);
+                        $linkedItem->editPropertyValues(
+                            $this->getProperty(TaoOntology::PROPERTY_TRANSLATION_STATUS),
+                            TaoOntology::PROPERTY_VALUE_TRANSLATION_STATUS_READY
+                        );
+                        $linkedItem->editPropertyValues(
+                            $this->getProperty(TaoOntology::PROPERTY_TRANSLATION_TYPE),
+                            TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION
+                        );
+                        $linkedItem->setPropertyValue(
+                            $this->getProperty(TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI),
+                            $item->getUri()
+                        );
+                        $linkedItem->setPropertyValue(
+                            $this->getProperty(TaoOntology::PROPERTY_TRANSLATION_PROGRESS),
+                            TaoOntology::PROPERTY_VALUE_TRANSLATION_PROGRESS_TRANSLATED
+                        );
                     }
                 }
             }
