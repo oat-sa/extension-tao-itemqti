@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\scripts\cli;
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\reporting\Report;
 use oat\generis\model\OntologyAwareTrait;
+use oat\generis\model\OntologyRdf;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\tao\model\TaoOntology;
 use taoItems_models_classes_ItemsService as ItemService;
@@ -161,6 +162,10 @@ class linkTranslatedItems extends ScriptAction
                         $linkedItem->setPropertyValue(
                             $this->getProperty(TaoOntology::PROPERTY_TRANSLATION_PROGRESS),
                             TaoOntology::PROPERTY_VALUE_TRANSLATION_PROGRESS_TRANSLATED
+                        );
+                        $linkedItem->editPropertyValues(
+                            $this->getProperty(OntologyRdf::RDF_TYPE),
+                            TaoOntology::CLASS_URI_ITEM
                         );
                     }
                 }
