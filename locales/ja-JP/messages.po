@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2024-10-18 08:52\n"
+"PO-Revision-Date: 2025-02-06 10:36\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -51,13 +51,13 @@ msgid "%s of %s words maximum."
 msgstr "%s ／最大 %s 単語"
 
 msgid "(comma)"
-msgstr ""
+msgstr "(カンマ)"
 
 msgid "(dot)"
-msgstr ""
+msgstr "(ドット)"
 
 msgid "(space)"
-msgstr ""
+msgstr "(スペース)"
 
 msgid "-- Any kind of file --"
 msgstr "-- すべてのファイル --"
@@ -135,7 +135,7 @@ msgid "Add Style Sheet"
 msgstr "スタイルシート追加"
 
 msgid "after"
-msgstr ""
+msgstr "後"
 
 msgid "Alignment"
 msgstr "配置"
@@ -351,7 +351,7 @@ msgid "Color Picker"
 msgstr "カラーピッカー"
 
 msgid "Column separator"
-msgstr ""
+msgstr "列の区切り文字"
 
 msgid "Common Interactions"
 msgstr "標準インタラクション"
@@ -372,7 +372,7 @@ msgid "Cosinus"
 msgstr "cos"
 
 msgid "Create a single hottext from the selection"
-msgstr ""
+msgstr "選択範囲から1つのホットテキストを作成"
 
 msgid "Create assocations and fill the score in the form below"
 msgstr "組合せを作成し、以下のフォームにスコアを記入"
@@ -390,7 +390,7 @@ msgid "Create hottext"
 msgstr "ホットテキスト作成"
 
 msgid "Create multiple hottexts from the selection"
-msgstr ""
+msgstr "選択範囲から複数のホットエクスポートを作成"
 
 msgid "Create pair(s) from a series of choices."
 msgstr "選択肢からペアを作成"
@@ -471,7 +471,7 @@ msgid "Display"
 msgstr "画面表示"
 
 msgid "Display media player"
-msgstr ""
+msgstr "メディアプレーヤーを表示する"
 
 msgid "Display the choices either horizontally or vertically"
 msgstr "選択肢を水平または垂直に並べる"
@@ -777,10 +777,10 @@ msgid "If this box is checked the student will be able to eliminate choices."
 msgstr "ボックスにチェックを入れると、選択肢を消去することができます。"
 
 msgid "Image caption"
-msgstr ""
+msgstr "画像のキャプション表示"
 
 msgid "Image caption not enabled when position is set to inline"
-msgstr ""
+msgstr "位置がインラインに設定されている場合、画像キャプションは有効になりません"
 
 msgid "Import"
 msgstr "インポート"
@@ -822,7 +822,7 @@ msgid "Index"
 msgstr "インデックス"
 
 msgid "Indicates that the audio forms part of a sequence with other sequential interactions. The advancing of the sequence is handled by the delivery engine. Delays are also respected."
-msgstr ""
+msgstr "オーディオが他のシーケンシャル相互作用を伴うシーケンスの一部を形成していることを示します。 シーケンスの進歩は配信エンジンによって処理されます。遅延も尊重されます。"
 
 msgid "Infinity"
 msgstr "∞"
@@ -870,10 +870,10 @@ msgid "Invalid URL"
 msgstr "無効なURL"
 
 msgid "Invalid value in correct response property."
-msgstr ""
+msgstr "正しいレスポンスプロパティに無効な値があります。"
 
 msgid "Invalid value, use %s %s for decimal point."
-msgstr ""
+msgstr "無効な値です。小数点には %s %s を使用してください。"
 
 msgid "Is this choice the correct response?"
 msgstr "この選択は正しい答えですか？"
@@ -1163,7 +1163,7 @@ msgid "Order Interaction"
 msgstr "並べ替え問題"
 
 msgid "order single list"
-msgstr ""
+msgstr "単一リストの注文"
 
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "画像の領域（ホットスポット）を選んでください"
@@ -1211,7 +1211,7 @@ msgid "Please define the correct order in the box to the right."
 msgstr "右側のボックスに正しい順序を設定してください"
 
 msgid "Please define the correct order."
-msgstr ""
+msgstr "正しい順序を定義してください。"
 
 msgid "Please define the correct response and the score below."
 msgstr "正解とスコアを設定してください"
@@ -1331,7 +1331,7 @@ msgid "QTI Metadata"
 msgstr "QTIメタデータ"
 
 msgid "QTI metadata as properties"
-msgstr ""
+msgstr "QTIメタデータ"
 
 msgid "QTI Package 2.1"
 msgstr "QTIパッケージ2.1"
@@ -1577,7 +1577,7 @@ msgid "Select this area to start an association"
 msgstr "組み合わせを開始するには、この範囲を選んでください。"
 
 msgid "Sequential"
-msgstr ""
+msgstr "シーケンシャル"
 
 msgid "Set a CSS class name in order to customize the display style."
 msgstr "画面表示をカスタマイズするためのCSSクラス名を設定します"
@@ -1616,7 +1616,7 @@ msgid "Something went wrong while destroying an interaction: %s"
 msgstr "インタラクションの破棄時に何か問題が発生しました: %s。"
 
 msgid "sort from source to target list"
-msgstr ""
+msgstr "ソースからターゲットリストへのソート"
 
 msgid "Square root"
 msgstr "平方根"
@@ -1808,7 +1808,7 @@ msgid "The maxPlays attribute indicates that the media object can be played at m
 msgstr "メディアの最大再生回数です。受験者はこの再生回数を超えて再生することはできません。0（デフォルト）は制限なく再生できます。"
 
 msgid "The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score."
-msgstr ""
+msgstr "このアイテムのMAXSCOREは、電流相互作用設定によって無限の値がスコアに与えられるため、除去されます。"
 
 msgid "The MIME-type attribute describes which kind of file may be uploaded."
 msgstr "MIMEタイプ属性は、アップロードできるファイル形式を設定します"
@@ -1865,7 +1865,7 @@ msgid "The target must be an instance of DOMDocument"
 msgstr "ターゲットはのDOMDocumentのインスタンスである必要があります"
 
 msgid "The text to be displayed below the image."
-msgstr ""
+msgstr "画像の下に表示されるテキスト。"
 
 msgid "The text to be displayed if the image is not available."
 msgstr "代替えテキスト（画像が使用できない場合に表示されるテキスト）"
@@ -1904,13 +1904,13 @@ msgid "This is not a valid answer"
 msgstr "有効な解答ではありません"
 
 msgid "This is not a valid value. Expected %s"
-msgstr ""
+msgstr "これは有効な値ではありません。期待される %s"
 
 msgid "This is required"
 msgstr "これは必須です"
 
 msgid "This shows or hides the entire audio player from view. Test takers will not be able to play, pause, or change the volume level."
-msgstr ""
+msgstr "オーディオプレーヤー全体を表示/非表示にします。テスト受験者は音量レベルを再生、一時停止、または変更することはできません。"
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
 msgstr "このスタイルシートがサーバ上で見つかりません。この参照を削除してください"
@@ -1928,7 +1928,7 @@ msgid "to"
 msgstr "ー"
 
 msgid "Toggles the display of a vertical separator between columns."
-msgstr ""
+msgstr "縦方向の区切り記号の表示を切り替えます。"
 
 msgid "Tooltip Content"
 msgstr "Tips内容"
