@@ -329,12 +329,24 @@ class ImportService extends ConfigurableService
             $qtiItemResources = $this->createQtiManifest($folder . 'imsmanifest.xml');
 
             if ($importMetadataEnabled) {
-                $metadataValues = $this->getMetadataImporter()->extract($domManifest);
                 $metaMetadataValues = $this->getMetaMetadataExtractor()->extract($domManifest);
                 $mappedMetadataValues = $this->getMetaMetadataImportMapper()->mapMetaMetadataToProperties(
                     $metaMetadataValues,
                     $itemClass
                 );
+                $metadataValues = $this->getMetadataImporter()->extract($domManifest);
+                $notMatchingProperties = $this->checkMissingClassProperties(
+                    $metadataValues,
+                    $mappedMetadataValues['itemProperties']
+                );
+                if (!empty($notMatchingProperties)) {
+                    return Report::createError(
+                        sprintf(
+                            __('Target class is missing the following metadata properties: %s'),
+                            implode(', ', $notMatchingProperties)
+                        )
+                    );
+                }
                 if (empty($mappedMetadataValues)) {
                     $mappedMetadataValues = $this->getMetaMetadataImportMapper()->mapMetadataToProperties(
                         $metadataValues,
@@ -973,5 +985,20 @@ class ImportService extends ConfigurableService
     private function getItemConverter(): ItemConverter
     {
         return $this->getServiceManager()->getContainer()->get(ItemConverter::class);
+    }
+
+    /**
+     * Checks if target class has all the properties needed to import the metadata.
+     * @param array $metadataValues
+     * @param $itemProperties
+     * @return array
+     */
+    private function checkMissingClassProperties(array $metadataValues, $itemProperties): array
+    {
+        $metadataValueUris = $this->getMetadataImporter()->metadataValueUris($metadataValues);
+        return array_diff(
+            $metadataValueUris,
+            array_keys($itemProperties)
+        );
     }
 }
