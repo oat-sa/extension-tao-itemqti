@@ -289,29 +289,6 @@ $mainContainer : '.qti-item';
         }
     }
 
-    .writing-mode-vertical-rl {
-        writing-mode: vertical-rl;
-
-        &.qti-itemBody {
-            block-size: 100%;
-            inline-size: 100%;
-            overflow: auto;
-            overscroll-behavior: contain;
-            line-height: 1.8; /* assuming ruby tags */
-        }
-        .grid-row, .fixed-grid-row {
-            block-size: auto;
-            inline-size: 100%;
-
-            [class*=" col-"], [class^="col-"] {
-                &.col-12 {
-                    block-size: auto;
-                    inline-size: 100%;
-                }
-            }
-        }
-    }
-
     @import "all-interactions";
     @import "object";
     @import "choice";
@@ -337,10 +314,4 @@ $mainContainer : '.qti-item';
 
 .tao-preview-scope{
     padding-top: 20px;
-}
-
-.item-writing-mode-vertical-rl {
-    & .qti-item {
-        height: 100%;
-    }
 }
