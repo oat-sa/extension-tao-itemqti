@@ -2,7 +2,7 @@
 .qti-choiceInteraction {
     // Vertical item (default)
     .real-label input[disabled] ~ [class^="icon-"]{
-        cursor:pointer !important;
+        cursor: pointer !important;
     }
     .choice-area {
         .label-content {
@@ -10,32 +10,33 @@
         }
         .mini-tlb {
             @include rtl {
-                right: auto !important;
-                left: -2.2em;
+                inset-inline-end: auto !important;
+                inset-inline-start: -2.2em;
             }
         }
         .widget-math.edit-active{
             span.mini-tlb{
-            @include rtl {
-                margin-right: 6.3em;
-                left: -2.20em;
-                right: auto !important;
+                @include rtl {
+                    margin-inline-end: 6.3em;
+                    inset-inline-start: -2.20em;
+                    inset-inline-end: auto !important;
+                }
             }
         }
-    }
-
     }
     .mini-tlb {
         right: -38px;
 
         &[data-edit=answer]{
-            width: 38px;
+            inline-size: 38px;
             background: transparent;
             border-color: transparent !important;
 
             .tlb-button{
-                margin:0;
-                padding:0;
+                margin-block: 0;
+                margin-inline: 0;
+                padding-block: 0;
+                padding-inline: 0;
                 &:hover{
                     background: transparent;
                 }
@@ -46,38 +47,36 @@
     // Horizontal item
     .horizontal {
         .mini-tlb {
-            top: -28px;
-            right: 0;
+            inset-block-start: -28px;
+            inset-inline-end: 0;
             @include rtl {
-                right: auto !important;
-                left: -1px;
+                inset-inline-end: auto !important;
+                inset-inline-start: -1px;
             }
         }
         .widget-box.edit-active {
             @include rtl {
                 .mini-tlb {
-                    left: -2.2em;
-                    right: auto !important;
-                    top: 0;
+                    inset-inline-start: -2.2em;
+                    inset-inline-end: auto !important;
+                    inset-block-start: 0;
                 }
             }
         }
         .widget-math.edit-active {
             @include rtl {
-                margin-left: 2.25em;
+                margin-inline-start: 2.25em;
 
                 span.mini-tlb {
-                    margin-right: 6.3em;
-                    left: -2.20em;
-                    right: auto;
-                    top: -2px !important;
+                    margin-inline-end: 6.3em;
+                    inset-inline-start: -2.20em;
+                    inset-inline-end: auto;
+                    inset-block-start: -2px !important;
                 }
             }
         }
         .qti-choice.edit-choice {
-            padding-top: 5px;
+            padding-block-start: 5px;
         }
     }
 }
-
-
