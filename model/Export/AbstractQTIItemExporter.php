@@ -24,6 +24,7 @@
 
 namespace oat\taoQtiItem\model\Export;
 
+use DOMAttr;
 use oat\oatbox\filesystem\FilesystemException;
 use oat\oatbox\reporting\Report;
 use oat\tao\helpers\Base64;
@@ -200,6 +201,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 if (isset($replacementList[$node->value])) {
                     $node->value = htmlspecialchars($replacementList[$node->value], ENT_QUOTES | ENT_XML1);
                 }
+                $this->QtiVersionTranslation($node);
             }
             foreach ($portableEntryNodes as $node) {
                 $node->nodeValue = strtr(htmlentities($node->nodeValue, ENT_XML1), $replacementList);
@@ -400,5 +402,14 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     private function getAssetStylesheetLoader(): AssetStylesheetLoader
     {
         return $this->getServiceManager()->get(AssetStylesheetLoader::class);
+    }
+
+    private function QtiVersionTranslation(DOMAttr $node)
+    {
+        if ($this->getQTIVersion() === '3p0' && $node->nodeName === 'expectedLength') {
+            $parent = $node->parentNode;
+            $parent->setAttribute('class',  'qti-input-width-' . $node->nodeValue);
+            $parent->removeAttribute('expectedLength');
+        }
     }
 }
