@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\Export\Qti3Package;
 
+use DOMAttr;
 use DOMDocument;
 use DOMElement;
 
@@ -83,6 +84,35 @@ class TransformationService
     public function createQtiElementName(string $nodeName): string
     {
         return sprintf('qti-%s', $this->camelToHyphen($nodeName));
+    }
+
+    public function textInteractionAttributeTransformation(DOMAttr $node, string $qtiVersion): void
+    {
+        if ($qtiVersion !== '3p0') {
+            return;
+        }
+
+        $parent = $node->parentNode;
+        $classAttribute = $parent->attributes->getNamedItem('class');
+
+        switch ($node->nodeName) {
+            case 'expectedLength':
+                $classValue = 'qti-input-width-' . $node->nodeValue;
+                $parent->removeAttribute('expectedLength');
+                break;
+            case 'expectedLines':
+                $classValue = 'qti-input-height-' . $node->nodeValue;
+                $parent->removeAttribute('expectedLines');
+                break;
+            default:
+                return;
+        }
+
+        if ($classAttribute === null) {
+            $parent->setAttribute('class', $classValue);
+        } else {
+            $classAttribute->nodeValue .= ' ' . $classValue;
+        }
     }
 
     private function camelToHyphen(string $string): string

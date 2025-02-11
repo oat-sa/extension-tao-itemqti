@@ -19,7 +19,7 @@
  *                         (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor
  *                         (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-2022 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *               2013-2025 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 namespace oat\taoQtiItem\model\Export;
@@ -30,6 +30,7 @@ use oat\oatbox\reporting\Report;
 use oat\tao\helpers\Base64;
 use oat\tao\model\media\MediaBrowser;
 use oat\taoQtiItem\model\Export\Exception\AssetStylesheetZipTransferException;
+use oat\taoQtiItem\model\Export\Qti3Package\TransformationService;
 use oat\taoQtiItem\model\Export\Stylesheet\AssetStylesheetLoader;
 use core_kernel_classes_Property;
 use DOMDocument;
@@ -201,7 +202,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 if (isset($replacementList[$node->value])) {
                     $node->value = htmlspecialchars($replacementList[$node->value], ENT_QUOTES | ENT_XML1);
                 }
-                $this->QtiVersionTranslation($node);
+                $this->getTransformationService()->textInteractionAttributeTransformation($node, $this->getQTIVersion());
             }
             foreach ($portableEntryNodes as $node) {
                 $node->nodeValue = strtr(htmlentities($node->nodeValue, ENT_XML1), $replacementList);
@@ -404,12 +405,8 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         return $this->getServiceManager()->get(AssetStylesheetLoader::class);
     }
 
-    private function QtiVersionTranslation(DOMAttr $node)
+    private function getTransformationService(): TransformationService
     {
-        if ($this->getQTIVersion() === '3p0' && $node->nodeName === 'expectedLength') {
-            $parent = $node->parentNode;
-            $parent->setAttribute('class',  'qti-input-width-' . $node->nodeValue);
-            $parent->removeAttribute('expectedLength');
-        }
+        return $this->getServiceManager()->get(TransformationService::class);
     }
 }
