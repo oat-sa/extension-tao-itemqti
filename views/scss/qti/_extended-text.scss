@@ -3,7 +3,7 @@
 .qti-extendedTextInteraction {
 
     .text-container {
-        min-height: 50px;
+        min-block-size: 50px;
 
         &.text-preformatted {
             font-family: $monospaceFont;
@@ -49,9 +49,9 @@
     }
 
     textarea {
-        max-width: 100%!important;
-        width: 100%;
-        height: 150px;
+        max-inline-size: 100%!important;
+        inline-size: 100%;
+        block-size: 150px;
         resize: none;
 
         &[disabled="disabled"] {
