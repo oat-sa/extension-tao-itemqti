@@ -42,6 +42,8 @@ class MappedMetadataInjector
 
     public function inject(array $mappedProperties, array $metadataValues, Resource $resource): void
     {
+        $removedProperties = [];
+
         /** @var SimpleMetadataValue $metadataValue */
         foreach ($metadataValues as $metadataValue) {
             foreach ($metadataValue->getPath() as $mappedPath) {
@@ -76,6 +78,13 @@ class MappedMetadataInjector
                 }
 
                 if ($mappedProperties[$mappedPath]->getRange() !== null) {
+                    $propertyUri = $mappedProperties[$mappedPath]->getUri();
+
+                    if (!in_array($propertyUri, $removedProperties, true)) {
+                        $resource->removePropertyValues($mappedProperties[$mappedPath]);
+                        $removedProperties[] = $propertyUri;
+                    }
+
                     $this->setListValue($mappedProperties[$mappedPath], $resource, $metadataValue);
                     break;
                 }
@@ -99,6 +108,7 @@ class MappedMetadataInjector
     private function setListValue(Property $property, Resource $resource, SimpleMetadataValue $metadataValue): void
     {
         $list = $this->listService->getListElements($property->getRange());
+
         foreach ($list as $listElement) {
             if (
                 $listElement->getLabel() === $metadataValue->getValue()
