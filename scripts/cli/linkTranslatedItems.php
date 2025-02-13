@@ -42,7 +42,7 @@ class linkTranslatedItems extends ScriptAction
 
     private $wetRun = false;
     private $classUri = '';
-    private $mainLanguage = '';
+    private $mainItemLanguage = '';
     private $report;
 
     protected function provideOptions()
@@ -63,7 +63,7 @@ class linkTranslatedItems extends ScriptAction
             'main-language' => [
                 'prefix' => 'm',
                 'longPrefix' => 'main-language',
-                'description' => 'Main language to link translations',
+                'description' => 'Main item language to link translations. Default is en-US. Item with this language will be considered as main item',
                 'required' => false,
                 'default' => 'en-US'
             ]
@@ -111,8 +111,8 @@ class linkTranslatedItems extends ScriptAction
 
         $items = $this->getItemService()->getRootClass()->searchInstances(
             [
-            TaoOntology::PROPERTY_TRANSLATION_TYPE => TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL,
-            TaoOntology::PROPERTY_LANGUAGE => 'http://www.tao.lu/Ontologies/TAO.rdf#Lang' . $this->mainLanguage
+                TaoOntology::PROPERTY_TRANSLATION_TYPE => TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL,
+                TaoOntology::PROPERTY_LANGUAGE => TaoOntology::LANGUAGE_PREFIX . $this->mainItemLanguage
             ],
             ['like' => false, 'recursive' => true]
         );
@@ -121,7 +121,7 @@ class linkTranslatedItems extends ScriptAction
 
         foreach ($items as $item) {
             $importedUniqueId = $item->getOnePropertyValue($this->getProperty($uniqueIdentifierProperty));
-            if ($this->wetRun) {
+            if (!$this->wetRun) {
                 $item->editPropertyValues(
                     $this->getProperty(TaoOntology::PROPERTY_TRANSLATION_STATUS),
                     TaoOntology::PROPERTY_VALUE_TRANSLATION_STATUS_READY
@@ -132,15 +132,14 @@ class linkTranslatedItems extends ScriptAction
                 );
             }
             $mainItem++;
-            $translatedIn = $item->getPropertyValues(
+            $translatedLanguages = $item->getPropertyValues(
                 $this->getProperty(TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES)
             );
-            foreach ($translatedIn as $lang) {
+            foreach ($translatedLanguages as $lang) {
                 $linkedItems =  $this->getItemService()->getRootClass()->searchInstances(
                     [
-                    TaoOntology::PROPERTY_LANGUAGE => $lang,
-                    $uniqueIdentifierProperty => $importedUniqueId
-
+                        TaoOntology::PROPERTY_LANGUAGE => $lang,
+                        $uniqueIdentifierProperty => $importedUniqueId
                     ],
                     ['like' => false, 'recursive' => true]
                 );
@@ -186,7 +185,7 @@ class linkTranslatedItems extends ScriptAction
             $this->wetRun = true;
         }
         $this->classUri = $this->getOption('class');
-        $this->mainLanguage = $this->getOption('main-language');
+        $this->mainItemLanguage = $this->getOption('main-language');
     }
 
     protected function getItemService(): ItemService
