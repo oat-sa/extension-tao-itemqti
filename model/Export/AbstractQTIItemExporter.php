@@ -202,11 +202,6 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 if (isset($replacementList[$node->value])) {
                     $node->value = htmlspecialchars($replacementList[$node->value], ENT_QUOTES | ENT_XML1);
                 }
-
-                $this->getTransformationService()->textInteractionAttributeTransformation(
-                    $node,
-                    $this->getQTIVersion()
-                );
             }
             foreach ($portableEntryNodes as $node) {
                 $node->nodeValue = strtr(htmlentities($node->nodeValue, ENT_XML1), $replacementList);

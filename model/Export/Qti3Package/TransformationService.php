@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2024 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -78,6 +78,8 @@ class TransformationService
                     $targetElement->setAttribute($attrName, $attribute->value);
                 }
             }
+
+            $this->textInteractionAttributeTransformation($attribute);
         }
     }
 
@@ -86,12 +88,8 @@ class TransformationService
         return sprintf('qti-%s', $this->camelToHyphen($nodeName));
     }
 
-    public function textInteractionAttributeTransformation(DOMAttr $node, string $qtiVersion): void
+    public function textInteractionAttributeTransformation(DOMAttr $node): void
     {
-        if ($qtiVersion !== '3p0') {
-            return;
-        }
-
         $parent = $node->parentNode;
         $classAttribute = $parent->attributes->getNamedItem('class');
 
