@@ -63,7 +63,7 @@ class linkTranslatedItems extends ScriptAction
             'main-language' => [
                 'prefix' => 'm',
                 'longPrefix' => 'main-language',
-                'description' => 'Main item language to link translations. Default is en-US. Item with this language will be considered as main item',
+                'description' => 'Item with this language will be considered as main item',
                 'required' => false,
                 'default' => 'en-US'
             ]
