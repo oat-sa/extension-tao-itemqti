@@ -107,7 +107,7 @@ class MappedMetadataInjectorTest extends TestCase
             ->willReturn($resourceMock);
 
         $resourceMock
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method('removePropertyValues');
 
         $resourceMock
