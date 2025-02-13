@@ -39,9 +39,9 @@ $mainContainer : '.qti-item';
 
 %qtiModalFeedback {
     color : blacken($textColor, .5);/*because of the overlay, make it darker*/
-    margin-block-start : 10px;
+    margin-top : 10px;
     .qti-title{
-        margin-block-start: 0px;
+        margin-top: 0px;
     }
     border : 4px solid $infoBorderColor;
     &.positive{
@@ -66,10 +66,10 @@ $mainContainer : '.qti-item';
     //!important to override all attempts to change this in the theme
     overflow-x: visible !important;
     .grid-row, .fixed-grid-row {
-        inline-size: 100%;
+        width: 100%;
         [class*=" col-"], [class^="col-"] {
             &.col-12 {
-                inline-size: 100%;
+                width: 100%;
             }
             &:last-child {
                 margin-right: 0;
@@ -84,10 +84,10 @@ $mainContainer : '.qti-item';
     padding: 15px;
     background: white();
     margin:auto;
-    max-inline-size: 1024px;
+    max-width: 1024px;
 
     &.runtime {
-        min-block-size: 100%;
+        min-height: 100%;
     }
 
     [class*="col-"] {
@@ -97,7 +97,7 @@ $mainContainer : '.qti-item';
     }
 
     #modalFeedbacks {
-        max-block-size:0;
+        max-height:0;
         .qti-modalFeedback{
             @extend %qtiModalFeedback;
         }
@@ -127,8 +127,8 @@ $mainContainer : '.qti-item';
             border: none;
             margin: 12px 0;
             padding: 0;
-            block-size: 1px;
-            max-block-size: 1px;
+            height: 1px;
+            max-height: 1px;
             border: none;
             border-color: #8c8c8c;
             border-top: solid 1px;

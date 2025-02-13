@@ -24,9 +24,10 @@
         inset-inline-start: $elimCbOffsetLeft * 1px;
 
         @include rtl {
-            inset-inline-start: auto;
-            inset-inline-end: $elimCbOffsetLeft * 1px;
+            inset-inline-end: auto;
+            inset-inline-start: $elimCbOffsetLeft * 1px;
         }
+
         &:after {
             content: '0';
             visibility: hidden;
@@ -53,8 +54,8 @@
         inset-inline-start: 0;
         padding-right: 10px;
         @include rtl {
-            inset-inline-start: auto;
-            inset-inline-end: 0;
+            inset-inline-end: auto;
+            inset-inline-start: 0;
             padding-right: 0;
             padding-left: 10px;
         }
@@ -62,8 +63,8 @@
     .label-box {
         margin-inline-start: 24px;
         @include rtl {
-            margin-inline-start: 0;
-            margin-inline-end: 24px;
+            margin-inline-end: 0;
+            margin-inline-start: 24px;
         }
     }
 
@@ -74,8 +75,8 @@
                 margin-left: 85px;
 
                 @include rtl {
-                    margin-inline-start: auto;
-                    margin-inline-end: 85px;
+                    margin-inline-end: auto;
+                    margin-inline-start: 85px;
                 }
             }
             // ol
@@ -88,8 +89,8 @@
                         inset-inline-start: $elimListStyleCbOffsetLeft * 1px;
 
                         @include rtl {
-                            inset-inline-start: auto;
-                            inset-inline-end: $elimListStyleCbOffsetLeft * 1px;
+                            inset-inline-end: auto;
+                            inset-inline-start: $elimListStyleCbOffsetLeft * 1px;
                         }
                     }
                 }
@@ -177,8 +178,8 @@
         .qti-choice {
             .answer-mask {
                 @include rtl {
-                    inset-inline-start: 0;
-                    inset-inline-end: auto;
+                    inset-inline-end: 0;
+                    inset-inline-start: auto;
                     text-align: left;
                 }
             }
@@ -215,13 +216,13 @@
 
         &:before {
             @include rtl {
-                inset-inline-end: -1em;
+                inset-inline-start: -1em;
             }
         }
         &:after {
             inset-inline-start: -1em;
             @include rtl {
-                inset-inline-start: auto;
+                inset-inline-end: auto;
             }
         }
     }
@@ -233,8 +234,8 @@
                 margin-inline-start: 30px;
 
                 @include rtl {
-                    margin-inline-start: auto;
-                    margin-inline-end: 30px;
+                    margin-inline-end: auto;
+                    margin-inline-start: 30px;
                 }
             }
 
@@ -251,8 +252,8 @@
                     inset-inline-start: 30px;
 
                     @include rtl {
-                        inset-inline-start: auto;
-                        inset-inline-end: 30px;
+                        inset-inline-end: auto;
+                        inset-inline-start: 30px;
                     }
                 }
                 &.add-option:before {
@@ -314,9 +315,6 @@
 }
 
 .writing-mode-vertical-rl {
-    .tlb-wrapper {
-        writing-mode: horizontal-tb;
-    }
     .qti-choiceInteraction {
         .item-instruction {
             padding: 4rem 1rem 1rem 1rem;
@@ -398,15 +396,7 @@
                         }
                     }
                 }
-                .mini-tlb {
-                    inset-block-start: -2rem;
-                }
             }
-        }
-    }
-    .widget-box {
-        .widget-ok {
-            height: 100%
         }
     }
 }
