@@ -98,7 +98,9 @@ class MappedMetadataInjector
 
     private function setListValue(Property $property, Resource $resource, SimpleMetadataValue $metadataValue): void
     {
+        $resource->removePropertyValues($property);
         $list = $this->listService->getListElements($property->getRange());
+
         foreach ($list as $listElement) {
             if (
                 $listElement->getLabel() === $metadataValue->getValue()
