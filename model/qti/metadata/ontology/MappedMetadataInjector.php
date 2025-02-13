@@ -42,7 +42,7 @@ class MappedMetadataInjector
 
     public function inject(array $mappedProperties, array $metadataValues, Resource $resource): void
     {
-        $purifiedProperties = [];
+        $removedProperties = [];
 
         /** @var SimpleMetadataValue $metadataValue */
         foreach ($metadataValues as $metadataValue) {
@@ -80,9 +80,9 @@ class MappedMetadataInjector
                 if ($mappedProperties[$mappedPath]->getRange() !== null) {
                     $propertyUri = $mappedProperties[$mappedPath]->getUri();
 
-                    if (!in_array($propertyUri, $purifiedProperties, true)) {
+                    if (!in_array($propertyUri, $removedProperties, true)) {
                         $resource->removePropertyValues($mappedProperties[$mappedPath]);
-                        $purifiedProperties[] = $propertyUri;
+                        $removedProperties[] = $propertyUri;
                     }
 
                     $this->setListValue($mappedProperties[$mappedPath], $resource, $metadataValue);
