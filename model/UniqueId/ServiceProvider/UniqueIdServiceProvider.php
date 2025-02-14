@@ -24,7 +24,6 @@ namespace oat\taoQtiItem\model\UniqueId\ServiceProvider;
 
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorProxy;
 use oat\taoQtiItem\model\qti\Identifier\Service\QtiIdentifierSetter;
 use oat\taoQtiItem\model\UniqueId\Listener\ItemCreationListener;
@@ -42,7 +41,6 @@ class UniqueIdServiceProvider implements ContainerServiceProviderInterface
             ->set(ItemCreationListener::class, ItemCreationListener::class)
             ->public()
             ->args([
-                service(FeatureFlagChecker::class),
                 service(Ontology::SERVICE_ID),
                 service(IdentifierGeneratorProxy::class),
                 service(QtiIdentifierSetter::class),

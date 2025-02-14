@@ -40,9 +40,6 @@ class ItemCreationListenerTest extends TestCase
     /** @var core_kernel_classes_Resource|MockObject */
     private core_kernel_classes_Resource $resource;
 
-    /** @var FeatureFlagCheckerInterface|MockObject */
-    private FeatureFlagCheckerInterface $featureFlagChecker;
-
     /** @var Ontology|MockObject */
     private Ontology $ontology;
 
@@ -58,50 +55,15 @@ class ItemCreationListenerTest extends TestCase
     {
         $this->resource = $this->createMock(core_kernel_classes_Resource::class);
 
-        $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
         $this->ontology = $this->createMock(Ontology::class);
         $this->identifierGenerator = $this->createMock(IdentifierGeneratorInterface::class);
         $this->qtiIdentifierSetter = $this->createMock(QtiIdentifierSetter::class);
 
-        $this->sut = new ItemCreationListener(
-            $this->featureFlagChecker,
-            $this->ontology,
-            $this->identifierGenerator,
-            $this->qtiIdentifierSetter
-        );
-    }
-
-    public function testFeatureDisabled(): void
-    {
-        $this->featureFlagChecker
-            ->expects($this->once())
-            ->method('isEnabled')
-            ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
-            ->willReturn(false);
-
-        $this->identifierGenerator
-            ->expects($this->never())
-            ->method('generate');
-
-        $this->resource
-            ->expects($this->never())
-            ->method($this->anything());
-
-        $this->qtiIdentifierSetter
-            ->expects($this->never())
-            ->method('set');
-
-        $this->sut->populateUniqueId(new ItemCreatedEvent('itemUri'));
+        $this->sut = new ItemCreationListener($this->ontology, $this->identifierGenerator, $this->qtiIdentifierSetter);
     }
 
     public function testIsNotItem(): void
     {
-        $this->featureFlagChecker
-            ->expects($this->once())
-            ->method('isEnabled')
-            ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
-            ->willReturn(true);
-
         $this->ontology
             ->expects($this->once())
             ->method('getResource')
@@ -130,12 +92,6 @@ class ItemCreationListenerTest extends TestCase
 
     public function testSuccess(): void
     {
-        $this->featureFlagChecker
-            ->expects($this->once())
-            ->method('isEnabled')
-            ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
-            ->willReturn(true);
-
         $this->ontology
             ->expects($this->once())
             ->method('getResource')
