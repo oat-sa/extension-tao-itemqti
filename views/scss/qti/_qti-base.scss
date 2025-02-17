@@ -144,7 +144,7 @@ $mainContainer : '.qti-item';
 
     .qti-choice, .qti-prompt-container {
         p:last-child {
-            margin-block-end: 0 !important;
+            margin-bottom: 0 !important;
         }
     }
 
@@ -244,7 +244,7 @@ $mainContainer : '.qti-item';
             outline-color: $colorWheel-05;
         }
         .text-container{
-            min-block-size: 50px;
+            min-height: 50px;
 
             &.text-preformatted{
                 font-family: $monospaceFont;
@@ -263,7 +263,7 @@ $mainContainer : '.qti-item';
         }
         .empty {
             border: 1px $uiClickableHoverBg dashed !important;
-            min-block-size: 50px;
+            min-height: 50px;
             cursor: default;
         }
 

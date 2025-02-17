@@ -14,18 +14,17 @@
         display: none;
         position: absolute;
         z-index: 3;
-        inset-block-start: 0;
-        min-block-size: $minRowHeight * 1px;
+        top: 0;
+        min-height: $minRowHeight * 1px;
         max-height: 100%;
         min-width: 20px;
-        margin-block: 5px;
-        margin-inline: 0;
+        margin: 5px 0;
         padding: 0;
-        inset-inline-start: $elimCbOffsetLeft * 1px;
+        left: $elimCbOffsetLeft * 1px;
 
         @include rtl {
-            inset-inline-end: auto;
-            inset-inline-start: $elimCbOffsetLeft * 1px;
+            left: auto;
+            right: $elimCbOffsetLeft * 1px;
         }
 
         &:after {
@@ -43,28 +42,28 @@
             position: absolute;
             font: inherit;
             cursor: default;
-            inset-inline-start: 50%;
+            left: 50%;
             transform: translateX(-50%);
-            inset-block-end: calc(100% + 20px);
+            bottom: calc(100% + 20px);
             white-space: nowrap;
         }
     }
 
     .real-label {
-        inset-inline-start: 0;
+        left: 0;
         padding-right: 10px;
         @include rtl {
-            inset-inline-end: auto;
-            inset-inline-start: 0;
+            left: auto;
+            right: 0;
             padding-right: 0;
             padding-left: 10px;
         }
     }
     .label-box {
-        margin-inline-start: 24px;
+        margin-left: 24px;
         @include rtl {
-            margin-inline-end: 0;
-            margin-inline-start: 24px;
+            margin-left: 0;
+            margin-right: 24px;
         }
     }
 
@@ -75,22 +74,22 @@
                 margin-left: 85px;
 
                 @include rtl {
-                    margin-inline-end: auto;
-                    margin-inline-start: 85px;
+                    margin-left: auto;
+                    margin-right: 85px;
                 }
             }
             // ol
             .choice-area {
-                margin-block-start: 25px;
+                margin-top: 25px;
                 // there might be list-styles that move everything to the right
                 &[class^='list-style-'],
                 &[class*=' list-style-'] {
                     [data-eliminable='container'] {
-                        inset-inline-start: $elimListStyleCbOffsetLeft * 1px;
+                        left: $elimListStyleCbOffsetLeft * 1px;
 
                         @include rtl {
-                            inset-inline-end: auto;
-                            inset-inline-start: $elimListStyleCbOffsetLeft * 1px;
+                            left: auto;
+                            right: $elimListStyleCbOffsetLeft * 1px;
                         }
                     }
                 }
@@ -110,9 +109,9 @@
                             .qti-block {
                                 &:after {
                                     content: ' ';
-                                    inline-size: 100%;
+                                    width: 100%;
                                     position: relative;
-                                    inset-block-start: -21px;
+                                    top: -21px;
                                 }
                             }
 
@@ -120,12 +119,12 @@
                                 stroke: rgb(0, 0, 0);
                                 stroke-width: 1;
                                 display: inline;
-                                block-size: 100%;
-                                inset-inline-start: 0;
+                                height: 100%;
+                                left: 0;
                                 overflow: hidden;
                                 position: absolute;
-                                inset-block-start: 0;
-                                inline-size: 100%;
+                                top: 0;
+                                width: 100%;
                             }
                         }
                     }
@@ -142,14 +141,14 @@
 
                     &:after {
                         content: '';
-                        inline-size: 100%;
-                        block-size: 100%;
+                        width: 100%;
+                        height: 100%;
                         background: $uiGeneralContentBg;
                         opacity: 0.7;
                         display: block;
                         position: absolute;
-                        inset-block-start: 0;
-                        inset-inline-start: 0;
+                        top: 0;
+                        left: 0;
                         cursor: not-allowed;
                     }
 
@@ -178,8 +177,8 @@
         .qti-choice {
             .answer-mask {
                 @include rtl {
-                    inset-inline-end: 0;
-                    inset-inline-start: auto;
+                    left: 0;
+                    right: auto;
                     text-align: left;
                 }
             }
@@ -193,11 +192,11 @@
     }
 
     .qti-choice .real-label {
-        min-block-size: $minRowHeight * 1px;
+        min-height: $minRowHeight * 1px;
         max-height: 100%;
         display: flex;
         align-items: center;
-        inset-block-start: 0px;
+        top: 0;
         -webkit-tap-highlight-color: transparent; // mobile safari fix
         &:before {
             content: '0';
@@ -216,13 +215,13 @@
 
         &:before {
             @include rtl {
-                inset-inline-start: -1em;
+                right: -1em;
             }
         }
         &:after {
-            inset-inline-start: -1em;
+            left: -1em;
             @include rtl {
-                inset-inline-end: auto;
+                left: auto;
             }
         }
     }
@@ -231,11 +230,11 @@
         &[class^='list-style-'],
         &[class*=' list-style-'] {
             .label-content {
-                margin-inline-start: 30px;
+                margin-left: 30px;
 
                 @include rtl {
-                    margin-inline-end: auto;
-                    margin-inline-start: 30px;
+                    margin-left: auto;
+                    margin-right: 30px;
                 }
             }
 
@@ -244,16 +243,16 @@
             li {
                 &::before {
                     position: absolute;
-                    inset-block-start: 4px;
-                    min-block-size: $minRowHeight * 1px;
+                    top: 4px;
+                    min-height: $minRowHeight * 1px;
                     max-height: 100%;
                     display: flex;
                     align-items: center;
-                    inset-inline-start: 30px;
+                    left: 30px;
 
                     @include rtl {
-                        inset-inline-end: auto;
-                        inset-inline-start: 30px;
+                        left: auto;
+                        right: 30px;
                     }
                 }
                 &.add-option:before {
@@ -265,31 +264,30 @@
     }
 
     .block-listing > li {
-        margin-block-start: 0;
-        margin-block-end: 0;
+        margin-top: 0;
+        margin-bottom: 0;
         border-top: none;
         border-bottom: none;
         @include border-radius(0);
         &:first-child {
-            margin-block-start: 3px;
+            margin-top: 3px;
             border-top: 1px solid #eee;
             @include border-radius-top(2);
         }
         &:last-child {
-            margin-block-end: 3px;
+            margin-bottom: 3px;
             border-bottom: 1px solid #eee;
             @include border-radius-bottom(2);
         }
     }
     .block-listing.horizontal > li {
-        margin-block: 3px;
-        margin-inline: 3px;
+        margin: 3px;
         border: 1px solid #eee;
         @include border-radius(2);
     }
     .label-content [data-html-editable='true'],
     .label-content {
-        min-block-size: $minRowHeight * 1px;
+        min-height: $minRowHeight * 1px;
         max-height: 100%;
     }
 
@@ -308,7 +306,7 @@
     .real-label {
         input {
             opacity: 0;
-            inset-inline-start: auto;
+            left: auto;
         }
     }
     //END IE specific
@@ -318,6 +316,70 @@
     writing-mode: vertical-rl;
 
     .qti-choiceInteraction {
+        &.maskable {
+            .qti-choice {
+                padding-top: 3rem;
+                .answer-mask {
+                    text-align: start;
+                    width: 100%;
+                    height: 2.5rem;
+                    padding-right: 0.1rem;
+                    &.masked {
+                        height: 100%;
+                    }
+                }
+                .label-content {
+                    padding-right: 0;
+                }
+                .pseudo-label-box {
+                    margin-top: 2rem;
+                }
+            }
+            .choice-area.list-style-upper-alpha .qti-choice::before {
+                top: 5.5rem;
+            }
+        }
+        &.eliminable {
+            .choice-area {
+                margin-top: 0;
+                &.plain.block-listing {
+                    .qti-choice {
+                        .label-box {
+                            margin-top: 7rem;
+                        }
+                        [data-eliminable='container'] {
+                            &:before {
+                                display: none;
+                            }
+                            width: calc(100% - 1rem);
+                            display: flex;
+                            align-items: center;
+                            margin: 0;
+                            left: 0.5rem;
+                            [data-eliminable='trigger'] {
+                                display: block;
+                                position: relative;
+                                padding: 0;
+                                top: 5rem;
+                                left: 0.8rem;
+                                &:after {
+                                    left: 0;
+                                }
+                            }
+                        }
+                    }
+                }
+                &.list-style-upper-alpha.plain.block-listing {
+                    .qti-choice {
+                        [data-eliminable='container'] {
+                            [data-eliminable='trigger'] {
+                                top: 7.5rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         .item-instruction {
             padding: 4rem 1rem 1rem 1rem;
             margin: 0 0.5rem;
@@ -333,67 +395,65 @@
             &.plain.block-listing {
                 display: flex;
                 flex-direction: column;
-                gap: 2rem;
+                gap: 1rem;
                 height: 100%;
 
                 & > li {
                     border: 1px solid #e0e0e0;
                     padding-top: 1rem;
                     height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    &:first-child {
+                        margin-top: 0;
+                    }
                 }
 
                 .qti-choice {
                     .real-label {
-                        inset-inline-start: 0.5rem;
                         width: 100%;
+                        margin-left: 0.1rem;
                     }
                     .label-box {
+                        margin-top: 4rem;
                         margin-left: 0;
                     }
-
-                    .icon-checkbox:after {
-                        left: 0;
+                    .icon-checkbox {
+                        &:after {
+                            left: 0;
+                        }
+                        &:before {
+                            position: absolute;
+                        }
                     }
-
                 }
             }
             &.list-style-upper-alpha {
                 .qti-choice {
                     &::before {
                         transform: rotate(270deg);
-                        inset-block-start: 0;
-                        width: 100%;
+                        top: 3.5rem;
+                        left: calc(50% - 1rem);
+                        display: block;
+                        height: min-content;
+                        position: absolute;
                     }
 
                     .real-label {
                         .icon-radio:after {
                             left: 0;
                         }
+                        .icon-radio:before {
+                            position: absolute;
+                        }
                     }
 
                     .pseudo-label-box {
                         .label-box {
-                            margin-inline-start: 6rem;
                             margin-left: 0;
                             .label-content {
-                                margin-inline-start: 2rem;
-                            }
-                        }
-                    }
-
-                    [data-eliminable='container'] {
-                        width: 100%;
-                        display: flex;
-                        align-items: center;
-                        margin: 0;
-                        [data-eliminable='trigger'] {
-                            display: block;
-                            position: relative;
-                            top: auto;
-                            left: 1.1rem;
-
-                            &:after {
-                                left: 0;
+                                margin-top: 2rem;
+                                margin-left: 0;
                             }
                         }
                     }
