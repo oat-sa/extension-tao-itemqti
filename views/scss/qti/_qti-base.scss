@@ -315,3 +315,18 @@ $mainContainer : '.qti-item';
 .tao-preview-scope{
     padding-top: 20px;
 }
+
+
+.extendedText-shadow-caret {
+    position: absolute;
+    display: none;
+    width: 1.2em;
+    height: 1px;
+    background-color: $textColor;
+    animation: extendedText-shadow-caret-blink 750ms steps(4, start) infinite;
+}
+@keyframes extendedText-shadow-caret-blink {
+    to {
+        visibility: hidden;
+    }
+}
