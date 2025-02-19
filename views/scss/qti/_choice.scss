@@ -26,6 +26,7 @@
             left: auto;
             right: $elimCbOffsetLeft * 1px;
         }
+
         &:after {
             content: '0';
             visibility: hidden;
@@ -195,7 +196,7 @@
         max-height: 100%;
         display: flex;
         align-items: center;
-        top: 0px;
+        top: 0;
         -webkit-tap-highlight-color: transparent; // mobile safari fix
         &:before {
             content: '0';
@@ -309,4 +310,155 @@
         }
     }
     //END IE specific
+}
+
+.writing-mode-vertical-rl {
+    writing-mode: vertical-rl;
+
+    .qti-choiceInteraction {
+        &.maskable {
+            .qti-choice {
+                padding-top: 3rem;
+                .answer-mask {
+                    text-align: start;
+                    width: 100%;
+                    height: 2.5rem;
+                    padding-right: 0.1rem;
+                    &.masked {
+                        height: 100%;
+                    }
+                }
+                .label-content {
+                    padding-right: 0;
+                }
+                .pseudo-label-box {
+                    margin-top: 2rem;
+                }
+            }
+            .choice-area.list-style-upper-alpha .qti-choice::before {
+                top: 5.5rem;
+            }
+        }
+        &.eliminable {
+            .choice-area {
+                margin-top: 0;
+                &.plain.block-listing {
+                    .qti-choice {
+                        .label-box {
+                            margin-top: 7rem;
+                        }
+                        [data-eliminable='container'] {
+                            &:before {
+                                display: none;
+                            }
+                            width: calc(100% - 1rem);
+                            display: flex;
+                            align-items: center;
+                            margin: 0;
+                            left: 0.5rem;
+                            [data-eliminable='trigger'] {
+                                display: block;
+                                position: relative;
+                                padding: 0;
+                                top: 5rem;
+                                left: 0.8rem;
+                                &:after {
+                                    left: 0;
+                                }
+                            }
+                        }
+                    }
+                }
+                &.list-style-upper-alpha.plain.block-listing {
+                    .qti-choice {
+                        [data-eliminable='container'] {
+                            [data-eliminable='trigger'] {
+                                top: 7.5rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .item-instruction {
+            padding: 4rem 1rem 1rem 1rem;
+            margin: 0 0.5rem;
+
+            .icon {
+                left: 0;
+                width: 100%;
+                display: flex;
+                align-items: center;
+            }
+        }
+        .choice-area {
+            &.plain.block-listing {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                height: 100%;
+
+                & > li {
+                    border: 1px solid #e0e0e0;
+                    padding-top: 1rem;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    &:first-child {
+                        margin-top: 0;
+                    }
+                }
+
+                .qti-choice {
+                    .real-label {
+                        width: 100%;
+                        margin-left: 0.1rem;
+                    }
+                    .label-box {
+                        margin-top: 4rem;
+                        margin-left: 0;
+                    }
+                    .icon-checkbox {
+                        &:after {
+                            left: 0;
+                        }
+                        &:before {
+                            position: absolute;
+                        }
+                    }
+                }
+            }
+            &.list-style-upper-alpha {
+                .qti-choice {
+                    &::before {
+                        transform: rotate(270deg);
+                        top: 3.5rem;
+                        left: calc(50% - 1rem);
+                        display: block;
+                        height: min-content;
+                        position: absolute;
+                    }
+
+                    .real-label {
+                        .icon-radio:after {
+                            left: 0;
+                        }
+                        .icon-radio:before {
+                            position: absolute;
+                        }
+                    }
+
+                    .pseudo-label-box {
+                        .label-box {
+                            margin-left: 0;
+                            .label-content {
+                                margin-top: 2rem;
+                                margin-left: 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
