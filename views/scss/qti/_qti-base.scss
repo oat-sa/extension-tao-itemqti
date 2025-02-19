@@ -244,7 +244,7 @@ $mainContainer : '.qti-item';
             outline-color: $colorWheel-05;
         }
         .text-container{
-            min-height: 50px;
+            min-block-size: 50px;
 
             &.text-preformatted{
                 font-family: $monospaceFont;
@@ -263,7 +263,7 @@ $mainContainer : '.qti-item';
         }
         .empty {
             border: 1px $uiClickableHoverBg dashed !important;
-            min-height: 50px;
+            min-block-size: 50px;
             cursor: default;
         }
 
