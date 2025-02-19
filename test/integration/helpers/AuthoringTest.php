@@ -15,12 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2015-2025 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\taoQtiItem\test\integration\helpers;
 
+use DOMDocument;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
@@ -46,13 +46,14 @@ class AuthoringTest extends TaoPhpUnitTestRunner
         $xmlStr = file_get_contents($this->getSamplePath('/authoring/sanitizeQtiXml.xml'));
         $xml = simplexml_load_string($xmlStr);
 
-        $this->assertTrue(count($xml->xpath("//*[local-name() = 'itemBody']//*[@style]")) > 0);
-
         $sanitizedXmlStr = Authoring::sanitizeQtiXml($xmlStr);
 
         $sanitizedXml = simplexml_load_string($sanitizedXmlStr);
 
-        $this->assertTrue(count($sanitizedXml->xpath("//*[local-name() = 'itemBody']//*[@style]")) === 0);
+        $this->assertCount(
+            count($xml->xpath("//*[local-name() = 'itemBody']//*[@style]")),
+            $sanitizedXml->xpath("//*[local-name() = 'itemBody']//*[@style]")
+        );
 
         return $sanitizedXmlStr;
     }
@@ -63,7 +64,7 @@ class AuthoringTest extends TaoPhpUnitTestRunner
     public function testValidateSanitizedString($xmlStr)
     {
         $dom = Authoring::loadQtiXml($xmlStr);
-        self::assertInstanceOf(\DOMDocument::class, $dom);
+        self::assertInstanceOf(DOMDocument::class, $dom);
     }
 
     public function testSanitizeQtiXmlMultipleIds()
@@ -119,13 +120,13 @@ class AuthoringTest extends TaoPhpUnitTestRunner
     public function testValidateSanitizedStringSingleId($xmlStr)
     {
         $dom = Authoring::loadQtiXml($xmlStr);
-        self::assertInstanceOf(\DOMDocument::class, $dom);
+        self::assertInstanceOf(DOMDocument::class, $dom);
     }
 
     public function testLoadQtiXml()
     {
         $xmlStr = file_get_contents($this->getSamplePath('/authoring/loadQtiXml.xml'));
-        $this->assertTrue(Authoring::loadQtiXml($xmlStr) instanceof \DOMDocument);
+        $this->assertTrue(Authoring::loadQtiXml($xmlStr) instanceof DOMDocument);
     }
 
     public function testLoadWrongQtiXml()
