@@ -175,6 +175,11 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $replacementList[$assetUrl] = '';
                 $report->setMessage($e->getMessage());
                 $report->setType(Report::TYPE_ERROR);
+            } catch (FilesystemException $exception) {
+                $replacementList[$assetUrl] = '';
+                $report->setMessage($exception->getMessage());
+                $report->setType(Report::TYPE_ERROR);
+                return $report;
             }
         }
 
