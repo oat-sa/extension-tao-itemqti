@@ -72,17 +72,18 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
     {
         if (!$this->containsItem()) {
             $report = parent::export($options);
-            if ($report->getType() !== \common_report_Report::TYPE_ERROR || !$report->containsError()) {
-                try {
-                    $exportResult = [];
-                    if (is_array($report->getData())) {
-                        $exportResult = $report->getData();
-                    }
-                    $this->exportManifest($options, $exportResult);
-                } catch (ExportException $e) {
-                    $report->setType(\common_report_Report::TYPE_ERROR);
-                    $report->setMessage($e->getUserMessage());
+            if ($report->getType() === \common_report_Report::TYPE_ERROR || $report->containsError()) {
+                return $report;
+            }
+            try {
+                $exportResult = [];
+                if (is_array($report->getData())) {
+                    $exportResult = $report->getData();
                 }
+                $this->exportManifest($options, $exportResult);
+            } catch (ExportException $e) {
+                $report->setType(\common_report_Report::TYPE_ERROR);
+                $report->setMessage($e->getUserMessage());
             }
             return $report;
         }

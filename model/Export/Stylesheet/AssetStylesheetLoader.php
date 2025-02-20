@@ -33,7 +33,6 @@ use oat\oatbox\service\ConfigurableService;
 use oat\taoMediaManager\model\fileManagement\FlySystemManagement;
 use oat\taoQtiItem\model\Export\AbstractQTIItemExporter;
 use tao_helpers_Uri as UriHelper;
-
 class AssetStylesheetLoader extends ConfigurableService
 {
     use OntologyAwareTrait;
@@ -56,22 +55,25 @@ class AssetStylesheetLoader extends ConfigurableService
                 $cssFilesInfo = [];
 
                 foreach ($cssFiles as $key => $file) {
-                    $cssFilesInfo[$key] = $file instanceof StorageAttributes ? $file->jsonSerialize() : $file;
-                    $cssFilesInfo[$key]['stream'] = $this->getFileSystem()->readStream(
-                        $stylesheetPath . DIRECTORY_SEPARATOR . basename($file['path'])
-                    );
+                    if ($file['type'] == 'file') {
+                        $cssFilesInfo[$key] = $file instanceof StorageAttributes ? $file->jsonSerialize() : $file;
+                        $cssFilesInfo[$key]['stream'] = $this->getFileSystem()->readStream(
+                            $stylesheetPath . DIRECTORY_SEPARATOR . basename($file['path'])
+                        );
+                    }
                 }
 
                 return $cssFilesInfo;
             } catch (FilesystemException $exception) {
-                $this->getLogger()->notice(
-                    sprintf(
-                        'Stylesheet %s not found for resource %s',
-                        $exception->getPath(),
-                        $property
-                    ),
-                    ['exception' => $exception, 'directory' => $stylesheetPath, 'property' => $property]
+                $this->getLogger()->error(
+                    'Error loading asset stylesheet',
+                    [
+                        'exception' => $exception,
+                        'path' => $stylesheetPath,
+                    ]
                 );
+
+                throw $exception;
             }
         }
 
