@@ -18,10 +18,12 @@
 define([
     'jquery',
     'lodash',
+    'core/request',
+    'uri',
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/mediaInteraction/states/states',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/MediaInteraction'
-], function($, _, Widget, states, commonRenderer){
+], function($, _, request, uri, Widget, states, commonRenderer){
 
     var MediaInteractionWidget = _.extend(Widget.clone(), {
 
@@ -43,6 +45,29 @@ define([
                         self.renderInteraction();
                     }
             }, 100));
+        },
+
+        /**
+         * To include the asset transcription in the media interaction we require to have extension
+         * that will define transcriptionMetadata
+         */
+        injectTranscription : function(assetUri, $container) {
+            if (this.element.object.attributes.data && this.options['transcriptionMetadata']) {
+                return request({
+                    url: this.options.resourceMetadataUrl,
+                    method: 'GET',
+                    data: {
+                        resourceUri: assetUri.replace(this.options['mediaManagerUriPrefix'], ''),
+                        metadataUri: uri.encode(this.options['transcriptionMetadata'])
+                    },
+                    dataType: 'json'
+                }).then(response => {
+                    if(response.success && response.data && response.data.value) {
+                        $container.find('.transcription')
+                            .replaceWith('<div class="transcription">' + response.data.value + '</div>');
+                    }
+                });
+            }
         },
 
         destroy : function(){
@@ -67,6 +92,7 @@ define([
                 features : 'full',
                 controlPlaying : false
             });
+            this.injectTranscription(interaction.object.attributes.data, $container);
             //returns the previous autostart value
             interaction.attributes.autostart = autostart;
 
