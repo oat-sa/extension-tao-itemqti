@@ -27,7 +27,6 @@ use oat\taoQtiItem\model\service\CreatorConfigFactory;
 
 class RegisterCreatorConfigFactory extends InstallAction
 {
-
     public function __invoke($params)
     {
         $this->getServiceManager()->register(CreatorConfigFactory::SERVICE_ID, new CreatorConfigFactory());
