@@ -65,6 +65,8 @@ define([
                     if(response.success && response.data && response.data.value) {
                         $container.find('.transcription')
                             .replaceWith('<div class="transcription">' + response.data.value + '</div>');
+                    } else {
+                        console.error('Failed to load transcription metadata');
                     }
                 });
             }
