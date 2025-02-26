@@ -59,6 +59,32 @@
                     <span class="tooltip-content">{{__ "Indicates that the audio forms part of a sequence with other sequential interactions. The advancing of the sequence is handled by the delivery engine. Delays are also respected."}}
                     </span>
                 </div>
+
+                {{#if sequential}}
+                    <div class="panel sequential-subpanel">
+                        <div class="min-max-panel">
+                            <label class="spinner">
+                                {{__ 'repeats'}}
+                                <input type="text" name="sequenceRepeats" class="incrementer {{#unless hidePlayer}}disabled{{/unless}}" value="{{sequenceRepeats}}" {{#unless hidePlayer}}disabled{{/unless}} data-increment="1" data-min="1" data-max="100" />
+                            </label>
+                        </div>
+                        <div class="min-max-panel">
+                            <label class="spinner">
+                                {{__ 'delay between'}}
+                                <input type="text" name="sequenceDelayBetweenMs" class="incrementer {{#unless hasSequenceRepeatsAndHidePlayer}}disabled{{/unless}}" value="{{sequenceDelayBetweenMs}}" {{#unless hasSequenceRepeatsAndHidePlayer}}disabled{{/unless}} data-increment="1" data-min="0" data-max="600" />
+                                {{__ 'sec'}}
+                            </label>
+                        </div>
+                        <div class="min-max-panel">
+                            <label class="spinner">
+                                {{__ 'delay after'}}
+                                <input type="text" name="sequenceDelayAfterMs" class="incrementer {{#unless hidePlayer}}disabled{{/unless}}" value="{{sequenceDelayAfterMs}}" {{#unless hidePlayer}}disabled{{/unless}} data-increment="1" data-min="0" data-max="600" />
+                                {{__ 'sec'}}
+                            </label>
+                        </div>
+                    </div>
+                {{/if}}
+                <hr/>
             </div>
         {{/if}}
     {{/if}}
