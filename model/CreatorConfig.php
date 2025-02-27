@@ -32,6 +32,12 @@ class CreatorConfig extends Config
     protected $infoControls = [];
     protected $plugins      = [];
 
+    public function __construct(array $properties = [], array $extendedControlEndpoints = [])
+    {
+        $this->properties = $properties;
+        $this->controlEndpoints = array_merge($this->controlEndpoints, $extendedControlEndpoints);
+    }
+
     // hard coded urls for using by item creator
     protected $controlEndpoints = [
         'itemDataUrl' => ['taoQtiItem', 'QtiCreator', 'getItemData'],
@@ -55,6 +61,8 @@ class CreatorConfig extends Config
         'previewUrl' => ['taoQtiItem', 'QtiPreview', 'index'],
         'previewRenderUrl' => ['taoQtiItem', 'QtiPreview', 'render'],
         'previewSubmitUrl' => ['taoQtiItem', 'QtiPreview', 'submitResponses'],
+
+        'resourceMetadataUrl' => ['taoQtiItem', 'Metadata', 'resourceMetadata'],
     ];
 
     public function addInteraction($interactionFile)
@@ -120,7 +128,6 @@ class CreatorConfig extends Config
 
     public function init()
     {
-
         foreach ($this->interactions as $interaction) {
             $this->prepare($interaction);
         }
