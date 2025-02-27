@@ -119,8 +119,10 @@
         <label for="maxPlays" class="spinner">{{__ 'Max plays count'}}</label>
         <input name="maxPlays" value="{{maxPlays}}" class="large" data-increment="1" data-min="0" data-max="{{#if sequential}}1{{else}}1000{{/if}}" type="text" />
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
-        <span class="tooltip-content">
+        <div class="tooltip-content">
             {{__ "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."}}
-        </span>
+            <br/><br/>
+            {{__ "Sequential + repeats: a value of 1 here means all N repeats are allowed, but once. If sequence is started for the second time, this media won't play anymore."}}
+        </div>
     </div>
 </div>
