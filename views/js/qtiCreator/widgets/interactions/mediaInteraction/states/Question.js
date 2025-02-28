@@ -193,7 +193,9 @@ define([
             const $uploadTrigger = $form.find('.selectMediaFile');
             const openResourceMgr = function openResourceMgr() {
                 $uploadTrigger.resourcemgr({
-                    title: __('Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button "Add file(s)".'),
+                    title: __(
+                        'Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button "Add file(s)".'
+                    ),
                     appendContainer: options.mediaManager.appendContainer,
                     mediaSourcesUrl: options.mediaManager.mediaSourcesUrl,
                     browseUrl: options.mediaManager.browseUrl,
@@ -238,7 +240,7 @@ define([
             }
         };
 
-        const setUpCallbacks = function setUpCallbacks() {
+        const setUpCallbacks = function setUpCallbacks($form) {
             //init data change callbacks
             const callbacks = {
                 autostart: function autostart(boundInteraction, attrValue, attrName) {
@@ -246,11 +248,17 @@ define([
                     if (attrValue === false) {
                         // reset subpanel properties to defaults
                         interaction.removeAttr('data-autostart-delay-ms');
+                        interaction.removeAttr('data-sequence-repeats');
+                        interaction.removeAttr('data-sequence-delay-between-ms');
+                        interaction.removeAttr('data-sequence-delay-after-ms');
                         interaction.removeClass('hide-player');
                         $container.removeClass('dimmed');
                         interaction.removeClass('sequential');
                     } else if (isFlaAvailable) {
                         interaction.attr('data-autostart-delay-ms', 0);
+                        interaction.attr('data-sequence-repeats', 1);
+                        interaction.attr('data-sequence-delay-between-ms', 0);
+                        interaction.attr('data-sequence-delay-after-ms', 0);
                     }
                     renderForm();
                     reRender();
@@ -274,6 +282,9 @@ define([
                         interaction.removeClass('pause');
                     } else if (isFlaAvailable) {
                         interaction.attr('data-autostart-delay-ms', 0);
+                        interaction.attr('data-sequence-repeats', 1);
+                        interaction.attr('data-sequence-delay-between-ms', 0);
+                        interaction.attr('data-sequence-delay-after-ms', 0);
                     }
                     renderForm();
                 },
@@ -286,8 +297,39 @@ define([
                     if (attrValue === true) {
                         interaction.attr('loop', false);
                         interaction.attr('maxPlays', 0);
+                    } else {
+                        interaction.removeAttr('data-sequence-repeats');
+                        interaction.removeAttr('data-sequence-delay-between-ms');
+                        interaction.removeAttr('data-sequence-delay-after-ms');
                     }
                     renderForm();
+                },
+
+                sequenceRepeats: function repeats(boundInteraction, attrValue) {
+                    let attrValueNumeric = parseInt(attrValue, 10);
+                    attrValueNumeric = Number.isNaN(attrValueNumeric) || attrValueNumeric < 1 ? 1 : attrValueNumeric;
+                    interaction.attr('data-sequence-repeats', attrValueNumeric);
+
+                    if (attrValueNumeric === 1) {
+                        interaction.attr('data-sequence-delay-between-ms', 0);
+                    }
+                    if (interaction.attr('maxPlays') > 0) {
+                        const maxPlays = parseInt($form.find('[name="maxPlays"]').val(), 10);
+                        interaction.attr('maxPlays', maxPlays * attrValueNumeric);
+                    }
+                    renderForm();
+                },
+
+                sequenceDelayBetweenMs: function delayBetween(boundInteraction, attrValue) {
+                    const attrValueNumeric = parseInt(attrValue, 10);
+                    const attrValueNumericMs = Number.isNaN(attrValueNumeric) ? 0 : attrValueNumeric * 1000;
+                    interaction.attr('data-sequence-delay-between-ms', attrValueNumericMs);
+                },
+
+                sequenceDelayAfterMs: function delayAfter(boundInteraction, attrValue) {
+                    const attrValueNumeric = parseInt(attrValue, 10);
+                    const attrValueNumericMs = Number.isNaN(attrValueNumeric) ? 0 : attrValueNumeric * 1000;
+                    interaction.attr('data-sequence-delay-after-ms', attrValueNumericMs);
                 },
 
                 loop: function loop(boundInteraction, attrValue, attrName) {
@@ -295,7 +337,9 @@ define([
                 },
 
                 maxPlays: function maxPlays(boundInteraction, attrValue, attrName) {
-                    interaction.attr(attrName, attrValue);
+                    const attrValueNumeric = parseInt(attrValue, 10);
+                    const sequenceRepeatsNumeric = parseInt(interaction.attr('data-sequence-repeats') || 1, 10) || 1;
+                    interaction.attr(attrName, attrValueNumeric * sequenceRepeatsNumeric);
                 },
 
                 pause: function pause(boundInteraction, attrValue) {
@@ -352,6 +396,11 @@ define([
          * Can be called again, as needed
          */
         const renderForm = function renderForm() {
+            const sequenceRepeats = parseInt(interaction.attr('data-sequence-repeats') || 1, 10) || 1;
+            const hidePlayer = !!interaction.hasClass('hide-player');
+            const maxPlays = parseInt(interaction.attr('maxPlays') || 0, 10);
+            const uiMaxPlays = Math.round(maxPlays / sequenceRepeats);
+            const attrToSeconds = attrVal => Math.floor(parseInt(attrVal || 0, 10) / 1000);
             $form.html(
                 formTpl({
                     //tpl data for the interaction
@@ -359,10 +408,14 @@ define([
                     isFlaAvailable: isFlaAvailable,
                     autostart: !!interaction.attr('autostart'),
                     sequential: !!interaction.hasClass('sequential'),
-                    hidePlayer: !!interaction.hasClass('hide-player'),
-                    autostartDelayMs: Math.floor(parseInt(interaction.attr('data-autostart-delay-ms'), 10) / 1000),
+                    hidePlayer,
+                    autostartDelayMs: attrToSeconds(interaction.attr('data-autostart-delay-ms')),
+                    sequenceRepeats,
+                    hasSequenceRepeatsAndHidePlayer: sequenceRepeats > 1 && hidePlayer,
+                    sequenceDelayBetweenMs: attrToSeconds(interaction.attr('data-sequence-delay-between-ms')),
+                    sequenceDelayAfterMs: attrToSeconds(interaction.attr('data-sequence-delay-after-ms')),
                     loop: !!interaction.attr('loop'),
-                    maxPlays: parseInt(interaction.attr('maxPlays'), 10),
+                    maxPlays: uiMaxPlays,
                     pause: !!interaction.hasClass('pause'),
                     // tpl data for the "object", this part is going to be reused by the "objectWidget"
                     // @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10173
@@ -374,7 +427,7 @@ define([
             formElement.initWidget($form);
             switchMode();
             setUpUploader();
-            setUpCallbacks();
+            setUpCallbacks($form);
         };
         renderForm();
     };

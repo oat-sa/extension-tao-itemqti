@@ -59,6 +59,32 @@
                     <span class="tooltip-content">{{__ "Indicates that the audio forms part of a sequence with other sequential interactions. The advancing of the sequence is handled by the delivery engine. Delays are also respected."}}
                     </span>
                 </div>
+
+                {{#if sequential}}
+                    <div class="panel sequential-subpanel">
+                        <div class="min-max-panel">
+                            <label class="spinner">
+                                {{__ 'repeats'}}
+                                <input type="text" name="sequenceRepeats" class="incrementer {{#unless hidePlayer}}disabled{{/unless}}" value="{{sequenceRepeats}}" {{#unless hidePlayer}}disabled{{/unless}} data-increment="1" data-min="1" data-max="100" />
+                            </label>
+                        </div>
+                        <div class="min-max-panel">
+                            <label class="spinner">
+                                {{__ 'delay between'}}
+                                <input type="text" name="sequenceDelayBetweenMs" class="incrementer {{#unless hasSequenceRepeatsAndHidePlayer}}disabled{{/unless}}" value="{{sequenceDelayBetweenMs}}" {{#unless hasSequenceRepeatsAndHidePlayer}}disabled{{/unless}} data-increment="10" data-min="0" data-max="600" />
+                                {{__ 'sec'}}
+                            </label>
+                        </div>
+                        <div class="min-max-panel">
+                            <label class="spinner">
+                                {{__ 'delay after'}}
+                                <input type="text" name="sequenceDelayAfterMs" class="incrementer {{#unless hidePlayer}}disabled{{/unless}}" value="{{sequenceDelayAfterMs}}" {{#unless hidePlayer}}disabled{{/unless}} data-increment="10" data-min="0" data-max=1800" />
+                                {{__ 'sec'}}
+                            </label>
+                        </div>
+                    </div>
+                {{/if}}
+                <hr/>
             </div>
         {{/if}}
     {{/if}}
@@ -93,8 +119,10 @@
         <label for="maxPlays" class="spinner">{{__ 'Max plays count'}}</label>
         <input name="maxPlays" value="{{maxPlays}}" class="large" data-increment="1" data-min="0" data-max="{{#if sequential}}1{{else}}1000{{/if}}" type="text" />
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
-        <span class="tooltip-content">
+        <div class="tooltip-content">
             {{__ "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."}}
-        </span>
+            <br/><br/>
+            {{__ "Sequential + repeats: a value of 1 here means all N repeats are allowed, but once. If sequence is started for the second time, this media won't play anymore."}}
+        </div>
     </div>
 </div>
