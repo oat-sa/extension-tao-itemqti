@@ -71,14 +71,14 @@
                         <div class="min-max-panel">
                             <label class="spinner">
                                 {{__ 'delay between'}}
-                                <input type="text" name="sequenceDelayBetweenMs" class="incrementer {{#unless hasSequenceRepeatsAndHidePlayer}}disabled{{/unless}}" value="{{sequenceDelayBetweenMs}}" {{#unless hasSequenceRepeatsAndHidePlayer}}disabled{{/unless}} data-increment="1" data-min="0" data-max="600" />
+                                <input type="text" name="sequenceDelayBetweenMs" class="incrementer {{#unless hasSequenceRepeatsAndHidePlayer}}disabled{{/unless}}" value="{{sequenceDelayBetweenMs}}" {{#unless hasSequenceRepeatsAndHidePlayer}}disabled{{/unless}} data-increment="10" data-min="0" data-max="600" />
                                 {{__ 'sec'}}
                             </label>
                         </div>
                         <div class="min-max-panel">
                             <label class="spinner">
                                 {{__ 'delay after'}}
-                                <input type="text" name="sequenceDelayAfterMs" class="incrementer {{#unless hidePlayer}}disabled{{/unless}}" value="{{sequenceDelayAfterMs}}" {{#unless hidePlayer}}disabled{{/unless}} data-increment="1" data-min="0" data-max="600" />
+                                <input type="text" name="sequenceDelayAfterMs" class="incrementer {{#unless hidePlayer}}disabled{{/unless}}" value="{{sequenceDelayAfterMs}}" {{#unless hidePlayer}}disabled{{/unless}} data-increment="10" data-min="0" data-max=1800" />
                                 {{__ 'sec'}}
                             </label>
                         </div>
