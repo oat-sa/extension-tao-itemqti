@@ -117,19 +117,19 @@ class QtiLanguageSetterTest extends TestCase
             ->willReturn(TaoOntology::LANGUAGE_PREFIX . 'ar-arb');
 
         $itemData
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('getBody')
             ->willReturn($body);
 
         $itemData
             ->expects($this->once())
-            ->method('removeAttributeValue')
-            ->with('dir');
-
-        $itemData
-            ->expects($this->once())
             ->method('setAttribute')
             ->with('xml:lang', 'ar-arb');
+
+        $body
+            ->expects($this->once())
+            ->method('removeAttributeValue')
+            ->with('dir');
 
         $body
             ->expects($this->once())
