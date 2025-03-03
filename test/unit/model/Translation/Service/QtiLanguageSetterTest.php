@@ -123,6 +123,11 @@ class QtiLanguageSetterTest extends TestCase
 
         $itemData
             ->expects($this->once())
+            ->method('removeAttributeValue')
+            ->with('dir');
+
+        $itemData
+            ->expects($this->once())
             ->method('setAttribute')
             ->with('xml:lang', 'ar-arb');
 
