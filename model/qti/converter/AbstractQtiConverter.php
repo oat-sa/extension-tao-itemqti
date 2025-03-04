@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2024 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2024-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\qti\converter;
 
 use common_Logger;
+use DOMAttr;
 use DOMComment;
 use DOMDocument;
 use DOMElement;
@@ -121,6 +122,11 @@ abstract class AbstractQtiConverter
                 continue;
             }
 
+            if ($this->isExpectedLengthEquivalent($attribute)) {
+                $newElement->setAttribute('expectedLength', str_replace('qti-input-width-', '', $attribute->value));
+                continue;
+            }
+
             // Only replace attribute names from map
             if ($attrReplacement = $this->caseConversionService->kebabToCamelCase($attribute->name)) {
                 $newElement->setAttribute($attrReplacement, $attribute->value);
@@ -203,5 +209,10 @@ abstract class AbstractQtiConverter
             && $child->tagName === $this->getRootElement()
             && $child->getAttributeNode('xmlns') !== null
             && $child->getAttributeNode('xmlns')->nodeValue === self::QTI_3_NS;
+    }
+
+    private function isExpectedLengthEquivalent(DOMAttr $attribute): bool
+    {
+        return $attribute->name === 'class' && str_contains($attribute->value, 'qti-input-width-');
     }
 }
