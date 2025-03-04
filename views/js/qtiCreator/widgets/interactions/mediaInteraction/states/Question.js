@@ -312,6 +312,8 @@ define([
 
                     if (attrValueNumeric === 1) {
                         interaction.attr('data-sequence-delay-between-ms', 0);
+                    } else {
+                        interaction.attr('maxPlays', 0);
                     }
                     renderForm();
                 },
@@ -391,7 +393,6 @@ define([
          */
         const renderForm = function renderForm() {
             const sequenceRepeats = parseInt(interaction.attr('data-sequence-repeats') || 1);
-            const hidePlayer = !!interaction.hasClass('hide-player');
             const attrToSeconds = attrVal => Math.floor(parseInt(attrVal || 0, 10) / 1000);
             $form.html(
                 formTpl({
@@ -400,10 +401,10 @@ define([
                     isFlaAvailable: isFlaAvailable,
                     autostart: !!interaction.attr('autostart'),
                     sequential: !!interaction.hasClass('sequential'),
-                    hidePlayer,
+                    hidePlayer: !!interaction.hasClass('hide-player'),
                     autostartDelayMs: attrToSeconds(interaction.attr('data-autostart-delay-ms')),
                     sequenceRepeats,
-                    hasSequenceRepeatsAndHidePlayer: sequenceRepeats > 1 && hidePlayer,
+                    hasSequenceRepeats: sequenceRepeats > 1,
                     sequenceDelayBetweenMs: attrToSeconds(interaction.attr('data-sequence-delay-between-ms')),
                     sequenceDelayAfterMs: attrToSeconds(interaction.attr('data-sequence-delay-after-ms')),
                     loop: !!interaction.attr('loop'),
