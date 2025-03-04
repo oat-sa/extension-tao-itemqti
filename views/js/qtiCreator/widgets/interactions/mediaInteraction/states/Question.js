@@ -240,7 +240,7 @@ define([
             }
         };
 
-        const setUpCallbacks = function setUpCallbacks($form) {
+        const setUpCallbacks = function setUpCallbacks() {
             //init data change callbacks
             const callbacks = {
                 autostart: function autostart(boundInteraction, attrValue, attrName) {
@@ -313,10 +313,6 @@ define([
                     if (attrValueNumeric === 1) {
                         interaction.attr('data-sequence-delay-between-ms', 0);
                     }
-                    if (interaction.attr('maxPlays') > 0) {
-                        const maxPlays = parseInt($form.find('[name="maxPlays"]').val(), 10);
-                        interaction.attr('maxPlays', maxPlays * attrValueNumeric);
-                    }
                     renderForm();
                 },
 
@@ -337,9 +333,7 @@ define([
                 },
 
                 maxPlays: function maxPlays(boundInteraction, attrValue, attrName) {
-                    const attrValueNumeric = parseInt(attrValue, 10);
-                    const sequenceRepeatsNumeric = parseInt(interaction.attr('data-sequence-repeats') || 1, 10) || 1;
-                    interaction.attr(attrName, attrValueNumeric * sequenceRepeatsNumeric);
+                    interaction.attr(attrName, attrValue);
                 },
 
                 pause: function pause(boundInteraction, attrValue) {
@@ -396,10 +390,8 @@ define([
          * Can be called again, as needed
          */
         const renderForm = function renderForm() {
-            const sequenceRepeats = parseInt(interaction.attr('data-sequence-repeats') || 1, 10) || 1;
+            const sequenceRepeats = parseInt(interaction.attr('data-sequence-repeats') || 1);
             const hidePlayer = !!interaction.hasClass('hide-player');
-            const maxPlays = parseInt(interaction.attr('maxPlays') || 0, 10);
-            const uiMaxPlays = Math.round(maxPlays / sequenceRepeats);
             const attrToSeconds = attrVal => Math.floor(parseInt(attrVal || 0, 10) / 1000);
             $form.html(
                 formTpl({
@@ -415,7 +407,7 @@ define([
                     sequenceDelayBetweenMs: attrToSeconds(interaction.attr('data-sequence-delay-between-ms')),
                     sequenceDelayAfterMs: attrToSeconds(interaction.attr('data-sequence-delay-after-ms')),
                     loop: !!interaction.attr('loop'),
-                    maxPlays: uiMaxPlays,
+                    maxPlays: parseInt(interaction.attr('maxPlays'), 10),
                     pause: !!interaction.hasClass('pause'),
                     // tpl data for the "object", this part is going to be reused by the "objectWidget"
                     // @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10173
@@ -427,7 +419,7 @@ define([
             formElement.initWidget($form);
             switchMode();
             setUpUploader();
-            setUpCallbacks($form);
+            setUpCallbacks();
         };
         renderForm();
     };
