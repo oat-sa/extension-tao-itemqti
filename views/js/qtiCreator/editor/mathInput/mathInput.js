@@ -78,6 +78,7 @@ define([
             pi:         { label: '&pi;',        latex: '\\pi',          fn: 'cmd',      desc: __('Pi') },
             sin:        { label: 'sin',         latex: '\\sin',         fn: 'cmd',      desc: __('Sine') },
             cos:        { label: 'cos',         latex: '\\cos',         fn: 'cmd',      desc: __('Cosine') },
+            tan:        { label: 'tan',         latex: '\\tan',         fn: 'cmd',      desc: __('Tangent') },
 
             // Operators
             times:      { label: '&times;',     latex: '\\times',       fn: 'cmd',      desc: __('Multiply') },
@@ -140,7 +141,7 @@ define([
             { id: 'group1', tools: ['sqrt', 'frac', 'exp', 'log', 'ln'] },
             { id: 'group2', tools: ['e', 'infinity', 'colon', 'lbrack', 'rbrack', 'lparen', 'rparen'] },
             { id: 'group3', tools: ['lte', 'gte'] },
-            { id: 'group4', tools: ['degrees', 'pi', 'sin', 'cos'] },
+            { id: 'group4', tools: ['degrees', 'pi', 'sin', 'cos', 'tan'] },
             { id: 'group5', tools: ['times', 'divide', 'plusminus', 'equals'] },
             { id: 'group6', tools: ['cong', 'sim'] },
             { id: 'group7', tools: ['parallel', 'perp'] },

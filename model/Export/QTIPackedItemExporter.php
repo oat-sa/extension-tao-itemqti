@@ -29,9 +29,9 @@ use oat\taoQtiItem\model\qti\exception\ExportException;
 use oat\taoQtiItem\model\qti\Service;
 use core_kernel_classes_Resource;
 use oat\taoQtiTest\models\classes\metadata\GenericLomOntologyExtractor;
-use oat\taoQtiTest\models\classes\metadata\MetadataLomService;
 use ZipArchive;
 use DOMDocument;
+use oat\oatbox\reporting\Report;
 use tao_helpers_Uri;
 use taoItems_models_classes_TemplateRenderer;
 use tao_helpers_Display;
@@ -72,21 +72,22 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
     {
         if (!$this->containsItem()) {
             $report = parent::export($options);
-            if ($report->getType() !== \common_report_Report::TYPE_ERROR || !$report->containsError()) {
-                try {
-                    $exportResult = [];
-                    if (is_array($report->getData())) {
-                        $exportResult = $report->getData();
-                    }
-                    $this->exportManifest($options, $exportResult);
-                } catch (ExportException $e) {
-                    $report->setType(\common_report_Report::TYPE_ERROR);
-                    $report->setMessage($e->getUserMessage());
+            if ($report->getType() === Report::TYPE_ERROR || $report->containsError()) {
+                return $report;
+            }
+            try {
+                $exportResult = [];
+                if (is_array($report->getData())) {
+                    $exportResult = $report->getData();
                 }
+                $this->exportManifest($options, $exportResult);
+            } catch (ExportException $e) {
+                $report->setType(Report::TYPE_ERROR);
+                $report->setMessage($e->getUserMessage());
             }
             return $report;
         }
-        return \common_report_Report::createSuccess();
+        return Report::createSuccess();
     }
 
     /**

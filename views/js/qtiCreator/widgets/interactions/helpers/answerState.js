@@ -332,7 +332,8 @@ define([
                         set: 'setMappingAttribute',
                         remove: 'removeMappingAttribute',
                     },
-                    floatVal: true
+                    floatVal: true,
+                    allowNull: true
                 })
             );
 
@@ -358,7 +359,7 @@ define([
             return !!_.size(response.getCorrect());
         },
 
-        /** 
+        /**
          * Create the outcome score if rp required
          * @param {Object} widget
          * @returns {void}

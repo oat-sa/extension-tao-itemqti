@@ -30,19 +30,29 @@ use oat\tao\model\Lists\Business\Domain\Value;
 use oat\taoBackOffice\model\lists\ListService;
 use oat\taoQtiItem\model\qti\metadata\ontology\MappedMetadataInjector;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class MappedMetadataInjectorTest extends TestCase
 {
+    /** @var ListService|MockObject */
+    private ListService $listServiceMock;
+
+    /** @var Ontology|MockObject */
+    private Ontology $ontologyMock;
+
+    private MappedMetadataInjector $subject;
+
     public function setUp(): void
     {
         $this->listServiceMock = $this->createMock(ListService::class);
         $this->ontologyMock = $this->createMock(Ontology::class);
+
         $this->subject = new MappedMetadataInjector($this->listServiceMock);
         $this->subject->setModel($this->ontologyMock);
     }
 
-    public function testInject()
+    public function testInject(): void
     {
         $propertyMock = $this->createMock(core_kernel_classes_Property::class);
         $simpleMetadataValue = $this->createMock(SimpleMetadataValue::class);
@@ -65,19 +75,24 @@ class MappedMetadataInjectorTest extends TestCase
             ->method('getPath')
             ->willReturn(['mappedPath1', 'mappedPath2']);
 
-        $this->listServiceMock->method('getListElements')
+        $this->listServiceMock
+            ->method('getListElements')
             ->willReturn([$valueMock, $valueMock, $valueMock]);
 
-        $propertyMock->method('getRange')
+        $propertyMock
+            ->method('getRange')
             ->willReturn($classMock);
 
-        $propertyMock->method('getWidget')
+        $propertyMock
+            ->method('getWidget')
             ->willReturn($widgetPropertyMock);
 
-        $widgetPropertyMock->method('getUri')
+        $widgetPropertyMock
+            ->method('getUri')
             ->willReturn('someUri');
 
-        $valueMock->method('getLabel')
+        $valueMock
+            ->method('getLabel')
             ->willReturn(
                 'label',
                 'valueLabel',
@@ -87,22 +102,28 @@ class MappedMetadataInjectorTest extends TestCase
                 'otherLabel'
             );
 
-
-
-        $this->ontologyMock->method('getResource')
+        $this->ontologyMock
+            ->method('getResource')
             ->willReturn($resourceMock);
 
-        $resourceMock->method('getLabel')
+        $resourceMock
+            ->expects($this->once())
+            ->method('removePropertyValues');
+
+        $resourceMock
+            ->method('getLabel')
             ->willReturn('label', 'mismatchLabel', 'otherMatchedLabel');
 
-        $simpleMetadataValue->method('getValue')
+        $simpleMetadataValue
+            ->method('getValue')
             ->willReturn('label', 'otherMismatchedLabel', 'matchedUri', 'otherMatchedLabel');
 
-        $valueMock->method('getOriginalUri')
+        $valueMock
+            ->method('getOriginalUri')
             ->willReturn('matchedUri', 'otherUri', 'otherUri');
 
         $resourceMock
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('setPropertyValue')
             ->with($propertyMock, $resourceMock);
 
