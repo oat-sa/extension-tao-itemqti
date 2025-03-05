@@ -67,6 +67,9 @@
                                 {{__ 'repeats'}}
                                 <input type="text" name="sequenceRepeats" class="incrementer {{#unless hidePlayer}}disabled{{/unless}}" value="{{sequenceRepeats}}" {{#unless hidePlayer}}disabled{{/unless}} data-increment="1" data-min="1" data-max="{{#unless hidePlayer}}0{{else}}100{{/unless}}" />
                             </label>
+                            <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+                    <span class="tooltip-content">{{__ "Play audio several times in a row. Delay between plays can be set if needed."}}
+                    </span>
                         </div>
                         <div class="min-max-panel">
                             <label class="spinner">
