@@ -7,6 +7,7 @@
     <input id="responseIdentifier"
            type="text"
            name="identifier"
+           data-serial="{{serial}}"
            value="{{identifier}}"
            placeholder="e.g. RESPONSE"
            data-validate="$notEmpty; $qtiResponseIdentifier(serial={{serial}}); $availableIdentifier(serial={{serial}});">
