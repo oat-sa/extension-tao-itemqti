@@ -328,7 +328,7 @@ define([
             formElement.setChangeCallbacks(widget.$responseForm, response, formChangeCallbacks, {
                 saveInvalid: true,
                 validateOnInit: true,
-                initialResponseIdValue: response.attributes.identifier
+                initialResponseValue: response.attributes.identifier
             });
 
             modalFeedbackRule.initFeedbacksPanel($('.feedbackRule-panel', widget.$responseForm), response);
