@@ -204,6 +204,18 @@ define([
                     $elt = $(elt);
                     name = $elt.attr('name');
 
+                    if (name === 'identifier') {
+                        if (valid) {
+                            applyCallback(name, $elt.val(), $elt);
+                        } else {
+                            applyCallback(name, options.initialResponseValue, $elt);
+                        }
+                        if (options.invalidate) {
+                            element.data('widget').isValid(name, valid);
+                        }
+                        return;
+                    }
+
                     if (valid || options.saveInvalid) {
                         applyCallback(name, $elt.val(), $elt);
                     }
