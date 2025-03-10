@@ -75,6 +75,13 @@ define([
         if (obj.attr('width')) {
             previewOptions.width = obj.attr('width');
         }
+        if (obj.attributes.type === 'video/mp4') {
+            const metadataUri = encodeURIComponent(obj.metaData.widget.options.mediaManager.transcriptionMetadata);
+            const resourceUri = obj.attributes.data.replace('taomedia://mediamanager/', '');
+            const resourceMetadataUrl = obj.metaData.widget.options.mediaManager.resourceMetadataUrl;
+
+            previewOptions.transcriptionUrl = `${resourceMetadataUrl}?metadataUri=${metadataUri}&resourceUri=${resourceUri}`;
+        }
         if (previewOptions.url && previewOptions.mime) {
             $container.previewer(previewOptions);
         }
@@ -185,6 +192,8 @@ define([
                 deleteUrl: options.mediaManager.deleteUrl,
                 downloadUrl: options.mediaManager.downloadUrl,
                 fileExistsUrl: options.mediaManager.fileExistsUrl,
+                transcriptionMetadata: options.mediaManager.transcriptionMetadata,
+                resourceMetadataUrl: options.mediaManager.resourceMetadataUrl,
                 params: {
                     uri: options.uri,
                     lang: options.lang,
