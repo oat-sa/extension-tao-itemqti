@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "github:oat-sa/tao-item-runner-fe#feat/AUT-4110/render-transcription",
-        "@oat-sa/tao-item-runner-qti": "github:oat-sa/tao-item-runner-qti-fe#feat/AUT-4110/transcription-in-media-player"
+        "@oat-sa/tao-item-runner-qti": "^2.6.0"
     }
 }
