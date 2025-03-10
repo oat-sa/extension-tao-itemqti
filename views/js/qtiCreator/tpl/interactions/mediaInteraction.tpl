@@ -2,5 +2,4 @@
 	{{#if prompt}}{{{prompt}}}{{/if}}
 	<div class="instruction-container"></div>
     <div class="media-container"></div>
-    <div class="transcription"></div>
 </div>
