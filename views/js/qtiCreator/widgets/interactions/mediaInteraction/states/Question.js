@@ -297,6 +297,8 @@ define([
                     if (attrValue === true) {
                         interaction.attr('loop', false);
                         interaction.attr('maxPlays', 0);
+                        //by default, enabling sequential unsets display-player; but display-player can be set again afterwards
+                        interaction.addClass('hide-player');
                     } else {
                         interaction.removeAttr('data-sequence-repeats');
                         interaction.removeAttr('data-sequence-delay-between-ms');
