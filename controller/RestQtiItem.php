@@ -117,7 +117,8 @@ class RestQtiItem extends AbstractRestQti
                 $this->isMetadataGuardiansEnabled(),
                 $this->isMetadataValidatorsEnabled(),
                 $this->isItemMustExistEnabled(),
-                $this->isItemMustBeOverwrittenEnabled()
+                $this->isItemMustBeOverwrittenEnabled(),
+                $this->isMetadataRequired()
             );
             helpers_TimeOutHelper::reset();
 
