@@ -147,7 +147,7 @@ abstract class AbstractRestQti extends tao_actions_RestController
 
     protected function isMetadataRequired(): bool
     {
-        $metadateRequired = $this->getQueryParams(self::METADATA_REQUIRED);
+        $metadataRequired = $this->getQueryParams(self::METADATA_REQUIRED);
 
         if (is_null($metadateRequired)) {
             return false; // default value if parameter not passed
