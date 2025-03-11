@@ -54,7 +54,7 @@ abstract class AbstractRestQti extends tao_actions_RestController
 
     public const ENABLE_METADATA_VALIDATORS = 'enableMetadataValidators';
 
-    public const METADATA_REQUIRED= 'metadataRequired';
+    public const METADATA_REQUIRED = 'metadataRequired';
 
     public const ITEM_MUST_EXIST = 'itemMustExist';
 
