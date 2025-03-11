@@ -72,7 +72,7 @@ abstract class AbstractRestQti extends tao_actions_RestController
      *
      * @return string
      */
-    abstract protected function getTaskName(): string;
+    abstract protected function getTaskName();
 
     /**
      * Action to retrieve test import status from queue
