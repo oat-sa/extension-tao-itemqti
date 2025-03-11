@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2017-2025 (original work) Open Assessment Technologies SA;
  *
  */
@@ -289,7 +289,7 @@ class RestQtiItem extends AbstractRestQti
 
             $id = $this->getQueryParams('id');
 
-            $item = $this->getResource($id); 
+            $item = $this->getResource($id);
 
             /** @var taoItems_models_classes_ItemsService $itemService */
             $itemService = $this->getServiceLocator()->get(taoItems_models_classes_ItemsService::class);
