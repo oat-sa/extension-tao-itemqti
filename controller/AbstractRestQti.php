@@ -239,7 +239,7 @@ abstract class AbstractRestQti extends tao_actions_RestController
         return $this->getPsrContainer()->get(MetadataService::SERVICE_ID);
     }
 
-    protected function getQueryParams($key): ?string
+    protected function getQueryParams($key): mixed
     {
         $body = $this->getPsrRequest()->getParsedBody();
         $query = $this->getPsrRequest()->getQueryParams();
