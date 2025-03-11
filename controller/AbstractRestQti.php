@@ -15,13 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017-2022 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017-2025 (original work) Open Assessment Technologies SA;
  *
  *
  */
 
 namespace oat\taoQtiItem\controller;
 
+use tao_actions_RestController;
 use common_exception_MethodNotAllowed as HttpMethodNotAllowedException;
 use common_exception_RestApi as BadRequestException;
 use InvalidArgumentException;
@@ -33,6 +34,8 @@ use oat\taoQtiItem\model\presentation\web\UpdateMetadataRequestHandler;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use Request;
 use RuntimeException;
+use common_exception_MissingParameter;
+use Exception;
 
 /**
  * Class AbstractRestQti
@@ -40,7 +43,7 @@ use RuntimeException;
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  * @author Gyula Szucs <gyula@taotesting.com>
  */
-abstract class AbstractRestQti extends \tao_actions_RestController
+abstract class AbstractRestQti extends tao_actions_RestController
 {
     use TaskLogActionTrait;
     use HttpJsonResponseTrait;
@@ -50,6 +53,8 @@ abstract class AbstractRestQti extends \tao_actions_RestController
     public const ENABLE_METADATA_GUARDIANS = 'enableMetadataGuardians';
 
     public const ENABLE_METADATA_VALIDATORS = 'enableMetadataValidators';
+
+    public const METADATA_REQUIRED= 'metadataRequired';
 
     public const ITEM_MUST_EXIST = 'itemMustExist';
 
@@ -67,25 +72,25 @@ abstract class AbstractRestQti extends \tao_actions_RestController
      *
      * @return string
      */
-    abstract protected function getTaskName();
+    abstract protected function getTaskName(): string;
 
     /**
      * Action to retrieve test import status from queue
      */
-    public function getStatus()
+    public function getStatus(): void
     {
         try {
-            if (!$this->hasRequestParameter(self::TASK_ID_PARAM)) {
-                throw new \common_exception_MissingParameter(self::TASK_ID_PARAM, $this->getRequestURI());
+            if (!$this->getQueryParams(self::TASK_ID_PARAM)) {
+                throw new common_exception_MissingParameter(self::TASK_ID_PARAM, $this->getRequestURI());
             }
 
             $data = $this->getTaskLogReturnData(
-                $this->getRequestParameter(self::TASK_ID_PARAM),
+                $this->getQueryParams(self::TASK_ID_PARAM),
                 $this->getTaskName()
             );
 
-            $this->returnSuccess($data);
-        } catch (\Exception $e) {
+            $this->setSuccessJsonResponse($data);
+        } catch (Exception $e) {
             $this->returnFailure($e);
         }
     }
@@ -94,9 +99,8 @@ abstract class AbstractRestQti extends \tao_actions_RestController
      * Return 'Success' instead of 'Completed', required by the specified API.
      *
      * @param EntityInterface $taskLogEntity
-     * @return string
      */
-    protected function getTaskStatus(EntityInterface $taskLogEntity)
+    protected function getTaskStatus(EntityInterface $taskLogEntity): string
     {
         if ($taskLogEntity->getStatus()->isCreated()) {
             return __('In Progress');
@@ -107,20 +111,16 @@ abstract class AbstractRestQti extends \tao_actions_RestController
         return $taskLogEntity->getStatus()->getLabel();
     }
 
-    /**
-     * @return bool
-     * @throws \common_exception_RestApi
-     */
-    protected function isMetadataGuardiansEnabled()
+    protected function isMetadataGuardiansEnabled(): bool
     {
-        $enableMetadataGuardians = $this->getRequestParameter(self::ENABLE_METADATA_GUARDIANS);
+        $enableMetadataGuardians = $this->getQueryParams(self::ENABLE_METADATA_GUARDIANS);
 
         if (is_null($enableMetadataGuardians)) {
             return true; // default value if parameter not passed
         }
 
         if (!in_array($enableMetadataGuardians, ['true', 'false'])) {
-            throw new \common_exception_RestApi(
+            throw new BadRequestException(
                 self::ENABLE_METADATA_GUARDIANS . ' parameter should be boolean (true or false).'
             );
         }
@@ -128,20 +128,16 @@ abstract class AbstractRestQti extends \tao_actions_RestController
         return filter_var($enableMetadataGuardians, FILTER_VALIDATE_BOOLEAN);
     }
 
-    /**
-     * @return bool
-     * @throws \common_exception_RestApi
-     */
-    protected function isMetadataValidatorsEnabled()
+    protected function isMetadataValidatorsEnabled(): bool
     {
-        $enableMetadataValidators = $this->getRequestParameter(self::ENABLE_METADATA_VALIDATORS);
+        $enableMetadataValidators = $this->getQueryParams(self::ENABLE_METADATA_VALIDATORS);
 
         if (is_null($enableMetadataValidators)) {
             return true; // default value if parameter not passed
         }
 
         if (!in_array($enableMetadataValidators, ['true', 'false'])) {
-            throw new \common_exception_RestApi(
+            throw new BadRequestException(
                 self::ENABLE_METADATA_VALIDATORS . ' parameter should be boolean (true or false).'
             );
         }
@@ -149,20 +145,33 @@ abstract class AbstractRestQti extends \tao_actions_RestController
         return filter_var($enableMetadataValidators, FILTER_VALIDATE_BOOLEAN);
     }
 
-    /**
-     * @return bool
-     * @throws \common_exception_RestApi
-     */
-    protected function isItemMustExistEnabled()
+    protected function isMetadataRequired(): bool
     {
-        $itemMustExistEnabled = $this->getRequestParameter(self::ITEM_MUST_EXIST);
+        $metadateRequired = $this->getQueryParams(self::METADATA_REQUIRED);
+
+        if (is_null($metadateRequired)) {
+            return false; // default value if parameter not passed
+        }
+
+        if (!in_array($metadateRequired, ['true', 'false'])) {
+            throw new BadRequestException(
+                self::ENABLE_METADATA_VALIDATORS . ' parameter should be boolean (true or false).'
+            );
+        }
+
+        return filter_var($metadateRequired, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    protected function isItemMustExistEnabled(): bool
+    {
+        $itemMustExistEnabled = $this->getQueryParams(self::ITEM_MUST_EXIST);
 
         if (is_null($itemMustExistEnabled)) {
             return false; // default value if parameter not passed
         }
 
         if (!in_array($itemMustExistEnabled, ['true', 'false'])) {
-            throw new \common_exception_RestApi(
+            throw new BadRequestException(
                 self::ITEM_MUST_EXIST . ' parameter should be boolean (true or false).'
             );
         }
@@ -170,20 +179,16 @@ abstract class AbstractRestQti extends \tao_actions_RestController
         return filter_var($itemMustExistEnabled, FILTER_VALIDATE_BOOLEAN);
     }
 
-    /**
-     * @return bool
-     * @throws \common_exception_RestApi
-     */
-    protected function isItemMustBeOverwrittenEnabled()
+    protected function isItemMustBeOverwrittenEnabled(): bool
     {
-        $isItemMustBeOverwrittenEnabled = $this->getRequestParameter(self::ITEM_MUST_BE_OVERWRITTEN);
+        $isItemMustBeOverwrittenEnabled = $this->getQueryParams(self::ITEM_MUST_BE_OVERWRITTEN);
 
         if (is_null($isItemMustBeOverwrittenEnabled)) {
             return false; // default value if parameter not passed
         }
 
         if (!in_array($isItemMustBeOverwrittenEnabled, ['true', 'false'])) {
-            throw new \common_exception_RestApi(
+            throw new BadRequestException(
                 self::ITEM_MUST_BE_OVERWRITTEN . ' parameter should be boolean (true or false).'
             );
         }
@@ -232,5 +237,14 @@ abstract class AbstractRestQti extends \tao_actions_RestController
     private function getMetadataService(): MetadataService
     {
         return $this->getPsrContainer()->get(MetadataService::SERVICE_ID);
+    }
+
+    protected function getQueryParams($key): mixed
+    {
+        $body = $this->getPsrRequest()->getParsedBody();
+        $query = $this->getPsrRequest()->getQueryParams();
+        $uploadedFiles = $this->getPsrRequest()->getUploadedFiles();
+        $params = array_merge($body, $query, $uploadedFiles);
+        return $params[$key] ?? null;
     }
 }
