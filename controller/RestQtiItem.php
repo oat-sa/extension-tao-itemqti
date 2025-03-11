@@ -15,6 +15,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
+ * Copyright (c) 2017-2025 (original work) Open Assessment Technologies SA;
+ *
  */
 
 namespace oat\taoQtiItem\controller;
@@ -26,10 +28,26 @@ use Request;
 use oat\taoQtiItem\model\qti\ImportService;
 use oat\taoQtiItem\model\ItemModel;
 use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\reporting\ReportInterface;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\Export\QTIPackedItemExporter;
 use oat\taoQtiItem\model\tasks\ImportQtiItem;
+use helpers_TimeOutHelper;
+use tao_helpers_Http;
+use tao_helpers_File;
+use ZipArchive;
+use tao_helpers_Export;
+use common_report_Report;
+use core_kernel_classes_Class;
+use common_exception_NotImplemented;
+use taoItems_models_classes_ItemsService;
+use common_Exception;
+use common_exception_BadRequest;
+use common_exception_ClassAlreadyExists;
+use common_exception_NotFound;
+use Exception;
+use common_exception_MissingParameter;
 
 /**
  * End point of Rest item API
@@ -46,7 +64,7 @@ class RestQtiItem extends AbstractRestQti
     /**
      * @inherit
      */
-    protected function getAcceptableMimeTypes()
+    protected function getAcceptableMimeTypes(): array
     {
         return
             [
@@ -60,38 +78,36 @@ class RestQtiItem extends AbstractRestQti
 
     /**
      * Class items will be created in
-     *
-     * @return \core_kernel_classes_Class
      */
-    protected function getDestinationClass()
+    protected function getDestinationClass(): core_kernel_classes_Class
     {
-        return $this->getClassFromRequest(new \core_kernel_classes_Class(TaoOntology::ITEM_CLASS_URI));
+        return $this->getClassFromRequest($this->getClass(TaoOntology::CLASS_URI_ITEM));
     }
 
     /**
      * Only import method is available, so index return failure response
      */
-    public function index()
+    public function index(): void
     {
-        $this->returnFailure(new \common_exception_NotImplemented('This API does not support this call.'));
+        $this->returnFailure(new common_exception_NotImplemented('This API does not support this call.'));
     }
 
     /**
      * Import file entry point by using $this->service
      * Check POST method & get valid uploaded file
      */
-    public function import()
+    public function import(): void
     {
         try {
             if ($this->getRequestMethod() != Request::HTTP_POST) {
-                throw new \common_exception_NotImplemented('Only post method is accepted to import Qti package.');
+                throw new common_exception_NotImplemented('Only post method is accepted to import Qti package.');
             }
 
             // Get valid package parameter
             $package = $this->getUploadedPackage();
 
             // Call service to import package
-            \helpers_TimeOutHelper::setTimeOutLimit(\helpers_TimeOutHelper::LONG);
+            helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::LONG);
             $report = ImportService::singleton()->importQTIPACKFile(
                 $package,
                 $this->getDestinationClass(),
@@ -101,39 +117,40 @@ class RestQtiItem extends AbstractRestQti
                 $this->isMetadataGuardiansEnabled(),
                 $this->isMetadataValidatorsEnabled(),
                 $this->isItemMustExistEnabled(),
-                $this->isItemMustBeOverwrittenEnabled()
+                $this->isItemMustBeOverwrittenEnabled(),
+                $this->isMetadataRequired()
             );
-            \helpers_TimeOutHelper::reset();
+            helpers_TimeOutHelper::reset();
 
-            \tao_helpers_File::remove($package);
-            if ($report->getType() !== \common_report_Report::TYPE_SUCCESS) {
+            tao_helpers_File::remove($package);
+            if ($report->getType() !== ReportInterface::TYPE_SUCCESS) {
                 $message = __("An unexpected error occurred during the import of the IMS QTI Item Package. ");
                 //get message of first error report
                 if (!empty($report->getErrors())) {
                     $message .= $report->getErrors()[0]->getMessage();
                 }
-                $this->returnFailure(new \common_Exception($message));
+                $this->returnFailure(new common_Exception($message));
             } else {
                 $itemIds = [];
-                /** @var \common_report_Report $subReport */
+                /** @var common_report_Report $subReport */
                 foreach ($report as $subReport) {
                     $itemIds[] = $subReport->getData()->getUri();
                 }
-                $this->returnSuccess(['items' => $itemIds]);
+                $this->setSuccessJsonResponse(['items' => $itemIds]);
             }
         } catch (ExtractException $e) {
             $this->returnFailure(
-                new \common_Exception(
+                new common_Exception(
                     __('The ZIP archive containing the IMS QTI Item cannot be extracted.')
                 )
             );
         } catch (ParsingException $e) {
             $this->returnFailure(
-                new \common_Exception(
+                new common_Exception(
                     __('The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive.')
                 )
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->returnFailure($e);
         }
     }
@@ -141,7 +158,7 @@ class RestQtiItem extends AbstractRestQti
     /**
      * @inheritdoc
      */
-    protected function getTaskName()
+    protected function getTaskName(): string
     {
         return ImportQtiItem::class;
     }
@@ -149,11 +166,11 @@ class RestQtiItem extends AbstractRestQti
     /**
      * Import item package through the task queue.
      */
-    public function importDeferred()
+    public function importDeferred(): void
     {
         try {
             if ($this->getRequestMethod() != Request::HTTP_POST) {
-                throw new \common_exception_NotImplemented('Only post method is accepted to import Qti package.');
+                throw new common_exception_NotImplemented('Only post method is accepted to import Qti package.');
             }
 
             $task = ImportQtiItem::createTask(
@@ -163,7 +180,8 @@ class RestQtiItem extends AbstractRestQti
                 $this->isMetadataGuardiansEnabled(),
                 $this->isMetadataValidatorsEnabled(),
                 $this->isItemMustExistEnabled(),
-                $this->isItemMustBeOverwrittenEnabled()
+                $this->isItemMustBeOverwrittenEnabled(),
+                $this->isMetadataRequired()
             );
 
             $result = [
@@ -177,9 +195,9 @@ class RestQtiItem extends AbstractRestQti
                 $result['report'] = $report->toArray();
             }
 
-            return $this->returnSuccess($result);
-        } catch (\Exception $e) {
-            return $this->returnFailure($e);
+            $this->setSuccessJsonResponse($result);
+        } catch (Exception $e) {
+            $this->returnFailure($e);
         }
     }
 
@@ -187,9 +205,8 @@ class RestQtiItem extends AbstractRestQti
      * Add extra values to the JSON returned.
      *
      * @param EntityInterface $taskLogEntity
-     * @return array
      */
-    protected function addExtraReturnData(EntityInterface $taskLogEntity)
+    protected function addExtraReturnData(EntityInterface $taskLogEntity): array
     {
         $data = [];
 
@@ -210,29 +227,22 @@ class RestQtiItem extends AbstractRestQti
 
     /**
      * Return a valid uploaded file
-     *
-     * @return string
-     * @throws \common_Exception
-     * @throws \common_exception_Error
-     * @throws \common_exception_MissingParameter
-     * @throws \common_exception_BadRequest
-     * @throws \oat\tao\helpers\FileUploadException
      */
-    protected function getUploadedPackage()
+    protected function getUploadedPackage(): string
     {
-        if (!$this->hasRequestParameter(self::RESTITEM_PACKAGE_NAME)) {
-            throw new \common_exception_MissingParameter(self::RESTITEM_PACKAGE_NAME, __CLASS__);
+        if (!$this->getQueryParams(self::RESTITEM_PACKAGE_NAME)) {
+            throw new common_exception_MissingParameter(self::RESTITEM_PACKAGE_NAME, __CLASS__);
         }
 
-        $file = \tao_helpers_Http::getUploadedFile(self::RESTITEM_PACKAGE_NAME);
+        $file = tao_helpers_Http::getUploadedFile(self::RESTITEM_PACKAGE_NAME);
 
         if (!in_array($file['type'], self::$accepted_types)) {
-            throw new \common_exception_BadRequest('Uploaded file has to be a valid archive.');
+            throw new common_exception_BadRequest('Uploaded file has to be a valid archive.');
         }
 
         $pathinfo = pathinfo($file['tmp_name']);
         $destination = $pathinfo['dirname'] . DIRECTORY_SEPARATOR . $file['name'];
-        \tao_helpers_File::move($file['tmp_name'], $destination);
+        tao_helpers_File::move($file['tmp_name'], $destination);
 
         return $destination;
     }
@@ -240,24 +250,24 @@ class RestQtiItem extends AbstractRestQti
     /**
      * Create an empty item
      */
-    public function createQtiItem()
+    public function createQtiItem(): void
     {
         try {
             // Check if it's post method
             if ($this->getRequestMethod() != Request::HTTP_POST) {
-                throw new \common_exception_NotImplemented('Only post method is accepted to create empty item.');
+                throw new common_exception_NotImplemented('Only post method is accepted to create empty item.');
             }
 
-            $label = $this->hasRequestParameter('label') ? $this->getRequestParameter('label') : '';
+            $label = $this->getQueryParams('label') ?? '';
             // Call service to import package
             $item = $this->getDestinationClass()->createInstance($label);
 
-            //set the QTI type
-            $itemService = \taoItems_models_classes_ItemsService::singleton();
+            /** @var taoItems_models_classes_ItemsService $itemService */
+            $itemService = $this->getServiceLocator()->get(taoItems_models_classes_ItemsService::class);
             $itemService->setItemModel($item, $this->getResource(ItemModel::MODEL_URI));
 
-            $this->returnSuccess($item->getUri());
-        } catch (\Exception $e) {
+            $this->setSuccessJsonResponse($item->getUri());
+        } catch (Exception $e) {
             $this->returnFailure($e);
         }
     }
@@ -271,23 +281,24 @@ class RestQtiItem extends AbstractRestQti
 
         try {
             if ($this->getRequestMethod() != Request::HTTP_GET) {
-                throw new \common_exception_NotImplemented('Only GET method is accepted to export QIT Item.');
+                throw new common_exception_NotImplemented('Only GET method is accepted to export QIT Item.');
             }
 
-            if (!$this->hasRequestParameter('id')) {
-                $this->returnFailure(new \common_exception_MissingParameter('required parameter `id` is missing'));
+            if (!$this->getQueryParams('id')) {
+                $this->returnFailure(new common_exception_MissingParameter('required parameter `id` is missing'));
             }
 
-            $id = $this->getRequestParameter('id');
+            $id = $this->getQueryParams('id');
 
-            $item = new \core_kernel_classes_Resource($id);
+            $item = $this->getResource($id);
 
-            $itemService = \taoItems_models_classes_ItemsService::singleton();
+            /** @var taoItems_models_classes_ItemsService $itemService */
+            $itemService = $this->getServiceLocator()->get(taoItems_models_classes_ItemsService::class);
 
             if ($itemService->hasItemModel($item, [ItemModel::MODEL_URI])) {
-                $path = \tao_helpers_Export::getExportFile();
-                $tmpZip = new \ZipArchive();
-                $tmpZip->open($path, \ZipArchive::CREATE);
+                $path = tao_helpers_Export::getExportFile();
+                $tmpZip = new ZipArchive();
+                $tmpZip->open($path, ZipArchive::CREATE);
 
                 $exporter = new QTIPackedItemExporter($item, $tmpZip);
                 $exporter->export(['apip' => false]);
@@ -295,13 +306,13 @@ class RestQtiItem extends AbstractRestQti
                 $exporter->getZip()->close();
 
                 header('Content-Type: application/zip');
-                \tao_helpers_Http::returnFile($path, false);
+                tao_helpers_Http::returnFile($path, false);
 
                 return;
             } else {
-                $this->returnFailure(new \common_exception_NotFound('item can\'t be found'));
+                $this->returnFailure(new common_exception_NotFound('item can\'t be found'));
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->returnFailure($e);
         }
     }
@@ -314,25 +325,24 @@ class RestQtiItem extends AbstractRestQti
      * If not parent class parameter is provided, class will be created under root class
      * Comment parameter is not mandatory, used to describe new created class
      *
-     * @return \core_kernel_classes_Class
      */
-    public function createClass()
+    public function createClass(): void
     {
         try {
-            $class = $this->createSubClass(new \core_kernel_classes_Class(TaoOntology::ITEM_CLASS_URI));
+            $class = $this->createSubClass($this->getClass(TaoOntology::CLASS_URI_ITEM));
 
             $result = [
                 'message' => __('Class successfully created.'),
                 'class-uri' => $class->getUri(),
             ];
 
-            $this->returnSuccess($result);
-        } catch (\common_exception_ClassAlreadyExists $e) {
+            $this->setSuccessJsonResponse($result);
+        } catch (common_exception_ClassAlreadyExists $e) {
             $result = [
                 'message' => $e->getMessage(),
                 'class-uri' => $e->getClass()->getUri(),
             ];
-            $this->returnSuccess($result);
+            $this->setSuccessJsonResponse($result);
         } catch (\Exception $e) {
             $this->returnFailure($e);
         }
