@@ -149,17 +149,17 @@ abstract class AbstractRestQti extends tao_actions_RestController
     {
         $metadataRequired = $this->getQueryParams(self::METADATA_REQUIRED);
 
-        if (is_null($metadateRequired)) {
+        if (is_null($metadataRequired)) {
             return false; // default value if parameter not passed
         }
 
-        if (!in_array($metadateRequired, ['true', 'false'])) {
+        if (!in_array($metadataRequired, ['true', 'false'])) {
             throw new BadRequestException(
                 self::ENABLE_METADATA_VALIDATORS . ' parameter should be boolean (true or false).'
             );
         }
 
-        return filter_var($metadateRequired, FILTER_VALIDATE_BOOLEAN);
+        return filter_var($metadataRequired, FILTER_VALIDATE_BOOLEAN);
     }
 
     protected function isItemMustExistEnabled(): bool
@@ -239,7 +239,7 @@ abstract class AbstractRestQti extends tao_actions_RestController
         return $this->getPsrContainer()->get(MetadataService::SERVICE_ID);
     }
 
-    protected function getQueryParams($key): mixed
+    protected function getQueryParams($key): ?string
     {
         $body = $this->getPsrRequest()->getParsedBody();
         $query = $this->getPsrRequest()->getQueryParams();
