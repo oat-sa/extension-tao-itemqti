@@ -1,13 +1,13 @@
-@import 'inc/bootstrap';
-@import 'inc/farbtastic';
-@import 'shared/functions';
+@import "inc/bootstrap";
+@import "inc/farbtastic";
+@import "shared/functions";
 
-$mainContainer: '.item-editor-item';
+$mainContainer : '.item-editor-item';
 
 //all shades of colors
 $itemCreatorBlue90: mix(#fff, $info, 90%);
 $itemCreatorBlue95: mix(#fff, $info, 95%);
-$itemCreatorBlue20: mix(#fff, $info, 20%);
+$itemCreatorBlue20 : mix(#fff, $info, 20%);
 
 //colors used accross the item creator
 $itemCreatorSideBarBgColor: mix(#fff, $grey, 85%);
@@ -24,8 +24,7 @@ $colorGsDark: #121212;
 $itemCreatorSeparatorSize: 36px;
 
 // @todo this a temporary solution, see taoQtiItem/views/js/qtiCreator/editor/gridEditor/draggable.js, createDraggable()
-span.dragging,
-img.dragging.ui-draggable-dragging {
+span.dragging, img.dragging.ui-draggable-dragging {
     opacity: 0.8 !important;
     z-index: 999999;
     font-size: 5rem;
@@ -42,15 +41,16 @@ img.dragging.ui-draggable-dragging {
 
 %editHover {
     cursor: pointer;
-    border: 1px solid whiten($info, 0.5);
+    border: 1px solid whiten($info, .5);
 }
+
 
 %editActive {
     cursor: default;
     z-index: 9;
-    border: 1px solid whiten($info, 0.2);
-    -webkit-box-shadow: 1px 1px 3px 1px whiten($info, 0.2);
-    box-shadow: 1px 1px 3px 1px whiten($info, 0.2);
+    border: 1px solid whiten($info, .2);
+    -webkit-box-shadow: 1px 1px 3px 1px whiten($info, .2);
+    box-shadow: 1px 1px 3px 1px whiten($info, .2);
 }
 
 %mini-tlb {
@@ -69,8 +69,7 @@ img.dragging.ui-draggable-dragging {
     border-radius: 0;
     background-color: $itemCreatorMiniTlbBgColor;
 
-    [class^='icon-'],
-    [class*=' icon-'] {
+    [class^="icon-"], [class*=" icon-"] {
         @include font-size(16);
         position: relative;
         top: 4px;
@@ -79,17 +78,15 @@ img.dragging.ui-draggable-dragging {
 
     .tlb-button:hover {
         background-color: $info;
-        [class^='icon-'],
-        [class*=' icon-'] {
+        [class^="icon-"], [class*=" icon-"] {
             color: $itemCreatorMiniTlbBgColor;
         }
     }
 
-    &[data-edit='answer'] {
+    &[data-edit="answer"]{
         .tlb-button:hover {
             background-color: $itemCreatorMiniTlbBgColor;
-            [class^='icon-'],
-            [class*=' icon-'] {
+            [class^="icon-"], [class*=" icon-"] {
                 color: inherit;
             }
         }
@@ -104,8 +101,7 @@ img.dragging.ui-draggable-dragging {
         margin: 0;
         display: inline-block;
         color: $info !important;
-        [class^='icon-'],
-        [class*=' icon-'] {
+        [class^="icon-"], [class*=" icon-"] {
             font-size: 14px !important;
             position: absolute;
             top: 50%;
@@ -126,41 +122,40 @@ img.dragging.ui-draggable-dragging {
             position: relative;
             top: 1px;
             height: 22px;
-            padding: 0px 4px;
+            padding: 0px 4px
         }
-        &[data-role='cke-launcher'] {
+        &[data-role="cke-launcher"] {
             display: none;
         }
         ul[data-button-group] {
             background: transparent !important;
-            border: none;
+            border:none;
             & > li {
-                display: none;
+                display:none;
                 background: transparent !important;
                 min-width: 0;
                 padding: 0;
-                float: none;
+                float:none;
                 span {
                     color: $textColor;
                     text-shadow: none !important;
                 }
                 &.active {
-                    display: inline-block;
+                    display:inline-block;
                 }
             }
         }
     }
 }
 
-%add-option {
+%add-option{
     color: $info;
     border: 1px $itemCreatorAddOptionBorderColor dashed !important;
     list-style-type: none;
     cursor: pointer !important;
     border-radius: 3px;
     background-color: $itemCreatorAddOptionBgColor;
-    [class^='icon-'],
-    [class*=' icon-'] {
+    [class^="icon-"], [class*=" icon-"] {
         @include font-size(16);
         position: relative;
         top: 2px;
@@ -169,7 +164,7 @@ img.dragging.ui-draggable-dragging {
         margin-right: 8px;
     }
     &:hover {
-        opacity: 0.8;
+        opacity: .8;
     }
 }
 
@@ -184,13 +179,13 @@ img.dragging.ui-draggable-dragging {
     }
     option {
         font-size: 1.2rem;
-        color: #222;
+        color: #222
     }
 }
 
 #appearance-trigger {
     .icon-item {
-        display: none;
+        display:none;
     }
 }
 
@@ -246,12 +241,12 @@ img.dragging.ui-draggable-dragging {
     @include flex-container();
 
     .item-editor-item {
-        position: relative;
-        [class*=' col-'],
-        [class^='col-'] {
+        position : relative;
+        [class*=" col-"], [class^="col-"] {
             padding: 3px; //not consistent with commonRenderer ! @todo : fix this
         }
     }
+
 }
 
 .item-editor-response-related,
@@ -267,19 +262,20 @@ img.dragging.ui-draggable-dragging {
 .item-editor-css-editor {
     select {
         min-width: 0 !important;
-        width: auto !important;
+        width: auto !important
     }
 }
+
 
 // hide all sections on right sidebar
 .sidebar-right-section-box {
     display: none;
 }
 
-@import 'qtiCreator/_outcome-editor';
-@import 'qtiCreator/_interaction-sidebar';
-@import 'qtiCreator/_math-input';
-@import 'qtiCreator/_media-sidebar';
+@import "qtiCreator/_outcome-editor";
+@import "qtiCreator/_interaction-sidebar";
+@import "qtiCreator/_math-input";
+@import "qtiCreator/_media-sidebar";
 
 .item-editor-sidebar-wrapper {
     background: $canvas;
@@ -305,6 +301,7 @@ img.dragging.ui-draggable-dragging {
 }
 
 .item-editor-sidebar {
+
     .tool-group {
         h2 {
             @include font-size(14);
@@ -312,7 +309,7 @@ img.dragging.ui-draggable-dragging {
             font-weight: normal;
             line-height: 30px;
             padding: 0 6px;
-            letter-spacing: 0.06rem;
+            letter-spacing: .06rem;
             clear: left;
             margin: 0 0 0 0;
             color: black();
@@ -354,8 +351,8 @@ img.dragging.ui-draggable-dragging {
                 margin-bottom: 15px;
 
                 .min-max {
-                    input[name='lowerBound'],
-                    input[name='upperBound'] {
+                    input[name=lowerBound],
+                    input[name=upperBound] {
                         width: 50px !important;
                     }
                 }
@@ -369,14 +366,12 @@ img.dragging.ui-draggable-dragging {
                 @include font-size(14);
                 max-width: 450px;
                 display: inline-block;
-                &.full-width {
+                &.full-width{
                     max-width: none;
                     display: block;
                 }
             }
-            select,
-            input[type='text'],
-            textarea {
+            select, input[type="text"], textarea {
                 width: 100%;
                 &.has-icon {
                     width: 140px;
@@ -393,9 +388,8 @@ img.dragging.ui-draggable-dragging {
                 cursor: pointer;
                 float: right;
             }
-            &:last-child,
-            .panel-row {
-                margin-bottom: 7px;
+            &:last-child, .panel-row {
+                margin-bottom: 7px
             }
             label {
                 padding: 0;
@@ -404,7 +398,7 @@ img.dragging.ui-draggable-dragging {
                     width: 140px;
                     min-width: 140px;
                     max-width: 140px;
-                    display: inline-block;
+                    display: inline-block
                 }
                 &.no-margin {
                     margin: 0;
@@ -428,12 +422,12 @@ img.dragging.ui-draggable-dragging {
             }
             &.subpanel {
                 @include simple-border();
-                background-color: white(0.8);
-                padding: 8px;
+                background-color:white(.8);
+                padding:8px;
                 margin: 5px 0;
                 @include font-size(13);
             }
-            .icon-help.tooltipstered {
+            .icon-help.tooltipstered{
                 color: $info;
             }
             &.choice-min-max {
@@ -453,6 +447,7 @@ img.dragging.ui-draggable-dragging {
         right: auto;
         left: 0;
     }
+
 
     .reset-group {
         select {
@@ -502,7 +497,7 @@ img.dragging.ui-draggable-dragging {
         span {
             &.icon-checkbox,
             &.icon-radio {
-                float: right;
+                float: right
             }
         }
     }
@@ -519,7 +514,7 @@ img.dragging.ui-draggable-dragging {
     .min-max-panel .spinner {
         min-width: 90px;
     }
-    .incrementer.large {
+    .incrementer.large{
         min-width: 55px !important;
     }
     .incrementer-ctrl {
@@ -579,17 +574,15 @@ img.dragging.ui-draggable-dragging {
             position: relative;
             top: 1px;
         }
-        .icon-download,
-        .icon-bin {
+        .icon-download, .icon-bin {
             float: right;
             cursor: pointer;
             margin-left: 5px;
             position: relative;
             top: 2px;
         }
-        .not-available,
-        .not-available * {
-            color: whiten($textColor, 0.5);
+        .not-available, .not-available * {
+            color: whiten($textColor, .5);
             cursor: default !important;
         }
 
@@ -597,7 +590,7 @@ img.dragging.ui-draggable-dragging {
             display: inline-block;
             cursor: pointer;
             width: 100px;
-            line-height: 0.9;
+            line-height: .9;
             position: relative;
             @include font-size(13);
             top: 2px;
@@ -608,7 +601,7 @@ img.dragging.ui-draggable-dragging {
     }
 
     #stylesheet-uploader {
-        width: 100%;
+        width: 100%
     }
 
     .item-editor-color-picker {
@@ -633,7 +626,7 @@ img.dragging.ui-draggable-dragging {
             }
         }
         .color-picker {
-            margin-top: -5px;
+            margin-top: -5px
         }
     }
 
@@ -652,10 +645,9 @@ img.dragging.ui-draggable-dragging {
             border: 1px dotted #aaa;
             &:hover {
                 background: $uiClickableHoverBg;
-                color: $textHighlight;
+                color: $textHighlight
             }
-            &.icon-up,
-            &.icon-down {
+            &.icon-up, &.icon-down {
                 margin: auto;
             }
             &.icon-left {
@@ -668,6 +660,7 @@ img.dragging.ui-draggable-dragging {
     }
 }
 
+
 // begin pop-up
 
 .sidebar-popup {
@@ -677,7 +670,7 @@ img.dragging.ui-draggable-dragging {
     right: ($sidebarWidth + 2) * 1px;
     top: 37px; //height of blue action bar plus a bit
     width: $sidebarWidth * 1px;
-    @include vendor-prefix(box-shadow, 0 0 2px 0px rgba($websiteBorder, 0.75), property, (-webkit-, -moz-, ''));
+    @include vendor-prefix(box-shadow, 0 0 2px 0px rgba($websiteBorder,.75), property, (-webkit-, -moz-, ''));
     display: none;
     z-index: 15000;
     .sidebar-popup-content {
@@ -689,7 +682,7 @@ img.dragging.ui-draggable-dragging {
     }
     .sidebar-popup-title {
         color: $textHighlight;
-        background: whiten($info, 0.2);
+        background: whiten($info, .2);
         margin-bottom: 2px;
         cursor: move;
         a {
@@ -704,8 +697,7 @@ img.dragging.ui-draggable-dragging {
             padding: 0 5px !important;
         }
     }
-    input,
-    textarea {
+    input, textarea {
         width: 100%;
         max-width: none;
         display: block;
@@ -751,14 +743,13 @@ img.dragging.ui-draggable-dragging {
         }
     }
     &.color-picker-container {
-        right: 0;
+        right:0;
     }
 }
 
 // end pop-up
 
-.item-viewer-panel,
-#item-editor-panel {
+.item-viewer-panel, #item-editor-panel {
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAAAAAA7VNdtAAAFQElEQVR42iXWW45kSREEUDN/xM3M6h4GJCT2vyl2gVBPV1XeCHc3PjirOPFvQE0HWecC3rZ4D9JFcpqSEy4MRO2Cw6M7y6xFY/xaz9fuThJGVSVNpvK7jL3Ggoyp4NsDzjd8dYJS+H8/HtNCo1HjRoNxoto8Wj1xntjG41srvQ7S67JC9UN30vz3snNpfBrEyNaOi5g3ctJFeluZra4rgwJIpMema9qCmEWtsK/I+fpbeDfSXe+AlQMoSxlwreFXRifYhNd4DL6erzoImTTg83iJFbCoM2Z3QqoGeLSmix3Hcvp11yzyax6ujkMEaV02MD/xYB1j2/SoK+IOi738OidmWCrfzwa2zy975XQeOMxNu1+kFS2esEGHrU+vR48LNyVTyQnrz4WK6oVmkaProfD3o1bvRcfywb4/Xsf9IBi70Ethc9qdj2dJXrNiazeN1XDJ+rdbtHkNE/b6/v6JAALjhrn1YHy9A68JGAQCZ/IfIMyaz7OZZjjBQbg0mo3Hd8RnXKSp348L3cdc+6qF6ePCvPPPniFkFIka9P7jn9GVhx5WeT7jB+qOmTRD0xzec/OaovsMn1/TDyBk8/2Rfnq5E0debzcsHwgqNNkS2ylitYcsytui5a14jaCrYp1kjxPHTa/9zqRGxOd6lqgw79pJoX01SPCpW1edJSW3aiwJVifmfk77O1Lx6ESH4Nh5m8e46RzDxYMnzLBd49Lj7u44gRtXb99uRqoTJlicX/FY7O1mU2QjOfIXH7/19zhujmIxUeU+Y1QKf6YTLa8Oo6YHwLmkaAszyLJfczoMUJK0Ssfo6KM+OetMDtBI2/NUhw3uDJi2X7px2XGNqcjTafYRezNhNrERruMnbpiZXFwxjBmQaEouS1RfvtrwJmjhkNe7Yruln4DMBIEDOQ4uFA/O9jLTjJs1j7tcEYZK2NhqsD6f+5rqyB4ddCnj/R2ewSHpjuOPHdf00AChWR4EYtu0hRXEq97FqHFqbFTz/FZs9/eHVIYJpKPdeVdYw/DE8AKNFyGU7E7MBFDZ5kQ1zX0KzEDPwC7zz35dN4ygpi67/DaP19ij7ycgo6M3hZOvrnzPC4pq0F0wFaCAeYWFYFadZibt79fomJg38vbsoV2ghpuL3RO00EC6vjsc1sRrlaJbpnTUODAa2poFTr0XnfHuH7qtftuDGJPB5vfPPM6AQou7fIzWM4p4XMDEG2D1j8Bk70tqWVqbOzTHDco5l4rs4RA8O5aG6z62mfY6CIgvb8OACvvGIgC1Qx7Y1ExcLWmlHb0t8QBcYYAoeY/Y5t7lbY9uu+7xZwANoTKzaoYO63EvBFqYtK3rasyS/Db5ZIfPROCMjQlJoLuYBNkTENIk9JnLtGBdZwUQGvNmPRxdEfdb50cLevs1Elk7c50Rre4n/vOvQPqRPIRDmbEjsuAiImQDk9gpdlKw/fyh8K4JSMxmGXFfD3doyOvux32enindFoDMb3MF0IGK8gHTZgxoqggpTInvH9ao9B6Td9oo5qyBw8eBBntCRj5GOuTktVxz//XHk+p2mXrifiMokq5BR94DNkPCsJBt3f4071kDOQwd/hPz/rnHgbGRns3vxTOOy2ff5uf7mReOgQ4K8gDID62De5VRZe/rfuSMYKOrdsczymEhx4hTJyZvrbYYie0QBj/1V4agcVV4JXqmYgFb8sxYQ95BFdsNyPPHoadIqM1fLYdiT4gQ+P00xZfZih5YtkFn7Xdw7P/FIeltYjSfW+Q1IZ7wcQgU4DupThfe9aN3wtCUjJoLktqBD27/HztqGm4EFwGoAAAAAElFTkSuQmCC);
 }
 
@@ -794,7 +785,7 @@ img.dragging.ui-draggable-dragging {
         border-bottom: 0;
         @include box-shadow(0px, 6px, 10px, -5px, mix(#fff, $darkBrown, 50%));
 
-        > h1 {
+        >h1 {
             position: absolute;
             width: 100%;
             text-align: center;
@@ -867,11 +858,11 @@ img.dragging.ui-draggable-dragging {
 }
 
 #item-editor-panel {
-    @import 'qtiCreator/_editor-bar';
+    @import "qtiCreator/_editor-bar";
     // those elements cannot go lower as they style markup in the panel container
-    @import 'qtiCreator/_table';
-    @import 'qtiCreator/_widget-popup';
-    @import 'qtiCreator/_tooltip';
+    @import "qtiCreator/_table";
+    @import "qtiCreator/_widget-popup";
+    @import "qtiCreator/_tooltip";
 
     padding: 0;
     position: relative;
@@ -900,9 +891,10 @@ img.dragging.ui-draggable-dragging {
         overflow-x: hidden;
         overflow-y: visible;
     }
+
 }
 
-#item-editor-scoll-container {
+#item-editor-scoll-container{
     position: relative;
     height: 100%;
     @include simple-flex-box(auto);
@@ -914,21 +906,19 @@ img.dragging.ui-draggable-dragging {
         background-image: url(data:image/gif;base64,R0lGODlhKwALAPEAAN3d3TMzM4mJiTMzMyH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAKwALAAACMoSOCMuW2diD88UKG95W88uF4DaGWFmhZid93pq+pwxnLUnXh8ou+sSz+T64oCAyTBUAACH5BAkKAAAALAAAAAArAAsAAAI9xI4IyyAPYWOxmoTHrHzzmGHe94xkmJifyqFKQ0pwLLgHa82xrekkDrIBZRQab1jyfY7KTtPimixiUsevAAAh+QQJCgAAACwAAAAAKwALAAACPYSOCMswD2FjqZpqW9xv4g8KE7d54XmMpNSgqLoOpgvC60xjNonnyc7p+VKamKw1zDCMR8rp8pksYlKorgAAIfkECQoAAAAsAAAAACsACwAAAkCEjgjLltnYmJS6Bxt+sfq5ZUyoNJ9HHlEqdCfFrqn7DrE2m7Wdj/2y45FkQ13t5itKdshFExC8YCLOEBX6AhQAADsAAAAAAAAAAAA=);
         background-position: center 250px;
         background-repeat: no-repeat;
-        position: relative;
+        position:relative;
     }
 }
 
 .item-editor-item {
     @include simple-border();
     @include box-shadow(0px, 6px, 8px, 0px, mix(#fff, $darkBrown, 50%));
-    [class*=' col-'],
-    [class^='col-'] {
+    [class*=" col-"], [class^="col-"] {
         position: relative;
     }
 
     .inserting {
-        .widget-block,
-        .widget-blockInteraction {
+        .widget-block, .widget-blockInteraction {
             border: 1px dashed #ddd;
         }
         .widget-img {
@@ -946,7 +936,7 @@ img.dragging.ui-draggable-dragging {
 
                 &::after {
                     content: '';
-                    display: block;
+                    display:block;
                     position: absolute;
                     left: 0;
                     top: 0;
@@ -989,7 +979,7 @@ img.dragging.ui-draggable-dragging {
                 }
                 &.edit-active {
                     @extend %editActive;
-                    padding-top: 24px;
+                    padding-top : 24px;
                 }
                 &.edit-question {
                     th.qti-choice {
@@ -1032,10 +1022,10 @@ img.dragging.ui-draggable-dragging {
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba($uiClickableDefaultBg, 0.5);
+            background: rgba($uiClickableDefaultBg, .5);
             .message {
                 padding: 10px;
-                background: rgba($uiClickableDefaultBg, 0.6);
+                background: rgba($uiClickableDefaultBg, .6);
                 margin: auto;
                 position: absolute;
                 top: 40%;
@@ -1054,17 +1044,17 @@ img.dragging.ui-draggable-dragging {
         .tlb-wrapper {
             position: absolute;
             width: 100%;
-            left: 0;
+            left : 0;
             top: 0px;
             display: block;
             cursor: default;
             color: white;
-            background: whiten($info, 0.1);
-            text-shadow: 1px 1px 0 blacken($info, 0.2);
+            background: whiten($info, .1);
+            text-shadow: 1px 1px 0 blacken($info, .2);
             z-index: 999;
 
-            -webkit-box-shadow: 0 0 0 1px whiten($info, 0.2);
-            box-shadow: 0 0 0 1px whiten($info, 0.2);
+            -webkit-box-shadow: 0 0 0 1px whiten($info, .2);
+            box-shadow: 0 0 0 1px whiten($info, .2);
 
             .tlb-title {
                 margin-top: 3px;
@@ -1081,7 +1071,7 @@ img.dragging.ui-draggable-dragging {
                     position: absolute;
                     right: 100%;
                     top: 0;
-                    background: linear-gradient(left, transparent, whiten($info, 0.2));
+                    background: linear-gradient(left, transparent, whiten($info, .2));
                 }
                 .state-switcher {
                     float: right;
@@ -1120,10 +1110,9 @@ img.dragging.ui-draggable-dragging {
                         opacity: 1;
                     }
 
-                    [class^='icon-'],
-                    [class*=' icon-'] {
+                    [class^="icon-"], [class*=" icon-"] {
                         font-size: inherit;
-                        text-shadow: 1px 1px 0 blacken($info, 0.2);
+                        text-shadow: 1px 1px 0 blacken($info, .2);
                     }
                 }
             }
@@ -1139,7 +1128,7 @@ img.dragging.ui-draggable-dragging {
             left: 0;
             right: 0;
             padding: 0;
-            background: rgba($uiClickableDefaultBg, 0.5);
+            background: rgba($uiClickableDefaultBg, .5);
         }
         &.hover > .common-tlb {
             display: inline-block;
@@ -1170,7 +1159,7 @@ img.dragging.ui-draggable-dragging {
                     }
                 }
                 &:after {
-                    content: '';
+                    content: "";
                     display: block;
                     clear: both;
                 }
@@ -1182,8 +1171,7 @@ img.dragging.ui-draggable-dragging {
                         display: table;
                         width: 100%;
                         height: 100%;
-                        [class^='icon-'],
-                        [class*=' icon-'] {
+                        [class^="icon-"], [class*=" icon-"] {
                             display: table-cell;
                             @include font-size(60);
                             position: static !important;
@@ -1197,7 +1185,7 @@ img.dragging.ui-draggable-dragging {
                         }
                     }
                 }
-                .qti-prompt .cke_editable {
+                .qti-prompt .cke_editable{
                     margin-top: 1px;
                 }
                 &.qti-orderInteraction {
@@ -1227,8 +1215,7 @@ img.dragging.ui-draggable-dragging {
     }
     [data-edit] {
         display: none;
-        & > [class*=' col-'],
-        [class^='col-'] {
+        & > [class*=" col-"], [class^="col-"] {
             margin-bottom: 0 !important;
         }
         &.mini-tlb {
@@ -1263,16 +1250,13 @@ img.dragging.ui-draggable-dragging {
         display: inline-block;
         line-height: 24px;
         cursor: default;
-        [class^='icon-'],
-        [class*=' icon-'] {
+        [class^="icon-"], [class*=" icon-"] {
             font-size: inherit;
             line-height: inherit;
         }
     }
 
-    .widget-inline,
-    .widget-table,
-    .widget-figure {
+    .widget-inline, .widget-table, .widget-figure {
         z-index: 20;
     }
 
@@ -1280,12 +1264,11 @@ img.dragging.ui-draggable-dragging {
     .inline-text-wrapper {
         position: relative;
         display: inline-block;
-        [class^='icon-'],
-        [class*=' icon-'] {
+        [class^="icon-"], [class*=" icon-"] {
             width: 100%;
             top: -2px;
         }
-        & ~ span.mini-tlb[data-edit] {
+        & ~ span.mini-tlb[data-edit]{
             position: absolute !important;
             top: -2px !important;
             right: -32px !important;
@@ -1296,8 +1279,8 @@ img.dragging.ui-draggable-dragging {
                 width: 24px !important;
             }
         }
-        .mini-tlb[data-edit] {
-            right: -32px !important;
+        .mini-tlb[data-edit]{
+            right:-32px !important;
         }
         &.tao-centered {
             display: block;
@@ -1310,15 +1293,14 @@ img.dragging.ui-draggable-dragging {
     .dummy-element {
         position: relative;
         display: inline-block;
-        [class^='icon-'],
-        [class*=' icon-'] {
+        [class^="icon-"], [class*=" icon-"] {
             display: inline-block;
             text-align: center;
             width: 100%;
             position: relative;
             top: -2px;
         }
-        & ~ span.mini-tlb[data-edit] {
+        & ~ span.mini-tlb[data-edit]{
             position: absolute !important;
             top: -2px !important;
             right: -30px !important;
@@ -1329,8 +1311,8 @@ img.dragging.ui-draggable-dragging {
                 width: 24px !important;
             }
         }
-        .mini-tlb[data-edit] {
-            right: -32px !important;
+        .mini-tlb[data-edit]{
+            right:-32px !important;
         }
     }
     .qti-hottext {
@@ -1338,46 +1320,47 @@ img.dragging.ui-draggable-dragging {
             user-select: none;
         }
     }
-    .qti-gap {
+    .qti-gap{
         margin-right: 30px;
     }
 
-    @import 'qtiCreator/_object';
-    @import 'qtiCreator/_choice';
-    @import 'qtiCreator/_order';
-    @import 'qtiCreator/_associate';
-    @import 'qtiCreator/_match';
-    @import 'qtiCreator/_inline-choice';
-    @import 'qtiCreator/_text-entry';
-    @import 'qtiCreator/_end-attempt';
-    @import 'qtiCreator/_extended-text';
-    @import 'qtiCreator/_gap-match';
-    @import 'qtiCreator/_hottext';
-    @import 'qtiCreator/_rubric-block';
-    @import 'qtiCreator/_math';
-    @import 'qtiCreator/_mapping-editor';
-    @import 'qtiCreator/_graphic';
-    @import 'qtiCreator/_graphic-gap';
-    @import 'qtiCreator/_grid-editor';
-    @import 'qtiCreator/_custom';
-    @import 'qtiCreator/_element-selector';
-    @import 'qtiCreator/_include';
-    @import 'qtiCreator/_item_buttons';
-    @import 'qtiCreator/_figure';
-    @import 'qtiCreator/_media';
+    @import "qtiCreator/_object";
+    @import "qtiCreator/_choice";
+    @import "qtiCreator/_order";
+    @import "qtiCreator/_associate";
+    @import "qtiCreator/_match";
+    @import "qtiCreator/_inline-choice";
+    @import "qtiCreator/_text-entry";
+    @import "qtiCreator/_end-attempt";
+    @import "qtiCreator/_extended-text";
+    @import "qtiCreator/_gap-match";
+    @import "qtiCreator/_hottext";
+    @import "qtiCreator/_rubric-block";
+    @import "qtiCreator/_math";
+    @import "qtiCreator/_mapping-editor";
+    @import "qtiCreator/_graphic";
+    @import "qtiCreator/_graphic-gap";
+    @import "qtiCreator/_grid-editor";
+    @import "qtiCreator/_custom";
+    @import "qtiCreator/_element-selector";
+    @import "qtiCreator/_include";
+    @import "qtiCreator/_item_buttons";
+    @import "qtiCreator/_figure";
+    @import "qtiCreator/_media";
 
-    /* Below is a temporary solution to address Bug #2768. Eventually this will be fixed by implementing feature #2771. */
+/* Below is a temporary solution to address Bug #2768. Eventually this will be fixed by implementing feature #2771. */
     .qti-hottextInteraction {
         .mini-tlb {
             right: -31px !important;
 
-            &:has(div.multiple:not([style*='display: none'])) {
+            &:has(div.multiple:not([style*="display: none"])) {
                 right: -58px !important;
             }
             & > div:nth-last-child(2) {
                 border-left: 1px solid $itemCreatorMiniTlbBorderColor;
             }
         }
+
     }
 
     .qti-interaction {
@@ -1387,7 +1370,7 @@ img.dragging.ui-draggable-dragging {
             }
             & ~ .mini-tlb {
                 right: -31px !important;
-                top: 1px;
+                top:1px
             }
         }
     }
@@ -1399,19 +1382,20 @@ img.dragging.ui-draggable-dragging {
         }
     }
 
-    .qti-flow-container {
-        .mini-tlb {
+    .qti-flow-container{
+        .mini-tlb{
             right: -31px !important;
         }
     }
-    /* end tmp fix #2768 */
+/* end tmp fix #2768 */
+
 }
 
 /*style for modal feedback*/
-@import 'qtiCreator/_modal-feedback';
+@import "qtiCreator/_modal-feedback";
 
 /*style for html editable area highlight*/
-.edit-question [data-html-editable] {
+.edit-question [data-html-editable]{
     min-height: 20px;
     margin-top: 2px;
 }
@@ -1426,16 +1410,15 @@ img.dragging.ui-draggable-dragging {
 }
 
 /* edit-* classes are used to represents the different states of an interaction */
-.edit-question .qti-interaction,
-.qti-modalFeedback.edit-active {
+.edit-question .qti-interaction, .qti-modalFeedback.edit-active {
     [data-html-editable-container]:hover {
-        [data-html-editable][contenteditable='true'] {
+        [data-html-editable][contenteditable=true] {
             border: 1px dotted $info;
         }
     }
     [data-html-editable] {
         margin-right: 0;
-        &[contenteditable='true']:focus {
+        &[contenteditable=true]:focus {
             border: 1px dotted $info;
         }
     }
@@ -1444,25 +1427,25 @@ img.dragging.ui-draggable-dragging {
 .edit-question .qti-blockInteraction .horizontal {
     margin-top: 28px;
     .qti-choice {
-        .mini-tlb {
+        .mini-tlb{
             white-space: nowrap;
-            .tlb-button {
+            .tlb-button{
                 display: block;
-                margin: 0;
+                margin:0;
             }
+
         }
         // hack to implement TAO-4554 and avoid overlapping toolbars
         .widget-box {
             .mini-tlb {
                 top: 0 !important;
-                right: -30px !important;
+                right:-30px !important;
             }
         }
     }
 }
 
-.widget-rubricBlock,
-.widget-textBlock {
+.widget-rubricBlock, .widget-textBlock {
     [data-html-editable] {
         @extend %clearfix;
         min-height: 3rem;
@@ -1476,7 +1459,7 @@ img.dragging.ui-draggable-dragging {
     cursor: pointer !important;
     border: none !important;
     background: black !important;
-    opacity: 0.05 !important;
+    opacity: .05 !important;
     display: inline-block !important;
 }
 
@@ -1488,15 +1471,15 @@ img.dragging.ui-draggable-dragging {
 }
 
 .cke-placeholder:not(:focus)::before {
-    content: attr(data-placeholder);
+    content:attr(data-placeholder);
     color: #999;
 }
 
-.extendedText {
-    .incrementer-ctrl-wrapper {
+.extendedText{
+    .incrementer-ctrl-wrapper{
         right: 10px; // to compensate the next change below
-        .incrementer {
-            width: 50px !important; // 10px more than the default 40px value
+        .incrementer{
+            width: 50px !important // 10px more than the default 40px value
         }
     }
 }
@@ -1525,7 +1508,7 @@ img.dragging.ui-draggable-dragging {
         right: 20px;
     }
 }
-.select2-container .select2-choice > .select2-chosen {
+.select2-container .select2-choice>.select2-chosen {
     margin-right: 50px;
 }
 .select2-result.rtl-lang {
@@ -1545,7 +1528,7 @@ img.dragging.ui-draggable-dragging {
 }
 
 //if an hr tag is inside a text selection we highlight it
-.qti-itemBody [contenteditable='true'] hr {
+.qti-itemBody [contenteditable=true] hr{
     position: relative;
     overflow: visible;
 
@@ -1557,7 +1540,7 @@ img.dragging.ui-draggable-dragging {
         left: 0;
         right: 0;
         background-color: #b3d4fc;
-        z-index: -1;
+        z-index:-1;
     }
 }
 .qti-itemBody.separator-between-columns {
@@ -1581,7 +1564,7 @@ img.dragging.ui-draggable-dragging {
 
 // jquery draggable widget has issue with RTL
 // fix: pass rtl to widget inside colimns and set ltr for grid
-.qti-itemBody[dir='rtl'] .grid-row {
+.qti-itemBody[dir="rtl"] .grid-row {
     direction: ltr;
 
     .widget-box {
@@ -1591,12 +1574,11 @@ img.dragging.ui-draggable-dragging {
 
 //for translation split screen .widget-box is not added to original item
 //so we need tos set rtl directly
-div.side-by-side-authoring .qti-itemBody[dir='rtl'] .grid-row {
+div.side-by-side-authoring .qti-itemBody[dir="rtl"] .grid-row {
     direction: rtl;
 }
 
-body,
-#mediaManager {
+body, #mediaManager {
     // Enforces the style for modal elements.
     // This is necessary to avoid conflicts with PCI styles.
     & > .modal {
@@ -1635,12 +1617,12 @@ body,
                 }
             }
 
-            li[data-file*='/tao-user-styles.css'] {
+            li[data-file*="/tao-user-styles.css"] {
                 order: 1;
                 margin: 5px 0;
 
                 &:before {
-                    border-top: 1px solid #dddddd;
+                    border-top: 1px solid #DDDDDD;
                     width: 100%;
                     left: 0;
                     text-indent: 8px;
@@ -1659,7 +1641,7 @@ body,
                 }
             }
 
-            .files > li[data-file*='/tao-user-styles.css']:only-child {
+            .files>li[data-file*="/tao-user-styles.css"]:only-child {
                 &:before {
                     border: none;
                 }
@@ -1667,10 +1649,10 @@ body,
         }
 
         .file-preview {
-            h2[data-toggle*='.actions'] {
+            h2[data-toggle*=".actions"] {
                 display: none;
 
-                & + .actions {
+                &+.actions {
                     display: none;
                 }
             }
@@ -1678,6 +1660,7 @@ body,
     }
 }
 @media print {
+
     html body #tabs {
         margin: 0 !important;
         min-height: 0 !important;
@@ -1717,20 +1700,19 @@ body,
         margin: 0 !important;
         border: none !important;
         width: 100% !important;
-        [class*='col-'] {
+        [class*="col-"] {
             border-color: transparent !important;
         }
     }
 
-    html body [data-edit],
-    html body .mini-tlb {
+    html body [data-edit], html body .mini-tlb {
         display: none !important;
     }
-    html body [class^='btn-'],
-    html body [class*=' btn-'],
+    html body [class^="btn-"],
+    html body [class*=" btn-"],
     html body button,
-    html body input[type='submit'],
-    html body input[type='reset'] {
+    html body input[type="submit"],
+    html body input[type="reset"] {
         color: #222 !important;
         border: 1px solid #dddddd !important;
         border-radius: 2px !important;
@@ -1738,13 +1720,14 @@ body,
     }
 }
 
+
 // 1366x768
 @media screen and (min-width: 1366px) {
+
     .item-editor-sidebar-wrapper.left-bar {
         @include simple-flex-box(262px);
         #item-editor-interaction-bar {
-            .sub-group-cover:after,
-            .sub-group-cover:before {
+            .sub-group-cover:after, .sub-group-cover:before {
                 left: 17% !important;
             }
         }
@@ -1756,6 +1739,7 @@ body,
 
 // 1920x1080
 @media screen and (min-width: 1920px) {
+
     .item-editor-sidebar-wrapper.left-bar {
         @include simple-flex-box(344px);
         #item-editor-interaction-bar {
@@ -1764,8 +1748,7 @@ body,
                     width: 50%;
                 }
             }
-            .sub-group-cover:after,
-            .sub-group-cover:before {
+            .sub-group-cover:after, .sub-group-cover:before {
                 left: 12% !important;
             }
         }
@@ -1775,4 +1758,4 @@ body,
     }
 }
 
-@import 'inc/solar/creator';
+@import "inc/solar/creator";
