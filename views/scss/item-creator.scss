@@ -1571,6 +1571,13 @@ img.dragging.ui-draggable-dragging {
         direction: rtl;
     }
 }
+
+//for translation split screen .widget-box is not added to original item
+//so we need tos set rtl directly
+div.side-by-side-authoring .qti-itemBody[dir="rtl"] .grid-row {
+    direction: rtl;
+}
+
 body, #mediaManager {
     // Enforces the style for modal elements.
     // This is necessary to avoid conflicts with PCI styles.
