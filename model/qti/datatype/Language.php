@@ -30,7 +30,7 @@ class Language extends Datatype
     public static function validate($value): bool
     {
         return preg_match(
-            '/^[a-z]{2}$|^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[a-zA-Z]{2,3}|-\d{3})(?:(?:-x)?-[a-z\d]{5,8})?$/',
+            '/^[a-z]{2}$|^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[a-zA-Z]{2,3}|-\d{3})(?:(?:-x)?-[a-zA-Z\d]{1,8})?$/',
             $value
         );
     }
