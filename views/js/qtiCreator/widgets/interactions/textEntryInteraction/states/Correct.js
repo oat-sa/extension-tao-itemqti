@@ -90,7 +90,7 @@ define([
                         break;
                     }
                     value = locale.parseInt(convertedValue, numericBase);
-                    responseValue = isNaN(value) ? '' : value
+                    responseValue = isNaN(value) ? '' : value;
                     // check for parsing and integer
                     if (!/^[+-]?[0-9]+(e-?\d*)?$/.test(convertedValue)) {
                         widget.isValid(widget.serial, false, __('Invalid value in correct response property.'));
@@ -114,6 +114,7 @@ define([
                     }
                     break;
                 case 'string':
+                    responseValue = convertedValue;
                     break;
                 default:
                     return false;
