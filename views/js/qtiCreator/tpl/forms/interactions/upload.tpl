@@ -5,7 +5,7 @@
 <div class="reset-group">
     <select name="type" class="select2" multiple data-has-search="false">
     	{{#each types}}
-    		<option value="{{mime}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
+    		<option value="{{mime}}" {{#if selected}}selected="selected"{{/if}}>{{label}}{{#if extensionsLabels}} ({{extensionsLabels}}){{/if}}</option>
     	{{/each}}
     </select>
 </div>
