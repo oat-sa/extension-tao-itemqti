@@ -59,7 +59,7 @@ define([
         //set up of the shape editor
         widget._editor = createEditor(widget);
 
-        listenResponseAttrChange(widget);
+        listenResponseAttrChange(widget, response);
 
     }
 
@@ -378,11 +378,17 @@ define([
      * @private
      * @param {Object} widget - the current widget
      */
-    function listenResponseAttrChange(widget){
+    function listenResponseAttrChange(widget, response){
         var interaction = widget.element;
         var $container = widget.$container;
         var $target = $container.find('[data-type="target"]');
         var $separator = $target.prev('.separator');
+
+        if (!answerStateHelper.defineCorrect(response)) {
+            //hide the target and the separator on init
+            $target.hide();
+            $separator.hide();
+        }
 
         //update the default scores when the form value change
         widget.on('mappingAttributeChange', function(data){
