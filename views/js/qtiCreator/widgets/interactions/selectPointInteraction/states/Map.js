@@ -415,8 +415,12 @@ define([
                     _.forEach(widget._targets, function(targetId){
                         var target = interaction.paper.getById(targetId);
                         var layer  = interaction.paper.getById('layer-' + targetId);
-                        target.remove();
-                        layer.remove();
+                        if (target) {
+                            target.remove();
+                        }
+                        if (layer) {
+                            layer.remove();
+                        }
                     });
                 }
             }
