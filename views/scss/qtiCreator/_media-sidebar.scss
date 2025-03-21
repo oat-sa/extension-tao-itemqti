@@ -4,7 +4,14 @@
     .tool-group {
         .panel {
             .panel.autostart-subpanel {
-                margin: -10px 0 10px 20px;
+                margin: -10px 0 10px 5px;
+
+                hr {
+                    margin: 15px 0;
+                }
+            }
+            .panel.sequential-subpanel {
+                margin-left: 15px;
             }
         }
     }
