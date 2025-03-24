@@ -15,13 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2024 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\Export\Qti3Package;
 
+use DOMAttr;
 use DOMDocument;
 use DOMElement;
 
@@ -77,12 +78,39 @@ class TransformationService
                     $targetElement->setAttribute($attrName, $attribute->value);
                 }
             }
+
+            $this->textInteractionAttributeTransformation($attribute);
         }
     }
 
     public function createQtiElementName(string $nodeName): string
     {
         return sprintf('qti-%s', $this->camelToHyphen($nodeName));
+    }
+
+    public function textInteractionAttributeTransformation(DOMAttr $node): void
+    {
+        $parent = $node->parentNode;
+        $classAttribute = $parent->attributes->getNamedItem('class');
+
+        switch ($node->nodeName) {
+            case 'expectedLength':
+                $classValue = 'qti-input-width-' . $node->nodeValue;
+                $parent->removeAttribute('expectedLength');
+                break;
+            case 'expectedLines':
+                $classValue = 'qti-input-height-' . $node->nodeValue;
+                $parent->removeAttribute('expectedLines');
+                break;
+            default:
+                return;
+        }
+
+        if ($classAttribute === null) {
+            $parent->setAttribute('class', $classValue);
+        } else {
+            $classAttribute->nodeValue .= ' ' . $classValue;
+        }
     }
 
     private function camelToHyphen(string $string): string
