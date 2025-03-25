@@ -99,7 +99,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
                 case '-n':
                     $this->directoryToClass = true;
                     break;
-                
+
                 case '-i':
                     $this->itemNameToClass = true;
                     break;
