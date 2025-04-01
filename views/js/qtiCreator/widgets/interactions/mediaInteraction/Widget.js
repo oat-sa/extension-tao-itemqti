@@ -65,7 +65,7 @@ define([
             interaction.attributes.autostart = false;
             if (
                 interaction.object.attr('data')
-                && interaction.object.attr('data').include('taomedia://mediamanager/')
+                && interaction.object.attr('data').includes('taomedia://mediamanager/')
             ) {
                 interaction.object.metaData.transcriptionUrl = this.options.resourceMetadataUrl +
                     '?metadataUri=' + encodeURIComponent(this.options.transcriptionMetadata) +
