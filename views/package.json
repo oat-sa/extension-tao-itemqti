@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "^1.0.0",
-        "@oat-sa/tao-item-runner-qti": "github:oat-sa/tao-item-runner-qti-fe#chore/integration-inf-285-aut-4134"
+        "@oat-sa/tao-item-runner-qti": "github:oat-sa/tao-item-runner-qti-fe#fix/INF-285/non-standart-input-trimming-fix"
     }
 }
