@@ -63,7 +63,10 @@ define([
             //disabled autoplay in authoring
             var autostart = interaction.attributes.autostart;
             interaction.attributes.autostart = false;
-            if (interaction.object.attr('data')) {
+            if (
+                interaction.object.attr('data')
+                && interaction.object.attr('data').include('taomedia://mediamanager/')
+            ) {
                 interaction.object.metaData.transcriptionUrl = this.options.resourceMetadataUrl +
                     '?metadataUri=' + encodeURIComponent(this.options.transcriptionMetadata) +
                     '&resourceUri=' + interaction.object.attr('data').replace('taomedia://mediamanager/', '');

@@ -77,7 +77,11 @@ define([
         if (obj.attr('width')) {
             previewOptions.width = obj.attr('width');
         }
-        if (obj.attributes.type && _config.mediaPlayerMimeType.includes(obj.attributes.type)) {
+        if (
+            obj.attributes.type
+            && _config.mediaPlayerMimeType.includes(obj.attributes.type)
+            && obj.attributes.data.includes('taomedia://mediamanager/')
+        ) {
             const metadataUri = encodeURIComponent(obj.metaData.widget.options.mediaManager.transcriptionMetadata);
             const resourceUri = obj.attributes.data.replace('taomedia://mediamanager/', '');
             const resourceMetadataUrl = obj.metaData.widget.options.mediaManager.resourceMetadataUrl;
