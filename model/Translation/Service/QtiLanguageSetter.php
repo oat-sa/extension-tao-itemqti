@@ -82,6 +82,8 @@ class QtiLanguageSetter
 
         $localeCode = str_replace(TaoOntology::LANGUAGE_PREFIX, '', $language->getUri());
 
+        $itemData->getBody()->removeAttributeValue('dir');
+
         if ($this->languageService->isRtlLanguage($localeCode)) {
             $itemData->getBody()->setAttribute('dir', 'rtl');
         }

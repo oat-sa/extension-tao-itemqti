@@ -654,6 +654,8 @@ define([
                             const editor = $editable.data('editor');
                             const options = $editable.data('editor-options');
 
+                            editor.focusManager.blur(true);
+
                             if (options.flushDeletingWidgetsOnDestroy && $editable.data('qti-container')) {
                                 _flushDeletingWidgets($editable.data('qti-container'));
                             }
@@ -675,7 +677,6 @@ define([
                                 resolve();
                             });
 
-                            editor.focusManager.blur(true);
                             editor.destroy();
                         })
                     );
