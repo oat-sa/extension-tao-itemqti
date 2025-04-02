@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013-2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2025 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  * phpcs:disable Generic.Files.LineLength
  */
@@ -44,6 +44,7 @@ use oat\taoQtiItem\model\UniqueId\ServiceProvider\UniqueIdServiceProvider;
 use oat\taoQtiItem\scripts\install\AddLabelInjectorForExport;
 use oat\taoQtiItem\scripts\install\InitMetadataService;
 use oat\taoQtiItem\scripts\install\ItemEventRegister;
+use oat\taoQtiItem\scripts\install\RegisterCreatorConfigFactory;
 use oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist;
 use oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries;
 use oat\taoQtiItem\scripts\install\RegisterNpmPaths;
@@ -98,6 +99,7 @@ return [
             SetupQtiMetadataImportExportService::class,
             AddLabelInjectorForExport::class,
             RemoveLegacyGenericLomExtractor::class,
+            RegisterCreatorConfigFactory::class,
         ]
     ],
     'local' => [
