@@ -65,7 +65,26 @@ define([
                 data : {
                     container : container,
                     widget : _widget
-                }
+                },
+                toolbar: [
+                    {
+                        name : 'basicstyles',
+                        items : ['Bold', 'Italic', 'Subscript', 'Superscript']
+                    }, {
+                        name : 'insert',
+                        items : ['SpecialChar', 'TaoQtiPrintedVariable']
+                    }, {
+                        name : 'links',
+                        items : ['Link']
+                    },
+                    {
+                        name : 'styles',
+                        items : ['Format']
+                    }, {
+                        name : 'paragraph',
+                        items : ['NumberedList', 'BulletedList', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+                    }
+                ]
             });
         }
     };
