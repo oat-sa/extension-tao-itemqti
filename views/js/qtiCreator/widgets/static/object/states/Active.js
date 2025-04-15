@@ -41,6 +41,8 @@ define([
 
     const _config = {
         renderingThrottle: 1000,
+        mediaPlayerMimeType:
+            'video/mp4,video/avi,video/ogv,video/mpeg,video/ogg,video/quicktime,video/webm,video/x-ms-wmv,video/x-flv,audio/mp3,audio/vnd.wav,audio/ogg,audio/vorbis,audio/webm,audio/mpeg,application/ogg,audio/aac,audio/wav,audio/flac',
         fileFilters:
             'image/jpeg,image/png,image/gif,image/svg+xml,video/mp4,video/avi,video/ogv,video/mpeg,video/ogg,video/quicktime,video/webm,video/x-ms-wmv,video/x-flv,audio/mp3,audio/vnd.wav,audio/ogg,audio/vorbis,audio/webm,audio/mpeg,application/ogg,audio/aac,application/pdf'
     };
@@ -74,6 +76,17 @@ define([
         }
         if (obj.attr('width')) {
             previewOptions.width = obj.attr('width');
+        }
+        if (
+            obj.attributes.type
+            && _config.mediaPlayerMimeType.includes(obj.attributes.type)
+            && obj.attributes.data.includes('taomedia://mediamanager/')
+        ) {
+            const metadataUri = encodeURIComponent(obj.metaData.widget.options.mediaManager.transcriptionMetadata);
+            const resourceUri = obj.attributes.data.replace('taomedia://mediamanager/', '');
+            const resourceMetadataUrl = obj.metaData.widget.options.mediaManager.resourceMetadataUrl;
+
+            previewOptions.transcriptionUrl = `${resourceMetadataUrl}?metadataUri=${metadataUri}&resourceUri=${resourceUri}`;
         }
         if (previewOptions.url && previewOptions.mime) {
             $container.previewer(previewOptions);
@@ -185,6 +198,8 @@ define([
                 deleteUrl: options.mediaManager.deleteUrl,
                 downloadUrl: options.mediaManager.downloadUrl,
                 fileExistsUrl: options.mediaManager.fileExistsUrl,
+                transcriptionMetadata: options.mediaManager.transcriptionMetadata,
+                resourceMetadataUrl: options.mediaManager.resourceMetadataUrl,
                 params: {
                     uri: options.uri,
                     lang: options.lang,

@@ -48,6 +48,7 @@ use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\parser\XmlToItemParser;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\validator\ItemIdentifierValidator;
+use oat\taoQtiItem\model\service\CreatorConfigFactory;
 use tao_actions_CommonModule;
 use tao_helpers_File;
 use tao_helpers_Http;
@@ -274,8 +275,7 @@ class QtiCreator extends tao_actions_CommonModule
      */
     protected function getCreatorConfig(core_kernel_classes_Resource $item)
     {
-
-        $config = new CreatorConfig();
+        $config = $this->getCreatorConfigFactory()->getCreatorConfig();
 
         $creatorConfig = $this->getFeatureFlagConfigSwitcher()->getSwitchedExtensionConfig('taoQtiItem', 'qtiCreator');
 
@@ -393,5 +393,10 @@ class QtiCreator extends tao_actions_CommonModule
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
         return $this->getServiceLocator()->getContainer()->get(FeatureFlagChecker::class);
+    }
+
+    private function getCreatorConfigFactory(): CreatorConfigFactory
+    {
+        return $this->getPsrContainer()->get(CreatorConfigFactory::class);
     }
 }
