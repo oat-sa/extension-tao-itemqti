@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2024-11-28 11:11\n"
+"PO-Revision-Date: 2025-04-16 15:36\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de\n"
@@ -1893,6 +1893,9 @@ msgstr "Es gibt einen unvollständigen Bestandteil in ihrem Element: Darauf klic
 
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "Es gab ein Problem beim Download des CSS, bitte erneut versuchen."
+
+msgid "This identifier is already used by another variable."
+msgstr "Diese Kennung wird bereits von einer anderen Variablen verwendet."
 
 msgid "This identifier must not be used by any other response or item variable."
 msgstr "Dieser Bezeichner darf von keiner anderen Antwort- oder Elementvariablen verwendet werden."
