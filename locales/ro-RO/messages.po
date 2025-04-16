@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2024-10-11 13:07\n"
+"PO-Revision-Date: 2025-04-16 15:35\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro\n"
@@ -1891,6 +1891,9 @@ msgid "There is an incomplete element in your item: please click on it to comple
 msgstr ""
 
 msgid "There was a problem downloading your CSS, please try again."
+msgstr ""
+
+msgid "This identifier is already used by another variable."
 msgstr ""
 
 msgid "This identifier must not be used by any other response or item variable."
