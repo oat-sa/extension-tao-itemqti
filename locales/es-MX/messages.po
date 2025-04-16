@@ -1883,6 +1883,9 @@ msgstr "Hay un elemento incompleto en su ítem: por favor, haga clic en él para
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "Hubo un problema al descargar el CSS, por favor intente de nuevo."
 
+msgid "This identifier is already used by another variable."
+msgstr ""
+
 msgid "This identifier must not be used by any other response or item variable."
 msgstr ""
 
