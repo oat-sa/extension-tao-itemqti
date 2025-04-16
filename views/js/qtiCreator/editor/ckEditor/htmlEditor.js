@@ -165,6 +165,75 @@ define([
                 }
             },
             on: {
+                pluginContentModified: function (e) {
+                    const data = e.data;
+                    const editor = this;
+                    const $editable = $(editor.editable().$);
+                    const options = $editable.data('editor-options');
+
+                    const widget = options && options.data && options.data.widget;
+                    if (!widget) {
+                        console.error('Widget not found in editor options');
+                        return;
+                    }
+
+                    try {
+                        const interaction = widget.element;
+                        if (!interaction) {
+                            console.error('No interaction element found in widget');
+                            return;
+                        }
+
+                        console.log('Processing interaction:', interaction.serial);
+
+                        const item = interaction.getRootElement();
+                        if (!item) {
+                            console.error('Could not find root element');
+                            return;
+                        }
+
+                        const interactionSerial = interaction.serial;
+                        const placeholder = `{{${interactionSerial}}}`;
+
+                        const newHTML = data.html;
+
+                        const $tempDiv = $('<div>').html(newHTML);
+
+
+                        const $interactionElement = $tempDiv.find(`[data-serial="${interactionSerial}"], interaction[data-serial="${interactionSerial}"]`).first();
+
+                        if ($interactionElement.length) {
+                            $interactionElement.replaceWith(placeholder);
+
+                            const structureWithPlaceholder = $tempDiv.html();
+
+                            console.log('Extracted structure with placeholder:', structureWithPlaceholder);
+
+                            item.body(structureWithPlaceholder);
+                        } else {
+                            console.error('Could not find interaction element in edited HTML');
+                            return;
+                        }
+
+
+                        const itemWidget = item.data('widget');
+                        if (itemWidget && itemWidget.rebuild) {
+                            itemWidget.rebuild({
+                                ready: function () {
+                                    console.log('Item widget rebuilt successfully');
+                                }
+                            });
+                        }
+
+                        editor.fire('change');
+                        editor.fire('saveSnapshot');
+
+                        console.log('QTI model updated successfully');
+
+                    } catch (err) {
+                        console.error('Error in pluginContentModified handler:', err);
+                    }
+                },
                 instanceReady: function (e) {
                     let widgets = {};
                     const editor = e.editor;
