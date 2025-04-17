@@ -1883,6 +1883,9 @@ msgstr "Eitthvað vantar í atriðið þitt: smelltu á það til að ljúka vi�
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "Vandamál kom upp við að hlaða niður CSS þínu, reyndu aftur."
 
+msgid "This identifier is already used by another variable."
+msgstr ""
+
 msgid "This identifier must not be used by any other response or item variable."
 msgstr ""
 
