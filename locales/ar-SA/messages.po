@@ -1894,6 +1894,9 @@ msgstr "يوجد عنصر غير مكتمل في البند الخاص بك: ا�
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "حدثت مشكلة أثناء تنزيل CSS ، يرجى المحاولة مرة أخرى."
 
+msgid "This identifier is already used by another variable."
+msgstr "هذا المعرف مستخدم من قبل متغير ثاني."
+
 msgid "This identifier must not be used by any other response or item variable."
 msgstr "هذا المعرف قيد الاستخدام بالفعل"
 
