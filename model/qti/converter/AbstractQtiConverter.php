@@ -122,8 +122,7 @@ abstract class AbstractQtiConverter
                 continue;
             }
 
-            if ($this->isExpectedLengthEquivalent($attribute)) {
-                $newElement->setAttribute('expectedLength', str_replace('qti-input-width-', '', $attribute->value));
+            if ($this->convertAttributesToQTI2($childNode, $newElement, $attribute)) {
                 continue;
             }
 
@@ -211,8 +210,59 @@ abstract class AbstractQtiConverter
             && $child->getAttributeNode('xmlns')->nodeValue === self::QTI_3_NS;
     }
 
-    private function isExpectedLengthEquivalent(DOMAttr $attribute): bool
+    private function convertAttributesToQTI2($childNode, $newElement, $attribute): bool
+    {
+        if (
+            $childNode->nodeName === 'qti-extended-text-interaction'
+            && (
+                $this->isExpectedTextLengthEquivalent($attribute)
+                or $this->isExpectedTextLinesEquivalent($attribute)
+                )
+            ) {
+            $classes = explode(' ', $attribute->value);
+            foreach ($classes as $class) {
+                if (strpos($class, 'qti-input-width-') === 0) {
+                    if (preg_match('/qti-input-width-(\d+)/', $class, $matches)) {
+                        $newElement->setAttribute('expectedLength', $matches[1]);
+                    }
+                } elseif (strpos($class, 'qti-input-height-') === 0) {
+                    if (preg_match('/qti-input-height-(\d+)/', $class, $matches)) {
+                        $newElement->setAttribute('expectedLines', $matches[1]);
+                    }
+                }
+            }
+            return true;
+        }
+
+        if (
+            $childNode->nodeName === 'qti-choice-interaction'
+            && $this->isExpectedChoiceListStyleEquivalent($attribute)
+        ) {
+            $classes = explode(' ', $attribute->value);
+            foreach ($classes as $class) {
+                if (strpos($class, 'qti-labels-') === 0) {
+                    $newElement->setAttribute('class', str_replace('qti-labels-', 'list-style-', $class));
+                }
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+
+    private function isExpectedTextLengthEquivalent(DOMAttr $attribute): bool
     {
         return $attribute->name === 'class' && str_contains($attribute->value, 'qti-input-width-');
+    }
+
+    private function isExpectedTextLinesEquivalent(DOMAttr $attribute): bool
+    {
+        return $attribute->name === 'class' && str_contains($attribute->value, 'qti-input-height-');
+    }
+
+    private function isExpectedChoiceListStyleEquivalent(DOMAttr $attribute): bool
+    {
+        return $attribute->name === 'class' && str_contains($attribute->value, 'qti-labels-');
     }
 }
