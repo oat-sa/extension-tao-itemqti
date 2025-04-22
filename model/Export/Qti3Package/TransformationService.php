@@ -70,7 +70,7 @@ class TransformationService
         if (!$sourceElement->hasAttributes()) {
             return;
         }
-
+        
         foreach ($sourceElement->attributes as $attribute) {
             if (
                 !str_starts_with($attribute->nodeName, 'xmlns')
@@ -78,11 +78,23 @@ class TransformationService
             ) {
                 $attrName = $this->camelToHyphen($attribute->nodeName);
                 if (!empty($attrName)) {
+                    if ($sourceElement->nodeName === 'extendedTextInteraction') {
+                        $this->textInteractionAttributeTransformation($attribute);
+                        if ($attribute->nodeName === 'expectedLength' || $attribute->nodeName === 'expectedLines') {
+                            continue;
+                        }
+                    }
+                    
+                    if ($sourceElement->nodeName === 'choiceInteraction' && $attribute->nodeName === 'class') {
+                        if (strpos($attribute->value, 'list-style-') === 0) {
+                            $targetElement->setAttribute($attrName, str_replace('list-style-', 'qti-labels-', $attribute->value));
+                            continue;
+                        }
+                    }
+                   
                     $targetElement->setAttribute($attrName, $attribute->value);
                 }
             }
-
-            $this->textInteractionAttributeTransformation($attribute);
         }
     }
 
@@ -99,11 +111,9 @@ class TransformationService
         switch ($node->nodeName) {
             case 'expectedLength':
                 $classValue = 'qti-input-width-' . $node->nodeValue;
-                $parent->removeAttribute('expectedLength');
                 break;
             case 'expectedLines':
                 $classValue = 'qti-input-height-' . $node->nodeValue;
-                $parent->removeAttribute('expectedLines');
                 break;
             default:
                 return;
