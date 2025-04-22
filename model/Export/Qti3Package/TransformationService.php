@@ -25,6 +25,7 @@ namespace oat\taoQtiItem\model\Export\Qti3Package;
 use DOMAttr;
 use DOMDocument;
 use DOMElement;
+use DOMText;
 
 class TransformationService
 {
@@ -58,6 +59,8 @@ class TransformationService
                 $newParent->appendChild($newElement);
             } elseif ($child->nodeType === XML_TEXT_NODE && trim($child->nodeValue) !== '') {
                 $newParent->appendChild($newDom->createTextNode($child->nodeValue));
+            } elseif ($child->nodeType === XML_CDATA_SECTION_NODE) {
+                $newParent->appendChild($newDom->createCDATASection($child->nodeValue));
             }
         }
     }
