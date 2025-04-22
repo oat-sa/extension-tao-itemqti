@@ -102,7 +102,7 @@ abstract class AbstractQtiConverter
 
             if ($childNodes) {
                 foreach (iterator_to_array($childNodes) as $childNode) {
-                    if ($childNode instanceof DOMElement) {
+                    if ($childNode instanceof DOMElement || $childNode instanceof DOMText) {
                         $newElement->appendChild($childNode);
                     }
                 }
