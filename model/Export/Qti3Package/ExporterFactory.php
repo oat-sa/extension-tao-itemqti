@@ -35,6 +35,11 @@ class ExporterFactory
         $this->transformationService = $transformationService;
     }
 
+    public function getTransformationService(): TransformationService
+    {
+        return $this->transformationService;
+    }
+
     public function create(Resource $item, ZipArchive $zip, ?DOMDocument $manifest = null): Exporter
     {
         $exporter = new Exporter($item, $zip, $manifest);

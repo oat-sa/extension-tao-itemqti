@@ -104,13 +104,13 @@ class Template extends ResponseProcessing implements Rule
     /**
      * QTI 3.0
      */
-    public const MAP_RESPONSE_POINT_QTI_V3 = 'https://www.imsglobal.org/question/qti_v3p0/rptemplates/map_response_point';
-    public const MATCH_CORRECT_QTI_V3 = 'https://www.imsglobal.org/question/qti_v3p0/rptemplates/match_correct.xml';
-    public const MAP_RESPONSE_QTI_V3 = 'https://www.imsglobal.org/question/qti_v3p0/rptemplates//map_response';
-    public const SPEC_MAP_RESPONSE_POINT_QTI_V3 = 'https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/map_response_point';
-    public const SPEC_RESPONSE_QTI_V3 = 'https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct.xml';
-    public const SPEC_MAP_RESPONSE_QTI_V3 = 'https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/map_response.xml';
-    public const SPEC_MATCH_CORRECT_QTI_V3 = 'http://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct.xml';
+    public const MAP_RESPONSE_POINT_QTI_V3 = 'http://www.imsglobal.org/question/qti_v3p0/rptemplates/map_response_point';
+    public const MATCH_CORRECT_QTI_V3 = 'http://www.imsglobal.org/question/qti_v3p0/rptemplates/match_correct';
+    public const MAP_RESPONSE_QTI_V3 = 'http://www.imsglobal.org/question/qti_v3p0/rptemplates/map_response';
+    public const SPEC_MAP_RESPONSE_POINT_QTI_V3 = 'http://purl.imsglobal.org/spec/qti/v3p0/rptemplates/map_response_point';
+    public const SPEC_RESPONSE_QTI_V3 = 'http://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct';
+    public const SPEC_MAP_RESPONSE_QTI_V3 = 'http://purl.imsglobal.org/spec/qti/v3p0/rptemplates/map_response';
+    public const SPEC_MATCH_CORRECT_QTI_V3 = 'http://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct';
 
     // phpcs:enable Generic.NamingConventions.UpperCaseConstantName,Generic.Files.LineLength
 
