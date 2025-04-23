@@ -104,10 +104,13 @@ abstract class AbstractQtiConverter
                 foreach (iterator_to_array($childNodes) as $childNode) {
                     if ($childNode instanceof DOMElement) {
                         $newElement->appendChild($childNode);
+                    } elseif ($childNode instanceof DOMText) {
+                        if ($childNode->nodeValue !== $nodeValue) {
+                            $newElement->appendChild($childNode);
+                        }
                     }
                 }
             }
-
             $this->adjustAttributes($newElement, $child);
             $child->parentNode->replaceChild($newElement, $child);
         }
