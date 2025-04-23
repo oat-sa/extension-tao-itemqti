@@ -26,6 +26,403 @@ define([
 
     const logger = loggerFactory('taoQtiItem/qtiCreator/plugins/interactionModifiers/interactionSourceHandler');
 
+    const WRAPPER_MARKER_CLASS = 'custom-interaction-wrapper';
+    const INTERACTION_PLACEHOLDER_FORMAT = '{{%s}}';
+    const REGEX = {
+        INTERACTION_MATCH: /<interaction_([^>]+)>/,
+        WRAPPER_DIV_MATCH: /<div\s+class="([^"]+)">\s*<interaction_/,
+        DIV_CLASS_PATTERN: /<div\s+class="([^"]+)">/g,
+        CLOSING_DIV: /<\/div>/
+    };
+
+    /**
+     * Wrapper State Manager - handles all wrapper-related operations
+     */
+    const WrapperManager = {
+        /**
+         * Formats an interaction placeholder
+         * @param {String} serial - Interaction serial
+         * @returns {String} Formatted placeholder
+         */
+        formatPlaceholder(serial) {
+            return INTERACTION_PLACEHOLDER_FORMAT.replace('%s', serial);
+        },
+
+        /**
+         * Checks if an interaction is wrapped in the HTML body
+         * @param {Object} interaction - The interaction
+         * @param {String} className - The wrapper class
+         * @returns {Boolean} True if wrapped
+         */
+        isWrappedInBody(interaction, className) {
+            if (!interaction?.rootElement?.bdy?.bdy || !className) {
+                return false;
+            }
+
+            const bodyContent = interaction.rootElement.bdy.bdy;
+            const placeholder = this.formatPlaceholder(interaction.serial);
+            
+            if (!bodyContent.includes(placeholder)) {
+                return false;
+            }
+            
+            const placeholderPos = bodyContent.indexOf(placeholder);
+            const beforePlaceholder = bodyContent.substring(0, placeholderPos);
+            const divWithClass = `<div class="${className}">`;
+            
+            if (!beforePlaceholder.includes(divWithClass)) {
+                return false;
+            }
+            
+            const divPos = beforePlaceholder.lastIndexOf(divWithClass);
+            const textBetween = beforePlaceholder.substring(divPos + divWithClass.length);
+            
+            if (textBetween.trim() && textBetween.trim().length >= 10) {
+                return false;
+            }
+            
+            const afterPlaceholder = bodyContent.substring(placeholderPos + placeholder.length);
+            return afterPlaceholder.includes('</div>');
+        },
+
+        /**
+         * Checks if an interaction has a wrapper in the DOM
+         * @param {Object} interaction - The interaction
+         * @returns {Boolean} True if has wrapper in DOM
+         */
+        hasWrapperInDOM(interaction) {
+            if (!interaction?.data('widget')?.$container?.length) {
+                return false;
+            }
+            
+            const $container = interaction.data('widget').$container;
+            const customClass = interaction.attr('customWrapperClass');
+            
+            if (!customClass) {
+                return false;
+            }
+            
+            return $container.parent(`.${customClass}`).length > 0 || 
+                   $container.parent(`.${WRAPPER_MARKER_CLASS}`).length > 0;
+        },
+
+        /**
+         * Gets the wrapper state for an interaction
+         * @param {Object} interaction - The interaction
+         * @returns {Object} State object
+         */
+        getState(interaction) {
+            const className = interaction.attr('customWrapperClass');
+            return {
+                hasWrapper: !!className,
+                className,
+                inBody: className ? this.isWrappedInBody(interaction, className) : false,
+                inDOM: this.hasWrapperInDOM(interaction)
+            };
+        },
+
+        /**
+         * Extract wrapper class from HTML body
+         * @param {Object} interaction - The interaction
+         * @returns {String|null} Extracted class name or null
+         */
+        extractClassFromBody(interaction) {
+            if (!interaction?.rootElement?.bdy?.bdy) {
+                return null;
+            }
+            
+            const bodyContent = interaction.rootElement.bdy.bdy;
+            const placeholder = this.formatPlaceholder(interaction.serial);
+            
+            if (!bodyContent.includes(placeholder)) {
+                return null;
+            }
+            
+            const placeholderPos = bodyContent.indexOf(placeholder);
+            const beforePlaceholder = bodyContent.substring(0, placeholderPos);
+            
+            let match;
+            let lastMatch = null;
+            const pattern = REGEX.DIV_CLASS_PATTERN;
+            pattern.lastIndex = 0;
+            
+            while ((match = pattern.exec(beforePlaceholder)) !== null) {
+                lastMatch = match;
+            }
+            
+            if (!lastMatch || !lastMatch[1]) {
+                return null;
+            }
+            
+            const afterPlaceholder = bodyContent.substring(placeholderPos + placeholder.length);
+            return afterPlaceholder.includes('</div>') ? lastMatch[1] : null;
+        },
+
+        /**
+         * DOM Operations
+         */
+        dom: {
+            /**
+             * Apply wrapper in the DOM
+             * @param {Object} interaction - The interaction
+             * @param {String} className - Class name to apply
+             */
+            applyWrapper(interaction, className) {
+                if (!interaction?.data('widget')?.$container?.length || !className) {
+                    return;
+                }
+                
+                const $container = interaction.data('widget').$container;
+                
+                this.removeWrapper(interaction);
+                
+                let wrapperClasses = className;
+                if (!wrapperClasses.includes(WRAPPER_MARKER_CLASS)) {
+                    wrapperClasses = `${className} ${WRAPPER_MARKER_CLASS}`;
+                }
+                
+                $container.wrap(`<div class="${wrapperClasses}"></div>`);
+            },
+            
+            /**
+             * Remove wrapper from DOM
+             * @param {Object} interaction - The interaction
+             */
+            removeWrapper(interaction) {
+                if (!interaction?.data('widget')?.$container?.length) {
+                    return;
+                }
+                
+                const $container = interaction.data('widget').$container;
+                const customClass = interaction.attr('customWrapperClass');
+                
+                if (customClass && $container.parent(`.${customClass}`).length) {
+                    $container.unwrap();
+                    return;
+                }
+                
+                if ($container.parent(`.${WRAPPER_MARKER_CLASS}`).length) {
+                    $container.unwrap();
+                    return;
+                }
+                
+                const $parent = $container.parent('div');
+                if ($parent.length && $parent.children().length === 1) {
+                    $container.unwrap();
+                }
+            }
+        },
+
+        /**
+         * Model Operations
+         */
+        model: {
+            /**
+             * Apply wrapper in HTML body model
+             * @param {Object} interaction - The interaction
+             * @param {String} className - Class to apply
+             * @returns {Boolean} Success flag
+             */
+            applyWrapper(interaction, className) {
+                if (!interaction?.rootElement?.bdy?.bdy || !className) {
+                    return false;
+                }
+                
+                const bodyContent = interaction.rootElement.bdy.bdy;
+                const placeholder = WrapperManager.formatPlaceholder(interaction.serial);
+                
+                if (!bodyContent.includes(placeholder)) {
+                    return false;
+                }
+                
+                if (WrapperManager.isWrappedInBody(interaction, className)) {
+                    return true;
+                }
+                
+                this.removeWrapper(interaction);
+                
+                const placeholderPos = bodyContent.indexOf(placeholder);
+                const beforePlaceholder = bodyContent.substring(0, placeholderPos);
+                const afterPlaceholder = bodyContent.substring(placeholderPos + placeholder.length);
+                
+                interaction.rootElement.bdy.bdy = 
+                    beforePlaceholder + 
+                    `<div class="${className}">` + 
+                    placeholder + 
+                    '</div>' + 
+                    afterPlaceholder;
+                
+                return true;
+            },
+            
+            /**
+             * Remove wrapper from HTML body model
+             * @param {Object} interaction - The interaction
+             * @returns {Boolean} Success flag
+             */
+            removeWrapper(interaction) {
+                if (!interaction?.rootElement?.bdy?.bdy) {
+                    return false;
+                }
+                
+                const bodyContent = interaction.rootElement.bdy.bdy;
+                const placeholder = WrapperManager.formatPlaceholder(interaction.serial);
+                
+                if (!bodyContent.includes(placeholder)) {
+                    return false;
+                }
+                
+                const placeholderPos = bodyContent.indexOf(placeholder);
+                const beforePlaceholder = bodyContent.substring(0, placeholderPos);
+                
+                const lastDivPos = beforePlaceholder.lastIndexOf('<div');
+                if (lastDivPos === -1) {
+                    return false;
+                }
+                
+                const afterPlaceholder = bodyContent.substring(placeholderPos + placeholder.length);
+                const closingDivPos = afterPlaceholder.indexOf('</div>');
+                if (closingDivPos === -1) {
+                    return false;
+                }
+                
+                interaction.rootElement.bdy.bdy = 
+                    beforePlaceholder.substring(0, lastDivPos) + 
+                    placeholder + 
+                    afterPlaceholder.substring(closingDivPos + 6);
+                
+                return true;
+            }
+        },
+
+        /**
+         * Setup XML rendering hook for interaction
+         * @param {Object} interaction - The interaction
+         */
+        setupRenderHook(interaction) {
+            const customClass = interaction.attr('customWrapperClass');
+            
+            if (!customClass || interaction._originalRenderer) {
+                return;
+            }
+            
+            interaction._originalRenderer = interaction.render;
+            
+            interaction.render = function() {
+                const originalResult = this._originalRenderer.apply(this, arguments);
+                
+                if (WrapperManager.isWrappedInBody(this, customClass)) {
+                    return originalResult;
+                }
+                
+                return CustomWrappedInteraction.wrapInteraction(this, originalResult);
+            };
+        },
+        
+        /**
+         * Remove XML rendering hook
+         * @param {Object} interaction - The interaction
+         */
+        removeRenderHook(interaction) {
+            if (interaction._originalRenderer) {
+                interaction.render = interaction._originalRenderer;
+                interaction._originalRenderer = null;
+            }
+        },
+
+        /**
+         * Synchronize wrapper state
+         * @param {Object} interaction - The interaction
+         */
+        synchronize(interaction) {
+            if (!interaction.attr('customWrapperClass')) {
+                const extractedClass = this.extractClassFromBody(interaction);
+                if (extractedClass) {
+                    interaction.attr('customWrapperClass', extractedClass);
+                }
+            }
+            
+            const state = this.getState(interaction);
+            
+            if (state.hasWrapper) {
+                this.setupRenderHook(interaction);
+                
+                if (!state.inBody && !state.inDOM) {
+                    this.dom.applyWrapper(interaction, state.className);
+                }
+            }
+        }
+    };
+
+    /**
+     * HTML Parser for interaction content
+     */
+    const HtmlParser = {
+        /**
+         * Parse HTML content to extract interaction data
+         * @param {String} html - HTML content
+         * @returns {Object} Parsed data
+         */
+        parse(html) {
+            const normalizedHtml = html.replace(/\r\n/g, '\n').trim();
+            
+            const interactionMatch = normalizedHtml.match(REGEX.INTERACTION_MATCH);
+            if (!interactionMatch) {
+                throw new Error('No interaction placeholder found in the HTML');
+            }
+            
+            const extractedId = interactionMatch[1];
+            const serial = extractedId.startsWith('interaction_') 
+                ? extractedId 
+                : `interaction_${extractedId}`;
+            
+            const wrapperMatch = normalizedHtml.match(REGEX.WRAPPER_DIV_MATCH);
+            const customClass = wrapperMatch ? wrapperMatch[1] : null;
+            
+            return {
+                serial,
+                customClass,
+                wrapperRemoved: !customClass,
+                originalHtml: normalizedHtml
+            };
+        }
+    };
+
+    /**
+     * Interaction finder utility
+     */
+    const InteractionFinder = {
+        /**
+         * Find interaction by serial
+         * @param {String} serial - The serial to find
+         * @param {Object} interactions - Available interactions
+         * @returns {Object|null} Found interaction or null
+         */
+        find(serial, interactions) {
+            if (interactions[serial]) {
+                return interactions[serial];
+            }
+            
+            const alternateSerial = serial.startsWith('interaction_')
+                ? serial.substring('interaction_'.length)
+                : `interaction_${serial}`;
+                
+            if (interactions[alternateSerial]) {
+                return interactions[alternateSerial];
+            }
+            
+            const serialEnd = serial.split('_').pop();
+            if (serialEnd) {
+                const matchingKey = Object.keys(interactions).find(key => key.endsWith(serialEnd));
+                if (matchingKey) {
+                    return interactions[matchingKey];
+                }
+            }
+            
+            return null;
+        }
+    };
+
     /**
      * Handler for the interactionsource plugin's content modifications
      *
@@ -35,254 +432,118 @@ define([
     return function interactionSourceHandlerFactory(options) {
         let initialized = false;
         const itemCreator = options?.itemCreator;
-
+        
         /**
-         * Extracts the interaction data from the HTML representation
-         *
-         * @param {String} html - The HTML string containing the interaction
-         * @returns {Object} Object containing the extracted parts
+         * Apply changes based on parsed HTML data
+         * @param {Object} interaction - Target interaction
+         * @param {Object} parsedData - Parsed HTML data
+         * @returns {Boolean} Success flag
          */
-        const parseInteractionHtml = (html) => {
-            const normalizedHtml = html.replace(/\r\n/g, '\n').trim();
-            let serial = null;
-
-            const fullMatch = normalizedHtml.match(/<interaction_([^>]+)>/);
-            if (!fullMatch) {
-                throw new Error('No interaction placeholder found in the HTML');
-            }
-
-            const extractedId = fullMatch[1];
-            serial = extractedId.startsWith('interaction_') ? extractedId : `interaction_${extractedId}`;
-
-            const wrapperMatch = normalizedHtml.match(/<div\s+class="([^"]+)">/);
-            const customClass = wrapperMatch ? wrapperMatch[1] : null;
-
-            return {
-                serial,
-                customClass
-            };
-        };
-
-        /**
-         * Finds interaction by serial or attempts to match based on partial serial
-         *
-         * @param {String} targetSerial - The serial to find
-         * @param {Object} interactions - Available interactions
-         * @returns {Object|null} - Found interaction or null
-         */
-        const findInteraction = (targetSerial, interactions) => {
-            if (interactions[targetSerial]) {
-                return interactions[targetSerial];
-            }
-
-            const alternateSerial = targetSerial.startsWith('interaction_')
-                ? targetSerial.substring('interaction_'.length)
-                : `interaction_${targetSerial}`;
-
-            if (interactions[alternateSerial]) {
-                return interactions[alternateSerial];
-            }
-
-            const serialEndPart = targetSerial.split('_').pop();
-            if (serialEndPart) {
-                const matchingKey = Object.keys(interactions).find(key => key.endsWith(serialEndPart));
-                if (matchingKey) {
-                    return interactions[matchingKey];
-                }
-            }
-
-            return null;
-        };
-
-        /**
-         * Apply the HTML changes to the QTI model
-         * @param {Object} interaction - The QTI interaction instance
-         * @param {Object} parsedData - The parsed data object from parseInteractionHtml
-         * @returns {Boolean} Success status
-         */
-        const applyHtmlChangesToQti = (interaction, parsedData) => {
-            try {
-                if (!interaction) {
-                    throw new Error('Invalid interaction object');
-                }
-
-                if (parsedData.customClass) {
-                    interaction.attr('customWrapperClass', parsedData.customClass);
-
-                    ensureInteractionWrapper(interaction);
-
-                    setupXmlRenderHook(interaction);
-
-                    logger.debug(`Applied custom wrapper class '${parsedData.customClass}' to interaction ${parsedData.serial}`);
-                } else {
-                    if (interaction.attr('customWrapperClass')) {
-                        interaction.removeAttr('customWrapperClass');
-
-                        removeInteractionWrapper(interaction);
-
-                        if (interaction._originalRenderer) {
-                            interaction.render = interaction._originalRenderer;
-                            interaction._originalRenderer = null;
-                        }
-
-                        logger.debug(`Removed custom wrapper class from interaction ${parsedData.serial}`);
-                    }
-                }
-
-                return true;
-            } catch (error) {
-                logger.error('Error applying HTML changes to QTI:', error);
+        const applyChanges = (interaction, parsedData) => {
+            if (!interaction) {
                 return false;
             }
-        };
+            
+            const currentClass = interaction.attr('customWrapperClass');
+            
+            if (parsedData.customClass) {
+                const isNewOrChanged = !currentClass || currentClass !== parsedData.customClass;
+                
+                if (isNewOrChanged) {
+                    WrapperManager.removeRenderHook(interaction);
 
-        /**
-         * Remove wrapper div from interaction in the DOM
-         * @param {Object} interaction - The interaction object
-         */
-        const removeInteractionWrapper = (interaction) => {
-            if (!interaction || !interaction.data('widget')) {
-                return;
-            }
-
-            const $container = interaction.data('widget').$container;
-            if ($container?.length && $container.parent('.custom-interaction-wrapper').length) {
-                $container.unwrap();
-            }
-        };
-
-        /**
-         * Hook into the XML rendering process to ensure wrapper divs are included
-         * @param {Object} interaction - The interaction object
-         */
-        const setupXmlRenderHook = (interaction) => {
-            if (!interaction || !interaction.attr('customWrapperClass')) {
-                return;
-            }
-
-            if (!interaction._originalRenderer && interaction.render) {
-                interaction._originalRenderer = interaction.render;
-
-                interaction.render = function() {
-                    const originalResult = this._originalRenderer.apply(this, arguments);
-                    return CustomWrappedInteraction.wrapInteraction(this, originalResult);
-                };
-            }
-        };
-
-        /**
-         * Handle CKEditor pluginContentModified event
-         * @param {Object} editor - The CKEditor instance
-         * @param {Object} data - Event data with HTML
-         */
-        const handleEditorPluginContentModified = (editor, data) => {
-            try {
-                const parsedData = parseInteractionHtml(data.html);
-
-                if (!itemCreator) {
-                    throw new Error('No itemCreator available');
+                    interaction.attr('customWrapperClass', parsedData.customClass);
+                    
+                    WrapperManager.dom.removeWrapper(interaction);
+                    WrapperManager.dom.applyWrapper(interaction, parsedData.customClass);
+                    WrapperManager.setupRenderHook(interaction);
                 }
-
+                
+                return true;
+            }
+            else if (parsedData.wrapperRemoved && currentClass) {
+                WrapperManager.removeRenderHook(interaction);
+                
+                interaction.removeAttr('customWrapperClass');
+                
+                WrapperManager.dom.removeWrapper(interaction);
+                WrapperManager.model.removeWrapper(interaction);
+                
+                return true;
+            }
+            
+            return false;
+        };
+        
+        /**
+         * Handle content modification from editor
+         * @param {Object} data - Event data
+         */
+        const handleContentModification = (data) => {
+            if (!data?.html || !itemCreator) {
+                return;
+            }
+            
+            try {
+                const parsedData = HtmlParser.parse(data.html);
+                
                 const item = itemCreator.getItem();
                 if (!item) {
-                    throw new Error('Could not get item from itemCreator');
+                    return;
                 }
-
+                
                 const interactions = item.getElements();
-                const interaction = findInteraction(parsedData.serial, interactions);
-
+                const interaction = InteractionFinder.find(parsedData.serial, interactions);
+                
                 if (!interaction) {
-                    throw new Error(`Could not find interaction with serial ${parsedData.serial}`);
+                    logger.warn(`Could not find interaction with serial ${parsedData.serial}`);
+                    return;
                 }
-
-                const success = applyHtmlChangesToQti(interaction, parsedData);
-
-                if (success) {
+                
+                if (applyChanges(interaction, parsedData)) {
                     itemCreator.trigger('save', true);
-                    logger.info('Successfully processed interaction HTML modification');
                 }
             } catch (error) {
-                logger.error('Error handling plugin content modification:', error);
+                logger.error('Error handling content modification:', error);
             }
         };
-
+        
         /**
-         * Ensures a specific interaction has the appropriate DOM wrapper
-         * @param {Object} interaction - The interaction object
+         * Attach event listener to CKEditor
+         * @param {Object} editor - CKEditor instance
          */
-        const ensureInteractionWrapper = (interaction) => {
-            if (!interaction) {
+        const attachEditorListener = (editor) => {
+            if (typeof editor?.on !== 'function') {
                 return;
             }
-
-            const customClass = interaction.attr('customWrapperClass');
-            if (!customClass || !interaction.data('widget')) {
-                return;
-            }
-
-            const $container = interaction.data('widget').$container;
-
-            if ($container?.length) {
-                if (!$container.parent().hasClass(customClass)) {
-                    if ($container.parent('.custom-interaction-wrapper').length) {
-                        $container.unwrap();
-                    }
-
-                    $container.wrap(`<div class="${customClass} custom-interaction-wrapper"></div>`);
+            
+            editor.on('pluginContentModified', event => {
+                const data = event.data;
+                if (data?.pluginName === 'interactionsourcedialog') {
+                    handleContentModification(data);
                 }
-            }
+            });
         };
-
+        
         /**
-         * Ensures all interactions with customWrapperClass have appropriate DOM wrappers
+         * Process all interactions in the item
          */
-        const ensureAllInteractionWrappers = () => {
+        const processAllInteractions = () => {
             if (!itemCreator) {
                 return;
             }
-
+            
             const item = itemCreator.getItem();
             if (!item) {
                 return;
             }
-
+            
             const interactions = item.getElements();
-
-            Object.entries(interactions).forEach(([, interaction]) => {
-                if (interaction.attr('customWrapperClass')) {
-                    setupXmlRenderHook(interaction);
-                    ensureInteractionWrapper(interaction);
-                }
+            Object.values(interactions).forEach(interaction => {
+                WrapperManager.synchronize(interaction);
             });
         };
-
-        /**
-         * Attach event listener to a specific CKEditor instance
-         * @param {Object} editor - The CKEditor instance
-         */
-        const attachListenerToCKEditor = (editor) => {
-            if (typeof editor?.on !== 'function') {
-                return;
-            }
-
-            editor.on('pluginContentModified', (event) => {
-                const data = event.data;
-                if (data?.pluginName === 'interactionsourcedialog') {
-                    handleEditorPluginContentModified(editor, data);
-                }
-            });
-        };
-
-        /**
-         * Attach listeners to all existing CKEditor instances
-         */
-        const attachToCKEditorInstances = () => {
-            $('[data-html-editable]').each(function() {
-                const editor = $(this).data('editor');
-                attachListenerToCKEditor(editor);
-            });
-        };
-
+        
         /**
          * Initialize the handler
          */
@@ -290,38 +551,31 @@ define([
             if (initialized) {
                 return;
             }
-
-            attachToCKEditorInstances();
-
-            $(document).on('editorready', (event, editor) => {
-                attachListenerToCKEditor(editor);
+            
+            $('[data-html-editable]').each(function() {
+                const editor = $(this).data('editor');
+                attachEditorListener(editor);
             });
-
+            
+            $(document).on('editorready', (event, editor) => {
+                attachEditorListener(editor);
+            });
+            
+            processAllInteractions();
+            
             if (itemCreator) {
-                const item = itemCreator.getItem();
-                if (item) {
-                    const interactions = item.getElements();
-                    Object.values(interactions).forEach(interaction => {
-                        if (interaction.attr('customWrapperClass')) {
-                            setupXmlRenderHook(interaction);
-                            ensureInteractionWrapper(interaction);
-                        }
-                    });
-                }
-
-                itemCreator.on('widgetCreated', (widget) => {
-                    if (widget?.element?.attr('customWrapperClass')) {
-                        setupXmlRenderHook(widget.element);
-                        ensureInteractionWrapper(widget.element);
+                itemCreator.on('widgetCreated', widget => {
+                    if (widget?.element) {
+                        WrapperManager.synchronize(widget.element);
                     }
                 });
-
-                itemCreator.on('beforesave', ensureAllInteractionWrappers);
+                
+                itemCreator.on('beforesave', processAllInteractions);
             }
-
+            
             initialized = true;
         };
-
+        
         /**
          * Destroy the handler
          */
@@ -329,26 +583,24 @@ define([
             if (!initialized) {
                 return;
             }
-
-            // Remove editor listeners
+            
             $('[data-html-editable]').each(function() {
                 const editor = $(this).data('editor');
                 if (editor && typeof editor.removeListener === 'function') {
                     editor.removeListener('pluginContentModified');
                 }
             });
-
+            
             $(document).off('editorready');
-
+            
             if (itemCreator) {
                 itemCreator.off('widgetCreated');
                 itemCreator.off('beforesave');
             }
-
+            
             initialized = false;
-            logger.info('InteractionSourceHandler destroyed');
         };
-
+        
         return {
             init,
             destroy

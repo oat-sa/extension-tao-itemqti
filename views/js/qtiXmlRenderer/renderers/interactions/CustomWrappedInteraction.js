@@ -40,7 +40,27 @@ define(['lodash'], function(_) {
             return interactionMarkup;
         }
 
-        return `<div class="${customWrapperClass}">${interactionMarkup}</div>`;
+        // We can't check the markup for existing wrappers as it doesn't include them
+        // Instead, we check if we're in a re-rendering scenario where a wrapper might be added twice
+        
+        // Check if there's a flag indicating this interaction is already being wrapped
+        if (interaction._wrapperBeingApplied) {
+            // Avoid duplicate wrapper during recursive rendering
+            return interactionMarkup;
+        }
+        
+        // Set a temporary flag to avoid recursive wrapping
+        interaction._wrapperBeingApplied = true;
+        
+        // Apply the wrapper
+        const wrappedMarkup = `<div class="${customWrapperClass}">${interactionMarkup}</div>`;
+        
+        // Clear the flag after rendering
+        setTimeout(() => {
+            interaction._wrapperBeingApplied = false;
+        }, 0);
+        
+        return wrappedMarkup;
     }
 
     return {
