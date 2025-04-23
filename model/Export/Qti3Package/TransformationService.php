@@ -70,7 +70,7 @@ class TransformationService
         if (!$sourceElement->hasAttributes()) {
             return;
         }
-        
+
         foreach ($sourceElement->attributes as $attribute) {
             if (
                 !str_starts_with($attribute->nodeName, 'xmlns')
@@ -84,7 +84,7 @@ class TransformationService
                             continue;
                         }
                     }
-                    
+
                     if ($sourceElement->nodeName === 'choiceInteraction' && $attribute->nodeName === 'class') {
                         if (strpos($attribute->value, 'list-style-') === 0) {
                             $listStyleValue = str_replace('list-style-', '', $attribute->value);
@@ -93,17 +93,17 @@ class TransformationService
                             if (preg_match('/^(.*)-(parenthesis|period)$/', $listStyleValue, $matches)) {
                                 $baseStyle = $matches[1];
                                 $suffixStyle = $matches[2];
-                                
+
                                 $finalClass = 'qti-labels-' . $baseStyle . ' ' . 'qti-labels-suffix-' . $suffixStyle;
                             } else {
                                 $finalClass = 'qti-labels-' . $listStyleValue;
                             }
-                            
+
                             $targetElement->setAttribute($attrName, $finalClass);
                             continue;
                         }
                     }
-                   
+
                     $targetElement->setAttribute($attrName, $attribute->value);
                 }
             }
