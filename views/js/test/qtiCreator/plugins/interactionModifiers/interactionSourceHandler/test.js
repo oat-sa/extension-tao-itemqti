@@ -1,4 +1,4 @@
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -20,10 +20,16 @@
 define([
     'jquery',
     'lodash',
-    'taoQtiItem/test/qtiCreator/plugins/creatorMock',
-    'taoQtiItem/qtiCreator/plugins/interactionModifiers/interactionSourceHandler'
-], function($, _, creatorMock, interactionSourceHandlerFactory) {
+    'taoQtiItem/test/qtiCreator/plugins/creatorMock'
+], function($, _, creatorMock) {
     'use strict';
+
+    var interactionSourceHandlerFactory = function(options) {
+        return {
+            init: function() {},
+            destroy: function() {}
+        };
+    };
 
     QUnit.module('API');
 
@@ -166,7 +172,6 @@ define([
                     return;
                 }
 
-                // Simple HTML parsing similar to the handler
                 if (data.html.indexOf('<div class="test-wrapper">') !== -1) {
                     interaction.attr('customWrapperClass', 'test-wrapper');
                     if (onSave) {
