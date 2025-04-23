@@ -102,7 +102,7 @@ abstract class AbstractQtiConverter
 
             if ($childNodes) {
                 foreach (iterator_to_array($childNodes) as $childNode) {
-                    if ($childNode instanceof DOMElement || $childNode instanceof DOMText) {
+                    if ($childNode instanceof DOMElement) {
                         $newElement->appendChild($childNode);
                     }
                 }
@@ -218,7 +218,7 @@ abstract class AbstractQtiConverter
                 $this->isExpectedTextLengthEquivalent($attribute)
                 or $this->isExpectedTextLinesEquivalent($attribute)
                 )
-            ) {
+        ) {
             $classes = explode(' ', $attribute->value);
             foreach ($classes as $class) {
                 if (strpos($class, 'qti-input-width-') === 0) {
@@ -239,10 +239,23 @@ abstract class AbstractQtiConverter
             && $this->isExpectedChoiceListStyleEquivalent($attribute)
         ) {
             $classes = explode(' ', $attribute->value);
+            $baseStyle = '';
+            $suffixStyle = '';
+
             foreach ($classes as $class) {
-                if (strpos($class, 'qti-labels-') === 0) {
-                    $newElement->setAttribute('class', str_replace('qti-labels-', 'list-style-', $class));
+                if (strpos($class, 'qti-labels-suffix-') === 0) {
+                    $suffixStyle = str_replace('qti-labels-suffix-', '', $class);
+                } elseif (strpos($class, 'qti-labels-') === 0) {
+                    $baseStyle = str_replace('qti-labels-', '', $class);
                 }
+            }
+
+            if ($baseStyle !== '') {
+                $listStyle = 'list-style-' . $baseStyle;
+                if ($suffixStyle !== '') {
+                    $listStyle .= '-' . $suffixStyle;
+                }
+                $newElement->setAttribute('class', $listStyle);
             }
             return true;
         }

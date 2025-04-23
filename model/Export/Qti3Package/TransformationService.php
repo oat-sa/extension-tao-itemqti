@@ -87,7 +87,19 @@ class TransformationService
                     
                     if ($sourceElement->nodeName === 'choiceInteraction' && $attribute->nodeName === 'class') {
                         if (strpos($attribute->value, 'list-style-') === 0) {
-                            $targetElement->setAttribute($attrName, str_replace('list-style-', 'qti-labels-', $attribute->value));
+                            $listStyleValue = str_replace('list-style-', '', $attribute->value);
+                            $finalClass = '';
+
+                            if (preg_match('/^(.*)-(parenthesis|period)$/', $listStyleValue, $matches)) {
+                                $baseStyle = $matches[1];
+                                $suffixStyle = $matches[2];
+                                
+                                $finalClass = 'qti-labels-' . $baseStyle . ' ' . 'qti-labels-suffix-' . $suffixStyle;
+                            } else {
+                                $finalClass = 'qti-labels-' . $listStyleValue;
+                            }
+                            
+                            $targetElement->setAttribute($attrName, $finalClass);
                             continue;
                         }
                     }
