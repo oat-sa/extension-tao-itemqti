@@ -219,26 +219,32 @@ class Template extends ResponseProcessing implements Rule
     public function __construct($uri)
     {
         //automatically transform to qti 2.1 templates:
-        if (in_array($uri, [
+        if (
+            in_array($uri, [
             self::MATCH_CORRECT,
             self::MATCH_CORRECT_qtiv2p0,
             self::MATCH_CORRECT_qtiv2p2,
             ...self::MATCH_CORRECT_QTI_V3
-        ], true)) {
+            ], true)
+        ) {
             $this->uri = self::MATCH_CORRECT;
-        } elseif (in_array($uri, [
+        } elseif (
+            in_array($uri, [
             self::MAP_RESPONSE,
             self::MAP_RESPONSE_qtiv2p0,
             self::MAP_RESPONSE_qtiv2p2,
             ...self::MAP_RESPONSE_QTI_V3
-        ], true)) {
+            ], true)
+        ) {
             $this->uri = self::MAP_RESPONSE;
-        } elseif (in_array($uri, [
+        } elseif (
+            in_array($uri, [
             self::MAP_RESPONSE_POINT,
             self::MAP_RESPONSE_POINT_qtiv2p0,
             self::MAP_RESPONSE_POINT_qtiv2p2,
             ...self::MAP_RESPONSE_POINT_QTI_V3
-        ], true)) {
+            ], true)
+        ) {
             $this->uri = self::MAP_RESPONSE_POINT;
         } elseif ($uri === self::NONE) {
             $this->uri = self::NONE;
