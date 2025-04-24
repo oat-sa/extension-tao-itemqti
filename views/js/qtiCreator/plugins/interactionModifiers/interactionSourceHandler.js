@@ -28,12 +28,7 @@ define([
 
     const WRAPPER_MARKER_CLASS = 'custom-interaction-wrapper';
     const INTERACTION_PLACEHOLDER_FORMAT = '{{%s}}';
-    const REGEX = {
-        INTERACTION_MATCH: /<interaction_([^>]+)>/,
-        WRAPPER_DIV_MATCH: /<div\s+class="([^"]+)">\s*<interaction_/,
-        DIV_CLASS_PATTERN: /<div\s+class="([^"]+)">/g,
-        CLOSING_DIV: /<\/div>/
-    };
+    const INTERACTION_REGEX = /<interaction_([^>]+)>/;
 
     /**
      * Wrapper State Manager - handles all wrapper-related operations
@@ -66,23 +61,53 @@ define([
                 return false;
             }
 
-            const placeholderPos = bodyContent.indexOf(placeholder);
-            const beforePlaceholder = bodyContent.substring(0, placeholderPos);
-            const divWithClass = `<div class="${className}">`;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = bodyContent;
 
-            if (!beforePlaceholder.includes(divWithClass)) {
+            let placeholderNode = null;
+            const findPlaceholder = (node) => {
+                if (node.nodeType === Node.TEXT_NODE && node.textContent.includes(placeholder)) {
+                    placeholderNode = node;
+                    return true;
+                }
+
+                if (node.childNodes) {
+                    for (let i = 0; i < node.childNodes.length; i++) {
+                        if (findPlaceholder(node.childNodes[i])) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            };
+
+            findPlaceholder(tempDiv);
+
+            if (!placeholderNode) {
                 return false;
             }
 
-            const divPos = beforePlaceholder.lastIndexOf(divWithClass);
-            const textBetween = beforePlaceholder.substring(divPos + divWithClass.length);
-
-            if (textBetween.trim() && textBetween.trim().length >= 10) {
-                return false;
+            let currentNode = placeholderNode;
+            while (currentNode && currentNode !== tempDiv) {
+                currentNode = currentNode.parentNode;
+                if (currentNode &&
+                    currentNode.nodeType === Node.ELEMENT_NODE &&
+                    currentNode.tagName.toLowerCase() === 'div' &&
+                    currentNode.classList.contains(className)) {
+                    return true;
+                }
             }
 
-            const afterPlaceholder = bodyContent.substring(placeholderPos + placeholder.length);
-            return afterPlaceholder.includes('</div>');
+            return false;
+        },
+
+        /**
+         * Checks if the interaction is a text container
+         * @param {Object} interaction - The interaction
+         * @returns {Boolean} True if it's a text container
+         */
+        isTextContainer(interaction) {
+            return interaction && interaction.qtiClass === '_container';
         },
 
         /**
@@ -117,7 +142,8 @@ define([
                 hasWrapper: !!className,
                 className,
                 inBody: className ? this.isWrappedInBody(interaction, className) : false,
-                inDOM: this.hasWrapperInDOM(interaction)
+                inDOM: this.hasWrapperInDOM(interaction),
+                isTextContainer: this.isTextContainer(interaction)
             };
         },
 
@@ -138,24 +164,44 @@ define([
                 return null;
             }
 
-            const placeholderPos = bodyContent.indexOf(placeholder);
-            const beforePlaceholder = bodyContent.substring(0, placeholderPos);
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = bodyContent;
 
-            let match;
-            let lastMatch = null;
-            const pattern = REGEX.DIV_CLASS_PATTERN;
-            pattern.lastIndex = 0;
+            let placeholderNode = null;
+            const findPlaceholder = (node) => {
+                if (node.nodeType === Node.TEXT_NODE && node.textContent.includes(placeholder)) {
+                    placeholderNode = node;
+                    return true;
+                }
 
-            while ((match = pattern.exec(beforePlaceholder)) !== null) {
-                lastMatch = match;
-            }
+                if (node.childNodes) {
+                    for (let i = 0; i < node.childNodes.length; i++) {
+                        if (findPlaceholder(node.childNodes[i])) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            };
 
-            if (!lastMatch || !lastMatch[1]) {
+            findPlaceholder(tempDiv);
+
+            if (!placeholderNode) {
                 return null;
             }
 
-            const afterPlaceholder = bodyContent.substring(placeholderPos + placeholder.length);
-            return afterPlaceholder.includes('</div>') ? lastMatch[1] : null;
+            let currentNode = placeholderNode;
+            while (currentNode && currentNode !== tempDiv) {
+                currentNode = currentNode.parentNode;
+                if (currentNode &&
+                    currentNode.nodeType === Node.ELEMENT_NODE &&
+                    currentNode.tagName.toLowerCase() === 'div' &&
+                    currentNode.classList.length > 0) {
+                    return currentNode.classList[0];
+                }
+            }
+
+            return null;
         },
 
         /**
@@ -163,16 +209,37 @@ define([
          */
         dom: {
             /**
+             * Find the widget element in the DOM
+             * @param {Object} interaction - The interaction
+             * @returns {jQuery|null} Widget jQuery element or null
+             */
+            findWidgetElement(interaction) {
+                if (!interaction?.data('widget')?.$container?.length) {
+                    return null;
+                }
+
+                return $(`.widget-box[data-serial="${interaction.serial}"]`);
+            },
+
+            /**
              * Apply wrapper in the DOM
              * @param {Object} interaction - The interaction
              * @param {String} className - Class name to apply
              */
             applyWrapper(interaction, className) {
-                if (!interaction?.data('widget')?.$container?.length || !className) {
+                if (!className) {
                     return;
                 }
 
-                const $container = interaction.data('widget').$container;
+                const $widget = this.findWidgetElement(interaction);
+
+                if (!$widget || !$widget.length) {
+                    logger.warn('Could not find widget element to wrap', {
+                        serial: interaction.serial,
+                        qtiClass: interaction.qtiClass
+                    });
+                    return;
+                }
 
                 this.removeWrapper(interaction);
 
@@ -181,7 +248,28 @@ define([
                     wrapperClasses = `${className} ${WRAPPER_MARKER_CLASS}`;
                 }
 
-                $container.wrap(`<div class="${wrapperClasses}"></div>`);
+                logger.debug('Applying wrapper', {
+                    serial: interaction.serial,
+                    class: wrapperClasses,
+                    widget: $widget.attr('data-serial')
+                });
+
+                const $existingWrapper = $widget.parent(`.${wrapperClasses}`);
+                if ($existingWrapper.length) {
+                    logger.debug('Widget already wrapped correctly', {
+                        serial: interaction.serial
+                    });
+                    return;
+                }
+
+                $widget.wrap(`<div class="${wrapperClasses}"></div>`);
+
+                const $newWrapper = $widget.parent(`.${wrapperClasses}`);
+                if (!$newWrapper.length) {
+                    logger.warn('Failed to apply wrapper', {
+                        serial: interaction.serial
+                    });
+                }
             },
 
             /**
@@ -189,33 +277,40 @@ define([
              * @param {Object} interaction - The interaction
              */
             removeWrapper(interaction) {
-                if (!interaction?.data('widget')?.$container?.length) {
+                const $widget = this.findWidgetElement(interaction);
+
+                if (!$widget || !$widget.length) {
                     return;
                 }
 
-                const $container = interaction.data('widget').$container;
                 const customClass = interaction.attr('customWrapperClass');
 
-                if (customClass && $container.parent(`.${customClass}`).length) {
-                    const $customWrapper = $container.parent(`.${customClass}`);
-                    const $parentOfWrapper = $customWrapper.parent();
-
-                    if ($parentOfWrapper.children().length > 1 ||
-                        $parentOfWrapper.hasClass('grid-row') ||
-                        $parentOfWrapper.hasClass('col-12')) {
-                        $container.unwrap();
+                if (customClass) {
+                    const $wrapper = $widget.parent(`.${customClass}`);
+                    if ($wrapper.length) {
+                        const $parent = $wrapper.parent();
+                        if ($parent.children().length > 1 ||
+                            $parent.hasClass('grid-row') ||
+                            $parent.hasClass('col-12')) {
+                            logger.debug('Removing custom class wrapper', {
+                                serial: interaction.serial,
+                                class: customClass
+                            });
+                            $widget.unwrap();
+                        }
                     }
-                    return;
                 }
 
-                if ($container.parent(`.${WRAPPER_MARKER_CLASS}`).length) {
-                    const $markerWrapper = $container.parent(`.${WRAPPER_MARKER_CLASS}`);
-                    const $parentOfWrapper = $markerWrapper.parent();
-
-                    if ($parentOfWrapper.children().length > 1 ||
-                        $parentOfWrapper.hasClass('grid-row') ||
-                        $parentOfWrapper.hasClass('col-12')) {
-                        $container.unwrap();
+                const $markerWrapper = $widget.parent(`.${WRAPPER_MARKER_CLASS}`);
+                if ($markerWrapper.length) {
+                    const $parent = $markerWrapper.parent();
+                    if ($parent.children().length > 1 ||
+                        $parent.hasClass('grid-row') ||
+                        $parent.hasClass('col-12')) {
+                        logger.debug('Removing marker class wrapper', {
+                            serial: interaction.serial
+                        });
+                        $widget.unwrap();
                     }
                 }
             }
@@ -243,38 +338,54 @@ define([
                     return false;
                 }
 
-                const divWithCustomClass = `<div class="${customClass}">`;
-                const divWithMixedClass = new RegExp(`<div\\s+class="([^"]*\\s)?${customClass}(\\s[^"]*)?"`);
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = bodyContent;
 
-                const placeholderPos = bodyContent.indexOf(placeholder);
-                const beforePlaceholder = bodyContent.substring(0, placeholderPos);
+                let placeholderNode = null;
+                const findPlaceholder = (node) => {
+                    if (node.nodeType === Node.TEXT_NODE && node.textContent.includes(placeholder)) {
+                        placeholderNode = node;
+                        return true;
+                    }
 
-                let lastCustomDivPos = beforePlaceholder.lastIndexOf(divWithCustomClass);
+                    if (node.childNodes) {
+                        for (let i = 0; i < node.childNodes.length; i++) {
+                            if (findPlaceholder(node.childNodes[i])) {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                };
 
-                if (lastCustomDivPos === -1) {
-                    const mixedClassMatch = divWithMixedClass.exec(beforePlaceholder);
-                    if (mixedClassMatch) {
-                        lastCustomDivPos = mixedClassMatch.index;
+                findPlaceholder(tempDiv);
+
+                if (!placeholderNode) {
+                    return false;
+                }
+
+                let currentNode = placeholderNode;
+                let wrapperNode = null;
+
+                while (currentNode && currentNode !== tempDiv) {
+                    currentNode = currentNode.parentNode;
+                    if (currentNode &&
+                        currentNode.nodeType === Node.ELEMENT_NODE &&
+                        currentNode.tagName.toLowerCase() === 'div' &&
+                        currentNode.classList.contains(customClass)) {
+                        wrapperNode = currentNode;
+                        break;
                     }
                 }
 
-                if (lastCustomDivPos === -1) {
-                    return false;
+                if (wrapperNode) {
+                    const placeholderText = document.createTextNode(placeholder);
+                    wrapperNode.parentNode.replaceChild(placeholderText, wrapperNode);
+                    interaction.rootElement.bdy.bdy = tempDiv.innerHTML;
+                    return true;
                 }
 
-                const afterPlaceholder = bodyContent.substring(placeholderPos + placeholder.length);
-                const closingDivPos = afterPlaceholder.indexOf('</div>');
-
-                if (closingDivPos === -1) {
-                    return false;
-                }
-
-                interaction.rootElement.bdy.bdy =
-                    beforePlaceholder.substring(0, lastCustomDivPos) +
-                    placeholder +
-                    afterPlaceholder.substring(closingDivPos + 6);
-
-                return true;
+                return false;
             }
         },
 
@@ -343,31 +454,81 @@ define([
     const HtmlParser = {
         /**
          * Parse HTML content to extract interaction data
-         * @param {String} html - HTML content
          * @returns {Object} Parsed data
+         * @param match
          */
-        parse(html) {
-            const normalizedHtml = html.replace(/\r\n/g, '\n').trim();
 
-            const interactionMatch = normalizedHtml.match(REGEX.INTERACTION_MATCH);
-            if (!interactionMatch) {
-                throw new Error('No interaction placeholder found in the HTML');
+        parseInteractionMatch(match) {
+            if (!match || !match[1]) return { serial: null, isContainer: false };
+
+            const fullTag = match[1];
+            const isContainer = fullTag.includes('_container_');
+            const parts = fullTag.split('_');
+            const serial = parts[parts.length - 1];
+
+            return { serial, isContainer };
+        },
+
+        parse(html) {
+            if (!html) {
+                throw new Error('Empty HTML content provided');
             }
 
-            const extractedId = interactionMatch[1];
-            const serial = extractedId.startsWith('interaction_')
-                ? extractedId
-                : `interaction_${extractedId}`;
+            const normalizedHtml = html.replace(/\r\n/g, '\n').trim();
+            let serial = null;
+            let customClass = null;
+            let isTextContainer = false;
 
-            const wrapperMatch = normalizedHtml.match(REGEX.WRAPPER_DIV_MATCH);
-            const customClass = wrapperMatch ? wrapperMatch[1] : null;
+            try {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = normalizedHtml;
 
-            return {
-                serial,
-                customClass,
-                wrapperRemoved: !customClass,
-                originalHtml: normalizedHtml
-            };
+                const placeholderMatch = normalizedHtml.match(INTERACTION_REGEX);
+
+                if (placeholderMatch) {
+                    const parsed = this.parseInteractionMatch(placeholderMatch);
+                    serial = parsed.serial;
+                    isTextContainer = parsed.isContainer;
+
+                    const placeholderTag = placeholderMatch[0];
+
+                    const divs = Array.from(tempDiv.querySelectorAll('div'));
+                    const containingDivs = divs.filter(div =>
+                        div.innerHTML.includes(placeholderTag.toLowerCase())
+                    );
+
+                    const placeholderDiv = containingDivs.find(div =>
+                        !containingDivs.some(otherDiv =>
+                            otherDiv !== div && div.contains(otherDiv)
+                        )
+                    );
+
+                    if (placeholderDiv && placeholderDiv.className) {
+                        customClass = placeholderDiv.className;
+                    }
+                }
+
+                if (!serial) {
+                    throw new Error('No interaction serial found in HTML content');
+                }
+
+                logger.debug('Parsed HTML data', {
+                    serial,
+                    customClass,
+                    isTextContainer
+                });
+
+                return {
+                    serial,
+                    customClass,
+                    isTextContainer,
+                    wrapperRemoved: !customClass,
+                    originalHtml: normalizedHtml
+                };
+            } catch (e) {
+                logger.error('Error parsing HTML:', e);
+                throw e;
+            }
         }
     };
 
@@ -382,27 +543,19 @@ define([
          * @returns {Object|null} Found interaction or null
          */
         find(serial, interactions) {
+            if (!serial) {
+                return null;
+            }
+
             if (interactions[serial]) {
                 return interactions[serial];
             }
 
-            const alternateSerial = serial.startsWith('interaction_')
-                ? serial.substring('interaction_'.length)
-                : `interaction_${serial}`;
+            const interactionKey = Object.keys(interactions).find(key =>
+                key.includes(serial)
+            );
 
-            if (interactions[alternateSerial]) {
-                return interactions[alternateSerial];
-            }
-
-            const serialEnd = serial.split('_').pop();
-            if (serialEnd) {
-                const matchingKey = Object.keys(interactions).find(key => key.endsWith(serialEnd));
-                if (matchingKey) {
-                    return interactions[matchingKey];
-                }
-            }
-
-            return null;
+            return interactionKey ? interactions[interactionKey] : null;
         }
     };
 
@@ -428,26 +581,32 @@ define([
             }
 
             const currentClass = interaction.attr('customWrapperClass');
+            const isTextContainer = WrapperManager.isTextContainer(interaction);
+
+            logger.debug('Applying changes', {
+                serial: interaction.serial,
+                qtiClass: interaction.qtiClass,
+                isTextContainer: isTextContainer,
+                currentClass: currentClass,
+                newClass: parsedData.customClass,
+                wrapperRemoved: parsedData.wrapperRemoved
+            });
 
             if (parsedData.customClass) {
                 const isNewOrChanged = !currentClass || currentClass !== parsedData.customClass;
 
                 if (isNewOrChanged) {
                     WrapperManager.removeRenderHook(interaction);
-
                     interaction.attr('customWrapperClass', parsedData.customClass);
-
                     WrapperManager.dom.removeWrapper(interaction);
                     WrapperManager.dom.applyWrapper(interaction, parsedData.customClass);
                     WrapperManager.setupRenderHook(interaction);
-                }
 
-                return true;
+                    return true;
+                }
             } else if (parsedData.wrapperRemoved && currentClass) {
                 WrapperManager.removeRenderHook(interaction);
-
                 interaction.removeAttr('customWrapperClass');
-
                 WrapperManager.dom.removeWrapper(interaction);
                 WrapperManager.model.removeWrapper(interaction);
 
@@ -468,13 +627,17 @@ define([
 
             try {
                 const parsedData = HtmlParser.parse(data.html);
+                logger.debug('Parsed interaction data', parsedData);
 
                 const item = itemCreator.getItem();
                 if (!item) {
+                    logger.warn('Item not found in itemCreator');
                     return;
                 }
 
                 const interactions = item.getElements();
+                logger.debug('Available interactions', Object.keys(interactions));
+
                 const interaction = InteractionFinder.find(parsedData.serial, interactions);
 
                 if (!interaction) {
@@ -486,7 +649,7 @@ define([
                     itemCreator.trigger('save', true);
                 }
             } catch (error) {
-                logger.error('Error handling content modification:', error);
+                logger.error('Error handling content modification:', error.message);
             }
         };
 
