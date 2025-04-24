@@ -125,7 +125,7 @@ class TransformationService
                 $classValue = 'qti-input-width-' . $node->nodeValue;
                 break;
             case 'expectedLines':
-                $classValue = 'qti-input-height-' . $node->nodeValue;
+                $classValue = 'qti-height-lines-' . $node->nodeValue;
                 break;
             default:
                 return;

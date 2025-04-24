@@ -228,8 +228,8 @@ abstract class AbstractQtiConverter
                     if (preg_match('/qti-input-width-(\d+)/', $class, $matches)) {
                         $newElement->setAttribute('expectedLength', $matches[1]);
                     }
-                } elseif (strpos($class, 'qti-input-height-') === 0) {
-                    if (preg_match('/qti-input-height-(\d+)/', $class, $matches)) {
+                } elseif (strpos($class, 'qti-height-lines-') === 0) {
+                    if (preg_match('/qti-height-lines-(\d+)/', $class, $matches)) {
                         $newElement->setAttribute('expectedLines', $matches[1]);
                     }
                 }
@@ -274,7 +274,7 @@ abstract class AbstractQtiConverter
 
     private function isExpectedTextLinesEquivalent(DOMAttr $attribute): bool
     {
-        return $attribute->name === 'class' && str_contains($attribute->value, 'qti-input-height-');
+        return $attribute->name === 'class' && str_contains($attribute->value, 'qti-height-lines-');
     }
 
     private function isExpectedChoiceListStyleEquivalent(DOMAttr $attribute): bool
