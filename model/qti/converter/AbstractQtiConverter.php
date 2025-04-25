@@ -217,20 +217,28 @@ abstract class AbstractQtiConverter
     {
         if (
             $childNode->nodeName === 'qti-extended-text-interaction'
-            && (
-                $this->isExpectedTextLengthEquivalent($attribute)
-                or $this->isExpectedTextLinesEquivalent($attribute)
-                )
+            && $this->isExpectedTextLinesEquivalent($attribute)
+        ) {
+            $classes = explode(' ', $attribute->value);
+            foreach ($classes as $class) {
+                if (strpos($class, 'qti-height-lines-') === 0) {
+                    if (preg_match('/qti-height-lines-(\d+)/', $class, $matches)) {
+                        $newElement->setAttribute('expectedLines', $matches[1]);
+                    }
+                }
+            }
+            return true;
+        }
+
+        if (
+            $childNode->nodeName === 'qti-text-entry-interaction'
+            && $this->isExpectedTextLengthEquivalent($attribute)
         ) {
             $classes = explode(' ', $attribute->value);
             foreach ($classes as $class) {
                 if (strpos($class, 'qti-input-width-') === 0) {
                     if (preg_match('/qti-input-width-(\d+)/', $class, $matches)) {
                         $newElement->setAttribute('expectedLength', $matches[1]);
-                    }
-                } elseif (strpos($class, 'qti-height-lines-') === 0) {
-                    if (preg_match('/qti-height-lines-(\d+)/', $class, $matches)) {
-                        $newElement->setAttribute('expectedLines', $matches[1]);
                     }
                 }
             }

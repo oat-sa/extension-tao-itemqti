@@ -79,13 +79,16 @@ class TransformationService
                 $attrName = $this->camelToHyphen($attribute->nodeName);
                 if (!empty($attrName)) {
                     if ($sourceElement->nodeName === 'extendedTextInteraction') {
-                        $this->textInteractionAttributeTransformation($attribute);
-                        if ($attribute->nodeName === 'expectedLength' || $attribute->nodeName === 'expectedLines') {
+                        $this->addClassFromAttribute($attribute, 'expectedLines', 'qti-height-lines-');
+                        if ($attribute->nodeName === 'expectedLines') {
                             continue;
                         }
-                    }
-
-                    if ($sourceElement->nodeName === 'choiceInteraction' && $attribute->nodeName === 'class') {
+                    } elseif ($sourceElement->nodeName === 'textEntryInteraction') {
+                        $this->addClassFromAttribute($attribute, 'expectedLength', 'qti-input-width-');
+                        if ($attribute->nodeName === 'expectedLength') {
+                            continue;
+                        }
+                    } elseif ($sourceElement->nodeName === 'choiceInteraction' && $attribute->nodeName === 'class') {
                         if (strpos($attribute->value, 'list-style-') === 0) {
                             $listStyleValue = str_replace('list-style-', '', $attribute->value);
                             $finalClass = '';
@@ -115,26 +118,20 @@ class TransformationService
         return sprintf('qti-%s', $this->camelToHyphen($nodeName));
     }
 
-    public function textInteractionAttributeTransformation(DOMAttr $node): void
+    private function addClassFromAttribute(DOMAttr $node, string $expectedName, string $classPrefix): void
     {
-        $parent = $node->parentNode;
-        $classAttribute = $parent->attributes->getNamedItem('class');
-
-        switch ($node->nodeName) {
-            case 'expectedLength':
-                $classValue = 'qti-input-width-' . $node->nodeValue;
-                break;
-            case 'expectedLines':
-                $classValue = 'qti-height-lines-' . $node->nodeValue;
-                break;
-            default:
-                return;
+        if ($node->nodeName !== $expectedName) {
+            return;
         }
 
-        if ($classAttribute === null) {
+        $parent = $node->parentNode;
+        $classAttr = $parent->attributes->getNamedItem('class');
+        $classValue = $classPrefix . $node->nodeValue;
+
+        if ($classAttr === null) {
             $parent->setAttribute('class', $classValue);
         } else {
-            $classAttribute->nodeValue .= ' ' . $classValue;
+            $classAttr->nodeValue .= ' ' . $classValue;
         }
     }
 
