@@ -241,16 +241,21 @@ define([
         const qtiObject = _widget.element;
         const baseUrl = _widget.options.baseUrl;
         const $container = _widget.$original;
-
+        const compactAppearance = !!qtiObject.hasClass('compact-appearance');
         $form.html(
             formTpl({
                 baseUrl: baseUrl || '',
                 src: qtiObject.attr('data'),
                 alt: qtiObject.attr('alt'),
                 height: qtiObject.attr('height'),
-                width: qtiObject.attr('width')
+                width: qtiObject.attr('width'),
+                compactAppearance
             })
         );
+
+        if (/audio/.test(qtiObject.attr('type')) && compactAppearance){
+            $container.addClass('compact-appearance');
+        }
 
         $panelObjectSize = $('.size-panel', $form);
         $panelMediaSize = $('.media-size-panel', $form);
@@ -266,15 +271,19 @@ define([
             setMediaSizeEditor(_widget);
         });
 
+        const clearMediaSize = () => {
+            qtiObject.removeAttr('width');
+            qtiObject.removeAttr('height');
+            $form.find('input[name=width]').val('');
+            $form.find('input[name=height]').val('');
+        }
+
         //init data change callbacks
         formElement.setChangeCallbacks($form, qtiObject, {
             src: function (object, value) {
                 if (value !== qtiObject.attr('data')) {
                     qtiObject.attr('data', value);
-                    qtiObject.removeAttr('width');
-                    qtiObject.removeAttr('height');
-                    $form.find('input[name=width]').val('');
-                    $form.find('input[name=height]').val('');
+                    clearMediaSize();
                     $container.removeData('ui.previewer');
                     hideShowPanels(qtiObject.attr('type'));
                     inlineHelper.togglePlaceholder(_widget);
@@ -304,6 +313,20 @@ define([
             },
             align: function (object, value) {
                 inlineHelper.positionFloat(_widget, value);
+            },
+            compactAppearance: function (object, value) {
+                if(value) {
+                    if(!$container.hasClass('compact-appearance')) {
+                        qtiObject.addClass('compact-appearance');
+                        $container.addClass('compact-appearance');
+                        clearMediaSize();
+                    }
+                    $panelObjectSize.hide();
+                } else {
+                    qtiObject.removeClass('compact-appearance');
+                    $container.removeClass('compact-appearance');
+                    $panelObjectSize.show();
+                }
             }
         });
     };
