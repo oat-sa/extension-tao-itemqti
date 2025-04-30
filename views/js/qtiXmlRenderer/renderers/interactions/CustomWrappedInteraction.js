@@ -16,51 +16,142 @@
  * Copyright (c) 2025 (original work) Open Assessment Technologies SA;
  */
 
-define(['lodash'], function(_) {
+define(['lodash', 'core/logger'], function(_, loggerFactory) {
     'use strict';
 
-    /**
-     * Apply custom wrapper to interactions during QTI XML rendering
-     * @param {Object} interaction - The interaction to wrap
-     * @param {String} interactionMarkup - The XML markup of the interaction
-     * @returns {String} The wrapped interaction markup
-     */
+    const logger = loggerFactory('taoQtiItem/qtiXmlRenderer/renderers/interactions/CustomWrappedInteraction');
+
     function wrapInteraction(interaction, interactionMarkup) {
-        let customWrapperClass = null;
-
-        if (typeof interaction.attr === 'function') {
-            customWrapperClass = interaction.attr('customWrapperClass');
-        }
-
-        if (!customWrapperClass && interaction && interaction.attributes && interaction.attributes.customWrapperClass) {
-            customWrapperClass = interaction.attributes.customWrapperClass;
-        }
-
-        if (!customWrapperClass) {
-            return interactionMarkup;
-        }
-
-        // We can't check the markup for existing wrappers as it doesn't include them
-        // Instead, we check if we're in a re-rendering scenario where a wrapper might be added twice
-        
-        // Check if there's a flag indicating this interaction is already being wrapped
         if (interaction._wrapperBeingApplied) {
-            // Avoid duplicate wrapper during recursive rendering
             return interactionMarkup;
         }
-        
-        // Set a temporary flag to avoid recursive wrapping
+
         interaction._wrapperBeingApplied = true;
-        
-        // Apply the wrapper
-        const wrappedMarkup = `<div class="${customWrapperClass}">${interactionMarkup}</div>`;
-        
-        // Clear the flag after rendering
-        setTimeout(() => {
-            interaction._wrapperBeingApplied = false;
-        }, 0);
-        
-        return wrappedMarkup;
+
+        try {
+            // Get wrapper structure
+            let wrapperStructure = [];
+
+            if (interaction.data && interaction.data('wrapperStructure')) {
+                wrapperStructure = interaction.data('wrapperStructure');
+            } else if (interaction.attr && interaction.attr('customWrappers')) {
+                const classNames = interaction.attr('customWrappers').split(',');
+                wrapperStructure = classNames.map(className => ({
+                    className: className.trim(),
+                    attributes: { class: className.trim() }
+                }));
+            } else if (interaction.attr && interaction.attr('customWrapperClass')) {
+                const customClass = interaction.attr('customWrapperClass');
+                wrapperStructure = [{
+                    className: customClass,
+                    attributes: { class: customClass }
+                }];
+            }
+
+            if (!wrapperStructure || wrapperStructure.length === 0) {
+                return interactionMarkup;
+            }
+
+            // Check if markup already includes wrappers
+            let wrappersToApply = [...wrapperStructure];
+
+            // Check if the body already contains wrappers by examining body content
+            if (interaction?.rootElement?.bdy?.bdy) {
+                const bodyContent = interaction.rootElement.bdy.bdy;
+                const placeholder = '{{' + interaction.serial + '}}';
+
+                if (bodyContent.includes(placeholder)) {
+                    // Extract classes already in the body
+                    const bodyWrappers = extractClassesFromBody(bodyContent, placeholder);
+
+                    if (bodyWrappers.length > 0) {
+                        // Remove classes that already exist in the body
+                        wrappersToApply = wrappersToApply.filter(wrapper =>
+                            !bodyWrappers.includes(wrapper.className));
+
+                        logger.debug('Avoiding duplicate wrappers', {
+                            serial: interaction.serial,
+                            bodyWrappers: bodyWrappers,
+                            remainingToApply: wrappersToApply.map(w => w.className)
+                        });
+                    }
+                }
+            }
+
+            // Apply only wrappers that don't already exist in the body
+            let wrappedMarkup = interactionMarkup;
+
+            for (let i = 0; i < wrappersToApply.length; i++) {
+                const wrapper = wrappersToApply[i];
+                if (!wrapper.className) continue;
+
+                const attributes = wrapper.attributes || { class: wrapper.className };
+                const attrStr = Object.entries(attributes)
+                    .filter(([key, value]) => value !== undefined && value !== null)
+                    .map(([key, value]) => `${key}="${value}"`)
+                    .join(' ');
+
+                wrappedMarkup = `<div ${attrStr}>${wrappedMarkup}</div>`;
+            }
+
+            return wrappedMarkup;
+        } catch (error) {
+            logger.error('Error applying interaction wrapper:', error);
+            return interactionMarkup;
+        } finally {
+            setTimeout(() => {
+                interaction._wrapperBeingApplied = false;
+            }, 0);
+        }
+    }
+
+// Helper function to extract wrapper classes from body content
+    function extractClassesFromBody(bodyContent, placeholder) {
+        const classes = [];
+
+        try {
+            // Create a temporary DOM element
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = bodyContent;
+
+            // Find text nodes containing the placeholder
+            const findPlaceholder = (node) => {
+                if (node.nodeType === Node.TEXT_NODE && node.textContent.includes(placeholder)) {
+                    return node;
+                }
+
+                if (node.childNodes) {
+                    for (let i = 0; i < node.childNodes.length; i++) {
+                        const found = findPlaceholder(node.childNodes[i]);
+                        if (found) return found;
+                    }
+                }
+
+                return null;
+            };
+
+            const placeholderNode = findPlaceholder(tempDiv);
+
+            if (placeholderNode) {
+                // Find all wrapper div parents
+                let currentNode = placeholderNode.parentNode;
+
+                while (currentNode && currentNode !== tempDiv) {
+                    if (currentNode.nodeType === Node.ELEMENT_NODE &&
+                        currentNode.tagName.toLowerCase() === 'div' &&
+                        currentNode.className) {
+
+                        classes.push(currentNode.className);
+                    }
+
+                    currentNode = currentNode.parentNode;
+                }
+            }
+        } catch (e) {
+            logger.error('Error extracting classes from body:', e);
+        }
+
+        return classes;
     }
 
     return {

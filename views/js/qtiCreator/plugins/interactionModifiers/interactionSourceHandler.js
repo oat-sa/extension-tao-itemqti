@@ -26,43 +26,65 @@ define([
 
     const logger = loggerFactory('taoQtiItem/qtiCreator/plugins/interactionModifiers/interactionSourceHandler');
 
-    const WRAPPER_MARKER_CLASS = 'custom-interaction-wrapper';
-    const INTERACTION_PLACEHOLDER_FORMAT = '{{%s}}';
-    const INTERACTION_REGEX = /<interaction_([^>]+)>/;
+    const CONSTANTS = {
+        INTERACTION_PLACEHOLDER_FORMAT: '{{%s}}',
+        INTERACTION_REGEX: /<interaction_([^>]+)>/,
+        STRUCTURAL_CLASSES: ['grid-row', 'col-12', 'grid-container', 'grid-col']
+    };
 
-    /**
-     * Wrapper State Manager - handles all wrapper-related operations
-     */
-    const WrapperManager = {
-        /**
-         * Formats an interaction placeholder
-         * @param {String} serial - Interaction serial
-         * @returns {String} Formatted placeholder
-         */
+    const Utils = {
         formatPlaceholder(serial) {
-            return INTERACTION_PLACEHOLDER_FORMAT.replace('%s', serial);
+            return CONSTANTS.INTERACTION_PLACEHOLDER_FORMAT.replace('%s', serial);
         },
 
-        /**
-         * Checks if an interaction is wrapped in the HTML body
-         * @param {Object} interaction - The interaction
-         * @param {String} className - The wrapper class
-         * @returns {Boolean} True if wrapped
-         */
-        isWrappedInBody(interaction, className) {
-            if (!interaction?.rootElement?.bdy?.bdy || !className) {
-                return false;
+        arraysEqual(arr1, arr2) {
+            if (!arr1 || !arr2) return false;
+            if (arr1.length !== arr2.length) return false;
+
+            for (let i = 0; i < arr1.length; i++) {
+                const obj1 = arr1[i];
+                const obj2 = arr2[i];
+
+                if (obj1.className !== obj2.className) return false;
+
+                const attrs1 = obj1.attributes || {};
+                const attrs2 = obj2.attributes || {};
+
+                const keys1 = Object.keys(attrs1);
+                const keys2 = Object.keys(attrs2);
+
+                if (keys1.length !== keys2.length) return false;
+
+                for (const key of keys1) {
+                    if (attrs1[key] !== attrs2[key]) return false;
+                }
             }
 
-            const bodyContent = interaction.rootElement.bdy.bdy;
-            const placeholder = this.formatPlaceholder(interaction.serial);
+            return true;
+        },
 
-            if (!bodyContent.includes(placeholder)) {
-                return false;
+        createAttributesString(attributes, className) {
+            if (!attributes) return className ? `class="${className}"` : '';
+
+            const attrs = {...attributes};
+            if (className) {
+                attrs.class = className;
             }
 
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = bodyContent;
+            return Object.entries(attrs)
+                .filter(([key]) => key !== 'class' || attrs[key])
+                .map(([key, value]) => `${key}="${value}"`)
+                .join(' ');
+        },
+
+        isStructuralClass(className) {
+            if (!className) return false;
+            const classNames = className.split(/\s+/);
+            return classNames.some(cls => CONSTANTS.STRUCTURAL_CLASSES.includes(cls));
+        },
+
+        findPlaceholderNode(rootElement, placeholder) {
+            if (!rootElement || !placeholder) return null;
 
             let placeholderNode = null;
             const findPlaceholder = (node) => {
@@ -81,392 +103,42 @@ define([
                 return false;
             };
 
-            findPlaceholder(tempDiv);
-
-            if (!placeholderNode) {
-                return false;
-            }
-
-            let currentNode = placeholderNode;
-            while (currentNode && currentNode !== tempDiv) {
-                currentNode = currentNode.parentNode;
-                if (currentNode &&
-                    currentNode.nodeType === Node.ELEMENT_NODE &&
-                    currentNode.tagName.toLowerCase() === 'div' &&
-                    currentNode.classList.contains(className)) {
-                    return true;
-                }
-            }
-
-            return false;
-        },
-
-        /**
-         * Checks if the interaction is a text container
-         * @param {Object} interaction - The interaction
-         * @returns {Boolean} True if it's a text container
-         */
-        isTextContainer(interaction) {
-            return interaction && interaction.qtiClass === '_container';
-        },
-
-        /**
-         * Checks if an interaction has a wrapper in the DOM
-         * @param {Object} interaction - The interaction
-         * @returns {Boolean} True if has wrapper in DOM
-         */
-        hasWrapperInDOM(interaction) {
-            if (!interaction?.data('widget')?.$container?.length) {
-                return false;
-            }
-
-            const $container = interaction.data('widget').$container;
-            const customClass = interaction.attr('customWrapperClass');
-
-            if (!customClass) {
-                return false;
-            }
-
-            return $container.parent(`.${customClass}`).length > 0 ||
-                $container.parent(`.${WRAPPER_MARKER_CLASS}`).length > 0;
-        },
-
-        /**
-         * Gets the wrapper state for an interaction
-         * @param {Object} interaction - The interaction
-         * @returns {Object} State object
-         */
-        getState(interaction) {
-            const className = interaction.attr('customWrapperClass');
-            return {
-                hasWrapper: !!className,
-                className,
-                inBody: className ? this.isWrappedInBody(interaction, className) : false,
-                inDOM: this.hasWrapperInDOM(interaction),
-                isTextContainer: this.isTextContainer(interaction)
-            };
-        },
-
-        /**
-         * Extract wrapper class from HTML body
-         * @param {Object} interaction - The interaction
-         * @returns {String|null} Extracted class name or null
-         */
-        extractClassFromBody(interaction) {
-            if (!interaction?.rootElement?.bdy?.bdy) {
-                return null;
-            }
-
-            const bodyContent = interaction.rootElement.bdy.bdy;
-            const placeholder = this.formatPlaceholder(interaction.serial);
-
-            if (!bodyContent.includes(placeholder)) {
-                return null;
-            }
-
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = bodyContent;
-
-            let placeholderNode = null;
-            const findPlaceholder = (node) => {
-                if (node.nodeType === Node.TEXT_NODE && node.textContent.includes(placeholder)) {
-                    placeholderNode = node;
-                    return true;
-                }
-
-                if (node.childNodes) {
-                    for (let i = 0; i < node.childNodes.length; i++) {
-                        if (findPlaceholder(node.childNodes[i])) {
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            };
-
-            findPlaceholder(tempDiv);
-
-            if (!placeholderNode) {
-                return null;
-            }
-
-            let currentNode = placeholderNode;
-            while (currentNode && currentNode !== tempDiv) {
-                currentNode = currentNode.parentNode;
-                if (currentNode &&
-                    currentNode.nodeType === Node.ELEMENT_NODE &&
-                    currentNode.tagName.toLowerCase() === 'div' &&
-                    currentNode.classList.length > 0) {
-                    return currentNode.classList[0];
-                }
-            }
-
-            return null;
-        },
-
-        /**
-         * DOM Operations
-         */
-        dom: {
-            /**
-             * Find the widget element in the DOM
-             * @param {Object} interaction - The interaction
-             * @returns {jQuery|null} Widget jQuery element or null
-             */
-            findWidgetElement(interaction) {
-                if (!interaction?.data('widget')?.$container?.length) {
-                    return null;
-                }
-
-                return $(`.widget-box[data-serial="${interaction.serial}"]`);
-            },
-
-            /**
-             * Apply wrapper in the DOM
-             * @param {Object} interaction - The interaction
-             * @param {String} className - Class name to apply
-             */
-            applyWrapper(interaction, className) {
-                if (!className) {
-                    return;
-                }
-
-                const $widget = this.findWidgetElement(interaction);
-
-                if (!$widget || !$widget.length) {
-                    logger.warn('Could not find widget element to wrap', {
-                        serial: interaction.serial,
-                        qtiClass: interaction.qtiClass
-                    });
-                    return;
-                }
-
-                this.removeWrapper(interaction);
-
-                let wrapperClasses = className;
-                if (!wrapperClasses.includes(WRAPPER_MARKER_CLASS)) {
-                    wrapperClasses = `${className} ${WRAPPER_MARKER_CLASS}`;
-                }
-
-                logger.debug('Applying wrapper', {
-                    serial: interaction.serial,
-                    class: wrapperClasses,
-                    widget: $widget.attr('data-serial')
-                });
-
-                const $existingWrapper = $widget.parent(`.${wrapperClasses}`);
-                if ($existingWrapper.length) {
-                    logger.debug('Widget already wrapped correctly', {
-                        serial: interaction.serial
-                    });
-                    return;
-                }
-
-                $widget.wrap(`<div class="${wrapperClasses}"></div>`);
-
-                const $newWrapper = $widget.parent(`.${wrapperClasses}`);
-                if (!$newWrapper.length) {
-                    logger.warn('Failed to apply wrapper', {
-                        serial: interaction.serial
-                    });
-                }
-            },
-
-            /**
-             * Remove wrapper from DOM
-             * @param {Object} interaction - The interaction
-             */
-            removeWrapper(interaction) {
-                const $widget = this.findWidgetElement(interaction);
-
-                if (!$widget || !$widget.length) {
-                    return;
-                }
-
-                const customClass = interaction.attr('customWrapperClass');
-
-                if (customClass) {
-                    const $wrapper = $widget.parent(`.${customClass}`);
-                    if ($wrapper.length) {
-                        const $parent = $wrapper.parent();
-                        if ($parent.children().length > 1 ||
-                            $parent.hasClass('grid-row') ||
-                            $parent.hasClass('col-12')) {
-                            logger.debug('Removing custom class wrapper', {
-                                serial: interaction.serial,
-                                class: customClass
-                            });
-                            $widget.unwrap();
-                        }
-                    }
-                }
-
-                const $markerWrapper = $widget.parent(`.${WRAPPER_MARKER_CLASS}`);
-                if ($markerWrapper.length) {
-                    const $parent = $markerWrapper.parent();
-                    if ($parent.children().length > 1 ||
-                        $parent.hasClass('grid-row') ||
-                        $parent.hasClass('col-12')) {
-                        logger.debug('Removing marker class wrapper', {
-                            serial: interaction.serial
-                        });
-                        $widget.unwrap();
-                    }
-                }
-            }
-        },
-
-        /**
-         * Model Operations
-         */
-        model: {
-            /**
-             * Remove wrapper from HTML body model
-             * @param {Object} interaction - The interaction
-             * @returns {Boolean} Success flag
-             */
-            removeWrapper(interaction) {
-                if (!interaction?.rootElement?.bdy?.bdy) {
-                    return false;
-                }
-
-                const bodyContent = interaction.rootElement.bdy.bdy;
-                const placeholder = WrapperManager.formatPlaceholder(interaction.serial);
-                const customClass = interaction.attr('customWrapperClass');
-
-                if (!bodyContent.includes(placeholder) || !customClass) {
-                    return false;
-                }
-
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = bodyContent;
-
-                let placeholderNode = null;
-                const findPlaceholder = (node) => {
-                    if (node.nodeType === Node.TEXT_NODE && node.textContent.includes(placeholder)) {
-                        placeholderNode = node;
-                        return true;
-                    }
-
-                    if (node.childNodes) {
-                        for (let i = 0; i < node.childNodes.length; i++) {
-                            if (findPlaceholder(node.childNodes[i])) {
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
-                };
-
-                findPlaceholder(tempDiv);
-
-                if (!placeholderNode) {
-                    return false;
-                }
-
-                let currentNode = placeholderNode;
-                let wrapperNode = null;
-
-                while (currentNode && currentNode !== tempDiv) {
-                    currentNode = currentNode.parentNode;
-                    if (currentNode &&
-                        currentNode.nodeType === Node.ELEMENT_NODE &&
-                        currentNode.tagName.toLowerCase() === 'div' &&
-                        currentNode.classList.contains(customClass)) {
-                        wrapperNode = currentNode;
-                        break;
-                    }
-                }
-
-                if (wrapperNode) {
-                    const placeholderText = document.createTextNode(placeholder);
-                    wrapperNode.parentNode.replaceChild(placeholderText, wrapperNode);
-                    interaction.rootElement.bdy.bdy = tempDiv.innerHTML;
-                    return true;
-                }
-
-                return false;
-            }
-        },
-
-        /**
-         * Setup XML rendering hook for interaction
-         * @param {Object} interaction - The interaction
-         */
-        setupRenderHook(interaction) {
-            const customClass = interaction.attr('customWrapperClass');
-
-            if (!customClass || interaction._originalRenderer) {
-                return;
-            }
-
-            interaction._originalRenderer = interaction.render;
-
-            interaction.render = function () {
-                const originalResult = this._originalRenderer.apply(this, arguments);
-
-                if (WrapperManager.isWrappedInBody(this, customClass)) {
-                    return originalResult;
-                }
-
-                return CustomWrappedInteraction.wrapInteraction(this, originalResult);
-            };
-        },
-
-        /**
-         * Remove XML rendering hook
-         * @param {Object} interaction - The interaction
-         */
-        removeRenderHook(interaction) {
-            if (interaction._originalRenderer) {
-                interaction.render = interaction._originalRenderer;
-                interaction._originalRenderer = null;
-            }
-        },
-
-        /**
-         * Synchronize wrapper state
-         * @param {Object} interaction - The interaction
-         */
-        synchronize(interaction) {
-            if (!interaction.attr('customWrapperClass')) {
-                const extractedClass = this.extractClassFromBody(interaction);
-                if (extractedClass) {
-                    interaction.attr('customWrapperClass', extractedClass);
-                }
-            }
-
-            const state = this.getState(interaction);
-
-            if (state.hasWrapper) {
-                this.setupRenderHook(interaction);
-
-                if (!state.inBody && !state.inDOM) {
-                    this.dom.applyWrapper(interaction, state.className);
-                }
-            }
+            findPlaceholder(rootElement);
+            return placeholderNode;
         }
     };
 
-    /**
-     * HTML Parser for interaction content
-     */
-    const HtmlParser = {
-        /**
-         * Parse HTML content to extract interaction data
-         * @returns {Object} Parsed data
-         * @param match
-         */
+    const InteractionFinder = {
+        find(serial, interactions) {
+            if (!serial) return null;
 
+            if (interactions[serial]) {
+                return interactions[serial];
+            }
+
+            const interactionKey = Object.keys(interactions).find(key => key.includes(serial));
+            return interactionKey ? interactions[interactionKey] : null;
+        }
+    };
+
+    const HtmlParser = {
         parseInteractionMatch(match) {
-            if (!match || !match[1]) return { serial: null, isContainer: false };
+            if (!match || !match[1]) return {serial: null, isContainer: false};
 
             const fullTag = match[1];
             const isContainer = fullTag.includes('_container_');
             const parts = fullTag.split('_');
             const serial = parts[parts.length - 1];
 
-            return { serial, isContainer };
+            return {serial, isContainer};
+        },
+
+        extractAttributes(element) {
+            const attributes = {};
+            Array.from(element.attributes).forEach(attr => {
+                attributes[attr.name] = attr.value;
+            });
+            return attributes;
         },
 
         parse(html) {
@@ -475,151 +147,467 @@ define([
             }
 
             const normalizedHtml = html.replace(/\r\n/g, '\n').trim();
-            let serial = null;
-            let customClass = null;
-            let isTextContainer = false;
 
             try {
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = normalizedHtml;
 
-                const placeholderMatch = normalizedHtml.match(INTERACTION_REGEX);
+                const placeholderMatch = normalizedHtml.match(CONSTANTS.INTERACTION_REGEX);
 
-                if (placeholderMatch) {
-                    const parsed = this.parseInteractionMatch(placeholderMatch);
-                    serial = parsed.serial;
-                    isTextContainer = parsed.isContainer;
-
-                    const placeholderTag = placeholderMatch[0];
-
-                    const divs = Array.from(tempDiv.querySelectorAll('div'));
-                    const containingDivs = divs.filter(div =>
-                        div.innerHTML.includes(placeholderTag.toLowerCase())
-                    );
-
-                    const placeholderDiv = containingDivs.find(div =>
-                        !containingDivs.some(otherDiv =>
-                            otherDiv !== div && div.contains(otherDiv)
-                        )
-                    );
-
-                    if (placeholderDiv && placeholderDiv.className) {
-                        customClass = placeholderDiv.className;
-                    }
+                if (!placeholderMatch) {
+                    return {
+                        error: 'No interaction tag found in HTML content',
+                        originalHtml: normalizedHtml,
+                        wrapperStructure: []
+                    };
                 }
+
+                const parsed = this.parseInteractionMatch(placeholderMatch);
+                const serial = parsed.serial;
+                const isTextContainer = parsed.isContainer;
 
                 if (!serial) {
                     throw new Error('No interaction serial found in HTML content');
                 }
 
-                logger.debug('Parsed HTML data', {
-                    serial,
-                    customClass,
-                    isTextContainer
+                const placeholderTag = placeholderMatch[0];
+                const allDivs = Array.from(tempDiv.querySelectorAll('div'));
+                const containingDivs = allDivs.filter(div => {
+                    return div.innerHTML.includes(placeholderTag.toLowerCase());
                 });
+
+                const sortedDivs = containingDivs.sort((a, b) => {
+                    if (a.contains(b)) return 1;
+                    if (b.contains(a)) return -1;
+                    return 0;
+                });
+
+                const wrapperStructure = sortedDivs.map(div => ({
+                    className: div.className,
+                    attributes: this.extractAttributes(div)
+                }));
 
                 return {
                     serial,
-                    customClass,
+                    wrapperStructure,
                     isTextContainer,
-                    wrapperRemoved: !customClass,
+                    wrapperRemoved: wrapperStructure?.length === 0,
                     originalHtml: normalizedHtml
                 };
             } catch (e) {
                 logger.error('Error parsing HTML:', e);
-                throw e;
+                return {
+                    error: e.message,
+                    originalHtml: normalizedHtml,
+                    wrapperStructure: []
+                };
             }
         }
     };
 
-    /**
-     * Interaction finder utility
-     */
-    const InteractionFinder = {
-        /**
-         * Find interaction by serial
-         * @param {String} serial - The serial to find
-         * @param {Object} interactions - Available interactions
-         * @returns {Object|null} Found interaction or null
-         */
-        find(serial, interactions) {
-            if (!serial) {
+    const Dom = {
+        findWidgetElement(interaction) {
+            if (!interaction?.data('widget')?.$container?.length) {
                 return null;
             }
 
-            if (interactions[serial]) {
-                return interactions[serial];
+            return $(`.widget-box[data-serial="${interaction.serial}"]`);
+        },
+
+        prepareDomForInteractionBody(interaction) {
+            const bodyObj = interaction['rootElement']?.bdy;
+            if (!bodyObj?.bdy) {
+                return { success: false };
             }
 
-            const interactionKey = Object.keys(interactions).find(key =>
-                key.includes(serial)
-            );
+            const bodyContent = bodyObj.bdy;
+            const placeholder = Utils.formatPlaceholder(interaction.serial);
 
-            return interactionKey ? interactions[interactionKey] : null;
+            if (!bodyContent.includes(placeholder)) {
+                return { success: false };
+            }
+
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = bodyContent;
+
+            const placeholderNode = Utils.findPlaceholderNode(tempDiv, placeholder);
+
+            if (!placeholderNode) {
+                return { success: false };
+            }
+
+            return {
+                success: true,
+                tempDiv,
+                placeholder,
+                placeholderNode,
+                bodyContent,
+                bodyObj
+            };
+        },
+
+        applyWrapperStructure(interaction, wrapperStructure) {
+            if (!wrapperStructure || !Array.isArray(wrapperStructure) || wrapperStructure.length === 0) {
+                return;
+            }
+
+            const $widget = this.findWidgetElement(interaction);
+
+            if (!$widget || !$widget.length) {
+                return;
+            }
+
+            const appliedClasses = new Set();
+            let $current = $widget;
+
+            for (const wrapper of wrapperStructure) {
+                let className = wrapper.className || '';
+
+                if (className && appliedClasses.has(className)) {
+                    continue;
+                }
+
+                if (className) {
+                    appliedClasses.add(className);
+                }
+
+                const attrStr = Utils.createAttributesString(wrapper.attributes, className);
+                $current.wrap(`<div ${attrStr}></div>`);
+                $current = $current.parent();
+            }
+        },
+
+        removeWrappers(interaction) {
+            const $widget = this.findWidgetElement(interaction);
+
+            if (!$widget || !$widget.length) {
+                return;
+            }
+
+            const maxUnwraps = 10;
+            let unwrapsPerformed = 0;
+
+            while (unwrapsPerformed < maxUnwraps) {
+                const $parent = $widget.parent();
+
+                if (!$parent.length ||
+                    $parent.is('body') ||
+                    $parent.is('html') ||
+                    CONSTANTS.STRUCTURAL_CLASSES.some(cls => $parent.hasClass(cls))) {
+                    break;
+                }
+
+                $widget.unwrap();
+                unwrapsPerformed++;
+            }
         }
     };
 
-    /**
-     * Handler for the interactionsource plugin's content modifications
-     *
-     * @param {Object} options - Configuration options
-     * @returns {Object} Plugin API
-     */
-    return function interactionSourceHandlerFactory(options) {
-        let initialized = false;
-        const itemCreator = options?.itemCreator;
-
-        /**
-         * Apply changes based on parsed HTML data
-         * @param {Object} interaction - Target interaction
-         * @param {Object} parsedData - Parsed HTML data
-         * @returns {Boolean} Success flag
-         */
-        const applyChanges = (interaction, parsedData) => {
-            if (!interaction) {
-                return false;
+    const Model = {
+        storeWrapperStructure(interaction, wrapperStructure) {
+            if (interaction.data) {
+                interaction.data('wrapperStructure', wrapperStructure);
             }
 
-            const currentClass = interaction.attr('customWrapperClass');
-            const isTextContainer = WrapperManager.isTextContainer(interaction);
+            if (!wrapperStructure || !Array.isArray(wrapperStructure) || wrapperStructure.length === 0) {
+                interaction.removeAttr('customWrappers');
+                return;
+            }
 
-            logger.debug('Applying changes', {
-                serial: interaction.serial,
-                qtiClass: interaction.qtiClass,
-                isTextContainer: isTextContainer,
-                currentClass: currentClass,
-                newClass: parsedData.customClass,
-                wrapperRemoved: parsedData.wrapperRemoved
+            const classNames = wrapperStructure
+                .map(w => w.className || '')
+                .filter(c => c);
+
+            if (classNames.length > 0) {
+                interaction.attr('customWrappers', classNames.join(','));
+            } else {
+                interaction.removeAttr('customWrappers');
+            }
+        },
+
+        getWrapperStructure(interaction) {
+            let wrapperStructure = [];
+
+            if (interaction.data && interaction.data('wrapperStructure')) {
+                wrapperStructure = interaction.data('wrapperStructure');
+            }
+            else if (interaction.attr && interaction.attr('customWrappers')) {
+                const classNames = interaction.attr('customWrappers').split(',');
+                wrapperStructure = classNames.map(className => ({
+                    className: className.trim(),
+                    attributes: {class: className.trim()}
+                }));
+            }
+
+            if (wrapperStructure.length === 0) {
+                return [];
+            }
+
+            return wrapperStructure.filter(wrapper => {
+                if (!wrapper.className) return false;
+                return !Utils.isStructuralClass(wrapper.className);
             });
+        },
 
-            if (parsedData.customClass) {
-                const isNewOrChanged = !currentClass || currentClass !== parsedData.customClass;
+        removeWrapperFromBody(interaction) {
+            const result = Dom.prepareDomForInteractionBody(interaction);
+            if (!result.success) return false;
 
-                if (isNewOrChanged) {
-                    WrapperManager.removeRenderHook(interaction);
-                    interaction.attr('customWrapperClass', parsedData.customClass);
-                    WrapperManager.dom.removeWrapper(interaction);
-                    WrapperManager.dom.applyWrapper(interaction, parsedData.customClass);
-                    WrapperManager.setupRenderHook(interaction);
+            const { tempDiv, placeholderNode, bodyObj } = result;
 
-                    return true;
+            const wrapperNodes = [];
+            let currentNode = placeholderNode;
+
+            while (currentNode && currentNode !== tempDiv) {
+                currentNode = currentNode.parentNode;
+                if (currentNode &&
+                    currentNode.nodeType === Node.ELEMENT_NODE &&
+                    currentNode.tagName.toLowerCase() === 'div') {
+                    wrapperNodes.push(currentNode);
                 }
-            } else if (parsedData.wrapperRemoved && currentClass) {
-                WrapperManager.removeRenderHook(interaction);
-                interaction.removeAttr('customWrapperClass');
-                WrapperManager.dom.removeWrapper(interaction);
-                WrapperManager.model.removeWrapper(interaction);
+            }
 
+            if (wrapperNodes.length > 0) {
+                const innermostWrapper = wrapperNodes[0];
+                const fragment = document.createDocumentFragment();
+
+                while (innermostWrapper.firstChild) {
+                    fragment.appendChild(innermostWrapper.firstChild);
+                }
+
+                innermostWrapper.parentNode.replaceChild(fragment, innermostWrapper);
+                bodyObj.bdy = tempDiv.innerHTML;
                 return true;
             }
 
             return false;
-        };
+        },
 
-        /**
-         * Handle content modification from editor
-         * @param {Object} data - Event data
-         */
+        extractWrapperStructureFromBody(interaction) {
+            const result = Dom.prepareDomForInteractionBody(interaction);
+            if (!result.success) return [];
+
+            const { tempDiv, placeholderNode } = result;
+
+            const wrapperDivs = [];
+            let currentNode = placeholderNode;
+            const processedClasses = new Set();
+
+            while (currentNode && currentNode !== tempDiv) {
+                currentNode = currentNode.parentNode;
+                if (currentNode &&
+                    currentNode.nodeType === Node.ELEMENT_NODE &&
+                    currentNode.tagName.toLowerCase() === 'div') {
+
+                    const className = currentNode.className.trim();
+                    if (className && !processedClasses.has(className)) {
+                        processedClasses.add(className);
+
+                        const attributes = {};
+                        Array.from(currentNode.attributes).forEach(attr => {
+                            attributes[attr.name] = attr.value;
+                        });
+
+                        wrapperDivs.push({
+                            className: className,
+                            attributes: attributes
+                        });
+                    }
+                }
+            }
+
+            return wrapperDivs.filter(wrapper => {
+                if (!wrapper.className) return false;
+                return !Utils.isStructuralClass(wrapper.className);
+            });
+        },
+
+        setupRenderHook(interaction) {
+            const wrapperStructure = this.getWrapperStructure(interaction);
+
+            if (wrapperStructure.length === 0 || interaction._originalRenderer) {
+                return;
+            }
+
+            interaction._originalRenderer = interaction.render;
+
+            interaction.render = function () {
+                const originalResult = this._originalRenderer.apply(this, arguments);
+                return CustomWrappedInteraction.wrapInteraction(this, originalResult);
+            };
+        },
+
+        removeRenderHook(interaction) {
+            if (interaction._originalRenderer) {
+                interaction.render = interaction._originalRenderer;
+                interaction._originalRenderer = null;
+            }
+        },
+
+        clearWrapperData(interaction) {
+            interaction.removeAttr('customWrappers');
+
+            if (interaction.data) {
+                interaction.data('wrapperStructure', null);
+            }
+        }
+    };
+
+    const WrapperManager = {
+        getState(interaction) {
+            const wrapperStructure = Model.getWrapperStructure(interaction);
+            const hasWrappersInBody = this.hasWrappersInBody(interaction);
+            const hasWrappersInDom = this.hasWrappersInDOM(interaction);
+
+            return {
+                hasWrappers: wrapperStructure.length > 0,
+                wrapperStructure: wrapperStructure,
+                inBody: hasWrappersInBody,
+                inDOM: hasWrappersInDom,
+                isTextContainer: interaction && interaction.qtiClass === '_container'
+            };
+        },
+
+        hasWrappersInBody(interaction) {
+            const result = Dom.prepareDomForInteractionBody(interaction);
+            if (!result.success) return false;
+
+            const { tempDiv, placeholderNode } = result;
+            let currentNode = placeholderNode;
+
+            while (currentNode && currentNode !== tempDiv) {
+                currentNode = currentNode.parentNode;
+                if (currentNode &&
+                    currentNode.nodeType === Node.ELEMENT_NODE &&
+                    currentNode.tagName.toLowerCase() === 'div') {
+                    return true;
+                }
+            }
+
+            return false;
+        },
+
+        hasWrappersInDOM(interaction) {
+            if (!interaction?.data('widget')?.$container?.length) {
+                return false;
+            }
+
+            const $container = interaction.data('widget').$container;
+            const wrapperStructure = Model.getWrapperStructure(interaction);
+
+            if (wrapperStructure.length === 0) {
+                return false;
+            }
+
+            let $element = $container;
+            let wrappersFound = 0;
+            const expectedWrappers = wrapperStructure.length;
+
+            let parentsChecked = 0;
+            const maxParentsToCheck = 10;
+
+            while ($element.length && parentsChecked < maxParentsToCheck) {
+                const $parent = $element.parent();
+                if (!$parent.length || $parent.is('body') || $parent.is('html')) {
+                    break;
+                }
+
+                if (CONSTANTS.STRUCTURAL_CLASSES.some(cls => $parent.hasClass(cls))) {
+                    $element = $parent;
+                    parentsChecked++;
+                    continue;
+                }
+
+                for (const wrapper of wrapperStructure) {
+                    if (!wrapper.className) continue;
+
+                    const classSelector = '.' + wrapper.className.split(' ').join('.');
+                    if ($parent.is(classSelector)) {
+                        wrappersFound++;
+                        wrapperStructure.splice(wrapperStructure.indexOf(wrapper), 1);
+                        break;
+                    }
+                }
+
+                $element = $parent;
+                parentsChecked++;
+            }
+
+            return wrappersFound === expectedWrappers;
+        },
+
+        synchronize(interaction) {
+            const state = this.getState(interaction);
+
+            if (!state.hasWrappers && !state.inBody && !state.inDOM) {
+                return;
+            }
+
+            if (state.inBody && !state.hasWrappers) {
+                const extractedStructure = Model.extractWrapperStructureFromBody(interaction);
+                if (extractedStructure.length > 0) {
+                    Model.storeWrapperStructure(interaction, extractedStructure);
+                }
+            }
+
+            if (state.hasWrappers) {
+                Model.setupRenderHook(interaction);
+            }
+
+            if (state.hasWrappers && !state.inDOM) {
+                Dom.removeWrappers(interaction);
+                Dom.applyWrapperStructure(interaction, state.wrapperStructure);
+            }
+        }
+    };
+
+    const ChangeManager = {
+        apply(interaction, parsedData) {
+            if (!interaction) {
+                return false;
+            }
+
+            const currentStructure = Model.getWrapperStructure(interaction);
+            const newWrapperStructure = parsedData.wrapperStructure || [];
+            const structureChanged = !Utils.arraysEqual(currentStructure, newWrapperStructure);
+
+            if (newWrapperStructure.length > 0 && structureChanged) {
+                Model.storeWrapperStructure(interaction, newWrapperStructure);
+                Model.removeRenderHook(interaction);
+                Dom.removeWrappers(interaction);
+                Dom.applyWrapperStructure(interaction, newWrapperStructure);
+                Model.setupRenderHook(interaction);
+                return true;
+            }
+
+            else if (parsedData.wrapperRemoved && currentStructure.length > 0) {
+                if (currentStructure.length > 1) {
+                    const newStructure = currentStructure.slice(1);
+                    Model.storeWrapperStructure(interaction, newStructure);
+                    Model.removeRenderHook(interaction);
+                    Dom.removeWrappers(interaction);
+                    Model.removeWrapperFromBody(interaction);
+                    Dom.applyWrapperStructure(interaction, newStructure);
+                    Model.setupRenderHook(interaction);
+                    return true;
+                }
+                else {
+                    Model.removeRenderHook(interaction);
+                    Dom.removeWrappers(interaction);
+                    Model.removeWrapperFromBody(interaction);
+                    Model.clearWrapperData(interaction);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    };
+
+    return function interactionSourceHandlerFactory(options) {
+        let initialized = false;
+        const itemCreator = options?.itemCreator;
+
         const handleContentModification = (data) => {
             if (!data?.html || !itemCreator) {
                 return;
@@ -627,25 +615,22 @@ define([
 
             try {
                 const parsedData = HtmlParser.parse(data.html);
-                logger.debug('Parsed interaction data', parsedData);
-
                 const item = itemCreator.getItem();
+
                 if (!item) {
-                    logger.warn('Item not found in itemCreator');
+                    logger.error('Item not found in itemCreator');
                     return;
                 }
 
                 const interactions = item.getElements();
-                logger.debug('Available interactions', Object.keys(interactions));
-
                 const interaction = InteractionFinder.find(parsedData.serial, interactions);
 
                 if (!interaction) {
-                    logger.warn(`Could not find interaction with serial ${parsedData.serial}`);
+                    logger.error(`Could not find interaction with serial ${parsedData.serial}`);
                     return;
                 }
 
-                if (applyChanges(interaction, parsedData)) {
+                if (ChangeManager.apply(interaction, parsedData)) {
                     itemCreator.trigger('save', true);
                 }
             } catch (error) {
@@ -653,10 +638,6 @@ define([
             }
         };
 
-        /**
-         * Attach event listener to CKEditor
-         * @param {Object} editor - CKEditor instance
-         */
         const attachEditorListener = (editor) => {
             if (typeof editor?.on !== 'function') {
                 return;
@@ -670,9 +651,6 @@ define([
             });
         };
 
-        /**
-         * Process all interactions in the item
-         */
         const processAllInteractions = () => {
             if (!itemCreator) {
                 return;
@@ -689,9 +667,6 @@ define([
             });
         };
 
-        /**
-         * Initialize the handler
-         */
         const init = () => {
             if (initialized) {
                 return;
@@ -714,16 +689,11 @@ define([
                         WrapperManager.synchronize(widget.element);
                     }
                 });
-
-                itemCreator.on('beforesave', processAllInteractions);
             }
 
             initialized = true;
         };
 
-        /**
-         * Destroy the handler
-         */
         const destroy = () => {
             if (!initialized) {
                 return;
@@ -740,7 +710,6 @@ define([
 
             if (itemCreator) {
                 itemCreator.off('widgetCreated');
-                itemCreator.off('beforesave');
             }
 
             initialized = false;
