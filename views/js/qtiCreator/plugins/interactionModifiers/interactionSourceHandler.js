@@ -29,7 +29,30 @@ define([
     const CONSTANTS = {
         INTERACTION_PLACEHOLDER_FORMAT: '{{%s}}',
         INTERACTION_REGEX: /<interaction_([^>]+)>/,
-        STRUCTURAL_CLASSES: ['grid-row', 'col-12', 'grid-container', 'grid-col']
+        STRUCTURAL_CLASSES: [
+            'grid-row', 'col-12', 'grid-container', 'grid-col',
+            'row', 'container', 'container-fluid', 'col', 'column'
+        ],
+        UNSAFE_CLASSES:  [
+            'js-', 'javascript-', 'onclick', 'event-', 'trigger-',
+            'interactive', 'action-', 'execute-'
+        ],
+        LAYOUT_BREAKING_CLASSES:  [
+            'hidden', 'invisible', 'absolute', 'fixed', 'sticky',
+            'overflow-', 'z-index-', 'opacity-0', 'display-none'
+        ],
+        UNSAFE_PATTERNS: [
+            /^_/, // Classes starting with underscore (often internal)
+            /^[0-9]/, // Classes starting with numbers (invalid in some contexts)
+            /[<>'"&]/, // Classes containing HTML special chars
+            /script/i, // Any class containing 'script'
+            /eval/i, // Any class containing 'eval'
+            /function/i, // Any class containing 'function'
+            /inject/i, // Any class containing 'inject'
+            /hack/i, // Any class containing 'hack'
+            /admin/i, // Classes related to admin functionality
+            /\(\)/ // Classes containing parentheses (could indicate code)
+        ],
     };
 
     const Utils = {
@@ -37,25 +60,30 @@ define([
             return CONSTANTS.INTERACTION_PLACEHOLDER_FORMAT.replace('%s', serial);
         },
 
+        /**
+         * Compare two arrays of objects to check if they are equal, using lodash is 4x slower
+         * @param arr1
+         * @param arr2
+         * @return {boolean}
+         */
         arraysEqual(arr1, arr2) {
-            if (!arr1 || !arr2) return false;
-            if (arr1.length !== arr2.length) return false;
+            if (!arr1 || !arr2 || arr1.length !== arr2.length) return false;
+
+            if (arr1.length === 0) return true;
 
             for (let i = 0; i < arr1.length; i++) {
-                const obj1 = arr1[i];
-                const obj2 = arr2[i];
+                const obj1 = arr1[i] || {};
+                const obj2 = arr2[i] || {};
 
                 if (obj1.className !== obj2.className) return false;
 
                 const attrs1 = obj1.attributes || {};
                 const attrs2 = obj2.attributes || {};
+                const keys = Object.keys(attrs1);
 
-                const keys1 = Object.keys(attrs1);
-                const keys2 = Object.keys(attrs2);
+                if (keys.length !== Object.keys(attrs2).length) return false;
 
-                if (keys1.length !== keys2.length) return false;
-
-                for (const key of keys1) {
+                for (const key of keys) {
                     if (attrs1[key] !== attrs2[key]) return false;
                 }
             }
@@ -63,24 +91,78 @@ define([
             return true;
         },
 
-        createAttributesString(attributes, className) {
-            if (!attributes) return className ? `class="${className}"` : '';
+        createAttributesString: function(attributes, className) {
+            if (!attributes) return className ? 'class="' + className + '"' : '';
 
-            const attrs = {...attributes};
+            let attrs = {};
+            for (let key in attributes) {
+                if (attributes.hasOwnProperty(key)) {
+                    attrs[key] = attributes[key];
+                }
+            }
+
             if (className) {
                 attrs.class = className;
             }
 
-            return Object.entries(attrs)
-                .filter(([key]) => key !== 'class' || attrs[key])
-                .map(([key, value]) => `${key}="${value}"`)
-                .join(' ');
+            let result = '';
+            for (let attrKey in attrs) {
+                if (attrs.hasOwnProperty(attrKey)) {
+                    if (attrKey !== 'class' || attrs[attrKey]) {
+                        result += attrKey + '="' + attrs[attrKey] + '" ';
+                    }
+                }
+            }
+
+            return result.trim();
         },
 
-        isStructuralClass(className) {
+
+        /**
+         * Filters out letious types of invalid or unsafe class names
+         * @param {string} className - The class name to check
+         * @return {boolean} - True if the class name should be filtered out
+         */
+        isRestrictedClass: function(className) {
             if (!className) return false;
-            const classNames = className.split(/\s+/);
-            return classNames.some(cls => CONSTANTS.STRUCTURAL_CLASSES.includes(cls));
+
+            let classNames = className.split(/\s+/);
+
+            const prefixFilters = [
+                CONSTANTS.UNSAFE_CLASSES,
+                CONSTANTS.LAYOUT_BREAKING_CLASSES
+            ];
+
+            for (let i = 0; i < classNames.length; i++) {
+                let cls = classNames[i].trim();
+
+                if (!cls) continue;
+
+                if (CONSTANTS.STRUCTURAL_CLASSES.indexOf(cls) !== -1) {
+                    return true;
+                }
+
+                for (let j = 0; j < prefixFilters.length; j++) {
+                    let filterArray = prefixFilters[j];
+                    for (let k = 0; k < filterArray.length; k++) {
+                        if (cls.indexOf(filterArray[k]) === 0) {
+                            return true;
+                        }
+                    }
+                }
+
+                for (let l = 0; l < CONSTANTS.UNSAFE_PATTERNS.length; l++) {
+                    if (CONSTANTS.UNSAFE_PATTERNS[l].test(cls)) {
+                        return true;
+                    }
+                }
+
+                if (cls.length > 50) {
+                    return true;
+                }
+            }
+
+            return false;
         },
 
         findPlaceholderNode(rootElement, placeholder) {
@@ -191,7 +273,7 @@ define([
                     serial,
                     wrapperStructure,
                     isTextContainer,
-                    wrapperRemoved: wrapperStructure?.length === 0,
+                    wrapperRemoved: wrapperStructure.length === 0,
                     originalHtml: normalizedHtml
                 };
             } catch (e) {
@@ -206,17 +288,18 @@ define([
     };
 
     const Dom = {
-        findWidgetElement(interaction) {
-            if (!interaction?.data('widget')?.$container?.length) {
+        findWidgetElement: function(interaction) {
+            if (!interaction || !interaction.data || !interaction.data('widget') ||
+                !interaction.data('widget').$container || !interaction.data('widget').$container.length) {
                 return null;
             }
 
-            return $(`.widget-box[data-serial="${interaction.serial}"]`);
+            return $('.widget-box[data-serial="' + interaction.serial + '"]');
         },
 
         prepareDomForInteractionBody(interaction) {
-            const bodyObj = interaction['rootElement']?.bdy;
-            if (!bodyObj?.bdy) {
+            const bodyObj = interaction && interaction['rootElement'] && interaction['rootElement'].bdy;
+            if (!bodyObj || !bodyObj.bdy) {
                 return { success: false };
             }
 
@@ -345,7 +428,7 @@ define([
 
             return wrapperStructure.filter(wrapper => {
                 if (!wrapper.className) return false;
-                return !Utils.isStructuralClass(wrapper.className);
+                return !Utils.isRestrictedClass(wrapper.className);
             });
         },
 
@@ -418,7 +501,7 @@ define([
 
             return wrapperDivs.filter(wrapper => {
                 if (!wrapper.className) return false;
-                return !Utils.isStructuralClass(wrapper.className);
+                return !Utils.isRestrictedClass(wrapper.className);
             });
         },
 
@@ -488,7 +571,9 @@ define([
         },
 
         hasWrappersInDOM(interaction) {
-            if (!interaction?.data('widget')?.$container?.length) {
+            if (!interaction || !interaction.data || !interaction.data('widget') ||
+                !interaction.data('widget').$container ||
+                !interaction.data('widget').$container.length) {
                 return false;
             }
 
@@ -562,14 +647,15 @@ define([
     };
 
     const ChangeManager = {
-        apply(interaction, parsedData) {
+        apply: function(interaction, parsedData) {
             if (!interaction) {
                 return false;
             }
 
-            const currentStructure = Model.getWrapperStructure(interaction);
-            const newWrapperStructure = parsedData.wrapperStructure || [];
-            const structureChanged = !Utils.arraysEqual(currentStructure, newWrapperStructure);
+            let currentStructure = Model.getWrapperStructure(interaction);
+            let newWrapperStructure = parsedData.wrapperStructure || [];
+            let structureChanged = !Utils.arraysEqual(currentStructure, newWrapperStructure);
+            let changeApplied = false;
 
             if (newWrapperStructure.length > 0 && structureChanged) {
                 Model.storeWrapperStructure(interaction, newWrapperStructure);
@@ -577,39 +663,36 @@ define([
                 Dom.removeWrappers(interaction);
                 Dom.applyWrapperStructure(interaction, newWrapperStructure);
                 Model.setupRenderHook(interaction);
-                return true;
+                changeApplied = true;
             }
-
+            else if (parsedData.wrapperRemoved && currentStructure.length > 1) {
+                let newStructure = currentStructure.slice(1);
+                Model.storeWrapperStructure(interaction, newStructure);
+                Model.removeRenderHook(interaction);
+                Dom.removeWrappers(interaction);
+                Model.removeWrapperFromBody(interaction);
+                Dom.applyWrapperStructure(interaction, newStructure);
+                Model.setupRenderHook(interaction);
+                changeApplied = true;
+            }
             else if (parsedData.wrapperRemoved && currentStructure.length > 0) {
-                if (currentStructure.length > 1) {
-                    const newStructure = currentStructure.slice(1);
-                    Model.storeWrapperStructure(interaction, newStructure);
-                    Model.removeRenderHook(interaction);
-                    Dom.removeWrappers(interaction);
-                    Model.removeWrapperFromBody(interaction);
-                    Dom.applyWrapperStructure(interaction, newStructure);
-                    Model.setupRenderHook(interaction);
-                    return true;
-                }
-                else {
-                    Model.removeRenderHook(interaction);
-                    Dom.removeWrappers(interaction);
-                    Model.removeWrapperFromBody(interaction);
-                    Model.clearWrapperData(interaction);
-                    return true;
-                }
+                Model.removeRenderHook(interaction);
+                Dom.removeWrappers(interaction);
+                Model.removeWrapperFromBody(interaction);
+                Model.clearWrapperData(interaction);
+                changeApplied = true;
             }
 
-            return false;
+            return changeApplied;
         }
     };
 
     return function interactionSourceHandlerFactory(options) {
         let initialized = false;
-        const itemCreator = options?.itemCreator;
+        const itemCreator = options && options.itemCreator;
 
         const handleContentModification = (data) => {
-            if (!data?.html || !itemCreator) {
+            if (!data || !data.html || !itemCreator) {
                 return;
             }
 
@@ -638,17 +721,15 @@ define([
             }
         };
 
-        const attachEditorListener = (editor) => {
-            if (typeof editor?.on !== 'function') {
-                return;
+        const attachEditorListener = function(editor) {
+            if (typeof editor && typeof editor.on === 'function') {
+                editor.on('pluginContentModified', function(event) {
+                    const data = event.data;
+                    if (data && data.pluginName === 'interactionsourcedialog') {
+                        handleContentModification(data);
+                    }
+                });
             }
-
-            editor.on('pluginContentModified', event => {
-                const data = event.data;
-                if (data?.pluginName === 'interactionsourcedialog') {
-                    handleContentModification(data);
-                }
-            });
         };
 
         const processAllInteractions = () => {
@@ -685,7 +766,7 @@ define([
 
             if (itemCreator) {
                 itemCreator.on('widgetCreated', widget => {
-                    if (widget?.element) {
+                    if (widget && widget.element) {
                         WrapperManager.synchronize(widget.element);
                     }
                 });

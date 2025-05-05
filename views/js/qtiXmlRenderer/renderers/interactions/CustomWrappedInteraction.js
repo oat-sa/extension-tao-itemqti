@@ -29,7 +29,6 @@ define(['lodash', 'core/logger'], function(_, loggerFactory) {
         interaction._wrapperBeingApplied = true;
 
         try {
-            // Get wrapper structure
             let wrapperStructure = [];
 
             if (interaction.data && interaction.data('wrapperStructure')) {
@@ -52,20 +51,17 @@ define(['lodash', 'core/logger'], function(_, loggerFactory) {
                 return interactionMarkup;
             }
 
-            // Check if markup already includes wrappers
-            let wrappersToApply = [...wrapperStructure];
+            let wrappersToApply = wrapperStructure.slice(0);
 
-            // Check if the body already contains wrappers by examining body content
-            if (interaction?.rootElement?.bdy?.bdy) {
+            if (interaction && interaction.rootElement &&
+                interaction.rootElement.bdy && interaction.rootElement.bdy.bdy) {
                 const bodyContent = interaction.rootElement.bdy.bdy;
                 const placeholder = '{{' + interaction.serial + '}}';
 
                 if (bodyContent.includes(placeholder)) {
-                    // Extract classes already in the body
                     const bodyWrappers = extractClassesFromBody(bodyContent, placeholder);
 
                     if (bodyWrappers.length > 0) {
-                        // Remove classes that already exist in the body
                         wrappersToApply = wrappersToApply.filter(wrapper =>
                             !bodyWrappers.includes(wrapper.className));
 
@@ -78,7 +74,6 @@ define(['lodash', 'core/logger'], function(_, loggerFactory) {
                 }
             }
 
-            // Apply only wrappers that don't already exist in the body
             let wrappedMarkup = interactionMarkup;
 
             for (let i = 0; i < wrappersToApply.length; i++) {
@@ -105,16 +100,13 @@ define(['lodash', 'core/logger'], function(_, loggerFactory) {
         }
     }
 
-// Helper function to extract wrapper classes from body content
     function extractClassesFromBody(bodyContent, placeholder) {
         const classes = [];
 
         try {
-            // Create a temporary DOM element
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = bodyContent;
 
-            // Find text nodes containing the placeholder
             const findPlaceholder = (node) => {
                 if (node.nodeType === Node.TEXT_NODE && node.textContent.includes(placeholder)) {
                     return node;
@@ -133,7 +125,6 @@ define(['lodash', 'core/logger'], function(_, loggerFactory) {
             const placeholderNode = findPlaceholder(tempDiv);
 
             if (placeholderNode) {
-                // Find all wrapper div parents
                 let currentNode = placeholderNode.parentNode;
 
                 while (currentNode && currentNode !== tempDiv) {
