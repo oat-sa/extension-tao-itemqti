@@ -5,8 +5,14 @@ define([
 ], function(_, stateFactory, SleepState) {
 
     var initSleepState = function initSleepState() {
-        this.widget.renderInteraction();
-        this.widget.$original.append('<div class="overlay"></div>');
+        const widget = this.widget;
+        const interaction = widget.element;
+        const $container = widget.$original;
+        widget.renderInteraction();
+        $container.append('<div class="overlay"></div>');
+        if(/audio/.test(interaction.object.attr('type')) && interaction.hasClass('compact-appearance')) {
+            $container.parent().addClass('compact-appearance');
+        }
     };
 
     var exitSleepState = function exitSleepState(){

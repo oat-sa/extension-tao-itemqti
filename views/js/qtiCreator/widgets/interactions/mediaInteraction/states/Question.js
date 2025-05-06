@@ -70,6 +70,10 @@ define([
         const defaultAudioHeight = 30;
         const compactAppearance = isAudio && interaction.hasClass('compact-appearance');
 
+        if(compactAppearance) {
+            $container.parent().addClass('compact-appearance');
+        }
+
         /**
          * Each change triggers a rerendering of the interaction
          */
@@ -387,11 +391,11 @@ define([
                     if(attrValue) {
                         if(!$container.hasClass('compact-appearance')) {
                             interaction.addClass('compact-appearance');
-                            $container.addClass('compact-appearance');
+                            $container.parent().addClass('compact-appearance');
                         }
                     } else {
                         interaction.removeClass('compact-appearance');
-                        $container.removeClass('compact-appearance');
+                        $container.parent().removeClass('compact-appearance');
                     }
                 }
             };

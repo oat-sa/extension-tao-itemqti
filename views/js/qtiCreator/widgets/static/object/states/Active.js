@@ -254,7 +254,7 @@ define([
         );
 
         if (/audio/.test(qtiObject.attr('type')) && compactAppearance){
-            $container.addClass('compact-appearance');
+            $container.parent().addClass('compact-appearance');
         }
 
         $panelObjectSize = $('.size-panel', $form);
@@ -318,13 +318,13 @@ define([
                 if(value) {
                     if(!$container.hasClass('compact-appearance')) {
                         qtiObject.addClass('compact-appearance');
-                        $container.addClass('compact-appearance');
+                        $container.parent().addClass('compact-appearance');
                         clearMediaSize();
                     }
                     $panelObjectSize.hide();
                 } else {
                     qtiObject.removeClass('compact-appearance');
-                    $container.removeClass('compact-appearance');
+                    $container.parent().removeClass('compact-appearance');
                     $panelObjectSize.show();
                 }
             }
