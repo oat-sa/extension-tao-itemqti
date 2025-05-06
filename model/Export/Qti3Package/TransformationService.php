@@ -47,7 +47,7 @@ class TransformationService
                 }
 
                 if ($this->validator->isMathElementName($child->nodeName)) {
-                    $newName = substr($newName, 2);  
+                    $newName = substr($newName, 2);
                 }
 
                 $newElement = $newDom->createElement($newName);

@@ -80,9 +80,9 @@ abstract class AbstractQtiConverter
             if ($child instanceof DOMElement) {
                 $childNodes = null;
                 if ($child->hasChildNodes()) {
-                    if  ($child->tagName === 'math') {
+                    if ($child->tagName === 'math') {
                         $params['isMath'] = true;
-                    } 
+                    }
                     $this->convertRootElementsRecursively(iterator_to_array($child->childNodes), $params);
                     $childNodes = $child->childNodes;
                 }
@@ -202,35 +202,34 @@ abstract class AbstractQtiConverter
         foreach ($validationSchema as $schemaPath) {
             $xsdDom = new DOMDocument();
             $xsdDom->load($schemaPath);
-    
+
             $xpath = new DOMXPath($xsdDom);
             $xpath->registerNamespace('xs', 'http://www.w3.org/2001/XMLSchema');
-    
+
             // Split prefix:localName
             if (strpos($convertedTag, ':') !== false) {
                 list($prefix, $localName) = explode(':', $convertedTag, 2);
-    
+
                 $schemaRoot = $xsdDom->documentElement;
                 $namespaceUri = $schemaRoot->lookupNamespaceURI($prefix);
-    
+
                 if (!$namespaceUri) {
                     continue; // Try next schema
                 }
-    
+
                 $elements = $xpath->query("//xs:element[@name='$localName']");
-    
+
                 foreach ($elements as $element) {
                     $schemaNs = $element->ownerDocument->documentElement->getAttribute('targetNamespace');
                     if ($schemaNs === $namespaceUri) {
                         return true;
                     }
                 }
-    
+
                 $elementsByRef = $xpath->query("//xs:element[@ref='$convertedTag']");
                 if ($elementsByRef->count() > 0) {
                     return true;
                 }
-    
             } else {
                 $elements = $xpath->query("//xs:element[@name='$convertedTag']");
                 if ($elements->count() > 0) {
@@ -302,7 +301,7 @@ abstract class AbstractQtiConverter
                     $baseStyle = str_replace('qti-labels-', '', $class);
                 }
             }
-            
+
             if ($baseStyle !== '') {
                 $listStyle = 'list-style-' . $baseStyle;
                 if ($suffixStyle !== '' && $suffixStyle !== 'none') {

@@ -95,8 +95,13 @@ class Exporter extends QTIPackedItemExporter
         $newRoot->setAttribute('xmlns:xsi', self::XML_SCHEMA_INSTANCE);
         $newRoot->setAttribute(
             'xsi:schemaLocation',
-            sprintf('%s %s %s %s', self::XSI_SCHEMA_LOCATION, self::XSI_SCHEMA_LOCATION_XSD, 
-                self::IMSMANIFEST_QTI_30_MATHML, self::IMSMANIFEST_QTI_30_XSD_MATHML)
+            sprintf(
+                '%s %s %s %s',
+                self::XSI_SCHEMA_LOCATION,
+                self::XSI_SCHEMA_LOCATION_XSD,
+                self::IMSMANIFEST_QTI_30_MATHML,
+                self::IMSMANIFEST_QTI_30_XSD_MATHML
+            )
         );
 
         $transformationService->transformAttributes($oldRoot, $newRoot);
