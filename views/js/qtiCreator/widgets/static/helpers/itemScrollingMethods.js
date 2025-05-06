@@ -56,6 +56,8 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
         }
     ];
 
+    const findOptionByVal = optionVal => options.find(opt => opt.value === optionVal);
+
     return {
         options: function () {
             return options;
@@ -87,24 +89,28 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
                         : widget.$container.wrap(`<div class="${wrapperIncludeCls}" />`).parent();
             }
 
-            // add attr for curGen plugin itemScrolling
-            $wrapper.attr('data-scrolling', value);
-
             if (value) {
-                $form.find('.scrollingSelect').show()
+                $form.find('.scrollingSelect').show();
                 // add class for keynavigation
-                $wrapper.addClass(wrapperFocusCls)
+                $wrapper.addClass(wrapperFocusCls);
                 // add classes for new UI test Runner
-                $wrapper.addClass(`${newUIclass} ${options[0].class}`);
+                const scrollingHeightVal = $form.find('[name="scrollingHeight"]').val();
+                const opt = scrollingHeightVal ? findOptionByVal(scrollingHeightVal) : options[0];
+                $wrapper.addClass(`${newUIclass} ${opt.class}`);
+                // add attr for curGen plugin itemScrolling
+                $wrapper.attr('data-scrolling', value);
+                $wrapper.attr('data-scrolling-height', opt.value);
             } else {
-                $form.find('.scrollingSelect').hide()
+                $form.find('.scrollingSelect').hide();
                 // remove class for keynavigation
-                $wrapper.removeClass(wrapperFocusCls)
+                $wrapper.removeClass(wrapperFocusCls);
                 // remove classes for new UI test Runner
                 $wrapper.removeClass(newUIclass);
                 options.forEach(opt => {
                     $wrapper.removeClass(opt.class);
                 });
+                $wrapper.removeAttr('data-scrolling');
+                $wrapper.removeAttr('data-scrolling-height');
             }
         },
         setScrollingHeight: function ($wrapper, value) {
@@ -114,8 +120,7 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
                 $wrapper.removeClass(opt.class);
             });
             // add class tao-*-height for new UI test Runner
-            const opt = options.find(opt => opt.value === value);
-            $wrapper.addClass(opt.class);
+            $wrapper.addClass(findOptionByVal(value).class);
         },
         cutScrollClasses: function (classes) {
             let clearClasses = classes.replace(wrapperFocusCls, '').replace(newUIclass, '');
@@ -123,6 +128,16 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
                 clearClasses = clearClasses.replace(opt.class, '');
             });
             return clearClasses;
+        },
+        getScrollClasses: function (scrollingEnabled, scrollingHeight) {
+            let classes = '';
+            if (scrollingEnabled) {
+                classes += ` ${wrapperFocusCls} ${newUIclass}`;
+                if (scrollingHeight) {
+                    classes += ` ${findOptionByVal(scrollingHeight).class}`;
+                }
+            }
+            return classes;
         }
     };
 });
