@@ -462,3 +462,20 @@
         }
     }
 }
+
+.qti-choice:has(.compact-appearance){
+    [data-html-editable="true"]{
+        position: relative;
+        margin-right: 5rem;
+        min-height: 4rem;
+    }
+
+    .widget-box.widget-block.widget-object {
+        &.compact-appearance {
+            position: absolute;
+            right: -5rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+}

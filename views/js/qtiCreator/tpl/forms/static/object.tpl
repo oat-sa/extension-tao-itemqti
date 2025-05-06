@@ -27,3 +27,15 @@
         <!-- mediaEditorComponent goes here -->
     </div>
 </div>
+
+<div class="panel compact-appearance">
+    <label>
+        <input name="compactAppearance" type="checkbox" {{#if compactAppearance}}checked="checked"{{/if}}/>
+        <span class="icon-checkbox"></span>
+        {{__ "Compact Appearance"}}
+    </label>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+    <span class="tooltip-content">
+       {{__ "Compact Appearance tooltip."}}
+    </span>
+</div>

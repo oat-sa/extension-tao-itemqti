@@ -15,3 +15,22 @@
     }
 }
 
+
+.compact-appearance {
+    .qti-mediaInteraction {
+        .mediaplayer.audio {
+            max-width: 4rem;
+            max-height: 4rem;
+            min-width: 4rem;
+
+            .seek,
+            .timer,
+            .sound { display: none; } // hide timer and sound
+
+            .action.play {
+                border: none;
+            }
+        }
+    }
+}
+

@@ -23,10 +23,17 @@ define([
     'use strict';
 
     var ObjectStateSleep = stateFactory.create(SleepState, function(){
-        
+        const _widget = this.widget;
+        const qtiObject = _widget.element;
+        const $container = _widget.$original;
+        const compactAppearance = !!qtiObject.hasClass('compact-appearance');
+
+        if (/audio/.test(qtiObject.attr('type')) && compactAppearance){
+            $container.parent().addClass('compact-appearance');
+        }
     }, function(){
-        
+
     });
-    
+
     return ObjectStateSleep;
 });
