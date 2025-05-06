@@ -46,9 +46,17 @@ class TransformationService
                     $newName = $child->nodeName;
                 }
 
+                if ($this->validator->isMathElementName($child->nodeName)) {
+                    $newName = substr($newName, 2);  
+                }
+
                 $newElement = $newDom->createElement($newName);
 
                 $this->transformAttributes($child, $newElement);
+
+                if ($newName === 'math') {
+                    $newElement->setAttribute('xmlns', 'http://www.w3.org/1998/Math/MathML');
+                }
 
                 if ($child->childNodes->length === 1 && $child->firstChild->nodeType === XML_TEXT_NODE) {
                     $newElement->textContent = $child->textContent;

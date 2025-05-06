@@ -36,12 +36,14 @@ abstract class AbstractQtiConverter
     private const QTI_22_NS = 'http://www.imsglobal.org/xsd/imsqti_v2p2';
     private const QTI_3_NS = 'http://www.imsglobal.org/xsd/imsqtiasi_v3p0';
     private const XSI_NAMESPACE = 'http://www.w3.org/2001/XMLSchema-instance';
+    private const XSI_MATH_NAMESPACE = 'http://www.w3.org/1998/Math/MathML';
     private const XSI_SCHEMA_LOCATION = 'xsi:schemaLocation';
     private const SCHEMA_LOCATION = 'http://www.imsglobal.org/xsd/imsqti_v2p2 ' .
     'http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2p1.xsd';
     private const XML_NS_NAMESPACE = 'http://www.w3.org/2000/xmlns/';
     private const QUALIFIED_NAME_NS = 'xmlns';
     private const QUALIFIED_NAME_XSI = self::QUALIFIED_NAME_NS . ':xsi';
+    private const QUALIFIED_NAME_MATH = self::QUALIFIED_NAME_NS . ':m';
 
     private CaseConversionService $caseConversionService;
     private ValidationService $validationService;
@@ -68,7 +70,7 @@ abstract class AbstractQtiConverter
         }
     }
 
-    private function convertRootElementsRecursively(array $children): void
+    private function convertRootElementsRecursively(array $children, array $params = []): void
     {
         foreach ($children as $child) {
             if ($child instanceof DOMText || $child instanceof DOMComment) {
@@ -78,7 +80,10 @@ abstract class AbstractQtiConverter
             if ($child instanceof DOMElement) {
                 $childNodes = null;
                 if ($child->hasChildNodes()) {
-                    $this->convertRootElementsRecursively(iterator_to_array($child->childNodes));
+                    if  ($child->tagName === 'math') {
+                        $params['isMath'] = true;
+                    } 
+                    $this->convertRootElementsRecursively(iterator_to_array($child->childNodes), $params);
                     $childNodes = $child->childNodes;
                 }
             }
@@ -88,6 +93,11 @@ abstract class AbstractQtiConverter
             $nodeValue = $child->childElementCount === 0 ? $child->nodeValue : '';
 
             $convertedTag = $this->caseConversionService->kebabToCamelCase($tagName);
+
+            if ($params['isMath'] ?? false) {
+                $convertedTag = 'm:' . $convertedTag;
+            }
+
             // Check if converted tag name is valid against defined QTI 2.2 namespace
             if (!$this->isTagValid($convertedTag)) {
                 common_Logger::w(sprintf('Invalid tag name: %s, When importing', $convertedTag));
@@ -170,6 +180,12 @@ abstract class AbstractQtiConverter
             self::XSI_NAMESPACE
         );
 
+        $newElement->setAttributeNS(
+            self::XML_NS_NAMESPACE,
+            self::QUALIFIED_NAME_MATH,
+            self::XSI_MATH_NAMESPACE
+        );
+
         foreach (iterator_to_array($rootElement->childNodes) as $childNode) {
             $newElement->appendChild($childNode);
         }
@@ -183,18 +199,44 @@ abstract class AbstractQtiConverter
     private function isTagValid(string $convertedTag): bool
     {
         $validationSchema = $this->validationService->getContentValidationSchema(self::QTI_22_NS);
-        foreach ($validationSchema as $schema) {
+        foreach ($validationSchema as $schemaPath) {
             $xsdDom = new DOMDocument();
-            $xsdDom->load($schema);
+            $xsdDom->load($schemaPath);
+    
             $xpath = new DOMXPath($xsdDom);
             $xpath->registerNamespace('xs', 'http://www.w3.org/2001/XMLSchema');
-            $elements = $xpath->query(sprintf("//xs:element[@name='%s']", $convertedTag));
-
-            if ($elements->count() === 0) {
-                return false;
+    
+            // Split prefix:localName
+            if (strpos($convertedTag, ':') !== false) {
+                list($prefix, $localName) = explode(':', $convertedTag, 2);
+    
+                $schemaRoot = $xsdDom->documentElement;
+                $namespaceUri = $schemaRoot->lookupNamespaceURI($prefix);
+    
+                if (!$namespaceUri) {
+                    continue; // Try next schema
+                }
+    
+                $elements = $xpath->query("//xs:element[@name='$localName']");
+    
+                foreach ($elements as $element) {
+                    $schemaNs = $element->ownerDocument->documentElement->getAttribute('targetNamespace');
+                    if ($schemaNs === $namespaceUri) {
+                        return true;
+                    }
+                }
+    
+                $elementsByRef = $xpath->query("//xs:element[@ref='$convertedTag']");
+                if ($elementsByRef->count() > 0) {
+                    return true;
+                }
+    
+            } else {
+                $elements = $xpath->query("//xs:element[@name='$convertedTag']");
+                if ($elements->count() > 0) {
+                    return true;
+                }
             }
-
-            return true;
         }
 
         return false;
@@ -260,10 +302,10 @@ abstract class AbstractQtiConverter
                     $baseStyle = str_replace('qti-labels-', '', $class);
                 }
             }
-
+            
             if ($baseStyle !== '') {
                 $listStyle = 'list-style-' . $baseStyle;
-                if ($suffixStyle !== '') {
+                if ($suffixStyle !== '' && $suffixStyle !== 'none') {
                     $listStyle .= '-' . $suffixStyle;
                 }
                 $newElement->setAttribute('class', $listStyle);

@@ -47,6 +47,11 @@ class Qti3XsdValidator
         return in_array($elementName, $this->qtiElementNames, true);
     }
 
+    public function isMathElementName(string $elementName): bool
+    {
+        return str_starts_with($elementName, 'm:');
+    }
+
     public function loadQtiElementNames(): array
     {
         $schemaFiles = $this->validationService->getContentValidationSchema(self::QTI3_NAMESPACE);

@@ -39,6 +39,8 @@ class Exporter extends QTIPackedItemExporter
     // phpcs:ignore Generic.Files.LineLength.TooLong
     private const XSI_SCHEMA_LOCATION_XSD = 'https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_asiv3p0_v1p0.xsd';
     private const IMSMANIFEST_QTI_30_TEMPLATE_PATH = 'model/qti/templates/imsmanifestQti30.tpl.php';
+    private const IMSMANIFEST_QTI_30_MATHML = 'http://www.w3.org/1998/Math/MathML';
+    private const IMSMANIFEST_QTI_30_XSD_MATHML = 'https://purl.imsglobal.org/spec/mathml/v3p0/schema/xsd/mathml3.xsd';
 
     private ?TransformationService $transformationService = null;
 
@@ -93,7 +95,8 @@ class Exporter extends QTIPackedItemExporter
         $newRoot->setAttribute('xmlns:xsi', self::XML_SCHEMA_INSTANCE);
         $newRoot->setAttribute(
             'xsi:schemaLocation',
-            sprintf('%s %s', self::XSI_SCHEMA_LOCATION, self::XSI_SCHEMA_LOCATION_XSD)
+            sprintf('%s %s %s %s', self::XSI_SCHEMA_LOCATION, self::XSI_SCHEMA_LOCATION_XSD, 
+                self::IMSMANIFEST_QTI_30_MATHML, self::IMSMANIFEST_QTI_30_XSD_MATHML)
         );
 
         $transformationService->transformAttributes($oldRoot, $newRoot);
