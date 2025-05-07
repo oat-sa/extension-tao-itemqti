@@ -165,6 +165,9 @@ $mainContainer : '.qti-item';
             font-size: inherit;
         }
     }
+    .writing-mode-vertical-rl [data-qti-class="math"] {
+        writing-mode: horizontal-tb;
+    }
 
     //scope all hover, active style for delivery under the runtime class
     &.runtime {
