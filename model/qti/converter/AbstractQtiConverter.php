@@ -77,38 +77,39 @@ abstract class AbstractQtiConverter
                 continue;
             }
 
-            if ($child instanceof DOMElement) {
-                $childNodes = null;
-                if ($child->hasChildNodes()) {
-                    if ($child->tagName === 'math') {
-                        $params['isMath'] = true;
-                    }
-                    $this->convertRootElementsRecursively(iterator_to_array($child->childNodes), $params);
-                    $childNodes = $child->childNodes;
-                }
+            if (!($child instanceof DOMElement)) {
+                continue;
+            }
+
+            $isMath = $params['isMath'] ?? false;
+            if ($child->tagName === 'math') {
+                $isMath = true;
+            }
+
+            $childNodes = null;
+            if ($child->hasChildNodes()) {
+                $this->convertRootElementsRecursively(
+                    iterator_to_array($child->childNodes),
+                    ['isMath' => $isMath]
+                );
+                $childNodes = $child->childNodes;
             }
 
             $tagName = $child->tagName;
-            // When elements has child we do not want to create literal value
             $nodeValue = $child->childElementCount === 0 ? $child->nodeValue : '';
-
             $convertedTag = $this->caseConversionService->kebabToCamelCase($tagName);
 
-            if ($params['isMath'] ?? false) {
+            if ($isMath) {
                 $convertedTag = 'm:' . $convertedTag;
             }
 
-            // Check if converted tag name is valid against defined QTI 2.2 namespace
             if (!$this->isTagValid($convertedTag)) {
                 common_Logger::w(sprintf('Invalid tag name: %s, When importing', $convertedTag));
                 $child->remove();
                 continue;
             }
 
-            $newElement = $child->ownerDocument->createElement(
-                $convertedTag,
-                $nodeValue
-            );
+            $newElement = $child->ownerDocument->createElement($convertedTag, $nodeValue);
 
             if ($childNodes) {
                 foreach (iterator_to_array($childNodes) as $childNode) {
