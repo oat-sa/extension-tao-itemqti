@@ -81,7 +81,8 @@ define([
                 enterMode: CKEditor.ENTER_BR,
                 shieldInnerContent: false,
                 mathJax: false,
-                furiganaPlugin: true
+                furiganaPlugin: true,
+                interactionsource: true
             });
         }
 

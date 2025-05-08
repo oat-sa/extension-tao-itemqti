@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016-2024 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2025 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -29,8 +29,19 @@ define([
     'taoQtiItem/qtiCreator/plugins/content/title',
     'taoQtiItem/qtiCreator/plugins/content/changeTracker',
     'taoQtiItem/qtiCreator/plugins/panel/outcomeEditor',
-    'taoQtiItem/qtiCreator/plugins/panel/itemViewer'
-], function (pluginLoader, save, preview, print, title, changeTracker, outcomeEditor, itemViewer) {
+    'taoQtiItem/qtiCreator/plugins/panel/itemViewer',
+    'taoQtiItem/qtiCreator/plugins/interactionModifiers/interactionSourcePlugin'
+], function (
+    pluginLoader,
+    save,
+    preview,
+    print,
+    title,
+    changeTracker,
+    outcomeEditor,
+    itemViewer,
+    interactionSourceModifier
+) {
     'use strict';
 
     /**
@@ -38,7 +49,7 @@ define([
      */
     return pluginLoader({
         menu: [save, preview, print],
-        content: [title, changeTracker],
+        content: [title, changeTracker, interactionSourceModifier],
         panel: [outcomeEditor, itemViewer]
     });
 });
