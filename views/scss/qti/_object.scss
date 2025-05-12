@@ -26,6 +26,12 @@
             .action.play {
                 border: none;
             }
+            .action.reload {
+                height: 4rem;
+                width: 4rem;
+                background-color: transparent;
+                padding: 0;
+            }
         }
     }
 }

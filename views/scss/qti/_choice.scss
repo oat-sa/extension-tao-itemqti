@@ -465,17 +465,35 @@
 
 .qti-choice:has(.compact-appearance){
     [data-html-editable="true"]{
+        display: flex;
         position: relative;
-        margin-right: 5rem;
         min-height: 4rem;
+        align-items: center;
+    }
+
+    .pseudo-label-box {
+        display: flex;
+        width: 100%;
+        min-width: 100%;
+        align-items: center;
+    }
+
+    .real-label {
+        height: 100%;
+    }
+
+    .label-box {
+        display: flex;
+        width: 100%;
+    }
+
+    .label-content {
+        width: 100%;
     }
 
     .widget-box.widget-block.widget-object {
         &.compact-appearance {
-            position: absolute;
-            right: -5rem;
-            top: 50%;
-            transform: translateY(-50%);
+            margin-left: auto;
         }
     }
 }
