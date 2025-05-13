@@ -24,12 +24,12 @@ namespace oat\taoQtiItem\model\QtiCreator\Scales;
 
 use oat\generis\model\data\Ontology;
 use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
+use oat\tao\model\TaoOntology;
 use RuntimeException;
 
 class RemoteScaleListService
 {
-    private const SCALES_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#Scales';
-    private const PARENT_CLASS = 'http://www.tao.lu/Ontologies/TAO.rdf#List';
+    public const SCALES_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#Scales';
     public const REMOTE_LIST_SCALE = 'REMOTE_LIST_SCALE';
     private Ontology $ontology;
     private string $remoteListScaleUrl;
@@ -48,7 +48,7 @@ class RemoteScaleListService
             );
         }
 
-        $parentClass = $this->ontology->getClass(self::PARENT_CLASS);
+        $parentClass = $this->ontology->getClass(TaoOntology::CLASS_URI_LIST);
 
         $remoteListClass = $parentClass->createSubClass('Scale', 'Scale', self::SCALES_URI);
         $remoteListClass->setPropertyValue(
