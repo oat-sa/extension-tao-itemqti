@@ -28,7 +28,6 @@ use oat\tao\model\Lists\Business\Service\RemoteSourceParserInterface;
 
 class ScaleRemoteListParser implements RemoteSourceParserInterface
 {
-
     public function iterate(array $json, string $uriRule, string $labelRule): iterable
     {
         yield from $this->iterateByContext(

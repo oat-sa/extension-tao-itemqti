@@ -66,7 +66,6 @@ class CustomPropertiesManifestScannerTest extends TestCase
             1,
             $result->length
         );
-
     }
 
     private function readSampleFile($filename): string

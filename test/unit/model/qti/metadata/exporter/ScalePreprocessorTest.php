@@ -259,6 +259,5 @@ class ScalePreprocessorTest extends TestCase
 
     private function getCustomProperty(DOMDocument $manifest)
     {
-
     }
 }

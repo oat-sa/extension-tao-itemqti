@@ -40,12 +40,11 @@ class ScalePreprocessor
     private array $scaleCollection;
 
     public function __construct(
-        RemoteSource                    $remoteSource,
+        RemoteSource $remoteSource,
         CustomPropertiesManifestScanner $manifestScanner,
-        LoggerService                   $loggerService,
-        ?string                         $remoteListScale
-    )
-    {
+        LoggerService $loggerService,
+        ?string $remoteListScale
+    ) {
         $this->remoteSource = $remoteSource;
         $this->manifestScanner = $manifestScanner;
         $this->remoteListScale = $remoteListScale;
@@ -157,7 +156,6 @@ class ScalePreprocessor
                     return false;
                 }
             }
-
         }
         return true;
     }
