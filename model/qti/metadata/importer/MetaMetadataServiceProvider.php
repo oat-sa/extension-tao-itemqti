@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\model\qti\metadata\importer;
 
 use http\Env;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\oatbox\log\LoggerService;
 use oat\tao\model\Lists\Business\Service\RemoteSource;
 use oat\taoBackOffice\model\lists\ListService;
 use oat\taoQtiItem\model\import\ChecksumGenerator;
@@ -62,6 +63,7 @@ class MetaMetadataServiceProvider implements ContainerServiceProviderInterface
             ->args([
                 service(RemoteSource::SERVICE_ID),
                 service(CustomPropertiesManifestScanner::class),
+                service(LoggerService::SERVICE_ID),
                 env('REMOTE_LIST_SCALE')
             ])
             ->public();
