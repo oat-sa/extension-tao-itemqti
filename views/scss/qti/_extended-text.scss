@@ -75,6 +75,11 @@
         .count-words,
         .count-chars {
             font-weight: bold;
+            text-combine-upright: all;
+        }
+        .count-max-length,
+        .count-expected-length {
+            text-combine-upright: all;
         }
     }
 }
