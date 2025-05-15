@@ -1,7 +1,6 @@
-@import "inc/bootstrap";
+@import 'inc/bootstrap';
 
 .qti-extendedTextInteraction {
-
     .text-container {
         min-block-size: 50px;
 
@@ -11,14 +10,15 @@
     }
 
     input {
-        width: 100%
+        width: 100%;
     }
 
     pre {
         font-family: $regularFont;
     }
 
-    .solid, .bordered {
+    .solid,
+    .bordered {
         & > li {
             padding: 0;
             border: none;
@@ -26,15 +26,15 @@
         & ~ input,
         & ~ textarea,
         & ~ .cke {
-            border: 6px solid  whiten($uiClickableDefaultBg, .2);
-            .cke_top{
+            border: 6px solid whiten($uiClickableDefaultBg, 0.2);
+            .cke_top {
                 border: none;
                 margin: 3px;
                 width: calc(100% - 6px);
-                @include box-shadow(0,0,0,0,transparent);
+                @include box-shadow(0, 0, 0, 0, transparent);
             }
-            .cke_bottom{
-                border : none
+            .cke_bottom {
+                border: none;
             }
         }
     }
@@ -49,21 +49,31 @@
     }
 
     textarea {
-        max-inline-size: 100%!important;
+        max-inline-size: 100% !important;
         inline-size: 100%;
         block-size: 150px;
         resize: none;
 
-        &[disabled="disabled"] {
-        	background-color: white;
-        	opacity: 1 !important;
+        &[disabled='disabled'] {
+            background-color: white;
+            opacity: 1 !important;
+        }
+
+        &.vertical-unsupported {
+            writing-mode: horizontal-tb;
+            height: 100%;
+            width: 150px;
+            max-height: 100% !important;
+            max-width: auto;
+            min-width: 50px; /* is set on '.text-container' */
+            min-height: auto;
         }
     }
 
-    .text-counter{
-        text-align : right;
+    .text-counter {
+        text-align: right;
         .count-words,
-        .count-chars{
+        .count-chars {
             font-weight: bold;
         }
     }
