@@ -29,6 +29,7 @@ use oat\oatbox\log\LoggerService;
 use oat\tao\model\Lists\Business\Domain\RemoteSourceContext;
 use oat\tao\model\Lists\Business\Service\RemoteSource;
 use oat\taoQtiItem\model\qti\metadata\exporter\CustomPropertiesManifestScanner;
+use tao_helpers_Uri;
 use Throwable;
 
 class ScalePreprocessor
@@ -60,7 +61,7 @@ class ScalePreprocessor
         $outcomeDeclarations = $testDoc->getElementsByTagName('outcomeDeclaration');
         //Find interpretation attribute in each outcome declaration
         foreach ($outcomeDeclarations as $outcomeDeclaration) {
-            $interpretation = $outcomeDeclaration->getAttribute('interpretation');
+            $interpretation = tao_helpers_Uri::decode($outcomeDeclaration->getAttribute('interpretation'));
             if ($this->isScaleInterpretation($interpretation, $this->scaleCollection)) {
                 if ($this->manifestScanner->getCustomPropertyByUri($manifest, $interpretation)->length === 0) {
                     $this->addCustomProperty(

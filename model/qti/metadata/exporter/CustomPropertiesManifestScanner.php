@@ -35,8 +35,7 @@ class CustomPropertiesManifestScanner
         $xpath->registerNamespace('default', 'http://www.imsglobal.org/xsd/imscp_v1p1');
         $xpath->registerNamespace('imsmd', 'http://ltsc.ieee.org/xsd/LOM');
 
-        $query = '//default:manifest/default:metadata/imsmd:lom/imsmd:metaMetadata/*[local-name()="extension"]/'
-            . '*[local-name()="customProperties"]/*[local-name()="property"][*[local-name()="uri"]="'
+        $query = '//*[local-name()="customProperties"]/*[local-name()="property"][*[local-name()="uri"]="'
             . $scaleUri
             . '"]';
 
