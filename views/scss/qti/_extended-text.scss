@@ -58,6 +58,16 @@
             background-color: white;
             opacity: 1 !important;
         }
+
+        &.vertical-unsupported {
+            writing-mode: horizontal-tb;
+            height: 100%;
+            width: 150px;
+            max-height: 100% !important;
+            max-width: auto;
+            min-width: 50px; /* is set on '.text-container' */
+            min-height: auto;
+        }
     }
 
     .text-counter {
