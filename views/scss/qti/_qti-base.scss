@@ -331,6 +331,7 @@ $mainContainer: '.qti-item';
     height: 1px;
     background-color: $textColor;
     animation: extendedText-shadow-caret-blink 750ms steps(4, start) infinite;
+    z-index: 100001; /* higher than item/test previewer container */
 }
 @keyframes extendedText-shadow-caret-blink {
     to {
