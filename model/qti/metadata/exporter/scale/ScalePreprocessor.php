@@ -62,7 +62,7 @@ class ScalePreprocessor
         //Find interpretation attribute in each outcome declaration
         foreach ($outcomeDeclarations as $outcomeDeclaration) {
             $interpretation = tao_helpers_Uri::decode($outcomeDeclaration->getAttribute('interpretation'));
-            if ($this->isScaleInterpretation($interpretation, $this->scaleCollection)) {
+            if ($this->findScaleByInterpretation($interpretation, $this->scaleCollection)) {
                 if ($this->manifestScanner->getCustomPropertyByUri($manifest, $interpretation)->length === 0) {
                     $this->addCustomProperty(
                         $manifest,
@@ -76,22 +76,23 @@ class ScalePreprocessor
         }
     }
 
-    private function isScaleInterpretation(string $interpretation, array $scales): array
+    private function findScaleByInterpretation(string $interpretation, array $scales): ?array
     {
-        //Find and return scale interpretation
-        $scale = array_filter($scales, function ($scale) use ($interpretation) {
-            return $scale['uri'] === $interpretation;
-        });
-
-        if (empty($scale)) {
-            return [];
+        foreach ($scales as $scale) {
+            if ($scale['uri'] === $interpretation) {
+                return $scale;
+            }
         }
 
-        return reset($scale);
+        return null;
     }
 
     private function addCustomProperty(DOMDocument $manifest, DOMNodeList $customProperties, array $scale): void
     {
+        if (empty($scale)) {
+            return;
+        }
+
         $scale = reset($scale);
         $customProperties = $customProperties->item(0);
         $newProperty = $manifest->createElement('property');
@@ -144,11 +145,6 @@ class ScalePreprocessor
             }
             if (!is_array($scale['values'])) {
                 return false;
-            }
-            foreach ($scale['values'] as $value) {
-                if (!is_string($value)) {
-                    return false;
-                }
             }
 
             //in values array key and value are strings
