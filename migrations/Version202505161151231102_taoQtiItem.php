@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\Exception\IrreversibleMigration;
 use oat\tao\model\Lists\Business\Service\RemoteSource;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 use oat\taoQtiItem\model\qti\metadata\exporter\scale\ScaleRemoteListParser;
+use oat\taoQtiItem\scripts\install\RegisterScaleRemoteListParser;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -23,18 +25,13 @@ final class Version202505161151231102_taoQtiItem extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $remoteSource = $this->getServiceManager()->get(RemoteSource::SERVICE_ID);
-        $remoteSource->addParser('scale', new ScaleRemoteListParser);
-
-        $this->getServiceManager()->register(
-            RemoteSource::SERVICE_ID,
-            $remoteSource
-        );
+        $this->runAction(new RegisterScaleRemoteListParser());
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-
+        throw new IrreversibleMigration(
+            'You cannot remove locales from configuration'
+        );
     }
 }
