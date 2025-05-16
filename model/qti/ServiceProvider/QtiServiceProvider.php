@@ -25,6 +25,7 @@ namespace oat\taoQtiItem\model\qti\ServiceProvider;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
+use oat\taoBackOffice\model\lists\RemoteListService;
 use oat\taoQtiItem\model\Export\Qti3Package\ExporterFactory;
 use oat\taoQtiItem\model\Export\Qti3Package\Qti3XsdValidator;
 use oat\taoQtiItem\model\Export\Qti3Package\TransformationService;
@@ -82,7 +83,11 @@ class QtiServiceProvider implements ContainerServiceProviderInterface
         $services->set(RemoteScaleListService::class)
             ->args([
                 service(Ontology::SERVICE_ID),
+                service(RemoteListService::class),
+                service(LoggerService::SERVICE_ID),
                 env(RemoteScaleListService::REMOTE_LIST_SCALE)
+                    ->default('')
+                    ->string()
             ])
             ->public();
     }
