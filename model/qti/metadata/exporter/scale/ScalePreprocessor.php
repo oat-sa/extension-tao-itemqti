@@ -57,16 +57,16 @@ class ScalePreprocessor
         if (!$this->isRemoteListScaleValid()) {
             return;
         }
-        //Find Outcome Declaration in testDoc
+
+        $customProperties = $this->manifestScanner->getCustomProperties($manifest);
         $outcomeDeclarations = $testDoc->getElementsByTagName('outcomeDeclaration');
-        //Find interpretation attribute in each outcome declaration
         foreach ($outcomeDeclarations as $outcomeDeclaration) {
             $interpretation = tao_helpers_Uri::decode($outcomeDeclaration->getAttribute('interpretation'));
             if ($this->findScaleByInterpretation($interpretation, $this->scaleCollection)) {
                 if ($this->manifestScanner->getCustomPropertyByUri($manifest, $interpretation)->length === 0) {
                     $this->addCustomProperty(
                         $manifest,
-                        $this->manifestScanner->getCustomProperties($manifest),
+                        $customProperties,
                         array_filter($this->scaleCollection, function ($scale) use ($interpretation) {
                             return $scale['uri'] === $interpretation;
                         })
