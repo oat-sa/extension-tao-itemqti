@@ -31,10 +31,7 @@ class CustomPropertiesManifestScanner
     public function getCustomPropertyByUri(DOMDocument $manifest, string $scaleUri): DOMNodeList
     {
         $xpath = new DOMXPath($manifest);
-        // Register namespaces
-        $xpath->registerNamespace('default', 'http://www.imsglobal.org/xsd/imscp_v1p1');
-        $xpath->registerNamespace('imsmd', 'http://ltsc.ieee.org/xsd/LOM');
-
+        $this->registerAllNamespaces($xpath, $manifest);
         $query = '//*[local-name()="customProperties"]/*[local-name()="property"][*[local-name()="uri"]="'
             . $scaleUri
             . '"]';
@@ -46,8 +43,7 @@ class CustomPropertiesManifestScanner
     {
         $xpath = new DOMXPath($manifest);
         $this->registerAllNamespaces($xpath, $manifest);
-        $query = '//*//*[local-name()="customProperties"]';
-        return $xpath->query($query);
+        return $xpath->query('//*//*[local-name()="customProperties"]');
     }
 
     private function registerAllNamespaces(DOMXPath $xpath, DOMDocument $manifest)
