@@ -23,34 +23,38 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\QtiCreator\Scales;
 
 use oat\generis\model\data\Ontology;
+use oat\oatbox\log\LoggerService;
 use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
-use oat\tao\model\TaoOntology;
+use oat\taoBackOffice\model\lists\RemoteListService;
 use RuntimeException;
 
 class RemoteScaleListService
 {
     public const SCALES_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#Scales';
     public const REMOTE_LIST_SCALE = 'REMOTE_LIST_SCALE';
+    private const DEFAULT_URI_PATH = '$[*].uri';
+    private const DEFAULT_LABEL_PATH = '$[*].label';
     private Ontology $ontology;
-    private string $remoteListScaleUrl;
+    private ?string $remoteListScaleUrl;
+    private RemoteListService $remoteListService;
+    private LoggerService $loggerService;
 
-    public function __construct(Ontology $ontology, string $remoteListScaleUrl)
+    public function __construct(
+        Ontology          $ontology,
+        RemoteListService $remoteListService,
+        LoggerService     $loggerService,
+        ?string           $remoteListScaleUrl = ''
+    )
     {
         $this->ontology = $ontology;
         $this->remoteListScaleUrl = $remoteListScaleUrl;
+        $this->remoteListService = $remoteListService;
+        $this->loggerService = $loggerService;
     }
 
     public function create(string $labelPath, string $uriPath): void
     {
-        if ($this->ontology->getResource(self::SCALES_URI)->exists()) {
-            throw new RuntimeException(
-                'The scale list already exists in the ontology. Please remove it before creating a new one.'
-            );
-        }
-
-        $parentClass = $this->ontology->getClass(TaoOntology::CLASS_URI_LIST);
-
-        $remoteListClass = $parentClass->createSubClass('Scale', 'Scale', self::SCALES_URI);
+        $remoteListClass = $this->ontology->getClass(self::SCALES_URI);
         $remoteListClass->setPropertyValue(
             $remoteListClass->getProperty(RemoteSourcedListOntology::PROPERTY_LIST_TYPE),
             RemoteSourcedListOntology::LIST_TYPE_REMOTE
@@ -70,5 +74,38 @@ class RemoteScaleListService
             $remoteListClass->getProperty(RemoteSourcedListOntology::PROPERTY_ITEM_URI_PATH),
             $uriPath
         );
+    }
+
+    public function isRemoteListEnabled(): bool
+    {
+        if ($this->remoteListScaleUrl === null || $this->remoteListScaleUrl === '') {
+            return false;
+        }
+
+        $scalesList = $this->ontology->getClass(self::SCALES_URI);
+        $remoteListProperty = $scalesList->getOnePropertyValue(
+            $scalesList->getProperty(RemoteSourcedListOntology::LIST_TYPE_REMOTE)
+        );
+
+        $remoteScaleListUri = $scalesList->getOnePropertyValue(
+            $scalesList->getProperty(RemoteSourcedListOntology::PROPERTY_DEPENDENCY_ITEM_URI_PATH)
+        );
+
+        if ($remoteListProperty === null && $remoteScaleListUri === null) {
+            try {
+                $this->create(self::DEFAULT_LABEL_PATH, self::DEFAULT_URI_PATH);
+                $this->remoteListService->sync($scalesList, false);
+            } catch (RuntimeException $e) {
+                $this->loggerService->warning(
+                    sprintf(
+                        'Could Not sync remote list scale: %s',
+                        $e->getMessage()
+                    )
+                );
+                return false;
+            }
+        }
+
+        return true;
     }
 }
