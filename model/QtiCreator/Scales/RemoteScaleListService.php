@@ -22,11 +22,14 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\QtiCreator\Scales;
 
+use core_kernel_classes_Class;
+use core_kernel_persistence_Exception;
 use oat\generis\model\data\Ontology;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
 use oat\taoBackOffice\model\lists\RemoteListService;
 use RuntimeException;
+use Throwable;
 
 class RemoteScaleListService
 {
@@ -76,13 +79,46 @@ class RemoteScaleListService
         );
     }
 
+    /**
+     * Check if the remote list functionality is enabled for scales
+     *
+     * @return bool True if remote list functionality is enabled and properly configured
+     */
     public function isRemoteListEnabled(): bool
     {
-        if ($this->remoteListScaleUrl === null || $this->remoteListScaleUrl === '') {
+        if (empty($this->remoteListScaleUrl)) {
+            $this->loggerService->debug('Remote list scale URL is not configured');
             return false;
         }
 
-        $scalesList = $this->ontology->getClass(self::SCALES_URI);
+        try {
+            $scalesList = $this->ontology->getClass(self::SCALES_URI);
+
+            $hasRequiredProperties = $this->hasRequiredRemoteListProperties($scalesList);
+
+            if (!$hasRequiredProperties) {
+                return $this->setupRemoteList($scalesList);
+            }
+
+            return true;
+        } catch (Throwable $e) {
+            $this->loggerService->error(
+                sprintf('Error checking remote list enabled status: %s', $e->getMessage()),
+                ['exception' => $e]
+            );
+            return false;
+        }
+    }
+
+    /**
+     * Check if the scales list has the required remote list properties
+     *
+     * @param core_kernel_classes_Class $scalesList The scales list class
+     * @return bool True if all required properties exist
+     * @throws core_kernel_persistence_Exception
+     */
+    private function hasRequiredRemoteListProperties(core_kernel_classes_Class $scalesList): bool
+    {
         $remoteListProperty = $scalesList->getOnePropertyValue(
             $scalesList->getProperty(RemoteSourcedListOntology::LIST_TYPE_REMOTE)
         );
@@ -91,21 +127,35 @@ class RemoteScaleListService
             $scalesList->getProperty(RemoteSourcedListOntology::PROPERTY_DEPENDENCY_ITEM_URI_PATH)
         );
 
-        if ($remoteListProperty === null && $remoteScaleListUri === null) {
-            try {
-                $this->create(self::DEFAULT_LABEL_PATH, self::DEFAULT_URI_PATH);
-                $this->remoteListService->sync($scalesList, false);
-            } catch (RuntimeException $e) {
-                $this->loggerService->warning(
-                    sprintf(
-                        'Could Not sync remote list scale: %s',
-                        $e->getMessage()
-                    )
-                );
-                return false;
-            }
-        }
+        return $remoteListProperty !== null && $remoteScaleListUri !== null;
+    }
 
-        return true;
+    /**
+     * Set up the remote list with default values
+     *
+     * @param core_kernel_classes_Class $scalesList The scales list class
+     * @return bool True if setup was successful
+     */
+    private function setupRemoteList(core_kernel_classes_Class $scalesList): bool
+    {
+        try {
+            $this->create(self::DEFAULT_LABEL_PATH, self::DEFAULT_URI_PATH);
+
+            $this->remoteListService->sync($scalesList, false);
+
+            $this->loggerService->info('Successfully set up remote list for scales');
+            return true;
+        } catch (RuntimeException $e) {
+            $this->loggerService->warning(
+                sprintf('Could not sync remote list scale: %s', $e->getMessage())
+            );
+            return false;
+        } catch (Throwable $e) {
+            $this->loggerService->error(
+                sprintf('Unexpected error setting up remote list: %s', $e->getMessage()),
+                ['exception' => $e]
+            );
+            return false;
+        }
     }
 }
