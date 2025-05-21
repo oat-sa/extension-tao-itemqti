@@ -25,6 +25,9 @@ use common_exception_Error;
 use common_exception_NotFound;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FilesystemException;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\parser\XmlToItemParser;
 use tao_helpers_Uri;
 use common_exception_FileSystemError;
@@ -143,6 +146,14 @@ class Service extends ConfigurableService
      */
     public function saveDataItemToRdfItem(Item $qtiItem, core_kernel_classes_Resource $rdfItem)
     {
+        if ($this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')) {
+            $currentQtiItem = $this->getDataItemByRdfItem($rdfItem);
+
+            if ($currentQtiItem && $currentQtiItem->getIdentifier() !== $qtiItem->getIdentifier()) {
+                throw new QtiModelException('QTI identifier is unique and cannot be modified');
+            }
+        }
+
         $label = mb_substr($rdfItem->getLabel(), 0, 256, 'UTF-8');
         //set the current data lang in the item content to keep the integrity
         if ($qtiItem->hasAttribute('xml:lang') && !empty($qtiItem->getAttributeValue('xml:lang'))) {
@@ -359,5 +370,10 @@ class Service extends ConfigurableService
     private function getXmlToItemParser(): XmlToItemParser
     {
         return $this->getServiceLocator()->get(XmlToItemParser::class);
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }
 }
