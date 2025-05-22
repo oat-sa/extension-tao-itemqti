@@ -32,9 +32,10 @@ class CustomPropertiesManifestScanner
     {
         $xpath = new DOMXPath($manifest);
         $this->registerAllNamespaces($xpath, $manifest);
-        $query = '//*[local-name()="customProperties"]/*[local-name()="property"][*[local-name()="uri"]="'
-            . $scaleUri
-            . '"]';
+        $query = sprintf(
+            '//*[local-name()="customProperties"]/*[local-name()="property"][*[local-name()="uri"]="%s"]',
+            $scaleUri
+        );
 
         return $xpath->query($query);
     }
