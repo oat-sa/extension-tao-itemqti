@@ -28,11 +28,10 @@ use oat\taoQtiItem\model\qti\metadata\exporter\scale\ScaleRemoteListParser;
 
 class RegisterScaleRemoteListParser extends InstallAction
 {
-
     public function __invoke($params)
     {
         $remoteSource = $this->getServiceManager()->get(RemoteSource::SERVICE_ID);
-        $remoteSource->addParser('scale', new ScaleRemoteListParser);
+        $remoteSource->addParser('scale', new ScaleRemoteListParser());
 
         $this->getServiceManager()->register(
             RemoteSource::SERVICE_ID,
