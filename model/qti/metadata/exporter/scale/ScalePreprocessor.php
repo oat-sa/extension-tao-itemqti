@@ -76,6 +76,15 @@ class ScalePreprocessor
         }
     }
 
+    public function getScaleRemoteList(): array
+    {
+        if (!$this->isRemoteListScaleValid()) {
+            return [];
+        }
+
+        return $this->scaleCollection;
+    }
+
     private function findScaleByInterpretation(string $interpretation, array $scales): ?array
     {
         foreach ($scales as $scale) {
