@@ -43,12 +43,11 @@ class RemoteScaleListService
     private LoggerService $loggerService;
 
     public function __construct(
-        Ontology          $ontology,
+        Ontology $ontology,
         RemoteListService $remoteListService,
-        LoggerService     $loggerService,
-        ?string           $remoteListScaleUrl = ''
-    )
-    {
+        LoggerService $loggerService,
+        ?string $remoteListScaleUrl = ''
+    ) {
         $this->ontology = $ontology;
         $this->remoteListScaleUrl = $remoteListScaleUrl;
         $this->remoteListService = $remoteListService;
