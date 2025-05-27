@@ -53,7 +53,7 @@ class Qti22PostProcessorService
      */
     public function itemContentPostProcessing(string $content): string
     {
-        $dom = new DOMDocument;
+        $dom = new DOMDocument();
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput       = true;
         $dom->loadXML($content);
