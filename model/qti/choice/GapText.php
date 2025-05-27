@@ -45,7 +45,7 @@ class GapText extends ContainerChoice
 
     protected function getUsedAttributes()
     {
-        
+
         return [
             'oat\\taoQtiItem\\model\\qti\\attribute\\MatchMax',
             'oat\\taoQtiItem\\model\\qti\\attribute\\MatchMin'
