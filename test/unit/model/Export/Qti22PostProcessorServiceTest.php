@@ -38,7 +38,7 @@ class Qti22PostProcessorServiceTest extends TestCase
 XML;
 
         $result = $this->service->itemContentPostProcessing($input);
-        
+
         $this->assertStringNotContainsString('type="image/jpeg"', $result);
         $this->assertStringNotContainsString('fixed="true"', $result);
         $this->assertStringNotContainsString('fixed="false"', $result);
@@ -63,7 +63,7 @@ XML;
 XML;
 
         $result = $this->service->itemContentPostProcessing($input);
-        
+
         $this->assertStringContainsString(
             'https://purl.imsglobal.org/spec/qti/v2p2/schema/xsd/imsqtiv2p2p4_html5_v1p0.xsd',
             $result
@@ -93,7 +93,7 @@ XML;
 XML;
 
         $result = $this->service->itemContentPostProcessing($input);
-        
+
         $this->assertStringContainsString('<p>This is a test paragraph</p>', $result);
         $this->assertStringContainsString('<simpleChoice>Option 1</simpleChoice>', $result);
         $this->assertStringContainsString('<simpleChoice>Option 2</simpleChoice>', $result);
@@ -113,8 +113,8 @@ XML;
 XML;
 
         $result = $this->service->itemContentPostProcessing($input);
-        
+
         $this->assertNotEmpty($result);
         $this->assertStringContainsString('<itemBody>', $result);
     }
-} 
+}
