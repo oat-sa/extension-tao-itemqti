@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\model\qti\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
+use oat\taoQtiItem\model\Export\Qti22PostProcessorService;
 use oat\taoQtiItem\model\Export\Qti3Package\ExporterFactory;
 use oat\taoQtiItem\model\Export\Qti3Package\Qti3XsdValidator;
 use oat\taoQtiItem\model\Export\Qti3Package\TransformationService;
@@ -74,6 +75,9 @@ class QtiServiceProvider implements ContainerServiceProviderInterface
                 service(CaseConversionService::class),
                 service(ValidationService::SERVICE_ID)
             ])
+            ->public();
+
+        $services->set(Qti22PostProcessorService::class)
             ->public();
     }
 }
