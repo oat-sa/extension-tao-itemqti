@@ -48,6 +48,7 @@ use oat\taoQtiItem\scripts\install\RegisterCreatorConfigFactory;
 use oat\taoQtiItem\scripts\install\RegisterItemCompilerBlacklist;
 use oat\taoQtiItem\scripts\install\RegisterLegacyPortableLibraries;
 use oat\taoQtiItem\scripts\install\RegisterNpmPaths;
+use oat\taoQtiItem\scripts\install\RegisterScaleRemoteListParser;
 use oat\taoQtiItem\scripts\install\SetItemModel;
 use oat\taoQtiItem\scripts\install\SetQtiCreatorConfig;
 use oat\taoQtiItem\scripts\install\SetupQtiMetadataImportExportService;
@@ -100,6 +101,7 @@ return [
             AddLabelInjectorForExport::class,
             RemoveLegacyGenericLomExtractor::class,
             RegisterCreatorConfigFactory::class,
+            RegisterScaleRemoteListParser::class,
         ]
     ],
     'local' => [
