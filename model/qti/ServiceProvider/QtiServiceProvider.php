@@ -26,6 +26,7 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
 use oat\taoBackOffice\model\lists\RemoteListService;
+use oat\taoQtiItem\model\Export\Qti22PostProcessorService;
 use oat\taoQtiItem\model\Export\Qti3Package\ExporterFactory;
 use oat\taoQtiItem\model\Export\Qti3Package\Qti3XsdValidator;
 use oat\taoQtiItem\model\Export\Qti3Package\TransformationService;
@@ -89,6 +90,9 @@ class QtiServiceProvider implements ContainerServiceProviderInterface
                     ->default('')
                     ->string()
             ])
+            ->public();
+
+        $services->set(Qti22PostProcessorService::class)
             ->public();
     }
 }
