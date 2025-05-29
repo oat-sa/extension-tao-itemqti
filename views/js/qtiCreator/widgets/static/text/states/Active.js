@@ -14,6 +14,13 @@ define([
 
     const scrollingAvailable = features.isVisible('taoQtiItem/creator/static/text/scrolling');
 
+    function cleanDefaultTextBlockClasses($wrap) {
+        return itemScrollingMethods
+            .cutScrollClasses($wrap.attr('class') || '')
+            .replace(wrapperCls, '')
+            .trim();
+    }
+
     const TextActive = stateFactory.extend(
         Active,
         function () {
@@ -61,13 +68,12 @@ define([
         const widget = this.widget,
             $form = widget.$form,
             $wrap = widget.$container.find(`.${wrapperCls}`),
-            blockCls = itemScrollingMethods.cutScrollClasses($wrap.attr('class') || ''),
             isScrolling = itemScrollingMethods.isScrolling($wrap),
             selectedHeight = itemScrollingMethods.selectedHeight($wrap);
 
         $form.html(
             formTpl({
-                textBlockCssClass: blockCls.replace(wrapperCls, '').trim(),
+                textBlockCssClass: cleanDefaultTextBlockClasses($wrap),
                 scrolling: isScrolling,
                 scrollingAvailable,
                 scrollingHeights: itemScrollingMethods.options()
@@ -76,12 +82,12 @@ define([
 
         formElement.initWidget($form);
 
-        formElement.setChangeCallbacks($form, widget.element, changeCallbacks(widget));
+        formElement.setChangeCallbacks($form, widget.element, changeCallbacks(widget, $form));
 
         itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
     };
 
-    const changeCallbacks = function (widget) {
+    const changeCallbacks = function (widget, $form) {
         return {
             textBlockCssClass: function (element, value) {
                 let $wrap = widget.$container.find(`.${wrapperCls}`);
@@ -95,13 +101,24 @@ define([
                     $wrap = widget.$container.find('[data-html-editable="true"]').wrapInner('<div />').children();
                 }
 
-                $wrap.attr('class', wrapperCls + ' ' + value);
+                const scrollingEnabled = $form.find('[name="scrolling"]').prop('checked');
+                const scrollingHeightVal = $form.find('[name="scrollingHeight"]').val();
+                const scrollingClasses = itemScrollingMethods.getScrollClasses(scrollingEnabled, scrollingHeightVal);
+                $wrap.attr('class', `${wrapperCls} ${scrollingClasses}`);
+                $wrap.addClass(value);
             },
             scrolling: function (element, value) {
                 itemScrollingMethods.wrapContent(widget, value, 'inner');
+
+                const $wrap = widget.$container.find(`.${wrapperCls}`);
+                if ($wrap.length) {
+                    $form.find('[name="textBlockCssClass"]').val(cleanDefaultTextBlockClasses($wrap));
+                }
             },
             scrollingHeight: function (element, value) {
-                itemScrollingMethods.setScrollingHeight(widget.$container.find(`.${wrapperCls}`), value);
+                const $wrap = widget.$container.find(`.${wrapperCls}`);
+                itemScrollingMethods.setScrollingHeight($wrap, value);
+                $form.find('[name="textBlockCssClass"]').val(cleanDefaultTextBlockClasses($wrap));
             }
         };
     };

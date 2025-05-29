@@ -25,6 +25,7 @@ namespace oat\taoQtiItem\model\Export\Qti3Package;
 use DOMAttr;
 use DOMDocument;
 use DOMElement;
+use DOMText;
 
 class TransformationService
 {
@@ -45,9 +46,17 @@ class TransformationService
                     $newName = $child->nodeName;
                 }
 
+                if ($this->validator->isMathElementName($child->nodeName)) {
+                    $newName = substr($newName, 2);
+                }
+
                 $newElement = $newDom->createElement($newName);
 
                 $this->transformAttributes($child, $newElement);
+
+                if ($newName === 'math') {
+                    $newElement->setAttribute('xmlns', 'http://www.w3.org/1998/Math/MathML');
+                }
 
                 if ($child->childNodes->length === 1 && $child->firstChild->nodeType === XML_TEXT_NODE) {
                     $newElement->textContent = $child->textContent;
@@ -58,6 +67,8 @@ class TransformationService
                 $newParent->appendChild($newElement);
             } elseif ($child->nodeType === XML_TEXT_NODE && trim($child->nodeValue) !== '') {
                 $newParent->appendChild($newDom->createTextNode($child->nodeValue));
+            } elseif ($child->nodeType === XML_CDATA_SECTION_NODE) {
+                $newParent->appendChild($newDom->createCDATASection($child->nodeValue));
             }
         }
     }
@@ -75,11 +86,38 @@ class TransformationService
             ) {
                 $attrName = $this->camelToHyphen($attribute->nodeName);
                 if (!empty($attrName)) {
+                    if ($sourceElement->nodeName === 'extendedTextInteraction') {
+                        $this->addClassFromAttribute($attribute, 'expectedLines', 'qti-height-lines-');
+                        if ($attribute->nodeName === 'expectedLines') {
+                            continue;
+                        }
+                    } elseif ($sourceElement->nodeName === 'textEntryInteraction') {
+                        $this->addClassFromAttribute($attribute, 'expectedLength', 'qti-input-width-');
+                        if ($attribute->nodeName === 'expectedLength') {
+                            continue;
+                        }
+                    } elseif ($sourceElement->nodeName === 'choiceInteraction' && $attribute->nodeName === 'class') {
+                        if (strpos($attribute->value, 'list-style-') === 0) {
+                            $listStyleValue = str_replace('list-style-', '', $attribute->value);
+                            $finalClass = '';
+
+                            if (preg_match('/^(.*)-(parenthesis|period)$/', $listStyleValue, $matches)) {
+                                $baseStyle = $matches[1];
+                                $suffixStyle = $matches[2];
+
+                                $finalClass = 'qti-labels-' . $baseStyle . ' ' . 'qti-labels-suffix-' . $suffixStyle;
+                            } else {
+                                $finalClass = 'qti-labels-' . $listStyleValue;
+                            }
+
+                            $targetElement->setAttribute($attrName, $finalClass);
+                            continue;
+                        }
+                    }
+
                     $targetElement->setAttribute($attrName, $attribute->value);
                 }
             }
-
-            $this->textInteractionAttributeTransformation($attribute);
         }
     }
 
@@ -88,28 +126,20 @@ class TransformationService
         return sprintf('qti-%s', $this->camelToHyphen($nodeName));
     }
 
-    public function textInteractionAttributeTransformation(DOMAttr $node): void
+    private function addClassFromAttribute(DOMAttr $node, string $expectedName, string $classPrefix): void
     {
-        $parent = $node->parentNode;
-        $classAttribute = $parent->attributes->getNamedItem('class');
-
-        switch ($node->nodeName) {
-            case 'expectedLength':
-                $classValue = 'qti-input-width-' . $node->nodeValue;
-                $parent->removeAttribute('expectedLength');
-                break;
-            case 'expectedLines':
-                $classValue = 'qti-input-height-' . $node->nodeValue;
-                $parent->removeAttribute('expectedLines');
-                break;
-            default:
-                return;
+        if ($node->nodeName !== $expectedName) {
+            return;
         }
 
-        if ($classAttribute === null) {
+        $parent = $node->parentNode;
+        $classAttr = $parent->attributes->getNamedItem('class');
+        $classValue = $classPrefix . $node->nodeValue;
+
+        if ($classAttr === null) {
             $parent->setAttribute('class', $classValue);
         } else {
-            $classAttribute->nodeValue .= ' ' . $classValue;
+            $classAttr->nodeValue .= ' ' . $classValue;
         }
     }
 

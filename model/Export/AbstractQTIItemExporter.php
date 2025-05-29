@@ -30,7 +30,6 @@ use oat\oatbox\reporting\Report;
 use oat\tao\helpers\Base64;
 use oat\tao\model\media\MediaBrowser;
 use oat\taoQtiItem\model\Export\Exception\AssetStylesheetZipTransferException;
-use oat\taoQtiItem\model\Export\Qti3Package\TransformationService;
 use oat\taoQtiItem\model\Export\Stylesheet\AssetStylesheetLoader;
 use core_kernel_classes_Property;
 use DOMDocument;
@@ -407,10 +406,5 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     private function getAssetStylesheetLoader(): AssetStylesheetLoader
     {
         return $this->getServiceManager()->get(AssetStylesheetLoader::class);
-    }
-
-    private function getTransformationService(): TransformationService
-    {
-        return $this->getServiceManager()->get(TransformationService::class);
     }
 }
