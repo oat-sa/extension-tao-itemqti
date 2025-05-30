@@ -168,7 +168,7 @@ define([
             createMediaEditor($panelMediaSize, $container, qtiObject, width, height, onChange);
         }
     };
-    const hideShowPanels = type => {
+    const hideShowPanels = (type, compactAppearance) => {
         if (/video/.test(type)) {
             $panelObjectSize.hide();
             $panelMediaSize.show();
@@ -176,8 +176,14 @@ define([
             if (mediaEditor) {
                 mediaEditor.destroy();
             }
-            $panelObjectSize.show();
-            $panelMediaSize.hide();
+
+            if (compactAppearance) {
+                $panelObjectSize.hide();
+                $panelMediaSize.hide();
+            } else {
+                $panelObjectSize.show();
+                $panelMediaSize.hide();
+            }
         }
     };
     const _initUpload = function (widget) {
@@ -249,7 +255,8 @@ define([
                 alt: qtiObject.attr('alt'),
                 height: qtiObject.attr('height'),
                 width: qtiObject.attr('width'),
-                compactAppearance
+                isAudio: /audio/.test(qtiObject.attr('type')),
+                compactAppearance: !!qtiObject.hasClass('compact-appearance')
             })
         );
 
@@ -259,7 +266,7 @@ define([
 
         $panelObjectSize = $('.size-panel', $form);
         $panelMediaSize = $('.media-size-panel', $form);
-        hideShowPanels(qtiObject.attr('type'));
+        hideShowPanels(qtiObject.attr('type'), compactAppearance);
 
         //init resource manager
         _initUpload(_widget);

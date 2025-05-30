@@ -246,19 +246,22 @@ define([
         };
 
         const setUpCallbacks = function setUpCallbacks() {
+            function disableAutostart(interaction) {
+                // reset subpanel properties to defaults
+                interaction.removeAttr('data-autostart-delay-ms');
+                interaction.removeAttr('data-sequence-repeats');
+                interaction.removeAttr('data-sequence-delay-between-ms');
+                interaction.removeAttr('data-sequence-delay-after-ms');
+                interaction.removeClass('hide-player');
+                $container.removeClass('dimmed');
+                interaction.removeClass('sequential');
+            }
             //init data change callbacks
             const callbacks = {
                 autostart: function autostart(boundInteraction, attrValue, attrName) {
                     interaction.attr(attrName, attrValue);
                     if (attrValue === false) {
-                        // reset subpanel properties to defaults
-                        interaction.removeAttr('data-autostart-delay-ms');
-                        interaction.removeAttr('data-sequence-repeats');
-                        interaction.removeAttr('data-sequence-delay-between-ms');
-                        interaction.removeAttr('data-sequence-delay-after-ms');
-                        interaction.removeClass('hide-player');
-                        $container.removeClass('dimmed');
-                        interaction.removeClass('sequential');
+                        disableAutostart(interaction);
                     } else if (isFlaAvailable) {
                         interaction.attr('data-autostart-delay-ms', 0);
                         interaction.attr('data-sequence-repeats', 1);
@@ -392,11 +395,20 @@ define([
                         if(!$container.hasClass('compact-appearance')) {
                             interaction.addClass('compact-appearance');
                             $container.parent().addClass('compact-appearance');
+                            disableAutostart(interaction);
+                            interaction.removeAttr('width');
+                            interaction.removeAttr('height');
+                            interaction.removeAttr('loop');
+                            interaction.removeAttr('minPlays');
+                            interaction.removeAttr('maxPlays');
                         }
                     } else {
                         interaction.removeClass('compact-appearance');
                         $container.parent().removeClass('compact-appearance');
                     }
+
+                    renderForm();
+                    reRender();
                 }
             };
 
@@ -432,7 +444,7 @@ define([
                     // @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10173
                     data: interaction.object.attr('data'),
                     type: interaction.object.attr('type'), //use the same as the uploadInteraction, contact jerome@taotesting.com for this
-                    compactAppearance
+                    compactAppearance: !!interaction.hasClass('compact-appearance'),
                 })
             );
             // re-wire all form controls & tooltips
