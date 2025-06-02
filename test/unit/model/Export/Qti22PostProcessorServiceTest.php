@@ -53,6 +53,7 @@ XML;
     xmlns="http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0"
     xmlns:qh5="http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
     xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0 old-schema.xsd">
     <itemBody>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -70,6 +71,10 @@ XML;
         );
         $this->assertStringContainsString(
             'http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd',
+            $result
+        );
+        $this->assertStringContainsString(
+            'https://www.imsglobal.org/xsd/w3/2001/XInclude.xsd',
             $result
         );
     }
