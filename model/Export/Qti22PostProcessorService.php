@@ -46,6 +46,8 @@ class Qti22PostProcessorService
             => 'https://purl.imsglobal.org/spec/qti/v2p2/schema/xsd/imsqtiv2p2p4_html5_v1p0.xsd',
         'http://www.w3.org/1998/Math/MathML'
             => 'http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd',
+        'http://www.w3.org/2001/XInclude'
+            => 'https://www.imsglobal.org/xsd/w3/2001/XInclude.xsd',
     ];
 
     /**
