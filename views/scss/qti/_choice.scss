@@ -318,11 +318,12 @@
     .qti-choiceInteraction {
         &.maskable {
             .qti-choice {
-                padding-top: 3rem;
                 .answer-mask {
                     text-align: start;
                     width: 100%;
                     height: 2.5rem;
+                    top: auto;
+                    bottom: 0;
                     padding-right: 0.1rem;
                     &.masked {
                         height: 100%;
@@ -332,11 +333,16 @@
                     padding-right: 0;
                 }
                 .pseudo-label-box {
-                    margin-top: 2rem;
+                    margin-bottom: 28px;
                 }
             }
-            .choice-area.list-style-upper-alpha .qti-choice::before {
-                top: 5.5rem;
+            .choice-area {
+                &[class^='list-style-'],
+                &[class*=' list-style-'] {
+                    .qti-choice::before {
+                        top: 2.5rem;
+                    }
+                }
             }
         }
         &.eliminable {
@@ -368,12 +374,13 @@
                             }
                         }
                     }
-                }
-                &.list-style-upper-alpha.plain.block-listing {
-                    .qti-choice {
-                        [data-eliminable='container'] {
-                            [data-eliminable='trigger'] {
-                                top: 7.5rem;
+                    &[class^='list-style-'],
+                    &[class*=' list-style-'] {
+                        .qti-choice {
+                            [data-eliminable='container'] {
+                                [data-eliminable='trigger'] {
+                                    top: 7.5rem;
+                                }
                             }
                         }
                     }
@@ -400,7 +407,6 @@
 
                 & > li {
                     border: 1px solid #e0e0e0;
-                    padding-top: 1rem;
                     height: 100%;
                     display: flex;
                     flex-direction: column;
@@ -412,13 +418,14 @@
                 .qti-choice {
                     .real-label {
                         width: 100%;
-                        margin-left: 0.1rem;
                     }
                     .label-box {
-                        margin-top: 4rem;
+                        margin-top: 3rem;
                         margin-left: 0;
                     }
-                    .icon-checkbox {
+                    .icon-checkbox,
+                    .icon-radio {
+                        width: auto;
                         &:after {
                             left: 0;
                         }
@@ -426,26 +433,21 @@
                             position: absolute;
                         }
                     }
+                    .qti-block {
+                        margin-right: 2px;
+                    }
                 }
             }
-            &.list-style-upper-alpha {
+            &[class^='list-style-'],
+            &[class*=' list-style-'] {
                 .qti-choice {
                     &::before {
-                        transform: rotate(270deg);
-                        top: 3.5rem;
+                        writing-mode: horizontal-tb;
+                        top: 2.5rem;
                         left: calc(50% - 1rem);
                         display: block;
                         height: min-content;
                         position: absolute;
-                    }
-
-                    .real-label {
-                        .icon-radio:after {
-                            left: 0;
-                        }
-                        .icon-radio:before {
-                            position: absolute;
-                        }
                     }
 
                     .pseudo-label-box {
