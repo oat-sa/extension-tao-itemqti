@@ -37,7 +37,9 @@ class ValidationService extends ConfigurableService
             '/qti/data/apipv1p0final/Core_Level/Package/apipv1p0_qtiitemv2p2_v1p0.xsd'
         ],
         'http://www.imsglobal.org/xsd/imsqti_v2p2' => [
-            '/qti/data/qtiv2p2p4/imsqti_v2p2p4.xsd'
+            '/qti/data/qtiv2p2p4/imsqti_v2p2p4.xsd',
+            '/qti/data/apipv1p0final/Core_Level/Package/apipv1p0_qtiitemv2p2_v1p0.xsd',
+            '/qti/data/w3/mathml3/mathml3-presentation.xsd'
         ],
         'http://www.imsglobal.org/xsd/imsqtiasi_v3p0' => [
             '/qti/data/qtiv3p0/imsqti_asiv3p0_v1p0.xsd'
