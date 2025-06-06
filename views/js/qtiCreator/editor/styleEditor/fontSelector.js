@@ -28,6 +28,7 @@ define([
         const selector = 'select#item-editor-font-selector',
             $selector = $(selector),
             target = $selector.data('target'),
+            cssVariablesRootSelector = styleEditor.getConfig().cssVariablesRootSelector,
             normalize = function (font) {
                 return font.replace(/"/g, "'").replace(/, /g, ",");
             },
@@ -48,10 +49,10 @@ define([
                 }
                 return `<span style="font-size: 12px;${$(originalOption).attr('style')}">${state.text}</span>`;
             },
-            reset = function () {
-                styleEditor.apply(target, 'font-family');
-                $selector.select2('val', '');
-            };
+            styleEditorApply = function (val) {
+                styleEditor.apply(cssVariablesRootSelector, '--styleeditor-font-family', val);
+                styleEditor.apply(target, 'font-family', val);
+            }
 
         $selector.append(`<option value="">${__('Default')}</option>`);
 
@@ -70,7 +71,10 @@ define([
             $selector.append(optGroup);
         });
 
-        resetButton.on('click', reset);
+        resetButton.on('click', function () {
+            styleEditorApply(null);
+            $selector.select2('val', '');
+        });
 
         $selector.select2({
             formatResult: format,
@@ -79,14 +83,20 @@ define([
         });
 
         $(document).on('customcssloaded.styleeditor', function (e, style) {
-            if (style[target] && style[target]['font-family']) {
-                $selector.select2('val', style[target]['font-family']);
+            let val = style[cssVariablesRootSelector] && style[cssVariablesRootSelector]['--styleeditor-font-family'];
+            if (!val) {
+                val = style[target] && style[target]['font-family'];
+            }
+
+            if (val) {
+                $selector.select2('val', val);
                 $(`${selector} option:selected`).first().attr('selected', 'selected');
+                styleEditorApply(val);
             }
         });
 
         $selector.on('change', function () {
-            styleEditor.apply(target, 'font-family', $(this).val());
+            styleEditorApply($(this).val());
             $(`${selector} option:selected`).first().attr('selected', 'selected');
         });
     }

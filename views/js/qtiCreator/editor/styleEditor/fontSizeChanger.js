@@ -31,18 +31,26 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/styleEditor/styleEdito
         const $fontSizeChanger = $('#item-editor-font-size-changer'),
             itemSelector = $fontSizeChanger.data('target'),
             figcaptionSelector = `${itemSelector} figure figcaption`,
+            cssVariablesRootSelector = styleEditor.getConfig().cssVariablesRootSelector,
             $item = $(itemSelector),
             $resetBtn = $fontSizeChanger.parents('.reset-group').find('[data-role="font-size-reset"]'),
             $input = $('#item-editor-font-size-text');
         let itemFontSize = parseInt($item.css('font-size'), 10);
 
         /**
-         * Writes new font size to virtual style sheet
+         * Writes new font size to virtual style sheet (or removes it)
+         * @param {Number|String|null} val
          */
-        const resizeFont = function () {
-            styleEditor.apply(itemSelector, 'font-size', `${itemFontSize.toString()}px`);
-            const figcaptionSize = itemFontSize > 14 ? (itemFontSize -2).toString() : Math.min(itemFontSize, 12).toString()
-            styleEditor.apply(figcaptionSelector, 'font-size', `${figcaptionSize}px`);
+        const styleEditorApply = function (val) {
+            const valStr = val ? `${val.toString()}px` : null;
+            styleEditor.apply(cssVariablesRootSelector, '--styleeditor-font-size', valStr);
+            styleEditor.apply(itemSelector, 'font-size', valStr);
+            if (val) {
+                const figcaptionSize = val > 14 ? (val - 2).toString() : Math.min(val, 12).toString();
+                styleEditor.apply(figcaptionSelector, 'font-size', `${figcaptionSize}px`);
+            } else {
+                styleEditor.apply(figcaptionSelector, 'font-size');
+            }
         };
 
         /**
@@ -58,7 +66,7 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/styleEditor/styleEdito
             } else {
                 itemFontSize++;
             }
-            resizeFont();
+            styleEditorApply(itemFontSize);
             $input.val(itemFontSize);
             $(this).parent().blur();
         });
@@ -77,10 +85,9 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/styleEditor/styleEdito
         $input.on('blur', function () {
             if (this.value) {
                 itemFontSize = parseInt(this.value, 10);
-                resizeFont();
+                styleEditorApply(itemFontSize);
             } else {
-                styleEditor.apply(itemSelector, 'font-size');
-                styleEditor.apply(figcaptionSelector, 'font-size');
+                styleEditorApply(null);
             }
         });
 
@@ -99,25 +106,23 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/styleEditor/styleEdito
          */
         $resetBtn.on('click', function () {
             $input.val('');
-            styleEditor.apply(itemSelector, 'font-size');
-            styleEditor.apply(figcaptionSelector, 'font-size');
+            styleEditorApply(null);
             itemFontSize = parseInt($item.css('font-size'), 10);
         });
 
         /**
          * style loaded from style sheet
          */
-        const oldSelector = `${itemSelector} *`;
         $(document).on('customcssloaded.styleeditor', function (e, style) {
-            if (style[itemSelector] && style[itemSelector]['font-size']) {
-                itemFontSize = parseInt(style[itemSelector]['font-size'], 10); // example 16px
+            let val = style[cssVariablesRootSelector] && style[cssVariablesRootSelector]['--styleeditor-font-size'];
+            if (!val) {
+                val = style[itemSelector] && style[itemSelector]['font-size'];
+            }
+
+            if (val) {
+                itemFontSize = parseInt(val, 10); // example 16px
                 $input.val(itemFontSize);
-            } else if (style[oldSelector] && style[oldSelector]['font-size']) {
-                // old selector 'itemSelector + *'
-                itemFontSize = parseInt(style[oldSelector]['font-size'], 10);
-                $input.val(itemFontSize);
-                styleEditor.apply(oldSelector, 'font-size');
-                resizeFont();
+                styleEditorApply(itemFontSize);
             } else {
                 $input.val();
             }
