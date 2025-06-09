@@ -28,8 +28,7 @@ define(['lodash', 'ui/ckeditor/ckConfigurator', 'mathJax'], function(_, ckConfig
         underline : true,
         mathJax : !!mathJax,
         horizontalRule: true,
-        furiganaPlugin: true,
-        interactionsource: true
+        furiganaPlugin: true
     };
 
     /**
