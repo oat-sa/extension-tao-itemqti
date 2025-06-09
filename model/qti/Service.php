@@ -25,6 +25,9 @@ use common_exception_Error;
 use common_exception_NotFound;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FilesystemException;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\model\qti\parser\XmlToItemParser;
 use tao_helpers_Uri;
 use common_exception_FileSystemError;
@@ -143,6 +146,8 @@ class Service extends ConfigurableService
      */
     public function saveDataItemToRdfItem(Item $qtiItem, core_kernel_classes_Resource $rdfItem)
     {
+        $this->syncUniqueId($qtiItem, $rdfItem);
+
         $label = mb_substr($rdfItem->getLabel(), 0, 256, 'UTF-8');
         //set the current data lang in the item content to keep the integrity
         if ($qtiItem->hasAttribute('xml:lang') && !empty($qtiItem->getAttributeValue('xml:lang'))) {
@@ -334,6 +339,19 @@ class Service extends ConfigurableService
         return ServiceManager::getServiceManager()->get(self::class);
     }
 
+    private function syncUniqueId(Item $qtiItem, core_kernel_classes_Resource $rdfItem): void
+    {
+        if (!$this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')) {
+            return;
+        }
+
+        $uniqueId = (string) $rdfItem->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER));
+
+        if (!empty($uniqueId) && $uniqueId !== $qtiItem->getIdentifier()) {
+            $qtiItem->setIdentifier($uniqueId);
+        }
+    }
+
     private function getItemService(): taoItems_models_classes_ItemsService
     {
         return $this->getServiceLocator()->get(taoItems_models_classes_ItemsService::class);
@@ -359,5 +377,10 @@ class Service extends ConfigurableService
     private function getXmlToItemParser(): XmlToItemParser
     {
         return $this->getServiceLocator()->get(XmlToItemParser::class);
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }
 }

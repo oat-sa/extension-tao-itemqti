@@ -1,18 +1,21 @@
-@import "inc/bootstrap";
+@import 'inc/bootstrap';
 table {
     &.qti-table {
         border: 1px solid $websiteBorder;
         display: table;
-        margin: 0 auto 0 0;
+        margin-block: 0;
+        margin-inline: 0 auto;
 
         &.table-center {
             display: table;
-            margin: 0 auto;
+            margin-block: 0;
+            margin-inline: auto;
         }
 
         &.table-right {
             display: table;
-            margin: 0 0 0 auto;
+            margin-block: 0;
+            margin-inline: auto 0;
         }
 
         tr {
@@ -20,7 +23,7 @@ table {
                 background: white;
             }
             &:nth-child(odd) {
-                background: whiten($uiHeaderBg,0.7)
+                background: whiten($uiHeaderBg, 0.7);
             }
         }
 
@@ -29,11 +32,12 @@ table {
             font-weight: bold;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid $websiteBorder;
-            min-width: 30px;
-            padding: 3px 5px;
+            min-inline-size: 30px;
+            padding-block: 3px;
+            padding-inline: 5px;
         }
-
     }
 }
