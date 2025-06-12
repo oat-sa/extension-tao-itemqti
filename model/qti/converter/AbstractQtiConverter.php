@@ -36,12 +36,14 @@ abstract class AbstractQtiConverter
     private const QTI_22_NS = 'http://www.imsglobal.org/xsd/imsqti_v2p2';
     private const QTI_3_NS = 'http://www.imsglobal.org/xsd/imsqtiasi_v3p0';
     private const XSI_NAMESPACE = 'http://www.w3.org/2001/XMLSchema-instance';
+    private const XSI_MATH_NAMESPACE = 'http://www.w3.org/1998/Math/MathML';
     private const XSI_SCHEMA_LOCATION = 'xsi:schemaLocation';
     private const SCHEMA_LOCATION = 'http://www.imsglobal.org/xsd/imsqti_v2p2 ' .
     'http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2p1.xsd';
     private const XML_NS_NAMESPACE = 'http://www.w3.org/2000/xmlns/';
     private const QUALIFIED_NAME_NS = 'xmlns';
     private const QUALIFIED_NAME_XSI = self::QUALIFIED_NAME_NS . ':xsi';
+    private const QUALIFIED_NAME_MATH = self::QUALIFIED_NAME_NS . ':m';
 
     private CaseConversionService $caseConversionService;
     private ValidationService $validationService;
@@ -68,46 +70,58 @@ abstract class AbstractQtiConverter
         }
     }
 
-    private function convertRootElementsRecursively(array $children): void
+    private function convertRootElementsRecursively(array $children, array $params = []): void
     {
         foreach ($children as $child) {
             if ($child instanceof DOMText || $child instanceof DOMComment) {
                 continue;
             }
 
-            if ($child instanceof DOMElement) {
-                $childNodes = null;
-                if ($child->hasChildNodes()) {
-                    $this->convertRootElementsRecursively(iterator_to_array($child->childNodes));
-                    $childNodes = $child->childNodes;
-                }
+            if (!($child instanceof DOMElement)) {
+                continue;
+            }
+
+            $isMath = $params['isMath'] ?? false;
+            if ($child->tagName === 'math') {
+                $isMath = true;
+            }
+
+            $childNodes = null;
+            if ($child->hasChildNodes()) {
+                $this->convertRootElementsRecursively(
+                    iterator_to_array($child->childNodes),
+                    ['isMath' => $isMath]
+                );
+                $childNodes = $child->childNodes;
             }
 
             $tagName = $child->tagName;
-            // When elements has child we do not want to create literal value
             $nodeValue = $child->childElementCount === 0 ? $child->nodeValue : '';
-
             $convertedTag = $this->caseConversionService->kebabToCamelCase($tagName);
-            // Check if converted tag name is valid against defined QTI 2.2 namespace
+
+            if ($isMath) {
+                $convertedTag = 'm:' . $convertedTag;
+            }
+
             if (!$this->isTagValid($convertedTag)) {
                 common_Logger::w(sprintf('Invalid tag name: %s, When importing', $convertedTag));
                 $child->remove();
                 continue;
             }
 
-            $newElement = $child->ownerDocument->createElement(
-                $convertedTag,
-                $nodeValue
-            );
+            $newElement = $child->ownerDocument->createElement($convertedTag, $nodeValue);
 
             if ($childNodes) {
                 foreach (iterator_to_array($childNodes) as $childNode) {
                     if ($childNode instanceof DOMElement) {
                         $newElement->appendChild($childNode);
+                    } elseif ($childNode instanceof DOMText) {
+                        if ($childNode->nodeValue !== $nodeValue) {
+                            $newElement->appendChild($childNode);
+                        }
                     }
                 }
             }
-
             $this->adjustAttributes($newElement, $child);
             $child->parentNode->replaceChild($newElement, $child);
         }
@@ -122,8 +136,7 @@ abstract class AbstractQtiConverter
                 continue;
             }
 
-            if ($this->isExpectedLengthEquivalent($attribute)) {
-                $newElement->setAttribute('expectedLength', str_replace('qti-input-width-', '', $attribute->value));
+            if ($this->convertAttributesToQTI2($childNode, $newElement, $attribute)) {
                 continue;
             }
 
@@ -168,6 +181,12 @@ abstract class AbstractQtiConverter
             self::XSI_NAMESPACE
         );
 
+        $newElement->setAttributeNS(
+            self::XML_NS_NAMESPACE,
+            self::QUALIFIED_NAME_MATH,
+            self::XSI_MATH_NAMESPACE
+        );
+
         foreach (iterator_to_array($rootElement->childNodes) as $childNode) {
             $newElement->appendChild($childNode);
         }
@@ -181,18 +200,43 @@ abstract class AbstractQtiConverter
     private function isTagValid(string $convertedTag): bool
     {
         $validationSchema = $this->validationService->getContentValidationSchema(self::QTI_22_NS);
-        foreach ($validationSchema as $schema) {
+        foreach ($validationSchema as $schemaPath) {
             $xsdDom = new DOMDocument();
-            $xsdDom->load($schema);
+            $xsdDom->load($schemaPath);
+
             $xpath = new DOMXPath($xsdDom);
             $xpath->registerNamespace('xs', 'http://www.w3.org/2001/XMLSchema');
-            $elements = $xpath->query(sprintf("//xs:element[@name='%s']", $convertedTag));
 
-            if ($elements->count() === 0) {
-                return false;
+            // Split prefix:localName
+            if (strpos($convertedTag, ':') !== false) {
+                list($prefix, $localName) = explode(':', $convertedTag, 2);
+
+                $schemaRoot = $xsdDom->documentElement;
+                $namespaceUri = $schemaRoot->lookupNamespaceURI($prefix);
+
+                if (!$namespaceUri) {
+                    continue; // Try next schema
+                }
+
+                $elements = $xpath->query("//xs:element[@name='$localName']");
+
+                foreach ($elements as $element) {
+                    $schemaNs = $element->ownerDocument->documentElement->getAttribute('targetNamespace');
+                    if ($schemaNs === $namespaceUri) {
+                        return true;
+                    }
+                }
+
+                $elementsByRef = $xpath->query("//xs:element[@ref='$convertedTag']");
+                if ($elementsByRef->count() > 0) {
+                    return true;
+                }
+            } else {
+                $elements = $xpath->query("//xs:element[@name='$convertedTag']");
+                if ($elements->count() > 0) {
+                    return true;
+                }
             }
-
-            return true;
         }
 
         return false;
@@ -211,8 +255,80 @@ abstract class AbstractQtiConverter
             && $child->getAttributeNode('xmlns')->nodeValue === self::QTI_3_NS;
     }
 
-    private function isExpectedLengthEquivalent(DOMAttr $attribute): bool
+    private function convertAttributesToQTI2($childNode, $newElement, $attribute): bool
+    {
+        if (
+            $childNode->nodeName === 'qti-extended-text-interaction'
+            && $this->isExpectedTextLinesEquivalent($attribute)
+        ) {
+            $classes = explode(' ', $attribute->value);
+            foreach ($classes as $class) {
+                if (strpos($class, 'qti-height-lines-') === 0) {
+                    if (preg_match('/qti-height-lines-(\d+)/', $class, $matches)) {
+                        $newElement->setAttribute('expectedLines', $matches[1]);
+                    }
+                }
+            }
+            return true;
+        }
+
+        if (
+            $childNode->nodeName === 'qti-text-entry-interaction'
+            && $this->isExpectedTextLengthEquivalent($attribute)
+        ) {
+            $classes = explode(' ', $attribute->value);
+            foreach ($classes as $class) {
+                if (strpos($class, 'qti-input-width-') === 0) {
+                    if (preg_match('/qti-input-width-(\d+)/', $class, $matches)) {
+                        $newElement->setAttribute('expectedLength', $matches[1]);
+                    }
+                }
+            }
+            return true;
+        }
+
+        if (
+            $childNode->nodeName === 'qti-choice-interaction'
+            && $this->isExpectedChoiceListStyleEquivalent($attribute)
+        ) {
+            $classes = explode(' ', $attribute->value);
+            $baseStyle = '';
+            $suffixStyle = '';
+
+            foreach ($classes as $class) {
+                if (strpos($class, 'qti-labels-suffix-') === 0) {
+                    $suffixStyle = str_replace('qti-labels-suffix-', '', $class);
+                } elseif (strpos($class, 'qti-labels-') === 0) {
+                    $baseStyle = str_replace('qti-labels-', '', $class);
+                }
+            }
+
+            if ($baseStyle !== '') {
+                $listStyle = 'list-style-' . $baseStyle;
+                if ($suffixStyle !== '' && $suffixStyle !== 'none') {
+                    $listStyle .= '-' . $suffixStyle;
+                }
+                $newElement->setAttribute('class', $listStyle);
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+
+    private function isExpectedTextLengthEquivalent(DOMAttr $attribute): bool
     {
         return $attribute->name === 'class' && str_contains($attribute->value, 'qti-input-width-');
+    }
+
+    private function isExpectedTextLinesEquivalent(DOMAttr $attribute): bool
+    {
+        return $attribute->name === 'class' && str_contains($attribute->value, 'qti-height-lines-');
+    }
+
+    private function isExpectedChoiceListStyleEquivalent(DOMAttr $attribute): bool
+    {
+        return $attribute->name === 'class' && str_contains($attribute->value, 'qti-labels-');
     }
 }
