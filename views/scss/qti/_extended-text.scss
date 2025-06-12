@@ -82,4 +82,21 @@
             text-combine-upright: all;
         }
     }
+
+    .hide-caret {
+        caret-color: transparent;
+    }
+    .shadow-textarea {
+        overflow: auto;
+        /*visually-hidden*/
+    }
+    .shadow-container {
+        position: absolute;
+        opacity: 0;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: -100;
+        width: 1px;
+        height: 1px;
+    }
 }

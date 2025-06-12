@@ -1,73 +1,75 @@
 @charset "UTF-8";
 
-@import "inc/bootstrap";
+@import 'inc/bootstrap';
 
 // override font to avoid @font-face load
 $regularFont: 'Franklin Gothic', 'Franklin Gothic Medium', sans-serif;
 
-$mainContainer : '.qti-item';
-@import "inc/base";
-@import "inc/select2";
-@import "inc/mediaelementplayer";
+$mainContainer: '.qti-item';
+@import 'inc/base';
+@import 'inc/select2';
+@import 'inc/mediaelementplayer';
 
 %selectableHover {
-    background: whiten($info, .95) !important;
-    color: darken($textColor, .95) !important;
+    background: whiten($info, 0.95) !important;
+    color: darken($textColor, 0.95) !important;
     cursor: pointer !important;
 }
 %activeHover {
-    background: whiten($info, .91) !important;
-    color: darken($textColor, .91) !important;
+    background: whiten($info, 0.91) !important;
+    color: darken($textColor, 0.91) !important;
 }
 
 %dragged {
-    z-index:10;
-    background: whiten($info, .91) !important;
-    color: darken($textColor, .91) !important;
+    z-index: 10;
+    background: whiten($info, 0.91) !important;
+    color: darken($textColor, 0.91) !important;
 }
 
 %dropzone {
-    background: whiten($info, .80) !important;
-    color: darken($textColor, .80) !important;
+    background: whiten($info, 0.8) !important;
+    color: darken($textColor, 0.8) !important;
     border: 1px $uiClickableHoverBg dashed !important;
 }
 
 %droppable {
-    background: whiten($info, .80) !important;
-    color: darken($textColor, .80) !important;
+    background: whiten($info, 0.8) !important;
+    color: darken($textColor, 0.8) !important;
 }
 
 %qtiModalFeedback {
-    color : blacken($textColor, .5);/*because of the overlay, make it darker*/
-    margin-top : 10px;
-    .qti-title{
+    color: blacken($textColor, 0.5); /*because of the overlay, make it darker*/
+    margin-top: 10px;
+    .qti-title {
         margin-top: 0px;
     }
-    border : 4px solid $infoBorderColor;
-    &.positive{
-        border-color : $successBorderColor;
+    border: 4px solid $infoBorderColor;
+    &.positive {
+        border-color: $successBorderColor;
     }
-    &.negative{
-        border-color : $errorBorderColor;
+    &.negative {
+        border-color: $errorBorderColor;
     }
 }
 
 #{$mainContainer} {
-    @import "inc/fonts/tao-icon-classes";
+    @import 'inc/fonts/tao-icon-classes';
 
-    @import "inc/feedback";
-    @import "inc/grid";
-    @import "inc/tooltip";
-    @import "inc/buttons";
-    @import "inc/jquery.nouislider";
+    @import 'inc/feedback';
+    @import 'inc/grid';
+    @import 'inc/tooltip';
+    @import 'inc/buttons';
+    @import 'inc/jquery.nouislider';
 
     // reset grid set-up within the item context
 
     //!important to override all attempts to change this in the theme
     overflow-x: visible !important;
-    .grid-row, .fixed-grid-row {
+    .grid-row,
+    .fixed-grid-row {
         width: 100%;
-        [class*=" col-"], [class^="col-"] {
+        [class*=' col-'],
+        [class^='col-'] {
             &.col-12 {
                 width: 100%;
             }
@@ -83,44 +85,44 @@ $mainContainer : '.qti-item';
 
     padding: 15px;
     background: white();
-    margin:auto;
+    margin: auto;
     max-width: 1024px;
 
     &.runtime {
         min-height: 100%;
     }
 
-    [class*="col-"] {
+    [class*='col-'] {
         img {
             max-width: initial;
         }
     }
 
     #modalFeedbacks {
-        max-height:0;
-        .qti-modalFeedback{
+        max-height: 0;
+        .qti-modalFeedback {
             @extend %qtiModalFeedback;
         }
     }
 
-    .qti-itemBody{
-        .qti-modalFeedback{
+    .qti-itemBody {
+        .qti-modalFeedback {
             @extend %qtiModalFeedback;
-            border-width : 1px;
-            padding:10px 10px 15px;
+            border-width: 1px;
+            padding: 10px 10px 15px;
             background: $infoBgColor;
             position: relative;
             z-index: 100002;
-            &.positive{
+            &.positive {
                 background: $successBgColor;
             }
-            &.negative{
+            &.negative {
                 background: $errorBgColor;
             }
         }
 
         &.highlighter-cursor {
-            cursor: url("../img/qtiIconsPng/marker.png") 0 32, auto;
+            cursor: url('../img/qtiIconsPng/marker.png') 0 32, auto;
         }
 
         hr {
@@ -135,24 +137,25 @@ $mainContainer : '.qti-item';
         }
     }
 
-    .interaction-cover{
-        display : block;
-        opacity : 0.05;
+    .interaction-cover {
+        display: block;
+        opacity: 0.05;
     }
 
     /* authoring */
 
-    .qti-choice, .qti-prompt-container {
+    .qti-choice,
+    .qti-prompt-container {
         p:last-child {
             margin-bottom: 0 !important;
         }
     }
 
-    .prompt, .qti-prompt {
+    .prompt,
+    .qti-prompt {
         word-wrap: break-word;
         overflow-wrap: break-word;
     }
-
 
     // MathJax reset
     .MathJax {
@@ -165,27 +168,28 @@ $mainContainer : '.qti-item';
             font-size: inherit;
         }
     }
-    .writing-mode-vertical-rl [data-qti-class="math"] {
-        writing-mode: horizontal-tb;
-    }
 
     //scope all hover, active style for delivery under the runtime class
     &.runtime {
         .block-listing {
             & > li {
                 &.active {
-                    border-color: whiten($info, .2) !important;
-                    &:hover{
+                    border-color: whiten($info, 0.2) !important;
+                    &:hover {
                         @extend %activeHover;
                     }
                 }
-                &:hover{
+                &:hover {
                     @extend %selectableHover;
                 }
-                &.dragged, &.dragged:hover { // :hover is to override .active:hover
+                &.dragged,
+                &.dragged:hover {
+                    // :hover is to override .active:hover
                     @extend %dragged;
                 }
-                &.droppable, &.droppable:hover { // :hover is to override .active:hover
+                &.droppable,
+                &.droppable:hover {
+                    // :hover is to override .active:hover
                     @extend %droppable;
                 }
                 &.dropzone {
@@ -202,7 +206,7 @@ $mainContainer : '.qti-item';
             padding: 5px;
             margin: 3px;
             cursor: pointer;
-            position:relative;
+            position: relative;
         }
         &.horizontal {
             @extend .clearfix;
@@ -223,7 +227,8 @@ $mainContainer : '.qti-item';
                 }
             }
         }
-        &.solid, &.bordered {
+        &.solid,
+        &.bordered {
             padding-top: 3px;
             padding-bottom: 3px;
 
@@ -239,17 +244,17 @@ $mainContainer : '.qti-item';
     }
 
     .qti-block {
-        border:1px solid transparent;
+        border: 1px solid transparent;
     }
 
     .qti-interaction {
         &:focus {
             outline-color: $colorWheel-05;
         }
-        .text-container{
+        .text-container {
             min-block-size: 50px;
 
-            &.text-preformatted{
+            &.text-preformatted {
                 font-family: $monospaceFont;
             }
         }
@@ -258,7 +263,7 @@ $mainContainer : '.qti-item';
             //background: whiten($uiClickableDefaultBg, .4);
             // @include simple-border(whiten($uiClickableDefaultBg, .4));
             // original: above; new: below
-            border: 6px solid  whiten($uiClickableDefaultBg, .2);
+            border: 6px solid whiten($uiClickableDefaultBg, 0.2);
         }
         .bordered {
             @include simple-border(#e0e0e0);
@@ -270,51 +275,66 @@ $mainContainer : '.qti-item';
             cursor: default;
         }
 
-        input[type="color"],
-        input[type="date"],
-        input[type="datetime"],
-        input[type="datetime-local"],
-        input[type="email"],
-        input[type="month"],
-        input[type="number"],
-        input[type="range"],
-        input[type="search"],
-        input[type="tel"],
-        input[type="time"],
-        input[type="text"],
-        input[type="password"],
-        input[type="url"],
-        input[type="week"],
+        input[type='color'],
+        input[type='date'],
+        input[type='datetime'],
+        input[type='datetime-local'],
+        input[type='email'],
+        input[type='month'],
+        input[type='number'],
+        input[type='range'],
+        input[type='search'],
+        input[type='tel'],
+        input[type='time'],
+        input[type='text'],
+        input[type='password'],
+        input[type='url'],
+        input[type='week'],
         textarea,
         select {
-            border-top-color  : #aaa;
-            border-left-color : #aaa;
+            border-top-color: #aaa;
+            border-left-color: #aaa;
         }
     }
 
-    @import "all-interactions";
-    @import "object";
-    @import "choice";
-    @import "order";
-    @import "extended-text";
-    @import "feedback";
-    @import "associate";
-    @import "match";
-    @import "media";
-    @import "graphic";
-    @import "hottext";
-    @import "gap-match";
-    @import "slider";
-    @import "inline-choice";
-    @import "text-entry";
-    @import "upload";
-    @import "rubric-block";
-    @import "custom";
-    @import "table";
-    @import "tooltip";
-    @import "figure";
+    @import 'all-interactions';
+    @import 'object';
+    @import 'choice';
+    @import 'order';
+    @import 'extended-text';
+    @import 'feedback';
+    @import 'associate';
+    @import 'match';
+    @import 'media';
+    @import 'graphic';
+    @import 'hottext';
+    @import 'gap-match';
+    @import 'slider';
+    @import 'inline-choice';
+    @import 'text-entry';
+    @import 'upload';
+    @import 'rubric-block';
+    @import 'custom';
+    @import 'table';
+    @import 'tooltip';
+    @import 'figure';
 }
 
-.tao-preview-scope{
+.tao-preview-scope {
     padding-top: 20px;
+}
+
+.extendedText-shadow-caret {
+    position: absolute;
+    display: none;
+    width: 1.2em;
+    height: 1px;
+    background-color: $textColor;
+    animation: extendedText-shadow-caret-blink 1000ms steps(2, start) infinite;
+    z-index: 100001; /* higher than item/test previewer container */
+}
+@keyframes extendedText-shadow-caret-blink {
+    to {
+        visibility: hidden;
+    }
 }
