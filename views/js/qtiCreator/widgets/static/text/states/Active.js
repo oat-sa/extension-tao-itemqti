@@ -6,8 +6,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/text',
     'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods',
-    'services/features'
-], function (stateFactory, Active, htmlEditor, content, formElement, formTpl, itemScrollingMethods, features) {
+    'services/features',
+    'context',
+], function (stateFactory, Active, htmlEditor, content, formElement, formTpl, itemScrollingMethods, features, context) {
     'use strict';
 
     const wrapperCls = 'custom-text-box';
@@ -42,6 +43,11 @@ define([
         $editableContainer.attr('data-html-editable-container', true);
 
         if (!htmlEditor.hasEditor($editableContainer)) {
+            var toolbar = [];
+            var ENABLE_INTERACTION_SOURCE = context.featureFlags && context.featureFlags.FEATURE_FLAG_CKEDITOR_INTERACTION_SOURCE;
+            if (ENABLE_INTERACTION_SOURCE) {
+                toolbar.push({ name: 'interactionsource', items: ['InteractionSource'] });
+            }
             htmlEditor.buildEditor($editableContainer, {
                 change: function (data) {
                     changeCallback.call(this, data);
@@ -55,7 +61,8 @@ define([
                 data: {
                     widget: widget,
                     container: container
-                }
+                },
+                toolbar: toolbar
             });
         }
     };
