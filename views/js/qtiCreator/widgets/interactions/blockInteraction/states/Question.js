@@ -22,19 +22,19 @@ define([
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'i18n'
-], function($, stateFactory, Question, htmlEditor, contentHelper, __){
+], function ($, stateFactory, Question, htmlEditor, contentHelper, __) {
     'use strict';
 
-    var BlockInteractionStateQuestion = stateFactory.extend(Question, function(){
+    var BlockInteractionStateQuestion = stateFactory.extend(Question, function () {
 
         this.buildPromptEditor();
 
-    }, function(){
+    }, function () {
 
         this.destroyPromptEditor();
     });
 
-    BlockInteractionStateQuestion.prototype.buildPromptEditor = function(){
+    BlockInteractionStateQuestion.prototype.buildPromptEditor = function () {
 
         var _widget = this.widget,
             $editableContainer = _widget.$container.find('.qti-prompt-container'),
@@ -45,38 +45,42 @@ define([
         $editableContainer.attr('data-html-editable-container', true);
         $editable.attr('data-html-editable', true);
 
-        if(!htmlEditor.hasEditor($editableContainer)){
+        if (!htmlEditor.hasEditor($editableContainer)) {
             htmlEditor.buildEditor($editableContainer, {
-                placeholder : __('define prompt'),
-                change : contentHelper.getChangeCallback(container),
-                data : {
-                    container : container,
-                    widget : _widget
-                }, 
+                placeholder: __('define prompt'),
+                change: contentHelper.getChangeCallback(container),
+                data: {
+                    container: container,
+                    widget: _widget
+                },
                 toolbar: [
                     {
-                        name : 'basicstyles',
-                        items : ['Bold', 'Italic', 'Subscript', 'Superscript']
+                        name: 'basicstyles',
+                        items: ['Bold', 'Italic', 'Subscript', 'Superscript']
                     }, {
-                        name : 'insert',
-                        items : ['SpecialChar', 'TaoQtiPrintedVariable']
+                        name: 'insert',
+                        items: ['SpecialChar', 'TaoQtiPrintedVariable']
                     }, {
-                        name : 'links',
-                        items : ['Link']
+                        name: 'links',
+                        items: ['Link']
                     },
                     {
-                        name : 'styles',
-                        items : ['Format']
+                        name: 'styles',
+                        items: ['Format']
                     }, {
-                        name : 'paragraph',
-                        items : ['NumberedList', 'BulletedList', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+                        name: 'paragraph',
+                        items: ['NumberedList', 'BulletedList', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+                    },
+                    {
+                        name: 'language',
+                        items: ['Language']
                     }
                 ]
             });
         }
     };
 
-    BlockInteractionStateQuestion.prototype.destroyPromptEditor = function(){
+    BlockInteractionStateQuestion.prototype.destroyPromptEditor = function () {
         var $editableContainer = this.widget.$container.find('.qti-prompt-container');
         htmlEditor.destroyEditor($editableContainer);
     };
