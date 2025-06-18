@@ -43,8 +43,9 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/styleEditor/styleEdito
          */
         const styleEditorApply = function (val) {
             const valStr = val ? `${val.toString()}px` : null;
-            styleEditor.apply(cssVariablesRootSelector, '--styleeditor-font-size', valStr);
-            styleEditor.apply(itemSelector, 'font-size', valStr);
+            const varName = '--styleeditor-font-size';
+            styleEditor.apply(cssVariablesRootSelector, varName, valStr);
+            styleEditor.apply(itemSelector, 'font-size', valStr ? `var(${varName})` : null);
             if (val) {
                 const figcaptionSize = val > 14 ? (val - 2).toString() : Math.min(val, 12).toString();
                 styleEditor.apply(figcaptionSelector, 'font-size', `${figcaptionSize}px`);

@@ -34,9 +34,8 @@ define([
     // based on http://stackoverflow.com/a/14238466
     // this conversion is required to communicate with farbtastic
     function rgbToHex(color) {
-
         function toHexPair(inp) {
-            return (`0${parseInt(inp, 10).toString(16)}`).slice(-2);
+            return `0${parseInt(inp, 10).toString(16)}`.slice(-2);
         }
 
         // undefined can happen when no color is defined for a particular element
@@ -68,6 +67,30 @@ define([
             $doc = $(document);
         let widgetObj;
 
+        const colorBindings = {
+            'background-color': {
+                varName: '--styleeditor-bg-color',
+                propSelector:
+                    'body div.qti-item, body div.qti-item .qti-associateInteraction .result-area > li > .target',
+                propName: 'background-color'
+            },
+            'text-color': {
+                varName: '--styleeditor-text-color',
+                propSelector: 'body div.qti-item',
+                propName: 'color'
+            },
+            'border-color': {
+                varName: '--styleeditor-border-color',
+                propSelector:
+                    'body div.qti-item .solid,body div.qti-item .matrix, body div.qti-item table.matrix th, body div.qti-item table.matrix td',
+                propName: 'border-color'
+            },
+            'table-heading-color': {
+                varName: '--styleeditor-table-heading-bg-color',
+                propSelector: 'body div.qti-item .matrix th',
+                propName: 'background-color'
+            }
+        };
 
         /**
          * Widget title
@@ -76,25 +99,6 @@ define([
          */
         const setTitle = function (trigger) {
             titleElement.text(trigger.parent().find('label').text());
-        };
-
-        const getSelectorByTarget = function (target) {
-            /* eslint-disable indent */
-            switch (target) {
-                case 'background-color': {
-                    return 'body div.qti-item, body div.qti-item .qti-associateInteraction .result-area > li > .target';
-                }
-                case 'text-color': {
-                    return 'body div.qti-item';
-                }
-                case 'border-color': {
-                    return 'body div.qti-item .solid,body div.qti-item .matrix, body div.qti-item table.matrix th, body div.qti-item table.matrix td';
-                }
-                case 'table-heading-color': {
-                    return 'body div.qti-item .matrix th';
-                }
-            }
-            /* eslint-enable indent */
         };
 
         /**
@@ -106,43 +110,11 @@ define([
                     target = $trigger.data('target'),
                     style = styleEditor.getStyle() || {};
 
-                let val;
-                /* eslint-disable indent */
-                switch (target) {
-                    case 'background-color': {
-                        val = style[cssVariablesRootSelector] && style[cssVariablesRootSelector]['--styleeditor-bg-color'];
-                        if (!val) {
-                            val = style[getSelectorByTarget(target)] && style[getSelectorByTarget(target)]['background-color'];
-                        }
-                        break;
-                    }
-                    case 'text-color': {
-                        val = style[cssVariablesRootSelector] && style[cssVariablesRootSelector]['--styleeditor-text-color'];
-                        if (!val) {
-                            val = style[getSelectorByTarget(target)] && style[getSelectorByTarget(target)]['color'];
-                        }
-                        break;
-                    }
-                    case 'selected-choice-color': {
-                        val = style[cssVariablesRootSelector] && style[cssVariablesRootSelector]['--styleeditor-selected-choice-bg-color'];
-                        break;
-                    }
-                    case 'border-color': {
-                        val = style[cssVariablesRootSelector] && style[cssVariablesRootSelector]['--styleeditor-border-color'];
-                        if (!val) {
-                            val = style[getSelectorByTarget(target)] && style[getSelectorByTarget(target)]['border-color'];
-                        }
-                        break;
-                    }
-                    case 'table-heading-color': {
-                        val = style[cssVariablesRootSelector] && style[cssVariablesRootSelector]['--styleeditor-table-heading-bg-color'];
-                        if (!val) {
-                            val = style[getSelectorByTarget(target)] && style[getSelectorByTarget(target)]['background-color'];
-                        }
-                        break;
-                    }
+                const { varName, propSelector, propName } = colorBindings[target];
+                let val = style[cssVariablesRootSelector] && style[cssVariablesRootSelector][varName];
+                if (!val) {
+                    val = style[propSelector] && style[propSelector][propName];
                 }
-                /* eslint-enable indent */
 
                 if (val) {
                     // elements have a color from usage of style editor
@@ -158,34 +130,9 @@ define([
         };
 
         const styleEditorApply = function (target, val) {
-            /* eslint-disable indent */
-            switch (target) {
-                case 'background-color': {
-                    styleEditor.apply(cssVariablesRootSelector, '--styleeditor-bg-color', val);
-                    styleEditor.apply(getSelectorByTarget(target), 'background-color', val);
-                    break;
-                }
-                case 'text-color': {
-                    styleEditor.apply(cssVariablesRootSelector, '--styleeditor-text-color', val);
-                    styleEditor.apply(getSelectorByTarget(target), 'color', val);
-                    break;
-                }
-                case 'selected-choice-color': {
-                    styleEditor.apply(cssVariablesRootSelector, '--styleeditor-selected-choice-bg-color', val);
-                    break;
-                }
-                case 'border-color': {
-                    styleEditor.apply(cssVariablesRootSelector, '--styleeditor-border-color', val);
-                    styleEditor.apply(getSelectorByTarget(target), 'border-color', val);
-                    break;
-                }
-                case 'table-heading-color': {
-                    styleEditor.apply(cssVariablesRootSelector, '--styleeditor-table-heading-bg-color', val);
-                    styleEditor.apply(getSelectorByTarget(target), 'background-color', val);
-                    break;
-                }
-            }
-            /* eslint-enable indent */
+            const { varName, propSelector, propName } = colorBindings[target];
+            styleEditor.apply(cssVariablesRootSelector, varName, val);
+            styleEditor.apply(propSelector, propName, val ? `var(${varName})` : null);
         };
 
         widgetObj = $.farbtastic(widget).linkTo(input);
@@ -196,12 +143,12 @@ define([
             setTriggerColor();
         });
 
-
         // open color picker
         setTriggerColor();
         colorTriggers.add(colorTriggerLabels).on('click', function () {
             const $tmpTrigger = $(this),
-                $trigger = (this.nodeName.toLowerCase() === 'label' ? $tmpTrigger.parent().find('.color-trigger') : $tmpTrigger);
+                $trigger =
+                    this.nodeName.toLowerCase() === 'label' ? $tmpTrigger.parent().find('.color-trigger') : $tmpTrigger;
 
             widget.prop('target', $trigger.data('target'));
             widgetBox.hide();
@@ -231,7 +178,6 @@ define([
             }
         });
 
-
         // reset to default
         resetButtons.on('click', function () {
             const $this = $(this),
@@ -240,7 +186,6 @@ define([
             styleEditorApply(target, null);
             setTriggerColor();
         });
-
 
         $doc.on('customcssloaded.styleeditor', setTriggerColor);
     };

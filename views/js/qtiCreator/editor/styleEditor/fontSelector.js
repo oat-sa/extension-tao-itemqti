@@ -30,7 +30,7 @@ define([
             target = $selector.data('target'),
             cssVariablesRootSelector = styleEditor.getConfig().cssVariablesRootSelector,
             normalize = function (font) {
-                return font.replace(/"/g, "'").replace(/, /g, ",");
+                return font.replace(/"/g, "'").replace(/, /g, ',');
             },
             clean = function (font) {
                 return font.substring(0, font.indexOf(',')).replace(/'/g, '');
@@ -38,7 +38,7 @@ define([
             resetButton = $selector.parent().find('[data-role="font-selector-reset"]'),
             toLabel = function (font) {
                 font = font.replace(/-/g, ' ');
-                return (`${font}`).replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, function ($1) {
+                return `${font}`.replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, function ($1) {
                     return $1.toUpperCase();
                 });
             },
@@ -50,9 +50,10 @@ define([
                 return `<span style="font-size: 12px;${$(originalOption).attr('style')}">${state.text}</span>`;
             },
             styleEditorApply = function (val) {
-                styleEditor.apply(cssVariablesRootSelector, '--styleeditor-font-family', val);
-                styleEditor.apply(target, 'font-family', val);
-            }
+                const varName = '--styleeditor-font-family';
+                styleEditor.apply(cssVariablesRootSelector, varName, val);
+                styleEditor.apply(target, 'font-family', val ? `var(${varName})` : null);
+            };
 
         $selector.append(`<option value="">${__('Default')}</option>`);
 

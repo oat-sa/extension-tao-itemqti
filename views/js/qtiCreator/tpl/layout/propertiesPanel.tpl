@@ -35,38 +35,31 @@
                         </div>
                         <div class="reset-group">
                             <div class="clearfix">
-                                <label for="initial-bg" class="truncate">{{__ 'Background color'}}</label>
+                                <label for="color-picker-bg" class="truncate">{{__ 'Background color'}}</label>
                                 <span class="icon-eraser reset-button"
                                     title="{{__ 'Remove custom background color'}}"></span>
-                                <span class="color-trigger" id="initial-bg"
+                                <span class="color-trigger" id="color-picker-bg"
                                     data-target="background-color"></span>
                             </div>
                             <div class="clearfix">
-                                <label for="initial-color" class="truncate">{{__ 'Text color'}}</label>
+                                <label for="color-picker-text" class="truncate">{{__ 'Text color'}}</label>
                                 <span class="icon-eraser reset-button"
                                     title="{{__ 'Remove custom text color'}}"></span>
-                                <span class="color-trigger" id="initial-color"
+                                <span class="color-trigger" id="color-picker-text"
                                     data-target="text-color"></span>
                             </div>
                             <div class="clearfix">
-                                <label for="initial-color" class="truncate">{{__ 'Selected choice'}}</label>
-                                <span class="icon-eraser reset-button"
-                                    title="{{__ 'Remove custom text color'}}"></span>
-                                <span class="color-trigger" id="initial-color"
-                                    data-target="selected-choice-color"></span>
-                            </div>
-                            <div class="clearfix">
-                                <label for="initial-color" class="truncate">{{__ 'Border color'}}</label>
+                                <label for="color-picker-border" class="truncate">{{__ 'Border color'}}</label>
                                 <span class="icon-eraser reset-button"
                                     title="{{__ 'Remove custom border color'}}"></span>
-                                <span class="color-trigger" id="initial-color"
+                                <span class="color-trigger" id="color-picker-border"
                                     data-target="border-color"></span>
                             </div>
                             <div class="clearfix">
-                                <label for="initial-color" class="truncate">{{__ 'Table headings'}}</label>
+                                <label for="color-picker-table" class="truncate">{{__ 'Table headings'}}</label>
                                 <span class="icon-eraser reset-button"
                                     title="{{__ 'Remove custom background color'}}"></span>
-                                <span class="color-trigger" id="initial-color"
+                                <span class="color-trigger" id="color-picker-table"
                                     data-target="table-heading-color"></span>
                             </div>
                         </div>

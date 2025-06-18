@@ -134,7 +134,8 @@ define([
                         }
                         css += '}';
                     }
-                } else { // regular selectors
+                } else {
+                    // regular selectors
                     css += `${key2}:${style[key1][key2]};`;
                 }
             }
@@ -163,7 +164,8 @@ define([
             if (_.size(style[selector]) === 0) {
                 delete style[selector];
             }
-        } else { // add this rule
+        } else {
+            // add this rule
             style[selector][property] = value;
         }
 
@@ -233,7 +235,7 @@ define([
         $.fileDownload(_getUri('download'), {
             preparingMessageHtml: common.preparingMessageHtml,
             failMessageHtml: common.failMessageHtml,
-            successCallback: function () { },
+            successCallback: function () {},
             httpMethod: 'POST',
             data: _.extend({}, itemRequestConfig, { stylesheetUri: uri })
         });
@@ -395,7 +397,7 @@ define([
         let resizerTarget;
         let href;
 
-        globalConfig = Object.assign({ cssVariablesRootSelector: '.tao-styleeditor-theme' }, config);
+        globalConfig = Object.assign({ cssVariablesRootSelector: '.qti-item' }, config);
 
         // promise
         currentItem = item;
