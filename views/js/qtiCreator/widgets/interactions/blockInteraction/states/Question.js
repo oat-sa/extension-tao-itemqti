@@ -67,6 +67,10 @@ define([
                 {
                     name : 'paragraph',
                     items : ['NumberedList', 'BulletedList', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+                },
+                {
+                    name: 'language',
+                    items: ['Language']
                 }
             ];
             var ENABLE_INTERACTION_SOURCE = context.featureFlags && context.featureFlags.FEATURE_FLAG_CKEDITOR_INTERACTION_SOURCE;

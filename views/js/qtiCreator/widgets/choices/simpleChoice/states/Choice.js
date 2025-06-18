@@ -83,6 +83,10 @@ define([
                     }, {
                         name : 'paragraph',
                         items : ['NumberedList', 'BulletedList', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+                    },
+                    {
+                        name : 'language',
+                        items : ['Language']
                     }
                 ]
             });
