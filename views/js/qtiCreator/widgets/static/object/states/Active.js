@@ -168,7 +168,7 @@ define([
             createMediaEditor($panelMediaSize, $container, qtiObject, width, height, onChange);
         }
     };
-    const hideShowPanels = type => {
+    const hideShowPanels = (type, compactAppearance) => {
         if (/video/.test(type)) {
             $panelObjectSize.hide();
             $panelMediaSize.show();
@@ -176,8 +176,14 @@ define([
             if (mediaEditor) {
                 mediaEditor.destroy();
             }
-            $panelObjectSize.show();
-            $panelMediaSize.hide();
+
+            if (compactAppearance) {
+                $panelObjectSize.hide();
+                $panelMediaSize.hide();
+            } else {
+                $panelObjectSize.show();
+                $panelMediaSize.hide();
+            }
         }
     };
     const _initUpload = function (widget) {
@@ -241,20 +247,26 @@ define([
         const qtiObject = _widget.element;
         const baseUrl = _widget.options.baseUrl;
         const $container = _widget.$original;
-
+        const compactAppearance = !!qtiObject.hasClass('compact-appearance');
         $form.html(
             formTpl({
                 baseUrl: baseUrl || '',
                 src: qtiObject.attr('data'),
                 alt: qtiObject.attr('alt'),
                 height: qtiObject.attr('height'),
-                width: qtiObject.attr('width')
+                width: qtiObject.attr('width'),
+                isAudio: /audio/.test(qtiObject.attr('type')),
+                compactAppearance: !!qtiObject.hasClass('compact-appearance')
             })
         );
 
+        if (/audio/.test(qtiObject.attr('type')) && compactAppearance){
+            $container.parent().addClass('compact-appearance');
+        }
+
         $panelObjectSize = $('.size-panel', $form);
         $panelMediaSize = $('.media-size-panel', $form);
-        hideShowPanels(qtiObject.attr('type'));
+        hideShowPanels(qtiObject.attr('type'), compactAppearance);
 
         //init resource manager
         _initUpload(_widget);
@@ -266,15 +278,19 @@ define([
             setMediaSizeEditor(_widget);
         });
 
+        const clearMediaSize = () => {
+            qtiObject.removeAttr('width');
+            qtiObject.removeAttr('height');
+            $form.find('input[name=width]').val('');
+            $form.find('input[name=height]').val('');
+        }
+
         //init data change callbacks
         formElement.setChangeCallbacks($form, qtiObject, {
             src: function (object, value) {
                 if (value !== qtiObject.attr('data')) {
                     qtiObject.attr('data', value);
-                    qtiObject.removeAttr('width');
-                    qtiObject.removeAttr('height');
-                    $form.find('input[name=width]').val('');
-                    $form.find('input[name=height]').val('');
+                    clearMediaSize();
                     $container.removeData('ui.previewer');
                     hideShowPanels(qtiObject.attr('type'));
                     inlineHelper.togglePlaceholder(_widget);
@@ -304,6 +320,20 @@ define([
             },
             align: function (object, value) {
                 inlineHelper.positionFloat(_widget, value);
+            },
+            compactAppearance: function (object, value) {
+                if(value) {
+                    if(!$container.hasClass('compact-appearance')) {
+                        qtiObject.addClass('compact-appearance');
+                        $container.parent().addClass('compact-appearance');
+                        clearMediaSize();
+                    }
+                    $panelObjectSize.hide();
+                } else {
+                    qtiObject.removeClass('compact-appearance');
+                    $container.parent().removeClass('compact-appearance');
+                    $panelObjectSize.show();
+                }
             }
         });
     };
