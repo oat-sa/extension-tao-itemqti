@@ -9,3 +9,31 @@
         max-width: 100%;
     }
 }
+
+.compact-appearance {
+    .qti-object-container {
+        margin-top: .5rem;
+
+        .seek,
+        .timer,
+        .sound { display: none; } // hide timer and sound
+
+        .mediaplayer.audio {
+            max-width: 4rem;
+            max-height: 4rem;
+            min-width: 4rem;
+
+            .action.play {
+                border: none;
+            }
+            .action.reload {
+                width: 4rem;
+                padding: 0;
+
+                .message {
+                    display: none;
+                }
+            }
+        }
+    }
+}

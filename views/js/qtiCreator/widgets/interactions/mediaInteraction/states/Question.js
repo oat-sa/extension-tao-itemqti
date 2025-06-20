@@ -68,9 +68,14 @@ define([
         let isAudio = getIsAudio(interaction);
         const defaultVideoHeight = 270;
         const defaultAudioHeight = 30;
+        const compactAppearance = isAudio && interaction.hasClass('compact-appearance');
+
+        if(compactAppearance) {
+            $container.parent().addClass('compact-appearance');
+        }
 
         /**
-         * Each change triggers an re rendering of the interaction
+         * Each change triggers a rerendering of the interaction
          */
         const reRender = _.debounce(function reRender() {
             interaction.attr('responseIdentifier', interaction.attr('responseIdentifier'));
@@ -241,19 +246,22 @@ define([
         };
 
         const setUpCallbacks = function setUpCallbacks() {
+            function disableAutostart(interaction) {
+                // reset subpanel properties to defaults
+                interaction.removeAttr('data-autostart-delay-ms');
+                interaction.removeAttr('data-sequence-repeats');
+                interaction.removeAttr('data-sequence-delay-between-ms');
+                interaction.removeAttr('data-sequence-delay-after-ms');
+                interaction.removeClass('hide-player');
+                $container.removeClass('dimmed');
+                interaction.removeClass('sequential');
+            }
             //init data change callbacks
             const callbacks = {
                 autostart: function autostart(boundInteraction, attrValue, attrName) {
                     interaction.attr(attrName, attrValue);
                     if (attrValue === false) {
-                        // reset subpanel properties to defaults
-                        interaction.removeAttr('data-autostart-delay-ms');
-                        interaction.removeAttr('data-sequence-repeats');
-                        interaction.removeAttr('data-sequence-delay-between-ms');
-                        interaction.removeAttr('data-sequence-delay-after-ms');
-                        interaction.removeClass('hide-player');
-                        $container.removeClass('dimmed');
-                        interaction.removeClass('sequential');
+                        disableAutostart(interaction);
                     } else if (isFlaAvailable) {
                         interaction.attr('data-autostart-delay-ms', 0);
                         interaction.attr('data-sequence-repeats', 1);
@@ -381,6 +389,26 @@ define([
                         renderForm();
                         reRender();
                     }
+                },
+                compactAppearance: function (boundInteraction, attrValue,) {
+                    if(attrValue) {
+                        if(!$container.hasClass('compact-appearance')) {
+                            interaction.addClass('compact-appearance');
+                            $container.parent().addClass('compact-appearance');
+                            disableAutostart(interaction);
+                            interaction.removeAttr('width');
+                            interaction.removeAttr('height');
+                            interaction.removeAttr('loop');
+                            interaction.removeAttr('minPlays');
+                            interaction.removeAttr('maxPlays');
+                        }
+                    } else {
+                        interaction.removeClass('compact-appearance');
+                        $container.parent().removeClass('compact-appearance');
+                    }
+
+                    renderForm();
+                    reRender();
                 }
             };
 
@@ -415,7 +443,8 @@ define([
                     // tpl data for the "object", this part is going to be reused by the "objectWidget"
                     // @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10173
                     data: interaction.object.attr('data'),
-                    type: interaction.object.attr('type') //use the same as the uploadInteraction, contact jerome@taotesting.com for this
+                    type: interaction.object.attr('type'), //use the same as the uploadInteraction, contact jerome@taotesting.com for this
+                    compactAppearance: !!interaction.hasClass('compact-appearance'),
                 })
             );
             // re-wire all form controls & tooltips
