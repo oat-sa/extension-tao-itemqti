@@ -200,10 +200,14 @@ class QTIPackedItemExporter extends AbstractQTIItemExporter
             }
 
             $manifest = $this->getManifest();
-            $this->getMetadataExporter()->export($this->getItem(), $manifest);
-            $this->injectMetadataToManifest($manifest, $this->getItem());
-            $this->setManifest($manifest);
+            $isApip = isset($options['apip']) && $options['apip'] === true;
+            // APIP Package could not include metadata
+            if (!$isApip) {
+                $this->getMetadataExporter()->export($this->getItem(), $manifest);
+                $this->injectMetadataToManifest($manifest, $this->getItem());
+            }
 
+            $this->setManifest($manifest);
 
             // -- Overwrite manifest in the current ZIP archive.
             $zipArchive->addFromString('imsmanifest.xml', $this->getManifest()->saveXML());
