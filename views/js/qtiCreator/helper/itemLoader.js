@@ -44,7 +44,8 @@ define([
     const qtiNamespace = 'http://www.imsglobal.org/xsd/imsqti_v2p2';
 
     const qtiSchemaLocation = {
-        'http://www.imsglobal.org/xsd/imsqti_v2p2': 'http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd'
+        'http://www.imsglobal.org/xsd/imsqti_v2p2': 'http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd',
+        'http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0': 'https://purl.imsglobal.org/spec/qti/v2p2/schema/xsd/imsqtiv2p2p4_html5_v1p0.xsd'
     };
 
     const creatorLoader = {

@@ -23,7 +23,7 @@ msgid " or "
 msgstr "  "
 
 msgid "%d characters allowed"
-msgstr "文字「％d」が許可されています"
+msgstr "文字「%d」が許可されています"
 
 msgid "%d Item(s) of %d imported from the given IMS QTI Package."
 msgstr ""
@@ -2078,4 +2078,3 @@ msgstr ""
 
 msgid "Your item has been saved"
 msgstr "アイテムが保存されました"
-
