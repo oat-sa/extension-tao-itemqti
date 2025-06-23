@@ -84,15 +84,19 @@ define([
         });
 
         $(document).on('customcssloaded.styleeditor', function (e, style) {
+            let shouldFireStyleChange = false;
             let val = style[cssVariablesRootSelector] && style[cssVariablesRootSelector]['--styleeditor-font-family'];
             if (!val) {
                 val = style[target] && style[target]['font-family'];
+                shouldFireStyleChange = true; //migrate older stylesheets
             }
 
             if (val) {
                 $selector.select2('val', val);
                 $(`${selector} option:selected`).first().attr('selected', 'selected');
-                styleEditorApply(val);
+                if (shouldFireStyleChange) {
+                    styleEditorApply(val);
+                }
             }
         });
 

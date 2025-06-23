@@ -115,15 +115,19 @@ define(['jquery', 'lodash', 'taoQtiItem/qtiCreator/editor/styleEditor/styleEdito
          * style loaded from style sheet
          */
         $(document).on('customcssloaded.styleeditor', function (e, style) {
+            let shouldFireStyleChange = false;
             let val = style[cssVariablesRootSelector] && style[cssVariablesRootSelector]['--styleeditor-font-size'];
             if (!val) {
                 val = style[itemSelector] && style[itemSelector]['font-size'];
+                shouldFireStyleChange = true; //migrate older stylesheets
             }
 
             if (val) {
                 itemFontSize = parseInt(val, 10); // example 16px
                 $input.val(itemFontSize);
-                styleEditorApply(itemFontSize);
+                if (shouldFireStyleChange) {
+                    styleEditorApply(itemFontSize);
+                }
             } else {
                 $input.val();
             }

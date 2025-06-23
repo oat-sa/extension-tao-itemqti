@@ -110,17 +110,21 @@ define([
                     target = $trigger.data('target'),
                     style = styleEditor.getStyle() || {};
 
+                let shouldFireStyleChange = false;
                 const { varName, propSelector, propName } = colorBindings[target];
                 let val = style[cssVariablesRootSelector] && style[cssVariablesRootSelector][varName];
                 if (!val) {
                     val = style[propSelector] && style[propSelector][propName];
+                    shouldFireStyleChange = true; //migrate older stylesheets
                 }
 
                 if (val) {
                     // elements have a color from usage of style editor
                     $trigger.css('background-color', val);
                     $trigger.attr('title', rgbToHex(val));
-                    styleEditorApply(target, val);
+                    if (shouldFireStyleChange) {
+                        styleEditorApply(target, val);
+                    }
                 } else {
                     // elements have no color at all
                     $trigger.css('background-color', '');
