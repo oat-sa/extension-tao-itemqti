@@ -1560,7 +1560,6 @@ class ParserFactory
             throw new UnexpectedResponseProcessing('Feedback resources not found. Not template driven, unknown rule');
         }
         return $feedbackRule;
-
     }
 
     private function buildSimpleFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseId = '')
