@@ -1379,6 +1379,12 @@ class ParserFactory
             . '[name(./responseIf/not/*[1]) = "match" ] [name(./responseIf/not/*[1]/*[1]) = "variable" ] '
             . '[name(./responseIf/not/*[1]/*[2]) = "correct" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] '
             . '[name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ]';
+        $subPatternFeedbackIsNull = '[name(./*[1]) = "responseIf"]'
+              . '[count(./responseIf/*) = 2] '
+              . '[name(./responseIf/*[1]) = "isNull"]'
+              . '[name(./responseIf/isNull/*[1]) = "variable"]'
+              . '[name(./responseIf/*[2]) = "setOutcomeValue"]'
+              . '[name(./responseIf/setOutcomeValue/*[1]) = "baseValue"]';
         $subPatternFeedbackMatchChoices = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] '
             . '[name(./responseIf/*[1]) = "match" ] [name(./responseIf/*[1]/*[2]) = "multiple" ] '
             . '[name(./responseIf/*[1]/*[2]/*) = "baseValue" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] '
@@ -1398,6 +1404,7 @@ class ParserFactory
         $patternFeedbackCorrectWithElse = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackCorrect
             . $subPatternFeedbackElse;
         $patternFeedbackIncorrect = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackIncorrect;
+        $patternFeedbackIsNull = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackIsNull;
         $patternFeedbackIncorrectWithElse = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackIncorrect
             . $subPatternFeedbackElse;
         $patternFeedbackMatchChoices = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackMatchChoices;
@@ -1440,6 +1447,11 @@ class ParserFactory
             ) {
                 $responseIdentifier = (string) $subtree->responseIf->not->match->variable['identifier'];
                 $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'incorrect', null, $responseIdentifier);
+            } elseif (
+                count($subtree->xpath($patternFeedbackIsNull)) > 0
+            ) {
+                $responseIdentifier = (string) $subtree->responseIf->isNull->variable['identifier'];
+                $feedbackRule = $this->buildIsNullFeedbackRule($subtree, null, $responseIdentifier);
             } elseif (
                 count($subtree->xpath($patternFeedbackOperator)) > 0
                 || count($subtree->xpath($patternFeedbackOperatorWithElse)) > 0
@@ -1523,6 +1535,32 @@ class ParserFactory
         $returnValue = $templatesDrivenRP;
 
         return $returnValue;
+    }
+
+    private function buildIsNullFeedbackRule($subtree, $comparedValue = null, $responseId = '')
+    {
+        $conditionName = 'isNull';
+        $responseIdentifier = empty($responseId)
+            ? (string) $subtree->responseIf->isNull->variable['identifier']
+            : $responseId;
+
+        $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
+        $feedbackIdentifier = (string) $subtree->responseIf->setOutcomeValue->baseValue;
+
+        try {
+            $response = $this->getResponse($responseIdentifier);
+            $outcome = $this->getOutcome($feedbackOutcomeIdentifier);
+            $feedbackThen = $this->getModalFeedback($feedbackIdentifier);
+
+            $feedbackElse = null;
+
+            $feedbackRule = new SimpleFeedbackRule($outcome, $feedbackThen, $feedbackElse);
+            $feedbackRule->setCondition($response, $conditionName, $comparedValue);
+        } catch (ParsingException $e) {
+            throw new UnexpectedResponseProcessing('Feedback resources not found. Not template driven, unknown rule');
+        }
+        return $feedbackRule;
+
     }
 
     private function buildSimpleFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseId = '')
