@@ -189,6 +189,11 @@ define([
                             }
                         )
                     );
+                    if (options.on) {
+                        Object.entries(options.on).forEach(([eventName, handler]) => {
+                            editor.on(eventName, handler);
+                        });
+                    }
 
                     managePlaceholder($editable, editor);
 
