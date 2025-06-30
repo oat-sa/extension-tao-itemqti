@@ -4,8 +4,9 @@ define([
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_condition',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_correct',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_incorrect',
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_isnull',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_choices'
-], function(_, tpl, tplCondition, tplCorrect, tplIncorrect, tplChoices){
+], function(_, tpl, tplCondition, tplCorrect, tplIncorrect, tplIsnull, tplChoices){
     return {
         qtiClass : '_simpleFeedbackRule',
         template : tpl,
@@ -28,6 +29,9 @@ define([
                     break;
                 case 'incorrect':
                     template = tplIncorrect;
+                    break;
+                case 'isNull':
+                    template = tplIsnull;
                     break;
                 case 'lt':
                 case 'lte':
