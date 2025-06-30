@@ -44,6 +44,12 @@ define([
             onUnset : onUnsetCorrect
         },
         {
+            name : 'isNull',
+            label : __('is null'),
+            init : hideScore,
+            onSet : onSetScore,
+        },
+        {
             name : 'choices',
             label : __('choices'),
             init : function initChoice(fbRule, $select){
