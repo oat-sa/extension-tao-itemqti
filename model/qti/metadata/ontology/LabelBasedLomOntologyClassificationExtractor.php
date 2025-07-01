@@ -25,6 +25,7 @@ use core_kernel_classes_Resource as Resource;
 use core_kernel_classes_Triple as Triple;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdf;
+use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationEntryMetadataValue;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationMetadataValue;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationSourceMetadataValue;
@@ -44,6 +45,7 @@ class LabelBasedLomOntologyClassificationExtractor implements MetadataExtractor
         TaoItemOntology::PROPERTY_ITEM_MODEL,
         taoTests_models_classes_TestsService::PROPERTY_TEST_TESTMODEL,
         taoTests_models_classes_TestsService::PROPERTY_TEST_CONTENT,
+        TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES
     ];
 
     /**
