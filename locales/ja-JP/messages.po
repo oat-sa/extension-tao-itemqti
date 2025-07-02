@@ -514,7 +514,7 @@ msgid "Description"
 msgstr "説明"
 
 msgid "Direction of writing"
-msgstr ""
+msgstr "文字列方向"
 
 msgid "Disable this stylesheet temporarily"
 msgstr "一時的にこのスタイルシートを無効にします"
@@ -790,7 +790,7 @@ msgid "Horizontal"
 msgstr "水平"
 
 msgid "Horizontal text"
-msgstr ""
+msgstr 横書き"
 
 msgid "Hotspot"
 msgstr "ホットスポット"
@@ -2155,7 +2155,7 @@ msgid "Vertical"
 msgstr "垂直"
 
 msgid "Vertical text"
-msgstr ""
+msgstr "縦書き"
 
 msgid "warning"
 msgstr "警告"
