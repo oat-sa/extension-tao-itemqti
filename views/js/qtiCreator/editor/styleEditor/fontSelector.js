@@ -28,8 +28,9 @@ define([
         const selector = 'select#item-editor-font-selector',
             $selector = $(selector),
             target = $selector.data('target'),
+            cssVariablesRootSelector = styleEditor.getConfig().cssVariablesRootSelector,
             normalize = function (font) {
-                return font.replace(/"/g, "'").replace(/, /g, ",");
+                return font.replace(/"/g, "'").replace(/, /g, ',');
             },
             clean = function (font) {
                 return font.substring(0, font.indexOf(',')).replace(/'/g, '');
@@ -37,7 +38,7 @@ define([
             resetButton = $selector.parent().find('[data-role="font-selector-reset"]'),
             toLabel = function (font) {
                 font = font.replace(/-/g, ' ');
-                return (`${font}`).replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, function ($1) {
+                return `${font}`.replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, function ($1) {
                     return $1.toUpperCase();
                 });
             },
@@ -48,9 +49,10 @@ define([
                 }
                 return `<span style="font-size: 12px;${$(originalOption).attr('style')}">${state.text}</span>`;
             },
-            reset = function () {
-                styleEditor.apply(target, 'font-family');
-                $selector.select2('val', '');
+            styleEditorApply = function (val) {
+                const varName = '--styleeditor-font-family';
+                styleEditor.apply(cssVariablesRootSelector, varName, val);
+                styleEditor.apply(target, 'font-family', val ? `var(${varName})` : null);
             };
 
         $selector.append(`<option value="">${__('Default')}</option>`);
@@ -70,7 +72,10 @@ define([
             $selector.append(optGroup);
         });
 
-        resetButton.on('click', reset);
+        resetButton.on('click', function () {
+            styleEditorApply(null);
+            $selector.select2('val', '');
+        });
 
         $selector.select2({
             formatResult: format,
@@ -79,14 +84,24 @@ define([
         });
 
         $(document).on('customcssloaded.styleeditor', function (e, style) {
-            if (style[target] && style[target]['font-family']) {
-                $selector.select2('val', style[target]['font-family']);
+            let shouldFireStyleChange = false;
+            let val = style[cssVariablesRootSelector] && style[cssVariablesRootSelector]['--styleeditor-font-family'];
+            if (!val) {
+                val = style[target] && style[target]['font-family'];
+                shouldFireStyleChange = true; //migrate older stylesheets
+            }
+
+            if (val) {
+                $selector.select2('val', val);
                 $(`${selector} option:selected`).first().attr('selected', 'selected');
+                if (shouldFireStyleChange) {
+                    styleEditorApply(val);
+                }
             }
         });
 
         $selector.on('change', function () {
-            styleEditor.apply(target, 'font-family', $(this).val());
+            styleEditorApply($(this).val());
             $(`${selector} option:selected`).first().attr('selected', 'selected');
         });
     }
