@@ -7,3 +7,12 @@ figure {
         word-wrap: break-word;
     }
 }
+
+.writing-mode-vertical-rl {
+    figure {
+        display: grid;
+        figcaption {
+            grid-row: -1;
+        }
+    }
+}
