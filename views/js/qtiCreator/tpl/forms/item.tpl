@@ -89,13 +89,13 @@
                 <label class="no-margin">
                     <input type="radio" name="writingMode" value="horizontal" id="writingMode-radio-horizontal" />
                     <span class="icon-radio"></span>
-                    <label for="writingMode-radio-horizontal">{{__ "Horizontal"}} </label>
+                    <label for="writingMode-radio-horizontal">{{__ "Horizontal text"}} </label>
                 </label>
                 <br>
                 <label class="no-margin">
                     <input type="radio" name="writingMode" value="vertical" id="writingMode-radio-vertical" />
                     <span class="icon-radio"></span>
-                    <label for="writingMode-radio-vertical">{{__ "Vertical"}} </label>
+                    <label for="writingMode-radio-vertical">{{__ "Vertical text"}} </label>
                 </label>
             </div>
             <hr />
