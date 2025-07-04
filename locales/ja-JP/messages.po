@@ -790,7 +790,7 @@ msgid "Horizontal"
 msgstr "水平"
 
 msgid "Horizontal text"
-msgstr 横書き"
+msgstr "横書き"
 
 msgid "Hotspot"
 msgstr "ホットスポット"
