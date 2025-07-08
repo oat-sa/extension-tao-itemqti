@@ -22,9 +22,11 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti\ServiceProvider;
 
+use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
 use oat\taoQtiItem\model\Export\Qti22PostProcessorService;
+use oat\taoBackOffice\model\lists\RemoteListService;
 use oat\taoQtiItem\model\Export\Qti3Package\ExporterFactory;
 use oat\taoQtiItem\model\Export\Qti3Package\Qti3XsdValidator;
 use oat\taoQtiItem\model\Export\Qti3Package\TransformationService;
@@ -33,9 +35,11 @@ use oat\taoQtiItem\model\qti\converter\ItemConverter;
 use oat\taoQtiItem\model\qti\converter\ManifestConverter;
 use oat\taoQtiItem\model\qti\Identifier\Service\QtiIdentifierSetter;
 use oat\taoQtiItem\model\qti\Service;
+use oat\taoQtiItem\model\QtiCreator\Scales\RemoteScaleListService;
 use oat\taoQtiItem\model\ValidationService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
+use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class QtiServiceProvider implements ContainerServiceProviderInterface
@@ -78,6 +82,17 @@ class QtiServiceProvider implements ContainerServiceProviderInterface
             ->public();
 
         $services->set(Qti22PostProcessorService::class)
+            ->public();
+
+        $services->set(RemoteScaleListService::class)
+            ->args([
+                service(Ontology::SERVICE_ID),
+                service(RemoteListService::class),
+                service(LoggerService::SERVICE_ID),
+                env(RemoteScaleListService::REMOTE_LIST_SCALE)
+                    ->default('')
+                    ->string()
+            ])
             ->public();
     }
 }
