@@ -15,16 +15,18 @@
     {{/unless}}
 </div>
 
-<div class="panel">
-    <label>
-        <input name="autostart" type="checkbox" {{#if autostart}}checked="checked"{{/if}}/>
-        <span class="icon-checkbox"></span>
-        {{__ "Autostart"}}
-    </label>
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">{{__ "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."}}
-    </span>
-</div>
+{{#unless compactAppearance}}
+    <div class="panel">
+        <label>
+            <input name="autostart" type="checkbox" {{#if autostart}}checked="checked"{{/if}}/>
+            <span class="icon-checkbox"></span>
+            {{__ "Autostart"}}
+        </label>
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+        <span class="tooltip-content">{{__ "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."}}
+        </span>
+    </div>
+{{/unless}}
 
 {{#if isFlaAvailable }}
     {{#if isAudio}}
@@ -92,18 +94,19 @@
         {{/if}}
     {{/if}}
 {{/if}}
-
-<div class="panel">
-    <label>
-        <input name="loop" type="checkbox" {{#if loop}}checked="checked"{{/if}} {{#if sequential}}disabled{{/if}}/>
-        <span class="icon-checkbox"></span>
-        {{__ "Loop"}}
-    </label>
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">
-       {{__ "The loop attribute is used to set continuous play mode. In continuous play mode, once the media object has started to play it should play continuously (subject to maxPlays)."}}
-    </span>
-</div>
+{{#unless compactAppearance}}
+    <div class="panel">
+        <label>
+            <input name="loop" type="checkbox" {{#if loop}}checked="checked"{{/if}} {{#if sequential}}disabled{{/if}}/>
+            <span class="icon-checkbox"></span>
+            {{__ "Loop"}}
+        </label>
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+        <span class="tooltip-content">
+           {{__ "The loop attribute is used to set continuous play mode. In continuous play mode, once the media object has started to play it should play continuously (subject to maxPlays)."}}
+        </span>
+    </div>
+{{/unless}}
 
 <div class="panel">
     <label>
@@ -117,13 +120,29 @@
     </span>
 </div>
 
-<div class="panel">
-    <div>
-        <label for="maxPlays" class="spinner">{{__ 'Max plays count'}}</label>
-        <input name="maxPlays" value="{{maxPlays}}" class="large {{#if hasSequenceRepeats}}disabled{{/if}}" data-increment="1" data-min="0" data-max="{{#if sequential}}{{#if hasSequenceRepeats}}0{{else}}1{{/if}}{{else}}1000{{/if}}" type="text" {{#if hasSequenceRepeats}}disabled{{/if}} />
-        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+{{#unless compactAppearance}}
+    <div class="panel">
+        <div>
+            <label for="maxPlays" class="spinner">{{__ 'Max plays count'}}</label>
+            <input name="maxPlays" value="{{maxPlays}}" class="large {{#if hasSequenceRepeats}}disabled{{/if}}" data-increment="1" data-min="0" data-max="{{#if sequential}}{{#if hasSequenceRepeats}}0{{else}}1{{/if}}{{else}}1000{{/if}}" type="text" {{#if hasSequenceRepeats}}disabled{{/if}} />
+            <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+            <span class="tooltip-content">
+                {{__ "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."}}
+            </span>
+        </div>
+    </div>
+{{/unless}}
+
+{{#if isAudio}}
+    <div class="panel compact-appearance">
+        <label>
+            <input name="compactAppearance" type="checkbox" {{#if compactAppearance}}checked="checked"{{/if}}/>
+            <span class="icon-checkbox"></span>
+            {{__ "Compact Appearance"}}
+        </label>
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
         <span class="tooltip-content">
-            {{__ "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."}}
+           {{__ "Set the media player UI to Compact mode, displaying only the play button icon, hiding all other controls such as volume, seek bar."}}
         </span>
     </div>
-</div>
+{{/if}}
