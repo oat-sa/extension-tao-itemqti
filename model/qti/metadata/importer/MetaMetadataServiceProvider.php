@@ -65,6 +65,8 @@ class MetaMetadataServiceProvider implements ContainerServiceProviderInterface
                 service(CustomPropertiesManifestScanner::class),
                 service(LoggerService::SERVICE_ID),
                 env('REMOTE_LIST_SCALE')
+                    ->default('')
+                    ->string()
             ])
             ->public();
     }
