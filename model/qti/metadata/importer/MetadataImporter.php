@@ -49,6 +49,11 @@ class MetadataImporter extends AbstractMetadataService
     public const VALIDATOR_KEY = 'validators';
 
     /**
+     * Properties to exclude from metadata import
+     */
+    protected array $excludedProperties = [];
+
+    /**
      * Extract metadata value from a DomManifest
      *
      * {@inheritdoc}
@@ -60,7 +65,16 @@ class MetadataImporter extends AbstractMetadataService
                 __('Metadata import requires an instance of DomManifest to extract metadata')
             );
         }
-        return parent::extract($domManifest);
+
+        $metadataValues = parent::extract($domManifest);
+
+        foreach ($this->excludedProperties as $property) {
+            if (isset($metadataValues[$property])) {
+                unset($metadataValues[$property]);
+            }
+        }
+
+        return $metadataValues;
     }
 
     /**
