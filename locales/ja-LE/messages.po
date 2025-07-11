@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2024.10\n"
-"PO-Revision-Date: 2024-10-03T15:13:22\n"
+"Project-Id-Version: TAO 2025.05 LTS\n"
+"PO-Revision-Date: 2025-07-02T13:41:48\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-LE\n"
@@ -31,6 +31,9 @@ msgstr ""
 msgid "%d/%d"
 msgstr "%d/%d"
 
+msgid "%s - Original"
+msgstr ""
+
 msgid "%s metadata values found in source by extractor(s)."
 msgstr "抽出プログラムによってソースで見つかったメタデータ値：％s"
 
@@ -41,6 +44,9 @@ msgid "%s of %s characters recommended."
 msgstr ""
 
 msgid "%s of %s words maximum."
+msgstr ""
+
+msgid "%title% - Translation (%lang%)"
 msgstr ""
 
 msgid "(comma)"
@@ -80,7 +86,9 @@ msgid "A human interpretation of the variable's value."
 msgstr "変数値の翻訳"
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
+""
 msgstr "QTIコンポーネントはサポートされていません。システムは次のエラーを返しました: %s\n"
+""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "ルーブリックブロックは、アイテムを表示する1つ以上のアクターへの指示を表す評価アイテムののitemBodyの一部を識別します。ルーブリックブロックはsimpleBlocks要素として定義されているのでインタラクションを含めることはできません。"
@@ -148,6 +156,9 @@ msgstr "マッチングを許可"
 msgid "Allowed number of uses"
 msgstr "選択回数"
 
+msgid "Alpha"
+msgstr ""
+
 msgid "Alt Text"
 msgstr "代替えテキスト"
 
@@ -182,9 +193,14 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "QTIアイテムパッケージのインポート中に予期しないエラーが発生しました。システムは次のエラーを返しました: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
+""
 msgstr "QTIアイテムパッケージのインポート中に予期しないエラーが発生しました。システムは次のエラーを返しました: %s\n"
+""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
+msgstr ""
+
+msgid "Angle"
 msgstr ""
 
 msgid "Answer required"
@@ -195,6 +211,9 @@ msgstr "APIPコンテンツパッケージ"
 
 msgid "Apip Package successfully exported."
 msgstr "APIPパッケージのエクスポートが完了しました"
+
+msgid "Arc"
+msgstr ""
 
 msgid "Arrange a list of choices in the correct order."
 msgstr "正しい順序で選択項目のリストを並べます"
@@ -228,6 +247,9 @@ msgstr "ベース"
 
 msgid "Be aware, if you choose to remove the instructions, the system will not provide any warnings to the test takers if constraints are set."
 msgstr "制約条件が設定されていても、アラートを非表示すると受験者にアラートが表示されません"
+
+msgid "Beta"
+msgstr ""
 
 msgid "Block"
 msgstr "文字ブロック"
@@ -340,6 +362,9 @@ msgstr "短いテキスト入力（文字列または数値）でオープンエ
 msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
 msgstr "1つまたは複数のテキストエリア（文字列または数値）でオープンエンドの情報を収集します"
 
+msgid "Colon"
+msgstr ""
+
 msgid "Color Picker"
 msgstr "色の取得"
 
@@ -347,6 +372,12 @@ msgid "Column separator"
 msgstr ""
 
 msgid "Common Interactions"
+msgstr ""
+
+msgid "Compact Appearance"
+msgstr ""
+
+msgid "Congruent"
 msgstr ""
 
 msgid "Constraints"
@@ -360,6 +391,9 @@ msgstr "正しい"
 
 msgid "correct"
 msgstr "正しい"
+
+msgid "Cosine"
+msgstr ""
 
 msgid "Cosinus"
 msgstr "cos"
@@ -427,6 +461,9 @@ msgstr "問題文を記入・・・"
 msgid "Define the correct response."
 msgstr "正解を設定"
 
+msgid "Define the status of the translation."
+msgstr ""
+
 msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
 msgstr "有効なレスポンスを得るために、選択肢が受検者から選択されな\u200B\u200Bければならないかどうかを定義します。"
 
@@ -438,6 +475,15 @@ msgstr "指定幅"
 
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "数値型の結果変数の最大値を設定します。最大値は正の値、最小は負の値にすることができます。"
+
+msgid "Degrees"
+msgstr ""
+
+msgid "delay after"
+msgstr ""
+
+msgid "delay between"
+msgstr ""
 
 msgid "Delete"
 msgstr "削除"
@@ -454,8 +500,14 @@ msgstr "このモーダルフィードバックを削除"
 msgid "Delimiter"
 msgstr "区切り"
 
+msgid "Delta"
+msgstr ""
+
 msgid "Description"
 msgstr "説明"
+
+msgid "Direction of writing"
+msgstr "文字列方向"
 
 msgid "Disable this stylesheet temporarily"
 msgstr "一時的にこのスタイルシートを無効にします"
@@ -574,6 +626,9 @@ msgstr "Tips内容"
 msgid "Enter tooltip target"
 msgstr "Tipsリンク文字"
 
+msgid "Equals"
+msgstr ""
+
 msgid "error"
 msgstr ""
 
@@ -618,6 +673,9 @@ msgstr "QTI 2.1 パッケージをエクスポート"
 
 msgid "Export QTI 2.2 Package"
 msgstr "QTI 2.2 パッケージをエクスポート"
+
+msgid "Export QTI 3.0 Package"
+msgstr ""
 
 msgid "Extended Text"
 msgstr "記述問題"
@@ -718,6 +776,9 @@ msgstr ""
 msgid "Horizontal"
 msgstr "水平"
 
+msgid "Horizontal text"
+msgstr "横書き"
+
 msgid "Hotspot"
 msgstr "ホットスポット"
 
@@ -753,6 +814,9 @@ msgstr "識別子は既に使用されています"
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr "設定する場合、受検者のレスポンスが有効となるような正規表現を指定します"
+
+msgid "If pattern mask does not match match value provided, this message will be shown."
+msgstr ""
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
 msgstr ""
@@ -797,6 +861,9 @@ msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot 
 msgstr ""
 
 msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
+msgstr ""
+
+msgid "In progress"
 msgstr ""
 
 msgid "In Progress"
@@ -865,7 +932,13 @@ msgstr ""
 msgid "Invalid value in correct response property."
 msgstr ""
 
+msgid "Invalid value, should be an integer number."
+msgstr ""
+
 msgid "Invalid value, use %s %s for decimal point."
+msgstr ""
+
+msgid "is null"
 msgstr ""
 
 msgid "Is this choice the correct response?"
@@ -938,11 +1011,23 @@ msgstr "左"
 msgid "Left bracket"
 msgstr "左括弧"
 
+msgid "Left parenthesis"
+msgstr ""
+
 msgid "Length"
 msgstr "文字数"
 
+msgid "Less than or equal"
+msgstr ""
+
 msgid "Level"
 msgstr "レベル"
+
+msgid "Line"
+msgstr ""
+
+msgid "Line Segment"
+msgstr ""
 
 msgid "Lines"
 msgstr "行"
@@ -1147,7 +1232,9 @@ msgid "one association pair"
 msgstr "１つの組み合わせ"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
+""
 msgstr "1つ以上のQTIコンポーネントがシステムでサポートされていません。システムは次のエラーを返しました：%s\n"
+""
 
 msgid "Order"
 msgstr "並び替え"
@@ -1173,11 +1260,20 @@ msgstr "結果変数の宣言"
 msgid "Pair scoring"
 msgstr "組合せスコア"
 
+msgid "Parallel"
+msgstr ""
+
 msgid "Pattern"
 msgstr "パターン"
 
+msgid "Pattern violation message"
+msgstr ""
+
 msgid "Pause"
 msgstr "一時停止"
+
+msgid "Perpendicular"
+msgstr ""
 
 msgid "Pi"
 msgstr "π"
@@ -1187,6 +1283,9 @@ msgstr ""
 
 msgid "Plain text"
 msgstr "テキスト"
+
+msgid "Play audio several times in a row. Delay between plays can be set if needed."
+msgstr ""
 
 msgid "Please add one or more gaps to the text in question mode."
 msgstr "少なくとも１つの穴埋めを作ってください。"
@@ -1263,6 +1362,9 @@ msgstr "正解を入力してください。"
 msgid "Please type the correct response in the box below."
 msgstr "正解を枠内に入力してください"
 
+msgid "Plus/minus"
+msgstr ""
+
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "ポータブル要素モデル％sが見つかりません。必要な拡張子が欠落している可能性があります。"
 
@@ -1332,6 +1434,9 @@ msgstr "QTIパッケージ2.1"
 msgid "QTI Package 2.2"
 msgstr "QTIパッケージ2.2"
 
+msgid "QTI Package 3.0"
+msgstr ""
+
 msgid "QTI-XML error at line %1$d \"%2$s\"."
 msgstr ""
 
@@ -1343,6 +1448,9 @@ msgstr "QTI/APIP XML Item Document"
 
 msgid "Question"
 msgstr "問題"
+
+msgid "Ray"
+msgstr ""
 
 msgid "Recommendations"
 msgstr "推奨"
@@ -1401,6 +1509,9 @@ msgstr "このスタイルシートを削除"
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr "すべてのアラートを非表示にします"
 
+msgid "repeats"
+msgstr ""
+
 msgid "Replay timeout"
 msgstr "再生タイムアウト"
 
@@ -1452,6 +1563,9 @@ msgstr "右"
 msgid "Right bracket"
 msgstr "右括弧"
 
+msgid "Right parenthesis"
+msgstr ""
+
 msgid "Rollback on..."
 msgstr "戻す..."
 
@@ -1477,6 +1591,9 @@ msgid "Score value"
 msgstr "スコア値"
 
 msgid "Scrollable multi-column"
+msgstr ""
+
+msgid "sec"
 msgstr ""
 
 msgid "seconds"
@@ -1575,6 +1692,9 @@ msgstr ""
 msgid "Set a CSS class name in order to customize the display style."
 msgstr "画面表示をカスタマイズするためのCSSクラス名を設定します"
 
+msgid "Set the media player UI to Compact mode, displaying only the play button icon, hiding all other controls such as volume, seek bar."
+msgstr ""
+
 msgid "Set the score for this response"
 msgstr "解答のためのスコアを設定します。"
 
@@ -1583,6 +1703,12 @@ msgstr "画像位置"
 
 msgid "Shuffle choices"
 msgstr "選択肢をシャッフル"
+
+msgid "Similar"
+msgstr ""
+
+msgid "Sine"
+msgstr ""
 
 msgid "Single choice"
 msgstr ""
@@ -1617,6 +1743,9 @@ msgstr "平方根"
 msgid "standard"
 msgstr "標準"
 
+msgid "Status"
+msgstr ""
+
 msgid "Step"
 msgstr "ステップ"
 
@@ -1641,11 +1770,20 @@ msgstr "\"%sのコンパイルが完了しました"
 msgid "Successfully created item \"%s"
 msgstr "アイテムの作成が完了しました：\"%s"
 
+msgid "Switches the whole item's direction of writing between horizontal and vertical."
+msgstr ""
+
 msgid "Table headings"
 msgstr "表の見出し"
 
+msgid "Tangent"
+msgstr ""
+
 msgid "TAO default styles"
 msgstr "TAO標準スタイル"
+
+msgid "Target class is missing the following metadata properties: %s"
+msgstr ""
 
 msgid "Target Class Lookup for resource \"%s\"..."
 msgstr "リソース \"％s\" のターゲットクラスをルックアップ..."
@@ -1867,7 +2005,9 @@ msgid "The upper bound of the slider"
 msgstr "スライダー最大値"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
+""
 msgstr "QTIアイテムのインポートに失敗しました。エラー内容:%s\n"
+""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "QTIアイテムを含むZIPファイルを抽出できません"
@@ -1883,6 +2023,9 @@ msgstr "このアイテムに不完全なエレメントがあります。完了
 
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "CSSのダウンロード中に問題が発生しました。再実行してください。"
+
+msgid "Theta"
+msgstr ""
 
 msgid "This identifier is already used by another variable."
 msgstr ""
@@ -1935,6 +2078,12 @@ msgstr "Tipsリンク文字"
 msgid "Top"
 msgstr "トップ"
 
+msgid "Translation completed"
+msgstr ""
+
+msgid "Triangle"
+msgstr ""
+
 msgid "Trigger the end of the item attempt."
 msgstr "アイテム試行終了トリガー"
 
@@ -1983,8 +2132,14 @@ msgstr "受検者が入力する際のテキストの書式を設定します"
 msgid "Value"
 msgstr "値"
 
+msgid "Vector"
+msgstr ""
+
 msgid "Vertical"
 msgstr "垂直"
+
+msgid "Vertical text"
+msgstr "縦書き"
 
 msgid "warning"
 msgstr ""
@@ -2078,4 +2233,3 @@ msgstr ""
 
 msgid "Your item has been saved"
 msgstr "アイテムが保存されました"
-
