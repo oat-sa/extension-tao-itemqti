@@ -45,7 +45,6 @@ class LabelBasedLomOntologyClassificationExtractor implements MetadataExtractor
         TaoItemOntology::PROPERTY_ITEM_MODEL,
         taoTests_models_classes_TestsService::PROPERTY_TEST_TESTMODEL,
         taoTests_models_classes_TestsService::PROPERTY_TEST_CONTENT,
-        TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES
     ];
 
     /**
