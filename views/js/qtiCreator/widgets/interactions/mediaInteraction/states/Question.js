@@ -65,6 +65,7 @@ define([
         const options = widget.options;
         const interaction = widget.element;
         const isFlaAvailable = features.isVisible('taoQtiItem/creator/interaction/media/property/fla');
+        const isCompactAppearanceAvailable = features.isVisible('taoQtiItem/creator/interaction/media/property/compactAppearance');
         let isAudio = getIsAudio(interaction);
         const defaultVideoHeight = 270;
         const defaultAudioHeight = 30;
@@ -429,6 +430,7 @@ define([
                     //tpl data for the interaction
                     isAudio: isAudio,
                     isFlaAvailable: isFlaAvailable,
+                    isCompactAppearanceAvailable: isCompactAppearanceAvailable,
                     autostart: !!interaction.attr('autostart'),
                     sequential: !!interaction.hasClass('sequential'),
                     hidePlayer: !!interaction.hasClass('hide-player'),
