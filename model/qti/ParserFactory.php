@@ -15,11 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2025 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\taoQtiItem\model\qti;
 
+use oat\taoQtiItem\model\qti\choice\Choice;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
@@ -28,6 +29,7 @@ use oat\taoQtiItem\model\qti\container\ContainerInteractive;
 use oat\taoQtiItem\model\qti\container\ContainerItemBody;
 use oat\taoQtiItem\model\qti\container\ContainerGap;
 use oat\taoQtiItem\model\qti\container\ContainerHottext;
+use oat\taoQtiItem\model\qti\interaction\Interaction;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\response\Custom;
 use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
@@ -120,7 +122,7 @@ class ParserFactory
 
     /**
      * Get the body data (markups) of an element.
-     * @param \DOMElement $data the element
+     * @param DOMElement $data the element
      * @param boolean $removeNamespace if XML namespaces should be removed
      * @param boolean $keepEmptyTags if true, the empty tags are kept expanded (useful when tags are HTML)
      * @return string the body data (XML markup)
@@ -727,7 +729,7 @@ class ParserFactory
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @param DOMElement $data
-     * @return \oat\taoQtiItem\model\qti\interaction\Interaction
+     * @return Interaction
      * @throws ParsingException
      * @throws UnsupportedQtiElement
      * @throws interaction\InvalidArgumentException
@@ -863,7 +865,7 @@ class ParserFactory
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  DOMElement $data
-     * @return \oat\taoQtiItem\model\qti\choice\Choice
+     * @return Choice
      * @throws ParsingException
      * @throws UnsupportedQtiElement
      * @throws choice\InvalidArgumentException
@@ -1562,12 +1564,9 @@ class ParserFactory
         return $feedbackRule;
     }
 
-    private function buildSimpleFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseId = '')
+    private function buildSimpleFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseIdentifier = '')
     {
-
-        $responseIdentifier = empty($responseId)
-            ? (string) $subtree->responseIf->match->variable['identifier']
-            : $responseId;
+        $responseIdentifier = $this->createResponseIdentifier($subtree, $responseIdentifier);
         $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
         $feedbackIdentifier = (string) $subtree->responseIf->setOutcomeValue->baseValue;
 
@@ -1589,6 +1588,27 @@ class ParserFactory
         }
         return $feedbackRule;
     }
+
+    private function createResponseIdentifier(SimpleXMLElement $subtree, string $responseIdentifier): string
+    {
+        if (!empty($responseIdentifier)) {
+            return $responseIdentifier;
+        }
+
+        foreach ($subtree->responseIf->children() as $child) {
+            if ($child->getName() === 'setOutcomeValue') {
+                continue;
+            }
+            foreach (['variable', 'mapResponse'] as $element) {
+                if (isset($child->{$element})) {
+                    return (string)$child->{$element}['identifier'];
+                }
+            }
+        }
+
+        return $responseIdentifier;
+    }
+
     /**
      * Short description of method buildObject
      *
