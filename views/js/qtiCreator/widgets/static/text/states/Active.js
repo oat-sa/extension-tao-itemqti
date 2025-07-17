@@ -43,37 +43,7 @@ define([
         $editableContainer.attr('data-html-editable-container', true);
 
         if (!htmlEditor.hasEditor($editableContainer)) {
-            var toolbar = [
-                {
-                    'name':'basicstyles',
-                    'items':['Bold','Italic', 'Subscript', 'Superscript']
-                },
-                {
-                    'name':'insert',
-                    'items':['SpecialChar','TaoQtiMaths','Image','TaoQtiImage','TaoQtiTable','TaoTooltip']
-                },
-                {
-                    'name':'links',
-                    'items':['Link']
-                },
-                {
-                    'name':'language',
-                    'items':['Language']
-                },
-                {
-                    'name':'styles',
-                    'items':['Format']
-                },
-                {
-                    'name':'paragraph',
-                    'items':['NumberedList','BulletedList','-','Blockquote','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock']
-                },
-            ];
-
             var ENABLE_INTERACTION_SOURCE = context.featureFlags && context.featureFlags.FEATURE_FLAG_CKEDITOR_INTERACTION_SOURCE;
-            if (ENABLE_INTERACTION_SOURCE) {
-                toolbar.push({ name: 'interactionsource', items: ['InteractionSource'] });
-            }
             htmlEditor.buildEditor($editableContainer, {
                 change: function (data) {
                     changeCallback.call(this, data);
@@ -88,7 +58,7 @@ define([
                     widget: widget,
                     container: container
                 },
-                toolbar: toolbar,
+                interactionsource: ENABLE_INTERACTION_SOURCE
             });
         }
     };
