@@ -11,7 +11,8 @@ define([
         qtiClass : '_simpleFeedbackRule',
         template : tpl,
         getData : function(rule, data){
-            
+
+
             var template = null, ruleXml = '';
             var _values;
             var tplData = {
@@ -22,6 +23,9 @@ define([
                     'else' : rule.feedbackElse ? rule.feedbackElse.id() : ''
                 }
             };
+            if (rule?.comparedOutcome?.attributes?.baseType === 'point') {
+                tplData.mapResponsePoint = true;
+            }
 
             switch(rule.condition){
                 case 'correct':
@@ -53,7 +57,7 @@ define([
                             _values.push(choice.id());
                         }
                     });
-                    
+
                     if(tplData.multiple){
                         tplData.choices = _values;
                     }else{
