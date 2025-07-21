@@ -12,7 +12,6 @@ define([
         template : tpl,
         getData : function(rule, data){
 
-
             var template = null, ruleXml = '';
             var _values;
             var tplData = {
