@@ -2,16 +2,17 @@ define([
     'lodash',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_condition',
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_condition_score',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_correct',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_incorrect',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_isnull',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/rule_choices'
-], function(_, tpl, tplCondition, tplCorrect, tplIncorrect, tplIsnull, tplChoices){
+], function(_, tpl, tplCondition, tplConditionScore, tplCorrect, tplIncorrect, tplIsnull, tplChoices){
     return {
         qtiClass : '_simpleFeedbackRule',
         template : tpl,
         getData : function(rule, data){
-            
+            console.log(data);
             var template = null, ruleXml = '';
             var _values;
             var tplData = {
@@ -20,7 +21,8 @@ define([
                     'outcome' : rule.feedbackOutcome.id(),
                     'then' : rule.feedbackThen.id(),
                     'else' : rule.feedbackElse ? rule.feedbackElse.id() : ''
-                }
+                },
+                scoreIdentifier: data.scoreIdentifier || 'SCORE',
             };
 
             switch(rule.condition){
@@ -42,6 +44,15 @@ define([
                     tplData.condition = rule.condition;
                     tplData.comparedValue = rule.comparedValue;
                     break;
+                case 'lt_score':
+                case 'lte_score':
+                case 'equal_score':
+                case 'gte_score':
+                case 'gt_score':
+                    template = tplConditionScore;
+                    tplData.condition = rule.condition.replace('_score', '');
+                    tplData.comparedValue = rule.comparedValue;
+                    break;
                 case 'choices':
                     template = tplChoices;
                     tplData.condition = rule.condition;
@@ -53,7 +64,7 @@ define([
                             _values.push(choice.id());
                         }
                     });
-                    
+
                     if(tplData.multiple){
                         tplData.choices = _values;
                     }else{

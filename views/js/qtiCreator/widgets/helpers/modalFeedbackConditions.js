@@ -105,31 +105,61 @@ define([
         },
         {
             name : 'lt',
-            label : '<',
+            label : 'RESPONSE <',
             init : initCompare,
             onSet : onSetScore
         },
         {
             name : 'lte',
-            label : '<=',
+            label : 'RESPONSE <=',
             init : initCompare,
             onSet : onSetScore
         },
         {
             name : 'equal',
-            label : '=',
+            label : 'RESPONSE =',
             init : initCompare,
             onSet : onSetScore
         },
         {
             name : 'gte',
-            label : '>=',
+            label : 'RESPONSE >=',
             init : initCompare,
             onSet : onSetScore
         },
         {
             name : 'gt',
-            label : '>',
+            label : 'RESPONSE >',
+            init : initCompare,
+            onSet : onSetScore
+        },
+        {
+            name : 'lt_score',
+            label : 'SCORE <',
+            init : initCompare,
+            onSet : onSetScore
+        },
+        {
+            name : 'lte_score',
+            label : 'SCORE <=',
+            init : initCompare,
+            onSet : onSetScore
+        },
+        {
+            name : 'equal_score',
+            label : 'SCORE =',
+            init : initCompare,
+            onSet : onSetScore
+        },
+        {
+            name : 'gte_score',
+            label : 'SCORE >=',
+            init : initCompare,
+            onSet : onSetScore
+        },
+        {
+            name : 'gt_score',
+            label : 'SCORE >',
             init : initCompare,
             onSet : onSetScore
         }
