@@ -44,6 +44,7 @@ use oat\taoQtiItem\model\qti\choice\ContainerChoice;
 use oat\taoQtiItem\model\qti\choice\TextVariableChoice;
 use oat\taoQtiItem\model\qti\choice\GapImg;
 use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\None;
+use oat\taoQtiItem\model\qti\response\SimpleFeedbackRuleScore;
 use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use oat\taoQtiItem\model\qti\OutcomeDeclaration;
 use oat\taoQtiItem\model\qti\response\Template;
@@ -1421,9 +1422,14 @@ class ParserFactory
         $patternFeedbackMatchChoiceWithElse  = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackMatchChoice
             . $subPatternFeedbackElse;
 
+        $patternFeedbackIsOperatorScore = '//responseCondition/responseIf/*[self::gt or self::gte or self::lt or self::lte or self::equal]/variable[@identifier="SCORE"]';
+
+
         $rules = [];
         $simpleFeedbackRules = [];
         $data = simplexml_import_dom($data);
+
+        $responseIdentifier = '';
 
         foreach ($data as $responseRule) {
             $feedbackRule = null;
@@ -1454,6 +1460,16 @@ class ParserFactory
             ) {
                 $responseIdentifier = (string) $subtree->responseIf->isNull->variable['identifier'];
                 $feedbackRule = $this->buildIsNullFeedbackRule($subtree, null, $responseIdentifier);
+            } elseif (count($subtree->xpath($patternFeedbackIsOperatorScore))) {
+                $operator = '';
+                $value = '';
+                foreach ($subtree->responseIf->children() as $child) {
+                    $operator = $child->getName();
+                    $value = (string) $child->baseValue;
+                    break;
+                }
+                $feedbackRule = $this->buildScoreFeedbackRule($subtree, $operator, $value, $responseIdentifier);
+                $feedbackRule->setXml($responseRule->asXML());
             } elseif (
                 count($subtree->xpath($patternFeedbackOperator)) > 0
                 || count($subtree->xpath($patternFeedbackOperatorWithElse)) > 0
@@ -1490,7 +1506,9 @@ class ParserFactory
             ) {
                 $choices = [(string)$subtree->responseIf->match->baseValue];
                 $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'choices', $choices);
-            } else {
+            }
+            else {
+
                 throw new UnexpectedResponseProcessing('Not template driven, unknown rule');
             }
 
@@ -1564,7 +1582,7 @@ class ParserFactory
         return $feedbackRule;
     }
 
-    private function buildSimpleFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseIdentifier = '')
+    private function buildSimpleFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseIdentifier = '', $forScore = false)
     {
         $responseIdentifier = $this->createResponseIdentifier($subtree, $responseIdentifier);
         $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
@@ -1582,6 +1600,35 @@ class ParserFactory
             }
 
             $feedbackRule = new SimpleFeedbackRule($outcome, $feedbackThen, $feedbackElse);
+            $feedbackRule->setCondition($response, $conditionName, $comparedValue);
+        } catch (ParsingException $e) {
+            if ($forScore) {
+                $feedbackRule = $this->buildScoreFeedbackRule($subtree, $conditionName, $comparedValue);
+                return $feedbackRule;
+            }
+            throw new UnexpectedResponseProcessing('Feedback resources not found. Not template driven, unknown rule');
+        }
+        return $feedbackRule;
+    }
+
+
+    private function buildScoreFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseIdentifier = '')
+    {
+        $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
+        $feedbackIdentifier = (string) $subtree->responseIf->setOutcomeValue->baseValue;
+
+        try {
+            $response = $this->getResponse($responseIdentifier ?? 'RESPONSE');
+            $outcome = $this->getOutcome($feedbackOutcomeIdentifier);
+            $feedbackThen = $this->getModalFeedback($feedbackIdentifier);
+
+            $feedbackElse = null;
+            if ($subtree->responseElse->getName()) {
+                $feedbackElseIdentifier = (string) $subtree->responseElse->setOutcomeValue->baseValue;
+                $feedbackElse = $this->getModalFeedback($feedbackElseIdentifier);
+            }
+
+            $feedbackRule = new SimpleFeedbackRuleScore($outcome, $feedbackThen, $feedbackElse);
             $feedbackRule->setCondition($response, $conditionName, $comparedValue);
         } catch (ParsingException $e) {
             throw new UnexpectedResponseProcessing('Feedback resources not found. Not template driven, unknown rule');
