@@ -22,7 +22,7 @@ define([
                     'else' : rule.feedbackElse ? rule.feedbackElse.id() : ''
                 }
             };
-            if (rule?.comparedOutcome?.attributes?.baseType === 'point') {
+            if (rule.comparedOutcome.attributes.baseType === 'point') {
                 tplData.mapResponsePoint = true;
             }
 
