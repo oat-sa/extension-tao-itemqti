@@ -12,7 +12,6 @@ define([
         qtiClass : '_simpleFeedbackRule',
         template : tpl,
         getData : function(rule, data){
-            console.log(data);
             var template = null, ruleXml = '';
             var _values;
             var tplData = {
@@ -22,7 +21,6 @@ define([
                     'then' : rule.feedbackThen.id(),
                     'else' : rule.feedbackElse ? rule.feedbackElse.id() : ''
                 },
-                scoreIdentifier: data.scoreIdentifier || 'SCORE',
             };
 
             switch(rule.condition){
@@ -44,14 +42,15 @@ define([
                     tplData.condition = rule.condition;
                     tplData.comparedValue = rule.comparedValue;
                     break;
-                case 'lt_score':
-                case 'lte_score':
-                case 'equal_score':
-                case 'gte_score':
-                case 'gt_score':
+                case 'score.lt':
+                case 'score.lte':
+                case 'score.equal':
+                case 'score.gte':
+                case 'score.gt':
                     template = tplConditionScore;
-                    tplData.condition = rule.condition.replace('_score', '');
+                    tplData.condition = rule.condition.replace('score.', '');
                     tplData.comparedValue = rule.comparedValue;
+                    tplData.scoreIdentifier = data.scoreIdentifier || 'SCORE';
                     break;
                 case 'choices':
                     template = tplChoices;

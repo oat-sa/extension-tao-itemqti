@@ -134,31 +134,31 @@ define([
             onSet : onSetScore
         },
         {
-            name : 'lt_score',
+            name : 'score.lt',
             label : 'SCORE <',
             init : initCompare,
             onSet : onSetScore
         },
         {
-            name : 'lte_score',
+            name : 'score.lte',
             label : 'SCORE <=',
             init : initCompare,
             onSet : onSetScore
         },
         {
-            name : 'equal_score',
+            name : 'score.equal',
             label : 'SCORE =',
             init : initCompare,
             onSet : onSetScore
         },
         {
-            name : 'gte_score',
+            name : 'score.gte',
             label : 'SCORE >=',
             init : initCompare,
             onSet : onSetScore
         },
         {
-            name : 'gt_score',
+            name : 'score.gt',
             label : 'SCORE >',
             init : initCompare,
             onSet : onSetScore
