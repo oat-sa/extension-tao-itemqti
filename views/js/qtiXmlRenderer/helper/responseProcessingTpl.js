@@ -25,8 +25,7 @@ define([
 
     const renderRpTpl = (rpTpl, data) => {
         let ret = '';
-
-
+        
         switch (rpTpl) {
             case 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct':
             case 'MATCH_CORRECT':
