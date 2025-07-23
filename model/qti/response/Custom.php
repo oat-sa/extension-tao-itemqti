@@ -79,7 +79,7 @@ class Custom extends ResponseProcessing implements Rule
      * @param  string xml
      * @return mixed
      */
-    public function  __construct($responseRules, $xml)
+    public function __construct($responseRules, $xml)
     {
         $this->responseRules = $responseRules;
         parent::__construct();

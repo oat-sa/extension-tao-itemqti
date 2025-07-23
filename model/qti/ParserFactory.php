@@ -1422,7 +1422,6 @@ class ParserFactory
         $patternFeedbackMatchChoiceWithElse  = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackMatchChoice
             . $subPatternFeedbackElse;
 
-//        $patternFeedbackIsOperatorScore = '//responseCondition/responseIf/*[self::gt or self::gte or self::lt or self::lte or self::equal]/variable[@identifier="SCORE"]';
         $patternFeedbackIsOperatorScore = '//responseCondition/responseIf/and[
   not[isNull] and 
   *[self::gt or self::lt or self::lte or self::equal or self::gte]
@@ -1474,7 +1473,13 @@ class ParserFactory
                     $value = (string) $child->baseValue;
                     break;
                 }
-                $feedbackRule = $this->buildScoreFeedbackRule($subtree, $operator, $value, $responseIdentifier, $responseRule->asXML());
+                $feedbackRule = $this->buildScoreFeedbackRule(
+                    $subtree,
+                    $operator,
+                    $value,
+                    $responseIdentifier,
+                    $responseRule->asXML()
+                );
             } elseif (
                 count($subtree->xpath($patternFeedbackOperator)) > 0
                 || count($subtree->xpath($patternFeedbackOperatorWithElse)) > 0
@@ -1513,7 +1518,6 @@ class ParserFactory
                 $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'choices', $choices);
             }
             else {
-
                 throw new UnexpectedResponseProcessing('Not template driven, unknown rule');
             }
 
@@ -1587,7 +1591,7 @@ class ParserFactory
         return $feedbackRule;
     }
 
-    private function buildSimpleFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseIdentifier = '', $forScore = false)
+    private function buildSimpleFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseIdentifier = '')
     {
         $responseIdentifier = $this->createResponseIdentifier($subtree, $responseIdentifier);
         $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
@@ -1607,17 +1611,13 @@ class ParserFactory
             $feedbackRule = new SimpleFeedbackRule($outcome, $feedbackThen, $feedbackElse);
             $feedbackRule->setCondition($response, $conditionName, $comparedValue);
         } catch (ParsingException $e) {
-            if ($forScore) {
-                $feedbackRule = $this->buildScoreFeedbackRule($subtree, $conditionName, $comparedValue);
-                return $feedbackRule;
-            }
             throw new UnexpectedResponseProcessing('Feedback resources not found. Not template driven, unknown rule');
         }
         return $feedbackRule;
     }
 
 
-    private function buildScoreFeedbackRule($subtree, $conditionName, $comparedValue = null, string $responseIdentifier, string $xml)
+    private function buildScoreFeedbackRule($subtree, $conditionName, $comparedValue, $responseIdentifier, $xml)
     {
         $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
         $feedbackIdentifier = (string) $subtree->responseIf->setOutcomeValue->baseValue;
@@ -1639,7 +1639,7 @@ class ParserFactory
             throw new UnexpectedResponseProcessing('Feedback resources not found. Not template driven, unknown rule');
         }
 
-        $feedbackRule->setXml($xml);
+        $feedbackRule->setXml((string)$xml);
 
         return $feedbackRule;
     }
