@@ -4,7 +4,7 @@ namespace oat\taoQtiItem\model\qti\response;
 
 class SimpleFeedbackRuleScore extends SimpleFeedbackRule
 {
-    private $xml;
+    private string $xml;
     public function toArray($filterVariableContent = false, &$filtered = [])
     {
         $data = parent::toArray($filterVariableContent, $filtered);
@@ -13,12 +13,12 @@ class SimpleFeedbackRuleScore extends SimpleFeedbackRule
         return $data;
     }
 
-    public function toQTI()
+    public function toQTI(): string
     {
-        return (string) $this->xml;
+        return $this->xml;
     }
 
-    public function setXml($xml)
+    public function setXml(string $xml): void
     {
         $this->xml = $xml;
     }

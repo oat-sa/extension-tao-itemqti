@@ -1433,8 +1433,6 @@ class ParserFactory
         $simpleFeedbackRules = [];
         $data = simplexml_import_dom($data);
 
-        $responseIdentifier = '';
-
         foreach ($data as $responseRule) {
             $feedbackRule = null;
             $subtree = new SimpleXMLElement($responseRule->asXML());
@@ -1469,15 +1467,14 @@ class ParserFactory
                 $value = '';
                 $responseIdentifier = $subtree->responseIf->and->not->isNull->variable['identifier'];
                 foreach ($subtree->responseIf->and->children() as $child) {
-                    if ($child->getName() == 'not') {
+                    if ($child->getName() === 'not') {
                         continue;
                     }
                     $operator = $child->getName();
                     $value = (string) $child->baseValue;
                     break;
                 }
-                $feedbackRule = $this->buildScoreFeedbackRule($subtree, $operator, $value, $responseIdentifier);
-                $feedbackRule->setXml($responseRule->asXML());
+                $feedbackRule = $this->buildScoreFeedbackRule($subtree, $operator, $value, $responseIdentifier, $responseRule->asXML());
             } elseif (
                 count($subtree->xpath($patternFeedbackOperator)) > 0
                 || count($subtree->xpath($patternFeedbackOperatorWithElse)) > 0
@@ -1620,13 +1617,13 @@ class ParserFactory
     }
 
 
-    private function buildScoreFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseIdentifier = '')
+    private function buildScoreFeedbackRule($subtree, $conditionName, $comparedValue = null, string $responseIdentifier, string $xml)
     {
         $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
         $feedbackIdentifier = (string) $subtree->responseIf->setOutcomeValue->baseValue;
 
         try {
-            $response = $this->getResponse($responseIdentifier ?? 'RESPONSE');
+            $response = $this->getResponse($responseIdentifier);
             $outcome = $this->getOutcome($feedbackOutcomeIdentifier);
             $feedbackThen = $this->getModalFeedback($feedbackIdentifier);
 
@@ -1641,6 +1638,9 @@ class ParserFactory
         } catch (ParsingException $e) {
             throw new UnexpectedResponseProcessing('Feedback resources not found. Not template driven, unknown rule');
         }
+
+        $feedbackRule->setXml($xml);
+
         return $feedbackRule;
     }
 
