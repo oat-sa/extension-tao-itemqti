@@ -1425,7 +1425,7 @@ class ParserFactory
 //        $patternFeedbackIsOperatorScore = '//responseCondition/responseIf/*[self::gt or self::gte or self::lt or self::lte or self::equal]/variable[@identifier="SCORE"]';
         $patternFeedbackIsOperatorScore = '//responseCondition/responseIf/and[
   not[isNull] and 
-  *[self::gt or self::lt or self::lte or self::equals or self::gte]
+  *[self::gt or self::lt or self::lte or self::equal or self::gte]
 ]';
 
 
