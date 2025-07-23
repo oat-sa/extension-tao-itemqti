@@ -1516,8 +1516,7 @@ class ParserFactory
             ) {
                 $choices = [(string)$subtree->responseIf->match->baseValue];
                 $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'choices', $choices);
-            }
-            else {
+            } else {
                 throw new UnexpectedResponseProcessing('Not template driven, unknown rule');
             }
 
