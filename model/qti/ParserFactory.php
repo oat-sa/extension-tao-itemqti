@@ -1422,7 +1422,11 @@ class ParserFactory
         $patternFeedbackMatchChoiceWithElse  = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackMatchChoice
             . $subPatternFeedbackElse;
 
-        $patternFeedbackIsOperatorScore = '//responseCondition/responseIf/*[self::gt or self::gte or self::lt or self::lte or self::equal]/variable[@identifier="SCORE"]';
+//        $patternFeedbackIsOperatorScore = '//responseCondition/responseIf/*[self::gt or self::gte or self::lt or self::lte or self::equal]/variable[@identifier="SCORE"]';
+        $patternFeedbackIsOperatorScore = '//responseCondition/responseIf/and[
+  not[isNull] and 
+  *[self::gt or self::lt or self::lte or self::equals or self::gte]
+]';
 
 
         $rules = [];
@@ -1463,7 +1467,11 @@ class ParserFactory
             } elseif (count($subtree->xpath($patternFeedbackIsOperatorScore))) {
                 $operator = '';
                 $value = '';
-                foreach ($subtree->responseIf->children() as $child) {
+                $responseIdentifier = $subtree->responseIf->and->not->isNull->variable['identifier'];
+                foreach ($subtree->responseIf->and->children() as $child) {
+                    if ($child->getName() == 'not') {
+                        continue;
+                    }
                     $operator = $child->getName();
                     $value = (string) $child->baseValue;
                     break;
