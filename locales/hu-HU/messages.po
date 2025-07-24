@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-04-16 15:36\n"
+"PO-Revision-Date: 2025-07-24 12:38\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: hu\n"
@@ -21,2070 +21,2071 @@ msgstr ""
 "Language-Team: Hungarian\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
-msgstr ""
+msgstr " Töltsd ki a szövegben a hiányzó részeket egy megadott választási lehetőségekkel."
 
 msgid " For Resource "
-msgstr ""
+msgstr " Erőforráshoz "
 
 msgid " or "
-msgstr ""
+msgstr " vagy "
 
 msgid "%d characters allowed"
-msgstr ""
+msgstr "%d karakter megengedett"
 
 msgid "%d Item(s) of %d imported from the given IMS QTI Package."
-msgstr ""
+msgstr "%d A %d elem(ek) importálása az adott IMS QTI csomagból."
 
 msgid "%d/%d"
-msgstr ""
+msgstr "%d/%d"
 
 msgid "%s metadata values found in source by extractor(s)."
-msgstr ""
+msgstr "%s metaadatértéket talált a forrásban a kinyerő(k)."
 
 msgid "%s of %s characters maximum."
-msgstr ""
+msgstr "%s , maximum %s karakterből."
 
 msgid "%s of %s characters recommended."
-msgstr ""
+msgstr "%s / %s karakter ajánlott."
 
 msgid "%s of %s words maximum."
-msgstr ""
+msgstr "%s szóból maximum %s szó."
 
 msgid "(comma)"
-msgstr ""
+msgstr "(vessző)"
 
 msgid "(dot)"
-msgstr ""
+msgstr "(pont)"
 
 msgid "(space)"
-msgstr ""
+msgstr "(tér)"
 
 msgid "-- Any kind of file --"
-msgstr ""
+msgstr "-- Bármilyen fájltípus --"
 
 msgid "--- leave empty ---"
-msgstr ""
+msgstr "--- hagyja üresen ---"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
-msgstr ""
+msgstr "1 tétel importálva az adott QTI/APIP XML tételdokumentumból."
 
 msgid "1/3 of height"
-msgstr ""
+msgstr "a magasság 1/3-a"
 
 msgid "1/4 of height"
-msgstr ""
+msgstr "a magasság 1/4-e"
 
 msgid "2/3 of height"
-msgstr ""
+msgstr "a magasság 2/3-a"
 
 msgid "3/4 of height"
-msgstr ""
+msgstr "3/4 magasság"
 
 msgid "A choice must be selected"
-msgstr ""
+msgstr "Ki kell választani egy lehetőséget"
 
 msgid "A human interpretation of the variable's value."
-msgstr ""
+msgstr "A változó értékének emberi értelmezése."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-msgstr ""
+msgstr "A QTI komponens nem támogatott. A rendszer a következő hibát adta vissza: %s\n"
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
-msgstr ""
+msgstr "Egy rubrikablokk egy assessmentItem itemBody részének azt a részét azonosítja, amely utasításokat jelöl egy vagy több, az elemet megtekintő szereplő számára. Bár a rubrikablokkok simpleBlock-ként vannak definiálva, nem tartalmazhatnak interakciókat."
 
 msgid "Adapt to screen size"
-msgstr ""
+msgstr "Alkalmazkodjon a képernyő méretéhez"
 
 msgid "Add"
-msgstr ""
+msgstr "Hozzáadás"
 
 msgid "Add a CSV file"
-msgstr ""
+msgstr "CSV-fájl hozzáadása"
 
 msgid "Add a modal feedback"
-msgstr ""
+msgstr "Modális visszajelzés hozzáadása"
 
 msgid "Add a QTI/APIP XML Item Document"
-msgstr ""
+msgstr "QTI/APIP XML tételdokumentum hozzáadása"
 
 msgid "Add a ZIP file containing QTI/APIP items"
-msgstr ""
+msgstr "QTI/APIP elemeket tartalmazó ZIP fájl hozzáadása"
 
 msgid "Add an outcome"
-msgstr ""
+msgstr "Eredmény hozzáadása"
 
 msgid "Add another option"
-msgstr ""
+msgstr "További lehetőség hozzáadása"
 
 msgid "Add choice"
-msgstr ""
+msgstr "Választás hozzáadása"
 
 msgid "Add else feedback"
-msgstr ""
+msgstr "Egyéb visszajelzés hozzáadása"
 
 msgid "Add new column"
-msgstr ""
+msgstr "Új oszlop hozzáadása"
 
 msgid "Add new pairs"
-msgstr ""
+msgstr "Új párok hozzáadása"
 
 msgid "Add new row"
-msgstr ""
+msgstr "Új sor hozzáadása"
 
 msgid "Add Style Sheet"
-msgstr ""
+msgstr "Stíluslap hozzáadása"
 
 msgid "after"
-msgstr ""
+msgstr "után"
 
 msgid "Alignment"
-msgstr ""
+msgstr "Igazítás"
 
 msgid "Allow elimination"
-msgstr ""
+msgstr "Engedélyezze az eltávolítást"
 
 msgid "Allowed associations"
-msgstr ""
+msgstr "Engedélyezett társítások"
 
 msgid "Allowed choices"
-msgstr ""
+msgstr "Megengedett választási lehetőségek"
 
 msgid "Allowed number of matches"
-msgstr ""
+msgstr "Megengedett mérkőzések száma"
 
 msgid "Allowed number of uses"
-msgstr ""
+msgstr "Megengedett felhasználások száma"
 
 msgid "Alt Text"
-msgstr ""
+msgstr "Alt szöveg"
 
 msgid "An error occured while exporting an item."
-msgstr ""
+msgstr "Hiba történt egy elem exportálása közben."
 
 msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
-msgstr ""
+msgstr "Hiba történt az IMS tartalomcsomagot reprezentáló ZIP archívum kibontásakor."
 
 msgid "An error occured while loading a shared stimulus."
-msgstr ""
+msgstr "Hiba történt egy megosztott stimulus betöltése közben."
 
 msgid "An error occured while parsing IMS QTI data."
-msgstr ""
+msgstr "Hiba történt az IMS QTI adatok elemzése során."
 
 msgid "An error occurred at the level of the QTI model."
-msgstr ""
+msgstr "Hiba történt a QTI modell szintjén."
 
 msgid "An optional link to an extended interpretation of the outcome variable."
-msgstr ""
+msgstr "Opcionális hivatkozás az eredményváltozó kibővített értelmezéséhez."
 
 msgid "An unexpected error occured during the import of the IMS QTI Item Package."
-msgstr ""
+msgstr "Váratlan hiba történt az IMS QTI tételcsomag importálása során."
 
 msgid "An unexpected error occured while dealing with Response Processing."
-msgstr ""
+msgstr "Váratlan hiba történt a válaszfeldolgozás során."
 
 msgid "An unexpected error occurred during the import of the IMS QTI Item Package. "
-msgstr ""
+msgstr "Váratlan hiba történt az IMS QTI tételcsomag importálása során. "
 
 msgid "An unexpected error occurred during the import of the IMS QTI Item Package. The system returned the following error: \"%s"
-msgstr ""
+msgstr "Váratlan hiba történt az IMS QTI tételcsomag importálása során. A rendszer a következő hibát adta vissza: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-msgstr ""
+msgstr "Váratlan hiba történt a QTI tétel importálása során. A rendszer a következő hibát adta vissza: %s\n"
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
-msgstr ""
+msgstr "Ismeretlen hiba történt az IMS QTI csomag importálása során, amelynek azonosítója: "
 
 msgid "Answer required"
-msgstr ""
+msgstr "Válasz szükséges"
 
 msgid "APIP Content Package"
-msgstr ""
+msgstr "APIP tartalomcsomag"
 
 msgid "Apip Package successfully exported."
-msgstr ""
+msgstr "Az Appip csomag exportálása sikeresen megtörtént."
 
 msgid "Arrange a list of choices in the correct order."
-msgstr ""
+msgstr "Rendezd el a választási lehetőségek listáját a megfelelő sorrendben."
 
 msgid "Associate"
-msgstr ""
+msgstr "Társult"
 
 msgid "Associate Interaction"
-msgstr ""
+msgstr "Partneri interakció"
 
 msgid "association pairs"
-msgstr ""
+msgstr "asszociációs párok"
 
 msgid "at least"
-msgstr ""
+msgstr "legalább"
 
 msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
-msgstr ""
+msgstr "„%s” metaadatértékek befecskendezésére tett kísérlet a(z) „%s” célhoz a(z) „%s” metaadat-injektorral."
 
 msgid "Autostart"
-msgstr ""
+msgstr "Automatikus indítás"
 
 msgid "Back to Manage Items"
-msgstr ""
+msgstr "Vissza az Elemek kezelése oldalra"
 
 msgid "Background color"
-msgstr ""
+msgstr "Háttérszín"
 
 msgid "Base"
-msgstr ""
+msgstr "Bázis"
 
 msgid "Be aware, if you choose to remove the instructions, the system will not provide any warnings to the test takers if constraints are set."
-msgstr ""
+msgstr "Kérjük, vegye figyelembe, hogy ha úgy dönt, hogy eltávolítja az utasításokat, a rendszer nem fog figyelmeztetéseket küldeni a vizsgázóknak, ha korlátozások vannak beállítva."
 
 msgid "Block"
-msgstr ""
+msgstr "Tömb"
 
 msgid "block"
-msgstr ""
+msgstr "tömb"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
-msgstr ""
+msgstr "A blokk az elem tartalmát (ingerét) tartalmazza, például szöveget vagy képet. A soron belüli interakciókhoz is szükséges."
 
 msgid "Block height (%)"
-msgstr ""
+msgstr "Blokk magassága (%)"
 
 msgid "Border color"
-msgstr ""
+msgstr "Szegély színe"
 
 msgid "Browse your computer and select the appropriate file."
-msgstr ""
+msgstr "Böngésszen a számítógépén, és válassza ki a megfelelő fájlt."
 
 msgid "Browse..."
-msgstr ""
+msgstr "Böngészés..."
 
 msgid "Cancel"
-msgstr ""
+msgstr "Mégsem"
 
 msgid "cancel"
-msgstr ""
+msgstr "mégsem"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
-msgstr ""
+msgstr "Nem lehet hézagot létrehozni ebből a kijelölésből. Ellenőrizze, hogy nincsenek-e részben kijelölt elemek."
 
 msgid "Cannot create hottext from this selection."
-msgstr ""
+msgstr "Nem lehet forró szöveget létrehozni ebből a kijelölésből."
 
 msgid "Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words."
-msgstr ""
+msgstr "Nem lehet forró szöveget létrehozni ebből a kijelölésből. Győződjön meg arról, hogy a kijelölés nem tartalmaz formázott és formázatlan szavakat is."
 
 msgid "Cannot create hottext from this selection. Please make sure the selection does not contain multiple lines."
-msgstr ""
+msgstr "Nem lehet forró szöveget létrehozni ebből a kijelölésből. Kérjük, győződjön meg arról, hogy a kijelölés nem tartalmaz több sort."
 
 msgid "Cannot delete a variable currently used in response processing"
-msgstr ""
+msgstr "Nem lehet törölni a válaszfeldolgozásban jelenleg használt változót"
 
 msgid "Cannot edit a variable currently used in response processing"
-msgstr ""
+msgstr "A válaszfeldolgozásban jelenleg használt változó nem szerkeszthető"
 
 msgid "cannot find QTI XML"
-msgstr ""
+msgstr "nem található QTI XML"
 
 msgid "cannot load QTI XML"
-msgstr ""
+msgstr "Nem sikerült betölteni a QTI XML-t"
 
 msgid "Cannot locate the file \"%s"
-msgstr ""
+msgstr "Nem található a fájl \"%s"
 
 msgid "Center"
-msgstr ""
+msgstr "Központ"
 
 msgid "Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with."
-msgstr ""
+msgstr "Módosítsa az elem szélességét. Alapértelmezés szerint az elem szélessége 100%, és alkalmazkodik bármely képernyő méretéhez. A maximális szélesség alapértelmezés szerint 1024 képpont - ez akkor is megváltozik, ha egyéni szélességet állít be a [ ]."
 
 msgid "chars"
-msgstr ""
+msgstr "karakterek"
 
 msgid "Choice"
-msgstr ""
+msgstr "Választás"
 
 msgid "Choice Image"
-msgstr ""
+msgstr "Választott kép"
 
 msgid "Choice Interaction"
-msgstr ""
+msgstr "Választási interakció"
 
 msgid "Choice Properties"
-msgstr ""
+msgstr "Választási tulajdonságok"
 
 msgid "choices"
-msgstr ""
+msgstr "választási lehetőségek"
 
 msgid "Choices"
-msgstr ""
+msgstr "Választások"
 
 msgid "Choose the horizontal alignment for the table."
-msgstr ""
+msgstr "Válassza ki a táblázat vízszintes igazítását."
 
 msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
-msgstr ""
+msgstr "Osztálykeresés sikeres. A(z) „%s” erőforrás az „%s” RDFS osztályban lesz tárolva."
 
 msgid "Class successfully created."
-msgstr ""
+msgstr "Az osztály sikeresen létrehozva."
 
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
-msgstr ""
+msgstr "Az osztályozási bejegyzéseknek a ClassificationEntryMetadataValue példányainak kell lenniük."
 
 msgid "Classification metadata is required to be extracted."
-msgstr ""
+msgstr "A besorolási metaadatok kinyerése kötelező."
 
 msgid "Classification value to map has to a string"
-msgstr ""
+msgstr "A leképezendő osztályozási értéknek karakterláncnak kell lennie"
 
 msgid "Click again to remove"
-msgstr ""
+msgstr "Kattintson újra az eltávolításhoz"
 
 msgid "Click to display interaction widget"
-msgstr ""
+msgstr "Kattintson az interakciós widget megjelenítéséhez"
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
-msgstr ""
+msgstr "Gyűjtsön nyílt végű információkat rövid szöveges bemenetben (karakterláncok vagy numerikus értékek)."
 
 msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
-msgstr ""
+msgstr "Gyűjtsön nyílt végű információkat egy vagy több szövegmezőbe (karakterláncok vagy numerikus értékek)."
 
 msgid "Color Picker"
-msgstr ""
+msgstr "Színválasztó"
 
 msgid "Column separator"
-msgstr ""
+msgstr "Oszlopelválasztó"
 
 msgid "Common Interactions"
-msgstr ""
+msgstr "Gyakori interakciók"
 
 msgid "Constraints"
-msgstr ""
+msgstr "Korlátozások"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
-msgstr ""
+msgstr "Szabályozhatja egy video- vagy hangfájl lejátszási paramétereit (automatikus indítás, ismétlés), és jelentheti a lejátszások számát."
 
 msgid "Correct"
-msgstr ""
+msgstr "Helyes"
 
 msgid "correct"
-msgstr ""
+msgstr "helyes"
 
 msgid "Cosinus"
-msgstr ""
+msgstr "Koszinusz"
 
 msgid "Create a single hottext from the selection"
-msgstr ""
+msgstr "Egyetlen gyorsszöveg létrehozása a kijelölésből"
 
 msgid "Create assocations and fill the score in the form below"
-msgstr ""
+msgstr "Hozz létre társításokat, és töltsd ki az alábbi űrlapot a pontszámmal"
 
 msgid "Create association(s) between areas (hotspots) displayed on a picture."
-msgstr ""
+msgstr "Hozzon létre társításokat a képen megjelenített területek (gócpontok) között."
 
 msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
-msgstr ""
+msgstr "Hozzon létre társítást két, egy táblázatban megjelenített választási lehetőségcsoport (sor és oszlop) között."
 
 msgid "Create gap"
-msgstr ""
+msgstr "Rés létrehozása"
 
 msgid "Create hottext"
-msgstr ""
+msgstr "Hottext létrehozása"
 
 msgid "Create multiple hottexts from the selection"
-msgstr ""
+msgstr "Több gyorsszöveg létrehozása a kijelölésből"
 
 msgid "Create pair(s) from a series of choices."
-msgstr ""
+msgstr "Hozz létre pár(ka)t egy vagy több választási lehetőségből."
 
 msgid "CSV content + metadata"
-msgstr ""
+msgstr "CSV tartalom + metaadatok"
 
 msgid "Current value:"
-msgstr ""
+msgstr "Aktuális érték:"
 
 msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
-msgstr ""
+msgstr "Jelenleg nem érhető el a MathML-ről LaTeX-re való konvertálás. A MathML itt történő szerkesztése a LaTex kód elvesztését okozza."
 
 msgid "custom"
-msgstr ""
+msgstr "szokás"
 
 msgid "Custom Interactions"
-msgstr ""
+msgstr "Egyéni interakciók"
 
 msgid "Custom Response Processing Mode"
-msgstr ""
+msgstr "Egyéni válaszfeldolgozási mód"
 
 msgid "Default"
-msgstr ""
+msgstr "Alapértelmezett"
 
 msgid "default"
-msgstr ""
+msgstr "alapértelmezett"
 
 msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
-msgstr ""
+msgstr "Korlátozások megadása az érvényes válaszadáshoz szükséges választási lehetőségek számára vonatkozóan. Nincs: nincsenek további korlátozások. Válasz kötelező: a vizsgázónak legalább egy választ ki kell választania. Egyéb korlátozások: egyéni minimum és/vagy maximum korlátozások megadása (csak több választási lehetőség esetén érhető el)"
 
 msgid "Define correct response"
-msgstr ""
+msgstr "Határozza meg a helyes választ"
 
 msgid "Define item language."
-msgstr ""
+msgstr "Határozza meg az elem nyelvét."
 
 msgid "define prompt"
-msgstr ""
+msgstr "prompt definiálása"
 
 msgid "Define the correct response."
-msgstr ""
+msgstr "Határozza meg a helyes választ."
 
 msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
-msgstr ""
+msgstr "Határozza meg, hogy a jelöltnek ki kell-e választania egy lehetőséget ahhoz, hogy érvényes választ adjon az interakcióra."
 
 msgid "Define whether the item should be time dependent on delivery."
-msgstr ""
+msgstr "Határozza meg, hogy a tétel kézbesítési időtől függjön-e."
 
 msgid "Defined width"
-msgstr ""
+msgstr "Meghatározott szélesség"
 
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
-msgstr ""
+msgstr "Meghatározza a numerikus kimeneti változók maximális nagyságát, a maximumnak pozitív értéknek, a minimumnak pedig negatívnak kell lennie."
 
 msgid "Delete"
-msgstr ""
+msgstr "Töröl"
 
 msgid "delete"
-msgstr ""
+msgstr "töröl"
 
 msgid "Delete else statement"
-msgstr ""
+msgstr "Törlés else utasítás"
 
 msgid "Delete this modal feedback"
-msgstr ""
+msgstr "Törölje ezt a modális visszajelzést"
 
 msgid "Delimiter"
-msgstr ""
+msgstr "Elválasztó"
 
 msgid "Description"
-msgstr ""
+msgstr "Leírás"
 
 msgid "Disable this stylesheet temporarily"
-msgstr ""
+msgstr "Stíluslap ideiglenes letiltása"
 
 msgid "Display"
-msgstr ""
+msgstr "Kijelző"
 
 msgid "Display media player"
-msgstr ""
+msgstr "Médialejátszó megjelenítése"
 
 msgid "Display the choices either horizontally or vertically"
-msgstr ""
+msgstr "A választási lehetőségek megjelenítése vízszintesen vagy függőlegesen"
 
 msgid "Divide"
-msgstr ""
+msgstr "Osztás"
 
 msgid "Don't save"
-msgstr ""
+msgstr "Ne mentse el"
 
 msgid "done"
-msgstr ""
+msgstr "kész"
 
 msgid "Done"
-msgstr ""
+msgstr "Kész"
 
 msgid "Download"
-msgstr ""
+msgstr "Letöltés"
 
 msgid "Download sample csv file"
-msgstr ""
+msgstr "Minta csv fájl letöltése"
 
 msgid "Download this stylesheet"
-msgstr ""
+msgstr "Stíluslap letöltése"
 
 msgid "Draw a circle on the image"
-msgstr ""
+msgstr "Rajzolj egy kört a képre"
 
 msgid "Draw a free form on the image"
-msgstr ""
+msgstr "Rajzolj szabad formát a képre"
 
 msgid "Draw a rectangle on the image"
-msgstr ""
+msgstr "Rajzolj egy téglalapot a képre"
 
 msgid "Draw an ellipsis on the image"
-msgstr ""
+msgstr "Rajzolj egy három pontot a képre"
 
 msgid "Drop the target to select a point"
-msgstr ""
+msgstr "Húzd el a célpontot egy pont kiválasztásához"
 
 msgid "e.g. 13"
-msgstr ""
+msgstr "pl. 13"
 
 msgid "e.g. 960"
-msgstr ""
+msgstr "pl. 960"
 
 msgid "Edit"
-msgstr ""
+msgstr "Szerkesztés"
 
 msgid "edit choices"
-msgstr ""
+msgstr "szerkesztési lehetőségek"
 
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
-msgstr ""
+msgstr "Matematikai kifejezés szerkesztése LaTex típusbeállítási rendszerrel, pl. e^{i \\pi} = -1"
 
 msgid "Edit math expression using MathML"
-msgstr ""
+msgstr "Matematikai kifejezések szerkesztése MathML használatával"
 
 msgid "Edit modal feedback"
-msgstr ""
+msgstr "Modális visszajelzés szerkesztése"
 
 msgid "Edit modal feedback title"
-msgstr ""
+msgstr "Modális visszajelzés címének szerkesztése"
 
 msgid "Edit stylesheet label"
-msgstr ""
+msgstr "Stíluslap címkéjének szerkesztése"
 
 msgid "Editing Mode"
-msgstr ""
+msgstr "Szerkesztési mód"
 
 msgid "Element Properties"
-msgstr ""
+msgstr "Elem tulajdonságai"
 
 msgid "elements"
-msgstr ""
+msgstr "elemek"
 
 msgid "Eliminate"
-msgstr ""
+msgstr "Megszüntetni"
 
 msgid "Enable Scrolling"
-msgstr ""
+msgstr "Görgetés engedélyezése"
 
 msgid "Enable the test taker to pause and restart the playing."
-msgstr ""
+msgstr "Engedélyezze a vizsgázó számára a lejátszás szüneteltetését és újraindítását."
 
 msgid "Enable/disable scrolling."
-msgstr ""
+msgstr "Görgetés engedélyezése/letiltása."
 
 msgid "End Attempt"
-msgstr ""
+msgstr "Kísérlet befejezése"
 
 msgid "End Attempt Interaction"
-msgstr ""
+msgstr "Interakció befejezési kísérlete"
 
 msgid "Enlarge font size"
-msgstr ""
+msgstr "Betűméret növelése"
 
 msgid "Enter a select MIME-type"
-msgstr ""
+msgstr "Adjon meg egy kiválasztott MIME-típust"
 
 msgid "Enter choices…"
-msgstr ""
+msgstr "Választási lehetőségek megadása…"
 
 msgid "Enter tooltip content"
-msgstr ""
+msgstr "Eszközleírás tartalmának megadása"
 
 msgid "Enter tooltip target"
-msgstr ""
+msgstr "Eszköztipp céljának megadása"
 
 msgid "error"
-msgstr ""
+msgstr "hiba"
 
 msgid "Error in post rendering: %s"
-msgstr ""
+msgstr "Hiba a poszt renderelésekor: %s"
 
 msgid "Error in template rendering: %s"
-msgstr ""
+msgstr "Hiba a sablon megjelenítésében: %s"
 
 msgid "Error on item %1$s : %2$s"
-msgstr ""
+msgstr "Hiba a következő elemen: %1$s : %2$s"
 
 msgid "Error on item %s"
-msgstr ""
+msgstr "Hiba a tételnél %s"
 
 msgid "Error to export item %s: %s"
-msgstr ""
+msgstr "Hiba az elem exportálásakor %s: %s"
 
 msgid "Euler\\'s constant"
-msgstr ""
+msgstr "Euler-állandó"
 
 msgid "Exponent"
-msgstr ""
+msgstr "Kitevő"
 
 msgid "Export"
-msgstr ""
+msgstr "Export"
 
 msgid "Export APIP 1.0 Package"
-msgstr ""
+msgstr "APIP 1.0 csomag exportálása"
 
 msgid "Export failed for the item \"%s\": %s"
-msgstr ""
+msgstr "A(z) „%s” elem exportálása sikertelen: %s"
 
 msgid "Export metadata"
-msgstr ""
+msgstr "Metaadatok exportálása"
 
 msgid "Export metadata item"
-msgstr ""
+msgstr "Metaadatelem exportálása"
 
 msgid "Export QTI 2.1 Package"
-msgstr ""
+msgstr "QTI 2.1 csomag exportálása"
 
 msgid "Export QTI 2.2 Package"
-msgstr ""
+msgstr "QTI 2.2 csomag exportálása"
 
 msgid "Extended Text"
-msgstr ""
+msgstr "Bővített szöveg"
 
 msgid "Extended Text Interaction"
-msgstr ""
+msgstr "Bővített szöveges interakció"
 
 msgid "External Machine"
-msgstr ""
+msgstr "Külső gép"
 
 msgid "External Scored"
-msgstr ""
+msgstr "Külső pontozás"
 
 msgid "Fail to export item"
-msgstr ""
+msgstr "Nem sikerült exportálni az elemet"
 
 msgid "Failed to publish %1$s in %2$s"
-msgstr ""
+msgstr "Nem sikerült közzétenni a %1$s fájlt a %2$sfájlban."
 
 msgid "Feedback"
-msgstr ""
+msgstr "Visszacsatolás"
 
 msgid "Feedback Style"
-msgstr ""
+msgstr "Visszajelzési stílus"
 
 msgid "Field"
-msgstr ""
+msgstr "Mező"
 
 msgid "File"
-msgstr ""
+msgstr "Fájl"
 
 msgid "File name"
-msgstr ""
+msgstr "Fájlnév"
 
 msgid "File Upload"
-msgstr ""
+msgstr "Fájlfeltöltés"
 
 msgid "File Upload Interaction"
-msgstr ""
+msgstr "Fájlfeltöltési interakció"
 
 msgid "Fill in the gaps on a picture with a set of image choices."
-msgstr ""
+msgstr "Töltsd ki a képen lévő hiányzó részeket egy képkészlettel."
 
 msgid "float"
-msgstr ""
+msgstr "úszó"
 
 msgid "Font family"
-msgstr ""
+msgstr "Betűtípuscsalád"
 
 msgid "Font size"
-msgstr ""
+msgstr "Betűméret"
 
 msgid "Format"
-msgstr ""
+msgstr "Formátum"
 
 msgid "Fraction"
-msgstr ""
+msgstr "Tört"
 
 msgid "Full height"
-msgstr ""
+msgstr "Teljes magasságú"
 
 msgid "Gap"
-msgstr ""
+msgstr "Rés"
 
 msgid "Gap Match"
-msgstr ""
+msgstr "Rés-egyezés"
 
 msgid "Gap Match Interaction"
-msgstr ""
+msgstr "Rés-egyezés interakció"
 
 msgid "Graphic Associate Interaction"
-msgstr ""
+msgstr "Grafikus partner interakció"
 
 msgid "Graphic Gap Match Interaction"
-msgstr ""
+msgstr "Grafikus rés-egyeztetés interakciója"
 
 msgid "Graphic Interactions"
-msgstr ""
+msgstr "Grafikus interakciók"
 
 msgid "Graphic Order Interaction"
-msgstr ""
+msgstr "Grafikus sorrend interakció"
 
 msgid "Greater than or equal"
-msgstr ""
+msgstr "Nagyobb vagy egyenlő"
 
 msgid "Guard for resource \"%s\"..."
-msgstr ""
+msgstr "Véd a(z) \"%s \" erőforráshoz..."
 
 msgid "Half height"
-msgstr ""
+msgstr "Fél magasság"
 
 msgid "Height"
-msgstr ""
+msgstr "Magasság"
 
 msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
-msgstr ""
+msgstr "Itt adhatja meg a pontozási szempontokat a manuális pontozáshoz/javításhoz, pl. TARTALOM, NYELVTAN, HELYESÍRÁS"
 
 msgid "Horizontal"
-msgstr ""
+msgstr "Vízszintes"
 
 msgid "Hotspot"
-msgstr ""
+msgstr "Hotspot"
 
 msgid "Hotspot Interaction"
-msgstr ""
+msgstr "Hotspot interakció"
 
 msgid "Hottext"
-msgstr ""
+msgstr "Forrószöveg"
 
 msgid "Hottext Interaction"
-msgstr ""
+msgstr "Hottext interakció"
 
 msgid "How the math expression should be displayed."
-msgstr ""
+msgstr "Hogyan kell megjeleníteni a matematikai kifejezést."
 
 msgid "How the math expression should be edited"
-msgstr ""
+msgstr "Hogyan kell szerkeszteni a matematikai kifejezést"
 
 msgid "Human"
-msgstr ""
+msgstr "Emberi"
 
 msgid "identical pair already exists"
-msgstr ""
+msgstr "azonos pár már létezik"
 
 msgid "identifier"
-msgstr ""
+msgstr "azonosító"
 
 msgid "Identifier"
-msgstr ""
+msgstr "Azonosító"
 
 msgid "identifier already taken"
-msgstr ""
+msgstr "azonosító már foglalt"
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
-msgstr ""
+msgstr "Ha meg van adva, a mintamaszk egy reguláris kifejezést határoz meg, amelynek a jelölt válaszának meg kell egyeznie ahhoz, hogy érvényesnek tekintendő legyen."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
-msgstr ""
+msgstr "Ha a shuffle attribútum értéke igaz, akkor a szolgáltató véletlenszerűsíti a választási lehetőségek kezdeti megjelenítési sorrendjét. Azonban minden választási lehetőség egyenként „keverhető” vagy „rögzíthető”."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
-msgstr ""
+msgstr "Ha a shuffle attribútum értéke igaz, akkor a megjelenítési motor véletlenszerűsíti a választási lehetőségek kezdeti megjelenítési sorrendjét. Azonban minden választási lehetőség egyenként „keverhető” vagy „rögzíthető”."
 
 msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
-msgstr ""
+msgstr "Ha a karakterlánc-interakció egy numerikus válaszváltozóhoz van kötve, akkor a base attribútumot kell használni a jelölt által megadott érték értelmezéséhez használt számrendszer beállításához."
 
 msgid "If the variable value is a float and powerForm is set to 'false', the variable will be rendered using the 'e' or 'E' format. If the powerform is set to 'true', the form 'e+n' is changed to 'x 10n'."
-msgstr ""
+msgstr "Ha a változó értéke lebegőpontos szám, és a powerForm értéke „false”, akkor a változó „e” vagy „E” formátumban jelenik meg. Ha a powerform értéke „true”, akkor az „e+n” formátum „x 10n”-re változik."
 
 msgid "If this box is checked the student will be able to eliminate choices."
-msgstr ""
+msgstr "Ha ez a négyzet be van jelölve, a diák ki tudja zárni a választási lehetőségeket."
 
 msgid "Image caption"
-msgstr ""
+msgstr "Képfelirat"
 
 msgid "Image caption not enabled when position is set to inline"
-msgstr ""
+msgstr "A képfelirat nem engedélyezett, ha a pozíció beágyazottra van állítva."
 
 msgid "Import"
-msgstr ""
+msgstr "Importálás"
 
 msgid "Import a QTI/APIP Content Package"
-msgstr ""
+msgstr "QTI/APIP tartalomcsomag importálása"
 
 msgid "Import a QTI/APIP XML Item Document"
-msgstr ""
+msgstr "QTI/APIP XML tételdokumentum importálása"
 
 msgid "Import item content and metadata from CSV file. Only choice interactions are supported."
-msgstr ""
+msgstr "Importálja az elem tartalmát és metaadatait CSV-fájlból. Csak a választási interakciók támogatottak."
 
 msgid "Import QTI ITEM into \"%s"
-msgstr ""
+msgstr "MENNYISÉGI TÉTEL importálása a következőbe: \"%s"
 
 msgid "IMS QTI Item referenced as \"%s\" cannot be imported."
-msgstr ""
+msgstr "A(z) \"%s\" ként hivatkozott IMS QTI elem nem importálható."
 
 msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
-msgstr ""
+msgstr "Az „%s” ként hivatkozott IMS QTI elem hordozható elemet tartalmaz, és nem importálható."
 
 msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
-msgstr ""
+msgstr "Az IMS jegyzékfájlban \"%s\"-ként hivatkozott IMS QTI elem importálása sikertelen volt."
 
 msgid "In Progress"
-msgstr ""
+msgstr "Folyamatban van"
 
 msgid "In seconds. Delay during which the replay of the media is allowed. Once reached, the media is disabled and cannot be played anymore."
-msgstr ""
+msgstr "Másodpercben. Késleltetés, ameddig a média lejátszása engedélyezett. Ha eléri ezt az időt, a média letiltásra kerül, és többé nem játszható le."
 
 msgid "In visual environments, string interactions are typically represented by empty boxes into which the candidate writes or types.  Delivery engines should use the value of this attribute (if provided) instead of their default placeholder text when this is required."
-msgstr ""
+msgstr "Vizuális környezetekben a karakterlánc-interakciókat jellemzően üres mezők ábrázolják, amelyekbe a jelölt ír vagy gépel. A kézbesítő motoroknak ennek az attribútumnak az értékét (ha meg van adva) kell használniuk az alapértelmezett helyőrző szövegük helyett, amikor erre szükség van."
 
 msgid "incorrect"
-msgstr ""
+msgstr "helytelen"
 
 msgid "Index"
-msgstr ""
+msgstr "Index"
 
 msgid "Indicates that the audio forms part of a sequence with other sequential interactions. The advancing of the sequence is handled by the delivery engine. Delays are also respected."
-msgstr ""
+msgstr "Azt jelzi, hogy a hanganyag egy sorozat részét képezi más, egymást követő interakciókkal. A sorozat előrehaladását a kézbesítő motor kezeli. A késéseket is figyelembe veszi a rendszer."
 
 msgid "Infinity"
-msgstr ""
+msgstr "Végtelenség"
 
 msgid "inline"
-msgstr ""
+msgstr "soron belüli"
 
 msgid "Inline Choice"
-msgstr ""
+msgstr "Beágyazott választás"
 
 msgid "Inline Choice Interaction"
-msgstr ""
+msgstr "Beágyazott választási interakció"
 
 msgid "Inline Interactions"
-msgstr ""
+msgstr "Beágyazott interakciók"
 
 msgid "Inline interactions need to be inserted into a text block."
-msgstr ""
+msgstr "A beágyazott interakciókat egy szövegblokkba kell beszúrni."
 
 msgid "integer"
-msgstr ""
+msgstr "egész szám"
 
 msgid "Interaction Background"
-msgstr ""
+msgstr "Interakciós háttér"
 
 msgid "Interaction Properties"
-msgstr ""
+msgstr "Interakciós tulajdonságok"
 
 msgid "Interpretation"
-msgstr ""
+msgstr "Értelmezés"
 
 msgid "Invalid identifier"
-msgstr ""
+msgstr "Érvénytelen azonosító"
 
 msgid "Invalid Outcome Declaration"
-msgstr ""
+msgstr "Érvénytelen eredménynyilatkozat"
 
 msgid "invalid QTI XML"
-msgstr ""
+msgstr "érvénytelen QTI XML"
 
 msgid "Invalid response identifier"
-msgstr ""
+msgstr "Érvénytelen válaszazonosító"
 
 msgid "Invalid URL"
-msgstr ""
+msgstr "Érvénytelen URL"
 
 msgid "Invalid value in correct response property."
-msgstr ""
+msgstr "Érvénytelen érték a helyes válasz tulajdonságban."
 
 msgid "Invalid value, use %s %s for decimal point."
-msgstr ""
+msgstr "Érvénytelen érték, tizedesvesszőként használja a %s %s karaktereket."
 
 msgid "Is this choice the correct response?"
-msgstr ""
+msgstr "Ez a választás a helyes válasz?"
 
 msgid "Is this pair the correct response?"
-msgstr ""
+msgstr "Ez a párosítás a helyes válasz?"
 
 msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
-msgstr ""
+msgstr "Úgy tűnik, hiba történt az elem betöltése során. A hibát jelentettük. A teszt szünetel."
 
 msgid "Item \"%s\" cannot be exported: %s"
-msgstr ""
+msgstr "A(z) „%s” elem nem exportálható: %s"
 
 msgid "Item \"%s\" has no xml document"
-msgstr ""
+msgstr "A(z) „%s” elemhez nem tartozik XML dokumentum."
 
 msgid "Item \"%s\" is not available in any language"
-msgstr ""
+msgstr "A(z) „%s” elem nem érhető el egyetlen nyelven sem"
 
 msgid "Item \"%s\" is ready to be exported"
-msgstr ""
+msgstr "A(z) „%s” elem exportálásra kész"
 
 msgid "Item cannot be saved."
-msgstr ""
+msgstr "Az elem nem menthető."
 
 msgid "Item metadata successfully exported."
-msgstr ""
+msgstr "A tétel metaadatainak exportálása sikeresen megtörtént."
 
 msgid "Item metadata with identifier \"%s\" is not valid: "
-msgstr ""
+msgstr "A(z) „%s” azonosítójú elem metaadatai érvénytelenek: "
 
 msgid "Item properties"
-msgstr ""
+msgstr "Elem tulajdonságai"
 
 msgid "Item Properties"
-msgstr ""
+msgstr "Elem tulajdonságai"
 
 msgid "Item width"
-msgstr ""
+msgstr "Elem szélessége"
 
 #, tao-public
 msgid "Items"
-msgstr ""
+msgstr "Tételek"
 
 msgid "Label"
-msgstr ""
+msgstr "Címke"
 
 msgid "Language"
-msgstr ""
+msgstr "Nyelv"
 
 msgid "Large editor"
-msgstr ""
+msgstr "Nagy szerkesztő"
 
 msgid "LaTeX"
-msgstr ""
+msgstr "Latex"
 
 msgid "Latex"
-msgstr ""
+msgstr "Latex"
 
 msgid "Layout"
-msgstr ""
+msgstr "Elrendezés"
 
 msgid "Left"
-msgstr ""
+msgstr "Balra"
 
 msgid "left"
-msgstr ""
+msgstr "balra"
 
 msgid "Left bracket"
-msgstr ""
+msgstr "Bal zárójel"
 
 msgid "Length"
-msgstr ""
+msgstr "Hossz"
 
 msgid "Level"
-msgstr ""
+msgstr "Szint"
 
 msgid "Lines"
-msgstr ""
+msgstr "Vonalak"
 
 msgid "List Style"
-msgstr ""
+msgstr "Lista stílus"
 
 msgid "Ln"
-msgstr ""
+msgstr "Ln"
 
 msgid "Log"
-msgstr ""
+msgstr "Napló"
 
 msgid "Long interpretation"
-msgstr ""
+msgstr "Hosszú értelmezés"
 
 msgid "Loop"
-msgstr ""
+msgstr "Hurok"
 
 msgid "Lower Bound"
-msgstr ""
+msgstr "Alsó határ"
 
 msgid "Lower bound is bigger than upper bound."
-msgstr ""
+msgstr "Az alsó határ nagyobb, mint a felső."
 
 msgid "Lower than or equal"
-msgstr ""
+msgstr "Alacsonyabb vagy egyenlő, mint"
 
 msgid "Malformed XML[%s]:\n"
 "%s"
-msgstr ""
+msgstr "Hibás XML[%s]:\n"
+"%s"
 
 msgid "Manage Items"
-msgstr ""
+msgstr "Elemek kezelése"
 
 #, tao-public
 msgid "Manage items"
-msgstr ""
+msgstr "Elemek kezelése"
 
 msgid "map response"
-msgstr ""
+msgstr "térképválasz"
 
 msgid "Mapping default"
-msgstr ""
+msgstr "Alapértelmezett leképezés"
 
 msgid "Mapping Indicator"
-msgstr ""
+msgstr "Térképezési mutató"
 
 msgid "Match"
-msgstr ""
+msgstr "Mérkőzés"
 
 msgid "match correct"
-msgstr ""
+msgstr "helyes egyezés"
 
 msgid "Match Interaction"
-msgstr ""
+msgstr "Mérkőzés interakció"
 
 msgid "MathJax is not installed."
-msgstr ""
+msgstr "A MathJax nincs telepítve."
 
 msgid "MathML"
-msgstr ""
+msgstr "MathML"
 
 msgid "Max"
-msgstr ""
+msgstr "Max"
 
 msgid "Max length"
-msgstr ""
+msgstr "Max. hossz"
 
 msgid "Max Length"
-msgstr ""
+msgstr "Max. hossz"
 
 msgid "Max plays count"
-msgstr ""
+msgstr "Max. lejátszások száma"
 
 msgid "Max words"
-msgstr ""
+msgstr "Max. szószám"
 
 msgid "Max Words"
-msgstr ""
+msgstr "Max szavak"
 
 msgid "Max. number of matches"
-msgstr ""
+msgstr "Max. mérkőzések száma"
 
 msgid "Maximal score for this interaction."
-msgstr ""
+msgstr "Maximális pontszám erre az interakcióra."
 
 msgid "maximum"
-msgstr ""
+msgstr "maximális"
 
 msgid "Maximum choices reached"
-msgstr ""
+msgstr "Elérte a maximális választási lehetőséget"
 
 msgid "Maximum number of choices reached."
-msgstr ""
+msgstr "Elérte a lehetséges választások maximális számát."
 
 msgid "Media"
-msgstr ""
+msgstr "Média"
 
 msgid "Media file path or YouTube video address"
-msgstr ""
+msgstr "Médiafájl elérési útja vagy YouTube-videó címe"
 
 msgid "Media Interaction"
-msgstr ""
+msgstr "Média interakció"
 
 msgid "Metadata export requires an instance of core_kernel_classes_Resource to extract metadata"
-msgstr ""
+msgstr "A metaadatok exportálásához a metaadatok kinyeréséhez a core_kernel_classes_Resource egy példánya szükséges."
 
 msgid "Metadata export requires an instance of DomManifest to inject metadata"
-msgstr ""
+msgstr "A metaadatok exportálásához a metaadatok befecskendezéséhez DomManifest egy példánya szükséges."
 
 msgid "Metadata import requires an instance of core_kernel_classes_Resource to inject metadata"
-msgstr ""
+msgstr "A metaadatok importálásához a metaadatok befecskendezéséhez a core_kernel_classes_Resource egy példánya szükséges."
 
 msgid "Metadata import requires an instance of DomManifest to extract metadata"
-msgstr ""
+msgstr "A metaadatok importálásához a metaadatok kinyeréséhez DomManifest egy példánya szükséges."
 
 msgid "Metadata service successfully registered."
-msgstr ""
+msgstr "A metaadat-szolgáltatás regisztrálása sikeresen megtörtént."
 
 msgid "MIME-type"
-msgstr ""
+msgstr "MIME-típus"
 
 msgid "Min"
-msgstr ""
+msgstr "Min."
 
 msgid "Minimal  score for this interaction."
-msgstr ""
+msgstr "Minimális pontszám ehhez az interakcióhoz."
 
 msgid "Modal feedback is shown to the candidate directly following response processing."
-msgstr ""
+msgstr "A modális visszajelzés közvetlenül a válasz feldolgozása után jelenik meg a jelöltnek."
 
 msgid "Modal Feedback Prop."
-msgstr ""
+msgstr "Modális visszacsatolási javaslat."
 
 msgid "modal feedback title"
-msgstr ""
+msgstr "modális visszajelzés címe"
 
 msgid "Modal Feedbacks"
-msgstr ""
+msgstr "Modális visszajelzések"
 
 msgid "Multiple choices"
-msgstr ""
+msgstr "Többszörös választási lehetőségek"
 
 msgid "Multiply"
-msgstr ""
+msgstr "Szorzás"
 
 msgid "negative"
-msgstr ""
+msgstr "negatív"
 
 #, tao-public
 msgid "New item"
-msgstr ""
+msgstr "Új elem"
 
 msgid "No"
-msgstr ""
+msgstr "Nem"
 
 msgid "no configuration property needed"
-msgstr ""
+msgstr "nincs szükség konfigurációs tulajdonságra"
 
 msgid "No file selected"
-msgstr ""
+msgstr "Nincs kiválasztott fájl"
 
 msgid "no item content"
-msgstr ""
+msgstr "nincs elemtartalom"
 
 msgid "No Items could be imported from the given IMS QTI package."
-msgstr ""
+msgstr "Nem sikerült tételeket importálni az adott IMS QTI csomagból."
 
 msgid "No preview available"
-msgstr ""
+msgstr "Nincs elérhető előnézet"
 
 msgid "No uploaded file"
-msgstr ""
+msgstr "Nincs feltöltött fájl"
 
 msgid "No value set"
-msgstr ""
+msgstr "Nincs beállított érték"
 
 msgid "None"
-msgstr ""
+msgstr "Egyik sem"
 
 msgid "none"
-msgstr ""
+msgstr "egyik sem"
 
 msgid "None defined yet."
-msgstr ""
+msgstr "Még nincs meghatározva."
 
 msgid "not a QTI item"
-msgstr ""
+msgstr "nem mennyiségi besorolású tétel"
 
 msgid "Number of associations"
-msgstr ""
+msgstr "Egyesületek száma"
 
 msgid "of"
-msgstr ""
+msgstr "a"
 
 msgid "OK"
-msgstr ""
+msgstr "RENDBEN"
 
 msgid "one association pair"
-msgstr ""
+msgstr "egy asszociációs pár"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-msgstr ""
+msgstr "Egy vagy több QTI komponenst a rendszer nem támogat. A rendszer a következő hibát adta vissza: %s\n"
 
 msgid "Order"
-msgstr ""
+msgstr "Rendelés"
 
 msgid "Order Interaction"
-msgstr ""
+msgstr "Rendelési interakció"
 
 msgid "order single list"
-msgstr ""
+msgstr "egyetlen lista megrendelése"
 
 msgid "Order the areas (hotspots) displayed on a picture."
-msgstr ""
+msgstr "Rendezd sorrendbe a képen megjelenített területeket (gócpontokat)."
 
 msgid "Orientation"
-msgstr ""
+msgstr "Tájolás"
 
 msgid "Other constraints"
-msgstr ""
+msgstr "Egyéb korlátozások"
 
 msgid "Outcome Declarations"
-msgstr ""
+msgstr "Eredménynyilatkozatok"
 
 msgid "Pair scoring"
-msgstr ""
+msgstr "Páros pontozás"
 
 msgid "Pattern"
-msgstr ""
+msgstr "Minta"
 
 msgid "Pause"
-msgstr ""
+msgstr "Szünet"
 
 msgid "Pi"
-msgstr ""
+msgstr "Pi"
 
 msgid "Placeholder Text"
-msgstr ""
+msgstr "Helyőrző szöveg"
 
 msgid "Plain text"
-msgstr ""
+msgstr "Sima szöveg"
 
 msgid "Please add one or more gaps to the text in question mode."
-msgstr ""
+msgstr "Kérlek, adj hozzá egy vagy több hiányzó részt a kérdő módban lévő szöveghez."
 
 msgid "Please create areas that correspond to the response and associate them a score. You can also position the target to the exact point as the correct response."
-msgstr ""
+msgstr "Kérjük, hozzon létre olyan területeket, amelyek megfelelnek a válasznak, és rendeljen hozzájuk pontszámot. A célpontot pontosan oda is pozicionálhatja, mint a helyes válasz pontját."
 
 msgid "Please define association pairs and their scores below."
-msgstr ""
+msgstr "Kérjük, definiálja az asszociációs párokat és azok pontszámait alább."
 
 msgid "Please define the correct association pairs below."
-msgstr ""
+msgstr "Kérjük, definiálja a helyes asszociációs párokat alább."
 
 msgid "Please define the correct order in the box to the right."
-msgstr ""
+msgstr "Kérjük, a jobb oldali mezőben határozza meg a helyes sorrendet."
 
 msgid "Please define the correct order."
-msgstr ""
+msgstr "Kérlek, definiáld a helyes sorrendet."
 
 msgid "Please define the correct response and the score below."
-msgstr ""
+msgstr "Kérjük, definiálja a helyes választ és a pontszámot alább."
 
 msgid "Please define the correct response below."
-msgstr ""
+msgstr "Kérjük, definiálja a helyes választ alább."
 
 msgid "Please define the correct response using the slider."
-msgstr ""
+msgstr "Kérjük, a csúszka segítségével határozza meg a helyes választ."
 
 msgid "Please enter the score for the given hottexts."
-msgstr ""
+msgstr "Kérjük, adja meg a megadott gyorsszövegek pontszámát."
 
 msgid "Please fill the gap with the correct choices below."
-msgstr ""
+msgstr "Kérjük, töltse ki az alábbi hiányzó részeket a helyes választási lehetőségekkel."
 
 msgid "Please fill the gap with the correct choices."
-msgstr ""
+msgstr "Kérjük, töltse ki a hiányzó részt a helyes választásokkal."
 
 msgid "Please fill the gap with the images below, then edit the score for each gap/image pair."
-msgstr ""
+msgstr "Kérlek, töltsd ki az üres részt az alábbi képekkel, majd szerkeszd az egyes üresen állás/kép párok pontszámát."
 
 msgid "Please fill the gap with the texts below, then edit the score for each pair."
-msgstr ""
+msgstr "Kérlek, töltsd ki a hiányzó részt az alábbi szövegekkel, majd szerkeszd a kottát minden párhoz."
 
 msgid "Please order the choices below to set the correct answer"
-msgstr ""
+msgstr "Kérjük, rendezze sorrendbe az alábbi válaszokat a helyes válasz megadásához"
 
 msgid "Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "Kérjük, válasszon ki egy háttérképet az interakcióhoz az erőforrás-kezelőből. Új fájlokat adhat hozzá a számítógépéről a „Fájl(ok) hozzáadása” gombbal."
 
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "Kérjük, válasszon ki egy médiafájlt (videó vagy hang) az erőforrás-kezelőből. A számítógépéről a „Fájl(ok) hozzáadása” gombbal adhat hozzá fájlokat."
 
 msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "Kérjük, válasszon ki egy médiafájlt az erőforrás-kezelőből. A számítógépéről a „Fájl(ok) hozzáadása” gombbal adhat hozzá fájlokat."
 
 msgid "Please select a shared stimulus file from the resource manager."
-msgstr ""
+msgstr "Válasszon ki egy megosztott stimulusfájlt az erőforrás-kezelőből."
 
 msgid "Please select the correct hotspot choices below."
-msgstr ""
+msgstr "Kérjük, válassza ki a megfelelő hotspotokat az alábbiak közül."
 
 msgid "Please select the correct hottext choices below."
-msgstr ""
+msgstr "Kérjük, válassza ki a megfelelő hottext-beállításokat alább."
 
 msgid "Please set the correct associations by linking the choices."
-msgstr ""
+msgstr "Kérjük, kapcsolja össze a megfelelő társításokat a lehetőségek között."
 
 msgid "Please the score of each hotspot choice."
-msgstr ""
+msgstr "Kérjük, adja meg az egyes hotspotok pontszámát."
 
 msgid "Please type the correct response below."
-msgstr ""
+msgstr "Kérjük, írja be a helyes választ alább."
 
 msgid "Please type the correct response in the box below."
-msgstr ""
+msgstr "Kérjük, írja be a helyes választ az alábbi mezőbe."
 
 msgid "Portable element model %s not found. Required extension might be missing"
-msgstr ""
+msgstr "A hordozható elem modellje %s nem található. Lehet, hogy hiányzik a szükséges kiterjesztés."
 
 msgid "Position one or more points on a picture (response areas are not displayed)."
-msgstr ""
+msgstr "Helyezzen el egy vagy több pontot a képen (a választerületek nem jelennek meg)."
 
 msgid "positive"
-msgstr ""
+msgstr "pozitív"
 
 msgid "Power form"
-msgstr ""
+msgstr "Teljesítményforma"
 
 msgid "Pre-formatted text"
-msgstr ""
+msgstr "Előre formázott szöveg"
 
 msgid "Preparing CSS, please wait…"
-msgstr ""
+msgstr "CSS előkészítése, kérem várjon…"
 
 msgid "Preparing Metadata Values for target \"%s\"..."
-msgstr ""
+msgstr "Metaadat-értékek előkészítése a(z) \"%s \" célhoz..."
 
 msgid "Preview"
-msgstr ""
+msgstr "Előnézet"
 
 msgid "Preview the item"
-msgstr ""
+msgstr "Az elem előnézete"
 
 msgid "Print"
-msgstr ""
+msgstr "Nyomtatás"
 
 msgid "Print the item"
-msgstr ""
+msgstr "Nyomtassa ki az elemet"
 
 msgid "Printed Variable"
-msgstr ""
+msgstr "Nyomtatott változó"
 
 msgid "Properties"
-msgstr ""
+msgstr "Tulajdonságok"
 
 msgid "PropertyUri to map has to a valid uri"
-msgstr ""
+msgstr "A leképezendő PropertyUri-nak érvényes URI-nak kell lennie."
 
 msgid "Provides a hint to the candidate as to the expected number of lines of input required. A line is expected to have about 72 characters."
-msgstr ""
+msgstr "Segítséget nyújt a jelöltnek a várható beviteli sorok számára vonatkozóan. Egy sor várhatóan körülbelül 72 karakterből áll."
 
 msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."
-msgstr ""
+msgstr "Segítséget nyújt a jelöltnek a kívánt válasz várható hosszához, karakterekben mérve."
 
 msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters. This is not a validity constraint."
-msgstr ""
+msgstr "Segítséget nyújt a jelöltnek a kívánt válasz várható teljes hosszához, karakterekben mérve. Ez nem érvényességi megkötés."
 
 msgid "Published %s"
-msgstr ""
+msgstr "Közzétéve %s"
 
 msgid "QTI Item Runner"
-msgstr ""
+msgstr "QTI tételfutó"
 
 msgid "QTI Metadata"
-msgstr ""
+msgstr "QTI metaadatok"
 
 msgid "QTI metadata as properties"
-msgstr ""
+msgstr "QTI metaadatok tulajdonságokként"
 
 msgid "QTI Package 2.1"
-msgstr ""
+msgstr "QTI csomag 2.1"
 
 msgid "QTI Package 2.2"
-msgstr ""
+msgstr "QTI csomag 2.2"
 
 msgid "QTI-XML error at line %1$d \"%2$s\"."
-msgstr ""
+msgstr "QTI-XML hiba a %1$d \"%2$s\" sorban."
 
 msgid "QTI/APIP Content Package"
-msgstr ""
+msgstr "QTI/APIP tartalomcsomag"
 
 msgid "QTI/APIP XML Item Document"
-msgstr ""
+msgstr "QTI/APIP XML tételdokumentum"
 
 msgid "Question"
-msgstr ""
+msgstr "Kérdés"
 
 msgid "Recommendations"
-msgstr ""
+msgstr "Ajánlások"
 
 msgid "recommended"
-msgstr ""
+msgstr "ajánlott"
 
 msgid "Reduce font size"
-msgstr ""
+msgstr "Betűméret csökkentése"
 
 msgid "Register method expects $key and $name parameters"
-msgstr ""
+msgstr "A Register metódus $key és $name paramétereket vár"
 
 msgid "Register method expects $key and $name parameters."
-msgstr ""
+msgstr "A Register metódus $key és $name paramétereket vár."
 
 msgid "remove"
-msgstr ""
+msgstr "eltávolít"
 
 msgid "Remove"
-msgstr ""
+msgstr "Eltávolítás"
 
 msgid "Remove custom background color"
-msgstr ""
+msgstr "Egyéni háttérszín eltávolítása"
 
 msgid "Remove custom border color"
-msgstr ""
+msgstr "Egyéni szegélyszín eltávolítása"
 
 msgid "Remove custom font family"
-msgstr ""
+msgstr "Egyéni betűtípuscsalád eltávolítása"
 
 msgid "Remove custom font size"
-msgstr ""
+msgstr "Egyéni betűméret eltávolítása"
 
 msgid "Remove custom item width"
-msgstr ""
+msgstr "Egyéni elemszélesség eltávolítása"
 
 msgid "Remove custom text color"
-msgstr ""
+msgstr "Egyéni szövegszín eltávolítása"
 
 msgid "Remove Instructions"
-msgstr ""
+msgstr "Utasítások eltávolítása"
 
 msgid "Remove Message"
-msgstr ""
+msgstr "Üzenet eltávolítása"
 
 msgid "Remove pair"
-msgstr ""
+msgstr "Pár eltávolítása"
 
 msgid "Remove the selected shape"
-msgstr ""
+msgstr "A kijelölt alakzat eltávolítása"
 
 msgid "Remove this stylesheet"
-msgstr ""
+msgstr "Stíluslap eltávolítása"
 
 msgid "Removes all instruction messages generated by the system from the interface."
-msgstr ""
+msgstr "Eltávolítja a rendszer által generált összes utasításüzenetet a felületről."
 
 msgid "Replay timeout"
-msgstr ""
+msgstr "Visszajátszási időtúllépés"
 
 msgid "required"
-msgstr ""
+msgstr "kívánt"
 
 msgid "Resource "
-msgstr ""
+msgstr "Forrás "
 
 msgid "Resource(s) successfully exported."
-msgstr ""
+msgstr "Erőforrás(ok) exportálása sikeresen megtörtént."
 
 msgid "Response"
-msgstr ""
+msgstr "Válasz"
 
 msgid "Response [\"%s\"] is bigger than the upper bound value \"%s\"."
-msgstr ""
+msgstr "A [\"%s\"] válasz nagyobb, mint a felső korlát értéke: \"%s\"."
 
 msgid "Response [\"%s\"] is lower than the lower bound value \"%s\"."
-msgstr ""
+msgstr "A [\"%s\"] válasz alacsonyabb, mint az alsó korlát értéke: \"%s\"."
 
 msgid "Response [\"%s\"] should be the only possible value \"%s\"."
-msgstr ""
+msgstr "A [\"%s\"] válasznak az egyetlen lehetséges értéknek kell lennie: \"%s\"."
 
 msgid "Response base type"
-msgstr ""
+msgstr "Válasz alaptípusa"
 
 msgid "Response identifier"
-msgstr ""
+msgstr "Válasz azonosítója"
 
 msgid "Response processing"
-msgstr ""
+msgstr "Válaszfeldolgozás"
 
 msgid "Response Properties"
-msgstr ""
+msgstr "Válasz tulajdonságai"
 
 msgid "Rich text"
-msgstr ""
+msgstr "Rich text"
 
 msgid "Rich text + math"
-msgstr ""
+msgstr "Rich text + matematika"
 
 msgid "right"
-msgstr ""
+msgstr "jobbra"
 
 msgid "Right"
-msgstr ""
+msgstr "Jobbra"
 
 msgid "Right bracket"
-msgstr ""
+msgstr "Jobb zárójel"
 
 msgid "Rollback on..."
-msgstr ""
+msgstr "Visszaállítás..."
 
 msgid "Save"
-msgstr ""
+msgstr "Megtakarítás"
 
 msgid "Save the item"
-msgstr ""
+msgstr "Mentse el az elemet"
 
 msgid "Scale size"
-msgstr ""
+msgstr "Méretméret"
 
 msgid "Score"
-msgstr ""
+msgstr "Pontszám"
 
 msgid "score"
-msgstr ""
+msgstr "pontszám"
 
 msgid "Score range"
-msgstr ""
+msgstr "Pontszámtartomány"
 
 msgid "Score value"
-msgstr ""
+msgstr "Pontszám"
 
 msgid "Scrollable multi-column"
-msgstr ""
+msgstr "Görgethető többoszlopos"
 
 msgid "seconds"
-msgstr ""
+msgstr "másodperc"
 
 msgid "Select"
-msgstr ""
+msgstr "Válasszon"
 
 msgid "select a choice"
-msgstr ""
+msgstr "válasszon egy lehetőséget"
 
 msgid "Select a choice from a drop-down list."
-msgstr ""
+msgstr "Válasszon egy lehetőséget egy legördülő listából."
 
 msgid "Select a left"
-msgstr ""
+msgstr "Válasszon egy bal oldalt"
 
 msgid "Select a response identifier from the list."
-msgstr ""
+msgstr "Válasszon ki egy válaszazonosítót a listából."
 
 msgid "Select a right"
-msgstr ""
+msgstr "Válasszon egy jogot"
 
 msgid "Select a single (radio buttons) or multiple (check boxes) responses among a set of choices."
-msgstr ""
+msgstr "Válasszon ki egyetlen (választógombok) vagy több (jelölőnégyzetek) választ a lehetőségek közül."
 
 msgid "Select a value within a numerical range."
-msgstr ""
+msgstr "Válasszon ki egy értéket egy numerikus tartományon belül."
 
 msgid "Select an image first"
-msgstr ""
+msgstr "Először válasszon ki egy képet"
 
 msgid "Select an image first."
-msgstr ""
+msgstr "Először válasszon ki egy képet."
 
 msgid "select correct choice"
-msgstr ""
+msgstr "válassza ki a helyes választást"
 
 msgid "Select height of passage base of container height"
-msgstr ""
+msgstr "Válassza ki az átjáró aljának vagy a konténer magasságának magasságát"
 
 msgid "Select height of text block base of container height"
-msgstr ""
+msgstr "Válassza ki a szövegblokk alapjának magasságát, vagy a konténer magasságát"
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
-msgstr ""
+msgstr "Válassza ki, hogy az eredménynyilatkozatot külső rendszer vagy emberi pontozó dolgozza-e fel. Ez jellemzően azoknál a tételeknél fordul elő, amelyekben a jelölteknek esszét kell írniuk."
 
 msgid "Select image"
-msgstr ""
+msgstr "Kép kiválasztása"
 
 msgid "Select media file"
-msgstr ""
+msgstr "Médiafájl kiválasztása"
 
 msgid "Select object"
-msgstr ""
+msgstr "Objektum kiválasztása"
 
 msgid "Select one or more areas (hotspots) displayed on an picture."
-msgstr ""
+msgstr "Jelöljön ki egy vagy több területet (hotspotot) a képen."
 
 msgid "Select one or more text parts (hottext) within a text."
-msgstr ""
+msgstr "Jelöljön ki egy vagy több szövegrészt (hottext) egy szövegen belül."
 
 msgid "Select Point"
-msgstr ""
+msgstr "Pont kiválasztása"
 
 msgid "Select Point Interaction"
-msgstr ""
+msgstr "Pont interakció kiválasztása"
 
 msgid "Select predefined feedback style from the list."
-msgstr ""
+msgstr "Válasszon előre definiált visszajelzési stílust a listából."
 
 msgid "Select shared stimulus"
-msgstr ""
+msgstr "Megosztott inger kiválasztása"
 
 msgid "Select the area to add an image"
-msgstr ""
+msgstr "Jelölje ki a területet a kép hozzáadásához"
 
 msgid "Select the expected input value type that will define the way the response of your interaction will be processed."
-msgstr ""
+msgstr "Válassza ki a várt bemeneti érték típusát, amely meghatározza az interakcióra adott válasz feldolgozásának módját."
 
 msgid "Select the outcome variable you want to display."
-msgstr ""
+msgstr "Válassza ki a megjeleníteni kívánt eredményváltozót."
 
 msgid "Select the way the response of your interaction should be processed"
-msgstr ""
+msgstr "Válassza ki, hogyan kell feldolgozni az interakcióra adott választ"
 
 msgid "Select this area"
-msgstr ""
+msgstr "Válassza ki ezt a területet"
 
 msgid "Select this area to start an association"
-msgstr ""
+msgstr "Válassza ki ezt a területet egy társítás megkezdéséhez"
 
 msgid "Sequential"
-msgstr ""
+msgstr "Egymás utáni"
 
 msgid "Set a CSS class name in order to customize the display style."
-msgstr ""
+msgstr "Állítson be egy CSS osztálynevet a megjelenítési stílus testreszabásához."
 
 msgid "Set the score for this response"
-msgstr ""
+msgstr "Állítsa be a válasz pontszámát"
 
 msgid "Shape position"
-msgstr ""
+msgstr "Alakzat pozíciója"
 
 msgid "Shuffle choices"
-msgstr ""
+msgstr "Véletlenszerű lejátszási lehetőségek"
 
 msgid "Single choice"
-msgstr ""
+msgstr "Egyetlen választási lehetőség"
 
 msgid "Sinus"
-msgstr ""
+msgstr "Arcüreg"
 
 msgid "Size and position"
-msgstr ""
+msgstr "Méret és pozíció"
 
 msgid "Slider"
-msgstr ""
+msgstr "Csúszka"
 
 msgid "Slider Interaction"
-msgstr ""
+msgstr "Csúszka interakció"
 
 msgid "Some feedback text."
-msgstr ""
+msgstr "Néhány visszajelzési szöveg."
 
 msgid "some text ..."
-msgstr ""
+msgstr "némi szöveg..."
 
 msgid "Something went wrong while destroying an interaction: %s"
-msgstr ""
+msgstr "Hiba történt egy interakció megszakításakor: %s"
 
 msgid "sort from source to target list"
-msgstr ""
+msgstr "rendezés forrástól célig"
 
 msgid "Square root"
-msgstr ""
+msgstr "Négyzetgyök"
 
 msgid "standard"
-msgstr ""
+msgstr "standard"
 
 msgid "Step"
-msgstr ""
+msgstr "Lépés"
 
 msgid "string"
-msgstr ""
+msgstr "húr"
 
 msgid "Style Editor"
-msgstr ""
+msgstr "Stílusszerkesztő"
 
 msgid "Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-apply."
-msgstr ""
+msgstr "Stíluslap <b>%s</b> eltávolítva<br> Kattints a <i>Stíluslap hozzáadása</i> gombra az újbóli alkalmazáshoz."
 
 msgid "Style Sheet Manager"
-msgstr ""
+msgstr "Stíluslap-kezelő"
 
 msgid "Success"
-msgstr ""
+msgstr "Siker"
 
 msgid "Successfully compiled \"%s"
-msgstr ""
+msgstr "Sikeresen lefordítva \"%s"
 
 msgid "Successfully created item \"%s"
-msgstr ""
+msgstr "Sikeresen létrehozva az elem \"%s"
 
 msgid "Table headings"
-msgstr ""
+msgstr "Táblázatcímek"
 
 msgid "TAO default styles"
-msgstr ""
+msgstr "TAO alapértelmezett stílusok"
 
 msgid "Target Class Lookup for resource \"%s\"..."
-msgstr ""
+msgstr "Célosztály keresése a(z) \"%s \" erőforrásra..."
 
 msgid "Text Block"
-msgstr ""
+msgstr "Szövegblokk"
 
 msgid "Text Block CSS Class"
-msgstr ""
+msgstr "Szövegblokk CSS osztály"
 
 msgid "Text Block Properties"
-msgstr ""
+msgstr "Szövegblokk tulajdonságai"
 
 msgid "Text color"
-msgstr ""
+msgstr "Szöveg színe"
 
 msgid "Text Entry"
-msgstr ""
+msgstr "Szövegbevitel"
 
 msgid "Text Entry Interaction"
-msgstr ""
+msgstr "Szövegbeviteli interakció"
 
 msgid "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."
-msgstr ""
+msgstr "Az autostart attribútum határozza meg, hogy a médiaobjektumnak a jelölt általi próbálkozás megkezdésekor azonnal el kell-e indulnia (bejelölve), vagy a jelölt felügyelete alatt kell-e elindulnia (nincs bejelölve)."
 
 msgid "The button label."
-msgstr ""
+msgstr "A gomb felirata."
 
 msgid "The default value from the target set to be used when no explicit mapping for a source value is given."
-msgstr ""
+msgstr "A célhalmaz alapértelmezett értéke, amelyet akkor kell használni, ha nincs megadva explicit leképezés a forrásértékhez."
 
 msgid "The delimiter to use between values when displaying variables of ordered, multiple or record cardinality. \";\" is default when delimiter is not declared. Implementations can override this default with personal preferences or locale settings."
-msgstr ""
+msgstr "Az értékek között használandó elválasztó karakter rendezett, többszörös vagy rekordszámú változók megjelenítésekor. A \";\" az alapértelmezett érték, ha az elválasztó nincs deklarálva. A megvalósítások felülbírálhatják ezt az alapértelmezett értéket személyes beállításokkal vagy területi beállításokkal."
 
 msgid "The field specifier to use when displaying variables of record cardinality."
-msgstr ""
+msgstr "A rekordszámú változók megjelenítésekor használandó mezőleíró."
 
 msgid "The file path to the image."
-msgstr ""
+msgstr "A képfájl elérési útja."
 
 msgid "The file path to the object."
-msgstr ""
+msgstr "Az objektum fájljának elérési útja."
 
 msgid "The file path to the shared stimulus."
-msgstr ""
+msgstr "A megosztott stimulus fájljának elérési útja."
 
 msgid "The format conversion specifier to use when converting numerical values to strings. See QTI Number Formatting Rules for details."
-msgstr ""
+msgstr "A numerikus értékek karakterláncokká konvertálásakor használandó formátumkonverziós specifikátor. Részletekért lásd a QTI számformázási szabályokat."
 
 msgid "The given target is not an instance of core_kernel_classes_Resource"
-msgstr ""
+msgstr "A megadott cél nem a core_kernel_classes_Resource példánya."
 
 msgid "The highlighted choice cannot be associated more than %d time(s)."
-msgstr ""
+msgstr "A kiemelt választási lehetőség nem társítható több mint %d alkalommal."
 
 msgid "The identifier of the choice. This identifier must not be used by any other choice or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
+msgstr "A választás azonosítója. Ezt az azonosítót nem használhatja más választási vagy elemváltozó. Az azonosító egy karakterlánc, amelynek betűvel vagy aláhúzásjellel (\"_\") kell kezdődnie, és csak betűket, aláhúzásjeleket, kötőjeleket (\"-\"), pontokat (\".\", más néven pont), számjegyeket, kombinált karaktereket és bővítményeket tartalmazhat."
 
 msgid "The identifier of the choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
+msgstr "A választott azonosító. Ezt az azonosítót nem használhatja más válasz- vagy elemváltozó. Az azonosító egy karakterlánc, amelynek betűvel vagy aláhúzásjellel (\"_\") kell kezdődnie, és csak betűket, aláhúzásjeleket, kötőjeleket (\"-\"), pontokat (\".\", más néven pont), számjegyeket, kombinált karaktereket és bővítményeket tartalmazhat."
 
 msgid "The identifier of the modal feedback. This identifier must not be used by any other modal feedback or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
+msgstr "A modális visszajelzés azonosítója. Ezt az azonosítót nem használhatja más modális visszajelzés vagy elemváltozó. Az azonosító egy karakterlánc, amelynek betűvel vagy aláhúzásjellel (\"_\") kell kezdődnie, és csak betűket, aláhúzásjeleket, kötőjeleket (\"-\"), pontokat (\".\", más néven pont), számjegyeket, kombinált karaktereket és bővítményeket tartalmazhat."
 
 msgid "The identifier of the response identifier. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
+msgstr "A válaszazonosító azonosítója. Ezt az azonosítót nem használhatja más válasz- vagy elemváltozó. Az azonosító egy karakterlánc, amelynek betűvel vagy aláhúzásjellel (\"_\") kell kezdődnie, és csak betűket, aláhúzásjeleket, kötőjeleket (\"-\"), pontokat (\".\", más néven pont), számjegyeket, kombinált karaktereket és bővítményeket tartalmazhat."
 
 msgid "The IMS QTI Item could not be imported."
-msgstr ""
+msgstr "Az IMS QTI tétel importálása sikertelen."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
-msgstr ""
+msgstr "Az IMS jegyzékfájlban \"%s\"-ként hivatkozott IMS QTI elem hibás volt:  %s"
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
-msgstr ""
+msgstr "Az IMS jegyzékfájlban \"%s\" ként hivatkozott IMS QTI elem helytelen válaszfeldolgozási és eredménydeklarációs definíciókkal rendelkezik."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
-msgstr ""
+msgstr "Az IMS Manifest fájlban \"%s\" ként hivatkozott IMS QTI elemnek meg kellett volna jelennie az elembankban. A elem nem található."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
-msgstr ""
+msgstr "Az IMS jegyzékfájlban \"%s\" ként hivatkozott IMS QTI tétel már el volt tárolva a tételbankban."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
-msgstr ""
+msgstr "Az IMS jegyzékfájlban \"%s\" ként hivatkozott IMS QTI elem importálása sikeresen megtörtént."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
-msgstr ""
+msgstr "Az IMS jegyzékfájlban \"%s\" ként hivatkozott IMS QTI elem felülírása sikeresen megtörtént."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
-msgstr ""
+msgstr "Az IMS jegyzékfájlban \"%s\"-ként hivatkozott IMS QTI elemet sikeresen visszagörgettük."
 
 msgid "The IMS QTI Item was successfully imported."
-msgstr ""
+msgstr "Az IMS QTI tétel importálása sikeresen megtörtént."
 
 msgid "The index to use when displaying a variable of ordered cardinality. If a variable of ordered cardinality is to be displayed and index is not set, all the values in the container are displayed."
-msgstr ""
+msgstr "A rendezett számosságú változó megjelenítésekor használandó index. Ha rendezett számosságú változót kell megjeleníteni, és az index nincs beállítva, akkor a konténerben lévő összes érték megjelenik."
 
 msgid "The item cannot be saved because it contains an unsupported custom interaction."
-msgstr ""
+msgstr "Az elem nem menthető, mert nem támogatott egyéni interakciót tartalmaz."
 
 msgid "The item has not been saved!"
-msgstr ""
+msgstr "A tétel nincs mentve!"
 
 msgid "The item has unsaved changes, are you sure you want to leave ?"
-msgstr ""
+msgstr "Az elem nem mentett módosításokat tartalmaz, biztosan kilép?"
 
 msgid "The item has unsaved changes, would you like to save it ?"
-msgstr ""
+msgstr "Az elem nem mentett módosításokat tartalmaz, szeretné menteni?"
 
 msgid "The item needs to be saved before it can be previewed"
-msgstr ""
+msgstr "Az elemet menteni kell, mielőtt megtekinthető lenne az előnézete."
 
 msgid "The item of the qti item. It is currently used as a meta data only. It is required by the QTI standard."
-msgstr ""
+msgstr "A mennyiségi mutató (qti) elemének eleme. Jelenleg csak metaadatként használatos. A QTI szabvány megköveteli."
 
 msgid "The left position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
+msgstr "Az alakzat bal oldali pozíciója a háttér bal felső sarkához képest pixelben. Ez az érték méretezhető, ha a háttérkép méretét a tárolójához igazítják."
 
 msgid "The loop attribute is used to set continuous play mode. In continuous play mode, once the media object has started to play it should play continuously (subject to maxPlays)."
-msgstr ""
+msgstr "A loop attribútum a folyamatos lejátszási mód beállítására szolgál. Folyamatos lejátszási módban, miután a médiaobjektum lejátszása elkezdődött, folyamatosan kell lejátszódnia (a maxPlays értékének függvényében)."
 
 msgid "The lower bound of the slider"
-msgstr ""
+msgstr "A csúszka alsó határa"
 
 msgid "The manifest argument must be an instance of DOMDocument."
-msgstr ""
+msgstr "A manifest argumentumnak a DOMDocument egy példányának kell lennie."
 
 msgid "The mapping indicator to use between field name and field value when displaying variables of record cardinality. \"=\" is default when mappingIndicator is not declared. Implementations can override this default with personal preferences or locale settings."
-msgstr ""
+msgstr "A mezőnév és a mezőérték között használandó leképezési indikátor a rekordok kardinalitásának változóinak megjelenítésekor. A \"=\" az alapértelmezett érték, ha a mappingIndicator nincs deklarálva. A megvalósítások felülbírálhatják ezt az alapértelmezett értéket személyes beállításokkal vagy területi beállításokkal."
 
 msgid "The mapping options are available when at least one map entry is defined."
-msgstr ""
+msgstr "A leképezési beállítások akkor érhetők el, ha legalább egy leképezési bejegyzés definiálva van."
 
 msgid "The maximum number of association is unlimited."
-msgstr ""
+msgstr "A kapcsolatok maximális száma korlátlan."
 
 msgid "The maximum number of associations that the candidate is allowed to make."
-msgstr ""
+msgstr "A jelölt által megtehető asszociációk maximális száma."
 
 msgid "The maximum number of choices that the candidate is allowed to select."
-msgstr ""
+msgstr "A jelölt által maximálisan kiválasztható lehetőségek száma."
 
 msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr ""
+msgstr "A jelöltnek érvényes válaszadáshoz maximálisan ki kell választania a lehetséges válaszok számát."
 
 msgid "The maximum number of choices this choice may be associated with."
-msgstr ""
+msgstr "Az ehhez a választási lehetőséghez társítható választási lehetőségek maximális száma."
 
 msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
-msgstr ""
+msgstr "A választási lehetőségek maximális száma, amelyhez ez a választási lehetőség társítható. Ha a matchMax értéke 0, akkor nincs korlátozás."
 
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
-msgstr ""
+msgstr "A maxPlays attribútum azt jelzi, hogy a médiaobjektum legfeljebb maxPlays alkalommal játszható le – a jelölt nem játszhatja le a médiaobjektumot a maxPlays számnál többször. A 0 érték (alapértelmezett) azt jelzi, hogy nincs korlát."
 
 msgid "The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score."
-msgstr ""
+msgstr "A tétel MAXSCORE értéke eltávolításra került, mivel a jelenlegi interakciós beállítások végtelen értéket engedélyeznek a pontszámhoz."
 
 msgid "The MIME-type attribute describes which kind of file may be uploaded."
-msgstr ""
+msgstr "A MIME-type attribútum leírja, hogy milyen típusú fájl tölthető fel."
 
 msgid "The minimum number of answers is "
-msgstr ""
+msgstr "A válaszok minimális száma "
 
 msgid "The minimum number of associations that the candidate is required to make to form a valid response."
-msgstr ""
+msgstr "Az a minimális asszociációk száma, amelyet a jelöltnek érvényes válasz megfogalmazásához meg kell tennie."
 
 msgid "The minimum number of choices that the candidate is required to select to form a valid response."
-msgstr ""
+msgstr "A válaszlehetőségek minimális száma, amelyet a jelöltnek ki kell választania ahhoz, hogy érvényes választ adjon."
 
 msgid "The minimum number of choices this choice must be associated with to form a valid response."
-msgstr ""
+msgstr "A minimálisan szükséges számú választási lehetőség ahhoz, hogy érvényes választ kapjunk."
 
 msgid "The number base to use when converting integer variables to strings with the i conversion type code."
-msgstr ""
+msgstr "Az egész változók karakterláncokká konvertálásakor használandó számbázis az i konverziós típusú kóddal."
 
 msgid "The number of units corresponding to a step on the slider"
-msgstr ""
+msgstr "A csúszkán egy lépésnek megfelelő egységek száma"
 
 msgid "The path argument for extractor must be a non-empty array."
-msgstr ""
+msgstr "Az extractor path argumentumának nem üres tömbnek kell lennie."
 
 msgid "The principle identifier of the item. This identifier must have a corresponding entry in the item's metadata."
-msgstr ""
+msgstr "Az elem fő azonosítója. Ennek az azonosítónak rendelkeznie kell egy megfelelő bejegyzéssel az elem metaadataiban."
 
 msgid "The purpose for which the rubric is intended to be used. As a reading passage for multiple items, or instructions for a particular section, for example."
-msgstr ""
+msgstr "A rubrika felhasználásának célja. Például több elemhez tartozó olvasmányrészletként, vagy egy adott szakaszhoz tartozó utasításokként."
 
 msgid "The QTI class \"%1$s\" located at line \"%2$d\" is currently not supported."
-msgstr ""
+msgstr "A(z) \"%2$d\" sorban található \"%1$s\" QTI osztály jelenleg nem támogatott."
 
 msgid "The Response Processing Template \"%s\" is not supported."
-msgstr ""
+msgstr "A(z) „%s” válaszfeldolgozási sablon nem támogatott."
 
 msgid "The score format is not numeric"
-msgstr ""
+msgstr "A pontszám formátuma nem numerikus"
 
 msgid "The scrollable multi-column layout configuration is optimized for items with a single row of content only. Both columns will scroll independently and fit the available page height."
-msgstr ""
+msgstr "A görgethető többoszlopos elrendezés konfigurációja az egyetlen tartalomsort tartalmazó elemekhez van optimalizálva. Mindkét oszlop egymástól függetlenül görgethető, és illeszkedik az elérhető oldalmagassághoz."
 
 msgid "The selected file is ready to be sent."
-msgstr ""
+msgstr "A kiválasztott fájl küldésre kész."
 
 msgid "The shape height in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
+msgstr "Az alakzat magassága pixelben. Ez az érték méretezhető, ha a háttérkép méretét a tárolóhoz igazítják."
 
 msgid "The shape width in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
+msgstr "Az alakzat szélessége pixelben. Ez az érték méretezhető, ha a háttérkép méretét a tárolóhoz igazítják."
 
 msgid "The target must be an instance of DOMDocument"
-msgstr ""
+msgstr "A célnak a DOMDocument egy példányának kell lennie."
 
 msgid "The text to be displayed below the image."
-msgstr ""
+msgstr "A kép alatt megjelenítendő szöveg."
 
 msgid "The text to be displayed if the image is not available."
-msgstr ""
+msgstr "A szöveg, amely akkor jelenik meg, ha a kép nem érhető el."
 
 msgid "The top position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
+msgstr "Az alakzat felső pozíciója a háttér bal felső sarkához képest pixelben. Ez az érték méretezhető, ha a háttérkép méretét a tárolójához igazítják."
 
 msgid "The upper bound of the slider"
-msgstr ""
+msgstr "A csúszka felső határa"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-msgstr ""
+msgstr "Az importált QTI tétel érvényesítése sikertelen. A rendszer a következő hibát adta vissza:%s\n"
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
-msgstr ""
+msgstr "Az IMS QTI tételt tartalmazó ZIP archívum nem bontható ki."
 
 msgid "The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive."
-msgstr ""
+msgstr "A ZIP archívum nem tartalmaz imsmanifest.xml fájlt, vagy érvénytelen ZIP archívum."
 
 msgid "There are errors in the following shared stimulus : "
-msgstr ""
+msgstr "Hibák vannak a következő megosztott ingerben: "
 
 msgid "There is an incomplete element in your item: please click on it to complete it."
-msgstr ""
+msgstr "Van egy hiányos elem az elemedben: kattints rá a kiegészítéshez."
 
 msgid "There was a problem downloading your CSS, please try again."
-msgstr ""
+msgstr "Hiba történt a CSS letöltésekor, kérjük, próbálja újra."
 
 msgid "This identifier is already used by another variable."
-msgstr ""
+msgstr "Ezt az azonosítót már egy másik változó használja."
 
 msgid "This identifier must not be used by any other response or item variable."
-msgstr ""
+msgstr "Ezt az azonosítót semmilyen más válasz- vagy elemváltozó nem használhatja."
 
 msgid "This interaction has no text defined in question mode."
-msgstr ""
+msgstr "Ehhez az interakcióhoz nincs kérdés módban definiált szöveg."
 
 msgid "This is not a valid answer"
-msgstr ""
+msgstr "Ez nem érvényes válasz"
 
 msgid "This is not a valid value. Expected %s"
-msgstr ""
+msgstr "Ez nem érvényes érték. A várt érték %s"
 
 msgid "This is required"
-msgstr ""
+msgstr "Ez kötelező"
 
 msgid "This shows or hides the entire audio player from view. Test takers will not be able to play, pause, or change the volume level."
-msgstr ""
+msgstr "Ez megjeleníti vagy elrejti a teljes audiolejátszót. A vizsgázók nem tudják lejátszani, szüneteltetni vagy módosítani a hangerőt."
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
-msgstr ""
+msgstr "Ez a stíluslap nem található a szerveren. Érdemes lehet törölni ezt a hivatkozást."
 
 msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
-msgstr ""
+msgstr "Ez az érték nem követi a tulajdonságok pontozására vonatkozó irányelveket. Nem lesz kompatibilis a TAO manuális pontozással."
 
 msgid "Time dependent"
-msgstr ""
+msgstr "Időfüggő"
 
 msgid "Title"
-msgstr ""
+msgstr "Cím"
 
 msgid "to"
-msgstr ""
+msgstr "hogy"
 
 msgid "Toggles the display of a vertical separator between columns."
-msgstr ""
+msgstr "Be-/kikapcsolja a függőleges elválasztó megjelenítését az oszlopok között."
 
 msgid "Tooltip Content"
-msgstr ""
+msgstr "Eszközleírás tartalma"
 
 msgid "Tooltip editor"
-msgstr ""
+msgstr "Eszközleírás-szerkesztő"
 
 msgid "Tooltip Target"
-msgstr ""
+msgstr "Eszközleírás célpontja"
 
 msgid "Top"
-msgstr ""
+msgstr "Felső"
 
 msgid "Trigger the end of the item attempt."
-msgstr ""
+msgstr "A tárgykísérlet végét kiváltó ok."
 
 msgid "Unable to load item from the given data."
-msgstr ""
+msgstr "Nem sikerült betölteni az elemet a megadott adatokból."
 
 msgid "Unable to process your request"
-msgstr ""
+msgstr "Nem sikerült feldolgozni a kérését"
 
 msgid "Unable to retrieve asset \"%s"
-msgstr ""
+msgstr "Nem sikerült lekérni az elemet \"%s"
 
 msgid "Unable to retrieve item : "
-msgstr ""
+msgstr "Nem sikerült lekérni az elemet: "
 
 msgid "Unable to retrieve item : \"%s"
-msgstr ""
+msgstr "Nem sikerült lekérni az elemet: \"%s"
 
 msgid "Unable to validate %s: %s"
-msgstr ""
+msgstr "Nem sikerült validálni a következőt: %s: %s"
 
 msgid "Undo"
-msgstr ""
+msgstr "Visszavonás"
 
 msgid "undo"
-msgstr ""
+msgstr "visszavonás"
 
 msgid "Unknown $key to register MetadataService instance"
-msgstr ""
+msgstr "Ismeretlen $key a MetadataService példány regisztrálásához"
 
 msgid "Unregister method expects $key and $name parameters."
-msgstr ""
+msgstr "Az Unregister metódus $key és $name paramétereket vár."
 
 msgid "Upload a file (e.g. document, picture...) as a response."
-msgstr ""
+msgstr "Töltsön fel egy fájlt (pl. dokumentumot, képet...) válaszként."
 
 msgid "Upper Bound"
-msgstr ""
+msgstr "Felső határ"
 
 msgid "Use this if you want the list of choices to be prefixed (e.g. 1,2,3 a,b,c)"
-msgstr ""
+msgstr "Használja ezt, ha azt szeretné, hogy a választási lehetőségek listája előtaggal legyen ellátva (pl. 1,2,3 a,b,c)"
 
 msgid "Used to control the format of the text entered by the candidate."
-msgstr ""
+msgstr "A jelölt által beírt szöveg formátumának szabályozására szolgál."
 
 msgid "Value"
-msgstr ""
+msgstr "Érték"
 
 msgid "Vertical"
-msgstr ""
+msgstr "Függőleges"
 
 msgid "warning"
-msgstr ""
+msgstr "figyelmeztetés"
 
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
-msgstr ""
+msgstr "Ehhez a patternMask függvényt fogjuk használni, hogy megfeleljünk az IMS szabványnak."
 
 msgid "Width"
-msgstr ""
+msgstr "Szélesség"
 
 msgid "words"
-msgstr ""
+msgstr "szavak"
 
 msgid "Would you like to replace the alt text"
-msgstr ""
+msgstr "Szeretné lecserélni az alt szöveget?"
 
 msgid "WYSIWYG editor"
-msgstr ""
+msgstr "WYSIWYG szerkesztő"
 
 msgid "XML error \"%1$s\"."
-msgstr ""
+msgstr "XML-hiba: „%1$s”"
 
 msgid "XML error at line %1$d \"%2$s\"."
-msgstr ""
+msgstr "XML hiba a %1$d \"%2$s\" sorban."
 
 msgid "Yes"
-msgstr ""
+msgstr "Igen"
 
 msgid "You can select maximum %d choice"
-msgstr ""
+msgstr "Legfeljebb %d lehetőséget választhatsz"
 
 msgid "You can select maximum %d choices"
-msgstr ""
+msgstr "Legfeljebb %d lehetőséget választhatsz"
 
 msgid "You can select up to %s choices."
-msgstr ""
+msgstr "Legfeljebb %s lehetőséget választhatsz."
 
 msgid "You can use maximum %d choices"
-msgstr ""
+msgstr "Legfeljebb %d lehetőséget használhatsz"
 
 msgid "You have deleted"
-msgstr ""
+msgstr "Törölted"
 
 msgid "You have deleted an element"
-msgstr ""
+msgstr "Törölt egy elemet"
 
 msgid "You have deleted an element."
-msgstr ""
+msgstr "Töröltél egy elemet."
 
 msgid "You may make as many association pairs as you want."
-msgstr ""
+msgstr "Annyi asszociációs párt hozhatsz létre, amennyit csak szeretnél."
 
 msgid "You must select %1$d to %2$d choices."
-msgstr ""
+msgstr "%1$d és %2$d lehetőségek közül kell választania."
 
 msgid "You must select 0 to %d choices."
-msgstr ""
+msgstr "0 és %d közötti lehetőséget kell választania."
 
 msgid "You must select at least %d choice"
-msgstr ""
+msgstr "Legalább %d lehetőséget kell kiválasztania"
 
 msgid "You must select at least %d choices"
-msgstr ""
+msgstr "Legalább %d lehetőséget kell kiválasztania"
 
 msgid "You must select exactly %d choice"
-msgstr ""
+msgstr "Pontosan %d lehetőséget kell kiválasztania"
 
 msgid "You must select exactly %d choice(s)."
-msgstr ""
+msgstr "Pontosan %d lehetőséget kell kiválasztania."
 
 msgid "You must select exactly %d choices"
-msgstr ""
+msgstr "Pontosan %d lehetőséget kell kiválasztania"
 
 msgid "You must use at least %d choices"
-msgstr ""
+msgstr "Legalább %d lehetőséget kell használnod"
 
 msgid "You need to make"
-msgstr ""
+msgstr "Meg kell tenned"
 
 msgid "You need to select %s choices"
-msgstr ""
+msgstr "%s lehetőséget kell kiválasztanod"
 
 msgid "You need to select at least %s choices."
-msgstr ""
+msgstr "Legalább %s lehetőséget kell kiválasztanod."
 
 msgid "You need to select at least 1 choice."
-msgstr ""
+msgstr "Legalább egy lehetőséget ki kell választania."
 
 msgid "You need to select from %s to %s choices."
-msgstr ""
+msgstr "%s és %s lehetőségek közül kell választanod."
 
 msgid "Your item has been saved"
-msgstr ""
+msgstr "Az elem mentésre került"
 
