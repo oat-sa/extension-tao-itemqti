@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2024-12-13 15:13\n"
+"PO-Revision-Date: 2025-07-24 12:39\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: hu\n"
@@ -20,30 +20,30 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTI
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "QTI"
-msgstr ""
+msgstr "Mennyiségi index (QTI)"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTI
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "IMS Question and Test Interoperability"
-msgstr ""
+msgstr "IMS kérdés- és teszt-interoperabilitás"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "QTI Manager"
-msgstr ""
+msgstr "QTI-kezelő"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "QTI Manager Role"
-msgstr ""
+msgstr "QTI-kezelői szerepkör"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTI
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "QTI"
-msgstr ""
+msgstr "Mennyiségi index (QTI)"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "QTI Manager"
-msgstr ""
+msgstr "QTI-kezelő"
 
