@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-04-16 15:36\n"
+"PO-Revision-Date: 2025-07-24 12:39\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -21,2070 +21,2071 @@ msgstr ""
 "Language-Team: Slovak\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
-msgstr ""
+msgstr " Doplňte medzery v texte z ponuky možností."
 
 msgid " For Resource "
-msgstr ""
+msgstr " Pre zdroj "
 
 msgid " or "
-msgstr ""
+msgstr " alebo "
 
 msgid "%d characters allowed"
-msgstr ""
+msgstr "Povolené znaky %d"
 
 msgid "%d Item(s) of %d imported from the given IMS QTI Package."
-msgstr ""
+msgstr "%d Položka(y) z %d importovaná(é) z daného balíka IMS QTI."
 
 msgid "%d/%d"
-msgstr ""
+msgstr "%d/%d"
 
 msgid "%s metadata values found in source by extractor(s)."
-msgstr ""
+msgstr "Hodnoty metadát nájdené v zdroji extraktorom(mi). %s"
 
 msgid "%s of %s characters maximum."
-msgstr ""
+msgstr "Maximálny počet znakov je %s z %s ."
 
 msgid "%s of %s characters recommended."
-msgstr ""
+msgstr "Odporúča sa %s z %s znakov."
 
 msgid "%s of %s words maximum."
-msgstr ""
+msgstr "Maximálne %s z %s slov."
 
 msgid "(comma)"
-msgstr ""
+msgstr "(čiarka)"
 
 msgid "(dot)"
-msgstr ""
+msgstr "(bodka)"
 
 msgid "(space)"
-msgstr ""
+msgstr "(medzera)"
 
 msgid "-- Any kind of file --"
-msgstr ""
+msgstr "-- Akýkoľvek druh súboru --"
 
 msgid "--- leave empty ---"
-msgstr ""
+msgstr "--- nechajte prázdne ---"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
-msgstr ""
+msgstr "Z daného dokumentu položky QTI/APIP XML bola importovaná 1 položka."
 
 msgid "1/3 of height"
-msgstr ""
+msgstr "1/3 výšky"
 
 msgid "1/4 of height"
-msgstr ""
+msgstr "1/4 výšky"
 
 msgid "2/3 of height"
-msgstr ""
+msgstr "2/3 výšky"
 
 msgid "3/4 of height"
-msgstr ""
+msgstr "3/4 výšky"
 
 msgid "A choice must be selected"
-msgstr ""
+msgstr "Musí byť vybraná možnosť"
 
 msgid "A human interpretation of the variable's value."
-msgstr ""
+msgstr "Ľudská interpretácia hodnoty premennej."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-msgstr ""
+msgstr "Komponent QTI nie je podporovaný. Systém vrátil nasledujúcu chybu: %s\n"
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
-msgstr ""
+msgstr "Blok rubriky identifikuje časť atribútu itemBody položky assessmentItem, ktorá predstavuje pokyny pre jedného alebo viacerých aktérov, ktorí si položku prezerajú. Hoci sú bloky rubriky definované ako simpleBlocks, nesmú obsahovať interakcie."
 
 msgid "Adapt to screen size"
-msgstr ""
+msgstr "Prispôsobiť sa veľkosti obrazovky"
 
 msgid "Add"
-msgstr ""
+msgstr "Pridať"
 
 msgid "Add a CSV file"
-msgstr ""
+msgstr "Pridať súbor CSV"
 
 msgid "Add a modal feedback"
-msgstr ""
+msgstr "Pridať modálnu spätnú väzbu"
 
 msgid "Add a QTI/APIP XML Item Document"
-msgstr ""
+msgstr "Pridať dokument položky XML QTI/APIP"
 
 msgid "Add a ZIP file containing QTI/APIP items"
-msgstr ""
+msgstr "Pridajte ZIP súbor obsahujúci položky QTI/APIP"
 
 msgid "Add an outcome"
-msgstr ""
+msgstr "Pridať výsledok"
 
 msgid "Add another option"
-msgstr ""
+msgstr "Pridať ďalšiu možnosť"
 
 msgid "Add choice"
-msgstr ""
+msgstr "Pridať možnosť"
 
 msgid "Add else feedback"
-msgstr ""
+msgstr "Pridať ďalšiu spätnú väzbu"
 
 msgid "Add new column"
-msgstr ""
+msgstr "Pridať nový stĺpec"
 
 msgid "Add new pairs"
-msgstr ""
+msgstr "Pridať nové páry"
 
 msgid "Add new row"
-msgstr ""
+msgstr "Pridať nový riadok"
 
 msgid "Add Style Sheet"
-msgstr ""
+msgstr "Pridať hárok so štýlmi"
 
 msgid "after"
-msgstr ""
+msgstr "po"
 
 msgid "Alignment"
-msgstr ""
+msgstr "Zarovnanie"
 
 msgid "Allow elimination"
-msgstr ""
+msgstr "Povoliť elimináciu"
 
 msgid "Allowed associations"
-msgstr ""
+msgstr "Povolené asociácie"
 
 msgid "Allowed choices"
-msgstr ""
+msgstr "Povolené možnosti"
 
 msgid "Allowed number of matches"
-msgstr ""
+msgstr "Povolený počet zápasov"
 
 msgid "Allowed number of uses"
-msgstr ""
+msgstr "Povolený počet použití"
 
 msgid "Alt Text"
-msgstr ""
+msgstr "Alternatívny text"
 
 msgid "An error occured while exporting an item."
-msgstr ""
+msgstr "Pri exporte položky sa vyskytla chyba."
 
 msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
-msgstr ""
+msgstr "Pri rozbaľovaní ZIP archívu predstavujúceho balík obsahu IMS sa vyskytla chyba."
 
 msgid "An error occured while loading a shared stimulus."
-msgstr ""
+msgstr "Pri načítavaní zdieľaného stimulu sa vyskytla chyba."
 
 msgid "An error occured while parsing IMS QTI data."
-msgstr ""
+msgstr "Pri analýze údajov IMS QTI sa vyskytla chyba."
 
 msgid "An error occurred at the level of the QTI model."
-msgstr ""
+msgstr "Na úrovni modelu QTI sa vyskytla chyba."
 
 msgid "An optional link to an extended interpretation of the outcome variable."
-msgstr ""
+msgstr "Voliteľný odkaz na rozšírenú interpretáciu výslednej premennej."
 
 msgid "An unexpected error occured during the import of the IMS QTI Item Package."
-msgstr ""
+msgstr "Počas importu balíka položiek IMS QTI sa vyskytla neočakávaná chyba."
 
 msgid "An unexpected error occured while dealing with Response Processing."
-msgstr ""
+msgstr "Pri spracovaní odpovede sa vyskytla neočakávaná chyba."
 
 msgid "An unexpected error occurred during the import of the IMS QTI Item Package. "
-msgstr ""
+msgstr "Počas importu balíka položiek IMS QTI sa vyskytla neočakávaná chyba. "
 
 msgid "An unexpected error occurred during the import of the IMS QTI Item Package. The system returned the following error: \"%s"
-msgstr ""
+msgstr "Počas importu balíka položiek IMS QTI sa vyskytla neočakávaná chyba. Systém vrátil nasledujúcu chybu: „%s“"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-msgstr ""
+msgstr "Počas importu položky QTI sa vyskytla neočakávaná chyba. Systém vrátil nasledujúcu chybu: %s\n"
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
-msgstr ""
+msgstr "Pri importovaní balíka IMS QTI s identifikátorom sa vyskytla neznáma chyba: "
 
 msgid "Answer required"
-msgstr ""
+msgstr "Vyžaduje sa odpoveď"
 
 msgid "APIP Content Package"
-msgstr ""
+msgstr "Balík obsahu APIP"
 
 msgid "Apip Package successfully exported."
-msgstr ""
+msgstr "Balík Apip bol úspešne exportovaný."
 
 msgid "Arrange a list of choices in the correct order."
-msgstr ""
+msgstr "Usporiadajte zoznam možností v správnom poradí."
 
 msgid "Associate"
-msgstr ""
+msgstr "Pridružený pracovník"
 
 msgid "Associate Interaction"
-msgstr ""
+msgstr "Interakcia s pridruženými partnermi"
 
 msgid "association pairs"
-msgstr ""
+msgstr "asociačné páry"
 
 msgid "at least"
-msgstr ""
+msgstr "aspoň"
 
 msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
-msgstr ""
+msgstr "Pokus o vloženie hodnôt metadát „%s“ pre cieľ „%s“ pomocou vkladača metadát „%s“."
 
 msgid "Autostart"
-msgstr ""
+msgstr "Automatické spustenie"
 
 msgid "Back to Manage Items"
-msgstr ""
+msgstr "Späť na správu položiek"
 
 msgid "Background color"
-msgstr ""
+msgstr "Farba pozadia"
 
 msgid "Base"
-msgstr ""
+msgstr "Základňa"
 
 msgid "Be aware, if you choose to remove the instructions, the system will not provide any warnings to the test takers if constraints are set."
-msgstr ""
+msgstr "Upozorňujeme, že ak sa rozhodnete odstrániť pokyny, systém účastníkom testu neposkytne žiadne upozornenia, ak sú nastavené obmedzenia."
 
 msgid "Block"
-msgstr ""
+msgstr "Blok"
 
 msgid "block"
-msgstr ""
+msgstr "blok"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
-msgstr ""
+msgstr "Blok obsahuje obsah (stimul) položky, ako napríklad text alebo obrázok. Je tiež potrebný pre vložené interakcie."
 
 msgid "Block height (%)"
-msgstr ""
+msgstr "Výška bloku (%)"
 
 msgid "Border color"
-msgstr ""
+msgstr "Farba okraja"
 
 msgid "Browse your computer and select the appropriate file."
-msgstr ""
+msgstr "Prehľadajte si počítač a vyberte príslušný súbor."
 
 msgid "Browse..."
-msgstr ""
+msgstr "Prehliadať..."
 
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušiť"
 
 msgid "cancel"
-msgstr ""
+msgstr "zrušiť"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
-msgstr ""
+msgstr "Z tohto výberu nie je možné vytvoriť medzeru. Skontrolujte, či nemáte čiastočne vybrané prvky."
 
 msgid "Cannot create hottext from this selection."
-msgstr ""
+msgstr "Z tohto výberu nie je možné vytvoriť okamžitý text."
 
 msgid "Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words."
-msgstr ""
+msgstr "Z tohto výberu nie je možné vytvoriť hottext. Uistite sa, že výber neobsahuje formátované aj neformátované slová."
 
 msgid "Cannot create hottext from this selection. Please make sure the selection does not contain multiple lines."
-msgstr ""
+msgstr "Z tohto výberu nie je možné vytvoriť hottext. Uistite sa, že výber neobsahuje viacero riadkov."
 
 msgid "Cannot delete a variable currently used in response processing"
-msgstr ""
+msgstr "Nie je možné odstrániť premennú, ktorá sa momentálne používa pri spracovaní odpovede"
 
 msgid "Cannot edit a variable currently used in response processing"
-msgstr ""
+msgstr "Nie je možné upraviť premennú, ktorá sa momentálne používa pri spracovaní odpovede"
 
 msgid "cannot find QTI XML"
-msgstr ""
+msgstr "Nemožno nájsť QTI XML"
 
 msgid "cannot load QTI XML"
-msgstr ""
+msgstr "Nemožno načítať QTI XML"
 
 msgid "Cannot locate the file \"%s"
-msgstr ""
+msgstr "Nepodarilo sa nájsť súbor „%s“"
 
 msgid "Center"
-msgstr ""
+msgstr "Centrum"
 
 msgid "Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with."
-msgstr ""
+msgstr "Zmeňte šírku položky. Predvolene má položka šírku 100 % a prispôsobí sa veľkosti ľubovoľnej obrazovky. Maximálna šírka je predvolene 1024 px – táto sa zmení aj po nastavení vlastnej hodnoty."
 
 msgid "chars"
-msgstr ""
+msgstr "znaky"
 
 msgid "Choice"
-msgstr ""
+msgstr "Voľba"
 
 msgid "Choice Image"
-msgstr ""
+msgstr "Obrázok výberu"
 
 msgid "Choice Interaction"
-msgstr ""
+msgstr "Interakcia výberu"
 
 msgid "Choice Properties"
-msgstr ""
+msgstr "Výber vlastností"
 
 msgid "choices"
-msgstr ""
+msgstr "možnosti"
 
 msgid "Choices"
-msgstr ""
+msgstr "Možnosti"
 
 msgid "Choose the horizontal alignment for the table."
-msgstr ""
+msgstr "Vyberte horizontálne zarovnanie tabuľky."
 
 msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
-msgstr ""
+msgstr "Vyhľadávanie triedy úspešné. Zdroj „%s“ bude uložený v triede RDFS „%s“."
 
 msgid "Class successfully created."
-msgstr ""
+msgstr "Trieda bola úspešne vytvorená."
 
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
-msgstr ""
+msgstr "Záznamy klasifikácie musia byť inštanciou ClassificationEntryMetadataValue"
 
 msgid "Classification metadata is required to be extracted."
-msgstr ""
+msgstr "Je potrebné extrahovať metadáta klasifikácie."
 
 msgid "Classification value to map has to a string"
-msgstr ""
+msgstr "Hodnota klasifikácie, ktorá sa má mapovať, musí byť reťazec"
 
 msgid "Click again to remove"
-msgstr ""
+msgstr "Kliknite znova pre odstránenie"
 
 msgid "Click to display interaction widget"
-msgstr ""
+msgstr "Kliknutím zobrazíte interaktívny widget"
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
-msgstr ""
+msgstr "Zbierajte otvorené informácie v krátkom textovom vstupe (reťazce alebo číselné hodnoty)."
 
 msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
-msgstr ""
+msgstr "Zbierajte otvorené informácie v jednej alebo viacerých textových oblastiach (reťazce alebo číselné hodnoty)."
 
 msgid "Color Picker"
-msgstr ""
+msgstr "Výber farby"
 
 msgid "Column separator"
-msgstr ""
+msgstr "Oddeľovač stĺpcov"
 
 msgid "Common Interactions"
-msgstr ""
+msgstr "Bežné interakcie"
 
 msgid "Constraints"
-msgstr ""
+msgstr "Obmedzenia"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
-msgstr ""
+msgstr "Ovládajte parametre prehrávania (automatické spustenie, slučka) video alebo audio súboru a hláste, koľkokrát bol prehraný."
 
 msgid "Correct"
-msgstr ""
+msgstr "Správne"
 
 msgid "correct"
-msgstr ""
+msgstr "správne"
 
 msgid "Cosinus"
-msgstr ""
+msgstr "Kosinus"
 
 msgid "Create a single hottext from the selection"
-msgstr ""
+msgstr "Vytvoriť jeden hottext z výberu"
 
 msgid "Create assocations and fill the score in the form below"
-msgstr ""
+msgstr "Vytvorte asociácie a vyplňte skóre vo formulári nižšie"
 
 msgid "Create association(s) between areas (hotspots) displayed on a picture."
-msgstr ""
+msgstr "Vytvoriť asociácie medzi oblasťami (horúcimi bodmi) zobrazenými na obrázku."
 
 msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
-msgstr ""
+msgstr "Vytvorte asociáciu (asociácie) medzi dvoma sadami možností zobrazenými v tabuľke (riadok a stĺpec)."
 
 msgid "Create gap"
-msgstr ""
+msgstr "Vytvoriť medzeru"
 
 msgid "Create hottext"
-msgstr ""
+msgstr "Vytvoriť horúci text"
 
 msgid "Create multiple hottexts from the selection"
-msgstr ""
+msgstr "Vytvoriť viacero horúcich textov z výberu"
 
 msgid "Create pair(s) from a series of choices."
-msgstr ""
+msgstr "Vytvorte pár(y) zo série možností."
 
 msgid "CSV content + metadata"
-msgstr ""
+msgstr "Obsah CSV + metadáta"
 
 msgid "Current value:"
-msgstr ""
+msgstr "Aktuálna hodnota:"
 
 msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
-msgstr ""
+msgstr "Konverzia z MathML do LaTeXu momentálne nie je k dispozícii. Úpravou MathML tu sa kód LaTeXu zahodí."
 
 msgid "custom"
-msgstr ""
+msgstr "zvyk"
 
 msgid "Custom Interactions"
-msgstr ""
+msgstr "Vlastné interakcie"
 
 msgid "Custom Response Processing Mode"
-msgstr ""
+msgstr "Režim spracovania vlastnej odpovede"
 
 msgid "Default"
-msgstr ""
+msgstr "Predvolené"
 
 msgid "default"
-msgstr ""
+msgstr "predvolené"
 
 msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
-msgstr ""
+msgstr "Definujte obmedzenia počtu možností potrebných na vytvorenie platnej odpovede. Žiadne: nedefinujte žiadne ďalšie obmedzenia. Požadovaná odpoveď: vyžaduje sa, aby účastník testu vybral aspoň jednu možnosť. Iné obmedzenia: definujte vlastné minimálne a/alebo maximálne obmedzenia (k dispozícii iba pre viacero možností)."
 
 msgid "Define correct response"
-msgstr ""
+msgstr "Definujte správnu odpoveď"
 
 msgid "Define item language."
-msgstr ""
+msgstr "Definujte jazyk položky."
 
 msgid "define prompt"
-msgstr ""
+msgstr "definovať výzvu"
 
 msgid "Define the correct response."
-msgstr ""
+msgstr "Definujte správnu odpoveď."
 
 msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
-msgstr ""
+msgstr "Definujte, či musí kandidát zvoliť určitú možnosť, aby vytvoril platnú odpoveď na interakciu."
 
 msgid "Define whether the item should be time dependent on delivery."
-msgstr ""
+msgstr "Definujte, či má byť položka časovo závislá od doručenia."
 
 msgid "Defined width"
-msgstr ""
+msgstr "Definovaná šírka"
 
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
-msgstr ""
+msgstr "Definuje maximálnu veľkosť číselných výstupných premenných, maximum musí byť kladná hodnota a minimum môže byť záporné."
 
 msgid "Delete"
-msgstr ""
+msgstr "Odstrániť"
 
 msgid "delete"
-msgstr ""
+msgstr "vymazať"
 
 msgid "Delete else statement"
-msgstr ""
+msgstr "Odstrániť príkaz else"
 
 msgid "Delete this modal feedback"
-msgstr ""
+msgstr "Odstrániť túto modálnu spätnú väzbu"
 
 msgid "Delimiter"
-msgstr ""
+msgstr "Oddeľovač"
 
 msgid "Description"
-msgstr ""
+msgstr "Popis"
 
 msgid "Disable this stylesheet temporarily"
-msgstr ""
+msgstr "Dočasne zakázať tento šablónu so štýlmi"
 
 msgid "Display"
-msgstr ""
+msgstr "Displej"
 
 msgid "Display media player"
-msgstr ""
+msgstr "Prehrávač médií na displeji"
 
 msgid "Display the choices either horizontally or vertically"
-msgstr ""
+msgstr "Zobrazte možnosti horizontálne alebo vertikálne"
 
 msgid "Divide"
-msgstr ""
+msgstr "Rozdeliť"
 
 msgid "Don't save"
-msgstr ""
+msgstr "Neukladať"
 
 msgid "done"
-msgstr ""
+msgstr "hotovo"
 
 msgid "Done"
-msgstr ""
+msgstr "Hotovo"
 
 msgid "Download"
-msgstr ""
+msgstr "Stiahnuť"
 
 msgid "Download sample csv file"
-msgstr ""
+msgstr "Stiahnuť vzorový súbor CSV"
 
 msgid "Download this stylesheet"
-msgstr ""
+msgstr "Stiahnite si tento šablónu so štýlmi"
 
 msgid "Draw a circle on the image"
-msgstr ""
+msgstr "Nakreslite kruh na obrázok"
 
 msgid "Draw a free form on the image"
-msgstr ""
+msgstr "Nakreslite na obrázok voľný tvar"
 
 msgid "Draw a rectangle on the image"
-msgstr ""
+msgstr "Nakreslite obdĺžnik na obrázok"
 
 msgid "Draw an ellipsis on the image"
-msgstr ""
+msgstr "Nakreslite elipsu na obrázok"
 
 msgid "Drop the target to select a point"
-msgstr ""
+msgstr "Pre výber bodu potiahnite cieľ"
 
 msgid "e.g. 13"
-msgstr ""
+msgstr "napr. 13"
 
 msgid "e.g. 960"
-msgstr ""
+msgstr "napr. 960"
 
 msgid "Edit"
-msgstr ""
+msgstr "Upraviť"
 
 msgid "edit choices"
-msgstr ""
+msgstr "možnosti úpravy"
 
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
-msgstr ""
+msgstr "Upravte matematický výraz pomocou systému nastavovania typov LaTex, napr. e^{i \\pi} = -1"
 
 msgid "Edit math expression using MathML"
-msgstr ""
+msgstr "Úprava matematického výrazu pomocou MathML"
 
 msgid "Edit modal feedback"
-msgstr ""
+msgstr "Upraviť modálnu spätnú väzbu"
 
 msgid "Edit modal feedback title"
-msgstr ""
+msgstr "Upraviť názov modálnej spätnej väzby"
 
 msgid "Edit stylesheet label"
-msgstr ""
+msgstr "Upraviť označenie štýlového hárka"
 
 msgid "Editing Mode"
-msgstr ""
+msgstr "Režim úprav"
 
 msgid "Element Properties"
-msgstr ""
+msgstr "Vlastnosti prvkov"
 
 msgid "elements"
-msgstr ""
+msgstr "prvky"
 
 msgid "Eliminate"
-msgstr ""
+msgstr "Eliminovať"
 
 msgid "Enable Scrolling"
-msgstr ""
+msgstr "Povoliť rolovanie"
 
 msgid "Enable the test taker to pause and restart the playing."
-msgstr ""
+msgstr "Umožnite účastníkovi testu pozastaviť a znova spustiť prehrávanie."
 
 msgid "Enable/disable scrolling."
-msgstr ""
+msgstr "Povoliť/zakázať rolovanie."
 
 msgid "End Attempt"
-msgstr ""
+msgstr "Ukončiť pokus"
 
 msgid "End Attempt Interaction"
-msgstr ""
+msgstr "Ukončenie pokusu o interakciu"
 
 msgid "Enlarge font size"
-msgstr ""
+msgstr "Zväčšiť veľkosť písma"
 
 msgid "Enter a select MIME-type"
-msgstr ""
+msgstr "Zadajte vybraný typ MIME"
 
 msgid "Enter choices…"
-msgstr ""
+msgstr "Zadajte možnosti…"
 
 msgid "Enter tooltip content"
-msgstr ""
+msgstr "Zadajte obsah popisu"
 
 msgid "Enter tooltip target"
-msgstr ""
+msgstr "Zadajte cieľ popisu"
 
 msgid "error"
-msgstr ""
+msgstr "chyba"
 
 msgid "Error in post rendering: %s"
-msgstr ""
+msgstr "Chyba pri vykresľovaní príspevku: %s"
 
 msgid "Error in template rendering: %s"
-msgstr ""
+msgstr "Chyba pri vykresľovaní šablóny: %s"
 
 msgid "Error on item %1$s : %2$s"
-msgstr ""
+msgstr "Chyba v položke %1$s : %2$s"
 
 msgid "Error on item %s"
-msgstr ""
+msgstr "Chyba v položke %s"
 
 msgid "Error to export item %s: %s"
-msgstr ""
+msgstr "Chyba pri exporte položky %s: %s"
 
 msgid "Euler\\'s constant"
-msgstr ""
+msgstr "Eulerova konštanta"
 
 msgid "Exponent"
-msgstr ""
+msgstr "Exponent"
 
 msgid "Export"
-msgstr ""
+msgstr "Export"
 
 msgid "Export APIP 1.0 Package"
-msgstr ""
+msgstr "Exportovať balík APIP 1.0"
 
 msgid "Export failed for the item \"%s\": %s"
-msgstr ""
+msgstr "Export zlyhal pre položku „%s“: %s"
 
 msgid "Export metadata"
-msgstr ""
+msgstr "Exportovať metadáta"
 
 msgid "Export metadata item"
-msgstr ""
+msgstr "Exportovať položku metadát"
 
 msgid "Export QTI 2.1 Package"
-msgstr ""
+msgstr "Exportovať balík QTI 2.1"
 
 msgid "Export QTI 2.2 Package"
-msgstr ""
+msgstr "Exportovať balík QTI 2.2"
 
 msgid "Extended Text"
-msgstr ""
+msgstr "Rozšírený text"
 
 msgid "Extended Text Interaction"
-msgstr ""
+msgstr "Rozšírená textová interakcia"
 
 msgid "External Machine"
-msgstr ""
+msgstr "Externý stroj"
 
 msgid "External Scored"
-msgstr ""
+msgstr "Externé hodnotenie"
 
 msgid "Fail to export item"
-msgstr ""
+msgstr "Export položky zlyhal"
 
 msgid "Failed to publish %1$s in %2$s"
-msgstr ""
+msgstr "Nepodarilo sa publikovať %1$s v %2$s"
 
 msgid "Feedback"
-msgstr ""
+msgstr "Spätná väzba"
 
 msgid "Feedback Style"
-msgstr ""
+msgstr "Štýl spätnej väzby"
 
 msgid "Field"
-msgstr ""
+msgstr "Pole"
 
 msgid "File"
-msgstr ""
+msgstr "Súbor"
 
 msgid "File name"
-msgstr ""
+msgstr "Názov súboru"
 
 msgid "File Upload"
-msgstr ""
+msgstr "Nahrávanie súboru"
 
 msgid "File Upload Interaction"
-msgstr ""
+msgstr "Interakcia pri nahrávaní súborov"
 
 msgid "Fill in the gaps on a picture with a set of image choices."
-msgstr ""
+msgstr "Doplňte medzery na obrázku pomocou sady obrázkov."
 
 msgid "float"
-msgstr ""
+msgstr "plavák"
 
 msgid "Font family"
-msgstr ""
+msgstr "Rodina písma"
 
 msgid "Font size"
-msgstr ""
+msgstr "Veľkosť písma"
 
 msgid "Format"
-msgstr ""
+msgstr "Formát"
 
 msgid "Fraction"
-msgstr ""
+msgstr "Zlomok"
 
 msgid "Full height"
-msgstr ""
+msgstr "Plná výška"
 
 msgid "Gap"
-msgstr ""
+msgstr "Medzera"
 
 msgid "Gap Match"
-msgstr ""
+msgstr "Zhoda medzier"
 
 msgid "Gap Match Interaction"
-msgstr ""
+msgstr "Interakcia zhody medzier"
 
 msgid "Graphic Associate Interaction"
-msgstr ""
+msgstr "Interakcia grafického spolupracovníka"
 
 msgid "Graphic Gap Match Interaction"
-msgstr ""
+msgstr "Interakcia zhody grafických medzier"
 
 msgid "Graphic Interactions"
-msgstr ""
+msgstr "Grafické interakcie"
 
 msgid "Graphic Order Interaction"
-msgstr ""
+msgstr "Interakcia grafického poradia"
 
 msgid "Greater than or equal"
-msgstr ""
+msgstr "Väčšie alebo rovné"
 
 msgid "Guard for resource \"%s\"..."
-msgstr ""
+msgstr "Strážca zdroja „%s“..."
 
 msgid "Half height"
-msgstr ""
+msgstr "Polovičná výška"
 
 msgid "Height"
-msgstr ""
+msgstr "Výška"
 
 msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
-msgstr ""
+msgstr "Tu môžete zadať aspekty hodnotenia pre manuálne hodnotenie/známkovanie, napr. OBSAH, GRAMATIKA, PRAVOPIS"
 
 msgid "Horizontal"
-msgstr ""
+msgstr "Horizontálne"
 
 msgid "Hotspot"
-msgstr ""
+msgstr "Hotspot"
 
 msgid "Hotspot Interaction"
-msgstr ""
+msgstr "Interakcia s hotspotmi"
 
 msgid "Hottext"
-msgstr ""
+msgstr "Horúci text"
 
 msgid "Hottext Interaction"
-msgstr ""
+msgstr "Interakcia s horúcim textom"
 
 msgid "How the math expression should be displayed."
-msgstr ""
+msgstr "Ako sa má zobraziť matematický výraz."
 
 msgid "How the math expression should be edited"
-msgstr ""
+msgstr "Ako by sa mal upravovať matematický výraz"
 
 msgid "Human"
-msgstr ""
+msgstr "Človek"
 
 msgid "identical pair already exists"
-msgstr ""
+msgstr "identický pár už existuje"
 
 msgid "identifier"
-msgstr ""
+msgstr "identifikátor"
 
 msgid "Identifier"
-msgstr ""
+msgstr "Identifikátor"
 
 msgid "identifier already taken"
-msgstr ""
+msgstr "identifikátor už obsadený"
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
-msgstr ""
+msgstr "Ak je zadaná, maska vzoru určuje regulárny výraz, ktorému musí zodpovedať odpoveď kandidáta, aby bola považovaná za platnú."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
-msgstr ""
+msgstr "Ak je atribút shuffle nastavený na hodnotu true, zobrazovací nástroj náhodne zoradí poradie, v akom sú možnosti pôvodne zobrazené. Každá možnosť však môže byť „premiešaná“ alebo „fixovaná“ individuálne."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
-msgstr ""
+msgstr "Ak je atribút shuffle nastavený na hodnotu true, zobrazovací nástroj náhodne zoradí poradie, v akom sú možnosti pôvodne zobrazené. Každá možnosť však môže byť „zamiešaná“ alebo „fixovaná“ individuálne."
 
 msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
-msgstr ""
+msgstr "Ak je interakcia s reťazcom viazaná na číselnú premennú odpovede, potom sa musí na nastavenie číselného základu, v ktorom sa má interpretovať hodnota zadaná kandidátom, použiť atribút base."
 
 msgid "If the variable value is a float and powerForm is set to 'false', the variable will be rendered using the 'e' or 'E' format. If the powerform is set to 'true', the form 'e+n' is changed to 'x 10n'."
-msgstr ""
+msgstr "Ak je hodnota premennej číslo s pohyblivou pohyblivou akciou a powerForm je nastavený na hodnotu „false“, premenná sa vykreslí vo formáte „e“ alebo „E“. Ak je powerform nastavený na hodnotu „true“, tvar „e+n“ sa zmení na „x 10n“."
 
 msgid "If this box is checked the student will be able to eliminate choices."
-msgstr ""
+msgstr "Ak je toto políčko zaškrtnuté, študent bude môcť vylúčiť možnosti."
 
 msgid "Image caption"
-msgstr ""
+msgstr "Popis obrázka"
 
 msgid "Image caption not enabled when position is set to inline"
-msgstr ""
+msgstr "Popis obrázka nie je povolený, keď je pozícia nastavená na vnorené"
 
 msgid "Import"
-msgstr ""
+msgstr "Importovať"
 
 msgid "Import a QTI/APIP Content Package"
-msgstr ""
+msgstr "Import balíka obsahu QTI/APIP"
 
 msgid "Import a QTI/APIP XML Item Document"
-msgstr ""
+msgstr "Import dokumentu položky XML QTI/APIP"
 
 msgid "Import item content and metadata from CSV file. Only choice interactions are supported."
-msgstr ""
+msgstr "Importovať obsah a metadáta položky zo súboru CSV. Podporované sú iba interakcie s výberom."
 
 msgid "Import QTI ITEM into \"%s"
-msgstr ""
+msgstr "Importovať položku QTI do \"%s\""
 
 msgid "IMS QTI Item referenced as \"%s\" cannot be imported."
-msgstr ""
+msgstr "Položku IMS QTI s odkazom na „%s“ nie je možné importovať."
 
 msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
-msgstr ""
+msgstr "Položka IMS QTI označená ako „%s“ obsahuje prenosný prvok a nemožno ju importovať."
 
 msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
-msgstr ""
+msgstr "Položku IMS QTI označenú ako „%s“ v súbore manifestu IMS nebolo možné importovať."
 
 msgid "In Progress"
-msgstr ""
+msgstr "Prebieha"
 
 msgid "In seconds. Delay during which the replay of the media is allowed. Once reached, the media is disabled and cannot be played anymore."
-msgstr ""
+msgstr "V sekundách. Oneskorenie, počas ktorého je povolené prehrávanie média. Po dosiahnutí tohto oneskorenia sa médium zakáže a už sa nedá prehrať."
 
 msgid "In visual environments, string interactions are typically represented by empty boxes into which the candidate writes or types.  Delivery engines should use the value of this attribute (if provided) instead of their default placeholder text when this is required."
-msgstr ""
+msgstr "Vo vizuálnych prostrediach sú interakcie s reťazcami typicky reprezentované prázdnymi políčkami, do ktorých kandidát píše alebo píše. Doručovacie nástroje by mali použiť hodnotu tohto atribútu (ak je poskytnutá) namiesto predvoleného zástupného textu, keď je to potrebné."
 
 msgid "incorrect"
-msgstr ""
+msgstr "nesprávny"
 
 msgid "Index"
-msgstr ""
+msgstr "Index"
 
 msgid "Indicates that the audio forms part of a sequence with other sequential interactions. The advancing of the sequence is handled by the delivery engine. Delays are also respected."
-msgstr ""
+msgstr "Označuje, že zvuk tvorí súčasť sekvencie s inými sekvenčnými interakciami. Posúvanie sekvencie vpred zabezpečuje doručovací modul. Rešpektujú sa aj oneskorenia."
 
 msgid "Infinity"
-msgstr ""
+msgstr "Nekonečno"
 
 msgid "inline"
-msgstr ""
+msgstr "vložený"
 
 msgid "Inline Choice"
-msgstr ""
+msgstr "Vložená voľba"
 
 msgid "Inline Choice Interaction"
-msgstr ""
+msgstr "Interakcia s vloženou voľbou"
 
 msgid "Inline Interactions"
-msgstr ""
+msgstr "Vložené interakcie"
 
 msgid "Inline interactions need to be inserted into a text block."
-msgstr ""
+msgstr "Vložené interakcie je potrebné vložiť do textového bloku."
 
 msgid "integer"
-msgstr ""
+msgstr "celé číslo"
 
 msgid "Interaction Background"
-msgstr ""
+msgstr "Pozadie interakcie"
 
 msgid "Interaction Properties"
-msgstr ""
+msgstr "Vlastnosti interakcie"
 
 msgid "Interpretation"
-msgstr ""
+msgstr "Interpretácia"
 
 msgid "Invalid identifier"
-msgstr ""
+msgstr "Neplatný identifikátor"
 
 msgid "Invalid Outcome Declaration"
-msgstr ""
+msgstr "Neplatné vyhlásenie o výsledku"
 
 msgid "invalid QTI XML"
-msgstr ""
+msgstr "neplatný XML kód QTI"
 
 msgid "Invalid response identifier"
-msgstr ""
+msgstr "Neplatný identifikátor odpovede"
 
 msgid "Invalid URL"
-msgstr ""
+msgstr "Neplatná URL adresa"
 
 msgid "Invalid value in correct response property."
-msgstr ""
+msgstr "Neplatná hodnota v správnej vlastnosti odpovede."
 
 msgid "Invalid value, use %s %s for decimal point."
-msgstr ""
+msgstr "Neplatná hodnota, pre desatinnú čiarku použite %s %s ."
 
 msgid "Is this choice the correct response?"
-msgstr ""
+msgstr "Je táto voľba správnou odpoveďou?"
 
 msgid "Is this pair the correct response?"
-msgstr ""
+msgstr "Je táto dvojica správna odpoveď?"
 
 msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
-msgstr ""
+msgstr "Zdá sa, že pri načítavaní položky došlo k chybe. Chyba bola nahlásená. Test bude pozastavený."
 
 msgid "Item \"%s\" cannot be exported: %s"
-msgstr ""
+msgstr "Položku „%s“ nie je možné exportovať: %s"
 
 msgid "Item \"%s\" has no xml document"
-msgstr ""
+msgstr "Položka „%s“ nemá žiadny dokument XML"
 
 msgid "Item \"%s\" is not available in any language"
-msgstr ""
+msgstr "Položka „%s“ nie je dostupná v žiadnom jazyku"
 
 msgid "Item \"%s\" is ready to be exported"
-msgstr ""
+msgstr "Položka „%s“ je pripravená na export"
 
 msgid "Item cannot be saved."
-msgstr ""
+msgstr "Položku nie je možné uložiť."
 
 msgid "Item metadata successfully exported."
-msgstr ""
+msgstr "Metadáta položky boli úspešne exportované."
 
 msgid "Item metadata with identifier \"%s\" is not valid: "
-msgstr ""
+msgstr "Metadáta položky s identifikátorom „%s“ nie sú platné: "
 
 msgid "Item properties"
-msgstr ""
+msgstr "Vlastnosti položky"
 
 msgid "Item Properties"
-msgstr ""
+msgstr "Vlastnosti položky"
 
 msgid "Item width"
-msgstr ""
+msgstr "Šírka položky"
 
 #, tao-public
 msgid "Items"
-msgstr ""
+msgstr "Položky"
 
 msgid "Label"
-msgstr ""
+msgstr "Štítok"
 
 msgid "Language"
-msgstr ""
+msgstr "Jazyk"
 
 msgid "Large editor"
-msgstr ""
+msgstr "Veľký editor"
 
 msgid "LaTeX"
-msgstr ""
+msgstr "LaTeX"
 
 msgid "Latex"
-msgstr ""
+msgstr "Latex"
 
 msgid "Layout"
-msgstr ""
+msgstr "Rozloženie"
 
 msgid "Left"
-msgstr ""
+msgstr "Vľavo"
 
 msgid "left"
-msgstr ""
+msgstr "vľavo"
 
 msgid "Left bracket"
-msgstr ""
+msgstr "Ľavá zátvorka"
 
 msgid "Length"
-msgstr ""
+msgstr "Dĺžka"
 
 msgid "Level"
-msgstr ""
+msgstr "Úroveň"
 
 msgid "Lines"
-msgstr ""
+msgstr "Čiary"
 
 msgid "List Style"
-msgstr ""
+msgstr "Štýl zoznamu"
 
 msgid "Ln"
-msgstr ""
+msgstr "Ľav"
 
 msgid "Log"
-msgstr ""
+msgstr "Záznam"
 
 msgid "Long interpretation"
-msgstr ""
+msgstr "Dlhý výklad"
 
 msgid "Loop"
-msgstr ""
+msgstr "Slučka"
 
 msgid "Lower Bound"
-msgstr ""
+msgstr "Dolná hranica"
 
 msgid "Lower bound is bigger than upper bound."
-msgstr ""
+msgstr "Dolná hranica je väčšia ako horná hranica."
 
 msgid "Lower than or equal"
-msgstr ""
+msgstr "Nižšie alebo rovné"
 
 msgid "Malformed XML[%s]:\n"
 "%s"
-msgstr ""
+msgstr "Nesprávne formátované XML[%s]:\n"
+"%s"
 
 msgid "Manage Items"
-msgstr ""
+msgstr "Spravovať položky"
 
 #, tao-public
 msgid "Manage items"
-msgstr ""
+msgstr "Spravovať položky"
 
 msgid "map response"
-msgstr ""
+msgstr "odpoveď mapy"
 
 msgid "Mapping default"
-msgstr ""
+msgstr "Predvolené mapovanie"
 
 msgid "Mapping Indicator"
-msgstr ""
+msgstr "Indikátor mapovania"
 
 msgid "Match"
-msgstr ""
+msgstr "Zápas"
 
 msgid "match correct"
-msgstr ""
+msgstr "správna zhoda"
 
 msgid "Match Interaction"
-msgstr ""
+msgstr "Interakcia zápasu"
 
 msgid "MathJax is not installed."
-msgstr ""
+msgstr "MathJax nie je nainštalovaný."
 
 msgid "MathML"
-msgstr ""
+msgstr "MathML"
 
 msgid "Max"
-msgstr ""
+msgstr "Max"
 
 msgid "Max length"
-msgstr ""
+msgstr "Maximálna dĺžka"
 
 msgid "Max Length"
-msgstr ""
+msgstr "Maximálna dĺžka"
 
 msgid "Max plays count"
-msgstr ""
+msgstr "Maximálny počet prehratí"
 
 msgid "Max words"
-msgstr ""
+msgstr "Maximálny počet slov"
 
 msgid "Max Words"
-msgstr ""
+msgstr "Max. počet slov"
 
 msgid "Max. number of matches"
-msgstr ""
+msgstr "Maximálny počet zhôd"
 
 msgid "Maximal score for this interaction."
-msgstr ""
+msgstr "Maximálne skóre pre túto interakciu."
 
 msgid "maximum"
-msgstr ""
+msgstr "maximálne"
 
 msgid "Maximum choices reached"
-msgstr ""
+msgstr "Dosiahnutý maximálny počet možností"
 
 msgid "Maximum number of choices reached."
-msgstr ""
+msgstr "Dosiahol sa maximálny počet možností."
 
 msgid "Media"
-msgstr ""
+msgstr "Médiá"
 
 msgid "Media file path or YouTube video address"
-msgstr ""
+msgstr "Cesta k mediálnemu súboru alebo adresa videa YouTube"
 
 msgid "Media Interaction"
-msgstr ""
+msgstr "Interakcia s médiami"
 
 msgid "Metadata export requires an instance of core_kernel_classes_Resource to extract metadata"
-msgstr ""
+msgstr "Export metadát vyžaduje inštanciu core_kernel_classes_Resource na extrakciu metadát"
 
 msgid "Metadata export requires an instance of DomManifest to inject metadata"
-msgstr ""
+msgstr "Export metadát vyžaduje inštanciu DomManifest na vloženie metadát"
 
 msgid "Metadata import requires an instance of core_kernel_classes_Resource to inject metadata"
-msgstr ""
+msgstr "Import metadát vyžaduje inštanciu core_kernel_classes_Resource na vloženie metadát"
 
 msgid "Metadata import requires an instance of DomManifest to extract metadata"
-msgstr ""
+msgstr "Import metadát vyžaduje inštanciu DomManifest na extrakciu metadát"
 
 msgid "Metadata service successfully registered."
-msgstr ""
+msgstr "Služba metadát bola úspešne zaregistrovaná."
 
 msgid "MIME-type"
-msgstr ""
+msgstr "Typ MIME"
 
 msgid "Min"
-msgstr ""
+msgstr "Minimálna"
 
 msgid "Minimal  score for this interaction."
-msgstr ""
+msgstr "Minimálne skóre pre túto interakciu."
 
 msgid "Modal feedback is shown to the candidate directly following response processing."
-msgstr ""
+msgstr "Modálna spätná väzba sa kandidátovi zobrazí priamo po spracovaní odpovede."
 
 msgid "Modal Feedback Prop."
-msgstr ""
+msgstr "Modálna spätná väzba Prop."
 
 msgid "modal feedback title"
-msgstr ""
+msgstr "názov modálnej spätnej väzby"
 
 msgid "Modal Feedbacks"
-msgstr ""
+msgstr "Modálne spätné väzby"
 
 msgid "Multiple choices"
-msgstr ""
+msgstr "Viacero možností"
 
 msgid "Multiply"
-msgstr ""
+msgstr "Násobiť"
 
 msgid "negative"
-msgstr ""
+msgstr "negatívny"
 
 #, tao-public
 msgid "New item"
-msgstr ""
+msgstr "Nová položka"
 
 msgid "No"
-msgstr ""
+msgstr "Nie"
 
 msgid "no configuration property needed"
-msgstr ""
+msgstr "nie je potrebná žiadna konfiguračná vlastnosť"
 
 msgid "No file selected"
-msgstr ""
+msgstr "Nie je vybraný žiadny súbor"
 
 msgid "no item content"
-msgstr ""
+msgstr "žiadny obsah položky"
 
 msgid "No Items could be imported from the given IMS QTI package."
-msgstr ""
+msgstr "Z daného balíka IMS QTI nebolo možné importovať žiadne položky."
 
 msgid "No preview available"
-msgstr ""
+msgstr "Nie je k dispozícii žiadna ukážka"
 
 msgid "No uploaded file"
-msgstr ""
+msgstr "Žiadny nahraný súbor"
 
 msgid "No value set"
-msgstr ""
+msgstr "Žiadna hodnota nie je nastavená"
 
 msgid "None"
-msgstr ""
+msgstr "Žiadne"
 
 msgid "none"
-msgstr ""
+msgstr "žiadny"
 
 msgid "None defined yet."
-msgstr ""
+msgstr "Zatiaľ žiadne definované."
 
 msgid "not a QTI item"
-msgstr ""
+msgstr "nie je to položka QTI"
 
 msgid "Number of associations"
-msgstr ""
+msgstr "Počet združení"
 
 msgid "of"
-msgstr ""
+msgstr "z"
 
 msgid "OK"
-msgstr ""
+msgstr "V poriadku"
 
 msgid "one association pair"
-msgstr ""
+msgstr "jeden asociačný pár"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-msgstr ""
+msgstr "Systém nepodporuje jeden alebo viac komponentov QTI. Systém vrátil nasledujúcu chybu: %s\n"
 
 msgid "Order"
-msgstr ""
+msgstr "Objednávka"
 
 msgid "Order Interaction"
-msgstr ""
+msgstr "Interakcia s objednávkou"
 
 msgid "order single list"
-msgstr ""
+msgstr "zoznam objednávok"
 
 msgid "Order the areas (hotspots) displayed on a picture."
-msgstr ""
+msgstr "Zoraďte oblasti (horúce miesta) zobrazené na obrázku."
 
 msgid "Orientation"
-msgstr ""
+msgstr "Orientácia"
 
 msgid "Other constraints"
-msgstr ""
+msgstr "Ďalšie obmedzenia"
 
 msgid "Outcome Declarations"
-msgstr ""
+msgstr "Vyhlásenia o výsledkoch"
 
 msgid "Pair scoring"
-msgstr ""
+msgstr "Bodovanie párov"
 
 msgid "Pattern"
-msgstr ""
+msgstr "Vzor"
 
 msgid "Pause"
-msgstr ""
+msgstr "Pozastaviť"
 
 msgid "Pi"
-msgstr ""
+msgstr "Pí"
 
 msgid "Placeholder Text"
-msgstr ""
+msgstr "Zástupný text"
 
 msgid "Plain text"
-msgstr ""
+msgstr "Obyčajný text"
 
 msgid "Please add one or more gaps to the text in question mode."
-msgstr ""
+msgstr "V režime otázky pridajte do textu jednu alebo viac medzier."
 
 msgid "Please create areas that correspond to the response and associate them a score. You can also position the target to the exact point as the correct response."
-msgstr ""
+msgstr "Vytvorte oblasti, ktoré zodpovedajú odpovedi, a priraďte im skóre. Cieľ môžete tiež umiestniť presne do bodu, ktorý zodpovedá správnej odpovedi."
 
 msgid "Please define association pairs and their scores below."
-msgstr ""
+msgstr "Prosím, definujte asociačné páry a ich skóre nižšie."
 
 msgid "Please define the correct association pairs below."
-msgstr ""
+msgstr "Prosím, definujte nižšie správne asociačné páry."
 
 msgid "Please define the correct order in the box to the right."
-msgstr ""
+msgstr "Prosím, definujte správne poradie v rámčeku vpravo."
 
 msgid "Please define the correct order."
-msgstr ""
+msgstr "Prosím, definujte správne poradie."
 
 msgid "Please define the correct response and the score below."
-msgstr ""
+msgstr "Prosím, nižšie uveďte správnu odpoveď a skóre."
 
 msgid "Please define the correct response below."
-msgstr ""
+msgstr "Prosím, definujte správnu odpoveď nižšie."
 
 msgid "Please define the correct response using the slider."
-msgstr ""
+msgstr "Prosím, definujte správnu odpoveď pomocou posuvníka."
 
 msgid "Please enter the score for the given hottexts."
-msgstr ""
+msgstr "Zadajte skóre pre dané textové správy."
 
 msgid "Please fill the gap with the correct choices below."
-msgstr ""
+msgstr "Prosím, doplňte medzeru správnymi možnosťami nižšie."
 
 msgid "Please fill the gap with the correct choices."
-msgstr ""
+msgstr "Prosím, doplňte medzeru správnymi možnosťami."
 
 msgid "Please fill the gap with the images below, then edit the score for each gap/image pair."
-msgstr ""
+msgstr "Vyplňte medzeru obrázkami nižšie a potom upravte skóre pre každý pár medzera/obrázok."
 
 msgid "Please fill the gap with the texts below, then edit the score for each pair."
-msgstr ""
+msgstr "Prosím, vyplňte medzeru textami nižšie a potom upravte skóre pre každú dvojicu."
 
 msgid "Please order the choices below to set the correct answer"
-msgstr ""
+msgstr "Prosím, zoradte možnosti nižšie tak, aby ste určili správnu odpoveď"
 
 msgid "Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "Vyberte si obrázok pozadia pre vašu interakciu zo správcu zdrojov. Nové súbory môžete pridať z počítača pomocou tlačidla „Pridať súbor(y)“."
 
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "Vyberte mediálny súbor (video alebo audio) zo správcu zdrojov. Súbory z počítača môžete pridať pomocou tlačidla „Pridať súbor(y)“."
 
 msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "Vyberte mediálny súbor zo správcu zdrojov. Súbory z počítača môžete pridať pomocou tlačidla „Pridať súbor(y)“."
 
 msgid "Please select a shared stimulus file from the resource manager."
-msgstr ""
+msgstr "Vyberte zdieľaný súbor podnetov zo správcu zdrojov."
 
 msgid "Please select the correct hotspot choices below."
-msgstr ""
+msgstr "Prosím, vyberte nižšie správne možnosti hotspotov."
 
 msgid "Please select the correct hottext choices below."
-msgstr ""
+msgstr "Prosím, vyberte nižšie správne možnosti skratiek."
 
 msgid "Please set the correct associations by linking the choices."
-msgstr ""
+msgstr "Prosím, nastavte správne asociácie prepojením možností."
 
 msgid "Please the score of each hotspot choice."
-msgstr ""
+msgstr "Prosím, uveďte skóre každého výberu hotspotu."
 
 msgid "Please type the correct response below."
-msgstr ""
+msgstr "Prosím, napíšte nižšie správnu odpoveď."
 
 msgid "Please type the correct response in the box below."
-msgstr ""
+msgstr "Prosím, napíšte správnu odpoveď do poľa nižšie."
 
 msgid "Portable element model %s not found. Required extension might be missing"
-msgstr ""
+msgstr "Model prenosného prvku %s sa nenašiel. Možno chýba požadované rozšírenie."
 
 msgid "Position one or more points on a picture (response areas are not displayed)."
-msgstr ""
+msgstr "Umiestnite jeden alebo viac bodov na obrázok (oblasti odozvy sa nezobrazia)."
 
 msgid "positive"
-msgstr ""
+msgstr "pozitívny"
 
 msgid "Power form"
-msgstr ""
+msgstr "Formulár moci"
 
 msgid "Pre-formatted text"
-msgstr ""
+msgstr "Predformátovaný text"
 
 msgid "Preparing CSS, please wait…"
-msgstr ""
+msgstr "Pripravuje sa CSS, čakajte prosím…"
 
 msgid "Preparing Metadata Values for target \"%s\"..."
-msgstr ""
+msgstr "Príprava hodnôt metadát pre cieľ „%s“..."
 
 msgid "Preview"
-msgstr ""
+msgstr "Náhľad"
 
 msgid "Preview the item"
-msgstr ""
+msgstr "Zobraziť ukážku položky"
 
 msgid "Print"
-msgstr ""
+msgstr "Tlačiť"
 
 msgid "Print the item"
-msgstr ""
+msgstr "Vytlačiť položku"
 
 msgid "Printed Variable"
-msgstr ""
+msgstr "Tlačená premenná"
 
 msgid "Properties"
-msgstr ""
+msgstr "Nehnuteľnosti"
 
 msgid "PropertyUri to map has to a valid uri"
-msgstr ""
+msgstr "PropertyUri na mapovanie musí mať platný URI"
 
 msgid "Provides a hint to the candidate as to the expected number of lines of input required. A line is expected to have about 72 characters."
-msgstr ""
+msgstr "Poskytuje kandidátovi nápovedu ohľadom očakávaného počtu požadovaných riadkov vstupu. Riadok by mal mať približne 72 znakov."
 
 msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."
-msgstr ""
+msgstr "Poskytuje kandidátovi nápovedu ohľadom očakávanej celkovej dĺžky požadovanej odpovede meranej v počte znakov."
 
 msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters. This is not a validity constraint."
-msgstr ""
+msgstr "Poskytuje kandidátovi nápovedu ohľadom očakávanej celkovej dĺžky požadovanej odpovede meranej v počte znakov. Toto nie je obmedzenie platnosti."
 
 msgid "Published %s"
-msgstr ""
+msgstr "Publikované %s"
 
 msgid "QTI Item Runner"
-msgstr ""
+msgstr "Bežec položiek QTI"
 
 msgid "QTI Metadata"
-msgstr ""
+msgstr "Metadáta QTI"
 
 msgid "QTI metadata as properties"
-msgstr ""
+msgstr "Metadáta QTI ako vlastnosti"
 
 msgid "QTI Package 2.1"
-msgstr ""
+msgstr "Balík QTI 2.1"
 
 msgid "QTI Package 2.2"
-msgstr ""
+msgstr "Balík QTI 2.2"
 
 msgid "QTI-XML error at line %1$d \"%2$s\"."
-msgstr ""
+msgstr "Chyba QTI-XML na riadku %1$d „%2$s“."
 
 msgid "QTI/APIP Content Package"
-msgstr ""
+msgstr "Balík obsahu QTI/APIP"
 
 msgid "QTI/APIP XML Item Document"
-msgstr ""
+msgstr "Dokument položky XML QTI/APIP"
 
 msgid "Question"
-msgstr ""
+msgstr "Otázka"
 
 msgid "Recommendations"
-msgstr ""
+msgstr "Odporúčania"
 
 msgid "recommended"
-msgstr ""
+msgstr "odporúčané"
 
 msgid "Reduce font size"
-msgstr ""
+msgstr "Zmenšiť veľkosť písma"
 
 msgid "Register method expects $key and $name parameters"
-msgstr ""
+msgstr "Metóda Register očakáva parametre $key a $name"
 
 msgid "Register method expects $key and $name parameters."
-msgstr ""
+msgstr "Metóda Register očakáva parametre $key a $name ."
 
 msgid "remove"
-msgstr ""
+msgstr "odstrániť"
 
 msgid "Remove"
-msgstr ""
+msgstr "Odstrániť"
 
 msgid "Remove custom background color"
-msgstr ""
+msgstr "Odstrániť vlastnú farbu pozadia"
 
 msgid "Remove custom border color"
-msgstr ""
+msgstr "Odstrániť vlastnú farbu orámovania"
 
 msgid "Remove custom font family"
-msgstr ""
+msgstr "Odstrániť vlastnú rodinu písiem"
 
 msgid "Remove custom font size"
-msgstr ""
+msgstr "Odstrániť vlastnú veľkosť písma"
 
 msgid "Remove custom item width"
-msgstr ""
+msgstr "Odstrániť šírku vlastnej položky"
 
 msgid "Remove custom text color"
-msgstr ""
+msgstr "Odstrániť vlastnú farbu textu"
 
 msgid "Remove Instructions"
-msgstr ""
+msgstr "Pokyny na odstránenie"
 
 msgid "Remove Message"
-msgstr ""
+msgstr "Odstrániť správu"
 
 msgid "Remove pair"
-msgstr ""
+msgstr "Odstrániť pár"
 
 msgid "Remove the selected shape"
-msgstr ""
+msgstr "Odstrániť vybraný tvar"
 
 msgid "Remove this stylesheet"
-msgstr ""
+msgstr "Odstrániť tento šablónu so štýlmi"
 
 msgid "Removes all instruction messages generated by the system from the interface."
-msgstr ""
+msgstr "Odstráni všetky inštrukčné správy vygenerované systémom z rozhrania."
 
 msgid "Replay timeout"
-msgstr ""
+msgstr "Časový limit prehrávania"
 
 msgid "required"
-msgstr ""
+msgstr "požadované"
 
 msgid "Resource "
-msgstr ""
+msgstr "Zdroj "
 
 msgid "Resource(s) successfully exported."
-msgstr ""
+msgstr "Zdroj(e) boli úspešne exportované."
 
 msgid "Response"
-msgstr ""
+msgstr "Odpoveď"
 
 msgid "Response [\"%s\"] is bigger than the upper bound value \"%s\"."
-msgstr ""
+msgstr "Hodnota odpovede [\"%s\"] je väčšia ako horná hranica \"%s\"."
 
 msgid "Response [\"%s\"] is lower than the lower bound value \"%s\"."
-msgstr ""
+msgstr "Hodnota odpovede [\"%s\"] je nižšia ako dolná hranica \"%s\"."
 
 msgid "Response [\"%s\"] should be the only possible value \"%s\"."
-msgstr ""
+msgstr "Odpoveď [\"%s\"] by mala byť jedinou možnou hodnotou \"%s\"."
 
 msgid "Response base type"
-msgstr ""
+msgstr "Základný typ odpovede"
 
 msgid "Response identifier"
-msgstr ""
+msgstr "Identifikátor odpovede"
 
 msgid "Response processing"
-msgstr ""
+msgstr "Spracovanie odpovede"
 
 msgid "Response Properties"
-msgstr ""
+msgstr "Vlastnosti odpovede"
 
 msgid "Rich text"
-msgstr ""
+msgstr "Formátovaný text"
 
 msgid "Rich text + math"
-msgstr ""
+msgstr "Formátovaný text + matematika"
 
 msgid "right"
-msgstr ""
+msgstr "správne"
 
 msgid "Right"
-msgstr ""
+msgstr "Vpravo"
 
 msgid "Right bracket"
-msgstr ""
+msgstr "Pravá zátvorka"
 
 msgid "Rollback on..."
-msgstr ""
+msgstr "Vrátiť späť..."
 
 msgid "Save"
-msgstr ""
+msgstr "Uložiť"
 
 msgid "Save the item"
-msgstr ""
+msgstr "Uložiť položku"
 
 msgid "Scale size"
-msgstr ""
+msgstr "Veľkosť mierky"
 
 msgid "Score"
-msgstr ""
+msgstr "Skóre"
 
 msgid "score"
-msgstr ""
+msgstr "skóre"
 
 msgid "Score range"
-msgstr ""
+msgstr "Rozsah skóre"
 
 msgid "Score value"
-msgstr ""
+msgstr "Hodnota skóre"
 
 msgid "Scrollable multi-column"
-msgstr ""
+msgstr "Posúvateľné viacstĺpcové"
 
 msgid "seconds"
-msgstr ""
+msgstr "sekundy"
 
 msgid "Select"
-msgstr ""
+msgstr "Vyberte"
 
 msgid "select a choice"
-msgstr ""
+msgstr "vyberte možnosť"
 
 msgid "Select a choice from a drop-down list."
-msgstr ""
+msgstr "Vyberte možnosť z rozbaľovacieho zoznamu."
 
 msgid "Select a left"
-msgstr ""
+msgstr "Vyberte ľavú stranu"
 
 msgid "Select a response identifier from the list."
-msgstr ""
+msgstr "Vyberte identifikátor odpovede zo zoznamu."
 
 msgid "Select a right"
-msgstr ""
+msgstr "Vyberte právo"
 
 msgid "Select a single (radio buttons) or multiple (check boxes) responses among a set of choices."
-msgstr ""
+msgstr "Vyberte jednu (prepínače) alebo viacero (začiarkavacie políčka) odpovedí z ponuky."
 
 msgid "Select a value within a numerical range."
-msgstr ""
+msgstr "Vyberte hodnotu v rámci číselného rozsahu."
 
 msgid "Select an image first"
-msgstr ""
+msgstr "Najprv vyberte obrázok"
 
 msgid "Select an image first."
-msgstr ""
+msgstr "Najprv vyberte obrázok."
 
 msgid "select correct choice"
-msgstr ""
+msgstr "vyberte správnu voľbu"
 
 msgid "Select height of passage base of container height"
-msgstr ""
+msgstr "Vyberte výšku základne prechodu pre výšku kontajnera"
 
 msgid "Select height of text block base of container height"
-msgstr ""
+msgstr "Vyberte výšku základne textového bloku výšky kontajnera"
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
-msgstr ""
+msgstr "Vyberte, či chcete, aby vyhlásenie o výsledku spracoval externý systém alebo ľudský hodnotiteľ. Toto je zvyčajne prípad položiek, ktoré od kandidátov vyžadujú napísanie eseje."
 
 msgid "Select image"
-msgstr ""
+msgstr "Vybrať obrázok"
 
 msgid "Select media file"
-msgstr ""
+msgstr "Vyberte mediálny súbor"
 
 msgid "Select object"
-msgstr ""
+msgstr "Vybrať objekt"
 
 msgid "Select one or more areas (hotspots) displayed on an picture."
-msgstr ""
+msgstr "Vyberte jednu alebo viac oblastí (aktívnych miest) zobrazených na obrázku."
 
 msgid "Select one or more text parts (hottext) within a text."
-msgstr ""
+msgstr "Vyberte jednu alebo viacero častí textu (horúci text) v rámci textu."
 
 msgid "Select Point"
-msgstr ""
+msgstr "Vyberte bod"
 
 msgid "Select Point Interaction"
-msgstr ""
+msgstr "Interakcia výberu bodu"
 
 msgid "Select predefined feedback style from the list."
-msgstr ""
+msgstr "Vyberte zo zoznamu preddefinovaný štýl spätnej väzby."
 
 msgid "Select shared stimulus"
-msgstr ""
+msgstr "Vyberte zdieľaný stimul"
 
 msgid "Select the area to add an image"
-msgstr ""
+msgstr "Vyberte oblasť, do ktorej chcete pridať obrázok"
 
 msgid "Select the expected input value type that will define the way the response of your interaction will be processed."
-msgstr ""
+msgstr "Vyberte typ očakávanej vstupnej hodnoty, ktorá bude definovať spôsob spracovania odpovede vašej interakcie."
 
 msgid "Select the outcome variable you want to display."
-msgstr ""
+msgstr "Vyberte výstupnú premennú, ktorú chcete zobraziť."
 
 msgid "Select the way the response of your interaction should be processed"
-msgstr ""
+msgstr "Vyberte spôsob, akým sa má spracovať odpoveď na vašu interakciu"
 
 msgid "Select this area"
-msgstr ""
+msgstr "Vyberte túto oblasť"
 
 msgid "Select this area to start an association"
-msgstr ""
+msgstr "Vyberte túto oblasť pre začatie pridruženia"
 
 msgid "Sequential"
-msgstr ""
+msgstr "Sekvenčné"
 
 msgid "Set a CSS class name in order to customize the display style."
-msgstr ""
+msgstr "Nastavte názov triedy CSS, aby ste mohli prispôsobiť štýl zobrazenia."
 
 msgid "Set the score for this response"
-msgstr ""
+msgstr "Nastavte skóre pre túto odpoveď"
 
 msgid "Shape position"
-msgstr ""
+msgstr "Poloha tvaru"
 
 msgid "Shuffle choices"
-msgstr ""
+msgstr "Náhodné prehrávanie možností"
 
 msgid "Single choice"
-msgstr ""
+msgstr "Jedna možnosť"
 
 msgid "Sinus"
-msgstr ""
+msgstr "Dutiny"
 
 msgid "Size and position"
-msgstr ""
+msgstr "Veľkosť a poloha"
 
 msgid "Slider"
-msgstr ""
+msgstr "Posuvník"
 
 msgid "Slider Interaction"
-msgstr ""
+msgstr "Interakcia s posúvačom"
 
 msgid "Some feedback text."
-msgstr ""
+msgstr "Trochu textu spätnej väzby."
 
 msgid "some text ..."
-msgstr ""
+msgstr "nejaký text..."
 
 msgid "Something went wrong while destroying an interaction: %s"
-msgstr ""
+msgstr "Pri rušení interakcie sa niečo pokazilo: %s"
 
 msgid "sort from source to target list"
-msgstr ""
+msgstr "zoradiť od zdroja k cieľovému zoznamu"
 
 msgid "Square root"
-msgstr ""
+msgstr "Druhá odmocnina"
 
 msgid "standard"
-msgstr ""
+msgstr "štandard"
 
 msgid "Step"
-msgstr ""
+msgstr "Krok"
 
 msgid "string"
-msgstr ""
+msgstr "reťazec"
 
 msgid "Style Editor"
-msgstr ""
+msgstr "Editor štýlov"
 
 msgid "Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-apply."
-msgstr ""
+msgstr "Štýlový list <b>%s</b> odstránený<br> Kliknite na <i>Pridať štýlový list</i> pre opätovné použitie."
 
 msgid "Style Sheet Manager"
-msgstr ""
+msgstr "Správca štýlov"
 
 msgid "Success"
-msgstr ""
+msgstr "Úspech"
 
 msgid "Successfully compiled \"%s"
-msgstr ""
+msgstr "Úspešne skompilované „%s“"
 
 msgid "Successfully created item \"%s"
-msgstr ""
+msgstr "Položka bola úspešne vytvorená „%s“"
 
 msgid "Table headings"
-msgstr ""
+msgstr "Nadpisy tabuliek"
 
 msgid "TAO default styles"
-msgstr ""
+msgstr "Predvolené štýly TAO"
 
 msgid "Target Class Lookup for resource \"%s\"..."
-msgstr ""
+msgstr "Vyhľadávanie cieľovej triedy pre zdroj „%s“..."
 
 msgid "Text Block"
-msgstr ""
+msgstr "Textový blok"
 
 msgid "Text Block CSS Class"
-msgstr ""
+msgstr "Trieda CSS textového bloku"
 
 msgid "Text Block Properties"
-msgstr ""
+msgstr "Vlastnosti textového bloku"
 
 msgid "Text color"
-msgstr ""
+msgstr "Farba textu"
 
 msgid "Text Entry"
-msgstr ""
+msgstr "Zadávanie textu"
 
 msgid "Text Entry Interaction"
-msgstr ""
+msgstr "Interakcia pri zadávaní textu"
 
 msgid "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."
-msgstr ""
+msgstr "Atribút autostart určuje, či sa má mediálny objekt spustiť hneď, ako kandidát začne pokus (zaškrtnuté), alebo či sa má mediálny objekt spustiť pod kontrolou kandidáta (nezaškrtnuté)."
 
 msgid "The button label."
-msgstr ""
+msgstr "Označenie tlačidla."
 
 msgid "The default value from the target set to be used when no explicit mapping for a source value is given."
-msgstr ""
+msgstr "Predvolená hodnota z cieľovej množiny, ktorá sa má použiť, keď nie je zadané explicitné mapovanie pre zdrojovú hodnotu."
 
 msgid "The delimiter to use between values when displaying variables of ordered, multiple or record cardinality. \";\" is default when delimiter is not declared. Implementations can override this default with personal preferences or locale settings."
-msgstr ""
+msgstr "Oddeľovač, ktorý sa má použiť medzi hodnotami pri zobrazovaní premenných s usporiadanou, viacnásobnou alebo záznamovou kardinálnosťou. „;“ je predvolený znak, ak nie je deklarovaný oddeľovač. Implementácie môžu tento predvolený znak prepísať osobnými preferenciami alebo nastaveniami lokality."
 
 msgid "The field specifier to use when displaying variables of record cardinality."
-msgstr ""
+msgstr "Špecifikátor poľa, ktorý sa má použiť pri zobrazovaní premenných kardinality záznamu."
 
 msgid "The file path to the image."
-msgstr ""
+msgstr "Cesta k súboru s obrázkom."
 
 msgid "The file path to the object."
-msgstr ""
+msgstr "Cesta k súboru s objektom."
 
 msgid "The file path to the shared stimulus."
-msgstr ""
+msgstr "Cesta k súboru so zdieľaným podnetom."
 
 msgid "The format conversion specifier to use when converting numerical values to strings. See QTI Number Formatting Rules for details."
-msgstr ""
+msgstr "Špecifikátor prevodu formátu, ktorý sa má použiť pri prevode číselných hodnôt na reťazce. Podrobnosti nájdete v časti Pravidlá formátovania čísel QTI."
 
 msgid "The given target is not an instance of core_kernel_classes_Resource"
-msgstr ""
+msgstr "Daný cieľ nie je inštanciou core_kernel_classes_Resource"
 
 msgid "The highlighted choice cannot be associated more than %d time(s)."
-msgstr ""
+msgstr "Zvýraznenú voľbu nemožno priradiť viac ako %d krát."
 
 msgid "The identifier of the choice. This identifier must not be used by any other choice or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
+msgstr "Identifikátor voľby. Tento identifikátor nesmie byť použitý žiadnou inou premennou voľby alebo položky. Identifikátor je reťazec znakov, ktorý musí začínať písmenom alebo podčiarkovníkom („_“) a obsahuje iba písmená, podčiarkovníky, pomlčky („-“), bodku („.“, čiže bodku), číslice, kombinované znaky a rozširujúce znaky."
 
 msgid "The identifier of the choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
+msgstr "Identifikátor podľa výberu. Tento identifikátor nesmie byť použitý žiadnou inou premennou odpovede alebo položky. Identifikátor je reťazec znakov, ktorý musí začínať písmenom alebo podčiarkovníkom („_“) a obsahuje iba písmená, podčiarkovníky, pomlčky („-“), bodku („.“, čiže bodku), číslice, kombinované znaky a rozširujúce znaky."
 
 msgid "The identifier of the modal feedback. This identifier must not be used by any other modal feedback or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
+msgstr "Identifikátor modálnej spätnej väzby. Tento identifikátor nesmie byť použitý žiadnou inou modálnou spätnou väzbou ani premennou položky. Identifikátor je reťazec znakov, ktorý musí začínať písmenom alebo podčiarkovníkom („_“) a obsahuje iba písmená, podčiarkovníky, pomlčky („-“), bodku („.“, čiže bodku), číslice, kombinované znaky a rozširujúce znaky."
 
 msgid "The identifier of the response identifier. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
+msgstr "Identifikátor identifikátora odpovede. Tento identifikátor nesmie byť použitý žiadnou inou premennou odpovede alebo položky. Identifikátor je reťazec znakov, ktorý musí začínať písmenom alebo podčiarkovníkom („_“) a obsahuje iba písmená, podčiarkovníky, pomlčky („-“), bodku („.“, čiže bodku), číslice, kombinované znaky a rozširujúce znaky."
 
 msgid "The IMS QTI Item could not be imported."
-msgstr ""
+msgstr "Položku IMS QTI sa nepodarilo importovať."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
-msgstr ""
+msgstr "Položka IMS QTI označená ako „%s“ v súbore manifestu IMS zlyhala:  %s"
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
-msgstr ""
+msgstr "Položka IMS QTI označená ako „%s“ v súbore manifestu IMS má nesprávne definície spracovania odpovede a deklarácie výsledku."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
-msgstr ""
+msgstr "Položka IMS QTI označená ako „%s“ v súbore manifestu IMS mala byť nájdená v banke položiek. Položka sa nenašla."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
-msgstr ""
+msgstr "Položka IMS QTI označená ako „%s“ v súbore manifestu IMS už bola uložená v banke položiek."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
-msgstr ""
+msgstr "Položka IMS QTI označená ako „%s“ v súbore manifestu IMS bola úspešne importovaná."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
-msgstr ""
+msgstr "Položka IMS QTI označená ako „%s“ v súbore manifestu IMS bola úspešne prepísaná."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
-msgstr ""
+msgstr "Položka IMS QTI označená ako „%s“ v manifeste IMS bola úspešne vrátená späť."
 
 msgid "The IMS QTI Item was successfully imported."
-msgstr ""
+msgstr "Položka IMS QTI bola úspešne importovaná."
 
 msgid "The index to use when displaying a variable of ordered cardinality. If a variable of ordered cardinality is to be displayed and index is not set, all the values in the container are displayed."
-msgstr ""
+msgstr "Index, ktorý sa má použiť pri zobrazení premennej s usporiadanou kardinálnosťou. Ak sa má zobraziť premenná s usporiadanou kardinálnosťou a index nie je nastavený, zobrazia sa všetky hodnoty v kontajneri."
 
 msgid "The item cannot be saved because it contains an unsupported custom interaction."
-msgstr ""
+msgstr "Položku nie je možné uložiť, pretože obsahuje nepodporovanú vlastnú interakciu."
 
 msgid "The item has not been saved!"
-msgstr ""
+msgstr "Položka nebola uložená!"
 
 msgid "The item has unsaved changes, are you sure you want to leave ?"
-msgstr ""
+msgstr "Položka má neuložené zmeny, ste si istý/á, že chcete odísť?"
 
 msgid "The item has unsaved changes, would you like to save it ?"
-msgstr ""
+msgstr "Položka má neuložené zmeny, chcete ju uložiť?"
 
 msgid "The item needs to be saved before it can be previewed"
-msgstr ""
+msgstr "Položku je potrebné uložiť, aby sa dala zobraziť jej ukážka"
 
 msgid "The item of the qti item. It is currently used as a meta data only. It is required by the QTI standard."
-msgstr ""
+msgstr "Položka položky qti. Momentálne sa používa iba ako metadáta. Vyžaduje ju štandard QTI."
 
 msgid "The left position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
+msgstr "Ľavá poloha tvaru vzhľadom na ľavý horný roh pozadia v pixeloch. Túto hodnotu je možné škálovať, keď sa veľkosť obrázka pozadia prispôsobí jeho kontajneru."
 
 msgid "The loop attribute is used to set continuous play mode. In continuous play mode, once the media object has started to play it should play continuously (subject to maxPlays)."
-msgstr ""
+msgstr "Atribút loop sa používa na nastavenie režimu nepretržitého prehrávania. V režime nepretržitého prehrávania by sa mediálny objekt mal po spustení prehrávania prehrávať nepretržite (podľa maxPlays)."
 
 msgid "The lower bound of the slider"
-msgstr ""
+msgstr "Dolná hranica posúvača"
 
 msgid "The manifest argument must be an instance of DOMDocument."
-msgstr ""
+msgstr "Argument manifestu musí byť inštanciou DOMDocument."
 
 msgid "The mapping indicator to use between field name and field value when displaying variables of record cardinality. \"=\" is default when mappingIndicator is not declared. Implementations can override this default with personal preferences or locale settings."
-msgstr ""
+msgstr "Indikátor mapovania, ktorý sa má použiť medzi názvom poľa a hodnotou poľa pri zobrazovaní premenných kardinality záznamu. \"=\" je predvolená hodnota, keď nie je deklarovaný mappingIndicator. Implementácie môžu túto predvolenú hodnotu prepísať osobnými preferenciami alebo nastaveniami lokality."
 
 msgid "The mapping options are available when at least one map entry is defined."
-msgstr ""
+msgstr "Možnosti mapovania sú k dispozícii, keď je definovaný aspoň jeden záznam mapy."
 
 msgid "The maximum number of association is unlimited."
-msgstr ""
+msgstr "Maximálny počet združení je neobmedzený."
 
 msgid "The maximum number of associations that the candidate is allowed to make."
-msgstr ""
+msgstr "Maximálny počet asociácií, ktoré môže kandidát vytvoriť."
 
 msgid "The maximum number of choices that the candidate is allowed to select."
-msgstr ""
+msgstr "Maximálny počet možností, ktoré si kandidát môže vybrať."
 
 msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr ""
+msgstr "Maximálny počet možností, ktoré musí kandidát vybrať, aby vytvoril platnú odpoveď."
 
 msgid "The maximum number of choices this choice may be associated with."
-msgstr ""
+msgstr "Maximálny počet možností, s ktorými môže byť táto možnosť spojená."
 
 msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
-msgstr ""
+msgstr "Maximálny počet možností, s ktorými môže byť táto možnosť spojená. Ak je matchMax 0, neexistuje žiadne obmedzenie."
 
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
-msgstr ""
+msgstr "Atribút maxPlays označuje, že mediálny objekt je možné prehrať maximálne maxPlays-krát – kandidát nesmie byť schopný prehrať mediálny objekt viac ako maxPlay-krát. Hodnota 0 (predvolená hodnota) označuje, že neexistuje žiadny limit."
 
 msgid "The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score."
-msgstr ""
+msgstr "MAXSCORE tejto položky sa odstráni, pretože aktuálne nastavenia interakcie umožňujú nekonečnú hodnotu skóre."
 
 msgid "The MIME-type attribute describes which kind of file may be uploaded."
-msgstr ""
+msgstr "Atribút MIME-type opisuje, aký typ súboru je možné nahrať."
 
 msgid "The minimum number of answers is "
-msgstr ""
+msgstr "Minimálny počet odpovedí je "
 
 msgid "The minimum number of associations that the candidate is required to make to form a valid response."
-msgstr ""
+msgstr "Minimálny počet asociácií, ktoré musí kandidát vytvoriť, aby vytvoril platnú odpoveď."
 
 msgid "The minimum number of choices that the candidate is required to select to form a valid response."
-msgstr ""
+msgstr "Minimálny počet možností, ktoré musí kandidát vybrať, aby vytvoril platnú odpoveď."
 
 msgid "The minimum number of choices this choice must be associated with to form a valid response."
-msgstr ""
+msgstr "Minimálny počet možností, s ktorými musí byť táto možnosť spojená, aby vznikla platná odpoveď."
 
 msgid "The number base to use when converting integer variables to strings with the i conversion type code."
-msgstr ""
+msgstr "Číselný základ, ktorý sa má použiť pri prevode celočíselných premenných na reťazce s kódom typu konverzie i."
 
 msgid "The number of units corresponding to a step on the slider"
-msgstr ""
+msgstr "Počet jednotiek zodpovedajúci kroku na posuvníku"
 
 msgid "The path argument for extractor must be a non-empty array."
-msgstr ""
+msgstr "Argument cesty pre extraktor musí byť neprázdne pole."
 
 msgid "The principle identifier of the item. This identifier must have a corresponding entry in the item's metadata."
-msgstr ""
+msgstr "Hlavný identifikátor položky. Tento identifikátor musí mať zodpovedajúci záznam v metadátach položky."
 
 msgid "The purpose for which the rubric is intended to be used. As a reading passage for multiple items, or instructions for a particular section, for example."
-msgstr ""
+msgstr "Účel, na ktorý sa má rubrika použiť. Napríklad ako úvodná časť k viacerým položkám alebo ako pokyny pre konkrétnu sekciu."
 
 msgid "The QTI class \"%1$s\" located at line \"%2$d\" is currently not supported."
-msgstr ""
+msgstr "Trieda QTI „%1$s“ nachádzajúca sa na riadku „%2$d“ momentálne nie je podporovaná."
 
 msgid "The Response Processing Template \"%s\" is not supported."
-msgstr ""
+msgstr "Šablóna spracovania odpovede „%s“ nie je podporovaná."
 
 msgid "The score format is not numeric"
-msgstr ""
+msgstr "Formát skóre nie je číselný"
 
 msgid "The scrollable multi-column layout configuration is optimized for items with a single row of content only. Both columns will scroll independently and fit the available page height."
-msgstr ""
+msgstr "Konfigurácia posúvateľného viacstĺpcového rozloženia je optimalizovaná pre položky s iba jedným riadkom obsahu. Oba stĺpce sa budú posúvať nezávisle a prispôsobia sa dostupnej výške stránky."
 
 msgid "The selected file is ready to be sent."
-msgstr ""
+msgstr "Vybraný súbor je pripravený na odoslanie."
 
 msgid "The shape height in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
+msgstr "Výška tvaru v pixeloch. Túto hodnotu je možné škálovať, keď sa veľkosť obrázka na pozadí prispôsobí jeho kontajneru."
 
 msgid "The shape width in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
+msgstr "Šírka tvaru v pixeloch. Túto hodnotu je možné škálovať, keď sa veľkosť obrázka na pozadí prispôsobí jeho kontajneru."
 
 msgid "The target must be an instance of DOMDocument"
-msgstr ""
+msgstr "Cieľ musí byť inštanciou DOMDocument."
 
 msgid "The text to be displayed below the image."
-msgstr ""
+msgstr "Text, ktorý sa má zobraziť pod obrázkom."
 
 msgid "The text to be displayed if the image is not available."
-msgstr ""
+msgstr "Text, ktorý sa zobrazí, ak obrázok nie je k dispozícii."
 
 msgid "The top position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
+msgstr "Horná poloha tvaru vzhľadom na ľavý horný roh pozadia v pixeloch. Túto hodnotu je možné škálovať, keď sa veľkosť obrázka pozadia prispôsobí jeho kontajneru."
 
 msgid "The upper bound of the slider"
-msgstr ""
+msgstr "Horná hranica posúvača"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-msgstr ""
+msgstr "Overenie importovanej položky QTI zlyhalo. Systém vrátil nasledujúcu chybu:%s\n"
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
-msgstr ""
+msgstr "ZIP archív obsahujúci položku IMS QTI nie je možné extrahovať."
 
 msgid "The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive."
-msgstr ""
+msgstr "ZIP archív neobsahuje súbor imsmanifest.xml alebo je neplatným ZIP archívom."
 
 msgid "There are errors in the following shared stimulus : "
-msgstr ""
+msgstr "V nasledujúcom zdieľanom podnete sú chyby: "
 
 msgid "There is an incomplete element in your item: please click on it to complete it."
-msgstr ""
+msgstr "Vo vašej položke je neúplný prvok: kliknite naň pre jeho dokončenie."
 
 msgid "There was a problem downloading your CSS, please try again."
-msgstr ""
+msgstr "Pri sťahovaní vášho CSS sa vyskytol problém, skúste to znova."
 
 msgid "This identifier is already used by another variable."
-msgstr ""
+msgstr "Tento identifikátor už používa iná premenná."
 
 msgid "This identifier must not be used by any other response or item variable."
-msgstr ""
+msgstr "Tento identifikátor nesmie byť použitý žiadnou inou premennou odpovede alebo položky."
 
 msgid "This interaction has no text defined in question mode."
-msgstr ""
+msgstr "Táto interakcia nemá v režime otázky definovaný žiadny text."
 
 msgid "This is not a valid answer"
-msgstr ""
+msgstr "Toto nie je platná odpoveď"
 
 msgid "This is not a valid value. Expected %s"
-msgstr ""
+msgstr "Toto nie je platná hodnota. Očakávaná hodnota %s"
 
 msgid "This is required"
-msgstr ""
+msgstr "Toto je povinné"
 
 msgid "This shows or hides the entire audio player from view. Test takers will not be able to play, pause, or change the volume level."
-msgstr ""
+msgstr "Toto zobrazí alebo skryje celý audio prehrávač. Účastníci testu nebudú môcť prehrávať, pozastaviť ani meniť úroveň hlasitosti."
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
-msgstr ""
+msgstr "Tento štýlový hárok sa na serveri nenašiel. Možno budete chcieť tento odkaz odstrániť."
 
 msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
-msgstr ""
+msgstr "Táto hodnota nedodržiava pokyny pre hodnotenie vlastností. Nebude kompatibilná s manuálnym hodnotením TAO."
 
 msgid "Time dependent"
-msgstr ""
+msgstr "Časovo závislé"
 
 msgid "Title"
-msgstr ""
+msgstr "Názov"
 
 msgid "to"
-msgstr ""
+msgstr "k"
 
 msgid "Toggles the display of a vertical separator between columns."
-msgstr ""
+msgstr "Prepína zobrazenie zvislého oddeľovača medzi stĺpcami."
 
 msgid "Tooltip Content"
-msgstr ""
+msgstr "Obsah popisu"
 
 msgid "Tooltip editor"
-msgstr ""
+msgstr "Editor popisov nástrojov"
 
 msgid "Tooltip Target"
-msgstr ""
+msgstr "Cieľ popisu"
 
 msgid "Top"
-msgstr ""
+msgstr "Hore"
 
 msgid "Trigger the end of the item attempt."
-msgstr ""
+msgstr "Spustiť koniec pokusu o položku."
 
 msgid "Unable to load item from the given data."
-msgstr ""
+msgstr "Nepodarilo sa načítať položku z daných údajov."
 
 msgid "Unable to process your request"
-msgstr ""
+msgstr "Vašu žiadosť sa nepodarilo spracovať"
 
 msgid "Unable to retrieve asset \"%s"
-msgstr ""
+msgstr "Nepodarilo sa načítať aktívum „%s“"
 
 msgid "Unable to retrieve item : "
-msgstr ""
+msgstr "Položku sa nepodarilo načítať: "
 
 msgid "Unable to retrieve item : \"%s"
-msgstr ""
+msgstr "Nepodarilo sa načítať položku: „%s“"
 
 msgid "Unable to validate %s: %s"
-msgstr ""
+msgstr "Nepodarilo sa overiť %s: %s"
 
 msgid "Undo"
-msgstr ""
+msgstr "Späť"
 
 msgid "undo"
-msgstr ""
+msgstr "vrátiť späť"
 
 msgid "Unknown $key to register MetadataService instance"
-msgstr ""
+msgstr "Neznámy $key na registráciu inštancie MetadataService"
 
 msgid "Unregister method expects $key and $name parameters."
-msgstr ""
+msgstr "Metóda Unregister očakáva parametre $key a $name ."
 
 msgid "Upload a file (e.g. document, picture...) as a response."
-msgstr ""
+msgstr "Ako odpoveď nahrajte súbor (napr. dokument, obrázok...)."
 
 msgid "Upper Bound"
-msgstr ""
+msgstr "Horná hranica"
 
 msgid "Use this if you want the list of choices to be prefixed (e.g. 1,2,3 a,b,c)"
-msgstr ""
+msgstr "Použite toto, ak chcete, aby zoznam možností mal predponu (napr. 1, 2, 3 a, b, c)"
 
 msgid "Used to control the format of the text entered by the candidate."
-msgstr ""
+msgstr "Používa sa na ovládanie formátu textu zadaného kandidátom."
 
 msgid "Value"
-msgstr ""
+msgstr "Hodnota"
 
 msgid "Vertical"
-msgstr ""
+msgstr "Vertikálne"
 
 msgid "warning"
-msgstr ""
+msgstr "POZOR"
 
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
-msgstr ""
+msgstr "Na to použijeme patternMask, aby sme boli v súlade so štandardom IMS."
 
 msgid "Width"
-msgstr ""
+msgstr "Šírka"
 
 msgid "words"
-msgstr ""
+msgstr "slová"
 
 msgid "Would you like to replace the alt text"
-msgstr ""
+msgstr "Chcete nahradiť alternatívny text"
 
 msgid "WYSIWYG editor"
-msgstr ""
+msgstr "WYSIWYG editor"
 
 msgid "XML error \"%1$s\"."
-msgstr ""
+msgstr "Chyba XML „%1$s“."
 
 msgid "XML error at line %1$d \"%2$s\"."
-msgstr ""
+msgstr "Chyba XML na riadku %1$d „%2$s“."
 
 msgid "Yes"
-msgstr ""
+msgstr "Áno"
 
 msgid "You can select maximum %d choice"
-msgstr ""
+msgstr "Môžete si vybrať maximálny počet možností %d"
 
 msgid "You can select maximum %d choices"
-msgstr ""
+msgstr "Môžete si vybrať maximálne %d možností"
 
 msgid "You can select up to %s choices."
-msgstr ""
+msgstr "Môžete si vybrať až %s možností."
 
 msgid "You can use maximum %d choices"
-msgstr ""
+msgstr "Môžete použiť maximálne %d možností"
 
 msgid "You have deleted"
-msgstr ""
+msgstr "Vymazali ste"
 
 msgid "You have deleted an element"
-msgstr ""
+msgstr "Odstránili ste prvok"
 
 msgid "You have deleted an element."
-msgstr ""
+msgstr "Odstránili ste prvok."
 
 msgid "You may make as many association pairs as you want."
-msgstr ""
+msgstr "Môžete vytvoriť toľko asociačných párov, koľko chcete."
 
 msgid "You must select %1$d to %2$d choices."
-msgstr ""
+msgstr "Musíte vybrať možnosti od %1$d do %2$d ."
 
 msgid "You must select 0 to %d choices."
-msgstr ""
+msgstr "Musíte vybrať 0 až %d možností."
 
 msgid "You must select at least %d choice"
-msgstr ""
+msgstr "Musíte vybrať aspoň %d možnosť"
 
 msgid "You must select at least %d choices"
-msgstr ""
+msgstr "Musíte vybrať aspoň %d možností"
 
 msgid "You must select exactly %d choice"
-msgstr ""
+msgstr "Musíte vybrať presne %d možnosť"
 
 msgid "You must select exactly %d choice(s)."
-msgstr ""
+msgstr "Musíte vybrať presne %d možností."
 
 msgid "You must select exactly %d choices"
-msgstr ""
+msgstr "Musíte vybrať presne %d možností"
 
 msgid "You must use at least %d choices"
-msgstr ""
+msgstr "Musíte použiť aspoň %d možností"
 
 msgid "You need to make"
-msgstr ""
+msgstr "Musíš urobiť"
 
 msgid "You need to select %s choices"
-msgstr ""
+msgstr "Musíte vybrať %s možností"
 
 msgid "You need to select at least %s choices."
-msgstr ""
+msgstr "Musíte vybrať aspoň %s možností."
 
 msgid "You need to select at least 1 choice."
-msgstr ""
+msgstr "Musíte vybrať aspoň 1 možnosť."
 
 msgid "You need to select from %s to %s choices."
-msgstr ""
+msgstr "Musíte si vybrať z %s až %s možností."
 
 msgid "Your item has been saved"
-msgstr ""
+msgstr "Vaša položka bola uložená"
 
