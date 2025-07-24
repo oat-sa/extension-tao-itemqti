@@ -88,6 +88,7 @@ class ParserFactory
     /** @var \oat\taoQtiItem\model\qti\Item */
     protected $item = null;
     protected $attributeMap = ['lang' => 'xml:lang'];
+    protected $xpath;
 
     public function __construct(DOMDocument $data)
     {
