@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-07-24 12:39\n"
+"PO-Revision-Date: 2025-07-29 11:44\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -162,7 +162,7 @@ msgid "An error occured while exporting an item."
 msgstr "Pri exporte položky sa vyskytla chyba."
 
 msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
-msgstr "Pri rozbaľovaní ZIP archívu predstavujúceho balík obsahu IMS sa vyskytla chyba."
+msgstr "Pri rozbaľovaní ZIP archívu predstavujúceho IMS balík obsahu sa vyskytla chyba."
 
 msgid "An error occured while loading a shared stimulus."
 msgstr "Pri načítavaní zdieľaného stimulu sa vyskytla chyba."
