@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-07-24 12:39\n"
+"PO-Revision-Date: 2025-07-29 11:44\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -25,7 +25,7 @@ msgstr "Bežec položiek QTI"
 # http://www.tao.lu/Ontologies/TAOItem.rdf#ServiceQtiItemRunner
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Embed a run an item into a Delivery. This service initialize the TAO Apis and contexts"
-msgstr "Vložte položku spustenia do doručenia. Táto služba inicializuje rozhranie TAO API a kontexty."
+msgstr "Vložte položku spustenia do Dodávky. Táto služba inicializuje rozhranie TAO API a kontexty"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#ServiceQtiItemRunner
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
