@@ -55,7 +55,7 @@ define([
             CUSTOM: __('custom'),
             MATCH_CORRECT: __('match correct'),
             MAP_RESPONSE: __('map response'),
-            MAP_RESPONSE_POINT: __('map response'),
+            MAP_RESPONSE_POINT: __('map response point'),
             NONE: __('none')
         };
     };
