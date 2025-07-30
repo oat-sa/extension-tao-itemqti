@@ -15,11 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2025 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\taoQtiItem\model\qti;
 
+use oat\taoQtiItem\model\qti\choice\Choice;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
@@ -28,6 +29,7 @@ use oat\taoQtiItem\model\qti\container\ContainerInteractive;
 use oat\taoQtiItem\model\qti\container\ContainerItemBody;
 use oat\taoQtiItem\model\qti\container\ContainerGap;
 use oat\taoQtiItem\model\qti\container\ContainerHottext;
+use oat\taoQtiItem\model\qti\interaction\Interaction;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\response\Custom;
 use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
@@ -120,7 +122,7 @@ class ParserFactory
 
     /**
      * Get the body data (markups) of an element.
-     * @param \DOMElement $data the element
+     * @param DOMElement $data the element
      * @param boolean $removeNamespace if XML namespaces should be removed
      * @param boolean $keepEmptyTags if true, the empty tags are kept expanded (useful when tags are HTML)
      * @return string the body data (XML markup)
@@ -727,7 +729,7 @@ class ParserFactory
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @param DOMElement $data
-     * @return \oat\taoQtiItem\model\qti\interaction\Interaction
+     * @return Interaction
      * @throws ParsingException
      * @throws UnsupportedQtiElement
      * @throws interaction\InvalidArgumentException
@@ -863,7 +865,7 @@ class ParserFactory
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  DOMElement $data
-     * @return \oat\taoQtiItem\model\qti\choice\Choice
+     * @return Choice
      * @throws ParsingException
      * @throws UnsupportedQtiElement
      * @throws choice\InvalidArgumentException
@@ -1379,6 +1381,12 @@ class ParserFactory
             . '[name(./responseIf/not/*[1]) = "match" ] [name(./responseIf/not/*[1]/*[1]) = "variable" ] '
             . '[name(./responseIf/not/*[1]/*[2]) = "correct" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] '
             . '[name(./responseIf/setOutcomeValue/*[1]) = "baseValue" ]';
+        $subPatternFeedbackIsNull = '[name(./*[1]) = "responseIf"]'
+              . '[count(./responseIf/*) = 2] '
+              . '[name(./responseIf/*[1]) = "isNull"]'
+              . '[name(./responseIf/isNull/*[1]) = "variable"]'
+              . '[name(./responseIf/*[2]) = "setOutcomeValue"]'
+              . '[name(./responseIf/setOutcomeValue/*[1]) = "baseValue"]';
         $subPatternFeedbackMatchChoices = '[name(./*[1]) = "responseIf" ] [count(./responseIf/*) = 2 ] '
             . '[name(./responseIf/*[1]) = "match" ] [name(./responseIf/*[1]/*[2]) = "multiple" ] '
             . '[name(./responseIf/*[1]/*[2]/*) = "baseValue" ] [name(./responseIf/*[2]) = "setOutcomeValue" ] '
@@ -1398,6 +1406,7 @@ class ParserFactory
         $patternFeedbackCorrectWithElse = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackCorrect
             . $subPatternFeedbackElse;
         $patternFeedbackIncorrect = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackIncorrect;
+        $patternFeedbackIsNull = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackIsNull;
         $patternFeedbackIncorrectWithElse = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackIncorrect
             . $subPatternFeedbackElse;
         $patternFeedbackMatchChoices = '/responseCondition [count(./*) = 1 ]' . $subPatternFeedbackMatchChoices;
@@ -1440,6 +1449,11 @@ class ParserFactory
             ) {
                 $responseIdentifier = (string) $subtree->responseIf->not->match->variable['identifier'];
                 $feedbackRule = $this->buildSimpleFeedbackRule($subtree, 'incorrect', null, $responseIdentifier);
+            } elseif (
+                count($subtree->xpath($patternFeedbackIsNull)) > 0
+            ) {
+                $responseIdentifier = (string) $subtree->responseIf->isNull->variable['identifier'];
+                $feedbackRule = $this->buildIsNullFeedbackRule($subtree, null, $responseIdentifier);
             } elseif (
                 count($subtree->xpath($patternFeedbackOperator)) > 0
                 || count($subtree->xpath($patternFeedbackOperatorWithElse)) > 0
@@ -1525,12 +1539,34 @@ class ParserFactory
         return $returnValue;
     }
 
-    private function buildSimpleFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseId = '')
+    private function buildIsNullFeedbackRule($subtree, $comparedValue = null, $responseId = '')
     {
-
+        $conditionName = 'isNull';
         $responseIdentifier = empty($responseId)
-            ? (string) $subtree->responseIf->match->variable['identifier']
+            ? (string) $subtree->responseIf->isNull->variable['identifier']
             : $responseId;
+
+        $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
+        $feedbackIdentifier = (string) $subtree->responseIf->setOutcomeValue->baseValue;
+
+        try {
+            $response = $this->getResponse($responseIdentifier);
+            $outcome = $this->getOutcome($feedbackOutcomeIdentifier);
+            $feedbackThen = $this->getModalFeedback($feedbackIdentifier);
+
+            $feedbackElse = null;
+
+            $feedbackRule = new SimpleFeedbackRule($outcome, $feedbackThen, $feedbackElse);
+            $feedbackRule->setCondition($response, $conditionName, $comparedValue);
+        } catch (ParsingException $e) {
+            throw new UnexpectedResponseProcessing('Feedback resources not found. Not template driven, unknown rule');
+        }
+        return $feedbackRule;
+    }
+
+    private function buildSimpleFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseIdentifier = '')
+    {
+        $responseIdentifier = $this->createResponseIdentifier($subtree, $responseIdentifier);
         $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
         $feedbackIdentifier = (string) $subtree->responseIf->setOutcomeValue->baseValue;
 
@@ -1552,6 +1588,27 @@ class ParserFactory
         }
         return $feedbackRule;
     }
+
+    private function createResponseIdentifier(SimpleXMLElement $subtree, string $responseIdentifier): string
+    {
+        if (!empty($responseIdentifier)) {
+            return $responseIdentifier;
+        }
+
+        foreach ($subtree->responseIf->children() as $child) {
+            if ($child->getName() === 'setOutcomeValue') {
+                continue;
+            }
+            foreach (['variable', 'mapResponse'] as $element) {
+                if (isset($child->{$element})) {
+                    return (string)$child->{$element}['identifier'];
+                }
+            }
+        }
+
+        return $responseIdentifier;
+    }
+
     /**
      * Short description of method buildObject
      *
