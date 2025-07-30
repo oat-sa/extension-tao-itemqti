@@ -62,13 +62,14 @@
     "minimum-stability": "dev",
     "require": {
         "ext-simplexml": "*",
+        "naneau/semver": "~0.0.7",
+        "oat-sa/extension-tao-backoffice": ">=7.1.0",
+        "oat-sa/extension-tao-item": ">=12.4.0",
+        "oat-sa/extension-tao-test": ">=16.3.0",
+        "oat-sa/generis": ">=16.0.0",
         "oat-sa/lib-tao-qti": "^7.8.1",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
-        "naneau/semver": "~0.0.7",
-        "oat-sa/generis": ">=16.0.0",
-        "oat-sa/tao-core": ">=54.39.1",
-        "oat-sa/extension-tao-item": ">=12.4.0",
-        "oat-sa/extension-tao-test": ">=16.3.0"
+        "oat-sa/tao-core": ">=54.41.2"
     },
     "autoload": {
         "psr-4": {
