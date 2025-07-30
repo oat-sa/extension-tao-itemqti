@@ -18,6 +18,11 @@
 // IE10+ CSS styles go here
 @mixin ie11 {
     @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-        @content
+        @content;
     }
+}
+
+@mixin dragdrop-noselect {
+    user-select: none;
+    -webkit-touch-callout: none; /* on iOS, disable contextmenu if longpress on image - it conflicts with drag-start longpress */
 }
