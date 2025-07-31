@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-07-29 11:44\n"
+"PO-Revision-Date: 2025-07-31 13:24\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -495,7 +495,7 @@ msgid "Download sample csv file"
 msgstr "Stiahnuť vzorový súbor CSV"
 
 msgid "Download this stylesheet"
-msgstr "Stiahnite si tento šablónu so štýlmi"
+msgstr "Stiahnite si túto šablónu so štýlmi"
 
 msgid "Draw a circle on the image"
 msgstr "Nakreslite kruh na obrázok"
@@ -735,7 +735,7 @@ msgid "Hottext"
 msgstr "Horúci text"
 
 msgid "Hottext Interaction"
-msgstr "Interakcia s horúcim textom"
+msgstr "Interakcia s hottextom"
 
 msgid "How the math expression should be displayed."
 msgstr "Ako sa má zobraziť matematický výraz."
@@ -1166,7 +1166,7 @@ msgid "order single list"
 msgstr "zoznam objednávok"
 
 msgid "Order the areas (hotspots) displayed on a picture."
-msgstr "Zoraďte oblasti (horúce miesta) zobrazené na obrázku."
+msgstr "Zoraďte oblasti (hotspots) zobrazené na obrázku."
 
 msgid "Orientation"
 msgstr "Orientácia"
@@ -1544,7 +1544,7 @@ msgid "Select one or more areas (hotspots) displayed on an picture."
 msgstr "Vyberte jednu alebo viac oblastí (aktívnych miest) zobrazených na obrázku."
 
 msgid "Select one or more text parts (hottext) within a text."
-msgstr "Vyberte jednu alebo viacero častí textu (horúci text) v rámci textu."
+msgstr "Vyberte jednu alebo viacero častí textu (hottext) v rámci textu."
 
 msgid "Select Point"
 msgstr "Vyberte bod"
@@ -2072,7 +2072,7 @@ msgid "You must use at least %d choices"
 msgstr "Musíte použiť aspoň %d možností"
 
 msgid "You need to make"
-msgstr "Musíš urobiť"
+msgstr "Musíte urobiť"
 
 msgid "You need to select %s choices"
 msgstr "Musíte vybrať %s možností"
