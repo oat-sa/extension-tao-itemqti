@@ -43,6 +43,9 @@ class FeatureFlagFlaHandler implements FeatureFlagConfigHandlerInterface
         $configs['services/features']['visibility']['taoQtiItem/creator/interaction/media/property/fla'] =
             $this->featureFlagChecker->isEnabled('FEATURE_FLAG_FLA') ? 'show' : 'hide';
 
+        $configs['services/features']['visibility']['taoQtiItem/creator/interaction/media/property/compactAppearance'] =
+            $this->featureFlagChecker->isEnabled('FEATURE_FLAG_TAO_ADVANCE_ONLY') ? 'show' : 'hide';
+
         return $configs;
     }
 }
