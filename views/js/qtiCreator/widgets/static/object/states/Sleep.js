@@ -13,13 +13,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2025 (original work) Open Assessment Technologies SA ;
  *
  */
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
-    'taoQtiItem/qtiCreator/widgets/static/states/Sleep'
-], function(stateFactory, SleepState){
+    'taoQtiItem/qtiCreator/widgets/static/states/Sleep',
+    'taoQtiItem/qtiCreator/widgets/helpers/featureFlags'
+], function(stateFactory, SleepState, featureFlags){
     'use strict';
 
     var ObjectStateSleep = stateFactory.create(SleepState, function(){
@@ -28,7 +29,7 @@ define([
         const $container = _widget.$original;
         const compactAppearance = !!qtiObject.hasClass('compact-appearance');
 
-        if (/audio/.test(qtiObject.attr('type')) && compactAppearance){
+        if (/audio/.test(qtiObject.attr('type')) && compactAppearance && featureFlags.isCompactAppearanceAvailable()){
             $container.parent().addClass('compact-appearance');
         }
     }, function(){
