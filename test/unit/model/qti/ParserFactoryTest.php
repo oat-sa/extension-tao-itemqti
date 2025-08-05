@@ -73,10 +73,12 @@ class ParserFactoryTest extends TestCase
 
         $applicationServiceMock = $this->createMock(ApplicationService::class);
 
-        $sm = $this->getServiceManagerMock([
+        $sm = $this->getServiceManagerMock(
+            [
             ApplicationService::SERVICE_ID => $applicationServiceMock,
             common_ext_ExtensionsManager::class => $extensionsManagerMock
-        ]);
+            ]
+        );
 
         ServiceManager::setServiceManager($sm);
     }
@@ -110,7 +112,7 @@ class ParserFactoryTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return                   array
      * @doesNotPerformAssertions
      */
     public function testParseItemWithScoreBasedResponseRuleProvider(): array
@@ -129,7 +131,7 @@ class ParserFactoryTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return                   array
      * @doesNotPerformAssertions
      */
     public function testParseItemWithScoreBasedResponseRuleProviderBadConditions(): array
@@ -203,7 +205,7 @@ class ParserFactoryTest extends TestCase
     }
 
     /**
-     * @param string $name
+     * @param  string $name
      * @return string
      * @throws FilesystemException
      */
