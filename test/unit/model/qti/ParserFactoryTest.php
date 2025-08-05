@@ -30,11 +30,18 @@ use League\Flysystem\Local\LocalFilesystemAdapter;
 use oat\oatbox\service\ServiceManager;
 use oat\generis\test\ServiceManagerMockTrait;
 use oat\tao\model\service\ApplicationService;
+use oat\taoQtiItem\model\qti\exception\UnexpectedResponseProcessing;
+use oat\taoQtiItem\model\qti\feedback\ModalFeedback;
 use oat\taoQtiItem\model\qti\Item;
+use oat\taoQtiItem\model\qti\OutcomeDeclaration;
 use oat\taoQtiItem\model\qti\ParserFactory;
+use oat\taoQtiItem\model\qti\response\SimpleFeedbackRuleScore;
+use oat\taoQtiItem\model\qti\response\TemplatesDriven;
+use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use League\Flysystem\Filesystem;
+use ReflectionClass;
 
 class ParserFactoryTest extends TestCase
 {
@@ -102,6 +109,70 @@ class ParserFactoryTest extends TestCase
         );
     }
 
+    /**
+     * @return array
+     * @doesNotPerformAssertions
+     */
+    public function testParseItemWithScoreBasedResponseRuleProvider(): array
+    {
+        $conditions = ['lt', 'gt', 'equal', 'lte', 'gte'];
+
+        $data = [];
+
+        foreach($conditions as $condition) {
+            $data[] = [
+                $this->getParseItemWithScoreXml($condition), $condition
+            ];
+        }
+
+        return $data;
+    }
+
+    /**
+     * @return array
+     * @doesNotPerformAssertions
+     */
+    public function testParseItemWithScoreBasedResponseRuleProviderBadConditions(): array
+    {
+        $conditions = ['notequal', 'equals'];
+
+        $data = [];
+
+        foreach($conditions as $condition) {
+            $data[] = [
+                $this->getParseItemWithScoreXml($condition), $condition
+            ];
+        }
+
+        return $data;
+    }
+
+    /**
+     * @dataProvider testParseItemWithScoreBasedResponseRuleProvider
+     */
+    public function testParseItemWithScoreBasedResponseRule(string $xml, string $condition): void
+    {
+        [$parser, $method, $element] = $this->getParseItemWithScoreParser($xml);
+
+        $response = $method->invokeArgs($parser, [$element, []]);
+
+        $this->assertInstanceOf(TemplatesDriven::class, $response);
+        $this->assertTrue($parser->_isCalled_buildScoreFeedbackRule);
+        $this->assertEquals($condition, $parser->_conditionName);
+    }
+
+    /**
+     * @dataProvider testParseItemWithScoreBasedResponseRuleProviderBadConditions
+     */
+    public function testParseItemWithScoreBasedResponseRuleBadConditions(string $xml, string $condition): void
+    {
+        [$parser, $method, $element] = $this->getParseItemWithScoreParser($xml);
+
+        $this->expectException(UnexpectedResponseProcessing::class);
+
+        $method->invokeArgs($parser, [$element, []]);
+    }
+
     public function testParseItemWithDirAttributeOnItemBody(): void
     {
         $itemDocument = $this->readSampleFile('testParseItemWithDirAttributeOnItemBody_itemDocument.xml');
@@ -145,5 +216,82 @@ class ParserFactoryTest extends TestCase
         $filesystem = new Filesystem($adapter);
 
         return $filesystem->read($name);
+    }
+
+    private function getParseItemWithScoreXml(string $condition): string
+    {
+        $xml = <<<XML
+<root><responseProcessing>
+    <responseCondition>
+        <responseIf>
+            <and>
+                <not>
+                    <isNull>
+                        <variable identifier="RESPONSE"/>
+                    </isNull>
+                </not>
+                <$condition>
+                    <variable identifier="SCORE" />
+                    <baseValue baseType="float">2</baseValue>
+                </$condition>
+            </and>
+            <setOutcomeValue identifier="FEEDBACK_1">
+                <baseValue baseType="identifier">feedbackModal_1</baseValue>
+            </setOutcomeValue>
+        </responseIf>
+    </responseCondition>
+</responseProcessing>
+</root>
+XML;
+        return $xml;
+
+    }
+
+    private function getParseItemWithScoreParser(string $xml)
+    {
+        $itemDocument = $this->readSampleFile('testParseItem_itemDocument.xml');
+        $dom = new DOMDocument();
+        $dom->loadXML($itemDocument);
+
+        $parser = new class($dom) extends ParserFactory {
+
+            public $_conditionName = null;
+
+            public $_isCalled_buildScoreFeedbackRule = false;
+            protected function getResponse($itentifier)
+            {
+                return new ResponseDeclaration();
+            }
+
+            protected function getOutcome($identifier)
+            {
+                return new OutcomeDeclaration();
+            }
+
+            protected function getModalFeedback($itemtifier)
+            {
+                return new ModalFeedback();
+            }
+
+            protected function buildScoreFeedbackRule($subtree, $conditionName, $comparedValue, $responseIdentifier, $xml)
+            {
+                $this->_conditionName = $conditionName;
+                $this->_isCalled_buildScoreFeedbackRule = true;
+                return parent::buildScoreFeedbackRule($subtree, $conditionName, $comparedValue, $responseIdentifier, $xml);
+            }
+        };
+
+        $parser->load();
+
+        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom->loadXML($xml);
+
+
+        $reflection = new ReflectionClass($parser);
+
+        $method = $reflection->getMethod('buildTemplatedrivenResponse');
+        $method->setAccessible(true);
+
+        return [$parser, $method, $dom->documentElement->firstChild];
     }
 }

@@ -1617,7 +1617,7 @@ class ParserFactory
     }
 
 
-    private function buildScoreFeedbackRule($subtree, $conditionName, $comparedValue, $responseIdentifier, $xml)
+    protected function buildScoreFeedbackRule($subtree, $conditionName, $comparedValue, $responseIdentifier, $xml)
     {
         $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
         $feedbackIdentifier = (string) $subtree->responseIf->setOutcomeValue->baseValue;
