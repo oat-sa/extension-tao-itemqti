@@ -121,7 +121,7 @@ class ParserFactoryTest extends TestCase
 
         $data = [];
 
-        foreach($conditions as $condition) {
+        foreach ($conditions as $condition) {
             $data[] = [
                 $this->getParseItemWithScoreXml($condition), $condition
             ];
@@ -140,7 +140,7 @@ class ParserFactoryTest extends TestCase
 
         $data = [];
 
-        foreach($conditions as $condition) {
+        foreach ($conditions as $condition) {
             $data[] = [
                 $this->getParseItemWithScoreXml($condition), $condition
             ];
@@ -159,8 +159,8 @@ class ParserFactoryTest extends TestCase
         $response = $method->invokeArgs($parser, [$element, []]);
 
         $this->assertInstanceOf(TemplatesDriven::class, $response);
-        $this->assertTrue($parser->_isCalled_buildScoreFeedbackRule);
-        $this->assertEquals($condition, $parser->_conditionName);
+        $this->assertTrue($parser->test_isCalled_buildScoreFeedbackRule);
+        $this->assertEquals($condition, $parser->test_conditionName);
     }
 
     /**
@@ -246,7 +246,6 @@ class ParserFactoryTest extends TestCase
 </root>
 XML;
         return $xml;
-
     }
 
     private function getParseItemWithScoreParser(string $xml)
@@ -255,11 +254,10 @@ XML;
         $dom = new DOMDocument();
         $dom->loadXML($itemDocument);
 
-        $parser = new class($dom) extends ParserFactory {
+        $parser = new class ($dom) extends ParserFactory {
+            public $test_conditionName = null;
 
-            public $_conditionName = null;
-
-            public $_isCalled_buildScoreFeedbackRule = false;
+            public $test_isCalled_buildScoreFeedbackRule = false;
             protected function getResponse($itentifier)
             {
                 return new ResponseDeclaration();
@@ -275,11 +273,23 @@ XML;
                 return new ModalFeedback();
             }
 
-            protected function buildScoreFeedbackRule($subtree, $conditionName, $comparedValue, $responseIdentifier, $xml)
+            protected function buildScoreFeedbackRule(
+                $subtree,
+                $conditionName,
+                $comparedValue,
+                $responseIdentifier,
+                $xml
+            )
             {
-                $this->_conditionName = $conditionName;
-                $this->_isCalled_buildScoreFeedbackRule = true;
-                return parent::buildScoreFeedbackRule($subtree, $conditionName, $comparedValue, $responseIdentifier, $xml);
+                $this->test_conditionName = $conditionName;
+                $this->test_isCalled_buildScoreFeedbackRule = true;
+                return parent::buildScoreFeedbackRule(
+                    $subtree,
+                    $conditionName,
+                    $comparedValue,
+                    $responseIdentifier,
+                    $xml
+                );
             }
         };
 
