@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016-2023 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2016-2025 (original work) Open Assessment Technologies SA
  */
 
 /**
@@ -28,12 +28,13 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/helpers/featureFlags',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/media',
     'ui/mediaEditor/mediaEditorComponent',
     'ui/resourcemgr',
     'ui/tooltip',
     'url-polyfill'
-], function ($, _, __, features, stateFactory, Question, formElement, formTpl, mediaEditorComponent) {
+], function ($, _, __, features, stateFactory, Question, formElement, featureFlags, formTpl, mediaEditorComponent) {
     'use strict';
     /**
      * media Editor instance if has been initialized
@@ -65,12 +66,13 @@ define([
         const options = widget.options;
         const interaction = widget.element;
         const isFlaAvailable = features.isVisible('taoQtiItem/creator/interaction/media/property/fla');
+        const isCompactAppearanceAvailable = featureFlags.isCompactAppearanceAvailable();
         let isAudio = getIsAudio(interaction);
         const defaultVideoHeight = 270;
         const defaultAudioHeight = 30;
         const compactAppearance = isAudio && interaction.hasClass('compact-appearance');
 
-        if(compactAppearance) {
+        if(compactAppearance && isCompactAppearanceAvailable) {
             $container.parent().addClass('compact-appearance');
         }
 
@@ -391,7 +393,7 @@ define([
                     }
                 },
                 compactAppearance: function (boundInteraction, attrValue,) {
-                    if(attrValue) {
+                    if(attrValue && isCompactAppearanceAvailable) {
                         if(!$container.hasClass('compact-appearance')) {
                             interaction.addClass('compact-appearance');
                             $container.parent().addClass('compact-appearance');
@@ -429,6 +431,7 @@ define([
                     //tpl data for the interaction
                     isAudio: isAudio,
                     isFlaAvailable: isFlaAvailable,
+                    isCompactAppearanceAvailable: isCompactAppearanceAvailable,
                     autostart: !!interaction.attr('autostart'),
                     sequential: !!interaction.hasClass('sequential'),
                     hidePlayer: !!interaction.hasClass('hide-player'),
