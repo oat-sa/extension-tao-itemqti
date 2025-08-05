@@ -279,8 +279,7 @@ XML;
                 $comparedValue,
                 $responseIdentifier,
                 $xml
-            )
-            {
+            ) {
                 $this->test_conditionName = $conditionName;
                 $this->test_isCalled_buildScoreFeedbackRule = true;
                 return parent::buildScoreFeedbackRule(
