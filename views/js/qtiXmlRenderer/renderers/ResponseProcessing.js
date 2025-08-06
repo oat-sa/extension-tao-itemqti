@@ -5,10 +5,10 @@ define([
 ], function(_, tpl, responseProcessingTpl){
     'use strict';
 
-    var _renderFeedbackRules = function _renderFeedbackRules(renderer, response){
+    var _renderFeedbackRules = function _renderFeedbackRules(renderer, response, _score){
         var ret = [];
         _.forEach(response.getFeedbackRules(), function(rule){
-            ret.push(rule.render(renderer));
+            ret.push(rule.render(renderer, {scoreIdentifier: _score}));
         });
         return ret;
     };
@@ -39,10 +39,12 @@ define([
                         }
                     }
 
+                    const _score = 'SCORE';
+
                     defaultData.responseRules = [];
                     _.forEach(interactions, function(interaction){
                         const response = interaction.getResponseDeclaration();
-                        const responseRule = responseProcessingTpl.renderInteractionRp(response, 'SCORE');
+                        const responseRule = responseProcessingTpl.renderInteractionRp(response, _score);
 
                         if(_.isString(responseRule) && responseRule.trim()){
                             defaultData.responseRules.push(responseRule);
@@ -51,7 +53,7 @@ define([
 
                     defaultData.feedbackRules = [];
                     _.forEach(interactions, function(interaction){
-                        defaultData.feedbackRules = _.union(defaultData.feedbackRules, _renderFeedbackRules(self, interaction.getResponseDeclaration()));
+                        defaultData.feedbackRules = _.union(defaultData.feedbackRules, _renderFeedbackRules(self, interaction.getResponseDeclaration(), _score));
                     });
 
                     if(defaultData.responseRules.length || defaultData.feedbackRules.length){
