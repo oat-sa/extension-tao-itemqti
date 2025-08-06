@@ -1566,7 +1566,7 @@ class ParserFactory
         return $returnValue;
     }
 
-    private function buildIsNullFeedbackRule($subtree, $comparedValue = null, $responseId = '')
+    protected function buildIsNullFeedbackRule($subtree, $comparedValue = null, $responseId = '')
     {
         $conditionName = 'isNull';
         $responseIdentifier = empty($responseId)

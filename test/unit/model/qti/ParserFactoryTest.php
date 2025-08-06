@@ -75,8 +75,8 @@ class ParserFactoryTest extends TestCase
 
         $sm = $this->getServiceManagerMock(
             [
-            ApplicationService::SERVICE_ID => $applicationServiceMock,
-            common_ext_ExtensionsManager::class => $extensionsManagerMock
+                ApplicationService::SERVICE_ID => $applicationServiceMock,
+                common_ext_ExtensionsManager::class => $extensionsManagerMock
             ]
         );
 
@@ -115,7 +115,7 @@ class ParserFactoryTest extends TestCase
      * @return                   array
      * @doesNotPerformAssertions
      */
-    public function testParseItemWithScoreBasedResponseRuleProvider(): array
+    public function testParseItemWithScoreBasedFeedbackRuleProvider(): array
     {
         $conditions = ['lt', 'gt', 'equal', 'lte', 'gte'];
 
@@ -134,7 +134,20 @@ class ParserFactoryTest extends TestCase
      * @return                   array
      * @doesNotPerformAssertions
      */
-    public function testParseItemWithScoreBasedResponseRuleProviderBadConditions(): array
+    public function testParseItemWithIsNullFeedbackRuleProvider(): array
+    {
+        $data = [
+            [$this->getParseItemWithIsNullXml()]
+        ];
+
+        return $data;
+    }
+
+    /**
+     * @return                   array
+     * @doesNotPerformAssertions
+     */
+    public function testParseItemWithScoreBasedFeedbackRuleProviderBadConditions(): array
     {
         $conditions = ['notequal', 'equals'];
 
@@ -142,7 +155,7 @@ class ParserFactoryTest extends TestCase
 
         foreach ($conditions as $condition) {
             $data[] = [
-                $this->getParseItemWithScoreXml($condition), $condition
+                $this->getParseItemWithScoreXml($condition)
             ];
         }
 
@@ -150,9 +163,9 @@ class ParserFactoryTest extends TestCase
     }
 
     /**
-     * @dataProvider testParseItemWithScoreBasedResponseRuleProvider
+     * @dataProvider testParseItemWithScoreBasedFeedbackRuleProvider
      */
-    public function testParseItemWithScoreBasedResponseRule(string $xml, string $condition): void
+    public function testParseItemWithScoreBasedFeedbackRule(string $xml, string $condition): void
     {
         [$parser, $method, $element] = $this->getParseItemWithScoreParser($xml);
 
@@ -164,15 +177,30 @@ class ParserFactoryTest extends TestCase
     }
 
     /**
-     * @dataProvider testParseItemWithScoreBasedResponseRuleProviderBadConditions
+     * @return void
+     * @dataProvider testParseItemWithIsNullFeedbackRuleProvider
      */
-    public function testParseItemWithScoreBasedResponseRuleBadConditions(string $xml, string $condition): void
+    public function testParseItemWithIsNullFeedbackRule(string $xml): void
     {
-        [$parser, $method, $element] = $this->getParseItemWithScoreParser($xml);
+        [$parser, $method, $xmlElement] = $this->getParseItemWithIsNullParser($xml);
+
+        $response = $method->invokeArgs($parser, [$xmlElement, []]);
+
+        $this->assertInstanceOf(TemplatesDriven::class, $response);
+        $this->assertTrue($parser->test_isCalled_buildIsNullFeedbackRule);
+
+    }
+
+    /**
+     * @dataProvider testParseItemWithScoreBasedFeedbackRuleProviderBadConditions
+     */
+    public function testParseItemWithScoreBasedFeedbackRuleBadConditions(string $xml): void
+    {
+        [$parser, $method, $xmlElement] = $this->getParseItemWithScoreParser($xml);
 
         $this->expectException(UnexpectedResponseProcessing::class);
 
-        $method->invokeArgs($parser, [$element, []]);
+        $method->invokeArgs($parser, [$xmlElement, []]);
     }
 
     public function testParseItemWithDirAttributeOnItemBody(): void
@@ -220,10 +248,30 @@ class ParserFactoryTest extends TestCase
         return $filesystem->read($name);
     }
 
+    private function getParseItemWithIsNullXml()
+    {
+        $xml =
+            <<<XML
+<responseProcessing>
+    <responseCondition>
+    <responseIf>
+        <isNull>
+            <variable identifier="RESPONSE" />
+        </isNull>
+        <setOutcomeValue identifier="FEEDBACK_1">
+            <baseValue baseType="identifier">feedbackModal_1</baseValue>
+        </setOutcomeValue>
+    </responseIf>
+</responseCondition>
+</responseProcessing>
+XML;
+        return "<root>" . $xml . "</root>";
+    }
+
     private function getParseItemWithScoreXml(string $condition): string
     {
         $xml = <<<XML
-<root><responseProcessing>
+<responseProcessing>
     <responseCondition>
         <responseIf>
             <and>
@@ -243,9 +291,51 @@ class ParserFactoryTest extends TestCase
         </responseIf>
     </responseCondition>
 </responseProcessing>
-</root>
 XML;
-        return $xml;
+        return "<root>" . $xml . "</root>";
+    }
+
+    private function getParseItemWithIsNullParser(string $xml)
+    {
+        $itemDocument = $this->readSampleFile('testParseItem_itemDocument.xml');
+        $dom = new DOMDocument();
+        $dom->loadXML($itemDocument);
+
+        $parser = new class ($dom) extends ParserFactory {
+            public $test_isCalled_buildIsNullFeedbackRule = false;
+            protected function getResponse($itentifier)
+            {
+                return new ResponseDeclaration();
+            }
+
+            protected function getOutcome($identifier)
+            {
+                return new OutcomeDeclaration();
+            }
+
+            protected function getModalFeedback($itemtifier)
+            {
+                return new ModalFeedback();
+            }
+            protected function buildIsNullFeedbackRule($subtree, $comparedValue = null, $responseId = '')
+            {
+                $this->test_isCalled_buildIsNullFeedbackRule = true;
+                return parent::buildIsNullFeedbackRule($subtree, $comparedValue, $responseId);
+            }
+        };
+
+        $parser->load();
+
+        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom->loadXML($xml);
+
+
+        $reflection = new ReflectionClass($parser);
+
+        $method = $reflection->getMethod('buildTemplatedrivenResponse');
+        $method->setAccessible(true);
+
+        return [$parser, $method, $dom->documentElement->firstChild];
     }
 
     private function getParseItemWithScoreParser(string $xml)
