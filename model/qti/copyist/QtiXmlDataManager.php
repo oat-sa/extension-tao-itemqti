@@ -118,7 +118,7 @@ class QtiXmlDataManager extends ConfigurableService
                 /** @var DOMElement $item */
                 foreach ($assessmentItemNodes as $item) {
                     $identifier = $identifierGenerator->generate([
-                        IdentifierGeneratorInterface::OPTION_RESOURCE_ID => $toSourceId
+                        IdentifierGeneratorInterface::OPTION_RESOURCE => $this->getResource($toSourceId)
                     ]);
 
                     $item->setAttribute('identifier', $identifier);

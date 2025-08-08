@@ -25,6 +25,7 @@ namespace oat\taoQtiItem\model\Listener;
 use common_Exception;
 use core_kernel_persistence_Exception;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\taoItems\model\event\ItemContentClonedEvent;
 use oat\taoQtiItem\model\qti\copyist\QtiXmlDataManager;
 use tao_models_classes_FileNotFoundException;
@@ -44,7 +45,13 @@ class ReplaceCopiedQtiXmlIdentifierListener
      */
     public static function catchItemCreatedFromSource(ItemContentClonedEvent $itemContentClonedEvent): void
     {
-        ServiceManager::getServiceManager()
+        $serviceManager = ServiceManager::getServiceManager();
+
+        if ($serviceManager->get(FeatureFlagChecker::class)->isEnabled('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')) {
+            return;
+        }
+
+        $serviceManager
             ->get(QtiXmlDataManager::class)
             ->replaceItemIdentifier(
                 $itemContentClonedEvent->getSourceItemUri(),
