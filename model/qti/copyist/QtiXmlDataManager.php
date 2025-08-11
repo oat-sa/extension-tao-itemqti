@@ -32,6 +32,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorInterface;
 use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorProxy;
 use oat\taoQtiItem\helpers\QtiFile;
@@ -63,6 +64,10 @@ class QtiXmlDataManager extends ConfigurableService
         string $sourceItemId,
         string $destinationItemId
     ): void {
+        if ($this->getServiceManager()->get(FeatureFlagChecker::class)->isEnabled('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')) {
+            return;
+        }
+
         $destinationItem = $this->getResource($destinationItemId);
 
         /** @var taoItems_models_classes_ItemsService $itemService */

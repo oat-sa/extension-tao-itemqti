@@ -107,6 +107,11 @@ class ItemCreationListener
             return $this->ontology->getResource($event->getInstanceUri());
         }
 
-        throw new InvalidArgumentException('Cannot retrieve event item: event %s is not supported', get_class($event));
+        throw new InvalidArgumentException(
+            sprintf(
+                'Cannot retrieve event item: event %s is not supported',
+                get_class($event)
+            )
+        );
     }
 }
