@@ -70,6 +70,10 @@ class ItemCreationListener
             return;
         }
 
+        if ($this->isTranslationCreationEvent($event)) {
+            return;
+        }
+
         $item = $this->getEventItem($event);
 
         // We are not going to populate Unique ID for translations
@@ -87,6 +91,15 @@ class ItemCreationListener
             AbstractQtiIdentifierSetter::OPTION_RESOURCE => $item,
             AbstractQtiIdentifierSetter::OPTION_IDENTIFIER => $identifier,
         ]);
+    }
+
+    /**
+     * In case a translation is created via clone, we do not want to generate a new UniqueId, instead
+     * we want the UniqueId of the original resource to be kept.
+     */
+    private function isTranslationCreationEvent($event): bool
+    {
+        return $event instanceof InstanceCopiedEvent && ($event->getOptions()['isTranslation'] ?? false);
     }
 
     private function getEventItem(Event $event): core_kernel_classes_Resource
