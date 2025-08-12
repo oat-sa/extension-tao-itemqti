@@ -101,7 +101,7 @@ class MetaMetadataImportMapper
     private function isSynced(Property $classProperty, array &$metaMetadataProperty): bool
     {
         $rangeClass = $classProperty->getRange();
-        $listClass = new \core_kernel_classes_Class(self::RDF_LIST);
+        $listClass = new kernelClass(self::RDF_LIST);
         if ($rangeClass && !$rangeClass->isSubClassOf($listClass)) {
             return true;
         }
