@@ -27,9 +27,12 @@ use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorInterface;
+use oat\tao\model\resources\Event\InstanceCopiedEvent;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Service\AbstractQtiIdentifierSetter;
 use oat\taoItems\model\event\ItemCreatedEvent;
+use oat\taoItems\model\event\ItemDuplicatedEvent;
+use oat\taoQtiItem\model\event\ItemImported;
 use oat\taoQtiItem\model\qti\Identifier\Service\QtiIdentifierSetter;
 use oat\taoQtiItem\model\UniqueId\Listener\ItemCreationListener;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -175,5 +178,198 @@ class ItemCreationListenerTest extends TestCase
             ]);
 
         $this->sut->populateUniqueId(new ItemCreatedEvent('itemUri'));
+    }
+
+    public function testIsTranslationCreationEventReturnsTrueForInstanceCopiedEventWithTranslationOption(): void
+    {
+        $event = new InstanceCopiedEvent('instanceUri', 'originUri', ['isTranslation' => true]);
+
+        $this->featureFlagChecker
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
+            ->willReturn(true);
+
+        $this->identifierGenerator
+            ->expects($this->never())
+            ->method('generate');
+
+        $this->qtiIdentifierSetter
+            ->expects($this->never())
+            ->method('set');
+
+        $this->sut->populateUniqueId($event);
+    }
+
+    public function testIsTranslationCreationEventReturnsFalseForInstanceCopiedEventWithoutTranslationOption(): void
+    {
+        $event = new InstanceCopiedEvent('instanceUri', 'originUri', ['isTranslation' => false]);
+
+        $this->featureFlagChecker
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
+            ->willReturn(true);
+
+        $this->ontology
+            ->expects($this->once())
+            ->method('getResource')
+            ->with('instanceUri')
+            ->willReturn($this->resource);
+
+        $this->resource
+            ->expects($this->once())
+            ->method('getRootId')
+            ->willReturn(TaoOntology::CLASS_URI_ITEM);
+
+        $this->identifierGenerator
+            ->expects($this->once())
+            ->method('generate')
+            ->with([IdentifierGeneratorInterface::OPTION_RESOURCE => $this->resource])
+            ->willReturn('123456789');
+
+        $property = $this->createMock(core_kernel_classes_Property::class);
+
+        $this->ontology
+            ->expects($this->once())
+            ->method('getProperty')
+            ->with(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER)
+            ->willReturn($property);
+
+        $this->resource
+            ->expects($this->once())
+            ->method('editPropertyValues')
+            ->with($property, '123456789');
+
+        $this->qtiIdentifierSetter
+            ->expects($this->once())
+            ->method('set')
+            ->with([
+                AbstractQtiIdentifierSetter::OPTION_RESOURCE => $this->resource,
+                AbstractQtiIdentifierSetter::OPTION_IDENTIFIER => '123456789',
+            ]);
+
+        $this->sut->populateUniqueId($event);
+    }
+
+    public function testIsTranslationCreationEventReturnsFalseForInstanceCopiedEventWithEmptyOptions(): void
+    {
+        $event = new InstanceCopiedEvent('instanceUri', 'originUri', []);
+
+        $this->featureFlagChecker
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
+            ->willReturn(true);
+
+        $this->ontology
+            ->expects($this->once())
+            ->method('getResource')
+            ->with('instanceUri')
+            ->willReturn($this->resource);
+
+        $this->resource
+            ->expects($this->once())
+            ->method('getRootId')
+            ->willReturn(TaoOntology::CLASS_URI_ITEM);
+
+        $this->identifierGenerator
+            ->expects($this->once())
+            ->method('generate')
+            ->with([IdentifierGeneratorInterface::OPTION_RESOURCE => $this->resource])
+            ->willReturn('123456789');
+
+        $property = $this->createMock(core_kernel_classes_Property::class);
+
+        $this->ontology
+            ->expects($this->once())
+            ->method('getProperty')
+            ->with(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER)
+            ->willReturn($property);
+
+        $this->resource
+            ->expects($this->once())
+            ->method('editPropertyValues')
+            ->with($property, '123456789');
+
+        $this->qtiIdentifierSetter
+            ->expects($this->once())
+            ->method('set')
+            ->with([
+                AbstractQtiIdentifierSetter::OPTION_RESOURCE => $this->resource,
+                AbstractQtiIdentifierSetter::OPTION_IDENTIFIER => '123456789',
+            ]);
+
+        $this->sut->populateUniqueId($event);
+    }
+
+    public function testIsTranslationCreationEventReturnsFalseForNonInstanceCopiedEvents(): void
+    {
+        $events = [
+            new ItemCreatedEvent('itemUri'),
+            new ItemDuplicatedEvent('originalUri', 'cloneUri'),
+            $this->createMock(ItemImported::class)
+        ];
+
+        foreach ($events as $event) {
+            $this->featureFlagChecker
+                ->expects($this->once())
+                ->method('isEnabled')
+                ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
+                ->willReturn(true);
+
+            if ($event instanceof ItemCreatedEvent) {
+                $this->ontology
+                    ->expects($this->once())
+                    ->method('getResource')
+                    ->with('itemUri')
+                    ->willReturn($this->resource);
+            } elseif ($event instanceof ItemDuplicatedEvent) {
+                $this->ontology
+                    ->expects($this->once())
+                    ->method('getResource')
+                    ->with('cloneUri')
+                    ->willReturn($this->resource);
+            } elseif ($event instanceof ItemImported) {
+                $event->method('getRdfItem')->willReturn($this->resource);
+            }
+
+            $this->resource
+                ->expects($this->once())
+                ->method('getRootId')
+                ->willReturn(TaoOntology::CLASS_URI_ITEM);
+
+            $this->identifierGenerator
+                ->expects($this->once())
+                ->method('generate')
+                ->with([IdentifierGeneratorInterface::OPTION_RESOURCE => $this->resource])
+                ->willReturn('123456789');
+
+            $property = $this->createMock(core_kernel_classes_Property::class);
+
+            $this->ontology
+                ->expects($this->once())
+                ->method('getProperty')
+                ->with(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER)
+                ->willReturn($property);
+
+            $this->resource
+                ->expects($this->once())
+                ->method('editPropertyValues')
+                ->with($property, '123456789');
+
+            $this->qtiIdentifierSetter
+                ->expects($this->once())
+                ->method('set')
+                ->with([
+                    AbstractQtiIdentifierSetter::OPTION_RESOURCE => $this->resource,
+                    AbstractQtiIdentifierSetter::OPTION_IDENTIFIER => '123456789',
+                ]);
+
+            $this->sut->populateUniqueId($event);
+
+            // Reset mocks for next iteration
+            $this->setUp();
+        }
     }
 }

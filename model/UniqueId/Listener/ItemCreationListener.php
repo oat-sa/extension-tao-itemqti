@@ -97,7 +97,7 @@ class ItemCreationListener
      * In case a translation is created via clone, we do not want to generate a new UniqueId, instead
      * we want the UniqueId of the original resource to be kept.
      */
-    private function isTranslationCreationEvent($event): bool
+    private function isTranslationCreationEvent(Event $event): bool
     {
         return $event instanceof InstanceCopiedEvent && ($event->getOptions()['isTranslation'] ?? false);
     }
