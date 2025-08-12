@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2024 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2024-2025 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -31,6 +31,8 @@ use oat\taoQtiItem\model\import\ChecksumGenerator;
 
 class MetaMetadataImportMapper
 {
+    private const RDF_LIST = 'http://www.tao.lu/Ontologies/TAO.rdf#List';
+
     private ChecksumGenerator $checksumGenerator;
 
     public function __construct(ChecksumGenerator $checksumGenerator)
@@ -98,6 +100,11 @@ class MetaMetadataImportMapper
 
     private function isSynced(Property $classProperty, array &$metaMetadataProperty): bool
     {
+        $rangeClass = $classProperty->getRange();
+        $listClass = new \core_kernel_classes_Class(self::RDF_LIST);
+        if ($rangeClass && !$rangeClass->isSubClassOf($listClass)) {
+            return true;
+        }
         $multiple = $classProperty->getOnePropertyValue(new Property(GenerisRdf::PROPERTY_MULTIPLE));
         try {
             $checksum = $this->checksumGenerator->getRangeChecksum($classProperty);
