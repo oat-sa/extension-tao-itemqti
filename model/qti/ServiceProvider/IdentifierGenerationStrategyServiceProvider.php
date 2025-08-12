@@ -30,7 +30,6 @@ use oat\tao\model\IdentifierGenerator\Generator\NumericIdentifierGenerator;
 use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\helpers\QtiXmlLoader;
 use oat\taoQtiItem\model\qti\identifierGenerator\QtiIdentifierGenerator;
-use oat\taoQtiItem\model\qti\parser\UniqueNumericQtiIdentifierReplacer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -63,14 +62,5 @@ class IdentifierGenerationStrategyServiceProvider implements ContainerServicePro
                     TaoOntology::CLASS_URI_ITEM,
                 ]
             );
-
-        $services
-            ->set(UniqueNumericQtiIdentifierReplacer::class, UniqueNumericQtiIdentifierReplacer::class)
-            ->args([
-                service(FeatureFlagChecker::class),
-                service(QtiXmlLoader::class),
-                service(NumericIdentifierGenerator::class)
-            ])
-            ->public();
     }
 }
