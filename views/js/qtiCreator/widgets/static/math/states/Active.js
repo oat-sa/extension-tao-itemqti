@@ -30,7 +30,8 @@ define([
     'lodash',
     'i18n',
     'mathJax',
-    'ui/tooltip'
+    'ui/tooltip',
+    'taoQtiItem/lib/wiris',
 ], function(
     $,
     stateFactory,
@@ -94,6 +95,38 @@ define([
             mathml : mathML
         }));
 
+        if(true) {
+            const genericIntegrationProperties = {
+                target: $form.find(`[name=${editMode}]`)[0],
+                // target: _widget.$container[0],
+                toolbar: $form.find('.wiris-toolbar')[0],
+                core: {editMode},
+                integrationParameters: {
+                    telemeter: false,
+                    editMode,
+                    editorParameters: {
+                        editMode,
+                        editorType: 'math',
+                        autofocus: true,
+                        outputFormat: editMode,
+                        render: false,
+                        saveLatex: editMode === "latex",
+                    },
+                    licenseKey: 'XXXX-XXXX-XXXX-XXXX',
+                },
+            };
+
+            const genericIntegrationInstance = new WirisPlugin.GenericIntegration(genericIntegrationProperties);
+            genericIntegrationInstance.init();
+            genericIntegrationInstance.listeners.fire("onTargetReady", {});
+
+            WirisPlugin.currentInstance = genericIntegrationInstance;
+
+            $form.find('.wiris-popup-btn').on('click', function(e) {
+                WirisPlugin.currentInstance.openNewFormulaEditor();
+            });
+        }
+
         if(mathJax){
             // grab a reference to the DOM elements containing the source of truth for latex/mathml codes
             this.fields = {
@@ -113,7 +146,8 @@ define([
             this.popups = {
                 latexWysiwyg: this.createLatexWysiwygPopup(),
                 latex: this.createLargeEditorPopup('latex'),
-                mathml: this.createLargeEditorPopup('mathml')
+                mathml: this.createLargeEditorPopup('mathml'),
+                // wiris: this.createWirisEditorPopup('wiris')
             };
 
             _.forOwn(this.popups, function(popup) {
@@ -351,7 +385,6 @@ define([
             }
         }
     };
-
     function _attachMathmlWarning($mathField){
         var widgetTooltip;
         var tooltipContent = __('Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded.');
