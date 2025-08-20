@@ -62,7 +62,7 @@ class CreatorConfig extends Config
         'previewRenderUrl' => ['taoQtiItem', 'QtiPreview', 'render'],
         'previewSubmitUrl' => ['taoQtiItem', 'QtiPreview', 'submitResponses'],
 
-        'resourceMetadataUrl' => ['taoQtiItem', 'Metadata', 'resourceMetadata'],
+        'resourceMetadataUrl' => ['tao', 'ResourceMetadata', 'get'],
     ];
 
     public function addInteraction($interactionFile)
