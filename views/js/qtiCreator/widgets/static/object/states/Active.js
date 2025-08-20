@@ -281,6 +281,16 @@ define([
 
         $container.off('playerready').on('playerready', function () {
             setMediaSizeEditor(_widget);
+            if (isCompactAppearanceAvailable) {
+                if (/audio/.test(qtiObject.attr('type'))) {
+                    $form.find('.compact-appearance').show();
+                } else {
+                    qtiObject.attr('compact-appearance', false);
+                    $form.find('.compact-appearance').hide();
+                    $form.find('.compact-appearance input[name="compactAppearance"]').prop("checked", false);
+                    $container.parent().removeClass('compact-appearance');
+                }
+            }
         });
 
         const clearMediaSize = () => {
