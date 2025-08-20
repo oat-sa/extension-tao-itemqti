@@ -44,7 +44,9 @@ class ReplaceCopiedQtiXmlIdentifierListener
      */
     public static function catchItemCreatedFromSource(ItemContentClonedEvent $itemContentClonedEvent): void
     {
-        ServiceManager::getServiceManager()
+        $serviceManager = ServiceManager::getServiceManager();
+
+        $serviceManager
             ->get(QtiXmlDataManager::class)
             ->replaceItemIdentifier(
                 $itemContentClonedEvent->getSourceItemUri(),
