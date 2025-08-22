@@ -1,7 +1,9 @@
 {{#if mathjax}}
 
-<span class="wiris-toolbar hidden"></span>
-<div class="wiris-math-buffer hidden"></div>
+  {{#if wirisMath}}
+    <span class="wiris-toolbar hidden"></span>
+    <div class="wiris-math-buffer hidden" name="wiris-math" contenteditable="true"></div>
+  {{/if}}
 
 <div class="panel">
     <label for="display" class="has-icon">{{__ "Display"}}</label>
@@ -35,8 +37,11 @@
 
     <div class="panel">
         <button class="btn-info small block popup-btn" data-control="latex">{{__ "Large editor"}}</button>
-        <button class="btn-info small block popup-btn" data-control="latexWysiwyg">{{__ "WYSIWYG editor"}}</button>
-        <button class="btn-info small block wiris-popup-btn">Wiris Math</button>
+        {{#if wirisMath}}
+            <button class="btn-info small block wiris-popup-btn">Wiris Math</button>
+        {{else}}
+            <button class="btn-info small block popup-btn" data-control="latexWysiwyg">{{__ "WYSIWYG editor"}}</button>
+        {{/if}}
     </div>
 </div>
 

@@ -31,7 +31,9 @@ define([
     'i18n',
     'mathJax',
     'ui/tooltip',
-    'taoQtiItem/lib/wiris',
+    'context',
+    'taoQtiItem/lib/mathml2latex',
+    'taoQtiItem/lib/wirisplugin-generic'
 ], function(
     $,
     stateFactory,
@@ -47,7 +49,9 @@ define([
     _,
     __,
     mathJax,
-    tooltip
+    tooltip,
+    context,
+    MathMLToLaTeX
 ){
     'use strict';
 
@@ -92,28 +96,24 @@ define([
             mathjax : !!mathJax,
             editMode : editMode,
             latex : tex,
-            mathml : mathML
+            mathml : mathML,
+            wirisMath : !!context.wirisMathLicenseKey
         }));
 
-        if(true) {
+        if(context.wirisMathLicenseKey){
+            const convert2latex = MathMLToLaTeX.MathMLToLaTeX;
+            const $imageBuffer = $form.find(`.wiris-math-buffer`);
             const genericIntegrationProperties = {
-                target: $form.find(`[name=${editMode}]`)[0],
-                // target: _widget.$container[0],
+                target: $imageBuffer[0],
                 toolbar: $form.find('.wiris-toolbar')[0],
-                core: {editMode},
                 integrationParameters: {
-                    telemeter: false,
-                    editMode,
                     editorParameters: {
-                        editMode,
+                        defaultStretchy: true,
                         editorType: 'math',
-                        autofocus: true,
-                        outputFormat: editMode,
-                        render: false,
-                        saveLatex: editMode === "latex",
+                        outputFormat: "latex",
                     },
-                    licenseKey: 'XXXX-XXXX-XXXX-XXXX',
-                },
+                    licenseKey: context.wirisMathLicenseKey,
+                }
             };
 
             const genericIntegrationInstance = new WirisPlugin.GenericIntegration(genericIntegrationProperties);
@@ -122,8 +122,28 @@ define([
 
             WirisPlugin.currentInstance = genericIntegrationInstance;
 
-            $form.find('.wiris-popup-btn').on('click', function(e) {
-                WirisPlugin.currentInstance.openNewFormulaEditor();
+            $form.find('.wiris-popup-btn').on('click', function() {
+                const $textariaMathml = $form.find('textarea[name=mathml]');
+                const $inputLatex = $form.find('input[name=latex]');
+                const placeholderValue = `<math>${$($.parseHTML($textariaMathml.val())).find('mrow').html()}</math>`;
+
+                $imageBuffer.html(WirisPlugin.Parser.initParse(placeholderValue));
+
+                WirisPlugin.currentInstance.core.getCustomEditors().disable();
+                WirisPlugin.currentInstance.core.editionProperties.temporalImage = $imageBuffer.find('img')[0];
+                WirisPlugin.currentInstance.core.editionProperties.isNewElement = true;
+                WirisPlugin.currentInstance.openExistingFormulaEditor();
+
+                $(WirisPlugin.currentInstance.core.modalDialog.submitButton).on('click', function() {
+                    $imageBuffer.not('img').remove(); //siniteze redundant elements
+                    const clearMathml = WirisPlugin.Parser.endParse($imageBuffer.html());
+                    const clearLatex = convert2latex.convert(clearMathml);
+                    $textariaMathml.val(clearMathml);
+                    $inputLatex.val(clearLatex);
+
+                    $inputLatex.trigger('change');
+                    $imageBuffer.empty();
+                });
             });
         }
 
@@ -146,8 +166,7 @@ define([
             this.popups = {
                 latexWysiwyg: this.createLatexWysiwygPopup(),
                 latex: this.createLargeEditorPopup('latex'),
-                mathml: this.createLargeEditorPopup('mathml'),
-                // wiris: this.createWirisEditorPopup('wiris')
+                mathml: this.createLargeEditorPopup('mathml')
             };
 
             _.forOwn(this.popups, function(popup) {
