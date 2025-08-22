@@ -149,7 +149,7 @@ class QtiExtractor implements Extractor
                 $callbackValue = call_user_func(
                     [$this, $config['callback']],
                     $interaction,
-                        $config['callbackParameters'] ?? []
+                    $config['callbackParameters'] ?? []
                 );
                 if (isset($config['valuesAsColumns'])) {
                     $multicolumnValuesPerInteraction[$interaction['id']] = $callbackValue;
