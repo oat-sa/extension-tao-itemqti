@@ -86,7 +86,8 @@ define([
             display = math.attr('display') || 'inline',
             editMode = 'latex',
             $popupsContainer,
-            areaBroker = this.widget.getAreaBroker();
+            areaBroker = this.widget.getAreaBroker(),
+            wirisMathEnabled = context.featureFlags.FEATURE_FLAG_WIRIS_MATH_PATH;
 
         if(!tex.trim() && mathML.trim()){
             editMode = 'mathml';
@@ -97,12 +98,12 @@ define([
             editMode : editMode,
             latex : tex,
             mathml : mathML,
-            wirisMath : !!context.wirisMathLicenseKey
+            wirisMath : wirisMathEnabled
         }));
 
         if(mathJax){
 
-            if(context.featureFlags.FEATURE_FLAG_WIRIS_MATH_PATH){
+            if(wirisMathEnabled){
                 const convert2latex = MathMLToLaTeX.MathMLToLaTeX;
                 const $imageBuffer = $form.find(`.wiris-math-buffer`);
                 const genericIntegrationProperties = {
@@ -113,8 +114,7 @@ define([
                             defaultStretchy: true,
                             editorType: 'math',
                             outputFormat: "latex",
-                        },
-                        licenseKey: context.wirisMathLicenseKey,
+                        }
                     }
                 };
 
