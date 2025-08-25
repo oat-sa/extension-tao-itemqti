@@ -100,54 +100,55 @@ define([
             wirisMath : !!context.wirisMathLicenseKey
         }));
 
-        if(context.wirisMathLicenseKey){
-            const convert2latex = MathMLToLaTeX.MathMLToLaTeX;
-            const $imageBuffer = $form.find(`.wiris-math-buffer`);
-            const genericIntegrationProperties = {
-                target: $imageBuffer[0],
-                toolbar: $form.find('.wiris-toolbar')[0],
-                integrationParameters: {
-                    editorParameters: {
-                        defaultStretchy: true,
-                        editorType: 'math',
-                        outputFormat: "latex",
-                    },
-                    licenseKey: context.wirisMathLicenseKey,
-                }
-            };
-
-            const genericIntegrationInstance = new WirisPlugin.GenericIntegration(genericIntegrationProperties);
-            genericIntegrationInstance.init();
-            genericIntegrationInstance.listeners.fire("onTargetReady", {});
-
-            WirisPlugin.currentInstance = genericIntegrationInstance;
-
-            $form.find('.wiris-popup-btn').on('click', function() {
-                const $textariaMathml = $form.find('textarea[name=mathml]');
-                const $inputLatex = $form.find('input[name=latex]');
-                const placeholderValue = `<math>${$($.parseHTML($textariaMathml.val())).find('mrow').html()}</math>`;
-
-                $imageBuffer.html(WirisPlugin.Parser.initParse(placeholderValue));
-
-                WirisPlugin.currentInstance.core.getCustomEditors().disable();
-                WirisPlugin.currentInstance.core.editionProperties.temporalImage = $imageBuffer.find('img')[0];
-                WirisPlugin.currentInstance.core.editionProperties.isNewElement = true;
-                WirisPlugin.currentInstance.openExistingFormulaEditor();
-
-                $(WirisPlugin.currentInstance.core.modalDialog.submitButton).on('click', function() {
-                    $imageBuffer.not('img').remove(); //siniteze redundant elements
-                    const clearMathml = WirisPlugin.Parser.endParse($imageBuffer.html());
-                    const clearLatex = convert2latex.convert(clearMathml);
-                    $textariaMathml.val(clearMathml);
-                    $inputLatex.val(clearLatex);
-
-                    $inputLatex.trigger('change');
-                    $imageBuffer.empty();
-                });
-            });
-        }
-
         if(mathJax){
+
+            if(context.featureFlags.FEATURE_FLAG_WIRIS_MATH_PATH){
+                const convert2latex = MathMLToLaTeX.MathMLToLaTeX;
+                const $imageBuffer = $form.find(`.wiris-math-buffer`);
+                const genericIntegrationProperties = {
+                    target: $imageBuffer[0],
+                    toolbar: $form.find('.wiris-toolbar')[0],
+                    integrationParameters: {
+                        editorParameters: {
+                            defaultStretchy: true,
+                            editorType: 'math',
+                            outputFormat: "latex",
+                        },
+                        licenseKey: context.wirisMathLicenseKey,
+                    }
+                };
+
+                const genericIntegrationInstance = new WirisPlugin.GenericIntegration(genericIntegrationProperties);
+                genericIntegrationInstance.init();
+                genericIntegrationInstance.listeners.fire("onTargetReady", {});
+
+                WirisPlugin.currentInstance = genericIntegrationInstance;
+
+                $form.find('.wiris-popup-btn').on('click', function() {
+                    const $textariaMathml = $form.find('textarea[name=mathml]');
+                    const $inputLatex = $form.find('input[name=latex]');
+                    const placeholderValue = `<math>${$($.parseHTML($textariaMathml.val())).find('mrow').html()}</math>`;
+
+                    $imageBuffer.html(WirisPlugin.Parser.initParse(placeholderValue));
+
+                    WirisPlugin.currentInstance.core.getCustomEditors().disable();
+                    WirisPlugin.currentInstance.core.editionProperties.temporalImage = $imageBuffer.find('img')[0];
+                    WirisPlugin.currentInstance.core.editionProperties.isNewElement = true;
+                    WirisPlugin.currentInstance.openExistingFormulaEditor();
+
+                    $(WirisPlugin.currentInstance.core.modalDialog.submitButton).on('click', function() {
+                        $imageBuffer.not('img').remove(); //sanitize redundant elements
+                        const clearMathml = WirisPlugin.Parser.endParse($imageBuffer.html());
+                        const clearLatex = convert2latex.convert(clearMathml);
+                        $textariaMathml.val(clearMathml);
+                        $inputLatex.val(clearLatex);
+
+                        $inputLatex.trigger('change');
+                        $imageBuffer.empty();
+                    });
+                });
+            }
+
             // grab a reference to the DOM elements containing the source of truth for latex/mathml codes
             this.fields = {
                 $mathml : $form.find('textarea[name=mathml]'),
