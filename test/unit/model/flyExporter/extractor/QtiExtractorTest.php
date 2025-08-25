@@ -90,7 +90,8 @@ class QtiExtractorTest extends TestCase
      * A sample QTI XML for a custom PCI interaction.
      */
     private const CUSTOM_INTERACTION_XML = <<<XML
-    <assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:pci="http://www.imsglobal.org/xsd/portableCustomInteraction" identifier="pci" timeDependent="false">
+    <assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" 
+    xmlns:pci="http://www.imsglobal.org/xsd/portableCustomInteraction" identifier="pci" timeDependent="false">
         <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="string"/>
         <itemBody>
             <customInteraction responseIdentifier="RESPONSE">
