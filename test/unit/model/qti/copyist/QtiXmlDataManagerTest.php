@@ -51,7 +51,7 @@ class QtiXmlDataManagerTest extends TestCase
     {
         parent::setUp();
 
-        $ontologyMock =  $this->getOntologyMock();
+        $ontologyMock = $this->getOntologyMock();
 
         $propertyMock = $this->createMock(core_kernel_classes_Property::class);
 
@@ -117,23 +117,23 @@ class QtiXmlDataManagerTest extends TestCase
                 ->method('read')
                 ->willReturn(
                     '<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" '
-                        . 'xmlns:m="http://www.w3.org/1998/Math/MathML" '
-                        . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
-                        . 'xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 '
-                        . 'http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="id1234source" '
-                        . 'title="test 5" label="test 5" xml:lang="en-US" adaptive="false" timeDependent="false" '
-                        . 'toolName="TAO" toolVersion="3.4.0-sprint136"></assessmentItem>'
+                    . 'xmlns:m="http://www.w3.org/1998/Math/MathML" '
+                    . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+                    . 'xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 '
+                    . 'http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="id1234source" '
+                    . 'title="test 5" label="test 5" xml:lang="en-US" adaptive="false" timeDependent="false" '
+                    . 'toolName="TAO" toolVersion="3.4.0-sprint136"></assessmentItem>'
                 );
             $fileMock
                 ->method('write')
                 ->with(
                     '<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" '
-                        . 'xmlns:m="http://www.w3.org/1998/Math/MathML" '
-                        . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
-                        . 'xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 '
-                        . 'http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="id987destination" '
-                        . 'title="test 5" label="test 5" xml:lang="en-US" adaptive="false" timeDependent="false" '
-                        . 'toolName="TAO" toolVersion="3.4.0-sprint136"></assessmentItem>'
+                    . 'xmlns:m="http://www.w3.org/1998/Math/MathML" '
+                    . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+                    . 'xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 '
+                    . 'http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="id987destination" '
+                    . 'title="test 5" label="test 5" xml:lang="en-US" adaptive="false" timeDependent="false" '
+                    . 'toolName="TAO" toolVersion="3.4.0-sprint136"></assessmentItem>'
                 );
 
             return $fileMock;
@@ -188,5 +188,18 @@ class QtiXmlDataManagerTest extends TestCase
     public function testAnotherNamespaceItemSource(): void
     {
         $this->service->replaceItemIdentifier('id1234source', 'local#id987destination');
+    }
+
+    public function testReplaceItemIdentifierFeatureFlagDisabled(): void
+    {
+        $this->featureFlagCheckerMock
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
+            ->willReturn(false);
+
+        $this->service->replaceItemIdentifier('local#id1234source', 'local#id987destination');
+
+        $this->addToAssertionCount(1);
     }
 }
