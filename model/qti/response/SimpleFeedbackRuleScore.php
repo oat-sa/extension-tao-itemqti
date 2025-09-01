@@ -23,7 +23,7 @@ namespace oat\taoQtiItem\model\qti\response;
 class SimpleFeedbackRuleScore extends SimpleFeedbackRule
 {
     private string $xml;
-    public function toArray($filterVariableContent = false, &$filtered = [])
+    public function toArray($filterVariableContent = false, &$filtered = []): array
     {
         $data = parent::toArray($filterVariableContent, $filtered);
         $data['condition'] = 'score.' . $data['condition'];
