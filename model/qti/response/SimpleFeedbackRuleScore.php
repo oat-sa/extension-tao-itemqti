@@ -33,7 +33,7 @@ class SimpleFeedbackRuleScore extends SimpleFeedbackRule
 
     public function toQTI(): string
     {
-        return $this->xml;
+        return $this->xml ?? '';
     }
 
     public function setXml(string $xml): void
