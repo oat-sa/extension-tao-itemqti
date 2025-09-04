@@ -82,6 +82,8 @@ define([
             obj.attributes.type
             && _config.mediaPlayerMimeType.includes(obj.attributes.type)
             && obj.attributes.data.includes('taomedia://mediamanager/')
+            && obj.metaData.widget.options.mediaManager.transcriptionMetadata
+            && obj.metaData.widget.options.mediaManager.resourceMetadataUrl
         ) {
             const metadataUri = encodeURIComponent(obj.metaData.widget.options.mediaManager.transcriptionMetadata);
             const resourceUri = obj.attributes.data.replace('taomedia://mediamanager/', '');
