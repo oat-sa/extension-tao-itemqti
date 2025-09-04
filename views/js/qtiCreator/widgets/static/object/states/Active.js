@@ -82,6 +82,8 @@ define([
             obj.attributes.type
             && _config.mediaPlayerMimeType.includes(obj.attributes.type)
             && obj.attributes.data.includes('taomedia://mediamanager/')
+            && obj.metaData.widget.options.mediaManager.transcriptionMetadata
+            && obj.metaData.widget.options.mediaManager.resourceMetadataUrl
         ) {
             const metadataUri = encodeURIComponent(obj.metaData.widget.options.mediaManager.transcriptionMetadata);
             const resourceUri = obj.attributes.data.replace('taomedia://mediamanager/', '');
@@ -281,6 +283,16 @@ define([
 
         $container.off('playerready').on('playerready', function () {
             setMediaSizeEditor(_widget);
+            if (isCompactAppearanceAvailable) {
+                if (/audio/.test(qtiObject.attr('type'))) {
+                    $form.find('.compact-appearance').show();
+                } else {
+                    qtiObject.attr('compact-appearance', false);
+                    $form.find('.compact-appearance').hide();
+                    $form.find('.compact-appearance input[name="compactAppearance"]').prop("checked", false);
+                    $container.parent().removeClass('compact-appearance');
+                }
+            }
         });
 
         const clearMediaSize = () => {
