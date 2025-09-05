@@ -1,0 +1,437 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<xs:schema xmlns="http://www.imsglobal.org/xsd/qti/qtiv3p0/imscp_v1p1"
+     targetNamespace="http://www.imsglobal.org/xsd/qti/qtiv3p0/imscp_v1p1"
+     xmlns:lom="http://ltsc.ieee.org/xsd/LOM"
+     xmlns:csmd="http://www.imsglobal.org/xsd/qti/qtiv3p0/imscsmd_v1p1"
+     xmlns:qmd="http://www.imsglobal.org/xsd/imsqti_metadata_v3p0"
+     xmlns:cpx="http://www.imsglobal.org/xsd/qti/qtiv3p0/imscp_extensionv1p2"
+     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+     version="IMS CP 1.2 QTI 3.0.1"
+     elementFormDefault="qualified"
+     attributeFormDefault="unqualified">
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="https://purl.imsglobal.org/spec/w3/2001/schema/xsd/xml.xsd" />
+    <xs:import namespace="http://ltsc.ieee.org/xsd/LOM" schemaLocation="https://purl.imsglobal.org/spec/md/v1p3/schema/xsd/imsmd_loose_v1p3p2.xsd" />
+    <xs:import namespace="http://www.imsglobal.org/xsd/qti/qtiv3p0/imscsmd_v1p1" schemaLocation="https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqtiv3p0p1_csmv1p1_v1p0.xsd" />
+    <xs:import namespace="http://www.imsglobal.org/xsd/imsqti_metadata_v3p0" schemaLocation="https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_metadatav3p0_v1p0.xsd" />
+    <xs:import namespace="http://www.imsglobal.org/xsd/qti/qtiv3p0/imscp_extensionv1p2" schemaLocation="https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqtiv3p0p1_cpextv1p2_v1p0.xsd" />
+
+    <xs:annotation>
+        <xs:documentation>
+            XSD Data File Information
+            =========================
+            Author:         Colin Smythe (1EdTech, UK)
+            Date:           1st November, 2024
+            Version:        3.0.1
+            Status:         Candidate Final
+            Description:    This is the QTIv3.0 profile of the IMS CPv1.2 specification. This is a normative 
+                            representation of the IMS CP 1.2 Information Model for binding purposes.  Read 
+                            the corresponding IMS CP Information Model for the Platform Independent Model 
+                            representation.
+
+            History:        This is version 1 of the IMS CP v1.2 QTI v3.0.1 XSD.
+
+            PROFILE:        This is the "QTIv3p0". THIS IS A PROFILE OF THE BASE SPECIFICATION.
+                            The changes to the base specification are:
+                            * The schema namespace has been changed to "http://www.imsglobal.org/xsd/qti/qtiv3p0/imscp_v1p1".
+                            * The schema version has been changed to "IMS CP 1.2 QTI 3.0.1".
+                            * The "Item" class/complexType and set of XML attributes have been deleted;
+                            * The "ItemMetadata" class/complexType and set of XML attributes have been deleted;
+                            * The "Organization" class/complexType and set of XML attributes have been deleted;
+                            * The "OrganizationMetadata" class/complexType and set of XML attributes have been deleted;
+                            * The "Organizations.Attr" class/complexType and set of XML attributes have been deleted;
+                            * The "Dependency" class/complexType has been modified by:-
+                              - The "extension" attribute has been prohibited;
+                            * The "Dependency.Attr" class/complexType has been modified by:-
+                              - The "extension" attribute has been prohibited;
+                              - The "identifierref" attribute class type has been changed to the class "IDREF";
+                            * The "File" class/complexType has been modified by:-
+                              - The "extension" attribute has been prohibited;
+                            * The "File.Attr" class/complexType has been modified by:-
+                              - The "extension" attribute has been prohibited;
+                            * The "FileMetadata" class/complexType has been modified by:-
+                              - The "schema" attribute has been prohibited;
+                              - The "schemaversion" attribute has been prohibited;
+                            * The "Manifest" class/complexType has been modified by:-
+                              - The "manifest" attribute has been prohibited;
+                              - The "extension" attribute has been prohibited;
+                              - The "metadata" attribute has been made required i.e. multiplicity [1..1];
+                            * The "Manifest.Attr" class/complexType has been modified by:-
+                              - The "extension" attribute has been prohibited;
+                              - The "version" attribute has been prohibited;
+                            * The "ManifestMetadata" class/complexType has been modified by:-
+                              - The "extension" attribute has been prohibited;
+                              - The "schema" attribute has been made required i.e. multiplicity [1..1];
+                              - The "schemaversion" attribute has been made required i.e. multiplicity [1..1];
+                              - The "schema" attribute class type has been changed to the class "Schema";
+                              - The "schemaversion" attribute class type has been changed to the class "SchemaVersion";
+                              - The "curriculumStandardsMetadataSet" attribute has been added using Import;
+                              - The "lom" attribute has been added using Import;
+                            * The "Organizations" class/complexType has been modified by:-
+                              - The "extension" attribute has been prohibited;
+                            * The "Resource" class/complexType has been modified by:-
+                              - The "extension" attribute has been prohibited;
+                              - The "file" attribute has been made required i.e. multiplicity [1..*];
+                              - The "variant" attribute has been added using Import;
+                            * The "Resource.Attr" class/complexType has been modified by:-
+                              - The "extension" attribute has been prohibited;
+                              - The "type" attribute class type has been changed to the class "ResourceType";
+                            * The "ResourceMetadata" class/complexType has been modified by:-
+                              - The "schema" attribute has been prohibited;
+                              - The "schemaversion" attribute has been prohibited;
+                              - The "extension" attribute has been prohibited;
+                              - The "qtiMetadata" attribute has been added using Import;
+                              - The "curriculumStandardsMetadataSet" attribute has been added using Import;
+                              - The "lom" attribute has been added using Import;
+                            * The "Resources" class/complexType has been modified by:-
+                              - The "extension" attribute has been prohibited;
+                            * The "Resources.Attr" class/complexType has been modified by:-
+                              - The "extension" attribute has been prohibited;
+            
+            License:        IPR and Distribution Notices
+            
+                            This machine readable file is derived from the 1EdTech Question and Test Interoperability Version 3.0.1
+                            found at https://www.1edtech.org/qti and the original 1EdTech schema binding or code base at
+                            https://www.1edtech.org/qti.
+            
+                            Recipients of this document are requested to submit, with their comments, notification of any relevant 
+                            patent claims or other intellectual property rights of which they may be aware that might be infringed by
+                            any implementation of the specification set forth in this document, and to provide supporting documentation.
+            
+                            1EdTech takes no position regarding the validity or scope of any intellectual property or other rights that might
+                            be claimed to pertain to the implementation or use of the technology described in this document or the extent 
+                            to which any license under such rights might or might not be available; neither does it represent that it has 
+                            made any effort to identify any such rights. Information on 1EdTech procedures with respect to rights in 1EdTech 
+                            specifications can be found at the 1EdTech Intellectual Property Rights web page: https://www.1edtech.org/ipr/imsipr_policyFinal.pdf.
+            
+                            Copyright (c) 1EdTech Consortium 1999-2024. All Rights Reserved.
+            
+                            Use of this specification to develop products or services is governed by the license with 1EdTech found on the 1EdTech website: http://www.1edtech.org/license.html.
+            
+                            Permission is granted to all parties to use excerpts from this document as needed in producing requests for proposals.
+            
+                            The limited permissions granted above are perpetual and will not be revoked by 1EdTech or its successors or assigns.
+            
+                            THIS SPECIFICATION IS BEING OFFERED WITHOUT ANY WARRANTY WHATSOEVER, AND IN PARTICULAR, ANY WARRANTY OF NONINFRINGEMENT IS
+                            EXPRESSLY DISCLAIMED. ANY USE OF THIS SPECIFICATION SHALL BE MADE ENTIRELY AT THE IMPLEMENTERS OWN RISK, AND NEITHER THE CONSORTIUM
+                            NOR ANY OF ITS MEMBERS OR SUBMITTERS, SHALL HAVE ANY LIABILITY WHATSOEVER TO ANY IMPLEMENTER OR THIRD PARTY FOR ANY DAMAGES OF
+                            ANY NATURE WHATSOEVER, DIRECTLY OR INDIRECTLY, ARISING FROM THE USE OF THIS SPECIFICATION.
+            
+            Source UML File Information
+            ===========================
+            The source file information must be supplied as an XMI file (without diagram layout information).
+            The supported UML authoring tools are:
+            (a) Papyrus - v1.1.3 (and later)
+            
+            Source XSLT File Information
+            ============================
+            XSL Generator:    Specificationv1p0_GenerationToolv1.xsl
+            XSLT Processor:   Saxon
+            Release:          1.0
+            Date:             31st October, 2022
+            Autogen Engineer: Colin Smythe (1EdTech)
+            Autogen Date:     2024-07-08
+            
+            1EdTech Auto-generation Binding Tool-kit (E-BAT)
+            ================================================
+            This file was auto-generated using the 1EdTech Binding Auto-generation Tool-kit (E-BAT). While every
+            attempt has been made to ensure that this tool auto-generates the files correctly, users should be aware
+            that this is an experimental tool. Permission is given to make use of this tool. 1EdTech makes no
+            claim on the materials created by third party users of this tool. Details on how to use this tool
+            are contained in the 1EdTech "E-BAT" documentation available at the 1EdTech web-site:
+            https://www.1edtech.org.
+            
+            Tool Copyright:  2012-2024  (c) 1EdTech Consortium Inc. All Rights Reserved.
+        </xs:documentation>
+    </xs:annotation>
+
+    <!-- Generate Global Attributes (non-assigned) ******************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate Global Attributes *********************************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate Global List Types *********************************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate Namespaced extension Group  ************************************************************* -->
+
+    <xs:group name="grpStrict.any">
+        <xs:annotation>
+            <xs:documentation>
+                Any namespaced element from any namespace, other than the target namespace, may be included within an "any" element.
+                The namespace for the imported element must be defined in the instance, and the schema must be imported.
+                The extension has a definition of "strict" i.e. they must have their own namespace.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:any namespace = "##other" processContents = "strict" minOccurs = "0" maxOccurs = "unbounded" />
+        </xs:sequence>
+    </xs:group>
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate Special DataTypes  ********************************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the enumerated simpleType declarations ************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the simpleType elements based on IMS data-types (Parameter) ***************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the simpleType elements based on IMS data-types (Derived) ******************************* -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the simpleType elements based on IMS data-types (Union) ********************************* -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the simpleType elements based on IMS data-types (Complex) ******************************* -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the derived data-type elements based upon simpleType ************************************ -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the derived data-type elements based upon derived simpleType **************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the ComplexTypes ************************************************************************ -->
+
+    <xs:complexType name="DependencyDType" abstract="false" mixed="false">
+        <xs:annotation>
+            <xs:documentation source="documentation">
+                [QTIv3p0] Profile - the changes to the XML element list are:
+                * The "extension" element has been prohibited;
+                [QTIv3p0] Profile - the changes to the XML attribute list are:
+                * The "extension" attribute has been prohibited;
+                * The "identifierref" attribute class type has been changed to the class "IDREF";
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+        </xs:sequence>
+        <xs:attribute name="identifierref" use="required" type="xs:IDREF" />
+        <!-- xs:attribute Use of the attribute 'extension' has been prohibited in this profile. -->
+    </xs:complexType>
+
+    <xs:complexType name="FileDType" abstract="false" mixed="false">
+        <xs:annotation>
+            <xs:documentation source="documentation">
+                [QTIv3p0] Profile - the changes to the XML element list are:
+                * The "extension" element has been prohibited;
+                [QTIv3p0] Profile - the changes to the XML attribute list are:
+                * The "extension" attribute has been prohibited;
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="metadata" type="FileMetadataDType" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+        <xs:attribute name="href" use="required" type="xs:anyURI" />
+        <!-- xs:attribute Use of the attribute 'extension' has been prohibited in this profile. -->
+    </xs:complexType>
+
+    <xs:complexType name="FileMetadataDType" abstract="false" mixed="false">
+        <xs:annotation>
+            <xs:documentation source="documentation">
+                [QTIv3p0] Profile - the changes to the XML element list are:
+                * The "schema" element has been prohibited;
+                * The "schemaversion" element has been prohibited;
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="grpStrict.any" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ManifestDType" abstract="false" mixed="false">
+        <xs:annotation>
+            <xs:documentation source="documentation">
+                [QTIv3p0] Profile - the changes to the XML element list are:
+                * The "manifest" element has been prohibited;
+                * The "extension" element has been prohibited;
+                * The "metadata" element has been made required i.e. multiplicity [1..1];
+                [QTIv3p0] Profile - the changes to the XML attribute list are:
+                * The "extension" attribute has been prohibited;
+                * The "version" attribute has been prohibited;
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="metadata" type="ManifestMetadataDType" minOccurs="1" maxOccurs="1" />
+            <xs:element name="organizations" type="OrganizationsDType" minOccurs="1" maxOccurs="1" />
+            <xs:element name="resources" type="ResourcesDType" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+        <xs:attribute name="identifier" use="required" type="xs:ID" />
+        <!-- xs:attribute Use of the attribute 'version' has been prohibited in this profile. -->
+        <xs:attribute ref="xml:base" use="optional" />
+        <!-- xs:attribute Use of the attribute 'extension' has been prohibited in this profile. -->
+    </xs:complexType>
+
+    <xs:complexType name="ManifestMetadataDType" abstract="false" mixed="false">
+        <xs:annotation>
+            <xs:documentation source="documentation">
+                [QTIv3p0] Profile - the changes to the XML element list are:
+                * The "extension" element has been prohibited;
+                * The "schema" element has been made required i.e. multiplicity [1..1];
+                * The "schemaversion" element has been made required i.e. multiplicity [1..1];
+                * The "schema" element class type has been changed to the class "Schema";
+                * The "schemaversion" element class type has been changed to the class "SchemaVersion";
+                * The "curriculumStandardsMetadataSet" element has been added using Import;
+                * The "lom" element has been added using Import;
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="schema" minOccurs="1" maxOccurs="1">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="QTI Package" />
+                        <xs:enumeration value="QTI Test Bank" />
+                        <xs:enumeration value="QTI Item Bank" />
+                        <xs:enumeration value="QTI Object Bank" />
+                        <xs:enumeration value="QTI Test" />
+                        <xs:enumeration value="QTI Section" />
+                        <xs:enumeration value="QTI Item" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="schemaversion" minOccurs="1" maxOccurs="1">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="3.0.1" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element ref="csmd:curriculumStandardsMetadataSet" minOccurs = "0" maxOccurs = "1" />
+            <xs:element ref="lom:lom" minOccurs = "0" maxOccurs = "1" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="OrganizationsDType" abstract="false" mixed="false">
+        <xs:annotation>
+            <xs:documentation source="documentation">
+                [QTIv3p0] Profile - the changes to the XML element list are:
+                * The "extension" element has been prohibited;
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ResourceDType" abstract="false" mixed="false">
+        <xs:annotation>
+            <xs:documentation source="documentation">
+                [QTIv3p0] Profile - the changes to the XML element list are:
+                * The "extension" element has been prohibited;
+                * The "file" element has been made required i.e. multiplicity [1..1];
+                * The "variant" element has been added using Import;
+                [QTIv3p0] Profile - the changes to the XML attribute list are:
+                * The "extension" attribute has been prohibited;
+                * The "type" attribute class type has been changed to the class "ResourceType";
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="metadata" type="ResourceMetadataDType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="file" type="FileDType" minOccurs="1" maxOccurs="unbounded" />
+            <xs:element name="dependency" type="DependencyDType" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element ref="cpx:variant" minOccurs = "0" maxOccurs = "0" />
+        </xs:sequence>
+        <xs:attribute name="identifier" use="required" type="xs:ID" />
+        <xs:attribute name="type" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="imsqti_test_xmlv3p0" />
+                    <xs:enumeration value="imsqti_section_xmlv3p0" />
+                    <xs:enumeration value="imsqti_item_xmlv3p0" />
+                    <xs:enumeration value="imsqti_resprocessing_xmlv3p0" />
+                    <xs:enumeration value="imsqti_outcomes_xmlv3p0" />
+                    <xs:enumeration value="imsqti_stimulus_xmlv3p0" />
+                    <xs:enumeration value="imsqti_fragment_xmlv3p0" />
+                    <xs:enumeration value="imsqti_rptemplate_xmlv3p0" />
+                    <xs:enumeration value="associatedcontent/learning-application-resource" />
+                    <xs:enumeration value="webcontent" />
+                    <xs:enumeration value="imslti_xmlv1p1" />
+                    <xs:enumeration value="imsltia_xmlv1p0" />
+                    <xs:enumeration value="controlfile" />
+                    <xs:enumeration value="resourcemetadata/xml" />
+                    <xs:enumeration value="resourceextmetadata/xml" />
+                    <xs:enumeration value="qtiusagedata/xml" />
+                    <xs:enumeration value="pls" />
+                    <xs:enumeration value="css2" />
+                    <xs:enumeration value="css3" />
+                    <xs:enumeration value="extension" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute ref="xml:base" use="optional" />
+        <xs:attribute name="href" use="optional" type="xs:anyURI" />
+        <!-- xs:attribute Use of the attribute 'extension' has been prohibited in this profile. -->
+    </xs:complexType>
+
+    <xs:complexType name="ResourceMetadataDType" abstract="false" mixed="false">
+        <xs:annotation>
+            <xs:documentation source="documentation">
+                [QTIv3p0] Profile - the changes to the XML element list are:
+                * The "schema" element has been prohibited;
+                * The "schemaversion" element has been prohibited;
+                * The "extension" element has been prohibited;
+                * The "qtiMetadata" element has been added using Import;
+                * The "curriculumStandardsMetadataSet" element has been added using Import;
+                * The "lom" element has been added using Import;
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element ref="qmd:qtiMetadata" minOccurs = "0" maxOccurs = "1" />
+            <xs:element ref="csmd:curriculumStandardsMetadataSet" minOccurs = "0" maxOccurs = "1" />
+            <xs:element ref="lom:lom" minOccurs = "0" maxOccurs = "1" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ResourcesDType" abstract="false" mixed="false">
+        <xs:annotation>
+            <xs:documentation source="documentation">
+                [QTIv3p0] Profile - the changes to the XML element list are:
+                * The "extension" element has been prohibited;
+                [QTIv3p0] Profile - the changes to the XML attribute list are:
+                * The "extension" attribute has been prohibited;
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="resource" type="ResourceDType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute ref="xml:base" use="optional" />
+        <!-- xs:attribute Use of the attribute 'extension' has been prohibited in this profile. -->
+    </xs:complexType>
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the SOAP Binding ComplexTypes *********************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Generate the derived ComplexTypes **************************************************************** -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Declaration of the elements (Complex) ************************************************************ -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Declaration of the elements (Derived) ************************************************************ -->
+
+    <!-- ================================================================================================== -->
+
+    <!-- Declaration of the root element(s) *************************************************************** -->
+
+    <xs:element name="manifest" type="ManifestDType" />
+
+    <!-- ================================================================================================== -->
+
+</xs:schema>
