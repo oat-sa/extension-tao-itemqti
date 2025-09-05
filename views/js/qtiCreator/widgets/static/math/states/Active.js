@@ -51,7 +51,7 @@ define([
     mathJax,
     tooltip,
     context,
-    MathMLToLaTeX
+    mathMLToLaTeX
 ){
     'use strict';
 
@@ -87,7 +87,7 @@ define([
             editMode = 'latex',
             $popupsContainer,
             areaBroker = this.widget.getAreaBroker(),
-            wirisMathEnabled = context.featureFlags.FEATURE_FLAG_WIRIS_MATH_PATH;
+            wirisMathEnabled = context.featureFlags && context.featureFlags.FEATURE_FLAG_WIRIS_MATH_PATH;
 
         if(!tex.trim() && mathML.trim()){
             editMode = 'mathml';
@@ -104,8 +104,8 @@ define([
         if(mathJax){
 
             if(wirisMathEnabled){
-                const convert2latex = MathMLToLaTeX.MathMLToLaTeX;
-                const $imageBuffer = $form.find(`.wiris-math-buffer`);
+                const convert2latex = mathMLToLaTeX.MathMLToLaTeX;
+                const $imageBuffer = $form.find('.wiris-math-buffer');
                 const genericIntegrationProperties = {
                     target: $imageBuffer[0],
                     toolbar: $form.find('.wiris-toolbar')[0],
@@ -113,14 +113,14 @@ define([
                         editorParameters: {
                             defaultStretchy: true,
                             editorType: 'math',
-                            outputFormat: "latex",
+                            outputFormat: 'latex',
                         }
                     }
                 };
 
                 const genericIntegrationInstance = new WirisPlugin.GenericIntegration(genericIntegrationProperties);
                 genericIntegrationInstance.init();
-                genericIntegrationInstance.listeners.fire("onTargetReady", {});
+                genericIntegrationInstance.listeners.fire('onTargetReady', {});
 
                 WirisPlugin.currentInstance = genericIntegrationInstance;
 
