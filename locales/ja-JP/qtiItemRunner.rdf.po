@@ -30,4 +30,4 @@ msgstr "デリバリに実行アイテムを埋め込みます。このサービ
 # http://www.tao.lu/Ontologies/TAOItem.rdf#ServiceQtiItemRunner
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "QTI Item Runner"
-msgstr ""
+msgstr "QTI アイテムRunner"
