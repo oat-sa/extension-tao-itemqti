@@ -24,6 +24,8 @@
 
 namespace oat\taoQtiItem\model\Export;
 
+use DOMDocument;
+
 class QTIPackedItem22Exporter extends QTIPackedItemExporter
 {
     protected function renderManifest(array $options, array $qtiItemData)
@@ -43,13 +45,18 @@ class QTIPackedItem22Exporter extends QTIPackedItemExporter
         return $newManifest;
     }
 
-    protected function itemContentPostProcessing($content)
+    protected function itemContentPostProcessing($content): string
     {
-        return $content;
+        return $this->getQti22PostProcessor()->itemContentPostProcessing($content);
     }
 
     protected function getQTIVersion(): string
     {
         return '2p2';
+    }
+
+    private function getQti22PostProcessor(): Qti22PostProcessorService
+    {
+        return $this->getServiceManager()->getContainer()->get(Qti22PostProcessorService::class);
     }
 }

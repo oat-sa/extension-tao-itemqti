@@ -1897,6 +1897,9 @@ msgstr "Pri sťahovaní vášho CSS sa vyskytol problém, skúste to znova."
 msgid "This identifier is already used by another variable."
 msgstr "Tento identifikátor už používa iná premenná."
 
+msgid "This identifier is already used by another variable."
+msgstr ""
+
 msgid "This identifier must not be used by any other response or item variable."
 msgstr "Tento identifikátor nesmie byť použitý žiadnou inou premennou odpovede alebo položky."
 

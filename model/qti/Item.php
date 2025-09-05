@@ -739,4 +739,29 @@ class Item extends IdentifiedElement implements FlowContainer, IdentifiedElement
 
         return $returnValue;
     }
+
+    public function validateOutcomes()
+    {
+        // Validate during publishing and exporting
+        $isExternalScore = false;
+        $isExternalSomeOutcome = false;
+        foreach ($this->getOutcomes() as $outcome) {
+            $externalScored = $outcome->getAttributeValue('externalScored');
+            if ($outcome->getIdentifier() === 'SCORE' && $externalScored && $externalScored !== 'none') {
+                $isExternalScore = true;
+            }
+            if ($outcome->getIdentifier() !== 'SCORE' && $externalScored && $externalScored !== 'none') {
+                $isExternalSomeOutcome = true;
+            }
+        }
+
+        if ($isExternalScore && $isExternalSomeOutcome) {
+            throw new \Exception('ExternalScored attribute is not allowed for multiple outcomes in item');
+        }
+    }
+
+    public function isEmpty(): bool
+    {
+        return empty($this->getBody()) || strpos((string)$this->getBody(), '<div class="empty"') !== false;
+    }
 }

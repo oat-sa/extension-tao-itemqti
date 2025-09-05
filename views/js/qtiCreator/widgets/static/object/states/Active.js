@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2025 (original work) Open Assessment Technologies SA ;
  *
  */
 define([
@@ -24,12 +24,13 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/object',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/helpers/featureFlags',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'ui/mediaEditor/mediaEditorComponent',
     'ui/previewer',
     'ui/resourcemgr',
     'ui/tooltip'
-], function (_, $, __, stateFactory, Active, formTpl, formElement, inlineHelper, mediaEditorComponent) {
+], function (_, $, __, stateFactory, Active, formTpl, formElement, featureFlags, inlineHelper, mediaEditorComponent) {
     'use strict';
     /**
      * media Editor instance if has been initialized
@@ -41,6 +42,8 @@ define([
 
     const _config = {
         renderingThrottle: 1000,
+        mediaPlayerMimeType:
+            'video/mp4,video/avi,video/ogv,video/mpeg,video/ogg,video/quicktime,video/webm,video/x-ms-wmv,video/x-flv,audio/mp3,audio/vnd.wav,audio/ogg,audio/vorbis,audio/webm,audio/mpeg,application/ogg,audio/aac,audio/wav,audio/flac',
         fileFilters:
             'image/jpeg,image/png,image/gif,image/svg+xml,video/mp4,video/avi,video/ogv,video/mpeg,video/ogg,video/quicktime,video/webm,video/x-ms-wmv,video/x-flv,audio/mp3,audio/vnd.wav,audio/ogg,audio/vorbis,audio/webm,audio/mpeg,application/ogg,audio/aac,application/pdf'
     };
@@ -74,6 +77,19 @@ define([
         }
         if (obj.attr('width')) {
             previewOptions.width = obj.attr('width');
+        }
+        if (
+            obj.attributes.type
+            && _config.mediaPlayerMimeType.includes(obj.attributes.type)
+            && obj.attributes.data.includes('taomedia://mediamanager/')
+            && obj.metaData.widget.options.mediaManager.transcriptionMetadata
+            && obj.metaData.widget.options.mediaManager.resourceMetadataUrl
+        ) {
+            const metadataUri = encodeURIComponent(obj.metaData.widget.options.mediaManager.transcriptionMetadata);
+            const resourceUri = obj.attributes.data.replace('taomedia://mediamanager/', '');
+            const resourceMetadataUrl = obj.metaData.widget.options.mediaManager.resourceMetadataUrl;
+
+            previewOptions.transcriptionUrl = `${resourceMetadataUrl}?metadataUri=${metadataUri}&resourceUri=${resourceUri}`;
         }
         if (previewOptions.url && previewOptions.mime) {
             $container.previewer(previewOptions);
@@ -155,7 +171,7 @@ define([
             createMediaEditor($panelMediaSize, $container, qtiObject, width, height, onChange);
         }
     };
-    const hideShowPanels = type => {
+    const hideShowPanels = (type, compactAppearance) => {
         if (/video/.test(type)) {
             $panelObjectSize.hide();
             $panelMediaSize.show();
@@ -163,8 +179,14 @@ define([
             if (mediaEditor) {
                 mediaEditor.destroy();
             }
-            $panelObjectSize.show();
-            $panelMediaSize.hide();
+
+            if (compactAppearance) {
+                $panelObjectSize.hide();
+                $panelMediaSize.hide();
+            } else {
+                $panelObjectSize.show();
+                $panelMediaSize.hide();
+            }
         }
     };
     const _initUpload = function (widget) {
@@ -185,6 +207,8 @@ define([
                 deleteUrl: options.mediaManager.deleteUrl,
                 downloadUrl: options.mediaManager.downloadUrl,
                 fileExistsUrl: options.mediaManager.fileExistsUrl,
+                transcriptionMetadata: options.mediaManager.transcriptionMetadata,
+                resourceMetadataUrl: options.mediaManager.resourceMetadataUrl,
                 params: {
                     uri: options.uri,
                     lang: options.lang,
@@ -226,6 +250,9 @@ define([
         const qtiObject = _widget.element;
         const baseUrl = _widget.options.baseUrl;
         const $container = _widget.$original;
+        const compactAppearance = !!qtiObject.hasClass('compact-appearance');
+        const isAudio = /audio/.test(qtiObject.attr('type'));
+        const isCompactAppearanceAvailable = featureFlags.isCompactAppearanceAvailable();
 
         $form.html(
             formTpl({
@@ -233,13 +260,20 @@ define([
                 src: qtiObject.attr('data'),
                 alt: qtiObject.attr('alt'),
                 height: qtiObject.attr('height'),
-                width: qtiObject.attr('width')
+                width: qtiObject.attr('width'),
+                isAudio,
+                isCompactAppearanceAvailable,
+                compactAppearance: !!qtiObject.hasClass('compact-appearance')
             })
         );
 
+        if (isAudio && compactAppearance && isCompactAppearanceAvailable){
+            $container.parent().addClass('compact-appearance');
+        }
+
         $panelObjectSize = $('.size-panel', $form);
         $panelMediaSize = $('.media-size-panel', $form);
-        hideShowPanels(qtiObject.attr('type'));
+        hideShowPanels(qtiObject.attr('type'), compactAppearance);
 
         //init resource manager
         _initUpload(_widget);
@@ -249,17 +283,31 @@ define([
 
         $container.off('playerready').on('playerready', function () {
             setMediaSizeEditor(_widget);
+            if (isCompactAppearanceAvailable) {
+                if (/audio/.test(qtiObject.attr('type'))) {
+                    $form.find('.compact-appearance').show();
+                } else {
+                    qtiObject.attr('compact-appearance', false);
+                    $form.find('.compact-appearance').hide();
+                    $form.find('.compact-appearance input[name="compactAppearance"]').prop("checked", false);
+                    $container.parent().removeClass('compact-appearance');
+                }
+            }
         });
+
+        const clearMediaSize = () => {
+            qtiObject.removeAttr('width');
+            qtiObject.removeAttr('height');
+            $form.find('input[name=width]').val('');
+            $form.find('input[name=height]').val('');
+        }
 
         //init data change callbacks
         formElement.setChangeCallbacks($form, qtiObject, {
             src: function (object, value) {
                 if (value !== qtiObject.attr('data')) {
                     qtiObject.attr('data', value);
-                    qtiObject.removeAttr('width');
-                    qtiObject.removeAttr('height');
-                    $form.find('input[name=width]').val('');
-                    $form.find('input[name=height]').val('');
+                    clearMediaSize();
                     $container.removeData('ui.previewer');
                     hideShowPanels(qtiObject.attr('type'));
                     inlineHelper.togglePlaceholder(_widget);
@@ -289,6 +337,20 @@ define([
             },
             align: function (object, value) {
                 inlineHelper.positionFloat(_widget, value);
+            },
+            compactAppearance: function (object, value) {
+                if(value && isCompactAppearanceAvailable) {
+                    if(!$container.hasClass('compact-appearance')) {
+                        qtiObject.addClass('compact-appearance');
+                        $container.parent().addClass('compact-appearance');
+                        clearMediaSize();
+                    }
+                    $panelObjectSize.hide();
+                } else {
+                    qtiObject.removeClass('compact-appearance');
+                    $container.parent().removeClass('compact-appearance');
+                    $panelObjectSize.show();
+                }
             }
         });
     };

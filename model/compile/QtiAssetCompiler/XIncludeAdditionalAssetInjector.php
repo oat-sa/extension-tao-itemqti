@@ -25,7 +25,6 @@ namespace oat\taoQtiItem\model\compile\QtiAssetCompiler;
 use common_Exception;
 use oat\generis\Helper\UuidPrimaryKeyTrait;
 use oat\oatbox\service\ConfigurableService;
-use League\Flysystem\FileExistsException;
 use oat\oatbox\filesystem\Directory;
 use oat\taoQtiItem\model\Export\Stylesheet\AssetStylesheetLoader;
 use oat\taoQtiItem\model\pack\QtiAssetPacker\PackedAsset;
@@ -63,7 +62,7 @@ class XIncludeAdditionalAssetInjector extends ConfigurableService
         if ($stylesheetFiles = $passageStylesheetLoader->loadAssetsFromAssetResource($passageResourceIdentifier)) {
             try {
                 $this->includeSharedStimulusStylesheets($qtiItem, $publicDirectory, $stylesheetFiles, $xInclude);
-            } catch (QtiModelException | FileExistsException $e) {
+            } catch (QtiModelException $e) {
                 $this->logWarning(
                     sprintf(
                         'Compilation: Injecting stylesheet for Passage %s failed with message %s',
@@ -77,7 +76,6 @@ class XIncludeAdditionalAssetInjector extends ConfigurableService
 
     /**
      * @throws QtiModelException
-     * @throws FileExistsException
      * @throws common_Exception
      */
     private function includeSharedStimulusStylesheets(
@@ -98,7 +96,7 @@ class XIncludeAdditionalAssetInjector extends ConfigurableService
         foreach ($stylesheetFiles as $stylesheetFile) {
             $targetPath = implode(DIRECTORY_SEPARATOR, [
                 $stylesheetTargetPubDirectory,
-                $stylesheetFile['basename']
+                basename($stylesheetFile['path'])
             ]);
 
             $publicDirectory->getFile($targetPath)->write($stylesheetFile['stream']);
@@ -106,7 +104,7 @@ class XIncludeAdditionalAssetInjector extends ConfigurableService
             $qtiStylesheet = new Stylesheet(
                 [
                     'href' => $targetPath,
-                    'title' => $stylesheetFile['basename'],
+                    'title' => basename($stylesheetFile['path']),
                     'type' => 'text/css'
                 ]
             );

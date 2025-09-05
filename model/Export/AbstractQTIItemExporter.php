@@ -19,11 +19,13 @@
  *                         (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor
  *                         (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-2022 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *               2013-2025 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 namespace oat\taoQtiItem\model\Export;
 
+use DOMAttr;
+use oat\oatbox\filesystem\FilesystemException;
 use oat\oatbox\reporting\Report;
 use oat\tao\helpers\Base64;
 use oat\tao\model\media\MediaBrowser;
@@ -31,7 +33,6 @@ use oat\taoQtiItem\model\Export\Exception\AssetStylesheetZipTransferException;
 use oat\taoQtiItem\model\Export\Stylesheet\AssetStylesheetLoader;
 use core_kernel_classes_Property;
 use DOMDocument;
-use League\Flysystem\FileNotFoundException;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\media\ProcessedFileStreamAware;
@@ -175,12 +176,17 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                 $replacementList[$assetUrl] = '';
                 $report->setMessage($e->getMessage());
                 $report->setType(Report::TYPE_ERROR);
+            } catch (FilesystemException $exception) {
+                $replacementList[$assetUrl] = '';
+                $report->setMessage($exception->getMessage());
+                $report->setType(Report::TYPE_ERROR);
+                return $report;
             }
         }
 
         try {
             $xml = Service::singleton()->getXmlByRdfItem($this->getItem());
-        } catch (FileNotFoundException $e) {
+        } catch (FilesystemException $e) {
             $report->setMessage($this->getExportErrorMessage(__('cannot find QTI XML')));
             $report->setType(\common_report_Report::TYPE_ERROR);
             return $report;
@@ -371,7 +377,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             foreach ($assetStylesheets as $stylesheetFile) {
                 $this->addFile(
                     $stylesheetFile['stream'],
-                    $this->buildAssetStylesheetPath($basepath, $baseDirectoryName, $stylesheetFile['basename'])
+                    $this->buildAssetStylesheetPath($basepath, $baseDirectoryName, basename($stylesheetFile['path']))
                 );
             }
         }

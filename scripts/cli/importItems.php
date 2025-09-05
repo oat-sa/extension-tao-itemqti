@@ -33,6 +33,7 @@ use oat\tao\model\TaoOntology;
 use oat\taoQtiItem\model\qti\exception\ExtractException;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
 use oat\taoQtiItem\model\qti\ImportService;
+use oat\taoQtiItem\model\tasks\ImportQtiItem;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -55,7 +56,9 @@ class importItems implements Action, ServiceLocatorAwareInterface
     protected $rollbackOnWarning = false;
     protected $recurse = false;
     protected $directoryToClass = false;
+    protected $itemNameToClass = false;
     protected $processed = 0;
+    protected $async = false;
 
     /**
      * @param array $params
@@ -97,8 +100,16 @@ class importItems implements Action, ServiceLocatorAwareInterface
                     $this->directoryToClass = true;
                     break;
 
+                case '-i':
+                    $this->itemNameToClass = true;
+                    break;
+
                 case '-w':
                     $this->rollbackOnWarning = true;
+                    break;
+
+                case '-a':
+                    $this->async = true;
                     break;
 
                 default:
@@ -119,9 +130,11 @@ class importItems implements Action, ServiceLocatorAwareInterface
                 . "\t -p <package>\t The path of a ZIP containing the items to import\n"
                 . "\t -r\t\t Recurse in subdirectories\n"
                 . "\t -n\t\t Create classes from directories names\n"
+                . "\t -i\t\t Create classes from items names\n"
                 . "\t -e\t\t Rollback on error\n"
                 . "\t -w\t\t Rollback on warning\n"
                 . "\t -h\t\t Show this help\n"
+                . "\t -a\t\t Async import\n"
             );
         }
 
@@ -242,7 +255,11 @@ class importItems implements Action, ServiceLocatorAwareInterface
 
                 foreach ($packages as $package) {
                     if ($this->directoryToClass) {
-                        $packageClass = $this->getItemClass($package['name'], $class);
+                        if (is_dir($package['path']) || $this->itemNameToClass) {
+                            $packageClass = $this->getItemClass($package['name'], $class);
+                        } else {
+                            $packageClass = $class;
+                        }
                     } else {
                         $packageClass = $class;
                     }
@@ -285,13 +302,33 @@ class importItems implements Action, ServiceLocatorAwareInterface
 
         try {
             $importService = ImportService::singleton();
-            $report = $importService->importQTIPACKFile(
-                $fileName,
-                $class,
-                true,
-                $this->rollbackOnError,
-                $this->rollbackOnWarning
-            );
+            if (!$this->async) {
+                $report = $importService->importQTIPACKFile(
+                    $fileName,
+                    $class,
+                    true,
+                    $this->rollbackOnError,
+                    $this->rollbackOnWarning,
+                    true,
+                    true,
+                    false,
+                    false,
+                    true
+                );
+            } else {
+                $task = ImportQtiItem::createTask(
+                    $fileName,
+                    $class,
+                    $this->getServiceLocator(),
+                    true,
+                    true,
+                    false,
+                    false,
+                    true
+                );
+
+                $report = new Report(Report::TYPE_INFO, printf('Task %s created', $task->getId()));
+            }
         } catch (ExtractException $e) {
             $report = common_report_Report::createFailure(
                 __('The ZIP archive containing the IMS QTI Item cannot be extracted.')
@@ -309,7 +346,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
         helpers_TimeOutHelper::reset();
 
         $this->showReport($report);
-        $this->processed ++;
+        $this->processed++;
 
         return new Report($report->getType());
     }

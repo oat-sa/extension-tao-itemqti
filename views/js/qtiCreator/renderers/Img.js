@@ -23,8 +23,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/img/Widget',
     'taoQtiItem/qtiCreator/widgets/static/figure/Widget',
     'taoQtiItem/qtiCreator/model/Figure',
-    'taoQtiItem/qtiCreator/helper/findParentElement'
-], function (_, context, Renderer, Widget, FigureWidget, FigureModel, findParentElement) {
+    'taoQtiItem/qtiCreator/helper/findParentElement',
+    'taoQtiItem/qtiCreator/helper/elementSupport',
+], function (_, context, Renderer, Widget, FigureWidget, FigureModel, findParentElement, elementSupportHelper) {
     'use strict';
 
     const CreatorImg = _.clone(Renderer);
@@ -59,9 +60,7 @@ define([
 
         if (
             !DISABLE_FIGURE_WIDGET &&
-            !$container.closest('.qti-choice, .qti-flow-container').length &&
-            !$container.closest('.qti-table caption').length &&
-            !$container.closest('.qti-modalFeedback').length
+            elementSupportHelper.isFigureSupportedInParent($container)
         ) {
             const parent = findParentElement(img.rootElement, img.serial);
             parent.removeElement(img);

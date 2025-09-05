@@ -91,7 +91,9 @@ define([
                         deleteUrl : config.properties.fileDeleteUrl,
                         downloadUrl : config.properties.fileDownloadUrl,
                         fileExistsUrl : config.properties.fileExistsUrl,
-                        mediaSourcesUrl : config.properties.mediaSourcesUrl
+                        mediaSourcesUrl : config.properties.mediaSourcesUrl,
+                        transcriptionMetadata : config.properties.transcriptionMetadata,
+                        resourceMetadataUrl : config.properties.resourceMetadataUrl
                     },
                     interactions : _extractInteractionsConfig(config),
                     qtiCreatorContext : config.qtiCreatorContext

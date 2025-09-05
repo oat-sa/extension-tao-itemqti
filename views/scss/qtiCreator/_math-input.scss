@@ -34,6 +34,18 @@
 
                     .math-input-tool {
                         margin: 1px;
+
+                        position: relative;
+
+                        // Make MathML content non-interactive
+                        math {
+                            pointer-events: none;
+                            user-select: none;
+                            * {
+                                pointer-events: none;
+                                user-select: none;
+                            }
+                        }
                     }
                 }
             }

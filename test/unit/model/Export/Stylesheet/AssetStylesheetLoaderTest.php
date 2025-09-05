@@ -24,10 +24,12 @@ namespace oat\taoQtiItem\test\unit\model\Export\Stylesheet;
 
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\DirectoryListing;
+use League\Flysystem\FileAttributes;
 use oat\generis\model\data\Ontology;
 use oat\generis\test\TestCase;
 use oat\oatbox\filesystem\FileSystem;
+use oat\oatbox\filesystem\FilesystemInterface;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\taoMediaManager\model\fileManagement\FileManagement;
 use oat\taoMediaManager\model\fileManagement\FlySystemManagement;
@@ -97,12 +99,11 @@ class AssetStylesheetLoaderTest extends TestCase
         $fileInfo = [
             'type' => 'file',
             'path' => 'dummy/path/file.css',
-            'timestamp' => 1654502842,
-            'size' => 0,
-            'dirname' => 'dummy/path',
-            'basename' => 'file.css',
-            'extension' => 'css',
-            'filename' => 'file',
+            'last_modified' => 1654502842,
+            'file_size' => 0,
+            'mime_type' => 'css',
+            'visibility' => 'public',
+            'extra_metadata' => [],
         ];
 
         $fileStream = "file stream resource";
@@ -110,7 +111,7 @@ class AssetStylesheetLoaderTest extends TestCase
         $this->fileSystemMock
             ->expects($this->once())
             ->method('listContents')
-            ->willReturn([$fileInfo]);
+            ->willReturn(new DirectoryListing([FileAttributes::fromArray($fileInfo)]));
 
         $this->fileSystemMock
             ->expects($this->once())
@@ -148,7 +149,7 @@ class AssetStylesheetLoaderTest extends TestCase
         $this->fileSystemMock
             ->expects($this->once())
             ->method('listContents')
-            ->willReturn([]);
+            ->willReturn(new DirectoryListing([]));
 
         $result = $this->subject->loadAssetsFromAssetResource('encodedLinkToResource');
         $this->assertEquals([], $result);

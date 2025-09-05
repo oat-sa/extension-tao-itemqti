@@ -41,20 +41,30 @@ final class MetaMetadataExtractorTest extends TestCase
         $extractor = new MetaMetadataExtractor();
         $dom = new DOMDocument();
         $dom->loadXML('<?xml version="1.0" encoding="UTF-8"?>
-            <imsmd:metaMetadata xmlns:imsmd="http://ltsc.ieee.org/xsd/LOM">
-                <def:extension xmlns:def="http://www.imsglobal.org/xsd/imscp_v1p1">
-                    <def:customProperties>
-                        <def:property>
-                            <def:uri>http://example.com</def:uri>
-                            <def:alias>example</def:alias>
-                            <def:label>Example</def:label>
-                            <def:multiple>1</def:multiple>
-                            <def:checksum>123</def:checksum>
-                            <def:widget>Password</def:widget>
-                        </def:property>
-                    </def:customProperties>
-                </def:extension>
-            </imsmd:metaMetadata>');
+            <manifest xmlns="http://www.imsglobal.org/xsd/imscp_v1p1"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                xmlns:imsmd="http://ltsc.ieee.org/xsd/LOM">
+                <metadata>
+                    <schema>QTIv2.2 Package</schema>
+                    <schemaversion>1.0.0</schemaversion>
+                    <imsmd:lom>
+                        <imsmd:metaMetadata xmlns:imsmd="http://ltsc.ieee.org/xsd/LOM">
+                            <def:extension xmlns:def="http://www.imsglobal.org/xsd/imscp_v1p1">
+                                <def:customProperties>
+                                    <def:property>
+                                        <def:uri>http://example.com</def:uri>
+                                        <def:alias>example</def:alias>
+                                        <def:label>Example</def:label>
+                                        <def:multiple>1</def:multiple>
+                                        <def:checksum>123</def:checksum>
+                                        <def:widget>Password</def:widget>
+                                    </def:property>
+                                </def:customProperties>
+                            </def:extension>
+                        </imsmd:metaMetadata>
+                    </imsmd:lom>
+                </metadata>
+            </manifest>');
         $result = $extractor->extract($dom);
         $this->assertEquals([
             [

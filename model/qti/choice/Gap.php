@@ -46,12 +46,9 @@ class Gap extends Choice
 
     protected function getUsedAttributes()
     {
-        return array_merge(
-            parent::getUsedAttributes(),
-            [
+        return  [
             'oat\\taoQtiItem\\model\\qti\\attribute\\Required'
-                ]
-        );
+        ];
     }
 
     public function setContent($content)

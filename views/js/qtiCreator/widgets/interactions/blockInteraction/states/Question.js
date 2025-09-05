@@ -21,8 +21,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/states/Question',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
+    'context',
     'i18n'
-], function($, stateFactory, Question, htmlEditor, contentHelper, __){
+], function($, stateFactory, Question, htmlEditor, contentHelper, context, __){
     'use strict';
 
     var BlockInteractionStateQuestion = stateFactory.extend(Question, function(){
@@ -46,13 +47,15 @@ define([
         $editable.attr('data-html-editable', true);
 
         if(!htmlEditor.hasEditor($editableContainer)){
+            var ENABLE_INTERACTION_SOURCE = context.featureFlags && context.featureFlags.FEATURE_FLAG_CKEDITOR_INTERACTION_SOURCE;
             htmlEditor.buildEditor($editableContainer, {
                 placeholder : __('define prompt'),
                 change : contentHelper.getChangeCallback(container),
                 data : {
                     container : container,
                     widget : _widget
-                }
+                },
+                interactionsource: ENABLE_INTERACTION_SOURCE
             });
         }
     };

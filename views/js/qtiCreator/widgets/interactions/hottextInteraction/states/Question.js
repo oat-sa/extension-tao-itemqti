@@ -98,7 +98,8 @@ define([
                     container: container,
                     widget: _widget
                 },
-                qtiInclude: false
+                qtiInclude: false,
+                flushDeletingWidgetsOnDestroy: true
             });
         }
     };
@@ -139,7 +140,7 @@ define([
             } else {
                 if (
                     $cloneContent.text() === $cloneContent.html() &&
-                    wrapper.wrapWith($newHottextClone)
+                    wrapper.wrapWith($newHottextClone, range)
                 ) {
                     await this.createNewHottext($newHottextClone);
                 } else {

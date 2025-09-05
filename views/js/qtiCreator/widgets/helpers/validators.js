@@ -73,7 +73,7 @@ define([
         //warning: simplistic implementation, allow only one unique identifier in the item no matter the element class/type
         {
             name: 'availableIdentifier',
-            message: __('This identifier must not be used by any other response or item variable.'),
+            message: __('This identifier is already used by another variable.'),
             validate: function validate(value, callback, options) {
                 if (options.serial) {
                     const element = Element.getElementBySerial(options.serial);

@@ -1897,6 +1897,9 @@ msgstr "Hiba történt a CSS letöltésekor, kérjük, próbálja újra."
 msgid "This identifier is already used by another variable."
 msgstr "Ezt az azonosítót már egy másik változó használja."
 
+msgid "This identifier is already used by another variable."
+msgstr ""
+
 msgid "This identifier must not be used by any other response or item variable."
 msgstr "Ezt az azonosítót semmilyen más válasz- vagy elemváltozó nem használhatja."
 

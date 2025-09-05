@@ -36,6 +36,7 @@ define([
             $inputs,
             interaction = _widget.element,
             patternMask = interaction.attr('patternMask'),
+            dataPatternmaskMessage = interaction.attr('dataPatternmaskMessage'),
             maxChars = parseInt(patternMaskHelper.parsePattern(patternMask,'chars'), 10);
 
         var constraints = {
@@ -54,6 +55,9 @@ define([
         }else if( patternMask !== null && patternMask !== undefined && patternMask !== ''){
             constraints.none.selected = false;
             constraints.pattern.selected = true;
+        } else if(dataPatternmaskMessage !== null && dataPatternmaskMessage !== undefined && dataPatternmaskMessage !== ''){
+            constraints.none.selected = false;
+            constraints.pattern.selected = true;
         }
 
         $form.html(formTpl({
@@ -65,6 +69,7 @@ define([
             constraintsAvailable,
             recommendationsAvailable,
             patternMask : patternMask,
+            dataPatternmaskMessage : dataPatternmaskMessage,
             maxLength : maxChars,
         }));
 
@@ -72,7 +77,8 @@ define([
 
         $inputs = {
             maxLength : $form.find('[name="maxLength"]'),
-            patternMask : $form.find('[name="patternMask"]')
+            patternMask : $form.find('[name="patternMask"]'),
+            dataPatternmaskMessage : $form.find('[name="dataPatternmaskMessage"]')
         };
 
         formElement.setChangeCallbacks($form, interaction, {
@@ -94,6 +100,9 @@ define([
                 interaction.attr('patternMask', attrValue);
                 //If anything is entered inside the patternMask, reset maxLength
                 $inputs.maxLength.val('');
+            },
+            dataPatternmaskMessage : function dataPatternmaskMessage(interaction, attrValue) {
+                interaction.attr('dataPatternmaskMessage', attrValue);
             },
             maxLength : function maxLength(interaction, attrValue){
                 var newValue = parseInt(attrValue,10);

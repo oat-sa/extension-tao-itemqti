@@ -100,6 +100,7 @@ class QtiJsonItemCompiler extends QtiItemCompiler
 
         try {
             $qtiItem = $this->createQtiItem($item, $language);
+            $qtiItem->validateOutcomes();
             $resolver = new ItemMediaResolver($item, $language);
             $publicLangDirectory = $publicDirectory->getDirectory($language);
 

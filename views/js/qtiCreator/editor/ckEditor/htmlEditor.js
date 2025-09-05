@@ -27,7 +27,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/deletingState',
     'taoQtiItem/qtiCreator/editor/ckEditor/featureFlag',
-    'taoQtiItem/qtiCreator/helper/languages'
+    'taoQtiItem/qtiCreator/helper/languages',
+    'taoQtiItem/qtiCreator/helper/elementSupport',
 ], function (
     _,
     __,
@@ -40,7 +41,8 @@ define([
     contentHelper,
     deletingHelper,
     featureFlag,
-    languages
+    languages,
+    elementSupportHelper
 ) {
     'use strict';
 
@@ -68,6 +70,7 @@ define([
      * @param {Boolean} [options.passthroughInnerContent] - define if the inner widget content should be accessible directly or not
      * @param {String} [options.removePlugins] - a coma-separated list of plugins that should not be loaded: 'plugin1,plugin2,plugin3'
      * @param {Boolean} [options.autofocus] - automatically focus
+     * @param {Boolean?} [options.flushDeletingWidgetsOnDestroy] - before editor destroy, remove widgets which are waiting for delete confirmation
      * @returns {Object} CKEditor
      */
     function _buildEditor($editable, $editableContainer, options) {
@@ -86,6 +89,10 @@ define([
                 removePlugins.push(pluginName);
             }
         });
+
+        if (!options.interactionsource) {
+            removePlugins.push('interactionsource');
+        }
 
         if (options.removePlugins) {
             options.removePlugins.split(',').forEach(removePluginName => {
@@ -133,8 +140,7 @@ define([
                         const $newImgPlaceholder = $editable.find('[data-new="true"][data-qti-class="img"]');
                         if (
                             $newImgPlaceholder.length &&
-                            !$editable.closest('.qti-choice, .qti-flow-container').length &&
-                            !$newImgPlaceholder.closest('.qti-table caption').length
+                            elementSupportHelper.isFigureSupportedInParent($newImgPlaceholder)
                         ) {
                             // instead img will add figure element
                             $newImgPlaceholder.attr('data-qti-class', 'figure');
@@ -187,6 +193,11 @@ define([
                             }
                         )
                     );
+                    if (options.on) {
+                        Object.entries(options.on).forEach(([eventName, handler]) => {
+                            editor.on(eventName, handler);
+                        });
+                    }
 
                     managePlaceholder($editable, editor);
 
@@ -357,8 +368,8 @@ define([
 
         //re-init all widgets:
         _.forEach(_.values(container.elements), function (elt) {
-            const widget = elt.data('widget'),
-                currentState = widget.getCurrentState().name;
+            const widget = elt.data('widget');
+            const currentState = widget.getCurrentState().name;
 
             widgets[elt.serial] = widget.rebuild({
                 context: $container,
@@ -374,6 +385,25 @@ define([
         $container.trigger('widgetCreated', [widgets, container]);
 
         return widgets;
+    }
+
+    /**
+     * Before destroying editor, remove widgets in "deleting" state.
+     * @param {*} container
+     * @param {*} $container
+     * @param {*} options
+     * @returns
+     */
+    function _flushDeletingWidgets(container) {
+        _.forEach(_.values(container.elements), function (elt) {
+            const widget = elt.data('widget');
+            const currentState = widget.getCurrentState().name;
+
+            //"exit" from "deleting" state will do actual deletion
+            if (currentState === 'deleting') {
+                widget.changeState('sleep');
+            }
+        });
     }
 
     /**
@@ -633,6 +663,12 @@ define([
                             const editor = $editable.data('editor');
                             const options = $editable.data('editor-options');
 
+                            editor.focusManager.blur(true);
+
+                            if (options.flushDeletingWidgetsOnDestroy && $editable.data('qti-container')) {
+                                _flushDeletingWidgets($editable.data('qti-container'));
+                            }
+
                             //before destroying, ensure that data is stored
                             if (_.isFunction(options.change)) {
                                 options.change.call(editor, _htmlEncode(editor.getData()));
@@ -650,7 +686,6 @@ define([
                                 resolve();
                             });
 
-                            editor.focusManager.blur(true);
                             editor.destroy();
                         })
                     );

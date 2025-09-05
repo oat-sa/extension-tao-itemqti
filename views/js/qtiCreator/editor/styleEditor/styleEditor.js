@@ -33,11 +33,12 @@ define([
 ], function ($, _, __, UrlParser, Promise, cssTpl) {
     'use strict';
 
-    let itemConfig;
+    let itemRequestConfig;
 
     /**
      * qtiItemCreator config provided from QtiCreator
-     * used for generation of the ajax uri
+     * used for generation of the ajax uri,
+     * can include other properties
      */
     let globalConfig;
 
@@ -133,7 +134,8 @@ define([
                         }
                         css += '}';
                     }
-                } else { // regular selectors
+                } else {
+                    // regular selectors
                     css += `${key2}:${style[key1][key2]};`;
                 }
             }
@@ -162,7 +164,8 @@ define([
             if (_.size(style[selector]) === 0) {
                 delete style[selector];
             }
-        } else { // add this rule
+        } else {
+            // add this rule
             style[selector][property] = value;
         }
 
@@ -184,8 +187,8 @@ define([
      * @returns {boolean}
      */
     const verifyInit = function verifyInit() {
-        if (!itemConfig) {
-            throw new Error('Missing itemConfig, did you call styleEditor.init()?');
+        if (!itemRequestConfig) {
+            throw new Error('Missing itemRequestConfig, did you call styleEditor.init()?');
         }
         return true;
     };
@@ -211,7 +214,7 @@ define([
             }
             $.post(
                 _getUri('save'),
-                _.extend({}, itemConfig, {
+                _.extend({}, itemRequestConfig, {
                     cssJson: JSON.stringify(style),
                     stylesheetUri: customStylesheetHref
                 })
@@ -234,7 +237,7 @@ define([
             failMessageHtml: common.failMessageHtml,
             successCallback: function () {},
             httpMethod: 'POST',
-            data: _.extend({}, itemConfig, { stylesheetUri: uri })
+            data: _.extend({}, itemRequestConfig, { stylesheetUri: uri })
         });
     };
 
@@ -394,12 +397,13 @@ define([
         let resizerTarget;
         let href;
 
-        globalConfig = config;
+        globalConfig = Object.assign({ cssVariablesRootSelector: '.qti-item' }, config);
+
         // promise
         currentItem = item;
 
         //prepare config object (don't pass all of them, otherwise, $.param will break)
-        itemConfig = {
+        itemRequestConfig = {
             uri: config.uri,
             lang: config.lang,
             baseUrl: config.baseUrl
@@ -414,7 +418,7 @@ define([
 
         if (customStylesheet) {
             href = customStylesheet.attr('href');
-            $.when($.getJSON(_getUri('load'), _.extend({}, itemConfig, { stylesheetUri: href }))).then(function (
+            $.when($.getJSON(_getUri('load'), _.extend({}, itemRequestConfig, { stylesheetUri: href }))).then(function (
                 _style
             ) {
                 // copy style to global style
@@ -440,6 +444,10 @@ define([
         $(document).off('customcssloaded.styleeditor');
     };
 
+    const getConfig = function () {
+        return globalConfig;
+    };
+
     return {
         apply: apply,
         save: save,
@@ -451,6 +459,7 @@ define([
         getStyle: getStyle,
         addStylesheet: addStylesheet,
         cleanCache: cleanCache,
-        removeStylesheetOnDeletePassage: removeStylesheetOnDeletePassage
+        removeStylesheetOnDeletePassage: removeStylesheetOnDeletePassage,
+        getConfig: getConfig
     };
 });

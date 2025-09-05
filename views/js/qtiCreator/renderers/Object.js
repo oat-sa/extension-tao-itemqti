@@ -26,7 +26,10 @@ define([
     var CreatorObject = _.clone(Renderer);
 
     CreatorObject.render = function(object, options){
-
+        if (object.attributes.data && this.getOption('transcriptionMetadata') && this.getOption('resourceMetadataUrl')) {
+            object.metaData['metadataUri'] = this.getOption('transcriptionMetadata');
+            object.metaData['resourceMetadataUrl'] = this.getOption('resourceMetadataUrl');
+        }
         //initial rendering:
         Renderer.render(object);
 

@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016-2025 (original work) Open Assessment Technologies SA.
  *
  *
  */
@@ -23,12 +23,16 @@
 namespace oat\taoQtiItem\scripts\install;
 
 use oat\oatbox\extension\InstallAction;
+use oat\tao\model\resources\Event\InstanceCopiedEvent;
 use oat\taoItems\model\event\ItemContentClonedEvent;
 use oat\taoItems\model\event\ItemCreatedEvent;
+use oat\taoItems\model\event\ItemDuplicatedEvent;
 use oat\taoItems\model\event\ItemRdfUpdatedEvent;
+use oat\taoQtiItem\model\event\ItemImported;
 use oat\taoQtiItem\model\Listener\ItemUpdater;
 use oat\taoQtiItem\model\Listener\ReplaceCopiedQtiXmlIdentifierListener;
 use oat\taoQtiItem\model\qti\Service;
+use oat\taoQtiItem\model\UniqueId\Listener\ItemCreationListener;
 
 /**
  * Description of ItemEventRegister
@@ -50,6 +54,22 @@ class ItemEventRegister extends InstallAction
         $this->registerEvent(
             ItemContentClonedEvent::class,
             [ReplaceCopiedQtiXmlIdentifierListener::class, 'catchItemCreatedFromSource']
+        );
+        $this->registerEvent(
+            ItemCreatedEvent::class,
+            [ItemCreationListener::class, 'populateUniqueId']
+        );
+        $this->registerEvent(
+            ItemImported::class,
+            [ItemCreationListener::class, 'populateUniqueId']
+        );
+        $this->registerEvent(
+            ItemDuplicatedEvent::class,
+            [ItemCreationListener::class, 'populateUniqueId']
+        );
+        $this->registerEvent(
+            InstanceCopiedEvent::class,
+            [ItemCreationListener::class, 'populateUniqueId']
         );
     }
 }

@@ -1,4 +1,4 @@
-@import "inc/bootstrap";
+@import 'inc/bootstrap';
 
 .qti-orderInteraction {
     .arrow-bar {
@@ -33,8 +33,10 @@
             border-spacing: 5px 5px 5px 0;
             width: 100%;
         }
-        ul.source, ul.target,
-        ol.source, ol.target {
+        ul.source,
+        ul.target,
+        ol.source,
+        ol.target {
             display: table-cell;
             width: 43%;
             padding-left: 40px;
@@ -128,8 +130,9 @@
         }
     }
     li {
+        @include dragdrop-noselect;
         &.dragged {
-            border-color: whiten($info, .2) !important;
+            border-color: whiten($info, 0.2) !important;
             list-style: none;
         }
     }

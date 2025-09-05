@@ -81,7 +81,20 @@ define([
                 enterMode: CKEditor.ENTER_BR,
                 shieldInnerContent: false,
                 mathJax: false,
-                furiganaPlugin: true
+                furiganaPlugin: true,
+                on: {
+                    key: function (evt) {
+                        const domEvent = evt.data.domEvent.$;
+                        const isCtrlPressed = domEvent.ctrlKey || domEvent.metaKey;
+                        const key = domEvent.key;
+
+                        const blockedKeys = ['b', 'i', 'u', 'k'];
+                        if (isCtrlPressed && blockedKeys.includes(key)) {
+                            evt.cancel();
+                            domEvent.preventDefault();
+                        }
+                    }
+                }
             });
         }
 

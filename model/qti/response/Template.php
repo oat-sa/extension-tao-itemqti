@@ -100,6 +100,35 @@ class Template extends ResponseProcessing implements Rule
      * @var string
      */
     public const MAP_RESPONSE_POINT_qtiv2p2 = 'http://www.imsglobal.org/question/qti_v2p2/rptemplates/map_response_point';
+
+    /**
+     * QTI 3.0
+     */
+    public const MAP_RESPONSE_POINT_QTI_V3 = [
+        'http://www.imsglobal.org/question/qti_v3p0/rptemplates/map_response_point',
+        'http://purl.imsglobal.org/spec/qti/v3p0/rptemplates/map_response_point',
+        'https://www.imsglobal.org/question/qti_v3p0/rptemplates/map_response_point',
+        'https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/map_response_point',
+        'https://www.imsglobal.org/question/qti_v3p0/rptemplates/map_response_point.xml',
+        'https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/map_response_point.xml',
+    ];
+    public const MATCH_CORRECT_QTI_V3 = [
+        'http://www.imsglobal.org/question/qti_v3p0/rptemplates/match_correct',
+        'http://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct',
+        'https://www.imsglobal.org/question/qti_v3p0/rptemplates/match_correct',
+        'https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct',
+        'https://www.imsglobal.org/question/qti_v3p0/rptemplates/match_correct.xml',
+        'https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct.xml',
+    ];
+    public const MAP_RESPONSE_QTI_V3 = [
+        'http://www.imsglobal.org/question/qti_v3p0/rptemplates/map_response',
+        'http://purl.imsglobal.org/spec/qti/v3p0/rptemplates/map_response',
+        'https://www.imsglobal.org/question/qti_v3p0/rptemplates/map_response',
+        'https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/map_response',
+        'https://www.imsglobal.org/question/qti_v3p0/rptemplates/map_response.xml',
+        'https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/map_response.xml',
+    ];
+
     // phpcs:enable Generic.NamingConventions.UpperCaseConstantName,Generic.Files.LineLength
 
     /**
@@ -190,27 +219,37 @@ class Template extends ResponseProcessing implements Rule
     public function __construct($uri)
     {
         //automatically transform to qti 2.1 templates:
-        switch ($uri) {
-            case self::MATCH_CORRECT:
-            case self::MATCH_CORRECT_qtiv2p0:
-            case self::MATCH_CORRECT_qtiv2p2:
-                $this->uri = self::MATCH_CORRECT;
-                break;
-            case self::MAP_RESPONSE:
-            case self::MAP_RESPONSE_qtiv2p0:
-            case self::MAP_RESPONSE_qtiv2p2:
-                $this->uri = self::MAP_RESPONSE;
-                break;
-            case self::MAP_RESPONSE_POINT:
-            case self::MAP_RESPONSE_POINT_qtiv2p0:
-            case self::MAP_RESPONSE_POINT_qtiv2p2:
-                $this->uri = self::MAP_RESPONSE_POINT;
-                break;
-            case self::NONE:
-                $this->uri = self::NONE;
-                break;
-            default:
-                throw new TemplateException("Unknown response processing template '$uri'");
+        if (
+            in_array($uri, [
+            self::MATCH_CORRECT,
+            self::MATCH_CORRECT_qtiv2p0,
+            self::MATCH_CORRECT_qtiv2p2,
+            ...self::MATCH_CORRECT_QTI_V3
+            ], true)
+        ) {
+            $this->uri = self::MATCH_CORRECT;
+        } elseif (
+            in_array($uri, [
+            self::MAP_RESPONSE,
+            self::MAP_RESPONSE_qtiv2p0,
+            self::MAP_RESPONSE_qtiv2p2,
+            ...self::MAP_RESPONSE_QTI_V3
+            ], true)
+        ) {
+            $this->uri = self::MAP_RESPONSE;
+        } elseif (
+            in_array($uri, [
+            self::MAP_RESPONSE_POINT,
+            self::MAP_RESPONSE_POINT_qtiv2p0,
+            self::MAP_RESPONSE_POINT_qtiv2p2,
+            ...self::MAP_RESPONSE_POINT_QTI_V3
+            ], true)
+        ) {
+            $this->uri = self::MAP_RESPONSE_POINT;
+        } elseif ($uri === self::NONE) {
+            $this->uri = self::NONE;
+        } else {
+            throw new TemplateException("Unknown response processing template '$uri'");
         }
 
         parent::__construct();

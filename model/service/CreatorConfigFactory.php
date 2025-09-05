@@ -27,15 +27,20 @@ use oat\taoQtiItem\model\CreatorConfig;
  * Creator Config service encapsulation
  * Class CreatorConfigService
  * @author Bartlomiej Marszal
- *
  */
 class CreatorConfigFactory extends ConfigurableService
 {
+    public const SERVICE_ID = 'taoQtiItem/CreatorConfigFactory';
+    public const OPTION_EXTENDED_CONTROL_ENDPOINTS = 'extendedControlEndpoints';
+    public const OPTION_EXTENDED_PROPERTIES = 'extendedProperties';
     /**
      * @return CreatorConfig
      */
     public function getCreatorConfig()
     {
-        return new CreatorConfig();
+        return new CreatorConfig(
+            $this->getOption(self::OPTION_EXTENDED_PROPERTIES, []),
+            $this->getOption(self::OPTION_EXTENDED_CONTROL_ENDPOINTS, [])
+        );
     }
 }

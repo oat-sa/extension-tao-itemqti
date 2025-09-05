@@ -40,7 +40,6 @@ define([
         },
         function () {
             this.widget.$form.empty();
-            this.widget.$container.find('.mini-tlb').remove();
         }
     );
 

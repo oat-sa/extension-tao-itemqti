@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017-2024 (original work) Open Assessment Technologies SA;
  *
  */
 define([
@@ -21,6 +21,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/states',
     'taoQtiItem/qtiCreator/widgets/interactions/extendedTextInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/interactions/extendedTextInteraction/states/Correct',
+    'taoQtiItem/qtiCreator/widgets/interactions/extendedTextInteraction/states/Custom',
     'taoQtiItem/qtiCreator/widgets/interactions/extendedTextInteraction/states/Sleep',
     'taoQtiItem/qtiCreator/widgets/interactions/extendedTextInteraction/states/NoRp'
 ], function(factory, states){

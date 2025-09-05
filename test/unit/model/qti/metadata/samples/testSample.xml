@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentTest xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                identifier="SIIWHUUG" title="Test_1 1" toolName="tao" toolVersion="2025.05 LTS"
+                xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2p1.xsd">
+    <outcomeDeclaration identifier="OUTCOME_1" cardinality="single" baseType="float"
+                        interpretation="http://www.tao.lu/Ontologies/TAO.rdf#CERF-A2-B1"/>
+    <outcomeDeclaration identifier="OUTCOME_2" cardinality="single" baseType="float"
+                        interpretation="http://www.tao.lu/Ontologies/TAO.rdf#NON_EXISTING_SCALE"/>
+    <outcomeDeclaration identifier="OUTCOME_3" cardinality="single" baseType="float"
+                        interpretation="http://www.tao.lu/Ontologies/TAO.rdf#CERF-A2-B2"/>
+    <timeLimits allowLateSubmission="false"/>
+    <testPart identifier="testPart-1" navigationMode="linear" submissionMode="individual">
+        <itemSessionControl maxAttempts="0" showFeedback="false" allowReview="true" showSolution="false"
+                            allowComment="false" allowSkipping="true" validateResponses="false"/>
+        <assessmentSection identifier="assessmentSection-1" required="true" fixed="false" title="Section" visible="true"
+                           keepTogether="true">
+            <itemSessionControl maxAttempts="0" showFeedback="false" allowReview="true" showSolution="false"
+                                allowComment="false" allowSkipping="true" validateResponses="false"/>
+            <assessmentItemRef identifier="item-1" required="false" fixed="false"
+                               href="../../items/i68121bf8b7bac20250430144752a6e92a1c/qti.xml">
+                <itemSessionControl maxAttempts="0" showFeedback="false" allowReview="true" showSolution="false"
+                                    allowComment="false" allowSkipping="true" validateResponses="false"/>
+            </assessmentItemRef>
+        </assessmentSection>
+    </testPart>
+    <outcomeProcessing/>
+</assessmentTest>

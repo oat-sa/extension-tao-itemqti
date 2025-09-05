@@ -40,6 +40,13 @@
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
         <span class="tooltip-content">{{__ "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"}}</span>
         <input type="text" name="patternMask" value="{{#if patternMask}}{{patternMask}}{{/if}}"/>
+
+        <label>
+            {{__ "Pattern violation message"}}
+        </label>
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:last" data-tooltip-theme="info"></span>
+        <span class="tooltip-content">{{__ "If pattern mask does not match match value provided, this message will be shown."}}</span>
+        <input type="text" name="dataPatternmaskMessage" value="{{#if dataPatternmaskMessage}}{{dataPatternmaskMessage}}{{/if}}"/>
     </div>
     {{!-- Use the patternMask w/ a regex controlled by thoses UI components --}}
     <div class="constraint constraint-maxLength" {{#unless constraints.maxLength.selected}}style="display:none"{{/unless}}>

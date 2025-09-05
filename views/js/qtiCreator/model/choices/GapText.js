@@ -9,7 +9,6 @@ define([
     _.extend(methods, {
         getDefaultAttributes : function(){
             return {
-                fixed : false,
                 matchMax : 1,
                 matchMin : 0
             };

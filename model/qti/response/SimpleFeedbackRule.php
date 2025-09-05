@@ -106,6 +106,7 @@ class SimpleFeedbackRule extends Element
         switch ($condition) {
             case 'correct':
             case 'incorrect':
+            case 'isNull':
                 if ($comparedOutcome instanceof ResponseDeclaration) {
                     $this->comparedOutcome = $comparedOutcome;
                     $this->condition = $condition;
@@ -194,6 +195,9 @@ class SimpleFeedbackRule extends Element
             } else {
                 $variables['choice'] = reset($this->comparedValue);//an array
             }
+        } elseif ($this->condition == 'isNull') {
+            $tpl = 'qti.isNull.tpl.php';
+            $variables['responseIdentifier'] = $this->comparedOutcome->getIdentifier();
         } else {
             $tpl = 'qti.condition.tpl.php';
             if ($this->comparedOutcome instanceof ResponseDeclaration) {

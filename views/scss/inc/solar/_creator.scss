@@ -57,6 +57,38 @@
 }
 
 body.solar-design {
+    .item-viewer-panel {
+        background: var(--sub-form-background);
+        border-color: var(--form-color);
+
+        .item-viewer-bar {
+            color: var(--form-color);
+            background: var(--form-background);
+            border: none;
+            border-bottom: var(--border-thin) solid var(--color-gs-light-secondary);
+            box-shadow: none;
+            min-height: var(--label-height);
+
+            &>h1 {
+                font-size: var(--fontsize-heading);
+                font-weight: bold;
+                height: var(--label-height);
+                line-height: var(--label-height);
+                position: static;
+                padding: 0;
+                margin: 0;
+            }
+        }
+    }
+    .item-viewer-separator-handle {
+        background: var(--form-background);
+        color: var(--form-color);
+        border-color: var(--form-color);
+        &:hover {
+            background: var(--color-gs-light-hover-bg);
+        }
+    }
+
     #item-editor-panel {
         background: var(--sub-form-background);
 
@@ -114,7 +146,7 @@ body.solar-design {
             padding: 8px 16px;
             .tooltip-content {
                 line-height: 1.5;
-                font-size: var(--fontsize-body-xs);    
+                font-size: var(--fontsize-body-xs);
             }
         }
         .item-editor-sidebar-wrapper {

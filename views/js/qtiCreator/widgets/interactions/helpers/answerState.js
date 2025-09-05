@@ -26,7 +26,8 @@ define([
     'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/responseForm',
     'taoQtiItem/qtiCreator/widgets/helpers/modalFeedbackRule',
-    'taoQtiItem/qtiCreator/helper/qtiElements'
+    'taoQtiItem/qtiCreator/helper/qtiElements',
+    'taoQtiItem/qtiCreator/helper/xmlRenderer',
 ], function (
     $,
     _,
@@ -37,7 +38,8 @@ define([
     minMaxComponentFactory,
     responseFormTpl,
     modalFeedbackRule,
-    qtiElements
+    qtiElements,
+    xmlRenderer
 ) {
     'use strict';
 
@@ -268,19 +270,27 @@ define([
                 _toggleCorrectWidgets(defineCorrect);
             }
 
+            const lowerBoundValue = response.getMappingAttribute('lowerBound');
+            const upperBoundValue = response.getMappingAttribute('upperBound');
             minMaxComponentFactory(widget.$responseForm.find('.response-mapping-attributes > .min-max-panel'), {
                 min: {
                     fieldName: 'lowerBound',
-                    value: _.parseInt(response.getMappingAttribute('lowerBound')) || 0,
-                    helpMessage: __('Minimal  score for this interaction.')
+                    value: !isNaN(lowerBoundValue) ? parseFloat(lowerBoundValue) : null,
+                    helpMessage: __('Minimal  score for this interaction.'),
+                    canBeNull: true,
+                    lowerThreshold: Number.NEGATIVE_INFINITY,
                 },
                 max: {
                     fieldName: 'upperBound',
-                    value: _.parseInt(response.getMappingAttribute('upperBound')) || 0,
-                    helpMessage: __('Maximal score for this interaction.')
+                    value: !isNaN(upperBoundValue) ? parseFloat(upperBoundValue) : null,
+                    helpMessage: __('Maximal score for this interaction.'),
+                    canBeNull: true,
+                    lowerThreshold: 0,
                 },
                 upperThreshold: Number.MAX_SAFE_INTEGER,
-                syncValues: true
+                lowerThreshold: 0,
+                syncValues: true,
+                allowDecimal: true
             });
 
             const formChangeCallbacks = {
@@ -320,14 +330,17 @@ define([
                 formElement.getLowerUpperAttributeCallbacks('lowerBound', 'upperBound', {
                     attrMethodNames: {
                         set: 'setMappingAttribute',
-                        remove: 'removeMappingAttribute'
-                    }
+                        remove: 'removeMappingAttribute',
+                    },
+                    floatVal: true,
+                    allowNull: true
                 })
             );
 
             formElement.setChangeCallbacks(widget.$responseForm, response, formChangeCallbacks, {
                 saveInvalid: true,
-                validateOnInit: true
+                validateOnInit: true,
+                initialResponseIdValue: response.attributes.identifier
             });
 
             modalFeedbackRule.initFeedbacksPanel($('.feedbackRule-panel', widget.$responseForm), response);
@@ -345,6 +358,26 @@ define([
         isCorrectDefined: function isCorrectDefined(widget) {
             const response = widget.element.getResponseDeclaration();
             return !!_.size(response.getCorrect());
+        },
+
+        /**
+         * Create the outcome score if rp required
+         * @param {Object} widget
+         * @returns {void}
+         */
+        createOutcomeScore: function createOutcomeScore(widget) {
+            const interaction = widget.element;
+            const item = interaction.getRootElement();
+            const outcomeScore = item.getOutcomeDeclaration('SCORE');
+            const rp = item.responseProcessing;
+            const rpXml = xmlRenderer.render(rp);
+
+            if (rpXml && !outcomeScore) {
+                item.createOutcomeDeclaration({
+                    cardinality: 'single',
+                    baseType: 'float'
+                }).buildIdentifier('SCORE', false);
+            }
         }
     };
 

@@ -3,28 +3,27 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/OrderInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'lodash',
     'i18n'
-], function(stateFactory, Correct, commonRenderer, instructionMgr, _, __){
+], function(stateFactory, Correct, commonRenderer, instructionMgr, __){
 
-    var InlineChoiceInteractionStateCorrect = stateFactory.create(Correct, function(){
-        
-        _createResponseWidget(this.widget);
-        
-    }, function(){
-        
-        _destroyResponseWidget(this.widget);
-        
-    });
-    
-    var _createResponseWidget = function(widget){
+    const InlineChoiceInteractionStateCorrect = stateFactory.create(
+        Correct,
+        function () {
+            _createResponseWidget(this.widget);
+        },
+        function () {
+            _destroyResponseWidget(this.widget);
+        }
+    );
 
-        var interaction = widget.element,
-            response = interaction.getResponseDeclaration(),
-            correctResponse = _.values(response.getCorrect());
+    const _createResponseWidget = widget => {
+
+        const interaction = widget.element;
+        const response = interaction.getResponseDeclaration();
+        const correctResponse = response.getCorrect() ? Object.values(response.getCorrect()) : [];
         instructionMgr.appendInstruction(
           widget.element,
-          interaction.attr('order') === 'single'
+          interaction.attr('data-order') === 'single'
             ? __('Please define the correct order.')
             : __('Please define the correct order in the box to the right.')
         );
@@ -36,27 +35,22 @@ define([
             response.setCorrect(_unformatResponse(data.response));
         });
     };
-    
-    var _destroyResponseWidget = function(widget){
-        
+
+    const _destroyResponseWidget = widget => {
         widget.$container.off('responseChange.qti-widget');
-
         commonRenderer.resetResponse(widget.element);
-
         commonRenderer.destroy(widget.element);
     };
-    
-    var _formatResponse = function(response){
-        return {list : {identifier : response}};
-    };
 
-    var _unformatResponse = function(formatedResponse){
-        var res = [];
+    const _formatResponse = response => ({ list : { identifier : response } });
+
+    const _unformatResponse = function(formatedResponse){
+        let res = [];
         if(formatedResponse.list && formatedResponse.list.identifier){
             res = formatedResponse.list.identifier;
         }
         return res;
     };
-    
+
     return InlineChoiceInteractionStateCorrect;
 });

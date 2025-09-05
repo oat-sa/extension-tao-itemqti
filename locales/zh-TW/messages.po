@@ -1883,6 +1883,9 @@ msgstr "在您的題目中有個一個不完整的元素：請點擊它來完成
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "下載CSS時發生了問題，請重試一次。"
 
+msgid "This identifier is already used by another variable."
+msgstr ""
+
 msgid "This identifier must not be used by any other response or item variable."
 msgstr ""
 

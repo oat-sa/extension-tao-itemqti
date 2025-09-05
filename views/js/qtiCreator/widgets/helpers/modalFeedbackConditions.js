@@ -44,6 +44,12 @@ define([
             onUnset : onUnsetCorrect
         },
         {
+            name : 'isNull',
+            label : __('is null'),
+            init : hideScore,
+            onSet : onSetScore,
+        },
+        {
             name : 'choices',
             label : __('choices'),
             init : function initChoice(fbRule, $select){
@@ -99,31 +105,61 @@ define([
         },
         {
             name : 'lt',
-            label : '<',
+            label : 'RESP. <',
             init : initCompare,
             onSet : onSetScore
         },
         {
             name : 'lte',
-            label : '<=',
+            label : 'RESP. <=',
             init : initCompare,
             onSet : onSetScore
         },
         {
             name : 'equal',
-            label : '=',
+            label : 'RESP. =',
             init : initCompare,
             onSet : onSetScore
         },
         {
             name : 'gte',
-            label : '>=',
+            label : 'RESP. >=',
             init : initCompare,
             onSet : onSetScore
         },
         {
             name : 'gt',
-            label : '>',
+            label : 'RESP. >',
+            init : initCompare,
+            onSet : onSetScore
+        },
+        {
+            name : 'score.lt',
+            label : 'SCORE <',
+            init : initCompare,
+            onSet : onSetScore
+        },
+        {
+            name : 'score.lte',
+            label : 'SCORE <=',
+            init : initCompare,
+            onSet : onSetScore
+        },
+        {
+            name : 'score.equal',
+            label : 'SCORE =',
+            init : initCompare,
+            onSet : onSetScore
+        },
+        {
+            name : 'score.gte',
+            label : 'SCORE >=',
+            init : initCompare,
+            onSet : onSetScore
+        },
+        {
+            name : 'score.gt',
+            label : 'SCORE >',
             init : initCompare,
             onSet : onSetScore
         }

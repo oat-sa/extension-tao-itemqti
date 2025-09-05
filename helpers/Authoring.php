@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,16 +15,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
+ * Copyright (c) 2013-2025 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\taoQtiItem\helpers;
 
 //use oat\taoQtiItem\helpers\Authoring;
+use common_ext_ExtensionsManager;
 use common_Logger;
 use DOMDocument;
+use DOMElement;
+use DOMXpath;
 use oat\oatbox\filesystem\File;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
 use oat\taoQtiItem\model\qti\Parser;
@@ -155,16 +156,12 @@ class Authoring
     {
         $doc = self::loadQtiXml($qti);
 
-        $xpath = new \DOMXpath($doc);
-
-        foreach ($xpath->query("//*[local-name() = 'itemBody']//*[@style]") as $elementWithStyle) {
-            $elementWithStyle->removeAttribute('style');
-        }
+        $xpath = new DOMXpath($doc);
 
         $ids = [];
         $elementsWithId = $xpath->query("//*[not(local-name()='lib') and not(local-name()='module') and @id]");
 
-        /** @var \DOMElement $elementWithId */
+        /** @var DOMElement $elementWithId */
         foreach ($elementsWithId as $elementWithId) {
             $id = $elementWithId->getAttribute('id');
             if (in_array($id, $ids)) {
@@ -195,7 +192,7 @@ class Authoring
         } elseif (is_file($file)) {
             $qti = file_get_contents($file);
         } else {
-            throw new \common_exception_Error(
+            throw new common_exception_Error(
                 "Wrong parameter. " . __CLASS__ . "::" . __METHOD__
                     . " accepts either XML content or the path to a file but got " . substr($file, 0, 500)
             );
@@ -203,7 +200,7 @@ class Authoring
 
         $dom = new DOMDocument('1.0', 'UTF-8');
 
-        $domDocumentConfig = \common_ext_ExtensionsManager::singleton()
+        $domDocumentConfig = common_ext_ExtensionsManager::singleton()
             ->getExtensionById('taoQtiItem')
             ->getConfig('XMLParser');
 

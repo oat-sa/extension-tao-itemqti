@@ -86,19 +86,25 @@ define([
             const convertedValue = converter.convert(value.trim());
             switch (attributes.baseType) {
                 case 'integer':
+                    if (value === '') {
+                        break;
+                    }
                     value = locale.parseInt(convertedValue, numericBase);
                     responseValue = isNaN(value) ? '' : value;
                     // check for parsing and integer
-                    if (responseValue === '' || !/^[+-]?[0-9]+(e-?\d*)?$/.test(convertedValue)) {
+                    if (!/^[+-]?[0-9]+(e-?\d*)?$/.test(convertedValue)) {
                         widget.isValid(widget.serial, false, __('Invalid value in correct response property.'));
                         return setErrorNotification($submitButton, element, attributes.baseType)
                     }
                     break;
                 case 'float':
+                    if (value === '') {
+                        break;
+                    }
                     value = locale.parseFloat(convertedValue);
                     responseValue = isNaN(value) ? '' : value;
                     const regex = new RegExp(`^[+-]?[0-9]+\\${decimalSeparator}[0-9]+(e-?\\d*)?$`);
-                    if (responseValue === '' || !regex.test(convertedValue)) { // check for parsing and float
+                    if (value !== '' && !regex.test(convertedValue)) { // check for parsing and float
                         widget.isValid(widget.serial, false, __('Invalid value in correct response property.'));
                         return setErrorNotification(
                             $submitButton,
@@ -109,10 +115,6 @@ define([
                     break;
                 case 'string':
                     responseValue = convertedValue;
-                    if (responseValue === '') {
-                        widget.isValid(widget.serial, false, __('Invalid value in correct response property.'));
-                        return setErrorNotification($submitButton, element, attributes.baseType);
-                    }
                     break;
                 default:
                     return false;

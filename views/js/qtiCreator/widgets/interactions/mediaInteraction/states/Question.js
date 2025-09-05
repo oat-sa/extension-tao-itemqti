@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016-2023 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2016-2025 (original work) Open Assessment Technologies SA
  */
 
 /**
@@ -28,12 +28,13 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/blockInteraction/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/helpers/featureFlags',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/media',
     'ui/mediaEditor/mediaEditorComponent',
     'ui/resourcemgr',
     'ui/tooltip',
     'url-polyfill'
-], function ($, _, __, features, stateFactory, Question, formElement, formTpl, mediaEditorComponent) {
+], function ($, _, __, features, stateFactory, Question, formElement, featureFlags, formTpl, mediaEditorComponent) {
     'use strict';
     /**
      * media Editor instance if has been initialized
@@ -65,12 +66,18 @@ define([
         const options = widget.options;
         const interaction = widget.element;
         const isFlaAvailable = features.isVisible('taoQtiItem/creator/interaction/media/property/fla');
+        const isCompactAppearanceAvailable = featureFlags.isCompactAppearanceAvailable();
         let isAudio = getIsAudio(interaction);
         const defaultVideoHeight = 270;
         const defaultAudioHeight = 30;
+        const compactAppearance = isAudio && interaction.hasClass('compact-appearance');
+
+        if(compactAppearance && isCompactAppearanceAvailable) {
+            $container.parent().addClass('compact-appearance');
+        }
 
         /**
-         * Each change triggers an re rendering of the interaction
+         * Each change triggers a rerendering of the interaction
          */
         const reRender = _.debounce(function reRender() {
             interaction.attr('responseIdentifier', interaction.attr('responseIdentifier'));
@@ -193,7 +200,9 @@ define([
             const $uploadTrigger = $form.find('.selectMediaFile');
             const openResourceMgr = function openResourceMgr() {
                 $uploadTrigger.resourcemgr({
-                    title: __('Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button "Add file(s)".'),
+                    title: __(
+                        'Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button "Add file(s)".'
+                    ),
                     appendContainer: options.mediaManager.appendContainer,
                     mediaSourcesUrl: options.mediaManager.mediaSourcesUrl,
                     browseUrl: options.mediaManager.browseUrl,
@@ -239,18 +248,27 @@ define([
         };
 
         const setUpCallbacks = function setUpCallbacks() {
+            function disableAutostart(interaction) {
+                // reset subpanel properties to defaults
+                interaction.removeAttr('data-autostart-delay-ms');
+                interaction.removeAttr('data-sequence-repeats');
+                interaction.removeAttr('data-sequence-delay-between-ms');
+                interaction.removeAttr('data-sequence-delay-after-ms');
+                interaction.removeClass('hide-player');
+                $container.removeClass('dimmed');
+                interaction.removeClass('sequential');
+            }
             //init data change callbacks
             const callbacks = {
                 autostart: function autostart(boundInteraction, attrValue, attrName) {
                     interaction.attr(attrName, attrValue);
                     if (attrValue === false) {
-                        // reset subpanel properties to defaults
-                        interaction.removeAttr('data-autostart-delay-ms');
-                        interaction.removeClass('hide-player');
-                        $container.removeClass('dimmed');
-                        interaction.removeClass('sequential');
+                        disableAutostart(interaction);
                     } else if (isFlaAvailable) {
                         interaction.attr('data-autostart-delay-ms', 0);
+                        interaction.attr('data-sequence-repeats', 1);
+                        interaction.attr('data-sequence-delay-between-ms', 0);
+                        interaction.attr('data-sequence-delay-after-ms', 0);
                     }
                     renderForm();
                     reRender();
@@ -274,6 +292,9 @@ define([
                         interaction.removeClass('pause');
                     } else if (isFlaAvailable) {
                         interaction.attr('data-autostart-delay-ms', 0);
+                        interaction.attr('data-sequence-repeats', 1);
+                        interaction.attr('data-sequence-delay-between-ms', 0);
+                        interaction.attr('data-sequence-delay-after-ms', 0);
                     }
                     renderForm();
                 },
@@ -286,8 +307,39 @@ define([
                     if (attrValue === true) {
                         interaction.attr('loop', false);
                         interaction.attr('maxPlays', 0);
+                        //by default, enabling sequential unsets display-player; but display-player can be set again afterwards
+                        interaction.addClass('hide-player');
+                    } else {
+                        interaction.removeAttr('data-sequence-repeats');
+                        interaction.removeAttr('data-sequence-delay-between-ms');
+                        interaction.removeAttr('data-sequence-delay-after-ms');
                     }
                     renderForm();
+                },
+
+                sequenceRepeats: function repeats(boundInteraction, attrValue) {
+                    let attrValueNumeric = parseInt(attrValue, 10);
+                    attrValueNumeric = Number.isNaN(attrValueNumeric) || attrValueNumeric < 1 ? 1 : attrValueNumeric;
+                    interaction.attr('data-sequence-repeats', attrValueNumeric);
+
+                    if (attrValueNumeric === 1) {
+                        interaction.attr('data-sequence-delay-between-ms', 0);
+                    } else {
+                        interaction.attr('maxPlays', 0);
+                    }
+                    renderForm();
+                },
+
+                sequenceDelayBetweenMs: function delayBetween(boundInteraction, attrValue) {
+                    const attrValueNumeric = parseInt(attrValue, 10);
+                    const attrValueNumericMs = Number.isNaN(attrValueNumeric) ? 0 : attrValueNumeric * 1000;
+                    interaction.attr('data-sequence-delay-between-ms', attrValueNumericMs);
+                },
+
+                sequenceDelayAfterMs: function delayAfter(boundInteraction, attrValue) {
+                    const attrValueNumeric = parseInt(attrValue, 10);
+                    const attrValueNumericMs = Number.isNaN(attrValueNumeric) ? 0 : attrValueNumeric * 1000;
+                    interaction.attr('data-sequence-delay-after-ms', attrValueNumericMs);
                 },
 
                 loop: function loop(boundInteraction, attrValue, attrName) {
@@ -339,6 +391,26 @@ define([
                         renderForm();
                         reRender();
                     }
+                },
+                compactAppearance: function (boundInteraction, attrValue,) {
+                    if(attrValue && isCompactAppearanceAvailable) {
+                        if(!$container.hasClass('compact-appearance')) {
+                            interaction.addClass('compact-appearance');
+                            $container.parent().addClass('compact-appearance');
+                            disableAutostart(interaction);
+                            interaction.removeAttr('width');
+                            interaction.removeAttr('height');
+                            interaction.removeAttr('loop');
+                            interaction.removeAttr('minPlays');
+                            interaction.removeAttr('maxPlays');
+                        }
+                    } else {
+                        interaction.removeClass('compact-appearance');
+                        $container.parent().removeClass('compact-appearance');
+                    }
+
+                    renderForm();
+                    reRender();
                 }
             };
 
@@ -352,22 +424,30 @@ define([
          * Can be called again, as needed
          */
         const renderForm = function renderForm() {
+            const sequenceRepeats = parseInt(interaction.attr('data-sequence-repeats') || 1);
+            const attrToSeconds = attrVal => Math.floor(parseInt(attrVal || 0, 10) / 1000);
             $form.html(
                 formTpl({
                     //tpl data for the interaction
                     isAudio: isAudio,
                     isFlaAvailable: isFlaAvailable,
+                    isCompactAppearanceAvailable: isCompactAppearanceAvailable,
                     autostart: !!interaction.attr('autostart'),
                     sequential: !!interaction.hasClass('sequential'),
                     hidePlayer: !!interaction.hasClass('hide-player'),
-                    autostartDelayMs: Math.floor(parseInt(interaction.attr('data-autostart-delay-ms'), 10) / 1000),
+                    autostartDelayMs: attrToSeconds(interaction.attr('data-autostart-delay-ms')),
+                    sequenceRepeats,
+                    hasSequenceRepeats: sequenceRepeats > 1,
+                    sequenceDelayBetweenMs: attrToSeconds(interaction.attr('data-sequence-delay-between-ms')),
+                    sequenceDelayAfterMs: attrToSeconds(interaction.attr('data-sequence-delay-after-ms')),
                     loop: !!interaction.attr('loop'),
                     maxPlays: parseInt(interaction.attr('maxPlays'), 10),
                     pause: !!interaction.hasClass('pause'),
                     // tpl data for the "object", this part is going to be reused by the "objectWidget"
                     // @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10173
                     data: interaction.object.attr('data'),
-                    type: interaction.object.attr('type') //use the same as the uploadInteraction, contact jerome@taotesting.com for this
+                    type: interaction.object.attr('type'), //use the same as the uploadInteraction, contact jerome@taotesting.com for this
+                    compactAppearance: !!interaction.hasClass('compact-appearance'),
                 })
             );
             // re-wire all form controls & tooltips

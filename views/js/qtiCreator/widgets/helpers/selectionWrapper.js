@@ -134,10 +134,10 @@ define(['jquery'], function ($) {
              * @param {jQuery} $wrapper - the element that will wrap the selection
              * @returns {boolean}
              */
-            wrapWith: function wrapWith($wrapper) {
-                const range = selection.getRangeAt(0);
+            wrapWith: function wrapWith($wrapper, providedRange) {
+                const range = providedRange || selection.getRangeAt(0);
 
-                if (this.canWrap()) {
+                if (this.canWrap(range)) {
                     try {
                         range.surroundContents($wrapper[0]);
                         selection.removeAllRanges();

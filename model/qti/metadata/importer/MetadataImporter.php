@@ -29,6 +29,7 @@ use oat\taoQtiItem\model\qti\metadata\MetadataGuardian;
 use oat\taoQtiItem\model\qti\metadata\ContextualMetadataGuardian;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\metadata\MetadataValidator;
+use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 
 class MetadataImporter extends AbstractMetadataService
 {
@@ -229,6 +230,24 @@ class MetadataImporter extends AbstractMetadataService
                 break;
         }
         return parent::unregister($key, $name);
+    }
+
+    public function metadataValueUris($metadata): array
+    {
+        $metadataUriList = [];
+        foreach ($metadata as $resourceIdentifier => $metadataValueCollection) {
+            foreach ($metadataValueCollection as $metadataValue) {
+                if (!$metadataValue instanceof SimpleMetadataValue) {
+                    continue;
+                }
+                $uri = $metadataValue->getPath()[1];
+                if (!empty($uri)) {
+                    $metadataUriList[] = $uri;
+                }
+            }
+        }
+
+        return array_unique($metadataUriList);
     }
 
     /**

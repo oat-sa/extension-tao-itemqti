@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 Open Assessment Technologies SA ;
+ * Copyright (c) 2019-2024 Open Assessment Technologies SA ;
  */
 /**
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
@@ -25,6 +25,9 @@ define([
     'taoQtiItem/qtiCreator/itemCreator',
     'taoQtiItem/qtiCreator/editor/areaBroker',
     'tpl!taoQtiItem/qtiCreator/component/tpl/itemAuthoring',
+    'tpl!taoQtiItem/qtiCreator/tpl/layout/interactionsPanel',
+    'tpl!taoQtiItem/qtiCreator/tpl/layout/itemPanel',
+    'tpl!taoQtiItem/qtiCreator/tpl/layout/propertiesPanel',
     'css!taoQtiItemCss/qti-runner.css',
     'css!taoQtiItemCss/themes/default.css',
     'css!taoQtiItemCss/item-creator.css'
@@ -34,7 +37,10 @@ define([
     pluginLoaderFactory,
     itemCreatorFactory,
     areaBrokerFactory,
-    componentTpl
+    componentTpl,
+    interactionsPanelTpl,
+    itemPanelTpl,
+    propertiesPanelTpl
 ) {
     'use strict';
 
@@ -110,7 +116,8 @@ define([
                 });
 
                 // load the plugins, then render the item creator
-                pluginLoader.load()
+                pluginLoader
+                    .load()
                     .then(() => this.render(container))
                     .catch(err => this.trigger('error', err));
             })
@@ -118,21 +125,25 @@ define([
             // renders the component
             .on('render', function () {
                 const $container = this.getElement();
+                const panels = [interactionsPanelTpl, itemPanelTpl, propertiesPanelTpl];
+                const $wrapper = $('#item-editor-wrapper', $container);
+                panels.forEach(panel => $wrapper.append(panel()));
                 areaBroker = areaBrokerFactory($container, {
-                    'menu': $container.find('.menu'),
-                    'menuLeft': $container.find('.menu-left'),
-                    'menuRight': $container.find('.menu-right'),
-                    'contentCreatorPanel': $container.find('#item-editor-panel'),
-                    'editorBar': $container.find('#item-editor-panel .item-editor-bar'),
-                    'title': $container.find('#item-editor-panel .item-editor-bar h1'),
-                    'toolbar': $container.find('#item-editor-panel .item-editor-bar #toolbar-top'),
-                    'interactionPanel': $container.find('#item-editor-interaction-bar'),
-                    'propertyPanel': $container.find('#item-editor-item-widget-bar'),
-                    'itemPanel': $container.find('#item-editor-scroll-inner'),
-                    'itemPropertyPanel': $container.find('#sidebar-right-item-properties'),
-                    'itemStylePanel': $container.find('#item-style-editor-bar'),
-                    'modalContainer': $container.find('#modal-container'),
-                    'elementPropertyPanel': $container.find('#item-editor-body-element-property-bar .panel')
+                    menu: $container.find('.menu'),
+                    menuLeft: $container.find('.menu-left'),
+                    menuRight: $container.find('.menu-right'),
+                    contentCreatorPanel: $container.find('#item-editor-panel'),
+                    editorBar: $container.find('#item-editor-panel .item-editor-bar'),
+                    editorWrapper: $container.find('#item-editor-wrapper'),
+                    title: $container.find('#item-editor-panel .item-editor-bar h1'),
+                    toolbar: $container.find('#item-editor-panel .item-editor-bar #toolbar-top'),
+                    interactionPanel: $container.find('#item-editor-interaction-bar'),
+                    propertyPanel: $container.find('#item-editor-item-widget-bar'),
+                    itemPanel: $container.find('#item-editor-scroll-inner'),
+                    itemPropertyPanel: $container.find('#sidebar-right-item-properties'),
+                    itemStylePanel: $container.find('#item-style-editor-bar'),
+                    modalContainer: $container.find('#modal-container'),
+                    elementPropertyPanel: $container.find('#item-editor-body-element-property-bar .panel')
                 });
 
                 itemCreator = itemCreatorFactory(this.getConfig(), areaBroker, pluginLoader.getPlugins())

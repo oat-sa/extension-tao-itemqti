@@ -28,11 +28,11 @@ define([
     'services/features',
     'ui/liststyler'
 ], function (
-    _, 
-    stateFactory, 
-    Question, 
-    formElement, 
-    minMaxComponentFactory, 
+    _,
+    stateFactory,
+    Question,
+    formElement,
+    minMaxComponentFactory,
     formTpl,
     sizeAdapter,
     features
@@ -54,7 +54,11 @@ define([
         var $iconRemove = this.widget.$container.find('.icon-remove-from-selection');
         let minMaxComponent = null;
 
-        const order = interaction.attr('order');
+        const order = interaction.attr('data-order') || interaction.attr('order'); // legacy attr support
+        // legacy attr remove
+        if (interaction.attr('order')) {
+            interaction.removeAttr('order');
+        }
         const isSingleOrder = order === 'single';
         const minValue = interaction.attr('minChoices')
             ? _.parseInt(interaction.attr('minChoices'))
@@ -79,7 +83,7 @@ define([
                 });
             });
         };
-        
+
         const deleteMinMaxComponent = () => {
             $form.find('.min-max-panel').hide();
             if (minMaxComponent) {
@@ -87,9 +91,9 @@ define([
                 minMaxComponent = null;
             }
         };
-            
-        const makeSignleOrder = () => {
-            interaction.attr('order', 'single');
+
+        const makeSingleOrder = () => {
+            interaction.attr('data-order', 'single');
             interaction.attr('minChoices', 0);
             interaction.attr('maxChoices', 0);
             $interaction.addClass('qti-single');
@@ -103,7 +107,7 @@ define([
         }
 
         const makeSortOrder = () => {
-            interaction.attr('order', 'sort');
+            interaction.attr('data-order', 'sort');
             $interaction.removeClass('qti-single');
             createMinMaxComponent();
         }
@@ -117,7 +121,7 @@ define([
                 orientation: features.isVisible('taoQtiItem/creator/interaction/order/property/orientation')
             }
         }));
-        isSingleOrder ? makeSignleOrder() : makeSortOrder();
+        isSingleOrder ? makeSingleOrder() : makeSortOrder();
 
         formElement.initWidget($form);
 
@@ -151,7 +155,7 @@ define([
 
         // data change for order
         callbacks.order = function (interaction, value) {
-            value === 'sort' ? makeSortOrder() : makeSignleOrder();
+            value === 'sort' ? makeSortOrder() : makeSingleOrder();
         };
 
         formElement.setChangeCallbacks($form, interaction, callbacks);

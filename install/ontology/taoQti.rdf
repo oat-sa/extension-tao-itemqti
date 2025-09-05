@@ -30,4 +30,10 @@
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOItem.rdf#ItemAuthor">
   	<generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole"/>
   </rdf:Description>
+
+  <!-- Outcome Declaration Interpretation Scale -->
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Scales">
+    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#List"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Scales]]></rdfs:label>
+  </rdf:Description>
 </rdf:RDF>

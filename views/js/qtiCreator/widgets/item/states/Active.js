@@ -18,6 +18,7 @@
  */
 define([
     'lodash',
+    'i18n',
     'services/features',
     'taoQtiItem/qtiCreator/helper/languages',
     'taoQtiItem/qtiCreator/widgets/states/factory',
@@ -26,7 +27,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier',
     'select2'
-], function (_, features, languages, stateFactory, Active, formTpl, formElement, qtiIdentifier) {
+], function (_, __, features, languages, stateFactory, Active, formTpl, formElement, qtiIdentifier) {
     'use strict';
 
     // These classes are supported for removing the instructions.
@@ -35,6 +36,8 @@ define([
 
     // This class will be set for removing the instructions
     const removeInstructionClass = 'remove-instructions';
+
+    const writingModeVerticalRlClass = 'writing-mode-vertical-rl';
 
     const ItemStateActive = stateFactory.create(
         Active,
@@ -49,12 +52,35 @@ define([
             const disableIdentifier = qtiIdentifier.isDisabled;
 
             const itemElements = [$itemBody, item];
-            const itemHasClass = classes => classes.some(cls => $itemBody.hasClass(cls));
+            const itemHasClass = classes => classes.some(cls => item.hasClass(cls));
             const itemAddClass = cls => itemElements.forEach(el => el.addClass(cls));
             const itemRemoveClass = cls => itemElements.forEach(el => el.removeClass(cls));
             const itemRemoveClasses = classes => classes.forEach(itemRemoveClass);
 
+            /**
+             * @param {string} lang
+             * @returns {Promise<void>}
+             */
+            const toggleVerticalWritingModeByLang = lang =>
+                languages.getVerticalWritingModeByLang(lang).then(supportedVerticalMode => {
+                    const isSupported = supportedVerticalMode === 'vertical-rl';
+                    if (!isSupported && itemHasClass([writingModeVerticalRlClass])) {
+                        itemRemoveClasses([writingModeVerticalRlClass]);
+                    }
+                    $form.find('#writingMode-panel').toggle(isSupported);
+
+                    const isVertical = itemHasClass([writingModeVerticalRlClass]);
+                    $form.find('#writingMode-radio-vertical').prop('checked', isVertical);
+                    $form.find('#writingMode-radio-horizontal').prop('checked', !isVertical);
+                });
+
+            let titleFormat = '%title%';
+            if (_widget.options.translation) {
+                titleFormat = __('%title% - Translation (%lang%)');
+            }
+
             //build form:
+            const initialXmlLang = item.attr('xml:lang');
             $form.html(
                 formTpl({
                     serial: item.getSerial(),
@@ -65,11 +91,16 @@ define([
                     showTimeDependent: features.isVisible('taoQtiItem/creator/item/property/timeDependant'),
                     removeInstructions: itemHasClass(removeInstructionClasses),
                     showRemoveInstructions: true,
-                    'xml:lang': item.attr('xml:lang'),
+                    'xml:lang': initialXmlLang,
                     languagesList: item.data('languagesList'),
-                    disableIdentifier
+                    disableIdentifier,
+                    translation: _widget.options.translation,
+                    translationStatus: _widget.options.translationStatus
                 })
             );
+            //don't apply vertical class in editor widget ($itemBody), only save it to QTI attribute
+            $itemBody.removeClass(writingModeVerticalRlClass);
+            toggleVerticalWritingModeByLang(initialXmlLang);
 
             //init widget
             formElement.initWidget($form);
@@ -79,7 +110,13 @@ define([
                 identifier: formElement.getAttributeChangeCallback(),
                 title: function titleChange(i, title) {
                     item.attr('title', title);
-                    areaBroker.getTitleArea().text(item.attr('title'));
+                    areaBroker
+                        .getTitleArea()
+                        .text(
+                            titleFormat
+                                .replace('%title%', item.attr('title'))
+                                .replace('%lang%', _widget.options.translationLanguageCode)
+                        );
                 },
                 timeDependent: formElement.getAttributeChangeCallback(),
                 removeInstructions(i, value) {
@@ -102,6 +139,17 @@ define([
 
                         $itemBody.trigger('item-dir-changed');
                     });
+                    toggleVerticalWritingModeByLang(lang);
+                },
+                translationStatus(i, status) {
+                    _widget.options.translationStatus = status;
+                },
+                writingMode(i, mode) {
+                    if (mode === 'vertical') {
+                        item.addClass(writingModeVerticalRlClass);
+                    } else {
+                        itemRemoveClasses([writingModeVerticalRlClass]);
+                    }
                 }
             });
 
