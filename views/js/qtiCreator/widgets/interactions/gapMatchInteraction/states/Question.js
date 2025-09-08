@@ -90,6 +90,25 @@ define([
             //hack : prevent ckeditor from removing empty spans
             $container.find('.gapmatch-content').html('...');
 
+            var $editable = $editableContainer.find('[data-html-editable]');
+            if ($editable.length && $editable.html()) {
+                var content = $editable.html();
+
+                if (content.trim().startsWith('<p>')) {
+                    $editable.find('p').each(function() {
+                        var $p = $(this);
+                        var pContent = $p.html();
+                        if (pContent && !pContent.startsWith('&#8203;') && !pContent.startsWith('\u200B')) {
+                            $p.html('&#8203;' + pContent);
+                        }
+                    });
+                } else {
+                    if (!content.startsWith('&#8203;') && !content.startsWith('\u200B')) {
+                        $editable.html('&#8203;' + content);
+                    }
+                }
+            }
+
             //create editor
             htmlEditor.buildEditor($editableContainer, {
                 shieldInnerContent : false,
