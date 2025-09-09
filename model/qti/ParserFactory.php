@@ -44,6 +44,7 @@ use oat\taoQtiItem\model\qti\choice\ContainerChoice;
 use oat\taoQtiItem\model\qti\choice\TextVariableChoice;
 use oat\taoQtiItem\model\qti\choice\GapImg;
 use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\None;
+use oat\taoQtiItem\model\qti\response\SimpleFeedbackRuleScore;
 use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use oat\taoQtiItem\model\qti\OutcomeDeclaration;
 use oat\taoQtiItem\model\qti\response\Template;
@@ -87,6 +88,7 @@ class ParserFactory
     /** @var \oat\taoQtiItem\model\qti\Item */
     protected $item = null;
     protected $attributeMap = ['lang' => 'xml:lang'];
+    protected $xpath;
 
     public function __construct(DOMDocument $data)
     {
@@ -1421,6 +1423,12 @@ class ParserFactory
         $patternFeedbackMatchChoiceWithElse  = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackMatchChoice
             . $subPatternFeedbackElse;
 
+        $patternFeedbackIsOperatorScore = '//responseCondition/responseIf/and[
+  not[isNull] and 
+  *[self::gt or self::lt or self::lte or self::equal or self::gte]
+]';
+
+
         $rules = [];
         $simpleFeedbackRules = [];
         $data = simplexml_import_dom($data);
@@ -1454,6 +1462,25 @@ class ParserFactory
             ) {
                 $responseIdentifier = (string) $subtree->responseIf->isNull->variable['identifier'];
                 $feedbackRule = $this->buildIsNullFeedbackRule($subtree, null, $responseIdentifier);
+            } elseif (count($subtree->xpath($patternFeedbackIsOperatorScore))) {
+                $operator = '';
+                $value = '';
+                $responseIdentifier = $subtree->responseIf->and->not->isNull->variable['identifier'];
+                foreach ($subtree->responseIf->and->children() as $child) {
+                    if ($child->getName() === 'not') {
+                        continue;
+                    }
+                    $operator = $child->getName();
+                    $value = (string) $child->baseValue;
+                    break;
+                }
+                $feedbackRule = $this->buildScoreFeedbackRule(
+                    $subtree,
+                    $operator,
+                    $value,
+                    $responseIdentifier,
+                    $responseRule->asXML()
+                );
             } elseif (
                 count($subtree->xpath($patternFeedbackOperator)) > 0
                 || count($subtree->xpath($patternFeedbackOperatorWithElse)) > 0
@@ -1539,7 +1566,7 @@ class ParserFactory
         return $returnValue;
     }
 
-    private function buildIsNullFeedbackRule($subtree, $comparedValue = null, $responseId = '')
+    protected function buildIsNullFeedbackRule($subtree, $comparedValue = null, $responseId = '')
     {
         $conditionName = 'isNull';
         $responseIdentifier = empty($responseId)
@@ -1586,6 +1613,34 @@ class ParserFactory
         } catch (ParsingException $e) {
             throw new UnexpectedResponseProcessing('Feedback resources not found. Not template driven, unknown rule');
         }
+        return $feedbackRule;
+    }
+
+
+    protected function buildScoreFeedbackRule($subtree, $conditionName, $comparedValue, $responseIdentifier, $xml)
+    {
+        $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
+        $feedbackIdentifier = (string) $subtree->responseIf->setOutcomeValue->baseValue;
+
+        try {
+            $response = $this->getResponse($responseIdentifier);
+            $outcome = $this->getOutcome($feedbackOutcomeIdentifier);
+            $feedbackThen = $this->getModalFeedback($feedbackIdentifier);
+
+            $feedbackElse = null;
+            if ($subtree->responseElse->getName()) {
+                $feedbackElseIdentifier = (string) $subtree->responseElse->setOutcomeValue->baseValue;
+                $feedbackElse = $this->getModalFeedback($feedbackElseIdentifier);
+            }
+
+            $feedbackRule = new SimpleFeedbackRuleScore($outcome, $feedbackThen, $feedbackElse);
+            $feedbackRule->setCondition($response, $conditionName, $comparedValue);
+        } catch (ParsingException $e) {
+            throw new UnexpectedResponseProcessing('Feedback resources not found. Not template driven, unknown rule');
+        }
+
+        $feedbackRule->setXml((string)$xml);
+
         return $feedbackRule;
     }
 
