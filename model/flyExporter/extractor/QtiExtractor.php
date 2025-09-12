@@ -70,12 +70,6 @@ class QtiExtractor implements Extractor
     protected $interactions = [];
 
     /**
-     * Work around to handle dynamic column length
-     * @var int
-     */
-    protected $headerChoice = 0;
-
-    /**
      * Set item to extract
      *
      * @param \core_kernel_classes_Resource $item
@@ -138,38 +132,69 @@ class QtiExtractor implements Extractor
      * Launch interactions extraction
      * Transform interactions array to output data
      * Use callback & valuesAsColumns
-     *
-     * @return $this
      */
-    public function run()
+    public function run(): static
     {
         $this->extractInteractions();
 
         $this->data = $line = [];
 
-        foreach ($this->interactions as $interaction) {
-            foreach ($this->columns as $column => $config) {
-                if (
-                    isset($config['callback'])
-                    && method_exists($this, $config['callback'])
-                ) {
-                    $params = [];
-                    if (isset($config['callbackParameters'])) {
-                        $params = $config['callbackParameters'];
-                    }
-                    $functionCall = $config['callback'];
-                    $callbackValue = call_user_func([$this, $functionCall], $interaction, $params);
-                    if (isset($config['valuesAsColumns'])) {
-                        $line[$interaction['id']] = array_merge($line[$interaction['id']], $callbackValue);
-                    } else {
-                        $line[$interaction['id']][$column] = $callbackValue;
-                    }
+        foreach ($this->columns as $column => $config) {
+            if (!isset($config['callback']) || !method_exists($this, $config['callback'])) {
+                continue;
+            }
+
+            $multicolumnValuesPerInteraction = [];
+            foreach ($this->interactions as $interaction) {
+                $callbackValue = call_user_func(
+                    [$this, $config['callback']],
+                    $interaction,
+                    $config['callbackParameters'] ?? []
+                );
+                if (isset($config['valuesAsColumns'])) {
+                    $multicolumnValuesPerInteraction[$interaction['id']] = $callbackValue;
+                } else {
+                    $line[$interaction['id']][$column] = $callbackValue;
                 }
             }
+
+            $this->equalizeColumns($multicolumnValuesPerInteraction);
+            $line = array_merge_recursive($line, $multicolumnValuesPerInteraction);
         }
+
         $this->data = $line;
         $this->columns = $this->interactions = [];
         return $this;
+    }
+
+    /**
+     * Makes number of keys in arrays equal (fixes dynamic column count for valuesAsColumns)
+     * Input:
+     * Array (
+     *  [interaction1] => Array ([choice_identifier_1] => choice1)
+     *  [interaction2] => Array ([choice_identifier_1] => choice1 [choice_identifier_2] => choice2)
+     * )
+     * Result (unexisting keys filled up with an empty string):
+     * Array (
+     *  [interaction1] => Array ([choice_identifier_1] => choice1 [choice_identifier_2] => '')
+     *  [interaction2] => Array ([choice_identifier_1] => choice1 [choice_identifier_2] => choice2)
+     * )
+     */
+    private function equalizeColumns(array &$callbackValuesPerInteraction): void
+    {
+        $allUniqueKeys = [];
+        foreach ($callbackValuesPerInteraction as $callbackValues) {
+            $allUniqueKeys = array_merge($allUniqueKeys, array_keys($callbackValues));
+        }
+        $allUniqueKeys = array_unique($allUniqueKeys);
+
+        foreach ($callbackValuesPerInteraction as &$callbackValues) {
+            foreach ($allUniqueKeys as $uniqueKey) {
+                if (!array_key_exists($uniqueKey, $callbackValues)) {
+                    $callbackValues[$uniqueKey] = '';
+                }
+            }
+        }
     }
 
     /**
@@ -446,15 +471,6 @@ class QtiExtractor implements Extractor
                 $return['choice_identifier_' . $i] = $identifier;
                 $return['choice_label_' . $i] = ($choice) ?: '';
                 $i++;
-            }
-            if ($this->headerChoice > count($return)) {
-                while ($this->headerChoice > count($return)) {
-                    $return['choice_identifier_' . $i] = '';
-                    $return['choice_label_' . $i] = '';
-                    $i++;
-                }
-            } else {
-                $this->headerChoice = count($return);
             }
         }
         return $return;
