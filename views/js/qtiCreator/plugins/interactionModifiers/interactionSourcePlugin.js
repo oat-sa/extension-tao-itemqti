@@ -21,8 +21,9 @@ define([
     'lodash',
     'core/plugin',
     'core/logger',
-    'taoQtiItem/qtiCreator/plugins/interactionModifiers/interactionSourceHandler'
-], function($, _, pluginFactory, loggerFactory, interactionSourceHandlerFactory) {
+    'taoQtiItem/qtiCreator/plugins/interactionModifiers/interactionSourceHandler',
+    'context'
+], function($, _, pluginFactory, loggerFactory, interactionSourceHandlerFactory, context) {
     'use strict';
 
     const logger = loggerFactory('taoQtiItem/qtiCreator/plugins/interactionModifiers/interactionSourcePlugin');
@@ -38,6 +39,10 @@ define([
          */
         init: function init() {
             try {
+                var ENABLE_INTERACTION_SOURCE = context.featureFlags && context.featureFlags.FEATURE_FLAG_CKEDITOR_INTERACTION_SOURCE;
+                if (!ENABLE_INTERACTION_SOURCE) {
+                    return this;
+                }
                 this.handler = interactionSourceHandlerFactory({
                     itemCreator: this.getHost()
                 });
