@@ -138,7 +138,8 @@ define([
 
                 if (!cls) continue;
 
-                if (CONSTANTS.STRUCTURAL_CLASSES.indexOf(cls) !== -1) {
+                // If any structural class is a substring of the class name, return true
+                if (CONSTANTS.STRUCTURAL_CLASSES.some(cls => cls.includes(cls))) {
                     return true;
                 }
 
@@ -441,6 +442,7 @@ define([
             const wrapperNodes = [];
             let currentNode = placeholderNode;
 
+            // Collect all wrapper divs from innermost to outermost
             while (currentNode && currentNode !== tempDiv) {
                 currentNode = currentNode.parentNode;
                 if (currentNode &&
@@ -451,14 +453,55 @@ define([
             }
 
             if (wrapperNodes.length > 0) {
-                const innermostWrapper = wrapperNodes[0];
-                const fragment = document.createDocumentFragment();
-
-                while (innermostWrapper.firstChild) {
-                    fragment.appendChild(innermostWrapper.firstChild);
+                // Find the innermost wrapper that contains a structural class
+                // We want to remove all custom wrappers until we reach a structural class
+                let innermostStructuralIndex = -1;
+                
+                // Look for structural class from innermost to outermost (normal order)
+                for (let i = 0; i < wrapperNodes.length; i++) {
+                    const wrapper = wrapperNodes[i];
+                    const hasStructuralClass = CONSTANTS.STRUCTURAL_CLASSES.some(cls => wrapper.className.includes(cls));
+                    
+                    if (hasStructuralClass) {
+                        innermostStructuralIndex = i;
+                        break;
+                    }
                 }
 
-                innermostWrapper.parentNode.replaceChild(fragment, innermostWrapper);
+                // If we found a structural wrapper, remove all custom wrappers before it
+                if (innermostStructuralIndex >= 0) {
+                    // Remove all wrappers from innermost to the structural wrapper (exclusive)
+                    // This removes custom wrappers but keeps the structural wrapper
+                    for (let i = 0; i < innermostStructuralIndex; i++) {
+                        const wrapperToRemove = wrapperNodes[i];
+                        const fragment = document.createDocumentFragment();
+                        
+                        // Move all children of the wrapper to a fragment
+                        while (wrapperToRemove.firstChild) {
+                            fragment.appendChild(wrapperToRemove.firstChild);
+                        }
+                        
+                        // Replace the wrapper with its children
+                        wrapperToRemove.parentNode.replaceChild(fragment, wrapperToRemove);
+                    }
+                    
+                } else {
+                    // No structural class found, remove all wrappers
+                    for (let i = 0; i < wrapperNodes.length; i++) {
+                        const wrapperToRemove = wrapperNodes[i];
+                        const fragment = document.createDocumentFragment();
+                        
+                        // Move all children of the wrapper to a fragment
+                        while (wrapperToRemove.firstChild) {
+                            fragment.appendChild(wrapperToRemove.firstChild);
+                        }
+                        
+                        // Replace the wrapper with its children
+                        wrapperToRemove.parentNode.replaceChild(fragment, wrapperToRemove);
+                    }
+                    
+                }
+
                 bodyObj.bdy = tempDiv.innerHTML;
                 return true;
             }
@@ -662,16 +705,6 @@ define([
                 Model.removeRenderHook(interaction);
                 Dom.removeWrappers(interaction);
                 Dom.applyWrapperStructure(interaction, newWrapperStructure);
-                Model.setupRenderHook(interaction);
-                changeApplied = true;
-            }
-            else if (parsedData.wrapperRemoved && currentStructure.length > 1) {
-                let newStructure = currentStructure.slice(1);
-                Model.storeWrapperStructure(interaction, newStructure);
-                Model.removeRenderHook(interaction);
-                Dom.removeWrappers(interaction);
-                Model.removeWrapperFromBody(interaction);
-                Dom.applyWrapperStructure(interaction, newStructure);
                 Model.setupRenderHook(interaction);
                 changeApplied = true;
             }
