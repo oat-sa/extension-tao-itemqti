@@ -139,7 +139,7 @@ define([
                 if (!cls) continue;
 
                 // If any structural class is a substring of the class name, return true
-                if (CONSTANTS.STRUCTURAL_CLASSES.some(cls => cls.includes(cls))) {
+                if (CONSTANTS.STRUCTURAL_CLASSES.some(structuralCls => cls.includes(structuralCls))) {
                     return true;
                 }
 
