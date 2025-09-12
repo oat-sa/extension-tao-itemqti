@@ -30,8 +30,8 @@ define([
         INTERACTION_PLACEHOLDER_FORMAT: '{{%s}}',
         INTERACTION_REGEX: /<interaction_([^>]+)>/,
         STRUCTURAL_CLASSES: [
-            'grid-row', 'col-12', 'grid-container', 'grid-col',
-            'row', 'container', 'container-fluid', 'col', 'column'
+            'grid-row', 'grid-container', 'grid-col',
+            'row', 'container', 'container-fluid', 'col-', 'column'
         ],
         UNSAFE_CLASSES:  [
             'js-', 'javascript-', 'onclick', 'event-', 'trigger-',
