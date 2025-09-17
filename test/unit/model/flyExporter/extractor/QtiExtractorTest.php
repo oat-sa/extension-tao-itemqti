@@ -1,12 +1,4 @@
 <?php
-declare(strict_types=1);
-namespace oat\taoQtiItem\test\model\flyExporter\extractor;
-
-use DOMDocument;
-use DOMXPath;
-use oat\taoQtiItem\model\flyExporter\extractor\QtiExtractor;
-use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 
 /**
  * This program is free software; you can redistribute it and/or
@@ -26,9 +18,16 @@ use ReflectionClass;
  * Copyright (c) 2025 (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+namespace oat\taoQtiItem\test\model\flyExporter\extractor;
+
+use DOMDocument;
+use DOMXPath;
+use oat\taoQtiItem\model\flyExporter\extractor\QtiExtractor;
+use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+
 /**
- * Unit tests for the QtiExtractor class.
- *
  * @covers \oat\taoQtiItem\model\flyExporter\extractor\QtiExtractor
  */
 class QtiExtractorTest extends TestCase
