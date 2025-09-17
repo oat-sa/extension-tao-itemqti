@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace oat\taoQtiItem\test\model\flyExporter\extractor;
 
 use DOMDocument;
