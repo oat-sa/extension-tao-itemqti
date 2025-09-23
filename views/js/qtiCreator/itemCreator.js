@@ -213,6 +213,10 @@ define([
                         this.trigger('error', new Error(`${__('Item cannot be saved.')} (${reasons.join(', ')}).`));
                         return;
                     }
+                    // disable buttons while saving
+                    plugins.preview.disable();
+                    plugins.print.disable();
+                    plugins.back.disable();
                     //do the save
                     return this.beforeSaveProcess
                         .then(() => styleEditor.save())
@@ -223,8 +227,14 @@ define([
                             }
                             this.trigger('saved');
                         })
-                        .catch(err => this.trigger('error', err));
-                });
+                        .catch(err => this.trigger('error', err))
+                        .finally(() => {
+                            // re-enable buttons
+                            plugins.preview.enable();
+                            plugins.print.enable();
+                            plugins.back.enable();
+                        });
+                    });
 
                 this.on('exit', () => {
                     $('.item-editor-item', areaBroker.getItemPanelArea()).empty();
