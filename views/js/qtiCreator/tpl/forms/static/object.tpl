@@ -27,8 +27,8 @@
         <!-- mediaEditorComponent goes here -->
     </div>
 </div>
-{{#if isAudio}}
-    <div class="panel compact-appearance">
+{{#if isCompactAppearanceAvailable}}
+    <div class="panel compact-appearance" style="display: {{#if isAudio}}block{{else}}none{{/if}};">
         <label>
             <input name="compactAppearance" type="checkbox" {{#if compactAppearance}}checked="checked"{{/if}}/>
             <span class="icon-checkbox"></span>

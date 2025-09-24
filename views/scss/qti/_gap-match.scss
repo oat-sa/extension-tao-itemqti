@@ -1,8 +1,11 @@
-@import "inc/bootstrap";
+@import 'inc/bootstrap';
 
 .qti-gapMatchInteraction {
     .gapmatch-content {
-        audio, canvas, img, video {
+        audio,
+        canvas,
+        img,
+        video {
             vertical-align: baseline;
         }
         &:hover {
@@ -26,10 +29,12 @@
         &.filled {
             top: 0 !important;
         }
-        &.dragged, &.dragged:hover {
+        &.dragged,
+        &.dragged:hover {
             @extend %dragged;
         }
-        &.droppable, &.droppable:hover {
+        &.droppable,
+        &.droppable:hover {
             @extend %droppable;
         }
         &.dropzone {
@@ -46,5 +51,8 @@
             opacity: 0.2;
             pointer-events: none;
         }
+    }
+    .qti-choice {
+        @include dragdrop-noselect;
     }
 }

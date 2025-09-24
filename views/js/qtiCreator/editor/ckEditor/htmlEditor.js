@@ -90,6 +90,10 @@ define([
             }
         });
 
+        if (!options.interactionsource) {
+            removePlugins.push('interactionsource');
+        }
+
         if (options.removePlugins) {
             options.removePlugins.split(',').forEach(removePluginName => {
                 removePlugins.push(removePluginName.trim());

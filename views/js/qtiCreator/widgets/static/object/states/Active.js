@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2025 (original work) Open Assessment Technologies SA ;
  *
  */
 define([
@@ -24,12 +24,13 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/object',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/helpers/featureFlags',
     'taoQtiItem/qtiCreator/widgets/static/helpers/inline',
     'ui/mediaEditor/mediaEditorComponent',
     'ui/previewer',
     'ui/resourcemgr',
     'ui/tooltip'
-], function (_, $, __, stateFactory, Active, formTpl, formElement, inlineHelper, mediaEditorComponent) {
+], function (_, $, __, stateFactory, Active, formTpl, formElement, featureFlags, inlineHelper, mediaEditorComponent) {
     'use strict';
     /**
      * media Editor instance if has been initialized
@@ -81,6 +82,8 @@ define([
             obj.attributes.type
             && _config.mediaPlayerMimeType.includes(obj.attributes.type)
             && obj.attributes.data.includes('taomedia://mediamanager/')
+            && obj.metaData.widget.options.mediaManager.transcriptionMetadata
+            && obj.metaData.widget.options.mediaManager.resourceMetadataUrl
         ) {
             const metadataUri = encodeURIComponent(obj.metaData.widget.options.mediaManager.transcriptionMetadata);
             const resourceUri = obj.attributes.data.replace('taomedia://mediamanager/', '');
@@ -248,6 +251,9 @@ define([
         const baseUrl = _widget.options.baseUrl;
         const $container = _widget.$original;
         const compactAppearance = !!qtiObject.hasClass('compact-appearance');
+        const isAudio = /audio/.test(qtiObject.attr('type'));
+        const isCompactAppearanceAvailable = featureFlags.isCompactAppearanceAvailable();
+
         $form.html(
             formTpl({
                 baseUrl: baseUrl || '',
@@ -255,12 +261,13 @@ define([
                 alt: qtiObject.attr('alt'),
                 height: qtiObject.attr('height'),
                 width: qtiObject.attr('width'),
-                isAudio: /audio/.test(qtiObject.attr('type')),
+                isAudio,
+                isCompactAppearanceAvailable,
                 compactAppearance: !!qtiObject.hasClass('compact-appearance')
             })
         );
 
-        if (/audio/.test(qtiObject.attr('type')) && compactAppearance){
+        if (isAudio && compactAppearance && isCompactAppearanceAvailable){
             $container.parent().addClass('compact-appearance');
         }
 
@@ -276,6 +283,16 @@ define([
 
         $container.off('playerready').on('playerready', function () {
             setMediaSizeEditor(_widget);
+            if (isCompactAppearanceAvailable) {
+                if (/audio/.test(qtiObject.attr('type'))) {
+                    $form.find('.compact-appearance').show();
+                } else {
+                    qtiObject.attr('compact-appearance', false);
+                    $form.find('.compact-appearance').hide();
+                    $form.find('.compact-appearance input[name="compactAppearance"]').prop("checked", false);
+                    $container.parent().removeClass('compact-appearance');
+                }
+            }
         });
 
         const clearMediaSize = () => {
@@ -322,7 +339,7 @@ define([
                 inlineHelper.positionFloat(_widget, value);
             },
             compactAppearance: function (object, value) {
-                if(value) {
+                if(value && isCompactAppearanceAvailable) {
                     if(!$container.hasClass('compact-appearance')) {
                         qtiObject.addClass('compact-appearance');
                         $container.parent().addClass('compact-appearance');

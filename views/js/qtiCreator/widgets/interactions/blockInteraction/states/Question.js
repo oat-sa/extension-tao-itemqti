@@ -47,36 +47,7 @@ define([
         $editable.attr('data-html-editable', true);
 
         if(!htmlEditor.hasEditor($editableContainer)){
-            var toolbar = [
-                {
-                    name : 'basicstyles',
-                    items : ['Bold', 'Italic', 'Subscript', 'Superscript']
-                },
-                {
-                    name : 'insert',
-                    items : ['SpecialChar', 'TaoQtiPrintedVariable']
-                },
-                {
-                    name : 'links',
-                    items : ['Link']
-                },
-                {
-                    name : 'styles',
-                    items : ['Format']
-                },
-                {
-                    name : 'paragraph',
-                    items : ['NumberedList', 'BulletedList', '-', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
-                },
-                {
-                    name: 'language',
-                    items: ['Language']
-                }
-            ];
             var ENABLE_INTERACTION_SOURCE = context.featureFlags && context.featureFlags.FEATURE_FLAG_CKEDITOR_INTERACTION_SOURCE;
-            if (ENABLE_INTERACTION_SOURCE) {
-                toolbar.push({ name: 'interactionsource', items: ['InteractionSource'] });
-            }
             htmlEditor.buildEditor($editableContainer, {
                 placeholder : __('define prompt'),
                 change : contentHelper.getChangeCallback(container),
@@ -84,7 +55,7 @@ define([
                     container : container,
                     widget : _widget
                 },
-                toolbar: toolbar
+                interactionsource: ENABLE_INTERACTION_SOURCE
             });
         }
     };

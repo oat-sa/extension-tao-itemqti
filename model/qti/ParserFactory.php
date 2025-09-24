@@ -15,11 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2025 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\taoQtiItem\model\qti;
 
+use oat\taoQtiItem\model\qti\choice\Choice;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
@@ -28,6 +29,7 @@ use oat\taoQtiItem\model\qti\container\ContainerInteractive;
 use oat\taoQtiItem\model\qti\container\ContainerItemBody;
 use oat\taoQtiItem\model\qti\container\ContainerGap;
 use oat\taoQtiItem\model\qti\container\ContainerHottext;
+use oat\taoQtiItem\model\qti\interaction\Interaction;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\response\Custom;
 use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
@@ -42,6 +44,7 @@ use oat\taoQtiItem\model\qti\choice\ContainerChoice;
 use oat\taoQtiItem\model\qti\choice\TextVariableChoice;
 use oat\taoQtiItem\model\qti\choice\GapImg;
 use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\None;
+use oat\taoQtiItem\model\qti\response\SimpleFeedbackRuleScore;
 use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use oat\taoQtiItem\model\qti\OutcomeDeclaration;
 use oat\taoQtiItem\model\qti\response\Template;
@@ -85,6 +88,7 @@ class ParserFactory
     /** @var \oat\taoQtiItem\model\qti\Item */
     protected $item = null;
     protected $attributeMap = ['lang' => 'xml:lang'];
+    protected $xpath;
 
     public function __construct(DOMDocument $data)
     {
@@ -120,7 +124,7 @@ class ParserFactory
 
     /**
      * Get the body data (markups) of an element.
-     * @param \DOMElement $data the element
+     * @param DOMElement $data the element
      * @param boolean $removeNamespace if XML namespaces should be removed
      * @param boolean $keepEmptyTags if true, the empty tags are kept expanded (useful when tags are HTML)
      * @return string the body data (XML markup)
@@ -727,7 +731,7 @@ class ParserFactory
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @param DOMElement $data
-     * @return \oat\taoQtiItem\model\qti\interaction\Interaction
+     * @return Interaction
      * @throws ParsingException
      * @throws UnsupportedQtiElement
      * @throws interaction\InvalidArgumentException
@@ -863,7 +867,7 @@ class ParserFactory
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  DOMElement $data
-     * @return \oat\taoQtiItem\model\qti\choice\Choice
+     * @return Choice
      * @throws ParsingException
      * @throws UnsupportedQtiElement
      * @throws choice\InvalidArgumentException
@@ -1419,6 +1423,12 @@ class ParserFactory
         $patternFeedbackMatchChoiceWithElse  = '/responseCondition [count(./*) = 2 ]' . $subPatternFeedbackMatchChoice
             . $subPatternFeedbackElse;
 
+        $patternFeedbackIsOperatorScore = '//responseCondition/responseIf/and[
+  not[isNull] and 
+  *[self::gt or self::lt or self::lte or self::equal or self::gte]
+]';
+
+
         $rules = [];
         $simpleFeedbackRules = [];
         $data = simplexml_import_dom($data);
@@ -1452,6 +1462,25 @@ class ParserFactory
             ) {
                 $responseIdentifier = (string) $subtree->responseIf->isNull->variable['identifier'];
                 $feedbackRule = $this->buildIsNullFeedbackRule($subtree, null, $responseIdentifier);
+            } elseif (count($subtree->xpath($patternFeedbackIsOperatorScore))) {
+                $operator = '';
+                $value = '';
+                $responseIdentifier = $subtree->responseIf->and->not->isNull->variable['identifier'];
+                foreach ($subtree->responseIf->and->children() as $child) {
+                    if ($child->getName() === 'not') {
+                        continue;
+                    }
+                    $operator = $child->getName();
+                    $value = (string) $child->baseValue;
+                    break;
+                }
+                $feedbackRule = $this->buildScoreFeedbackRule(
+                    $subtree,
+                    $operator,
+                    $value,
+                    $responseIdentifier,
+                    $responseRule->asXML()
+                );
             } elseif (
                 count($subtree->xpath($patternFeedbackOperator)) > 0
                 || count($subtree->xpath($patternFeedbackOperatorWithElse)) > 0
@@ -1537,7 +1566,7 @@ class ParserFactory
         return $returnValue;
     }
 
-    private function buildIsNullFeedbackRule($subtree, $comparedValue = null, $responseId = '')
+    protected function buildIsNullFeedbackRule($subtree, $comparedValue = null, $responseId = '')
     {
         $conditionName = 'isNull';
         $responseIdentifier = empty($responseId)
@@ -1562,12 +1591,9 @@ class ParserFactory
         return $feedbackRule;
     }
 
-    private function buildSimpleFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseId = '')
+    private function buildSimpleFeedbackRule($subtree, $conditionName, $comparedValue = null, $responseIdentifier = '')
     {
-
-        $responseIdentifier = empty($responseId)
-            ? (string) $subtree->responseIf->match->variable['identifier']
-            : $responseId;
+        $responseIdentifier = $this->createResponseIdentifier($subtree, $responseIdentifier);
         $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
         $feedbackIdentifier = (string) $subtree->responseIf->setOutcomeValue->baseValue;
 
@@ -1589,6 +1615,55 @@ class ParserFactory
         }
         return $feedbackRule;
     }
+
+
+    protected function buildScoreFeedbackRule($subtree, $conditionName, $comparedValue, $responseIdentifier, $xml)
+    {
+        $feedbackOutcomeIdentifier = (string) $subtree->responseIf->setOutcomeValue['identifier'];
+        $feedbackIdentifier = (string) $subtree->responseIf->setOutcomeValue->baseValue;
+
+        try {
+            $response = $this->getResponse($responseIdentifier);
+            $outcome = $this->getOutcome($feedbackOutcomeIdentifier);
+            $feedbackThen = $this->getModalFeedback($feedbackIdentifier);
+
+            $feedbackElse = null;
+            if ($subtree->responseElse->getName()) {
+                $feedbackElseIdentifier = (string) $subtree->responseElse->setOutcomeValue->baseValue;
+                $feedbackElse = $this->getModalFeedback($feedbackElseIdentifier);
+            }
+
+            $feedbackRule = new SimpleFeedbackRuleScore($outcome, $feedbackThen, $feedbackElse);
+            $feedbackRule->setCondition($response, $conditionName, $comparedValue);
+        } catch (ParsingException $e) {
+            throw new UnexpectedResponseProcessing('Feedback resources not found. Not template driven, unknown rule');
+        }
+
+        $feedbackRule->setXml((string)$xml);
+
+        return $feedbackRule;
+    }
+
+    private function createResponseIdentifier(SimpleXMLElement $subtree, string $responseIdentifier): string
+    {
+        if (!empty($responseIdentifier)) {
+            return $responseIdentifier;
+        }
+
+        foreach ($subtree->responseIf->children() as $child) {
+            if ($child->getName() === 'setOutcomeValue') {
+                continue;
+            }
+            foreach (['variable', 'mapResponse'] as $element) {
+                if (isset($child->{$element})) {
+                    return (string)$child->{$element}['identifier'];
+                }
+            }
+        }
+
+        return $responseIdentifier;
+    }
+
     /**
      * Short description of method buildObject
      *

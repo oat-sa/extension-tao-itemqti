@@ -1,8 +1,6 @@
-@import "inc/bootstrap";
-
+@import 'inc/bootstrap';
 
 .qti-graphicGapMatchInteraction {
-
     ul.source {
         width: 100%;
         margin: 10px auto;
@@ -10,10 +8,11 @@
         clear: both;
         min-height: 60px;
         & > li {
+            @include dragdrop-noselect;
             background: white();
             border: solid 1px #ddd !important;
             line-height: 60px;
-            min-height : 60px;
+            min-height: 60px;
             min-width: 60px;
             text-align: center;
             max-width: 100%;
@@ -21,24 +20,24 @@
             margin: 0 3px 3px 0 !important;
             padding: 0;
             cursor: pointer;
-            &:hover{
+            &:hover {
                 @extend %selectableHover;
             }
             &.active {
                 border: solid 1px $uiClickableHoverBg !important;
                 @include transition(background, 0.1s);
-                &:hover{
+                &:hover {
                     background: white() !important;
                     cursor: default !important;
                 }
 
-                &.selectable:hover{
+                &.selectable:hover {
                     @extend %selectableHover;
                     cursor: pointer !important;
                 }
             }
             &.dragged {
-                z-index:10;
+                z-index: 10;
             }
 
             &.disabled {
@@ -51,13 +50,14 @@
             img {
                 display: block;
             }
-
         }
     }
-
-    .gap-filler{
+    .gap-filler {
         display: block;
         position: absolute;
         z-index: 20000;
+    }
+    .svggroup {
+        @include dragdrop-noselect;
     }
 }
