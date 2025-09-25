@@ -217,6 +217,7 @@ define([
                     return this.beforeSaveProcess
                         .then(() => styleEditor.save())
                         .then(() => itemWidget.save())
+                        .then(() => this.trigger('updateTranslations'))
                         .then(() => {
                             if (!silent) {
                                 this.trigger('success', __('Your item has been saved'));
