@@ -213,27 +213,18 @@ define([
                         this.trigger('error', new Error(`${__('Item cannot be saved.')} (${reasons.join(', ')}).`));
                         return;
                     }
-                    // disable buttons while saving
-                    plugins.preview.disable();
-                    plugins.print.disable();
-                    plugins.back.disable();
                     //do the save
                     return this.beforeSaveProcess
                         .then(() => styleEditor.save())
                         .then(() => itemWidget.save())
+                        .then(() => this.trigger('updateTranslations'))
                         .then(() => {
                             if (!silent) {
                                 this.trigger('success', __('Your item has been saved'));
                             }
                             this.trigger('saved');
                         })
-                        .catch(err => this.trigger('error', err))
-                        .finally(() => {
-                            // re-enable buttons
-                            plugins.preview.enable();
-                            plugins.print.enable();
-                            plugins.back.enable();
-                        });
+                       .catch(err => this.trigger('error', err));
                     });
 
                 this.on('exit', () => {
