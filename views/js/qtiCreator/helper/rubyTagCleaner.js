@@ -41,7 +41,6 @@ define([], function() {
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = htmlContent;
 
-            // Find ruby elements using a more robust approach
             const rubyElements = [];
             const allElements = tempDiv.getElementsByTagName('*');
 
@@ -53,7 +52,6 @@ define([], function() {
             }
 
             rubyElements.forEach(function(ruby) {
-                // Find rb and rt elements within this ruby
                 const rbElements = [];
                 const rtElements = [];
                 const children = ruby.children;
@@ -69,18 +67,16 @@ define([], function() {
 
                 let shouldRemove = false;
 
-                // Remove if no rb (base text) elements - ruby without base text is invalid
                 if (rbElements.length === 0) {
                     shouldRemove = true;
                 } else if (rtElements.length === 0) {
-                    // No furigana elements - should remove
                     shouldRemove = true;
                 } else if (rtElements.length > 0) {
-                    // Check if all rt elements are empty
                     let hasNonEmptyRt = false;
                     for (let j = 0; j < rtElements.length; j++) {
-                        const textContent = rtElements[j].textContent.trim();
-                        if (textContent !== '' && textContent !== '\u00A0') {
+                        const raw = rtElements[j].textContent || '';
+                        const normalized = raw.replace(/[\s\u00A0\u200B\uFEFF\u3000]+/g, '');
+                        if (normalized !== '') {
                             hasNonEmptyRt = true;
                             break;
                         }
@@ -91,12 +87,12 @@ define([], function() {
                 }
 
                 if (shouldRemove && rbElements.length > 0) {
-                    // Replace ruby with just the base text content
-                    const rbContent = rbElements[0].innerHTML;
-                    const textNode = document.createTextNode(rbContent.replace(/<[^>]*>/g, ''));
+                    const baseText = rbElements
+                        .map(rb => rb.textContent || '')
+                        .join('');
+                    const textNode = document.createTextNode(baseText);
                     ruby.parentNode.replaceChild(textNode, ruby);
                 } else if (shouldRemove) {
-                    // Remove empty ruby with no base content
                     ruby.remove();
                 }
             });
