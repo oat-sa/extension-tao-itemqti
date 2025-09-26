@@ -66,7 +66,7 @@ define([
     });
 
     QUnit.test('removes empty ruby tags with empty rt elements', function(assert) {
-        assert.expect(3);
+        assert.expect(6);
 
         const input1 = '<qh5:ruby><qh5:rb>word</qh5:rb><qh5:rt></qh5:rt></qh5:ruby>';
         const expected1 = 'word';
@@ -79,6 +79,21 @@ define([
         const input3 = '<qh5:ruby><qh5:rb>word</qh5:rb><qh5:rt>&nbsp;</qh5:rt></qh5:ruby>';
         const expected3 = 'word';
         assert.equal(rubyTagCleaner.clean(input3), expected3, 'removes ruby with non-breaking space rt');
+
+        // Test multiple non-breaking spaces
+        const input4 = '<qh5:ruby><qh5:rb>word</qh5:rb><qh5:rt>&nbsp;&nbsp;</qh5:rt></qh5:ruby>';
+        const expected4 = 'word';
+        assert.equal(rubyTagCleaner.clean(input4), expected4, 'removes ruby with multiple non-breaking spaces rt');
+
+        // Test zero-width space
+        const input5 = '<qh5:ruby><qh5:rb>word</qh5:rb><qh5:rt>\u200B</qh5:rt></qh5:ruby>';
+        const expected5 = 'word';
+        assert.equal(rubyTagCleaner.clean(input5), expected5, 'removes ruby with zero-width space rt');
+
+        // Test ideographic space
+        const input6 = '<qh5:ruby><qh5:rb>word</qh5:rb><qh5:rt>\u3000</qh5:rt></qh5:ruby>';
+        const expected6 = 'word';
+        assert.equal(rubyTagCleaner.clean(input6), expected6, 'removes ruby with ideographic space rt');
     });
 
     QUnit.test('preserves valid ruby tags with content', function(assert) {
@@ -145,6 +160,24 @@ define([
         // Ruby with multiple rt elements (some empty, some not)
         const input3 = '<qh5:ruby><qh5:rb>word</qh5:rb><qh5:rt></qh5:rt><qh5:rt>reading</qh5:rt></qh5:ruby>';
         assert.equal(rubyTagCleaner.clean(input3), input3, 'preserves ruby with mixed empty and non-empty rt elements');
+    });
+
+    QUnit.test('handles multiple rb siblings correctly', function(assert) {
+        assert.expect(3);
+
+        // Multiple rb elements with empty rt - should concatenate all rb content
+        const input1 = '<qh5:ruby><qh5:rb>wo</qh5:rb><qh5:rb>rd</qh5:rb><qh5:rt>   </qh5:rt></qh5:ruby>';
+        const expected1 = 'word';
+        assert.equal(rubyTagCleaner.clean(input1), expected1, 'concatenates multiple rb siblings when rt is empty');
+
+        // Multiple rb elements with valid rt - should preserve entire structure
+        const input2 = '<qh5:ruby><qh5:rb>wo</qh5:rb><qh5:rb>rd</qh5:rb><qh5:rt>reading</qh5:rt></qh5:ruby>';
+        assert.equal(rubyTagCleaner.clean(input2), input2, 'preserves ruby with multiple rb siblings and valid rt');
+
+        // Multiple rb elements with multiple NBSP in rt - should concatenate rb content
+        const input3 = '<qh5:ruby><qh5:rb>hel</qh5:rb><qh5:rb>lo</qh5:rb><qh5:rt>&nbsp;&nbsp;&nbsp;</qh5:rt></qh5:ruby>';
+        const expected3 = 'hello';
+        assert.equal(rubyTagCleaner.clean(input3), expected3, 'concatenates multiple rb siblings when rt has multiple NBSP');
     });
 
     QUnit.test('real world scenarios', function(assert) {
