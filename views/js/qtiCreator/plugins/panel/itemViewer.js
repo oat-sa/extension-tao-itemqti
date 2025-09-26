@@ -155,7 +155,7 @@ define([
                 });
             });
 
-            itemCreator.on('save', () => {
+            itemCreator.on('updateTranslations', () => {
                 const item = itemCreator.getItem();
                 const itemWidget = item.data('widget');
                 const progress = itemWidget && itemWidget.options && itemWidget.options.translationStatus;
