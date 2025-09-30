@@ -316,6 +316,17 @@
     writing-mode: vertical-rl;
 
     .qti-choiceInteraction {
+        /* in iPad Safari & nested scroll container,
+           checked radio style sometimes isn't applied after click on choice - repaint is not triggered  */
+        .qti-choice {
+            &.user-selected {
+                opacity: 0.97;
+            }
+            &:not(.user-selected) {
+                opacity: 1;
+            }
+        }
+
         &.maskable {
             .qti-choice {
                 .answer-mask {
@@ -465,8 +476,8 @@
     }
 }
 
-.qti-choice:has(.compact-appearance){
-    [data-html-editable="true"]{
+.qti-choice:has(.compact-appearance) {
+    [data-html-editable='true'] {
         display: flex;
         position: relative;
         min-height: 4rem;
