@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014-2025 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 define([
@@ -63,9 +63,19 @@ define([
             elementSupportHelper.isFigureSupportedInParent($container)
         ) {
             const parent = findParentElement(img.rootElement, img.serial);
-            parent.removeElement(img);
+
+            const imgPlaceholder = img.placeholder();
+            const currentBody = parent.body();
+
             const figure = new FigureModel();
+            const figurePlaceholder = figure.placeholder();
+
+            const newBody = currentBody.replace(imgPlaceholder, figurePlaceholder);
+
+            parent.removeElement(img);
+            parent.body(newBody);
             parent.setElement(figure);
+
             const figureRenderer = parent.getRenderer();
             if (figureRenderer) {
                 figure.setRenderer(figureRenderer);
