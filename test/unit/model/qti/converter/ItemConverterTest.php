@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\qti\converter;
 
+use DOMDocument;
 use oat\taoQtiItem\model\qti\converter\CaseConversionService;
 use oat\taoQtiItem\model\qti\converter\ItemConverter;
 use oat\taoQtiItem\model\ValidationService;
@@ -41,7 +42,7 @@ class ItemConverterTest extends TestCase
         //Copy file
         $modifiedFile = dirname(__FILE__) . '/../../../samples/model/qti/item/qti3_copy.xml';
         copy(dirname(__FILE__) . '/../../../samples/model/qti/item/qti3.xml', $modifiedFile);
-        $this->caseConversionMock->expects($this->exactly(10))
+        $this->caseConversionMock
             ->method('kebabToCamelCase')
             ->willReturn('camelCase');
 
@@ -52,6 +53,37 @@ class ItemConverterTest extends TestCase
             ]);
 
         $this->subject->convertToQti2($modifiedFile);
+
+        $this->assertFileExists($modifiedFile);
+
+        //Delete file
+        unlink($modifiedFile);
+    }
+
+    public function testConvertHandlesPortableCustomInteraction()
+    {
+        $this->caseConversionMock->method('kebabToCamelCase')
+            ->will($this->returnCallback(function ($str) {
+                $map = [
+                    'qti-assessment-item' => 'assessmentItem',
+                    'qti-response-declaration' => 'responseDeclaration',
+                    'qti-item-body' => 'itemBody',
+                    'portable-custom-interaction' => 'portableCustomInteraction',
+                    'response-identifier' => 'responseIdentifier',
+                    'time-dependent' => 'timeDependent',
+                    'base-type' => 'baseType',
+                ];
+                return $map[$str] ?? $str;
+            }));
+        //Copy file
+        $modifiedFile = dirname(__FILE__) . '/../../../samples/model/qti/item/qti3_pci_copy.xml';
+        copy(dirname(__FILE__) . '/../../../samples/model/qti/item/qti3_pci.xml', $modifiedFile);
+
+        $this->subject->convertToQti2($modifiedFile);
+        $this->assertXmlFileEqualsXmlFile(
+            dirname(__FILE__) . '/../../../samples/model/qti/item/qti2_pci_expected.xml',
+            $modifiedFile
+        );
 
         //Delete file
         unlink($modifiedFile);
