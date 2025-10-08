@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\qti\converter;
 
-use DOMDocument;
 use oat\taoQtiItem\model\qti\converter\CaseConversionService;
 use oat\taoQtiItem\model\qti\converter\ItemConverter;
 use oat\taoQtiItem\model\ValidationService;
