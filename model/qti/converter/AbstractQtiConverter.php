@@ -107,7 +107,9 @@ abstract class AbstractQtiConverter
 
             if ($convertedTag === 'portableCustomInteraction') {
                 $newElement->setAttribute('xmlns', 'http://www.imsglobal.org/xsd/portableCustomInteraction_v1');
-                $newElement->setAttribute('data-version', $child->getAttribute('data-version'));
+                if ($child->hasAttribute('data-version')) {
+                    $newElement->setAttribute('data-version', $child->getAttribute('data-version'));
+                }
             }
 
             if ($childNodes) {
