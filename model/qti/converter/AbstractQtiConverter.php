@@ -13,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2024-2025 (original work) Open Assessment Technologies SA;
  */
@@ -47,11 +47,34 @@ abstract class AbstractQtiConverter
 
     private CaseConversionService $caseConversionService;
     private ValidationService $validationService;
+    private array $attributePreservationRules;
 
-    public function __construct(CaseConversionService $caseConversionService, ValidationService $validationService)
-    {
+    public function __construct(
+        CaseConversionService $caseConversionService,
+        ValidationService $validationService,
+        array $attributePreservationRules = []
+    ) {
         $this->caseConversionService = $caseConversionService;
         $this->validationService = $validationService;
+        $this->attributePreservationRules = $attributePreservationRules;
+    }
+
+    /**
+     * Check if an attribute should be preserved (not converted to camelCase)
+     *
+     * @param DOMElement $element The element containing the attribute
+     * @param string $attributeName The attribute name to check
+     * @return bool True if the attribute should be preserved as-is
+     */
+    private function shouldPreserveAttribute(DOMElement $element, string $attributeName): bool
+    {
+        $elementName = $element->nodeName;
+
+        if (!isset($this->attributePreservationRules[$elementName])) {
+            return false;
+        }
+
+        return in_array($attributeName, $this->attributePreservationRules[$elementName], true);
     }
 
     public function convertToQti2(string $filename): void
@@ -137,6 +160,17 @@ abstract class AbstractQtiConverter
             }
 
             if ($this->convertAttributesToQTI2($childNode, $newElement, $attribute)) {
+                continue;
+            }
+
+            // Check if attribute should be preserved (not converted)
+            if ($this->shouldPreserveAttribute($childNode, $attribute->name)) {
+                $newElement->setAttribute($attribute->name, $attribute->value);
+                common_Logger::d(sprintf(
+                    'Preserved attribute "%s" on element "%s" during QTI3 to QTI2 conversion',
+                    $attribute->name,
+                    $childNode->nodeName
+                ));
                 continue;
             }
 
