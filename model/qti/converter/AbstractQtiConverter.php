@@ -126,13 +126,14 @@ abstract class AbstractQtiConverter
                 $convertedTag = 'm:' . $convertedTag;
             }
 
-            if (!$this->isTagValid($convertedTag)) {
-                common_Logger::w(sprintf('Invalid tag name: %s, When importing', $convertedTag));
-                $child->remove();
-                continue;
-            }
-
             $newElement = $child->ownerDocument->createElement($convertedTag, $nodeValue);
+
+            if ($convertedTag === 'portableCustomInteraction') {
+                $newElement->setAttribute('xmlns', 'http://www.imsglobal.org/xsd/portableCustomInteraction_v1');
+                if ($child->hasAttribute('data-version')) {
+                    $newElement->setAttribute('data-version', $child->getAttribute('data-version'));
+                }
+            }
 
             if ($childNodes) {
                 foreach (iterator_to_array($childNodes) as $childNode) {
@@ -230,51 +231,6 @@ abstract class AbstractQtiConverter
     }
 
     abstract protected function getRootElement(): string;
-
-    private function isTagValid(string $convertedTag): bool
-    {
-        $validationSchema = $this->validationService->getContentValidationSchema(self::QTI_22_NS);
-        foreach ($validationSchema as $schemaPath) {
-            $xsdDom = new DOMDocument();
-            $xsdDom->load($schemaPath);
-
-            $xpath = new DOMXPath($xsdDom);
-            $xpath->registerNamespace('xs', 'http://www.w3.org/2001/XMLSchema');
-
-            // Split prefix:localName
-            if (strpos($convertedTag, ':') !== false) {
-                list($prefix, $localName) = explode(':', $convertedTag, 2);
-
-                $schemaRoot = $xsdDom->documentElement;
-                $namespaceUri = $schemaRoot->lookupNamespaceURI($prefix);
-
-                if (!$namespaceUri) {
-                    continue; // Try next schema
-                }
-
-                $elements = $xpath->query("//xs:element[@name='$localName']");
-
-                foreach ($elements as $element) {
-                    $schemaNs = $element->ownerDocument->documentElement->getAttribute('targetNamespace');
-                    if ($schemaNs === $namespaceUri) {
-                        return true;
-                    }
-                }
-
-                $elementsByRef = $xpath->query("//xs:element[@ref='$convertedTag']");
-                if ($elementsByRef->count() > 0) {
-                    return true;
-                }
-            } else {
-                $elements = $xpath->query("//xs:element[@name='$convertedTag']");
-                if ($elements->count() > 0) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
 
     /**
      * We can only apply conversion into root element equal to defined root element const
