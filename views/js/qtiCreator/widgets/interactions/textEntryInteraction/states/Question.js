@@ -11,9 +11,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
- * Copyright (c) 2013-2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2013-2025 (original work) Open Assessment Technologies SA ;
  */
 define([
     'jquery',
@@ -30,13 +30,13 @@ define([
     var TextEntryInteractionStateQuestion = stateFactory.extend(Question);
 
     TextEntryInteractionStateQuestion.prototype.initForm = function(){
-        
+
         var _widget = this.widget,
             $form = _widget.$form,
             $inputs,
             interaction = _widget.element,
             patternMask = interaction.attr('patternMask'),
-            dataPatternmaskMessage = interaction.attr('dataPatternmaskMessage'),
+            dataPatternmaskMessage = interaction.attr('data-patternmask-message'),
             maxChars = parseInt(patternMaskHelper.parsePattern(patternMask,'chars'), 10);
 
         var constraints = {
@@ -102,7 +102,7 @@ define([
                 $inputs.maxLength.val('');
             },
             dataPatternmaskMessage : function dataPatternmaskMessage(interaction, attrValue) {
-                interaction.attr('dataPatternmaskMessage', attrValue);
+                interaction.attr('data-patternmask-message', attrValue);
             },
             maxLength : function maxLength(interaction, attrValue){
                 var newValue = parseInt(attrValue,10);

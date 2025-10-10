@@ -38,6 +38,12 @@ class Qti22PostProcessorService
         '//qh5:figure[@showFigure]'                                => ['showFigure'],
     ];
 
+    private array $attributeRenamingRules = [
+        '//*[local-name()="textEntryInteraction"][@dataPatternmaskMessage]' => [
+            'dataPatternmaskMessage' => 'data-patternmask-message',
+        ],
+    ];
+
     /**
      * @var array<string,string>  namespace URI => schemaLocation URL
      */
@@ -71,6 +77,21 @@ class Qti22PostProcessorService
                     foreach ($attrs as $attr) {
                         if ($node->hasAttribute($attr)) {
                             $node->removeAttribute($attr);
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach ($this->attributeRenamingRules as $expr => $attributeMap) {
+            $nodes = $xpath->query($expr);
+            if ($nodes instanceof DOMNodeList) {
+                foreach ($nodes as $node) {
+                    foreach ($attributeMap as $oldAttr => $newAttr) {
+                        if ($node->hasAttribute($oldAttr)) {
+                            $value = $node->getAttribute($oldAttr);
+                            $node->removeAttribute($oldAttr);
+                            $node->setAttribute($newAttr, $value);
                         }
                     }
                 }
