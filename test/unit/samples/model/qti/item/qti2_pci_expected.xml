@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2p1.xsd" identifier="t1-test-entry-item2" title="T1 - Choice Interaction - Multiple Cardinality" adaptive="false" timeDependent="false">
+  <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier"/>
+  <itemBody>
+    <portableCustomInteraction responseIdentifier="RESPONSE" data-version="1.0.0" xmlns="http://www.imsglobal.org/xsd/portableCustomInteraction_v1">
+      <p>Some content for portable custom interaction</p>
+    </portableCustomInteraction>
+  </itemBody>
+</assessmentItem>
