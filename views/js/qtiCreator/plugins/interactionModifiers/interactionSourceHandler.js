@@ -479,7 +479,7 @@ define([
                 `(<div[^>]*>\\s*)*${escapedPlaceholder}(\\s*</div>)*`, 'g'
             );
 
-            const wrappedPlaceholder = newWrapperStructure?.length > 0
+            const wrappedPlaceholder = newWrapperStructure && newWrapperStructure.length > 0
                 ? this.buildWrapperHtml(newWrapperStructure, placeholder)
                 : placeholder;
 
