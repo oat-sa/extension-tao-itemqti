@@ -30,8 +30,8 @@ define([
         INTERACTION_PLACEHOLDER_FORMAT: '{{%s}}',
         INTERACTION_REGEX: /<interaction_([^>]+)>/,
         STRUCTURAL_CLASSES: [
-            'grid-row', 'col-12', 'grid-container', 'grid-col',
-            'row', 'container', 'container-fluid', 'col', 'column'
+            'grid-row', 'grid-container', 'grid-col',
+            'row', 'container', 'container-fluid', 'col-', 'column'
         ],
         UNSAFE_CLASSES:  [
             'js-', 'javascript-', 'onclick', 'event-', 'trigger-',
@@ -138,7 +138,8 @@ define([
 
                 if (!cls) continue;
 
-                if (CONSTANTS.STRUCTURAL_CLASSES.indexOf(cls) !== -1) {
+                // If any structural class is a substring of the class name, return true
+                if (CONSTANTS.STRUCTURAL_CLASSES.some(structuralCls => cls.includes(structuralCls))) {
                     return true;
                 }
 
@@ -223,6 +224,46 @@ define([
             return attributes;
         },
 
+        /**
+         * Extract wrapper div structures from HTML string
+         * @param {string} html - The HTML content
+         * @param {string} placeholderTag - The interaction placeholder tag
+         * @returns {Array} Array of wrapper structures in innermost-first order
+         */
+        extractWrapperDivs(html, placeholderTag) {
+            const placeholderIndex = html.indexOf(placeholderTag);
+            if (placeholderIndex === -1) return [];
+
+            // Get all div tags before the placeholder and extract their attributes efficiently
+            const beforePlaceholder = html.substring(0, placeholderIndex);
+            const divMatches = beforePlaceholder.match(/<div[^>]*>/g) || [];
+
+            const result = divMatches
+                .map(divTag => {
+                    const className = (divTag.match(/class="([^"]*)"/) || [])[1];
+                    if (!className) return null;
+
+                    // Parse all attributes at once using a more efficient approach
+                    const attributes = { class: className };
+
+                    // Extract id if present
+                    const id = (divTag.match(/id="([^"]*)"/) || [])[1];
+                    if (id) attributes.id = id;
+
+                    // Extract data attributes
+                    const dataAttrs = divTag.match(/data-[\w-]+="[^"]*"/g) || [];
+                    dataAttrs.forEach(attr => {
+                        const [name, value] = attr.split('=');
+                        attributes[name] = value.replace(/"/g, '');
+                    });
+
+                    return { className, attributes };
+                })
+                .filter(Boolean);
+
+            return result.reverse();
+        },
+
         parse(html) {
             if (!html) {
                 throw new Error('Empty HTML content provided');
@@ -253,21 +294,9 @@ define([
                 }
 
                 const placeholderTag = placeholderMatch[0];
-                const allDivs = Array.from(tempDiv.querySelectorAll('div'));
-                const containingDivs = allDivs.filter(div => {
-                    return div.innerHTML.includes(placeholderTag.toLowerCase());
-                });
 
-                const sortedDivs = containingDivs.sort((a, b) => {
-                    if (a.contains(b)) return 1;
-                    if (b.contains(a)) return -1;
-                    return 0;
-                });
+                const wrapperStructure = this.extractWrapperDivs(normalizedHtml, placeholderTag);
 
-                const wrapperStructure = sortedDivs.map(div => ({
-                    className: div.className,
-                    attributes: this.extractAttributes(div)
-                }));
 
                 return {
                     serial,
@@ -402,7 +431,8 @@ define([
                 .filter(c => c);
 
             if (classNames.length > 0) {
-                interaction.attr('customWrappers', classNames.join(','));
+                const customWrappersValue = classNames.join(',');
+                interaction.attr('customWrappers', customWrappersValue);
             } else {
                 interaction.removeAttr('customWrappers');
             }
@@ -432,6 +462,41 @@ define([
             });
         },
 
+        /**
+         * Update wrapper structure in QTI body content efficiently
+         * @param {Object} interaction - The interaction object
+         * @param {Array} newWrapperStructure - New wrapper structure (innermost-first)
+         * @returns {boolean} Success status
+         */
+        updateWrapperInBody(interaction, newWrapperStructure) {
+            const result = Dom.prepareDomForInteractionBody(interaction);
+            if (!result.success) return false;
+
+            const { placeholder, bodyObj } = result;
+
+            const escapedPlaceholder = placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const placeholderRegex = new RegExp(
+                `(<div[^>]*>\\s*)*${escapedPlaceholder}(\\s*</div>)*`, 'g'
+            );
+
+            const wrappedPlaceholder = newWrapperStructure?.length > 0
+                ? this.buildWrapperHtml(newWrapperStructure, placeholder)
+                : placeholder;
+
+            bodyObj.bdy = bodyObj.bdy.replace(placeholderRegex, wrappedPlaceholder);
+            return true;
+        },
+
+        buildWrapperHtml(wrapperStructure, placeholder) {
+            return wrapperStructure.reduce((content, wrapper) => {
+                const attrs = Object.entries(wrapper.attributes || {})
+                    .map(([key, value]) => `${key}="${value}"`)
+                    .join(' ');
+
+                return `<div ${attrs}>\n${content}\n</div>`;
+            }, placeholder);
+        },
+
         removeWrapperFromBody(interaction) {
             const result = Dom.prepareDomForInteractionBody(interaction);
             if (!result.success) return false;
@@ -441,6 +506,7 @@ define([
             const wrapperNodes = [];
             let currentNode = placeholderNode;
 
+            // Collect all wrapper divs from innermost to outermost
             while (currentNode && currentNode !== tempDiv) {
                 currentNode = currentNode.parentNode;
                 if (currentNode &&
@@ -451,14 +517,55 @@ define([
             }
 
             if (wrapperNodes.length > 0) {
-                const innermostWrapper = wrapperNodes[0];
-                const fragment = document.createDocumentFragment();
+                // Find the innermost wrapper that contains a structural class
+                // We want to remove all custom wrappers until we reach a structural class
+                let innermostStructuralIndex = -1;
 
-                while (innermostWrapper.firstChild) {
-                    fragment.appendChild(innermostWrapper.firstChild);
+                // Look for structural class from innermost to outermost (normal order)
+                for (let i = 0; i < wrapperNodes.length; i++) {
+                    const wrapper = wrapperNodes[i];
+                    const hasStructuralClass = CONSTANTS.STRUCTURAL_CLASSES.some(cls => wrapper.className.includes(cls));
+
+                    if (hasStructuralClass) {
+                        innermostStructuralIndex = i;
+                        break;
+                    }
                 }
 
-                innermostWrapper.parentNode.replaceChild(fragment, innermostWrapper);
+                // If we found a structural wrapper, remove all custom wrappers before it
+                if (innermostStructuralIndex >= 0) {
+                    // Remove all wrappers from innermost to the structural wrapper (exclusive)
+                    // This removes custom wrappers but keeps the structural wrapper
+                    for (let i = 0; i < innermostStructuralIndex; i++) {
+                        const wrapperToRemove = wrapperNodes[i];
+                        const fragment = document.createDocumentFragment();
+
+                        // Move all children of the wrapper to a fragment
+                        while (wrapperToRemove.firstChild) {
+                            fragment.appendChild(wrapperToRemove.firstChild);
+                        }
+
+                        // Replace the wrapper with its children
+                        wrapperToRemove.parentNode.replaceChild(fragment, wrapperToRemove);
+                    }
+
+                } else {
+                    // No structural class found, remove all wrappers
+                    for (let i = 0; i < wrapperNodes.length; i++) {
+                        const wrapperToRemove = wrapperNodes[i];
+                        const fragment = document.createDocumentFragment();
+
+                        // Move all children of the wrapper to a fragment
+                        while (wrapperToRemove.firstChild) {
+                            fragment.appendChild(wrapperToRemove.firstChild);
+                        }
+
+                        // Replace the wrapper with its children
+                        wrapperToRemove.parentNode.replaceChild(fragment, wrapperToRemove);
+                    }
+
+                }
+
                 bodyObj.bdy = tempDiv.innerHTML;
                 return true;
             }
@@ -658,21 +765,13 @@ define([
             let changeApplied = false;
 
             if (newWrapperStructure.length > 0 && structureChanged) {
+                Model.updateWrapperInBody(interaction, newWrapperStructure);
                 Model.storeWrapperStructure(interaction, newWrapperStructure);
                 Model.removeRenderHook(interaction);
                 Dom.removeWrappers(interaction);
                 Dom.applyWrapperStructure(interaction, newWrapperStructure);
                 Model.setupRenderHook(interaction);
-                changeApplied = true;
-            }
-            else if (parsedData.wrapperRemoved && currentStructure.length > 1) {
-                let newStructure = currentStructure.slice(1);
-                Model.storeWrapperStructure(interaction, newStructure);
-                Model.removeRenderHook(interaction);
-                Dom.removeWrappers(interaction);
-                Model.removeWrapperFromBody(interaction);
-                Dom.applyWrapperStructure(interaction, newStructure);
-                Model.setupRenderHook(interaction);
+
                 changeApplied = true;
             }
             else if (parsedData.wrapperRemoved && currentStructure.length > 0) {
