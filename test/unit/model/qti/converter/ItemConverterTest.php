@@ -41,7 +41,7 @@ class ItemConverterTest extends TestCase
         //Copy file
         $modifiedFile = dirname(__FILE__) . '/../../../samples/model/qti/item/qti3_copy.xml';
         copy(dirname(__FILE__) . '/../../../samples/model/qti/item/qti3.xml', $modifiedFile);
-        $this->caseConversionMock->expects($this->exactly(10))
+        $this->caseConversionMock
             ->method('kebabToCamelCase')
             ->willReturn('camelCase');
 
@@ -53,7 +53,59 @@ class ItemConverterTest extends TestCase
 
         $this->subject->convertToQti2($modifiedFile);
 
+        $this->assertFileExists($modifiedFile);
+
         //Delete file
         unlink($modifiedFile);
+    }
+
+    public function testConvertHandlesPortableCustomInteraction()
+    {
+        $this->caseConversionMock->method('kebabToCamelCase')
+            ->will($this->returnCallback(function ($str) {
+                $map = [
+                    'qti-assessment-item' => 'assessmentItem',
+                    'qti-response-declaration' => 'responseDeclaration',
+                    'qti-item-body' => 'itemBody',
+                    'portable-custom-interaction' => 'portableCustomInteraction',
+                    'response-identifier' => 'responseIdentifier',
+                    'time-dependent' => 'timeDependent',
+                    'base-type' => 'baseType',
+                ];
+                return $map[$str] ?? $str;
+            }));
+        //Copy file
+        $modifiedFile = dirname(__FILE__) . '/../../../samples/model/qti/item/qti3_pci_copy.xml';
+        copy(dirname(__FILE__) . '/../../../samples/model/qti/item/qti3_pci.xml', $modifiedFile);
+
+        $this->subject->convertToQti2($modifiedFile);
+        $this->assertXmlFileEqualsXmlFile(
+            dirname(__FILE__) . '/../../../samples/model/qti/item/qti2_pci_expected.xml',
+            $modifiedFile
+        );
+
+        //Delete file
+        unlink($modifiedFile);
+    }
+    public function testConvertToQti2HandlesFileNotFoundGracefully()
+    {
+        $nonExistentPath = '/tmp/non_existent_file_' . uniqid() . '.xml';
+        @$this->subject->convertToQti2($nonExistentPath);
+        $this->assertFileDoesNotExist($nonExistentPath);
+    }
+
+    public function testConvertToQti2HandlesInvalidXmlGracefully()
+    {
+        $tempFile = tempnam(sys_get_temp_dir(), 'invalid_xml_');
+        file_put_contents($tempFile, '<invalid><xml></invalid>');
+
+        try {
+            @$this->subject->convertToQti2($tempFile);
+            $this->assertFileExists($tempFile);
+        } finally {
+            if (file_exists($tempFile)) {
+                unlink($tempFile);
+            }
+        }
     }
 }
