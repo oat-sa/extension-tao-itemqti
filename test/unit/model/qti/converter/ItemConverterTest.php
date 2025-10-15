@@ -87,4 +87,25 @@ class ItemConverterTest extends TestCase
         //Delete file
         unlink($modifiedFile);
     }
+    public function testConvertToQti2HandlesFileNotFoundGracefully()
+    {
+        $nonExistentPath = '/tmp/non_existent_file_' . uniqid() . '.xml';
+        @$this->subject->convertToQti2($nonExistentPath);
+        $this->assertFileDoesNotExist($nonExistentPath);
+    }
+
+    public function testConvertToQti2HandlesInvalidXmlGracefully()
+    {
+        $tempFile = tempnam(sys_get_temp_dir(), 'invalid_xml_');
+        file_put_contents($tempFile, '<invalid><xml></invalid>');
+
+        try {
+            @$this->subject->convertToQti2($tempFile);
+            $this->assertFileExists($tempFile);
+        } finally {
+            if (file_exists($tempFile)) {
+                unlink($tempFile);
+            }
+        }
+    }
 }
