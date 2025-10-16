@@ -184,7 +184,8 @@ class QtiCreator extends tao_actions_CommonModule
             $availableLangs = \tao_helpers_I18n::getAvailableLangsByUsage(
                 new core_kernel_classes_Resource(TaoOntology::PROPERTY_STANCE_LANGUAGE_USAGE_DATA)
             );
-            $returnValue['languagesList'] = $availableLangs;
+            
+            $returnValue['languagesList'] = $this->sortLanguagesByLabel($availableLangs);
         }
 
         $this->returnJson($returnValue);
@@ -398,5 +399,19 @@ class QtiCreator extends tao_actions_CommonModule
     private function getCreatorConfigFactory(): CreatorConfigFactory
     {
         return $this->getPsrContainer()->get(CreatorConfigFactory::class);
+    }
+
+    private function sortLanguagesByLabel(array $langs): array
+    {
+        if (isset($langs[0]) && is_array($langs[0]) && array_key_exists('label', $langs[0])) {
+            usort($langs, function ($a, $b) {
+                return strcasecmp((string)($a['label'] ?? ''), (string)($b['label'] ?? ''));
+            });
+        } else {
+            uasort($langs, function ($a, $b) {
+                return strcasecmp((string)$a, (string)$b);
+            });
+        }
+        return $langs;
     }
 }
