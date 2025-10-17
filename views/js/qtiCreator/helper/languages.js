@@ -69,14 +69,13 @@ define(['util/url', 'core/dataProvider/request'], function (urlUtil, request) {
     const getList = () => {
         if (languagesRequest === null) {
             return (languagesRequest = request(languagesUrl, null, null, headers).then(languages => {
-                    // Sort languages alphabetically by label
-                    return languages.sort((a, b) => {
-                        const labelA = a.label || '';
-                        const labelB = b.label || '';
-                        return labelA.localeCompare(labelB);
-                    });
-                })
-            );
+                // Sort languages alphabetically by label
+                return languages.sort((a, b) => {
+                    const labelA = (a.label || '').toLowerCase();
+                    const labelB = (b.label || '').toLowerCase();
+                    return labelA.localeCompare(labelB);
+                });
+            }));
         } else {
             return languagesRequest;
         }

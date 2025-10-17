@@ -68,7 +68,28 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/languages', 'lib/jquery.mockjax/
         languages
             .getList()
             .then(result => {
-                assert.deepEqual(languagesDataMock, result, 'Results data is received');
+                // Languages should be sorted alphabetically by label
+                const expectedSorted = [
+                    {
+                        uri: 'http://www.tao.lu/ontologies/tao.rdf#langar-arb',
+                        code: 'ar-arb',
+                        label: 'arabic',
+                        orientation: 'rtl'
+                    },
+                    {
+                        uri: 'http://www.tao.lu/ontologies/tao.rdf#langen-gb',
+                        code: 'en-gb',
+                        label: 'english (united kingdom)',
+                        orientation: 'ltr'
+                    },
+                    {
+                        uri: 'http://www.tao.lu/ontologies/tao.rdf#langde-de',
+                        code: 'de-de',
+                        label: 'german',
+                        orientation: 'ltr'
+                    }
+                ];
+                assert.deepEqual(expectedSorted, result, 'Results data is received and sorted');
             })
             .finally(done);
     });
