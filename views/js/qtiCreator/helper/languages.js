@@ -26,7 +26,7 @@ define(['util/url', 'core/dataProvider/request'], function (urlUtil, request) {
     'use strict';
 
     const languagesUrl = urlUtil.route('index', 'Languages', 'tao');
-    const headers = { 'Accept-version': 'v2' };
+    const headers = {'Accept-version': 'v2'};
 
     let languagesRequest = null;
 
@@ -68,7 +68,14 @@ define(['util/url', 'core/dataProvider/request'], function (urlUtil, request) {
      */
     const getList = () => {
         if (languagesRequest === null) {
-            return (languagesRequest = request(languagesUrl, null, null, headers));
+            return (languagesRequest = request(languagesUrl, null, null, headers).then(languages => {
+                // Sort languages alphabetically by label
+                return languages.sort((a, b) => {
+                    const labelA = (a.label || '').toLowerCase();
+                    const labelB = (b.label || '').toLowerCase();
+                    return labelA.localeCompare(labelB);
+                });
+            }));
         } else {
             return languagesRequest;
         }
