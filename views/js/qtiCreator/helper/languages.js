@@ -71,7 +71,9 @@ define(['util/url', 'core/dataProvider/request'], function (urlUtil, request) {
             return (languagesRequest = request(languagesUrl, null, null, headers).then(languages => {
                     // Sort languages alphabetically by label
                     return languages.sort((a, b) => {
-                        return a.label.localeCompare(b.label);
+                        const labelA = a.label || '';
+                        const labelB = b.label || '';
+                        return labelA.localeCompare(labelB);
                     });
                 })
             );

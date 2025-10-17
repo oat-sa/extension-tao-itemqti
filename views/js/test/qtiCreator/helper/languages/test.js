@@ -29,15 +29,15 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/languages', 'lib/jquery.mockjax/
             orientation: 'rtl'
         },
         {
-            uri: 'http://www.tao.lu/ontologies/tao.rdf#langde-de',
-            code: 'de-de',
-            label: 'german',
-            orientation: 'ltr'
-        },
-        {
             uri: 'http://www.tao.lu/ontologies/tao.rdf#langen-gb',
             code: 'en-gb',
             label: 'english (united kingdom)',
+            orientation: 'ltr'
+        },
+        {
+            uri: 'http://www.tao.lu/ontologies/tao.rdf#langde-de',
+            code: 'de-de',
+            label: 'german',
             orientation: 'ltr'
         }
     ];
@@ -108,6 +108,67 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/languages', 'lib/jquery.mockjax/
                 );
             })
             .finally(done);
+    });
+
+    QUnit.module('getList() sorting');
+
+    QUnit.test('returns a sorted list of languages', assert => {
+        assert.expect(1);
+
+        const done = assert.async();
+        const unsortedLanguages = [
+            { code: 'fr', label: 'French' },
+            { code: 'es', label: 'Spanish' },
+            { code: 'en', label: 'English' }
+        ];
+
+        $.mockjax.clear();
+        $.mockjax({
+            url: 'undefined/tao/Languages/index',
+            responseText: {
+                success: true,
+                data: unsortedLanguages
+            },
+            status: 200
+        });
+
+        languages.getList().then(sortedLanguages => {
+            const expectedOrder = ['English', 'French', 'Spanish'];
+            const actualOrder = sortedLanguages.map(lang => lang.label);
+            assert.deepEqual(actualOrder, expectedOrder, 'Languages are sorted alphabetically by label');
+        }).finally(done);
+    });
+
+    QUnit.test('handles null and undefined labels', assert => {
+        assert.expect(1);
+
+        const done = assert.async();
+        const languagesWithMissingLabels = [
+            { code: 'fr', label: 'French' },
+            { code: 'es', label: null },
+            { code: 'en', label: undefined },
+            { code: 'de', label: 'German' }
+        ];
+
+        $.mockjax.clear();
+        $.mockjax({
+            url: 'undefined/tao/Languages/index',
+            responseText: {
+                success: true,
+                data: languagesWithMissingLabels
+            },
+            status: 200
+        });
+
+        languages.getList().then(sortedLanguages => {
+            const expectedOrder = ['', '', 'French', 'German'];
+            const actualOrder = sortedLanguages.map(lang => lang.label || '');
+            assert.deepEqual(actualOrder, expectedOrder, 'Handles null and undefined labels correctly');
+        }).finally(done);
+    });
+
+    QUnit.moduleDone(() => {
+        $.mockjax.clear();
     });
 
     QUnit.cases
