@@ -68,7 +68,12 @@ define(['util/url', 'core/dataProvider/request'], function (urlUtil, request) {
      */
     const getList = () => {
         if (languagesRequest === null) {
-            return (languagesRequest = request(languagesUrl, null, null, headers));
+            return (languagesRequest = request(languagesUrl, null, null, headers).then(languages => {
+                // Sort languages alphabetically by label
+                return languages.sort((a, b) => {
+                    return a.label.localeCompare(b.label);
+                });
+            }));
         } else {
             return languagesRequest;
         }
