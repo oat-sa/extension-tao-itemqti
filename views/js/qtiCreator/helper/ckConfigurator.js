@@ -26,6 +26,7 @@ define(['lodash', 'ui/ckeditor/ckConfigurator', 'mathJax'], function(_, ckConfig
         qtiMedia : true,
         qtiInclude : true,
         underline : true,
+        strike: true, 
         mathJax : !!mathJax,
         horizontalRule: true,
         furiganaPlugin: true
@@ -44,6 +45,7 @@ define(['lodash', 'ui/ckeditor/ckConfigurator', 'mathJax'], function(_, ckConfig
      * @param {Boolean} [options.qtiImage] - enables the qtiImage plugin
      * @param {Boolean} [options.qtiInclude] - enables the qtiInclude plugin
      * @param {Boolean} [options.underline] - enables the underline plugin
+     * @param {Boolean} [options.strike] - enables the strike plugin
      * @param {Boolean} [options.mathJax] - enables the mathJax plugin
      *
      * @see http://docs.ckeditor.com/#!/api/CKEDITOR.config
