@@ -160,15 +160,6 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/languages', 'lib/jquery.mockjax/
         assert.deepEqual(actualOrder, expectedOrder, 'Handles null and undefined labels correctly');
     });
 
-    // // QUnit.moduleDone(() => {
-    // //     $.mockjax.clear();
-    // // });
-    // QUnit.module('sortLanguages() sorting', {
-    //     afterEach: () => {
-    //         $.mockjax.clear();
-    //     }
-    // });
-
     QUnit.cases
         .init([
             { code: 'ar-arb', expected: true },
