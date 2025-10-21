@@ -131,39 +131,22 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/languages', 'lib/jquery.mockjax/
             .finally(done);
     });
 
-    QUnit.module('getList() sorting');
+    QUnit.module('sortLanguages() sorting');
 
     QUnit.test('returns a sorted list of languages', assert => {
-        assert.expect(1);
-
-        const done = assert.async();
         const unsortedLanguages = [
             { code: 'fr', label: 'French' },
             { code: 'es', label: 'Spanish' },
             { code: 'en', label: 'English' }
         ];
 
-        $.mockjax.clear();
-        $.mockjax({
-            url: 'undefined/tao/Languages/index',
-            responseText: {
-                success: true,
-                data: unsortedLanguages
-            },
-            status: 200
-        });
-
-        languages.getList().then(sortedLanguages => {
-            const expectedOrder = ['English', 'French', 'Spanish'];
-            const actualOrder = sortedLanguages.map(lang => lang.label);
-            assert.deepEqual(actualOrder, expectedOrder, 'Languages are sorted alphabetically by label');
-        }).finally(done);
+        const sortedLanguages = languages.sortLanguages(unsortedLanguages);
+        const expectedOrder = ['English', 'French', 'Spanish'];
+        const actualOrder = sortedLanguages.map(lang => lang.label);
+        assert.deepEqual(actualOrder, expectedOrder, 'Languages are sorted alphabetically by label');
     });
 
     QUnit.test('handles null and undefined labels', assert => {
-        assert.expect(1);
-
-        const done = assert.async();
         const languagesWithMissingLabels = [
             { code: 'fr', label: 'French' },
             { code: 'es', label: null },
@@ -171,26 +154,20 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/languages', 'lib/jquery.mockjax/
             { code: 'de', label: 'German' }
         ];
 
-        $.mockjax.clear();
-        $.mockjax({
-            url: 'undefined/tao/Languages/index',
-            responseText: {
-                success: true,
-                data: languagesWithMissingLabels
-            },
-            status: 200
-        });
-
-        languages.getList().then(sortedLanguages => {
-            const expectedOrder = ['', '', 'French', 'German'];
-            const actualOrder = sortedLanguages.map(lang => lang.label || '');
-            assert.deepEqual(actualOrder, expectedOrder, 'Handles null and undefined labels correctly');
-        }).finally(done);
+        const sortedLanguages = languages.sortLanguages(languagesWithMissingLabels);
+        const expectedOrder = ['', '', 'French', 'German'];
+        const actualOrder = sortedLanguages.map(lang => lang.label || '');
+        assert.deepEqual(actualOrder, expectedOrder, 'Handles null and undefined labels correctly');
     });
 
-    QUnit.moduleDone(() => {
-        $.mockjax.clear();
-    });
+    // // QUnit.moduleDone(() => {
+    // //     $.mockjax.clear();
+    // // });
+    // QUnit.module('sortLanguages() sorting', {
+    //     afterEach: () => {
+    //         $.mockjax.clear();
+    //     }
+    // });
 
     QUnit.cases
         .init([
@@ -248,7 +225,7 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/languages', 'lib/jquery.mockjax/
             .then(formattedLanguages => {
                 assert.deepEqual(
                     formattedLanguages,
-                    ['ar-arb:arabic:rtl', 'de-de:german:ltr', 'en-gb:english (united kingdom):ltr'],
+                    ['ar-arb:arabic:rtl', 'en-gb:english (united kingdom):ltr', 'de-de:german:ltr'],
                     'Languages matches to legacy format'
                 );
             })

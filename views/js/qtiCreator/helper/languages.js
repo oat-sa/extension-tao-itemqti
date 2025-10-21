@@ -68,18 +68,19 @@ define(['util/url', 'core/dataProvider/request'], function (urlUtil, request) {
      */
     const getList = () => {
         if (languagesRequest === null) {
-            return (languagesRequest = request(languagesUrl, null, null, headers).then(languages => {
-                // Sort languages alphabetically by label
-                return languages.sort((a, b) => {
-                    const labelA = (a.label || '').toLowerCase();
-                    const labelB = (b.label || '').toLowerCase();
-                    return labelA.localeCompare(labelB);
-                });
-            }));
+            return (languagesRequest = request(languagesUrl, null, null, headers).then(sortLanguages));
         } else {
             return languagesRequest;
         }
     };
+
+    const sortLanguages = (languages) => {
+        return languages.sort((a, b) => {
+            const labelA = (a.label || '').toLowerCase();
+            const labelB = (b.label || '').toLowerCase();
+            return labelA.localeCompare(labelB);
+        });
+    }
 
     /**
      * Return promise with boolean if language by provided code is RTL
@@ -110,6 +111,7 @@ define(['util/url', 'core/dataProvider/request'], function (urlUtil, request) {
         useLegacyFormatting,
         useCKEFormatting,
         getList,
+        sortLanguages,
         isRTLbyLanguageCode,
         getVerticalWritingModeByLang
     };
