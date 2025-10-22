@@ -86,16 +86,16 @@
             <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
             <span class="tooltip-content">{{__ "Switches the whole item's direction of writing between horizontal and vertical."}}</span>
             <div>
-                <label class="no-margin">
-                    <input type="radio" name="writingMode" value="horizontal" id="writingMode-radio-horizontal" />
+                 <label class="no-margin">
+                    <input type="radio" name="writingMode" value="horizontal" />
                     <span class="icon-radio"></span>
-                    <label for="writingMode-radio-horizontal">{{__ "Horizontal text"}} </label>
+                    {{__ "Horizontal text"}}
                 </label>
                 <br>
                 <label class="no-margin">
-                    <input type="radio" name="writingMode" value="vertical" id="writingMode-radio-vertical" />
+                    <input type="radio" name="writingMode" value="vertical" />
                     <span class="icon-radio"></span>
-                    <label for="writingMode-radio-vertical">{{__ "Vertical text"}} </label>
+                    {{__ "Vertical text"}}
                 </label>
             </div>
             <hr />
