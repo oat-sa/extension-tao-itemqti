@@ -6,10 +6,32 @@ define([
 ], function ($, Widget, states, toolbarTpl) {
     var TextWidget = Widget.clone();
 
+    //TODO: import classes
+    const writingModeVerticalRlClass = 'writing-mode-vertical-rl';
+    const writingModeHorizontalTbClass = 'writing-mode-horizontal-tb';
+    const writingModeAttr = 'data-writing-mode-class';
+    const wrapperCls = 'custom-text-box';
+
     TextWidget.initCreator = function () {
         Widget.initCreator.call(this);
 
         this.registerStates(states);
+
+        const $itemBody = this.$container.closest('.qti-itemBody');
+        $itemBody.on('item-writing-mode-changed', () => {
+            this.$container.find(`[${writingModeAttr}]`).each((idx, elt) => {
+                $(elt).removeAttr(writingModeAttr);
+            });
+            let bdy = this.element.body();
+            bdy = bdy.replace(new RegExp(`class="([^"]*${wrapperCls}[^"]*)"`), (str, cls) => {
+                const newCls = cls
+                    .split(' ')
+                    .filter(i => i && ![writingModeVerticalRlClass, writingModeHorizontalTbClass].includes(i))
+                    .join(' ');
+                return `class="${newCls}"`;
+            });
+            this.element.body(bdy);
+        });
     };
 
     TextWidget.buildContainer = function () {
@@ -23,10 +45,9 @@ define([
 
         this.$container = this.$original.children('.widget-box');
 
-        //TODO: import classes
-        ['writing-mode-vertical-rl', 'writing-mode-horizontal-tb'].forEach(cls => {
+        [writingModeVerticalRlClass, writingModeHorizontalTbClass].forEach(cls => {
             this.$container.find(`.${cls}`).each((idx, elt) => {
-                $(elt).attr('data-writing-mode-class', cls).removeClass(cls);
+                $(elt).attr(writingModeAttr, cls).removeClass(cls);
             });
         });
     };

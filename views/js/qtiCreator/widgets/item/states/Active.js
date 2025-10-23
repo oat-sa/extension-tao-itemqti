@@ -57,8 +57,6 @@ define([
             const itemRemoveClass = cls => itemElements.forEach(el => el.removeClass(cls));
             const itemRemoveClasses = classes => classes.forEach(itemRemoveClass);
 
-            console.log('ITEM WIDGET', this.widget);
-
             /**
              * @param {string} lang
              * @returns {Promise<void>}
@@ -68,7 +66,6 @@ define([
                     const isSupported = supportedVerticalMode === 'vertical-rl';
                     if (!isSupported && itemHasClass([writingModeVerticalRlClass])) {
                         itemRemoveClasses([writingModeVerticalRlClass]);
-                        //TODO: FROM ALL CHILD ELEMENTS
                     }
                     $form.find('.writingMode-panel').toggle(isSupported);
 
@@ -142,18 +139,20 @@ define([
 
                         $itemBody.trigger('item-dir-changed');
                     });
-                    toggleVerticalWritingModeByLang(lang);
+                    toggleVerticalWritingModeByLang(lang).then(() => {
+                        $itemBody.trigger('item-writing-mode-changed');
+                    });
                 },
                 translationStatus(i, status) {
                     _widget.options.translationStatus = status;
                 },
                 writingModeItem(i, mode) {
-                    //TODO: clear all child classes
                     if (mode === 'vertical') {
                         item.addClass(writingModeVerticalRlClass);
                     } else {
                         itemRemoveClasses([writingModeVerticalRlClass]);
                     }
+                    $itemBody.trigger('item-writing-mode-changed');
                 }
             });
 
