@@ -26,6 +26,8 @@ define([
     const wrapperCls = 'custom-text-box';
     const writingModeVerticalRlClass = 'writing-mode-vertical-rl';
     const writingModeHorizontalTbClass = 'writing-mode-horizontal-tb';
+    //we don't want to apply vertical styles in the Authoring editor. So for the editor, use data attr. For qti, transform attr to the class.
+    const writingModeAttr = 'data-writing-mode-class';
 
     const scrollingAvailable = features.isVisible('taoQtiItem/creator/static/text/scrolling');
 
@@ -34,7 +36,7 @@ define([
             .cutScrollClasses($wrap.attr('class') || '')
             .split(' ')
             .map(cls => cls.trim())
-            .filter(cls => ![wrapperCls, writingModeVerticalRlClass, writingModeHorizontalTbClass].includes(cls))
+            .filter(cls => ![wrapperCls].includes(cls))
             .join(' ');
     }
 
@@ -106,7 +108,7 @@ define([
 
         itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
 
-        toggleVerticalWritingModeByLang(this, widget, $form);
+        toggleVerticalWritingModeByLang(widget, $form);
     };
 
     const changeCallbacks = function (widget, $form) {
@@ -127,15 +129,13 @@ define([
                 itemScrollingMethods.setScrollingHeight($wrap, value);
             },
             writingMode(i, mode) {
-                //TODO: //don't apply vertical class in editor widget ($itemBody), only save it to QTI attribute
-
                 const $wrap = createWrapper(widget);
-                $wrap.removeClass(writingModeHorizontalTbClass);
-                $wrap.removeClass(writingModeVerticalRlClass);
-                if (mode === 'vertical' && !this.isItemVertical) {
-                    $wrap.addClass(writingModeVerticalRlClass);
-                } else if (mode === 'horizontal' && this.isItemVertical) {
-                    $wrap.addClass(writingModeHorizontalTbClass);
+                if (mode === 'vertical' && !$form.data('isItemVertical')) {
+                    $wrap.attr(writingModeAttr, writingModeVerticalRlClass);
+                } else if (mode === 'horizontal' && $form.data('isItemVertical')) {
+                    $wrap.attr(writingModeAttr, writingModeHorizontalTbClass);
+                } else {
+                    $wrap.removeAttr(writingModeAttr);
                 }
             }
         };
@@ -161,22 +161,22 @@ define([
         return languages.getVerticalWritingModeByLang(itemLang).then(supportedVerticalMode => {
             return {
                 isSupported: supportedVerticalMode === 'vertical-rl',
-                isItemVertical: rootElement.hasClass(writingModeVerticalRlClass)
+                isItemVertical: !!rootElement.hasClass(writingModeVerticalRlClass)
             };
         });
     };
 
-    const toggleVerticalWritingModeByLang = (self, widget, $form) =>
+    const toggleVerticalWritingModeByLang = (widget, $form) =>
         checkItemWritingMode(widget).then(({ isSupported, isItemVertical }) => {
-            self.isItemVertical = isItemVertical;
+            $form.data('isItemVertical', isItemVertical);
 
-            $form.find('#writingMode-panel').toggle(isSupported);
+            $form.find('.writingMode-panel').toggle(isSupported);
 
             let isVertical = null;
             const $wrap = getWrapper(widget);
-            if ($wrap.hasClass(writingModeVerticalRlClass)) {
+            if ($wrap.attr(writingModeAttr) === writingModeVerticalRlClass) {
                 isVertical = true;
-            } else if ($wrap.hasClass(writingModeHorizontalTbClass)) {
+            } else if ($wrap.attr(writingModeAttr) === writingModeHorizontalTbClass) {
                 isVertical = false;
             } else {
                 isVertical = isItemVertical;

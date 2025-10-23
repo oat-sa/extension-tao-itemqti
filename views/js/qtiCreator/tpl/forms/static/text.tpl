@@ -30,19 +30,19 @@
     </select>
 </div>
 
-<div class="panel" style="display:none;" id="writingMode-panel">
+<div class="panel writingMode-panel" style="display:none;">
     <hr />
-    <label for="">{{__ "Direction of writing"}}</label>
+    <h3>{{__ "Direction of writing"}}</h3>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
     <span class="tooltip-content">{{__ "Switches the text block's direction of writing between horizontal and vertical."}}</span>
     <div>
-        <label class="no-margin">
+        <label class="smaller-prompt">
             <input type="radio" name="writingMode" value="horizontal" />
             <span class="icon-radio"></span>
             {{__ "Horizontal text"}}
         </label>
         <br>
-        <label class="no-margin">
+        <label class="smaller-prompt">
             <input type="radio" name="writingMode" value="vertical" />
             <span class="icon-radio"></span>
             {{__ "Vertical text"}}

@@ -70,11 +70,11 @@ define([
                         itemRemoveClasses([writingModeVerticalRlClass]);
                         //TODO: FROM ALL CHILD ELEMENTS
                     }
-                    $form.find('#writingMode-panel').toggle(isSupported);
+                    $form.find('.writingMode-panel').toggle(isSupported);
 
                     const isVertical = itemHasClass([writingModeVerticalRlClass]);
-                    $form.find('input[name="writingMode"][value="vertical"]').prop('checked', isVertical);
-                    $form.find('input[name="writingMode"][value="horizontal"]').prop('checked', !isVertical);
+                    $form.find('input[name="writingModeItem"][value="vertical"]').prop('checked', isVertical);
+                    $form.find('input[name="writingModeItem"][value="horizontal"]').prop('checked', !isVertical);
                 });
 
             let titleFormat = '%title%';
@@ -147,7 +147,7 @@ define([
                 translationStatus(i, status) {
                     _widget.options.translationStatus = status;
                 },
-                writingMode(i, mode) {
+                writingModeItem(i, mode) {
                     //TODO: clear all child classes
                     if (mode === 'vertical') {
                         item.addClass(writingModeVerticalRlClass);

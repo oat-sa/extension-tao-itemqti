@@ -3,45 +3,52 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/Widget',
     'taoQtiItem/qtiCreator/widgets/static/text/states/states',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/textBlock'
-], function($, Widget, states, toolbarTpl){
-
+], function ($, Widget, states, toolbarTpl) {
     var TextWidget = Widget.clone();
 
-    TextWidget.initCreator = function(){
-
+    TextWidget.initCreator = function () {
         Widget.initCreator.call(this);
 
         this.registerStates(states);
-
     };
 
-    TextWidget.buildContainer = function(){
-
-        var $wrap = $('<div>', {'data-serial' : this.element.serial, 'data-qti-class' : '_container', 'class' : 'widget-box widget-block widget-textBlock'})
-            .append($('<div>', {'data-html-editable' : true}));
+    TextWidget.buildContainer = function () {
+        var $wrap = $('<div>', {
+            'data-serial': this.element.serial,
+            'data-qti-class': '_container',
+            class: 'widget-box widget-block widget-textBlock'
+        }).append($('<div>', { 'data-html-editable': true }));
 
         this.$original.wrapInner($wrap);
 
         this.$container = this.$original.children('.widget-box');
+
+        //TODO: import classes
+        ['writing-mode-vertical-rl', 'writing-mode-horizontal-tb'].forEach(cls => {
+            this.$container.find(`.${cls}`).each((idx, elt) => {
+                $(elt).attr('data-writing-mode-class', cls).removeClass(cls);
+            });
+        });
     };
 
-    TextWidget.createToolbar = function(){
-
+    TextWidget.createToolbar = function () {
         var _this = this,
-            $tlb = $(toolbarTpl({
-            serial : this.serial,
-            state : 'active'
-        }));
+            $tlb = $(
+                toolbarTpl({
+                    serial: this.serial,
+                    state: 'active'
+                })
+            );
 
         this.$container.append($tlb);
 
-        $tlb.find('[data-role="delete"]').on('click.widget-box', function(e){
-            e.stopPropagation();//to prevent direct deleting;
+        $tlb.find('[data-role="delete"]').on('click.widget-box', function (e) {
+            e.stopPropagation(); //to prevent direct deleting;
             _this.changeState('deleting');
         });
 
         return this;
     };
-    
+
     return TextWidget;
 });

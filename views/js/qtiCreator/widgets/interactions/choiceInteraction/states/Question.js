@@ -27,6 +27,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/choice',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
     'services/features',
+    'taoQtiItem/qtiCreator/helper/languages',
     'ui/liststyler'
 ], function (
     _,
@@ -37,9 +38,13 @@ define([
     minMaxComponentFactory,
     formTpl,
     sizeAdapter,
-    features
+    features,
+    languages
 ) {
     'use strict';
+
+    const writingModeVerticalRlClass = 'writing-mode-vertical-rl';
+    const writingModeHorizontalTbClass = 'writing-mode-horizontal-tb';
 
     const exitState = function exitState() {
         const widget = this.widget;
@@ -127,7 +132,7 @@ define([
         const numberOfChoices = _.size(interaction.getChoices());
 
         const checkOtherEdgeCases = () => {
-            if(constraints === 'other' && minMaxComponent) {
+            if (constraints === 'other' && minMaxComponent) {
                 const min = _.parseInt(interaction.attr('minChoices'));
                 const max = _.parseInt(interaction.attr('maxChoices'));
                 const firstRender = typeof prevValues.min === 'undefined';
@@ -140,20 +145,20 @@ define([
                 // deny case minChoices = Disabled(0) and maxChoices = Disabled(0) because it simiar to Multiple choice Constraint: None
                 if (max === 0 && (firstRender || prevValues.max > 0)) {
                     minMaxComponent.disableToggler('min');
-                    prevValues = {min, max}; // set before updateThresholds to prevent recursive call on update
+                    prevValues = { min, max }; // set before updateThresholds to prevent recursive call on update
                     // IF maxChoices = Disabled  THEN minChoices ≥ 2
                     const choiceCount = _.size(interaction.getChoices());
                     minMaxComponent.updateThresholds(DEFAULT_MIN + 1, choiceCount - 1, 'min');
                 } else if (max > 0 && (firstRender || prevValues.max === 0)) {
                     minMaxComponent.enableToggler('min');
                     if (!firstRender) {
-                        prevValues = {min, max}; // set before updateThresholds to prevent recursive call on update
+                        prevValues = { min, max }; // set before updateThresholds to prevent recursive call on update
                         // reset DEFAULT_MIN
                         const choiceCount = _.size(interaction.getChoices());
                         minMaxComponent.updateThresholds(DEFAULT_MIN, choiceCount - 1, 'min');
                     }
                 }
-                prevValues = {min, max};
+                prevValues = { min, max };
             }
         };
         // min / max choices control, with sync values
@@ -319,6 +324,48 @@ define([
                 setSelectedCase();
             }
         };
+
+        callbacks.writingMode = function (i, mode) {
+            interaction.removeClass(writingModeVerticalRlClass);
+            interaction.removeClass(writingModeHorizontalTbClass);
+            if (mode === 'vertical' && !$form.data('isItemVertical')) {
+                interaction.addClass(writingModeVerticalRlClass);
+            } else if (mode === 'horizontal' && $form.data('isItemVertical')) {
+                interaction.addClass(writingModeHorizontalTbClass);
+            }
+        };
+
+        const checkItemWritingMode = widget => {
+            const rootElement = widget.element.getRootElement();
+            const itemLang = rootElement.attr('xml:lang');
+
+            return languages.getVerticalWritingModeByLang(itemLang).then(supportedVerticalMode => {
+                return {
+                    isSupported: supportedVerticalMode === 'vertical-rl',
+                    isItemVertical: !!rootElement.hasClass(writingModeVerticalRlClass)
+                };
+            });
+        };
+
+        const toggleVerticalWritingModeByLang = (widget, $form, interaction) =>
+            checkItemWritingMode(widget).then(({ isSupported, isItemVertical }) => {
+                $form.data('isItemVertical', isItemVertical);
+
+                $form.find('.writingMode-panel').toggle(isSupported);
+
+                let isVertical = null;
+                if (interaction.hasClass(writingModeVerticalRlClass)) {
+                    isVertical = true;
+                } else if (interaction.hasClass(writingModeHorizontalTbClass)) {
+                    isVertical = false;
+                } else {
+                    isVertical = isItemVertical;
+                }
+                $form.find('input[name="writingMode"][value="vertical"]').prop('checked', isVertical);
+                $form.find('input[name="writingMode"][value="horizontal"]').prop('checked', !isVertical);
+            });
+
+        toggleVerticalWritingModeByLang(widget, $form, interaction);
 
         //when the number of choices changes we update the range
         widget.on('choiceCreated choiceDeleted', function (data, e) {
