@@ -1393,6 +1393,37 @@ img.dragging.ui-draggable-dragging {
             right: -31px !important;
         }
     }
+
+    .qti-media-wrapper{
+        position: relative;
+        display: block;
+
+        > .mini-tlb[data-edit]{
+            display: block !important;
+            position: absolute;
+            top: -2px;
+            right: -31px !important;
+            z-index: 5;
+        }
+
+        .widget-box.edit-sleep::after{
+            pointer-events: none;
+        }
+    }
+
+    // Show mini-tlb for block-level object widgets (audio/video/images)
+    .widget-object.widget-block {
+        & ~ .mini-tlb[data-edit] {
+            position: absolute !important;
+            top: -2px !important;
+            right: -31px !important;
+            z-index: 5;
+        }
+        &.hover ~ .mini-tlb[data-edit],
+        &.edit-active ~ .mini-tlb[data-edit] {
+            display: block !important;
+        }
+    }
 /* end tmp fix #2768 */
 
 }
