@@ -27,7 +27,8 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/patternMask',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/extendedText',
     'services/features',
-    'taoQtiItem/qtiCreator/helper/languages'
+    'taoQtiItem/qtiCreator/helper/languages',
+    'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods'
 ], function (
     $,
     _,
@@ -40,12 +41,14 @@ define([
     patternMaskHelper,
     formTpl,
     features,
-    languages
+    languages,
+    itemScrollingMethods
 ) {
     'use strict';
 
     const writingModeVerticalRlClass = 'writing-mode-vertical-rl';
     const writingModeHorizontalTbClass = 'writing-mode-horizontal-tb';
+    const initialScrollingHeight = '75';
 
     var config = module.config();
 
@@ -141,7 +144,8 @@ define([
                 expectedLength: expectedLength,
                 expectedLines: expectedLines,
                 constraints: constraints,
-                constraintsAvailable
+                constraintsAvailable,
+                scrollingHeights: itemScrollingMethods.options()
             })
         );
 
@@ -200,6 +204,10 @@ define([
             });
 
         toggleVerticalWritingModeByLang(_widget, $form, interaction);
+
+        const isScrolling = itemScrollingMethods.isScrolling(interaction);
+        const selectedHeight = itemScrollingMethods.selectedHeight(interaction);
+        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
 
         //  init data change callbacks
         var callbacks = {};
@@ -306,12 +314,24 @@ define([
         callbacks.expectedLines = setAttributes.bind(null, 'expectedLines');
 
         callbacks.writingMode = function (i, mode) {
+            let isScrolling = false;
             interaction.removeClass(writingModeVerticalRlClass);
             interaction.removeClass(writingModeHorizontalTbClass);
             if (mode === 'vertical' && !$form.data('isItemVertical')) {
                 interaction.addClass(writingModeVerticalRlClass);
+                isScrolling = true;
             } else if (mode === 'horizontal' && $form.data('isItemVertical')) {
                 interaction.addClass(writingModeHorizontalTbClass);
+                isScrolling = true;
+            }
+
+            itemScrollingMethods.initSelect($form, isScrolling, initialScrollingHeight);
+            itemScrollingMethods.wrapContent(_widget, isScrolling, 'interaction');
+        };
+
+        callbacks.scrollingHeight = function (element, value) {
+            if (itemScrollingMethods.isScrolling(interaction)) {
+                itemScrollingMethods.setScrollingHeight(interaction, value);
             }
         };
 

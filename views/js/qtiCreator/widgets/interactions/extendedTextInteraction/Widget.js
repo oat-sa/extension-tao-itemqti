@@ -1,7 +1,8 @@
 define([
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
-    'taoQtiItem/qtiCreator/widgets/interactions/extendedTextInteraction/states/states'
-], function (Widget, states) {
+    'taoQtiItem/qtiCreator/widgets/interactions/extendedTextInteraction/states/states',
+    'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods'
+], function (Widget, states, itemScrollingMethods) {
     'use strict';
 
     const writingModeVerticalRlClass = 'writing-mode-vertical-rl';
@@ -19,6 +20,7 @@ define([
         $itemBody.on('item-writing-mode-changed', () => {
             this.element.removeClass(writingModeVerticalRlClass);
             this.element.removeClass(writingModeHorizontalTbClass);
+            itemScrollingMethods.wrapContent(this, false, 'interaction');
         });
     };
 

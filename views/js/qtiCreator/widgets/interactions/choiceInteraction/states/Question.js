@@ -28,6 +28,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
     'services/features',
     'taoQtiItem/qtiCreator/helper/languages',
+    'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods',
     'ui/liststyler'
 ], function (
     _,
@@ -39,12 +40,14 @@ define([
     formTpl,
     sizeAdapter,
     features,
-    languages
+    languages,
+    itemScrollingMethods
 ) {
     'use strict';
 
     const writingModeVerticalRlClass = 'writing-mode-vertical-rl';
     const writingModeHorizontalTbClass = 'writing-mode-horizontal-tb';
+    const initialScrollingHeight = '75';
 
     const exitState = function exitState() {
         const widget = this.widget;
@@ -202,6 +205,7 @@ define([
                 shuffle: !!interaction.attr('shuffle'),
                 horizontal: interaction.attr('orientation') === 'horizontal',
                 eliminable: /\beliminable\b/.test(interaction.attr('class')),
+                scrollingHeights: itemScrollingMethods.options(),
                 enabledFeatures: {
                     allowElimination,
                     shuffleChoices,
@@ -326,12 +330,24 @@ define([
         };
 
         callbacks.writingMode = function (i, mode) {
+            let isScrolling = false;
             interaction.removeClass(writingModeVerticalRlClass);
             interaction.removeClass(writingModeHorizontalTbClass);
             if (mode === 'vertical' && !$form.data('isItemVertical')) {
                 interaction.addClass(writingModeVerticalRlClass);
+                isScrolling = true;
             } else if (mode === 'horizontal' && $form.data('isItemVertical')) {
                 interaction.addClass(writingModeHorizontalTbClass);
+                isScrolling = true;
+            }
+
+            itemScrollingMethods.initSelect($form, isScrolling, initialScrollingHeight);
+            itemScrollingMethods.wrapContent(widget, isScrolling, 'interaction');
+        };
+
+        callbacks.scrollingHeight = function (element, value) {
+            if (itemScrollingMethods.isScrolling(interaction)) {
+                itemScrollingMethods.setScrollingHeight(interaction, value);
             }
         };
 
@@ -366,6 +382,10 @@ define([
             });
 
         toggleVerticalWritingModeByLang(widget, $form, interaction);
+
+        const isScrolling = itemScrollingMethods.isScrolling(interaction);
+        const selectedHeight = itemScrollingMethods.selectedHeight(interaction);
+        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
 
         //when the number of choices changes we update the range
         widget.on('choiceCreated choiceDeleted', function (data, e) {

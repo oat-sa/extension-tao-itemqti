@@ -28,6 +28,7 @@ define([
     const writingModeHorizontalTbClass = 'writing-mode-horizontal-tb';
     //we don't want to apply vertical styles in the Authoring editor. So for the editor, use data attr. For qti, transform attr to the class.
     const writingModeAttr = 'data-writing-mode-class';
+    const writingModeInitialScrollingHeight = '75';
 
     const scrollingAvailable = features.isVisible('taoQtiItem/creator/static/text/scrolling');
 
@@ -129,13 +130,27 @@ define([
                 itemScrollingMethods.setScrollingHeight($wrap, value);
             },
             writingMode(i, mode) {
+                let isScrolling = false;
                 const $wrap = createWrapper(widget);
                 if (mode === 'vertical' && !$form.data('isItemVertical')) {
                     $wrap.attr(writingModeAttr, writingModeVerticalRlClass);
+                    isScrolling = true;
                 } else if (mode === 'horizontal' && $form.data('isItemVertical')) {
                     $wrap.attr(writingModeAttr, writingModeHorizontalTbClass);
+                    isScrolling = true;
                 } else {
                     $wrap.removeAttr(writingModeAttr);
+                }
+
+                const $scrolling = $form.find('[name="scrolling"]');
+                if (isScrolling) {
+                    if (!$scrolling.prop('checked')) {
+                        itemScrollingMethods.initSelect($form, isScrolling, writingModeInitialScrollingHeight);
+                        $scrolling.prop('checked', true).change();
+                    }
+                    $scrolling.prop('disabled', true);
+                } else {
+                    $scrolling.prop('disabled', false);
                 }
             }
         };
@@ -183,6 +198,11 @@ define([
             }
             $form.find('input[name="writingMode"][value="vertical"]').prop('checked', isVertical);
             $form.find('input[name="writingMode"][value="horizontal"]').prop('checked', !isVertical);
+
+            if (!!isItemVertical === !isVertical) {
+                const $scrolling = $form.find('[name="scrolling"]');
+                $scrolling.prop('disabled', true);
+            }
         });
 
     return TextActive;

@@ -23,14 +23,16 @@ define([
                 $(elt).removeAttr(writingModeAttr);
             });
             let bdy = this.element.body();
-            bdy = bdy.replace(new RegExp(`class="([^"]*${wrapperCls}[^"]*)"`), (str, cls) => {
-                const newCls = cls
-                    .split(' ')
-                    .filter(i => i && ![writingModeVerticalRlClass, writingModeHorizontalTbClass].includes(i))
-                    .join(' ');
-                return `class="${newCls}"`;
-            });
-            this.element.body(bdy);
+            if (bdy.includes(writingModeVerticalRlClass) || bdy.includes(writingModeHorizontalTbClass)) {
+                bdy = bdy.replace(new RegExp(`class="([^"]*${wrapperCls}[^"]*)"`), (str, cls) => {
+                    const newCls = cls
+                        .split(' ')
+                        .filter(i => i && ![writingModeVerticalRlClass, writingModeHorizontalTbClass].includes(i))
+                        .join(' ');
+                    return `class="${newCls}"`;
+                });
+                this.element.body(bdy);
+            }
         });
     };
 
