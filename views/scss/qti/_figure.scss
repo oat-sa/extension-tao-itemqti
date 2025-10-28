@@ -8,7 +8,7 @@ figure {
     }
 }
 
-.writing-mode-vertical-rl {
+@include writing-mode-vertical-rl {
     figure {
         display: grid;
         figcaption {

@@ -26,3 +26,17 @@
     user-select: none;
     -webkit-touch-callout: none; /* on iOS, disable contextmenu if longpress on image - it conflicts with drag-start longpress */
 }
+
+/* writing-mode is defined on:
+     a) item (.qti-itemBody), b) text block (.custom-text-box), c) interaction (.qti-interaction).
+  use this mixin for content inside those blocks
+ */
+@mixin writing-mode-vertical-rl {
+    .writing-mode-vertical-rl,
+        .writing-mode-vertical-rl > .grid-row > *, /* [class*=' col-'],[class^='col-'] */
+        .writing-mode-vertical-rl .colrow {
+        &:not(:has(.writing-mode-horizontal-tb)) {
+            @content;
+        }
+    }
+}
