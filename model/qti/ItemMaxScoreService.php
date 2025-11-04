@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\qti;
 
 use core_kernel_classes_Resource;
+use Exception;
 use oat\oatbox\service\ConfigurableService;
 use common_Logger;
 
@@ -46,7 +47,7 @@ class ItemMaxScoreService extends ConfigurableService
      * @param string $itemUri
      * @return float
      */
-        public function getItemMaxScore(string $itemUri): float
+    public function getItemMaxScore(string $itemUri): float
     {
         try {
             $item = new core_kernel_classes_Resource($itemUri);
@@ -58,8 +59,7 @@ class ItemMaxScoreService extends ConfigurableService
             $qtiItem = $qtiService->getDataItemByRdfItem($item);
 
             return $this->extractMaxScore($qtiItem);
-
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             common_Logger::w(
                 'Failed to retrieve MAXSCORE for item ' . $itemUri . ': ' . $e->getMessage()
             );
@@ -109,7 +109,7 @@ class ItemMaxScoreService extends ConfigurableService
                 $defaultValue = $outcome->getDefaultValue();
 
                 if ($defaultValue !== null && $defaultValue !== '') {
-                    return (float) $defaultValue;
+                    return (float)$defaultValue;
                 }
 
                 return 0.0;
