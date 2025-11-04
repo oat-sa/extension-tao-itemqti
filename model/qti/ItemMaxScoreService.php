@@ -24,8 +24,10 @@ namespace oat\taoQtiItem\model\qti;
 
 use core_kernel_classes_Resource;
 use Exception;
+use InvalidArgumentException;
 use oat\oatbox\service\ConfigurableService;
 use common_Logger;
+use common_Utils;
 
 /**
  * Retrieves MAXSCORE (maximum achievable points) from QTI items.
@@ -44,11 +46,21 @@ class ItemMaxScoreService extends ConfigurableService
      * - Returns 0.0 for items that fail to parse (with error logged)
      * - Handles external-scored items (returns manual MAXSCORE if set)
      *
-     * @param string $itemUri
+     * @param string $itemUri - Valid TAO resource URI (e.g., 'http://tao.dev/ontology.rdf#item123')
      * @return float
+     * @throws InvalidArgumentException if $itemUri is empty or not a valid URI
      */
     public function getItemMaxScore(string $itemUri): float
     {
+        if (empty($itemUri) || !common_Utils::isUri($itemUri)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Invalid item URI provided: "%s". Expected a valid TAO resource URI.',
+                    $itemUri
+                )
+            );
+        }
+
         try {
             $item = new core_kernel_classes_Resource($itemUri);
 

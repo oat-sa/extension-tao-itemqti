@@ -64,7 +64,7 @@ class ItemMaxScoreServiceTest extends TestCase
      */
     public function testGetSingleItemMaxScore(): void
     {
-        $itemUri = 'http://tao.dev/item1';
+        $itemUri = 'http://tao.dev/ontology.rdf#item1';
 
         $maxScoreOutcome = $this->createMockOutcome('MAXSCORE', '10.0');
 
@@ -84,9 +84,9 @@ class ItemMaxScoreServiceTest extends TestCase
      */
     public function testGetMultipleItemsMaxScores(): void
     {
-        $item1Uri = 'http://tao.dev/item1';
-        $item2Uri = 'http://tao.dev/item2';
-        $item3Uri = 'http://tao.dev/item3';
+        $item1Uri = 'http://tao.dev/ontology.rdf#item1';
+        $item2Uri = 'http://tao.dev/ontology.rdf#item2';
+        $item3Uri = 'http://tao.dev/ontology.rdf#item3';
 
         $outcome1 = $this->createMockOutcome('MAXSCORE', '10.0');
         $outcome2 = $this->createMockOutcome('MAXSCORE', '5.5');
@@ -99,9 +99,9 @@ class ItemMaxScoreServiceTest extends TestCase
         $this->qtiServiceMock->method('getDataItemByRdfItem')
             ->willReturnCallback(function ($resource) use ($qtiItem1, $qtiItem2, $qtiItem3) {
                 $uri = $resource->getUri();
-                if ($uri === 'http://tao.dev/item1') {
+                if ($uri === 'http://tao.dev/ontology.rdf#item1') {
                     return $qtiItem1;
-                } elseif ($uri === 'http://tao.dev/item2') {
+                } elseif ($uri === 'http://tao.dev/ontology.rdf#item2') {
                     return $qtiItem2;
                 } else {
                     return $qtiItem3;
@@ -121,7 +121,7 @@ class ItemMaxScoreServiceTest extends TestCase
      */
     public function testMissingMaxScore(): void
     {
-        $itemUri = 'http://tao.dev/itemNoMax';
+        $itemUri = 'http://tao.dev/ontology.rdf#itemNoMax';
 
         $scoreOutcome = $this->createMockOutcome('SCORE', '0');
         $qtiItem = $this->createMockQtiItem([$scoreOutcome]);
@@ -139,7 +139,7 @@ class ItemMaxScoreServiceTest extends TestCase
      */
     public function testEmptyMaxScoreValue(): void
     {
-        $itemUri = 'http://tao.dev/itemEmptyMax';
+        $itemUri = 'http://tao.dev/ontology.rdf#itemEmptyMax';
 
         $maxScoreOutcome = $this->createMockOutcome('MAXSCORE', '');
         $qtiItem = $this->createMockQtiItem([$maxScoreOutcome]);
@@ -157,7 +157,7 @@ class ItemMaxScoreServiceTest extends TestCase
      */
     public function testNullMaxScoreValue(): void
     {
-        $itemUri = 'http://tao.dev/itemNullMax';
+        $itemUri = 'http://tao.dev/ontology.rdf#itemNullMax';
 
         $maxScoreOutcome = $this->createMockOutcome('MAXSCORE', null);
         $qtiItem = $this->createMockQtiItem([$maxScoreOutcome]);
@@ -175,7 +175,7 @@ class ItemMaxScoreServiceTest extends TestCase
      */
     public function testItemParsingError(): void
     {
-        $itemUri = 'http://tao.dev/itemError';
+        $itemUri = 'http://tao.dev/ontology.rdf#itemError';
 
         $this->qtiServiceMock->method('getDataItemByRdfItem')
             ->willThrowException(new \Exception('Parse error'));
@@ -190,7 +190,7 @@ class ItemMaxScoreServiceTest extends TestCase
      */
     public function testFractionalMaxScore(): void
     {
-        $itemUri = 'http://tao.dev/itemFraction';
+        $itemUri = 'http://tao.dev/ontology.rdf#itemFraction';
 
         $maxScoreOutcome = $this->createMockOutcome('MAXSCORE', '3.14159');
         $qtiItem = $this->createMockQtiItem([$maxScoreOutcome]);
@@ -208,7 +208,7 @@ class ItemMaxScoreServiceTest extends TestCase
      */
     public function testGetItemMaxScoreSingleItem(): void
     {
-        $itemUri = 'http://tao.dev/item1';
+        $itemUri = 'http://tao.dev/ontology.rdf#item1';
 
         $maxScoreOutcome = $this->createMockOutcome('MAXSCORE', '15.0');
         $qtiItem = $this->createMockQtiItem([$maxScoreOutcome]);
@@ -230,6 +230,72 @@ class ItemMaxScoreServiceTest extends TestCase
 
         $this->assertIsArray($result);
         $this->assertEmpty($result);
+    }
+
+    /**
+     * Test validation: empty string URI should throw InvalidArgumentException
+     */
+    public function testEmptyUriThrowsException(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid item URI provided');
+
+        $this->service->getItemMaxScore('');
+    }
+
+    /**
+     * Test validation: malformed URI should throw InvalidArgumentException
+     */
+    public function testMalformedUriThrowsException(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid item URI provided');
+
+        $this->service->getItemMaxScore('not-a-valid-uri');
+    }
+
+    /**
+     * Test validation: URI without fragment should throw InvalidArgumentException
+     */
+    public function testUriWithoutFragmentThrowsException(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid item URI provided');
+
+        $this->service->getItemMaxScore('http://tao.dev/ontology.rdf');
+    }
+
+    /**
+     * Test validation: plain string should throw InvalidArgumentException
+     */
+    public function testPlainStringThrowsException(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid item URI provided');
+
+        $this->service->getItemMaxScore('item123');
+    }
+
+    /**
+     * Test validation: whitespace-only string should throw InvalidArgumentException
+     */
+    public function testWhitespaceOnlyUriThrowsException(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid item URI provided');
+
+        $this->service->getItemMaxScore('   ');
+    }
+
+    /**
+     * Test that getItemsMaxScores handles invalid URIs gracefully by skipping validation
+     * (validation happens in getItemMaxScore which is called for each URI)
+     */
+    public function testGetItemsMaxScoresWithInvalidUri(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->service->getItemsMaxScores(['not-a-valid-uri']);
     }
 
     /**
