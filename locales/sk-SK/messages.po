@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-07-31 13:24\n"
+"PO-Revision-Date: 2025-11-04 14:14\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -1896,9 +1896,6 @@ msgstr "Pri sťahovaní vášho CSS sa vyskytol problém, skúste to znova."
 
 msgid "This identifier is already used by another variable."
 msgstr "Tento identifikátor už používa iná premenná."
-
-msgid "This identifier is already used by another variable."
-msgstr ""
 
 msgid "This identifier must not be used by any other response or item variable."
 msgstr "Tento identifikátor nesmie byť použitý žiadnou inou premennou odpovede alebo položky."
