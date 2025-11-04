@@ -1,0 +1,125 @@
+<?php
+
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
+ *
+ * Copyright (c) 2025 (original work) Open Assessment Technologies SA;
+ */
+
+declare(strict_types=1);
+
+namespace oat\taoQtiItem\model\qti;
+
+use core_kernel_classes_Resource;
+use oat\oatbox\service\ConfigurableService;
+use common_Logger;
+
+/**
+ * Retrieves MAXSCORE (maximum achievable points) from QTI items.
+ */
+class ItemMaxScoreService extends ConfigurableService
+{
+    public const SERVICE_ID = 'taoQtiItem/ItemMaxScoreService';
+
+    /**
+     * Get MAXSCORE for a single item
+     *
+     * Retrieves the maximum achievable score for a single item.
+     *
+     * Behavior:
+     * - Returns 0.0 for items with missing MAXSCORE outcomeDeclaration
+     * - Returns 0.0 for items that fail to parse (with error logged)
+     * - Handles external-scored items (returns manual MAXSCORE if set)
+     *
+     * @param string $itemUri
+     * @return float
+     */
+        public function getItemMaxScore(string $itemUri): float
+    {
+        try {
+            $item = new core_kernel_classes_Resource($itemUri);
+
+            /** @var Service $qtiService */
+            $qtiService = $this->getServiceLocator()->get(Service::class);
+
+            /** @var Item $qtiItem */
+            $qtiItem = $qtiService->getDataItemByRdfItem($item);
+
+            return $this->extractMaxScore($qtiItem);
+
+        } catch (\Exception $e) {
+            common_Logger::w(
+                'Failed to retrieve MAXSCORE for item ' . $itemUri . ': ' . $e->getMessage()
+            );
+            return 0.0;
+        }
+    }
+
+    /**
+     * Retrieve MAXSCORE default values for multiple items
+     *
+     * This method retrieves the maximum achievable score for each item
+     * by calling getItemMaxScore() for each item URI.
+     *
+     * @param array $itemUris - Array of item resource URIs
+     * @return array
+     */
+    public function getItemsMaxScores(array $itemUris): array
+    {
+        $result = [];
+
+        foreach ($itemUris as $uri) {
+            $result[$uri] = $this->getItemMaxScore($uri);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Extract MAXSCORE value from parsed QTI item
+     *
+     * Searches through the item's outcome declarations to find the one with
+     * identifier="MAXSCORE" and returns its defaultValue.
+     *
+     * @param Item|null $qtiItem - Parsed QTI item object
+     * @return float - The maximum score value, or 0.0 if not found
+     */
+    private function extractMaxScore(?Item $qtiItem): float
+    {
+        if (!$qtiItem) {
+            return 0.0;
+        }
+
+        $outcomes = $qtiItem->getOutcomes();
+
+        foreach ($outcomes as $outcome) {
+            if ($outcome->getIdentifier() === 'MAXSCORE') {
+                $defaultValue = $outcome->getDefaultValue();
+
+                if ($defaultValue !== null && $defaultValue !== '') {
+                    return (float) $defaultValue;
+                }
+
+                return 0.0;
+            }
+        }
+
+        common_Logger::d(
+            'No MAXSCORE outcomeDeclaration found for item ' . ($qtiItem->getIdentifier() ?? 'unknown')
+        );
+
+        return 0.0;
+    }
+}

@@ -34,6 +34,7 @@ use oat\taoQtiItem\model\qti\converter\CaseConversionService;
 use oat\taoQtiItem\model\qti\converter\ItemConverter;
 use oat\taoQtiItem\model\qti\converter\ManifestConverter;
 use oat\taoQtiItem\model\qti\Identifier\Service\QtiIdentifierSetter;
+use oat\taoQtiItem\model\qti\ItemMaxScoreService;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\QtiCreator\Scales\RemoteScaleListService;
 use oat\taoQtiItem\model\ValidationService;
@@ -94,6 +95,9 @@ class QtiServiceProvider implements ContainerServiceProviderInterface
                     ->default('')
                     ->string()
             ])
+            ->public();
+
+        $services->set(ItemMaxScoreService::class, ItemMaxScoreService::class)
             ->public();
     }
 }
