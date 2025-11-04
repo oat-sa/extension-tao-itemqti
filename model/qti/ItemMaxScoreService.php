@@ -83,17 +83,52 @@ class ItemMaxScoreService extends ConfigurableService
      * Retrieve MAXSCORE default values for multiple items
      *
      * This method retrieves the maximum achievable score for each item
-     * by calling getItemMaxScore() for each item URI.
+     * by processing each URI individually. While this requires N file reads
+     * (one qti.xml per item), it enables a single HTTP request instead of N
+     * separate API calls from the frontend.
      *
-     * @param array $itemUris - Array of item resource URIs
-     * @return array
+     * @param array $itemUris
+     * @return array<string, float>
+     * @throws Exception
      */
     public function getItemsMaxScores(array $itemUris): array
     {
+        $itemUris = array_filter($itemUris, 'is_string');
+
+        if (empty($itemUris)) {
+            return [];
+        }
+
         $result = [];
 
+        try {
+            /** @var Service $qtiService */
+            $qtiService = $this->getServiceLocator()->get(Service::class);
+        } catch (Exception $e) {
+            common_Logger::e('Failed to retrieve QTI service: ' . $e->getMessage());
+            throw new Exception('QTI service unavailable: ' . $e->getMessage());
+        }
+
         foreach ($itemUris as $uri) {
-            $result[$uri] = $this->getItemMaxScore($uri);
+            try {
+                if (empty($uri) || !common_Utils::isUri($uri)) {
+                    common_Logger::w(
+                        sprintf('Invalid item URI provided: "%s". Skipping.', $uri)
+                    );
+                    $result[$uri] = 0.0;
+                    continue;
+                }
+
+                $item = new core_kernel_classes_Resource($uri);
+                /** @var Item $qtiItem */
+                $qtiItem = $qtiService->getDataItemByRdfItem($item);
+                $result[$uri] = $this->extractMaxScore($qtiItem);
+            } catch (Exception $e) {
+                common_Logger::w(
+                    'Failed to retrieve MAXSCORE for item ' . $uri . ': ' . $e->getMessage()
+                );
+                $result[$uri] = 0.0;
+            }
         }
 
         return $result;

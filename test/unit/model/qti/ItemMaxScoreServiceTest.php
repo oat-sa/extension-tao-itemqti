@@ -288,14 +288,84 @@ class ItemMaxScoreServiceTest extends TestCase
     }
 
     /**
-     * Test that getItemsMaxScores handles invalid URIs gracefully by skipping validation
-     * (validation happens in getItemMaxScore which is called for each URI)
+     * Test that getItemsMaxScores handles invalid URIs gracefully by returning 0.0
      */
     public function testGetItemsMaxScoresWithInvalidUri(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $result = $this->service->getItemsMaxScores(['not-a-valid-uri']);
 
-        $this->service->getItemsMaxScores(['not-a-valid-uri']);
+        $this->assertArrayHasKey('not-a-valid-uri', $result);
+        $this->assertEquals(0.0, $result['not-a-valid-uri']);
+    }
+
+    /**
+     * Test that getItemsMaxScores filters out non-string values
+     */
+    public function testGetItemsMaxScoresFiltersNonStrings(): void
+    {
+        $mixedArray = [
+            'http://tao.dev/ontology.rdf#item1',
+            123,
+            null,
+            ['nested'],
+            'http://tao.dev/ontology.rdf#item2',
+        ];
+
+        $maxScoreOutcome1 = $this->createMockOutcome('MAXSCORE', '10.0');
+        $maxScoreOutcome2 = $this->createMockOutcome('MAXSCORE', '5.0');
+        $qtiItem1 = $this->createMockQtiItem([$maxScoreOutcome1]);
+        $qtiItem2 = $this->createMockQtiItem([$maxScoreOutcome2]);
+
+        $this->qtiServiceMock->method('getDataItemByRdfItem')
+            ->willReturnCallback(function ($resource) use ($qtiItem1, $qtiItem2) {
+                $uri = $resource->getUri();
+                if ($uri === 'http://tao.dev/ontology.rdf#item1') {
+                    return $qtiItem1;
+                }
+                return $qtiItem2;
+            });
+
+        $result = $this->service->getItemsMaxScores($mixedArray);
+
+        // Should only process the two valid string URIs
+        $this->assertCount(2, $result);
+        $this->assertArrayHasKey('http://tao.dev/ontology.rdf#item1', $result);
+        $this->assertArrayHasKey('http://tao.dev/ontology.rdf#item2', $result);
+        $this->assertEquals(10.0, $result['http://tao.dev/ontology.rdf#item1']);
+        $this->assertEquals(5.0, $result['http://tao.dev/ontology.rdf#item2']);
+    }
+
+    /**
+     * Test that getItemsMaxScores handles mixed valid and invalid URIs
+     */
+    public function testGetItemsMaxScoresWithMixedValidAndInvalidUris(): void
+    {
+        $itemUris = [
+            'http://tao.dev/ontology.rdf#item1',
+            'invalid-uri',
+            'http://tao.dev/ontology.rdf#item2',
+        ];
+
+        $maxScoreOutcome1 = $this->createMockOutcome('MAXSCORE', '10.0');
+        $maxScoreOutcome2 = $this->createMockOutcome('MAXSCORE', '5.0');
+        $qtiItem1 = $this->createMockQtiItem([$maxScoreOutcome1]);
+        $qtiItem2 = $this->createMockQtiItem([$maxScoreOutcome2]);
+
+        $this->qtiServiceMock->method('getDataItemByRdfItem')
+            ->willReturnCallback(function ($resource) use ($qtiItem1, $qtiItem2) {
+                $uri = $resource->getUri();
+                if ($uri === 'http://tao.dev/ontology.rdf#item1') {
+                    return $qtiItem1;
+                }
+                return $qtiItem2;
+            });
+
+        $result = $this->service->getItemsMaxScores($itemUris);
+
+        $this->assertCount(3, $result);
+        $this->assertEquals(10.0, $result['http://tao.dev/ontology.rdf#item1']);
+        $this->assertEquals(0.0, $result['invalid-uri']); // Invalid URI returns 0.0
+        $this->assertEquals(5.0, $result['http://tao.dev/ontology.rdf#item2']);
     }
 
     /**
