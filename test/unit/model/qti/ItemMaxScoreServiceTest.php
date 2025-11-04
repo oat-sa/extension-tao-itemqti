@@ -238,7 +238,7 @@ class ItemMaxScoreServiceTest extends TestCase
     public function testEmptyUriThrowsException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid item URI provided');
+        $this->expectExceptionMessageMatches('/Invalid item URI provided:.*Expected a valid TAO resource URI/');
 
         $this->service->getItemMaxScore('');
     }
@@ -249,7 +249,7 @@ class ItemMaxScoreServiceTest extends TestCase
     public function testMalformedUriThrowsException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid item URI provided');
+        $this->expectExceptionMessageMatches('/Invalid item URI provided:.*Expected a valid TAO resource URI/');
 
         $this->service->getItemMaxScore('not-a-valid-uri');
     }
@@ -260,7 +260,7 @@ class ItemMaxScoreServiceTest extends TestCase
     public function testUriWithoutFragmentThrowsException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid item URI provided');
+        $this->expectExceptionMessageMatches('/Invalid item URI provided:.*Expected a valid TAO resource URI/');
 
         $this->service->getItemMaxScore('http://tao.dev/ontology.rdf');
     }
@@ -271,7 +271,7 @@ class ItemMaxScoreServiceTest extends TestCase
     public function testPlainStringThrowsException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid item URI provided');
+        $this->expectExceptionMessageMatches('/Invalid item URI provided:.*Expected a valid TAO resource URI/');
 
         $this->service->getItemMaxScore('item123');
     }
@@ -282,7 +282,7 @@ class ItemMaxScoreServiceTest extends TestCase
     public function testWhitespaceOnlyUriThrowsException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid item URI provided');
+        $this->expectExceptionMessageMatches('/Invalid item URI provided:.*Expected a valid TAO resource URI/');
 
         $this->service->getItemMaxScore('   ');
     }
