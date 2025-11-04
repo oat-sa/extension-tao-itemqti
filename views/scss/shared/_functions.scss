@@ -33,9 +33,9 @@
  */
 @mixin writing-mode-vertical-rl {
     .writing-mode-vertical-rl,
-        .writing-mode-vertical-rl > .grid-row > *, /* [class*=' col-'],[class^='col-'] */
-        .writing-mode-vertical-rl .colrow {
-        &:not(:has(.writing-mode-horizontal-tb)) {
+        .writing-mode-vertical-rl > :where(.grid-row) > :where(*), /* [class*=' col-'],[class^='col-'] */
+        .writing-mode-vertical-rl :where(.colrow) {
+        &:where(:not(:has(.writing-mode-horizontal-tb))) {
             @content;
         }
     }

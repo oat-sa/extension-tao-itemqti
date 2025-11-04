@@ -312,7 +312,7 @@
     //END IE specific
 }
 
-.writing-mode-vertical-rl .qti-choiceInteraction:not(.writing-mode-horizontal-tb),
+.writing-mode-vertical-rl .qti-choiceInteraction:where(:not(.writing-mode-horizontal-tb)),
 .writing-mode-vertical-rl.qti-choiceInteraction {
     /* in iPad Safari & nested scroll container,
            checked radio style sometimes isn't applied after click on choice - repaint is not triggered  */
