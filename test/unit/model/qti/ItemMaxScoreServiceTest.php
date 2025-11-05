@@ -54,7 +54,7 @@ class ItemMaxScoreServiceTest extends TestCase
         $this->qtiServiceMock = $this->createMock(Service::class);
 
         $ontologyMock = $this->createMock(Ontology::class);
-        $ontologyMock->method('getResource')->willReturnCallback(function($uri) {
+        $ontologyMock->method('getResource')->willReturnCallback(function ($uri) {
             return new core_kernel_classes_Resource($uri);
         });
 
