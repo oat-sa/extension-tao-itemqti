@@ -12,8 +12,8 @@ define([
         let bdy = element.body();
         if (bdy.includes(cls)) {
             // first match only is enough
-            bdy = bdy.replace(new RegExp(`class="([^"]*${cls}[^"]*)"`), (str, cls) => {
-                const newCls = cls
+            bdy = bdy.replace(new RegExp(`class="([^"]*${cls}[^"]*)"`), (str, clsAttr) => {
+                const newCls = clsAttr
                     .split(' ')
                     .filter(i => i !== cls)
                     .join(' ');
