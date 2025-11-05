@@ -206,7 +206,7 @@ $mainContainer: '.qti-item';
     .block-listing {
         & > li {
             @include simple-border(#e0e0e0);
-            background: transparent;
+            background: $uiGeneralContentBg;
             padding: 5px;
             margin: 3px;
             cursor: pointer;
