@@ -29,15 +29,15 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/languages', 'lib/jquery.mockjax/
             orientation: 'rtl'
         },
         {
-            uri: 'http://www.tao.lu/ontologies/tao.rdf#langde-de',
-            code: 'de-de',
-            label: 'german',
-            orientation: 'ltr'
-        },
-        {
             uri: 'http://www.tao.lu/ontologies/tao.rdf#langen-gb',
             code: 'en-gb',
             label: 'english (united kingdom)',
+            orientation: 'ltr'
+        },
+        {
+            uri: 'http://www.tao.lu/ontologies/tao.rdf#langde-de',
+            code: 'de-de',
+            label: 'german',
             orientation: 'ltr'
         }
     ];
@@ -68,7 +68,28 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/languages', 'lib/jquery.mockjax/
         languages
             .getList()
             .then(result => {
-                assert.deepEqual(languagesDataMock, result, 'Results data is received');
+                // Languages should be sorted alphabetically by label
+                const expectedSorted = [
+                    {
+                        uri: 'http://www.tao.lu/ontologies/tao.rdf#langar-arb',
+                        code: 'ar-arb',
+                        label: 'arabic',
+                        orientation: 'rtl'
+                    },
+                    {
+                        uri: 'http://www.tao.lu/ontologies/tao.rdf#langen-gb',
+                        code: 'en-gb',
+                        label: 'english (united kingdom)',
+                        orientation: 'ltr'
+                    },
+                    {
+                        uri: 'http://www.tao.lu/ontologies/tao.rdf#langde-de',
+                        code: 'de-de',
+                        label: 'german',
+                        orientation: 'ltr'
+                    }
+                ];
+                assert.deepEqual(expectedSorted, result, 'Results data is received and sorted');
             })
             .finally(done);
     });
@@ -108,6 +129,35 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/languages', 'lib/jquery.mockjax/
                 );
             })
             .finally(done);
+    });
+
+    QUnit.module('sortLanguages() sorting');
+
+    QUnit.test('returns a sorted list of languages', assert => {
+        const unsortedLanguages = [
+            { code: 'fr', label: 'French' },
+            { code: 'es', label: 'Spanish' },
+            { code: 'en', label: 'English' }
+        ];
+
+        const sortedLanguages = languages.sortLanguages(unsortedLanguages);
+        const expectedOrder = ['English', 'French', 'Spanish'];
+        const actualOrder = sortedLanguages.map(lang => lang.label);
+        assert.deepEqual(actualOrder, expectedOrder, 'Languages are sorted alphabetically by label');
+    });
+
+    QUnit.test('handles null and undefined labels', assert => {
+        const languagesWithMissingLabels = [
+            { code: 'fr', label: 'French' },
+            { code: 'es', label: null },
+            { code: 'en', label: undefined },
+            { code: 'de', label: 'German' }
+        ];
+
+        const sortedLanguages = languages.sortLanguages(languagesWithMissingLabels);
+        const expectedOrder = ['', '', 'French', 'German'];
+        const actualOrder = sortedLanguages.map(lang => lang.label || '');
+        assert.deepEqual(actualOrder, expectedOrder, 'Handles null and undefined labels correctly');
     });
 
     QUnit.cases
@@ -166,7 +216,7 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/languages', 'lib/jquery.mockjax/
             .then(formattedLanguages => {
                 assert.deepEqual(
                     formattedLanguages,
-                    ['ar-arb:arabic:rtl', 'de-de:german:ltr', 'en-gb:english (united kingdom):ltr'],
+                    ['ar-arb:arabic:rtl', 'en-gb:english (united kingdom):ltr', 'de-de:german:ltr'],
                     'Languages matches to legacy format'
                 );
             })
