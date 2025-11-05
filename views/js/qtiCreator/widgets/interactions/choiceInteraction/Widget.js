@@ -20,12 +20,10 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/states/states',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
-    'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods'
-], function (Widget, states, sizeAdapter, itemScrollingMethods) {
+    'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods',
+    'taoQtiItem/qtiCommonRenderer/helpers/verticalWriting'
+], function (Widget, states, sizeAdapter, itemScrollingMethods, verticalWriting) {
     'use strict';
-
-    const writingModeVerticalRlClass = 'writing-mode-vertical-rl';
-    const writingModeHorizontalTbClass = 'writing-mode-horizontal-tb';
 
     var ChoiceInteractionWidget = Widget.clone();
 
@@ -38,12 +36,16 @@ define([
             sizeAdapter.adaptSize(this);
         }
 
-        this.$original.removeClass(writingModeVerticalRlClass).removeClass(writingModeHorizontalTbClass);
+        // do not apply it in editor ui, apply only in qti data
+        this.$original
+            .removeClass(verticalWriting.WRITING_MODE_VERTICAL_RL_CLASS)
+            .removeClass(verticalWriting.WRITING_MODE_HORIZONTAL_TB_CLASS);
 
         const $itemBody = this.$container.closest('.qti-itemBody');
         $itemBody.on('item-writing-mode-changed', () => {
-            this.element.removeClass(writingModeVerticalRlClass);
-            this.element.removeClass(writingModeHorizontalTbClass);
+            //reset writing mode
+            this.element.removeClass(verticalWriting.WRITING_MODE_VERTICAL_RL_CLASS);
+            this.element.removeClass(verticalWriting.WRITING_MODE_HORIZONTAL_TB_CLASS);
             itemScrollingMethods.wrapContent(this, false, 'interaction');
         });
     };

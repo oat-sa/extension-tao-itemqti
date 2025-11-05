@@ -2,15 +2,28 @@ define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/static/Widget',
     'taoQtiItem/qtiCreator/widgets/static/text/states/states',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/textBlock'
-], function ($, Widget, states, toolbarTpl) {
+
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/textBlock',
+    'taoQtiItem/qtiCommonRenderer/helpers/verticalWriting'
+], function ($, Widget, states, toolbarTpl, verticalWriting) {
     var TextWidget = Widget.clone();
 
-    //TODO: import classes
-    const writingModeVerticalRlClass = 'writing-mode-vertical-rl';
-    const writingModeHorizontalTbClass = 'writing-mode-horizontal-tb';
+    function removeClassInElementBdy(element, cls) {
+        let bdy = element.body();
+        if (bdy.includes(cls)) {
+            // first match only is enough
+            bdy = bdy.replace(new RegExp(`class="([^"]*${cls}[^"]*)"`), (str, cls) => {
+                const newCls = cls
+                    .split(' ')
+                    .filter(i => i !== cls)
+                    .join(' ');
+                return `class="${newCls}"`;
+            });
+            element.body(bdy);
+        }
+    }
+
     const writingModeAttr = 'data-writing-mode-class';
-    const wrapperCls = 'custom-text-box';
 
     TextWidget.initCreator = function () {
         Widget.initCreator.call(this);
@@ -22,17 +35,8 @@ define([
             this.$container.find(`[${writingModeAttr}]`).each((idx, elt) => {
                 $(elt).removeAttr(writingModeAttr);
             });
-            let bdy = this.element.body();
-            if (bdy.includes(writingModeVerticalRlClass) || bdy.includes(writingModeHorizontalTbClass)) {
-                bdy = bdy.replace(new RegExp(`class="([^"]*${wrapperCls}[^"]*)"`), (str, cls) => {
-                    const newCls = cls
-                        .split(' ')
-                        .filter(i => i && ![writingModeVerticalRlClass, writingModeHorizontalTbClass].includes(i))
-                        .join(' ');
-                    return `class="${newCls}"`;
-                });
-                this.element.body(bdy);
-            }
+            removeClassInElementBdy(this.element, verticalWriting.WRITING_MODE_VERTICAL_RL_CLASS);
+            removeClassInElementBdy(this.element, verticalWriting.WRITING_MODE_HORIZONTAL_TB_CLASS);
         });
     };
 
@@ -47,11 +51,14 @@ define([
 
         this.$container = this.$original.children('.widget-box');
 
-        [writingModeVerticalRlClass, writingModeHorizontalTbClass].forEach(cls => {
-            this.$container.find(`.${cls}`).each((idx, elt) => {
-                $(elt).attr(writingModeAttr, cls).removeClass(cls);
-            });
-        });
+        // do not apply it in editor ui, apply only in qti data. For that, replace class with data attribute
+        [verticalWriting.WRITING_MODE_VERTICAL_RL_CLASS, verticalWriting.WRITING_MODE_HORIZONTAL_TB_CLASS].forEach(
+            cls => {
+                this.$container.find(`.${cls}`).each((idx, elt) => {
+                    $(elt).attr(writingModeAttr, cls).removeClass(cls);
+                });
+            }
+        );
     };
 
     TextWidget.createToolbar = function () {

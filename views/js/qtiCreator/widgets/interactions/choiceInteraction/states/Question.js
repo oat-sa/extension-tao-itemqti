@@ -27,8 +27,9 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/choice',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
     'services/features',
-    'taoQtiItem/qtiCreator/helper/languages',
     'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods',
+    'taoQtiItem/qtiCommonRenderer/helpers/verticalWriting',
+    'taoQtiItem/qtiCreator/widgets/static/helpers/verticalWritingEditing',
     'ui/liststyler'
 ], function (
     _,
@@ -40,14 +41,15 @@ define([
     formTpl,
     sizeAdapter,
     features,
-    languages,
-    itemScrollingMethods
+    itemScrollingMethods,
+    verticalWriting,
+    verticalWritingEditing
 ) {
     'use strict';
 
-    const writingModeVerticalRlClass = 'writing-mode-vertical-rl';
-    const writingModeHorizontalTbClass = 'writing-mode-horizontal-tb';
-    const initialScrollingHeight = '75';
+    const writingModeVerticalRlClass = verticalWriting.WRITING_MODE_VERTICAL_RL_CLASS;
+    const writingModeHorizontalTbClass = verticalWriting.WRITING_MODE_HORIZONTAL_TB_CLASS;
+    const writingModeInitialScrollingHeight = '75';
 
     const exitState = function exitState() {
         const widget = this.widget;
@@ -341,7 +343,7 @@ define([
                 isScrolling = true;
             }
 
-            itemScrollingMethods.initSelect($form, isScrolling, initialScrollingHeight);
+            itemScrollingMethods.initSelect($form, isScrolling, writingModeInitialScrollingHeight);
             itemScrollingMethods.wrapContent(widget, isScrolling, 'interaction');
         };
 
@@ -351,23 +353,11 @@ define([
             }
         };
 
-        const checkItemWritingMode = widget => {
-            const rootElement = widget.element.getRootElement();
-            const itemLang = rootElement.attr('xml:lang');
-
-            return languages.getVerticalWritingModeByLang(itemLang).then(supportedVerticalMode => {
-                return {
-                    isSupported: supportedVerticalMode === 'vertical-rl',
-                    isItemVertical: !!rootElement.hasClass(writingModeVerticalRlClass)
-                };
-            });
-        };
-
         const toggleVerticalWritingModeByLang = (widget, $form, interaction) =>
-            checkItemWritingMode(widget).then(({ isSupported, isItemVertical }) => {
+            verticalWritingEditing.checkItemWritingMode(widget).then(({ isVerticalSupported, isItemVertical }) => {
                 $form.data('isItemVertical', isItemVertical);
 
-                $form.find('.writingMode-panel').toggle(isSupported);
+                $form.find('.writingMode-panel').toggle(isVerticalSupported);
 
                 let isVertical = null;
                 if (interaction.hasClass(writingModeVerticalRlClass)) {

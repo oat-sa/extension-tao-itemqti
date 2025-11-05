@@ -6,9 +6,10 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/static/text',
     'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods',
-    'taoQtiItem/qtiCreator/helper/languages',
     'services/features',
-    'context'
+    'context',
+    'taoQtiItem/qtiCommonRenderer/helpers/verticalWriting',
+    'taoQtiItem/qtiCreator/widgets/static/helpers/verticalWritingEditing'
 ], function (
     stateFactory,
     Active,
@@ -17,16 +18,16 @@ define([
     formElement,
     formTpl,
     itemScrollingMethods,
-    languages,
     features,
-    context
+    context,
+    verticalWriting,
+    verticalWritingEditing
 ) {
     'use strict';
 
     const wrapperCls = 'custom-text-box';
-    const writingModeVerticalRlClass = 'writing-mode-vertical-rl';
-    const writingModeHorizontalTbClass = 'writing-mode-horizontal-tb';
-    //we don't want to apply vertical styles in the Authoring editor. So for the editor, use data attr. For qti, transform attr to the class.
+    const writingModeVerticalRlClass = verticalWriting.WRITING_MODE_VERTICAL_RL_CLASS;
+    const writingModeHorizontalTbClass = verticalWriting.WRITING_MODE_HORIZONTAL_TB_CLASS;
     const writingModeAttr = 'data-writing-mode-class';
     const writingModeInitialScrollingHeight = '75';
 
@@ -169,23 +170,11 @@ define([
         return $wrap;
     };
 
-    const checkItemWritingMode = widget => {
-        const rootElement = widget.element.getRootElement();
-        const itemLang = rootElement.attr('xml:lang');
-
-        return languages.getVerticalWritingModeByLang(itemLang).then(supportedVerticalMode => {
-            return {
-                isSupported: supportedVerticalMode === 'vertical-rl',
-                isItemVertical: !!rootElement.hasClass(writingModeVerticalRlClass)
-            };
-        });
-    };
-
     const toggleVerticalWritingModeByLang = (widget, $form) =>
-        checkItemWritingMode(widget).then(({ isSupported, isItemVertical }) => {
+        verticalWritingEditing.checkItemWritingMode(widget).then(({ isVerticalSupported, isItemVertical }) => {
             $form.data('isItemVertical', isItemVertical);
 
-            $form.find('.writingMode-panel').toggle(isSupported);
+            $form.find('.writingMode-panel').toggle(isVerticalSupported);
 
             let isVertical = null;
             const $wrap = getWrapper(widget);

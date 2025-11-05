@@ -110,9 +110,7 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
                         .children('[data-html-editable]')
                         .wrapInner(`<div class="${wrapperTextCls}" />`)
                         .children();
-                } else if (wrapType === 'interaction') {
-                    //do nothing
-                } else {
+                } else if (wrapType !== 'interaction') {
                     $wrapper = widget.$container.wrap(`<div class="${wrapperIncludeCls}" />`).parent();
                 }
             }
