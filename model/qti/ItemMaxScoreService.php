@@ -22,9 +22,9 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti;
 
-use core_kernel_classes_Resource;
 use Exception;
 use InvalidArgumentException;
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use common_Logger;
 use common_Utils;
@@ -34,6 +34,8 @@ use common_Utils;
  */
 class ItemMaxScoreService extends ConfigurableService
 {
+    use OntologyAwareTrait;
+
     public const SERVICE_ID = 'taoQtiItem/ItemMaxScoreService';
 
     /**
@@ -62,10 +64,8 @@ class ItemMaxScoreService extends ConfigurableService
         }
 
         try {
-            $item = new core_kernel_classes_Resource($itemUri);
-
-            /** @var Service $qtiService */
-            $qtiService = $this->getServiceLocator()->get(Service::class);
+            $item = $this->getResource($itemUri);
+            $qtiService = $this->getQtiService();
 
             /** @var Item $qtiItem */
             $qtiItem = $qtiService->getDataItemByRdfItem($item);
@@ -101,31 +101,12 @@ class ItemMaxScoreService extends ConfigurableService
 
         $result = [];
 
-        try {
-            /** @var Service $qtiService */
-            $qtiService = $this->getServiceLocator()->get(Service::class);
-        } catch (Exception $e) {
-            common_Logger::e('Failed to retrieve QTI service: ' . $e->getMessage());
-            throw new Exception('QTI service unavailable: ' . $e->getMessage());
-        }
-
         foreach ($itemUris as $uri) {
             try {
-                if (empty($uri) || !common_Utils::isUri($uri)) {
-                    common_Logger::w(
-                        sprintf('Invalid item URI provided: "%s". Skipping.', $uri)
-                    );
-                    $result[$uri] = 0.0;
-                    continue;
-                }
-
-                $item = new core_kernel_classes_Resource($uri);
-                /** @var Item $qtiItem */
-                $qtiItem = $qtiService->getDataItemByRdfItem($item);
-                $result[$uri] = $this->extractMaxScore($qtiItem);
-            } catch (Exception $e) {
+                $result[$uri] = $this->getItemMaxScore($uri);
+            } catch (InvalidArgumentException $e) {
                 common_Logger::w(
-                    'Failed to retrieve MAXSCORE for item ' . $uri . ': ' . $e->getMessage()
+                    'Invalid item URI: ' . $uri . '. ' . $e->getMessage()
                 );
                 $result[$uri] = 0.0;
             }
@@ -134,14 +115,19 @@ class ItemMaxScoreService extends ConfigurableService
         return $result;
     }
 
+    private function getQtiService(): Service
+    {
+        return $this->getServiceLocator()->get(Service::class);
+    }
+
     /**
      * Extract MAXSCORE value from parsed QTI item
      *
      * Searches through the item's outcome declarations to find the one with
      * identifier="MAXSCORE" and returns its defaultValue.
      *
-     * @param Item|null $qtiItem - Parsed QTI item object
-     * @return float - The maximum score value, or 0.0 if not found
+     * @param Item|null $qtiItem
+     * @return float
      */
     private function extractMaxScore(?Item $qtiItem): float
     {

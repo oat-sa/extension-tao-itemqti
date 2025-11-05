@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\qti;
 
+use core_kernel_classes_Resource;
+use oat\generis\model\data\Ontology;
 use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\qti\ItemMaxScoreService;
 use oat\taoQtiItem\model\qti\Service;
@@ -51,12 +53,18 @@ class ItemMaxScoreServiceTest extends TestCase
 
         $this->qtiServiceMock = $this->createMock(Service::class);
 
+        $ontologyMock = $this->createMock(Ontology::class);
+        $ontologyMock->method('getResource')->willReturnCallback(function($uri) {
+            return new core_kernel_classes_Resource($uri);
+        });
+
         $slMock = $this->getServiceLocatorMock([
             Service::class => $this->qtiServiceMock
         ]);
 
         $this->service = new ItemMaxScoreService();
         $this->service->setServiceLocator($slMock);
+        $this->service->setModel($ontologyMock);
     }
 
     /**
