@@ -507,3 +507,12 @@
         }
     }
 }
+
+.qti-itemBody[dir="rtl"] {
+    .widget-box.widget-block.widget-object {
+        &.compact-appearance {
+            margin-left: initial;
+            margin-right: auto;
+        }
+    }
+}
