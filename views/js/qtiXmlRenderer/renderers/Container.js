@@ -70,6 +70,10 @@ define([
      * @returns {string} - HTML with media elements wrapped
      */
     const wrapMediaElements = htmlString => {
+        
+        // @todo: uncomment this when the issue with wrapMediaElements is fixed
+        return htmlString;
+
         if (!htmlString || typeof htmlString !== 'string') {
             return htmlString;
         }
