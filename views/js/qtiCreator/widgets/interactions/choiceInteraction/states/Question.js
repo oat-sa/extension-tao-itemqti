@@ -354,22 +354,27 @@ define([
         };
 
         const toggleVerticalWritingModeByLang = (widget, $form, interaction) =>
-            verticalWritingEditing.checkItemWritingMode(widget).then(({ isVerticalSupported, isItemVertical }) => {
-                $form.data('isItemVertical', isItemVertical);
+            verticalWritingEditing
+                .checkItemWritingMode(widget)
+                .then(({ isVerticalSupported, isItemVertical }) => {
+                    $form.data('isItemVertical', isItemVertical);
 
-                $form.find('.writingMode-panel').toggle(isVerticalSupported);
+                    $form.find('.writingMode-panel').toggle(isVerticalSupported);
 
-                let isVertical = null;
-                if (interaction.hasClass(writingModeVerticalRlClass)) {
-                    isVertical = true;
-                } else if (interaction.hasClass(writingModeHorizontalTbClass)) {
-                    isVertical = false;
-                } else {
-                    isVertical = isItemVertical;
-                }
-                $form.find('input[name="writingMode"][value="vertical"]').prop('checked', isVertical);
-                $form.find('input[name="writingMode"][value="horizontal"]').prop('checked', !isVertical);
-            });
+                    let isVertical = null;
+                    if (interaction.hasClass(writingModeVerticalRlClass)) {
+                        isVertical = true;
+                    } else if (interaction.hasClass(writingModeHorizontalTbClass)) {
+                        isVertical = false;
+                    } else {
+                        isVertical = isItemVertical;
+                    }
+                    return new Promise(resolve => setTimeout(() => resolve(isVertical), 0));
+                })
+                .then(isVertical => {
+                    $form.find('input[name="writingMode"][value="vertical"]').prop('checked', isVertical);
+                    $form.find('input[name="writingMode"][value="horizontal"]').prop('checked', !isVertical);
+                });
 
         toggleVerticalWritingModeByLang(widget, $form, interaction);
 
