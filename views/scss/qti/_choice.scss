@@ -518,4 +518,15 @@
             margin-right: auto;
         }
     }
+    .qti-media-wrapper:has(.compact-appearance) {
+        margin-left: initial;
+        margin-right: auto;
+    }
+    .qti-prompt {
+        .qti-media-wrapper:has(.compact-appearance) {
+            display: inline-block;
+            vertical-align: bottom;
+            max-width: 100%;
+        }
+    }
 }
