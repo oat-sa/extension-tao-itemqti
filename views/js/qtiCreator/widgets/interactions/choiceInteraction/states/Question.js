@@ -348,8 +348,11 @@ define([
         };
 
         callbacks.scrollingHeight = function (element, value) {
-            if (itemScrollingMethods.isScrolling(interaction)) {
-                itemScrollingMethods.setScrollingHeight(interaction, value);
+            const widgetState = interaction.metaData.widget && interaction.metaData.widget.getCurrentState().name;
+            if (widgetState === 'question') {
+                if (itemScrollingMethods.isScrolling(interaction)) {
+                    itemScrollingMethods.setScrollingHeight(interaction, value);
+                }
             }
         };
 
