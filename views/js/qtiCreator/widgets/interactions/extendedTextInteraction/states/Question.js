@@ -26,8 +26,11 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/ExtendedTextInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/patternMask',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/extendedText',
-    'services/features'
-], function(
+    'services/features',
+    'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods',
+    'taoQtiItem/qtiCommonRenderer/helpers/verticalWriting',
+    'taoQtiItem/qtiCreator/widgets/static/helpers/verticalWritingEditing'
+], function (
     $,
     _,
     __,
@@ -38,26 +41,32 @@ define([
     renderer,
     patternMaskHelper,
     formTpl,
-    features
+    features,
+    itemScrollingMethods,
+    verticalWriting,
+    verticalWritingEditing
 ) {
     'use strict';
 
+    const writingModeVerticalRlClass = verticalWriting.WRITING_MODE_VERTICAL_RL_CLASS;
+    const writingModeHorizontalTbClass = verticalWriting.WRITING_MODE_HORIZONTAL_TB_CLASS;
+    const writingModeInitialScrollingHeight = '75';
+
     var config = module.config();
 
-    var initState = function initState(){
+    var initState = function initState() {
         // Disable inputs until response edition.
         renderer.disable(this.widget.element);
     };
 
-    var exitState = function exitState(){
+    var exitState = function exitState() {
         // Enable inputs until response edition.
         renderer.enable(this.widget.element);
     };
 
     var ExtendedTextInteractionStateQuestion = stateFactory.extend(Question, initState, exitState);
 
-    ExtendedTextInteractionStateQuestion.prototype.initForm = function(){
-
+    ExtendedTextInteractionStateQuestion.prototype.initForm = function () {
         var _widget = this.widget,
             $form = _widget.$form,
             $original = _widget.$original,
@@ -82,7 +91,6 @@ define([
             xhtml: { label: __('Rich text'), selected: false }
         };
 
-        
         if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/preFormatted')) {
             formats.preformatted = {
                 label: __('Pre-formatted text'),
@@ -93,8 +101,10 @@ define([
         if (config.hasMath) {
             formats.math = { label: __('Rich text + math'), selected: false };
         }
-        
-        const constraintsAvailable = features.isVisible('taoQtiItem/creator/interaction/extendedText/property/constraints')
+
+        const constraintsAvailable = features.isVisible(
+            'taoQtiItem/creator/interaction/extendedText/property/constraints'
+        );
         var constraints = {
             none: { label: __('None'), selected: true },
             maxLength: { label: __('Max Length'), selected: false },
@@ -136,7 +146,8 @@ define([
                 expectedLength: expectedLength,
                 expectedLines: expectedLines,
                 constraints: constraints,
-                constraintsAvailable
+                constraintsAvailable,
+                scrollingHeights: itemScrollingMethods.options()
             })
         );
 
@@ -163,6 +174,35 @@ define([
                 $recommendationsBlock.hide();
             }
         }
+
+        const toggleVerticalWritingModeByLang = (widget, $form, interaction) =>
+            verticalWritingEditing
+                .checkItemWritingMode(widget)
+                .then(({ isVerticalSupported, isItemVertical }) => {
+                    $form.data('isItemVertical', isItemVertical);
+
+                    $form.find('.writingMode-panel').toggle(isVerticalSupported);
+
+                    let isVertical = null;
+                    if (interaction.hasClass(writingModeVerticalRlClass)) {
+                        isVertical = true;
+                    } else if (interaction.hasClass(writingModeHorizontalTbClass)) {
+                        isVertical = false;
+                    } else {
+                        isVertical = isItemVertical;
+                    }
+                    return new Promise(resolve => setTimeout(() => resolve(isVertical), 0));
+                })
+                .then(isVertical => {
+                    $form.find('input[name="writingMode"][value="vertical"]').prop('checked', isVertical);
+                    $form.find('input[name="writingMode"][value="horizontal"]').prop('checked', !isVertical);
+                });
+
+        toggleVerticalWritingModeByLang(_widget, $form, interaction);
+
+        const isScrolling = itemScrollingMethods.isScrolling(interaction);
+        const selectedHeight = itemScrollingMethods.selectedHeight(interaction);
+        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
 
         //  init data change callbacks
         var callbacks = {};
@@ -207,7 +247,7 @@ define([
             }
         };
 
-        callbacks.constraint = function(interaction,attrValue){
+        callbacks.constraint = function (interaction, attrValue) {
             $('.constraint', $form).hide('500');
             $('.constraint-' + attrValue, $form).show('1000');
             $counterMaxWords.text(0);
@@ -233,31 +273,31 @@ define([
             }
         };
 
-        callbacks.maxWords = function(interaction, attrValue){
-            var newValue = parseInt(attrValue,10);
-            if (! isNaN(newValue)) {
+        callbacks.maxWords = function (interaction, attrValue) {
+            var newValue = parseInt(attrValue, 10);
+            if (!isNaN(newValue)) {
                 interaction.attr('patternMask', patternMaskHelper.createMaxWordPattern(newValue));
             }
             $counterMaxWords.text(newValue);
             $inputs.patternMask.val(interaction.attr('patternMask'));
         };
 
-        callbacks.maxLength = function(interaction, attrValue){
-            var newValue = parseInt(attrValue,10);
-            if(! isNaN(newValue)){
+        callbacks.maxLength = function (interaction, attrValue) {
+            var newValue = parseInt(attrValue, 10);
+            if (!isNaN(newValue)) {
                 interaction.attr('patternMask', patternMaskHelper.createMaxCharPattern(newValue));
             }
             $counterMaxLength.text(newValue);
             $inputs.patternMask.val(interaction.attr('patternMask'));
         };
 
-        callbacks.patternMask = function(interaction, attrValue){
+        callbacks.patternMask = function (interaction, attrValue) {
             interaction.attr('patternMask', attrValue);
         };
 
-        function setAttributes (attribute, interaction, attrValue) {
-            var newValue = parseInt(attrValue,10);
-            if(! isNaN(newValue)){
+        function setAttributes(attribute, interaction, attrValue) {
+            var newValue = parseInt(attrValue, 10);
+            if (!isNaN(newValue)) {
                 interaction.attr(attribute, attrValue);
             } else {
                 interaction.removeAttr(attribute);
@@ -267,6 +307,31 @@ define([
         callbacks.expectedLength = setAttributes.bind(null, 'expectedLength');
 
         callbacks.expectedLines = setAttributes.bind(null, 'expectedLines');
+
+        callbacks.writingMode = function (i, mode) {
+            let isScrolling = false;
+            interaction.removeClass(writingModeVerticalRlClass);
+            interaction.removeClass(writingModeHorizontalTbClass);
+            if (mode === 'vertical' && !$form.data('isItemVertical')) {
+                interaction.addClass(writingModeVerticalRlClass);
+                isScrolling = true;
+            } else if (mode === 'horizontal' && $form.data('isItemVertical')) {
+                interaction.addClass(writingModeHorizontalTbClass);
+                isScrolling = true;
+            }
+
+            itemScrollingMethods.initSelect($form, isScrolling, writingModeInitialScrollingHeight);
+            itemScrollingMethods.wrapContent(_widget, isScrolling, 'interaction');
+        };
+
+        callbacks.scrollingHeight = function (element, value) {
+            const widgetState = interaction.metaData.widget && interaction.metaData.widget.getCurrentState().name;
+            if (widgetState === 'question') {
+                if (itemScrollingMethods.isScrolling(interaction)) {
+                    itemScrollingMethods.setScrollingHeight(interaction, value);
+                }
+            }
+        };
 
         formElement.setChangeCallbacks($form, interaction, callbacks);
     };

@@ -19,23 +19,36 @@
 define([
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/choiceInteraction/states/states',
-    'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter'
-], function(Widget, states, sizeAdapter){
-
+    'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
+    'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods',
+    'taoQtiItem/qtiCommonRenderer/helpers/verticalWriting'
+], function (Widget, states, sizeAdapter, itemScrollingMethods, verticalWriting) {
     'use strict';
 
     var ChoiceInteractionWidget = Widget.clone();
 
-    ChoiceInteractionWidget.initCreator = function(){
-        
+    ChoiceInteractionWidget.initCreator = function () {
         this.registerStates(states);
-        
+
         Widget.initCreator.call(this);
 
-        if(this.element.attr('orientation') === 'horizontal') {
+        if (this.element.attr('orientation') === 'horizontal') {
             sizeAdapter.adaptSize(this);
         }
+
+        // do not apply it in editor ui, apply only in qti data
+        this.$original
+            .removeClass(verticalWriting.WRITING_MODE_VERTICAL_RL_CLASS)
+            .removeClass(verticalWriting.WRITING_MODE_HORIZONTAL_TB_CLASS);
+
+        const $itemBody = this.$container.closest('.qti-itemBody');
+        $itemBody.on('item-writing-mode-changed', () => {
+            //reset writing mode
+            this.element.removeClass(verticalWriting.WRITING_MODE_VERTICAL_RL_CLASS);
+            this.element.removeClass(verticalWriting.WRITING_MODE_HORIZONTAL_TB_CLASS);
+            itemScrollingMethods.wrapContent(this, false, 'interaction');
+        });
     };
-    
+
     return ChoiceInteractionWidget;
 });

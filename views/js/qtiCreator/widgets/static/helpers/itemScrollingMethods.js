@@ -19,6 +19,16 @@
 define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
     'use strict';
 
+    /**
+     * `jQuery` or `tao-item-runner-qti-fe\src\qtiItem\core\Element.js`
+     * @typedef {Object} IWrapper
+     * @property {Function} addClass
+     * @property {Function} removeClass
+     * @property {Function} attr
+     * @property {Function} removeAttr
+     * @property {Number|void 0} length - only if jQuery
+     */
+
     const wrapperTextCls = 'custom-text-box';
     const wrapperIncludeCls = 'custom-include-box';
     const wrapperFocusCls = 'key-navigation-focusable';
@@ -62,9 +72,17 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
         options: function () {
             return options;
         },
+        /**
+         * @param {IWrapper} $wrapper
+         * @returns {boolean}
+         */
         isScrolling: function ($wrapper) {
-            return typeCaster.strToBool($wrapper.length > 0 ? $wrapper.attr('data-scrolling') : 'false');
+            return typeCaster.strToBool($wrapper.length === 0 ? 'false' : $wrapper.attr('data-scrolling'));
         },
+        /**
+         * @param {IWrapper} $wrapper
+         * @returns {string}
+         */
         selectedHeight: function ($wrapper) {
             return $wrapper.attr('data-scrolling-height');
         },
@@ -74,19 +92,27 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
         },
         wrapContent: function (widget, value, wrapType) {
             const $form = widget.$form;
-            let $wrapper =
-                wrapType === 'inner'
-                    ? widget.$container.children('[data-html-editable]').children(`.${wrapperTextCls}`)
-                    : widget.$container.parent(`.${wrapperIncludeCls}`);
+            /**
+             * @type {IWrapper}
+             */
+            let $wrapper;
+            if (wrapType === 'inner') {
+                $wrapper = widget.$container.children('[data-html-editable]').children(`.${wrapperTextCls}`);
+            } else if (wrapType === 'interaction') {
+                $wrapper = widget.element;
+            } else {
+                $wrapper = widget.$container.parent(`.${wrapperIncludeCls}`);
+            }
 
-            if (!$wrapper.length) {
-                $wrapper =
-                    wrapType === 'inner'
-                        ? widget.$container
-                              .children('[data-html-editable]')
-                              .wrapInner(`<div class="${wrapperTextCls}" />`)
-                              .children()
-                        : widget.$container.wrap(`<div class="${wrapperIncludeCls}" />`).parent();
+            if ($wrapper.length === 0) {
+                if (wrapType === 'inner') {
+                    $wrapper = widget.$container
+                        .children('[data-html-editable]')
+                        .wrapInner(`<div class="${wrapperTextCls}" />`)
+                        .children();
+                } else if (wrapType !== 'interaction') {
+                    $wrapper = widget.$container.wrap(`<div class="${wrapperIncludeCls}" />`).parent();
+                }
             }
 
             if (value) {
@@ -113,6 +139,10 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
                 $wrapper.removeAttr('data-scrolling-height');
             }
         },
+        /**
+         * @param {IWrapper} $wrapper
+         * @param {string} value
+         */
         setScrollingHeight: function ($wrapper, value) {
             $wrapper.attr('data-scrolling-height', value);
             // remove classes tao-*-height for new UI test Runner
