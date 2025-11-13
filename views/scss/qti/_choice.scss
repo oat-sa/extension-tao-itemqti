@@ -318,7 +318,7 @@
            checked radio style sometimes isn't applied after click on choice - repaint is not triggered  */
     .qti-choice {
         &.user-selected {
-            opacity: 0.97;
+            opacity: 0.98;
         }
         &:not(.user-selected) {
             opacity: 1;
@@ -508,7 +508,7 @@
     }
 }
 
-.qti-itemBody[dir="rtl"] {
+.qti-itemBody[dir='rtl'] {
     .widget-box.widget-block.widget-object {
         &.compact-appearance {
             margin-left: initial;
