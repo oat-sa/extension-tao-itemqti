@@ -424,6 +424,17 @@
                 }
             }
 
+            &.horizontal {
+                display: block;
+
+                & > li {
+                    height: auto;
+                    &:first-child {
+                        margin-top: 3px;
+                    }
+                }
+            }
+
             .qti-choice {
                 .real-label {
                     width: 100%;
