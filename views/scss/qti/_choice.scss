@@ -42,9 +42,9 @@
             position: absolute;
             font: inherit;
             cursor: default;
-            left: 50%;
+            inset-inline-start: 50%;
             transform: translateX(-50%);
-            bottom: calc(100% + 20px);
+            inset-block-end: calc(100% + 20px);
             white-space: nowrap;
         }
     }
@@ -80,7 +80,7 @@
             }
             // ol
             .choice-area {
-                margin-top: 25px;
+                margin-block-start: 25px;
                 // there might be list-styles that move everything to the right
                 &[class^='list-style-'],
                 &[class*=' list-style-'] {
@@ -364,18 +364,18 @@
                     }
                     [data-eliminable='container'] {
                         &:before {
-                            display: none;
+                            transform: translateY(-50%);
                         }
                         width: calc(100% - 1rem);
                         display: flex;
                         align-items: center;
                         margin: 0;
+                        top: 4rem;
                         left: 0.5rem;
                         [data-eliminable='trigger'] {
                             display: block;
                             position: relative;
                             padding: 0;
-                            top: 5rem;
                             left: 0.8rem;
                             &:after {
                                 left: 0;
@@ -421,6 +421,17 @@
                 flex-direction: column;
                 &:first-child {
                     margin-top: 0;
+                }
+            }
+
+            &.horizontal {
+                display: block;
+
+                & > li {
+                    height: auto;
+                    &:first-child {
+                        margin-top: 3px;
+                    }
                 }
             }
 
