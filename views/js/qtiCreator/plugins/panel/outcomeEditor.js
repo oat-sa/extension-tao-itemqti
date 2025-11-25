@@ -28,7 +28,8 @@ define([
     'ui/tooltip',
     'services/features',
     'tpl!taoQtiItem/qtiCreator/tpl/outcomeEditor/panel',
-    'tpl!taoQtiItem/qtiCreator/tpl/outcomeEditor/listing'
+    'tpl!taoQtiItem/qtiCreator/tpl/outcomeEditor/listing',
+    'taoQtiItem/qtiCreator/helper/scaleSelector'
 ], function (
     $,
     _,
@@ -42,11 +43,18 @@ define([
     tooltip,
     features,
     panelTpl,
-    listingTpl
+    listingTpl,
+    scaleSelectorFactory
 ) {
     'use strict';
 
     const _ns = '.outcome-editor';
+    const scaleSelectors = new Map();
+    let scalePresetsData = [];
+    let itemScaleData = {};
+    let scalesFeatureEnabled = false;
+    let currentItemIdentifier = null;
+    let selectorIdCounter = 0;
 
     /**
      * Types of externalScored attributes
@@ -94,6 +102,8 @@ define([
      * @param {JQuery} $outcomeEditorPanel
      */
     function renderListing(item, $outcomeEditorPanel) {
+        // TODO: check if this not impact saving value
+        destroyAllScaleSelectors();
         const readOnlyRpVariables = getRpUsedVariables(item);
         const scoreMaxScoreVisible = features.isVisible('taoQtiItem/creator/interaction/response/outcomeDeclarations/scoreMaxScore');
         const scoreExternalScored = _.get(_.find(item.outcomes, function (outcome) {
@@ -170,6 +180,11 @@ define([
 
         //init form javascript
         formElement.initWidget($outcomeEditorPanel);
+
+
+        if (scalesFeatureEnabled) {
+            initializeScaleSelectors($outcomeEditorPanel);
+        }
     }
 
     /**
@@ -269,6 +284,187 @@ define([
         }
     };
 
+    function getSyncManager() {
+        return scaleSelectorFactory.__getSyncManager
+            ? scaleSelectorFactory.__getSyncManager()
+            : null;
+    }
+
+    function destroyScaleSelectorEntry(entry) {
+        if (!entry) {
+            return;
+        }
+
+        if (entry.cleanup) {
+            entry.cleanup();
+        }
+
+        const syncManager = getSyncManager();
+        if (syncManager && typeof syncManager.unregisterSelector === 'function') {
+            try {
+                syncManager.unregisterSelector(entry.selectorId, entry.outcome);
+            } catch (error) {
+                console.warn('Failed to unregister selector from sync manager:', error);
+            }
+        }
+
+        if (entry.selector) {
+            try {
+                entry.selector.destroy();
+            } catch (err) {
+                console.warn('Error destroying scale selector:', err);
+            }
+        }
+    }
+
+    function destroyAllScaleSelectors() {
+        scaleSelectors.forEach(entry => {
+            destroyScaleSelectorEntry(entry);
+        });
+        scaleSelectors.clear();
+    }
+
+    function destroyScaleSelectorBySerial(serial) {
+        const entry = scaleSelectors.get(serial);
+        if (!entry) {
+            return;
+        }
+        destroyScaleSelectorEntry(entry);
+        scaleSelectors.delete(serial);
+    }
+
+    function generateSelectorId() {
+        selectorIdCounter += 1;
+        return `scale_selector_${selectorIdCounter}_${Date.now()}`;
+    }
+
+    function getStoredScaleData(outcome) {
+        const longInterpretation = outcome && outcome.attr ? outcome.attr('longInterpretation') : null;
+        if (longInterpretation && itemScaleData && itemScaleData[longInterpretation]) {
+            return itemScaleData[longInterpretation];
+        }
+        return null;
+    }
+
+    function setupScaleSelector($outcomeContainer, outcome) {
+        if (!scalesFeatureEnabled || !$outcomeContainer || !outcome) {
+            return;
+        }
+
+        const $scalePanel = $outcomeContainer.find('.scale-selector');
+        const $rubricPanel = $outcomeContainer.find('.rubric');
+
+        if (!$scalePanel.length || !$rubricPanel.length) {
+            return;
+        }
+
+        // UI adjustments for this specific outcome with scale handling
+        $outcomeContainer.find('.longinterpretation').addClass('hidden');
+        $outcomeContainer.find('.interpretation label').first().text(__('Label'));
+
+        $scalePanel.removeClass('hidden');
+        $rubricPanel.removeClass('hidden');
+
+        formElement.initWidget($scalePanel);
+
+        const selectorId = generateSelectorId();
+        let scaleSelector;
+
+        try {
+            scaleSelector = scaleSelectorFactory($scalePanel, selectorId);
+        } catch (err) {
+            console.warn('Failed to create scale selector for outcome:', err);
+            return;
+        }
+
+        const storedScaleData = getStoredScaleData(outcome);
+        const initialScale =
+            outcome.attr('scale') ||
+            (storedScaleData && storedScaleData.scale && storedScaleData.scale.uri) ||
+            '';
+
+        try {
+            scaleSelector.createForm(initialScale || '');
+            const syncManager = getSyncManager();
+            if (syncManager && typeof syncManager.registerSelector === 'function') {
+                syncManager.registerSelector(selectorId, scaleSelector, outcome);
+            }
+        } catch (error) {
+            console.warn('Failed to initialize scale selector UI:', error);
+        }
+
+        const $minMaxInputs = $outcomeContainer.find('.minimum-maximum input');
+        if (initialScale) {
+            $minMaxInputs.prop('disabled', true);
+        }
+
+        const $rubricInput = $rubricPanel.find('input[name="rubric"]');
+        if ($rubricInput.length) {
+            const initialRubric = outcome.attr('rubric')
+                || (storedScaleData && storedScaleData.rubric)
+                || '';
+            if (initialRubric) {
+                $rubricInput.val(initialRubric);
+            }
+
+            $rubricInput.on(`input${_ns}`, function () {
+                const value = $(this).val();
+                if (value) {
+                    outcome.attr('rubric', value);
+                } else {
+                    outcome.removeAttr('rubric');
+                }
+            });
+        }
+
+        scaleSelector.on('scale-change', function (scaleUri) {
+            if (scaleUri) {
+                outcome.attr('scale', scaleUri);
+                $minMaxInputs.prop('disabled', true);
+            } else {
+                outcome.removeAttr('scale');
+                $minMaxInputs.prop('disabled', false);
+            }
+        });
+
+        scaleSelectors.set(outcome.serial || selectorId, {
+            selector: scaleSelector,
+            selectorId,
+            outcome,
+            cleanup() {
+                if ($rubricInput.length) {
+                    $rubricInput.off(`input${_ns}`);
+                }
+            }
+        });
+    }
+
+    function initializeScaleSelectors($panel) {
+        if (!scalesFeatureEnabled) {
+            return;
+        }
+
+        const scaleManager = scaleSelectorFactory.__getSyncManager
+            ? scaleSelectorFactory.__getSyncManager()
+            : null;
+
+        if (scaleManager && currentItemIdentifier) {
+            try {
+                scaleManager.init(scalePresetsData || [], currentItemIdentifier);
+            } catch (error) {
+                console.warn('Failed to initialize scale synchronization manager:', error);
+            }
+        }
+
+        $panel.find('.outcome-container').each(function () {
+            const serial = $(this).data('serial');
+            const outcomeElement = Element.getElementBySerial(serial);
+            if (outcomeElement) {
+                setupScaleSelector($(this), outcomeElement);
+            }
+        });
+    }
+
     return pluginFactory({
         name: 'outcomeEditor',
         /**
@@ -279,6 +475,22 @@ define([
             const $container = this.getAreaBroker().getContainer();
             const $responsePanel = $container.find('#sidebar-right-response-properties');
             let $outcomeEditorPanel;
+            scalePresetsData = item.data('scalePresets') || item.data('scalesPresets') || [];
+            itemScaleData = item.data('itemScales') || item.data('scales') || {};
+            currentItemIdentifier = item.attr('identifier') || item.serial || `item_${Date.now()}`;
+            scalesFeatureEnabled = (Array.isArray(scalePresetsData) && scalePresetsData.length > 0)
+                || (itemScaleData && Object.keys(itemScaleData).length > 0);
+
+            if (scalesFeatureEnabled) {
+                try {
+                    scaleSelectorFactory.initialize(scalePresetsData || [], currentItemIdentifier);
+                } catch (initializationError) {
+                    console.warn('Failed to initialize scale selector factory for item:', initializationError);
+                    scalesFeatureEnabled = false;
+                }
+            } else {
+                scaleSelectorFactory.reset(currentItemIdentifier);
+            }
 
             $container.on(`initResponseForm${_ns}`, function () {
                 //remove old one if exists
@@ -471,6 +683,7 @@ define([
                         //delete the outcome
                         const $outcomeContainer = $(this).closest('.outcome-container');
                         const serial = $outcomeContainer.data('serial');
+                        destroyScaleSelectorBySerial(serial);
                         // Check the states of other outcomes before enabling SCORE
                         const shouldDisable = shouldDisableScoreBasedOnOtherVariables($responsePanel, serial);
 
@@ -480,7 +693,7 @@ define([
                         }, shouldDisable); // Disable SCORE if any other outcomes is not 'none'
 
                         $outcomeContainer.remove();
-                        item.remove('outcomes', $outcomeContainer.data('serial'));
+                        item.remove('outcomes', serial);
                     })
                     .on(`click${_ns}`, '.adder', function (e) {
                         e.preventDefault();
