@@ -49,11 +49,14 @@ use oat\taoQtiItem\model\qti\parser\XmlToItemParser;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\validator\ItemIdentifierValidator;
 use oat\taoQtiItem\model\service\CreatorConfigFactory;
+use oat\taoQtiItem\model\QtiCreator\Scales\RemoteScaleListService;
+use oat\taoQtiItem\model\qti\metadata\exporter\scale\ScalePreprocessor;
 use tao_actions_CommonModule;
 use tao_helpers_File;
 use tao_helpers_Http;
 use tao_helpers_Uri;
 use taoItems_models_classes_ItemsService;
+use InvalidArgumentException;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item
@@ -326,6 +329,15 @@ class QtiCreator extends tao_actions_CommonModule
 
         $config->setProperty('mediaSourcesUrl', $mediaSourcesUrl);
 
+        // Add scale data if scale feature is enabled
+        if ($this->isScaleEnabled()) {
+            $config->setProperty('scalesPresets', $this->getScalePresets());
+            $config->setProperty('itemScales', $this->getItemScales($item));
+        } else {
+            $config->setProperty('scalesPresets', json_encode([]));
+            $config->setProperty('itemScales', json_encode([]));
+        }
+
         //initialize all registered hooks:
         $hookClasses = HookRegistry::getRegistry()->getMap();
         foreach ($hookClasses as $hookClass) {
@@ -399,4 +411,99 @@ class QtiCreator extends tao_actions_CommonModule
     {
         return $this->getPsrContainer()->get(CreatorConfigFactory::class);
     }
+
+    /**
+     * Check if scale feature is enabled
+     *
+     * @return bool
+     */
+    private function isScaleEnabled(): bool
+    {
+        return $this->getRemoteScaleListService()->isRemoteListEnabled();
+    }
+
+    /**
+     * Get the RemoteScaleListService instance
+     *
+     * @return RemoteScaleListService
+     */
+    private function getRemoteScaleListService(): RemoteScaleListService
+    {
+        return $this->getServiceManager()->getContainer()->get(RemoteScaleListService::class);
+    }
+
+    /**
+     * Get scale presets as JSON string
+     *
+     * @return string JSON encoded scale presets
+     */
+    private function getScalePresets(): string
+    {
+        $listElements = $this->getScaleProcessor()->getScaleRemoteList();
+
+        if (!is_iterable($listElements)) {
+            throw new InvalidArgumentException('List elements should be iterable');
+        }
+
+        $listElements = iterator_to_array($listElements);
+
+        if (empty($listElements)) {
+            return json_encode([]);
+        }
+
+        $json = json_encode($listElements);
+        if ($json === false) {
+            $this->logWarning('List of elements could not be encoded to JSON');
+            return json_encode([]);
+        }
+
+        return $json;
+    }
+
+    /**
+     * Get the ScalePreprocessor instance
+     *
+     * @return ScalePreprocessor
+     */
+    private function getScaleProcessor(): ScalePreprocessor
+    {
+        return $this->getServiceManager()->getContainer()->get(ScalePreprocessor::class);
+    }
+
+    /**
+     * Get existing item scales from the item's scales directory
+     *
+     * @param core_kernel_classes_Resource $item
+     * @return string JSON encoded array of existing scales
+     */
+    private function getItemScales(core_kernel_classes_Resource $item): string
+    {
+        try {
+            $itemService = taoItems_models_classes_ItemsService::singleton();
+            $itemDirectory = $itemService->getItemDirectory($item);
+            $scalesDir = $itemDirectory->getDirectory('scales');
+
+            if (!$scalesDir->exists()) {
+                return json_encode([]);
+            }
+
+            $scales = [];
+
+            foreach ($scalesDir->getIterator() as $file) {
+                if ($file->getMimeType() === 'application/json') {
+                    $content = $file->read();
+                    $scaleData = json_decode($content, true);
+                    if (json_last_error() === JSON_ERROR_NONE) {
+                        $scales[sprintf('scales/%s', $file->getBasename())] = $scaleData;
+                    }
+                }
+            }
+
+            return json_encode($scales);
+        } catch (\Exception $e) {
+            $this->logWarning('Could not read item scales: ' . $e->getMessage());
+            return json_encode([]);
+        }
+    }
 }
+
