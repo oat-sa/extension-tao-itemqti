@@ -36,7 +36,10 @@ use oat\taoQtiItem\model\qti\converter\ManifestConverter;
 use oat\taoQtiItem\model\qti\Identifier\Service\QtiIdentifierSetter;
 use oat\taoQtiItem\model\qti\ItemMaxScoreService;
 use oat\taoQtiItem\model\qti\Service;
+use oat\taoQtiItem\model\qti\scale\ScaleHandler;
+use oat\taoQtiItem\model\qti\scale\ScaleStorageService;
 use oat\taoQtiItem\model\QtiCreator\Scales\RemoteScaleListService;
+use oat\taoQtiItem\model\qti\metadata\exporter\scale\ScalePreprocessor;
 use oat\taoQtiItem\model\ValidationService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -94,6 +97,16 @@ class QtiServiceProvider implements ContainerServiceProviderInterface
                 env(RemoteScaleListService::REMOTE_LIST_SCALE)
                     ->default('')
                     ->string()
+            ])
+            ->public();
+
+        $services->set(ScaleStorageService::class);
+
+        $services->set(ScaleHandler::class)
+            ->args([
+                service(ScaleStorageService::class),
+                service(ScalePreprocessor::class),
+                service(LoggerService::SERVICE_ID),
             ])
             ->public();
 
