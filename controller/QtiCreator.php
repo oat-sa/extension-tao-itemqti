@@ -51,6 +51,7 @@ use oat\taoQtiItem\model\qti\validator\ItemIdentifierValidator;
 use oat\taoQtiItem\model\service\CreatorConfigFactory;
 use oat\taoQtiItem\model\QtiCreator\Scales\RemoteScaleListService;
 use oat\taoQtiItem\model\qti\metadata\exporter\scale\ScalePreprocessor;
+use oat\taoQtiItem\model\qti\scale\ScaleHandler;
 use tao_actions_CommonModule;
 use tao_helpers_File;
 use tao_helpers_Http;
@@ -201,6 +202,11 @@ class QtiCreator extends tao_actions_CommonModule
         if (isset($queryParams['uri'])) {
             $xml = $request->getBody()->getContents();
             $rdfItem = $this->getResource(urldecode($queryParams['uri']));
+            try {
+                $xml = $this->getScaleHandler()->process($xml, $rdfItem);
+            } catch (Throwable $exception) {
+                $this->logWarning(sprintf('Item scale persistence skipped: %s', $exception->getMessage()));
+            }
             /** @var Service $itemService */
             $itemService = $this->getServiceLocator()->get(Service::class);
 
@@ -368,6 +374,11 @@ class QtiCreator extends tao_actions_CommonModule
     private function getFeatureFlagConfigSwitcher(): FeatureFlagConfigSwitcher
     {
         return $this->getServiceLocator()->getContainer()->get(FeatureFlagConfigSwitcher::class);
+    }
+
+    private function getScaleHandler(): ScaleHandler
+    {
+        return $this->getServiceLocator()->getContainer()->get(ScaleHandler::class);
     }
 
     /**
