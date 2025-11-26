@@ -102,3 +102,34 @@
     </div>
 </div>
 {{/if}}
+
+<div class="panel writingMode-panel" style="display:none;">
+    <hr />
+    <h3>{{__ "Direction of writing"}}</h3>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+    <span class="tooltip-content">{{__ "Switches the interaction's direction of writing between horizontal and vertical."}}</span>
+    <div>
+        <label class="smaller-prompt">
+            <input type="radio" name="writingMode" value="horizontal" />
+            <span class="icon-radio"></span>
+            {{__ "Horizontal text"}}
+        </label>
+        <br>
+        <label class="smaller-prompt">
+            <input type="radio" name="writingMode" value="vertical" />
+            <span class="icon-radio"></span>
+            {{__ "Vertical text"}}
+        </label>
+    </div>
+</div>
+
+<div class="panel scrollingSelect" style="display:none;">
+    <label for="scrollingHeightChoice" class="spinner">{{__ "Block height (%)"}}</label>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+    <span class="tooltip-content">{{__ "Select height of block based off container height"}}</span>
+    <select name="scrollingHeight" class="select2" data-has-search="false" id="scrollingHeightChoice">
+        {{#each scrollingHeights}}
+        <option value="{{value}}" {{#if selected}}selected="selected"{{/if}}>{{name}}</option>
+        {{/each}}
+    </select>
+</div>

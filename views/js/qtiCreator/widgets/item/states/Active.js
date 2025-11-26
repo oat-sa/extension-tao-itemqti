@@ -67,11 +67,11 @@ define([
                     if (!isSupported && itemHasClass([writingModeVerticalRlClass])) {
                         itemRemoveClasses([writingModeVerticalRlClass]);
                     }
-                    $form.find('#writingMode-panel').toggle(isSupported);
+                    $form.find('.writingMode-panel').toggle(isSupported);
 
                     const isVertical = itemHasClass([writingModeVerticalRlClass]);
-                    $form.find('#writingMode-radio-vertical').prop('checked', isVertical);
-                    $form.find('#writingMode-radio-horizontal').prop('checked', !isVertical);
+                    $form.find('input[name="writingModeItem"][value="vertical"]').prop('checked', isVertical);
+                    $form.find('input[name="writingModeItem"][value="horizontal"]').prop('checked', !isVertical);
                 });
 
             let titleFormat = '%title%';
@@ -139,17 +139,20 @@ define([
 
                         $itemBody.trigger('item-dir-changed');
                     });
-                    toggleVerticalWritingModeByLang(lang);
+                    toggleVerticalWritingModeByLang(lang).then(() => {
+                        $itemBody.trigger('item-writing-mode-changed');
+                    });
                 },
                 translationStatus(i, status) {
                     _widget.options.translationStatus = status;
                 },
-                writingMode(i, mode) {
+                writingModeItem(i, mode) {
                     if (mode === 'vertical') {
                         item.addClass(writingModeVerticalRlClass);
                     } else {
                         itemRemoveClasses([writingModeVerticalRlClass]);
                     }
+                    $itemBody.trigger('item-writing-mode-changed');
                 }
             });
 
