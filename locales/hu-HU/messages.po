@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-07-24 12:38\n"
+"PO-Revision-Date: 2025-11-27 10:48\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: hu\n"
@@ -1896,9 +1896,6 @@ msgstr "Hiba történt a CSS letöltésekor, kérjük, próbálja újra."
 
 msgid "This identifier is already used by another variable."
 msgstr "Ezt az azonosítót már egy másik változó használja."
-
-msgid "This identifier is already used by another variable."
-msgstr ""
 
 msgid "This identifier must not be used by any other response or item variable."
 msgstr "Ezt az azonosítót semmilyen más válasz- vagy elemváltozó nem használhatja."
