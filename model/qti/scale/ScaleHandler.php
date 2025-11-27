@@ -124,6 +124,10 @@ class ScaleHandler
         if ($outcome->hasAttribute('rubric')) {
             $outcome->removeAttribute('rubric');
         }
+
+        if ($outcome->hasAttribute('externalScoredDisabled')) {
+            $outcome->removeAttribute('externalScoredDisabled');
+        }
     }
 
     private function resolveScaleDefinition(string $scaleUri): array

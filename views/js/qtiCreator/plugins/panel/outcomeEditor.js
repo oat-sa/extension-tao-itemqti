@@ -394,8 +394,18 @@ define([
         }
 
         const $minMaxInputs = $outcomeContainer.find('.minimum-maximum input');
+        const $externalScoredSelect = $outcomeContainer.find('select[name="externalScored"]');
+
         if (initialScale) {
             $minMaxInputs.prop('disabled', true);
+
+            // Disable externalScored and set to human if scale is present
+            if ($externalScoredSelect.length) {
+                outcome.attr('externalScored', externalScoredOptions.human);
+                outcome.attr('externalScoredDisabled', 1);
+                $externalScoredSelect.val(externalScoredOptions.human);
+                $externalScoredSelect.prop('disabled', true);
+            }
         }
 
         const $rubricInput = $rubricPanel.find('input[name="rubric"]');
@@ -421,9 +431,25 @@ define([
             if (scaleUri) {
                 outcome.attr('scale', scaleUri);
                 $minMaxInputs.prop('disabled', true);
+
+                // Disable externalScored and set to human when scale is selected
+                const $externalScoredSelect = $outcomeContainer.find('select[name="externalScored"]');
+                if ($externalScoredSelect.length) {
+                    $externalScoredSelect.val(externalScoredOptions.human);
+                    $externalScoredSelect.prop('disabled', true);
+                    outcome.attr('externalScored', externalScoredOptions.human);
+                    outcome.attr('externalScoredDisabled', 1);
+                }
             } else {
                 outcome.removeAttr('scale');
                 $minMaxInputs.prop('disabled', false);
+
+                // Re-enable externalScored when scale is cleared
+                const $externalScoredSelect = $outcomeContainer.find('select[name="externalScored"]');
+                if ($externalScoredSelect.length) {
+                    $externalScoredSelect.prop('disabled', false);
+                    outcome.removeAttr('externalScoredDisabled');
+                }
             }
         });
 
