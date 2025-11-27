@@ -358,14 +358,13 @@ define([
             return;
         }
 
+        $scalePanel.removeClass('hidden');
+        $rubricPanel.removeClass('hidden');
+
         // UI adjustments for this specific outcome with scale handling
         $outcomeContainer.find('.longinterpretation').addClass('hidden');
         $outcomeContainer.find('.interpretation label').first().text(__('Label'));
 
-        $scalePanel.removeClass('hidden');
-        $rubricPanel.removeClass('hidden');
-
-        formElement.initWidget($scalePanel);
 
         const selectorId = generateSelectorId();
         let scaleSelector;
