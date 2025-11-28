@@ -397,7 +397,10 @@ define([
                 }
 
                 try {
-                    let $option = $scaleSelect.find(`option[value="${value}"]`);
+                    // Use .filter() to safely compare values, avoiding CSS selector injection
+                    let $option = $scaleSelect.find('option').filter(function() {
+                        return $(this).val() === value;
+                    });
 
                     if (!$option.length) {
                         const label = scaleMap.has(value) ? scaleMap.get(value).label : value;
