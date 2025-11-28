@@ -24,6 +24,8 @@ namespace oat\taoQtiItem\test\unit\model\import;
 
 use core_kernel_classes_Resource;
 use oat\generis\test\TestCase;
+use oat\oatbox\filesystem\Directory;
+use oat\oatbox\filesystem\File;
 use oat\taoQtiItem\model\import\ScaleImportService;
 use PHPUnit\Framework\MockObject\MockObject;
 use taoItems_models_classes_ItemsService;
@@ -32,11 +34,14 @@ class ScaleImportServiceTest extends TestCase
 {
     private ScaleImportService $service;
     private string $tempDir;
+    /** @var MockObject|taoItems_models_classes_ItemsService */
+    private $itemsService;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->service = new ScaleImportService();
+        $this->itemsService = $this->createMock(taoItems_models_classes_ItemsService::class);
+        $this->service = new ScaleImportService($this->itemsService);
         $this->tempDir = sys_get_temp_dir() . '/scale_import_test_' . uniqid();
         mkdir($this->tempDir);
     }
@@ -59,14 +64,215 @@ class ScaleImportServiceTest extends TestCase
 
         $nonExistentPath = $this->tempDir . '/non_existent_scales';
 
+        // ItemsService should never be called since directory doesn't exist
+        $this->itemsService->expects($this->never())
+            ->method('getItemDirectory');
+
         // Should not throw, just return silently
         $this->service->importScaleFiles($nonExistentPath, $rdfItem, 'test_item_1');
     }
 
     /**
-     * Test that non-JSON files are skipped - using hasScaleFiles as proxy
+     * Test that importScaleFiles imports valid JSON files with mocked ItemsService
      */
-    public function testHasScaleFilesSkipsNonJsonFiles(): void
+    public function testImportScaleFilesImportsValidJsonFiles(): void
+    {
+        $packageScalesPath = $this->tempDir . '/package_scales';
+        mkdir($packageScalesPath);
+
+        // Create test JSON files
+        file_put_contents(
+            $packageScalesPath . '/OUTCOME_1.json',
+            json_encode(['scale' => ['uri' => 'test_scale_1']])
+        );
+        file_put_contents(
+            $packageScalesPath . '/OUTCOME_2.json',
+            json_encode(['scale' => ['uri' => 'test_scale_2']])
+        );
+
+        $rdfItem = $this->createMock(core_kernel_classes_Resource::class);
+        $itemDirectory = $this->createMock(Directory::class);
+        $scalesDir = $this->createMock(Directory::class);
+
+        $this->itemsService->expects($this->once())
+            ->method('getItemDirectory')
+            ->with($rdfItem)
+            ->willReturn($itemDirectory);
+
+        $itemDirectory->expects($this->once())
+            ->method('getDirectory')
+            ->with('scales')
+            ->willReturn($scalesDir);
+
+        $file1 = $this->createMock(File::class);
+        $file2 = $this->createMock(File::class);
+
+        $scalesDir->expects($this->exactly(2))
+            ->method('getFile')
+            ->willReturnCallback(function($fileName) use ($file1, $file2) {
+                return $fileName === 'OUTCOME_1.json' ? $file1 : $file2;
+            });
+
+        $file1->expects($this->once())
+            ->method('put')
+            ->with($this->stringContains('test_scale_1'));
+
+        $file2->expects($this->once())
+            ->method('put')
+            ->with($this->stringContains('test_scale_2'));
+
+        $this->service->importScaleFiles($packageScalesPath, $rdfItem, 'test_item_1');
+    }
+
+    /**
+     * Test that non-JSON files are skipped during import
+     */
+    public function testImportScaleFilesSkipsNonJsonFiles(): void
+    {
+        $packageScalesPath = $this->tempDir . '/package_scales';
+        mkdir($packageScalesPath);
+
+        // Create files with different extensions
+        file_put_contents($packageScalesPath . '/OUTCOME_1.json', '{"scale":{"uri":"test"}}');
+        file_put_contents($packageScalesPath . '/readme.txt', 'This is a text file');
+        file_put_contents($packageScalesPath . '/config.xml', '<config></config>');
+
+        $rdfItem = $this->createMock(core_kernel_classes_Resource::class);
+        $itemDirectory = $this->createMock(Directory::class);
+        $scalesDir = $this->createMock(Directory::class);
+
+        $this->itemsService->expects($this->once())
+            ->method('getItemDirectory')
+            ->willReturn($itemDirectory);
+
+        $itemDirectory->expects($this->once())
+            ->method('getDirectory')
+            ->with('scales')
+            ->willReturn($scalesDir);
+
+        $file = $this->createMock(File::class);
+
+        // Only the JSON file should be processed
+        $scalesDir->expects($this->once())
+            ->method('getFile')
+            ->with('OUTCOME_1.json')
+            ->willReturn($file);
+
+        $file->expects($this->once())
+            ->method('put');
+
+        $this->service->importScaleFiles($packageScalesPath, $rdfItem, 'test_item_1');
+    }
+
+    /**
+     * Test that invalid JSON files are skipped during import
+     */
+    public function testImportScaleFilesSkipsInvalidJsonFiles(): void
+    {
+        $packageScalesPath = $this->tempDir . '/package_scales';
+        mkdir($packageScalesPath);
+
+        // Create files
+        file_put_contents($packageScalesPath . '/valid.json', '{"scale":{"uri":"test"}}');
+        file_put_contents($packageScalesPath . '/invalid.json', '{invalid json}');
+
+        $rdfItem = $this->createMock(core_kernel_classes_Resource::class);
+        $itemDirectory = $this->createMock(Directory::class);
+        $scalesDir = $this->createMock(Directory::class);
+
+        $this->itemsService->expects($this->once())
+            ->method('getItemDirectory')
+            ->willReturn($itemDirectory);
+
+        $itemDirectory->expects($this->once())
+            ->method('getDirectory')
+            ->with('scales')
+            ->willReturn($scalesDir);
+
+        $validFile = $this->createMock(File::class);
+
+        // Only valid.json should be imported
+        $scalesDir->expects($this->once())
+            ->method('getFile')
+            ->with('valid.json')
+            ->willReturn($validFile);
+
+        $validFile->expects($this->once())
+            ->method('put')
+            ->with($this->stringContains('test'));
+
+        $this->service->importScaleFiles($packageScalesPath, $rdfItem, 'test_item_1');
+    }
+
+    /**
+     * Test that file write errors are handled gracefully
+     */
+    public function testImportScaleFilesHandlesFileWriteErrorsGracefully(): void
+    {
+        $packageScalesPath = $this->tempDir . '/package_scales';
+        mkdir($packageScalesPath);
+
+        // Create a valid file
+        file_put_contents($packageScalesPath . '/error.json', '{"test":"data"}');
+
+        $rdfItem = $this->createMock(core_kernel_classes_Resource::class);
+        $itemDirectory = $this->createMock(Directory::class);
+        $scalesDir = $this->createMock(Directory::class);
+
+        $this->itemsService->expects($this->once())
+            ->method('getItemDirectory')
+            ->willReturn($itemDirectory);
+
+        $itemDirectory->expects($this->once())
+            ->method('getDirectory')
+            ->willReturn($scalesDir);
+
+        $file = $this->createMock(File::class);
+
+        $scalesDir->expects($this->once())
+            ->method('getFile')
+            ->with('error.json')
+            ->willReturn($file);
+
+        $file->expects($this->once())
+            ->method('put')
+            ->willThrowException(new \Exception('Write failed'));
+
+        // Should not throw - fail-soft approach
+        $this->service->importScaleFiles($packageScalesPath, $rdfItem, 'test_item_1');
+
+        $this->assertTrue(true); // If we reach here, test passes
+    }
+
+    /**
+     * Test that ItemsService errors are handled gracefully
+     */
+    public function testImportScaleFilesHandlesItemsServiceErrorsGracefully(): void
+    {
+        $packageScalesPath = $this->tempDir . '/package_scales';
+        mkdir($packageScalesPath);
+        file_put_contents($packageScalesPath . '/test.json', '{"test":"data"}');
+
+        $rdfItem = $this->createMock(core_kernel_classes_Resource::class);
+
+        $this->itemsService->expects($this->once())
+            ->method('getItemDirectory')
+            ->willThrowException(new \Exception('Directory access error'));
+
+        // Should not throw - just log and continue
+        $this->service->importScaleFiles($packageScalesPath, $rdfItem, 'test_item_1');
+
+        $this->assertTrue(true); // If we reach here without exception, test passes
+    }
+
+    /**
+     * Test hasScaleFiles with non-JSON files only
+     */
+
+    /**
+     * Test hasScaleFiles with non-JSON files only
+     */
+    public function testHasScaleFilesReturnsFalseForNonJsonFiles(): void
     {
         $packageScalesPath = $this->tempDir . '/package_scales';
         mkdir($packageScalesPath);
@@ -137,25 +343,7 @@ class ScaleImportServiceTest extends TestCase
     }
 
     /**
-     * Test that general exceptions are handled gracefully (fail-soft)
-     */
-    public function testImportScaleFilesHandlesGeneralExceptionsGracefully(): void
-    {
-        $packageScalesPath = $this->tempDir . '/package_scales';
-        mkdir($packageScalesPath);
-        file_put_contents($packageScalesPath . '/test.json', '{"test":"data"}');
-
-        $rdfItem = $this->createMock(core_kernel_classes_Resource::class);
-        $rdfItem->method('getUri')->willReturn('http://test.item.uri');
-
-        // Should not throw - just log and continue (even if ItemsService fails)
-        $this->service->importScaleFiles($packageScalesPath, $rdfItem, 'test_item_1');
-
-        $this->assertTrue(true); // If we reach here without exception, test passes
-    }
-
-    /**
-     * Test validation of JSON file extensions
+     * Test validation of JSON file extensions with mixed files
      */
     public function testHasScaleFilesValidatesFileExtensions(): void
     {

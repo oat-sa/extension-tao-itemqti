@@ -22,7 +22,9 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\import;
 
+use common_Logger;
 use core_kernel_classes_Resource;
+use Exception;
 use oat\oatbox\filesystem\Directory;
 use taoItems_models_classes_ItemsService;
 
@@ -33,6 +35,12 @@ class ScaleImportService
 {
     private const SCALES_DIRECTORY = 'scales';
     private const JSON_EXTENSION = 'json';
+    private taoItems_models_classes_ItemsService $itemsService;
+
+    public function __construct(taoItems_models_classes_ItemsService $itemsService)
+    {
+        $this->itemsService = $itemsService;
+    }
 
     /**
      * Import scale files from the extracted package to the item directory
@@ -50,7 +58,7 @@ class ScaleImportService
         try {
             // Check if scales directory exists in the package
             if (!file_exists($packageScalesPath) || !is_dir($packageScalesPath)) {
-                \common_Logger::d("No scales directory found for item: " . $itemIdentifier);
+                common_Logger::d("No scales directory found for item: " . $itemIdentifier);
                 return;
             }
 
@@ -58,8 +66,8 @@ class ScaleImportService
             $targetScalesDir = $itemDirectory->getDirectory(self::SCALES_DIRECTORY);
 
             $this->copyScaleFiles($packageScalesPath, $targetScalesDir, $itemIdentifier);
-        } catch (\Exception $e) {
-            \common_Logger::w(
+        } catch (Exception $e) {
+            common_Logger::w(
                 sprintf(
                     'Could not import scale files for item %s: %s',
                     $itemIdentifier,
@@ -99,7 +107,7 @@ class ScaleImportService
             try {
                 $this->importSingleScaleFile($sourceFilePath, $fileName, $targetScalesDir, $itemIdentifier);
             } catch (\Exception $e) {
-                \common_Logger::e(
+                common_Logger::e(
                     sprintf(
                         'Failed to import scale file %s: %s',
                         $fileName,
@@ -122,7 +130,7 @@ class ScaleImportService
     {
         // Only import JSON files
         if (pathinfo($fileName, PATHINFO_EXTENSION) !== self::JSON_EXTENSION) {
-            \common_Logger::w('Skipping non-JSON file in scales directory: ' . $fileName);
+            common_Logger::w('Skipping non-JSON file in scales directory: ' . $fileName);
             return false;
         }
 
@@ -141,7 +149,7 @@ class ScaleImportService
      * @param Directory $targetScalesDir Target directory
      * @param string $itemIdentifier Item identifier for logging
      * @return void
-     * @throws \Exception If file operation fails
+     * @throws Exception If file operation fails
      */
     private function importSingleScaleFile(
         string $sourceFilePath,
@@ -153,13 +161,13 @@ class ScaleImportService
         $content = file_get_contents($sourceFilePath);
 
         if ($content === false) {
-            throw new \Exception('Failed to read file');
+            throw new Exception('Failed to read file');
         }
 
         // Validate JSON
         $scaleData = json_decode($content, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            \common_Logger::w('Invalid JSON in scale file: ' . $fileName);
+            common_Logger::w('Invalid JSON in scale file: ' . $fileName);
             return;
         }
 
@@ -167,7 +175,7 @@ class ScaleImportService
         $targetFile = $targetScalesDir->getFile($fileName);
         $targetFile->put($content);
 
-        \common_Logger::d(
+        common_Logger::d(
             sprintf(
                 'Imported scale file: %s for item: %s',
                 $fileName,
@@ -184,8 +192,8 @@ class ScaleImportService
      */
     private function getItemDirectory(core_kernel_classes_Resource $rdfItem): Directory
     {
-        $itemService = taoItems_models_classes_ItemsService::singleton();
-        return $itemService->getItemDirectory($rdfItem);
+
+        return $this->itemsService->getItemDirectory($rdfItem);
     }
 
     /**

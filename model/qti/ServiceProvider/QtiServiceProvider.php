@@ -43,6 +43,7 @@ use oat\taoQtiItem\model\qti\scale\ScaleStorageService;
 use oat\taoQtiItem\model\QtiCreator\Scales\RemoteScaleListService;
 use oat\taoQtiItem\model\qti\metadata\exporter\scale\ScalePreprocessor;
 use oat\taoQtiItem\model\ValidationService;
+use taoItems_models_classes_ItemsService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
@@ -70,9 +71,9 @@ class QtiServiceProvider implements ContainerServiceProviderInterface
         ])->public();
 
         $services->set(ExporterFactory::class, ExporterFactory::class)
-        ->args([
-            service(TransformationService::class),
-        ])->public();
+            ->args([
+                service(TransformationService::class),
+            ])->public();
 
         $services->set(CaseConversionService::class);
 
@@ -97,6 +98,9 @@ class QtiServiceProvider implements ContainerServiceProviderInterface
 
         $services
             ->set(ScaleImportService::class)
+            ->args([
+                service(taoItems_models_classes_ItemsService::class)
+            ])
             ->public();
 
         $services->set(RemoteScaleListService::class)
