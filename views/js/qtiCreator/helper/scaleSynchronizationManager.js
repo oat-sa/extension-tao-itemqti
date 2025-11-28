@@ -24,6 +24,9 @@ define(['lodash'], function (_) {
             this.activePredefinedScale = null;
             this.outcomeSelectors = new Map();
             this.outcomeIdentifierMap = new Map();
+            // Cached managers (initialized lazily)
+            this.registry = null;
+            this.lockManager = null;
         }
 
         clear() {
@@ -278,8 +281,9 @@ define(['lodash'], function (_) {
 
         registerSelector(selectorId, selector, outcome) {
             const itemState = this.getCurrentState();
-            const registry = new SelectorRegistry(itemState);
-            const lockManager = new ScaleLockManager(itemState);
+            // Reuse cached managers
+            const registry = itemState.registry;
+            const lockManager = itemState.lockManager;
 
             registry.register(selectorId, selector, outcome);
             lockManager.checkForActivePredefinedScales();
@@ -287,8 +291,8 @@ define(['lodash'], function (_) {
 
         unregisterSelector(selectorId, outcome = null) {
             const itemState = this.getCurrentState();
-            const registry = new SelectorRegistry(itemState);
-            const lockManager = new ScaleLockManager(itemState);
+            const registry = itemState.registry;
+            const lockManager = itemState.lockManager;
 
             registry.unregister(selectorId, outcome);
             lockManager.checkForActivePredefinedScales();
@@ -296,21 +300,21 @@ define(['lodash'], function (_) {
 
         updateSelectorRegistration(selectorId, oldOutcome, newOutcome) {
             const itemState = this.getCurrentState();
-            const registry = new SelectorRegistry(itemState);
+            const registry = itemState.registry;
 
             registry.updateRegistration(selectorId, oldOutcome, newOutcome);
         },
 
         cleanupOrphanedSelectors() {
             const itemState = this.getCurrentState();
-            const registry = new SelectorRegistry(itemState);
+            const registry = itemState.registry;
 
             registry.cleanupOrphaned();
         },
 
         onScaleChange(outcomeId, newScale) {
             const itemState = this.getCurrentState();
-            const lockManager = new ScaleLockManager(itemState);
+            const lockManager = itemState.lockManager;
 
             lockManager.handleScaleChange(newScale);
         },
@@ -329,7 +333,15 @@ define(['lodash'], function (_) {
             if (!this._itemStates.has(itemId)) {
                 this._itemStates.set(itemId, new ItemState());
             }
-            return this._itemStates.get(itemId);
+            const state = this._itemStates.get(itemId);
+            // Lazily initialize and cache managers on the item state
+            if (!state.registry) {
+                state.registry = new SelectorRegistry(state);
+            }
+            if (!state.lockManager) {
+                state.lockManager = new ScaleLockManager(state);
+            }
+            return state;
         },
 
         getCurrentState() {
