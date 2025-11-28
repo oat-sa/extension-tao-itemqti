@@ -415,13 +415,8 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         return $this->getServiceManager()->get(AssetStylesheetLoader::class);
     }
 
-    /**
-     * Get the Scale Export Service
-     *
-     * @return ScaleExportService
-     */
     protected function getScaleExportService(): ScaleExportService
     {
-        return $this->getServiceManager()->get(ScaleExportService::class);
+        return $this->getServiceManager()->getContainer()->get(ScaleExportService::class);
     }
 }

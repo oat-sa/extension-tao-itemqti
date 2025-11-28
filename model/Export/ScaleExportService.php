@@ -23,14 +23,13 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\Export;
 
 use oat\oatbox\filesystem\Directory;
-use oat\oatbox\service\ConfigurableService;
 use RuntimeException;
 use ZipArchive;
 
 /**
  * Service responsible for exporting scale files from items to ZIP archives
  */
-class ScaleExportService extends ConfigurableService
+class ScaleExportService
 {
     private const SCALES_DIRECTORY = 'scales';
     private const JSON_EXTENSION = 'json';

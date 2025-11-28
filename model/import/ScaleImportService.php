@@ -24,14 +24,12 @@ namespace oat\taoQtiItem\model\import;
 
 use core_kernel_classes_Resource;
 use oat\oatbox\filesystem\Directory;
-use oat\oatbox\service\ConfigurableService;
-use oat\taoItems\model\pack\Packer;
 use taoItems_models_classes_ItemsService;
 
 /**
  * Service responsible for importing scale files from QTI packages to items
  */
-class ScaleImportService extends ConfigurableService
+class ScaleImportService
 {
     private const SCALES_DIRECTORY = 'scales';
     private const JSON_EXTENSION = 'json';

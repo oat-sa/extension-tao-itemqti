@@ -91,10 +91,12 @@ class QtiServiceProvider implements ContainerServiceProviderInterface
         $services->set(Qti22PostProcessorService::class)
             ->public();
 
-        $services->set(ScaleExportService::class)
+        $services
+            ->set(ScaleExportService::class)
             ->public();
 
-        $services->set(ScaleImportService::class)
+        $services
+            ->set(ScaleImportService::class)
             ->public();
 
         $services->set(RemoteScaleListService::class)
