@@ -228,10 +228,6 @@ define([
                         $scaleSelect.trigger('change.select2');
                     }
 
-                    if ($scaleSelect._testValue !== undefined) {
-                        $scaleSelect._testValue = '';
-                    }
-
                     if (previousValue !== null) {
                         if (outcomeId) {
                             syncManager.onScaleChange(outcomeId, null);
