@@ -31,6 +31,7 @@ use oat\taoQtiItem\model\Export\Qti3Package\ExporterFactory;
 use oat\taoQtiItem\model\Export\Qti3Package\Qti3XsdValidator;
 use oat\taoQtiItem\model\Export\Qti3Package\TransformationService;
 use oat\taoQtiItem\model\Export\ScaleExportService;
+use oat\taoQtiItem\model\import\ScaleImportService;
 use oat\taoQtiItem\model\qti\converter\CaseConversionService;
 use oat\taoQtiItem\model\qti\converter\ItemConverter;
 use oat\taoQtiItem\model\qti\converter\ManifestConverter;
@@ -91,6 +92,9 @@ class QtiServiceProvider implements ContainerServiceProviderInterface
             ->public();
 
         $services->set(ScaleExportService::class)
+            ->public();
+
+        $services->set(ScaleImportService::class)
             ->public();
 
         $services->set(RemoteScaleListService::class)
