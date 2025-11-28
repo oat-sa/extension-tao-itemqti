@@ -325,12 +325,21 @@ define([
     }
 
     function destroyScaleSelectorBySerial(serial) {
-        const entry = scaleSelectors.get(serial);
-        if (!entry) {
+        // Find entry by matching outcome.serial in values
+        let keyToDelete = null;
+        let entryToDelete = null;
+        for (const [key, entry] of scaleSelectors.entries()) {
+            if (entry && entry.outcome && entry.outcome.serial === serial) {
+                keyToDelete = key;
+                entryToDelete = entry;
+                break;
+            }
+        }
+        if (!keyToDelete || !entryToDelete) {
             return;
         }
-        destroyScaleSelectorEntry(entry);
-        scaleSelectors.delete(serial);
+        destroyScaleSelectorEntry(entryToDelete);
+        scaleSelectors.delete(keyToDelete);
     }
 
     function generateSelectorId() {
@@ -426,7 +435,7 @@ define([
             }
         });
 
-        scaleSelectors.set(outcome.serial || selectorId, {
+        scaleSelectors.set(selectorId, {
             selector: scaleSelector,
             selectorId,
             outcome,
