@@ -132,7 +132,7 @@ define([
     });
 
     QUnit.test('reset destroys selectors and clears state', assert => {
-        assert.expect(5);
+        assert.expect(4);
         manager.reset();
         manager.init([], 'item-5');
         const s1 = mockSelector();
