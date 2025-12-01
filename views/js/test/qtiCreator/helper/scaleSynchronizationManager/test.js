@@ -153,4 +153,92 @@ define([
         assert.ok(s3.__state._destroyed, 's3 destroyed after reset all');
         assert.equal(manager._currentItemId, null, 'Current item cleared');
     });
+
+    QUnit.module('Negative inputs');
+
+    QUnit.test('init throws when itemId is missing or falsy; tolerates null/undefined scales', assert => {
+        assert.expect(4);
+        manager.reset();
+
+        // Missing itemId should throw
+        assert.throws(() => manager.init([], null), /itemId is required/i, 'Throws when itemId is null');
+        assert.throws(() => manager.init([], undefined), /itemId is required/i, 'Throws when itemId is undefined');
+
+        // Null/undefined scales are tolerated when itemId is provided
+        assert.ok((() => { manager.init(null, 'neg-1'); return true; })(), 'init with null scales does not throw');
+        // Re-init with undefined scales should also not throw and switch state to a new item
+        assert.ok((() => { manager.init(undefined, 'neg-1b'); return true; })(), 'init with undefined scales does not throw');
+    });
+
+    QUnit.test('registerSelector tolerates null/undefined outcome (no throw, no auto-destroy)', assert => {
+        assert.expect(3);
+        manager.reset();
+        manager.init([], 'neg-2');
+
+        const s = (function mockSelector() {
+            const state = { _destroyed: false };
+            return {
+                destroy() { state._destroyed = true; },
+                getCurrentValue() { return null; },
+                updateAvailableScales() {},
+                __state: state
+            };
+        })();
+
+        assert.ok((() => { manager.registerSelector('sel-null', s, null); return true; })(), 'register with null outcome does not throw');
+        assert.notOk(s.__state._destroyed, 'selector not destroyed after registration with null outcome');
+        assert.strictEqual(manager.getActivePredefinedScale(), null, 'no active predefined scale');
+    });
+
+    QUnit.test('onScaleChange with invalid params is a no-op (no throw)', assert => {
+        assert.expect(4);
+        manager.reset();
+        manager.init([{ uri: 'scale://A' }], 'neg-3');
+        const s1 = (function mockSelector() {
+            const state = { updates: [] };
+            return {
+                getCurrentValue() { return null; },
+                updateAvailableScales(active) { state.updates.push(active); },
+                __state: state
+            };
+        })();
+        manager.registerSelector('s1', s1, { serial: 'S1' });
+
+        assert.ok((() => { manager.onScaleChange(null, null); return true; })(), 'onScaleChange(null, null) does not throw');
+        assert.ok((() => { manager.onScaleChange(undefined, undefined); return true; })(), 'onScaleChange(undefined, undefined) does not throw');
+        assert.strictEqual(manager.getActivePredefinedScale(), null, 'active predefined scale remains null');
+        assert.deepEqual(s1.__state.updates, [], 'no selector updates performed');
+    });
+
+    QUnit.test('unregisterSelector on non-existent id is a no-op', assert => {
+        assert.expect(3);
+        manager.reset();
+        manager.init([], 'neg-4');
+        const s1 = (function mockSelector() {
+            const state = { _destroyed: false };
+            return { destroy() { state._destroyed = true; }, __state: state };
+        })();
+        manager.registerSelector('known', s1, { serial: 'K' });
+
+        assert.ok((() => { manager.unregisterSelector('unknown'); return true; })(), 'unregisterSelector of unknown id does not throw');
+        // Mapping integrity: running orphan cleanup should not destroy existing if mapping is valid
+        manager.cleanupOrphanedSelectors();
+        assert.notOk(s1.__state._destroyed, 'known selector not destroyed');
+        assert.strictEqual(manager.getActivePredefinedScale(), null, 'active predefined scale unchanged');
+    });
+
+    QUnit.test('key methods throw when called before init', assert => {
+        assert.expect(5);
+        manager.reset();
+
+        const s = (function mockSelector() {
+            return { destroy() {}, getCurrentValue() { return null; }, updateAvailableScales() {} };
+        })();
+
+        assert.throws(() => manager.registerSelector('x', s, { serial: 'X' }), /Call init\(\) first/i, 'registerSelector throws before init');
+        assert.throws(() => manager.onScaleChange('x', 'scale://A'), /Call init\(\) first/i, 'onScaleChange throws before init');
+        assert.throws(() => manager.unregisterSelector('x'), /Call init\(\) first/i, 'unregisterSelector throws before init');
+        assert.throws(() => manager.getActivePredefinedScale(), /Call init\(\) first/i, 'getActivePredefinedScale throws before init');
+        assert.throws(() => manager.isPredefinedScale('scale://A'), /Call init\(\) first/i, 'isPredefinedScale throws before init');
+    });
 });
