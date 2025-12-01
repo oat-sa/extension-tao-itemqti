@@ -105,6 +105,42 @@ class ScaleStorageService extends ConfigurableService
         }
     }
 
+    /**
+     * Get existing item scales from the item's scales directory
+     *
+     * @param core_kernel_classes_Resource $item
+     * @return array Array of existing scales indexed by relative path
+     */
+    public function getItemScales(core_kernel_classes_Resource $item): array
+    {
+        $scalesDir = $this->getScalesDirectory($item);
+
+        if (!$scalesDir->exists()) {
+            return [];
+        }
+
+        $scales = [];
+
+        foreach ($scalesDir->getIterator() as $file) {
+            if (!$file instanceof File) {
+                continue;
+            }
+
+            if ($file->getMimeType() === 'application/json') {
+                try {
+                    $content = $file->read();
+                    $scaleData = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+                    $scales[sprintf('scales/%s', $file->getBasename())] = $scaleData;
+                } catch (JsonException $e) {
+                    // Skip files that cannot be decoded
+                    continue;
+                }
+            }
+        }
+
+        return $scales;
+    }
+
     public function generateRelativePath(string $identifierOrPath): string
     {
         $baseName = preg_replace('/[^a-zA-Z0-9_-]+/', '_', $identifierOrPath);
