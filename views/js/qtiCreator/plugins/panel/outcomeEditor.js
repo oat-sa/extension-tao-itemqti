@@ -102,7 +102,6 @@ define([
      * @param {JQuery} $outcomeEditorPanel
      */
     function renderListing(item, $outcomeEditorPanel) {
-        // TODO: check if this not impact saving value
         destroyAllScaleSelectors();
         const readOnlyRpVariables = getRpUsedVariables(item);
         const scoreMaxScoreVisible = features.isVisible('taoQtiItem/creator/interaction/response/outcomeDeclarations/scoreMaxScore');
