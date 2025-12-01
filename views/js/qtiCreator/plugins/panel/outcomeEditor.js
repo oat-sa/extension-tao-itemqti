@@ -477,9 +477,7 @@ define([
             return;
         }
 
-        const scaleManager = scaleSelectorFactory.__getSyncManager
-            ? scaleSelectorFactory.__getSyncManager()
-            : null;
+        const scaleManager = getSyncManager();
 
         if (scaleManager && currentItemIdentifier) {
             try {
