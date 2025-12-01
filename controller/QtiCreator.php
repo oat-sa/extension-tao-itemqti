@@ -472,4 +472,3 @@ class QtiCreator extends tao_actions_CommonModule
         return $this->getServiceManager()->getContainer()->get(ScaleStorageService::class);
     }
 }
-

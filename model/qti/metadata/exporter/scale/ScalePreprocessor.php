@@ -133,7 +133,8 @@ class ScalePreprocessor
             ])
         ));
 
-        if (is_array($scaleCollection)
+        if (
+            is_array($scaleCollection)
             && count($scaleCollection) > 0
             && $this->hasRequiredFields($scaleCollection)
         ) {
