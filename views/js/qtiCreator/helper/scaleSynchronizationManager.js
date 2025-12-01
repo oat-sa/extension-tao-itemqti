@@ -59,7 +59,7 @@ define(['lodash'], function (_) {
 
             return props.length > 0
                 ? `temp_${props.join('_').replace(/[^a-zA-Z0-9_]/g, '_')}`
-                : `temp_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
+                : `temp_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
         }
     }
 
@@ -249,7 +249,7 @@ define(['lodash'], function (_) {
         }
     }
 
-    const ScaleSynchronizationManager = {
+    return {
         _itemStates: new Map(),
         _currentItemId: null,
 
@@ -382,6 +382,4 @@ define(['lodash'], function (_) {
             });
         }
     };
-
-    return ScaleSynchronizationManager;
 });
