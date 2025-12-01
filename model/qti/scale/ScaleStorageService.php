@@ -42,9 +42,15 @@ class ScaleStorageService extends ConfigurableService
     }
 
     /**
-     * Persist scale metadata for the provided item.
+     * Persist the serialized scale payload under the item's scale directory.
+     *
+     * @param core_kernel_classes_Resource $item The item that owns the scale file.
+     * @param string $relativePath Existing relative path or identifier used to generate one.
+     * @param array $payload Structured data to store in JSON format.
      *
      * @throws JsonException
+     *
+     * @return string The relative path (under scales/) where the payload has been stored.
      */
     public function storeScaleData(
         core_kernel_classes_Resource $item,
@@ -65,6 +71,14 @@ class ScaleStorageService extends ConfigurableService
         return $path;
     }
 
+    /**
+     * Remove a stored scale file when the provided path points to a valid scale.
+     *
+     * @param core_kernel_classes_Resource $item The item whose scale file should be removed.
+     * @param string $relativePath Relative path returned by storeScaleData (must target scales/).
+     *
+     * @return void
+     */
     public function deleteScale(core_kernel_classes_Resource $item, string $relativePath): void
     {
         if (!$this->isScalePath($relativePath)) {
