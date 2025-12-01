@@ -506,4 +506,3 @@ class QtiCreator extends tao_actions_CommonModule
         }
     }
 }
-
