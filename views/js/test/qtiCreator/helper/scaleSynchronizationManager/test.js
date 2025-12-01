@@ -62,7 +62,7 @@ define([
     });
 
     QUnit.test('register/unregister selector and duplicate outcome handling', assert => {
-        assert.expect(7);
+        assert.expect(6);
         manager.reset();
         manager.init([], 'item-3');
 
@@ -154,4 +154,3 @@ define([
         assert.equal(manager._currentItemId, null, 'Current item cleared');
     });
 });
-
