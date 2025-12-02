@@ -58,6 +58,7 @@ use tao_helpers_File;
 use tao_helpers_Http;
 use tao_helpers_Uri;
 use taoItems_models_classes_ItemsService;
+use Throwable;
 use InvalidArgumentException;
 
 /**
@@ -343,8 +344,7 @@ class QtiCreator extends tao_actions_CommonModule
         if ($this->isScaleEnabled()) {
             $config->setProperty(
                 'scalesPresets',
-                json_encode($this->getScaleProcessor()->getScaleRemoteList()
-                )
+                json_encode($this->getScaleProcessor()->getScaleRemoteList())
             );
 
             $config->setProperty(
