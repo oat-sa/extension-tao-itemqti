@@ -13,10 +13,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2016-2025 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\taoQtiItem\model\qti\asset;
@@ -24,7 +23,6 @@ namespace oat\taoQtiItem\model\qti\asset;
 use helpers_File;
 use oat\tao\model\import\InvalidSourcePathException;
 use oat\taoQtiItem\model\qti\asset\handler\AssetHandler;
-use oat\taoQtiItem\model\qti\asset\handler\MediaAssetHandler;
 use oat\taoQtiItem\model\qti\Resource as QtiResource;
 
 class AssetManager
@@ -243,13 +241,133 @@ class AssetManager
         foreach ($dependencyResource->getAuxiliaryFiles() as $auxiliaryFile) {
             $auxiliaryPath = $this->getAbsolutePath($auxiliaryFile);
             $dest = $itemDir . '/' . $auxiliaryFile;
-            if (
-                !helpers_File::isFileInsideDirectory($auxiliaryFile, $itemDir)
-                && !helpers_File::copy($auxiliaryPath, $dest)
-            ) {
+
+            if (!$this->isFileInsideDirectory($auxiliaryFile, $itemDir)) {
+                continue;
+            }
+
+            if (!$this->copyFile($auxiliaryPath, $dest)) {
                 throw new AssetManagerException('File ' . $auxiliaryPath . ' was not copied to the ' . $itemDir);
             }
         }
+    }
+
+    private function copyFile(string $sourcePath, string $destPath): bool
+    {
+        try {
+            $srcIsLocal = $this->isLocalPath($sourcePath);
+            $dstIsLocal = $this->isLocalPath($destPath);
+
+            if ($srcIsLocal && $dstIsLocal) {
+                return $this->copyFileLocal($sourcePath, $destPath);
+            }
+
+            return $this->copyFileStream($sourcePath, $destPath);
+        } catch (\Exception $e) {
+            \common_Logger::e('File copy failed: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    private function isLocalPath(string $path): bool
+    {
+        $scheme = parse_url($path, PHP_URL_SCHEME);
+
+        return $scheme === null || $scheme === '' || $scheme === 'file';
+    }
+
+    private function isFileInsideDirectory(string $path, string $directory): bool
+    {
+        $base = rtrim($this->normalizePath($directory), '/');
+        $target = $this->normalizePath($this->isAbsolutePath($path) ? $path : $base . '/' . $path);
+
+        return $target === $base || str_starts_with($target, $base . '/');
+    }
+
+    private function isAbsolutePath(string $path): bool
+    {
+        return str_starts_with($path, '/')
+            || (strlen($path) > 1 && ctype_alpha($path[0]) && $path[1] === ':');
+    }
+
+    private function normalizePath(string $path): string
+    {
+        $path = str_replace('\\', '/', $path);
+
+        $segments = [];
+        foreach (explode('/', $path) as $segment) {
+            if ($segment === '' || $segment === '.') {
+                continue;
+            }
+
+            if ($segment === '..') {
+                array_pop($segments);
+                continue;
+            }
+
+            $segments[] = $segment;
+        }
+
+        $prefix = str_starts_with($path, '/') ? '/' : '';
+
+        return $prefix . implode('/', $segments);
+    }
+
+    private function copyFileLocal(string $sourcePath, string $destPath): bool
+    {
+        $destDir = dirname($destPath);
+        if (!is_dir($destDir)) {
+            if (!@mkdir($destDir, 0777, true) && !is_dir($destDir)) {
+                \common_Logger::w('Failed to create destination directory: ' . $destDir);
+                return false;
+            }
+        }
+
+        if (@copy($sourcePath, $destPath)) {
+            return true;
+        }
+
+        \common_Logger::w('Local copy failed: ' . $sourcePath . ' → ' . $destPath);
+        return false;
+    }
+
+    private function copyFileStream(string $sourcePath, string $destPath): bool
+    {
+        $sourceHandle = @fopen($sourcePath, 'rb');
+        if ($sourceHandle === false) {
+            \common_Logger::w('Cannot open source file for reading: ' . $sourcePath);
+            return false;
+        }
+
+        if ($this->isLocalPath($destPath)) {
+            $destDir = dirname($destPath);
+            if (!is_dir($destDir)) {
+                if (!@mkdir($destDir, 0777, true) && !is_dir($destDir)) {
+                    fclose($sourceHandle);
+                    \common_Logger::w('Failed to create destination directory: ' . $destDir);
+                    return false;
+                }
+            }
+        }
+
+        $destHandle = @fopen($destPath, 'wb');
+        if ($destHandle === false) {
+            fclose($sourceHandle);
+            \common_Logger::w('Cannot open destination file for writing: ' . $destPath);
+            return false;
+        }
+
+        $bytesCopied = @stream_copy_to_stream($sourceHandle, $destHandle);
+
+        fclose($sourceHandle);
+        fclose($destHandle);
+
+        if ($bytesCopied === false || $bytesCopied === 0) {
+            \common_Logger::w('Stream copy failed or copied 0 bytes: ' . $sourcePath);
+            return false;
+        }
+
+        return true;
     }
 
     /**
