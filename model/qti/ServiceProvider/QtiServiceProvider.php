@@ -100,7 +100,8 @@ class QtiServiceProvider implements ContainerServiceProviderInterface
             ])
             ->public();
 
-        $services->set(ScaleStorageService::class);
+        $services->set(ScaleStorageService::class)
+            ->public();
 
         $services->set(ScaleHandler::class)
             ->args([
