@@ -25,11 +25,10 @@ namespace oat\taoQtiItem\model\qti\scale;
 use JsonException;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\File;
-use oat\oatbox\service\ConfigurableService;
 use taoItems_models_classes_ItemsService;
 use core_kernel_classes_Resource;
 
-class ScaleStorageService extends ConfigurableService
+class ScaleStorageService
 {
     public const SCALES_DIRECTORY = 'scales';
 
@@ -37,7 +36,6 @@ class ScaleStorageService extends ConfigurableService
 
     public function __construct(?taoItems_models_classes_ItemsService $itemsService = null)
     {
-        parent::__construct();
         $this->itemsService = $itemsService ?? taoItems_models_classes_ItemsService::singleton();
     }
 

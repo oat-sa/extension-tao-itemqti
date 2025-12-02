@@ -68,9 +68,9 @@ class QtiServiceProvider implements ContainerServiceProviderInterface
         ])->public();
 
         $services->set(ExporterFactory::class, ExporterFactory::class)
-        ->args([
-            service(TransformationService::class),
-        ])->public();
+            ->args([
+                service(TransformationService::class),
+            ])->public();
 
         $services->set(CaseConversionService::class);
 
@@ -100,7 +100,8 @@ class QtiServiceProvider implements ContainerServiceProviderInterface
             ])
             ->public();
 
-        $services->set(ScaleStorageService::class);
+        $services->set(ScaleStorageService::class)
+            ->public();
 
         $services->set(ScaleHandler::class)
             ->args([
