@@ -46,7 +46,12 @@ class ScaleHandler
         ScaleStorageService $storageService,
         ScalePreprocessor $scalePreprocessor,
         LoggerService $loggerService
+<<<<<<< HEAD
     ) {
+=======
+    )
+    {
+>>>>>>> 7792d6c93c0d2383cf4ba52bc2f1c33cc868490e
         $this->storageService = $storageService;
         $this->scalePreprocessor = $scalePreprocessor;
         $this->loggerService = $loggerService;
@@ -165,5 +170,9 @@ class ScaleHandler
             $this->scaleIndex = [];
         }
     }
+<<<<<<< HEAD
 }
 
+=======
+}
+>>>>>>> 7792d6c93c0d2383cf4ba52bc2f1c33cc868490e

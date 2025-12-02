@@ -344,7 +344,12 @@ class QtiCreator extends tao_actions_CommonModule
         if ($this->isScaleEnabled()) {
             $config->setProperty(
                 'scalesPresets',
+<<<<<<< HEAD
                 json_encode($this->getScaleProcessor()->getScaleRemoteList())
+=======
+                json_encode($this->getScaleProcessor()->getScaleRemoteList()
+                )
+>>>>>>> 7792d6c93c0d2383cf4ba52bc2f1c33cc868490e
             );
 
             $config->setProperty(
@@ -471,4 +476,8 @@ class QtiCreator extends tao_actions_CommonModule
     {
         return $this->getServiceManager()->getContainer()->get(ScaleStorageService::class);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 7792d6c93c0d2383cf4ba52bc2f1c33cc868490e

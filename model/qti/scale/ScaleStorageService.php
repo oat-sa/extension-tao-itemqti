@@ -257,5 +257,10 @@ class ScaleStorageService extends ConfigurableService
 
         return implode('/', $sanitized);
     }
+<<<<<<< HEAD
 }
 
+=======
+
+}
+>>>>>>> 7792d6c93c0d2383cf4ba52bc2f1c33cc868490e

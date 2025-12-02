@@ -61,10 +61,18 @@ class ScaleStorageServiceTest extends TestCase
     {
         return [
             'repeated parent traversal' => ['scales/../../evil.json', 'evil.json'],
+<<<<<<< HEAD
             'windows separators' => ['scales\..\..\evil.json', 'evil.json'],
+=======
+            'windows separators' => ['scales\\..\\..\\evil.json', 'evil.json'],
+>>>>>>> 7792d6c93c0d2383cf4ba52bc2f1c33cc868490e
             'overlapping dots' => ['scales/....//evil.json', 'scales/..../evil.json'],
             'multiple sequential parents' => ['scales/../../../nested/../evil.json', 'evil.json'],
         ];
     }
+<<<<<<< HEAD
 }
 
+=======
+}
+>>>>>>> 7792d6c93c0d2383cf4ba52bc2f1c33cc868490e
