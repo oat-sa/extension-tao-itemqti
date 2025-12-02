@@ -94,6 +94,14 @@ class ScaleStorageService extends ConfigurableService
         }
     }
 
+    /**
+     * Remove stored scales that are not part of the provided keep list for the given item.
+     *
+     * @param core_kernel_classes_Resource $item Item whose scales are being inspected.
+     * @param string[] $keepRelativePaths Relative scale paths that must remain on disk.
+     *
+     * @return void
+     */
     public function cleanupScales(core_kernel_classes_Resource $item, array $keepRelativePaths): void
     {
         $keep = array_filter(array_map([$this, 'sanitizeRelativePath'], array_filter($keepRelativePaths)));
