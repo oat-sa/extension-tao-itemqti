@@ -243,11 +243,26 @@ class ScaleStorageService extends ConfigurableService
 
     private function sanitizeRelativePath(string $path): string
     {
-        $trimmed = trim($path);
-        $trimmed = str_replace('\\', '/', $trimmed);
-        $trimmed = preg_replace('#(\.\./|\.\\\)#', '', $trimmed);
+        $normalized = trim($path);
+        $normalized = str_replace('\\', '/', $normalized);
 
-        return ltrim($trimmed, '/');
+        $segments = explode('/', $normalized);
+        $sanitized = [];
+
+        foreach ($segments as $segment) {
+            if ($segment === '' || $segment === '.') {
+                continue;
+            }
+
+            if ($segment === '..') {
+                array_pop($sanitized);
+                continue;
+            }
+
+            $sanitized[] = $segment;
+        }
+
+        return implode('/', $sanitized);
     }
 
 }

@@ -104,7 +104,12 @@ class ScaleHandler
                 'rubric' => $rubric,
             ];
 
-            $path = $this->storageService->storeScaleData($item, $relativePath, $payload);
+            $path = $this->storageService->storeScaleData(
+                $item,
+                $relativePath,
+                $payload
+            );
+
             $outcome->setAttribute('longInterpretation', $path);
             $this->removeAuthoringAttributes($outcome);
             $usedPaths[] = $path;

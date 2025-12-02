@@ -44,4 +44,26 @@ class ScaleStorageServiceTest extends TestCase
         $this->assertFalse($service->isScalePath('scale/example.json'));
         $this->assertFalse($service->isScalePath('scales/example.txt'));
     }
+
+    /**
+     * @dataProvider traversalPathProvider
+     */
+    public function testSanitizeRelativePathRemovesTraversal(string $input, string $expected): void
+    {
+        $service = new ScaleStorageService($this->createStub(\taoItems_models_classes_ItemsService::class));
+        $method = new \ReflectionMethod(ScaleStorageService::class, 'sanitizeRelativePath');
+        $method->setAccessible(true);
+
+        $this->assertSame($expected, $method->invoke($service, $input));
+    }
+
+    public function traversalPathProvider(): array
+    {
+        return [
+            'repeated parent traversal' => ['scales/../../evil.json', 'evil.json'],
+            'windows separators' => ['scales\\..\\..\\evil.json', 'evil.json'],
+            'overlapping dots' => ['scales/....//evil.json', 'scales/..../evil.json'],
+            'multiple sequential parents' => ['scales/../../../nested/../evil.json', 'evil.json'],
+        ];
+    }
 }
