@@ -343,8 +343,7 @@ class QtiCreator extends tao_actions_CommonModule
         if ($this->isScaleEnabled()) {
             $config->setProperty(
                 'scalesPresets',
-                json_encode($this->getScaleProcessor()->getScaleRemoteList()
-                )
+                json_encode($this->getScaleProcessor()->getScaleRemoteList())
             );
 
             $config->setProperty(

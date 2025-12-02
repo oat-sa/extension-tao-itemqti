@@ -213,5 +213,4 @@ class ScaleStorageService extends ConfigurableService
 
         return ltrim($trimmed, '/');
     }
-
 }
