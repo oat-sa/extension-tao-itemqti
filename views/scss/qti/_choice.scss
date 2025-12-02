@@ -42,9 +42,9 @@
             position: absolute;
             font: inherit;
             cursor: default;
-            left: 50%;
+            inset-inline-start: 50%;
             transform: translateX(-50%);
-            bottom: calc(100% + 20px);
+            inset-block-end: calc(100% + 20px);
             white-space: nowrap;
         }
     }
@@ -80,7 +80,7 @@
             }
             // ol
             .choice-area {
-                margin-top: 25px;
+                margin-block-start: 25px;
                 // there might be list-styles that move everything to the right
                 &[class^='list-style-'],
                 &[class*=' list-style-'] {
@@ -312,162 +312,170 @@
     //END IE specific
 }
 
-.writing-mode-vertical-rl {
-    writing-mode: vertical-rl;
-
-    .qti-choiceInteraction {
-        /* in iPad Safari & nested scroll container,
+.writing-mode-vertical-rl .qti-choiceInteraction:where(:not(.writing-mode-horizontal-tb)),
+.writing-mode-vertical-rl.qti-choiceInteraction {
+    /* in iPad Safari & nested scroll container,
            checked radio style sometimes isn't applied after click on choice - repaint is not triggered  */
+    .qti-choice {
+        &.user-selected {
+            opacity: 0.98;
+        }
+        &:not(.user-selected) {
+            opacity: 1;
+        }
+    }
+
+    &.maskable {
         .qti-choice {
-            &.user-selected {
-                opacity: 0.97;
-            }
-            &:not(.user-selected) {
-                opacity: 1;
-            }
-        }
-
-        &.maskable {
-            .qti-choice {
-                .answer-mask {
-                    text-align: start;
-                    width: 100%;
-                    height: 2.5rem;
-                    top: auto;
-                    bottom: 0;
-                    padding-right: 0.1rem;
-                    &.masked {
-                        height: 100%;
-                    }
-                }
-                .label-content {
-                    padding-right: 0;
-                }
-                .pseudo-label-box {
-                    margin-bottom: 28px;
-                }
-            }
-            .choice-area {
-                &[class^='list-style-'],
-                &[class*=' list-style-'] {
-                    .qti-choice::before {
-                        top: 2.5rem;
-                    }
-                }
-            }
-        }
-        &.eliminable {
-            .choice-area {
-                margin-top: 0;
-                &.plain.block-listing {
-                    .qti-choice {
-                        .label-box {
-                            margin-top: 7rem;
-                        }
-                        [data-eliminable='container'] {
-                            &:before {
-                                display: none;
-                            }
-                            width: calc(100% - 1rem);
-                            display: flex;
-                            align-items: center;
-                            margin: 0;
-                            left: 0.5rem;
-                            [data-eliminable='trigger'] {
-                                display: block;
-                                position: relative;
-                                padding: 0;
-                                top: 5rem;
-                                left: 0.8rem;
-                                &:after {
-                                    left: 0;
-                                }
-                            }
-                        }
-                    }
-                    &[class^='list-style-'],
-                    &[class*=' list-style-'] {
-                        .qti-choice {
-                            [data-eliminable='container'] {
-                                [data-eliminable='trigger'] {
-                                    top: 7.5rem;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        .item-instruction {
-            padding: 4rem 1rem 1rem 1rem;
-            margin: 0 0.5rem;
-
-            .icon {
-                left: 0;
+            .answer-mask {
+                text-align: start;
                 width: 100%;
-                display: flex;
-                align-items: center;
+                height: 2.5rem;
+                top: auto;
+                bottom: 0;
+                padding-right: 0.1rem;
+                &.masked {
+                    height: 100%;
+                }
+            }
+            .label-content {
+                padding-right: 0;
+            }
+            .pseudo-label-box {
+                margin-bottom: 28px;
             }
         }
         .choice-area {
+            &[class^='list-style-'],
+            &[class*=' list-style-'] {
+                .qti-choice::before {
+                    top: 2.5rem;
+                }
+            }
+        }
+    }
+    &.eliminable {
+        .choice-area {
+            margin-top: 0;
             &.plain.block-listing {
-                display: flex;
-                flex-direction: column;
-                gap: 1rem;
-                height: 100%;
-
-                & > li {
-                    border: 1px solid #e0e0e0;
-                    height: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    &:first-child {
-                        margin-top: 0;
+                .qti-choice {
+                    .label-box {
+                        margin-top: 7rem;
+                    }
+                    [data-eliminable='container'] {
+                        &:before {
+                            transform: translateY(-50%);
+                        }
+                        width: calc(100% - 1rem);
+                        display: flex;
+                        align-items: center;
+                        margin: 0;
+                        top: 4rem;
+                        left: 0.5rem;
+                        [data-eliminable='trigger'] {
+                            display: block;
+                            position: relative;
+                            padding: 0;
+                            left: 0.8rem;
+                            &:after {
+                                left: 0;
+                            }
+                        }
                     }
                 }
-
-                .qti-choice {
-                    .real-label {
-                        width: 100%;
-                    }
-                    .label-box {
-                        margin-top: 3rem;
-                        margin-left: 0;
-                    }
-                    .icon-checkbox,
-                    .icon-radio {
-                        width: auto;
-                        &:after {
-                            left: 0;
+                &[class^='list-style-'],
+                &[class*=' list-style-'] {
+                    .qti-choice {
+                        [data-eliminable='container'] {
+                            [data-eliminable='trigger'] {
+                                top: 7.5rem;
+                            }
                         }
-                        &:before {
-                            position: absolute;
-                        }
-                    }
-                    .qti-block {
-                        margin-right: 2px;
                     }
                 }
             }
-            &[class^='list-style-'],
-            &[class*=' list-style-'] {
-                .qti-choice {
-                    &::before {
-                        writing-mode: horizontal-tb;
-                        top: 2.5rem;
-                        left: calc(50% - 1rem);
-                        display: block;
-                        height: min-content;
+        }
+    }
+    .item-instruction {
+        padding: 4rem 1rem 1rem 1rem;
+        margin: 0 0.5rem;
+
+        .icon {
+            left: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+    }
+    .choice-area {
+        &.plain.block-listing {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            height: 100%;
+
+            & > li {
+                border: 1px solid #e0e0e0;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                &:first-child {
+                    margin-top: 0;
+                }
+            }
+
+            &.horizontal {
+                display: block;
+
+                & > li {
+                    height: auto;
+                    &:first-child {
+                        margin-top: 3px;
+                    }
+                }
+            }
+
+            .qti-choice {
+                .real-label {
+                    width: 100%;
+                }
+                .label-box {
+                    margin-top: 3rem;
+                    margin-left: 0;
+                }
+                .icon-checkbox,
+                .icon-radio {
+                    width: auto;
+                    &:after {
+                        left: 0;
+                    }
+                    &:before {
                         position: absolute;
                     }
+                }
+                .qti-block {
+                    margin-right: 2px;
+                }
+            }
+        }
+        &[class^='list-style-'],
+        &[class*=' list-style-'] {
+            .qti-choice {
+                &::before {
+                    writing-mode: horizontal-tb;
+                    top: 2.5rem;
+                    left: calc(50% - 1rem);
+                    display: block;
+                    height: min-content;
+                    position: absolute;
+                }
 
-                    .pseudo-label-box {
-                        .label-box {
+                .pseudo-label-box {
+                    .label-box {
+                        margin-left: 0;
+                        .label-content {
+                            margin-top: 2rem;
                             margin-left: 0;
-                            .label-content {
-                                margin-top: 2rem;
-                                margin-left: 0;
-                            }
                         }
                     }
                 }
@@ -511,7 +519,7 @@
     }
 }
 
-.qti-itemBody[dir="rtl"] {
+.qti-itemBody[dir='rtl'] {
     .widget-box.widget-block.widget-object {
         &.compact-appearance {
             margin-left: initial;

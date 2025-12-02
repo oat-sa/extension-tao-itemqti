@@ -8,18 +8,38 @@ define([
     'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods',
     'services/features',
     'context',
-], function (stateFactory, Active, htmlEditor, content, formElement, formTpl, itemScrollingMethods, features, context) {
+    'taoQtiItem/qtiCommonRenderer/helpers/verticalWriting',
+    'taoQtiItem/qtiCreator/widgets/static/helpers/verticalWritingEditing'
+], function (
+    stateFactory,
+    Active,
+    htmlEditor,
+    content,
+    formElement,
+    formTpl,
+    itemScrollingMethods,
+    features,
+    context,
+    verticalWriting,
+    verticalWritingEditing
+) {
     'use strict';
 
     const wrapperCls = 'custom-text-box';
+    const writingModeVerticalRlClass = verticalWriting.WRITING_MODE_VERTICAL_RL_CLASS;
+    const writingModeHorizontalTbClass = verticalWriting.WRITING_MODE_HORIZONTAL_TB_CLASS;
+    const writingModeAttr = 'data-writing-mode-class';
+    const writingModeInitialScrollingHeight = '75';
 
     const scrollingAvailable = features.isVisible('taoQtiItem/creator/static/text/scrolling');
 
     function cleanDefaultTextBlockClasses($wrap) {
         return itemScrollingMethods
             .cutScrollClasses($wrap.attr('class') || '')
-            .replace(wrapperCls, '')
-            .trim();
+            .split(' ')
+            .map(cls => cls.trim())
+            .filter(cls => ![wrapperCls].includes(cls))
+            .join(' ');
     }
 
     const TextActive = stateFactory.extend(
@@ -43,7 +63,8 @@ define([
         $editableContainer.attr('data-html-editable-container', true);
 
         if (!htmlEditor.hasEditor($editableContainer)) {
-            var ENABLE_INTERACTION_SOURCE = context.featureFlags && context.featureFlags.FEATURE_FLAG_CKEDITOR_INTERACTION_SOURCE;
+            var ENABLE_INTERACTION_SOURCE =
+                context.featureFlags && context.featureFlags.FEATURE_FLAG_CKEDITOR_INTERACTION_SOURCE;
             htmlEditor.buildEditor($editableContainer, {
                 change: function (data) {
                     changeCallback.call(this, data);
@@ -88,43 +109,90 @@ define([
         formElement.setChangeCallbacks($form, widget.element, changeCallbacks(widget, $form));
 
         itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
+
+        toggleVerticalWritingModeByLang(widget, $form);
     };
 
     const changeCallbacks = function (widget, $form) {
         return {
             textBlockCssClass: function (element, value) {
-                let $wrap = widget.$container.find(`.${wrapperCls}`);
-
-                value = value.trim();
-                if (value === wrapperCls) {
-                    value = '';
-                }
-
-                if (!$wrap.length) {
-                    $wrap = widget.$container.find('[data-html-editable="true"]').wrapInner('<div />').children();
-                }
-
-                const scrollingEnabled = $form.find('[name="scrolling"]').prop('checked');
-                const scrollingHeightVal = $form.find('[name="scrollingHeight"]').val();
-                const scrollingClasses = itemScrollingMethods.getScrollClasses(scrollingEnabled, scrollingHeightVal);
-                $wrap.attr('class', `${wrapperCls} ${scrollingClasses}`);
-                $wrap.addClass(value);
+                const $wrap = createWrapper(widget);
+                const customClasses = cleanDefaultTextBlockClasses($wrap);
+                customClasses.split(' ').forEach(cls => {
+                    $wrap.removeClass(cls);
+                });
+                $wrap.addClass(value.trim());
             },
             scrolling: function (element, value) {
                 itemScrollingMethods.wrapContent(widget, value, 'inner');
-
-                const $wrap = widget.$container.find(`.${wrapperCls}`);
-                if ($wrap.length) {
-                    $form.find('[name="textBlockCssClass"]').val(cleanDefaultTextBlockClasses($wrap));
-                }
             },
             scrollingHeight: function (element, value) {
-                const $wrap = widget.$container.find(`.${wrapperCls}`);
+                const $wrap = getWrapper(widget);
                 itemScrollingMethods.setScrollingHeight($wrap, value);
-                $form.find('[name="textBlockCssClass"]').val(cleanDefaultTextBlockClasses($wrap));
+            },
+            writingMode(i, mode) {
+                let isScrolling = false;
+                const $wrap = createWrapper(widget);
+                if (mode === 'vertical' && !$form.data('isItemVertical')) {
+                    $wrap.attr(writingModeAttr, writingModeVerticalRlClass);
+                    isScrolling = true;
+                } else if (mode === 'horizontal' && $form.data('isItemVertical')) {
+                    $wrap.attr(writingModeAttr, writingModeHorizontalTbClass);
+                    isScrolling = true;
+                } else {
+                    $wrap.removeAttr(writingModeAttr);
+                }
+
+                const $scrolling = $form.find('[name="scrolling"]');
+                if (isScrolling) {
+                    if (!$scrolling.prop('checked')) {
+                        itemScrollingMethods.initSelect($form, isScrolling, writingModeInitialScrollingHeight);
+                        $scrolling.prop('checked', true).change();
+                    }
+                    $scrolling.prop('disabled', true);
+                } else {
+                    $scrolling.prop('disabled', false);
+                }
             }
         };
     };
+
+    const getWrapper = widget => {
+        return widget.$container.find(`.${wrapperCls}`);
+    };
+
+    const createWrapper = widget => {
+        let $wrap = getWrapper(widget);
+        if (!$wrap.length) {
+            $wrap = widget.$container.find('[data-html-editable="true"]').wrapInner('<div />').children();
+            $wrap.addClass(wrapperCls);
+        }
+        return $wrap;
+    };
+
+    const toggleVerticalWritingModeByLang = (widget, $form) =>
+        verticalWritingEditing.checkItemWritingMode(widget).then(({ isVerticalSupported, isItemVertical }) => {
+            $form.data('isItemVertical', isItemVertical);
+
+            $form.find('.writingMode-panel').toggle(isVerticalSupported);
+
+            let isVertical = null;
+            const $wrap = getWrapper(widget);
+            if ($wrap.attr(writingModeAttr) === writingModeVerticalRlClass) {
+                isVertical = true;
+            } else if ($wrap.attr(writingModeAttr) === writingModeHorizontalTbClass) {
+                isVertical = false;
+            } else {
+                isVertical = isItemVertical;
+            }
+            $form.find('input[name="writingMode"][value="vertical"]').prop('checked', isVertical);
+            $form.find('input[name="writingMode"][value="horizontal"]').prop('checked', !isVertical);
+
+            if (!!isItemVertical === !isVertical) {
+                const $scrolling = $form.find('[name="scrolling"]');
+                $scrolling.prop('disabled', true);
+            }
+        });
 
     return TextActive;
 });
