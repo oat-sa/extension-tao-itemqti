@@ -101,6 +101,7 @@ img.dragging.ui-draggable-dragging {
         margin: 0;
         display: inline-block;
         color: $info !important;
+        z-index: 10;
         [class^="icon-"], [class*=" icon-"] {
             font-size: 14px !important;
             position: absolute;
