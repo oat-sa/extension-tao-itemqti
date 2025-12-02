@@ -163,6 +163,13 @@ class ScaleStorageService extends ConfigurableService
         return $scales;
     }
 
+    /**
+     * Generate a relative path for a scale JSON file from a given identifier or path seed.
+     * The result is placed under the "scales" directory and suffixed with a short hash for uniqueness.
+     *
+     * @param string $identifierOrPath The scale identifier or seed string used to build the file name.
+     * @return string The generated relative path to the scale file (e.g., "scales/foo_abcdef12.json").
+     */
     public function generateRelativePath(string $identifierOrPath): string
     {
         $baseName = preg_replace('/[^a-zA-Z0-9_-]+/', '_', $identifierOrPath);
@@ -180,6 +187,13 @@ class ScaleStorageService extends ConfigurableService
         );
     }
 
+    /**
+     * Check whether the provided value denotes a valid scale JSON relative path.
+     * A valid path starts with "scales/" and has a ".json" extension.
+     *
+     * @param string|null $value The relative path to validate; null values are considered invalid.
+     * @return bool True if the path matches the expected "scales/*.json" pattern, false otherwise.
+     */
     public function isScalePath(?string $value): bool
     {
         if ($value === null) {
