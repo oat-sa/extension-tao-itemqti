@@ -59,6 +59,7 @@ use tao_helpers_Http;
 use tao_helpers_Uri;
 use taoItems_models_classes_ItemsService;
 use Throwable;
+use InvalidArgumentException;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item

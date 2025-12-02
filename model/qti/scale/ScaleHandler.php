@@ -46,7 +46,8 @@ class ScaleHandler
         ScaleStorageService $storageService,
         ScalePreprocessor $scalePreprocessor,
         LoggerService $loggerService
-    ) {
+    )
+    {
         $this->storageService = $storageService;
         $this->scalePreprocessor = $scalePreprocessor;
         $this->loggerService = $loggerService;

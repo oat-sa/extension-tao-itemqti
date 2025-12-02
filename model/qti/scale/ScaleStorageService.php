@@ -28,7 +28,7 @@ use oat\oatbox\filesystem\File;
 use taoItems_models_classes_ItemsService;
 use core_kernel_classes_Resource;
 
-class ScaleStorageService
+class ScaleStorageService extends ConfigurableService
 {
     public const SCALES_DIRECTORY = 'scales';
 
@@ -36,19 +36,14 @@ class ScaleStorageService
 
     public function __construct(?taoItems_models_classes_ItemsService $itemsService = null)
     {
+        parent::__construct();
         $this->itemsService = $itemsService ?? taoItems_models_classes_ItemsService::singleton();
     }
 
     /**
-     * Persist the serialized scale payload under the item's scale directory.
-     *
-     * @param core_kernel_classes_Resource $item The item that owns the scale file.
-     * @param string $relativePath Existing relative path or identifier used to generate one.
-     * @param array $payload Structured data to store in JSON format.
+     * Persist scale metadata for the provided item.
      *
      * @throws JsonException
-     *
-     * @return string The relative path (under scales/) where the payload has been stored.
      */
     public function storeScaleData(
         core_kernel_classes_Resource $item,
@@ -242,7 +237,7 @@ class ScaleStorageService
     private function sanitizeRelativePath(string $path): string
     {
         $normalized = trim($path);
-        $normalized = str_replace('\\', '/', $normalized);
+        $normalized = str_replace('\\', '/', $normalized); // Corrected escaping for backslash
 
         $segments = explode('/', $normalized);
         $sanitized = [];
