@@ -156,5 +156,5 @@ class RemoteScaleListService
             );
             return false;
         }
-    }
+} 
 }

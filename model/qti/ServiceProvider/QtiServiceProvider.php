@@ -113,5 +113,7 @@ class QtiServiceProvider implements ContainerServiceProviderInterface
 
         $services->set(ItemMaxScoreService::class, ItemMaxScoreService::class)
             ->public();
-    }
+    }}
 }
+
+
