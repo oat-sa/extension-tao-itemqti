@@ -49,11 +49,16 @@ use oat\taoQtiItem\model\qti\parser\XmlToItemParser;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\validator\ItemIdentifierValidator;
 use oat\taoQtiItem\model\service\CreatorConfigFactory;
+use oat\taoQtiItem\model\QtiCreator\Scales\RemoteScaleListService;
+use oat\taoQtiItem\model\qti\metadata\exporter\scale\ScalePreprocessor;
+use oat\taoQtiItem\model\qti\scale\ScaleHandler;
+use oat\taoQtiItem\model\qti\scale\ScaleStorageService;
 use tao_actions_CommonModule;
 use tao_helpers_File;
 use tao_helpers_Http;
 use tao_helpers_Uri;
 use taoItems_models_classes_ItemsService;
+use InvalidArgumentException;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item
@@ -198,6 +203,11 @@ class QtiCreator extends tao_actions_CommonModule
         if (isset($queryParams['uri'])) {
             $xml = $request->getBody()->getContents();
             $rdfItem = $this->getResource(urldecode($queryParams['uri']));
+            try {
+                $xml = $this->getScaleHandler()->process($xml, $rdfItem);
+            } catch (Throwable $exception) {
+                $this->logWarning(sprintf('Item scale persistence skipped: %s', $exception->getMessage()));
+            }
             /** @var Service $itemService */
             $itemService = $this->getServiceLocator()->get(Service::class);
 
@@ -326,6 +336,23 @@ class QtiCreator extends tao_actions_CommonModule
 
         $config->setProperty('mediaSourcesUrl', $mediaSourcesUrl);
 
+        $config->setProperty('scalesPresets', json_encode([]));
+        $config->setProperty('itemScales', json_encode([]));
+
+        // Add scale data if scale feature is enabled
+        if ($this->isScaleEnabled()) {
+            $config->setProperty(
+                'scalesPresets',
+                json_encode($this->getScaleProcessor()->getScaleRemoteList()
+                )
+            );
+
+            $config->setProperty(
+                'itemScales',
+                json_encode($this->getScaleStorageService()->getItemScales($item))
+            );
+        }
+
         //initialize all registered hooks:
         $hookClasses = HookRegistry::getRegistry()->getMap();
         foreach ($hookClasses as $hookClass) {
@@ -356,6 +383,11 @@ class QtiCreator extends tao_actions_CommonModule
     private function getFeatureFlagConfigSwitcher(): FeatureFlagConfigSwitcher
     {
         return $this->getServiceLocator()->getContainer()->get(FeatureFlagConfigSwitcher::class);
+    }
+
+    private function getScaleHandler(): ScaleHandler
+    {
+        return $this->getServiceLocator()->getContainer()->get(ScaleHandler::class);
     }
 
     /**
@@ -398,5 +430,45 @@ class QtiCreator extends tao_actions_CommonModule
     private function getCreatorConfigFactory(): CreatorConfigFactory
     {
         return $this->getPsrContainer()->get(CreatorConfigFactory::class);
+    }
+
+    /**
+     * Check if scale feature is enabled
+     *
+     * @return bool
+     */
+    private function isScaleEnabled(): bool
+    {
+        return $this->getRemoteScaleListService()->isRemoteListEnabled();
+    }
+
+    /**
+     * Get the RemoteScaleListService instance
+     *
+     * @return RemoteScaleListService
+     */
+    private function getRemoteScaleListService(): RemoteScaleListService
+    {
+        return $this->getServiceManager()->getContainer()->get(RemoteScaleListService::class);
+    }
+
+
+    /**
+     * Get the ScalePreprocessor instance
+     *
+     * @return ScalePreprocessor
+     */
+    private function getScaleProcessor(): ScalePreprocessor
+    {
+        return $this->getServiceManager()->getContainer()->get(ScalePreprocessor::class);
+    }
+
+    /**
+     * Get the ScaleStorageService instance
+     * @return ScaleStorageService
+     */
+    private function getScaleStorageService(): ScaleStorageService
+    {
+        return $this->getServiceManager()->getContainer()->get(ScaleStorageService::class);
     }
 }
