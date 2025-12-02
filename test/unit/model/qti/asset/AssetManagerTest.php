@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\qti\asset;
 
+use helpers_File;
 use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\qti\asset\AssetManager;
 
@@ -27,56 +28,40 @@ class AssetManagerTest extends TestCase
 {
     public function testIsFileInsideDirectoryAllowsChild(): void
     {
-        $assetManager = new AssetManager();
-        $result = $this->invokePrivate($assetManager, 'isFileInsideDirectory', 'css/style.css', '/var/data/item');
+        $result = helpers_File::isPathInsideDirectory('css/style.css', '/var/data/item');
 
         $this->assertTrue($result);
     }
 
     public function testIsFileInsideDirectoryDeniesTraversal(): void
     {
-        $assetManager = new AssetManager();
-        $result = $this->invokePrivate($assetManager, 'isFileInsideDirectory', '../etc/passwd', '/var/data/item');
+        $result = helpers_File::isPathInsideDirectory('../etc/passwd', '/var/data/item');
 
         $this->assertFalse($result);
     }
 
     public function testIsFileInsideDirectoryAbsoluteInside(): void
     {
-        $assetManager = new AssetManager();
-        $result = $this->invokePrivate(
-            $assetManager,
-            'isFileInsideDirectory',
-            '/var/data/item/css/style.css',
-            '/var/data/item'
-        );
+        $result = helpers_File::isPathInsideDirectory('/var/data/item/css/style.css', '/var/data/item');
 
         $this->assertTrue($result);
     }
 
     public function testIsFileInsideDirectoryAbsoluteOutside(): void
     {
-        $assetManager = new AssetManager();
-        $result = $this->invokePrivate(
-            $assetManager,
-            'isFileInsideDirectory',
-            '/var/data/other/file.css',
-            '/var/data/item'
-        );
+        $result = helpers_File::isPathInsideDirectory('/var/data/other/file.css', '/var/data/item');
 
         $this->assertFalse($result);
     }
 
     public function testCopyFileLocalToLocal(): void
     {
-        $assetManager = new AssetManager();
-
         $source = tempnam(sys_get_temp_dir(), 'am_src_');
         $destinationDir = sys_get_temp_dir() . '/am_dest_' . uniqid();
         $destination = $destinationDir . '/file.txt';
         file_put_contents($source, 'content');
 
-        $result = $this->invokePrivate($assetManager, 'copyFile', $source, $destination);
+        $result = helpers_File::copySafe($source, $destination);
 
         $this->assertTrue($result);
         $this->assertFileExists($destination);
@@ -89,8 +74,6 @@ class AssetManagerTest extends TestCase
 
     public function testCopyFileStreamWrapper(): void
     {
-        $assetManager = new AssetManager();
-
         $plainSource = tempnam(sys_get_temp_dir(), 'am_src_plain_');
         file_put_contents($plainSource, 'stream-content');
 
@@ -102,7 +85,7 @@ class AssetManagerTest extends TestCase
         $srcPath = 'compress.zlib://' . $compressedSource;
         $destPath = 'compress.zlib://' . $compressedDest;
 
-        $result = $this->invokePrivate($assetManager, 'copyFile', $srcPath, $destPath);
+        $result = helpers_File::copySafe($srcPath, $destPath);
 
         $this->assertTrue($result);
         $this->assertFileExists($compressedDest);
