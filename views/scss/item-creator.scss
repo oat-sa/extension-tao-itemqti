@@ -1375,6 +1375,12 @@ img.dragging.ui-draggable-dragging {
         }
     }
 
+    .qti-prompt-container:has(ruby),
+    .qti-prompt:has(ruby) {
+        line-height: 2.2;
+        padding-top: 0.3em;
+    }
+
     .widget-textBlock {
         .mini-tlb {
             right: -36px;
