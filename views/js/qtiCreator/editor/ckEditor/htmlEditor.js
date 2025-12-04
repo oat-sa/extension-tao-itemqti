@@ -29,6 +29,7 @@ define([
     'taoQtiItem/qtiCreator/editor/ckEditor/featureFlag',
     'taoQtiItem/qtiCreator/helper/languages',
     'taoQtiItem/qtiCreator/helper/elementSupport',
+    'taoQtiItem/qtiCreator/helper/rubyTagCleaner',
 ], function (
     _,
     __,
@@ -42,7 +43,8 @@ define([
     deletingHelper,
     featureFlag,
     languages,
-    elementSupportHelper
+    elementSupportHelper,
+    rubyTagCleaner
 ) {
     'use strict';
 
@@ -184,7 +186,9 @@ define([
                             function markupChanged() {
                                 _detectWidgetDeletion($editable, widgets, editor);
                                 if (_.isFunction(options.change)) {
-                                    options.change.call(editor, _htmlEncode(editor.getData()));
+                                    const rawData = editor.getData();
+                                    const cleanedData = rubyTagCleaner.clean(rawData);
+                                    options.change.call(editor, _htmlEncode(cleanedData));
                                 }
                             },
                             100,
@@ -234,7 +238,9 @@ define([
 
                     //callback:
                     if (_.isFunction(options.focus)) {
-                        options.focus.call(this, _htmlEncode(this.getData()));
+                        const rawData = this.getData();
+                        const cleanedData = rubyTagCleaner.clean(rawData);
+                        options.focus.call(this, _htmlEncode(cleanedData));
                     }
 
                     $editable.trigger('editorfocus');
@@ -671,7 +677,9 @@ define([
 
                             //before destroying, ensure that data is stored
                             if (_.isFunction(options.change)) {
-                                options.change.call(editor, _htmlEncode(editor.getData()));
+                                const rawData = editor.getData();
+                                const cleanedData = rubyTagCleaner.clean(rawData);
+                                options.change.call(editor, _htmlEncode(cleanedData));
                             }
 
                             removePlaceholder($editable);
@@ -702,7 +710,9 @@ define([
         getData: function ($editable) {
             const editor = $editable.data('editor');
             if (editor) {
-                return _htmlEncode(editor.getData());
+                const rawData = editor.getData();
+                const cleanedData = rubyTagCleaner.clean(rawData);
+                return _htmlEncode(cleanedData);
             } else {
                 throw new Error('no editor attached to the DOM element');
             }
