@@ -13,10 +13,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2016-2025 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\taoQtiItem\model\qti\asset;
@@ -24,7 +23,6 @@ namespace oat\taoQtiItem\model\qti\asset;
 use helpers_File;
 use oat\tao\model\import\InvalidSourcePathException;
 use oat\taoQtiItem\model\qti\asset\handler\AssetHandler;
-use oat\taoQtiItem\model\qti\asset\handler\MediaAssetHandler;
 use oat\taoQtiItem\model\qti\Resource as QtiResource;
 
 class AssetManager
@@ -243,10 +241,12 @@ class AssetManager
         foreach ($dependencyResource->getAuxiliaryFiles() as $auxiliaryFile) {
             $auxiliaryPath = $this->getAbsolutePath($auxiliaryFile);
             $dest = $itemDir . '/' . $auxiliaryFile;
-            if (
-                !helpers_File::isFileInsideDirectory($auxiliaryFile, $itemDir)
-                && !helpers_File::copy($auxiliaryPath, $dest)
-            ) {
+
+            if (!helpers_File::isPathInsideDirectory($auxiliaryFile, $itemDir)) {
+                continue;
+            }
+
+            if (!helpers_File::copySafe($auxiliaryPath, $dest)) {
                 throw new AssetManagerException('File ' . $auxiliaryPath . ' was not copied to the ' . $itemDir);
             }
         }
