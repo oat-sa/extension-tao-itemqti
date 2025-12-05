@@ -253,6 +253,28 @@ define([
                         });
 
                         this.item = item;
+
+                        if (config.properties) {
+                            if (config.properties.scalesPresets) {
+                                try {
+                                    const presets = JSON.parse(config.properties.scalesPresets);
+                                    item.data('scalePresets', presets);
+                                    item.data('scalesPresets', presets);
+                                } catch (e) {
+                                    console.warn('[ItemCreator] Failed to parse scale presets.', e);
+                                }
+                            }
+                            if (config.properties.itemScales) {
+                                try {
+                                    const scales = JSON.parse(config.properties.itemScales);
+                                    item.data('itemScales', scales);
+                                    item.data('scales', scales);
+                                } catch (e) {
+                                    console.warn('[ItemCreator] Failed to parse item scales.', e);
+                                }
+                            }
+                        }
+
                         return true;
                     })
                     .then(() => {
