@@ -83,6 +83,10 @@ class ScaleExportService
 
             try {
                 $content = $file->read();
+                if (!$this->isJson($content)) {
+                    \common_Logger::w('Skipping invalid JSON file in scales directory: ' . $file->getBasename());
+                    continue;
+                }
                 if ($zip->addFromString($scaleFilePath, $content) === false) {
                     throw new RuntimeException('Failed to add scale file to ZIP archive: ' . $scaleFilePath);
                 }
@@ -145,5 +149,17 @@ class ScaleExportService
         $scalesDir = $itemDirectory->getDirectory(self::SCALES_DIRECTORY);
 
         return $scalesDir->exists() ? $scalesDir : null;
+    }
+
+    /**
+     * Check if a string is a valid JSON
+     *
+     * @param string $string The string to check
+     * @return bool True if the string is valid JSON, false otherwise
+     */
+    private function isJson(string $string): bool
+    {
+        json_decode($string);
+        return json_last_error() === JSON_ERROR_NONE;
     }
 }
