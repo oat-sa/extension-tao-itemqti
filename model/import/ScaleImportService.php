@@ -165,7 +165,7 @@ class ScaleImportService
         }
 
         // Validate JSON
-        $scaleData = json_decode($content, true);
+        json_decode($content);
         if (json_last_error() !== JSON_ERROR_NONE) {
             common_Logger::w('Invalid JSON in scale file: ' . $fileName);
             return;
