@@ -106,7 +106,7 @@ class ScaleStorageServiceTest extends TestCase
     {
         return [
             'simple filename' => ['my_scale', 'my_scale'],
-            'with dots in name' => ['scale....name', 'scale____name'],
+            'with dots in name' => ['scale....name', 'scale_name'],
             'with forward slashes' => ['scales/subscale/name', 'scales_subscale_name'],
         ];
     }
