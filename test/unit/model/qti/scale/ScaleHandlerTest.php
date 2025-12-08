@@ -52,7 +52,12 @@ class ScaleHandlerTest extends TestCase
         $xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2">
-    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" scale="http://example.org/scales/cefr" rubric="Teacher rubric"/>
+    <outcomeDeclaration 
+        identifier="SCORE" 
+        cardinality="single" 
+        baseType="float" 
+        scale="http://example.org/scales/cefr" 
+        rubric="Teacher rubric"/>
 </assessmentItem>
 XML;
 
@@ -114,7 +119,11 @@ XML;
         $xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2">
-    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" longInterpretation="scales/existing.json"/>
+    <outcomeDeclaration 
+        identifier="SCORE" 
+        cardinality="single" 
+        baseType="float" 
+        longInterpretation="scales/existing.json"/>
 </assessmentItem>
 XML;
 
