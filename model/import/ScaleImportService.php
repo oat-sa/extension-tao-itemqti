@@ -93,6 +93,19 @@ class ScaleImportService
     ): void {
         $scaleFiles = scandir($packageScalesPath);
 
+        if ($scaleFiles === false) {
+            $lastError = error_get_last();
+            common_Logger::e(
+                sprintf(
+                    'Could not read scales directory "%s" for item %s%s',
+                    $packageScalesPath,
+                    $itemIdentifier,
+                    $lastError && isset($lastError['message']) ? ' - ' . $lastError['message'] : ''
+                )
+            );
+            return;
+        }
+
         foreach ($scaleFiles as $fileName) {
             if ($fileName === '.' || $fileName === '..') {
                 continue;
@@ -210,6 +223,19 @@ class ScaleImportService
             }
 
             $scaleFiles = scandir($packageScalesPath);
+
+            if ($scaleFiles === false) {
+                $lastError = error_get_last();
+                \common_Logger::w(
+                    sprintf(
+                        'Could not list scales directory "%s"%s',
+                        $packageScalesPath,
+                        $lastError && isset($lastError['message']) ? ' - ' . $lastError['message'] : ''
+                    )
+                );
+                return false;
+            }
+
             foreach ($scaleFiles as $fileName) {
                 if ($fileName === '.' || $fileName === '..') {
                     continue;
