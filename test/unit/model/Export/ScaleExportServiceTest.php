@@ -90,13 +90,22 @@ class ScaleExportServiceTest extends TestCase
             ->with(Directory::ITERATOR_FILE)
             ->willReturn(new \ArrayIterator([$file1, $file2]));
 
+        // Expected calls in order
+        $expectedCalls = [
+            ['item_123/scales/OUTCOME_1.json', '{"scale":{"uri":"test"}}'],
+            ['item_123/scales/OUTCOME_2.json', '{"scale":{"uri":"test2"}}']
+        ];
+        $callIndex = 0;
+
         $zip->expects($this->exactly(2))
             ->method('addFromString')
-            ->withConsecutive(
-                ['item_123/scales/OUTCOME_1.json', '{"scale":{"uri":"test"}}'],
-                ['item_123/scales/OUTCOME_2.json', '{"scale":{"uri":"test2"}}']
-            )
-            ->willReturn(true);
+            ->willReturnCallback(function ($path, $content) use (&$callIndex, $expectedCalls) {
+                $this->assertSame($expectedCalls[$callIndex][0], $path, "Path mismatch on call {$callIndex}");
+                $this->assertSame($expectedCalls[$callIndex][1], $content, "Content mismatch on call {$callIndex}");
+                $callIndex++;
+
+                return true;
+            });
 
         $this->service->exportScaleFiles($itemDirectory, 'item_123', $zip);
     }
