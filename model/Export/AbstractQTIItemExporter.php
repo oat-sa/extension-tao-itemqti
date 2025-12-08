@@ -231,6 +231,13 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
         // add xml file
         $this->getZip()->addFromString($basePath . '/' . $dataFile, $content);
+        $itemService = \taoItems_models_classes_ItemsService::singleton();
+        // Export scale files from item's scales directory
+        $this->getScaleExportService()->exportScaleFiles(
+            $itemService->getItemDirectory($this->getItem(), $lang),
+            $basePath,
+            $this->getZip()
+        );
 
         if (!$report->getMessage()) {
             $report->setMessage(__('Item "%s" is ready to be exported', $this->getItem()->getLabel()));
@@ -406,5 +413,10 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     private function getAssetStylesheetLoader(): AssetStylesheetLoader
     {
         return $this->getServiceManager()->get(AssetStylesheetLoader::class);
+    }
+
+    protected function getScaleExportService(): ScaleExportService
+    {
+        return $this->getServiceManager()->getContainer()->get(ScaleExportService::class);
     }
 }
