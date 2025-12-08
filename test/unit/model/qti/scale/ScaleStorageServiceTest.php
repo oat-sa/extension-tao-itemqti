@@ -106,8 +106,8 @@ class ScaleStorageServiceTest extends TestCase
     {
         return [
             'simple filename' => ['my_scale', 'my_scale'],
-            'with dots in name' => ['scale....name', 'scale....name'],
-            'with forward slashes' => ['scales/subscale/name', 'name'],
+            'with dots in name' => ['scale....name', 'scale____name'],
+            'with forward slashes' => ['scales/subscale/name', 'scales_subscale_name'],
         ];
     }
 
@@ -122,12 +122,22 @@ class ScaleStorageServiceTest extends TestCase
         $directoryMock->method('exists')->willReturn(true);
         $directoryMock->expects($this->once())
             ->method('getFile')
-            ->with($this->callback(function ($filename) {
-                // Verify the filename doesn't contain path traversal
-                // and is a valid JSON file
-                return strpos($filename, '..') === false &&
-                       strpos($filename, '\\') === false &&
-                       substr($filename, -5) === '.json';
+            ->with($this->callback(function ($filename) use ($expectedBasename) {
+                $this->assertIsString($filename);
+                $basename = basename($filename);
+
+                // Verify the filename doesn't contain path traversal and is a valid JSON file
+                $this->assertStringNotContainsString('..', $filename);
+                $this->assertStringNotContainsString('\\', $filename);
+                $this->assertStringEndsWith('.json', $basename);
+
+                // Ensure the generated filename matches the expected base name (prefix) before the hash
+                $this->assertTrue(
+                    str_starts_with($basename, $expectedBasename),
+                    sprintf('Expected filename to start with "%s", got "%s"', $expectedBasename, $basename)
+                );
+
+                return true;
             }))
             ->willReturn($fileMock);
 
