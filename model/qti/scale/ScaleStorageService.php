@@ -150,11 +150,13 @@ class ScaleStorageService extends ConfigurableService
             $baseName = 'scale';
         }
 
+        $randomHex = bin2hex(random_bytes(12));
+
         return sprintf(
             '%s/%s_%s.json',
             self::SCALES_DIRECTORY,
             strtolower($baseName),
-            substr(sha1(uniqid((string)mt_rand(), true)), 0, 8)
+            $randomHex
         );
     }
 
