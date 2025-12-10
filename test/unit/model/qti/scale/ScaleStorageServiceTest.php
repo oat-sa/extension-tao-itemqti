@@ -156,7 +156,6 @@ class ScaleStorageServiceTest extends TestCase
         $fileSystemMock = $this->createMock(FileSystem::class);
 
         if ($scalesDirectory instanceof MockObject) {
-            $scalesDirectory->method('exists')->willReturn(true);
             $scalesDirectory->method('getFileSystem')->willReturn($fileSystemMock);
         }
 
