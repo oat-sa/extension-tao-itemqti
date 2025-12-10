@@ -82,7 +82,11 @@ class ScaleHandler
         /** @var DOMElement $outcome */
         foreach ($nodes as $outcome) {
             $scaleUri = trim((string)$outcome->getAttribute('scale'));
-            $rubric = trim((string)$outcome->getAttribute('rubric'));
+            $rubric = htmlspecialchars(
+                trim((string)$outcome->getAttribute('rubric')),
+                ENT_XML1 | ENT_QUOTES,
+                'UTF-8'
+            );
             $longInterpretation = (string)$outcome->getAttribute('longInterpretation');
             $identifier = (string)$outcome->getAttribute('identifier');
 
