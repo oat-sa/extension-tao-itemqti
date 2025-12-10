@@ -62,14 +62,14 @@
     <p class="feedback-info">{{__ 'The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score.'}}</p>
 </div>
 
-<div class="panel" data-editx="map">
+<div class="panel define-correct" data-editx="map">
     <label>
         <input name="defineCorrect" type="checkbox" data-role="defineCorrect"{{#if defineCorrect}} checked="checked"{{/if}} />
         <span class="icon-checkbox"></span>
-        {{__ "Define correct response"}}
+        {{__ "Define correct response (for post-processing)"}}
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">{{__ "Define the correct response."}}</span>
+    <span class="tooltip-content">{{__ "Define the correct response (for post-processing)."}}</span>
 </div>
 {{/if}}
 

@@ -659,6 +659,14 @@ img.dragging.ui-draggable-dragging {
             }
         }
     }
+
+    .define-correct {
+        position: relative;
+        .icon-help.tooltipstered {
+            position: absolute;
+            right: 0;
+        }
+    }
 }
 
 
@@ -1797,3 +1805,4 @@ body, #mediaManager {
 }
 
 @import "inc/solar/creator";
+
