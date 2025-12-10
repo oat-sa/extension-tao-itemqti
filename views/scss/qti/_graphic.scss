@@ -1,14 +1,19 @@
-@import "inc/bootstrap";
+@import 'inc/bootstrap';
+
+$colorBrand: #266d9c;
+$colorDark: #222222;
+$colorLight: #ffffff;
 
 .qti-graphicInteraction {
-
     .source li > img {
         display: block;
     }
 
     .active {
-        & > input, & > textarea,
-        input.active, textarea.active {
+        & > input,
+        & > textarea,
+        input.active,
+        textarea.active {
             border-color: mix(#fff, $info, 20%);
         }
     }
@@ -16,8 +21,8 @@
         position: relative;
         float: left;
         padding: 3px;
-       .mapping-editor {
-            display: none;  
+        .mapping-editor {
+            display: none;
             position: absolute;
             text-align: left;
             z-index: 10009;
@@ -29,6 +34,53 @@
         padding: 0;
         text-align: center;
         overflow: visible;
+    }
+
+    .hotspot {
+        *:first-child {
+            stroke-width: 14;
+            fill: $colorBrand;
+            stroke-linejoin: round;
+            cursor: pointer;
+        }
+        *:last-child {
+            stroke: $colorLight;
+            stroke-width: 10;
+            stroke-linejoin: round;
+            fill: none;
+            cursor: pointer;
+        }
+
+        &.basic {
+            *:first-child {
+                stroke: $colorDark;
+                fill-opacity: 0.2;
+            }
+        }
+        &.basic:hover {
+            *:first-child {
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
+        &.active {
+            *:first-child {
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
+        &.selectable {
+            *:first-child {
+                stroke: $colorBrand;
+                fill-opacity: 0.2;
+            }
+        }
+        &.selectable:hover {
+            *:first-child {
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
     }
 }
 
