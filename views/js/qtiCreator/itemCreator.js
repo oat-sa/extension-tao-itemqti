@@ -262,6 +262,8 @@ define([
                                     item.data('scalesPresets', presets);
                                 } catch (e) {
                                     console.warn('[ItemCreator] Failed to parse scale presets.', e);
+                                    item.data('scalePresets', []);
+                                    item.data('scalesPresets', []);
                                 }
                             }
                             if (config.properties.itemScales) {
@@ -271,6 +273,8 @@ define([
                                     item.data('scales', scales);
                                 } catch (e) {
                                     console.warn('[ItemCreator] Failed to parse item scales.', e);
+                                    item.data('itemScales', []);
+                                    item.data('scales', []);
                                 }
                             }
                         }
