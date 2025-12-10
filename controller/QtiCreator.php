@@ -336,21 +336,17 @@ class QtiCreator extends tao_actions_CommonModule
 
         $config->setProperty('mediaSourcesUrl', $mediaSourcesUrl);
 
-        $config->setProperty('scalesPresets', json_encode([]));
-        $config->setProperty('itemScales', json_encode([]));
+        $scalesPresetsValue = json_encode([]);
+        $itemScalesValue = json_encode([]);
 
         // Add scale data if scale feature is enabled
         if ($this->isScaleEnabled()) {
-            $config->setProperty(
-                'scalesPresets',
-                json_encode($this->getScaleProcessor()->getScaleRemoteList())
-            );
-
-            $config->setProperty(
-                'itemScales',
-                json_encode($this->getScaleStorageService()->getItemScales($item))
-            );
+            $scalesPresetsValue = json_encode($this->getScaleProcessor()->getScaleRemoteList());
+            $itemScalesValue = json_encode($this->getScaleStorageService()->getItemScales($item));
         }
+
+        $config->setProperty('scalesPresets', $scalesPresetsValue);
+        $config->setProperty('itemScales', $itemScalesValue);
 
         //initialize all registered hooks:
         $hookClasses = HookRegistry::getRegistry()->getMap();
