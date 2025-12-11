@@ -69,7 +69,7 @@
         {{__ "Define correct response (for post-processing)"}}
     </label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">{{__ "Define the correct response (for post-processing)."}}</span>
+    <span class="tooltip-content">{{__ "It is intended only for post-processing and will not influence the actual score computation."}}</span>
 </div>
 {{/if}}
 
