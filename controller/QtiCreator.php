@@ -195,9 +195,21 @@ class QtiCreator extends tao_actions_CommonModule
         $this->returnJson($returnValue);
     }
 
+    /**
+     * Save item data and return JSON response.
+     *
+     * Response keys:
+     * - success (bool): save status
+     * - scalePersisted (bool): whether scale data was persisted
+     * - warnings (array<string>): non-blocking issues (e.g., scale persistence skipped)
+     */
     public function saveItem()
     {
-        $returnValue = ['success' => false];
+        $returnValue = [
+            'success' => false,
+            'scalePersisted' => true,
+            'warnings' => []
+        ];
         $request = $this->getPsrRequest();
         $queryParams = $request->getQueryParams();
         if (isset($queryParams['uri'])) {
@@ -206,13 +218,14 @@ class QtiCreator extends tao_actions_CommonModule
             try {
                 $xml = $this->getScaleHandler()->process($xml, $rdfItem);
             } catch (Throwable $exception) {
-                $this->logWarning(sprintf('Item scale persistence skipped: %s', $exception->getMessage()));
-                $this->returnJson([
-                    'success' => false,
-                    'type' => 'Error',
-                    'message' => sprintf('Item scale persistence skipped: %s', $exception->getMessage()),
-                ]);
-                return;
+                $message = sprintf(
+                    'Item scale persistence skipped for item %s: %s',
+                    $rdfItem->getUri(),
+                    $exception->getMessage()
+                );
+                $this->logError($message);
+                $returnValue['scalePersisted'] = false;
+                $returnValue['warnings'][] = $message;
             }
             /** @var Service $itemService */
             $itemService = $this->getServiceLocator()->get(Service::class);
