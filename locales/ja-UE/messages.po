@@ -452,6 +452,12 @@ msgstr ""
 msgid "Define correct response"
 msgstr "正解を設定"
 
+msgid "Define correct response (for post-processing)"
+msgstr ""
+
+msgid "It is intended only for post-processing and will not influence the actual score computation."
+msgstr ""
+
 msgid "Define item language."
 msgstr "アイテム言語を定義します"
 
