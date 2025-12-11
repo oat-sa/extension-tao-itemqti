@@ -1,0 +1,53 @@
+@import 'inc/bootstrap';
+
+$colorBrand: #266d9c;
+$colorDark: #222222;
+$colorLight: #ffffff;
+
+.qti-graphicAssociateInteraction {
+    .assoc-line {
+        cursor: pointer;
+    }
+    .assoc-line-outer {
+        stroke: $colorLight;
+        stroke-width: 8;
+        stroke-linecap: round;
+    }
+    .assoc-line-inner {
+        stroke: $colorBrand;
+        stroke-width: 2;
+        stroke-linecap: round;
+    }
+    .assoc-line-hitbox {
+        stroke-width: 24;
+        stroke-opacity: 0;
+    }
+
+    .close-btn {
+        cursor: pointer;
+    }
+    .close-btn-path {
+        fill: $colorLight;
+        stroke: none;
+    }
+    .close-btn-bg {
+        fill: $colorBrand;
+        stroke: none;
+    }
+    .close-btn-hitbox {
+        fill: $colorBrand;
+        opacity: 0;
+        stroke-width: 0;
+    }
+
+    svg.line-selected {
+        image {
+            filter: brightness(50%);
+        }
+    }
+    svg:not(.line-selected) {
+        .close-btn {
+            display: none;
+        }
+    }
+}

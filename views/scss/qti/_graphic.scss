@@ -81,9 +81,16 @@ $colorLight: #ffffff;
                 fill-opacity: 0.5;
             }
         }
+        &[data-associated='true'] {
+            *:first-child {
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
     }
 }
 
 @import 'graphic-gap';
 @import 'graphic-order';
+@import 'graphic-associate';
 @import 'select-point';
