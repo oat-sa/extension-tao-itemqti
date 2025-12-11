@@ -207,6 +207,12 @@ class QtiCreator extends tao_actions_CommonModule
                 $xml = $this->getScaleHandler()->process($xml, $rdfItem);
             } catch (Throwable $exception) {
                 $this->logWarning(sprintf('Item scale persistence skipped: %s', $exception->getMessage()));
+                $this->returnJson([
+                    'success' => false,
+                    'type' => 'Error',
+                    'message' => sprintf('Item scale persistence skipped: %s', $exception->getMessage()),
+                ]);
+                return;
             }
             /** @var Service $itemService */
             $itemService = $this->getServiceLocator()->get(Service::class);
