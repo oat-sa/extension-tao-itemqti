@@ -34,13 +34,13 @@
     }
 
     .hotspot {
-        *:first-child {
+        .hotspot-inner {
             stroke-width: unscale(16);
             fill: $colorBrand;
             stroke-linejoin: round;
             cursor: pointer;
         }
-        *:last-child {
+        .hotspot-outer {
             stroke: $colorLight;
             stroke-width: unscale(12);
             stroke-linejoin: round;
@@ -49,37 +49,37 @@
         }
 
         &.basic {
-            *:first-child {
+            .hotspot-inner {
                 stroke: $colorDark;
                 fill-opacity: 0.2;
             }
         }
         &.basic:hover {
-            *:first-child {
+            .hotspot-inner {
                 stroke: $colorBrand;
                 fill-opacity: 0.5;
             }
         }
         &.active {
-            *:first-child {
+            .hotspot-inner {
                 stroke: $colorBrand;
                 fill-opacity: 0.5;
             }
         }
         &.selectable {
-            *:first-child {
+            .hotspot-inner {
                 stroke: $colorBrand;
                 fill-opacity: 0.2;
             }
         }
         &.selectable:hover {
-            *:first-child {
+            .hotspot-inner {
                 stroke: $colorBrand;
                 fill-opacity: 0.5;
             }
         }
         &[data-associated='true'] {
-            *:first-child {
+            .hotspot-inner {
                 stroke: $colorBrand;
                 fill-opacity: 0.5;
             }
