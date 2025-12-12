@@ -60,6 +60,12 @@
                 fill-opacity: 0.5;
             }
         }
+        &.basic[data-associated='true'] {
+            .hotspot-inner {
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
         &.active {
             .hotspot-inner {
                 stroke: $colorBrand;
@@ -78,9 +84,10 @@
                 fill-opacity: 0.5;
             }
         }
-        &[data-associated='true'] {
+        &.error {
             .hotspot-inner {
-                stroke: $colorBrand;
+                stroke: $colorError;
+                fill: $colorError;
                 fill-opacity: 0.5;
             }
         }
