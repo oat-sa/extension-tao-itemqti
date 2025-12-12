@@ -1,8 +1,5 @@
 @import 'inc/bootstrap';
-
-$colorBrand: #266d9c;
-$colorDark: #222222;
-$colorLight: #ffffff;
+@import 'graphic-functions';
 
 .qti-graphicAssociateInteraction {
     .assoc-line {
@@ -10,29 +7,41 @@ $colorLight: #ffffff;
     }
     .assoc-line-outer {
         stroke: $colorLight;
-        stroke-width: 8;
+        stroke-width: unscale(8);
         stroke-linecap: round;
+        transition: stroke-width 200ms;
     }
     .assoc-line-inner {
         stroke: $colorBrand;
-        stroke-width: 2;
+        stroke-width: unscale(2);
         stroke-linecap: round;
     }
     .assoc-line-hitbox {
-        stroke-width: 24;
+        stroke-width: unscale(28);
         stroke-opacity: 0;
+    }
+    .assoc-line:hover {
+        .assoc-line-outer {
+            stroke-width: unscale(12);
+        }
+        .assoc-line-inner {
+            stroke-width: unscale(3);
+        }
     }
 
     .close-btn {
+        @include transform-unscale;
         cursor: pointer;
     }
     .close-btn-path {
         fill: $colorLight;
-        stroke: none;
+        stroke: $colorLight;
+        stroke-width: 0;
     }
     .close-btn-bg {
         fill: $colorBrand;
-        stroke: none;
+        stroke: $colorLight;
+        stroke-width: 2;
     }
     .close-btn-hitbox {
         fill: $colorBrand;
@@ -41,13 +50,17 @@ $colorLight: #ffffff;
     }
 
     svg.line-selected {
-        image {
-            filter: brightness(50%);
+        image,
+        .hotspot:not([data-for-selected-line='true']),
+        .assoc-line:not(.selected) {
+            filter: brightness(65%);
+        }
+        .hotspot,
+        .assoc-line:not(.selected) {
+            pointer-events: none;
         }
     }
-    svg:not(.line-selected) {
-        .close-btn {
-            display: none;
-        }
+    .assoc-line:not(.selected) + .close-btn {
+        visibility: hidden;
     }
 }

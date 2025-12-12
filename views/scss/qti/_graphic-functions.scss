@@ -1,0 +1,13 @@
+$colorBrand: #266d9c;
+$colorDark: #222222;
+$colorLight: #ffffff;
+
+@function unscale($val) {
+    @return calc($val / var(--paper-scale, 1));
+}
+
+@mixin transform-unscale {
+    transform-box: fill-box;
+    transform-origin: center center;
+    transform: scale(calc(1 / var(--paper-scale, 1)));
+}
