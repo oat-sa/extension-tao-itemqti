@@ -28,6 +28,8 @@ use oat\taoQtiItem\model\import\TemplateInterface;
 
 class CsvTemplateSampleLineFactoryTest extends TestCase
 {
+    private CsvTemplateSampleLineFactory $subject;
+
     public function setUp(): void
     {
         $this->subject = new CsvTemplateSampleLineFactory();

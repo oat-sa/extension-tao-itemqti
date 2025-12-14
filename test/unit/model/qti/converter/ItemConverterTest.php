@@ -25,10 +25,15 @@ namespace oat\taoQtiItem\test\unit\model\qti\converter;
 use oat\taoQtiItem\model\qti\converter\CaseConversionService;
 use oat\taoQtiItem\model\qti\converter\ItemConverter;
 use oat\taoQtiItem\model\ValidationService;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ItemConverterTest extends TestCase
 {
+    private CaseConversionService|MockObject $caseConversionMock;
+    private ValidationService|MockObject $validationMock;
+    private ItemConverter $subject;
+
     public function setUp(): void
     {
         $this->caseConversionMock = $this->createMock(CaseConversionService::class);

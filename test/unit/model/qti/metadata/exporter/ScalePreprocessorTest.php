@@ -33,6 +33,7 @@ use oat\oatbox\log\LoggerService;
 use oat\tao\model\Lists\Business\Service\RemoteSource;
 use oat\taoQtiItem\model\qti\metadata\exporter\CustomPropertiesManifestScanner;
 use oat\taoQtiItem\model\qti\metadata\exporter\scale\ScalePreprocessor;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ScalePreprocessorTest extends TestCase
@@ -57,6 +58,13 @@ class ScalePreprocessorTest extends TestCase
             ]
         ]
     ];
+
+    private DOMDocument $manifest;
+    private DOMDocument $testDoc;
+    private RemoteSource|MockObject $remoteSource;
+    private CustomPropertiesManifestScanner|MockObject $manifestScanner;
+    private LoggerService|MockObject $loggerMock;
+    private ScalePreprocessor $subject;
 
     public function setUp(): void
     {
