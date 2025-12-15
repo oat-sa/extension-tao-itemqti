@@ -42,6 +42,7 @@ class ScaleHandler
      * @var array<string, array>
      */
     private array $scaleIndex = [];
+    private bool $scaleIndexInitialized = false;
 
     public function __construct(
         ScaleStorageService $storageService,
@@ -51,6 +52,7 @@ class ScaleHandler
         $this->storageService = $storageService;
         $this->scalePreprocessor = $scalePreprocessor;
         $this->loggerService = $loggerService;
+        $this->scaleIndexInitialized = false;
     }
 
     /**
@@ -144,7 +146,7 @@ class ScaleHandler
 
     private function resolveScaleDefinition(string $scaleUri): array
     {
-        if (empty($this->scaleIndex)) {
+        if (!$this->scaleIndexInitialized) {
             $this->buildScaleIndex();
         }
 
@@ -161,6 +163,8 @@ class ScaleHandler
 
     private function buildScaleIndex(): void
     {
+        $this->scaleIndexInitialized = true;
+
         try {
             $remoteList = $this->scalePreprocessor->getScaleRemoteList();
             foreach ($remoteList as $scale) {
