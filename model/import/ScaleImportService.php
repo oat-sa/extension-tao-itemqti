@@ -35,6 +35,7 @@ class ScaleImportService
 {
     private const SCALES_DIRECTORY = 'scales';
     private const JSON_EXTENSION = 'json';
+    private const MAX_SCALE_FILE_SIZE = 1048576; // 1MB
     private taoItems_models_classes_ItemsService $itemsService;
 
     public function __construct(taoItems_models_classes_ItemsService $itemsService)
@@ -176,6 +177,23 @@ class ScaleImportService
         Directory $targetScalesDir,
         string $itemIdentifier
     ): void {
+        $fileSize = filesize($sourceFilePath);
+        if ($fileSize === false) {
+            throw new Exception('Could not determine file size');
+        }
+
+        if ($fileSize > self::MAX_SCALE_FILE_SIZE) {
+            common_Logger::w(
+                sprintf(
+                    'Scale file too large (%d bytes, max %d): %s',
+                    $fileSize,
+                    self::MAX_SCALE_FILE_SIZE,
+                    $fileName
+                )
+            );
+            return;
+        }
+
         // Read the scale file content
         $content = file_get_contents($sourceFilePath);
 

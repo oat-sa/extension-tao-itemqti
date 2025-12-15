@@ -241,6 +241,42 @@ class ScaleImportServiceTest extends TestCase
     }
 
     /**
+     * Test that files exceeding the maximum allowed size are skipped
+     */
+    public function testImportScaleFilesSkipsTooLargeFiles(): void
+    {
+        $packageScalesPath = $this->tempDir . '/package_scales';
+        mkdir($packageScalesPath);
+
+        // Create a JSON file slightly above 1MB
+        $tooLargeContent = str_repeat('a', 1024 * 1024 + 1);
+        file_put_contents(
+            $packageScalesPath . '/OUTCOME_1.json',
+            json_encode(['scale' => $tooLargeContent])
+        );
+
+        $rdfItem = $this->createMock(core_kernel_classes_Resource::class);
+        $itemDirectory = $this->createMock(Directory::class);
+        $scalesDir = $this->createMock(Directory::class);
+
+        $this->itemsService->expects($this->once())
+            ->method('getItemDirectory')
+            ->with($rdfItem)
+            ->willReturn($itemDirectory);
+
+        $itemDirectory->expects($this->once())
+            ->method('getDirectory')
+            ->with('scales')
+            ->willReturn($scalesDir);
+
+        // File should be skipped due to size, so no write should occur
+        $scalesDir->expects($this->never())
+            ->method('getFile');
+
+        $this->service->importScaleFiles($packageScalesPath, $rdfItem, 'test_item_1');
+    }
+
+    /**
      * Test hasScaleFiles returns true when JSON files exist
      */
     public function testHasScaleFilesReturnsTrueWhenJsonFilesExist(): void
