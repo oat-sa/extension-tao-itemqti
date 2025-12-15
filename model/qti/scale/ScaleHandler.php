@@ -29,6 +29,7 @@ use DOMXPath;
 use JsonException;
 use oat\oatbox\log\LoggerService;
 use oat\taoQtiItem\model\qti\metadata\exporter\scale\ScalePreprocessor;
+use RuntimeException;
 use Throwable;
 
 class ScaleHandler
@@ -56,6 +57,7 @@ class ScaleHandler
      * Persist scale metadata and adjust the QTI XML before saving the item.
      *
      * @throws JsonException
+     * @throws RuntimeException if XML serialization fails
      */
     public function process(string $xml, core_kernel_classes_Resource $item): string
     {
@@ -116,7 +118,17 @@ class ScaleHandler
 
         $this->storageService->cleanupScales($item, $usedPaths);
 
-        return $document->saveXML();
+        $result = $document->saveXML();
+        if ($result === false) {
+            throw new RuntimeException(
+                sprintf(
+                    'Failed to serialize XML document for item %s: DOMDocument::saveXML() returned false',
+                    $item->getUri()
+                )
+            );
+        }
+
+        return $result;
     }
 
     private function removeAuthoringAttributes(DOMElement $outcome): void
