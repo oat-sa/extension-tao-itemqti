@@ -71,9 +71,6 @@
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
         "oat-sa/tao-core": ">=54.49.1"
     },
-    "require-dev": {
-        "phpspec/prophecy-phpunit": "^2.4.0"
-    },
     "autoload": {
         "psr-4": {
             "oat\\taoQtiItem\\": ""
