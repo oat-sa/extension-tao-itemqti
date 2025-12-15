@@ -166,6 +166,49 @@ class ScaleImportServiceTest extends TestCase
     }
 
     /**
+     * Test that files with invalid names are skipped
+     */
+    public function testImportScaleFilesSkipsInvalidFileNames(): void
+    {
+        $packageScalesPath = $this->tempDir . '/package_scales';
+        mkdir($packageScalesPath);
+
+        file_put_contents(
+            $packageScalesPath . '/OUTCOME_1.json',
+            json_encode(['scale' => ['uri' => 'test_scale_1']])
+        );
+        // Invalid names should be ignored
+        file_put_contents($packageScalesPath . '/OUTCOME_2!.json', '{"scale":{"uri":"bad_char"}}');
+
+        $rdfItem = $this->createMock(core_kernel_classes_Resource::class);
+        $itemDirectory = $this->createMock(Directory::class);
+        $scalesDir = $this->createMock(Directory::class);
+        $jsonFile = $this->createMock(File::class);
+
+        $this->itemsService->expects($this->once())
+            ->method('getItemDirectory')
+            ->with($rdfItem)
+            ->willReturn($itemDirectory);
+
+        $itemDirectory->expects($this->once())
+            ->method('getDirectory')
+            ->with('scales')
+            ->willReturn($scalesDir);
+
+        // Only the valid file should be written
+        $scalesDir->expects($this->once())
+            ->method('getFile')
+            ->with('OUTCOME_1.json')
+            ->willReturn($jsonFile);
+
+        $jsonFile->expects($this->once())
+            ->method('put')
+            ->with($this->stringContains('test_scale_1'));
+
+        $this->service->importScaleFiles($packageScalesPath, $rdfItem, 'test_item_1');
+    }
+
+    /**
      * Test that invalid JSON files are skipped
      */
     public function testImportScaleFilesSkipsInvalidJsonFiles(): void

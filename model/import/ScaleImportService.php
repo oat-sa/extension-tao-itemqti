@@ -147,6 +147,12 @@ class ScaleImportService
             return false;
         }
 
+        // Reject file names with unexpected characters to avoid traversal or hidden files
+        if (!preg_match('/^[a-zA-Z0-9_.-]+$/', $fileName)) {
+            common_Logger::w('Skipping scale file with invalid name: ' . $fileName);
+            return false;
+        }
+
         if (!is_file($filePath)) {
             return false;
         }
