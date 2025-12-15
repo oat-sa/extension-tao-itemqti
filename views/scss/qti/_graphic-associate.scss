@@ -1,0 +1,66 @@
+@import 'inc/bootstrap';
+@import 'graphic-functions';
+
+.qti-graphicAssociateInteraction {
+    .assoc-line {
+        cursor: pointer;
+    }
+    .assoc-line-outer {
+        stroke: $colorLight;
+        stroke-width: unscale(8);
+        stroke-linecap: round;
+        transition: stroke-width 200ms;
+    }
+    .assoc-line-inner {
+        stroke: $colorBrand;
+        stroke-width: unscale(2);
+        stroke-linecap: round;
+    }
+    .assoc-line-hitbox {
+        stroke-width: unscale(28);
+        stroke-opacity: 0;
+    }
+    .assoc-line:hover {
+        .assoc-line-outer {
+            stroke-width: unscale(12);
+        }
+        .assoc-line-inner {
+            stroke-width: unscale(3);
+        }
+    }
+
+    .close-btn {
+        @include transform-unscale;
+        cursor: pointer;
+    }
+    .close-btn-path {
+        fill: $colorLight;
+        stroke: $colorLight;
+        stroke-width: 0;
+    }
+    .close-btn-bg {
+        fill: $colorBrand;
+        stroke: $colorLight;
+        stroke-width: 2;
+    }
+    .close-btn-hitbox {
+        fill: $colorBrand;
+        opacity: 0;
+        stroke-width: 0;
+    }
+
+    svg.line-selected {
+        image,
+        .hotspot:not([data-for-selected-line='true']),
+        .assoc-line:not(.selected) {
+            filter: brightness(65%);
+        }
+        .hotspot,
+        .assoc-line:not(.selected) {
+            pointer-events: none;
+        }
+    }
+    .assoc-line:not(.selected) + .close-btn {
+        visibility: hidden;
+    }
+}
