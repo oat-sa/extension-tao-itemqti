@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
- * Copyright (c) 2013-2025 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2025 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -195,9 +195,21 @@ class QtiCreator extends tao_actions_CommonModule
         $this->returnJson($returnValue);
     }
 
+    /**
+     * Save item data and return JSON response.
+     *
+     * Response keys:
+     * - success (bool): save status
+     * - scalePersisted (bool): whether scale data was persisted
+     * - warnings (array<string>): non-blocking issues (e.g., scale persistence skipped)
+     */
     public function saveItem()
     {
-        $returnValue = ['success' => false];
+        $returnValue = [
+            'success' => false,
+            'scalePersisted' => true,
+            'warnings' => []
+        ];
         $request = $this->getPsrRequest();
         $queryParams = $request->getQueryParams();
         if (isset($queryParams['uri'])) {
@@ -206,7 +218,14 @@ class QtiCreator extends tao_actions_CommonModule
             try {
                 $xml = $this->getScaleHandler()->process($xml, $rdfItem);
             } catch (Throwable $exception) {
-                $this->logWarning(sprintf('Item scale persistence skipped: %s', $exception->getMessage()));
+                $message = sprintf(
+                    'Item scale persistence skipped for item %s: %s',
+                    $rdfItem->getUri(),
+                    $exception->getMessage()
+                );
+                $this->logError($message);
+                $returnValue['scalePersisted'] = false;
+                $returnValue['warnings'][] = $message;
             }
             /** @var Service $itemService */
             $itemService = $this->getServiceLocator()->get(Service::class);
@@ -336,21 +355,17 @@ class QtiCreator extends tao_actions_CommonModule
 
         $config->setProperty('mediaSourcesUrl', $mediaSourcesUrl);
 
-        $config->setProperty('scalesPresets', json_encode([]));
-        $config->setProperty('itemScales', json_encode([]));
+        $scalesPresetsValue = json_encode([]);
+        $itemScalesValue = json_encode([]);
 
         // Add scale data if scale feature is enabled
         if ($this->isScaleEnabled()) {
-            $config->setProperty(
-                'scalesPresets',
-                json_encode($this->getScaleProcessor()->getScaleRemoteList())
-            );
-
-            $config->setProperty(
-                'itemScales',
-                json_encode($this->getScaleStorageService()->getItemScales($item))
-            );
+            $scalesPresetsValue = json_encode($this->getScaleProcessor()->getScaleRemoteList());
+            $itemScalesValue = json_encode($this->getScaleStorageService()->getItemScales($item));
         }
+
+        $config->setProperty('scalesPresets', $scalesPresetsValue);
+        $config->setProperty('itemScales', $itemScalesValue);
 
         //initialize all registered hooks:
         $hookClasses = HookRegistry::getRegistry()->getMap();

@@ -12,8 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
+ * along with this program; if not, write to the Free Software Foundation, Inc.,
+ * 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2025 (original work) Open Assessment Technologies SA;
  */
@@ -29,6 +29,7 @@ use DOMXPath;
 use JsonException;
 use oat\oatbox\log\LoggerService;
 use oat\taoQtiItem\model\qti\metadata\exporter\scale\ScalePreprocessor;
+use RuntimeException;
 use Throwable;
 
 /**
@@ -85,6 +86,7 @@ class ScaleHandler
      * @var array<string, array>
      */
     private array $scaleIndex = [];
+    private bool $scaleIndexInitialized = false;
 
     public function __construct(
         ScaleStorageService $storageService,
@@ -94,6 +96,7 @@ class ScaleHandler
         $this->storageService = $storageService;
         $this->scalePreprocessor = $scalePreprocessor;
         $this->loggerService = $loggerService;
+        $this->scaleIndexInitialized = false;
     }
 
     /**
@@ -147,6 +150,7 @@ class ScaleHandler
      * @param core_kernel_classes_Resource $item The item resource being processed
      * @return string Modified QTI XML with scale references updated and authoring attributes removed
      * @throws JsonException If scale metadata JSON encoding fails
+     * @throws RuntimeException if XML serialization fails
      */
     public function process(string $xml, core_kernel_classes_Resource $item): string
     {
@@ -173,7 +177,11 @@ class ScaleHandler
         /** @var DOMElement $outcome */
         foreach ($nodes as $outcome) {
             $scaleUri = trim((string)$outcome->getAttribute('scale'));
-            $rubric = trim((string)$outcome->getAttribute('rubric'));
+            $rubric = htmlspecialchars(
+                trim((string)$outcome->getAttribute('rubric')),
+                ENT_XML1 | ENT_QUOTES,
+                'UTF-8'
+            );
             $longInterpretation = (string)$outcome->getAttribute('longInterpretation');
             $identifier = (string)$outcome->getAttribute('identifier');
 
@@ -208,7 +216,17 @@ class ScaleHandler
 
         $this->storageService->cleanupScales($item, $usedPaths);
 
-        return $document->saveXML();
+        $result = $document->saveXML();
+        if ($result === false) {
+            throw new RuntimeException(
+                sprintf(
+                    'Failed to serialize XML document for item %s: DOMDocument::saveXML() returned false',
+                    $item->getUri()
+                )
+            );
+        }
+
+        return $result;
     }
 
     /**
@@ -248,7 +266,7 @@ class ScaleHandler
      */
     private function resolveScaleDefinition(string $scaleUri): array
     {
-        if (empty($this->scaleIndex)) {
+        if (!$this->scaleIndexInitialized) {
             $this->buildScaleIndex();
         }
 
@@ -284,6 +302,8 @@ class ScaleHandler
      */
     private function buildScaleIndex(): void
     {
+        $this->scaleIndexInitialized = true;
+
         try {
             $remoteList = $this->scalePreprocessor->getScaleRemoteList();
             foreach ($remoteList as $scale) {

@@ -12,8 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
+ * along with this program; if not, write to the Free Software Foundation, Inc.,
+ * 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2025 (original work) Open Assessment Technologies SA;
  */
@@ -165,11 +165,13 @@ class ScaleStorageService extends ConfigurableService
             $baseName = 'scale';
         }
 
+        $randomHex = bin2hex(random_bytes(12));
+
         return sprintf(
             '%s/%s_%s.json',
             self::SCALES_DIRECTORY,
             strtolower($baseName),
-            substr(sha1(uniqid((string)mt_rand(), true)), 0, 8)
+            $randomHex
         );
     }
 
