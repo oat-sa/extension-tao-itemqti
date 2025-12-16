@@ -80,6 +80,14 @@ class ScaleStorageService extends ConfigurableService
         }
     }
 
+    /**
+     * Remove stored scales that are not part of the provided keep list for the given item.
+     *
+     * @param core_kernel_classes_Resource $item Item whose scales are being inspected.
+     * @param string[] $keepRelativePaths Relative scale paths that must remain on disk.
+     *
+     * @return void
+     */
     public function cleanupScales(core_kernel_classes_Resource $item, array $keepRelativePaths): void
     {
         $keep = array_filter(array_map([$this, 'sanitizeRelativePath'], array_filter($keepRelativePaths)));
@@ -141,6 +149,13 @@ class ScaleStorageService extends ConfigurableService
         return $scales;
     }
 
+    /**
+     * Generate a relative path for a scale JSON file from a given identifier or path seed.
+     * The result is placed under the "scales" directory and suffixed with a short hash for uniqueness.
+     *
+     * @param string $identifierOrPath The scale identifier or seed string used to build the file name.
+     * @return string The generated relative path to the scale file (e.g., "scales/foo_abcdef12.json").
+     */
     public function generateRelativePath(string $identifierOrPath): string
     {
         $baseName = preg_replace('/[^a-zA-Z0-9_-]+/', '_', $identifierOrPath);
@@ -160,6 +175,13 @@ class ScaleStorageService extends ConfigurableService
         );
     }
 
+    /**
+     * Check whether the provided value denotes a valid scale JSON relative path.
+     * A valid path starts with "scales/" and has a ".json" extension.
+     *
+     * @param string|null $value The relative path to validate; null values are considered invalid.
+     * @return bool True if the path matches the expected "scales/*.json" pattern, false otherwise.
+     */
     public function isScalePath(?string $value): bool
     {
         if ($value === null) {
@@ -209,10 +231,25 @@ class ScaleStorageService extends ConfigurableService
 
     private function sanitizeRelativePath(string $path): string
     {
-        $trimmed = trim($path);
-        $trimmed = str_replace('\\', '/', $trimmed);
-        $trimmed = preg_replace('#(\.\./|\.\\\)#', '', $trimmed);
+        $normalized = trim($path);
+        $normalized = str_replace('\\', '/', $normalized);
 
-        return ltrim($trimmed, '/');
+        $segments = explode('/', $normalized);
+        $sanitized = [];
+
+        foreach ($segments as $segment) {
+            if ($segment === '' || $segment === '.') {
+                continue;
+            }
+
+            if ($segment === '..') {
+                array_pop($sanitized);
+                continue;
+            }
+
+            $sanitized[] = $segment;
+        }
+
+        return implode('/', $sanitized);
     }
 }
