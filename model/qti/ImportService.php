@@ -13,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2016-2024 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
@@ -36,6 +36,7 @@ use oat\oatbox\mutex\LockTrait;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoItems\model\media\LocalItemSource;
 use oat\taoQtiItem\helpers\Authoring;
+use oat\taoQtiItem\model\import\ScaleImportService;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidModelException;
@@ -642,6 +643,9 @@ class ImportService extends ConfigurableService
                     $sharedFiles = $sharedStimulusHandler->getSharedFiles();
                 }
 
+                // Import scale files from the package to the item directory
+                $this->importScaleFilesFromPackage($tmpFolder, $qtiItemResource, $rdfItem);
+
                 $qtiModel = $this->createQtiItemModel($itemAssetManager->getItemContent(), false);
                 $qtiService->saveDataItemToRdfItem($qtiModel, $rdfItem);
 
@@ -988,5 +992,38 @@ class ImportService extends ConfigurableService
             $metadataValueUris,
             array_keys($itemProperties)
         );
+    }
+
+    /**
+     * Import scale files from the extracted package to the item directory
+     *
+     * @param string $tmpFolder The temporary folder where the package was extracted
+     * @param Resource $qtiItemResource The QTI resource from the manifest
+     * @param core_kernel_classes_Resource $rdfItem The item resource in the ontology
+     * @return void
+     */
+    private function importScaleFilesFromPackage(
+        string $tmpFolder,
+        Resource $qtiItemResource,
+        core_kernel_classes_Resource $rdfItem
+    ): void {
+        // Get the base path for this item in the package
+        $itemFile = $qtiItemResource->getFile();
+        $itemBasePath = dirname($itemFile);
+
+        // Construct the path to the scales directory in the extracted package
+        $packageScalesPath = $tmpFolder . $itemBasePath . '/scales';
+
+        // Delegate to ScaleImportService
+        $this->getScaleImportService()->importScaleFiles(
+            $packageScalesPath,
+            $rdfItem,
+            $qtiItemResource->getIdentifier()
+        );
+    }
+
+    private function getScaleImportService(): ScaleImportService
+    {
+        return $this->getServiceManager()->getContainer()->get(ScaleImportService::class);
     }
 }

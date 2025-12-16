@@ -13,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
  *                         (under the project TAO-TRANSFER);
@@ -231,6 +231,13 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
         // add xml file
         $this->getZip()->addFromString($basePath . '/' . $dataFile, $content);
+        $itemService = \taoItems_models_classes_ItemsService::singleton();
+        // Export scale files from item's scales directory
+        $this->getScaleExportService()->exportScaleFiles(
+            $itemService->getItemDirectory($this->getItem(), $lang),
+            $basePath,
+            $this->getZip()
+        );
 
         if (!$report->getMessage()) {
             $report->setMessage(__('Item "%s" is ready to be exported', $this->getItem()->getLabel()));
@@ -406,5 +413,10 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
     private function getAssetStylesheetLoader(): AssetStylesheetLoader
     {
         return $this->getServiceManager()->get(AssetStylesheetLoader::class);
+    }
+
+    protected function getScaleExportService(): ScaleExportService
+    {
+        return $this->getServiceManager()->getContainer()->get(ScaleExportService::class);
     }
 }
