@@ -425,6 +425,12 @@ msgstr "有効な回答を得るために受験者に対して選択肢の解答
 msgid "Define correct response"
 msgstr "正解を設定"
 
+msgid "Define correct response (for post-processing)"
+msgstr ""
+
+msgid "It is intended only for post-processing and will not influence the actual score computation."
+msgstr ""
+
 msgid "Define item language."
 msgstr "アイテム言語を定義します"
 

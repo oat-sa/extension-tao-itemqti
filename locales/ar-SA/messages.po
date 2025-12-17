@@ -425,6 +425,12 @@ msgstr "حدد القيود المفروضة على عدد الخيارات ال
 msgid "Define correct response"
 msgstr "حدد الجواب الصحيح"
 
+msgid "Define correct response (for post-processing)"
+msgstr ""
+
+msgid "It is intended only for post-processing and will not influence the actual score computation."
+msgstr ""
+
 msgid "Define item language."
 msgstr "حدد لغة البند"
 
