@@ -50,16 +50,10 @@
         stroke-width: 0;
     }
 
-    svg.line-selected {
-        image,
-        .hotspot:not([data-for-selected-line='true']),
-        .assoc-line:not(.selected) {
-            filter: brightness(65%);
-        }
-        .hotspot,
-        .assoc-line:not(.selected) {
-            pointer-events: none;
-        }
+    .glass-layer {
+        fill: $colorDark;
+        opacity: 0.4;
+        stroke-width: 0;
     }
     .assoc-line:not(.selected):not(:hover) + .close-btn:not(:hover) {
         opacity: 0;
