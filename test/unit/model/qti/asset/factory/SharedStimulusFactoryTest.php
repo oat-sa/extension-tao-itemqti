@@ -243,3 +243,26 @@ class SharedStimulusFactoryTest extends TestCase
         $this->assertEquals('id', $result);
     }
 }
+
+namespace oat\taoMediaManager\model;
+
+interface MediaService
+{
+    public function createSharedStimulusInstance(
+        string $link,
+        string $classUri,
+        string $language,
+        string $userId = null
+    ): string;
+}
+
+namespace oat\taoMediaManager\model\sharedStimulus\service;
+
+interface StoreService
+{
+    public function store(
+        $stimulusXmlSourceFile,
+        string $stimulusFilename,
+        array $cssFiles = []
+    ): string;
+}

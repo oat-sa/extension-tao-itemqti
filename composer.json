@@ -66,10 +66,10 @@
         "oat-sa/extension-tao-backoffice": ">=7.1.0",
         "oat-sa/extension-tao-item": ">=12.4.0",
         "oat-sa/extension-tao-test": ">=16.3.0",
-        "oat-sa/generis": "dev-goal/remove-prophesize as 99.99",
+        "oat-sa/generis": ">=16.2.2",
         "oat-sa/lib-tao-qti": "^7.8.1",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
-        "oat-sa/tao-core": ">=54.49.1"
+        "oat-sa/tao-core": ">=54.49.5"
     },
     "autoload": {
         "psr-4": {
