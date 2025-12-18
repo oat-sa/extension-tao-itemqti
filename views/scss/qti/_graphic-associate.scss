@@ -32,6 +32,7 @@
     .close-btn {
         @include transform-unscale;
         cursor: pointer;
+        transition: opacity 200ms;
     }
     .close-btn-path {
         fill: $colorLight;
@@ -60,7 +61,8 @@
             pointer-events: none;
         }
     }
-    .assoc-line:not(.selected) + .close-btn {
+    .assoc-line:not(.selected):not(:hover) + .close-btn:not(:hover) {
+        opacity: 0;
         visibility: hidden;
     }
 }
