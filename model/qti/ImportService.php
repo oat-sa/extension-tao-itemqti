@@ -853,15 +853,15 @@ class ImportService extends ConfigurableService
         // Filter metadata values for this given item.
         $identifier = $qtiResource->getIdentifier();
         if (isset($metadataValues[$identifier]) === true) {
-            \common_Logger::i("Preparing Metadata Values for resource '${identifier}'...");
+            \common_Logger::i("Preparing Metadata Values for resource '{$identifier}'...");
             $values = $metadataValues[$identifier];
 
             foreach ($ontologyInjectors as $injector) {
                 $valuesCount = count($values);
                 $injectorClass = get_class($injector);
                 \common_Logger::i(
-                    "Attempting to inject ${valuesCount} Metadata Values in database for resource "
-                        . "'${identifier}' with Metadata Injector '${injectorClass}'."
+                    "Attempting to inject {$valuesCount} Metadata Values in database for resource "
+                        . "'{$identifier}' with Metadata Injector '{$injectorClass}'."
                 );
                 $injector->inject($resource, [$identifier => $values]);
             }
@@ -886,7 +886,7 @@ class ImportService extends ConfigurableService
         // 1. Simply delete items that were not involved in overwriting.
         foreach ($items as $id => $item) {
             if (!$item instanceof MetadataGuardianResource && !in_array($item->getUri(), $overwrittenItemsIds)) {
-                \common_Logger::d("Deleting item '${id}'...");
+                \common_Logger::d("Deleting item '{$id}'...");
                 @taoItems_models_classes_ItemsService::singleton()->deleteResource($item);
 
                 $report->add(
@@ -900,7 +900,7 @@ class ImportService extends ConfigurableService
 
         // 2. Restore overwritten item contents.
         foreach ($overwrittenItems as $overwrittenItemId => $backupName) {
-            common_Logger::d("Restoring content for item '${overwrittenItemId}'...");
+            common_Logger::d("Restoring content for item '{$overwrittenItemId}'...");
             @$qtiService->restoreContentByRdfItem(new core_kernel_classes_Resource($overwrittenItemId), $backupName);
         }
 

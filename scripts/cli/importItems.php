@@ -196,7 +196,7 @@ class importItems implements Action, ServiceLocatorAwareInterface
         if ($params) {
             $message .= "\n";
             foreach ($params as $key => $value) {
-                $message .= "\t${key}: ${value}\n";
+                $message .= "\t{$key}: {$value}\n";
             }
         }
 

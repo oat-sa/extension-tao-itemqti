@@ -30,11 +30,13 @@ use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\Classif
 use oat\taoQtiItem\model\qti\metadata\imsManifest\classificationMetadata\ClassificationMetadataValue;
 use oat\taoQtiItem\model\qti\metadata\MetadataExtractionException;
 use oat\taoQtiItem\model\qti\metadata\ontology\LabelBasedLomOntologyClassificationExtractor;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class LabelBasedLomOntologyClassificationExtractorTest extends TestCase
 {
     private LabelBasedLomOntologyClassificationExtractor $subject;
+    private Ontology|MockObject $ontologyMock;
 
     public function setUp(): void
     {

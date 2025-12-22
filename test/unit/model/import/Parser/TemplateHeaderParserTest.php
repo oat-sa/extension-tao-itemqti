@@ -33,8 +33,7 @@ class TemplateHeaderParserTest extends TestCase
 {
     private const CLASS_URI = 'uri';
 
-    /** @var TemplateHeaderParser */
-    private $subject;
+    private TemplateHeaderParser $subject;
 
     public function setUp(): void
     {
@@ -45,10 +44,9 @@ class TemplateHeaderParserTest extends TestCase
     {
         $classUri = self::CLASS_URI;
 
-        $this->metadataRepositoryObject = $this->createMock(MetadataRepository::class);
-        $metaDataArray = $this->metadataRepositoryObject->findMetadataByClassUri($classUri);
+        $metadataRepositoryObject = $this->createMock(MetadataRepository::class);
+        $metaDataArray = $metadataRepositoryObject->findMetadataByClassUri($classUri);
 
-        $this->template = $this->createMock(TemplateInterface::class);
         $items = $this->subject->parse($this->getDefaultTemplate(), $metaDataArray);
         $this->assertGreaterThan(1, count($items));
     }

@@ -32,7 +32,7 @@ class taoQtiItem_install_checks_Mathjax extends common_configuration_Component
         $report = null;
 
         $dp = DIRECTORY_SEPARATOR;
-        $mathJaxFile = dirname(__FILE__) . "${dp}..${dp}..${dp}views${dp}js${dp}mathjax${dp}MathJax.js";
+        $mathJaxFile = dirname(__FILE__) . "{$dp}..{$dp}..{$dp}views{$dp}js{$dp}mathjax{$dp}MathJax.js";
 
         if (@is_file($mathJaxFile)) {
             $report = new common_configuration_Report(
