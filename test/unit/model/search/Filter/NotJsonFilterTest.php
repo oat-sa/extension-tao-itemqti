@@ -26,9 +26,9 @@ namespace oat\taoQtiItem\test\unit\model;
 use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\search\Tokenizer\Filter\NotJsonFilter;
 
-class NotJsonFilterTests extends TestCase
+class NotJsonFilterTest extends TestCase
 {
-    public function testFilter()
+    public function testFilter(): void
     {
         $sample1 = ['a' => 'b'];
         $sample2 = new \stdClass();

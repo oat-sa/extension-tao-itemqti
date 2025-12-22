@@ -149,10 +149,10 @@ class QtiItemRunner extends AbstractQtiItemRunner
                 // Developer's note: QTI Pairs with a single identifier (missing second identifier of the pair)
                 // are transmitted as an array of length 1, this might cause problem. Such "broken" pairs are simply
                 // ignored.
-                common_Logger::d("Client-side value for variable '${identifier}' is ignored due to data malformation.");
+                common_Logger::d("Client-side value for variable '{$identifier}' is ignored due to data malformation.");
             } catch (\OutOfBoundsException $e) {
                 // The response identifier does not match any response declaration.
-                common_Logger::d("Uknown item variable declaration '${identifier}.");
+                common_Logger::d("Uknown item variable declaration '{$identifier}.");
             }
         }
 
@@ -174,7 +174,7 @@ class QtiItemRunner extends AbstractQtiItemRunner
             $msg = "An error occured while processing the responses.";
             throw new \RuntimeException($msg, 0, $e);
         } catch (taoQtiCommon_helpers_ResultTransmissionException $e) {
-            $msg = "An error occured while transmitting variable '${identifier}' to the target Result Server.";
+            $msg = "An error occured while transmitting variable '{$identifier}' to the target Result Server.";
             throw new \RuntimeException($msg, 0, $e);
         }
     }

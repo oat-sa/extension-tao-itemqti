@@ -57,7 +57,7 @@ class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
     public function testInjection($inputFile, array $values, array $mappings)
     {
         $imsManifest = new DOMDocument('1.0', 'UTF-8');
-        $imsManifest->load(dirname(__FILE__) . "/../samples/metadata/imsManifestInjection/${inputFile}");
+        $imsManifest->load(dirname(__FILE__) . "/../samples/metadata/imsManifestInjection/{$inputFile}");
 
 
         // Register mappings...
@@ -84,26 +84,26 @@ class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
             $this->assertEquals(
                 'manifest',
                 $manifestElt->tagName,
-                "No <manifest> element found as the root XML element for file '${inputFile}'."
+                "No <manifest> element found as the root XML element for file '{$inputFile}'."
             );
 
             // Check that the namespace is correctly declared in <manifest> element.
             $this->assertTrue(
-                $manifestElt->hasAttributeNS('http://www.w3.org/2000/xmlns/', "${prefix}"),
-                "No namespace with prefix '${prefix}' declared in <manifest> element for file '${inputFile}'."
+                $manifestElt->hasAttributeNS('http://www.w3.org/2000/xmlns/', "{$prefix}"),
+                "No namespace with prefix '{$prefix}' declared in <manifest> element for file '{$inputFile}'."
             );
-            $nsDeclaration = $manifestElt->getAttribute("xmlns:${prefix}");
+            $nsDeclaration = $manifestElt->getAttribute("xmlns:{$prefix}");
             $this->assertEquals(
                 $ns,
                 $nsDeclaration,
-                "Namespace declaration for namespace '${ns}' with prefix '${prefix}' in <manifest> element "
-                    . "does not match for file '${inputFile}'."
+                "Namespace declaration for namespace '{$ns}' with prefix '{$prefix}' in <manifest> element "
+                    . "does not match for file '{$inputFile}'."
             );
 
             // Check that we get the tuple in xsi:schemaLocation.
             $this->assertTrue(
                 $manifestElt->hasAttribute('xsi:schemaLocation'),
-                "No xsd:schemaLocation attribute found in <manifest> element for file '${inputFile}'."
+                "No xsd:schemaLocation attribute found in <manifest> element for file '{$inputFile}'."
             );
             $schemaLocations = $manifestElt->getAttribute('xsi:schemaLocation');
 
@@ -111,14 +111,14 @@ class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
             $this->assertEquals(
                 1,
                 preg_match($xsiPattern, $schemaLocations),
-                "No xsi:schemaLocation found for namespace '${ns}' in file '${inputFile}'."
+                "No xsi:schemaLocation found for namespace '{$ns}' in file '{$inputFile}'."
             );
         }
 
         foreach ($values as $resourceIdentifier => $metadataValues) {
             foreach ($metadataValues as $metadataValue) {
                 $path = $metadataValue->getPath();
-                $query = "//man:resource[@identifier='${resourceIdentifier}']/man:metadata";
+                $query = "//man:resource[@identifier='{$resourceIdentifier}']/man:metadata";
 
                 foreach ($path as $pathComponent) {
                     $parts = explode('#', $pathComponent);
@@ -136,7 +136,7 @@ class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
                     }
 
                     $prefix = $mapping->getPrefix();
-                    $query .= "/${prefix}:${tag}";
+                    $query .= "/{$prefix}:{$tag}";
                 }
 
                 // Do we have something at location?
@@ -144,7 +144,7 @@ class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
                 $this->assertGreaterThanOrEqual(
                     1,
                     $elts->length,
-                    "Nothing found in XML at path '" . implode(' -> ', $path) . "' in file '${inputFile}'."
+                    "Nothing found in XML at path '" . implode(' -> ', $path) . "' in file '{$inputFile}'."
                 );
                 $hasLang = $metadataValue->getLanguage() !== '';
 
@@ -168,7 +168,7 @@ class ImsManifestInjectionTest extends TaoPhpUnitTestRunner
                 $this->assertLessThan(
                     $elts->length,
                     $i,
-                    "No matching value found at path '" . implode(' -> ', $path) . "' in file '${inputFile}'."
+                    "No matching value found at path '" . implode(' -> ', $path) . "' in file '{$inputFile}'."
                 );
             }
         }

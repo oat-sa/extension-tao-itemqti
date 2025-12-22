@@ -27,11 +27,13 @@ use oat\generis\test\TestCase;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\validator\ItemIdentifierValidator;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ItemIdentifierValidatorTest extends TestCase
 {
-    /** @var Item $item */
-    private $item;
+    private Item $item;
+    private FeatureFlagChecker|MockObject $featureFlagChecker;
+    private ItemIdentifierValidator $subject;
 
     protected function setUp(): void
     {

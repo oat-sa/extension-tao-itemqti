@@ -27,6 +27,8 @@ use PHPUnit\Framework\TestCase;
 
 class CaseConversionServiceTest extends TestCase
 {
+    private CaseConversionService $subject;
+
     public static function kebabToCamelCaseProvider()
     {
         return [

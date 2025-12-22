@@ -85,22 +85,13 @@ class UpdatedItemEventDispatcherTest extends TestCase
             );
 
         $this->referencesExtractor
-            ->expects($this->at(0))
+            ->expects($this->exactly(3))
             ->method('extract')
-            ->with($item, XInclude::class, 'href')
-            ->willReturn($ids);
-
-        $this->referencesExtractor
-            ->expects($this->at(1))
-            ->method('extract')
-            ->with($item, QtiObject::class, 'data')
-            ->willReturn($ids);
-
-        $this->referencesExtractor
-            ->expects($this->at(2))
-            ->method('extract')
-            ->with($item, Img::class, 'src')
-            ->willReturn($ids);
+            ->willReturnMap([
+                [$item, XInclude::class, 'href', $ids],
+                [$item, QtiObject::class, 'data', $ids],
+                [$item, Img::class, 'src', $ids],
+            ]);
 
         $this->assertNull($this->subject->dispatch($item, $rdfItem));
     }
