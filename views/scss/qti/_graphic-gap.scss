@@ -1,63 +1,150 @@
 @import 'inc/bootstrap';
 
 .qti-graphicGapMatchInteraction {
+    @mixin gapimg-overlay {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+
+    @mixin gapimg-icon {
+        @include tao-icon-setup;
+        @include icon-result-ok;
+        color: $colorLight;
+        position: absolute;
+        font-size: 14px;
+        top: 3px;
+        right: 4px;
+        z-index: 1;
+    }
+
     ul.source {
         width: 100%;
         margin: 10px auto;
         padding: 3px !important;
         clear: both;
         min-height: 60px;
-        & > li {
-            @include dragdrop-noselect;
-            background: white();
-            border: solid 1px #ddd !important;
-            line-height: 60px;
-            min-height: 60px;
-            min-width: 60px;
-            text-align: center;
-            max-width: 100%;
-            @include font-size(20);
-            margin: 0 3px 3px 0 !important;
-            padding: 0;
-            cursor: pointer;
+    }
+
+    .placed-fillers {
+        pointer-events: none;
+        position: absolute;
+        top: 2px;
+        left: 2px;
+    }
+
+    .qti-gapImg {
+        @include dragdrop-noselect;
+        background: white();
+        border: solid 1px #ddd !important;
+        line-height: 60px;
+        min-height: 60px;
+        min-width: 60px;
+        text-align: center;
+        max-width: 100%;
+        @include font-size(20);
+        margin: 0 3px 3px 0 !important;
+        padding: 0;
+        cursor: pointer;
+        position: relative;
+
+        &.selectable:not(.active) {
             &:hover {
-                @extend %selectableHover;
-            }
-            &.active {
-                border: solid 1px $uiClickableHoverBg !important;
-                @include transition(background, 0.1s);
-                &:hover {
-                    background: white() !important;
-                    cursor: default !important;
+                &:after {
+                    @include gapimg-overlay;
+                    background: $colorBrandOpacity50;
+                    border: 3px solid $colorBrand;
                 }
-
-                &.selectable:hover {
-                    @extend %selectableHover;
-                    cursor: pointer !important;
-                }
-            }
-            &.dragged {
-                z-index: 10;
-            }
-
-            &.disabled {
-                border: none;
-                cursor: default !important;
-                color: #333 !important;
-                background-color: transparent !important;
-            }
-
-            img {
-                display: block;
             }
         }
+
+        &.active {
+            &:after {
+                @include gapimg-overlay;
+                border: 1px solid $colorBrand;
+                border-top-width: 20px;
+            }
+            &:before {
+                @include gapimg-icon;
+                @include icon-result-ok;
+            }
+
+            &:hover {
+                &:after {
+                    background: $colorBrandOpacity50;
+                }
+            }
+        }
+
+        &.dragged {
+            z-index: 10;
+        }
+
+        &.disabled {
+            cursor: not-allowed;
+            opacity: 1 !important;
+
+            &:after {
+                @include gapimg-overlay;
+                background: $colorLightBeigeOpacity50;
+                border: 1px solid $colorDark;
+            }
+        }
+
+        &.placed {
+            pointer-events: auto;
+            position: absolute;
+            box-shadow: 3px 3px 5px -2px #222;
+            min-height: 30px;
+            min-width: 30px;
+
+            &:hover {
+                border-color: $colorBrand;
+
+                &:after {
+                    @include gapimg-overlay;
+                    border-top: 20px solid $colorBrand;
+                    background: $colorBrandOpacity50;
+                }
+                &:before {
+                    @include gapimg-icon;
+                    @include icon-result-nok;
+                }
+            }
+        }
+
+        img {
+            display: block;
+        }
     }
-    .gap-filler {
-        display: block;
-        position: absolute;
-        z-index: 20000;
-    }
+
     .svggroup {
         @include dragdrop-noselect;
+    }
+
+    .hotspot {
+        &.basic {
+            stroke: $colorDark;
+            fill: $colorLightBeige;
+            stroke-width: unscale(3);
+        }
+        &.selectable {
+            cursor: pointer;
+            stroke: $colorBrand;
+            fill: $colorLightBeige;
+            stroke-width: unscale(3);
+            stroke-dasharray: unscale(5);
+        }
+        &.selectable:hover,
+        &.hover {
+            cursor: pointer;
+            stroke: $colorBrand;
+            fill: $colorLightBlue;
+            stroke-width: unscale(3);
+            stroke-dasharray: none;
+        }
     }
 }

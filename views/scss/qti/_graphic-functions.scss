@@ -1,7 +1,11 @@
 $colorBrand: #266d9c;
+$colorBrandOpacity50: #266d9c80;
 $colorDark: #222222;
 $colorLight: #ffffff;
 $colorError: #c74155;
+$colorLightBeige: #dddddd;
+$colorLightBeigeOpacity50: #dddddd80;
+$colorLightBlue: #e4ecef;
 
 @function unscale($val) {
     @return calc($val / var(--paper-scale, 1));
