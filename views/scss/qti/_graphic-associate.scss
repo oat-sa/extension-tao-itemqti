@@ -2,6 +2,99 @@
 @import 'graphic-functions';
 
 .qti-graphicAssociateInteraction {
+    .hotspot {
+        .hotspot-inner {
+            stroke-width: unscale(16);
+            fill: $colorBrand;
+            stroke-linejoin: round;
+            cursor: pointer;
+        }
+        .hotspot-outer {
+            stroke: $colorLight;
+            stroke-width: unscale(12);
+            stroke-linejoin: round;
+            fill: none;
+            cursor: pointer;
+        }
+
+        &.basic {
+            .hotspot-inner {
+                stroke: $colorDark;
+                fill-opacity: 0.2;
+            }
+        }
+        &.basic[data-matchable='true']:hover {
+            .hotspot-inner {
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
+
+        &.basic[data-associated='true'] {
+            .hotspot-inner {
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
+        &.basic[data-associated='true'][data-matchable='true']:hover {
+            .hotspot-inner {
+                stroke-width: unscale(20);
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
+
+        &.active {
+            .hotspot-inner {
+                stroke-width: unscale(20);
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
+        &.active:hover {
+            .hotspot-inner {
+                stroke-width: unscale(20);
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
+
+        &.selectable {
+            .hotspot-inner {
+                stroke: $colorDark;
+                fill-opacity: 0.2;
+            }
+        }
+        &.selectable:hover {
+            .hotspot-inner {
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
+
+        &.selectable[data-associated='true'] {
+            .hotspot-inner {
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
+        &.selectable[data-associated='true']:hover {
+            .hotspot-inner {
+                stroke-width: unscale(20);
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
+
+        &.error {
+            .hotspot-inner {
+                stroke: $colorError;
+                fill: $colorError;
+                fill-opacity: 0.5;
+            }
+        }
+    }
+
     .assoc-line {
         cursor: pointer;
     }
