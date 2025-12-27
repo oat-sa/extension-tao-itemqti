@@ -2,92 +2,92 @@
 @import 'graphic-functions';
 
 .qti-graphicAssociateInteraction {
-    .hotspot {
-        .hotspot-inner {
-            stroke-width: unscale(16);
+    .hotspot2 {
+        .hotspot2-inner {
+            stroke-width: unscale(12px);
             fill: $colorBrand;
             stroke-linejoin: round;
             cursor: pointer;
         }
-        .hotspot-outer {
+        .hotspot2-outer {
             stroke: $colorLight;
-            stroke-width: unscale(12);
+            stroke-width: unscale(8px);
             stroke-linejoin: round;
             fill: none;
             cursor: pointer;
         }
 
         &.basic {
-            .hotspot-inner {
+            .hotspot2-inner {
                 stroke: $colorDark;
                 fill-opacity: 0.2;
             }
         }
         &.basic[data-matchable='true']:hover {
-            .hotspot-inner {
+            .hotspot2-inner {
                 stroke: $colorBrand;
                 fill-opacity: 0.5;
             }
         }
 
         &.basic[data-associated='true'] {
-            .hotspot-inner {
+            .hotspot2-inner {
                 stroke: $colorBrand;
                 fill-opacity: 0.5;
             }
         }
         &.basic[data-associated='true'][data-matchable='true']:hover {
-            .hotspot-inner {
-                stroke-width: unscale(20);
+            .hotspot2-inner {
+                stroke-width: unscale(16px);
                 stroke: $colorBrand;
                 fill-opacity: 0.5;
             }
         }
 
         &.active {
-            .hotspot-inner {
-                stroke-width: unscale(20);
+            .hotspot2-inner {
+                stroke-width: unscale(16px);
                 stroke: $colorBrand;
                 fill-opacity: 0.5;
             }
         }
         &.active:hover {
-            .hotspot-inner {
-                stroke-width: unscale(20);
+            .hotspot2-inner {
+                stroke-width: unscale(16px);
                 stroke: $colorBrand;
                 fill-opacity: 0.5;
             }
         }
 
         &.selectable {
-            .hotspot-inner {
+            .hotspot2-inner {
                 stroke: $colorDark;
                 fill-opacity: 0.2;
             }
         }
         &.selectable:hover {
-            .hotspot-inner {
+            .hotspot2-inner {
                 stroke: $colorBrand;
                 fill-opacity: 0.5;
             }
         }
 
         &.selectable[data-associated='true'] {
-            .hotspot-inner {
+            .hotspot2-inner {
                 stroke: $colorBrand;
                 fill-opacity: 0.5;
             }
         }
         &.selectable[data-associated='true']:hover {
-            .hotspot-inner {
-                stroke-width: unscale(20);
+            .hotspot2-inner {
+                stroke-width: unscale(16px);
                 stroke: $colorBrand;
                 fill-opacity: 0.5;
             }
         }
 
         &.error {
-            .hotspot-inner {
+            .hotspot2-inner {
                 stroke: $colorError;
                 fill: $colorError;
                 fill-opacity: 0.5;
@@ -100,25 +100,25 @@
     }
     .assoc-line-outer {
         stroke: $colorLight;
-        stroke-width: unscale(8);
+        stroke-width: unscale(8px);
         stroke-linecap: round;
         transition: stroke-width 200ms;
     }
     .assoc-line-inner {
         stroke: $colorBrand;
-        stroke-width: unscale(2);
+        stroke-width: unscale(2px);
         stroke-linecap: round;
     }
     .assoc-line-hitbox {
-        stroke-width: unscale(28);
+        stroke-width: unscale(28px);
         stroke-opacity: 0;
     }
-    .assoc-line:hover {
+    .assoc-line:not(.selected):hover {
         .assoc-line-outer {
-            stroke-width: unscale(12);
+            stroke-width: unscale(12px);
         }
         .assoc-line-inner {
-            stroke-width: unscale(3);
+            stroke-width: unscale(3px);
         }
     }
 
@@ -142,14 +142,13 @@
         opacity: 0;
         stroke-width: 0;
     }
+    .assoc-line:not(.selected) + .close-btn {
+        visibility: hidden;
+    }
 
     .glass-layer {
         fill: $colorDark;
         opacity: 0.4;
         stroke-width: 0;
-    }
-    .assoc-line:not(.selected):not(:hover) + .close-btn:not(:hover) {
-        opacity: 0;
-        visibility: hidden;
     }
 }

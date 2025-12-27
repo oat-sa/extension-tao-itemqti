@@ -83,8 +83,8 @@
             z-index: 10;
         }
 
-        &.disabled {
-            cursor: not-allowed;
+        &.disabled.disabled {
+            cursor: not-allowed !important;
             opacity: 1 !important;
 
             &:after {
@@ -129,21 +129,21 @@
         &.basic {
             stroke: $colorDark;
             fill: $colorLightBeige;
-            stroke-width: unscale(3);
+            stroke-width: unscale(3px);
         }
         &.selectable {
             cursor: pointer;
             stroke: $colorBrand;
             fill: $colorLightBeige;
-            stroke-width: unscale(3);
-            stroke-dasharray: unscale(5);
+            stroke-width: unscale(3px);
+            stroke-dasharray: unscale(5px);
         }
         &.selectable:hover,
         &.hover {
             cursor: pointer;
             stroke: $colorBrand;
             fill: $colorLightBlue;
-            stroke-width: unscale(3);
+            stroke-width: unscale(3px);
             stroke-dasharray: none;
         }
     }
