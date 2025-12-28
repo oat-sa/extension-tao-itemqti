@@ -52,20 +52,30 @@
         position: relative;
 
         &.selectable:not(.active) {
+            &:after {
+                @include gapimg-overlay;
+                background: $colorBrandOpacity50;
+                border: 2px solid $colorBrand;
+                border-radius: 3px;
+                box-shadow: 0 0 0 1px $colorBrand;
+                transition: opacity 300ms;
+                opacity: 0;
+            }
             &:hover {
+                border-color: $colorBrand !important;
+
                 &:after {
-                    @include gapimg-overlay;
-                    background: $colorBrandOpacity50;
-                    border: 3px solid $colorBrand;
+                    opacity: 1;
                 }
             }
         }
 
         &.active {
+            border-color: $colorBrand !important;
+
             &:after {
                 @include gapimg-overlay;
-                border: 1px solid $colorBrand;
-                border-top-width: 20px;
+                border-top: 20px solid $colorBrand;
             }
             &:before {
                 @include gapimg-icon;
@@ -84,40 +94,51 @@
         }
 
         &.disabled.disabled {
-            cursor: not-allowed !important;
+            border-color: $colorDark !important;
+            cursor: default !important;
             opacity: 1 !important;
 
             &:after {
                 @include gapimg-overlay;
                 background: $colorLightBeigeOpacity50;
-                border: 1px solid $colorDark;
+                border-radius: 2px;
+                box-shadow: 0 0 0 1px $colorDark;
             }
         }
 
         &.placed {
+            border-color: $colorLight !important;
             pointer-events: auto;
             position: absolute;
-            box-shadow: 3px 3px 5px -2px #222;
+            box-shadow: 3px 3px 5px -2px $colorDark;
             min-height: 30px;
             min-width: 30px;
+            border-radius: 2px;
 
-            &:hover {
-                border-color: $colorBrand;
-
-                &:after {
-                    @include gapimg-overlay;
-                    border-top: 20px solid $colorBrand;
-                    background: $colorBrandOpacity50;
-                }
-                &:before {
-                    @include gapimg-icon;
-                    @include icon-result-nok;
-                }
+            &:after {
+                @include gapimg-overlay;
+                border: 1px solid $colorBrand;
+                border-top-width: 20px;
+                border-radius: 2px;
+                box-shadow: 0 0 0 1px $colorLight;
+                background: $colorBrandOpacity50;
+                transition: opacity 300ms;
+                opacity: 0;
             }
         }
 
         img {
             display: block;
+        }
+    }
+
+    .placed-fillers:not(.selectable) .qti-gapImg.placed:hover {
+        &:after {
+            opacity: 1;
+        }
+        &:before {
+            @include gapimg-icon;
+            @include icon-result-nok;
         }
     }
 
@@ -129,13 +150,13 @@
         &.basic {
             stroke: $colorDark;
             fill: $colorLightBeige;
-            stroke-width: unscale(3px);
+            stroke-width: unscale(4px);
         }
         &.selectable {
             cursor: pointer;
             stroke: $colorBrand;
             fill: $colorLightBeige;
-            stroke-width: unscale(3px);
+            stroke-width: unscale(4px);
             stroke-dasharray: unscale(5px);
         }
         &.selectable:hover,
@@ -143,7 +164,7 @@
             cursor: pointer;
             stroke: $colorBrand;
             fill: $colorLightBlue;
-            stroke-width: unscale(3px);
+            stroke-width: unscale(4px);
             stroke-dasharray: none;
         }
     }
