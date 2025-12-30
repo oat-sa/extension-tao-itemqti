@@ -6,17 +6,23 @@
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
         .hotspot2-inner {
-            stroke-width: unscale(12px);
+            stroke-width: unscale(14px);
             fill: $colorBrand;
             stroke-linejoin: round;
             cursor: pointer;
         }
         .hotspot2-outer {
             stroke: $colorLight;
-            stroke-width: unscale(8px);
+            stroke-width: unscale(10px);
             stroke-linejoin: round;
             fill: none;
             cursor: pointer;
+        }
+        .hotspot2-shadow {
+            filter: blur(unscale(1px));
+            fill: transparent;
+            stroke: rgba(0, 0, 0, 0.4);
+            stroke-width: unscale(2px);
         }
 
         &.basic {
@@ -40,7 +46,7 @@
         }
         &.basic[data-associated='true'][data-matchable='true']:hover {
             .hotspot2-inner {
-                stroke-width: unscale(16px);
+                stroke-width: unscale(18px);
                 stroke: $colorBrand;
                 fill-opacity: 0.5;
             }
@@ -48,14 +54,14 @@
 
         &.active {
             .hotspot2-inner {
-                stroke-width: unscale(16px);
+                stroke-width: unscale(18px);
                 stroke: $colorBrand;
                 fill-opacity: 0.5;
             }
         }
         &.active:hover {
             .hotspot2-inner {
-                stroke-width: unscale(16px);
+                stroke-width: unscale(18px);
                 stroke: $colorBrand;
                 fill-opacity: 0.5;
             }
@@ -82,7 +88,7 @@
         }
         &.selectable[data-associated='true']:hover {
             .hotspot2-inner {
-                stroke-width: unscale(16px);
+                stroke-width: unscale(18px);
                 stroke: $colorBrand;
                 fill-opacity: 0.5;
             }
@@ -102,8 +108,9 @@
     }
     .assoc-line-outer {
         stroke: $colorLight;
-        stroke-width: unscale(6px);
+        stroke-width: unscale(8px);
         stroke-linecap: round;
+        filter: drop-shadow(0px 0px unscale(1.5px) rgba(0, 0, 0, 0.7));
         transition: stroke-width 200ms;
     }
     .assoc-line-inner {
@@ -117,7 +124,7 @@
     }
     .assoc-line:not(.selected):hover {
         .assoc-line-outer {
-            stroke-width: unscale(10px);
+            stroke-width: unscale(11px);
         }
         .assoc-line-inner {
             stroke-width: unscale(3px);
