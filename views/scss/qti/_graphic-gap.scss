@@ -159,13 +159,22 @@
             stroke-width: unscale(4px);
             stroke-dasharray: unscale(5px);
         }
-        &.selectable:hover,
-        &.hover {
+        &.selectable:hover {
             cursor: pointer;
             stroke: $colorBrand;
             fill: $colorLightBlue;
             stroke-width: unscale(4px);
             stroke-dasharray: none;
+        }
+    }
+}
+
+.widget-box .qti-graphicGapMatchInteraction .qti-gapImg {
+    &.selectable,
+    &.active {
+        &:after,
+        &:before {
+            content: none;
         }
     }
 }

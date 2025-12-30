@@ -3,6 +3,8 @@
 
 .qti-graphicAssociateInteraction {
     .hotspot2 {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
         .hotspot2-inner {
             stroke-width: unscale(12px);
             fill: $colorBrand;
@@ -100,7 +102,7 @@
     }
     .assoc-line-outer {
         stroke: $colorLight;
-        stroke-width: unscale(8px);
+        stroke-width: unscale(6px);
         stroke-linecap: round;
         transition: stroke-width 200ms;
     }
@@ -115,7 +117,7 @@
     }
     .assoc-line:not(.selected):hover {
         .assoc-line-outer {
-            stroke-width: unscale(12px);
+            stroke-width: unscale(10px);
         }
         .assoc-line-inner {
             stroke-width: unscale(3px);
