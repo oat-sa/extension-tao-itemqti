@@ -70,7 +70,7 @@
             }
         }
 
-        &.active {
+        &.active:not(.dragged) {
             border-color: $colorBrand !important;
 
             &:after {
@@ -159,7 +159,8 @@
             stroke-width: unscale(4px);
             stroke-dasharray: unscale(5px);
         }
-        &.selectable:hover {
+        &.selectable:hover,
+        &.hover {
             cursor: pointer;
             stroke: $colorBrand;
             fill: $colorLightBlue;
