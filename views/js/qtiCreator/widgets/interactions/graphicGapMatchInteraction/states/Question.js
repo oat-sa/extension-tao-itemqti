@@ -544,13 +544,35 @@ define([
                 data: interaction.object.attr('data'),
                 width: interaction.object.attr('width'),
                 height: interaction.object.attr('height'),
-                type: interaction.object.attr('type')
+                type: interaction.object.attr('type'),
+                horizontal: interaction.attr('orientation') === 'horizontal'
+                
             })
         );
 
         imageSelector($form, options);
 
         formElement.initWidget($form);
+
+        const $sourceList = widget.$original.find('ul.source');
+
+        $form.on('change', 'input[name="orientation"]', function () {
+            const value = this.value;
+
+            interaction.attr('orientation', value);
+
+            if (value === 'horizontal') {
+                $sourceList.addClass('horizontal');
+            } else {
+                $sourceList.removeClass('horizontal');
+            }
+        });
+        
+        if (interaction.attr('orientation') === 'horizontal') {
+            $sourceList.addClass('horizontal');
+        } else {
+            $sourceList.removeClass('horizontal');
+        }
 
         bgImage.setupImage(widget);
 
