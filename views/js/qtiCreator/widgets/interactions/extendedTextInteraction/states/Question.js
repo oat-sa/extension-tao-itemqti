@@ -72,10 +72,12 @@ define([
             $original = _widget.$original,
             $container = _widget.$container,
             $inputs,
+            $toolbarGroupingBlock,
             $constraintsBlock,
             $recommendationsBlock,
             $textCounter,
             interaction = _widget.element,
+            toolbarGroupWhenFull = interaction.attr('data-toolbar-should-not-group-when-full') === 'false',
             isMathEntry = interaction.attr('data-math-entry') === 'true',
             format = interaction.attr('format'),
             patternMask = interaction.attr('patternMask'),
@@ -140,6 +142,7 @@ define([
         $form.html(
             formTpl({
                 formats: formats,
+                toolbarGroupWhenFull: toolbarGroupWhenFull,
                 patternMask: patternMask,
                 maxWords: maxWords,
                 maxLength: maxChars,
@@ -162,10 +165,16 @@ define([
             maxWords: $form.find('[name="maxWords"]'),
             patternMask: $form.find('[name="patternMask"]')
         };
+        $toolbarGroupingBlock = $form.find('#toolbarGrouping');
         $constraintsBlock = $form.find('#constraints');
         $recommendationsBlock = $form.find('#recommendations');
         $textCounter = $container.find('.text-counter');
 
+        if (format === 'xhtml' || format === 'math') {
+            if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlToolbarGrouping')) {
+                $toolbarGroupingBlock.show();
+            }
+        }
         if (format === 'xhtml') {
             if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlConstraints')) {
                 $constraintsBlock.hide();
@@ -224,6 +233,9 @@ define([
             renderer.render(interaction);
 
             if (format === 'xhtml') {
+                if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlToolbarGrouping')) {
+                    $toolbarGroupingBlock.show();
+                }
                 if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlConstraints')) {
                     $constraintsBlock.hide();
                     $textCounter.hide();
@@ -233,6 +245,7 @@ define([
                     $textCounter.hide();
                 }
             } else {
+                $toolbarGroupingBlock.hide();
                 $constraintsBlock.show();
                 $recommendationsBlock.show();
                 $textCounter.show();
@@ -245,6 +258,11 @@ define([
                     response.setCorrect($('<p>' + correctResponse[0] + '</p>').text());
                 }
             }
+        };
+
+        callbacks.toolbarGroupWhenFull = function (interaction, attrValue) {
+            var shouldNotGroup = !attrValue;
+            interaction.attr('data-toolbar-should-not-group-when-full', shouldNotGroup ? 'true' : 'false');
         };
 
         callbacks.constraint = function (interaction, attrValue) {

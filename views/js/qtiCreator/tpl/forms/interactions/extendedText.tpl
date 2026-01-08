@@ -7,6 +7,18 @@
     		<option value="{{@key}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
     	{{/each}}
     </select>
+    <div id="toolbarGrouping" class="panel toolbarGrouping-panel" style="display:none;">
+        <br>
+        <label>
+            <input name="toolbarGroupWhenFull" type="checkbox" {{#if toolbarGroupWhenFull}}checked="checked"{{/if}}/>
+            <span class="icon-checkbox"></span>
+            {{__ "Group toolbar items"}}
+        </label>
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+        <span class="tooltip-content">
+            {{__ "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."}}
+        </span>
+    </div>
 </div>
 {{#if constraintsAvailable}}
 <div id="constraints">
