@@ -192,7 +192,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             //store variable qti elements data into the private directory
             $variableElements = $qtiService->getVariableElements($qtiItem);
 
-            $stream = \GuzzleHttp\Psr7\stream_for(json_encode($variableElements));
+            $stream = \GuzzleHttp\Psr7\Utils::streamFor(json_encode($variableElements));
             $privateDirectory->writePsrStream($language . '/variableElements.json', $stream);
             $stream->close();
 
@@ -202,7 +202,7 @@ class QtiItemCompiler extends taoItems_models_classes_ItemCompiler
             //note : no need to manually copy qti or other third party lib files, all dependencies are managed
             // by requirejs
             // write index.html
-            $stream = \GuzzleHttp\Psr7\stream_for($xhtml);
+            $stream = \GuzzleHttp\Psr7\Utils::streamFor($xhtml);
             $publicDirectory->writePsrStream($language . '/index.html', $stream, 'text/html');
             $stream->close();
 
