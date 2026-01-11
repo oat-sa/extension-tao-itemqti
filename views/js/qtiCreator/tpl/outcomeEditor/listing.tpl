@@ -12,7 +12,7 @@
     <span class="trigger icon-bin" title="{{titleDelete}}" data-role="delete"></span>
     <span class="trigger icon-edit sidebar-popup-trigger" data-popup="~ .sidebar-popup" title="{{titleEdit}}" data-role="edit"></span>
     <div class="outcome-properties-form">
-        <div class="panel">
+        <div class="panel interpretation">
             <label for="interpretation" class="has-icon">{{__ "Interpretation"}}</label>
             <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
             <div class="tooltip-content">{{__ "A human interpretation of the variable's value."}}</div>
@@ -28,6 +28,18 @@
                    type="text"
                    data-validate="$isValidUrl;">
         </div>
+        <div class="panel scale-selector hidden">
+            <label for="scale" class="has-icon">{{__ "Scale"}}</label>
+            <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+            <div class="tooltip-content">{{__ "Select or enter a scale for this outcome."}}</div>
+            <input name="scale" value="" type="text">
+        </div>
+        <div class="panel rubric hidden">
+            <label for="rubric" class="has-icon">{{__ "Rubric"}}</label>
+            <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+            <div class="tooltip-content">{{__ "Enter rubric content for this outcome scale."}}</div>
+            <input name="rubric" value="" type="text">
+        </div>
         <div class="panel externalscored">
             <label for="externalScored" class="has-icon">{{__ "External Scored"}}</label>
             <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
@@ -42,9 +54,9 @@
             <label class="has-icon">{{__ "Value"}}</label>
             <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
             <div class="tooltip-content">{{__ "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."}}</div>
-            <input name="normalMinimum" value="{{normalMinimum}}" data-increment="1" type="text" />
+            <input name="normalMinimum" value="{{normalMinimum}}" data-increment="1" type="text" {{#if scale}}disabled{{/if}} />
             <label for="normalMaximum" class="spinner">{{__ "to"}}</label>
-            <input name="normalMaximum" value="{{normalMaximum}}" data-increment="1" data-min="0" type="text" />
+            <input name="normalMaximum" value="{{normalMaximum}}" data-increment="1" data-min="0" type="text" {{#if scale}}disabled{{/if}} />
         </div>
     </div>
 </div>
