@@ -171,7 +171,7 @@ define([
         $textCounter = $container.find('.text-counter');
 
         if (format === 'xhtml' || format === 'math') {
-            if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlToolbarGrouping')) {
+            if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlToolbarGrouping', false)) {
                 $toolbarGroupingBlock.show();
             }
         }
@@ -233,7 +233,7 @@ define([
             renderer.render(interaction);
 
             if (format === 'xhtml') {
-                if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlToolbarGrouping')) {
+                if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlToolbarGrouping', false)) {
                     $toolbarGroupingBlock.show();
                 }
                 if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlConstraints')) {
