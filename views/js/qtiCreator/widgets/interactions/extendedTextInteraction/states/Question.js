@@ -257,6 +257,7 @@ define([
                     // (Why not let jquery do that :-) ?)
                     response.setCorrect($('<p>' + correctResponse[0] + '</p>').text());
                 }
+                interaction.removeAttr('data-toolbar-should-not-group-when-full');
             }
         };
 
