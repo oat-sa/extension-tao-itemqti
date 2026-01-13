@@ -12,7 +12,6 @@
 
     @mixin gapimg-icon {
         @include tao-icon-setup;
-        @include icon-result-ok;
         color: $colorLight;
         position: absolute;
         font-size: 14px;
@@ -27,6 +26,17 @@
         padding: 3px !important;
         clear: both;
         min-height: 60px;
+        border: 2px dashed transparent;
+
+        &.selectable {
+            border: 2px dashed $colorBrand;
+            border-radius: 4px;
+            background-color: $colorLightBeige;
+
+            &.hover {
+                border: 2px solid $colorBrand;
+            }
+        }
     }
 
     .placed-fillers {
