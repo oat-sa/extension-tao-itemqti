@@ -71,11 +71,13 @@
                 transition: opacity 300ms;
                 opacity: 0;
             }
-            &:hover {
-                border-color: $colorBrand !important;
+            @media (hover: hover) {
+                &:hover {
+                    border-color: $colorBrand !important;
 
-                &:after {
-                    opacity: 1;
+                    &:after {
+                        opacity: 1;
+                    }
                 }
             }
         }
@@ -92,15 +94,13 @@
                 @include icon-result-ok;
             }
 
-            &:hover {
-                &:after {
-                    background: $colorBrandOpacity50;
+            @media (hover: hover) {
+                &:hover {
+                    &:after {
+                        background: $colorBrandOpacity50;
+                    }
                 }
             }
-        }
-
-        &.dragged {
-            z-index: 10;
         }
 
         &.disabled.disabled {
@@ -137,12 +137,18 @@
             }
         }
 
+        &.dragged {
+            z-index: 10;
+            border-color: $colorBrand !important;
+            box-shadow: 0 0 0 1px $colorBrand;
+        }
+
         img {
             display: block;
         }
     }
 
-    .placed-fillers:not(.selectable) .qti-gapImg.placed:hover {
+    .placed-fillers:not(.selectable) .qti-gapImg.placed:not(.dragged):hover {
         &:after {
             opacity: 1;
         }
