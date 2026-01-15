@@ -35,6 +35,7 @@
 
             &.hover {
                 border: 2px solid $colorBrand;
+                background-color: $colorLightBlue;
             }
         }
     }
@@ -107,10 +108,11 @@
             border-color: $colorDark !important;
             cursor: default !important;
             opacity: 1 !important;
+            filter: brightness(1.1);
 
             &:after {
                 @include gapimg-overlay;
-                background: $colorLightBeigeOpacity50;
+                background: $colorLightBeigeOpacity60;
                 border-radius: 2px;
                 box-shadow: 0 0 0 1px $colorDark;
             }
