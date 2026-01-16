@@ -31,11 +31,13 @@ class Qti22PostProcessorService
      */
     protected array $removalRules = [
         '//*[local-name()="img"][@type]'                         => ['type'],
+        '//*[local-name()="hottext"][@fixed]'                    => ['fixed'],
+        '//*[local-name()="hotspotChoice"][@fixed]'              => ['fixed'],
         '//*[local-name()="gapText"][@fixed]'                    => ['fixed'],
         '//*[local-name()="gap"][@fixed]'                        => ['fixed'],
         '//*[local-name()="gapImg"][@fixed]'                     => ['fixed'],
         '//*[local-name()="associableHotspot"][@fixed]'          => ['fixed'],
-        '//qh5:figure[@showFigure]'                                => ['showFigure'],
+        '//qh5:figure[@showFigure]'                              => ['showFigure'],
     ];
 
     private array $attributeRenamingRules = [
