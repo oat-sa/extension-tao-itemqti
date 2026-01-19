@@ -144,3 +144,35 @@
         z-index: 1;
     }
 }
+
+.qti-orderInteraction.qti-vertical.qti-choices-top {
+
+    .order-interaction-area {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    /* source choices */
+    .choice-area {
+        order: 1;
+    }
+
+    /* arrow between source and result */
+    .arrow-bar.middle {
+        order: 2;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* result */
+    .result-area {
+        order: 3;
+               min-height: 80px;
+    }
+
+    /* keep reorder arrows at the end */
+    > .order-interaction-area > .arrow-bar:not(.middle) {
+        order: 4;
+    }
+}

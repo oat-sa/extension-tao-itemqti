@@ -41,7 +41,26 @@ define([
 
     var OrderInteractionStateQuestion = stateFactory.extend(Question);
 
-    OrderInteractionStateQuestion.prototype.initForm = function initForm(){
+    function extractPositionFromClass(classAttr) {
+        if (!classAttr) {
+            return 'top';
+        }
+        if (classAttr.includes('qti-choices-bottom')) return 'bottom';
+        if (classAttr.includes('qti-choices-left')) return 'left';
+        if (classAttr.includes('qti-choices-right')) return 'right';
+        return 'top';
+    }
+
+    function normalizePositionClass(classAttr, position) {
+        const classes = (classAttr || '')
+            .split(/\s+/)
+            .filter(c => !c.startsWith('qti-choices-'));
+
+        classes.push('qti-choices-' + position);
+        return classes.join(' ');
+    }
+
+    OrderInteractionStateQuestion.prototype.initForm = function initForm () {
 
         var callbacks;
         var widget      = this.widget;
@@ -67,9 +86,20 @@ define([
             ? _.parseInt(interaction.attr('maxChoices'))
             : 0;
 
-        const createMinMaxComponent = () => {
+        const position = extractPositionFromClass(interaction.attr('class'));
+        const positionState = {
+            positionTop: position === 'top',
+            positionBottom: position === 'bottom',
+            positionLeft: position === 'left',
+            positionRight: position === 'right'
+        };
+
+        const enableSortOptions = () => {
             const minMaxPanel = $form.find('.min-max-panel');
             minMaxPanel.show();
+            if (features.isVisible('taoQtiItem/creator/interaction/order/property/position')) {
+                getPositionPanel().show();
+            }
             minMaxComponent = minMaxComponentFactory(minMaxPanel, {
                 min: { value: minValue },
                 max: { value: maxValue },
@@ -84,8 +114,9 @@ define([
             });
         };
 
-        const deleteMinMaxComponent = () => {
+        const disableSortOptions = () => {
             $form.find('.min-max-panel').hide();
+            getPositionPanel().hide();
             if (minMaxComponent) {
                 minMaxComponent.destroy();
                 minMaxComponent = null;
@@ -103,24 +134,32 @@ define([
                 const $resultItems = $resultArea.children('.qti-choice');
                 $choiceArea.prepend($resultItems);
             }
-            deleteMinMaxComponent();
+            disableSortOptions();
         }
 
         const makeSortOrder = () => {
             interaction.attr('data-order', 'sort');
             $interaction.removeClass('qti-single');
-            createMinMaxComponent();
+            enableSortOptions();
         }
 
-        $form.html(formTpl({
-            shuffle : !!interaction.attr('shuffle'),
-            horizontal : interaction.attr('orientation') === 'horizontal',
+            $form.html(formTpl(_.assign({}, {
+            shuffle: !!interaction.attr('shuffle'),
+            horizontal: interaction.attr('orientation') === 'horizontal',
             single: isSingleOrder,
             enabledFeatures: {
                 shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/order/property/shuffle'),
-                orientation: features.isVisible('taoQtiItem/creator/interaction/order/property/orientation')
+                orientation: features.isVisible('taoQtiItem/creator/interaction/order/property/orientation'),
+                position: features.isVisible('taoQtiItem/creator/interaction/order/property/position')
             }
-        }));
+        }, positionState)));
+
+        const getPositionPanel = () => $form.find('.position-panel');
+
+        interaction.attr(
+            'class',
+            normalizePositionClass(interaction.attr('class'), position)
+        );
         isSingleOrder ? makeSingleOrder() : makeSortOrder();
 
         formElement.initWidget($form);
@@ -153,6 +192,13 @@ define([
             }
         };
 
+        // data change for position
+        callbacks.position = function (interaction, value) {
+            interaction.attr(
+                'class',
+                normalizePositionClass(interaction.attr('class'), value)
+            );
+        };
         // data change for order
         callbacks.order = function (interaction, value) {
             value === 'sort' ? makeSortOrder() : makeSingleOrder();

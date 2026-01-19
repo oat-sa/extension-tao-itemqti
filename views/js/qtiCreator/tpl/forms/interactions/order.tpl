@@ -3,13 +3,13 @@
         <label class="smaller-prompt">
         <input type="radio" name="order" value="single" {{#if single}}checked{{/if}} />
             <span class="icon-radio"></span>
-            {{__ 'order single list'}}
+            {{__ 'Order single list'}}
         </label>
         <br>
         <label class="smaller-prompt">
             <input type="radio" name="order" value="sort" {{#unless single}}checked{{/unless}} />
             <span class="icon-radio"></span>
-            {{__ 'sort from source to target list'}}
+            {{__ 'Sort from source to target list'}}
         </label>
     </div>
 </div>
@@ -55,3 +55,45 @@
     </div>
 </div>
 {{/if}}
+{{#if enabledFeatures.position}}
+<div class="panel position-panel" style="display:none;">
+    <hr/>
+    <h3>{{__ 'Position'}}</h3>
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+            <span class="tooltip-content">
+            {{__ 'Display where the choices are positioned within the interaction'}}
+        </span>
+
+    <div>
+        <label class="smaller-prompt">
+            <input type="radio" name="position" value="top" {{#if positionTop}}checked{{/if}} />
+            <span class="icon-radio"></span>
+            {{__ 'Top'}}
+        </label>
+        <br>
+
+        <label class="smaller-prompt">
+            <input type="radio" name="position" value="bottom" {{#if positionBottom}}checked{{/if}} />
+            <span class="icon-radio"></span>
+            {{__ 'Bottom'}}
+        </label>
+        <br>
+
+        <label class="smaller-prompt">
+            <input type="radio" name="position" value="left" {{#if positionLeft}}checked{{/if}} />
+            <span class="icon-radio"></span>
+            {{__ 'Left'}}
+        </label>
+        <br>
+
+        <label class="smaller-prompt">
+            <input type="radio" name="position" value="right" {{#if positionRight}}checked{{/if}} />
+            <span class="icon-radio"></span>
+            {{__ 'Right'}}
+        </label>
+    </div>
+</div>
+{{/if}}
+
+
+
