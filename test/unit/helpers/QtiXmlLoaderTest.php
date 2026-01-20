@@ -31,20 +31,22 @@ use oat\taoQtiItem\model\qti\exception\QtiModelException;
 
 class QtiXmlLoaderTest extends TestCase
 {
+    private QtiXmlLoader $subject;
+
     public function setUp(): void
     {
-        $this->extensionsManagerMock = $this->createMock(ExtensionsManager::class);
-        $this->extensionMock = $this->createMock(Extension::class);
-        $this->extensionsManagerMock->method('getExtensionById')->willReturn($this->extensionMock);
-        $this->extensionMock->method('getConfig')->willReturn([
+        $extensionsManagerMock = $this->createMock(ExtensionsManager::class);
+        $extensionMock = $this->createMock(Extension::class);
+        $extensionsManagerMock->method('getExtensionById')->willReturn($extensionMock);
+        $extensionMock->method('getConfig')->willReturn([
             'formatOutput' => true,
             'preserveWhiteSpace' => false,
             'validateOnParse' => false,
         ]);
-        $this->subject = new QtiXmlLoader($this->extensionsManagerMock);
+        $this->subject = new QtiXmlLoader($extensionsManagerMock);
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $qti = file_get_contents(__DIR__ . '/qtiExamples/qti.xml');
         $sub = $this->subject->load($qti);
@@ -52,7 +54,7 @@ class QtiXmlLoaderTest extends TestCase
         $this->assertInstanceOf(DOMDocument::class, $sub);
     }
 
-    public function testInvalidLoad()
+    public function testInvalidLoad(): void
     {
         $this->expectException(QtiModelException::class);
         $qti = file_get_contents(__DIR__ . '/qtiExamples/invalidQti.xml');

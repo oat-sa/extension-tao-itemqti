@@ -28,7 +28,7 @@ use oat\taoQtiItem\model\import\CsvItemImporter;
 use tao_helpers_form_elements_xhtml_AsyncFile;
 use tao_helpers_form_elements_xhtml_Hidden;
 
-class CsvItemImportTest extends TestCase
+class CsvImportFormTest extends TestCase
 {
     /** @var CsvItemImporter */
     private $subject;

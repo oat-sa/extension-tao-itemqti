@@ -31,6 +31,8 @@ use PHPUnit\Framework\TestCase;
 
 class CustomPropertiesManifestScannerTest extends TestCase
 {
+    private CustomPropertiesManifestScanner $subject;
+
     public function setUp(): void
     {
         $this->subject = new CustomPropertiesManifestScanner();

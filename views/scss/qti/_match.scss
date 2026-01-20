@@ -11,6 +11,7 @@
             text-align: left;
             position: relative;
             background-clip: padding-box;
+            hyphens: auto;
 
             @include rtl {
                 text-align: right;

@@ -429,6 +429,12 @@ msgstr ""
 msgid "Define the correct response."
 msgstr ""
 
+msgid "Define correct response (for post-processing)"
+msgstr ""
+
+msgid "It is intended only for post-processing and will not influence the actual score computation."
+msgstr ""
+
 msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
 msgstr ""
 

@@ -150,14 +150,10 @@ class UpdateMetadataRequestHandlerTest extends TestCase
             'Property with id INVALID does not exist'
         );
 
-        $this->resourceImplementationMock->expects($this->at(0))
+        $this->resourceImplementationMock
+            ->expects($this->exactly(2))
             ->method('getTypes')
-            ->willReturn(['itemType']);
-
-        $this->resourceImplementationMock->expects($this->at(1))
-            ->method('getTypes')
-            ->willReturn([]);
-
+            ->willReturnOnConsecutiveCalls(['itemType'], []);
 
         $this->request->expects($this->once())->method('getBody')
             ->willReturn(

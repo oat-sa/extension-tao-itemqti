@@ -425,6 +425,12 @@ msgstr "Definujte obmedzenia počtu možností potrebných na vytvorenie platnej
 msgid "Define correct response"
 msgstr "Definujte správnu odpoveď"
 
+msgid "Define correct response (for post-processing)"
+msgstr ""
+
+msgid "It is intended only for post-processing and will not influence the actual score computation."
+msgstr ""
+
 msgid "Define item language."
 msgstr "Definujte jazyk položky."
 

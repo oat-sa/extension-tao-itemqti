@@ -29,7 +29,7 @@ use core_kernel_classes_Resource;
 use core_kernel_persistence_Exception;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\fileReference\FileReferenceSerializer;
-use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorInterface;
@@ -42,10 +42,8 @@ use oat\oatbox\filesystem\File;
 
 class QtiXmlDataManagerTest extends TestCase
 {
-    /**
-     * @var QtiXmlDataManager
-     */
-    private $service;
+    private QtiXmlDataManager $service;
+    private FeatureFlagChecker|MockObject $featureFlagCheckerMock;
 
     protected function setUp(): void
     {
