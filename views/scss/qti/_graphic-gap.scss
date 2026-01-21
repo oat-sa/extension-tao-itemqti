@@ -1,63 +1,199 @@
 @import 'inc/bootstrap';
 
 .qti-graphicGapMatchInteraction {
+    @mixin gapimg-overlay {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+
+    @mixin gapimg-icon {
+        @include tao-icon-setup;
+        color: $colorLight;
+        position: absolute;
+        font-size: 14px;
+        top: 3px;
+        right: 4px;
+        z-index: 1;
+    }
+
     ul.source {
         width: 100%;
         margin: 10px auto;
         padding: 3px !important;
         clear: both;
         min-height: 60px;
-        & > li {
-            @include dragdrop-noselect;
-            background: white();
-            border: solid 1px #ddd !important;
-            line-height: 60px;
-            min-height: 60px;
-            min-width: 60px;
-            text-align: center;
-            max-width: 100%;
-            @include font-size(20);
-            margin: 0 3px 3px 0 !important;
-            padding: 0;
-            cursor: pointer;
-            &:hover {
-                @extend %selectableHover;
-            }
-            &.active {
-                border: solid 1px $uiClickableHoverBg !important;
-                @include transition(background, 0.1s);
-                &:hover {
-                    background: white() !important;
-                    cursor: default !important;
-                }
+        border: 2px dashed transparent;
 
-                &.selectable:hover {
-                    @extend %selectableHover;
-                    cursor: pointer !important;
-                }
-            }
-            &.dragged {
-                z-index: 10;
-            }
+        &.selectable {
+            border: 2px dashed $colorBrand;
+            border-radius: 4px;
+            background-color: $colorLightBeige;
 
-            &.disabled {
-                border: none;
-                cursor: default !important;
-                color: #333 !important;
-                background-color: transparent !important;
-            }
-
-            img {
-                display: block;
+            &.hover {
+                border: 2px solid $colorBrand;
+                background-color: $colorLightBlue;
             }
         }
     }
-    .gap-filler {
-        display: block;
+
+    .placed-fillers {
+        pointer-events: none;
         position: absolute;
-        z-index: 20000;
+        top: 2px;
+        left: 2px;
     }
+
+    .qti-gapImg {
+        @include dragdrop-noselect;
+        background: white();
+        border: solid 1px #ddd !important;
+        line-height: 60px;
+        min-height: 60px;
+        min-width: 60px;
+        text-align: center;
+        max-width: 100%;
+        @include font-size(20);
+        margin: 0 3px 3px 0 !important;
+        padding: 0;
+        cursor: pointer;
+        position: relative;
+
+        &.selectable:not(.active) {
+            &:after {
+                @include gapimg-overlay;
+                background: $colorBrandOpacity50;
+                border: 2px solid $colorBrand;
+                border-radius: 3px;
+                box-shadow: 0 0 0 1px $colorBrand;
+                transition: opacity 300ms;
+                opacity: 0;
+            }
+            @media (hover: hover) {
+                &:hover {
+                    border-color: $colorBrand !important;
+
+                    &:after {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+
+        &.active:not(.dragged) {
+            border-color: $colorBrand !important;
+
+            &:after {
+                @include gapimg-overlay;
+                border-top: 20px solid $colorBrand;
+            }
+            &:before {
+                @include gapimg-icon;
+                @include icon-result-ok;
+            }
+
+            @media (hover: hover) {
+                &:hover {
+                    &:after {
+                        background: $colorBrandOpacity50;
+                    }
+                }
+            }
+        }
+
+        &.disabled.disabled {
+            border-color: $colorDark !important;
+            cursor: default !important;
+            opacity: 1 !important;
+            filter: brightness(1.1);
+
+            &:after {
+                @include gapimg-overlay;
+                background: $colorLightBeigeOpacity60;
+                border-radius: 2px;
+                box-shadow: 0 0 0 1px $colorDark;
+            }
+        }
+
+        &.placed {
+            border-color: $colorLight !important;
+            pointer-events: auto;
+            position: absolute;
+            box-shadow: 3px 3px 5px -2px $colorDark;
+            min-height: 30px;
+            min-width: 30px;
+            border-radius: 2px;
+
+            &:after {
+                @include gapimg-overlay;
+                border: 1px solid $colorBrand;
+                border-top-width: 20px;
+                border-radius: 2px;
+                box-shadow: 0 0 0 1px $colorLight;
+                background: $colorBrandOpacity50;
+                transition: opacity 300ms;
+                opacity: 0;
+            }
+        }
+
+        &.dragged {
+            z-index: 10;
+            border-color: $colorBrand !important;
+            box-shadow: 0 0 0 1px $colorBrand;
+        }
+
+        img {
+            display: block;
+        }
+    }
+
+    .placed-fillers:not(.selectable) .qti-gapImg.placed:not(.dragged):hover {
+        &:after {
+            opacity: 1;
+        }
+        &:before {
+            @include gapimg-icon;
+            @include icon-result-nok;
+        }
+    }
+
     .svggroup {
         @include dragdrop-noselect;
+    }
+
+    .hotspot {
+        &.basic {
+            stroke: $colorDark;
+            fill: $colorLightBeige;
+            stroke-width: unscale(4px);
+        }
+        &.selectable {
+            cursor: pointer;
+            stroke: $colorBrand;
+            fill: $colorLightBeige;
+            stroke-width: unscale(4px);
+            stroke-dasharray: unscale(5px);
+        }
+        &.selectable:hover,
+        &.hover {
+            cursor: pointer;
+            stroke: $colorBrand;
+            fill: $colorLightBlue;
+            stroke-width: unscale(4px);
+            stroke-dasharray: none;
+        }
+    }
+}
+
+.widget-box .qti-graphicGapMatchInteraction .qti-gapImg {
+    &.selectable,
+    &.active {
+        &:after,
+        &:before {
+            content: none;
+        }
     }
 }
