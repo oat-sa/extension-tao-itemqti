@@ -106,6 +106,7 @@ define([
             : 0;
 
         const position = getPosition(interaction);
+        // Select from list 
         const positionState = {
             positionTop: position === 'top',
             positionBottom: position === 'bottom',
@@ -113,11 +114,13 @@ define([
             positionRight: position === 'right'
         };
 
+
         const enableSortOptions = () => {
             const minMaxPanel = $form.find('.min-max-panel');
             minMaxPanel.show();
             if (features.isVisible('taoQtiItem/creator/interaction/order/property/position')) {
                 getPositionPanel().show();
+                applyPosition($interaction, position);
             }
             minMaxComponent = minMaxComponentFactory(minMaxPanel, {
                 min: { value: minValue },
@@ -147,6 +150,7 @@ define([
             interaction.attr('minChoices', 0);
             interaction.attr('maxChoices', 0);
             $interaction.addClass('qti-single');
+            $iconAdd.addClass('inactive');
             $interaction.removeClass('test-preview');
             const $choices = $choiceArea.children('.qti-choice');
             if (!$choices.length) {
@@ -159,6 +163,7 @@ define([
         const makeSortOrder = () => {
             interaction.attr('data-order', 'sort');
             $interaction.removeClass('qti-single');
+            $iconAdd.removeClass('inactive');
             enableSortOptions();
         }
 
@@ -175,7 +180,7 @@ define([
 
         const getPositionPanel = () => $form.find('.position-panel');
 
-        applyPosition($interaction, position);
+        !isSingleOrder && applyPosition($interaction, position);
 
         isSingleOrder ? makeSingleOrder() : makeSortOrder();
 

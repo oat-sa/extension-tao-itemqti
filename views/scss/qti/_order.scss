@@ -1,178 +1,212 @@
-@import 'inc/bootstrap';
+@import "inc/bootstrap";
 
 .qti-orderInteraction {
-    .arrow-bar {
-        text-align: center;
-        span {
-            margin: 3px auto;
-            @include font-size(25);
-            color: mix(#fff, $textColor, 50%);
-            background: mix(#fff, $uiClickableDefaultBg, 50%);
-            cursor: default;
-            height: 40px;
-            &.active {
-                background: $uiClickableDefaultBg;
-                cursor: pointer;
-                color: $textColor;
-                &:hover {
-                    color: $textHighlight;
-                    background: $uiClickableHoverBg;
-                }
-            }
-            &.triggered {
-                color: $textHighlight;
-                background: $uiClickableHoverBg;
-            }
+  .arrow-bar {
+    text-align: center;
+    span {
+      margin: 3px auto;
+      @include font-size(25);
+      color: mix(#fff, $textColor, 50%);
+      background: mix(#fff, $uiClickableDefaultBg, 50%);
+      cursor: default;
+      height: 40px;
+      &.active {
+        background: $uiClickableDefaultBg;
+        cursor: pointer;
+        color: $textColor;
+        &:hover {
+          color: $textHighlight;
+          background: $uiClickableHoverBg;
         }
+      }
+      &.triggered {
+        color: $textHighlight;
+        background: $uiClickableHoverBg;
+      }
     }
+  }
 
-    &.qti-vertical {
-        .order-interaction-area {
-            display: table;
-            border-collapse: separate;
-            border-spacing: 5px 5px 5px 0;
-            width: 100%;
-        }
-        ul.source,
-        ul.target,
-        ol.source,
-        ol.target {
-            display: table-cell;
-            width: 43%;
-            padding-left: 40px;
-            padding-right: 3px;
-
-            @include rtl {
-                padding-left: 3px;
-                padding-right: 40px;
-            }
-        }
-        .arrow-bar {
-            .icon-move-before {
-                @include icon-up;
-            }
-            .icon-move-behind {
-                @include icon-down;
-            }
-            display: table-cell;
-            vertical-align: middle;
-            padding: 5px;
-            span {
-                padding: 8px 0;
-                display: block;
-                width: 50px;
-                &.inactive {
-                    visibility: hidden;
-                }
-            }
-            &.middle {
-                span.inactive {
-                    display: none;
-                }
-            }
-        }
-        .icon-add-to-selection,
-        .icon-remove-from-selection {
-            @include rtl {
-                transform: scale(-1);
-            }
-        }
-    }
-
-    &.qti-horizontal {
-        .block-listing {
-            min-height: 38px;
-        }
-        .arrow-bar {
-            margin-bottom: 10px;
-
-            span {
-                padding: 0 15px;
-                display: inline-block;
-                line-height: 1.6;
-                &.inactive {
-                    visibility: hidden;
-                }
-                &.icon-move-before {
-                    @include icon-up;
-                }
-                &.icon-move-behind {
-                    @include icon-down;
-                }
-            }
-        }
-        .icon-move-after,
-        .icon-move-before {
-            @include rtl {
-                transform: scale(-1);
-            }
-        }
-    }
-
-    &.qti-single {
-        .order-interaction-area {
-            > .arrow-bar,
-            > .result-area {
-                display: none;
-            }
-        }
-        &.test-preview {
-            .order-interaction-area {
-                > .arrow-bar:not(.middle),
-                > .result-area {
-                    display: table-cell;
-                    width: 100%;
-                }
-                > .choice-area {
-                    display: none;
-                }
-            }
-        }
-    }
-    li {
-        @include dragdrop-noselect;
-        &.dragged {
-            border-color: whiten($info, 0.2) !important;
-            list-style: none;
-        }
-    }
-    .drag-container {
-        position: absolute;
-        display: none;
-        padding: 0;
-        margin: 0;
-        z-index: 1;
-    }
-}
-
-.qti-orderInteraction.qti-vertical.qti-choices-top {
-
+  &.qti-vertical {
     .order-interaction-area {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
+      display: table;
+      border-collapse: separate;
+      border-spacing: 5px 5px 5px 0;
+      width: 100%;
     }
+    ul.source,
+    ul.target,
+    ol.source,
+    ol.target {
+      display: table-cell;
+      width: 43%;
+      padding-left: 40px;
+      padding-right: 3px;
 
-    /* source choices */
-    .choice-area {
-        order: 1;
+      @include rtl {
+        padding-left: 3px;
+        padding-right: 40px;
+      }
     }
+    .arrow-bar {
+      .icon-move-before {
+        @include icon-up;
+      }
+      .icon-move-behind {
+        @include icon-down;
+      }
+      display: table-cell;
+      vertical-align: middle;
+      padding: 5px;
+      span {
+        padding: 8px 0;
+        display: block;
+        width: 50px;
+        &.inactive {
+          visibility: hidden;
+        }
+      }
+      &.middle {
+        span.inactive {
+          display: none;
+        }
+      }
+    }
+    .icon-add-to-selection {
+      @include rtl {
+        transform: scale(-1);
+      }
+    }
+  }
 
-    /* arrow between source and result */
-    .arrow-bar.middle {
-        order: 2;
-        display: flex;
-        justify-content: center;
+  &.qti-horizontal {
+    .block-listing {
+      min-height: 38px;
     }
+    .arrow-bar {
+      margin-bottom: 10px;
 
-    /* result */
-    .result-area {
-        order: 3;
-               min-height: 80px;
+      span {
+        padding: 0 15px;
+        display: inline-block;
+        line-height: 1.6;
+        &.inactive {
+          visibility: hidden;
+        }
+        &.icon-move-before {
+          @include icon-up;
+        }
+        &.icon-move-behind {
+          @include icon-down;
+        }
+      }
     }
+    .icon-move-after,
+    .icon-move-before {
+      @include rtl {
+        transform: scale(-1);
+      }
+    }
+  }
 
-    /* keep reorder arrows at the end */
-    > .order-interaction-area > .arrow-bar:not(.middle) {
-        order: 4;
+  &.qti-single {
+    .order-interaction-area {
+      > .arrow-bar,
+      > .result-area {
+        display: none;
+      }
     }
+    &.test-preview {
+      .order-interaction-area {
+        > .arrow-bar:not(.middle),
+        > .result-area {
+          display: table-cell;
+          width: 100%;
+        }
+        > .choice-area {
+          display: none;
+        }
+      }
+    }
+  }
+  li {
+    @include dragdrop-noselect;
+    &.dragged {
+      border-color: whiten($info, 0.2) !important;
+      list-style: none;
+    }
+  }
+  .drag-container {
+    position: absolute;
+    display: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1;
+  }
 }
+// vertical layout with choices on top
+.qti-orderInteraction.qti-vertical.qti-choices-top {
+  .order-interaction-area {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .choice-area {
+    order: 1;
+  }
+  .arrow-bar.middle {
+    order: 2;
+    display: flex;
+    justify-content: center;
+  }
+  .result-area {
+    order: 3;
+    min-height: 80px;
+  }
+  > .order-interaction-area > .arrow-bar:not(.middle) {
+    order: 4;
+  }
+}
+
+// vertical layout with choices on bottom
+.qti-orderInteraction.qti-vertical.qti-choices-bottom {
+  .order-interaction-area {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* target list first */
+  .result-area {
+    order: 1;
+    min-height: 80px;
+  }
+
+  /* middle arrows */
+  .arrow-bar.middle {
+    order: 2;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* source list last */
+  .choice-area {
+    order: 3;
+  }
+
+  /* keep reorder arrows at the end */
+  > .order-interaction-area > .arrow-bar:not(.middle) {
+    order: 4;
+  }
+}
+
+.qti-orderInteraction.qti-vertical.qti-choices-right {
+  .order-interaction-area {
+    direction: rtl;
+  }
+
+  .order-interaction-area > * {
+    direction: ltr;
+  }
+}
+
+
