@@ -1,14 +1,16 @@
-@import "inc/bootstrap";
+@import 'inc/bootstrap';
+@import 'graphic-functions';
 
 .qti-graphicInteraction {
-
     .source li > img {
         display: block;
     }
 
     .active {
-        & > input, & > textarea,
-        input.active, textarea.active {
+        & > input,
+        & > textarea,
+        input.active,
+        textarea.active {
             border-color: mix(#fff, $info, 20%);
         }
     }
@@ -16,8 +18,8 @@
         position: relative;
         float: left;
         padding: 3px;
-       .mapping-editor {
-            display: none;  
+        .mapping-editor {
+            display: none;
             position: absolute;
             text-align: left;
             z-index: 10009;
@@ -34,4 +36,5 @@
 
 @import 'graphic-gap';
 @import 'graphic-order';
+@import 'graphic-associate';
 @import 'select-point';
