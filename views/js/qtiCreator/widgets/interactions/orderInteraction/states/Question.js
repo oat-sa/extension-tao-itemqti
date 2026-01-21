@@ -41,6 +41,20 @@ define([
 
     var OrderInteractionStateQuestion = stateFactory.extend(Question);
 
+    function getPosition(interaction) {
+        return (
+            interaction.attr('data-position') ||
+            extractPositionFromClass(interaction.attr('class')) ||
+            'top'
+        );
+    }
+
+    function applyPosition($interaction, position) {
+        const baseClass = $interaction.attr('class') || '';
+        const newClass = normalizePositionClass(baseClass, position);
+        $interaction.attr('class', newClass);
+    }
+
     function extractPositionFromClass(classAttr) {
         if (!classAttr) {
             return 'top';
@@ -51,14 +65,19 @@ define([
         return 'top';
     }
 
-    function normalizePositionClass(classAttr, position) {
-        const classes = (classAttr || '')
-            .split(/\s+/)
-            .filter(c => !c.startsWith('qti-choices-'));
+   function normalizePositionClass(classAttr, position) {
+    const classes = (classAttr || '')
+        .split(/\s+/)
+        .filter(Boolean)
+        .filter(c => !c.startsWith('qti-choices-'));
 
-        classes.push('qti-choices-' + position);
-        return classes.join(' ');
+    if (!classes.length) {
+        console.warn('normalizePositionClass: empty base class');
     }
+
+    classes.push(`qti-choices-${position}`);
+    return classes.join(' ');
+}
 
     OrderInteractionStateQuestion.prototype.initForm = function initForm () {
 
@@ -86,7 +105,7 @@ define([
             ? _.parseInt(interaction.attr('maxChoices'))
             : 0;
 
-        const position = extractPositionFromClass(interaction.attr('class'));
+        const position = getPosition(interaction);
         const positionState = {
             positionTop: position === 'top',
             positionBottom: position === 'bottom',
@@ -156,10 +175,8 @@ define([
 
         const getPositionPanel = () => $form.find('.position-panel');
 
-        interaction.attr(
-            'class',
-            normalizePositionClass(interaction.attr('class'), position)
-        );
+        applyPosition($interaction, position);
+
         isSingleOrder ? makeSingleOrder() : makeSortOrder();
 
         formElement.initWidget($form);
@@ -188,17 +205,17 @@ define([
                 $interaction.addClass('qti-vertical').removeClass('qti-horizontal');
                 $iconAdd.addClass('icon-right').removeClass('icon-down');
                 $iconRemove.addClass('icon-left').removeClass('icon-up');
-
             }
         };
 
         // data change for position
         callbacks.position = function (interaction, value) {
-            interaction.attr(
-                'class',
-                normalizePositionClass(interaction.attr('class'), value)
-            );
+            // persist change
+            interaction.attr('data-position', value);
+            // reflect in UI
+            applyPosition($interaction, value);
         };
+
         // data change for order
         callbacks.order = function (interaction, value) {
             value === 'sort' ? makeSortOrder() : makeSingleOrder();
