@@ -1,5 +1,11 @@
 @import 'inc/bootstrap';
 
+$colorDark: #222222;
+$colorBrand: #266d9c;
+$colorLight: #ffffff;
+$colorLightBlue: #e4ecef;
+$colorDisabledText: #7a7a7a;
+
 .qti-gapMatchInteraction {
     .gapmatch-content {
         audio,
@@ -8,10 +14,9 @@
         video {
             vertical-align: baseline;
         }
-        &:hover {
-            @extend %selectableHover;
-        }
+
         border: solid 1px transparent;
+        border-bottom-color: $colorDark;
         background: $uiClickableDefaultBg;
         color: $textColor;
         @include border-radius();
@@ -20,14 +25,44 @@
         min-width: 45px;
         min-height: 20px;
         display: inline-block;
+
         &.empty {
             min-height: 20px;
-        }
-        .remove {
-            float: right;
+            border-color: $colorBrand !important;
+            cursor: pointer;
+
+            &:hover {
+                border-style: solid !important;
+                background-color: $colorLightBlue;
+            }
         }
         &.filled {
             top: 0 !important;
+            border-bottom-color: $colorBrand;
+            color: $colorBrand;
+            background: $colorLight;
+            cursor: pointer;
+
+            &:not(.empty):hover {
+                border-bottom-color: transparent;
+                color: $colorLight;
+                background: $colorBrand;
+                box-shadow: -2px 0px 0 0px $colorBrand;
+
+                &:after {
+                    @include tao-icon-setup;
+                    @include icon-result-nok;
+                    color: $colorLight;
+                    position: absolute;
+                    font-size: 12px;
+                    height: calc(100% + 2px);
+                    right: -18px;
+                    top: -1px;
+                    padding: 5px 4px;
+                    border-radius: 0 2px 2px 0;
+                    background: $colorBrand;
+                }
+            }
         }
         &.dragged,
         &.dragged:hover {
@@ -45,14 +80,33 @@
             display: inline-block;
         }
     }
-    .choice-area {
-        .deactivated {
-            cursor: default;
-            opacity: 0.2;
-            pointer-events: none;
-        }
-    }
+
     .qti-choice {
         @include dragdrop-noselect;
+    }
+
+    .choice-area {
+        li {
+            border-color: $colorDark;
+
+            &:not(.active):not(.deactivated):hover {
+                color: $colorBrand !important;
+                background-color: $colorLightBlue !important;
+                border-color: $colorBrand;
+            }
+            &.active,
+            &.active:hover {
+                color: $colorLight !important;
+                background-color: $colorBrand !important;
+                border-color: $colorBrand;
+            }
+            &.deactivated {
+                color: $colorDisabledText;
+                background-color: $uiClickableDefaultBg;
+                border-color: $colorDisabledText;
+                cursor: default;
+                pointer-events: none;
+            }
+        }
     }
 }
