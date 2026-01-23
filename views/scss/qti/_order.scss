@@ -1,146 +1,264 @@
-@import 'inc/bootstrap';
+@import "inc/bootstrap";
 
 .qti-orderInteraction {
+  .arrow-bar {
+    text-align: center;
+    span {
+      margin: 3px auto;
+      @include font-size(25);
+      color: mix(#fff, $textColor, 50%);
+      background: mix(#fff, $uiClickableDefaultBg, 50%);
+      cursor: default;
+      height: 40px;
+      &.active {
+        background: $uiClickableDefaultBg;
+        cursor: pointer;
+        color: $textColor;
+        &:hover {
+          color: $textHighlight;
+          background: $uiClickableHoverBg;
+        }
+      }
+      &.triggered {
+        color: $textHighlight;
+        background: $uiClickableHoverBg;
+      }
+    }
+  }
+
+  &.qti-vertical {
+    .order-interaction-area {
+      display: table;
+      border-collapse: separate;
+      border-spacing: 5px 5px 5px 0;
+      width: 100%;
+    }
+    ul.source,
+    ul.target,
+    ol.source,
+    ol.target {
+      display: table-cell;
+      width: 43%;
+      padding-left: 40px;
+      padding-right: 3px;
+
+      @include rtl {
+        padding-left: 3px;
+        padding-right: 40px;
+      }
+    }
     .arrow-bar {
-        text-align: center;
-        span {
-            margin: 3px auto;
-            @include font-size(25);
-            color: mix(#fff, $textColor, 50%);
-            background: mix(#fff, $uiClickableDefaultBg, 50%);
-            cursor: default;
-            height: 40px;
-            &.active {
-                background: $uiClickableDefaultBg;
-                cursor: pointer;
-                color: $textColor;
-                &:hover {
-                    color: $textHighlight;
-                    background: $uiClickableHoverBg;
-                }
-            }
-            &.triggered {
-                color: $textHighlight;
-                background: $uiClickableHoverBg;
-            }
+      .icon-move-before {
+        @include icon-up;
+      }
+      .icon-move-behind {
+        @include icon-down;
+      }
+      display: table-cell;
+      vertical-align: middle;
+      padding: 5px;
+      span {
+        padding: 8px 0;
+        display: block;
+        width: 50px;
+        &.inactive {
+          visibility: hidden;
         }
+      }
+      &.middle {
+        span.inactive {
+          display: none;
+        }
+      }
     }
-
-    &.qti-vertical {
-        .order-interaction-area {
-            display: table;
-            border-collapse: separate;
-            border-spacing: 5px 5px 5px 0;
-            width: 100%;
-        }
-        ul.source,
-        ul.target,
-        ol.source,
-        ol.target {
-            display: table-cell;
-            width: 43%;
-            padding-left: 40px;
-            padding-right: 3px;
-
-            @include rtl {
-                padding-left: 3px;
-                padding-right: 40px;
-            }
-        }
-        .arrow-bar {
-            .icon-move-before {
-                @include icon-up;
-            }
-            .icon-move-behind {
-                @include icon-down;
-            }
-            display: table-cell;
-            vertical-align: middle;
-            padding: 5px;
-            span {
-                padding: 8px 0;
-                display: block;
-                width: 50px;
-                &.inactive {
-                    visibility: hidden;
-                }
-            }
-            &.middle {
-                span.inactive {
-                    display: none;
-                }
-            }
-        }
-        .icon-add-to-selection,
-        .icon-remove-from-selection {
-            @include rtl {
-                transform: scale(-1);
-            }
-        }
+    .icon-add-to-selection,
+    .icon-remove-from-selection {
+      @include rtl {
+        transform: scale(-1);
+      }
     }
+  }
 
-    &.qti-horizontal {
-        .block-listing {
-            min-height: 38px;
-        }
-        .arrow-bar {
-            margin-bottom: 10px;
+  &.qti-horizontal {
+    .block-listing {
+      min-height: 38px;
+    }
+    .arrow-bar {
+      margin-bottom: 10px;
 
-            span {
-                padding: 0 15px;
-                display: inline-block;
-                line-height: 1.6;
-                &.inactive {
-                    visibility: hidden;
-                }
-                &.icon-move-before {
-                    @include icon-up;
-                }
-                &.icon-move-behind {
-                    @include icon-down;
-                }
-            }
+      span {
+        padding: 0 15px;
+        display: inline-block;
+        line-height: 1.6;
+        &.inactive {
+          visibility: hidden;
         }
-        .icon-move-after,
-        .icon-move-before {
-            @include rtl {
-                transform: scale(-1);
-            }
+        &.icon-move-before {
+          @include icon-up;
         }
+        &.icon-move-behind {
+          @include icon-down;
+        }
+      }
     }
+    .icon-move-after,
+    .icon-move-before {
+      @include rtl {
+        transform: scale(-1);
+      }
+    }
+  }
 
-    &.qti-single {
-        .order-interaction-area {
-            > .arrow-bar,
-            > .result-area {
-                display: none;
-            }
-        }
-        &.test-preview {
-            .order-interaction-area {
-                > .arrow-bar:not(.middle),
-                > .result-area {
-                    display: table-cell;
-                    width: 100%;
-                }
-                > .choice-area {
-                    display: none;
-                }
-            }
-        }
-    }
-    li {
-        @include dragdrop-noselect;
-        &.dragged {
-            border-color: whiten($info, 0.2) !important;
-            list-style: none;
-        }
-    }
-    .drag-container {
-        position: absolute;
+  &.qti-single {
+    .order-interaction-area {
+      > .arrow-bar,
+      > .result-area {
         display: none;
-        padding: 0;
-        margin: 0;
-        z-index: 1;
+      }
     }
+    &.test-preview {
+      .order-interaction-area {
+        > .arrow-bar:not(.middle),
+        > .result-area {
+          display: table-cell;
+          width: 100%;
+        }
+        > .choice-area {
+          display: none;
+        }
+      }
+    }
+  }
+  li {
+    @include dragdrop-noselect;
+    &.dragged {
+      border-color: whiten($info, 0.2) !important;
+      list-style: none;
+    }
+  }
+  .drag-container {
+    position: absolute;
+    display: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1;
+  }
+}
+
+// Shared for vertical bottom and top 
+.qti-orderInteraction.qti-vertical.qti-choices-top,
+.qti-orderInteraction.qti-vertical.qti-choices-bottom {
+
+  .order-interaction-area {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    row-gap: 10px;
+    column-gap: 10px;
+    align-items: start;
+  }
+
+  ul.source,
+  ul.target,
+  ol.source,
+  ol.target {
+    width: 100%;
+  }
+
+  .choice-area,
+  .result-area {
+    min-height: 80px;
+  }
+
+  /* middle arrow bar (transfer) */
+  .arrow-bar.middle {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* result list stays vertical */
+  .result-area {
+    grid-column: 1;
+    display: block;
+  }
+
+  /* reorder arrows */
+  .order-interaction-area > .arrow-bar:not(.middle) {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 40px;
+    text-align: center;
+  }
+
+  .order-interaction-area > .arrow-bar:not(.middle) span {
+    display: block;
+    padding: 6px 0;
+  }
+
+  /* hide arrows if no results */
+  .result-area:empty + .arrow-bar {
+    display: none;
+  }
+}
+
+
+// top
+.qti-orderInteraction.qti-vertical.qti-choices-top {
+
+  .choice-area {
+    grid-row: 1;
+    grid-column: 1 / -1;
+  }
+
+  .arrow-bar.middle {
+    grid-row: 2;
+  }
+
+  .result-area {
+    grid-row: 3;
+  }
+
+  .result-area + .arrow-bar {
+    grid-row: 3;
+  }
+}
+
+// bottom 
+.qti-orderInteraction.qti-vertical.qti-choices-top {
+
+  .choice-area {
+    grid-row: 1;
+    grid-column: 1 / -1;
+  }
+
+  .arrow-bar.middle {
+    grid-row: 2;
+  }
+
+  .result-area {
+    grid-row: 3;
+  }
+
+  .result-area + .arrow-bar {
+    grid-row: 3;
+  }
+}
+
+
+
+
+
+
+
+// vertical right
+.qti-orderInteraction.qti-vertical.qti-choices-right {
+  .order-interaction-area {
+    direction: rtl;
+  }
+
+  .order-interaction-area > * {
+    direction: ltr;
+  }
 }
