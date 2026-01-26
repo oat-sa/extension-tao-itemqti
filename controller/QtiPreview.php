@@ -120,10 +120,10 @@ class QtiPreview extends taoItems_actions_ItemPreview
                 // Developer's note: QTI Pairs with a single identifier (missing second identifier of the pair)
                 // are transmitted as an array of length 1, this might cause problem. Such "broken" pairs are simply
                 // ignored.
-                common_Logger::d("Client-side value for variable '${id}' is ignored due to data malformation.");
+                common_Logger::d("Client-side value for variable '{$id}' is ignored due to data malformation.");
             } catch (OutOfBoundsException $e) {
                 // No such identifier found in item.
-                common_Logger::d("The variable with identifier '${id}' is not declared in the item definition.");
+                common_Logger::d("The variable with identifier '{$id}' is not declared in the item definition.");
             }
         }
 

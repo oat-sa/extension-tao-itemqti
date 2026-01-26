@@ -29,13 +29,17 @@ use oat\generis\model\GenerisRdf;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class MetadataRepositoryTest extends TestCase
 {
     private const URI = 'https://test-tao.docker.localhost/ontologies/tao.rdf#i60a4c48ec090693e7eff48464b03b8';
 
-    /** @var MetadataRepository */
-    private $repository;
+    private MetadataRepository $repository;
+    private Ontology|MockObject $ontology;
+    private GenerisRdf|MockObject $generis;
+    private MockObject|core_kernel_classes_Class $classMock;
+    private core_kernel_classes_Property|MockObject $propertyMock;
 
     public function setUp(): void
     {

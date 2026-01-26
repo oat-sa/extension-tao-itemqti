@@ -28,10 +28,14 @@ use core_kernel_classes_Triple;
 use oat\generis\model\data\Ontology;
 use oat\taoItems\model\TaoItemOntology;
 use oat\taoQtiItem\model\metadata\ResourceMetadataRetriever;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ResourceMetadataRetrieverTest extends TestCase
 {
+    private Ontology|MockObject $ontologyMock;
+    private ResourceMetadataRetriever $subject;
+
     public function setUp(): void
     {
         $this->ontologyMock = $this->createMock(Ontology::class);

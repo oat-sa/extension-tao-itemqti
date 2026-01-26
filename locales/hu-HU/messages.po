@@ -425,6 +425,12 @@ msgstr "Korlátozások megadása az érvényes válaszadáshoz szükséges vála
 msgid "Define correct response"
 msgstr "Határozza meg a helyes választ"
 
+msgid "Define correct response (for post-processing)"
+msgstr ""
+
+msgid "It is intended only for post-processing and will not influence the actual score computation."
+msgstr ""
+
 msgid "Define item language."
 msgstr "Határozza meg az elem nyelvét."
 

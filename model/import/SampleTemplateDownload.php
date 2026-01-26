@@ -35,8 +35,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use common_exception_Error;
 use common_exception_MissingParameter;
-
-use function GuzzleHttp\Psr7\stream_for;
+use GuzzleHttp\Psr7\Utils;
 
 class SampleTemplateDownload extends ConfigurableService implements ServiceLocatorAwareInterface
 {
@@ -70,7 +69,7 @@ class SampleTemplateDownload extends ConfigurableService implements ServiceLocat
             ->withHeader('Content-Encoding', 'UTF-8')
             ->withHeader('Content-Type', 'text/csv; charset=UTF-8')
             ->withHeader("Content-Disposition", "attachment; filename=" . $filename)
-            ->withBody(stream_for($csvContent));
+            ->withBody(Utils::streamFor($csvContent));
     }
 
     private function getCsvContent($headers, $templateSampleLines): string

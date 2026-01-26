@@ -28,10 +28,15 @@ use core_kernel_classes_Resource as Resource;
 use InvalidArgumentException;
 use oat\taoBackOffice\model\lists\ListService;
 use oat\taoQtiItem\model\import\ChecksumGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ChecksumGeneratorTest extends TestCase
 {
+    private Property|MockObject $propertyMock;
+    private ListService|MockObject $listServiceMock;
+    private ChecksumGenerator $checksumGenerator;
+
     public function setUp(): void
     {
         $this->propertyMock = $this->createMock(Property::class);
