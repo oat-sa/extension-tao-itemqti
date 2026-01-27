@@ -1,11 +1,5 @@
 @import 'inc/bootstrap';
 
-$colorDark: #222222;
-$colorBrand: #266d9c;
-$colorLight: #ffffff;
-$colorLightBlue: #e4ecef;
-$colorDisabledText: #7a7a7a;
-
 .qti-gapMatchInteraction {
     .gapmatch-content {
         audio,
@@ -16,7 +10,7 @@ $colorDisabledText: #7a7a7a;
         }
 
         border: solid 1px transparent;
-        border-bottom-color: $colorDark;
+        border-bottom-color: $textColor;
         background: $uiClickableDefaultBg;
         color: $textColor;
         @include border-radius();
@@ -25,55 +19,75 @@ $colorDisabledText: #7a7a7a;
         min-width: 45px;
         min-height: 20px;
         display: inline-block;
+        padding-block: 1px;
 
-        &.empty {
+        &.empty:not(.filled) {
             min-height: 20px;
             border-color: $colorBrand !important;
             cursor: pointer;
 
             &:hover {
                 border-style: solid !important;
-                background-color: $colorLightBlue;
+                background-color: $colorBrandLight;
             }
         }
+
         &.filled {
             top: 0 !important;
             border-bottom-color: $colorBrand;
             color: $colorBrand;
-            background: $colorLight;
+            background: $uiGeneralContentBg;
             cursor: pointer;
+            padding-block: 0;
+
+            &.empty {
+                border: solid 1px transparent !important;
+                border-bottom-color: $colorBrand !important;
+            }
 
             &:not(.empty):hover {
                 border-bottom-color: transparent;
-                color: $colorLight;
+                color: $uiGeneralContentBg;
                 background: $colorBrand;
                 box-shadow: -2px 0px 0 0px $colorBrand;
 
                 &:after {
                     @include tao-icon-setup;
                     @include icon-result-nok;
-                    color: $colorLight;
+                    color: $uiGeneralContentBg;
                     position: absolute;
                     font-size: 12px;
                     height: calc(100% + 2px);
-                    right: -18px;
+                    inset-inline-end: -18px;
                     top: -1px;
-                    padding: 5px 4px;
+                    padding-block-start: 6px;
+                    padding-inline-start: 2px;
+                    padding-inline-end: 4px;
                     border-radius: 0 2px 2px 0;
                     background: $colorBrand;
                 }
             }
         }
+
         &.dragged,
         &.dragged:hover {
             @extend %dragged;
+            color: $uiGeneralContentBg !important;
+            background: $colorBrand !important;
+
+            &.filled:not(.empty):after {
+                color: transparent;
+            }
         }
+
         &.droppable,
         &.droppable:hover {
             @extend %droppable;
         }
+
         &.dropzone {
             @extend %dropzone;
+            border: solid 1px $colorBrand !important;
         }
 
         .qti-block {
@@ -87,23 +101,25 @@ $colorDisabledText: #7a7a7a;
 
     .choice-area {
         li {
-            border-color: $colorDark;
+            border-color: $textColor;
 
             &:not(.active):not(.deactivated):hover {
                 color: $colorBrand !important;
-                background-color: $colorLightBlue !important;
+                background-color: $colorBrandLight !important;
                 border-color: $colorBrand;
             }
+
             &.active,
             &.active:hover {
-                color: $colorLight !important;
+                color: $uiGeneralContentBg !important;
                 background-color: $colorBrand !important;
                 border-color: $colorBrand;
             }
+
             &.deactivated {
-                color: $colorDisabledText;
+                color: $uiReviewPanelTextDisabled;
                 background-color: $uiClickableDefaultBg;
-                border-color: $colorDisabledText;
+                border-color: $uiReviewPanelTextDisabled;
                 cursor: default;
                 pointer-events: none;
             }
