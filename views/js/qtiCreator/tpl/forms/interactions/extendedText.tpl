@@ -7,7 +7,7 @@
     		<option value="{{@key}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
     	{{/each}}
     </select>
-    <div id="editorType" class="panel editorType-panel" style="display:none;">
+    <div id="editorType-panel" class="panel editorType-panel" style="display:none;">
         <br>
         <label for="editorType">{{__ "Editor type"}}</label>
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>

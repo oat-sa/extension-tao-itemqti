@@ -180,7 +180,7 @@ define([
             maxWords: $form.find('[name="maxWords"]'),
             patternMask: $form.find('[name="patternMask"]')
         };
-        $editorTypeBlock = $form.find('#editorType');
+        $editorTypeBlock = $form.find('#editorType-panel');
         $toolbarGroupingBlock = $form.find('#toolbarGrouping');
         $constraintsBlock = $form.find('#constraints');
         $recommendationsBlock = $form.find('#recommendations');
