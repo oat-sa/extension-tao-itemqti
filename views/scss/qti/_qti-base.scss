@@ -88,8 +88,9 @@ $mainContainer: '.qti-item';
     margin: auto;
     max-width: 1024px;
 
-    &.runtime {
+    &:where(.runtime) {
         min-height: 100%;
+        background: none;
     }
 
     [class*='col-'] {
