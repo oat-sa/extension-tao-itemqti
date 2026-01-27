@@ -1,0 +1,174 @@
+@import 'inc/bootstrap';
+@import 'graphic-functions';
+
+.qti-graphicAssociateInteraction {
+    @mixin assoc-shadow($strokeWidth) {
+        filter: blur(unscale(1px));
+        fill: transparent;
+        stroke: rgba(0, 0, 0, 0.4);
+        stroke-width: unscale($strokeWidth);
+    }
+
+    .hotspot2 {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+        .hotspot2-inner {
+            stroke-width: unscale(14px);
+            fill: $colorBrand;
+            stroke-linejoin: round;
+            cursor: pointer;
+        }
+        .hotspot2-outer {
+            stroke: $colorLight;
+            stroke-width: unscale(10px);
+            stroke-linejoin: round;
+            fill: none;
+            cursor: pointer;
+        }
+        .hotspot2-shadow {
+            @include assoc-shadow(2px);
+        }
+
+        &.basic {
+            .hotspot2-inner {
+                stroke: $colorDark;
+                fill-opacity: 0.2;
+            }
+        }
+        &.basic[data-matchable='true']:hover {
+            .hotspot2-inner {
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
+
+        &.basic[data-associated='true'] {
+            .hotspot2-inner {
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
+        &.basic[data-associated='true'][data-matchable='true']:hover {
+            .hotspot2-inner {
+                stroke-width: unscale(18px);
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
+
+        &.active {
+            .hotspot2-inner {
+                stroke-width: unscale(18px);
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
+        &.active:hover {
+            .hotspot2-inner {
+                stroke-width: unscale(18px);
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
+
+        &.selectable {
+            .hotspot2-inner {
+                stroke: $colorDark;
+                fill-opacity: 0.2;
+            }
+        }
+        &.selectable:hover {
+            .hotspot2-inner {
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
+
+        &.selectable[data-associated='true'] {
+            .hotspot2-inner {
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
+        &.selectable[data-associated='true']:hover {
+            .hotspot2-inner {
+                stroke-width: unscale(18px);
+                stroke: $colorBrand;
+                fill-opacity: 0.5;
+            }
+        }
+
+        &.error {
+            .hotspot2-inner {
+                stroke: $colorError;
+                fill: $colorError;
+                fill-opacity: 0.5;
+            }
+        }
+    }
+
+    .assoc-line {
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+    .assoc-line-shadow {
+        @include assoc-shadow(10px);
+        transition: stroke-width 200ms;
+    }
+    .assoc-line-outer {
+        stroke: $colorLight;
+        stroke-width: unscale(8px);
+        stroke-linecap: round;
+        transition: stroke-width 200ms;
+    }
+    .assoc-line-inner {
+        stroke: $colorBrand;
+        stroke-width: unscale(2px);
+        stroke-linecap: round;
+    }
+    .assoc-line-hitbox {
+        stroke-width: unscale(28px);
+        stroke-opacity: 0;
+    }
+    .assoc-line:not(.selected):hover {
+        .assoc-line-shadow {
+            stroke-width: unscale(13px);
+        }
+        .assoc-line-outer {
+            stroke-width: unscale(11px);
+        }
+        .assoc-line-inner {
+            stroke-width: unscale(3px);
+        }
+    }
+
+    .close-btn {
+        @include transform-unscale;
+        cursor: pointer;
+        transition: opacity 200ms;
+    }
+    .close-btn-path {
+        fill: $colorLight;
+        stroke: $colorLight;
+        stroke-width: 0;
+    }
+    .close-btn-bg {
+        fill: $colorBrand;
+        stroke: $colorLight;
+        stroke-width: 2;
+    }
+    .close-btn-hitbox {
+        fill: $colorBrand;
+        opacity: 0;
+        stroke-width: 0;
+    }
+    .assoc-line:not(.selected) + .close-btn {
+        visibility: hidden;
+    }
+
+    .glass-layer {
+        fill: $colorDark;
+        opacity: 0.4;
+        stroke-width: 0;
+    }
+}

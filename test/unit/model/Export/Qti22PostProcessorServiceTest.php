@@ -122,4 +122,32 @@ XML;
         $this->assertNotEmpty($result);
         $this->assertStringContainsString('<itemBody>', $result);
     }
+
+    public function testItemContentPostProcessingRemovesHottextAndHotspotFixedAndRenamesPatternmask(): void
+    {
+        $input = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem 
+    xmlns="http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0"
+    xmlns:qh5="http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <itemBody>
+        <hottextInteraction responseIdentifier="RESPONSE">
+            <p>Text <hottext identifier="hottext_1" fixed="false">choice</hottext></p>
+        </hottextInteraction>
+        <hotspotInteraction responseIdentifier="RESPONSE_2">
+            <hotspotChoice identifier="choice_1" fixed="true" shape="circle" coords="1,2,3"/>
+        </hotspotInteraction>
+        <textEntryInteraction responseIdentifier="RESPONSE_3" dataPatternmaskMessage="Mask msg"/>
+    </itemBody>
+</assessmentItem>
+XML;
+
+        $result = $this->service->itemContentPostProcessing($input);
+
+        $this->assertStringNotContainsString('fixed="false"', $result);
+        $this->assertStringNotContainsString('fixed="true"', $result);
+        $this->assertStringNotContainsString('dataPatternmaskMessage="Mask msg"', $result);
+        $this->assertStringContainsString('data-patternmask-message="Mask msg"', $result);
+    }
 }
