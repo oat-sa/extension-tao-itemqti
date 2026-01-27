@@ -35,7 +35,7 @@
 
             &.hover {
                 border: 2px solid $colorBrand;
-                background-color: $colorLightBlue;
+                background-color: $colorBrandLight;
             }
         }
     }
@@ -181,7 +181,7 @@
         &.hover {
             cursor: pointer;
             stroke: $colorBrand;
-            fill: $colorLightBlue;
+            fill: $colorBrandLight;
             stroke-width: unscale(4px);
             stroke-dasharray: none;
         }
