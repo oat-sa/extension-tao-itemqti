@@ -203,7 +203,9 @@ define(['jquery', 'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMet
 
             assert.equal($wrapper.attr('data-scrolling-height'), '50', 'wrapper data-scrolling-height set');
             assert.ok($wrapper.hasClass('tao-half-height'), 'wrapper class for selected height added');
-            assert.ok(true);
+            assert.notOk($wrapper.hasClass('tao-quarter-height'), 'previous height class removed');
+            assert.notOk($wrapper.hasClass('tao-third-height'), 'previous height class removed');
+            assert.equal($width.val(), '50', 'scrollingWidth selector synced to new value');
         }
     );
 
@@ -227,7 +229,9 @@ define(['jquery', 'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMet
                 'wrapper data-scrolling-height set (weight setter uses same attr)'
             );
             assert.ok($wrapper.hasClass('tao-half-height'), 'wrapper class for selected value added');
-            assert.ok(true);
+            assert.notOk($wrapper.hasClass('tao-quarter-height'), 'previous class removed');
+            assert.notOk($wrapper.hasClass('tao-third-height'), 'previous class removed');
+            assert.equal($height.val(), '50', 'scrollingHeight selector synced to new value');
         }
     );
 
@@ -279,13 +283,15 @@ define(['jquery', 'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMet
             // first update height on wrapperA
             $width.val('75');
             cb.scrollingHeight(null, '50');
-            assert.ok(true);
+            assert.equal($width.val(), '50', 'scrollingWidth synced after scrollingHeight change');
+            assert.equal(wrapperA.attr('data-scrolling-height'), '50', 'wrapperA updated');
 
             // then update width on wrapperB via a different wrapCallback
             const cb2 = itemScrollingMethods.generateChangeCallback({ $form }, () => wrapperB, $form, 'inner');
             $height.val('75');
             cb2.scrollingWidth(null, '50');
-            assert.ok(true);
+            assert.equal($height.val(), '50', 'scrollingHeight synced after scrollingWidth change');
+            assert.equal(wrapperB.attr('data-scrolling-height'), '50', 'wrapperB updated');
         }
     );
 });

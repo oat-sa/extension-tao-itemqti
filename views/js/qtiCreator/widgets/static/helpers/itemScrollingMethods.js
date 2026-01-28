@@ -202,7 +202,10 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
                 $wrapper.removeClass(opt.class);
             });
             // add class tao-*-height for new UI test Runner
-            $wrapper.addClass(findOptionByVal(value).class);
+            const opt = findOptionByVal(value);
+            if (opt) {
+                $wrapper.addClass(opt.class);
+            }
 
             const scrollingWidth = $form.find('[name=scrollingWidth]');
             if (scrollingWidth.length > 0 && scrollingWidth.val() !== value) {
@@ -219,7 +222,10 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
                 $wrapper.removeClass(opt.class);
             });
             // add class tao-*-height for new UI test Runner
-            $wrapper.addClass(findOptionByVal(value).class);
+            const opt = findOptionByVal(value);
+            if (opt) {
+                $wrapper.addClass(opt.class);
+            }
 
             const scrollingHeight = $form.find('[name=scrollingHeight]');
             if (scrollingHeight.length > 0 && scrollingHeight.val() !== value) {
