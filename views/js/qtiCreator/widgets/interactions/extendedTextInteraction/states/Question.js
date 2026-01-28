@@ -237,7 +237,6 @@ define([
             );
         }
 
-
         // -- format Callback
         callbacks.format = function (interaction, attrValue) {
             var response = interaction.getResponseDeclaration();
@@ -366,7 +365,7 @@ define([
                 isScrolling = true;
             }
 
-            itemScrollingMethods.setIsVertical($form, mode == 'vertical');
+            itemScrollingMethods.setIsVertical($form, mode === 'vertical');
             itemScrollingMethods.wrapContent(_widget, isScrolling, 'interaction');
         };
 

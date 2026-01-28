@@ -11,30 +11,37 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2014-2026 (original work) Open Assessment Technologies SA;
  */
 
-define([
-    'jquery',
-    'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods'
-], function ($, itemScrollingMethods) {
+define(['jquery', 'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods'], function (
+    $,
+    itemScrollingMethods
+) {
     'use strict';
 
     QUnit.module('itemScrollingMethods');
 
-    QUnit.test('getTplVars returns scrollingHeights/options and scrollingWidths/optionsVerticalDirectionWriting', function (assert) {
-        const vars = itemScrollingMethods.getTplVars();
+    QUnit.test(
+        'getTplVars returns scrollingHeights/options and scrollingWidths/optionsVerticalDirectionWriting',
+        function (assert) {
+            const vars = itemScrollingMethods.getTplVars();
 
-        assert.ok(vars, 'tpl vars returned');
-        assert.deepEqual(vars.scrollingHeights, itemScrollingMethods.options(), 'scrollingHeights come from options()');
-        assert.deepEqual(
-            vars.scrollingWidths,
-            itemScrollingMethods.optionsVertical(),
-            'scrollingWidths come from optionsVertical()'
-        );
-    });
+            assert.ok(vars, 'tpl vars returned');
+            assert.deepEqual(
+                vars.scrollingHeights,
+                itemScrollingMethods.options(),
+                'scrollingHeights come from options()'
+            );
+            assert.deepEqual(
+                vars.scrollingWidths,
+                itemScrollingMethods.optionsVertical(),
+                'scrollingWidths come from optionsVertical()'
+            );
+        }
+    );
 
     QUnit.test('generateChangeCallback: scrolling calls wrapContent with widget/value/type', function (assert) {
         const widget = { $form: $('<form>') };
@@ -57,81 +64,98 @@ define([
         itemScrollingMethods.wrapContent = originalWrapContent;
     });
 
-    QUnit.test('generateChangeCallback: scrollingHeight/scrollingWidth use wrapCallback and pass wrapped value to setters', function (assert) {
-        const widget = { $form: $('<form>') };
-        const $form = widget.$form;
+    QUnit.test(
+        'generateChangeCallback: scrollingHeight/scrollingWidth use wrapCallback and pass wrapped value to setters',
+        function (assert) {
+            const widget = { $form: $('<form>') };
+            const $form = widget.$form;
 
-        const $height = $('<select name="scrollingHeight"><option value="50">50</option></select>');
-        const $width = $('<select name="scrollingWidth"><option value="50">50</option></select>');
-        $form.append($height, $width);
+            const $height = $('<select name="scrollingHeight"><option value="50">50</option></select>');
+            const $width = $('<select name="scrollingWidth"><option value="50">50</option></select>');
+            $form.append($height, $width);
 
-        const wrapperA = $('<div>');
-        const wrapperB = $('<div>');
-        let wrapCallbackReturnsB = false;
-        const wrapCallback = () => (wrapCallbackReturnsB ? wrapperB : wrapperA);
+            const wrapperA = $('<div>');
+            const wrapperB = $('<div>');
+            let wrapCallbackReturnsB = false;
+            const wrapCallback = () => (wrapCallbackReturnsB ? wrapperB : wrapperA);
 
-        const originalSetHeight = itemScrollingMethods.setScrollingHeight;
-        const originalSetWeight = itemScrollingMethods.setScrollingWeight;
+            const originalSetHeight = itemScrollingMethods.setScrollingHeight;
+            const originalSetWeight = itemScrollingMethods.setScrollingWeight;
 
-        const heightCalls = [];
-        const widthCalls = [];
+            const heightCalls = [];
+            const widthCalls = [];
 
-        itemScrollingMethods.setScrollingHeight = function ($wrapper, value, $f) {
-            heightCalls.push({ $wrapper, value, $f });
-        };
-        itemScrollingMethods.setScrollingWeight = function ($wrapper, value, $f) {
-            widthCalls.push({ $wrapper, value, $f });
-        };
+            itemScrollingMethods.setScrollingHeight = function ($wrapper, value, $f) {
+                heightCalls.push({ $wrapper, value, $f });
+            };
+            itemScrollingMethods.setScrollingWeight = function ($wrapper, value, $f) {
+                widthCalls.push({ $wrapper, value, $f });
+            };
 
-        const cb = itemScrollingMethods.generateChangeCallback(widget, wrapCallback, $form, 'inner');
+            const cb = itemScrollingMethods.generateChangeCallback(widget, wrapCallback, $form, 'inner');
 
-        cb.scrollingHeight(null, '50');
-        wrapCallbackReturnsB = true;
-        cb.scrollingWidth(null, '50');
+            cb.scrollingHeight(null, '50');
+            wrapCallbackReturnsB = true;
+            cb.scrollingWidth(null, '50');
 
-        assert.equal(heightCalls.length, 1, 'setScrollingHeight called once');
-        assert.strictEqual(heightCalls[0].$wrapper, wrapperA, 'setScrollingHeight uses wrapped element (A)');
-        assert.equal(heightCalls[0].value, '50', 'setScrollingHeight passes value');
-        assert.strictEqual(heightCalls[0].$f, $form, 'setScrollingHeight passes $form');
+            assert.equal(heightCalls.length, 1, 'setScrollingHeight called once');
+            assert.strictEqual(heightCalls[0].$wrapper, wrapperA, 'setScrollingHeight uses wrapped element (A)');
+            assert.equal(heightCalls[0].value, '50', 'setScrollingHeight passes value');
+            assert.strictEqual(heightCalls[0].$f, $form, 'setScrollingHeight passes $form');
 
-        assert.equal(widthCalls.length, 1, 'setScrollingWeight called once');
-        assert.strictEqual(widthCalls[0].$wrapper, wrapperB, 'setScrollingWeight uses wrapped element (B)');
-        assert.equal(widthCalls[0].value, '50', 'setScrollingWeight passes value');
-        assert.strictEqual(widthCalls[0].$f, $form, 'setScrollingWeight passes $form');
+            assert.equal(widthCalls.length, 1, 'setScrollingWeight called once');
+            assert.strictEqual(widthCalls[0].$wrapper, wrapperB, 'setScrollingWeight uses wrapped element (B)');
+            assert.equal(widthCalls[0].value, '50', 'setScrollingWeight passes value');
+            assert.strictEqual(widthCalls[0].$f, $form, 'setScrollingWeight passes $form');
 
-        itemScrollingMethods.setScrollingHeight = originalSetHeight;
-        itemScrollingMethods.setScrollingWeight = originalSetWeight;
-    });
+            itemScrollingMethods.setScrollingHeight = originalSetHeight;
+            itemScrollingMethods.setScrollingWeight = originalSetWeight;
+        }
+    );
 
-    QUnit.test('setScrollingHeight updates wrapper attribute/classes and syncs scrollingWidth selector', function (assert) {
-        const $form = $('<form>');
-        const $width = $('<select name="scrollingWidth"><option value="50">50</option><option value="75">75</option></select>');
-        $form.append($width);
+    QUnit.test(
+        'setScrollingHeight updates wrapper attribute/classes and syncs scrollingWidth selector',
+        function (assert) {
+            const $form = $('<form>');
+            const $width = $(
+                '<select name="scrollingWidth"><option value="50">50</option><option value="75">75</option></select>'
+            );
+            $form.append($width);
 
-        const $wrapper = $('<div class="tao-quarter-height tao-third-height">');
-        $width.val('75');
+            const $wrapper = $('<div class="tao-quarter-height tao-third-height">');
+            $width.val('75');
 
-        itemScrollingMethods.setScrollingHeight($wrapper, '50', $form);
+            itemScrollingMethods.setScrollingHeight($wrapper, '50', $form);
 
-        assert.equal($wrapper.attr('data-scrolling-height'), '50', 'wrapper data-scrolling-height set');
-        assert.ok($wrapper.hasClass('tao-half-height'), 'wrapper class for selected height added');
-        assert.equal($width.val(), '50', 'scrollingWidth synced to same value');
-    });
+            assert.equal($wrapper.attr('data-scrolling-height'), '50', 'wrapper data-scrolling-height set');
+            assert.ok($wrapper.hasClass('tao-half-height'), 'wrapper class for selected height added');
+            assert.equal($width.val(), '50', 'scrollingWidth synced to same value');
+        }
+    );
 
-    QUnit.test('setScrollingWeight updates wrapper attribute/classes and syncs scrollingHeight selector', function (assert) {
-        const $form = $('<form>');
-        const $height = $('<select name="scrollingHeight"><option value="50">50</option><option value="75">75</option></select>');
-        $form.append($height);
+    QUnit.test(
+        'setScrollingWeight updates wrapper attribute/classes and syncs scrollingHeight selector',
+        function (assert) {
+            const $form = $('<form>');
+            const $height = $(
+                '<select name="scrollingHeight"><option value="50">50</option><option value="75">75</option></select>'
+            );
+            $form.append($height);
 
-        const $wrapper = $('<div class="tao-quarter-height tao-third-height">');
-        $height.val('75');
+            const $wrapper = $('<div class="tao-quarter-height tao-third-height">');
+            $height.val('75');
 
-        itemScrollingMethods.setScrollingWeight($wrapper, '50', $form);
+            itemScrollingMethods.setScrollingWeight($wrapper, '50', $form);
 
-        assert.equal($wrapper.attr('data-scrolling-height'), '50', 'wrapper data-scrolling-height set (weight setter uses same attr)');
-        assert.ok($wrapper.hasClass('tao-half-height'), 'wrapper class for selected value added');
-        assert.equal($height.val(), '50', 'scrollingHeight synced to same value');
-    });
+            assert.equal(
+                $wrapper.attr('data-scrolling-height'),
+                '50',
+                'wrapper data-scrolling-height set (weight setter uses same attr)'
+            );
+            assert.ok($wrapper.hasClass('tao-half-height'), 'wrapper class for selected value added');
+            assert.equal($height.val(), '50', 'scrollingHeight synced to same value');
+        }
+    );
 
     QUnit.test('setScrollingHeight throws on invalid value (failure scenario)', function (assert) {
         const $form = $('<form>');
@@ -155,65 +179,33 @@ define([
         );
     });
 
-    QUnit.test('setScrollingHeight/setScrollingWeight keep selectors synchronized even when wrapCallback returns different wrappers', function (assert) {
-        const $form = $('<form>');
-        const $height = $('<select name="scrollingHeight"><option value="50">50</option><option value="75">75</option></select>');
-        const $width = $('<select name="scrollingWidth"><option value="50">50</option><option value="75">75</option></select>');
-        $form.append($height, $width);
+    QUnit.test(
+        'setScrollingHeight/setScrollingWeight keep selectors synchronized even when wrapCallback returns different wrappers',
+        function (assert) {
+            const $form = $('<form>');
+            const $height = $(
+                '<select name="scrollingHeight"><option value="50">50</option><option value="75">75</option></select>'
+            );
+            const $width = $(
+                '<select name="scrollingWidth"><option value="50">50</option><option value="75">75</option></select>'
+            );
+            $form.append($height, $width);
 
-        const wrapperA = $('<div>');
-        const wrapperB = $('<div>');
+            const wrapperA = $('<div>');
+            const wrapperB = $('<div>');
 
-        const cb = itemScrollingMethods.generateChangeCallback(
-            { $form },
-            () => wrapperA,
-            $form,
-            'inner'
-        );
+            const cb = itemScrollingMethods.generateChangeCallback({ $form }, () => wrapperA, $form, 'inner');
 
-        // first update height on wrapperA
-        $width.val('75');
-        cb.scrollingHeight(null, '50');
-        assert.equal($width.val(), '50', 'scrollingWidth updated when scrollingHeight changes (sync)');
+            // first update height on wrapperA
+            $width.val('75');
+            cb.scrollingHeight(null, '50');
+            assert.equal($width.val(), '50', 'scrollingWidth updated when scrollingHeight changes (sync)');
 
-        // then update width on wrapperB via a different wrapCallback
-        const cb2 = itemScrollingMethods.generateChangeCallback(
-            { $form },
-            () => wrapperB,
-            $form,
-            'inner'
-        );
-        $height.val('75');
-        cb2.scrollingWidth(null, '50');
-        assert.equal($height.val(), '50', 'scrollingHeight updated when scrollingWidth changes (sync)');
-    });
-
-    QUnit.test('vertical-mode interactions: getTplVars exposes vertical width options and generateChangeCallback uses width setter', function (assert) {
-        const vars = itemScrollingMethods.getTplVars();
-        assert.deepEqual(vars.scrollingWidths, itemScrollingMethods.optionsVertical(), 'scrollingWidths is driven by optionsVertical()');
-
-        const $form = $('<form data-is-vertical="true">');
-        const $height = $('<select name="scrollingHeight"><option value="50">50</option></select>');
-        const $width = $('<select name="scrollingWidth"><option value="50">50</option></select>');
-        $form.append($height, $width);
-
-        const wrapper = $('<div>');
-        const wrapCallback = () => wrapper;
-
-        const originalSetWeight = itemScrollingMethods.setScrollingWeight;
-        const calls = [];
-        itemScrollingMethods.setScrollingWeight = function ($wrapper, value, $f) {
-            calls.push({ $wrapper, value, $f });
-        };
-
-        const cb = itemScrollingMethods.generateChangeCallback({ $form }, wrapCallback, $form, 'inner');
-        cb.scrollingWidth(null, '50');
-
-        assert.equal(calls.length, 1, 'setScrollingWeight invoked for scrollingWidth change');
-        assert.strictEqual(calls[0].$wrapper, wrapper, 'setter receives wrapped element');
-        assert.equal(calls[0].value, '50', 'setter receives value');
-        assert.strictEqual(calls[0].$f, $form, 'setter receives $form');
-
-        itemScrollingMethods.setScrollingWeight = originalSetWeight;
-    });
-
+            // then update width on wrapperB via a different wrapCallback
+            const cb2 = itemScrollingMethods.generateChangeCallback({ $form }, () => wrapperB, $form, 'inner');
+            $height.val('75');
+            cb2.scrollingWidth(null, '50');
+            assert.equal($height.val(), '50', 'scrollingHeight updated when scrollingWidth changes (sync)');
+        }
+    );
+});

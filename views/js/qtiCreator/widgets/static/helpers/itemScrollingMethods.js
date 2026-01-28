@@ -70,32 +70,32 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
         {
             value: '100',
             name: __('Full width'),
-            class: 'tao-full-width'
+            class: 'tao-full-height'
         },
         {
             value: '75',
             name: __('3/4 of width'),
-            class: 'tao-three-quarters-width'
+            class: 'tao-three-quarters-height'
         },
         {
             value: '66.6666',
             name: __('2/3 of width'),
-            class: 'tao-two-thirds-width'
+            class: 'tao-two-thirds-height'
         },
         {
             value: '50',
             name: __('Half width'),
-            class: 'tao-half-width'
+            class: 'tao-half-height'
         },
         {
             value: '33.3333',
             name: __('1/3 of width'),
-            class: 'tao-third-width'
+            class: 'tao-third-height'
         },
         {
             value: '25',
             name: __('1/4 of width'),
-            class: 'tao-quarter-width'
+            class: 'tao-quarter-height'
         }
     ];
 
@@ -145,7 +145,7 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
         },
 
         showScrollingSelect: $form => {
-            const isVertical = $form.attr('data-is-vertical') == 'true';
+            const isVertical = $form.attr('data-is-vertical') === 'true';
             $form.find('.scrollingSelect').show();
             $form.find('.dw-depended').hide();
             $form.find(`.dw-${isVertical ? 'vertical' : 'horizontal'}`).show();

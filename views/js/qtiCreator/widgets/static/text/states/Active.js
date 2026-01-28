@@ -131,7 +131,6 @@ define([
             )
         );
 
-
         formElement.initWidget($form);
 
         formElement.setChangeCallbacks(
@@ -139,7 +138,7 @@ define([
             widget.element,
             // add listeners for itemScrolling elements
             _.extend(
-                changeCallbacks(widget, $form, $wrap),
+                changeCallbacks(widget, $form),
                 itemScrollingMethods.generateChangeCallback(widget, () => getWrapper(widget), $form)
             )
         );
@@ -149,7 +148,7 @@ define([
         toggleVerticalWritingModeByLang(widget, $form);
     };
 
-    const changeCallbacks = function (widget, $form, $wrap) {
+    const changeCallbacks = function (widget, $form) {
         return {
             textBlockCssClass: function (element, value) {
                 const $wrap = createWrapper(widget);
