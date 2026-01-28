@@ -562,7 +562,7 @@ class ParserFactory
     {
         $uri = $element->namespaceURI;
         if ($uri === null || $uri === '') {
-            return true;
+            return false;
         }
 
         return strpos($uri, 'html5') !== false;
