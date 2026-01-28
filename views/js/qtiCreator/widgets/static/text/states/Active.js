@@ -126,7 +126,7 @@ define([
                         scrollingAvailable,
                         selectedHeight: selectedHeight
                     },
-                    itemScrollingMethods.getTplVars()
+                    itemScrollingMethods.getTplVars($wrap)
                 )
             )
         );

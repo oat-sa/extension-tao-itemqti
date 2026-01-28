@@ -17,7 +17,6 @@
  *
  */
 
-
 define([
     'lodash',
     'i18n',
@@ -226,7 +225,7 @@ define([
                             orientationAvailable
                         }
                     },
-                    itemScrollingMethods.getTplVars()
+                    itemScrollingMethods.getTplVars(interaction)
                 )
             )
         );

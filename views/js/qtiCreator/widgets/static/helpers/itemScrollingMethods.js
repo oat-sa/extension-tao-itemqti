@@ -128,20 +128,8 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
                 $form.find(`.dw-${value}`).show();
             }
 
-            let scrollingSelect = $('.scrollingSelect select').not(':hidden');
-            if (scrollingSelect.length) {
-                height && scrollingSelect.val(height).change();
-            } else {
-                //
-                // dirty to allow not overwrite not hidden select from previous element if they several on item
-                // we need to get it out context with small delay
-                // it was start to me required as soon we start have several select on page
-                // and it looks like we still not render new scrollSelect but init new interaction edit
-                setTimeout(() => {
-                    scrollingSelect = $('.scrollingSelect select').not(':hidden');
-                    height && scrollingSelect.val(height).change();
-                }, 100);
-            }
+            let scrollingSelect = $form.find('.scrollingSelect select').not(':hidden');
+            height && scrollingSelect.val(height).change();
         },
 
         showScrollingSelect: $form => {
@@ -224,6 +212,7 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
         },
 
         setScrollingWeight: function ($wrapper, value, $form) {
+            console.log('weight', value);
             $wrapper.attr('data-scrolling-height', value);
 
             // remove classes tao-*-height for new UI test Runner
@@ -266,10 +255,19 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
             return classes;
         },
 
-        getTplVars: () => {
+        getTplVars: $wrap => {
+            const currValue = self.selectedHeight($wrap);
             return {
-                scrollingHeights: options,
-                scrollingWidths: optionsVerticalDirectionWriting
+                scrollingHeights: options.map(o => ({
+                    value: o.value,
+                    name: o.name,
+                    selected: o.value === currValue
+                })),
+                scrollingWidths: optionsVerticalDirectionWriting.map(o => ({
+                    value: o.value,
+                    name: o.name,
+                    selected: o.value === currValue
+                }))
             };
         },
 

@@ -180,7 +180,7 @@ define([
                         scrolling: isScrolling,
                         selectedHeight: selectedHeight
                     },
-                    itemScrollingMethods.getTplVars()
+                    itemScrollingMethods.getTplVars($wrap)
                 )
             )
         );

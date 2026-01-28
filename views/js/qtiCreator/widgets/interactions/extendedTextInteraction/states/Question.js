@@ -154,7 +154,7 @@ define([
                         constraints: constraints,
                         constraintsAvailable
                     },
-                    itemScrollingMethods.getTplVars()
+                    itemScrollingMethods.getTplVars(interaction)
                 )
             )
         );
