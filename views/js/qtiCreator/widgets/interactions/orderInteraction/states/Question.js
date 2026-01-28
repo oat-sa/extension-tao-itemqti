@@ -121,13 +121,16 @@ define([
             return classes.join(' ');
         }
 
-        const getDefaultPosition = () =>  interaction.attr('orientation') === 'horizontal' ? 'bottom' : 'left';
+        const getDefaultPosition = () =>  interaction.attr('orientation') === 'horizontal' ? 'top' : 'left';
 
         const applyPosition = (position) => {
             if (!position) return;
             const baseClass = $interaction.attr('class') || '';
             const newClass = normalizePositionClass(baseClass, position);
             $interaction.attr('class', newClass);
+            interaction.attr('data-position', position);
+            interaction.attr('class', `qti-choices-${position}`);
+
         }
 
         const showPositionPanel = () => {
@@ -144,6 +147,8 @@ define([
         const hidePositionPanel = () => {
             getPositionPanel().hide();
             $interaction.removeClass(`qti-choices-${position}`);
+            interaction.removeAttr('data-position');
+            position = false;
         }
 
         $form.html(formTpl(_.assign({}, {
@@ -201,20 +206,23 @@ define([
         // data change for position 
         callbacks.position = function (interaction, value) { 
             position = value; 
-            interaction.attr('data-position', value); 
             applyPosition(value); 
         };
 
         // data change for order
         callbacks.order = function (interaction, value) {
-        interaction.removeAttr('data-position');
-        if (value === 'sort') {
-            makeSortOrder();
-            showPositionPanel();
-        } else {
-            makeSingleOrder();
-            hidePositionPanel();
-        }
+            // reset position when changing order type
+            interaction.removeAttr('data-position');
+            interaction.removeAttr('class');
+            position = false;
+
+            if (value === 'sort') {
+                makeSortOrder();
+                showPositionPanel();
+            } else {
+                makeSingleOrder();
+                hidePositionPanel();
+            }
         };
 
         formElement.setChangeCallbacks($form, interaction, callbacks);

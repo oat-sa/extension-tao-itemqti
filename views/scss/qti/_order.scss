@@ -26,6 +26,7 @@
     }
   }
 
+  /* VERTICAL orientation (default left position) */
   &.qti-vertical {
     .order-interaction-area {
       display: table;
@@ -48,15 +49,15 @@
       }
     }
     .arrow-bar {
+      display: table-cell;
+      vertical-align: middle;
+      padding: 5px;
       .icon-move-before {
         @include icon-up;
       }
       .icon-move-behind {
         @include icon-down;
       }
-      display: table-cell;
-      vertical-align: middle;
-      padding: 5px;
       span {
         padding: 8px 0;
         display: block;
@@ -77,8 +78,97 @@
         transform: scale(-1);
       }
     }
-  }
 
+    /* Vertical - (top & bottom position common css) */
+    &.qti-choices-top,
+    &.qti-choices-bottom {
+      .order-interaction-area {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        row-gap: 10px;
+        column-gap: 10px;
+        align-items: start;
+      }
+      ul.source,
+      ul.target,
+      ol.source,
+      ol.target {
+        width: 100%;
+      }
+      .choice-area,
+      .result-area {
+        min-height: 80px;
+      }
+      .arrow-bar.middle {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: center;
+      }
+      .result-area {
+        grid-column: 1;
+        display: block;
+      }
+      .order-interaction-area {
+        > .arrow-bar:not(.middle) {
+          grid-column: 2;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          width: 40px;
+          text-align: center;
+          span {
+            display: block;
+            padding: 6px 0;
+          }
+        }
+      }
+      .result-area:empty + .arrow-bar {
+        display: none;
+      }
+    }
+    /* Vertical - top (grid order) */
+    &.qti-choices-top {
+      .choice-area {
+        grid-row: 1;
+        grid-column: 1 / -1;
+      }
+      .arrow-bar.middle {
+        grid-row: 2;
+      }
+      .result-area {
+        grid-row: 3;
+      }
+      .result-area + .arrow-bar {
+        grid-row: 3;
+      }
+    }
+    /* Vertical - bottom  (grid order) */
+    &.qti-choices-bottom {
+      .result-area {
+        grid-row: 1;
+      }
+      .result-area + .arrow-bar {
+        grid-row: 1;
+      }
+      .arrow-bar.middle {
+        grid-row: 2;
+      }
+      .choice-area {
+        grid-row: 3;
+        grid-column: 1 / -1;
+      }
+    }
+    /* Vertical - right (grid order) */
+    &.qti-choices-right {
+      .order-interaction-area {
+        direction: rtl;
+      }
+      .order-interaction-area > * {
+        direction: ltr;
+      }
+    }
+  }
+  /* HORIZONTAL orientation (default top position) */
   &.qti-horizontal {
     .block-listing {
       min-height: 38px;
@@ -107,8 +197,93 @@
         transform: scale(-1);
       }
     }
+    .choice-area,
+    .result-area {
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+    }
+    /* Horizontal & bottom */
+    &.qti-choices-bottom {
+      .order-interaction-area {
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 10px;
+      }
+      .order-interaction-area > .arrow-bar:not(.middle) {
+        grid-row: 1;
+      }
+      .result-area {
+        grid-row: 2;
+        display: block;
+      }
+      .arrow-bar.middle {
+        grid-row: 3;
+      }
+      .choice-area {
+        grid-row: 4;
+      }
+    }
+    /* Horizontal (left & right common css) */
+    &.qti-choices-left,
+    &.qti-choices-right {
+      .order-interaction-area {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        grid-template-rows: auto auto;
+        column-gap: 20px;
+        align-items: start;
+      }
+      .result-area,
+      .choice-area {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-start;
+      }
+      .arrow-bar.middle {
+        margin-top: 20px;
+      }
+    }
+    /* Horizontal & left (grid order) */
+    &.qti-choices-left {
+      .choice-area {
+        grid-column: 1;
+        grid-row: 1;
+      }
+      .arrow-bar.middle {
+        grid-column: 2;
+        grid-row: 1;
+      }
+      .result-area {
+        grid-column: 3;
+        grid-row: 1;
+      }
+      .order-interaction-area > .arrow-bar:not(.middle) {
+        grid-column: 3;
+        grid-row: 2;
+      }
+    }
+    /* Horizontal & right (grid order) */
+    &.qti-choices-right {
+      .result-area {
+        grid-column: 1;
+        grid-row: 1;
+      }
+      .order-interaction-area > .arrow-bar:not(.middle) {
+        grid-column: 1;
+        grid-row: 2;
+      }
+      .arrow-bar.middle {
+        grid-column: 2;
+        grid-row: 1;
+      }
+      .choice-area {
+        grid-column: 3;
+        grid-row: 1;
+      }
+    }
   }
-
+  /* Single interaction / drag helpers */
   &.qti-single {
     .order-interaction-area {
       > .arrow-bar,
@@ -142,123 +317,5 @@
     padding: 0;
     margin: 0;
     z-index: 1;
-  }
-}
-
-// Shared for vertical bottom and top 
-.qti-orderInteraction.qti-vertical.qti-choices-top,
-.qti-orderInteraction.qti-vertical.qti-choices-bottom {
-
-  .order-interaction-area {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    row-gap: 10px;
-    column-gap: 10px;
-    align-items: start;
-  }
-
-  ul.source,
-  ul.target,
-  ol.source,
-  ol.target {
-    width: 100%;
-  }
-
-  .choice-area,
-  .result-area {
-    min-height: 80px;
-  }
-
-  /* middle arrow bar (transfer) */
-  .arrow-bar.middle {
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: center;
-  }
-
-  /* result list stays vertical */
-  .result-area {
-    grid-column: 1;
-    display: block;
-  }
-
-  /* reorder arrows */
-  .order-interaction-area > .arrow-bar:not(.middle) {
-    grid-column: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 40px;
-    text-align: center;
-  }
-
-  .order-interaction-area > .arrow-bar:not(.middle) span {
-    display: block;
-    padding: 6px 0;
-  }
-
-  /* hide arrows if no results */
-  .result-area:empty + .arrow-bar {
-    display: none;
-  }
-}
-
-
-// top
-.qti-orderInteraction.qti-vertical.qti-choices-top {
-
-  .choice-area {
-    grid-row: 1;
-    grid-column: 1 / -1;
-  }
-
-  .arrow-bar.middle {
-    grid-row: 2;
-  }
-
-  .result-area {
-    grid-row: 3;
-  }
-
-  .result-area + .arrow-bar {
-    grid-row: 3;
-  }
-}
-
-// bottom 
-.qti-orderInteraction.qti-vertical.qti-choices-top {
-
-  .choice-area {
-    grid-row: 1;
-    grid-column: 1 / -1;
-  }
-
-  .arrow-bar.middle {
-    grid-row: 2;
-  }
-
-  .result-area {
-    grid-row: 3;
-  }
-
-  .result-area + .arrow-bar {
-    grid-row: 3;
-  }
-}
-
-
-
-
-
-
-
-// vertical right
-.qti-orderInteraction.qti-vertical.qti-choices-right {
-  .order-interaction-area {
-    direction: rtl;
-  }
-
-  .order-interaction-area > * {
-    direction: ltr;
   }
 }
