@@ -155,11 +155,65 @@ define([
         );
     });
 
-    QUnit.test('vertical-mode selectors: scrollingWidths are optionsVertical and can be used independently', function (assert) {
-        const vars = itemScrollingMethods.getTplVars();
-        const verticalOptions = itemScrollingMethods.optionsVertical();
+    QUnit.test('setScrollingHeight/setScrollingWeight keep selectors synchronized even when wrapCallback returns different wrappers', function (assert) {
+        const $form = $('<form>');
+        const $height = $('<select name="scrollingHeight"><option value="50">50</option><option value="75">75</option></select>');
+        const $width = $('<select name="scrollingWidth"><option value="50">50</option><option value="75">75</option></select>');
+        $form.append($height, $width);
 
-        assert.deepEqual(vars.scrollingWidths, verticalOptions, 'vertical widths driven by optionsVerticalDirectionWriting');
-        assert.ok(verticalOptions.length > 0, 'has vertical width options');
+        const wrapperA = $('<div>');
+        const wrapperB = $('<div>');
+
+        const cb = itemScrollingMethods.generateChangeCallback(
+            { $form },
+            () => wrapperA,
+            $form,
+            'inner'
+        );
+
+        // first update height on wrapperA
+        $width.val('75');
+        cb.scrollingHeight(null, '50');
+        assert.equal($width.val(), '50', 'scrollingWidth updated when scrollingHeight changes (sync)');
+
+        // then update width on wrapperB via a different wrapCallback
+        const cb2 = itemScrollingMethods.generateChangeCallback(
+            { $form },
+            () => wrapperB,
+            $form,
+            'inner'
+        );
+        $height.val('75');
+        cb2.scrollingWidth(null, '50');
+        assert.equal($height.val(), '50', 'scrollingHeight updated when scrollingWidth changes (sync)');
     });
-});
+
+    QUnit.test('vertical-mode interactions: getTplVars exposes vertical width options and generateChangeCallback uses width setter', function (assert) {
+        const vars = itemScrollingMethods.getTplVars();
+        assert.deepEqual(vars.scrollingWidths, itemScrollingMethods.optionsVertical(), 'scrollingWidths is driven by optionsVertical()');
+
+        const $form = $('<form data-is-vertical="true">');
+        const $height = $('<select name="scrollingHeight"><option value="50">50</option></select>');
+        const $width = $('<select name="scrollingWidth"><option value="50">50</option></select>');
+        $form.append($height, $width);
+
+        const wrapper = $('<div>');
+        const wrapCallback = () => wrapper;
+
+        const originalSetWeight = itemScrollingMethods.setScrollingWeight;
+        const calls = [];
+        itemScrollingMethods.setScrollingWeight = function ($wrapper, value, $f) {
+            calls.push({ $wrapper, value, $f });
+        };
+
+        const cb = itemScrollingMethods.generateChangeCallback({ $form }, wrapCallback, $form, 'inner');
+        cb.scrollingWidth(null, '50');
+
+        assert.equal(calls.length, 1, 'setScrollingWeight invoked for scrollingWidth change');
+        assert.strictEqual(calls[0].$wrapper, wrapper, 'setter receives wrapped element');
+        assert.equal(calls[0].value, '50', 'setter receives value');
+        assert.strictEqual(calls[0].$f, $form, 'setter receives $form');
+
+        itemScrollingMethods.setScrollingWeight = originalSetWeight;
+    });
+

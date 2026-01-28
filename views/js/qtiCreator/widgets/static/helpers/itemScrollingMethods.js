@@ -128,7 +128,6 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
                 $form.find(`.dw-${value}`).show();
             }
 
-
             let scrollingSelect = $('.scrollingSelect select').not(':hidden');
             if (scrollingSelect.length) {
                 height && scrollingSelect.val(height).change();
@@ -247,9 +246,7 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
          */
         setIsVertical: function ($form, isVertical) {
             $form.attr('data-is-vertical', isVertical);
-            $form.find('.scrollingSelect').show();
-            $form.find('.dw-depended').hide();
-            $form.find(`.dw-${isVertical ? 'vertical' : 'horizontal'}`).show();
+            self.showScrollingSelect($form);
         },
         cutScrollClasses: function (classes) {
             let clearClasses = classes.replace(wrapperFocusCls, '').replace(newUIclass, '');
