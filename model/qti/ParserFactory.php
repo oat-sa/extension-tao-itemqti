@@ -84,6 +84,8 @@ class ParserFactory
 {
     use LoggerAwareTrait;
 
+    private const HTML5_NAMESPACE_URI = 'http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0';
+
     protected $data = null;
     /** @var \oat\taoQtiItem\model\qti\Item */
     protected $item = null;
@@ -94,6 +96,7 @@ class ParserFactory
     {
         $this->data = $data;
         $this->xpath = new DOMXPath($data);
+        $this->xpath->registerNamespace('html5', self::HTML5_NAMESPACE_URI);
     }
 
     /**
@@ -218,12 +221,8 @@ class ParserFactory
             }
         }
 
-        // Use local-name to avoid expensive namespace discovery; filter by namespaceURI in isHtml5Node().
-        $figureNodes = $this->queryXPath(".//*[local-name()='figure']", $data);
+        $figureNodes = $this->queryXPath(".//html5:figure", $data);
         foreach ($figureNodes as $figureNode) {
-            if (!$this->isHtml5Node($figureNode)) {
-                continue;
-            }
             $figure = $this->buildFigure($figureNode);
             if (!is_null($figure)) {
                 $bodyElements[$figure->getSerial()] = $figure;
@@ -263,12 +262,8 @@ class ParserFactory
             }
         }
 
-        // Use local-name to avoid expensive namespace discovery; filter by namespaceURI in isHtml5Node().
-        $figCaptionNodes = $this->queryXPath(".//*[local-name()='figcaption']", $data);
+        $figCaptionNodes = $this->queryXPath(".//html5:figcaption", $data);
         foreach ($figCaptionNodes as $figCaptionNode) {
-            if (!$this->isHtml5Node($figCaptionNode)) {
-                continue;
-            }
             $figCaption = $this->buildFigCaption($figCaptionNode);
             if (!is_null($figCaption)) {
                 $bodyElements[$figCaption->getSerial()] = $figCaption;
@@ -558,16 +553,6 @@ class ParserFactory
         return $returnValue;
     }
 
-    private function isHtml5Node(DOMElement $element): bool
-    {
-        $uri = $element->namespaceURI;
-        if ($uri === null || $uri === '') {
-            return false;
-        }
-
-        return strpos($uri, 'html5') !== false;
-    }
-
     protected function getMathNamespace()
     {
         return $this->findNamespace('MathML');
@@ -576,14 +561,6 @@ class ParserFactory
     protected function getXIncludeNamespace()
     {
         return $this->findNamespace('XInclude');
-    }
-
-    protected function getHTML5Namespace(): string
-    {
-        // qh5
-        $ns = $this->findNamespace('html5');
-
-        return empty($ns) ? '' : $ns . ':';
     }
 
     /**
