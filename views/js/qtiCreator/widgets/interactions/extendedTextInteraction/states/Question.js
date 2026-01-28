@@ -11,9 +11,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * 31 Milk St # 960789 Boston, MA 02196 USA.
  *
- * Copyright (c) 2013-2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2013-2026 (original work) Open Assessment Technologies SA ;
  */
 define([
     'jquery',
@@ -140,18 +140,22 @@ define([
         }
 
         $form.html(
-            formTpl({
-                formats: formats,
-                toolbarGroupWhenFull: toolbarGroupWhenFull,
-                patternMask: patternMask,
-                maxWords: maxWords,
-                maxLength: maxChars,
-                expectedLength: expectedLength,
-                expectedLines: expectedLines,
-                constraints: constraints,
-                constraintsAvailable,
-                scrollingHeights: itemScrollingMethods.options()
-            })
+            formTpl(
+                _.extend(
+                    {
+                        formats: formats,
+                        toolbarGroupWhenFull: toolbarGroupWhenFull,
+                        patternMask: patternMask,
+                        maxWords: maxWords,
+                        maxLength: maxChars,
+                        expectedLength: expectedLength,
+                        expectedLines: expectedLines,
+                        constraints: constraints,
+                        constraintsAvailable
+                    },
+                    itemScrollingMethods.getTplVars()
+                )
+            )
         );
 
         if (!maxWords && !maxChars) {
@@ -171,7 +175,9 @@ define([
         $textCounter = $container.find('.text-counter');
 
         if (format === 'xhtml' || format === 'math') {
-            if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlToolbarGrouping', false)) {
+            if (
+                features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlToolbarGrouping', false)
+            ) {
                 $toolbarGroupingBlock.show();
             }
         }
@@ -205,6 +211,11 @@ define([
                 .then(isVertical => {
                     $form.find('input[name="writingMode"][value="vertical"]').prop('checked', isVertical);
                     $form.find('input[name="writingMode"][value="horizontal"]').prop('checked', !isVertical);
+
+                    const isScrolling = itemScrollingMethods.isScrolling(interaction);
+                    if (isScrolling) {
+                        itemScrollingMethods.setIsVertical($form, isVertical);
+                    }
                 });
 
         toggleVerticalWritingModeByLang(_widget, $form, interaction);
@@ -215,6 +226,17 @@ define([
 
         //  init data change callbacks
         var callbacks = {};
+
+        const widgetState = interaction.metaData.widget && interaction.metaData.widget.getCurrentState().name;
+        if (widgetState === 'question') {
+            if (itemScrollingMethods.isScrolling(interaction)) {
+                callbacks = _.extend(
+                    {},
+                    callbacks,
+                    itemScrollingMethods.generateChangeCallback(_widget, () => interaction, $form, 'interaction')
+                );
+            }
+        }
 
         // -- format Callback
         callbacks.format = function (interaction, attrValue) {
@@ -233,7 +255,12 @@ define([
             renderer.render(interaction);
 
             if (format === 'xhtml') {
-                if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlToolbarGrouping', false)) {
+                if (
+                    features.isVisible(
+                        'taoQtiItem/creator/interaction/extendedText/property/xhtmlToolbarGrouping',
+                        false
+                    )
+                ) {
                     $toolbarGroupingBlock.show();
                 }
                 if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlConstraints')) {
@@ -339,17 +366,8 @@ define([
                 isScrolling = true;
             }
 
-            itemScrollingMethods.initSelect($form, isScrolling, writingModeInitialScrollingHeight);
+            itemScrollingMethods.setIsVertical($form, mode == 'vertical');
             itemScrollingMethods.wrapContent(_widget, isScrolling, 'interaction');
-        };
-
-        callbacks.scrollingHeight = function (element, value) {
-            const widgetState = interaction.metaData.widget && interaction.metaData.widget.getCurrentState().name;
-            if (widgetState === 'question') {
-                if (itemScrollingMethods.isScrolling(interaction)) {
-                    itemScrollingMethods.setScrollingHeight(interaction, value);
-                }
-            }
         };
 
         formElement.setChangeCallbacks($form, interaction, callbacks);

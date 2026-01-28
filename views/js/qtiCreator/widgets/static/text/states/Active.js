@@ -1,3 +1,23 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
+
+ *
+ * Copyright (c) 2014-2026 (original work) Open Assessment Technologies SA ;
+
+ */
+
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
@@ -9,7 +29,8 @@ define([
     'services/features',
     'context',
     'taoQtiItem/qtiCommonRenderer/helpers/verticalWriting',
-    'taoQtiItem/qtiCreator/widgets/static/helpers/verticalWritingEditing'
+    'taoQtiItem/qtiCreator/widgets/static/helpers/verticalWritingEditing',
+    'lodash'
 ], function (
     stateFactory,
     Active,
@@ -21,7 +42,8 @@ define([
     features,
     context,
     verticalWriting,
-    verticalWritingEditing
+    verticalWritingEditing,
+    _
 ) {
     'use strict';
 
@@ -96,24 +118,38 @@ define([
             selectedHeight = itemScrollingMethods.selectedHeight($wrap);
 
         $form.html(
-            formTpl({
-                textBlockCssClass: cleanDefaultTextBlockClasses($wrap),
-                scrolling: isScrolling,
-                scrollingAvailable,
-                scrollingHeights: itemScrollingMethods.options()
-            })
+            formTpl(
+                _.extend(
+                    {
+                        textBlockCssClass: cleanDefaultTextBlockClasses($wrap),
+                        scrolling: isScrolling,
+                        scrollingAvailable,
+                        selectedHeight: selectedHeight
+                    },
+                    itemScrollingMethods.getTplVars()
+                )
+            )
         );
+
 
         formElement.initWidget($form);
 
-        formElement.setChangeCallbacks($form, widget.element, changeCallbacks(widget, $form));
+        formElement.setChangeCallbacks(
+            $form,
+            widget.element,
+            // add listeners for itemScrolling elements
+            _.extend(
+                changeCallbacks(widget, $form, $wrap),
+                itemScrollingMethods.generateChangeCallback(widget, () => getWrapper(widget), $form)
+            )
+        );
 
         itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
 
         toggleVerticalWritingModeByLang(widget, $form);
     };
 
-    const changeCallbacks = function (widget, $form) {
+    const changeCallbacks = function (widget, $form, $wrap) {
         return {
             textBlockCssClass: function (element, value) {
                 const $wrap = createWrapper(widget);
@@ -122,13 +158,6 @@ define([
                     $wrap.removeClass(cls);
                 });
                 $wrap.addClass(value.trim());
-            },
-            scrolling: function (element, value) {
-                itemScrollingMethods.wrapContent(widget, value, 'inner');
-            },
-            scrollingHeight: function (element, value) {
-                const $wrap = getWrapper(widget);
-                itemScrollingMethods.setScrollingHeight($wrap, value);
             },
             writingMode(i, mode) {
                 let isScrolling = false;
@@ -143,6 +172,7 @@ define([
                     $wrap.removeAttr(writingModeAttr);
                 }
 
+                itemScrollingMethods.setIsVertical($form, mode === 'vertical');
                 const $scrolling = $form.find('[name="scrolling"]');
                 if (isScrolling) {
                     if (!$scrolling.prop('checked')) {
@@ -192,6 +222,8 @@ define([
                 const $scrolling = $form.find('[name="scrolling"]');
                 $scrolling.prop('disabled', true);
             }
+
+            itemScrollingMethods.setIsVertical($form, isVertical);
         });
 
     return TextActive;

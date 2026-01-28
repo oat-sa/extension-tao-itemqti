@@ -11,9 +11,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
+
  *
- * Copyright (c) 2014-2017 (original work) Open Assessment Technlogies SA
+ * Copyright (c) 2014-2026 (original work) Open Assessment Technlogies SA
  *
  */
 define([
@@ -43,15 +44,8 @@ define([
         }
     );
 
-    const changeCallbacks = function (widget) {
-        return {
-            scrolling: function (element, value) {
-                itemScrollingMethods.wrapContent(widget, value, 'outer');
-            },
-            scrollingHeight: function (element, value) {
-                itemScrollingMethods.setScrollingHeight(widget.$container.parent(`.${wrapperCls}`), value);
-            }
-        };
+    const changeCallbacks = function (widget, $form, $wrap) {
+        return itemScrollingMethods.generateChangeCallback(widget, () => $wrap, $form, 'outer');
     };
 
     const _initUpload = function (widget) {
@@ -114,21 +108,29 @@ define([
                         // table should have qti-table class as in item preview
                         iframe.contents().find('table').addClass('qti-table');
                         // for figure and figcaption should be removed namespace
-                        iframe.contents().find('qh5\\:figcaption').each(function () {
-                            const $figcaption = $(this);
-                            $figcaption.replaceWith(`<figcaption>${$figcaption.html()}</figcaption>`);
-                        });
-                        iframe.contents().find('qh5\\:figure').each(function () {
-                            const $figure = $(this);
-                            const $img = $figure.find('img');
-                            if ($img.length) {
-                                const width = $img.attr('width');
-                                $img.attr('width', '100%');
-                                $figure.replaceWith(`<figure style="width:${width}" class="${$figure.attr("class")}">${$figure.html()}</figure>`);
-                            } else {
-                                $figure.replaceWith(`<figure>${$figure.html()}</figure>`);
-                            }
-                        });
+                        iframe
+                            .contents()
+                            .find('qh5\\:figcaption')
+                            .each(function () {
+                                const $figcaption = $(this);
+                                $figcaption.replaceWith(`<figcaption>${$figcaption.html()}</figcaption>`);
+                            });
+                        iframe
+                            .contents()
+                            .find('qh5\\:figure')
+                            .each(function () {
+                                const $figure = $(this);
+                                const $img = $figure.find('img');
+                                if ($img.length) {
+                                    const width = $img.attr('width');
+                                    $img.attr('width', '100%');
+                                    $figure.replaceWith(
+                                        `<figure style="width:${width}" class="${$figure.attr('class')}">${$figure.html()}</figure>`
+                                    );
+                                } else {
+                                    $figure.replaceWith(`<figure>${$figure.html()}</figure>`);
+                                }
+                            });
                         // default styles for test runner as in item preview
                         const $head = iframe.contents().find('head');
                         const styleTao = $('<link>', {
@@ -143,7 +145,9 @@ define([
                         });
                         $head.append(styleTao);
                         $head.append(styleTaoQtiItem);
-                        _.forEach(xincludeRenderer.getXincludeHandlers(), handler => handler(file.file, '', '', $head, true));
+                        _.forEach(xincludeRenderer.getXincludeHandlers(), handler =>
+                            handler(file.file, '', '', $head, true)
+                        );
                     });
                 }
             });
@@ -158,8 +162,6 @@ define([
         }
     };
 
-
-
     IncludeStateActive.prototype.initForm = function () {
         const _widget = this.widget,
             $form = _widget.$form,
@@ -170,20 +172,24 @@ define([
             selectedHeight = itemScrollingMethods.selectedHeight($wrap);
 
         $form.html(
-            formTpl({
-                baseUrl: baseUrl || '',
-                href: include.attr('href'),
-                scrolling: isScrolling,
-                scrollingHeights: itemScrollingMethods.options(),
-                selectedHeight: selectedHeight
-            })
+            formTpl(
+                _.extend(
+                    {
+                        baseUrl: baseUrl || '',
+                        href: include.attr('href'),
+                        scrolling: isScrolling,
+                        selectedHeight: selectedHeight
+                    },
+                    itemScrollingMethods.getTplVars()
+                )
+            )
         );
 
         _initUpload(_widget);
 
         formElement.initWidget($form);
 
-        formElement.setChangeCallbacks($form, _widget.element, changeCallbacks(_widget));
+        formElement.setChangeCallbacks($form, _widget.element, changeCallbacks(_widget, $form, $wrap));
 
         itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
     };

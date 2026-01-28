@@ -11,9 +11,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * 31 Milk St # 960789 Boston, MA 02196 USA.
  *
- * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015-2026 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -170,8 +170,16 @@ define([
         const createMinMaxComponent = (min, max) => {
             prevValues = {};
             minMaxComponent = minMaxComponentFactory($form.find('.min-max-panel'), {
-                min: { value: min, lowerThreshold: DEFAULT_MIN, upperThreshold: numberOfChoices - 1 },
-                max: { value: max, lowerThreshold: DEFAULT_MAX, upperThreshold: numberOfChoices },
+                min: {
+                    value: min,
+                    lowerThreshold: DEFAULT_MIN,
+                    upperThreshold: numberOfChoices - 1
+                },
+                max: {
+                    value: max,
+                    lowerThreshold: DEFAULT_MAX,
+                    upperThreshold: numberOfChoices
+                },
                 hideTooltips: true
             }).after('render.choice-widget', () => {
                 checkOtherEdgeCases();
@@ -201,21 +209,25 @@ define([
         const choiceOptionsAvailable = allowElimination || shuffleChoices;
         const orientationAvailable = features.isVisible('taoQtiItem/creator/interaction/choice/property/orientation');
         $form.html(
-            formTpl({
-                type,
-                constraints,
-                shuffle: !!interaction.attr('shuffle'),
-                horizontal: interaction.attr('orientation') === 'horizontal',
-                eliminable: /\beliminable\b/.test(interaction.attr('class')),
-                scrollingHeights: itemScrollingMethods.options(),
-                enabledFeatures: {
-                    allowElimination,
-                    shuffleChoices,
-                    choiceOptionsAvailable,
-                    listStyle: features.isVisible('taoQtiItem/creator/interaction/choice/property/listStyle'),
-                    orientationAvailable
-                }
-            })
+            formTpl(
+                _.extend(
+                    {
+                        type,
+                        constraints,
+                        shuffle: !!interaction.attr('shuffle'),
+                        horizontal: interaction.attr('orientation') === 'horizontal',
+                        eliminable: /\beliminable\b/.test(interaction.attr('class')),
+                        enabledFeatures: {
+                            allowElimination,
+                            shuffleChoices,
+                            choiceOptionsAvailable,
+                            listStyle: features.isVisible('taoQtiItem/creator/interaction/choice/property/listStyle'),
+                            orientationAvailable
+                        }
+                    },
+                    itemScrollingMethods.getTplVars()
+                )
+            )
         );
 
         // create minMaxComponent after form will be set in DOM
@@ -263,6 +275,15 @@ define([
             updateCardinality: false,
             allowNull: true
         });
+
+        const widgetState = interaction.metaData.widget && interaction.metaData.widget.getCurrentState().name;
+        if (widgetState === 'question') {
+            callbacks = _.extend(
+                {},
+                callbacks,
+                itemScrollingMethods.generateChangeCallback(widget, () => interaction, $form)
+            );
+        }
 
         //data change for shuffle
         callbacks.shuffle = formElement.getAttributeChangeCallback();
@@ -333,26 +354,21 @@ define([
 
         callbacks.writingMode = function (i, mode) {
             let isScrolling = false;
+            let isVertical = false;
             interaction.removeClass(writingModeVerticalRlClass);
             interaction.removeClass(writingModeHorizontalTbClass);
             if (mode === 'vertical' && !$form.data('isItemVertical')) {
                 interaction.addClass(writingModeVerticalRlClass);
                 isScrolling = true;
+                isVertical = true;
             } else if (mode === 'horizontal' && $form.data('isItemVertical')) {
                 interaction.addClass(writingModeHorizontalTbClass);
                 isScrolling = true;
             }
 
-            itemScrollingMethods.initSelect($form, isScrolling, writingModeInitialScrollingHeight);
             itemScrollingMethods.wrapContent(widget, isScrolling, 'interaction');
-        };
-
-        callbacks.scrollingHeight = function (element, value) {
-            const widgetState = interaction.metaData.widget && interaction.metaData.widget.getCurrentState().name;
-            if (widgetState === 'question') {
-                if (itemScrollingMethods.isScrolling(interaction)) {
-                    itemScrollingMethods.setScrollingHeight(interaction, value);
-                }
+            if (isScrolling) {
+                itemScrollingMethods.setIsVertical($form, isVertical);
             }
         };
 
@@ -372,11 +388,18 @@ define([
                     } else {
                         isVertical = isItemVertical;
                     }
+
                     return new Promise(resolve => setTimeout(() => resolve(isVertical), 0));
                 })
                 .then(isVertical => {
                     $form.find('input[name="writingMode"][value="vertical"]').prop('checked', isVertical);
                     $form.find('input[name="writingMode"][value="horizontal"]').prop('checked', !isVertical);
+
+                    // draw scrolling methods
+                    const isScrolling = itemScrollingMethods.isScrolling(interaction);
+                    if (isScrolling) {
+                        itemScrollingMethods.setIsVertical($form, isVertical);
+                    }
                 });
 
         toggleVerticalWritingModeByLang(widget, $form, interaction);
