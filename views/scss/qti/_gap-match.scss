@@ -33,7 +33,7 @@
         }
 
         &.filled {
-            top: 0 !important;
+            top: 0;
             border-bottom-color: $colorBrand;
             color: $colorBrand;
             background: $uiGeneralContentBg;
@@ -90,6 +90,11 @@
             border: solid 1px $colorBrand !important;
         }
 
+        &.animated {
+            border-color: $colorBrand;
+            padding: 5px;
+        }
+
         .qti-block {
             display: inline-block;
         }
@@ -100,6 +105,8 @@
     }
 
     .choice-area {
+        position: relative; //for choice position animation
+
         &.droppable {
             outline: 1px dashed $colorBrand;
             outline-offset: -6px;
