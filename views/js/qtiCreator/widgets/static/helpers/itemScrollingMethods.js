@@ -205,7 +205,7 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
             $wrapper.addClass(findOptionByVal(value).class);
 
             const scrollingWidth = $form.find('[name=scrollingWidth]');
-            if (scrollingWidth && scrollingWidth.val() !== value) {
+            if (scrollingWidth.length > 0 && scrollingWidth.val() !== value) {
                 scrollingWidth.val(value);
                 scrollingWidth.change();
             }
@@ -222,7 +222,7 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
             $wrapper.addClass(findOptionByVal(value).class);
 
             const scrollingHeight = $form.find('[name=scrollingHeight]');
-            if (scrollingHeight && scrollingHeight.val() !== value) {
+            if (scrollingHeight.length > 0 && scrollingHeight.val() !== value) {
                 scrollingHeight.val(value);
                 scrollingHeight.change();
             }

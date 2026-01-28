@@ -74,6 +74,17 @@
                                 return assert.throws(thunk, expected, msg);
                             }
                             return assert.throws(thunk, undefined, msg);
+                        },
+                        doesNotThrow: (thunk, expected, msg) => {
+                            if (typeof assert.doesNotThrow === 'function') {
+                                return assert.doesNotThrow(thunk, expected, msg);
+                            }
+                            try {
+                                thunk();
+                            } catch (err) {
+                                assert.fail(err);
+                            }
+                            return undefined;
                         }
                     };
                     return fn(qunitAssert);
@@ -230,7 +241,7 @@ define(['jquery', 'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMet
         const $wrapper = $('<div>');
 
         assert.doesNotThrow(function () {
-            itemScrollingMethods.setScrollingHeight(null, $wrapper, $form);
+            itemScrollingMethods.setScrollingHeight($wrapper, null, $form);
         }, 'setScrollingHeight should tolerate invalid value (null) without throwing');
     });
 
@@ -247,7 +258,6 @@ define(['jquery', 'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMet
             itemScrollingMethods.setScrollingWeight($wrapper, 'foo', $form);
         }, 'setScrollingWeight should tolerate invalid value ("foo") without throwing');
     });
-
 
     QUnit.test(
         'setScrollingHeight/setScrollingWeight keep selectors synchronized even when wrapCallback returns different wrappers',
