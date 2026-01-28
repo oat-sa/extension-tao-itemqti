@@ -218,8 +218,12 @@ class ParserFactory
             }
         }
 
-        $figureNodes = $this->queryXPath(".//*[name(.)='" . $this->getHTML5Namespace() . "figure']", $data);
+        // Use local-name to avoid expensive namespace discovery; filter by namespaceURI in isHtml5Node().
+        $figureNodes = $this->queryXPath(".//*[local-name()='figure']", $data);
         foreach ($figureNodes as $figureNode) {
+            if (!$this->isHtml5Node($figureNode)) {
+                continue;
+            }
             $figure = $this->buildFigure($figureNode);
             if (!is_null($figure)) {
                 $bodyElements[$figure->getSerial()] = $figure;
@@ -259,8 +263,12 @@ class ParserFactory
             }
         }
 
-        $figCaptionNodes = $this->queryXPath(".//*[name(.)='" . $this->getHTML5Namespace() . "figcaption']", $data);
+        // Use local-name to avoid expensive namespace discovery; filter by namespaceURI in isHtml5Node().
+        $figCaptionNodes = $this->queryXPath(".//*[local-name()='figcaption']", $data);
         foreach ($figCaptionNodes as $figCaptionNode) {
+            if (!$this->isHtml5Node($figCaptionNode)) {
+                continue;
+            }
             $figCaption = $this->buildFigCaption($figCaptionNode);
             if (!is_null($figCaption)) {
                 $bodyElements[$figCaption->getSerial()] = $figCaption;
@@ -548,6 +556,16 @@ class ParserFactory
         }
 
         return $returnValue;
+    }
+
+    private function isHtml5Node(DOMElement $element): bool
+    {
+        $uri = $element->namespaceURI;
+        if ($uri === null || $uri === '') {
+            return true;
+        }
+
+        return strpos($uri, 'html5') !== false;
     }
 
     protected function getMathNamespace()
