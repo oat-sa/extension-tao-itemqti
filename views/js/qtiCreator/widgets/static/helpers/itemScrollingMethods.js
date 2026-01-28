@@ -11,9 +11,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
+
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2020-2026 (original work) Open Assessment Technologies SA ;
  */
 
 define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
@@ -65,13 +66,45 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
             class: 'tao-quarter-height'
         }
     ];
+    const optionsVerticalDirectionWriting = [
+        {
+            value: '100',
+            name: __('Full width'),
+            class: 'tao-full-height'
+        },
+        {
+            value: '75',
+            name: __('3/4 of width'),
+            class: 'tao-three-quarters-height'
+        },
+        {
+            value: '66.6666',
+            name: __('2/3 of width'),
+            class: 'tao-two-thirds-height'
+        },
+        {
+            value: '50',
+            name: __('Half width'),
+            class: 'tao-half-height'
+        },
+        {
+            value: '33.3333',
+            name: __('1/3 of width'),
+            class: 'tao-third-height'
+        },
+        {
+            value: '25',
+            name: __('1/4 of width'),
+            class: 'tao-quarter-height'
+        }
+    ];
 
     const findOptionByVal = optionVal => options.find(opt => opt.value === optionVal);
 
-    return {
-        options: function () {
-            return options;
-        },
+    const self = {
+        options: () => options,
+        optionsVertical: () => optionsVerticalDirectionWriting,
+
         /**
          * @param {IWrapper} $wrapper
          * @returns {boolean}
@@ -87,11 +120,28 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
             return $wrapper.attr('data-scrolling-height');
         },
         initSelect: function ($form, isScroll, height) {
-            isScroll ? $form.find('.scrollingSelect').show() : $form.find('.scrollingSelect').hide();
-            height && $form.find('.scrollingSelect select').val(height).change();
+            if (!isScroll) {
+                $form.find('.scrollingSelect').hide();
+            } else {
+                $form.find('.dw-depended').hide();
+                const value = $form.find('[name=writingMode]').val();
+                $form.find(`.dw-${value}`).show();
+            }
+
+            let scrollingSelect = $form.find('.scrollingSelect select').not(':hidden');
+            height && scrollingSelect.val(height).change();
         },
+
+        showScrollingSelect: $form => {
+            const isVertical = $form.attr('data-is-vertical') === 'true';
+            $form.find('.scrollingSelect').show();
+            $form.find('.dw-depended').hide();
+            $form.find(`.dw-${isVertical ? 'vertical' : 'horizontal'}`).show();
+        },
+
         wrapContent: function (widget, value, wrapType) {
             const $form = widget.$form;
+
             /**
              * @type {IWrapper}
              */
@@ -116,7 +166,7 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
             }
 
             if (value) {
-                $form.find('.scrollingSelect').show();
+                self.showScrollingSelect($form);
                 // add class for keynavigation
                 $wrapper.addClass(wrapperFocusCls);
                 // add classes for new UI test Runner
@@ -139,18 +189,58 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
                 $wrapper.removeAttr('data-scrolling-height');
             }
         },
+
         /**
          * @param {IWrapper} $wrapper
          * @param {string} value
          */
-        setScrollingHeight: function ($wrapper, value) {
+        setScrollingHeight: function ($wrapper, value, $form) {
             $wrapper.attr('data-scrolling-height', value);
+
             // remove classes tao-*-height for new UI test Runner
             options.forEach(opt => {
                 $wrapper.removeClass(opt.class);
             });
             // add class tao-*-height for new UI test Runner
-            $wrapper.addClass(findOptionByVal(value).class);
+            const opt = findOptionByVal(value);
+            if (opt) {
+                $wrapper.addClass(opt.class);
+            }
+
+            const scrollingWidth = $form.find('[name=scrollingWidth]');
+            if (scrollingWidth.length > 0 && scrollingWidth.val() !== value) {
+                scrollingWidth.val(value);
+                scrollingWidth.change();
+            }
+        },
+
+        setScrollingWeight: function ($wrapper, value, $form) {
+            $wrapper.attr('data-scrolling-height', value);
+
+            // remove classes tao-*-height for new UI test Runner
+            options.forEach(opt => {
+                $wrapper.removeClass(opt.class);
+            });
+            // add class tao-*-height for new UI test Runner
+            const opt = findOptionByVal(value);
+            if (opt) {
+                $wrapper.addClass(opt.class);
+            }
+
+            const scrollingHeight = $form.find('[name=scrollingHeight]');
+            if (scrollingHeight.length > 0 && scrollingHeight.val() !== value) {
+                scrollingHeight.val(value);
+                scrollingHeight.change();
+            }
+        },
+
+        /**
+         * @param {IWrapper} $wrapper
+         * @param {string} value
+         */
+        setIsVertical: function ($form, isVertical) {
+            $form.attr('data-is-vertical', isVertical);
+            self.showScrollingSelect($form);
         },
         cutScrollClasses: function (classes) {
             let clearClasses = classes.replace(wrapperFocusCls, '').replace(newUIclass, '');
@@ -168,6 +258,38 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
                 }
             }
             return classes;
+        },
+
+        getTplVars: $wrap => {
+            const currValue = self.selectedHeight($wrap);
+            return {
+                scrollingHeights: options.map(o => ({
+                    value: o.value,
+                    name: o.name,
+                    selected: o.value === currValue
+                })),
+                scrollingWidths: optionsVerticalDirectionWriting.map(o => ({
+                    value: o.value,
+                    name: o.name,
+                    selected: o.value === currValue
+                }))
+            };
+        },
+
+        generateChangeCallback: (widget, wrapCallback, $form, scrollingType = 'inner') => {
+            return {
+                scrolling: function (element, value) {
+                    self.wrapContent(widget, value, scrollingType);
+                },
+                scrollingHeight: (element, value) => {
+                    self.setScrollingHeight(wrapCallback(), value, $form);
+                },
+                scrollingWidth: (element, value) => {
+                    self.setScrollingWeight(wrapCallback(), value, $form);
+                }
+            };
         }
     };
+
+    return self;
 });
