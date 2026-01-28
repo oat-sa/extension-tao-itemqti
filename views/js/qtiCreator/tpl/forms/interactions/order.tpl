@@ -56,8 +56,8 @@
 </div>
 {{/if}}
 {{#if enabledFeatures.position}}
+<hr/>
 <div class="panel position-panel" style="display:none;">
-    <hr/>
     <h3>{{__ 'Choices position'}}</h3>
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
             <span class="tooltip-content">
