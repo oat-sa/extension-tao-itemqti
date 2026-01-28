@@ -212,7 +212,6 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
         },
 
         setScrollingWeight: function ($wrapper, value, $form) {
-            console.log('weight', value);
             $wrapper.attr('data-scrolling-height', value);
 
             // remove classes tao-*-height for new UI test Runner

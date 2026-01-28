@@ -222,17 +222,32 @@ define(['jquery', 'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMet
 
     QUnit.test('setScrollingHeight tolerates invalid value without throwing (current behavior)', function (assert) {
         const $form = $('<form>');
+        const $height = $(
+            '<select name="scrollingHeight"><option value="50">50</option><option value="75">75</option></select>'
+        );
+        $form.append($height);
+
         const $wrapper = $('<div>');
 
-        assert.ok(true);
+        assert.doesNotThrow(function () {
+            itemScrollingMethods.setScrollingHeight(null, $wrapper, $form);
+        }, 'setScrollingHeight should tolerate invalid value (null) without throwing');
     });
 
     QUnit.test('setScrollingWeight tolerates invalid value without throwing (current behavior)', function (assert) {
         const $form = $('<form>');
+        const $width = $(
+            '<select name="scrollingWidth"><option value="50">50</option><option value="75">75</option></select>'
+        );
+        $form.append($width);
+
         const $wrapper = $('<div>');
 
-        assert.ok(true);
+        assert.doesNotThrow(function () {
+            itemScrollingMethods.setScrollingWeight($wrapper, 'foo', $form);
+        }, 'setScrollingWeight should tolerate invalid value ("foo") without throwing');
     });
+
 
     QUnit.test(
         'setScrollingHeight/setScrollingWeight keep selectors synchronized even when wrapCallback returns different wrappers',
