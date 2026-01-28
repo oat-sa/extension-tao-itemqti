@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Test - Scale Synchronization Manager helper</title>
+        <base href="../../../../../../../tao/views/"/>
+        <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+        <link rel="stylesheet" href="css/tao-main-style.css"/>
+        <link rel="stylesheet" href="css/tao-3.css"/>
+        <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+        <script type="text/javascript" src="js/lib/require.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
+
+
+        <script type="text/javascript">
+            QUnit.config.autostart = false;
+
+            // Load app RequireJS config first
+            require(['/tao/ClientConfig/config'], function () {
+                // Then load tests
+                require(['taoQtiItem/test/qtiCreator/helper/scaleSynchronizationManager/test'], function () {
+                    QUnit.start();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture">
+            <div id="fixture"></div>
+        </div>
+    </body>
+</html>
+
