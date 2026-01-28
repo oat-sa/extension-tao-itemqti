@@ -40,31 +40,28 @@
             cursor: pointer;
             padding-block: 0;
 
-            &.empty {
-                border: solid 1px transparent !important;
-                border-bottom-color: $colorBrand !important;
-            }
-
-            &:not(.empty):hover {
-                border-bottom-color: transparent;
-                color: $uiGeneralContentBg;
-                background: $colorBrand;
-                box-shadow: -2px 0px 0 0px $colorBrand;
-
-                &:after {
-                    @include tao-icon-setup;
-                    @include icon-result-nok;
+            @media (hover: hover) {
+                &:not(.empty):hover {
+                    border-bottom-color: transparent;
                     color: $uiGeneralContentBg;
-                    position: absolute;
-                    font-size: 12px;
-                    height: calc(100% + 2px);
-                    inset-inline-end: -18px;
-                    top: -1px;
-                    padding-block-start: 6px;
-                    padding-inline-start: 2px;
-                    padding-inline-end: 4px;
-                    border-radius: 0 2px 2px 0;
                     background: $colorBrand;
+                    box-shadow: -2px 0px 0 0px $colorBrand;
+
+                    &:after {
+                        @include tao-icon-setup;
+                        @include icon-result-nok;
+                        color: $uiGeneralContentBg;
+                        position: absolute;
+                        font-size: 12px;
+                        height: calc(100% + 2px);
+                        inset-inline-end: -18px;
+                        top: -1px;
+                        padding-block-start: 6px;
+                        padding-inline-start: 2px;
+                        padding-inline-end: 4px;
+                        border-radius: 0 2px 2px 0;
+                        background: $colorBrand;
+                    }
                 }
             }
         }
@@ -88,11 +85,13 @@
         &.dropzone {
             @extend %dropzone;
             border: solid 1px $colorBrand !important;
+            color: $colorBrand !important;
         }
 
         &.animated {
             border-color: $colorBrand;
-            padding: 5px;
+            color: $uiGeneralContentBg;
+            background: $colorBrand;
         }
 
         .qti-block {
