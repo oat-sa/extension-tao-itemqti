@@ -222,7 +222,7 @@ class ParserFactory
             }
         }
 
-        $figureNodes = $this->queryXPath(".//html5:figure", $data);
+        $figureNodes = $this->queryXPath(".//" . self::HTML5_NS_ALIAS . ":figure", $data);
         foreach ($figureNodes as $figureNode) {
             $figure = $this->buildFigure($figureNode);
             if (!is_null($figure)) {
