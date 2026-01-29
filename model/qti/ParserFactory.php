@@ -84,7 +84,8 @@ class ParserFactory
 {
     use LoggerAwareTrait;
 
-    private const HTML5_NAMESPACE_URI = 'http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0';
+    private const QTI_HTML5_V2P2_NAMESPACE_URI = 'http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0';
+    private const HTML5_NS_ALIAS = 'qh5v2p2';
 
     protected $data = null;
     /** @var \oat\taoQtiItem\model\qti\Item */
