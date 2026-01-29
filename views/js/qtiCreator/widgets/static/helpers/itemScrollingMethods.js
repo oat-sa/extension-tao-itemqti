@@ -37,38 +37,6 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
     const options = [
         {
             value: '100',
-            name: __('Full height'),
-            class: 'tao-full-height'
-        },
-        {
-            value: '75',
-            name: __('3/4 of height'),
-            class: 'tao-three-quarters-height'
-        },
-        {
-            value: '66.6666',
-            name: __('2/3 of height'),
-            class: 'tao-two-thirds-height'
-        },
-        {
-            value: '50',
-            name: __('Half height'),
-            class: 'tao-half-height'
-        },
-        {
-            value: '33.3333',
-            name: __('1/3 of height'),
-            class: 'tao-third-height'
-        },
-        {
-            value: '25',
-            name: __('1/4 of height'),
-            class: 'tao-quarter-height'
-        }
-    ];
-    const optionsVerticalDirectionWriting = [
-        {
-            value: '100',
             name: __('Full width'),
             class: 'tao-full-height'
         },
@@ -95,6 +63,38 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
         {
             value: '25',
             name: __('1/4 of width'),
+            class: 'tao-quarter-height'
+        }
+    ];
+    const optionsVerticalDirectionWriting = [
+        {
+            value: '100',
+            name: __('Full height'),
+            class: 'tao-full-height'
+        },
+        {
+            value: '75',
+            name: __('3/4 of height'),
+            class: 'tao-three-quarters-height'
+        },
+        {
+            value: '66.6666',
+            name: __('2/3 of height'),
+            class: 'tao-two-thirds-height'
+        },
+        {
+            value: '50',
+            name: __('Half height'),
+            class: 'tao-half-height'
+        },
+        {
+            value: '33.3333',
+            name: __('1/3 of height'),
+            class: 'tao-third-height'
+        },
+        {
+            value: '25',
+            name: __('1/4 of height'),
             class: 'tao-quarter-height'
         }
     ];
