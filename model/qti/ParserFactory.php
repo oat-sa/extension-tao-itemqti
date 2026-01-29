@@ -97,7 +97,7 @@ class ParserFactory
     {
         $this->data = $data;
         $this->xpath = new DOMXPath($data);
-        $this->xpath->registerNamespace('html5', self::HTML5_NAMESPACE_URI);
+        $this->xpath->registerNamespace(self::HTML5_NS_ALIAS, self::QTI_HTML5_V2P2_NAMESPACE_URI);
     }
 
     /**
@@ -263,7 +263,7 @@ class ParserFactory
             }
         }
 
-        $figCaptionNodes = $this->queryXPath(".//html5:figcaption", $data);
+        $figCaptionNodes = $this->queryXPath(".//" . self::HTML5_NS_ALIAS . ":figcaption", $data);
         foreach ($figCaptionNodes as $figCaptionNode) {
             $figCaption = $this->buildFigCaption($figCaptionNode);
             if (!is_null($figCaption)) {
