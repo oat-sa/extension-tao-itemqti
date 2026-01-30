@@ -32,6 +32,8 @@ use oat\generis\test\ServiceManagerMockTrait;
 use oat\tao\model\service\ApplicationService;
 use oat\taoQtiItem\model\qti\exception\UnexpectedResponseProcessing;
 use oat\taoQtiItem\model\qti\feedback\ModalFeedback;
+use oat\taoQtiItem\model\qti\FigCaption;
+use oat\taoQtiItem\model\qti\Figure;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\OutcomeDeclaration;
 use oat\taoQtiItem\model\qti\ParserFactory;
@@ -229,6 +231,34 @@ class ParserFactoryTest extends TestCase
     ',
             $item->getBody()->getBody()
         );
+    }
+
+    /**
+     * @dataProvider figureProvider
+     */
+    public function testParseItemWithFigureAndFigcaption(string $sampleFile): void
+    {
+        $itemDocument = $this->readSampleFile($sampleFile);
+        $dom = new DOMDocument();
+        $dom->loadXML($itemDocument);
+
+        $parser = new ParserFactory($dom);
+        $item = $parser->load();
+
+        $figures = $item->getBody()->getElements(Figure::class);
+        self::assertCount(1, $figures);
+        $figure = reset($figures);
+        self::assertInstanceOf(Figure::class, $figure);
+
+        $figCaptions = $figure->getBody()->getElements(FigCaption::class);
+        self::assertCount(1, $figCaptions);
+    }
+
+    public function figureProvider(): array
+    {
+        return [
+            ['testParseItemWithFigureWithNamespace_itemDocument.xml'],
+        ];
     }
 
     /**
