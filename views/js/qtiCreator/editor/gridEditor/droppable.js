@@ -434,7 +434,8 @@ define([
         $el.one('dragoverstop.gridEdit', function(){
 
             //make placeholder permanent
-            if(dropped){
+            if (dropped) {
+                _fixTextBlockDropTarget($placeholder);
                 $placeholder.removeAttr('id').removeAttr('class');
             }
 
@@ -497,6 +498,10 @@ define([
         return $('<div>', {'class' : 'new-col'});
     }
 
+    function _getNewParagraph() {
+        return $('<p>').html('&nbsp;');
+    }
+
     function _restoreTmpCol($el){
         $el.find('.grid-row').each(function(){
             var $children;
@@ -521,6 +526,30 @@ define([
             });
             $row.removeAttr('data-active');
         });
+    }
+
+    function _fixTextBlockDropTarget($placeholder) {
+        const $parent = $placeholder.parent();
+        const isToTextBlock = $parent.is('.widget-textBlock > [data-html-editable]');
+        const isToTextBlockWrapper = $parent.is('.widget-textBlock > [data-html-editable] > .custom-text-box');
+
+        if (isToTextBlock || isToTextBlockWrapper) {
+            const $appendTo = _getNewParagraph();
+
+            if (isToTextBlock) {
+                const $textBlockWrappers = $parent.children('.custom-text-box');
+                const isToWrappedTextBlock = $parent.children().length === 2 && $textBlockWrappers.length === 1;
+                if (isToWrappedTextBlock) {
+                    $textBlockWrappers.first().append($appendTo);
+                } else {
+                    $parent.append($appendTo);
+                }
+            } else {
+                $parent.append($appendTo);
+            }
+
+            $appendTo.append($placeholder);
+        }
     }
 
     return droppableGridEditor;
