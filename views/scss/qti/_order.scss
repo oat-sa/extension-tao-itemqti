@@ -42,10 +42,9 @@
             margin-bottom: 0;
         }
         ul li.qti-choice {
-            border: 1px solid #e0e0e0;
+            border: 1px solid $uiGeneralContentBorder;
             box-sizing: border-box;
             line-height: normal;
-            vertical-align: middle;
         }
     }
     /* top & bottom (flex/column) */
