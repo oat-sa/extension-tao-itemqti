@@ -1,125 +1,131 @@
 @import "inc/bootstrap";
 
 @mixin flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .qti-orderInteraction {
-  .arrow-bar {
-    @include flex-center;
-
-    .arrow {
-      color: mix(#fff, $textColor, 50%);
-      background: mix(#fff, $uiClickableDefaultBg, 50%);
-      height: 40px;
-      width: 40px;
-      cursor: default;
-      @include font-size(25);
-      @include flex-center;
-      &.active {
-        color: $textColor;
-        background: $uiClickableDefaultBg;
-        &:hover {
-          color: $textHighlight;
-          background: $uiClickableHoverBg;
+    .arrow-bar {
+        @include flex-center;
+        .arrow {
+            color: mix(#fff, $textColor, 50%);
+            background: mix(#fff, $uiClickableDefaultBg, 50%);
+            height: 40px;
+            width: 40px;
+            cursor: default;
+            @include font-size(25);
+            @include flex-center;
+            &.active {
+                color: $textColor;
+                background: $uiClickableDefaultBg;
+                &:hover {
+                    color: $textHighlight;
+                    background: $uiClickableHoverBg;
+                }
+            }
+            &.inactive {
+                display: none;
+            }
+            &.triggered {
+                color: $textHighlight;
+                background: $uiClickableHoverBg;
+            }
         }
-      }
-      &.inactive {
+    }
+    .order-interaction-area {
+        display: flex;
+        .choice-area,
+        .result-area {
+            min-height: 80px;
+            margin-bottom: 0;
+        }
+        ul li.qti-choice {
+            border: 1px solid #e0e0e0;
+            box-sizing: border-box;
+            line-height: normal;
+            vertical-align: middle;
+        }
+    }
+    /* top & bottom (flex/column) */
+    &.qti-choices-top,
+    &.qti-choices-bottom {
+        .order-interaction-area {
+            flex-direction: column;
+            .arrow-bar {
+                margin-block: 20px;
+            }
+        }
+    }
+    /* right & left (flex/row) */
+    &.qti-choices-right,
+    &.qti-choices-left {
+        .order-interaction-area {
+            justify-content: space-between;
+            .choice-area,
+            .result-area {
+                flex: 0 0 45%;
+            }
+        }
+    }
+    /* bottom & right inverse order */
+    &.qti-choices-bottom,
+    &.qti-choices-right {
+        .order-interaction-area {
+            .result-area {
+                order: 1;
+            }
+            .arrow-bar {
+                order: 2;
+            }
+            .choice-area {
+                order: 3;
+            }
+        }
+    }
+    /* Single interaction */
+    &.qti-single {
+        .order-interaction-area {
+            display: block;
+            >.arrow-bar,
+            >.result-area {
+                display: none;
+            }
+        }
+        &.test-preview {
+            .order-interaction-area {
+                >.result-area {
+                    display: block;
+                }
+                >.choice-area {
+                    display: none;
+                }
+            }
+        }
+    }
+    /* Drag and drop */
+    li {
+        @include dragdrop-noselect;
+
+        &.dragged {
+            border-color: whiten($info, 0.2) !important;
+            list-style: none;
+        }
+    }
+    .drag-container {
+        position: absolute;
         display: none;
-      }
-
-      &.triggered {
-        color: $textHighlight;
-        background: $uiClickableHoverBg;
-      }
+        padding: 0;
+        margin: 0;
+        z-index: 1;
+        pointer-events: none;
+        .qti-choice {
+            margin: 0;
+            display: block;
+        }
     }
-  }
-  .order-interaction-area {
-    display: flex;
-    .choice-area,
-    .result-area {
-      min-height: 80px;
-      margin-bottom: 0;
-    }
-    ul li.qti-choice {
-      border: 1px solid #e0e0e0;
-    }
-  }
-  /* top & bottom (flex/column) */
-  &.qti-choices-top,
-  &.qti-choices-bottom {
-    .order-interaction-area {
-      flex-direction: column;
-      .arrow-bar {
-        margin-block: 20px;
-      }
-    }
-  }
-  /* right & left (flex/row) */
-  &.qti-choices-right,
-  &.qti-choices-left {
-    .order-interaction-area {
-      justify-content: space-between;
-      .choice-area,
-      .result-area {
-        flex: 0 0 45%;
-      }
-    }
-  }
-  /* bottom & right inverse order */
-  &.qti-choices-bottom,
-  &.qti-choices-right {
-    .order-interaction-area {
-      .result-area {
-        order: 1;
-      }
-      .arrow-bar {
-        order: 2;
-      }
-      .choice-area {
-        order: 3;
-      }
-    }
-  }
-  /* Single interaction */
-  &.qti-single {
-    .order-interaction-area {
-      display: block;
-      >.arrow-bar,
-      >.result-area {
+    .order-interaction-area .choice-area .dropzone {
         display: none;
-      }
     }
-    &.test-preview {
-      .order-interaction-area {
-        >.result-area {
-          display: block;
-        }
-
-        >.choice-area {
-          display: none;
-        }
-      }
-    }
-  }
-  /* Drag and drop */
-  li {
-    @include dragdrop-noselect;
-    &.dragged {
-      border-color: whiten($info, 0.2) !important;
-      list-style: none;
-    }
-  }
-  .drag-container {
-    position: absolute;
-    display: none;
-    padding: 0;
-    margin: 0;
-    z-index: 1;
-  }
-  .order-interaction-area .choice-area .dropzone {
-    display: none;
-  }
 }
