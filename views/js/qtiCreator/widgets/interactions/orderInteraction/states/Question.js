@@ -55,7 +55,9 @@ define([
         let minMaxComponent = null;
 
         const isPositionEnabled = features.isVisible('taoQtiItem/creator/interaction/order/property/position');
-        let position = isPositionEnabled ? interaction.attr("data-position") : false;
+        const getDefaultPosition = () =>  interaction.attr('orientation') === 'horizontal' ? 'top' : 'left';
+
+        let position = isPositionEnabled ? interaction.attr("data-position") : getDefaultPosition();
 
         const order = interaction.attr('data-order') || interaction.attr('order'); // legacy attr support
         // legacy attr remove
@@ -121,7 +123,23 @@ define([
             return classes.join(' ');
         }
 
-        const getDefaultPosition = () =>  interaction.attr('orientation') === 'horizontal' ? 'top' : 'left';
+        const updateArrowDirection =(position) =>{
+            if (!position) return;
+            const iconAddDirection = {
+                top: 'icon-down',
+                bottom: 'icon-up',
+                left: 'icon-right',
+                right: 'icon-left'
+            };
+            const iconRemoveDirection = {
+                top: 'icon-up',
+                bottom: 'icon-down', 
+                left: 'icon-left',
+                right: 'icon-right'
+            };
+            $iconAdd.removeClass(Object.values(iconAddDirection).join(' ')).addClass(iconAddDirection[position]);
+            $iconRemove.removeClass(Object.values(iconRemoveDirection).join(' ')).addClass(iconRemoveDirection[[position]]);
+        }
 
         const applyPosition = (position) => {
             if (!position) return;
@@ -130,7 +148,7 @@ define([
             $interaction.attr('class', newClass);
             interaction.attr('data-position', position);
             interaction.attr('class', `qti-choices-${position}`);
-
+            updateArrowDirection(position);
         }
 
         const showPositionPanel = () => {
@@ -148,7 +166,7 @@ define([
             getPositionPanel().hide();
             $interaction.removeClass(`qti-choices-${position}`);
             interaction.removeAttr('data-position');
-            position = false;
+            position = getDefaultPosition();
         }
 
         $form.html(formTpl(_.assign({}, {
@@ -191,22 +209,17 @@ define([
                 $choiceArea.addClass('horizontal').removeClass('vertical');
                 $resultArea.addClass('horizontal').removeClass('vertical');
                 $interaction.addClass('qti-horizontal').removeClass('qti-vertical');
-                $iconAdd.addClass('icon-down').removeClass('icon-right');
-                $iconRemove.addClass('icon-up').removeClass('icon-left');
             } else {
                 $choiceArea.addClass('vertical').removeClass('horizontal');
                 $resultArea.addClass('vertical').removeClass('horizontal');
                 $interaction.addClass('qti-vertical').removeClass('qti-horizontal');
-                $iconAdd.addClass('icon-right').removeClass('icon-down');
-                $iconRemove.addClass('icon-left').removeClass('icon-up');
-
             }
         };
 
         // data change for position 
         callbacks.position = function (interaction, value) { 
             position = value; 
-            applyPosition(value); 
+            applyPosition(value);
         };
 
         // data change for order
@@ -214,7 +227,8 @@ define([
             // reset position when changing order type
             interaction.removeAttr('data-position');
             interaction.removeAttr('class');
-            position = false;
+            position = getDefaultPosition();
+            applyPosition(position);
 
             if (value === 'sort') {
                 makeSortOrder();
