@@ -1,24 +1,17 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-04-16 15:36\n"
+"Project-Id-Version: TAO 2026.02 LTS\n"
+"PO-Revision-Date: 2026-02-03T14:43:01\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nb_NO\n"
+"Language: nb-NO\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-US\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"targetLanguage: nb-NO\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: tao-open-source\n"
-"X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: nb\n"
-"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
-"X-Crowdin-File-ID: 519\n"
-"Language-Team: Norwegian Bokmal\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Fyll ut mellomrommene i en tekst med de gitte alternativene."
@@ -38,6 +31,9 @@ msgstr ""
 msgid "%d/%d"
 msgstr ""
 
+msgid "%s - Original"
+msgstr ""
+
 msgid "%s metadata values found in source by extractor(s)."
 msgstr "%s metadataverdier funnet i kilden av ekstraktor(er)."
 
@@ -48,6 +44,9 @@ msgid "%s of %s characters recommended."
 msgstr ""
 
 msgid "%s of %s words maximum."
+msgstr ""
+
+msgid "%title% - Translation (%lang%)"
 msgstr ""
 
 msgid "(comma)"
@@ -155,6 +154,9 @@ msgstr "Tillatte antall treff"
 msgid "Allowed number of uses"
 msgstr "Tillatte antall ganger bruk"
 
+msgid "Alpha"
+msgstr ""
+
 msgid "Alt Text"
 msgstr "Alternativ tekst"
 
@@ -194,6 +196,9 @@ msgstr "Det oppstod en uventet feil under importen av QTI-oppgaven. Systemet ret
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr ""
 
+msgid "Angle"
+msgstr ""
+
 msgid "Answer required"
 msgstr ""
 
@@ -202,6 +207,9 @@ msgstr "APIP innholdspakke"
 
 msgid "Apip Package successfully exported."
 msgstr "Apip-pakken ble eksportert."
+
+msgid "Arc"
+msgstr ""
 
 msgid "Arrange a list of choices in the correct order."
 msgstr "Sett opp en liste med valg i riktig rekkefølge."
@@ -236,6 +244,9 @@ msgstr "Utgangspunkt"
 msgid "Be aware, if you choose to remove the instructions, the system will not provide any warnings to the test takers if constraints are set."
 msgstr ""
 
+msgid "Beta"
+msgstr ""
+
 msgid "Block"
 msgstr "Tekstboks"
 
@@ -250,6 +261,9 @@ msgstr "Skrollhøyde(%)"
 
 msgid "Border color"
 msgstr "Kantfarge"
+
+msgid "Bottom"
+msgstr ""
 
 msgid "Browse your computer and select the appropriate file."
 msgstr "Søk gjennom maskinen din og velg riktig fil."
@@ -317,6 +331,9 @@ msgstr "alternativ"
 msgid "Choices"
 msgstr "Alternativer"
 
+msgid "Choices position"
+msgstr ""
+
 msgid "Choose the horizontal alignment for the table."
 msgstr "Velg den horisontale justeringen for tabellen."
 
@@ -341,11 +358,17 @@ msgstr "Klikk for å fjerne"
 msgid "Click to display interaction widget"
 msgstr "Klikk for å vise oppgavetype widget"
 
+msgid "Click to remove"
+msgstr ""
+
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr "Samle åpen informasjon i en kort tekst (strenger eller numeriske verdier)."
 
 msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
 msgstr "Samle åpen informasjon i ett eller flere tekstområder (strenger eller numeriske verdier.)"
+
+msgid "Colon"
+msgstr ""
 
 msgid "Color Picker"
 msgstr "Fargevelger"
@@ -355,6 +378,15 @@ msgstr ""
 
 msgid "Common Interactions"
 msgstr "Vanlige oppgavetyper"
+
+msgid "Compact Appearance"
+msgstr ""
+
+msgid "Configures the position of the choices relative to the target list."
+msgstr ""
+
+msgid "Congruent"
+msgstr ""
 
 msgid "Constraints"
 msgstr "Begrensninger"
@@ -367,6 +399,9 @@ msgstr "Riktig"
 
 msgid "correct"
 msgstr "riktig"
+
+msgid "Cosine"
+msgstr ""
 
 msgid "Cosinus"
 msgstr ""
@@ -428,9 +463,6 @@ msgstr "Definer riktig svar"
 msgid "Define correct response (for post-processing)"
 msgstr ""
 
-msgid "It is intended only for post-processing and will not influence the actual score computation."
-msgstr ""
-
 msgid "Define item language."
 msgstr "Definer oppgavespråk."
 
@@ -439,6 +471,9 @@ msgstr "skriv inn en ledetekst"
 
 msgid "Define the correct response."
 msgstr "Definer riktig svar."
+
+msgid "Define the status of the translation."
+msgstr ""
 
 msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
 msgstr "Definer om eleven må gjøre et valg for å lage et gyldig svar på oppgaven."
@@ -451,6 +486,15 @@ msgstr "Definer bredde"
 
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Definerer maksimal størrelse på numeriske resultatvariabler, maksimum må være en positiv verdi og minimum kan være en negativ verdi."
+
+msgid "Degrees"
+msgstr ""
+
+msgid "delay after"
+msgstr ""
+
+msgid "delay between"
+msgstr ""
 
 msgid "Delete"
 msgstr "Slett"
@@ -467,8 +511,14 @@ msgstr "Slett denne modale tilbakemeldingen"
 msgid "Delimiter"
 msgstr "Avgrensning"
 
+msgid "Delta"
+msgstr ""
+
 msgid "Description"
 msgstr "Beskrivelse"
+
+msgid "Direction of writing"
+msgstr ""
 
 msgid "Disable this stylesheet temporarily"
 msgstr "Deaktiver dette stilarket midlertidig"
@@ -533,6 +583,9 @@ msgstr "redigere valg"
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "Rediger matematisk uttrykk ved hjelp av LaTex type innstillingssystem, f.eks. e^{i \\ pi} = -1"
 
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgstr ""
+
 msgid "Edit math expression using MathML"
 msgstr "Rediger matematisk uttrykk ved hjelp av MathML"
 
@@ -587,6 +640,9 @@ msgstr "Gå til verktøykasseinhold"
 msgid "Enter tooltip target"
 msgstr "Gå til valgt verktøy"
 
+msgid "Equals"
+msgstr ""
+
 msgid "error"
 msgstr ""
 
@@ -604,6 +660,9 @@ msgstr "Feil på oppgave %s"
 
 msgid "Error to export item %s: %s"
 msgstr "Feil ved eksport av element %s: %s"
+
+msgid "Euler\'s constant"
+msgstr ""
 
 msgid "Euler\\'s constant"
 msgstr "Eulers konstante"
@@ -631,6 +690,9 @@ msgstr "Eksporter QTI 2.1-pakke"
 
 msgid "Export QTI 2.2 Package"
 msgstr "Eksporter QTI 2.2-pakke"
+
+msgid "Export QTI 3.0 Package"
+msgstr ""
 
 msgid "Extended Text"
 msgstr "Fritekst"
@@ -716,6 +778,9 @@ msgstr "Grafisk oppgavetype - sortering"
 msgid "Greater than or equal"
 msgstr "Større enn eller lik"
 
+msgid "Group toolbar items"
+msgstr ""
+
 msgid "Guard for resource \"%s\"..."
 msgstr ""
 
@@ -730,6 +795,9 @@ msgstr "Her kan du definere alternativer for plagiatkontroll og manuell skåring
 
 msgid "Horizontal"
 msgstr "Horisontal"
+
+msgid "Horizontal text"
+msgstr ""
 
 msgid "Hotspot"
 msgstr ""
@@ -764,8 +832,14 @@ msgstr "Identifikator"
 msgid "identifier already taken"
 msgstr "identifikator er allerede brukt"
 
+msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
+msgstr ""
+
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr "Hvis gitt, angir eksempelet et vanlig uttrykk som kandidatens svar må matche for å bli ansett som gyldig"
+
+msgid "If pattern mask does not match match value provided, this message will be shown."
+msgstr ""
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
 msgstr ""
@@ -810,6 +884,9 @@ msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot 
 msgstr ""
 
 msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
+msgstr ""
+
+msgid "In progress"
 msgstr ""
 
 msgid "In Progress"
@@ -878,7 +955,13 @@ msgstr "Ugyldig URL"
 msgid "Invalid value in correct response property."
 msgstr ""
 
+msgid "Invalid value, should be an integer number."
+msgstr ""
+
 msgid "Invalid value, use %s %s for decimal point."
+msgstr ""
+
+msgid "is null"
 msgstr ""
 
 msgid "Is this choice the correct response?"
@@ -886,6 +969,9 @@ msgstr "Er dette valget det riktig svaret?"
 
 msgid "Is this pair the correct response?"
 msgstr "Er dette paret det riktig svaret?"
+
+msgid "It is intended only for post-processing and will not influence the actual score computation."
+msgstr ""
 
 msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
 msgstr ""
@@ -951,11 +1037,23 @@ msgstr "venstre"
 msgid "Left bracket"
 msgstr "Venstre parentes"
 
+msgid "Left parenthesis"
+msgstr ""
+
 msgid "Length"
 msgstr "Lengde"
 
+msgid "Less than or equal"
+msgstr ""
+
 msgid "Level"
 msgstr "Nivå"
+
+msgid "Line"
+msgstr ""
+
+msgid "Line Segment"
+msgstr ""
 
 msgid "Lines"
 msgstr "Linjer"
@@ -1167,6 +1265,9 @@ msgstr "Sortering"
 msgid "Order Interaction"
 msgstr "Oppgavetype sortering"
 
+msgid "Order single list"
+msgstr ""
+
 msgid "order single list"
 msgstr "Sorter i gjeldende listed"
 
@@ -1185,10 +1286,19 @@ msgstr "Vurderingsalternativer"
 msgid "Pair scoring"
 msgstr "Skåring av par"
 
+msgid "Parallel"
+msgstr ""
+
 msgid "Pattern"
 msgstr "Mønster"
 
+msgid "Pattern violation message"
+msgstr ""
+
 msgid "Pause"
+msgstr ""
+
+msgid "Perpendicular"
 msgstr ""
 
 msgid "Pi"
@@ -1199,6 +1309,9 @@ msgstr ""
 
 msgid "Plain text"
 msgstr "Ren tekst"
+
+msgid "Play audio several times in a row. Delay between plays can be set if needed."
+msgstr ""
 
 msgid "Please add one or more gaps to the text in question mode."
 msgstr "Legg til ett eller flere mellomrom i teksten i spørsmålsfeltet."
@@ -1275,6 +1388,9 @@ msgstr "Skriv inn riktig svar nedenfor."
 msgid "Please type the correct response in the box below."
 msgstr "Skriv inn riktig svar i boksen nedenfor."
 
+msgid "Plus/minus"
+msgstr ""
+
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "Bærbar elementmodell %s ble ikke funnet. Nødvendig utvidelse kan mangle"
 
@@ -1344,6 +1460,9 @@ msgstr "QTI-Pakke 2.1"
 msgid "QTI Package 2.2"
 msgstr "QTI-Pakke 2.2"
 
+msgid "QTI Package 3.0"
+msgstr ""
+
 msgid "QTI-XML error at line %1$d \"%2$s\"."
 msgstr ""
 
@@ -1355,6 +1474,9 @@ msgstr "QTI/APIP XML-oppgavedokument"
 
 msgid "Question"
 msgstr "Spørsmål"
+
+msgid "Ray"
+msgstr ""
 
 msgid "Recommendations"
 msgstr "Anbefalinger"
@@ -1413,6 +1535,9 @@ msgstr "Fjern dette stilarket"
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr ""
 
+msgid "repeats"
+msgstr ""
+
 msgid "Replay timeout"
 msgstr "Tidsavbrudd"
 
@@ -1455,14 +1580,17 @@ msgstr "Rik tekst"
 msgid "Rich text + math"
 msgstr "Rik tekst + math"
 
-msgid "right"
-msgstr "høyre"
-
 msgid "Right"
 msgstr "Høyre"
 
+msgid "right"
+msgstr "høyre"
+
 msgid "Right bracket"
 msgstr "Høyre parentes"
+
+msgid "Right parenthesis"
+msgstr ""
 
 msgid "Rollback on..."
 msgstr "Tilbakestill..."
@@ -1490,6 +1618,9 @@ msgstr "Poengsum"
 
 msgid "Scrollable multi-column"
 msgstr "Skrollbar flerkolonne"
+
+msgid "sec"
+msgstr ""
 
 msgid "seconds"
 msgstr "sekunder"
@@ -1527,6 +1658,9 @@ msgstr "Velg et bilde først."
 msgid "select correct choice"
 msgstr "velg riktig alternativ"
 
+msgid "Select height of block based off container height"
+msgstr ""
+
 msgid "Select height of passage base of container height"
 msgstr ""
 
@@ -1538,6 +1672,9 @@ msgstr "Velg om oppgaven skal manuelt skåres i skåringsverktøyet eller sendes
 
 msgid "Select image"
 msgstr "Velg bilde"
+
+msgid "Select line to remove"
+msgstr ""
 
 msgid "Select media file"
 msgstr "Velg media-fil"
@@ -1578,6 +1715,9 @@ msgstr "Velg måten svaret på oppgaven din skal behandles på"
 msgid "Select this area"
 msgstr "Velg dette området"
 
+msgid "Select this area to finish an association"
+msgstr ""
+
 msgid "Select this area to start an association"
 msgstr "Velg dette området for å starte en kobling"
 
@@ -1587,6 +1727,9 @@ msgstr ""
 msgid "Set a CSS class name in order to customize the display style."
 msgstr "Angi et CSS-mappenavn for å tilpasse visningsstilen."
 
+msgid "Set the media player UI to Compact mode, displaying only the play button icon, hiding all other controls such as volume, seek bar."
+msgstr ""
+
 msgid "Set the score for this response"
 msgstr "Sett poengsumm for dette svaret"
 
@@ -1595,6 +1738,12 @@ msgstr "Sett posisjon"
 
 msgid "Shuffle choices"
 msgstr "Tilfeldig rekkefølge for svaralternativer"
+
+msgid "Similar"
+msgstr ""
+
+msgid "Sine"
+msgstr ""
 
 msgid "Single choice"
 msgstr "Enkelt valg"
@@ -1620,6 +1769,9 @@ msgstr "litt tekst ..."
 msgid "Something went wrong while destroying an interaction: %s"
 msgstr ""
 
+msgid "Sort from source to target list"
+msgstr ""
+
 msgid "sort from source to target list"
 msgstr "Sorter inn i ny listed"
 
@@ -1627,6 +1779,9 @@ msgid "Square root"
 msgstr "Kvadratrot"
 
 msgid "standard"
+msgstr ""
+
+msgid "Status"
 msgstr ""
 
 msgid "Step"
@@ -1653,10 +1808,25 @@ msgstr "Kompilert \"%s"
 msgid "Successfully created item \"%s"
 msgstr "Opprettet oppgave %s"
 
+msgid "Switches the interaction's direction of writing between horizontal and vertical."
+msgstr ""
+
+msgid "Switches the text block's direction of writing between horizontal and vertical."
+msgstr ""
+
+msgid "Switches the whole item's direction of writing between horizontal and vertical."
+msgstr ""
+
 msgid "Table headings"
 msgstr "Tabelloverskrifter"
 
+msgid "Tangent"
+msgstr ""
+
 msgid "TAO default styles"
+msgstr ""
+
+msgid "Target class is missing the following metadata properties: %s"
 msgstr ""
 
 msgid "Target Class Lookup for resource \"%s\"..."
@@ -1899,6 +2069,9 @@ msgstr "Det er et ufullstendig element i oppgaven din: Klikk for å fullføre."
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "Det oppsto et problem ved nedlasting av CSS. Prøv igjen."
 
+msgid "Theta"
+msgstr ""
+
 msgid "This identifier is already used by another variable."
 msgstr "Denne identifikatoren er allerede i bruk av en annen variabel."
 
@@ -1950,6 +2123,12 @@ msgstr "Verktøytips"
 msgid "Top"
 msgstr "Topp"
 
+msgid "Translation completed"
+msgstr ""
+
+msgid "Triangle"
+msgstr ""
+
 msgid "Trigger the end of the item attempt."
 msgstr "Utløser slutten på oppgaveforsøket."
 
@@ -1998,8 +2177,14 @@ msgstr "Brukes til å kontrollere formatet på teksten som er lagt inn av eleven
 msgid "Value"
 msgstr "Verdi"
 
+msgid "Vector"
+msgstr ""
+
 msgid "Vertical"
 msgstr "Vertikal"
+
+msgid "Vertical text"
+msgstr ""
 
 msgid "warning"
 msgstr ""

@@ -1,24 +1,17 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-11-04 14:14\n"
+"Project-Id-Version: TAO 2026.02 LTS\n"
+"PO-Revision-Date: 2026-02-03T14:43:20\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: sk\n"
+"Language: sk-SK\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-US\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"targetLanguage: sk-SK\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
-"X-Crowdin-Project: tao-open-source\n"
-"X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: sk\n"
-"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
-"X-Crowdin-File-ID: 519\n"
-"Language-Team: Slovak\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Doplňte medzery v texte z ponuky možností."
@@ -38,6 +31,9 @@ msgstr "%d Položka(y) z %d importovaná(é) z daného balíka IMS QTI."
 msgid "%d/%d"
 msgstr "%d/%d"
 
+msgid "%s - Original"
+msgstr ""
+
 msgid "%s metadata values found in source by extractor(s)."
 msgstr "Hodnoty metadát nájdené v zdroji extraktorom(mi). %s"
 
@@ -49,6 +45,9 @@ msgstr "Odporúča sa %s z %s znakov."
 
 msgid "%s of %s words maximum."
 msgstr "Maximálne %s z %s slov."
+
+msgid "%title% - Translation (%lang%)"
+msgstr ""
 
 msgid "(comma)"
 msgstr "(čiarka)"
@@ -155,6 +154,9 @@ msgstr "Povolený počet zápasov"
 msgid "Allowed number of uses"
 msgstr "Povolený počet použití"
 
+msgid "Alpha"
+msgstr ""
+
 msgid "Alt Text"
 msgstr "Alternatívny text"
 
@@ -194,6 +196,9 @@ msgstr "Počas importu položky QTI sa vyskytla neočakávaná chyba. Systém vr
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr "Pri importovaní balíka IMS QTI s identifikátorom sa vyskytla neznáma chyba: "
 
+msgid "Angle"
+msgstr ""
+
 msgid "Answer required"
 msgstr "Vyžaduje sa odpoveď"
 
@@ -202,6 +207,9 @@ msgstr "Balík obsahu APIP"
 
 msgid "Apip Package successfully exported."
 msgstr "Balík Apip bol úspešne exportovaný."
+
+msgid "Arc"
+msgstr ""
 
 msgid "Arrange a list of choices in the correct order."
 msgstr "Usporiadajte zoznam možností v správnom poradí."
@@ -236,6 +244,9 @@ msgstr "Základňa"
 msgid "Be aware, if you choose to remove the instructions, the system will not provide any warnings to the test takers if constraints are set."
 msgstr "Upozorňujeme, že ak sa rozhodnete odstrániť pokyny, systém účastníkom testu neposkytne žiadne upozornenia, ak sú nastavené obmedzenia."
 
+msgid "Beta"
+msgstr ""
+
 msgid "Block"
 msgstr "Blok"
 
@@ -250,6 +261,9 @@ msgstr "Výška bloku (%)"
 
 msgid "Border color"
 msgstr "Farba okraja"
+
+msgid "Bottom"
+msgstr ""
 
 msgid "Browse your computer and select the appropriate file."
 msgstr "Prehľadajte si počítač a vyberte príslušný súbor."
@@ -317,6 +331,9 @@ msgstr "možnosti"
 msgid "Choices"
 msgstr "Možnosti"
 
+msgid "Choices position"
+msgstr ""
+
 msgid "Choose the horizontal alignment for the table."
 msgstr "Vyberte horizontálne zarovnanie tabuľky."
 
@@ -341,11 +358,17 @@ msgstr "Kliknite znova pre odstránenie"
 msgid "Click to display interaction widget"
 msgstr "Kliknutím zobrazíte interaktívny widget"
 
+msgid "Click to remove"
+msgstr ""
+
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr "Zbierajte otvorené informácie v krátkom textovom vstupe (reťazce alebo číselné hodnoty)."
 
 msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
 msgstr "Zbierajte otvorené informácie v jednej alebo viacerých textových oblastiach (reťazce alebo číselné hodnoty)."
+
+msgid "Colon"
+msgstr ""
 
 msgid "Color Picker"
 msgstr "Výber farby"
@@ -355,6 +378,15 @@ msgstr "Oddeľovač stĺpcov"
 
 msgid "Common Interactions"
 msgstr "Bežné interakcie"
+
+msgid "Compact Appearance"
+msgstr ""
+
+msgid "Configures the position of the choices relative to the target list."
+msgstr ""
+
+msgid "Congruent"
+msgstr ""
 
 msgid "Constraints"
 msgstr "Obmedzenia"
@@ -367,6 +399,9 @@ msgstr "Správne"
 
 msgid "correct"
 msgstr "správne"
+
+msgid "Cosine"
+msgstr ""
 
 msgid "Cosinus"
 msgstr "Kosinus"
@@ -428,9 +463,6 @@ msgstr "Definujte správnu odpoveď"
 msgid "Define correct response (for post-processing)"
 msgstr ""
 
-msgid "It is intended only for post-processing and will not influence the actual score computation."
-msgstr ""
-
 msgid "Define item language."
 msgstr "Definujte jazyk položky."
 
@@ -439,6 +471,9 @@ msgstr "definovať výzvu"
 
 msgid "Define the correct response."
 msgstr "Definujte správnu odpoveď."
+
+msgid "Define the status of the translation."
+msgstr ""
 
 msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
 msgstr "Definujte, či musí kandidát zvoliť určitú možnosť, aby vytvoril platnú odpoveď na interakciu."
@@ -451,6 +486,15 @@ msgstr "Definovaná šírka"
 
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Definuje maximálnu veľkosť číselných výstupných premenných, maximum musí byť kladná hodnota a minimum môže byť záporné."
+
+msgid "Degrees"
+msgstr ""
+
+msgid "delay after"
+msgstr ""
+
+msgid "delay between"
+msgstr ""
 
 msgid "Delete"
 msgstr "Odstrániť"
@@ -467,8 +511,14 @@ msgstr "Odstrániť túto modálnu spätnú väzbu"
 msgid "Delimiter"
 msgstr "Oddeľovač"
 
+msgid "Delta"
+msgstr ""
+
 msgid "Description"
 msgstr "Popis"
+
+msgid "Direction of writing"
+msgstr ""
 
 msgid "Disable this stylesheet temporarily"
 msgstr "Dočasne zakázať tento šablónu so štýlmi"
@@ -533,6 +583,9 @@ msgstr "možnosti úpravy"
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "Upravte matematický výraz pomocou systému nastavovania typov LaTex, napr. e^{i \\pi} = -1"
 
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgstr ""
+
 msgid "Edit math expression using MathML"
 msgstr "Úprava matematického výrazu pomocou MathML"
 
@@ -587,6 +640,9 @@ msgstr "Zadajte obsah popisu"
 msgid "Enter tooltip target"
 msgstr "Zadajte cieľ popisu"
 
+msgid "Equals"
+msgstr ""
+
 msgid "error"
 msgstr "chyba"
 
@@ -604,6 +660,9 @@ msgstr "Chyba v položke %s"
 
 msgid "Error to export item %s: %s"
 msgstr "Chyba pri exporte položky %s: %s"
+
+msgid "Euler\'s constant"
+msgstr ""
 
 msgid "Euler\\'s constant"
 msgstr "Eulerova konštanta"
@@ -631,6 +690,9 @@ msgstr "Exportovať balík QTI 2.1"
 
 msgid "Export QTI 2.2 Package"
 msgstr "Exportovať balík QTI 2.2"
+
+msgid "Export QTI 3.0 Package"
+msgstr ""
 
 msgid "Extended Text"
 msgstr "Rozšírený text"
@@ -716,6 +778,9 @@ msgstr "Interakcia grafického poradia"
 msgid "Greater than or equal"
 msgstr "Väčšie alebo rovné"
 
+msgid "Group toolbar items"
+msgstr ""
+
 msgid "Guard for resource \"%s\"..."
 msgstr "Strážca zdroja „%s“..."
 
@@ -730,6 +795,9 @@ msgstr "Tu môžete zadať aspekty hodnotenia pre manuálne hodnotenie/známkova
 
 msgid "Horizontal"
 msgstr "Horizontálne"
+
+msgid "Horizontal text"
+msgstr ""
 
 msgid "Hotspot"
 msgstr "Hotspot"
@@ -764,8 +832,14 @@ msgstr "Identifikátor"
 msgid "identifier already taken"
 msgstr "identifikátor už obsadený"
 
+msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
+msgstr ""
+
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr "Ak je zadaná, maska vzoru určuje regulárny výraz, ktorému musí zodpovedať odpoveď kandidáta, aby bola považovaná za platnú."
+
+msgid "If pattern mask does not match match value provided, this message will be shown."
+msgstr ""
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
 msgstr "Ak je atribút shuffle nastavený na hodnotu true, zobrazovací nástroj náhodne zoradí poradie, v akom sú možnosti pôvodne zobrazené. Každá možnosť však môže byť „premiešaná“ alebo „fixovaná“ individuálne."
@@ -811,6 +885,9 @@ msgstr "Položka IMS QTI označená ako „%s“ obsahuje prenosný prvok a nemo
 
 msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
 msgstr "Položku IMS QTI označenú ako „%s“ v súbore manifestu IMS nebolo možné importovať."
+
+msgid "In progress"
+msgstr ""
 
 msgid "In Progress"
 msgstr "Prebieha"
@@ -878,14 +955,23 @@ msgstr "Neplatná URL adresa"
 msgid "Invalid value in correct response property."
 msgstr "Neplatná hodnota v správnej vlastnosti odpovede."
 
+msgid "Invalid value, should be an integer number."
+msgstr ""
+
 msgid "Invalid value, use %s %s for decimal point."
 msgstr "Neplatná hodnota, pre desatinnú čiarku použite %s %s ."
+
+msgid "is null"
+msgstr ""
 
 msgid "Is this choice the correct response?"
 msgstr "Je táto voľba správnou odpoveďou?"
 
 msgid "Is this pair the correct response?"
 msgstr "Je táto dvojica správna odpoveď?"
+
+msgid "It is intended only for post-processing and will not influence the actual score computation."
+msgstr ""
 
 msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
 msgstr "Zdá sa, že pri načítavaní položky došlo k chybe. Chyba bola nahlásená. Test bude pozastavený."
@@ -951,11 +1037,23 @@ msgstr "vľavo"
 msgid "Left bracket"
 msgstr "Ľavá zátvorka"
 
+msgid "Left parenthesis"
+msgstr ""
+
 msgid "Length"
 msgstr "Dĺžka"
 
+msgid "Less than or equal"
+msgstr ""
+
 msgid "Level"
 msgstr "Úroveň"
+
+msgid "Line"
+msgstr ""
+
+msgid "Line Segment"
+msgstr ""
 
 msgid "Lines"
 msgstr "Čiary"
@@ -1168,6 +1266,9 @@ msgstr "Objednávka"
 msgid "Order Interaction"
 msgstr "Interakcia s objednávkou"
 
+msgid "Order single list"
+msgstr ""
+
 msgid "order single list"
 msgstr "zoznam objednávok"
 
@@ -1186,11 +1287,20 @@ msgstr "Vyhlásenia o výsledkoch"
 msgid "Pair scoring"
 msgstr "Bodovanie párov"
 
+msgid "Parallel"
+msgstr ""
+
 msgid "Pattern"
 msgstr "Vzor"
 
+msgid "Pattern violation message"
+msgstr ""
+
 msgid "Pause"
 msgstr "Pozastaviť"
+
+msgid "Perpendicular"
+msgstr ""
 
 msgid "Pi"
 msgstr "Pí"
@@ -1200,6 +1310,9 @@ msgstr "Zástupný text"
 
 msgid "Plain text"
 msgstr "Obyčajný text"
+
+msgid "Play audio several times in a row. Delay between plays can be set if needed."
+msgstr ""
 
 msgid "Please add one or more gaps to the text in question mode."
 msgstr "V režime otázky pridajte do textu jednu alebo viac medzier."
@@ -1276,6 +1389,9 @@ msgstr "Prosím, napíšte nižšie správnu odpoveď."
 msgid "Please type the correct response in the box below."
 msgstr "Prosím, napíšte správnu odpoveď do poľa nižšie."
 
+msgid "Plus/minus"
+msgstr ""
+
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "Model prenosného prvku %s sa nenašiel. Možno chýba požadované rozšírenie."
 
@@ -1345,6 +1461,9 @@ msgstr "Balík QTI 2.1"
 msgid "QTI Package 2.2"
 msgstr "Balík QTI 2.2"
 
+msgid "QTI Package 3.0"
+msgstr ""
+
 msgid "QTI-XML error at line %1$d \"%2$s\"."
 msgstr "Chyba QTI-XML na riadku %1$d „%2$s“."
 
@@ -1356,6 +1475,9 @@ msgstr "Dokument položky XML QTI/APIP"
 
 msgid "Question"
 msgstr "Otázka"
+
+msgid "Ray"
+msgstr ""
 
 msgid "Recommendations"
 msgstr "Odporúčania"
@@ -1414,6 +1536,9 @@ msgstr "Odstrániť tento šablónu so štýlmi"
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr "Odstráni všetky inštrukčné správy vygenerované systémom z rozhrania."
 
+msgid "repeats"
+msgstr ""
+
 msgid "Replay timeout"
 msgstr "Časový limit prehrávania"
 
@@ -1456,14 +1581,17 @@ msgstr "Formátovaný text"
 msgid "Rich text + math"
 msgstr "Formátovaný text + matematika"
 
-msgid "right"
-msgstr "správne"
-
 msgid "Right"
 msgstr "Vpravo"
 
+msgid "right"
+msgstr "správne"
+
 msgid "Right bracket"
 msgstr "Pravá zátvorka"
+
+msgid "Right parenthesis"
+msgstr ""
 
 msgid "Rollback on..."
 msgstr "Vrátiť späť..."
@@ -1491,6 +1619,9 @@ msgstr "Hodnota skóre"
 
 msgid "Scrollable multi-column"
 msgstr "Posúvateľné viacstĺpcové"
+
+msgid "sec"
+msgstr ""
 
 msgid "seconds"
 msgstr "sekundy"
@@ -1528,6 +1659,9 @@ msgstr "Najprv vyberte obrázok."
 msgid "select correct choice"
 msgstr "vyberte správnu voľbu"
 
+msgid "Select height of block based off container height"
+msgstr ""
+
 msgid "Select height of passage base of container height"
 msgstr "Vyberte výšku základne prechodu pre výšku kontajnera"
 
@@ -1539,6 +1673,9 @@ msgstr "Vyberte, či chcete, aby vyhlásenie o výsledku spracoval externý syst
 
 msgid "Select image"
 msgstr "Vybrať obrázok"
+
+msgid "Select line to remove"
+msgstr ""
 
 msgid "Select media file"
 msgstr "Vyberte mediálny súbor"
@@ -1579,6 +1716,9 @@ msgstr "Vyberte spôsob, akým sa má spracovať odpoveď na vašu interakciu"
 msgid "Select this area"
 msgstr "Vyberte túto oblasť"
 
+msgid "Select this area to finish an association"
+msgstr ""
+
 msgid "Select this area to start an association"
 msgstr "Vyberte túto oblasť pre začatie pridruženia"
 
@@ -1588,6 +1728,9 @@ msgstr "Sekvenčné"
 msgid "Set a CSS class name in order to customize the display style."
 msgstr "Nastavte názov triedy CSS, aby ste mohli prispôsobiť štýl zobrazenia."
 
+msgid "Set the media player UI to Compact mode, displaying only the play button icon, hiding all other controls such as volume, seek bar."
+msgstr ""
+
 msgid "Set the score for this response"
 msgstr "Nastavte skóre pre túto odpoveď"
 
@@ -1596,6 +1739,12 @@ msgstr "Poloha tvaru"
 
 msgid "Shuffle choices"
 msgstr "Náhodné prehrávanie možností"
+
+msgid "Similar"
+msgstr ""
+
+msgid "Sine"
+msgstr ""
 
 msgid "Single choice"
 msgstr "Jedna možnosť"
@@ -1621,6 +1770,9 @@ msgstr "nejaký text..."
 msgid "Something went wrong while destroying an interaction: %s"
 msgstr "Pri rušení interakcie sa niečo pokazilo: %s"
 
+msgid "Sort from source to target list"
+msgstr ""
+
 msgid "sort from source to target list"
 msgstr "zoradiť od zdroja k cieľovému zoznamu"
 
@@ -1629,6 +1781,9 @@ msgstr "Druhá odmocnina"
 
 msgid "standard"
 msgstr "štandard"
+
+msgid "Status"
+msgstr ""
 
 msgid "Step"
 msgstr "Krok"
@@ -1654,11 +1809,26 @@ msgstr "Úspešne skompilované „%s“"
 msgid "Successfully created item \"%s"
 msgstr "Položka bola úspešne vytvorená „%s“"
 
+msgid "Switches the interaction's direction of writing between horizontal and vertical."
+msgstr ""
+
+msgid "Switches the text block's direction of writing between horizontal and vertical."
+msgstr ""
+
+msgid "Switches the whole item's direction of writing between horizontal and vertical."
+msgstr ""
+
 msgid "Table headings"
 msgstr "Nadpisy tabuliek"
 
+msgid "Tangent"
+msgstr ""
+
 msgid "TAO default styles"
 msgstr "Predvolené štýly TAO"
+
+msgid "Target class is missing the following metadata properties: %s"
+msgstr ""
 
 msgid "Target Class Lookup for resource \"%s\"..."
 msgstr "Vyhľadávanie cieľovej triedy pre zdroj „%s“..."
@@ -1900,6 +2070,9 @@ msgstr "Vo vašej položke je neúplný prvok: kliknite naň pre jeho dokončeni
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "Pri sťahovaní vášho CSS sa vyskytol problém, skúste to znova."
 
+msgid "Theta"
+msgstr ""
+
 msgid "This identifier is already used by another variable."
 msgstr "Tento identifikátor už používa iná premenná."
 
@@ -1951,6 +2124,12 @@ msgstr "Cieľ popisu"
 msgid "Top"
 msgstr "Hore"
 
+msgid "Translation completed"
+msgstr ""
+
+msgid "Triangle"
+msgstr ""
+
 msgid "Trigger the end of the item attempt."
 msgstr "Spustiť koniec pokusu o položku."
 
@@ -1999,8 +2178,14 @@ msgstr "Používa sa na ovládanie formátu textu zadaného kandidátom."
 msgid "Value"
 msgstr "Hodnota"
 
+msgid "Vector"
+msgstr ""
+
 msgid "Vertical"
 msgstr "Vertikálne"
+
+msgid "Vertical text"
+msgstr ""
 
 msgid "warning"
 msgstr "POZOR"
