@@ -3,13 +3,13 @@
         <label class="smaller-prompt">
         <input type="radio" name="order" value="single" {{#if single}}checked{{/if}} />
             <span class="icon-radio"></span>
-            {{__ 'order single list'}}
+            {{__ 'Order single list'}}
         </label>
         <br>
         <label class="smaller-prompt">
             <input type="radio" name="order" value="sort" {{#unless single}}checked{{/unless}} />
             <span class="icon-radio"></span>
-            {{__ 'sort from source to target list'}}
+            {{__ 'Sort from source to target list'}}
         </label>
     </div>
 </div>
@@ -51,6 +51,41 @@
             <input type="radio" name="orientation" value="horizontal" {{#if horizontal}}checked{{/if}} />
             <span class="icon-radio"></span>
             {{__ 'Horizontal'}}
+        </label>
+    </div>
+</div>
+{{/if}}
+{{#if enabledFeatures.position}}
+<hr/>
+<div class="panel position-panel" style="display:none;">
+    <h3>{{__ 'Choices position'}}</h3>
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+            <span class="tooltip-content">
+            {{__ 'Configures the position of the choices relative to the target list.'}}
+        </span>
+    <div>
+        <label class="smaller-prompt">
+            <input type="radio" name="position" value="top" {{#equal position 'top'}}checked{{/equal}} />
+            <span class="icon-radio"></span>
+            {{__ 'Top'}}
+        </label>
+        <br>
+        <label class="smaller-prompt">
+            <input type="radio" name="position" value="bottom" {{#equal position 'bottom'}}checked{{/equal}} />
+            <span class="icon-radio"></span>
+            {{__ 'Bottom'}}
+        </label>
+        <br>
+        <label class="smaller-prompt">
+            <input type="radio" name="position" value="left"  {{#equal position 'left'}}checked{{/equal}} />
+            <span class="icon-radio"></span>
+            {{__ 'Left'}}
+        </label>
+        <br>
+        <label class="smaller-prompt">
+            <input type="radio" name="position" value="right" {{#equal position 'right'}}checked{{/equal}} />
+            <span class="icon-radio"></span>
+            {{__ 'Right'}}
         </label>
     </div>
 </div>
