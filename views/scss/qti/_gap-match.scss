@@ -82,7 +82,8 @@
             @extend %droppable;
         }
 
-        &.dropzone {
+        &.dropzone,
+        &.filled.empty:not(.active):hover {
             @extend %dropzone;
             border: solid 1px $colorBrand !important;
             color: $colorBrand !important;
