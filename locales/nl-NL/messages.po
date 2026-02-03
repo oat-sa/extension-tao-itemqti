@@ -1,24 +1,17 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-04-16 15:36\n"
+"Project-Id-Version: TAO 2026.02 LTS\n"
+"PO-Revision-Date: 2026-02-03T14:43:05\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nl\n"
+"Language: nl-NL\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-US\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"targetLanguage: nl-NL\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: tao-open-source\n"
-"X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: nl\n"
-"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
-"X-Crowdin-File-ID: 519\n"
-"Language-Team: Dutch\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Vul de gaten in de tekst in met een vast set van keuzes."
@@ -38,6 +31,9 @@ msgstr ""
 msgid "%d/%d"
 msgstr ""
 
+msgid "%s - Original"
+msgstr ""
+
 msgid "%s metadata values found in source by extractor(s)."
 msgstr "%s metagegevenswaarden gevonden in de source door middel van extractor(en)."
 
@@ -49,6 +45,9 @@ msgstr "%s van %s karakters aanbevolen."
 
 msgid "%s of %s words maximum."
 msgstr "%s van maximaal %s woorden."
+
+msgid "%title% - Translation (%lang%)"
+msgstr ""
 
 msgid "(comma)"
 msgstr ""
@@ -155,6 +154,9 @@ msgstr "Toegestane aantal overeenkomsten"
 msgid "Allowed number of uses"
 msgstr "Toegestane aantal gebruik"
 
+msgid "Alpha"
+msgstr ""
+
 msgid "Alt Text"
 msgstr "Alt tekst"
 
@@ -194,6 +196,9 @@ msgstr "Er is een onverwachte fout opgetreden tijdens het importeren van het IMS
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr ""
 
+msgid "Angle"
+msgstr ""
+
 msgid "Answer required"
 msgstr ""
 
@@ -202,6 +207,9 @@ msgstr ""
 
 msgid "Apip Package successfully exported."
 msgstr "Apip Pakket met succes geëxporteerd."
+
+msgid "Arc"
+msgstr ""
 
 msgid "Arrange a list of choices in the correct order."
 msgstr "Zet een lijst van keuzes in de juiste volgorde."
@@ -236,6 +244,9 @@ msgstr ""
 msgid "Be aware, if you choose to remove the instructions, the system will not provide any warnings to the test takers if constraints are set."
 msgstr ""
 
+msgid "Beta"
+msgstr ""
+
 msgid "Block"
 msgstr "Blok"
 
@@ -250,6 +261,9 @@ msgstr ""
 
 msgid "Border color"
 msgstr "Randkleur"
+
+msgid "Bottom"
+msgstr ""
 
 msgid "Browse your computer and select the appropriate file."
 msgstr "Blader door uw computer en selecteer het juiste bestand"
@@ -317,6 +331,9 @@ msgstr "keuzes"
 msgid "Choices"
 msgstr "Keuzes"
 
+msgid "Choices position"
+msgstr ""
+
 msgid "Choose the horizontal alignment for the table."
 msgstr "Kies de horizontale uitlijning voor de lijst."
 
@@ -341,11 +358,17 @@ msgstr "Klik opnieuw om te verwijderen"
 msgid "Click to display interaction widget"
 msgstr "Klik om de interactie widget te tonen"
 
+msgid "Click to remove"
+msgstr ""
+
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr "Verzamel open einde informatie in een korte tekst invoer (strings of numerieke waarde)."
 
 msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
 msgstr "Verzamel open einde informatie in een of meer tekst gebieden (strings of numerieke waarde)."
+
+msgid "Colon"
+msgstr ""
 
 msgid "Color Picker"
 msgstr "Kleurkiezer"
@@ -354,6 +377,15 @@ msgid "Column separator"
 msgstr ""
 
 msgid "Common Interactions"
+msgstr ""
+
+msgid "Compact Appearance"
+msgstr ""
+
+msgid "Configures the position of the choices relative to the target list."
+msgstr ""
+
+msgid "Congruent"
 msgstr ""
 
 msgid "Constraints"
@@ -367,6 +399,9 @@ msgstr "Goed!"
 
 msgid "correct"
 msgstr "Goed!"
+
+msgid "Cosine"
+msgstr ""
 
 msgid "Cosinus"
 msgstr ""
@@ -428,9 +463,6 @@ msgstr "Geef het correcte antwoord"
 msgid "Define correct response (for post-processing)"
 msgstr ""
 
-msgid "It is intended only for post-processing and will not influence the actual score computation."
-msgstr ""
-
 msgid "Define item language."
 msgstr "Definieer de taal van het item."
 
@@ -439,6 +471,9 @@ msgstr "Definieer prompt"
 
 msgid "Define the correct response."
 msgstr "Definieer het correcte antwoord."
+
+msgid "Define the status of the translation."
+msgstr ""
 
 msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
 msgstr "Definieer of een kandidaat een keuze moet selecteren om een geldig antwoord te krijgen voor de interactie."
@@ -451,6 +486,15 @@ msgstr "De vaste breedte"
 
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Bepaalt de maximale omvang van numerieke uitkomstvariabelen, het maximum moet een positieve waarde zijn en het minimum mag negatief zijn."
+
+msgid "Degrees"
+msgstr ""
+
+msgid "delay after"
+msgstr ""
+
+msgid "delay between"
+msgstr ""
 
 msgid "Delete"
 msgstr "Verwijderen"
@@ -467,8 +511,14 @@ msgstr "Verwijder deze model feedback"
 msgid "Delimiter"
 msgstr "Scheidingsteken"
 
+msgid "Delta"
+msgstr ""
+
 msgid "Description"
 msgstr "Omschrijving"
+
+msgid "Direction of writing"
+msgstr ""
 
 msgid "Disable this stylesheet temporarily"
 msgstr "Schakel dit stijlblad tijdelijk uit"
@@ -533,6 +583,9 @@ msgstr "pas keuzes aan"
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr ""
 
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgstr ""
+
 msgid "Edit math expression using MathML"
 msgstr "Bewerk wiskundige expressies met gebruik van MathML"
 
@@ -587,6 +640,9 @@ msgstr "Voer de inhoud van de tooltip in"
 msgid "Enter tooltip target"
 msgstr "Voer het doelwit van de tooltip in"
 
+msgid "Equals"
+msgstr ""
+
 msgid "error"
 msgstr ""
 
@@ -604,6 +660,9 @@ msgstr "Fout in item %s"
 
 msgid "Error to export item %s: %s"
 msgstr "Fout bij de export van het item %s: %s"
+
+msgid "Euler\'s constant"
+msgstr ""
 
 msgid "Euler\\'s constant"
 msgstr ""
@@ -630,6 +689,9 @@ msgid "Export QTI 2.1 Package"
 msgstr "Exporteer QTI 2.1 pakket"
 
 msgid "Export QTI 2.2 Package"
+msgstr ""
+
+msgid "Export QTI 3.0 Package"
 msgstr ""
 
 msgid "Extended Text"
@@ -716,6 +778,9 @@ msgstr "Grafische volgorde interactie"
 msgid "Greater than or equal"
 msgstr "Groter dan of gelijk aan"
 
+msgid "Group toolbar items"
+msgstr ""
+
 msgid "Guard for resource \"%s\"..."
 msgstr ""
 
@@ -730,6 +795,9 @@ msgstr ""
 
 msgid "Horizontal"
 msgstr "Horizontaal"
+
+msgid "Horizontal text"
+msgstr ""
 
 msgid "Hotspot"
 msgstr ""
@@ -764,8 +832,14 @@ msgstr "Naam"
 msgid "identifier already taken"
 msgstr "identifier is al bezet"
 
+msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
+msgstr ""
+
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr "Indien gegeven specificeert het patroon masker een reguliere expressie waaraan het antwoord van de kandidaat moet voldoen om als geldig te worden beschouwd"
+
+msgid "If pattern mask does not match match value provided, this message will be shown."
+msgstr ""
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
 msgstr ""
@@ -810,6 +884,9 @@ msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot 
 msgstr ""
 
 msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
+msgstr ""
+
+msgid "In progress"
 msgstr ""
 
 msgid "In Progress"
@@ -878,7 +955,13 @@ msgstr ""
 msgid "Invalid value in correct response property."
 msgstr ""
 
+msgid "Invalid value, should be an integer number."
+msgstr ""
+
 msgid "Invalid value, use %s %s for decimal point."
+msgstr ""
+
+msgid "is null"
 msgstr ""
 
 msgid "Is this choice the correct response?"
@@ -886,6 +969,9 @@ msgstr "Is deze keuze het correcte antwoord?"
 
 msgid "Is this pair the correct response?"
 msgstr "Is dit paar het correcte antwoord?"
+
+msgid "It is intended only for post-processing and will not influence the actual score computation."
+msgstr ""
 
 msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
 msgstr ""
@@ -951,10 +1037,22 @@ msgstr "links"
 msgid "Left bracket"
 msgstr "Linker haakje"
 
+msgid "Left parenthesis"
+msgstr ""
+
 msgid "Length"
 msgstr "Lengte"
 
+msgid "Less than or equal"
+msgstr ""
+
 msgid "Level"
+msgstr ""
+
+msgid "Line"
+msgstr ""
+
+msgid "Line Segment"
 msgstr ""
 
 msgid "Lines"
@@ -1168,6 +1266,9 @@ msgstr "Volgorde"
 msgid "Order Interaction"
 msgstr "Volgorde interactie"
 
+msgid "Order single list"
+msgstr ""
+
 msgid "order single list"
 msgstr ""
 
@@ -1186,11 +1287,20 @@ msgstr ""
 msgid "Pair scoring"
 msgstr "Score van paren"
 
+msgid "Parallel"
+msgstr ""
+
 msgid "Pattern"
 msgstr "Patroon"
 
+msgid "Pattern violation message"
+msgstr ""
+
 msgid "Pause"
 msgstr "Pauzeer"
+
+msgid "Perpendicular"
+msgstr ""
 
 msgid "Pi"
 msgstr ""
@@ -1200,6 +1310,9 @@ msgstr ""
 
 msgid "Plain text"
 msgstr "Platte tekst"
+
+msgid "Play audio several times in a row. Delay between plays can be set if needed."
+msgstr ""
 
 msgid "Please add one or more gaps to the text in question mode."
 msgstr ""
@@ -1276,6 +1389,9 @@ msgstr "Type a.u.b. hieronder het correcte antwoord."
 msgid "Please type the correct response in the box below."
 msgstr "Type a.u.b. hieronder het correcte antwoord in het venster."
 
+msgid "Plus/minus"
+msgstr ""
+
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "Portable element model %s niet gevonden. Vereiste extensie kan ontbreken"
 
@@ -1345,6 +1461,9 @@ msgstr "QTI Pakket 2.1"
 msgid "QTI Package 2.2"
 msgstr ""
 
+msgid "QTI Package 3.0"
+msgstr ""
+
 msgid "QTI-XML error at line %1$d \"%2$s\"."
 msgstr ""
 
@@ -1356,6 +1475,9 @@ msgstr ""
 
 msgid "Question"
 msgstr "Vraag"
+
+msgid "Ray"
+msgstr ""
 
 msgid "Recommendations"
 msgstr "Aanbevelingen"
@@ -1414,6 +1536,9 @@ msgstr "Verwijder dit stijlblad"
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr ""
 
+msgid "repeats"
+msgstr ""
+
 msgid "Replay timeout"
 msgstr ""
 
@@ -1456,14 +1581,17 @@ msgstr ""
 msgid "Rich text + math"
 msgstr ""
 
-msgid "right"
-msgstr "rechts"
-
 msgid "Right"
 msgstr "Rechts"
 
+msgid "right"
+msgstr "rechts"
+
 msgid "Right bracket"
 msgstr "Rechter haakje"
+
+msgid "Right parenthesis"
+msgstr ""
 
 msgid "Rollback on..."
 msgstr "Rollback op..."
@@ -1490,6 +1618,9 @@ msgid "Score value"
 msgstr "Score waarde"
 
 msgid "Scrollable multi-column"
+msgstr ""
+
+msgid "sec"
 msgstr ""
 
 msgid "seconds"
@@ -1528,6 +1659,9 @@ msgstr "Selecteer eerst een afbeelding."
 msgid "select correct choice"
 msgstr "Selecteer de correcte keuze"
 
+msgid "Select height of block based off container height"
+msgstr ""
+
 msgid "Select height of passage base of container height"
 msgstr ""
 
@@ -1539,6 +1673,9 @@ msgstr ""
 
 msgid "Select image"
 msgstr "Afbeelding selecteren"
+
+msgid "Select line to remove"
+msgstr ""
 
 msgid "Select media file"
 msgstr "Selecteer een mediabestand"
@@ -1579,6 +1716,9 @@ msgstr "Selecteer de wijze waarop een antwoord op uw interactie moet worden verw
 msgid "Select this area"
 msgstr "Selecteer dit gebied"
 
+msgid "Select this area to finish an association"
+msgstr ""
+
 msgid "Select this area to start an association"
 msgstr "Selecteer dit gebied om een interactie te starten"
 
@@ -1588,6 +1728,9 @@ msgstr ""
 msgid "Set a CSS class name in order to customize the display style."
 msgstr "Stel een CSS-klassennaam in om de weergavestijl aan te passen."
 
+msgid "Set the media player UI to Compact mode, displaying only the play button icon, hiding all other controls such as volume, seek bar."
+msgstr ""
+
 msgid "Set the score for this response"
 msgstr "Stel een score in voor dit antwoord"
 
@@ -1596,6 +1739,12 @@ msgstr "Vorm de positie"
 
 msgid "Shuffle choices"
 msgstr "Schud de keuzes"
+
+msgid "Similar"
+msgstr ""
+
+msgid "Sine"
+msgstr ""
 
 msgid "Single choice"
 msgstr "Enkele keus"
@@ -1621,6 +1770,9 @@ msgstr "Enige tekst..."
 msgid "Something went wrong while destroying an interaction: %s"
 msgstr ""
 
+msgid "Sort from source to target list"
+msgstr ""
+
 msgid "sort from source to target list"
 msgstr ""
 
@@ -1629,6 +1781,9 @@ msgstr "Vierkantswortel"
 
 msgid "standard"
 msgstr "standaard"
+
+msgid "Status"
+msgstr ""
 
 msgid "Step"
 msgstr "Stap"
@@ -1654,11 +1809,26 @@ msgstr "\"%s Met succes gecompileerd"
 msgid "Successfully created item \"%s"
 msgstr ""
 
+msgid "Switches the interaction's direction of writing between horizontal and vertical."
+msgstr ""
+
+msgid "Switches the text block's direction of writing between horizontal and vertical."
+msgstr ""
+
+msgid "Switches the whole item's direction of writing between horizontal and vertical."
+msgstr ""
+
 msgid "Table headings"
 msgstr "Tabelkoppen"
 
+msgid "Tangent"
+msgstr ""
+
 msgid "TAO default styles"
 msgstr "TAO standaard stijlen"
+
+msgid "Target class is missing the following metadata properties: %s"
+msgstr ""
 
 msgid "Target Class Lookup for resource \"%s\"..."
 msgstr ""
@@ -1900,6 +2070,9 @@ msgstr "Er is een incompleet element in uw item: Klik er a.u.b. op om het comple
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "Er was een probleem bij het downloaden van uw CSS. Probeert u het a.u.b. opnieuw."
 
+msgid "Theta"
+msgstr ""
+
 msgid "This identifier is already used by another variable."
 msgstr ""
 
@@ -1951,6 +2124,12 @@ msgstr ""
 msgid "Top"
 msgstr "Boven"
 
+msgid "Translation completed"
+msgstr ""
+
+msgid "Triangle"
+msgstr ""
+
 msgid "Trigger the end of the item attempt."
 msgstr "Trigger het einde van de item poging."
 
@@ -1999,8 +2178,14 @@ msgstr "Wordt gebruikt om het formaat te beheren van de ingevoerde tekst door de
 msgid "Value"
 msgstr ""
 
+msgid "Vector"
+msgstr ""
+
 msgid "Vertical"
 msgstr "Verticaal"
+
+msgid "Vertical text"
+msgstr ""
 
 msgid "warning"
 msgstr ""
