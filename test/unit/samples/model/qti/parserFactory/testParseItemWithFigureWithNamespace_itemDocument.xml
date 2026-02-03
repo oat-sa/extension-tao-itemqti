@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem
+        xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:qh5="http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0"
+        xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd"
+        identifier="i61dbf0028b0ca4904497f514befea47f" title="Item 1" adaptive="false" timeDependent="false"
+        xml:lang="en-US">
+    <itemBody>
+        <div class="grid-row">
+            <div class="col-12">
+                <qh5:figure>
+                    <img src="example.png" alt="Example"/>
+                    <qh5:figcaption>Example caption</qh5:figcaption>
+                </qh5:figure>
+            </div>
+        </div>
+    </itemBody>
+</assessmentItem>

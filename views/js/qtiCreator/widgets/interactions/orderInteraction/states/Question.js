@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014 - 2026 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -53,6 +53,11 @@ define([
         var $iconAdd = this.widget.$container.find('.icon-add-to-selection');
         var $iconRemove = this.widget.$container.find('.icon-remove-from-selection');
         let minMaxComponent = null;
+
+        const isPositionEnabled = features.isVisible('taoQtiItem/creator/interaction/order/property/position');
+        const getDefaultPosition = () =>  interaction.attr('orientation') === 'horizontal' ? 'top' : 'left';
+
+        let position = isPositionEnabled ? interaction.attr("data-position") : getDefaultPosition();
 
         const order = interaction.attr('data-order') || interaction.attr('order'); // legacy attr support
         // legacy attr remove
@@ -112,16 +117,79 @@ define([
             createMinMaxComponent();
         }
 
-        $form.html(formTpl({
+        const normalizePositionClass = (className, position) => {
+            const classes = (className || '').split(/\s+/).filter(Boolean).filter((c) => !c.startsWith("qti-choices-"));
+            classes.push(`qti-choices-${position}`);
+            return classes.join(' ');
+        }
+
+        const updateArrowDirection =(position) =>{
+            if (!position) return;
+            const iconAddDirection = {
+                top: 'icon-down',
+                bottom: 'icon-up',
+                left: 'icon-right',
+                right: 'icon-left'
+            };
+            const iconRemoveDirection = {
+                top: 'icon-up',
+                bottom: 'icon-down', 
+                left: 'icon-left',
+                right: 'icon-right'
+            };
+            $iconAdd.removeClass(Object.values(iconAddDirection).join(' ')).addClass(iconAddDirection[position]);
+            $iconRemove.removeClass(Object.values(iconRemoveDirection).join(' ')).addClass(iconRemoveDirection[[position]]);
+        }
+
+        const applyPosition = (position) => {
+            if (!position) return;
+            const baseClass = $interaction.attr('class') || '';
+            const newClass = normalizePositionClass(baseClass, position);
+            $interaction.attr('class', newClass);
+            interaction.attr('data-position', position);
+            interaction.attr('class', `qti-choices-${position}`);
+            updateArrowDirection(position);
+        }
+
+        const showPositionPanel = () => {
+            if (isPositionEnabled) {
+                position = interaction.attr('data-position') || getDefaultPosition();
+                applyPosition(position);
+                const $panel = getPositionPanel();
+                $panel.find('input[name="position"]').prop('checked', false);
+                $panel.find(`input[name="position"][value="${position}"]`).prop('checked', true);
+                getPositionPanel().show();
+            }
+        }
+
+        const hidePositionPanel = () => {
+            getPositionPanel().hide();
+            $interaction.removeClass(`qti-choices-${position}`);
+            interaction.removeAttr('data-position');
+            position = getDefaultPosition();
+        }
+
+        $form.html(formTpl(_.assign({}, {
             shuffle : !!interaction.attr('shuffle'),
             horizontal : interaction.attr('orientation') === 'horizontal',
             single: isSingleOrder,
+            position,
             enabledFeatures: {
                 shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/order/property/shuffle'),
-                orientation: features.isVisible('taoQtiItem/creator/interaction/order/property/orientation')
+                orientation: features.isVisible('taoQtiItem/creator/interaction/order/property/orientation'),
+                position: isPositionEnabled,
             }
-        }));
-        isSingleOrder ? makeSingleOrder() : makeSortOrder();
+        })));
+
+        const getPositionPanel = () => $form.find('.position-panel');
+
+        if (isSingleOrder) {
+            makeSingleOrder();
+            hidePositionPanel();
+        } else {
+            makeSortOrder();
+            showPositionPanel();
+        }
 
         formElement.initWidget($form);
 
@@ -141,21 +209,34 @@ define([
                 $choiceArea.addClass('horizontal').removeClass('vertical');
                 $resultArea.addClass('horizontal').removeClass('vertical');
                 $interaction.addClass('qti-horizontal').removeClass('qti-vertical');
-                $iconAdd.addClass('icon-down').removeClass('icon-right');
-                $iconRemove.addClass('icon-up').removeClass('icon-left');
             } else {
                 $choiceArea.addClass('vertical').removeClass('horizontal');
                 $resultArea.addClass('vertical').removeClass('horizontal');
                 $interaction.addClass('qti-vertical').removeClass('qti-horizontal');
-                $iconAdd.addClass('icon-right').removeClass('icon-down');
-                $iconRemove.addClass('icon-left').removeClass('icon-up');
-
             }
+        };
+
+        // data change for position 
+        callbacks.position = function (interaction, value) { 
+            position = value; 
+            applyPosition(value);
         };
 
         // data change for order
         callbacks.order = function (interaction, value) {
-            value === 'sort' ? makeSortOrder() : makeSingleOrder();
+            // reset position when changing order type
+            interaction.removeAttr('data-position');
+            interaction.removeAttr('class');
+            position = getDefaultPosition();
+            applyPosition(position);
+
+            if (value === 'sort') {
+                makeSortOrder();
+                showPositionPanel();
+            } else {
+                makeSingleOrder();
+                hidePositionPanel();
+            }
         };
 
         formElement.setChangeCallbacks($form, interaction, callbacks);
