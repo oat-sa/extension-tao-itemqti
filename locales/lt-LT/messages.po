@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2026.02 LTS\n"
-"PO-Revision-Date: 2026-02-03T14:42:59\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2026-02-04 15:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: lt-LT\n"
+"Language: lt\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: lt-LT\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && (n%100>19 || n%100<11) ? 0 : (n%10>=2 && n%10<=9) && (n%100>19 || n%100<11) ? 1 : n%1!=0 ? 2: 3);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: lt\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: Lithuanian\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Užpildyti tarpus su tekstu iš pasirikimų rinkinio."
@@ -263,7 +270,7 @@ msgid "Border color"
 msgstr "Kraštinės spalva"
 
 msgid "Bottom"
-msgstr ""
+msgstr "Apačia"
 
 msgid "Browse your computer and select the appropriate file."
 msgstr "Naršyk savo kompiuterį ir pasirink atitinkamą failą."
@@ -343,6 +350,12 @@ msgstr ""
 msgid "Class successfully created."
 msgstr "Klasė sėkmingai sukurta."
 
+msgid "Classic"
+msgstr ""
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr ""
+
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr "Klasifikavimo įrašai privalo būti ClassificationEntryMetadataValue instancija"
 
@@ -401,7 +414,7 @@ msgid "correct"
 msgstr "teisingai"
 
 msgid "Cosine"
-msgstr ""
+msgstr "Kosinusas"
 
 msgid "Cosinus"
 msgstr "Kosinusas"
@@ -535,6 +548,9 @@ msgstr "Rodyti variantus horizontaliai arba vertikaliai"
 msgid "Divide"
 msgstr "Dalinti"
 
+msgid "Document"
+msgstr ""
+
 msgid "Don't save"
 msgstr ""
 
@@ -583,9 +599,6 @@ msgstr "keisti pasirinkimus"
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr ""
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr ""
-
 msgid "Edit math expression using MathML"
 msgstr "Redaguoti matematinę išraišką naudojant MathML"
 
@@ -600,6 +613,9 @@ msgstr "Keisti stiliaus failo pavadinimą"
 
 msgid "Editing Mode"
 msgstr "Redagavimo Režimas"
+
+msgid "Editor type"
+msgstr ""
 
 msgid "Element Properties"
 msgstr "Elemento Savybės"
@@ -660,9 +676,6 @@ msgstr "Klaida elemente %s"
 
 msgid "Error to export item %s: %s"
 msgstr "Klaida eksportuojant elementą %s: %s"
-
-msgid "Euler\'s constant"
-msgstr ""
 
 msgid "Euler\\'s constant"
 msgstr ""
@@ -832,6 +845,9 @@ msgstr "Identifikatorius"
 msgid "identifier already taken"
 msgstr "identifikatorius jau užimtas"
 
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr ""
+
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
 msgstr ""
 
@@ -887,7 +903,7 @@ msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be i
 msgstr ""
 
 msgid "In progress"
-msgstr ""
+msgstr "Vykdoma"
 
 msgid "In Progress"
 msgstr "Vykdoma"
@@ -1038,7 +1054,7 @@ msgid "Left bracket"
 msgstr "Kairys skliaustas"
 
 msgid "Left parenthesis"
-msgstr ""
+msgstr "Kairysis skliaustelis"
 
 msgid "Length"
 msgstr "Ilgis"
@@ -1390,7 +1406,7 @@ msgid "Please type the correct response in the box below."
 msgstr "Prašome įvesti teisingą atsakymą ploto apačioje."
 
 msgid "Plus/minus"
-msgstr ""
+msgstr "Plius/minus"
 
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "Portatyvus elemento modelis %s nerastas. Reikalaujamas plėtinys galbūt nerastas"
@@ -1591,7 +1607,7 @@ msgid "Right bracket"
 msgstr "Dešinys skliaustas"
 
 msgid "Right parenthesis"
-msgstr ""
+msgstr "Dešinys skliaustelis"
 
 msgid "Rollback on..."
 msgstr "Atstatytmas..."
@@ -1744,7 +1760,7 @@ msgid "Similar"
 msgstr ""
 
 msgid "Sine"
-msgstr ""
+msgstr "Sinusas"
 
 msgid "Single choice"
 msgstr "Vienas pasirinkimas"
@@ -1822,7 +1838,7 @@ msgid "Table headings"
 msgstr "Lentelės antraštės"
 
 msgid "Tangent"
-msgstr ""
+msgstr "Tangentas"
 
 msgid "TAO default styles"
 msgstr "TAO numatyti stiliai"
