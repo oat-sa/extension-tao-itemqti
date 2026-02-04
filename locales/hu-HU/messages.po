@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2026.02 LTS\n"
-"PO-Revision-Date: 2026-02-03T14:42:44\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2026-02-04 15:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: hu-HU\n"
+"Language: hu\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: hu-HU\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: hu\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: Hungarian\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Töltsd ki a szövegben a hiányzó részeket egy megadott választási lehetőségekkel."
@@ -32,7 +39,7 @@ msgid "%d/%d"
 msgstr "%d/%d"
 
 msgid "%s - Original"
-msgstr ""
+msgstr "%s - Eredeti"
 
 msgid "%s metadata values found in source by extractor(s)."
 msgstr "%s metaadatértéket talált a forrásban a kinyerő(k)."
@@ -47,7 +54,7 @@ msgid "%s of %s words maximum."
 msgstr "%s szóból maximum %s szó."
 
 msgid "%title% - Translation (%lang%)"
-msgstr ""
+msgstr "%title% - Fordítás (%lang%)"
 
 msgid "(comma)"
 msgstr "(vessző)"
@@ -155,7 +162,7 @@ msgid "Allowed number of uses"
 msgstr "Megengedett felhasználások száma"
 
 msgid "Alpha"
-msgstr ""
+msgstr "Alfa"
 
 msgid "Alt Text"
 msgstr "Alt szöveg"
@@ -197,7 +204,7 @@ msgid "An unknown error occured while importing the IMS QTI Package with identif
 msgstr "Ismeretlen hiba történt az IMS QTI csomag importálása során, amelynek azonosítója: "
 
 msgid "Angle"
-msgstr ""
+msgstr "Szög"
 
 msgid "Answer required"
 msgstr "Válasz szükséges"
@@ -209,7 +216,7 @@ msgid "Apip Package successfully exported."
 msgstr "Az Appip csomag exportálása sikeresen megtörtént."
 
 msgid "Arc"
-msgstr ""
+msgstr "Ív"
 
 msgid "Arrange a list of choices in the correct order."
 msgstr "Rendezd el a választási lehetőségek listáját a megfelelő sorrendben."
@@ -245,7 +252,7 @@ msgid "Be aware, if you choose to remove the instructions, the system will not p
 msgstr "Kérjük, vegye figyelembe, hogy ha úgy dönt, hogy eltávolítja az utasításokat, a rendszer nem fog figyelmeztetéseket küldeni a vizsgázóknak, ha korlátozások vannak beállítva."
 
 msgid "Beta"
-msgstr ""
+msgstr "Béta"
 
 msgid "Block"
 msgstr "Tömb"
@@ -263,7 +270,7 @@ msgid "Border color"
 msgstr "Szegély színe"
 
 msgid "Bottom"
-msgstr ""
+msgstr "Alsó"
 
 msgid "Browse your computer and select the appropriate file."
 msgstr "Böngésszen a számítógépén, és válassza ki a megfelelő fájlt."
@@ -332,7 +339,7 @@ msgid "Choices"
 msgstr "Választások"
 
 msgid "Choices position"
-msgstr ""
+msgstr "Választási pozíció"
 
 msgid "Choose the horizontal alignment for the table."
 msgstr "Válassza ki a táblázat vízszintes igazítását."
@@ -342,6 +349,12 @@ msgstr "Osztálykeresés sikeres. A(z) „%s” erőforrás az „%s” RDFS osz
 
 msgid "Class successfully created."
 msgstr "Az osztály sikeresen létrehozva."
+
+msgid "Classic"
+msgstr "Klasszikus"
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr "A klasszikus szerkesztő úgy néz ki, mint egy webszerkesztő; a dokumentumszerkesztő pedig úgy néz ki, mint egy szövegszerkesztő. A megjelenésen kívül ugyanazok a funkciók vannak bennük."
 
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr "Az osztályozási bejegyzéseknek a ClassificationEntryMetadataValue példányainak kell lenniük."
@@ -359,7 +372,7 @@ msgid "Click to display interaction widget"
 msgstr "Kattintson az interakciós widget megjelenítéséhez"
 
 msgid "Click to remove"
-msgstr ""
+msgstr "Kattintson az eltávolításhoz"
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr "Gyűjtsön nyílt végű információkat rövid szöveges bemenetben (karakterláncok vagy numerikus értékek)."
@@ -368,7 +381,7 @@ msgid "Collect open-ended information in one or more text area(s) (strings or nu
 msgstr "Gyűjtsön nyílt végű információkat egy vagy több szövegmezőbe (karakterláncok vagy numerikus értékek)."
 
 msgid "Colon"
-msgstr ""
+msgstr "Vastagbél"
 
 msgid "Color Picker"
 msgstr "Színválasztó"
@@ -380,13 +393,13 @@ msgid "Common Interactions"
 msgstr "Gyakori interakciók"
 
 msgid "Compact Appearance"
-msgstr ""
+msgstr "Kompakt megjelenés"
 
 msgid "Configures the position of the choices relative to the target list."
-msgstr ""
+msgstr "A választási lehetőségek céllistához viszonyított pozícióját konfigurálja."
 
 msgid "Congruent"
-msgstr ""
+msgstr "Egybevágó"
 
 msgid "Constraints"
 msgstr "Korlátozások"
@@ -401,7 +414,7 @@ msgid "correct"
 msgstr "helyes"
 
 msgid "Cosine"
-msgstr ""
+msgstr "Koszinusz"
 
 msgid "Cosinus"
 msgstr "Koszinusz"
@@ -461,7 +474,7 @@ msgid "Define correct response"
 msgstr "Határozza meg a helyes választ"
 
 msgid "Define correct response (for post-processing)"
-msgstr ""
+msgstr "Helyes válasz meghatározása (utófeldolgozáshoz)"
 
 msgid "Define item language."
 msgstr "Határozza meg az elem nyelvét."
@@ -473,7 +486,7 @@ msgid "Define the correct response."
 msgstr "Határozza meg a helyes választ."
 
 msgid "Define the status of the translation."
-msgstr ""
+msgstr "Határozza meg a fordítás állapotát."
 
 msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
 msgstr "Határozza meg, hogy a jelöltnek ki kell-e választania egy lehetőséget ahhoz, hogy érvényes választ adjon az interakcióra."
@@ -488,13 +501,13 @@ msgid "Defines the maximum magnitude of numeric outcome variables, the maximum m
 msgstr "Meghatározza a numerikus kimeneti változók maximális nagyságát, a maximumnak pozitív értéknek, a minimumnak pedig negatívnak kell lennie."
 
 msgid "Degrees"
-msgstr ""
+msgstr "Fokok"
 
 msgid "delay after"
-msgstr ""
+msgstr "késés után"
 
 msgid "delay between"
-msgstr ""
+msgstr "késés között"
 
 msgid "Delete"
 msgstr "Töröl"
@@ -512,13 +525,13 @@ msgid "Delimiter"
 msgstr "Elválasztó"
 
 msgid "Delta"
-msgstr ""
+msgstr "Delta"
 
 msgid "Description"
 msgstr "Leírás"
 
 msgid "Direction of writing"
-msgstr ""
+msgstr "Az írás iránya"
 
 msgid "Disable this stylesheet temporarily"
 msgstr "Stíluslap ideiglenes letiltása"
@@ -534,6 +547,9 @@ msgstr "A választási lehetőségek megjelenítése vízszintesen vagy függől
 
 msgid "Divide"
 msgstr "Osztás"
+
+msgid "Document"
+msgstr "Dokumentum"
 
 msgid "Don't save"
 msgstr "Ne mentse el"
@@ -583,9 +599,6 @@ msgstr "szerkesztési lehetőségek"
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "Matematikai kifejezés szerkesztése LaTex típusbeállítási rendszerrel, pl. e^{i \\pi} = -1"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr ""
-
 msgid "Edit math expression using MathML"
 msgstr "Matematikai kifejezések szerkesztése MathML használatával"
 
@@ -600,6 +613,9 @@ msgstr "Stíluslap címkéjének szerkesztése"
 
 msgid "Editing Mode"
 msgstr "Szerkesztési mód"
+
+msgid "Editor type"
+msgstr "Szerkesztő típusa"
 
 msgid "Element Properties"
 msgstr "Elem tulajdonságai"
@@ -641,7 +657,7 @@ msgid "Enter tooltip target"
 msgstr "Eszköztipp céljának megadása"
 
 msgid "Equals"
-msgstr ""
+msgstr "Egyenlő"
 
 msgid "error"
 msgstr "hiba"
@@ -660,9 +676,6 @@ msgstr "Hiba a tételnél %s"
 
 msgid "Error to export item %s: %s"
 msgstr "Hiba az elem exportálásakor %s: %s"
-
-msgid "Euler\'s constant"
-msgstr ""
 
 msgid "Euler\\'s constant"
 msgstr "Euler-állandó"
@@ -692,7 +705,7 @@ msgid "Export QTI 2.2 Package"
 msgstr "QTI 2.2 csomag exportálása"
 
 msgid "Export QTI 3.0 Package"
-msgstr ""
+msgstr "QTI 3.0 csomag exportálása"
 
 msgid "Extended Text"
 msgstr "Bővített szöveg"
@@ -779,7 +792,7 @@ msgid "Greater than or equal"
 msgstr "Nagyobb vagy egyenlő"
 
 msgid "Group toolbar items"
-msgstr ""
+msgstr "Eszköztár elemek csoportosítása"
 
 msgid "Guard for resource \"%s\"..."
 msgstr "Véd a(z) \"%s \" erőforráshoz..."
@@ -797,7 +810,7 @@ msgid "Horizontal"
 msgstr "Vízszintes"
 
 msgid "Horizontal text"
-msgstr ""
+msgstr "Vízszintes szöveg"
 
 msgid "Hotspot"
 msgstr "Hotspot"
@@ -832,14 +845,17 @@ msgstr "Azonosító"
 msgid "identifier already taken"
 msgstr "azonosító már foglalt"
 
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr "Az azonosítóknak betűvel vagy aláhúzásjellel kell kezdődniük, és csak betűket, számokat, pontokat, aláhúzásjeleket (_) vagy kötőjeleket (-) tartalmazhatnak."
+
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
-msgstr ""
+msgstr "Ha be van jelölve, a szerkesztő eszköztár egyetlen sorra lesz korlátozva, és további elemek jelennek meg egy legördülő menüben."
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr "Ha meg van adva, a mintamaszk egy reguláris kifejezést határoz meg, amelynek a jelölt válaszának meg kell egyeznie ahhoz, hogy érvényesnek tekintendő legyen."
 
 msgid "If pattern mask does not match match value provided, this message will be shown."
-msgstr ""
+msgstr "Ha a mintamaszk nem egyezik a megadott egyezési értékkel, ez az üzenet jelenik meg."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
 msgstr "Ha a shuffle attribútum értéke igaz, akkor a szolgáltató véletlenszerűsíti a választási lehetőségek kezdeti megjelenítési sorrendjét. Azonban minden választási lehetőség egyenként „keverhető” vagy „rögzíthető”."
@@ -887,7 +903,7 @@ msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be i
 msgstr "Az IMS jegyzékfájlban \"%s\"-ként hivatkozott IMS QTI elem importálása sikertelen volt."
 
 msgid "In progress"
-msgstr ""
+msgstr "Folyamatban van"
 
 msgid "In Progress"
 msgstr "Folyamatban van"
@@ -956,13 +972,13 @@ msgid "Invalid value in correct response property."
 msgstr "Érvénytelen érték a helyes válasz tulajdonságban."
 
 msgid "Invalid value, should be an integer number."
-msgstr ""
+msgstr "Érvénytelen érték, egész számnak kell lennie."
 
 msgid "Invalid value, use %s %s for decimal point."
 msgstr "Érvénytelen érték, tizedesvesszőként használja a %s %s karaktereket."
 
 msgid "is null"
-msgstr ""
+msgstr "nulla"
 
 msgid "Is this choice the correct response?"
 msgstr "Ez a választás a helyes válasz?"
@@ -971,7 +987,7 @@ msgid "Is this pair the correct response?"
 msgstr "Ez a párosítás a helyes válasz?"
 
 msgid "It is intended only for post-processing and will not influence the actual score computation."
-msgstr ""
+msgstr "Kizárólag utófeldolgozásra szolgál, és nem befolyásolja a tényleges pontszám kiszámítását."
 
 msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
 msgstr "Úgy tűnik, hiba történt az elem betöltése során. A hibát jelentettük. A teszt szünetel."
@@ -1038,22 +1054,22 @@ msgid "Left bracket"
 msgstr "Bal zárójel"
 
 msgid "Left parenthesis"
-msgstr ""
+msgstr "Bal zárójel"
 
 msgid "Length"
 msgstr "Hossz"
 
 msgid "Less than or equal"
-msgstr ""
+msgstr "Kisebb vagy egyenlő"
 
 msgid "Level"
 msgstr "Szint"
 
 msgid "Line"
-msgstr ""
+msgstr "Vonal"
 
 msgid "Line Segment"
-msgstr ""
+msgstr "Vonalszakasz"
 
 msgid "Lines"
 msgstr "Vonalak"
@@ -1267,7 +1283,7 @@ msgid "Order Interaction"
 msgstr "Rendelési interakció"
 
 msgid "Order single list"
-msgstr ""
+msgstr "Egyetlen lista rendelése"
 
 msgid "order single list"
 msgstr "egyetlen lista megrendelése"
@@ -1288,19 +1304,19 @@ msgid "Pair scoring"
 msgstr "Páros pontozás"
 
 msgid "Parallel"
-msgstr ""
+msgstr "Párhuzamos"
 
 msgid "Pattern"
 msgstr "Minta"
 
 msgid "Pattern violation message"
-msgstr ""
+msgstr "Mintasértési üzenet"
 
 msgid "Pause"
 msgstr "Szünet"
 
 msgid "Perpendicular"
-msgstr ""
+msgstr "Függőleges"
 
 msgid "Pi"
 msgstr "Pi"
@@ -1312,7 +1328,7 @@ msgid "Plain text"
 msgstr "Sima szöveg"
 
 msgid "Play audio several times in a row. Delay between plays can be set if needed."
-msgstr ""
+msgstr "Hangfelvétel lejátszása többször egymás után. Szükség esetén beállítható a lejátszások közötti késleltetés."
 
 msgid "Please add one or more gaps to the text in question mode."
 msgstr "Kérlek, adj hozzá egy vagy több hiányzó részt a kérdő módban lévő szöveghez."
@@ -1390,7 +1406,7 @@ msgid "Please type the correct response in the box below."
 msgstr "Kérjük, írja be a helyes választ az alábbi mezőbe."
 
 msgid "Plus/minus"
-msgstr ""
+msgstr "Plusz/mínusz"
 
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "A hordozható elem modellje %s nem található. Lehet, hogy hiányzik a szükséges kiterjesztés."
@@ -1462,7 +1478,7 @@ msgid "QTI Package 2.2"
 msgstr "QTI csomag 2.2"
 
 msgid "QTI Package 3.0"
-msgstr ""
+msgstr "QTI csomag 3.0"
 
 msgid "QTI-XML error at line %1$d \"%2$s\"."
 msgstr "QTI-XML hiba a %1$d \"%2$s\" sorban."
@@ -1477,7 +1493,7 @@ msgid "Question"
 msgstr "Kérdés"
 
 msgid "Ray"
-msgstr ""
+msgstr "Sugár"
 
 msgid "Recommendations"
 msgstr "Ajánlások"
@@ -1537,7 +1553,7 @@ msgid "Removes all instruction messages generated by the system from the interfa
 msgstr "Eltávolítja a rendszer által generált összes utasításüzenetet a felületről."
 
 msgid "repeats"
-msgstr ""
+msgstr "ismétlődik"
 
 msgid "Replay timeout"
 msgstr "Visszajátszási időtúllépés"
@@ -1591,7 +1607,7 @@ msgid "Right bracket"
 msgstr "Jobb zárójel"
 
 msgid "Right parenthesis"
-msgstr ""
+msgstr "Jobb zárójel"
 
 msgid "Rollback on..."
 msgstr "Visszaállítás..."
@@ -1621,7 +1637,7 @@ msgid "Scrollable multi-column"
 msgstr "Görgethető többoszlopos"
 
 msgid "sec"
-msgstr ""
+msgstr "másodperc"
 
 msgid "seconds"
 msgstr "másodperc"
@@ -1660,7 +1676,7 @@ msgid "select correct choice"
 msgstr "válassza ki a helyes választást"
 
 msgid "Select height of block based off container height"
-msgstr ""
+msgstr "A blokk magasságának kiválasztása a konténer magassága alapján"
 
 msgid "Select height of passage base of container height"
 msgstr "Válassza ki az átjáró aljának vagy a konténer magasságának magasságát"
@@ -1675,7 +1691,7 @@ msgid "Select image"
 msgstr "Kép kiválasztása"
 
 msgid "Select line to remove"
-msgstr ""
+msgstr "Válassza ki az eltávolítandó sort"
 
 msgid "Select media file"
 msgstr "Médiafájl kiválasztása"
@@ -1717,7 +1733,7 @@ msgid "Select this area"
 msgstr "Válassza ki ezt a területet"
 
 msgid "Select this area to finish an association"
-msgstr ""
+msgstr "Válassza ki ezt a területet egy társítás befejezéséhez"
 
 msgid "Select this area to start an association"
 msgstr "Válassza ki ezt a területet egy társítás megkezdéséhez"
@@ -1729,7 +1745,7 @@ msgid "Set a CSS class name in order to customize the display style."
 msgstr "Állítson be egy CSS osztálynevet a megjelenítési stílus testreszabásához."
 
 msgid "Set the media player UI to Compact mode, displaying only the play button icon, hiding all other controls such as volume, seek bar."
-msgstr ""
+msgstr "Állítsa a médialejátszó felhasználói felületét kompakt módba, csak a lejátszás gomb ikonját jelenítse meg, és rejtse el az összes többi vezérlőt, például a hangerőt és a keresősávot."
 
 msgid "Set the score for this response"
 msgstr "Állítsa be a válasz pontszámát"
@@ -1741,10 +1757,10 @@ msgid "Shuffle choices"
 msgstr "Véletlenszerű lejátszási lehetőségek"
 
 msgid "Similar"
-msgstr ""
+msgstr "Hasonló"
 
 msgid "Sine"
-msgstr ""
+msgstr "Szinusz"
 
 msgid "Single choice"
 msgstr "Egyetlen választási lehetőség"
@@ -1771,7 +1787,7 @@ msgid "Something went wrong while destroying an interaction: %s"
 msgstr "Hiba történt egy interakció megszakításakor: %s"
 
 msgid "Sort from source to target list"
-msgstr ""
+msgstr "Rendezés forrás szerint a cél szerint"
 
 msgid "sort from source to target list"
 msgstr "rendezés forrástól célig"
@@ -1783,7 +1799,7 @@ msgid "standard"
 msgstr "standard"
 
 msgid "Status"
-msgstr ""
+msgstr "Állapot"
 
 msgid "Step"
 msgstr "Lépés"
@@ -1810,25 +1826,25 @@ msgid "Successfully created item \"%s"
 msgstr "Sikeresen létrehozva az elem \"%s"
 
 msgid "Switches the interaction's direction of writing between horizontal and vertical."
-msgstr ""
+msgstr "Átváltja az interakció írásirányát vízszintes és függőleges között."
 
 msgid "Switches the text block's direction of writing between horizontal and vertical."
-msgstr ""
+msgstr "A szövegblokk írásirányát vízszintes és függőleges között váltja."
 
 msgid "Switches the whole item's direction of writing between horizontal and vertical."
-msgstr ""
+msgstr "A teljes elem írásirányát vízszintes és függőleges között váltja."
 
 msgid "Table headings"
 msgstr "Táblázatcímek"
 
 msgid "Tangent"
-msgstr ""
+msgstr "Tangens"
 
 msgid "TAO default styles"
 msgstr "TAO alapértelmezett stílusok"
 
 msgid "Target class is missing the following metadata properties: %s"
-msgstr ""
+msgstr "A célosztályból hiányoznak a következő metaadat-tulajdonságok: %s"
 
 msgid "Target Class Lookup for resource \"%s\"..."
 msgstr "Célosztály keresése a(z) \"%s \" erőforrásra..."
@@ -2071,7 +2087,7 @@ msgid "There was a problem downloading your CSS, please try again."
 msgstr "Hiba történt a CSS letöltésekor, kérjük, próbálja újra."
 
 msgid "Theta"
-msgstr ""
+msgstr "Théta"
 
 msgid "This identifier is already used by another variable."
 msgstr "Ezt az azonosítót már egy másik változó használja."
@@ -2125,10 +2141,10 @@ msgid "Top"
 msgstr "Felső"
 
 msgid "Translation completed"
-msgstr ""
+msgstr "Fordítás kész"
 
 msgid "Triangle"
-msgstr ""
+msgstr "Háromszög"
 
 msgid "Trigger the end of the item attempt."
 msgstr "A tárgykísérlet végét kiváltó ok."
@@ -2179,13 +2195,13 @@ msgid "Value"
 msgstr "Érték"
 
 msgid "Vector"
-msgstr ""
+msgstr "Vektor"
 
 msgid "Vertical"
 msgstr "Függőleges"
 
 msgid "Vertical text"
-msgstr ""
+msgstr "Függőleges szöveg"
 
 msgid "warning"
 msgstr "figyelmeztetés"

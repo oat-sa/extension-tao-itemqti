@@ -1,46 +1,53 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2026.02 LTS\n"
-"PO-Revision-Date: 2026-02-03T14:43:17\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2026-02-03 18:40\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: ro-RO\n"
+"Language: ro\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: ro-RO\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: ro\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/taoQti.rdf.po\n"
+"X-Crowdin-File-ID: 917\n"
+"Language-Team: Romanian\n"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTI
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "QTI"
-msgstr ""
+msgstr "QTI"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTI
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "IMS Question and Test Interoperability"
-msgstr ""
+msgstr "Interoperabilitatea și întrebarea IMS"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "QTI Manager"
-msgstr ""
+msgstr "Manager QTI"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "QTI Manager Role"
-msgstr ""
+msgstr "Rolul Managerului QTI"
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Scales"
-msgstr ""
+msgstr "Solzi"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTI
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "QTI"
-msgstr ""
+msgstr "QTI"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "QTI Manager"
-msgstr ""
+msgstr "Manager QTI"
 

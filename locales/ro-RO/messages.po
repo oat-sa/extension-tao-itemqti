@@ -1,2281 +1,2298 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2026.02 LTS\n"
-"PO-Revision-Date: 2026-02-03T14:43:17\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2026-02-04 14:44\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: ro-RO\n"
+"Language: ro\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: ro-RO\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: ro\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: Romanian\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
-msgstr ""
+msgstr " Completează lacunele unui text dintr-o serie de opțiuni."
 
 msgid " For Resource "
-msgstr ""
+msgstr " Pentru resurse "
 
 msgid " or "
-msgstr ""
+msgstr " sau "
 
 msgid "%d characters allowed"
-msgstr ""
+msgstr "%d caractere permise"
 
 msgid "%d Item(s) of %d imported from the given IMS QTI Package."
-msgstr ""
+msgstr "%d Articole de %d importate din pachetul IMS QTI dat."
 
 msgid "%d/%d"
-msgstr ""
+msgstr "%d/%d"
 
 msgid "%s - Original"
-msgstr ""
+msgstr "%s - Original"
 
 msgid "%s metadata values found in source by extractor(s)."
-msgstr ""
+msgstr "Valorile %s metadate găsite în sursă de către extractor(uri)."
 
 msgid "%s of %s characters maximum."
-msgstr ""
+msgstr "%s din maxim %s caractere."
 
 msgid "%s of %s characters recommended."
-msgstr ""
+msgstr "%s din %s caractere recomandate."
 
 msgid "%s of %s words maximum."
-msgstr ""
+msgstr "%s din %s cuvinte maxime."
 
 msgid "%title% - Translation (%lang%)"
-msgstr ""
+msgstr "%title% - Traducere (%lang%)"
 
 msgid "(comma)"
-msgstr ""
+msgstr "(virgulă)"
 
 msgid "(dot)"
-msgstr ""
+msgstr "(punct)"
 
 msgid "(space)"
-msgstr ""
+msgstr "(spațiu)"
 
 msgid "-- Any kind of file --"
-msgstr ""
+msgstr "-- Orice fel de fișier --"
 
 msgid "--- leave empty ---"
-msgstr ""
+msgstr "--- lasă gol ---"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
-msgstr ""
+msgstr "1 articol importat din documentul dat cu elemente QTI/APIP XML."
 
 msgid "1/3 of height"
-msgstr ""
+msgstr "1/3 din înălțime"
 
 msgid "1/4 of height"
-msgstr ""
+msgstr "1/4 din înălțime"
 
 msgid "2/3 of height"
-msgstr ""
+msgstr "2/3 din înălţime"
 
 msgid "3/4 of height"
-msgstr ""
+msgstr "3/4 de înălţime"
 
 msgid "A choice must be selected"
-msgstr ""
+msgstr "Trebuie selectată o alegere"
 
 msgid "A human interpretation of the variable's value."
-msgstr ""
+msgstr "O interpretare umană a valorii variabilei."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-msgstr ""
+msgstr "O componentă QTI nu este suportată. Sistemul a returnat următoarea eroare: %s\n"
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
-msgstr ""
+msgstr "Un bloc cauciucic identifică o parte dintr-un organism de evaluare a elementului care reprezintă instrucțiuni pentru unul sau mai mulți actori care vizualizează elementul. Deși blocurile de cauciuc sunt definite ca blocuri simple, acestea nu trebuie să conțină interacțiuni."
 
 msgid "Adapt to screen size"
-msgstr ""
+msgstr "Adaptare la dimensiunea ecranului"
 
 msgid "Add"
-msgstr ""
+msgstr "Adăugare"
 
 msgid "Add a CSV file"
-msgstr ""
+msgstr "Adauga un fisier CSV"
 
 msgid "Add a modal feedback"
-msgstr ""
+msgstr "Adăugați un feedback modal"
 
 msgid "Add a QTI/APIP XML Item Document"
-msgstr ""
+msgstr "Adăugați un document de articol QTI/APIP XML"
 
 msgid "Add a ZIP file containing QTI/APIP items"
-msgstr ""
+msgstr "Adăugați un fișier ZIP care conține elemente QTI/APIP"
 
 msgid "Add an outcome"
-msgstr ""
+msgstr "Adaugă un rezultat"
 
 msgid "Add another option"
-msgstr ""
+msgstr "Adăugați o altă opțiune"
 
 msgid "Add choice"
-msgstr ""
+msgstr "Adăugați o alegere"
 
 msgid "Add else feedback"
-msgstr ""
+msgstr "Adăugați alte păreri"
 
 msgid "Add new column"
-msgstr ""
+msgstr "Adaugă o coloană nouă"
 
 msgid "Add new pairs"
-msgstr ""
+msgstr "Adaugă perechi noi"
 
 msgid "Add new row"
-msgstr ""
+msgstr "Adaugă un rând nou"
 
 msgid "Add Style Sheet"
-msgstr ""
+msgstr "Adaugă foaie de stil"
 
 msgid "after"
-msgstr ""
+msgstr "după"
 
 msgid "Alignment"
-msgstr ""
+msgstr "Aliniere"
 
 msgid "Allow elimination"
-msgstr ""
+msgstr "Permite eliminarea"
 
 msgid "Allowed associations"
-msgstr ""
+msgstr "Asocieri permise"
 
 msgid "Allowed choices"
-msgstr ""
+msgstr "Alegeri permise"
 
 msgid "Allowed number of matches"
-msgstr ""
+msgstr "Numărul permis de potriviri"
 
 msgid "Allowed number of uses"
-msgstr ""
+msgstr "Numărul permis de utilizări"
 
 msgid "Alpha"
-msgstr ""
+msgstr "Alfa"
 
 msgid "Alt Text"
-msgstr ""
+msgstr "Text Alt"
 
 msgid "An error occured while exporting an item."
-msgstr ""
+msgstr "A apărut o eroare la exportul unui produs."
 
 msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
-msgstr ""
+msgstr "A apărut o eroare la extragerea arhivei ZIP reprezentând Pachetul de conținut IMS."
 
 msgid "An error occured while loading a shared stimulus."
-msgstr ""
+msgstr "A apărut o eroare la încărcarea unui stimul comun."
 
 msgid "An error occured while parsing IMS QTI data."
-msgstr ""
+msgstr "A apărut o eroare la analizarea datelor IMS QTI."
 
 msgid "An error occurred at the level of the QTI model."
-msgstr ""
+msgstr "A apărut o eroare la nivelul modelului QTI."
 
 msgid "An optional link to an extended interpretation of the outcome variable."
-msgstr ""
+msgstr "O legătură opțională către o interpretare extinsă a variabilei rezultate."
 
 msgid "An unexpected error occured during the import of the IMS QTI Item Package."
-msgstr ""
+msgstr "A apărut o eroare neașteptată în timpul importului pachetului de elemente IMS QTI."
 
 msgid "An unexpected error occured while dealing with Response Processing."
-msgstr ""
+msgstr "O eroare neașteptată a apărut în timpul procesării răspunsului."
 
 msgid "An unexpected error occurred during the import of the IMS QTI Item Package. "
-msgstr ""
+msgstr "A apărut o eroare neașteptată în timpul importului pachetului de elemente IMS QTI. "
 
 msgid "An unexpected error occurred during the import of the IMS QTI Item Package. The system returned the following error: \"%s"
-msgstr ""
+msgstr "O eroare neașteptată a apărut în timpul importului Pachetului Articol IMS QTI. Sistemul a returnat următoarea eroare: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-msgstr ""
+msgstr "O eroare neașteptată a apărut în timpul importului elementului QTI. Sistemul a returnat următoarea eroare: %s\n"
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
-msgstr ""
+msgstr "A apărut o eroare necunoscută în timpul importării pachetului IMS QTI cu identificator: "
 
 msgid "Angle"
-msgstr ""
+msgstr "Unghiul"
 
 msgid "Answer required"
-msgstr ""
+msgstr "Răspuns necesar"
 
 msgid "APIP Content Package"
-msgstr ""
+msgstr "Pachet de conținut APIP"
 
 msgid "Apip Package successfully exported."
-msgstr ""
+msgstr "Pachet Apip exportat cu succes."
 
 msgid "Arc"
-msgstr ""
+msgstr "Arc"
 
 msgid "Arrange a list of choices in the correct order."
-msgstr ""
+msgstr "Aranjați o listă de opțiuni în ordinea corectă."
 
 msgid "Associate"
-msgstr ""
+msgstr "Asociat"
 
 msgid "Associate Interaction"
-msgstr ""
+msgstr "Interacţiuni asociate"
 
 msgid "association pairs"
-msgstr ""
+msgstr "perechi de asociații"
 
 msgid "at least"
-msgstr ""
+msgstr "cel puțin"
 
 msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
-msgstr ""
+msgstr "Se încearcă injectarea \"%s\" valori metadate pentru ținta \"%s\" cu metadata Injector \"%s\"."
 
 msgid "Autostart"
-msgstr ""
+msgstr "Autostart"
 
 msgid "Back to Manage Items"
-msgstr ""
+msgstr "Înapoi la gestionarea articolelor"
 
 msgid "Background color"
-msgstr ""
+msgstr "Culoare fundal"
 
 msgid "Base"
-msgstr ""
+msgstr "Baza"
 
 msgid "Be aware, if you choose to remove the instructions, the system will not provide any warnings to the test takers if constraints are set."
-msgstr ""
+msgstr "Fiți conștienți, dacă alegeți să eliminați instrucțiunile, sistemul nu va furniza niciun fel de avertismente persoanelor care efectuează testul dacă sunt stabilite constrângeri."
 
 msgid "Beta"
-msgstr ""
+msgstr "Beta"
 
 msgid "Block"
-msgstr ""
+msgstr "Blochează"
 
 msgid "block"
-msgstr ""
+msgstr "bloc"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
-msgstr ""
+msgstr "Block-ul contine continutul (stimulus) elementului cum ar fi text sau imagine. Este necesar si pentru interactiuni in linie."
 
 msgid "Block height (%)"
-msgstr ""
+msgstr "Înălțimea blocului (%)"
 
 msgid "Border color"
-msgstr ""
+msgstr "Culoare chenar"
 
 msgid "Bottom"
-msgstr ""
+msgstr "Jos"
 
 msgid "Browse your computer and select the appropriate file."
-msgstr ""
+msgstr "Navigați pe computer și selectați fișierul corespunzător."
 
 msgid "Browse..."
-msgstr ""
+msgstr "Răsfoire..."
 
 msgid "Cancel"
-msgstr ""
+msgstr "Anulează"
 
 msgid "cancel"
-msgstr ""
+msgstr "anulează"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
-msgstr ""
+msgstr "Nu se poate crea decalaj la această selecţie. Vă rugăm să verificaţi că nu aveţi elemente selectate parţial."
 
 msgid "Cannot create hottext from this selection."
-msgstr ""
+msgstr "Nu se poate crea textul hottext din această selecţie."
 
 msgid "Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words."
-msgstr ""
+msgstr "Nu se poate crea hottext din această selecţie. Vă rugăm să vă asiguraţi că selecţia nu conţine atât cuvinte formatate, cât şi cuvinte neformatate."
 
 msgid "Cannot create hottext from this selection. Please make sure the selection does not contain multiple lines."
-msgstr ""
+msgstr "Nu se poate crea textul hottext din această selecţie. Asiguraţi-vă că selecţia nu conţine mai multe linii."
 
 msgid "Cannot delete a variable currently used in response processing"
-msgstr ""
+msgstr "Nu se poate șterge o variabilă folosită în prezent în procesarea răspunsului"
 
 msgid "Cannot edit a variable currently used in response processing"
-msgstr ""
+msgstr "Nu se poate edita o variabilă folosită în prezent în procesarea răspunsului"
 
 msgid "cannot find QTI XML"
-msgstr ""
+msgstr "nu poate găsi QTI XML"
 
 msgid "cannot load QTI XML"
-msgstr ""
+msgstr "QTI XML nu poate fi încărcat"
 
 msgid "Cannot locate the file \"%s"
-msgstr ""
+msgstr "Nu se poate localiza fișierul \"%s"
 
 msgid "Center"
-msgstr ""
+msgstr "Centru"
 
 msgid "Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with."
-msgstr ""
+msgstr "Schimbă lățimea elementului. Implicit elementul are o lățime de 100% și se adaptează la dimensiunea oricărui ecran. Lățimea maximă este implicit 1024px - aceasta se va schimba și atunci când setați o particularizare."
 
 msgid "chars"
-msgstr ""
+msgstr "caractere"
 
 msgid "Choice"
-msgstr ""
+msgstr "Alegere"
 
 msgid "Choice Image"
-msgstr ""
+msgstr "Alegere imagine"
 
 msgid "Choice Interaction"
-msgstr ""
+msgstr "Interacţiune de alegere"
 
 msgid "Choice Properties"
-msgstr ""
+msgstr "Proprietăți de alegere"
 
 msgid "choices"
-msgstr ""
+msgstr "alegeri"
 
 msgid "Choices"
-msgstr ""
+msgstr "Alegeri"
 
 msgid "Choices position"
-msgstr ""
+msgstr "Poziție alegere"
 
 msgid "Choose the horizontal alignment for the table."
-msgstr ""
+msgstr "Alegeți alinierea orizontală pentru tabel."
 
 msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
-msgstr ""
+msgstr "Căutarea clasei de succes. Resursele \"%s\" vor fi stocate în Clasa RDFS \"%s\"."
 
 msgid "Class successfully created."
-msgstr ""
+msgstr "Clasa a fost creata."
+
+msgid "Classic"
+msgstr "Clasic"
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr "Editorul clasic arată ca un editor web; editorul de documente arată ca un procesor de cuvinte. În afară de aspectul că au aceleaşi caracteristici."
 
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
-msgstr ""
+msgstr "Intrările de clasificare trebuie să fie o instanță de ClassificationEntryMetadataValue"
 
 msgid "Classification metadata is required to be extracted."
-msgstr ""
+msgstr "Este necesară extragerea metadatelor de clasificare."
 
 msgid "Classification value to map has to a string"
-msgstr ""
+msgstr "Valoarea de clasificare pe hartă trebuie să fie un şir"
 
 msgid "Click again to remove"
-msgstr ""
+msgstr "Click din nou pentru a elimina"
 
 msgid "Click to display interaction widget"
-msgstr ""
+msgstr "Apăsați pentru a afișa widget-ul interacțiunii"
 
 msgid "Click to remove"
-msgstr ""
+msgstr "Click pentru a elimina"
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
-msgstr ""
+msgstr "Colectează informații deschise într-un scurt text introdus (șiruri sau valori numerice)."
 
 msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
-msgstr ""
+msgstr "Colectează informații deschise în una sau mai multe zone de text (șiruri sau valori numerice)."
 
 msgid "Colon"
-msgstr ""
+msgstr "Colon"
 
 msgid "Color Picker"
-msgstr ""
+msgstr "Selector culoare"
 
 msgid "Column separator"
-msgstr ""
+msgstr "Separator coloană"
 
 msgid "Common Interactions"
-msgstr ""
+msgstr "Interacţiuni frecvente"
 
 msgid "Compact Appearance"
-msgstr ""
+msgstr "Prezentare compactă"
 
 msgid "Configures the position of the choices relative to the target list."
-msgstr ""
+msgstr "Configurează poziția opțiunilor în raport cu lista țintă."
 
 msgid "Congruent"
-msgstr ""
+msgstr "Consimțământ"
 
 msgid "Constraints"
-msgstr ""
+msgstr "Constrângeri"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
-msgstr ""
+msgstr "Controlează parametrii de redare (pornire automată, buclă) ai unui fișier video sau audio și raportează numărul de redare."
 
 msgid "Correct"
-msgstr ""
+msgstr "Corect"
 
 msgid "correct"
-msgstr ""
+msgstr "corect"
 
 msgid "Cosine"
-msgstr ""
+msgstr "Cosine"
 
 msgid "Cosinus"
-msgstr ""
+msgstr "Cosinus"
 
 msgid "Create a single hottext from the selection"
-msgstr ""
+msgstr "Creați un singur prospect hottext din selecție"
 
 msgid "Create assocations and fill the score in the form below"
-msgstr ""
+msgstr "Creați assocații și completați scorul în formularul de mai jos"
 
 msgid "Create association(s) between areas (hotspots) displayed on a picture."
-msgstr ""
+msgstr "Creati asocieri intre zone (hotspots) afisate intr-o imagine."
 
 msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
-msgstr ""
+msgstr "Creează o asociație(i) între două seturi de opțiuni afișate într-un tabel (rând și coloană)."
 
 msgid "Create gap"
-msgstr ""
+msgstr "Creează un gol"
 
 msgid "Create hottext"
-msgstr ""
+msgstr "Creare context hottext"
 
 msgid "Create multiple hottexts from the selection"
-msgstr ""
+msgstr "Creați mai multe hottexts din selecție"
 
 msgid "Create pair(s) from a series of choices."
-msgstr ""
+msgstr "Creează o pereche (perechi) dintr-o serie de alegeri."
 
 msgid "CSV content + metadata"
-msgstr ""
+msgstr "Conținut CSV + metadate"
 
 msgid "Current value:"
-msgstr ""
+msgstr "Valoare curentă:"
 
 msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
-msgstr ""
+msgstr "Conversia de la MathML la LaTeX nu este disponibilă. Editând MathML aici codul LaTex va fi eliminat."
 
 msgid "custom"
-msgstr ""
+msgstr "personalizat"
 
 msgid "Custom Interactions"
-msgstr ""
+msgstr "Interacţiuni personalizate"
 
 msgid "Custom Response Processing Mode"
-msgstr ""
+msgstr "Mod de procesare răspuns personalizat"
 
 msgid "Default"
-msgstr ""
+msgstr "Implicit"
 
 msgid "default"
-msgstr ""
+msgstr "implicit"
 
 msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
-msgstr ""
+msgstr "Definiți constrângerile pentru numărul de opțiuni necesare pentru a forma un răspuns valid. Nici una: definiți nicio constrângere suplimentară. Este necesar răspunsul necesar: necesită testarea axei pentru a selecta cel puțin o opțiune. Alte constrângeri: definirea unor constrângeri personalizate minime și/sau maxime (disponibile numai pentru mai multe opțiuni)"
 
 msgid "Define correct response"
-msgstr ""
+msgstr "Definește răspunsul corect"
 
 msgid "Define correct response (for post-processing)"
-msgstr ""
+msgstr "Definește răspunsul corect (pentru post-procesare)"
 
 msgid "Define item language."
-msgstr ""
+msgstr "Definiți limba elementului."
 
 msgid "define prompt"
-msgstr ""
+msgstr "definiți promptitudinea"
 
 msgid "Define the correct response."
-msgstr ""
+msgstr "Definiţi răspunsul corect."
 
 msgid "Define the status of the translation."
-msgstr ""
+msgstr "Defineste statusul traducerii."
 
 msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
-msgstr ""
+msgstr "Definește dacă o alegere trebuie selectată de candidat pentru a forma un răspuns valid la interacțiune."
 
 msgid "Define whether the item should be time dependent on delivery."
-msgstr ""
+msgstr "Defineste daca elementul ar trebui sa fie dependent de durata livrarii."
 
 msgid "Defined width"
-msgstr ""
+msgstr "Lățime definită"
 
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
-msgstr ""
+msgstr "Definește magnitudinea maximă a variabilelor numerice ale rezultatului, maximul trebuie să fie o valoare pozitivă, iar minimul poate fi negativ."
 
 msgid "Degrees"
-msgstr ""
+msgstr "Grafice"
 
 msgid "delay after"
-msgstr ""
+msgstr "întârziere după"
 
 msgid "delay between"
-msgstr ""
+msgstr "întârziere între"
 
 msgid "Delete"
-msgstr ""
+msgstr "Ștergere"
 
 msgid "delete"
-msgstr ""
+msgstr "şterge"
 
 msgid "Delete else statement"
-msgstr ""
+msgstr "Șterge altă declarație"
 
 msgid "Delete this modal feedback"
-msgstr ""
+msgstr "Șterge acest feedback modal"
 
 msgid "Delimiter"
-msgstr ""
+msgstr "Delimitator"
 
 msgid "Delta"
-msgstr ""
+msgstr "Delta"
 
 msgid "Description"
-msgstr ""
+msgstr "Descriere"
 
 msgid "Direction of writing"
-msgstr ""
+msgstr "Direcția de scriere"
 
 msgid "Disable this stylesheet temporarily"
-msgstr ""
+msgstr "Dezactivează temporar această foaie de stil"
 
 msgid "Display"
-msgstr ""
+msgstr "Afişare"
 
 msgid "Display media player"
-msgstr ""
+msgstr "Afişare player media"
 
 msgid "Display the choices either horizontally or vertically"
-msgstr ""
+msgstr "Afișează opțiunile fie orizontal, fie vertical"
 
 msgid "Divide"
-msgstr ""
+msgstr "Împărțirea"
+
+msgid "Document"
+msgstr "Document"
 
 msgid "Don't save"
-msgstr ""
+msgstr "Nu salva"
 
 msgid "done"
-msgstr ""
+msgstr "terminat"
 
 msgid "Done"
-msgstr ""
+msgstr "Terminat"
 
 msgid "Download"
-msgstr ""
+msgstr "Descărcare"
 
 msgid "Download sample csv file"
-msgstr ""
+msgstr "Descarca exemplu fisier csv"
 
 msgid "Download this stylesheet"
-msgstr ""
+msgstr "Descarcă această foaie de stil"
 
 msgid "Draw a circle on the image"
-msgstr ""
+msgstr "Desenează un cerc pe imagine"
 
 msgid "Draw a free form on the image"
-msgstr ""
+msgstr "Desenează un formular gratuit pe imagine"
 
 msgid "Draw a rectangle on the image"
-msgstr ""
+msgstr "Desenează un dreptunghi pe imagine"
 
 msgid "Draw an ellipsis on the image"
-msgstr ""
+msgstr "Desenează o elipsă pe imagine"
 
 msgid "Drop the target to select a point"
-msgstr ""
+msgstr "Lăsați ținta pentru a selecta un punct"
 
 msgid "e.g. 13"
-msgstr ""
+msgstr "ex. 13"
 
 msgid "e.g. 960"
-msgstr ""
+msgstr "ex. 960"
 
 msgid "Edit"
-msgstr ""
+msgstr "Editare"
 
 msgid "edit choices"
-msgstr ""
+msgstr "editează opțiunile"
 
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
-msgstr ""
-
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr ""
+msgstr "Editează expresia matematică folosind sistemul de setare de tip LaTex, ex. e^{i \\pi} = -1"
 
 msgid "Edit math expression using MathML"
-msgstr ""
+msgstr "Editează expresia matematică folosind MathML"
 
 msgid "Edit modal feedback"
-msgstr ""
+msgstr "Editare feedback modal"
 
 msgid "Edit modal feedback title"
-msgstr ""
+msgstr "Editați titlul feedback-ului modal"
 
 msgid "Edit stylesheet label"
-msgstr ""
+msgstr "Edit stylesheet label"
 
 msgid "Editing Mode"
-msgstr ""
+msgstr "Mod editare"
+
+msgid "Editor type"
+msgstr "Tip editor"
 
 msgid "Element Properties"
-msgstr ""
+msgstr "Proprietăți element"
 
 msgid "elements"
-msgstr ""
+msgstr "elemente"
 
 msgid "Eliminate"
-msgstr ""
+msgstr "Eliminați"
 
 msgid "Enable Scrolling"
-msgstr ""
+msgstr "Activează derularea"
 
 msgid "Enable the test taker to pause and restart the playing."
-msgstr ""
+msgstr "Activați tastatura de test pentru a întrerupe și a reporni redarea."
 
 msgid "Enable/disable scrolling."
-msgstr ""
+msgstr "Activează/dezactivează derularea."
 
 msgid "End Attempt"
-msgstr ""
+msgstr "Încercare de încheiere"
 
 msgid "End Attempt Interaction"
-msgstr ""
+msgstr "Încercare de încheiere"
 
 msgid "Enlarge font size"
-msgstr ""
+msgstr "Mărire dimensiune font"
 
 msgid "Enter a select MIME-type"
-msgstr ""
+msgstr "Introduceți un tip MIM selectat"
 
 msgid "Enter choices…"
-msgstr ""
+msgstr "Introduceți opțiunile…"
 
 msgid "Enter tooltip content"
-msgstr ""
+msgstr "Introduceți conținutul vârfului de instrumente"
 
 msgid "Enter tooltip target"
-msgstr ""
+msgstr "Enter tooltip target"
 
 msgid "Equals"
-msgstr ""
+msgstr "Egal"
 
 msgid "error"
-msgstr ""
+msgstr "eroare"
 
 msgid "Error in post rendering: %s"
-msgstr ""
+msgstr "Eroare în redarea postării: %s"
 
 msgid "Error in template rendering: %s"
-msgstr ""
+msgstr "Eroare în redarea șablonului: %s"
 
 msgid "Error on item %1$s : %2$s"
-msgstr ""
+msgstr "Eroare la articolul %1$s : %2$s"
 
 msgid "Error on item %s"
-msgstr ""
+msgstr "Eroare la articolul %s"
 
 msgid "Error to export item %s: %s"
-msgstr ""
-
-msgid "Euler\'s constant"
-msgstr ""
+msgstr "Eroare la exportul articolului %s: %s"
 
 msgid "Euler\\'s constant"
-msgstr ""
+msgstr "Constanta lui Uuler"
 
 msgid "Exponent"
-msgstr ""
+msgstr "Exponent"
 
 msgid "Export"
-msgstr ""
+msgstr "Exportă"
 
 msgid "Export APIP 1.0 Package"
-msgstr ""
+msgstr "Exportă pachetul APIP 1.0"
 
 msgid "Export failed for the item \"%s\": %s"
-msgstr ""
+msgstr "Exportul a eșuat pentru articolul \"%s\": %s"
 
 msgid "Export metadata"
-msgstr ""
+msgstr "Exportă metadate"
 
 msgid "Export metadata item"
-msgstr ""
+msgstr "Exportă articolul metadata"
 
 msgid "Export QTI 2.1 Package"
-msgstr ""
+msgstr "Pachetul QTI 2.1 de export"
 
 msgid "Export QTI 2.2 Package"
-msgstr ""
+msgstr "Pachetul QTI 2.2 de export"
 
 msgid "Export QTI 3.0 Package"
-msgstr ""
+msgstr "Pachetul QTI 3.0 pentru export"
 
 msgid "Extended Text"
-msgstr ""
+msgstr "Text extins"
 
 msgid "Extended Text Interaction"
-msgstr ""
+msgstr "Interacțiune de text extinsă"
 
 msgid "External Machine"
-msgstr ""
+msgstr "Mașină externă"
 
 msgid "External Scored"
-msgstr ""
+msgstr "Scor extern"
 
 msgid "Fail to export item"
-msgstr ""
+msgstr "Exportarea produsului a eșuat"
 
 msgid "Failed to publish %1$s in %2$s"
-msgstr ""
+msgstr "Publicarea %1$s în %2$s a eșuat"
 
 msgid "Feedback"
-msgstr ""
+msgstr "Feedback"
 
 msgid "Feedback Style"
-msgstr ""
+msgstr "Stil feedback"
 
 msgid "Field"
-msgstr ""
+msgstr "Câmp"
 
 msgid "File"
-msgstr ""
+msgstr "Fişier"
 
 msgid "File name"
-msgstr ""
+msgstr "Nume fișier"
 
 msgid "File Upload"
-msgstr ""
+msgstr "Încărcare fișier"
 
 msgid "File Upload Interaction"
-msgstr ""
+msgstr "Interacțiune încărcare fișier"
 
 msgid "Fill in the gaps on a picture with a set of image choices."
-msgstr ""
+msgstr "Completează lacunele într-o imagine cu un set de opțiuni de imagine."
 
 msgid "float"
-msgstr ""
+msgstr "plutește"
 
 msgid "Font family"
-msgstr ""
+msgstr "Familia de fonturi"
 
 msgid "Font size"
-msgstr ""
+msgstr "Font size"
 
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 msgid "Fraction"
-msgstr ""
+msgstr "Fracţie"
 
 msgid "Full height"
-msgstr ""
+msgstr "Înălțime completă"
 
 msgid "Gap"
-msgstr ""
+msgstr "Declanșare"
 
 msgid "Gap Match"
-msgstr ""
+msgstr "Potrivire diferență"
 
 msgid "Gap Match Interaction"
-msgstr ""
+msgstr "Interacţiune de potrivire"
 
 msgid "Graphic Associate Interaction"
-msgstr ""
+msgstr "Interacţiuni cu asocierea grafică"
 
 msgid "Graphic Gap Match Interaction"
-msgstr ""
+msgstr "Interacţiune între colapsul grafic"
 
 msgid "Graphic Interactions"
-msgstr ""
+msgstr "Interacţiuni grafice"
 
 msgid "Graphic Order Interaction"
-msgstr ""
+msgstr "Interacțiune comandă grafică"
 
 msgid "Greater than or equal"
-msgstr ""
+msgstr "Mai mare sau egal"
 
 msgid "Group toolbar items"
-msgstr ""
+msgstr "Grupează elementele barei de instrumente"
 
 msgid "Guard for resource \"%s\"..."
-msgstr ""
+msgstr "Gardian pentru resursă\"%s\"..."
 
 msgid "Half height"
-msgstr ""
+msgstr "Jumătate de înălțime"
 
 msgid "Height"
-msgstr ""
+msgstr "Înălțime"
 
 msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
-msgstr ""
+msgstr "Aici puteţi oferi aspecte de punctaj pentru punctaj manual, de exemplu CONTENT, GRAMMAR, SPELLING"
 
 msgid "Horizontal"
-msgstr ""
+msgstr "Orizontal"
 
 msgid "Horizontal text"
-msgstr ""
+msgstr "Text orizontal"
 
 msgid "Hotspot"
-msgstr ""
+msgstr "Punct"
 
 msgid "Hotspot Interaction"
-msgstr ""
+msgstr "Interacţiune hotspot"
 
 msgid "Hottext"
-msgstr ""
+msgstr "Text"
 
 msgid "Hottext Interaction"
-msgstr ""
+msgstr "Interacţiune Hottext"
 
 msgid "How the math expression should be displayed."
-msgstr ""
+msgstr "Cum ar trebui afișată expresia matematică."
 
 msgid "How the math expression should be edited"
-msgstr ""
+msgstr "Cum ar trebui editată expresia matematică"
 
 msgid "Human"
-msgstr ""
+msgstr "Om"
 
 msgid "identical pair already exists"
-msgstr ""
+msgstr "perechea identică există deja"
 
 msgid "identifier"
-msgstr ""
+msgstr "identifier"
 
 msgid "Identifier"
-msgstr ""
+msgstr "Identifier"
 
 msgid "identifier already taken"
-msgstr ""
+msgstr "identificator deja luat"
+
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr "Identificatorii trebuie să înceapă cu o literă sau o linie de subliniere și să conțină doar litere, numere, puncte, sublinieri ( _ ) sau cratime ( - )."
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
-msgstr ""
+msgstr "Dacă este bifat, bara de instrumente editor va fi limitată la un rând și alte elemente vor apărea într-un meniu derulant."
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
-msgstr ""
+msgstr "Dacă este dat, masca de model specifică o expresie regulată pe care răspunsul candidatului trebuie să o corespundă pentru a fi considerată valabilă"
 
 msgid "If pattern mask does not match match value provided, this message will be shown."
-msgstr ""
+msgstr "Dacă masca modelului nu se potrivește cu valoarea furnizată, acest mesaj va fi afișat."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
-msgstr ""
+msgstr "În cazul în care atributul de amestecare este adevărat, motorul de livrare va randomiza ordinea în care opțiunile sunt prezentate inițial. Cu toate acestea, fiecare alegere poate fi „amestecată” de „fixat” individual."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
-msgstr ""
+msgstr "În cazul în care atributul de amestecare este adevărat, motorul de livrare va randomiza ordinea în care opțiunile sunt prezentate inițial. Cu toate acestea, fiecare alegere poate fi „falsificată” individual de „fix”."
 
 msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
-msgstr ""
+msgstr "În cazul în care interacțiunea este legată de o variabilă numerică de răspuns, atributul de bază trebuie folosit pentru a seta baza numerică în care să interpreteze valoarea introdusă de candidat."
 
 msgid "If the variable value is a float and powerForm is set to 'false', the variable will be rendered using the 'e' or 'E' format. If the powerform is set to 'true', the form 'e+n' is changed to 'x 10n'."
-msgstr ""
+msgstr "Dacă valoarea variabilă este un float și powerForm este setat la 'false', variabila va fi randată folosind formatul '' sau 'E'. Dacă formularul de putere este setat pe 'true', formularul 'e+n' este schimbat în 'x 10n'."
 
 msgid "If this box is checked the student will be able to eliminate choices."
-msgstr ""
+msgstr "În cazul în care această casetă este bifată, studentul va putea să elimine alegerile."
 
 msgid "Image caption"
-msgstr ""
+msgstr "Legendă imagine"
 
 msgid "Image caption not enabled when position is set to inline"
-msgstr ""
+msgstr "Legenda imaginii nu este activată când poziţia este setată pe linie"
 
 msgid "Import"
-msgstr ""
+msgstr "Importă"
 
 msgid "Import a QTI/APIP Content Package"
-msgstr ""
+msgstr "Importă un pachet QTI/APIP conținut"
 
 msgid "Import a QTI/APIP XML Item Document"
-msgstr ""
+msgstr "Importă un Document de Articol QTI/APIP XML"
 
 msgid "Import item content and metadata from CSV file. Only choice interactions are supported."
-msgstr ""
+msgstr "Importă conținutul articolului și metadatele din fișierul CSV. Numai interacțiunile cu selecția sunt suportate."
 
 msgid "Import QTI ITEM into \"%s"
-msgstr ""
+msgstr "Importă QTI ITEM în \"%s"
 
 msgid "IMS QTI Item referenced as \"%s\" cannot be imported."
-msgstr ""
+msgstr "Elementul IMS QTI referit ca \"%s\" nu poate fi importat."
 
 msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
-msgstr ""
+msgstr "Elementul IMS QTI referit ca \"%s\" conţine un element portabil şi nu poate fi importat."
 
 msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
-msgstr ""
+msgstr "Elementul IMS QTI referit ca \"%s\" în fişierul IMS Manifest nu a putut fi importat."
 
 msgid "In progress"
-msgstr ""
+msgstr "În curs"
 
 msgid "In Progress"
-msgstr ""
+msgstr "În curs"
 
 msgid "In seconds. Delay during which the replay of the media is allowed. Once reached, the media is disabled and cannot be played anymore."
-msgstr ""
+msgstr "În secunde. Întârzierea în timpul căreia reredarea fișierelor media este permisă. Odată ajuns, fișierele media sunt dezactivate și nu mai pot fi redate."
 
 msgid "In visual environments, string interactions are typically represented by empty boxes into which the candidate writes or types.  Delivery engines should use the value of this attribute (if provided) instead of their default placeholder text when this is required."
-msgstr ""
+msgstr "În mediile vizuale, interacțiunile cu șiruri sunt de obicei reprezentate de cutii goale în care candidatul scrie sau tipuri. Motoarele de livrare ar trebui să utilizeze valoarea acestui atribut (dacă este prevăzut) în locul textului implicit al substituentului lor, atunci când acest lucru este necesar."
 
 msgid "incorrect"
-msgstr ""
+msgstr "incorect"
 
 msgid "Index"
-msgstr ""
+msgstr "Indice"
 
 msgid "Indicates that the audio forms part of a sequence with other sequential interactions. The advancing of the sequence is handled by the delivery engine. Delays are also respected."
-msgstr ""
+msgstr "Indică faptul că audio face parte dintr-o secvență cu alte interacțiuni secvențiale. Progresul secvenței este gestionat de motorul de livrare. Întârzierile sunt, de asemenea, respectate."
 
 msgid "Infinity"
-msgstr ""
+msgstr "Infinitate"
 
 msgid "inline"
-msgstr ""
+msgstr "inline"
 
 msgid "Inline Choice"
-msgstr ""
+msgstr "Alegere în linie"
 
 msgid "Inline Choice Interaction"
-msgstr ""
+msgstr "Interacțiunea de alegere în text"
 
 msgid "Inline Interactions"
-msgstr ""
+msgstr "Interacţiuni integrate"
 
 msgid "Inline interactions need to be inserted into a text block."
-msgstr ""
+msgstr "Interacţiunile interdisciplinare trebuie introduse într-un bloc de text."
 
 msgid "integer"
-msgstr ""
+msgstr "număr"
 
 msgid "Interaction Background"
-msgstr ""
+msgstr "Fundal interacțiune"
 
 msgid "Interaction Properties"
-msgstr ""
+msgstr "Proprietăți interacțiune"
 
 msgid "Interpretation"
-msgstr ""
+msgstr "Interpretare"
 
 msgid "Invalid identifier"
-msgstr ""
+msgstr "Identificator nevalid"
 
 msgid "Invalid Outcome Declaration"
-msgstr ""
+msgstr "Declarație de rezultat nevalidă"
 
 msgid "invalid QTI XML"
-msgstr ""
+msgstr "invalid QTI XML"
 
 msgid "Invalid response identifier"
-msgstr ""
+msgstr "Identificator răspuns nevalid"
 
 msgid "Invalid URL"
-msgstr ""
+msgstr "URL invalid"
 
 msgid "Invalid value in correct response property."
-msgstr ""
+msgstr "Valoare nevalidă în proprietatea de răspuns corect."
 
 msgid "Invalid value, should be an integer number."
-msgstr ""
+msgstr "Valoare nevalidă, trebuie să fie un număr întreg."
 
 msgid "Invalid value, use %s %s for decimal point."
-msgstr ""
+msgstr "Valoare invalidă, utilizaţi %s %s pentru zecimal."
 
 msgid "is null"
-msgstr ""
+msgstr "este nul"
 
 msgid "Is this choice the correct response?"
-msgstr ""
+msgstr "Este această alegere răspunsul corect?"
 
 msgid "Is this pair the correct response?"
-msgstr ""
+msgstr "Este aceasta pereche raspunsul corect?"
 
 msgid "It is intended only for post-processing and will not influence the actual score computation."
-msgstr ""
+msgstr "Este destinat numai pentru post-procesare şi nu va influenţa calculul scorului real."
 
 msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
-msgstr ""
+msgstr "Se pare că a apărut o eroare la încărcarea obiectului. Eroarea a fost raportată. Testul va fi întrerupt."
 
 msgid "Item \"%s\" cannot be exported: %s"
-msgstr ""
+msgstr "Articolul \"%snu poate fi exportat: %s"
 
 msgid "Item \"%s\" has no xml document"
-msgstr ""
+msgstr "Elementul \"%s\" nu are un document xml"
 
 msgid "Item \"%s\" is not available in any language"
-msgstr ""
+msgstr "Articolul \"%snu este disponibil în nicio limbă"
 
 msgid "Item \"%s\" is ready to be exported"
-msgstr ""
+msgstr "Articolul \"%seste gata să fie exportat"
 
 msgid "Item cannot be saved."
-msgstr ""
+msgstr "Elementul nu poate fi salvat."
 
 msgid "Item metadata successfully exported."
-msgstr ""
+msgstr "Metadatele articolului au fost exportate."
 
 msgid "Item metadata with identifier \"%s\" is not valid: "
-msgstr ""
+msgstr "Metadatele articolului cu identificatorul \"%s\" nu sunt valide: "
 
 msgid "Item properties"
-msgstr ""
+msgstr "Proprietăți articol"
 
 msgid "Item Properties"
-msgstr ""
+msgstr "Proprietăți articol"
 
 msgid "Item width"
-msgstr ""
+msgstr "Item width"
 
 #, tao-public
 msgid "Items"
-msgstr ""
+msgstr "Articole"
 
 msgid "Label"
-msgstr ""
+msgstr "Etichetă"
 
 msgid "Language"
-msgstr ""
+msgstr "Limba"
 
 msgid "Large editor"
-msgstr ""
+msgstr "Editor mare"
 
 msgid "LaTeX"
-msgstr ""
+msgstr "LaTeX"
 
 msgid "Latex"
-msgstr ""
+msgstr "Latex"
 
 msgid "Layout"
-msgstr ""
+msgstr "Aspect"
 
 msgid "Left"
-msgstr ""
+msgstr "Stânga"
 
 msgid "left"
-msgstr ""
+msgstr "stânga"
 
 msgid "Left bracket"
-msgstr ""
+msgstr "Paranteză stângă"
 
 msgid "Left parenthesis"
-msgstr ""
+msgstr "Paranteză stângă"
 
 msgid "Length"
-msgstr ""
+msgstr "Lungime"
 
 msgid "Less than or equal"
-msgstr ""
+msgstr "Mai mic sau egal"
 
 msgid "Level"
-msgstr ""
+msgstr "Nivel"
 
 msgid "Line"
-msgstr ""
+msgstr "Linie"
 
 msgid "Line Segment"
-msgstr ""
+msgstr "Linie Segment"
 
 msgid "Lines"
-msgstr ""
+msgstr "Linii"
 
 msgid "List Style"
-msgstr ""
+msgstr "Stil listă"
 
 msgid "Ln"
-msgstr ""
+msgstr "Ln"
 
 msgid "Log"
-msgstr ""
+msgstr "Jurnal"
 
 msgid "Long interpretation"
-msgstr ""
+msgstr "Interpretare lungă"
 
 msgid "Loop"
-msgstr ""
+msgstr "Buclă"
 
 msgid "Lower Bound"
-msgstr ""
+msgstr "Cablu inferior"
 
 msgid "Lower bound is bigger than upper bound."
-msgstr ""
+msgstr "Limita inferioară este mai mare decât limita superioară."
 
 msgid "Lower than or equal"
-msgstr ""
+msgstr "Mai mic sau egal"
 
 msgid "Malformed XML[%s]:\n"
 "%s"
-msgstr ""
+msgstr "Malformed XML[%s]:\n"
+"%s"
 
 msgid "Manage Items"
-msgstr ""
+msgstr "Gestionare articole"
 
 #, tao-public
 msgid "Manage items"
-msgstr ""
+msgstr "Gestionează articole"
 
 msgid "map response"
-msgstr ""
+msgstr "răspuns hartă"
 
 msgid "Mapping default"
-msgstr ""
+msgstr "Mapare implicită"
 
 msgid "Mapping Indicator"
-msgstr ""
+msgstr "Indicator de mapare"
 
 msgid "Match"
-msgstr ""
+msgstr "Meci"
 
 msgid "match correct"
-msgstr ""
+msgstr "potrivire corectă"
 
 msgid "Match Interaction"
-msgstr ""
+msgstr "Interacţiune de meci"
 
 msgid "MathJax is not installed."
-msgstr ""
+msgstr "MathJax nu este instalat."
 
 msgid "MathML"
-msgstr ""
+msgstr "MathML"
 
 msgid "Max"
-msgstr ""
+msgstr "Maxim"
 
 msgid "Max length"
-msgstr ""
+msgstr "Lungime maximă"
 
 msgid "Max Length"
-msgstr ""
+msgstr "Lungime maxima"
 
 msgid "Max plays count"
-msgstr ""
+msgstr "Numărul maxim de redări"
 
 msgid "Max words"
-msgstr ""
+msgstr "Cuvinte maxime"
 
 msgid "Max Words"
-msgstr ""
+msgstr "Cuvinte Max"
 
 msgid "Max. number of matches"
-msgstr ""
+msgstr "Numărul maxim de potriviri"
 
 msgid "Maximal score for this interaction."
-msgstr ""
+msgstr "Scorul maxim pentru această interacţiune."
 
 msgid "maximum"
-msgstr ""
+msgstr "maxim"
 
 msgid "Maximum choices reached"
-msgstr ""
+msgstr "Maximul de opțiuni atins"
 
 msgid "Maximum number of choices reached."
-msgstr ""
+msgstr "S-a atins numărul maxim de opțiuni."
 
 msgid "Media"
-msgstr ""
+msgstr "Media"
 
 msgid "Media file path or YouTube video address"
-msgstr ""
+msgstr "Calea fişierului media sau adresa YouTube"
 
 msgid "Media Interaction"
-msgstr ""
+msgstr "Interacţiune media"
 
 msgid "Metadata export requires an instance of core_kernel_classes_Resource to extract metadata"
-msgstr ""
+msgstr "Exportarea metadatelor necesită o instanță de core_kernel_classes_Resource pentru a extrage metadate"
 
 msgid "Metadata export requires an instance of DomManifest to inject metadata"
-msgstr ""
+msgstr "Exportul metadatelor necesită o instanţă DomManifest pentru injectarea metadatelor"
 
 msgid "Metadata import requires an instance of core_kernel_classes_Resource to inject metadata"
-msgstr ""
+msgstr "Importul de metadate necesită o instanță de core_kernel_classes_Resource pentru a injecta metadate"
 
 msgid "Metadata import requires an instance of DomManifest to extract metadata"
-msgstr ""
+msgstr "Importul de metadate necesită o instanță de DomManifest pentru a extrage metadate"
 
 msgid "Metadata service successfully registered."
-msgstr ""
+msgstr "Serviciul Metadata a fost inregistrat cu succes."
 
 msgid "MIME-type"
-msgstr ""
+msgstr "Tip MIM"
 
 msgid "Min"
-msgstr ""
+msgstr "Minim"
 
 msgid "Minimal  score for this interaction."
-msgstr ""
+msgstr "Scorul minim pentru această interacţiune."
 
 msgid "Modal feedback is shown to the candidate directly following response processing."
-msgstr ""
+msgstr "Feedback-ul modal este transmis candidatului direct în urma procesării răspunsului."
 
 msgid "Modal Feedback Prop."
-msgstr ""
+msgstr "Feedback Modal Prop."
 
 msgid "modal feedback title"
-msgstr ""
+msgstr "titlu feedback modal"
 
 msgid "Modal Feedbacks"
-msgstr ""
+msgstr "Feedback-uri modale"
 
 msgid "Multiple choices"
-msgstr ""
+msgstr "Opțiuni multiple"
 
 msgid "Multiply"
-msgstr ""
+msgstr "Multiplică"
 
 msgid "negative"
-msgstr ""
+msgstr "negativ"
 
 #, tao-public
 msgid "New item"
-msgstr ""
+msgstr "Element nou"
 
 msgid "No"
-msgstr ""
+msgstr "Nr"
 
 msgid "no configuration property needed"
-msgstr ""
+msgstr "nu este necesară configurarea proprietății"
 
 msgid "No file selected"
-msgstr ""
+msgstr "Niciun fișier selectat"
 
 msgid "no item content"
-msgstr ""
+msgstr "fără conținut articol"
 
 msgid "No Items could be imported from the given IMS QTI package."
-msgstr ""
+msgstr "Niciun element nu a putut fi importat din pachetul IMS QTI dat."
 
 msgid "No preview available"
-msgstr ""
+msgstr "Nicio previzualizare disponibilă"
 
 msgid "No uploaded file"
-msgstr ""
+msgstr "Niciun fișier încărcat"
 
 msgid "No value set"
-msgstr ""
+msgstr "Nicio valoare setată"
 
 msgid "None"
-msgstr ""
+msgstr "Niciunul"
 
 msgid "none"
-msgstr ""
+msgstr "niciunul"
 
 msgid "None defined yet."
-msgstr ""
+msgstr "Niciunul nu este definit încă."
 
 msgid "not a QTI item"
-msgstr ""
+msgstr "nu este un element QTI"
 
 msgid "Number of associations"
-msgstr ""
+msgstr "Număr de asociații"
 
 msgid "of"
-msgstr ""
+msgstr "din"
 
 msgid "OK"
-msgstr ""
+msgstr "Ok"
 
 msgid "one association pair"
-msgstr ""
+msgstr "o pereche de asociații"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-msgstr ""
+msgstr "Una sau mai multe componente QTI nu sunt suportate de sistem. Sistemul a returnat următoarea eroare: %s\n"
 
 msgid "Order"
-msgstr ""
+msgstr "Comanda"
 
 msgid "Order Interaction"
-msgstr ""
+msgstr "Interactiune comanda"
 
 msgid "Order single list"
-msgstr ""
+msgstr "Comandă o singură listă"
 
 msgid "order single list"
-msgstr ""
+msgstr "comandă listă unică"
 
 msgid "Order the areas (hotspots) displayed on a picture."
-msgstr ""
+msgstr "Comandați zonele (hotspots) afișate într-o imagine."
 
 msgid "Orientation"
-msgstr ""
+msgstr "Orientare"
 
 msgid "Other constraints"
-msgstr ""
+msgstr "Alte constrângeri"
 
 msgid "Outcome Declarations"
-msgstr ""
+msgstr "Declarații de rezultat"
 
 msgid "Pair scoring"
-msgstr ""
+msgstr "Scor pereche"
 
 msgid "Parallel"
-msgstr ""
+msgstr "Paralel"
 
 msgid "Pattern"
-msgstr ""
+msgstr "Model"
 
 msgid "Pattern violation message"
-msgstr ""
+msgstr "Mesaj de încălcare a modelului"
 
 msgid "Pause"
-msgstr ""
+msgstr "Întrerupeți"
 
 msgid "Perpendicular"
-msgstr ""
+msgstr "Perpendiculară"
 
 msgid "Pi"
-msgstr ""
+msgstr "Pi"
 
 msgid "Placeholder Text"
-msgstr ""
+msgstr "Substituent Text"
 
 msgid "Plain text"
-msgstr ""
+msgstr "Text simplu"
 
 msgid "Play audio several times in a row. Delay between plays can be set if needed."
-msgstr ""
+msgstr "Redă audio de mai multe ori la rând. Dacă este necesar, întârzierea între redări poate fi setată."
 
 msgid "Please add one or more gaps to the text in question mode."
-msgstr ""
+msgstr "Vă rugăm să adăugați unul sau mai multe lacune la textul în modul întrebare."
 
 msgid "Please create areas that correspond to the response and associate them a score. You can also position the target to the exact point as the correct response."
-msgstr ""
+msgstr "Vă rugăm să creați zone care corespund răspunsului și să le asociați un scor. De asemenea, puteţi poziţiona ţinta în punctul exact ca răspuns corect."
 
 msgid "Please define association pairs and their scores below."
-msgstr ""
+msgstr "Vă rugăm să definiţi mai jos perechile de asociere şi scorurile lor."
 
 msgid "Please define the correct association pairs below."
-msgstr ""
+msgstr "Vă rugăm să definiți perechile de asociere corecte de mai jos."
 
 msgid "Please define the correct order in the box to the right."
-msgstr ""
+msgstr "Vă rugăm să definiți ordinea corectă în caseta din dreapta."
 
 msgid "Please define the correct order."
-msgstr ""
+msgstr "Va rugam definiti comanda corecta."
 
 msgid "Please define the correct response and the score below."
-msgstr ""
+msgstr "Vă rugăm să definiți răspunsul corect și scorul de mai jos."
 
 msgid "Please define the correct response below."
-msgstr ""
+msgstr "Definiți răspunsul corect de mai jos."
 
 msgid "Please define the correct response using the slider."
-msgstr ""
+msgstr "Vă rugăm să definiţi răspunsul corect folosind glisorul."
 
 msgid "Please enter the score for the given hottexts."
-msgstr ""
+msgstr "Vă rugăm să introduceţi scorul pentru halterele date. (Automatic Translation)"
 
 msgid "Please fill the gap with the correct choices below."
-msgstr ""
+msgstr "Vă rugăm să umpleţi golul cu alegerile corecte de mai jos."
 
 msgid "Please fill the gap with the correct choices."
-msgstr ""
+msgstr "Vă rugăm să umpleţi golul cu alegerile corecte."
 
 msgid "Please fill the gap with the images below, then edit the score for each gap/image pair."
-msgstr ""
+msgstr "Vă rugăm să umpleţi golul cu imaginile de mai jos, apoi editaţi scorul pentru fiecare pereche de gol/imagine."
 
 msgid "Please fill the gap with the texts below, then edit the score for each pair."
-msgstr ""
+msgstr "Vă rugăm să completați spațiul cu textele de mai jos, apoi să editați scorul pentru fiecare pereche."
 
 msgid "Please order the choices below to set the correct answer"
-msgstr ""
+msgstr "Vă rugăm să ordonați opțiunile de mai jos pentru a seta răspunsul corect"
 
 msgid "Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "Te rugăm să selectezi o imagine de fundal pentru interacțiunea ta din managerul de resurse. Poți adăuga fișiere noi din computerul tău cu butonul \"Adaugă fișiere(e)\"."
 
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "Vă rugăm să selectaţi un fişier media (video sau audio) din managerul de resurse. Puteţi adăuga fişiere din calculator cu butonul \"Adaugă fişier(e)\"."
 
 msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "Vă rugăm să selectaţi un fişier media din managerul de resurse. Puteţi adăuga fişiere din computerul dumneavoastră cu butonul \"Adăugare fişier(e)\"."
 
 msgid "Please select a shared stimulus file from the resource manager."
-msgstr ""
+msgstr "Vă rugăm să selectaţi un fişier stimulus comun din managerul de resurse."
 
 msgid "Please select the correct hotspot choices below."
-msgstr ""
+msgstr "Vă rugăm să selectați opțiunile corecte de la hotspot de mai jos."
 
 msgid "Please select the correct hottext choices below."
-msgstr ""
+msgstr "Vă rugăm să selectaţi corect opţiunile de hottext de mai jos."
 
 msgid "Please set the correct associations by linking the choices."
-msgstr ""
+msgstr "Vă rugăm să setați asocierile corecte prin conectarea alegerilor."
 
 msgid "Please the score of each hotspot choice."
-msgstr ""
+msgstr "Vă rugăm să punctați punctajul fiecărei opțiuni de hotspot."
 
 msgid "Please type the correct response below."
-msgstr ""
+msgstr "Vă rugăm să introduceţi răspunsul corect mai jos."
 
 msgid "Please type the correct response in the box below."
-msgstr ""
+msgstr "Vă rugăm să introduceţi răspunsul corect în caseta de mai jos."
 
 msgid "Plus/minus"
-msgstr ""
+msgstr "Plus/minus"
 
 msgid "Portable element model %s not found. Required extension might be missing"
-msgstr ""
+msgstr "Modelul de element portabil %s nu a fost găsit. Extensia necesară ar putea lipsi"
 
 msgid "Position one or more points on a picture (response areas are not displayed)."
-msgstr ""
+msgstr "Poziția unuia sau mai multor puncte pe o imagine (zonele de răspuns nu sunt afișate)."
 
 msgid "positive"
-msgstr ""
+msgstr "pozitiv"
 
 msgid "Power form"
-msgstr ""
+msgstr "Formular de putere"
 
 msgid "Pre-formatted text"
-msgstr ""
+msgstr "Pre-formatted text"
 
 msgid "Preparing CSS, please wait…"
-msgstr ""
+msgstr "Pregătire CSS, te rugăm să aștepți…"
 
 msgid "Preparing Metadata Values for target \"%s\"..."
-msgstr ""
+msgstr "Se pregătesc valorile metadatelor pentru ținta \"%s\"..."
 
 msgid "Preview"
-msgstr ""
+msgstr "Previzualizare"
 
 msgid "Preview the item"
-msgstr ""
+msgstr "Previzualizați elementul"
 
 msgid "Print"
-msgstr ""
+msgstr "Tipărește"
 
 msgid "Print the item"
-msgstr ""
+msgstr "Tipărește elementul"
 
 msgid "Printed Variable"
-msgstr ""
+msgstr "Variabilă printată"
 
 msgid "Properties"
-msgstr ""
+msgstr "Proprietăți"
 
 msgid "PropertyUri to map has to a valid uri"
-msgstr ""
+msgstr "Proprietatea pe hartă trebuie să fie un uri valid"
 
 msgid "Provides a hint to the candidate as to the expected number of lines of input required. A line is expected to have about 72 characters."
-msgstr ""
+msgstr "Oferă un indiciu candidatului cu privire la numărul preconizat de linii de intrare necesare. Se preconizează că o linie va avea aproximativ 72 de caractere."
 
 msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."
-msgstr ""
+msgstr "Oferă candidatului un indiciu cu privire la lungimea totală preconizată a răspunsului dorit, măsurată ca număr de caractere."
 
 msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters. This is not a validity constraint."
-msgstr ""
+msgstr "Oferă candidatului un indiciu cu privire la lungimea totală preconizată a răspunsului dorit, măsurată ca număr de caractere. Aceasta nu este o constrângere de valabilitate."
 
 msgid "Published %s"
-msgstr ""
+msgstr "Publicat %s"
 
 msgid "QTI Item Runner"
-msgstr ""
+msgstr "Intrare QTI element"
 
 msgid "QTI Metadata"
-msgstr ""
+msgstr "QTI Metadata"
 
 msgid "QTI metadata as properties"
-msgstr ""
+msgstr "Metadate QTI ca proprietăți"
 
 msgid "QTI Package 2.1"
-msgstr ""
+msgstr "Pachetul QTI 2.1"
 
 msgid "QTI Package 2.2"
-msgstr ""
+msgstr "Pachetul QTI 2.2"
 
 msgid "QTI Package 3.0"
-msgstr ""
+msgstr "Pachetul QTI 3.0"
 
 msgid "QTI-XML error at line %1$d \"%2$s\"."
-msgstr ""
+msgstr "Eroare QTI-XML la linia %1$d \"%2$s\"."
 
 msgid "QTI/APIP Content Package"
-msgstr ""
+msgstr "QTI/APIP Content Package"
 
 msgid "QTI/APIP XML Item Document"
-msgstr ""
+msgstr "Document articol XML QTI/APIP"
 
 msgid "Question"
-msgstr ""
+msgstr "Întrebare"
 
 msgid "Ray"
-msgstr ""
+msgstr "Rază"
 
 msgid "Recommendations"
-msgstr ""
+msgstr "Recomandări"
 
 msgid "recommended"
-msgstr ""
+msgstr "recomandat"
 
 msgid "Reduce font size"
-msgstr ""
+msgstr "Reduce dimensiunea fontului"
 
 msgid "Register method expects $key and $name parameters"
-msgstr ""
+msgstr "Metoda de înregistrare așteaptă $key și $name parametri"
 
 msgid "Register method expects $key and $name parameters."
-msgstr ""
+msgstr "Metoda de înregistrare se aşteaptă la parametrii $key şi $name."
 
 msgid "remove"
-msgstr ""
+msgstr "elimină"
 
 msgid "Remove"
-msgstr ""
+msgstr "Elimină"
 
 msgid "Remove custom background color"
-msgstr ""
+msgstr "Elimină culoarea de fundal personalizată"
 
 msgid "Remove custom border color"
-msgstr ""
+msgstr "Elimină culoarea de contur personalizată"
 
 msgid "Remove custom font family"
-msgstr ""
+msgstr "Elimină familia de fonturi personalizate"
 
 msgid "Remove custom font size"
-msgstr ""
+msgstr "Elimină dimensiunea personalizată a fontului"
 
 msgid "Remove custom item width"
-msgstr ""
+msgstr "Remove custom item width"
 
 msgid "Remove custom text color"
-msgstr ""
+msgstr "Elimină culoarea de text personalizată"
 
 msgid "Remove Instructions"
-msgstr ""
+msgstr "Elimină instrucțiunile"
 
 msgid "Remove Message"
-msgstr ""
+msgstr "Elimină mesajul"
 
 msgid "Remove pair"
-msgstr ""
+msgstr "Elimină pereche"
 
 msgid "Remove the selected shape"
-msgstr ""
+msgstr "Elimină forma selectată"
 
 msgid "Remove this stylesheet"
-msgstr ""
+msgstr "Elimină această foaie de stil"
 
 msgid "Removes all instruction messages generated by the system from the interface."
-msgstr ""
+msgstr "Elimină din interfață toate mesajele de instrucție generate de sistem."
 
 msgid "repeats"
-msgstr ""
+msgstr "repetă"
 
 msgid "Replay timeout"
-msgstr ""
+msgstr "Timp de reluare"
 
 msgid "required"
-msgstr ""
+msgstr "necesar"
 
 msgid "Resource "
-msgstr ""
+msgstr "Resursă "
 
 msgid "Resource(s) successfully exported."
-msgstr ""
+msgstr "Resursa(i) exportat(e) cu succes."
 
 msgid "Response"
-msgstr ""
+msgstr "Răspuns"
 
 msgid "Response [\"%s\"] is bigger than the upper bound value \"%s\"."
-msgstr ""
+msgstr "Raspunsul [\"%s\"] este mai mare decat valoarea de limita de sus \"%s\"."
 
 msgid "Response [\"%s\"] is lower than the lower bound value \"%s\"."
-msgstr ""
+msgstr "Raspunsul [\"%s\"] este mai mic decat valoarea de limita mai mica \"%s\"."
 
 msgid "Response [\"%s\"] should be the only possible value \"%s\"."
-msgstr ""
+msgstr "Răspunsul [\"%s\"] ar trebui să fie singura valoare posibilă \"%s\"."
 
 msgid "Response base type"
-msgstr ""
+msgstr "Tip de bază răspuns"
 
 msgid "Response identifier"
-msgstr ""
+msgstr "Identificator de răspuns"
 
 msgid "Response processing"
-msgstr ""
+msgstr "Raspuns la procesare"
 
 msgid "Response Properties"
-msgstr ""
+msgstr "Proprietăți răspuns"
 
 msgid "Rich text"
-msgstr ""
+msgstr "Text îmbogățit"
 
 msgid "Rich text + math"
-msgstr ""
+msgstr "Text îmbogățit + matematică"
 
 msgid "Right"
-msgstr ""
+msgstr "Dreapta"
 
 msgid "right"
-msgstr ""
+msgstr "dreapta"
 
 msgid "Right bracket"
-msgstr ""
+msgstr "Paranteză dreaptă"
 
 msgid "Right parenthesis"
-msgstr ""
+msgstr "Paranteză dreapta"
 
 msgid "Rollback on..."
-msgstr ""
+msgstr "Revenire la..."
 
 msgid "Save"
-msgstr ""
+msgstr "Salvează"
 
 msgid "Save the item"
-msgstr ""
+msgstr "Salvează articolul"
 
 msgid "Scale size"
-msgstr ""
+msgstr "Dimensiune scară"
 
 msgid "Score"
-msgstr ""
+msgstr "Scor"
 
 msgid "score"
-msgstr ""
+msgstr "scor"
 
 msgid "Score range"
-msgstr ""
+msgstr "Interval scor"
 
 msgid "Score value"
-msgstr ""
+msgstr "Valoarea scorului"
 
 msgid "Scrollable multi-column"
-msgstr ""
+msgstr "Multicoloană derulabilă"
 
 msgid "sec"
-msgstr ""
+msgstr "sec"
 
 msgid "seconds"
-msgstr ""
+msgstr "secunde"
 
 msgid "Select"
-msgstr ""
+msgstr "Selectare"
 
 msgid "select a choice"
-msgstr ""
+msgstr "selectează o alegere"
 
 msgid "Select a choice from a drop-down list."
-msgstr ""
+msgstr "Selectaţi o alegere din lista de tip drop-down."
 
 msgid "Select a left"
-msgstr ""
+msgstr "Selectează o stânga"
 
 msgid "Select a response identifier from the list."
-msgstr ""
+msgstr "Selectați un identificator de răspuns din listă."
 
 msgid "Select a right"
-msgstr ""
+msgstr "Selectează un drept"
 
 msgid "Select a single (radio buttons) or multiple (check boxes) responses among a set of choices."
-msgstr ""
+msgstr "Selectaţi un singur (butoane radio) sau mai multe (bifaţi căsuţe) răspunsuri dintr-un set de opţiuni."
 
 msgid "Select a value within a numerical range."
-msgstr ""
+msgstr "Selectați o valoare în intervalul numeric."
 
 msgid "Select an image first"
-msgstr ""
+msgstr "Selectați prima imagine"
 
 msgid "Select an image first."
-msgstr ""
+msgstr "Selectați mai întâi o imagine."
 
 msgid "select correct choice"
-msgstr ""
+msgstr "selectează alegerea corectă"
 
 msgid "Select height of block based off container height"
-msgstr ""
+msgstr "Selectați înălțimea containerului bazată pe bloc"
 
 msgid "Select height of passage base of container height"
-msgstr ""
+msgstr "Selectați înălțimea de trecere a înălțimii containerului"
 
 msgid "Select height of text block base of container height"
-msgstr ""
+msgstr "Selectați înălțimea blocurilor de text înălțimea containerului"
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
-msgstr ""
+msgstr "Selectați dacă doriți ca declarația rezultatului să fie procesată de un sistem extern sau un scor uman. Acesta este de obicei cazul elementelor care solicită candidaților să scrie un eseu."
 
 msgid "Select image"
-msgstr ""
+msgstr "Selectați imaginea"
 
 msgid "Select line to remove"
-msgstr ""
+msgstr "Selectați linia pentru a o elimina"
 
 msgid "Select media file"
-msgstr ""
+msgstr "Selectaţi fişierul media"
 
 msgid "Select object"
-msgstr ""
+msgstr "Selectare obiect"
 
 msgid "Select one or more areas (hotspots) displayed on an picture."
-msgstr ""
+msgstr "Selectați una sau mai multe zone (hotspots) afișate într-o imagine."
 
 msgid "Select one or more text parts (hottext) within a text."
-msgstr ""
+msgstr "Selectați una sau mai multe părți de text (hottext) în interiorul unui text."
 
 msgid "Select Point"
-msgstr ""
+msgstr "Selectează punctul"
 
 msgid "Select Point Interaction"
-msgstr ""
+msgstr "Selectaţi interacţiunea cu punctul"
 
 msgid "Select predefined feedback style from the list."
-msgstr ""
+msgstr "Selectaţi stilul predefinit de feedback din listă."
 
 msgid "Select shared stimulus"
-msgstr ""
+msgstr "Selectaţi stimulul partajat"
 
 msgid "Select the area to add an image"
-msgstr ""
+msgstr "Selectați zona pentru a adăuga o imagine"
 
 msgid "Select the expected input value type that will define the way the response of your interaction will be processed."
-msgstr ""
+msgstr "Selectați tipul de valoare de intrare așteptat care va defini modul în care va fi procesat răspunsul interacțiunii dvs."
 
 msgid "Select the outcome variable you want to display."
-msgstr ""
+msgstr "Selectați variabila de rezultat pe care doriți să o afișați."
 
 msgid "Select the way the response of your interaction should be processed"
-msgstr ""
+msgstr "Selectaţi modul în care trebuie procesat răspunsul interacţiunii dumneavoastră"
 
 msgid "Select this area"
-msgstr ""
+msgstr "Selectează această zonă"
 
 msgid "Select this area to finish an association"
-msgstr ""
+msgstr "Selectați această zonă pentru a termina o asociere"
 
 msgid "Select this area to start an association"
-msgstr ""
+msgstr "Selectați această zonă pentru a începe o asociere"
 
 msgid "Sequential"
-msgstr ""
+msgstr "Secvenţial"
 
 msgid "Set a CSS class name in order to customize the display style."
-msgstr ""
+msgstr "Setați un nume de clasă CSS pentru a personaliza stilul de afișare."
 
 msgid "Set the media player UI to Compact mode, displaying only the play button icon, hiding all other controls such as volume, seek bar."
-msgstr ""
+msgstr "Setați interfața playerului media în modul compact, afișând numai pictograma butonului de redare, ascunzând toate celelalte controale, cum ar fi volumul, caută bar."
 
 msgid "Set the score for this response"
-msgstr ""
+msgstr "Setaţi scorul pentru acest răspuns"
 
 msgid "Shape position"
-msgstr ""
+msgstr "Poziție de formă"
 
 msgid "Shuffle choices"
-msgstr ""
+msgstr "Amestecare opțiuni"
 
 msgid "Similar"
-msgstr ""
+msgstr "Similare"
 
 msgid "Sine"
-msgstr ""
+msgstr "Sâmbătă"
 
 msgid "Single choice"
-msgstr ""
+msgstr "Alegere unică"
 
 msgid "Sinus"
-msgstr ""
+msgstr "Sinus"
 
 msgid "Size and position"
-msgstr ""
+msgstr "Dimensiune și poziție"
 
 msgid "Slider"
-msgstr ""
+msgstr "Slider"
 
 msgid "Slider Interaction"
-msgstr ""
+msgstr "Interacțiune glisor"
 
 msgid "Some feedback text."
-msgstr ""
+msgstr "Un text de feedback."
 
 msgid "some text ..."
-msgstr ""
+msgstr "un text ..."
 
 msgid "Something went wrong while destroying an interaction: %s"
-msgstr ""
+msgstr "Ceva nu a mers bine în timpul distrugerii unei interacțiuni: %s"
 
 msgid "Sort from source to target list"
-msgstr ""
+msgstr "Sortează de la sursă la lista ţintă"
 
 msgid "sort from source to target list"
-msgstr ""
+msgstr "sortează de la sursă la lista țintă"
 
 msgid "Square root"
-msgstr ""
+msgstr "Rădăcină pătrată"
 
 msgid "standard"
-msgstr ""
+msgstr "standard"
 
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 msgid "Step"
-msgstr ""
+msgstr "Pas"
 
 msgid "string"
-msgstr ""
+msgstr "şir"
 
 msgid "Style Editor"
-msgstr ""
+msgstr "Editor de stil"
 
 msgid "Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-apply."
-msgstr ""
+msgstr "Stilul <b>%s</b> a eliminat<br> Click <i>Add Style Sheet</i> pentru a fi reaplicat."
 
 msgid "Style Sheet Manager"
-msgstr ""
+msgstr "Manager placă de stil"
 
 msgid "Success"
-msgstr ""
+msgstr "Succes"
 
 msgid "Successfully compiled \"%s"
-msgstr ""
+msgstr "Compilat cu succes \"%s"
 
 msgid "Successfully created item \"%s"
-msgstr ""
+msgstr "Element creat cu succes \"%s"
 
 msgid "Switches the interaction's direction of writing between horizontal and vertical."
-msgstr ""
+msgstr "Comută direcţia de scriere a interacţiunii între orizontală şi verticală."
 
 msgid "Switches the text block's direction of writing between horizontal and vertical."
-msgstr ""
+msgstr "Comută direcția de scriere a blocului de text între orizontal și vertical."
 
 msgid "Switches the whole item's direction of writing between horizontal and vertical."
-msgstr ""
+msgstr "Comută direcţia de scriere a întregului element între orizontală şi verticală."
 
 msgid "Table headings"
-msgstr ""
+msgstr "Titlurile tabelului"
 
 msgid "Tangent"
-msgstr ""
+msgstr "Tangent"
 
 msgid "TAO default styles"
-msgstr ""
+msgstr "TAO default styles"
 
 msgid "Target class is missing the following metadata properties: %s"
-msgstr ""
+msgstr "Clasa țintă nu are următoarele proprietăți de metadate: %s"
 
 msgid "Target Class Lookup for resource \"%s\"..."
-msgstr ""
+msgstr "Clasa țintă Căutare pentru resurse\"%s\"..."
 
 msgid "Text Block"
-msgstr ""
+msgstr "Bloc text"
 
 msgid "Text Block CSS Class"
-msgstr ""
+msgstr "Clasa CSS pentru bloc text"
 
 msgid "Text Block Properties"
-msgstr ""
+msgstr "Proprietăți bloc text"
 
 msgid "Text color"
-msgstr ""
+msgstr "Culoare text"
 
 msgid "Text Entry"
-msgstr ""
+msgstr "Intrare Text"
 
 msgid "Text Entry Interaction"
-msgstr ""
+msgstr "Interacțiune de intrare text"
 
 msgid "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."
-msgstr ""
+msgstr "Atributul autostart determină dacă obiectul media ar trebui să înceapă de îndată ce candidatul începe încercarea (verificat) sau dacă obiectul media ar trebui să fie pornit sub controlul candidatului (nebifat)."
 
 msgid "The button label."
-msgstr ""
+msgstr "Eticheta butonului."
 
 msgid "The default value from the target set to be used when no explicit mapping for a source value is given."
-msgstr ""
+msgstr "Valoarea implicită din setul țintă pentru a fi utilizat atunci când nu este dată nicio cartografiere explicită pentru o valoare sursă."
 
 msgid "The delimiter to use between values when displaying variables of ordered, multiple or record cardinality. \";\" is default when delimiter is not declared. Implementations can override this default with personal preferences or locale settings."
-msgstr ""
+msgstr "Delimitatorul de folosit între valori la afişarea variabilelor de cardinalitate comandate, multiple sau înregistrate. \";\" este implicit atunci când delimitatorul nu este declarat. Implementările pot suprascrie această opțiune cu preferințe personale sau setări de localizare."
 
 msgid "The field specifier to use when displaying variables of record cardinality."
-msgstr ""
+msgstr "Specifier câmp de folosit la afișarea variabilelor cardinalității înregistrării."
 
 msgid "The file path to the image."
-msgstr ""
+msgstr "Calea fişierului către imagine."
 
 msgid "The file path to the object."
-msgstr ""
+msgstr "Calea fişierului către obiect."
 
 msgid "The file path to the shared stimulus."
-msgstr ""
+msgstr "Calea fișierului către stimulentul comun."
 
 msgid "The format conversion specifier to use when converting numerical values to strings. See QTI Number Formatting Rules for details."
-msgstr ""
+msgstr "Specificatorul formatului de conversie folosit la conversia valorilor numerice în șiruri. Vezi QTI Number Formatting Rules pentru detalii."
 
 msgid "The given target is not an instance of core_kernel_classes_Resource"
-msgstr ""
+msgstr "Ținta dată nu este o instanță de core_kernel_classes_Resource"
 
 msgid "The highlighted choice cannot be associated more than %d time(s)."
-msgstr ""
+msgstr "Alegerea evidențiată nu poate fi asociată mai mult de %d ori."
 
 msgid "The identifier of the choice. This identifier must not be used by any other choice or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
+msgstr "Identificatorul ales. Acest identificator nu trebuie folosit de nici o altă alegere sau variabilă de element. Un identificator este un șir de caractere care trebuie să înceapă cu o scrisoare sau o subliniere (\"_\") și să conțină doar litere, sublinieri, cratime (\"-\"), perioadă (\". , a.k.a. punct de oprire completă), cifre, combinații Chars și extensii."
 
 msgid "The identifier of the choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
+msgstr "Identificatorul ales. Acest identificator nu trebuie să fie folosit de nici un alt răspuns sau de nici o variabilă de element. Un identificator este un șir de caractere care trebuie să înceapă cu o scrisoare sau o subliniere (\"_\") și să conțină doar litere, sublinieri, cratime (\"-\"), perioadă (\". , a.k.a. punct de oprire completă), cifre, combinații Chars și extensii."
 
 msgid "The identifier of the modal feedback. This identifier must not be used by any other modal feedback or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
+msgstr "Identificatorul feedback-ului modal. Acest identificator nu trebuie să fie folosit de niciun alt feedback modal sau de nicio variabilă a elementului. Un identificator este un șir de caractere care trebuie să înceapă cu o scrisoare sau o subliniere (\"_\") și să conțină doar litere, sublinieri, cratime (\"-\"), perioadă (\". , a.k.a. punct de oprire completă), cifre, combinații Chars și extensii."
 
 msgid "The identifier of the response identifier. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr ""
+msgstr "Identificatorul identificatorului de răspuns. Acest identificator nu trebuie să fie folosit de nici un alt răspuns sau variabila elementului. Un identificator este un șir de caractere care trebuie să înceapă cu o scrisoare sau o subliniere (\"_\") și să conțină doar litere, sublinieri, cratime (\"-\"), perioadă (\". , a.k.a. punct de oprire completă), cifre, combinații Chars și extensii."
 
 msgid "The IMS QTI Item could not be imported."
-msgstr ""
+msgstr "Elementul IMS QTI nu a putut fi importat."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
-msgstr ""
+msgstr "Elementul IMS QTI menționat ca \"%s\" în fișierul IMS Manifest a eșuat:  %s"
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
-msgstr ""
+msgstr "Elementul IMS QTI menționat ca \"%s\" în fișierul IMS Manifest are definiții incorecte de Procesare a Răspunsului și de Declarație de Rezultat."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
-msgstr ""
+msgstr "Elementul IMS QTI referit ca \"%s\" în fişierul IMS Manifest ar fi trebuit să fie găsit Item Bank. Elementul nu a fost găsit. (Automatic Translation)"
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
-msgstr ""
+msgstr "Elementul IMS QTI referit ca \"%s\" în fişierul IMS Manifest a fost deja stocat în Banca Elementelor."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
-msgstr ""
+msgstr "Elementul IMS QTI referit ca \"%s\" în fişierul IMS Manifest a fost importat cu succes."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
-msgstr ""
+msgstr "Elementul IMS QTI referit ca \"%s\" în fişierul IMS Manifest a fost suprascris cu succes."
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
-msgstr ""
+msgstr "Elementul IMS QTI referit ca \"%s\" în Manifestul IMS a fost rulat cu succes înapoi."
 
 msgid "The IMS QTI Item was successfully imported."
-msgstr ""
+msgstr "Elementul IMS QTI a fost importat cu succes."
 
 msgid "The index to use when displaying a variable of ordered cardinality. If a variable of ordered cardinality is to be displayed and index is not set, all the values in the container are displayed."
-msgstr ""
+msgstr "Indexul de folosit la afișarea unei variabile de cardinalitate comandată. Dacă o variabilă de cardinalitate comandată este afișată și indexul nu este setat, toate valorile din container sunt afișate."
 
 msgid "The item cannot be saved because it contains an unsupported custom interaction."
-msgstr ""
+msgstr "Elementul nu poate fi salvat deoarece conține o interacțiune personalizată nesuportată."
 
 msgid "The item has not been saved!"
-msgstr ""
+msgstr "Articolul nu a fost salvat!"
 
 msgid "The item has unsaved changes, are you sure you want to leave ?"
-msgstr ""
+msgstr "Elementul are modificări nesalvate, sunteți sigur că doriți să ieșiți?"
 
 msgid "The item has unsaved changes, would you like to save it ?"
-msgstr ""
+msgstr "Elementul are modificări nesalvate, doriţi să îl salvaţi?"
 
 msgid "The item needs to be saved before it can be previewed"
-msgstr ""
+msgstr "Produsul trebuie salvat înainte de a putea fi previzualizat"
 
 msgid "The item of the qti item. It is currently used as a meta data only. It is required by the QTI standard."
-msgstr ""
+msgstr "Elementul elementului qti. În prezent este folosit doar ca meta. Este cerut de standardul QTI."
 
 msgid "The left position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
+msgstr "Poziția din stânga a formei comparativ cu colțul din stânga sus al fundalului în pixeli. Această valoare poate fi scalată atunci când dimensiunea imaginii de fundal este adaptată la containerul"
 
 msgid "The loop attribute is used to set continuous play mode. In continuous play mode, once the media object has started to play it should play continuously (subject to maxPlays)."
-msgstr ""
+msgstr "Atributul buclei este folosit pentru a seta modul de joc continuu. În modul de redare continuă, odată ce obiectul media a început să îl redea ar trebui să fie redat continuu (în funcție de maxPlays)."
 
 msgid "The lower bound of the slider"
-msgstr ""
+msgstr "Marginea inferioară a cursorului"
 
 msgid "The manifest argument must be an instance of DOMDocument."
-msgstr ""
+msgstr "Argumentul manifest trebuie să fie un exemplu de DOMDocument."
 
 msgid "The mapping indicator to use between field name and field value when displaying variables of record cardinality. \"=\" is default when mappingIndicator is not declared. Implementations can override this default with personal preferences or locale settings."
-msgstr ""
+msgstr "Indicatorul de cartografiere pentru a utiliza între numele câmpului și valoarea câmpului la afișarea variabilelor de cardinalitate a înregistrării. \"=\" este implicit atunci când mappingIndicatorul nu este declarat. Implementările pot suprascrie această opțiune cu preferințe personale sau setări locale."
 
 msgid "The mapping options are available when at least one map entry is defined."
-msgstr ""
+msgstr "Opțiunile de cartografiere sunt disponibile atunci când cel puțin o intrare de hartă este definită."
 
 msgid "The maximum number of association is unlimited."
-msgstr ""
+msgstr "Numărul maxim de asocieri este nelimitat."
 
 msgid "The maximum number of associations that the candidate is allowed to make."
-msgstr ""
+msgstr "Numărul maxim de asociații pe care candidatul poate să le facă."
 
 msgid "The maximum number of choices that the candidate is allowed to select."
-msgstr ""
+msgstr "Numărul maxim de opțiuni pe care candidatul poate să le selecteze."
 
 msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr ""
+msgstr "Numărul maxim de opțiuni pe care candidatul trebuie să le aleagă pentru a forma un răspuns valabil."
 
 msgid "The maximum number of choices this choice may be associated with."
-msgstr ""
+msgstr "Numărul maxim de alegeri cu care se poate asocia această alegere."
 
 msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
-msgstr ""
+msgstr "Numărul maxim de opțiuni cu care poate fi asociată această opțiune. Dacă potrivirea Max este 0, nu există restricție."
 
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
-msgstr ""
+msgstr "Atributul maxPlayays indică faptul că obiectul media poate fi redat cel mult maxPlays de ori - nu trebuie să fie posibil ca candidatul să joace obiectul media mai mult de maxPlay ori. O valoare de 0 (implicit) indică faptul că nu există nicio limită."
 
 msgid "The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score."
-msgstr ""
+msgstr "MAXSCORE al acestui element este eliminat deoarece setările curente de interacţiune permit o valoare infinită a scorului."
 
 msgid "The MIME-type attribute describes which kind of file may be uploaded."
-msgstr ""
+msgstr "Atributul de tip MIME descrie ce fel de fișier poate fi încărcat."
 
 msgid "The minimum number of answers is "
-msgstr ""
+msgstr "Numărul minim de răspunsuri este "
 
 msgid "The minimum number of associations that the candidate is required to make to form a valid response."
-msgstr ""
+msgstr "Numărul minim de asociații pe care candidatul trebuie să le facă pentru a forma un răspuns valabil."
 
 msgid "The minimum number of choices that the candidate is required to select to form a valid response."
-msgstr ""
+msgstr "Numărul minim de opțiuni pe care candidatul trebuie să le aleagă pentru a forma un răspuns valabil."
 
 msgid "The minimum number of choices this choice must be associated with to form a valid response."
-msgstr ""
+msgstr "Numărul minim de alegeri pe care această alegere trebuie să le aibă pentru a forma un răspuns valabil."
 
 msgid "The number base to use when converting integer variables to strings with the i conversion type code."
-msgstr ""
+msgstr "Baza numerelor de folosit la conversia variabilelor întregi în șiruri cu codul de i conversie."
 
 msgid "The number of units corresponding to a step on the slider"
-msgstr ""
+msgstr "Numărul de unităţi corespunzător unui pas pe cursor"
 
 msgid "The path argument for extractor must be a non-empty array."
-msgstr ""
+msgstr "Argumentul de cale pentru extractor trebuie să fie o matrice negoală."
 
 msgid "The principle identifier of the item. This identifier must have a corresponding entry in the item's metadata."
-msgstr ""
+msgstr "Identificatorul de principiu al elementului. Acest identificator trebuie să aibă o intrare corespunzătoare în metadatele elementului."
 
 msgid "The purpose for which the rubric is intended to be used. As a reading passage for multiple items, or instructions for a particular section, for example."
-msgstr ""
+msgstr "Scopul pentru care se intenţionează utilizarea molozului. Ca pasaj de citire pentru mai multe elemente sau instrucțiuni pentru o anumită secțiune, de exemplu."
 
 msgid "The QTI class \"%1$s\" located at line \"%2$d\" is currently not supported."
-msgstr ""
+msgstr "Clasa QTI \"%1$s\" localizată la linia \"%2$d\" nu este acceptată în prezent."
 
 msgid "The Response Processing Template \"%s\" is not supported."
-msgstr ""
+msgstr "Șablonul de Prelucrare de Răspuns \"%snu este suportat."
 
 msgid "The score format is not numeric"
-msgstr ""
+msgstr "Formatul punctajului nu este numeric"
 
 msgid "The scrollable multi-column layout configuration is optimized for items with a single row of content only. Both columns will scroll independently and fit the available page height."
-msgstr ""
+msgstr "Configurarea aspectului multi-coloane derulabile este optimizată pentru elementele cu doar un singur rând de conținut. Ambele coloane vor derula independent şi se vor potrivi înălţimii disponibile a paginii."
 
 msgid "The selected file is ready to be sent."
-msgstr ""
+msgstr "Fişierul selectat este gata pentru a fi trimis."
 
 msgid "The shape height in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
+msgstr "Înălțimea formei în pixeli. Această valoare poate fi scalată atunci când dimensiunea imaginii de fundal este adaptată la container"
 
 msgid "The shape width in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
+msgstr "Lățimea formei în pixeli. Această valoare poate fi scalată atunci când dimensiunea imaginii de fundal este adaptată la container"
 
 msgid "The target must be an instance of DOMDocument"
-msgstr ""
+msgstr "Obiectivul trebuie să fie un exemplu de DOMDocument"
 
 msgid "The text to be displayed below the image."
-msgstr ""
+msgstr "Textul care va fi afișat sub imagine."
 
 msgid "The text to be displayed if the image is not available."
-msgstr ""
+msgstr "Textul care va fi afișat în cazul în care imaginea nu este disponibilă."
 
 msgid "The top position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr ""
+msgstr "Poziția de sus a formei în raport cu colțul din stânga sus al fundalului în pixeli. Această valoare poate fi scalată atunci când dimensiunea imaginii de fundal este adaptată la containerul"
 
 msgid "The upper bound of the slider"
-msgstr ""
+msgstr "Marginea superioară a cursorului"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-msgstr ""
+msgstr "Validarea elementului importat QTI a eșuat. Sistemul a returnat următoarea eroare:%s\n"
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
-msgstr ""
+msgstr "Arhiva ZIP care conţine elementul IMS QTI nu poate fi extrasă."
 
 msgid "The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive."
-msgstr ""
+msgstr "Arhiva ZIP nu conține un fișier imsmanifest.xml sau este o arhivă ZIP invalidă."
 
 msgid "There are errors in the following shared stimulus : "
-msgstr ""
+msgstr "Există erori în următorul stimul comun: "
 
 msgid "There is an incomplete element in your item: please click on it to complete it."
-msgstr ""
+msgstr "Există un element incomplet în articolul tău: te rugăm să faci clic pe el pentru a-l completa."
 
 msgid "There was a problem downloading your CSS, please try again."
-msgstr ""
+msgstr "A apărut o eroare la descărcarea CSS-ului, te rugăm să încerci din nou."
 
 msgid "Theta"
-msgstr ""
+msgstr "Teta"
 
 msgid "This identifier is already used by another variable."
-msgstr ""
+msgstr "Acest identificator este deja utilizat de o altă variabilă."
 
 msgid "This identifier must not be used by any other response or item variable."
-msgstr ""
+msgstr "Acest identificator nu trebuie folosit de niciun alt răspuns sau element variabil."
 
 msgid "This interaction has no text defined in question mode."
-msgstr ""
+msgstr "Această interacţiune nu are nici un text definit în modul întrebare."
 
 msgid "This is not a valid answer"
-msgstr ""
+msgstr "Acesta nu este un răspuns valid"
 
 msgid "This is not a valid value. Expected %s"
-msgstr ""
+msgstr "Aceasta nu este o valoare validă. Se așteaptă %s"
 
 msgid "This is required"
-msgstr ""
+msgstr "Acest lucru este necesar"
 
 msgid "This shows or hides the entire audio player from view. Test takers will not be able to play, pause, or change the volume level."
-msgstr ""
+msgstr "Aceasta afișează sau ascunde din vizualizare întregul audio player. Testarea captatorilor nu va putea să joace, să întrerupă sau să modifice nivelul volumului."
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
-msgstr ""
+msgstr "Această stylesheet nu a fost găsit pe server. Poate doriți să ștergeți această referință"
 
 msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
-msgstr ""
+msgstr "Această valoare nu urmează ghidurile de notare. Nu va fi compatibilă cu valorile manuale TAO"
 
 msgid "Time dependent"
-msgstr ""
+msgstr "Dependență de timp"
 
 msgid "Title"
-msgstr ""
+msgstr "Titlu"
 
 msgid "to"
-msgstr ""
+msgstr "către"
 
 msgid "Toggles the display of a vertical separator between columns."
-msgstr ""
+msgstr "Activează/dezactivează afișarea unui separator vertical între coloane."
 
 msgid "Tooltip Content"
-msgstr ""
+msgstr "Conținut tip sculă"
 
 msgid "Tooltip editor"
-msgstr ""
+msgstr "Editor de instrumente"
 
 msgid "Tooltip Target"
-msgstr ""
+msgstr "Tooltip Target"
 
 msgid "Top"
-msgstr ""
+msgstr "Sus"
 
 msgid "Translation completed"
-msgstr ""
+msgstr "Traducere completă"
 
 msgid "Triangle"
-msgstr ""
+msgstr "Triunghi"
 
 msgid "Trigger the end of the item attempt."
-msgstr ""
+msgstr "Declanșează sfârșitul tentativei de element."
 
 msgid "Unable to load item from the given data."
-msgstr ""
+msgstr "Imposibil de încărcat elementul din datele date."
 
 msgid "Unable to process your request"
-msgstr ""
+msgstr "Solicitarea dvs. nu poate fi procesată"
 
 msgid "Unable to retrieve asset \"%s"
-msgstr ""
+msgstr "Imposibil de regăsit activul \"%s"
 
 msgid "Unable to retrieve item : "
-msgstr ""
+msgstr "Imposibil de recuperat elementul : "
 
 msgid "Unable to retrieve item : \"%s"
-msgstr ""
+msgstr "Imposibil de regăsit elementul : \"%s"
 
 msgid "Unable to validate %s: %s"
-msgstr ""
+msgstr "Imposibil de validat %s: %s"
 
 msgid "Undo"
-msgstr ""
+msgstr "Anulează"
 
 msgid "undo"
-msgstr ""
+msgstr "anulare"
 
 msgid "Unknown $key to register MetadataService instance"
-msgstr ""
+msgstr "$key necunoscut pentru a înregistra instanța MetadataService"
 
 msgid "Unregister method expects $key and $name parameters."
-msgstr ""
+msgstr "Metoda de neînregistrare se așteaptă la parametrii $key și $name."
 
 msgid "Upload a file (e.g. document, picture...) as a response."
-msgstr ""
+msgstr "Încărcați un fișier (de ex. document, imagine...) ca răspuns."
 
 msgid "Upper Bound"
-msgstr ""
+msgstr "Jambiere superioare"
 
 msgid "Use this if you want the list of choices to be prefixed (e.g. 1,2,3 a,b,c)"
-msgstr ""
+msgstr "Utilizați acest lucru dacă doriți ca lista de opțiuni să fie prestabilită (de ex. 1,2,3 a,b,c)"
 
 msgid "Used to control the format of the text entered by the candidate."
-msgstr ""
+msgstr "Folosit pentru a controla formatul textului introdus de candidat."
 
 msgid "Value"
-msgstr ""
+msgstr "Valoare"
 
 msgid "Vector"
-msgstr ""
+msgstr "Vector"
 
 msgid "Vertical"
-msgstr ""
+msgstr "Verticală"
 
 msgid "Vertical text"
-msgstr ""
+msgstr "Text vertical"
 
 msgid "warning"
-msgstr ""
+msgstr "avertizare"
 
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
-msgstr ""
+msgstr "Vom utiliza modelul pentru a face acest lucru, pentru a respecta standardul IMS"
 
 msgid "Width"
-msgstr ""
+msgstr "Width"
 
 msgid "words"
-msgstr ""
+msgstr "cuvinte"
 
 msgid "Would you like to replace the alt text"
-msgstr ""
+msgstr "Doriţi să înlocuiţi textul de la alt produs"
 
 msgid "WYSIWYG editor"
-msgstr ""
+msgstr "WYSIWYG editor"
 
 msgid "XML error \"%1$s\"."
-msgstr ""
+msgstr "Eroare XML \"%1$s\"."
 
 msgid "XML error at line %1$d \"%2$s\"."
-msgstr ""
+msgstr "Eroare XML la linia %1$d \"%2$s\"."
 
 msgid "Yes"
-msgstr ""
+msgstr "Da"
 
 msgid "You can select maximum %d choice"
-msgstr ""
+msgstr "Puteţi selecta selecţia maximă %d"
 
 msgid "You can select maximum %d choices"
-msgstr ""
+msgstr "Poți selecta maximum de opțiuni %d"
 
 msgid "You can select up to %s choices."
-msgstr ""
+msgstr "Puteți selecta până la opțiunile %s."
 
 msgid "You can use maximum %d choices"
-msgstr ""
+msgstr "Poți folosi opțiunile %d maxime"
 
 msgid "You have deleted"
-msgstr ""
+msgstr "Ați șters"
 
 msgid "You have deleted an element"
-msgstr ""
+msgstr "Ați șters un element"
 
 msgid "You have deleted an element."
-msgstr ""
+msgstr "Ați șters un element."
 
 msgid "You may make as many association pairs as you want."
-msgstr ""
+msgstr "Poți face atâtea perechi de asociații cât vrei."
 
 msgid "You must select %1$d to %2$d choices."
-msgstr ""
+msgstr "Trebuie să selectaţi %1$d la %2$d alegeri."
 
 msgid "You must select 0 to %d choices."
-msgstr ""
+msgstr "Trebuie să selectaţi 0 la %d alegeri."
 
 msgid "You must select at least %d choice"
-msgstr ""
+msgstr "Trebuie să selectaţi cel puţin o alegere %d"
 
 msgid "You must select at least %d choices"
-msgstr ""
+msgstr "Trebuie să selectați cel puțin opțiunile %d"
 
 msgid "You must select exactly %d choice"
-msgstr ""
+msgstr "Trebuie să selectaţi exact %d alegere"
 
 msgid "You must select exactly %d choice(s)."
-msgstr ""
+msgstr "Trebuie să selectaţi exact %d choice(s)."
 
 msgid "You must select exactly %d choices"
-msgstr ""
+msgstr "Trebuie să selectaţi exact %d opţiuni"
 
 msgid "You must use at least %d choices"
-msgstr ""
+msgstr "Trebuie să utilizați cel puțin opțiunile %d"
 
 msgid "You need to make"
-msgstr ""
+msgstr "Trebuie să faci"
 
 msgid "You need to select %s choices"
-msgstr ""
+msgstr "Trebuie să selectați opțiunile %s"
 
 msgid "You need to select at least %s choices."
-msgstr ""
+msgstr "Trebuie să selectaţi cel puţin %s alegeri."
 
 msgid "You need to select at least 1 choice."
-msgstr ""
+msgstr "Trebuie să selectaţi cel puţin o alegere."
 
 msgid "You need to select from %s to %s choices."
-msgstr ""
+msgstr "Trebuie să selectați din opțiunile %s la %s."
 
 msgid "Your item has been saved"
-msgstr ""
+msgstr "Articolul tău a fost salvat"
 
