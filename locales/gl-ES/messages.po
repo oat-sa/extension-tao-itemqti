@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-03 18:40\n"
+"PO-Revision-Date: 2026-02-04 15:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: gl\n"
@@ -350,6 +350,12 @@ msgstr ""
 msgid "Class successfully created."
 msgstr ""
 
+msgid "Classic"
+msgstr "Clásico"
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr "O editor clásico parécese a un editor web; o editor de documentos parécese a un procesador de textos. Ademais do aspecto, comparten as mesmas características."
+
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr ""
 
@@ -542,6 +548,9 @@ msgstr ""
 msgid "Divide"
 msgstr ""
 
+msgid "Document"
+msgstr "Documento"
+
 msgid "Don't save"
 msgstr ""
 
@@ -604,6 +613,9 @@ msgstr ""
 
 msgid "Editing Mode"
 msgstr ""
+
+msgid "Editor type"
+msgstr "Tipo de editor"
 
 msgid "Element Properties"
 msgstr ""
@@ -832,6 +844,9 @@ msgstr ""
 
 msgid "identifier already taken"
 msgstr ""
+
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr "Os identificadores deben comezar por unha letra ou un guión baixo e conter só letras, números, puntos, guións baixos (_) ou guións (-)."
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
 msgstr "Se está marcada, a barra de ferramentas do editor estará limitada a unha fila e aparecerán máis elementos nun menú despregable."
