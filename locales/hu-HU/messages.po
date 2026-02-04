@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-03 18:40\n"
+"PO-Revision-Date: 2026-02-04 15:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: hu\n"
@@ -350,6 +350,12 @@ msgstr "Osztálykeresés sikeres. A(z) „%s” erőforrás az „%s” RDFS osz
 msgid "Class successfully created."
 msgstr "Az osztály sikeresen létrehozva."
 
+msgid "Classic"
+msgstr "Klasszikus"
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr "A klasszikus szerkesztő úgy néz ki, mint egy webszerkesztő; a dokumentumszerkesztő pedig úgy néz ki, mint egy szövegszerkesztő. A megjelenésen kívül ugyanazok a funkciók vannak bennük."
+
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr "Az osztályozási bejegyzéseknek a ClassificationEntryMetadataValue példányainak kell lenniük."
 
@@ -542,6 +548,9 @@ msgstr "A választási lehetőségek megjelenítése vízszintesen vagy függől
 msgid "Divide"
 msgstr "Osztás"
 
+msgid "Document"
+msgstr "Dokumentum"
+
 msgid "Don't save"
 msgstr "Ne mentse el"
 
@@ -604,6 +613,9 @@ msgstr "Stíluslap címkéjének szerkesztése"
 
 msgid "Editing Mode"
 msgstr "Szerkesztési mód"
+
+msgid "Editor type"
+msgstr "Szerkesztő típusa"
 
 msgid "Element Properties"
 msgstr "Elem tulajdonságai"
@@ -832,6 +844,9 @@ msgstr "Azonosító"
 
 msgid "identifier already taken"
 msgstr "azonosító már foglalt"
+
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr "Az azonosítóknak betűvel vagy aláhúzásjellel kell kezdődniük, és csak betűket, számokat, pontokat, aláhúzásjeleket (_) vagy kötőjeleket (-) tartalmazhatnak."
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
 msgstr "Ha be van jelölve, a szerkesztő eszköztár egyetlen sorra lesz korlátozva, és további elemek jelennek meg egy legördülő menüben."
