@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-03 18:40\n"
+"PO-Revision-Date: 2026-02-04 15:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nb_NO\n"
@@ -350,6 +350,12 @@ msgstr ""
 msgid "Class successfully created."
 msgstr "Mappen ble opprettet."
 
+msgid "Classic"
+msgstr "Klassisk"
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr "Klassisk editor ser ut som en webeditor. Redigeringsprogrammet ser ut som en ordprosessor. Annet enn hvordan de deler de samme funksjonene."
+
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr "Klassifiseringsoppføringer må være en forekomst av ClassificationEntryMetadataValue"
 
@@ -542,6 +548,9 @@ msgstr "Vis valgene enten horisontalt eller vertikalt"
 msgid "Divide"
 msgstr "Dele opp"
 
+msgid "Document"
+msgstr "Dokument"
+
 msgid "Don't save"
 msgstr "Ikke lagre"
 
@@ -604,6 +613,9 @@ msgstr "Rediger stilarktittel"
 
 msgid "Editing Mode"
 msgstr "Redigeringsmodus"
+
+msgid "Editor type"
+msgstr "Redaktør type"
 
 msgid "Element Properties"
 msgstr "Elementegenskaper"
@@ -832,6 +844,9 @@ msgstr "Identifikator"
 
 msgid "identifier already taken"
 msgstr "identifikator er allerede brukt"
+
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr "Identifikatorer må begynne med en bokstav eller et understrekingstegn og inneholde bare bokstaver, tall, tall, understrekingstegn ( _ ), eller bindestrek ( - )."
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
 msgstr "Dersom avkrysset, vil verktøylinjen være begrenset til en rad og ytterligere elementer vises i en nedtrekksmeny."
