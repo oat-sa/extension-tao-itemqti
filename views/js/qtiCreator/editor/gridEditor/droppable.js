@@ -538,10 +538,10 @@ define([
         }
 
         const $textBlockWrappers = $parent.children('.custom-text-box');
-        const isGoingToWrappedTextBlock = $parent.children().length === 2 && $textBlockWrappers.length === 1;
+        const isGoingToWrappedTextBlock = isGoingToTextBlock && $parent.children().length === 2 && $textBlockWrappers.length === 1;
         const $appendTo = _getNewParagraph();
 
-        if (isGoingToTextBlock && isGoingToWrappedTextBlock) {
+        if (isGoingToWrappedTextBlock) {
             $textBlockWrappers.first().append($appendTo);
         } else {
             $parent.append($appendTo);
