@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-03 18:40\n"
+"PO-Revision-Date: 2026-02-04 15:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt\n"
@@ -350,6 +350,12 @@ msgstr ""
 msgid "Class successfully created."
 msgstr "Klasė sėkmingai sukurta."
 
+msgid "Classic"
+msgstr ""
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr ""
+
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr "Klasifikavimo įrašai privalo būti ClassificationEntryMetadataValue instancija"
 
@@ -542,6 +548,9 @@ msgstr "Rodyti variantus horizontaliai arba vertikaliai"
 msgid "Divide"
 msgstr "Dalinti"
 
+msgid "Document"
+msgstr ""
+
 msgid "Don't save"
 msgstr ""
 
@@ -604,6 +613,9 @@ msgstr "Keisti stiliaus failo pavadinimą"
 
 msgid "Editing Mode"
 msgstr "Redagavimo Režimas"
+
+msgid "Editor type"
+msgstr ""
 
 msgid "Element Properties"
 msgstr "Elemento Savybės"
@@ -832,6 +844,9 @@ msgstr "Identifikatorius"
 
 msgid "identifier already taken"
 msgstr "identifikatorius jau užimtas"
+
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr ""
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
 msgstr ""
