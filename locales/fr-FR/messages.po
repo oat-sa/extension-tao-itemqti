@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-03 18:39\n"
+"PO-Revision-Date: 2026-02-04 15:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr\n"
@@ -350,6 +350,12 @@ msgstr "Recherche de classe réussie. La ressource «%s» sera stockée dans la 
 msgid "Class successfully created."
 msgstr "Classe créée avec succès."
 
+msgid "Classic"
+msgstr "Classique"
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr "L'éditeur classique ressemble à un éditeur web ; l'éditeur de documents ressemble à un traitement de texte. En dehors de l'apparence, ils partagent les mêmes fonctionnalités."
+
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr "Les entrées de classification doivent être une instance de ClassificationEntryMetadataValue"
 
@@ -542,6 +548,9 @@ msgstr "Afficher les choix horizontalement ou verticalement"
 msgid "Divide"
 msgstr "Diviser"
 
+msgid "Document"
+msgstr "Document"
+
 msgid "Don't save"
 msgstr "Ne pas sauvegarder"
 
@@ -604,6 +613,9 @@ msgstr "Éditer l'étiquette de la feuille de style"
 
 msgid "Editing Mode"
 msgstr "Mode d'édition"
+
+msgid "Editor type"
+msgstr "Type d'éditeur"
 
 msgid "Element Properties"
 msgstr "Propriétés de l'élément"
@@ -832,6 +844,9 @@ msgstr "Identifiant"
 
 msgid "identifier already taken"
 msgstr "identifiant déjà pris"
+
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr "Les identifiants doivent commencer par une lettre ou un tiret bas et ne contenir que des lettres, des chiffres, des points, des tirets bas ( _ ), ou des tirets bas ( - )."
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
 msgstr "Si coché, la barre d'outils de l'éditeur sera limitée à une ligne et d'autres éléments apparaîtront dans un menu déroulant."
