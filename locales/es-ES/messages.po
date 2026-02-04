@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-03 18:39\n"
+"PO-Revision-Date: 2026-02-04 15:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es\n"
@@ -350,6 +350,12 @@ msgstr "Búsqueda de clases exitosa. El recurso \"%s\" se almacenará en la clas
 msgid "Class successfully created."
 msgstr "Clase creada correctamente."
 
+msgid "Classic"
+msgstr "Clásico"
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr "El editor clásico parece un editor web; el editor de documentos parece un procesador de textos. Aparte de la apariencia comparten las mismas características."
+
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr "Las entradas de clasificación deben ser una instancia de ClassificationEntryMetadataValue"
 
@@ -542,6 +548,9 @@ msgstr "Mostrar las opciones tanto horizontal como verticalmente"
 msgid "Divide"
 msgstr "Dividir"
 
+msgid "Document"
+msgstr "Documento"
+
 msgid "Don't save"
 msgstr "No guardar"
 
@@ -604,6 +613,9 @@ msgstr "Editar etiqueta de hoja de estilos"
 
 msgid "Editing Mode"
 msgstr "Modo de edición"
+
+msgid "Editor type"
+msgstr "Tipo de editor"
 
 msgid "Element Properties"
 msgstr "Propiedades de Elemento"
@@ -832,6 +844,9 @@ msgstr "Identificador"
 
 msgid "identifier already taken"
 msgstr "identificador ya tomado"
+
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr "Los identificadores deben comenzar con una letra o un guión bajo y contener sólo letras, números, puntos, guiones bajos ( _ ) o guiones ( - )."
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
 msgstr "Si está marcado, la barra de herramientas del editor se limitará a una fila y otros elementos aparecerán en un menú desplegable."
