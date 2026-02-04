@@ -350,6 +350,12 @@ msgstr ""
 msgid "Class successfully created."
 msgstr ""
 
+msgid "Classic"
+msgstr ""
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr ""
+
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr ""
 
@@ -542,6 +548,9 @@ msgstr ""
 msgid "Divide"
 msgstr ""
 
+msgid "Document"
+msgstr ""
+
 msgid "Don't save"
 msgstr ""
 
@@ -603,6 +612,9 @@ msgid "Edit stylesheet label"
 msgstr ""
 
 msgid "Editing Mode"
+msgstr ""
+
+msgid "Editor type"
 msgstr ""
 
 msgid "Element Properties"
@@ -831,6 +843,9 @@ msgid "Identifier"
 msgstr ""
 
 msgid "identifier already taken"
+msgstr ""
+
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
 msgstr ""
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
