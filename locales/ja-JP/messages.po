@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-03 18:40\n"
+"PO-Revision-Date: 2026-02-04 15:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -350,6 +350,12 @@ msgstr "Class Lookup は完了しました。 リソース \"%s\" はRDFSクラ�
 msgid "Class successfully created."
 msgstr "クラスが作成されました。"
 
+msgid "Classic"
+msgstr "クラシック"
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr "クラシックエディタはウェブエディタのように見えます。ドキュメントエディタはワープロのように見えますが、見た目以外は同じ機能を持っています。"
+
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr "分類エントリーは，ClassificationEntryMetadataValueのインスタンスでなければなりません。"
 
@@ -542,6 +548,9 @@ msgstr "選択肢を水平または垂直に並べる"
 msgid "Divide"
 msgstr "分割"
 
+msgid "Document"
+msgstr "ドキュメント"
+
 msgid "Don't save"
 msgstr "保存しない"
 
@@ -604,6 +613,9 @@ msgstr "スタイルシートのラベル編集"
 
 msgid "Editing Mode"
 msgstr "編集モード"
+
+msgid "Editor type"
+msgstr "エディターの種類"
 
 msgid "Element Properties"
 msgstr "エレメントのプロパティ"
@@ -832,6 +844,9 @@ msgstr "識別子"
 
 msgid "identifier already taken"
 msgstr "識別子は既に使用されています"
+
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr "識別子は、文字またはアンダースコアで始まり、文字、数字、ドット、アンダースコア(_ )、またはハイフン(- )のみを含む必要があります。"
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
 msgstr "チェックされている場合、エディターツールバーは1行に制限され、さらにドロップダウンメニューに表示されます。"
