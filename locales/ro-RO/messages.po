@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-03 16:44\n"
+"PO-Revision-Date: 2026-02-04 14:44\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro\n"
@@ -350,6 +350,12 @@ msgstr "Căutarea clasei de succes. Resursele \"%s\" vor fi stocate în Clasa RD
 msgid "Class successfully created."
 msgstr "Clasa a fost creata."
 
+msgid "Classic"
+msgstr "Clasic"
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr "Editorul clasic arată ca un editor web; editorul de documente arată ca un procesor de cuvinte. În afară de aspectul că au aceleaşi caracteristici."
+
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr "Intrările de clasificare trebuie să fie o instanță de ClassificationEntryMetadataValue"
 
@@ -542,6 +548,9 @@ msgstr "Afișează opțiunile fie orizontal, fie vertical"
 msgid "Divide"
 msgstr "Împărțirea"
 
+msgid "Document"
+msgstr "Document"
+
 msgid "Don't save"
 msgstr "Nu salva"
 
@@ -604,6 +613,9 @@ msgstr "Edit stylesheet label"
 
 msgid "Editing Mode"
 msgstr "Mod editare"
+
+msgid "Editor type"
+msgstr "Tip editor"
 
 msgid "Element Properties"
 msgstr "Proprietăți element"
@@ -832,6 +844,9 @@ msgstr "Identifier"
 
 msgid "identifier already taken"
 msgstr "identificator deja luat"
+
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr "Identificatorii trebuie să înceapă cu o literă sau o linie de subliniere și să conțină doar litere, numere, puncte, sublinieri ( _ ) sau cratime ( - )."
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
 msgstr "Dacă este bifat, bara de instrumente editor va fi limitată la un rând și alte elemente vor apărea într-un meniu derulant."
