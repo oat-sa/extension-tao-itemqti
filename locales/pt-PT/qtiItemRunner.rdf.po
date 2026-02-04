@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2024-10-11 13:07\n"
+"PO-Revision-Date: 2026-02-03 18:40\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt\n"
@@ -20,12 +20,12 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAOItem.rdf#ServiceQtiItemRunner
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "QTI Item Runner"
-msgstr ""
+msgstr "Item Runner QTI"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#ServiceQtiItemRunner
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Embed a run an item into a Delivery. This service initialize the TAO Apis and contexts"
-msgstr ""
+msgstr "Incorpore um item em uma entrega. Este serviço inicializa a API de DOIS e contextos"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#ServiceQtiItemRunner
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"

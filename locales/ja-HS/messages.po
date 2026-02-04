@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2025.05 LTS\n"
-"PO-Revision-Date: 2025-07-02T13:41:43\n"
+"Project-Id-Version: TAO 2026.02 LTS\n"
+"PO-Revision-Date: 2026-02-03T14:42:51\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-HS\n"
@@ -86,9 +86,7 @@ msgid "A human interpretation of the variable's value."
 msgstr "変数値の翻訳"
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr "QTIコンポーネントはサポートされていません。システムは次のエラーを返しました: %s\n"
-""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "ルーブリックブロックは、アイテムを表示する1つ以上のアクターへの指示を表す評価アイテムののitemBodyの一部を識別します。ルーブリックブロックはsimpleBlocks要素として定義されているのでインタラクションを含めることはできません。"
@@ -193,9 +191,7 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "QTIアイテムパッケージのインポート中に予期しないエラーが発生しました。システムは次のエラーを返しました: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr "QTIアイテムパッケージのインポート中に予期しないエラーが発生しました。システムは次のエラーを返しました: %s\n"
-""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr ""
@@ -266,6 +262,9 @@ msgstr ""
 msgid "Border color"
 msgstr "枠の色"
 
+msgid "Bottom"
+msgstr ""
+
 msgid "Browse your computer and select the appropriate file."
 msgstr "コンピュータを参照し、適切なファイルを選択してください"
 
@@ -332,6 +331,9 @@ msgstr "選択肢"
 msgid "Choices"
 msgstr "選択肢"
 
+msgid "Choices position"
+msgstr ""
+
 msgid "Choose the horizontal alignment for the table."
 msgstr "テーブルの水平方向の配置を選択します"
 
@@ -356,6 +358,9 @@ msgstr "削除するには、もう一度クリックします"
 msgid "Click to display interaction widget"
 msgstr "インタラクションのウィジェットを表示します"
 
+msgid "Click to remove"
+msgstr "クリックして削除"
+
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr "短いテキスト入力（文字列または数値）でオープンエンドの情報を収集します"
 
@@ -375,6 +380,9 @@ msgid "Common Interactions"
 msgstr ""
 
 msgid "Compact Appearance"
+msgstr ""
+
+msgid "Configures the position of the choices relative to the target list."
 msgstr ""
 
 msgid "Congruent"
@@ -451,6 +459,9 @@ msgstr ""
 
 msgid "Define correct response"
 msgstr "正解を設定"
+
+msgid "Define correct response (for post-processing)"
+msgstr ""
 
 msgid "Define item language."
 msgstr "アイテム言語を定義します"
@@ -761,6 +772,9 @@ msgstr "画像並べ替え"
 msgid "Greater than or equal"
 msgstr "以上"
 
+msgid "Group toolbar items"
+msgstr ""
+
 msgid "Guard for resource \"%s\"..."
 msgstr "リソース \"％s\" のガード..."
 
@@ -811,6 +825,9 @@ msgstr "識別子"
 
 msgid "identifier already taken"
 msgstr "識別子は既に使用されています"
+
+msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
+msgstr ""
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr "設定する場合、受検者のレスポンスが有効となるような正規表現を指定します"
@@ -946,6 +963,9 @@ msgstr "この選択は正しい答えですか？"
 
 msgid "Is this pair the correct response?"
 msgstr "このペアは、正しい答えですか？"
+
+msgid "It is intended only for post-processing and will not influence the actual score computation."
+msgstr ""
 
 msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
 msgstr ""
@@ -1232,15 +1252,16 @@ msgid "one association pair"
 msgstr "１つの組み合わせ"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr "1つ以上のQTIコンポーネントがシステムでサポートされていません。システムは次のエラーを返しました：%s\n"
-""
 
 msgid "Order"
 msgstr "並び替え"
 
 msgid "Order Interaction"
 msgstr "並べ替え問題"
+
+msgid "Order single list"
+msgstr ""
 
 msgid "order single list"
 msgstr ""
@@ -1554,10 +1575,10 @@ msgstr ""
 msgid "Rich text + math"
 msgstr ""
 
-msgid "right"
+msgid "Right"
 msgstr "右"
 
-msgid "Right"
+msgid "right"
 msgstr "右"
 
 msgid "Right bracket"
@@ -1632,6 +1653,9 @@ msgstr "最初に画像を選んでください"
 msgid "select correct choice"
 msgstr "正しい選択肢を指定してください"
 
+msgid "Select height of block based off container height"
+msgstr ""
+
 msgid "Select height of passage base of container height"
 msgstr ""
 
@@ -1643,6 +1667,9 @@ msgstr ""
 
 msgid "Select image"
 msgstr "画像を選択"
+
+msgid "Select line to remove"
+msgstr "削除する線を選択"
 
 msgid "Select media file"
 msgstr "メディアファイルを選択"
@@ -1682,6 +1709,9 @@ msgstr "採点方法（インタラクションのレスポンス処理）の選
 
 msgid "Select this area"
 msgstr "この範囲を選択してください"
+
+msgid "Select this area to finish an association"
+msgstr "関連付けを終了するにはこの領域を選択"
 
 msgid "Select this area to start an association"
 msgstr "組み合わせを開始するには、この範囲を選んでください。"
@@ -1734,6 +1764,9 @@ msgstr "テキストを入力 ..."
 msgid "Something went wrong while destroying an interaction: %s"
 msgstr ""
 
+msgid "Sort from source to target list"
+msgstr ""
+
 msgid "sort from source to target list"
 msgstr ""
 
@@ -1769,6 +1802,12 @@ msgstr "\"%sのコンパイルが完了しました"
 
 msgid "Successfully created item \"%s"
 msgstr "アイテムの作成が完了しました：\"%s"
+
+msgid "Switches the interaction's direction of writing between horizontal and vertical."
+msgstr ""
+
+msgid "Switches the text block's direction of writing between horizontal and vertical."
+msgstr ""
 
 msgid "Switches the whole item's direction of writing between horizontal and vertical."
 msgstr ""
@@ -2005,9 +2044,7 @@ msgid "The upper bound of the slider"
 msgstr "スライダー最大値"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "QTIアイテムのインポートに失敗しました。エラー内容:%s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "QTIアイテムを含むZIPファイルを抽出できません"
@@ -2233,3 +2270,4 @@ msgstr ""
 
 msgid "Your item has been saved"
 msgstr "アイテムが保存されました"
+
