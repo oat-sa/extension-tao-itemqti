@@ -530,26 +530,24 @@ define([
 
     function _fixTextBlockDropTarget($placeholder) {
         const $parent = $placeholder.parent();
-        const isToTextBlock = $parent.is('.widget-textBlock > [data-html-editable]');
-        const isToTextBlockWrapper = $parent.is('.widget-textBlock > [data-html-editable] > .custom-text-box');
+        const isGoingToTextBlock = $parent.is('.widget-textBlock > [data-html-editable]');
+        const isGoingToTextBlockWrapper = $parent.is('.widget-textBlock > [data-html-editable] > .custom-text-box');
 
-        if (isToTextBlock || isToTextBlockWrapper) {
-            const $appendTo = _getNewParagraph();
-
-            if (isToTextBlock) {
-                const $textBlockWrappers = $parent.children('.custom-text-box');
-                const isToWrappedTextBlock = $parent.children().length === 2 && $textBlockWrappers.length === 1;
-                if (isToWrappedTextBlock) {
-                    $textBlockWrappers.first().append($appendTo);
-                } else {
-                    $parent.append($appendTo);
-                }
-            } else {
-                $parent.append($appendTo);
-            }
-
-            $appendTo.append($placeholder);
+        if (!isGoingToTextBlock && !isGoingToTextBlockWrapper) {
+            return;
         }
+
+        const $textBlockWrappers = $parent.children('.custom-text-box');
+        const isGoingToWrappedTextBlock = $parent.children().length === 2 && $textBlockWrappers.length === 1;
+        const $appendTo = _getNewParagraph();
+
+        if (isGoingToTextBlock && isGoingToWrappedTextBlock) {
+            $textBlockWrappers.first().append($appendTo);
+        } else {
+            $parent.append($appendTo);
+        }
+
+        $appendTo.append($placeholder);
     }
 
     return droppableGridEditor;
