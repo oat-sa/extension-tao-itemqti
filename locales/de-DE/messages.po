@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-03 18:40\n"
+"PO-Revision-Date: 2026-02-04 15:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de\n"
@@ -350,6 +350,12 @@ msgstr "Klassenabfrage erfolgreich. Die Ressource \"%s\" wird in der RDFS-Klasse
 msgid "Class successfully created."
 msgstr "Klasse erfolgreich erstellt."
 
+msgid "Classic"
+msgstr "Klassisch"
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr "Klassischer Editor sieht aus wie ein Web-Editor; Dokumenten-Editor sieht aus wie ein Textverarbeiter."
+
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr "Klassifikationseinträge müssen eine Instanz von ClassificationEntryMetadataValue sein"
 
@@ -542,6 +548,9 @@ msgstr "Zeige die Auswahlmöglichkeiten entweder horizontal oder vertikal an"
 msgid "Divide"
 msgstr "Teilen"
 
+msgid "Document"
+msgstr "Dokument"
+
 msgid "Don't save"
 msgstr "Nicht speichern"
 
@@ -604,6 +613,9 @@ msgstr "Stylesheet Label bearbeiten"
 
 msgid "Editing Mode"
 msgstr "Bearbeitungsmodus"
+
+msgid "Editor type"
+msgstr "Editor-Typ"
 
 msgid "Element Properties"
 msgstr "Elementeigenschaften"
@@ -832,6 +844,9 @@ msgstr "Bezeichner"
 
 msgid "identifier already taken"
 msgstr "Kennung bereits vergeben"
+
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr "Identifikatoren müssen mit einem Buchstaben oder einem Unterstrich beginnen und nur Buchstaben, Zahlen, Punkte, Unterstriche ( _ ) oder Bindestriche ( - ) enthalten."
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
 msgstr "Wenn aktiviert, wird die Werkzeugleiste des Editors auf eine Zeile beschränkt und weitere Elemente werden in einem Dropdown-Menü angezeigt."
