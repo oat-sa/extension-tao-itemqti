@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-03 18:39\n"
+"PO-Revision-Date: 2026-02-04 15:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -350,6 +350,12 @@ msgstr "نجح البحث عن الفصل. سيتم تخزين الموارد \"
 msgid "Class successfully created."
 msgstr "تم إنشاء الفصل بنجاح."
 
+msgid "Classic"
+msgstr "كلاسيكي"
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr "محرر كلاسيكي يبدو كمحرر ويب؛ محرر الوثائق يبدو وكأنه معالج كلمات. بخلاف المظهر الذي يشاركونه نفس المميزات."
+
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr "يجب أن تكون إدخالات التصنيف مثيلاً لـ ClassificationEntryMetadataValue"
 
@@ -542,6 +548,9 @@ msgstr "اعرض الاختيارات إما أفقيًا أو رأسيًا"
 msgid "Divide"
 msgstr "يقسم"
 
+msgid "Document"
+msgstr "مستند"
+
 msgid "Don't save"
 msgstr "لا تحفظ"
 
@@ -604,6 +613,9 @@ msgstr "تحرير تسمية ورقة الأنماط"
 
 msgid "Editing Mode"
 msgstr "وضع التحرير"
+
+msgid "Editor type"
+msgstr "نوع المحرر"
 
 msgid "Element Properties"
 msgstr "خصائص العنصر"
@@ -832,6 +844,9 @@ msgstr "معرف"
 
 msgid "identifier already taken"
 msgstr "المعرف مأخوذ بالفعل"
+
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr "يجب أن تبدأ أجهزة تحديد الهوية بحرف أو أسفل السطر وأن تحتوي فقط على الأحرف والأرقام والنقاط والشرطات السفلية (_ )، أو الوصلات (- )."
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
 msgstr "إذا تم تحديده، سيتم قصر شريط أدوات المحرر على صف واحد وستظهر المزيد من العناصر في القائمة المنسدلة."
