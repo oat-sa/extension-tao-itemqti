@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-03 18:40\n"
+"PO-Revision-Date: 2026-02-04 15:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl\n"
@@ -350,6 +350,12 @@ msgstr "Klasse Succesvol. Bron \"%s\" zal worden opgeslagen in RDFS Class \"%s\"
 msgid "Class successfully created."
 msgstr "Klasse met succes gecreëerd."
 
+msgid "Classic"
+msgstr "Klassiek"
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr "Klassieke editor lijkt op een webeditor; Documentbewerker lijkt op een woordverwerker. Anders dan uiterlijk delen ze dezelfde functies."
+
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr "De classificatiegegevens moeten een instantie van ClassificationEntryMetadataValue zijn"
 
@@ -542,6 +548,9 @@ msgstr "Geef de keuzes horizontaal of verticaal weer"
 msgid "Divide"
 msgstr "Delen"
 
+msgid "Document"
+msgstr "Document"
+
 msgid "Don't save"
 msgstr "Niet opslaan"
 
@@ -604,6 +613,9 @@ msgstr "Bewerk het stijlblad label"
 
 msgid "Editing Mode"
 msgstr "Bewerkmodus"
+
+msgid "Editor type"
+msgstr "Tekstverwerker type"
 
 msgid "Element Properties"
 msgstr "Element eigenschappen"
@@ -832,6 +844,9 @@ msgstr "Naam"
 
 msgid "identifier already taken"
 msgstr "identifier is al bezet"
+
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr "Identifiers moeten beginnen met een letter of een onderstrepingsteken en bevatten alleen letters, cijfers, punten, onderstrepingstekens (_ ) of koppeltekens ( - )."
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
 msgstr "Indien aangevinkt, dan zal de werkbalk beperkt worden tot één rij en andere items verschijnen in een keuzefunctie menu."
