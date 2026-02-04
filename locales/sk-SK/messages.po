@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-03 18:40\n"
+"PO-Revision-Date: 2026-02-04 15:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -350,6 +350,12 @@ msgstr "Vyhľadávanie triedy úspešné. Zdroj „%s“ bude uložený v triede
 msgid "Class successfully created."
 msgstr "Trieda bola úspešne vytvorená."
 
+msgid "Classic"
+msgstr "Klasické"
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr "Klasický editor vyzerá ako webový editor; editor dokumentov vyzerá ako textový editor. Okrem vzhľadu zdieľajú rovnaké funkcie."
+
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr "Záznamy klasifikácie musia byť inštanciou ClassificationEntryMetadataValue"
 
@@ -542,6 +548,9 @@ msgstr "Zobrazte možnosti horizontálne alebo vertikálne"
 msgid "Divide"
 msgstr "Rozdeliť"
 
+msgid "Document"
+msgstr "Dokument"
+
 msgid "Don't save"
 msgstr "Neukladať"
 
@@ -604,6 +613,9 @@ msgstr "Upraviť označenie štýlového hárka"
 
 msgid "Editing Mode"
 msgstr "Režim úprav"
+
+msgid "Editor type"
+msgstr "Typ editora"
 
 msgid "Element Properties"
 msgstr "Vlastnosti prvkov"
@@ -832,6 +844,9 @@ msgstr "Identifikátor"
 
 msgid "identifier already taken"
 msgstr "identifikátor už obsadený"
+
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr "Identifikátory musia začínať písmenom alebo podčiarkovníkom a musia obsahovať iba písmená, čísla, bodky, podčiarkovníky (_) alebo pomlčky (-)."
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
 msgstr "Ak je začiarknuté, panel nástrojov editora bude obmedzený na jeden riadok a ďalšie položky sa zobrazia v rozbaľovacej ponuke."
