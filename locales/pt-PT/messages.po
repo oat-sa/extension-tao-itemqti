@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-03 18:40\n"
+"PO-Revision-Date: 2026-02-04 15:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt\n"
@@ -350,6 +350,12 @@ msgstr "Classe Procurada com Sucesso. Recurso \"%s\" será armazenado em Classe 
 msgid "Class successfully created."
 msgstr "Classe criada com sucesso."
 
+msgid "Classic"
+msgstr "Clássico"
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr "Editor clássico parece com um editor da web; editor de documentos parece um processador de texto. Além de aparência, eles compartilham os mesmos recursos."
+
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr "Entradas de classificação devem ser uma instância de ClassificationEntryMetadataValue"
 
@@ -542,6 +548,9 @@ msgstr "Exibir as escolhas horizontalmente ou verticalmente"
 msgid "Divide"
 msgstr "Divisão"
 
+msgid "Document"
+msgstr "Documento"
+
 msgid "Don't save"
 msgstr "Não salvar"
 
@@ -604,6 +613,9 @@ msgstr "Edit stylesheet label"
 
 msgid "Editing Mode"
 msgstr "Modo de Edição"
+
+msgid "Editor type"
+msgstr "Tipo de editor"
 
 msgid "Element Properties"
 msgstr "Propriedades do Elemento"
@@ -832,6 +844,9 @@ msgstr "Identifier"
 
 msgid "identifier already taken"
 msgstr "identificador já utilizado"
+
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr "Os identificadores devem começar com uma letra ou um sublinhado e conter apenas letras, números, pontos, sublinhados (_), ou hífens ( - )."
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
 msgstr "Se marcada, a barra de ferramentas do editor será limitada a uma linha e itens adicionais aparecerão no menu suspenso."
