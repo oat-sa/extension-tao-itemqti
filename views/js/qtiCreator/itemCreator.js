@@ -75,7 +75,7 @@ define([
      * @param {String} label - the item label
      * @param {String} itemDataUrl - the data url
      * @param {Boolean} perInteractionRp - per interaction processing enabled
-     * @param {String} identifierGenerationStrategy - per interaction processing enabled
+     * @param {String} identifierGenerationStrategy - strategy used to generate new identifiers (passed to the item loader)
      *
      * @returns {Promise} that resolve with the loaded item model
      */
