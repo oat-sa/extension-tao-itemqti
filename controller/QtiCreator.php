@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013-2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2025 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -49,11 +49,16 @@ use oat\taoQtiItem\model\qti\parser\XmlToItemParser;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\validator\ItemIdentifierValidator;
 use oat\taoQtiItem\model\service\CreatorConfigFactory;
+use oat\taoQtiItem\model\QtiCreator\Scales\RemoteScaleListService;
+use oat\taoQtiItem\model\qti\metadata\exporter\scale\ScalePreprocessor;
+use oat\taoQtiItem\model\qti\scale\ScaleHandler;
+use oat\taoQtiItem\model\qti\scale\ScaleStorageService;
 use tao_actions_CommonModule;
 use tao_helpers_File;
 use tao_helpers_Http;
 use tao_helpers_Uri;
 use taoItems_models_classes_ItemsService;
+use Throwable;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item
@@ -190,14 +195,38 @@ class QtiCreator extends tao_actions_CommonModule
         $this->returnJson($returnValue);
     }
 
+    /**
+     * Save item data and return JSON response.
+     *
+     * Response keys:
+     * - success (bool): save status
+     * - scalePersisted (bool): whether scale data was persisted
+     * - warnings (array<string>): non-blocking issues (e.g., scale persistence skipped)
+     */
     public function saveItem()
     {
-        $returnValue = ['success' => false];
+        $returnValue = [
+            'success' => false,
+            'scalePersisted' => true,
+            'warnings' => []
+        ];
         $request = $this->getPsrRequest();
         $queryParams = $request->getQueryParams();
         if (isset($queryParams['uri'])) {
             $xml = $request->getBody()->getContents();
             $rdfItem = $this->getResource(urldecode($queryParams['uri']));
+            try {
+                $xml = $this->getScaleHandler()->process($xml, $rdfItem);
+            } catch (Throwable $exception) {
+                $message = sprintf(
+                    'Item scale persistence skipped for item %s: %s',
+                    $rdfItem->getUri(),
+                    $exception->getMessage()
+                );
+                $this->logError($message);
+                $returnValue['scalePersisted'] = false;
+                $returnValue['warnings'][] = $message;
+            }
             /** @var Service $itemService */
             $itemService = $this->getServiceLocator()->get(Service::class);
 
@@ -326,6 +355,18 @@ class QtiCreator extends tao_actions_CommonModule
 
         $config->setProperty('mediaSourcesUrl', $mediaSourcesUrl);
 
+        $scalesPresetsValue = json_encode([]);
+        $itemScalesValue = json_encode([]);
+
+        // Add scale data if scale feature is enabled
+        if ($this->isScaleEnabled()) {
+            $scalesPresetsValue = json_encode($this->getScaleProcessor()->getScaleRemoteList());
+            $itemScalesValue = json_encode($this->getScaleStorageService()->getItemScales($item));
+        }
+
+        $config->setProperty('scalesPresets', $scalesPresetsValue);
+        $config->setProperty('itemScales', $itemScalesValue);
+
         //initialize all registered hooks:
         $hookClasses = HookRegistry::getRegistry()->getMap();
         foreach ($hookClasses as $hookClass) {
@@ -356,6 +397,11 @@ class QtiCreator extends tao_actions_CommonModule
     private function getFeatureFlagConfigSwitcher(): FeatureFlagConfigSwitcher
     {
         return $this->getServiceLocator()->getContainer()->get(FeatureFlagConfigSwitcher::class);
+    }
+
+    private function getScaleHandler(): ScaleHandler
+    {
+        return $this->getServiceLocator()->getContainer()->get(ScaleHandler::class);
     }
 
     /**
@@ -398,5 +444,45 @@ class QtiCreator extends tao_actions_CommonModule
     private function getCreatorConfigFactory(): CreatorConfigFactory
     {
         return $this->getPsrContainer()->get(CreatorConfigFactory::class);
+    }
+
+    /**
+     * Check if scale feature is enabled
+     *
+     * @return bool
+     */
+    private function isScaleEnabled(): bool
+    {
+        return $this->getRemoteScaleListService()->isRemoteListEnabled();
+    }
+
+    /**
+     * Get the RemoteScaleListService instance
+     *
+     * @return RemoteScaleListService
+     */
+    private function getRemoteScaleListService(): RemoteScaleListService
+    {
+        return $this->getServiceManager()->getContainer()->get(RemoteScaleListService::class);
+    }
+
+
+    /**
+     * Get the ScalePreprocessor instance
+     *
+     * @return ScalePreprocessor
+     */
+    private function getScaleProcessor(): ScalePreprocessor
+    {
+        return $this->getServiceManager()->getContainer()->get(ScalePreprocessor::class);
+    }
+
+    /**
+     * Get the ScaleStorageService instance
+     * @return ScaleStorageService
+     */
+    private function getScaleStorageService(): ScaleStorageService
+    {
+        return $this->getServiceManager()->getContainer()->get(ScaleStorageService::class);
     }
 }
