@@ -1,3 +1,23 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
+
+ *
+ * Copyright (c) 2014-2026 (original work) Open Assessment Technologies SA ;
+
+ */
+
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/static/states/Active',
@@ -9,7 +29,8 @@ define([
     'services/features',
     'context',
     'taoQtiItem/qtiCommonRenderer/helpers/verticalWriting',
-    'taoQtiItem/qtiCreator/widgets/static/helpers/verticalWritingEditing'
+    'taoQtiItem/qtiCreator/widgets/static/helpers/verticalWritingEditing',
+    'lodash'
 ], function (
     stateFactory,
     Active,
@@ -21,7 +42,8 @@ define([
     features,
     context,
     verticalWriting,
-    verticalWritingEditing
+    verticalWritingEditing,
+    _
 ) {
     'use strict';
 
@@ -29,7 +51,6 @@ define([
     const writingModeVerticalRlClass = verticalWriting.WRITING_MODE_VERTICAL_RL_CLASS;
     const writingModeHorizontalTbClass = verticalWriting.WRITING_MODE_HORIZONTAL_TB_CLASS;
     const writingModeAttr = 'data-writing-mode-class';
-    const writingModeInitialScrollingHeight = '75';
 
     const scrollingAvailable = features.isVisible('taoQtiItem/creator/static/text/scrolling');
 
@@ -96,19 +117,51 @@ define([
             selectedHeight = itemScrollingMethods.selectedHeight($wrap);
 
         $form.html(
-            formTpl({
-                textBlockCssClass: cleanDefaultTextBlockClasses($wrap),
-                scrolling: isScrolling,
-                scrollingAvailable,
-                scrollingHeights: itemScrollingMethods.options()
-            })
+            formTpl(
+                Object.assign(
+                    {
+                        textBlockCssClass: cleanDefaultTextBlockClasses($wrap),
+                        scrolling: isScrolling,
+                        scrollingAvailable,
+                        selectedHeight: selectedHeight
+                    },
+                    itemScrollingMethods.getTplVars($wrap)
+                )
+            )
         );
 
         formElement.initWidget($form);
 
-        formElement.setChangeCallbacks($form, widget.element, changeCallbacks(widget, $form));
+        formElement.setChangeCallbacks(
+            $form,
+            widget.element,
+            // add listeners for itemScrolling elements
+            Object.assign(
+                changeCallbacks(widget, $form),
+                itemScrollingMethods.generateChangeCallback(widget, () => getWrapper(widget), $form)
+            )
+        );
 
-        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
+        function waitForElement(selector, callback) {
+            const observer = new MutationObserver((mutations, obs) => {
+                const element = $(selector);
+                if (element.length) {
+                    obs.disconnect();
+                    callback(element);
+                }
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
+
+        waitForElement('input[name="writingMode"]:checked', () => {
+            const $scrolling = $form.find('[name="scrolling"]');
+            itemScrollingMethods.initSelect($form, $scrolling.prop('checked'));
+        });
+
 
         toggleVerticalWritingModeByLang(widget, $form);
     };
@@ -123,13 +176,6 @@ define([
                 });
                 $wrap.addClass(value.trim());
             },
-            scrolling: function (element, value) {
-                itemScrollingMethods.wrapContent(widget, value, 'inner');
-            },
-            scrollingHeight: function (element, value) {
-                const $wrap = getWrapper(widget);
-                itemScrollingMethods.setScrollingHeight($wrap, value);
-            },
             writingMode(i, mode) {
                 let isScrolling = false;
                 const $wrap = createWrapper(widget);
@@ -143,16 +189,20 @@ define([
                     $wrap.removeAttr(writingModeAttr);
                 }
 
+                // disable scrolling checkbox if writing mode is changed
                 const $scrolling = $form.find('[name="scrolling"]');
                 if (isScrolling) {
                     if (!$scrolling.prop('checked')) {
-                        itemScrollingMethods.initSelect($form, isScrolling, writingModeInitialScrollingHeight);
+                        itemScrollingMethods.initSelect($form, isScrolling);
                         $scrolling.prop('checked', true).change();
                     }
                     $scrolling.prop('disabled', true);
                 } else {
                     $scrolling.prop('disabled', false);
                 }
+
+                itemScrollingMethods.setIsVertical($form, mode === 'vertical');
+                itemScrollingMethods.toggleScrollingSelect($form, $scrolling.prop('checked'));
             }
         };
     };
@@ -192,6 +242,8 @@ define([
                 const $scrolling = $form.find('[name="scrolling"]');
                 $scrolling.prop('disabled', true);
             }
+
+            itemScrollingMethods.setIsVertical($form, isVertical);
         });
 
     return TextActive;
