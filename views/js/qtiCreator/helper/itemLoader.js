@@ -112,29 +112,7 @@ define([
                             callback(loadedItem, this.getLoadedClasses());
                         });
                     } else {
-                        const identifierStrategy = config.identifierGenerationStrategy;
-                        const isValidIdentifierStrategy =
-                            typeof identifierStrategy === 'string' &&
-                            identifierStrategy.trim().length > 0 &&
-                            identifierStrategy.includes('#');
-
-                        if (!isValidIdentifierStrategy) {
-                            // Keep this quiet in production, but provide just enough context when debugging.
-                            // eslint-disable-next-line no-console
-                            console.debug(
-                                '[itemLoader] Falling back to uniqueNumericIdentifier: invalid/missing identifierGenerationStrategy',
-                                identifierStrategy
-                            );
-                        }
-
-                        const itemIdentifierFromStrategy = isValidIdentifierStrategy
-                            ? itemIdentifier.defaultIdentifier(identifierStrategy, qtiIdentifier)
-                            : itemIdentifier.uniqueNumericIdentifier();
-
-                        const newItem = new Item().id(itemIdentifierFromStrategy).attr('title', config.label);
-
-
-
+                        const newItem = new Item().id(data.itemData.identifier).attr('title', config.label);
 
                         newItem.createResponseProcessing();
 
