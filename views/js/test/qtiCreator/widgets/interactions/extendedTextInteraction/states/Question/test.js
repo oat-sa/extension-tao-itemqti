@@ -31,7 +31,8 @@ define([
     }
 
     QUnit.test('getTplVars returns correct defaults (horizontal scenario) and template renders expected labels/options', function (assert) {
-        assert.expect(10);
+        assert.expect(12);
+
 
         // horizontal writing mode scenario: defaultValue should be used when wrapper has no data-scrolling-height
         const $interaction = $('<div class="qti-interaction" />');
@@ -87,7 +88,8 @@ define([
     });
 
     QUnit.test('getTplVars uses wrapper data-scrolling-height (vertical scenario) and rendered form reflects it via selected option', function (assert) {
-        assert.expect(6);
+        assert.expect(8);
+
 
         // vertical writing mode scenario: wrapper has height set (simulates vertical/horizontal orientation fixture)
         const $interaction = $('<div class="qti-interaction" data-scrolling-height="50" />');
@@ -140,7 +142,8 @@ define([
     });
 
     QUnit.test('writingModeInitialScrollingHeight defaultValue is applied when wrapper has no initial height (negative - no forced vertical scrolling)', function (assert) {
-        assert.expect(3);
+        assert.expect(4);
+
 
         const $interaction = $('<div class="qti-interaction" />');
         const tplVars = itemScrollingMethods.getTplVars($interaction, '25');
