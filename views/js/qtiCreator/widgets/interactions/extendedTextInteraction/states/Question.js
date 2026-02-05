@@ -72,10 +72,14 @@ define([
             $original = _widget.$original,
             $container = _widget.$container,
             $inputs,
+            $editorTypeBlock,
+            $toolbarGroupingBlock,
             $constraintsBlock,
             $recommendationsBlock,
             $textCounter,
             interaction = _widget.element,
+            editorType = interaction.attr('data-editor-type'),
+            toolbarGroupWhenFull = interaction.attr('data-toolbar-should-not-group-when-full') === 'false',
             isMathEntry = interaction.attr('data-math-entry') === 'true',
             format = interaction.attr('format'),
             patternMask = interaction.attr('patternMask'),
@@ -100,6 +104,17 @@ define([
 
         if (config.hasMath) {
             formats.math = { label: __('Rich text + math'), selected: false };
+        }
+
+        const editorTypes = {
+            classic: { label: __('Classic'), selected: false },
+            document: { label: __('Document'), selected: false }
+        };
+
+        if (editorTypes[editorType]) {
+            editorTypes[editorType].selected = true;
+        } else {
+            editorTypes.classic.selected = true;
         }
 
         const constraintsAvailable = features.isVisible(
@@ -140,6 +155,9 @@ define([
         $form.html(
             formTpl({
                 formats: formats,
+                editorType: editorType,
+                editorTypes: editorTypes,
+                toolbarGroupWhenFull: toolbarGroupWhenFull,
                 patternMask: patternMask,
                 maxWords: maxWords,
                 maxLength: maxChars,
@@ -162,10 +180,20 @@ define([
             maxWords: $form.find('[name="maxWords"]'),
             patternMask: $form.find('[name="patternMask"]')
         };
+        $editorTypeBlock = $form.find('#editorType-panel');
+        $toolbarGroupingBlock = $form.find('#toolbarGrouping');
         $constraintsBlock = $form.find('#constraints');
         $recommendationsBlock = $form.find('#recommendations');
         $textCounter = $container.find('.text-counter');
 
+        if (format === 'xhtml' || format === 'math') {
+            if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlEditorType', false)) {
+                $editorTypeBlock.show();
+            }
+            if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlToolbarGrouping', false)) {
+                $toolbarGroupingBlock.show();
+            }
+        }
         if (format === 'xhtml') {
             if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlConstraints')) {
                 $constraintsBlock.hide();
@@ -224,6 +252,12 @@ define([
             renderer.render(interaction);
 
             if (format === 'xhtml') {
+                if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlEditorType', false)) {
+                    $editorTypeBlock.show();
+                }
+                if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlToolbarGrouping', false)) {
+                    $toolbarGroupingBlock.show();
+                }
                 if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlConstraints')) {
                     $constraintsBlock.hide();
                     $textCounter.hide();
@@ -233,6 +267,8 @@ define([
                     $textCounter.hide();
                 }
             } else {
+                $editorTypeBlock.hide();
+                $toolbarGroupingBlock.hide();
                 $constraintsBlock.show();
                 $recommendationsBlock.show();
                 $textCounter.show();
@@ -244,7 +280,18 @@ define([
                     // (Why not let jquery do that :-) ?)
                     response.setCorrect($('<p>' + correctResponse[0] + '</p>').text());
                 }
+                interaction.removeAttr('data-editor-type');
+                interaction.removeAttr('data-toolbar-should-not-group-when-full');
             }
+        };
+
+        callbacks.editorType = function (interaction, attrValue) {
+            interaction.attr('data-editor-type', attrValue);
+        };
+
+        callbacks.toolbarGroupWhenFull = function (interaction, attrValue) {
+            var shouldNotGroup = !attrValue;
+            interaction.attr('data-toolbar-should-not-group-when-full', shouldNotGroup ? 'true' : 'false');
         };
 
         callbacks.constraint = function (interaction, attrValue) {
