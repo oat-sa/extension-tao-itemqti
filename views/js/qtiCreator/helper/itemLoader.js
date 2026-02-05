@@ -112,14 +112,7 @@ define([
                             callback(loadedItem, this.getLoadedClasses());
                         });
                     } else {
-                        const identifierStrategy = config.identifierGenerationStrategy;
-                        const itemIdentifierFromStrategy = identifierStrategy
-                            ? itemIdentifier.defaultIdentifier(identifierStrategy, qtiIdentifier)
-                            : itemIdentifier.uniqueNumericIdentifier();
-
-                        const newItem = new Item().id(itemIdentifierFromStrategy).attr('title', config.label);
-
-
+                        const newItem = new Item().id(data.itemData.identifier).attr('title', config.label);
 
                         newItem.createResponseProcessing();
 
