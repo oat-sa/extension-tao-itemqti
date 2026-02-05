@@ -142,7 +142,7 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
 
                 const isVerticalItem = $('input[name="writingModeItem"]:checked').val() === 'vertical';
                 const isVerticalInteraction = $('input[name="writingMode"]:checked').val() === 'vertical';
-                const selector = isVerticalItem === isVerticalInteraction ? '.dw-height' : '.dw-width';
+                const selector = isVerticalItem === isVerticalInteraction ? '.dw-width' : '.dw-height';
 
                 $form.find(selector).show();
             }
