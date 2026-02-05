@@ -8,10 +8,9 @@
         video {
             vertical-align: baseline;
         }
-        &:hover {
-            @extend %selectableHover;
-        }
+
         border: solid 1px transparent;
+        border-bottom-color: $textColor;
         background: $uiClickableDefaultBg;
         color: $textColor;
         @include border-radius();
@@ -20,39 +19,126 @@
         min-width: 45px;
         min-height: 20px;
         display: inline-block;
-        &.empty {
+        padding-block: 1px;
+
+        &.empty:not(.filled) {
             min-height: 20px;
+            border-color: $colorBrand !important;
+            cursor: pointer;
+
+            &:hover {
+                border-style: solid !important;
+                background-color: $colorBrandLight;
+            }
         }
-        .remove {
-            float: right;
-        }
+
         &.filled {
-            top: 0 !important;
+            top: 0;
+            border-bottom-color: $colorBrand;
+            color: $colorBrand;
+            background: $uiGeneralContentBg;
+            cursor: pointer;
+            padding-block: 0;
+
+            @media (hover: hover) {
+                &:not(.empty):hover {
+                    border-bottom-color: transparent;
+                    color: $uiGeneralContentBg;
+                    background: $colorBrand;
+                    box-shadow: -2px 0px 0 0px $colorBrand;
+
+                    &:after {
+                        @include tao-icon-setup;
+                        @include icon-result-nok;
+                        color: $uiGeneralContentBg;
+                        position: absolute;
+                        font-size: 12px;
+                        height: calc(100% + 2px);
+                        inset-inline-end: -18px;
+                        top: -1px;
+                        padding-block-start: 6px;
+                        padding-inline-start: 2px;
+                        padding-inline-end: 4px;
+                        border-radius: 0 2px 2px 0;
+                        background: $colorBrand;
+                    }
+                }
+            }
         }
+
         &.dragged,
         &.dragged:hover {
             @extend %dragged;
+            color: $uiGeneralContentBg !important;
+            background: $colorBrand !important;
+
+            &.filled:not(.empty):after {
+                color: transparent;
+            }
         }
+
         &.droppable,
         &.droppable:hover {
             @extend %droppable;
         }
-        &.dropzone {
+
+        &.dropzone,
+        &.filled.empty:not(.active):hover {
             @extend %dropzone;
+            border: solid 1px $colorBrand !important;
+            color: $colorBrand !important;
+        }
+
+        &.animated {
+            border-color: $colorBrand;
+            color: $uiGeneralContentBg;
+            background: $colorBrand;
         }
 
         .qti-block {
             display: inline-block;
         }
     }
-    .choice-area {
-        .deactivated {
-            cursor: default;
-            opacity: 0.2;
-            pointer-events: none;
-        }
-    }
+
     .qti-choice {
         @include dragdrop-noselect;
+    }
+
+    .choice-area {
+        position: relative; //for choice position animation
+
+        &.droppable {
+            outline: 1px dashed $colorBrand;
+            outline-offset: -6px;
+        }
+        &.dropzone {
+            outline-style: solid;
+            background-color: $colorBrandLight;
+        }
+
+        li {
+            border-color: $textColor;
+
+            &:not(.active):not(.deactivated):hover {
+                color: $colorBrand !important;
+                background-color: $colorBrandLight !important;
+                border-color: $colorBrand;
+            }
+
+            &.active,
+            &.active:hover {
+                color: $uiGeneralContentBg !important;
+                background-color: $colorBrand !important;
+                border-color: $colorBrand;
+            }
+
+            &.deactivated {
+                color: $uiReviewPanelTextDisabled;
+                background-color: $uiClickableDefaultBg;
+                border-color: $uiReviewPanelTextDisabled;
+                cursor: default;
+                pointer-events: none;
+            }
+        }
     }
 }
