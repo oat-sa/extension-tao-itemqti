@@ -166,7 +166,6 @@ define([
                         expectedLength: expectedLength,
                         expectedLines: expectedLines,
                         constraints: constraints,
-                        constraintsAvailable,
                         constraintsAvailable
                     },
                     itemScrollingMethods.getTplVars(interaction, writingModeInitialScrollingHeight)
