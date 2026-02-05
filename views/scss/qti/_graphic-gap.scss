@@ -35,7 +35,7 @@
 
             &.hover {
                 border: 2px solid $colorBrand;
-                background-color: $colorLightBlue;
+                background-color: $colorBrandLight;
             }
         }
     }
@@ -150,13 +150,15 @@
         }
     }
 
-    .placed-fillers:not(.selectable) .qti-gapImg.placed:not(.dragged):hover {
-        &:after {
-            opacity: 1;
-        }
-        &:before {
-            @include gapimg-icon;
-            @include icon-result-nok;
+    @media (hover: hover) {
+        .placed-fillers:not(.selectable) .qti-gapImg.placed:not(.dragged):not(.no-hover):hover {
+            &:after {
+                opacity: 1;
+            }
+            &:before {
+                @include gapimg-icon;
+                @include icon-result-nok;
+            }
         }
     }
 
@@ -181,7 +183,7 @@
         &.hover {
             cursor: pointer;
             stroke: $colorBrand;
-            fill: $colorLightBlue;
+            fill: $colorBrandLight;
             stroke-width: unscale(4px);
             stroke-dasharray: none;
         }
