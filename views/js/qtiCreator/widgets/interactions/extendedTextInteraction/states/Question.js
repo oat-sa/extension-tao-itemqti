@@ -209,6 +209,12 @@ define([
         toggleVerticalWritingModeByLang(_widget, $form, interaction);
 
         function waitForElement(selector, callback) {
+            const element = $(selector);
+            if (element.length) {
+                callback(element);
+                return;
+            }
+
             const observer = new MutationObserver((mutations, obs) => {
                 const element = $(selector);
                 if (element.length) {
@@ -222,6 +228,7 @@ define([
                 subtree: true
             });
         }
+
 
         waitForElement('input[name="writingMode"]:checked', () => {
             $('input[name="writingMode"]:checked').ready(() => {
