@@ -113,11 +113,12 @@ define([
                         });
                     } else {
                         const identifierStrategy = config.identifierGenerationStrategy;
-                        const itemIdentifierFromStrategy = itemIdentifier && itemIdentifier.get && identifierStrategy
-                            ? itemIdentifier.get(identifierStrategy)
-                            : itemIdentifier.get();
+                        const itemIdentifierFromStrategy = identifierStrategy
+                            ? itemIdentifier.defaultIdentifier(identifierStrategy, qtiIdentifier)
+                            : itemIdentifier.uniqueNumericIdentifier();
 
                         const newItem = new Item().id(itemIdentifierFromStrategy).attr('title', config.label);
+
 
 
                         newItem.createResponseProcessing();
