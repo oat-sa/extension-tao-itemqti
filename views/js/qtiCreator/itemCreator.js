@@ -11,9 +11,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * 31 Milk St # 960789 Boston, MA 02196 USA.
  *
- * Copyright (c) 2016-2024 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2026 (original work) Open Assessment Technologies SA ;
  *
  */
 
@@ -42,7 +42,9 @@ define([
     'taoQtiItem/qtiCreator/editor/interactionsPanel',
     'taoQtiItem/qtiCreator/editor/propertiesPanel',
     'taoQtiItem/qtiCreator/model/helper/event',
-    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor'
+    'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
+    'handlebars',
+    'text!taoQtiItem/qtiCreator/tpl/partials/scrollingSelect.tpl'
 ], function (
     $,
     _,
@@ -59,9 +61,13 @@ define([
     interactionPanel,
     propertiesPanel,
     eventHelper,
-    styleEditor
+    styleEditor,
+    handlebars,
+    scrollingSelect
 ) {
     'use strict';
+
+    handlebars.registerPartial('scrollingSelect', scrollingSelect);
 
     /**
      * Load an item
@@ -69,14 +75,20 @@ define([
      * @param {String} label - the item label
      * @param {String} itemDataUrl - the data url
      * @param {Boolean} perInteractionRp - per interaction processing enabled
-     * @param {String} identifierGenerationStrategy - per interaction processing enabled
+     * @param {String} identifierGenerationStrategy - strategy used to generate new identifiers (passed to the item loader)
      *
      * @returns {Promise} that resolve with the loaded item model
      */
     function loadItem(uri, label, itemDataUrl, perInteractionRp, identifierGenerationStrategy) {
         return new Promise((resolve, reject) => {
             itemLoader.loadItem(
-                { uri: uri, label: label, itemDataUrl: itemDataUrl, perInteractionRp, identifierGenerationStrategy },
+                {
+                    uri: uri,
+                    label: label,
+                    itemDataUrl: itemDataUrl,
+                    perInteractionRp,
+                    identifierGenerationStrategy
+                },
                 item => {
                     if (!item) {
                         reject(new Error('Unable to load the item'));

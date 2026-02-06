@@ -123,13 +123,4 @@
     </div>
 </div>
 
-<div class="panel scrollingSelect" style="display:none;">
-    <label for="scrollingHeightChoice" class="spinner">{{__ "Block height (%)"}}</label>
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">{{__ "Select height of block based off container height"}}</span>
-    <select name="scrollingHeight" class="select2" data-has-search="false" id="scrollingHeightChoice">
-        {{#each scrollingHeights}}
-        <option value="{{value}}" {{#if selected}}selected="selected"{{/if}}>{{name}}</option>
-        {{/each}}
-    </select>
-</div>
+{{> scrollingSelect this }}
