@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-04 15:43\n"
+"PO-Revision-Date: 2026-02-05 17:48\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -387,7 +387,7 @@ msgid "Color Picker"
 msgstr "カラーピッカー"
 
 msgid "Column separator"
-msgstr "列の区切り文字"
+msgstr "コラムセパレーター"
 
 msgid "Common Interactions"
 msgstr "標準インタラクション"
@@ -531,7 +531,7 @@ msgid "Description"
 msgstr "説明"
 
 msgid "Direction of writing"
-msgstr "文字列方向"
+msgstr "縦書き／横書き\n"
 
 msgid "Disable this stylesheet temporarily"
 msgstr "一時的にこのスタイルシートを無効にします"
@@ -1283,10 +1283,10 @@ msgid "Order Interaction"
 msgstr "並べ替え問題"
 
 msgid "Order single list"
-msgstr "単一リストの注文"
+msgstr "単一リスト並び替え"
 
 msgid "order single list"
-msgstr "単一リストの注文"
+msgstr "単一リスト並び替え"
 
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "画像の領域（ホットスポット）を選んでください"
@@ -1787,10 +1787,10 @@ msgid "Something went wrong while destroying an interaction: %s"
 msgstr "インタラクションの破棄時に何か問題が発生しました: %s。"
 
 msgid "Sort from source to target list"
-msgstr "ソースからターゲットリストにソート"
+msgstr "左右移動の並び替え"
 
 msgid "sort from source to target list"
-msgstr "ソースからターゲットリストへのソート"
+msgstr "左右移動の並び替え"
 
 msgid "Square root"
 msgstr "平方根"
@@ -1826,7 +1826,7 @@ msgid "Successfully created item \"%s"
 msgstr "アイテムの作成が完了しました：\"%s"
 
 msgid "Switches the interaction's direction of writing between horizontal and vertical."
-msgstr "相互作用の書き込み方向を水平と垂直の間で切り替えます。"
+msgstr "縦書き｜横書きを切り替えます。"
 
 msgid "Switches the text block's direction of writing between horizontal and vertical."
 msgstr "テキストブロックの書き方を水平と垂直の間で切り替えます。"
@@ -2126,7 +2126,7 @@ msgid "to"
 msgstr "ー"
 
 msgid "Toggles the display of a vertical separator between columns."
-msgstr "縦方向の区切り記号の表示を切り替えます。"
+msgstr "カラム間の縦区切り線の表示｜非表示を切り替えます。"
 
 msgid "Tooltip Content"
 msgstr "Tips内容"
