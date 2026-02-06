@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "^1.0.0",
-        "@oat-sa/tao-item-runner-qti": "^2.9.0"
+        "@oat-sa/tao-item-runner-qti": "oat-sa/tao-item-runner-qti-fe#fix/INF-440-ext-text-interaction-invalid-pattern"
     }
 }
