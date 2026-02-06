@@ -2296,3 +2296,20 @@ msgstr "少なくとも%sつ，最大%sつまで選べます"
 msgid "Your item has been saved"
 msgstr "アイテムが保存されました"
 
+msgid "Select line to remove"
+msgstr "削除する線を選択"
+
+msgid "Click to remove"
+msgstr "クリックして削除"
+
+msgid "Select this area to finish an association"
+msgstr "関連付けを終了するにはこの領域を選択"
+
+msgid "Vertical text"
+msgstr "縦書き"
+
+msgid "Direction of writing"
+msgstr "文字列方向"
+
+msgid "Horizontal text"
+msgstr "横書き"
