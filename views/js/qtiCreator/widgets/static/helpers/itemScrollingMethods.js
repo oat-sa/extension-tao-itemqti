@@ -140,9 +140,16 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
                 $form.find('.scrollingSelect').show();
                 $form.find('.dw-depended').hide();
 
+                //
+                // We only consider the ITEM’s orientation here.
+                // If the item is vertical, we show the width label.
+                // If the item is horizontal, we always show the height label everywhere.
+                //
+                // To get the interaction orientation, use:
+                // $('input[name="writingMode"]:checked').val() === 'vertical';
+                //
                 const isVerticalItem = $('input[name="writingModeItem"]:checked').val() === 'vertical';
-                const isVerticalInteraction = $('input[name="writingMode"]:checked').val() === 'vertical';
-                const selector = isVerticalItem === isVerticalInteraction ? '.dw-width' : '.dw-height';
+                const selector = isVerticalItem ? '.dw-width' : '.dw-height';
 
                 $form.find(selector).show();
             }
