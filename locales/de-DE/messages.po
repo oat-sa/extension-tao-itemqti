@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-04-16 15:36\n"
+"PO-Revision-Date: 2026-02-04 15:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de\n"
@@ -38,6 +38,9 @@ msgstr "%d Element(e) von %d aus dem angegebenen IMS QTI-Paket importiert."
 msgid "%d/%d"
 msgstr "%d/%d"
 
+msgid "%s - Original"
+msgstr "%s - Original"
+
 msgid "%s metadata values found in source by extractor(s)."
 msgstr "%s Metadatenwerte im Quelltext gefunden durch Extraktor(e)."
 
@@ -49,6 +52,9 @@ msgstr "%s von %s Zeichen empfohlen."
 
 msgid "%s of %s words maximum."
 msgstr "%s von maximal %s Wörtern."
+
+msgid "%title% - Translation (%lang%)"
+msgstr "%title% - Übersetzung (%lang%)"
 
 msgid "(comma)"
 msgstr "(Komma)"
@@ -155,6 +161,9 @@ msgstr "Erlaubte Anzahl der Übereinstimmungen"
 msgid "Allowed number of uses"
 msgstr "Erlaubte Anzahl der Nutzungen"
 
+msgid "Alpha"
+msgstr "Alpha"
+
 msgid "Alt Text"
 msgstr "Alternativtext"
 
@@ -194,6 +203,9 @@ msgstr "Ein unerwarteter Fehler ist während des Imports des QTI-Elements aufget
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr "Ein unbekannter Fehler ist beim Importieren des IMS QTI-Pakets mit der Kennung aufgetreten: "
 
+msgid "Angle"
+msgstr "Winkel"
+
 msgid "Answer required"
 msgstr "Antwort erforderlich"
 
@@ -202,6 +214,9 @@ msgstr "APIP-Content-Paket"
 
 msgid "Apip Package successfully exported."
 msgstr "Apip Paket erfolgreich exportiert."
+
+msgid "Arc"
+msgstr "Bogen"
 
 msgid "Arrange a list of choices in the correct order."
 msgstr "Ordne eine Auswahl von Antworten in der korrekten Reihenfolge."
@@ -236,6 +251,9 @@ msgstr "Basis"
 msgid "Be aware, if you choose to remove the instructions, the system will not provide any warnings to the test takers if constraints are set."
 msgstr "Bitte beachten Sie, dass, wenn Sie die Anweisungen entfernen, das System keine Warnungen an die Testteilnehmer ausgibt, wenn Einschränkungen festgelegt sind."
 
+msgid "Beta"
+msgstr "Beta"
+
 msgid "Block"
 msgstr "Block"
 
@@ -250,6 +268,9 @@ msgstr "Blockhöhe (%)"
 
 msgid "Border color"
 msgstr "Rahmenfarbe"
+
+msgid "Bottom"
+msgstr "Unterer Rand"
 
 msgid "Browse your computer and select the appropriate file."
 msgstr "Computer durchsuchen und die geeignete Datei auswählen."
@@ -317,6 +338,9 @@ msgstr "Auswahl"
 msgid "Choices"
 msgstr "Auswahl"
 
+msgid "Choices position"
+msgstr "Position der Auswahl"
+
 msgid "Choose the horizontal alignment for the table."
 msgstr "Wählen Sie die horizontale Ausrichtung für die Tabelle."
 
@@ -325,6 +349,12 @@ msgstr "Klassenabfrage erfolgreich. Die Ressource \"%s\" wird in der RDFS-Klasse
 
 msgid "Class successfully created."
 msgstr "Klasse erfolgreich erstellt."
+
+msgid "Classic"
+msgstr "Klassisch"
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr "Klassischer Editor sieht aus wie ein Web-Editor; Dokumenten-Editor sieht aus wie ein Textverarbeiter."
 
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr "Klassifikationseinträge müssen eine Instanz von ClassificationEntryMetadataValue sein"
@@ -341,11 +371,17 @@ msgstr "Zum Entfernen erneut klicken"
 msgid "Click to display interaction widget"
 msgstr "Klicken, um das Interaktionswidget anzuzeigen"
 
+msgid "Click to remove"
+msgstr "Zum Entfernen klicken"
+
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr "Rufe offene Informationen in einer kurzen Texteingabe (Strings oder numerische Werte) ab."
 
 msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
 msgstr "Rufe offene Informationen in einem oder mehreren Textfeldern (Strings oder numerische Werte) ab."
+
+msgid "Colon"
+msgstr "Colon"
 
 msgid "Color Picker"
 msgstr "Farbauswahl"
@@ -355,6 +391,15 @@ msgstr "Spaltentrennzeichen"
 
 msgid "Common Interactions"
 msgstr "Allgemeine Interaktionen"
+
+msgid "Compact Appearance"
+msgstr "Kompakte Darstellung"
+
+msgid "Configures the position of the choices relative to the target list."
+msgstr "Konfiguriert die Position der Optionen im Verhältnis zur Zielliste."
+
+msgid "Congruent"
+msgstr "Kongruent"
 
 msgid "Constraints"
 msgstr "Einschränkungen"
@@ -367,6 +412,9 @@ msgstr "Richtig"
 
 msgid "correct"
 msgstr "Richtig"
+
+msgid "Cosine"
+msgstr "Kosinus"
 
 msgid "Cosinus"
 msgstr "Kosinus"
@@ -426,10 +474,7 @@ msgid "Define correct response"
 msgstr "Korrekte Antwort vorgeben"
 
 msgid "Define correct response (for post-processing)"
-msgstr ""
-
-msgid "It is intended only for post-processing and will not influence the actual score computation."
-msgstr ""
+msgstr "Richtige Antwort festlegen (für Nachbearbeitung)"
 
 msgid "Define item language."
 msgstr "Sprache für das Element festlegen."
@@ -439,6 +484,9 @@ msgstr "Definiere Aufforderung"
 
 msgid "Define the correct response."
 msgstr "Die korrekte Antwort definieren."
+
+msgid "Define the status of the translation."
+msgstr "Definieren Sie den Status der Übersetzung."
 
 msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
 msgstr "Definieren, ob eine Auswahl vom Kandidat angewählt werden muss um eine gültige Antwort der Interaktion zu bekommen."
@@ -451,6 +499,15 @@ msgstr "Definierte Breite"
 
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Definiert die maximale Größe numerischer Ergebnisvariablen. Das Maximum muss einen positiven Wert haben und das Minimum kann negativ sein."
+
+msgid "Degrees"
+msgstr "Grad"
+
+msgid "delay after"
+msgstr "verzögert nach"
+
+msgid "delay between"
+msgstr "verzögert zwischen"
 
 msgid "Delete"
 msgstr "Löschen"
@@ -467,8 +524,14 @@ msgstr "Dieses Modale Feedback löschen"
 msgid "Delimiter"
 msgstr "Trennzeichen"
 
+msgid "Delta"
+msgstr "Lila"
+
 msgid "Description"
 msgstr "Beschreibung"
+
+msgid "Direction of writing"
+msgstr "Schreibrichtung"
 
 msgid "Disable this stylesheet temporarily"
 msgstr "Dieses Stylesheet vorübergehend deaktivieren"
@@ -484,6 +547,9 @@ msgstr "Zeige die Auswahlmöglichkeiten entweder horizontal oder vertikal an"
 
 msgid "Divide"
 msgstr "Teilen"
+
+msgid "Document"
+msgstr "Dokument"
 
 msgid "Don't save"
 msgstr "Nicht speichern"
@@ -548,6 +614,9 @@ msgstr "Stylesheet Label bearbeiten"
 msgid "Editing Mode"
 msgstr "Bearbeitungsmodus"
 
+msgid "Editor type"
+msgstr "Editor-Typ"
+
 msgid "Element Properties"
 msgstr "Elementeigenschaften"
 
@@ -586,6 +655,9 @@ msgstr "Tooltip-Inhalt eingeben"
 
 msgid "Enter tooltip target"
 msgstr "Geben Sie das Tooltip-Ziel ein"
+
+msgid "Equals"
+msgstr "Gleich"
 
 msgid "error"
 msgstr "Fehler"
@@ -631,6 +703,9 @@ msgstr "QTI 2.1 Paket exportieren"
 
 msgid "Export QTI 2.2 Package"
 msgstr "QTI 2.2 Paket exportieren"
+
+msgid "Export QTI 3.0 Package"
+msgstr "QTI 3.0 Paket exportieren"
 
 msgid "Extended Text"
 msgstr "Erweiterter Text"
@@ -716,6 +791,9 @@ msgstr "Grafische Ordnungsinteraktion"
 msgid "Greater than or equal"
 msgstr "Größer oder gleich"
 
+msgid "Group toolbar items"
+msgstr "Gruppen-Toolbar Elemente"
+
 msgid "Guard for resource \"%s\"..."
 msgstr "Schutz für Ressource \"%s\"..."
 
@@ -730,6 +808,9 @@ msgstr "Hier können Sie Bewertungsaspekte für manuelle Bewertung, z.B. INHALT,
 
 msgid "Horizontal"
 msgstr "Horizontal"
+
+msgid "Horizontal text"
+msgstr "Horizontaler Text"
 
 msgid "Hotspot"
 msgstr "Hotspot"
@@ -764,8 +845,17 @@ msgstr "Bezeichner"
 msgid "identifier already taken"
 msgstr "Kennung bereits vergeben"
 
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr "Identifikatoren müssen mit einem Buchstaben oder einem Unterstrich beginnen und nur Buchstaben, Zahlen, Punkte, Unterstriche ( _ ) oder Bindestriche ( - ) enthalten."
+
+msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
+msgstr "Wenn aktiviert, wird die Werkzeugleiste des Editors auf eine Zeile beschränkt und weitere Elemente werden in einem Dropdown-Menü angezeigt."
+
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr "Wenn vorgegeben, spezifiziert die Muster-Maske einen Regulären Ausdruck, der die Antwort des Kandidaten auf Gültigkeit prüft"
+
+msgid "If pattern mask does not match match value provided, this message will be shown."
+msgstr "Wenn die Mustermaske nicht mit dem angegebenen Wert übereinstimmt, wird diese Nachricht angezeigt."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
 msgstr "Wenn das Attribut 'shuffle' auf 'true' gesetzt ist, wird die Ausführungsengine die Reihenfolge, in der die Auswahlmöglichkeiten anfangs präsentiert werden, zufällig anordnen. Jede Auswahl kann jedoch individuell entweder 'shuffled' oder 'fixed' sein."
@@ -811,6 +901,9 @@ msgstr "Das IMS QTI-Element mit der Bezeichnung \"%s\" enthält ein tragbares El
 
 msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
 msgstr "Das IMS QTI-Element mit der Bezeichnung \"%s\" in der IMS-Manifestdatei konnte nicht importiert werden."
+
+msgid "In progress"
+msgstr "In Bearbeitung"
 
 msgid "In Progress"
 msgstr "In Bearbeitung"
@@ -878,14 +971,23 @@ msgstr "Ungültige URL"
 msgid "Invalid value in correct response property."
 msgstr "Ungültiger Wert in der Eigenschaft für die richtige Antwort."
 
+msgid "Invalid value, should be an integer number."
+msgstr "Ungültiger Wert, sollte eine Ganzzahl sein."
+
 msgid "Invalid value, use %s %s for decimal point."
 msgstr "Ungültiger Wert, verwenden Sie %s %s als Dezimaltrennzeichen."
+
+msgid "is null"
+msgstr "ist null"
 
 msgid "Is this choice the correct response?"
 msgstr "Ist diese Auswahl die korrekte Antwort?"
 
 msgid "Is this pair the correct response?"
 msgstr "Ist dieses Paar die korrekte Antwort?"
+
+msgid "It is intended only for post-processing and will not influence the actual score computation."
+msgstr "Sie ist nur für die Nachbearbeitung gedacht und wird die Berechnung der tatsächlichen Punktzahl nicht beeinflussen."
 
 msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
 msgstr "Es scheint, dass ein Fehler beim Laden des Elements aufgetreten ist. Der Fehler wurde gemeldet. Der Test wird angehalten."
@@ -951,11 +1053,23 @@ msgstr "links"
 msgid "Left bracket"
 msgstr "Linke eckige Klammer"
 
+msgid "Left parenthesis"
+msgstr "Linke Klammer"
+
 msgid "Length"
 msgstr "Länge"
 
+msgid "Less than or equal"
+msgstr "Weniger als oder gleich"
+
 msgid "Level"
 msgstr "Level"
+
+msgid "Line"
+msgstr "Linie"
+
+msgid "Line Segment"
+msgstr "Liniensegment"
 
 msgid "Lines"
 msgstr "Zeilen"
@@ -1168,6 +1282,9 @@ msgstr "Reihenfolge"
 msgid "Order Interaction"
 msgstr "Interaktionsreihenfolge"
 
+msgid "Order single list"
+msgstr "Einzelne Liste bestellen"
+
 msgid "order single list"
 msgstr "Einzelliste ordnen"
 
@@ -1186,11 +1303,20 @@ msgstr "Ergebnisresultat"
 msgid "Pair scoring"
 msgstr "Paar-Punkte"
 
+msgid "Parallel"
+msgstr "Parallel"
+
 msgid "Pattern"
 msgstr "Muster"
 
+msgid "Pattern violation message"
+msgstr "Pattern-Verstoßmeldung"
+
 msgid "Pause"
 msgstr "Pause"
+
+msgid "Perpendicular"
+msgstr "Senkrecht"
 
 msgid "Pi"
 msgstr "Pi"
@@ -1200,6 +1326,9 @@ msgstr "Platzhaltertext"
 
 msgid "Plain text"
 msgstr "Klartext"
+
+msgid "Play audio several times in a row. Delay between plays can be set if needed."
+msgstr "Audio mehrmals hintereinander abspielen. Verzögerungen zwischen den Wiedergaben können bei Bedarf eingestellt werden."
 
 msgid "Please add one or more gaps to the text in question mode."
 msgstr "Bitte fügen Sie eine oder mehrere Textlücken im Fragen-Modus hinzu."
@@ -1276,6 +1405,9 @@ msgstr "Bitte geben Sie die korrekte Antwort ein."
 msgid "Please type the correct response in the box below."
 msgstr "Bitte tragen Sie die korrekte Antwort in das unten stehende Feld ein."
 
+msgid "Plus/minus"
+msgstr "Plus/Minus"
+
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "Modell für tragbare Elemente %s nicht gefunden. Es könnte eine erforderliche Erweiterung fehlen"
 
@@ -1345,6 +1477,9 @@ msgstr "QTI Paket 2.1"
 msgid "QTI Package 2.2"
 msgstr "QTI 2.2 Paket"
 
+msgid "QTI Package 3.0"
+msgstr "QTI-Paket 3.0"
+
 msgid "QTI-XML error at line %1$d \"%2$s\"."
 msgstr "\"Fehler in QTI-XML in Zeile %1$d \"%2$s\"."
 
@@ -1356,6 +1491,9 @@ msgstr "QTI/APIP XML-Elementdokument"
 
 msgid "Question"
 msgstr "Frage"
+
+msgid "Ray"
+msgstr "Strahl"
 
 msgid "Recommendations"
 msgstr "Empfehlungen"
@@ -1414,6 +1552,9 @@ msgstr "Dieses Stylesheet entfernen"
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr "Entfernt alle vom System generierten Anweisungen aus der Benutzeroberfläche."
 
+msgid "repeats"
+msgstr "wiederholt"
+
 msgid "Replay timeout"
 msgstr "Wiedergabezeitüberschreitung"
 
@@ -1456,13 +1597,16 @@ msgstr "Rich Text"
 msgid "Rich text + math"
 msgstr "Rich Text + Mathematik"
 
-msgid "right"
-msgstr "rechts"
-
 msgid "Right"
 msgstr "Rechts"
 
+msgid "right"
+msgstr "rechts"
+
 msgid "Right bracket"
+msgstr "Rechte Klammer"
+
+msgid "Right parenthesis"
 msgstr "Rechte Klammer"
 
 msgid "Rollback on..."
@@ -1492,8 +1636,11 @@ msgstr "Punktzahl Wert"
 msgid "Scrollable multi-column"
 msgstr "Scrollbare Mehrspalte"
 
+msgid "sec"
+msgstr "s"
+
 msgid "seconds"
-msgstr ""
+msgstr "Sekunden"
 
 msgid "Select"
 msgstr "Auswählen"
@@ -1528,6 +1675,9 @@ msgstr "Wählen Sie zuerst ein Bild aus"
 msgid "select correct choice"
 msgstr "Korrekte Antwort auswählen"
 
+msgid "Select height of block based off container height"
+msgstr "Wählen Sie die Höhe des Blocks basierend auf der Containerhöhe"
+
 msgid "Select height of passage base of container height"
 msgstr "Wähle die Höhe des Abschnitts basierend auf der Container-Höhe aus."
 
@@ -1539,6 +1689,9 @@ msgstr "Wähle aus, ob die Ergebniserklärung von einem externen System oder ein
 
 msgid "Select image"
 msgstr "Bild auswählen"
+
+msgid "Select line to remove"
+msgstr "Zu entfernende Zeile auswählen"
 
 msgid "Select media file"
 msgstr "Medien-Datei auswählen"
@@ -1579,6 +1732,9 @@ msgstr "Wählen Sie aus, wie die Antworten ihrer Interaktion verarbeitet werden 
 msgid "Select this area"
 msgstr "Diesen Bereich auswählen"
 
+msgid "Select this area to finish an association"
+msgstr "Wählen Sie diesen Bereich, um eine Zuordnung zu beenden"
+
 msgid "Select this area to start an association"
 msgstr "Diesen Bereich auswählen um eine Assoziation zu beginnen"
 
@@ -1588,6 +1744,9 @@ msgstr "Sequenziell"
 msgid "Set a CSS class name in order to customize the display style."
 msgstr "Setze einen CSS-Klassennamen, um den Anzeigestil anzupassen."
 
+msgid "Set the media player UI to Compact mode, displaying only the play button icon, hiding all other controls such as volume, seek bar."
+msgstr "Legen Sie das Media-Player-UI auf den Kompakt-Modus fest, zeigt nur das Symbol der Wiedergabe-Taste an, versteckt alle anderen Steuerelemente wie Lautstärke, Suchleiste an."
+
 msgid "Set the score for this response"
 msgstr "Die Punktzahl für diese Antwort festlegen"
 
@@ -1596,6 +1755,12 @@ msgstr "Form-Position"
 
 msgid "Shuffle choices"
 msgstr "Antwortmöglichkeiten mischen"
+
+msgid "Similar"
+msgstr "Ähnlich"
+
+msgid "Sine"
+msgstr "Sinus"
 
 msgid "Single choice"
 msgstr "Einzelauswahl"
@@ -1621,6 +1786,9 @@ msgstr "Beispieltext ..."
 msgid "Something went wrong while destroying an interaction: %s"
 msgstr "Es ist ein Fehler aufgetreten, während eine Interaktion zerstört wurde: %s"
 
+msgid "Sort from source to target list"
+msgstr "Von Quelle zur Zielliste sortieren"
+
 msgid "sort from source to target list"
 msgstr "Von der Quellliste zur Zielliste sortieren"
 
@@ -1629,6 +1797,9 @@ msgstr "Quadratwurzel"
 
 msgid "standard"
 msgstr "Standard"
+
+msgid "Status"
+msgstr "Status"
 
 msgid "Step"
 msgstr "Schritt"
@@ -1654,11 +1825,26 @@ msgstr "\"%s\" wurde erfolgreich zusammengestellt"
 msgid "Successfully created item \"%s"
 msgstr "Erfolgreiches Erstellen des Elements \"%s"
 
+msgid "Switches the interaction's direction of writing between horizontal and vertical."
+msgstr "Wechselt die Schreibrichtung der Interaktion zwischen horizontal und vertikal."
+
+msgid "Switches the text block's direction of writing between horizontal and vertical."
+msgstr "Schaltet die Schreibrichtung des Textblocks zwischen horizontal und vertikal um."
+
+msgid "Switches the whole item's direction of writing between horizontal and vertical."
+msgstr "Schaltet die Schreibrichtung des gesamten Elements zwischen horizontal und vertikal um."
+
 msgid "Table headings"
 msgstr "Tabellenüberschriften"
 
+msgid "Tangent"
+msgstr "Tangente"
+
 msgid "TAO default styles"
 msgstr "TAO Standard-Stil"
+
+msgid "Target class is missing the following metadata properties: %s"
+msgstr "Zielklasse fehlen die folgenden Metadaten-Eigenschaften: %s"
 
 msgid "Target Class Lookup for resource \"%s\"..."
 msgstr "Zielklassensuche für die Ressource \"%s\"..."
@@ -1900,6 +2086,9 @@ msgstr "Es gibt einen unvollständigen Bestandteil in ihrem Element: Darauf klic
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "Es gab ein Problem beim Download des CSS, bitte erneut versuchen."
 
+msgid "Theta"
+msgstr "Theta"
+
 msgid "This identifier is already used by another variable."
 msgstr "Diese Kennung wird bereits von einer anderen Variablen verwendet."
 
@@ -1951,6 +2140,12 @@ msgstr "Tooltip-Ziel"
 msgid "Top"
 msgstr "Oben"
 
+msgid "Translation completed"
+msgstr "Übersetzung abgeschlossen"
+
+msgid "Triangle"
+msgstr "Dreieck"
+
 msgid "Trigger the end of the item attempt."
 msgstr "Das Ende des Elementversuchs auslösen."
 
@@ -1999,8 +2194,14 @@ msgstr "Wird benutzt um das Format des Textes zu kontrollieren, der vom Kandidat
 msgid "Value"
 msgstr "Wert"
 
+msgid "Vector"
+msgstr "Vektor"
+
 msgid "Vertical"
 msgstr "Vertikal"
+
+msgid "Vertical text"
+msgstr "Vertikaler Text"
 
 msgid "warning"
 msgstr "Warnung"

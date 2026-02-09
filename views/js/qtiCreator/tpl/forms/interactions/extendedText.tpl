@@ -7,8 +7,20 @@
     		<option value="{{@key}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
     	{{/each}}
     </select>
-    <div id="toolbarGrouping" class="panel toolbarGrouping-panel" style="display:none;">
+    <div id="editorType-panel" class="panel editorType-panel" style="display:none;">
         <br>
+        <label for="editorType">{{__ "Editor type"}}</label>
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+        <span class="tooltip-content">
+            {{__ "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."}}
+        </span>
+        <select name="editorType" class="select2" data-has-search="false">
+            {{#each editorTypes}}
+                <option value="{{@key}}" {{#if selected}}selected="selected"{{/if}}>{{label}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div id="toolbarGrouping" class="panel toolbarGrouping-panel" style="display:none;">
         <label>
             <input name="toolbarGroupWhenFull" type="checkbox" {{#if toolbarGroupWhenFull}}checked="checked"{{/if}}/>
             <span class="icon-checkbox"></span>
@@ -101,13 +113,4 @@
     </div>
 </div>
 
-<div class="panel scrollingSelect" style="display:none;">
-    <label for="scrollingHeightExtendedText" class="spinner">{{__ "Block height (%)"}}</label>
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">{{__ "Select height of block based off container height"}}</span>
-    <select name="scrollingHeight" class="select2" data-has-search="false" id="scrollingHeightExtendedText">
-        {{#each scrollingHeights}}
-        <option value="{{value}}" {{#if selected}}selected="selected"{{/if}}>{{name}}</option>
-        {{/each}}
-    </select>
-</div>
+{{> scrollingSelect this }}

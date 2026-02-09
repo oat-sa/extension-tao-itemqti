@@ -84,6 +84,9 @@ class ParserFactory
 {
     use LoggerAwareTrait;
 
+    private const QTI_HTML5_V2P2_NAMESPACE_URI = 'http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0';
+    private const HTML5_NS_ALIAS = 'qh5v2p2';
+
     protected $data = null;
     /** @var \oat\taoQtiItem\model\qti\Item */
     protected $item = null;
@@ -94,6 +97,7 @@ class ParserFactory
     {
         $this->data = $data;
         $this->xpath = new DOMXPath($data);
+        $this->xpath->registerNamespace(self::HTML5_NS_ALIAS, self::QTI_HTML5_V2P2_NAMESPACE_URI);
     }
 
     /**
@@ -218,7 +222,7 @@ class ParserFactory
             }
         }
 
-        $figureNodes = $this->queryXPath(".//*[name(.)='" . $this->getHTML5Namespace() . "figure']", $data);
+        $figureNodes = $this->queryXPath(".//" . self::HTML5_NS_ALIAS . ":figure", $data);
         foreach ($figureNodes as $figureNode) {
             $figure = $this->buildFigure($figureNode);
             if (!is_null($figure)) {
@@ -259,7 +263,7 @@ class ParserFactory
             }
         }
 
-        $figCaptionNodes = $this->queryXPath(".//*[name(.)='" . $this->getHTML5Namespace() . "figcaption']", $data);
+        $figCaptionNodes = $this->queryXPath(".//" . self::HTML5_NS_ALIAS . ":figcaption", $data);
         foreach ($figCaptionNodes as $figCaptionNode) {
             $figCaption = $this->buildFigCaption($figCaptionNode);
             if (!is_null($figCaption)) {
@@ -558,14 +562,6 @@ class ParserFactory
     protected function getXIncludeNamespace()
     {
         return $this->findNamespace('XInclude');
-    }
-
-    protected function getHTML5Namespace(): string
-    {
-        // qh5
-        $ns = $this->findNamespace('html5');
-
-        return empty($ns) ? '' : $ns . ':';
     }
 
     /**

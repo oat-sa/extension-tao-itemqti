@@ -11,9 +11,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
- * Copyright (c) 2013-2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2013-2026 (original work) Open Assessment Technologies SA ;
  */
 define([
     'jquery',
@@ -72,11 +72,13 @@ define([
             $original = _widget.$original,
             $container = _widget.$container,
             $inputs,
+            $editorTypeBlock,
             $toolbarGroupingBlock,
             $constraintsBlock,
             $recommendationsBlock,
             $textCounter,
             interaction = _widget.element,
+            editorType = interaction.attr('data-editor-type'),
             toolbarGroupWhenFull = interaction.attr('data-toolbar-should-not-group-when-full') === 'false',
             isMathEntry = interaction.attr('data-math-entry') === 'true',
             format = interaction.attr('format'),
@@ -102,6 +104,17 @@ define([
 
         if (config.hasMath) {
             formats.math = { label: __('Rich text + math'), selected: false };
+        }
+
+        const editorTypes = {
+            classic: { label: __('Classic'), selected: false },
+            document: { label: __('Document'), selected: false }
+        };
+
+        if (editorTypes[editorType]) {
+            editorTypes[editorType].selected = true;
+        } else {
+            editorTypes.classic.selected = true;
         }
 
         const constraintsAvailable = features.isVisible(
@@ -140,18 +153,24 @@ define([
         }
 
         $form.html(
-            formTpl({
-                formats: formats,
-                toolbarGroupWhenFull: toolbarGroupWhenFull,
-                patternMask: patternMask,
-                maxWords: maxWords,
-                maxLength: maxChars,
-                expectedLength: expectedLength,
-                expectedLines: expectedLines,
-                constraints: constraints,
-                constraintsAvailable,
-                scrollingHeights: itemScrollingMethods.options()
-            })
+            formTpl(
+                _.extend(
+                    {
+                        formats: formats,
+                        editorType: editorType,
+                        editorTypes: editorTypes,
+                        toolbarGroupWhenFull: toolbarGroupWhenFull,
+                        patternMask: patternMask,
+                        maxWords: maxWords,
+                        maxLength: maxChars,
+                        expectedLength: expectedLength,
+                        expectedLines: expectedLines,
+                        constraints: constraints,
+                        constraintsAvailable
+                    },
+                    itemScrollingMethods.getTplVars(interaction, writingModeInitialScrollingHeight)
+                )
+            )
         );
 
         if (!maxWords && !maxChars) {
@@ -165,13 +184,19 @@ define([
             maxWords: $form.find('[name="maxWords"]'),
             patternMask: $form.find('[name="patternMask"]')
         };
+        $editorTypeBlock = $form.find('#editorType-panel');
         $toolbarGroupingBlock = $form.find('#toolbarGrouping');
         $constraintsBlock = $form.find('#constraints');
         $recommendationsBlock = $form.find('#recommendations');
         $textCounter = $container.find('.text-counter');
 
         if (format === 'xhtml' || format === 'math') {
-            if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlToolbarGrouping', false)) {
+            if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlEditorType', false)) {
+                $editorTypeBlock.show();
+            }
+            if (
+                features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlToolbarGrouping', false)
+            ) {
                 $toolbarGroupingBlock.show();
             }
         }
@@ -205,16 +230,55 @@ define([
                 .then(isVertical => {
                     $form.find('input[name="writingMode"][value="vertical"]').prop('checked', isVertical);
                     $form.find('input[name="writingMode"][value="horizontal"]').prop('checked', !isVertical);
+
+                    const isScrolling = itemScrollingMethods.isScrolling(interaction);
+                    itemScrollingMethods.setIsVertical($form, !!$form.data('isItemVertical'));
+                    itemScrollingMethods.toggleScrollingSelect($form, isScrolling);
                 });
 
         toggleVerticalWritingModeByLang(_widget, $form, interaction);
 
-        const isScrolling = itemScrollingMethods.isScrolling(interaction);
-        const selectedHeight = itemScrollingMethods.selectedHeight(interaction);
-        itemScrollingMethods.initSelect($form, isScrolling, selectedHeight);
+        function waitForElement(selector, callback) {
+            const element = $(selector);
+            if (element.length) {
+                callback(element);
+                return;
+            }
+
+            const observer = new MutationObserver((mutations, obs) => {
+                const element = $(selector);
+                if (element.length) {
+                    obs.disconnect();
+                    callback(element);
+                }
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
+
+
+        waitForElement('input[name="writingMode"]:checked', () => {
+            $('input[name="writingMode"]:checked').ready(() => {
+                const isScrolling =
+                    $('input[name="writingModeItem"]:checked').val() !==
+                    $form.find('input[name="writingMode"]:checked').val();
+                itemScrollingMethods.initSelect($form, isScrolling);
+            });
+        });
 
         //  init data change callbacks
         var callbacks = {};
+
+        const widgetState = interaction.metaData.widget && interaction.metaData.widget.getCurrentState().name;
+        if (widgetState === 'question') {
+            callbacks = Object.assign(
+                callbacks,
+                itemScrollingMethods.generateChangeCallback(_widget, () => interaction, $form, 'interaction')
+            );
+        }
 
         // -- format Callback
         callbacks.format = function (interaction, attrValue) {
@@ -233,7 +297,15 @@ define([
             renderer.render(interaction);
 
             if (format === 'xhtml') {
-                if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlToolbarGrouping', false)) {
+                if (features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlEditorType', false)) {
+                    $editorTypeBlock.show();
+                }
+                if (
+                    features.isVisible(
+                        'taoQtiItem/creator/interaction/extendedText/property/xhtmlToolbarGrouping',
+                        false
+                    )
+                ) {
                     $toolbarGroupingBlock.show();
                 }
                 if (!features.isVisible('taoQtiItem/creator/interaction/extendedText/property/xhtmlConstraints')) {
@@ -245,6 +317,7 @@ define([
                     $textCounter.hide();
                 }
             } else {
+                $editorTypeBlock.hide();
                 $toolbarGroupingBlock.hide();
                 $constraintsBlock.show();
                 $recommendationsBlock.show();
@@ -257,8 +330,13 @@ define([
                     // (Why not let jquery do that :-) ?)
                     response.setCorrect($('<p>' + correctResponse[0] + '</p>').text());
                 }
+                interaction.removeAttr('data-editor-type');
                 interaction.removeAttr('data-toolbar-should-not-group-when-full');
             }
+        };
+
+        callbacks.editorType = function (interaction, attrValue) {
+            interaction.attr('data-editor-type', attrValue);
         };
 
         callbacks.toolbarGroupWhenFull = function (interaction, attrValue) {
@@ -329,6 +407,7 @@ define([
 
         callbacks.writingMode = function (i, mode) {
             let isScrolling = false;
+            const isVertical = !!$form.data('isItemVertical');
             interaction.removeClass(writingModeVerticalRlClass);
             interaction.removeClass(writingModeHorizontalTbClass);
             if (mode === 'vertical' && !$form.data('isItemVertical')) {
@@ -339,17 +418,9 @@ define([
                 isScrolling = true;
             }
 
-            itemScrollingMethods.initSelect($form, isScrolling, writingModeInitialScrollingHeight);
+            itemScrollingMethods.initSelect($form, isScrolling);
+            itemScrollingMethods.setIsVertical($form, isVertical);
             itemScrollingMethods.wrapContent(_widget, isScrolling, 'interaction');
-        };
-
-        callbacks.scrollingHeight = function (element, value) {
-            const widgetState = interaction.metaData.widget && interaction.metaData.widget.getCurrentState().name;
-            if (widgetState === 'question') {
-                if (itemScrollingMethods.isScrolling(interaction)) {
-                    itemScrollingMethods.setScrollingHeight(interaction, value);
-                }
-            }
         };
 
         formElement.setChangeCallbacks($form, interaction, callbacks);

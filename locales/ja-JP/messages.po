@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-09-06 10:28\n"
+"PO-Revision-Date: 2026-02-05 17:48\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -38,6 +38,9 @@ msgstr "指定された IMS QTI パッケージから %d 個のアイテムが�
 msgid "%d/%d"
 msgstr "%d/%d"
 
+msgid "%s - Original"
+msgstr "%s - オリジナル"
+
 msgid "%s metadata values found in source by extractor(s)."
 msgstr "抽出プログラムによってソースで見つかったメタデータ値：％s"
 
@@ -49,6 +52,9 @@ msgstr "%s ／推奨 %s 文字"
 
 msgid "%s of %s words maximum."
 msgstr "%s ／最大 %s 単語"
+
+msgid "%title% - Translation (%lang%)"
+msgstr "%title% - 翻訳 (%lang%)"
 
 msgid "(comma)"
 msgstr "(カンマ)"
@@ -155,6 +161,9 @@ msgstr "マッチングを許可"
 msgid "Allowed number of uses"
 msgstr "選択回数"
 
+msgid "Alpha"
+msgstr "アルファ"
+
 msgid "Alt Text"
 msgstr "代替えテキスト"
 
@@ -194,6 +203,9 @@ msgstr "QTIアイテムパッケージのインポート中に予期しないエ
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr "IMS QTI パッケージを識別子でインポートするときに不明なエラーが発生しました。"
 
+msgid "Angle"
+msgstr "角度"
+
 msgid "Answer required"
 msgstr "解答必須"
 
@@ -202,6 +214,9 @@ msgstr "APIPコンテンツパッケージ"
 
 msgid "Apip Package successfully exported."
 msgstr "APIPパッケージのエクスポートが完了しました"
+
+msgid "Arc"
+msgstr "円弧を作成"
 
 msgid "Arrange a list of choices in the correct order."
 msgstr "正しい順序で選択項目のリストを並べます"
@@ -236,6 +251,9 @@ msgstr "ベース"
 msgid "Be aware, if you choose to remove the instructions, the system will not provide any warnings to the test takers if constraints are set."
 msgstr "制約条件が設定されていても、アラートを非表示すると受験者にアラートが表示されません"
 
+msgid "Beta"
+msgstr "Beta"
+
 msgid "Block"
 msgstr "文字ブロック"
 
@@ -250,6 +268,9 @@ msgstr "ブロック高さ (%)"
 
 msgid "Border color"
 msgstr "枠の色"
+
+msgid "Bottom"
+msgstr "下部"
 
 msgid "Browse your computer and select the appropriate file."
 msgstr "コンピュータを参照し、適切なファイルを選択してください"
@@ -317,6 +338,9 @@ msgstr "選択肢"
 msgid "Choices"
 msgstr "選択肢"
 
+msgid "Choices position"
+msgstr "選択位置"
+
 msgid "Choose the horizontal alignment for the table."
 msgstr "テーブルの水平方向の配置を選択します"
 
@@ -325,6 +349,12 @@ msgstr "Class Lookup は完了しました。 リソース \"%s\" はRDFSクラ�
 
 msgid "Class successfully created."
 msgstr "クラスが作成されました。"
+
+msgid "Classic"
+msgstr "クラシック"
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr "クラシックエディタはウェブエディタのように見えます。ドキュメントエディタはワープロのように見えますが、見た目以外は同じ機能を持っています。"
 
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr "分類エントリーは，ClassificationEntryMetadataValueのインスタンスでなければなりません。"
@@ -341,20 +371,35 @@ msgstr "削除するには、もう一度クリックします"
 msgid "Click to display interaction widget"
 msgstr "インタラクションのウィジェットを表示します"
 
+msgid "Click to remove"
+msgstr "クリックして削除"
+
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr "短いテキスト入力（文字列または数値）でオープンエンドの情報を収集します"
 
 msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
 msgstr "1つまたは複数のテキストエリア（文字列または数値）でオープンエンドの情報を収集します"
 
+msgid "Colon"
+msgstr "Colon"
+
 msgid "Color Picker"
 msgstr "カラーピッカー"
 
 msgid "Column separator"
-msgstr "列の区切り文字"
+msgstr "コラムセパレーター"
 
 msgid "Common Interactions"
 msgstr "標準インタラクション"
+
+msgid "Compact Appearance"
+msgstr "コンパクトな外観"
+
+msgid "Configures the position of the choices relative to the target list."
+msgstr "ターゲットリストからの選択範囲の位置を設定します。"
+
+msgid "Congruent"
+msgstr "おめでとうございます"
 
 msgid "Constraints"
 msgstr "選択肢の解答数制限"
@@ -367,6 +412,9 @@ msgstr "正解"
 
 msgid "correct"
 msgstr "正解"
+
+msgid "Cosine"
+msgstr "cos"
 
 msgid "Cosinus"
 msgstr "cos"
@@ -426,10 +474,7 @@ msgid "Define correct response"
 msgstr "正解を設定"
 
 msgid "Define correct response (for post-processing)"
-msgstr ""
-
-msgid "It is intended only for post-processing and will not influence the actual score computation."
-msgstr ""
+msgstr "正しい応答を定義する (ポストプロセス用)"
 
 msgid "Define item language."
 msgstr "アイテム言語を定義します"
@@ -439,6 +484,9 @@ msgstr "問題文を記入・・・"
 
 msgid "Define the correct response."
 msgstr "正解を設定"
+
+msgid "Define the status of the translation."
+msgstr "翻訳のステータスを定義します。"
 
 msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
 msgstr "チェックを入れると，受験者は「ーー」を選択できません。必ず選択肢を選ぶ必要があります。"
@@ -451,6 +499,15 @@ msgstr "指定幅"
 
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "数値型の結果変数の最大値を設定します。最大値は正の値、最小は負の値にすることができます。"
+
+msgid "Degrees"
+msgstr "度"
+
+msgid "delay after"
+msgstr "遅延時間"
+
+msgid "delay between"
+msgstr "間の遅延"
 
 msgid "Delete"
 msgstr "削除"
@@ -467,8 +524,14 @@ msgstr "このモーダルフィードバックを削除"
 msgid "Delimiter"
 msgstr "区切り"
 
+msgid "Delta"
+msgstr "Delta"
+
 msgid "Description"
 msgstr "説明"
+
+msgid "Direction of writing"
+msgstr "縦書き／横書き\n"
 
 msgid "Disable this stylesheet temporarily"
 msgstr "一時的にこのスタイルシートを無効にします"
@@ -484,6 +547,9 @@ msgstr "選択肢を水平または垂直に並べる"
 
 msgid "Divide"
 msgstr "分割"
+
+msgid "Document"
+msgstr "ドキュメント"
 
 msgid "Don't save"
 msgstr "保存しない"
@@ -548,6 +614,9 @@ msgstr "スタイルシートのラベル編集"
 msgid "Editing Mode"
 msgstr "編集モード"
 
+msgid "Editor type"
+msgstr "エディターの種類"
+
 msgid "Element Properties"
 msgstr "エレメントのプロパティ"
 
@@ -586,6 +655,9 @@ msgstr "Tips内容"
 
 msgid "Enter tooltip target"
 msgstr "Tipsリンク文字"
+
+msgid "Equals"
+msgstr "等しい"
 
 msgid "error"
 msgstr "エラー"
@@ -631,6 +703,9 @@ msgstr "QTI 2.1 パッケージをエクスポート"
 
 msgid "Export QTI 2.2 Package"
 msgstr "QTI 2.2 パッケージをエクスポート"
+
+msgid "Export QTI 3.0 Package"
+msgstr "QTI 3.0 パッケージのエクスポート"
 
 msgid "Extended Text"
 msgstr "記述問題"
@@ -716,6 +791,9 @@ msgstr "画像並び替え"
 msgid "Greater than or equal"
 msgstr "以上"
 
+msgid "Group toolbar items"
+msgstr "ツールバーアイテムをグループ化"
+
 msgid "Guard for resource \"%s\"..."
 msgstr "リソース \"％s\" のガード..."
 
@@ -730,6 +808,9 @@ msgstr "ここでは、内容、文法、スペルなど、手動採点/点数�
 
 msgid "Horizontal"
 msgstr "水平"
+
+msgid "Horizontal text"
+msgstr "横書き"
 
 msgid "Hotspot"
 msgstr "ホットスポット"
@@ -764,8 +845,17 @@ msgstr "識別子"
 msgid "identifier already taken"
 msgstr "識別子は既に使用されています"
 
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr "識別子は、文字またはアンダースコアで始まり、文字、数字、ドット、アンダースコア(_ )、またはハイフン(- )のみを含む必要があります。"
+
+msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
+msgstr "チェックされている場合、エディターツールバーは1行に制限され、さらにドロップダウンメニューに表示されます。"
+
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
 msgstr "設定する場合、受験者のレスポンスが有効となるような正規表現を指定します"
+
+msgid "If pattern mask does not match match value provided, this message will be shown."
+msgstr "パターンマスクが一致しない場合、このメッセージが表示されます。"
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
 msgstr "シャッフルが適用されると，選択肢の順番が受験ごと，受験者ごとにランダムに提示されます。また各選択肢は，個別に順番を固定することもできます。"
@@ -811,6 +901,9 @@ msgstr "\"%s\" として参照される IMS QTI アイテムは、portable 要�
 
 msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
 msgstr "IMS Manifestファイル\"%s\"として参照されるIMS QTIアイテムをインポートできませんでした。"
+
+msgid "In progress"
+msgstr "実施中"
 
 msgid "In Progress"
 msgstr "実施中"
@@ -878,14 +971,23 @@ msgstr "無効なURL"
 msgid "Invalid value in correct response property."
 msgstr "正しいレスポンスプロパティに無効な値があります。"
 
+msgid "Invalid value, should be an integer number."
+msgstr "無効な値です。整数でなければなりません。"
+
 msgid "Invalid value, use %s %s for decimal point."
 msgstr "無効な値です。小数点には %s %s を使用してください。"
+
+msgid "is null"
+msgstr "はnull です"
 
 msgid "Is this choice the correct response?"
 msgstr "この選択は正しい答えですか？"
 
 msgid "Is this pair the correct response?"
 msgstr "このペアは、正しい答えですか？"
+
+msgid "It is intended only for post-processing and will not influence the actual score computation."
+msgstr "これは後処理のみを目的としており、実際のスコアの計算には影響しません。"
 
 msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
 msgstr "アイテムの読み込み時にエラーが発生するようです。このエラーは報告され，テストは一時停止されます。"
@@ -951,11 +1053,23 @@ msgstr "左"
 msgid "Left bracket"
 msgstr "左括弧"
 
+msgid "Left parenthesis"
+msgstr "左括弧"
+
 msgid "Length"
 msgstr "文字数"
 
+msgid "Less than or equal"
+msgstr "以下"
+
 msgid "Level"
 msgstr "レベル"
+
+msgid "Line"
+msgstr "線"
+
+msgid "Line Segment"
+msgstr "線のセグメント"
 
 msgid "Lines"
 msgstr "行"
@@ -1168,8 +1282,11 @@ msgstr "並べ替え"
 msgid "Order Interaction"
 msgstr "並べ替え問題"
 
+msgid "Order single list"
+msgstr "単一リスト並び替え"
+
 msgid "order single list"
-msgstr "単一リストの注文"
+msgstr "単一リスト並び替え"
 
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "画像の領域（ホットスポット）を選んでください"
@@ -1186,11 +1303,20 @@ msgstr "結果変数の宣言"
 msgid "Pair scoring"
 msgstr "組合せスコア"
 
+msgid "Parallel"
+msgstr "Parallel"
+
 msgid "Pattern"
 msgstr "パターン"
 
+msgid "Pattern violation message"
+msgstr "パターン違反メッセージ"
+
 msgid "Pause"
 msgstr "一時停止"
+
+msgid "Perpendicular"
+msgstr "垂直方向"
 
 msgid "Pi"
 msgstr "π"
@@ -1200,6 +1326,9 @@ msgstr "プレースホルダ"
 
 msgid "Plain text"
 msgstr "テキスト"
+
+msgid "Play audio several times in a row. Delay between plays can be set if needed."
+msgstr "オーディオを複数回連続再生する 必要に応じて、再生間の遅延を設定できます。"
 
 msgid "Please add one or more gaps to the text in question mode."
 msgstr "少なくとも１つの穴埋めを作ってください。"
@@ -1276,6 +1405,9 @@ msgstr "正解を入力してください。"
 msgid "Please type the correct response in the box below."
 msgstr "正解を枠内に入力してください"
 
+msgid "Plus/minus"
+msgstr "プラス/マイナス"
+
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "ポータブル要素モデル％sが見つかりません。必要な拡張子が欠落している可能性があります。"
 
@@ -1345,6 +1477,9 @@ msgstr "QTIパッケージ2.1"
 msgid "QTI Package 2.2"
 msgstr "QTIパッケージ2.2"
 
+msgid "QTI Package 3.0"
+msgstr "QTI パッケージ 3.0"
+
 msgid "QTI-XML error at line %1$d \"%2$s\"."
 msgstr "QTI-XMLエラー：line %1$d \"%2$s\"."
 
@@ -1356,6 +1491,9 @@ msgstr "QTI/APIP XMLアイテムドキュメント"
 
 msgid "Question"
 msgstr "問題"
+
+msgid "Ray"
+msgstr "レイ"
 
 msgid "Recommendations"
 msgstr "推奨"
@@ -1414,6 +1552,9 @@ msgstr "このスタイルシートを削除"
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr "すべてのアラートを非表示にします"
 
+msgid "repeats"
+msgstr "繰り返し"
+
 msgid "Replay timeout"
 msgstr "再生タイムアウト"
 
@@ -1456,13 +1597,16 @@ msgstr "リッチテキスト"
 msgid "Rich text + math"
 msgstr "リッチテキスト + math"
 
-msgid "right"
-msgstr "右"
-
 msgid "Right"
 msgstr "右"
 
+msgid "right"
+msgstr "右"
+
 msgid "Right bracket"
+msgstr "右括弧"
+
+msgid "Right parenthesis"
 msgstr "右括弧"
 
 msgid "Rollback on..."
@@ -1491,6 +1635,9 @@ msgstr "スコア値"
 
 msgid "Scrollable multi-column"
 msgstr "スクロール可能な複数カラム"
+
+msgid "sec"
+msgstr "秒"
 
 msgid "seconds"
 msgstr "秒"
@@ -1528,6 +1675,9 @@ msgstr "最初に画像を選んでください"
 msgid "select correct choice"
 msgstr "正しい選択肢を指定してください"
 
+msgid "Select height of block based off container height"
+msgstr "コンテナの高さからブロックの高さを選択"
+
 msgid "Select height of passage base of container height"
 msgstr "コンテナの高さを選択"
 
@@ -1539,6 +1689,9 @@ msgstr "結果変数の拡張解釈へのオプションリンクです。"
 
 msgid "Select image"
 msgstr "画像を選択"
+
+msgid "Select line to remove"
+msgstr "削除する線を選択"
 
 msgid "Select media file"
 msgstr "メディアファイルを選択"
@@ -1579,6 +1732,9 @@ msgstr "採点方法（インタラクションのレスポンス処理）の選
 msgid "Select this area"
 msgstr "この範囲を選択してください"
 
+msgid "Select this area to finish an association"
+msgstr "関連付けを終了するにはこの領域を選択"
+
 msgid "Select this area to start an association"
 msgstr "組み合わせを開始するには、この範囲を選んでください。"
 
@@ -1588,6 +1744,9 @@ msgstr "シーケンシャル"
 msgid "Set a CSS class name in order to customize the display style."
 msgstr "画面表示をカスタマイズするためのCSSクラス名を設定します"
 
+msgid "Set the media player UI to Compact mode, displaying only the play button icon, hiding all other controls such as volume, seek bar."
+msgstr "メディアプレーヤーUIをCompactモードに設定し、再生ボタンのアイコンのみを表示し、ボリューム、シークバーなどの他のすべてのコントロールを非表示にします。"
+
 msgid "Set the score for this response"
 msgstr "解答のためのスコアを設定します。"
 
@@ -1596,6 +1755,12 @@ msgstr "画像位置"
 
 msgid "Shuffle choices"
 msgstr "選択肢をシャッフル"
+
+msgid "Similar"
+msgstr "似ています"
+
+msgid "Sine"
+msgstr "sin"
 
 msgid "Single choice"
 msgstr "択一問題"
@@ -1621,14 +1786,20 @@ msgstr "テキストを入力 ..."
 msgid "Something went wrong while destroying an interaction: %s"
 msgstr "インタラクションの破棄時に何か問題が発生しました: %s。"
 
+msgid "Sort from source to target list"
+msgstr "左右移動の並び替え"
+
 msgid "sort from source to target list"
-msgstr "ソースからターゲットリストへのソート"
+msgstr "左右移動の並び替え"
 
 msgid "Square root"
 msgstr "平方根"
 
 msgid "standard"
 msgstr "標準"
+
+msgid "Status"
+msgstr "ステータス"
 
 msgid "Step"
 msgstr "ステップ"
@@ -1654,11 +1825,26 @@ msgstr "\"%sのコンパイルが完了しました"
 msgid "Successfully created item \"%s"
 msgstr "アイテムの作成が完了しました：\"%s"
 
+msgid "Switches the interaction's direction of writing between horizontal and vertical."
+msgstr "縦書き｜横書きを切り替えます。"
+
+msgid "Switches the text block's direction of writing between horizontal and vertical."
+msgstr "テキストブロックの書き方を水平と垂直の間で切り替えます。"
+
+msgid "Switches the whole item's direction of writing between horizontal and vertical."
+msgstr "アイテム全体の書き込み方向を水平と垂直の間で切り替えます。"
+
 msgid "Table headings"
 msgstr "表の見出し"
 
+msgid "Tangent"
+msgstr "tan"
+
 msgid "TAO default styles"
 msgstr "TAO標準スタイル"
+
+msgid "Target class is missing the following metadata properties: %s"
+msgstr "ターゲット クラスには、次のメタデータ プロパティがありません: %s"
 
 msgid "Target Class Lookup for resource \"%s\"..."
 msgstr "リソース \"％s\" のターゲットクラスをルックアップ..."
@@ -1900,6 +2086,9 @@ msgstr "このアイテムに不完全なエレメントがあります。完了
 msgid "There was a problem downloading your CSS, please try again."
 msgstr "CSSのダウンロード中に問題が発生しました。再実行してください。"
 
+msgid "Theta"
+msgstr "Theta"
+
 msgid "This identifier is already used by another variable."
 msgstr "この識別子はすでに別の変数で使用されています。"
 
@@ -1937,7 +2126,7 @@ msgid "to"
 msgstr "ー"
 
 msgid "Toggles the display of a vertical separator between columns."
-msgstr "縦方向の区切り記号の表示を切り替えます。"
+msgstr "カラム間の縦区切り線の表示｜非表示を切り替えます。"
 
 msgid "Tooltip Content"
 msgstr "Tips内容"
@@ -1950,6 +2139,12 @@ msgstr "Tipsリンク文字"
 
 msgid "Top"
 msgstr "トップ"
+
+msgid "Translation completed"
+msgstr "翻訳が完了しました"
+
+msgid "Triangle"
+msgstr "Triangle"
 
 msgid "Trigger the end of the item attempt."
 msgstr "アイテム試行終了トリガー"
@@ -1999,8 +2194,14 @@ msgstr "受験者が入力する際のテキストの書式を設定します"
 msgid "Value"
 msgstr "値"
 
+msgid "Vector"
+msgstr "ベクトル"
+
 msgid "Vertical"
 msgstr "垂直"
+
+msgid "Vertical text"
+msgstr "縦書き"
 
 msgid "warning"
 msgstr "警告"
@@ -2095,20 +2296,3 @@ msgstr "少なくとも%sつ，最大%sつまで選べます"
 msgid "Your item has been saved"
 msgstr "アイテムが保存されました"
 
-msgid "Select line to remove"
-msgstr "削除する線を選択"
-
-msgid "Click to remove"
-msgstr "クリックして削除"
-
-msgid "Select this area to finish an association"
-msgstr "関連付けを終了するにはこの領域を選択"
-
-msgid "Vertical text"
-msgstr "縦書き"
-
-msgid "Direction of writing"
-msgstr "文字列方向"
-
-msgid "Horizontal text"
-msgstr "横書き"
