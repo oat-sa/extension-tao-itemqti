@@ -38,11 +38,6 @@ class FeatureFlagFlaHandler implements FeatureFlagConfigHandlerInterface
 
     public function __invoke(array $configs): array
     {
-        // TODO Once `FEATURE_FLAG_FLA` removed, include `taoQtiItem/creator/interaction/media/property/fla` visibility
-        //  flag to [SHOW_IF_IS_TAO_ADVANCE](https://github.com/oat-sa/extension-tao-deliver-connect/blob/3a2120942dd91a6baf4d3eeea5f2ba6613ec487a/model/FeatureFlag/FeatureFlagClientConfigHandler.php#L69-L71).
-        $configs['services/features']['visibility']['taoQtiItem/creator/interaction/media/property/fla'] =
-            $this->featureFlagChecker->isEnabled('FEATURE_FLAG_FLA') ? 'show' : 'hide';
-
         $configs['services/features']['visibility']['taoQtiItem/creator/interaction/media/property/compactAppearance'] =
             $this->featureFlagChecker->isEnabled('FEATURE_FLAG_TAO_ADVANCE_ONLY') ? 'show' : 'hide';
 
