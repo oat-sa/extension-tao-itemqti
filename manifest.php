@@ -31,7 +31,6 @@ use oat\taoQtiItem\install\scripts\ExtendConfigurationRegistry;
 use oat\taoQtiItem\install\scripts\RemoveLegacyGenericLomExtractor;
 use oat\taoQtiItem\install\scripts\SetDragAndDropConfig;
 use oat\taoQtiItem\install\scripts\setXMLParserConfig;
-use oat\taoQtiItem\model\FeatureFlag\ServiceProvider\FeatureFlagFlaServiceProvider;
 use oat\taoQtiItem\model\FeatureFlag\ServiceProvider\FeatureFlagQtiIdentifierServiceProvider;
 use oat\taoQtiItem\model\qti\CustomInteractionAsset\ServiceProvider\CustomInteractionAssetExtractorAllocatorServiceProvider;
 use oat\taoQtiItem\model\qti\metadata\importer\MetaMetadataServiceProvider;
@@ -211,7 +210,6 @@ return [
     ],
     'containerServiceProviders' => [
         CustomInteractionAssetExtractorAllocatorServiceProvider::class,
-        FeatureFlagFlaServiceProvider::class,
         ItemIdentifierValidatorServiceProvider::class,
         MetadataServiceProvider::class,
         MetaMetadataServiceProvider::class,

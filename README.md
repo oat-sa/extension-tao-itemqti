@@ -90,7 +90,6 @@ REMOTE_LIST_SCALE='https://gist.githubusercontent.com/bartlomiejmarszal/7bac38b0
 
 | Variable                                    | Description                                                               | Default value |
 |---------------------------------------------|---------------------------------------------------------------------------|---------------|
-| FEATURE_FLAG_FLA                            | Toggles certain media-interaction options' availability in item authoring | false         |
 | FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER  | This will replace Item Qti Identifier to 9 digits non editable field      | -             |
 | REMOTE_LIST_SCALE                           | Define and enable Remote List Scale feature                               | -             |
 | FEATURE_FLAG_WIRIS_MATH_PATH                | Toggles Wiris MathPath Editor for MathJax flow                            | -             |
