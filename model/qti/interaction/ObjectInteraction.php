@@ -21,8 +21,6 @@
 
 namespace oat\taoQtiItem\model\qti\interaction;
 
-use oat\taoQtiItem\model\qti\interaction\ObjectInteraction;
-use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\QtiObject;
 
@@ -42,7 +40,7 @@ abstract class ObjectInteraction extends BlockInteraction
     /**
      * The main content of an ObjectInteraction is a QTI object
      *
-     * @var oat\taoQtiItem\model\qti\QtiObject
+     * @var QtiObject
      */
     protected $object = null;
 

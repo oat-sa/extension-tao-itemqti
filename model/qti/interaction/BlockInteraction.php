@@ -13,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
@@ -22,10 +22,7 @@
 
 namespace oat\taoQtiItem\model\qti\interaction;
 
-use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
-use oat\taoQtiItem\model\qti\interaction\Interaction;
 use oat\taoQtiItem\model\qti\Item;
-use oat\taoQtiItem\model\qti\interaction\Prompt;
 
 /**
  * The QTI block interaction is a subclass of the main QTI Interaction class
@@ -63,7 +60,7 @@ abstract class BlockInteraction extends Interaction
     /**
      * Return the ContainerStatic reprensenting the prompt
      *
-     * @return oat\taoQtiItem\model\qti\container\ContainerStatic
+     * @return \oat\taoQtiItem\model\qti\container\ContainerStatic
      */
     public function getPrompt()
     {
