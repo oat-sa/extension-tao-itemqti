@@ -62,6 +62,7 @@ class GraphicAssociateInteraction extends GraphicInteraction
         return array_merge(
             parent::getUsedAttributes(),
             [
+                'oat\\taoQtiItem\\model\\qti\\attribute\\DataInteractionSubtype',
                 'oat\\taoQtiItem\\model\\qti\\attribute\\MaxAssociations',
                 'oat\\taoQtiItem\\model\\qti\\attribute\\MinAssociations'
             ]
