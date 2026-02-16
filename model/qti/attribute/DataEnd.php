@@ -20,36 +20,22 @@
  *
  */
 
-namespace oat\taoQtiItem\model\qti\choice;
+namespace oat\taoQtiItem\model\qti\attribute;
+
+use oat\taoQtiItem\model\qti\attribute\Attribute;
+use oat\taoQtiItem\model\qti\attribute\DataEnd;
 
 /**
- * QTI Hotspot definition
+ * The data-end attribute
  *
  * @access public
  * @author Sam, <sam@taotesting.com>
  * @package taoQTI
-
  */
-class AssociableHotspot extends Hotspot
+class DataEnd extends Attribute
 {
-    /**
-     * the QTI tag name as defined in QTI standard
-     *
-     * @access protected
-     * @var string
-     */
-    protected static $qtiTagName = 'associableHotspot';
-
-    protected function getUsedAttributes()
-    {
-        return array_merge(
-            parent::getUsedAttributes(),
-            [
-                'oat\\taoQtiItem\\model\\qti\\attribute\\MatchMax',
-                'oat\\taoQtiItem\\model\\qti\\attribute\\MatchMin',
-                'oat\\taoQtiItem\\model\\qti\\attribute\\DataStart',
-                'oat\\taoQtiItem\\model\\qti\\attribute\\DataEnd'
-            ]
-        );
-    }
+    protected static $name = 'data-end';
+    protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiBoolean';
+    protected static $defaultValue = null;
+    protected static $required = false;
 }
