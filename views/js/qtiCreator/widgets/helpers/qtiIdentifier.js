@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2022-2026 (original work) Open Assessment Technologies SA
  *
  */
 define(['module', 'i18n'], function (module, __) {
