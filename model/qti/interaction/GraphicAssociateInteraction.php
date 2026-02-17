@@ -45,7 +45,6 @@ class GraphicAssociateInteraction extends GraphicInteraction
         if (isset($attributes['data-interaction-subtype']) && $attributes['data-interaction-subtype'] !== '') {
             $this->defineBaseType($attributes['data-interaction-subtype']);
         }
-
     }
     /**
      * the QTI tag name as defined in QTI standard
