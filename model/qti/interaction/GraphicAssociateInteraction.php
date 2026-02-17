@@ -42,7 +42,11 @@ class GraphicAssociateInteraction extends GraphicInteraction
     public function __construct($attributes = [], Item $relatedItem = null, $serial = '')
     {
         parent::__construct($attributes, $relatedItem, $serial);
-        if (isset($attributes['data-interaction-subtype']) && $attributes['data-interaction-subtype'] !== '') {
+        if (
+            isset($attributes['data-interaction-subtype'])
+            && is_string($attributes['data-interaction-subtype'])
+            && $attributes['data-interaction-subtype'] !== ''
+        ) {
             $this->defineBaseType($attributes['data-interaction-subtype']);
         }
     }
@@ -97,8 +101,6 @@ class GraphicAssociateInteraction extends GraphicInteraction
 
     /**
      * Define baseType based on interaction subtype (e.g. arrow).
-     *
-     * @param array|string $subtype
      */
     private function defineBaseType(string $subtype): void
     {
