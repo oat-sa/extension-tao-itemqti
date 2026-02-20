@@ -74,8 +74,6 @@ class GraphicAssociateInteraction extends GraphicInteraction
 
     /**
      * Set the baseType for this interaction (pair or directedPair).
-     *
-     * @param string $baseType
      */
     public function setBaseType(string $baseType): void
     {
@@ -91,8 +89,6 @@ class GraphicAssociateInteraction extends GraphicInteraction
 
     /**
      * Get the interaction base type.
-     *
-     * @return string
      */
     public function getBaseType(): string
     {
