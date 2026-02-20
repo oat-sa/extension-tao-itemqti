@@ -60,7 +60,7 @@ class GraphicAssociateInteraction extends GraphicInteraction
     protected static $choiceClass = 'oat\\taoQtiItem\\model\\qti\\choice\\AssociableHotspot';
 
 
-    protected function getUsedAttributes()
+    protected function getUsedAttributes(): array
     {
         return array_merge(
             parent::getUsedAttributes(),
@@ -94,7 +94,7 @@ class GraphicAssociateInteraction extends GraphicInteraction
      *
      * @return string
      */
-    public function getBaseType()
+    public function getBaseType(): string
     {
         return strtolower(static::$baseType);
     }
