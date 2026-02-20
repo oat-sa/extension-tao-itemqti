@@ -21,10 +21,6 @@ namespace oat\taoQtiItem\model\qti\attribute;
 
 /**
  * The data-end attribute
- *
- * @access public
- * @author Sam, <sam@taotesting.com>
- * @package taoQTI
  */
 class DataEnd extends Attribute
 {

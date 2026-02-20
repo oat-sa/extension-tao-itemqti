@@ -23,10 +23,6 @@ namespace oat\taoQtiItem\model\qti\attribute;
 
 /**
  * The data-start attribute
- *
- * @access public
- * @author Sam, <sam@taotesting.com>
- * @package taoQTI
  */
 class DataStart extends Attribute
 {

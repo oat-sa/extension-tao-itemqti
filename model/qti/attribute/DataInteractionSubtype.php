@@ -24,10 +24,6 @@ namespace oat\taoQtiItem\model\qti\attribute;
 
 /**
  * The data-interaction-subtype attribute
- *
- * @access public
- * @author Sam, <sam@taotesting.com>
- * @package taoQTI
  */
 class DataInteractionSubtype extends Attribute
 {
