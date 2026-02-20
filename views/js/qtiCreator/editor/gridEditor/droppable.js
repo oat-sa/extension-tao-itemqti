@@ -11,9 +11,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2026 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2019 (original work) Open Assessment Technologies SA;
  *
  */
 define([
@@ -434,8 +434,7 @@ define([
         $el.one('dragoverstop.gridEdit', function(){
 
             //make placeholder permanent
-            if (dropped) {
-                _fixTextBlockDropTarget($placeholder);
+            if(dropped){
                 $placeholder.removeAttr('id').removeAttr('class');
             }
 
@@ -498,10 +497,6 @@ define([
         return $('<div>', {'class' : 'new-col'});
     }
 
-    function _getNewParagraph() {
-        return $('<p>').html('&nbsp;');
-    }
-
     function _restoreTmpCol($el){
         $el.find('.grid-row').each(function(){
             var $children;
@@ -526,28 +521,6 @@ define([
             });
             $row.removeAttr('data-active');
         });
-    }
-
-    function _fixTextBlockDropTarget($placeholder) {
-        const $parent = $placeholder.parent();
-        const isGoingToTextBlock = $parent.is('.widget-textBlock > [data-html-editable]');
-        const isGoingToTextBlockWrapper = $parent.is('.widget-textBlock > [data-html-editable] > .custom-text-box');
-
-        if (!isGoingToTextBlock && !isGoingToTextBlockWrapper) {
-            return;
-        }
-
-        const $textBlockWrappers = $parent.children('.custom-text-box');
-        const isGoingToWrappedTextBlock = isGoingToTextBlock && $parent.children().length === 2 && $textBlockWrappers.length === 1;
-        const $appendTo = _getNewParagraph();
-
-        if (isGoingToWrappedTextBlock) {
-            $textBlockWrappers.first().append($appendTo);
-        } else {
-            $parent.append($appendTo);
-        }
-
-        $appendTo.append($placeholder);
     }
 
     return droppableGridEditor;

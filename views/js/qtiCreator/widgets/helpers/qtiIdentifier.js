@@ -11,9 +11,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022-2026 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA
  *
  */
 define(['module', 'i18n'], function (module, __) {
@@ -21,8 +21,9 @@ define(['module', 'i18n'], function (module, __) {
 
     const qtiIdPattern = module.config().qtiIdPattern || '/^[a-zA-Z_]{1}[a-zA-Z0-9_.-]*$/u';
     const [, patternContent, flags] = qtiIdPattern.match(/^\/(.+)\/(\w*)$/);
-    const defaultInvalidQtiIdMessage = __('Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - ).');
-    const invalidQtiIdMessage = module.config().invalidQtiIdMessage || defaultInvalidQtiIdMessage;
+    const defaultInvalidQtiIdMessage = 'Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - ).';
+    const message = module.config().invalidQtiIdMessage || defaultInvalidQtiIdMessage;
+    const invalidQtiIdMessage = __(message);
     const isDisabled = module.config().isDisabled || false;
 
     return {
