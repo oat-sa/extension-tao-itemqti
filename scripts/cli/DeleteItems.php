@@ -44,7 +44,8 @@ use Throwable;
  * php index.php '\oat\taoQtiItem\scripts\cli\DeleteItems' -class uri_of_the_class
  * php index.php '\oat\taoQtiItem\scripts\cli\DeleteItems' -class uri_of_the_class --wet-run
  * php index.php '\oat\taoQtiItem\scripts\cli\DeleteItems' -class uri_of_the_class --verbose
- * php index.php '\oat\taoQtiItem\scripts\cli\DeleteItems' -class uri_of_the_class --ignore-class "https://example.com/class1,https://example.com/class2"
+ * php index.php '\oat\taoQtiItem\scripts\cli\DeleteItems' -class uri_of_the_class
+ * --ignore-class "https://example.com/class1,https://example.com/class2"
  *
  * By default, runs in dry-run mode (shows what would be deleted)
  * Use --wet-run to actually perform the deletion
@@ -116,7 +117,8 @@ class DeleteItems extends ScriptAction
             'ignore-class' => [
                 'prefix' => 'i',
                 'longPrefix' => 'ignore-class',
-                'description' => 'Comma-separated class URIs to ignore: items and subclasses inside these classes are not deleted',
+                'description' => 'Comma-separated class URIs to ignore: items and' . "\n" .
+                    'subclasses inside these classes are not deleted',
                 'required' => false
             ],
             'silent' => [
@@ -219,7 +221,8 @@ class DeleteItems extends ScriptAction
         echo "\n";
 
         if ($processed) {
-            $this->echoUnlessSilent("✓ " . ($isDryRun ? "[DRY RUN] Would delete this item" : "Item deleted successfully") . "\n");
+            $this->echoUnlessSilent("✓ " . ($isDryRun ? "[DRY RUN] Would delete this " . "\n" .
+            "item" : "Item deleted successfully") . "\n");
             $this->itemsProcessed++;
         }
     }
@@ -318,7 +321,8 @@ class DeleteItems extends ScriptAction
             }
         }
         if (!empty($this->ignoredClassUris)) {
-            $this->echoUnlessSilent("Ignoring " . count($this->ignoredClassUris) . " class(es) (including subclasses).\n");
+            $this->echoUnlessSilent("Ignoring " . count($this->ignoredClassUris) . " class(es) " . "\n" .
+            "(including subclasses).\n");
         }
     }
 
