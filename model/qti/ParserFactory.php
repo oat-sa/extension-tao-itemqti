@@ -13,15 +13,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
- * Copyright (c) 2013-2025 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2013-2026 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\taoQtiItem\model\qti;
 
 use oat\taoQtiItem\model\qti\choice\Choice;
-use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\container\Container;
 use oat\taoQtiItem\model\qti\exception\UnsupportedQtiElement;
 use oat\taoQtiItem\model\qti\exception\ParsingException;
@@ -30,23 +29,17 @@ use oat\taoQtiItem\model\qti\container\ContainerItemBody;
 use oat\taoQtiItem\model\qti\container\ContainerGap;
 use oat\taoQtiItem\model\qti\container\ContainerHottext;
 use oat\taoQtiItem\model\qti\interaction\Interaction;
-use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\response\Custom;
 use oat\taoQtiItem\model\qti\interaction\BlockInteraction;
 use oat\taoQtiItem\model\qti\interaction\ObjectInteraction;
 use oat\taoQtiItem\model\qti\interaction\CustomInteraction;
-use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
 use oat\taoQtiItem\model\CustomInteractionRegistry;
-use oat\taoQtiItem\model\qti\InfoControl;
-use oat\taoQtiItem\model\qti\PortableInfoControl;
 use oat\taoQtiItem\model\InfoControlRegistry;
 use oat\taoQtiItem\model\qti\choice\ContainerChoice;
 use oat\taoQtiItem\model\qti\choice\TextVariableChoice;
 use oat\taoQtiItem\model\qti\choice\GapImg;
 use oat\taoQtiItem\model\qti\response\interactionResponseProcessing\None;
 use oat\taoQtiItem\model\qti\response\SimpleFeedbackRuleScore;
-use oat\taoQtiItem\model\qti\ResponseDeclaration;
-use oat\taoQtiItem\model\qti\OutcomeDeclaration;
 use oat\taoQtiItem\model\qti\response\Template;
 use oat\taoQtiItem\model\qti\exception\UnexpectedResponseProcessing;
 use oat\taoQtiItem\model\qti\response\TemplatesDriven;
@@ -54,20 +47,11 @@ use oat\taoQtiItem\model\qti\response\TakeoverFailedException;
 use oat\taoQtiItem\model\qti\response\Summation;
 use oat\taoQtiItem\model\qti\expression\ExpressionParserFactory;
 use oat\taoQtiItem\model\qti\response\SimpleFeedbackRule;
-use oat\taoQtiItem\model\qti\QtiObject;
-use oat\taoQtiItem\model\qti\Img;
-use oat\taoQtiItem\model\qti\Math;
-use oat\taoQtiItem\model\qti\XInclude;
-use oat\taoQtiItem\model\qti\Stylesheet;
-use oat\taoQtiItem\model\qti\RubricBlock;
-use oat\taoQtiItem\model\qti\container\ContainerFeedbackInteractive;
-use oat\taoQtiItem\model\qti\container\ContainerStatic;
 use DOMDocument;
 use DOMXPath;
 use DOMElement;
 use common_Logger;
 use SimpleXMLElement;
-use oat\oatbox\service\ServiceManager;
 use oat\taoQtiItem\model\portableElement\model\PortableModelRegistry;
 use oat\oatbox\log\LoggerAwareTrait;
 
@@ -88,7 +72,7 @@ class ParserFactory
     private const HTML5_NS_ALIAS = 'qh5v2p2';
 
     protected $data = null;
-    /** @var \oat\taoQtiItem\model\qti\Item */
+    /** @var Item */
     protected $item = null;
     protected $attributeMap = ['lang' => 'xml:lang'];
     protected $xpath;
@@ -100,9 +84,6 @@ class ParserFactory
         $this->xpath->registerNamespace(self::HTML5_NS_ALIAS, self::QTI_HTML5_V2P2_NAMESPACE_URI);
     }
 
-    /**
-     * @param \oat\taoQtiItem\model\qti\Item $item
-     */
     public function setItem(Item $item)
     {
         $this->item = $item;
@@ -110,7 +91,6 @@ class ParserFactory
 
     public function load()
     {
-
         $item = null;
 
         if (!is_null($this->data)) {
@@ -135,7 +115,6 @@ class ParserFactory
      */
     public function getBodyData(DOMElement $data, $removeNamespace = false, $keepEmptyTags = false)
     {
-
         //prepare the data string
         $bodyData = '';
         $saveOptions = $keepEmptyTags ? LIBXML_NOEMPTYTAG : 0;

@@ -15,21 +15,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
- * Copyright (c) 2013-2026 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
+ * Copyright (c) 2026 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-
-namespace oat\taoQtiItem\model\qti\interaction;
+namespace oat\taoQtiItem\model\qti\attribute;
 
 /**
- * The QTI graphic interaction is a subclass of the main Object Interaction
- *
- * @access public
- * @author Sam, <sam@taotesting.com>
- * @package taoQTI
- * @see http://www.imsglobal.org/question/qtiv2p1/imsqti_infov2p1.html#element10357
+ * The data-end attribute
  */
-abstract class GraphicInteraction extends ObjectInteraction
+class DataEnd extends Attribute
 {
+    protected static $name = 'data-end';
+    protected static $type = 'oat\\taoQtiItem\\model\\qti\\datatype\\QtiBoolean';
+    protected static $defaultValue = null;
+    protected static $required = false;
 }
