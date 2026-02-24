@@ -27,8 +27,10 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicAssociateInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse){
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowMode',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowRendering'
+], function(_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse, arrowModeHelper, arrowRenderingHelper){
 
     'use strict';
 
@@ -40,6 +42,9 @@ define([
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
         var corrects  = _.values(response.getCorrect());
+        var isSanitizing = false;
+        var instructionMessage = __('Please set the correct associations by linking the choices.');
+        var instruction;
 
         commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
@@ -48,25 +53,53 @@ define([
             return;
         }
         
+        if (arrowModeHelper.isArrowMode(interaction)) {
+            instructionMessage += ' ' + __('Arrow direction: start hotspot to end hotspot.');
+        }
+
         //add a specific instruction
-        instructionMgr.appendInstruction(interaction, __('Please set the correct associations by linking the choices.'));
+        instruction = instructionMgr.appendInstruction(interaction, instructionMessage);
         
         //use the common Renderer
         commonRenderer.render.call(interaction.getRenderer(), interaction);
 
-        commonRenderer.setResponse(
-            interaction, 
-            PciResponse.serialize(_.invokeMap(corrects, String.prototype.split, ' '), interaction)
+        corrects = _.invokeMap(corrects, String.prototype.split, ' ');
+        corrects = arrowRenderingHelper.filterValidPairs(interaction, corrects);
+        response.setCorrect(
+            _.map(corrects, function(pair){
+                return pair.join(' ');
+            })
         );
+        commonRenderer.setResponse(interaction, PciResponse.serialize(corrects, interaction));
+        arrowRenderingHelper.scheduleApply(interaction);
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
+           if(isSanitizing){
+                return;
+           }
            if(data.response && data.response.list){
+                var pairs = arrowRenderingHelper.filterValidPairs(interaction, data.response.list.pair || []);
+                if (pairs.length !== (data.response.list.pair || []).length) {
+                    instruction.update({
+                        level: 'warning',
+                        message: __('Invalid arrow direction. Create associations from a start hotspot to an end hotspot.'),
+                        timeout: 2500,
+                        stop: function(){
+                            this.reset();
+                        }
+                    });
+                    isSanitizing = true;
+                    commonRenderer.resetResponse(interaction);
+                    commonRenderer.setResponse(interaction, PciResponse.serialize(pairs, interaction));
+                    isSanitizing = false;
+                }
                 response.setCorrect(
-                    _.map(data.response.list.pair, function(pair){
+                    _.map(pairs, function(pair){
                         return pair.join(' ');
                     })
-                ); 
+                );
            }
+            arrowRenderingHelper.scheduleApply(interaction);
         });
 
     }

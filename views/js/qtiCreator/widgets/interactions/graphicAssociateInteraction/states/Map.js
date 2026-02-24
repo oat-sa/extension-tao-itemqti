@@ -31,8 +31,10 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm'
-], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, scoringFormFactory){
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowMode',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowRendering'
+], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, scoringFormFactory, arrowModeHelper, arrowRenderingHelper){
 
     'use strict';
 
@@ -45,6 +47,9 @@ define([
         var response = interaction.getResponseDeclaration();
         var corrects  = _.values(response.getCorrect());
         var currentResponses =  _.size(response.getMapEntries()) === 0 ? corrects : _.keys(response.getMapEntries());
+        var isSanitizing = false;
+        var instructionMessage = __('Create assocations and fill the score in the form below');
+        var instruction;
 
         //really need to destroy before ?
         commonRenderer.resetResponse(interaction);
@@ -54,8 +59,12 @@ define([
             return;
         }
 
+        if (arrowModeHelper.isArrowMode(interaction)) {
+            instructionMessage += ' ' + __('Arrow direction: start hotspot to end hotspot.');
+        }
+
         //add a specific instruction
-        instructionMgr.appendInstruction(interaction, __('Create assocations and fill the score in the form below'));
+        instruction = instructionMgr.appendInstruction(interaction, instructionMessage);
         interaction.responseMappingMode = true;
 
         //use the common Renderer
@@ -70,13 +79,32 @@ define([
         } else {
             updateForm(widget);
         }
+        arrowRenderingHelper.scheduleApply(interaction);
 
         //each response change leads to an update of the scoring form
         widget.$container.on('responseChange.qti-widget', function(e, data){
             var type  = response.attr('cardinality') === 'single' ? 'base' : 'list';
             var pairs, entries;
-            if(data && data.response &&  data.response[type]){
-               pairs = _.invokeMap(data.response[type].pair, Array.prototype.join, ' ');
+            if(isSanitizing){
+                return;
+            }
+            if(data && data.response &&  data.response[type] && data.response[type].pair){
+               var validRawPairs = arrowRenderingHelper.filterValidPairs(interaction, data.response[type].pair);
+               if(validRawPairs.length !== data.response[type].pair.length){
+                   instruction.update({
+                       level: 'warning',
+                       message: __('Invalid arrow direction. Create associations from a start hotspot to an end hotspot.'),
+                       timeout: 2500,
+                       stop: function(){
+                           this.reset();
+                       }
+                   });
+                   isSanitizing = true;
+                   commonRenderer.resetResponse(interaction);
+                   commonRenderer.setResponse(interaction, PciResponse.serialize(validRawPairs, interaction));
+                   isSanitizing = false;
+               }
+               pairs = _.invokeMap(validRawPairs, Array.prototype.join, ' ');
                entries = _.keys(response.getMapEntries());
 
                //add new pairs from  the difference between the current entries and the given data
@@ -85,6 +113,7 @@ define([
 
                removePaths(interaction);
             }
+            arrowRenderingHelper.scheduleApply(interaction);
         });
     }
 

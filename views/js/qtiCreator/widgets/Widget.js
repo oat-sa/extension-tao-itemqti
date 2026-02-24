@@ -33,8 +33,11 @@ define([
         currentState.init();
         if (stateName === 'deleting') {
             // stylesheet clean
-            const passageSerial = widget.$container[0].dataset['serial'];
-            styleEditor.removeStylesheetOnDeletePassage(passageSerial);
+            const containerElement = widget.$container && widget.$container[0];
+            const passageSerial = containerElement && containerElement.dataset ? containerElement.dataset.serial : null;
+            if (passageSerial) {
+                styleEditor.removeStylesheetOnDeletePassage(passageSerial);
+            }
         }
     };
 

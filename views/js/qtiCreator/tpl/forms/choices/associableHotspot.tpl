@@ -14,6 +14,26 @@
     <h3>{{__ "Allowed number of matches"}}</h3>
 </div>
 
+{{#if arrowMode}}
+<div class="panel">
+    <h3>{{__ "Arrow mode direction"}}</h3>
+
+    <div class="panel">
+        <label for="data-start">{{__ "Start"}}</label>
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+        <div class="tooltip-content">{{__ "Allow this hotspot to be the origin of an arrow association."}}</div>
+        <input type="checkbox" name="data-start"{{#if startEnabled}} checked{{/if}} />
+    </div>
+
+    <div class="panel">
+        <label for="data-end">{{__ "End"}}</label>
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+        <div class="tooltip-content">{{__ "Allow this hotspot to be the destination of an arrow association."}}</div>
+        <input type="checkbox" name="data-end"{{#if endEnabled}} checked{{/if}} />
+    </div>
+</div>
+{{/if}}
+
 <div class="response-matchmax-info hotspot{{#unless isInfinityMatchMax}} hidden{{/unless}}">
     <p class="feedback-info">{{__ 'The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score.'}}</p>
 </div>
@@ -49,4 +69,3 @@
         <input name="height" value="{{height}}" type="text" readonly />
     </div>
 </div>
-
