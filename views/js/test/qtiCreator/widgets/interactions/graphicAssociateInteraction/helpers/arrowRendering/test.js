@@ -47,6 +47,13 @@ define(['taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/
                 }
             },
             attr: function (name, value) {
+                const self = this;
+                if (typeof name === 'object' && name !== null) {
+                    Object.keys(name).forEach(function (key) {
+                        self.attrs[key] = name[key];
+                    });
+                    return;
+                }
                 this.attrs[name] = value;
             }
         };
@@ -61,7 +68,7 @@ define(['taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/
     });
 
     QUnit.test('applies arrow-end only on association inner lines', function (assert) {
-        assert.expect(2);
+        assert.expect(3);
 
         const assocLine = createElement(['assoc-line-inner']);
         const nonAssocLine = createElement(['assoc-line-outer']);
@@ -70,6 +77,7 @@ define(['taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/
         arrowRenderingHelper.applyToRenderedLines(interaction);
 
         assert.strictEqual(assocLine.attrs['arrow-end'], 'classic-wide-long', 'arrow style is applied on inner line');
+        assert.strictEqual(assocLine.attrs.stroke, '#266d9c', 'arrow color is aligned with line color');
         assert.strictEqual(nonAssocLine.attrs['arrow-end'], undefined, 'other line layers are not modified');
     });
 

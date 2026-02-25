@@ -23,6 +23,7 @@ define(['lodash'], function (_) {
     const SUBTYPE_ATTR = 'data-interaction-subtype';
     const ARROW_SUBTYPE = 'arrow';
     const ARROW_STYLE = 'classic-wide-long';
+    const ARROW_COLOR = '#266d9c';
     const START_ATTR = 'data-start';
     const END_ATTR = 'data-end';
 
@@ -43,7 +44,10 @@ define(['lodash'], function (_) {
                 element.node.classList.contains('assoc-line-inner') &&
                 _.isFunction(element.attr)
             ) {
-                element.attr('arrow-end', ARROW_STYLE);
+                element.attr({
+                    'arrow-end': ARROW_STYLE,
+                    stroke: ARROW_COLOR
+                });
             }
         });
     }
