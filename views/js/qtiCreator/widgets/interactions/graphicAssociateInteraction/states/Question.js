@@ -174,20 +174,14 @@ define([
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
                 callbacks['data-start'] = function (choiceElement, value) {
-                    const isStart = value === true;
-                    const direction = arrowModeHelper.getChoiceDirection(choiceElement);
-                    const isEnd = isStart ? false : direction.end;
-                    arrowModeHelper.setChoiceDirection(choiceElement, isStart, isEnd);
-                    if (isStart) {
+                    const direction = arrowModeHelper.setExclusiveChoiceDirection(choiceElement, 'start', value);
+                    if (direction.start) {
                         $choiceForm.find('input[name="data-end"]').prop('checked', false);
                     }
                 };
                 callbacks['data-end'] = function (choiceElement, value) {
-                    const isEnd = value === true;
-                    const direction = arrowModeHelper.getChoiceDirection(choiceElement);
-                    const isStart = isEnd ? false : direction.start;
-                    arrowModeHelper.setChoiceDirection(choiceElement, isStart, isEnd);
-                    if (isEnd) {
+                    const direction = arrowModeHelper.setExclusiveChoiceDirection(choiceElement, 'end', value);
+                    if (direction.end) {
                         $choiceForm.find('input[name="data-start"]').prop('checked', false);
                     }
                 };

@@ -28,11 +28,22 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicAssociateInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowMode',
-    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowRendering'
-], function(_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse, arrowModeHelper, arrowRenderingHelper){
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowRendering',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowResponse',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowReverseControl'
+], function(_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse, arrowRenderingHelper, arrowResponseHelper, arrowReverseControlHelper){
 
     'use strict';
+
+    function normalizePairs(pairs){
+        let normalized = _.isArray(pairs) ? pairs : [];
+        if (normalized.length === 2 && !_.isArray(normalized[0]) && !_.isArray(normalized[1])) {
+            normalized = [normalized];
+        }
+        return _.filter(normalized, function (pair) {
+            return _.isArray(pair) && pair.length === 2;
+        });
+    }
 
     /**
      * Initialize the state: use the common renderer to set the correct response.
@@ -46,6 +57,11 @@ define([
         var instructionMessage = __('Please set the correct associations by linking the choices.');
         var instruction;
 
+        if (_.isFunction(widget._detachArrowReverseControl)) {
+            widget._detachArrowReverseControl();
+            widget._detachArrowReverseControl = null;
+        }
+
         commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
 
@@ -53,9 +69,7 @@ define([
             return;
         }
         
-        if (arrowModeHelper.isArrowMode(interaction)) {
-            instructionMessage += ' ' + __('Arrow direction: start hotspot to end hotspot.');
-        }
+        instructionMessage = arrowResponseHelper.getInstructionMessage(interaction, instructionMessage);
 
         //add a specific instruction
         instruction = instructionMgr.appendInstruction(interaction, instructionMessage);
@@ -64,7 +78,7 @@ define([
         commonRenderer.render.call(interaction.getRenderer(), interaction);
 
         corrects = _.invokeMap(corrects, String.prototype.split, ' ');
-        corrects = arrowRenderingHelper.filterValidPairs(interaction, corrects);
+        corrects = arrowResponseHelper.sanitizePairs(interaction, corrects);
         response.setCorrect(
             _.map(corrects, function(pair){
                 return pair.join(' ');
@@ -73,21 +87,53 @@ define([
         commonRenderer.setResponse(interaction, PciResponse.serialize(corrects, interaction));
         arrowRenderingHelper.scheduleApply(interaction);
 
+        if (arrowRenderingHelper.isArrowMode(interaction)) {
+            widget._detachArrowReverseControl = arrowReverseControlHelper.attach(widget.$container, interaction, {
+                onReverse: function (leftId, rightId) {
+                    let currentPairs;
+                    const reversed = arrowResponseHelper.reversePair(
+                        normalizePairs(PciResponse.unserialize(commonRenderer.getResponse(interaction), interaction)),
+                        leftId,
+                        rightId,
+                        true
+                    );
+
+                    if (!reversed.changed) {
+                        return;
+                    }
+
+                    currentPairs = arrowResponseHelper.sanitizePairs(interaction, reversed.pairs);
+                    if (currentPairs.length !== reversed.pairs.length) {
+                        arrowResponseHelper.updateDirectionRolesForPair(interaction, reversed.reversedPair);
+                        currentPairs = arrowResponseHelper.sanitizePairs(interaction, reversed.pairs);
+                        if (currentPairs.length !== reversed.pairs.length) {
+                            arrowResponseHelper.showInvalidDirectionWarning(instruction);
+                            return;
+                        }
+                    }
+
+                    isSanitizing = true;
+                    commonRenderer.resetResponse(interaction);
+                    commonRenderer.setResponse(interaction, PciResponse.serialize(currentPairs, interaction));
+                    response.setCorrect(
+                        _.map(currentPairs, function (pair) {
+                            return pair.join(' ');
+                        })
+                    );
+                    isSanitizing = false;
+                    arrowRenderingHelper.scheduleApply(interaction, 20);
+                }
+            });
+        }
+
         widget.$container.on('responseChange.qti-widget', function(e, data){
            if(isSanitizing){
                 return;
            }
            if(data.response && data.response.list){
-                var pairs = arrowRenderingHelper.filterValidPairs(interaction, data.response.list.pair || []);
+                var pairs = arrowResponseHelper.sanitizePairs(interaction, data.response.list.pair || []);
                 if (pairs.length !== (data.response.list.pair || []).length) {
-                    instruction.update({
-                        level: 'warning',
-                        message: __('Invalid arrow direction. Create associations from a start hotspot to an end hotspot.'),
-                        timeout: 2500,
-                        stop: function(){
-                            this.reset();
-                        }
-                    });
+                    arrowResponseHelper.showInvalidDirectionWarning(instruction);
                     isSanitizing = true;
                     commonRenderer.resetResponse(interaction);
                     commonRenderer.setResponse(interaction, PciResponse.serialize(pairs, interaction));
@@ -117,7 +163,11 @@ define([
 
         //stop listening responses changes
         widget.$container.off('responseChange.qti-widget');
-        
+        if (_.isFunction(widget._detachArrowReverseControl)) {
+            widget._detachArrowReverseControl();
+            widget._detachArrowReverseControl = null;
+        }
+
         //destroy the common renderer
         commonRenderer.resetResponse(interaction); 
         commonRenderer.destroy(interaction); 
