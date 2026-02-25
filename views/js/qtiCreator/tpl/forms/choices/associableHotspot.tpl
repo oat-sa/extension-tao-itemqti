@@ -15,21 +15,20 @@
 </div>
 
 {{#if arrowMode}}
-<div class="panel">
+<div class="panel arrow-direction-panel">
     <h3>{{__ "Arrow mode direction"}}</h3>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+    <div class="tooltip-content">{{__ "Choose one direction role for this hotspot: Start means arrow origin, End means arrow destination."}}</div>
+    <div class="arrow-direction-options">
+        <div class="panel arrow-direction-option">
+            <label for="data-start">{{__ "Start"}}</label>
+            <input type="radio" name="data-direction" value="start"{{#if startSelected}} checked{{/if}} />
+        </div>
 
-    <div class="panel">
-        <label for="data-start">{{__ "Start"}}</label>
-        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-        <div class="tooltip-content">{{__ "Allow this hotspot to be the origin of an arrow association."}}</div>
-        <input type="checkbox" name="data-start"{{#if startEnabled}} checked{{/if}} />
-    </div>
-
-    <div class="panel">
-        <label for="data-end">{{__ "End"}}</label>
-        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-        <div class="tooltip-content">{{__ "Allow this hotspot to be the destination of an arrow association."}}</div>
-        <input type="checkbox" name="data-end"{{#if endEnabled}} checked{{/if}} />
+        <div class="panel arrow-direction-option">
+            <label for="data-end">{{__ "End"}}</label>
+            <input type="radio" name="data-direction" value="end"{{#if endSelected}} checked{{/if}} />
+        </div>
     </div>
 </div>
 {{/if}}

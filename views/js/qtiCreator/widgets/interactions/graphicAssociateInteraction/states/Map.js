@@ -39,16 +39,6 @@ define([
 
     'use strict';
 
-    function normalizePairs(pairs){
-        let normalized = _.isArray(pairs) ? pairs : [];
-        if (normalized.length === 2 && !_.isArray(normalized[0]) && !_.isArray(normalized[1])) {
-            normalized = [normalized];
-        }
-        return _.filter(normalized, function (pair) {
-            return _.isArray(pair) && pair.length === 2;
-        });
-    }
-
     /**
      * Initialize the state.
      */
@@ -101,26 +91,19 @@ define([
                     let mapEntries;
                     let oldKey;
                     let newKey;
-                    const reversed = arrowResponseHelper.reversePair(
-                        normalizePairs(PciResponse.unserialize(commonRenderer.getResponse(interaction), interaction)),
+                    const reversed = arrowResponseHelper.reverseSelectedPair(
+                        interaction,
+                        PciResponse.unserialize(commonRenderer.getResponse(interaction), interaction),
                         leftId,
                         rightId,
-                        true
+                        instruction
                     );
 
                     if (!reversed.changed) {
                         return;
                     }
 
-                    pairs = arrowResponseHelper.sanitizePairs(interaction, reversed.pairs);
-                    if (pairs.length !== reversed.pairs.length) {
-                        arrowResponseHelper.updateDirectionRolesForPair(interaction, reversed.reversedPair);
-                        pairs = arrowResponseHelper.sanitizePairs(interaction, reversed.pairs);
-                        if (pairs.length !== reversed.pairs.length) {
-                            arrowResponseHelper.showInvalidDirectionWarning(instruction);
-                            return;
-                        }
-                    }
+                    pairs = reversed.pairs;
 
                     mapEntries = response.getMapEntries();
                     oldKey = reversed.previousPair.join(' ');
@@ -156,8 +139,9 @@ define([
                 return;
             }
             if(data && data.response &&  data.response[type] && data.response[type].pair){
-               var validRawPairs = arrowResponseHelper.sanitizePairs(interaction, data.response[type].pair);
-               if(validRawPairs.length !== data.response[type].pair.length){
+               var sanitizedResponse = arrowResponseHelper.sanitizePairChange(interaction, data.response[type].pair);
+               var validRawPairs = sanitizedResponse.pairs;
+               if(sanitizedResponse.changed){
                    arrowResponseHelper.showInvalidDirectionWarning(instruction);
                    isSanitizing = true;
                    commonRenderer.resetResponse(interaction);

@@ -35,16 +35,6 @@ define([
 
     'use strict';
 
-    function normalizePairs(pairs){
-        let normalized = _.isArray(pairs) ? pairs : [];
-        if (normalized.length === 2 && !_.isArray(normalized[0]) && !_.isArray(normalized[1])) {
-            normalized = [normalized];
-        }
-        return _.filter(normalized, function (pair) {
-            return _.isArray(pair) && pair.length === 2;
-        });
-    }
-
     /**
      * Initialize the state: use the common renderer to set the correct response.
      */
@@ -91,26 +81,19 @@ define([
             widget._detachArrowReverseControl = arrowReverseControlHelper.attach(widget.$container, interaction, {
                 onReverse: function (leftId, rightId) {
                     let currentPairs;
-                    const reversed = arrowResponseHelper.reversePair(
-                        normalizePairs(PciResponse.unserialize(commonRenderer.getResponse(interaction), interaction)),
+                    const reversed = arrowResponseHelper.reverseSelectedPair(
+                        interaction,
+                        PciResponse.unserialize(commonRenderer.getResponse(interaction), interaction),
                         leftId,
                         rightId,
-                        true
+                        instruction
                     );
 
                     if (!reversed.changed) {
                         return;
                     }
 
-                    currentPairs = arrowResponseHelper.sanitizePairs(interaction, reversed.pairs);
-                    if (currentPairs.length !== reversed.pairs.length) {
-                        arrowResponseHelper.updateDirectionRolesForPair(interaction, reversed.reversedPair);
-                        currentPairs = arrowResponseHelper.sanitizePairs(interaction, reversed.pairs);
-                        if (currentPairs.length !== reversed.pairs.length) {
-                            arrowResponseHelper.showInvalidDirectionWarning(instruction);
-                            return;
-                        }
-                    }
+                    currentPairs = reversed.pairs;
 
                     isSanitizing = true;
                     commonRenderer.resetResponse(interaction);
@@ -131,8 +114,9 @@ define([
                 return;
            }
            if(data.response && data.response.list){
-                var pairs = arrowResponseHelper.sanitizePairs(interaction, data.response.list.pair || []);
-                if (pairs.length !== (data.response.list.pair || []).length) {
+                var sanitizedResponse = arrowResponseHelper.sanitizePairChange(interaction, data.response.list.pair || []);
+                var pairs = sanitizedResponse.pairs;
+                if (sanitizedResponse.changed) {
                     arrowResponseHelper.showInvalidDirectionWarning(instruction);
                     isSanitizing = true;
                     commonRenderer.resetResponse(interaction);
