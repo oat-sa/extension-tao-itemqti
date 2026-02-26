@@ -30,7 +30,11 @@ define([
     function getInstructionMessage(interaction, baseMessage) {
         let message = baseMessage || '';
         if (arrowModeHelper.isArrowMode(interaction)) {
-            message += ' ' + ARROW_HINT_MESSAGE;
+            if (message) {
+                message += ' ' + ARROW_HINT_MESSAGE;
+            } else {
+                message = ARROW_HINT_MESSAGE;
+            }
         }
         return message;
     }

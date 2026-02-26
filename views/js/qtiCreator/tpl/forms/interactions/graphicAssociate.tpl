@@ -32,6 +32,7 @@
         <label for="data-interaction-subtype">{{__ "Arrow mode"}}</label>
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
         <div class="tooltip-content">{{__ "Enable directional associations (start to end). Disable to keep classic undirected associations."}}</div>
-        <input type="checkbox" name="data-interaction-subtype"{{#if arrowMode}} checked{{/if}} />
+        <input type="checkbox" name="data-interaction-subtype" id="data-interaction-subtype"{{#if arrowMode}} checked{{/if}} />
     </div>
 </div>
+
