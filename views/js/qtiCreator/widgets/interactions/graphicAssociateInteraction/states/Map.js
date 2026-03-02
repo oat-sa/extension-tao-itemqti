@@ -31,8 +31,11 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm'
-], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, scoringFormFactory){
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowRendering',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowResponse',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowReverseControl'
+], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, scoringFormFactory, arrowRenderingHelper, arrowResponseHelper, arrowReverseControlHelper){
 
     'use strict';
 
@@ -44,7 +47,14 @@ define([
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
         var corrects  = _.values(response.getCorrect());
-        var currentResponses =  _.size(response.getMapEntries()) === 0 ? corrects : _.keys(response.getMapEntries());
+        var isSanitizing = false;
+        var instructionMessage = __('Create associations and fill the score in the form below');
+        var instruction;
+
+        if (_.isFunction(widget._detachArrowReverseControl)) {
+            widget._detachArrowReverseControl();
+            widget._detachArrowReverseControl = null;
+        }
 
         //really need to destroy before ?
         commonRenderer.resetResponse(interaction);
@@ -54,8 +64,10 @@ define([
             return;
         }
 
+        instructionMessage = arrowResponseHelper.getInstructionMessage(interaction, instructionMessage);
+
         //add a specific instruction
-        instructionMgr.appendInstruction(interaction, __('Create assocations and fill the score in the form below'));
+        instruction = instructionMgr.appendInstruction(interaction, instructionMessage);
         interaction.responseMappingMode = true;
 
         //use the common Renderer
@@ -70,13 +82,73 @@ define([
         } else {
             updateForm(widget);
         }
+        arrowRenderingHelper.scheduleApply(interaction);
+
+        if (arrowRenderingHelper.isArrowMode(interaction)) {
+            widget._detachArrowReverseControl = arrowReverseControlHelper.attach(widget.$container, interaction, {
+                onReverse: function (leftId, rightId) {
+                    let pairs;
+                    let mapEntries;
+                    let oldKey;
+                    let newKey;
+                    const reversed = arrowResponseHelper.reverseSelectedPair(
+                        interaction,
+                        PciResponse.unserialize(commonRenderer.getResponse(interaction), interaction),
+                        leftId,
+                        rightId,
+                        instruction
+                    );
+
+                    if (!reversed.changed) {
+                        return;
+                    }
+
+                    pairs = reversed.pairs;
+
+                    mapEntries = response.getMapEntries();
+                    oldKey = reversed.previousPair.join(' ');
+                    newKey = reversed.reversedPair.join(' ');
+                    if (mapEntries[oldKey] !== undefined) {
+                        if (mapEntries[newKey] === undefined) {
+                            mapEntries[newKey] = mapEntries[oldKey];
+                        }
+                        if (oldKey !== newKey) {
+                            delete mapEntries[oldKey];
+                        }
+                    }
+
+                    isSanitizing = true;
+                    commonRenderer.resetResponse(interaction);
+                    commonRenderer.setResponse(interaction, PciResponse.serialize(pairs, interaction));
+                    isSanitizing = false;
+
+                    if (interaction.pairScoringForm) {
+                        interaction.pairScoringForm.destroy();
+                    }
+                    updateForm(widget);
+                    arrowRenderingHelper.scheduleApply(interaction, 20);
+                }
+            });
+        }
 
         //each response change leads to an update of the scoring form
         widget.$container.on('responseChange.qti-widget', function(e, data){
             var type  = response.attr('cardinality') === 'single' ? 'base' : 'list';
             var pairs, entries;
-            if(data && data.response &&  data.response[type]){
-               pairs = _.invokeMap(data.response[type].pair, Array.prototype.join, ' ');
+            if(isSanitizing){
+                return;
+            }
+            if(data && data.response &&  data.response[type] && data.response[type].pair){
+               var sanitizedResponse = arrowResponseHelper.sanitizePairChange(interaction, data.response[type].pair);
+               var validRawPairs = sanitizedResponse.pairs;
+               if(sanitizedResponse.changed){
+                   arrowResponseHelper.showInvalidDirectionWarning(instruction);
+                   isSanitizing = true;
+                   commonRenderer.resetResponse(interaction);
+                   commonRenderer.setResponse(interaction, PciResponse.serialize(validRawPairs, interaction));
+                   isSanitizing = false;
+               }
+               pairs = _.invokeMap(validRawPairs, Array.prototype.join, ' ');
                entries = _.keys(response.getMapEntries());
 
                //add new pairs from  the difference between the current entries and the given data
@@ -85,6 +157,7 @@ define([
 
                removePaths(interaction);
             }
+            arrowRenderingHelper.scheduleApply(interaction);
         });
     }
 
@@ -109,6 +182,10 @@ define([
         }
 
         widget.$container.off('responseChange.qti-widget');
+        if (_.isFunction(widget._detachArrowReverseControl)) {
+            widget._detachArrowReverseControl();
+            widget._detachArrowReverseControl = null;
+        }
 
         if(interaction.pairScoringForm){
             interaction.pairScoringForm.destroy();
@@ -146,14 +223,6 @@ define([
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
         var mapEntries = response.getMapEntries();
-
-        var mappingChange = function mappingChange(){
-            //set the current responses, either the mapEntries or the corrects if nothing else
-            commonRenderer.setResponse(
-                interaction,
-                PciResponse.serialize(_.invokeMap(_.keys(response.getMapEntries()), String.prototype.split, ' '), interaction)
-            );
-        };
 
         var getPairValues = function getPairValues(){
             return _.map(interaction.getChoices(), function(choice){
