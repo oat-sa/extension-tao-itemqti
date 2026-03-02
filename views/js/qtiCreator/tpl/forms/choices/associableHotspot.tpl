@@ -22,12 +22,12 @@
     <div class="arrow-direction-options">
         <div class="panel arrow-direction-option">
             <label for="data-start">{{__ "Start"}}</label>
-            <input type="radio" name="data-direction" value="start" id="data-start"{{#if startSelected}} checked{{/if}} />
+            <input type="checkbox" name="data-start" id="data-start"{{#if startEnabled}} checked{{/if}} />
         </div>
 
         <div class="panel arrow-direction-option">
             <label for="data-end">{{__ "End"}}</label>
-            <input type="radio" name="data-direction" value="end" id="data-end"{{#if endSelected}} checked{{/if}} />
+            <input type="checkbox" name="data-end" id="data-end"{{#if endEnabled}} checked{{/if}} />
         </div>
     </div>
 </div>

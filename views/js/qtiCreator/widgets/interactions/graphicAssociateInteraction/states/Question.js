@@ -131,12 +131,6 @@ define([
                 const element = interaction.paper.getById(serial);
                 const bbox = element.getBBox();
                 const direction = arrowModeHelper.getChoiceDirection(choice);
-                const startSelected = direction.start || !direction.end;
-                const endSelected = !startSelected;
-
-                if (direction.start !== startSelected || direction.end !== endSelected) {
-                    arrowModeHelper.setChoiceDirection(choice, startSelected, endSelected);
-                }
 
                 $choiceForm.empty().html(
                     choiceFormTpl({
@@ -144,8 +138,8 @@ define([
                         fixed: choice.attr('fixed'),
                         serial: serial,
                         arrowMode: arrowModeHelper.isArrowMode(interaction),
-                        startSelected: startSelected,
-                        endSelected: endSelected,
+                        startEnabled: direction.start,
+                        endEnabled: direction.end,
                         x: parseInt(bbox.x, 10),
                         y: parseInt(bbox.y, 10),
                         width: parseInt(bbox.width, 10),
@@ -180,8 +174,13 @@ define([
                 const callbacks = formElement.getMinMaxAttributeCallbacks('matchMin', 'matchMax');
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
-                callbacks['data-direction'] = function (choiceElement, value) {
-                    arrowModeHelper.setChoiceDirection(choiceElement, value === 'start', value === 'end');
+                callbacks['data-start'] = function (choiceElement, value) {
+                    const current = arrowModeHelper.getChoiceDirection(choiceElement);
+                    arrowModeHelper.setChoiceDirection(choiceElement, value === true, current.end);
+                };
+                callbacks['data-end'] = function (choiceElement, value) {
+                    const current = arrowModeHelper.getChoiceDirection(choiceElement);
+                    arrowModeHelper.setChoiceDirection(choiceElement, current.start, value === true);
                 };
 
                 formElement.setChangeCallbacks($choiceForm, choice, callbacks);
