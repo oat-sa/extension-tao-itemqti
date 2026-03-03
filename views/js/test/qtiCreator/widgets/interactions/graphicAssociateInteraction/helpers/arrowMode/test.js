@@ -26,6 +26,10 @@ define(['taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/
         if (initialSubtype) {
             attributes['data-interaction-subtype'] = initialSubtype;
         }
+        const responseDeclarationAttributes = {
+            baseType: 'pair',
+            cardinality: 'multiple'
+        };
 
         const choices = {};
         const createChoice = function () {
@@ -58,6 +62,16 @@ define(['taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/
             },
             getChoices: function () {
                 return choices;
+            },
+            getResponseDeclaration: function () {
+                return {
+                    attr: function (name, value) {
+                        if (typeof value === 'undefined') {
+                            return responseDeclarationAttributes[name];
+                        }
+                        responseDeclarationAttributes[name] = value;
+                    }
+                };
             }
         };
     }
@@ -70,13 +84,15 @@ define(['taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/
     });
 
     QUnit.test('sets and unsets subtype attribute', function (assert) {
-        assert.expect(4);
+        assert.expect(6);
         const interaction = createInteraction();
 
         assert.strictEqual(arrowModeHelper.setArrowMode(interaction, true), true, 'enabling returns true');
         assert.strictEqual(interaction.attr('data-interaction-subtype'), 'arrow', 'subtype is set to arrow');
+        assert.strictEqual(interaction.getResponseDeclaration().attr('baseType'), 'directedPair', 'baseType is set to directedPair');
         assert.strictEqual(arrowModeHelper.setArrowMode(interaction, false), false, 'disabling returns false');
         assert.strictEqual(interaction.attr('data-interaction-subtype'), undefined, 'subtype is removed');
+        assert.strictEqual(interaction.getResponseDeclaration().attr('baseType'), 'pair', 'baseType is reset to pair');
     });
 
     QUnit.test('sets choice direction attributes from booleans', function (assert) {

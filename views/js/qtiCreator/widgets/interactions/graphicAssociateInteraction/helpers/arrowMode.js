@@ -23,6 +23,8 @@ define(['lodash'], function (_) {
     const SUBTYPE_ATTR = 'data-interaction-subtype';
     const START_ATTR = 'data-start';
     const END_ATTR = 'data-end';
+    const PAIR_BASE_TYPE = 'pair';
+    const DIRECTED_PAIR_BASE_TYPE = 'directedPair';
 
     function getDirectionFlag(value, defaultValue) {
         if (value === 'true' || value === true) {
@@ -94,6 +96,17 @@ define(['lodash'], function (_) {
         choice.removeAttr(END_ATTR);
     }
 
+    function setResponseBaseType(interaction, baseType) {
+        if (!interaction || !_.isFunction(interaction.getResponseDeclaration)) {
+            return;
+        }
+
+        const responseDeclaration = interaction.getResponseDeclaration();
+        if (responseDeclaration && _.isFunction(responseDeclaration.attr)) {
+            responseDeclaration.attr('baseType', baseType);
+        }
+    }
+
     function isArrowMode(interaction) {
         return interaction && interaction.attr(SUBTYPE_ATTR) === ARROW_SUBTYPE;
     }
@@ -105,6 +118,7 @@ define(['lodash'], function (_) {
 
         if (enabled) {
             interaction.attr(SUBTYPE_ATTR, ARROW_SUBTYPE);
+            setResponseBaseType(interaction, DIRECTED_PAIR_BASE_TYPE);
             _.forEach(getChoices(interaction), function (choice) {
                 ensureChoiceDirectionDefaults(choice);
             });
@@ -112,6 +126,7 @@ define(['lodash'], function (_) {
         }
 
         interaction.removeAttr(SUBTYPE_ATTR);
+        setResponseBaseType(interaction, PAIR_BASE_TYPE);
         _.forEach(getChoices(interaction), function (choice) {
             clearChoiceDirection(choice);
         });
