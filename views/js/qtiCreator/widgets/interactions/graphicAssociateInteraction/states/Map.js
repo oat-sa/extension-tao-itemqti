@@ -134,12 +134,14 @@ define([
         //each response change leads to an update of the scoring form
         widget.$container.on('responseChange.qti-widget', function(e, data){
             var type  = response.attr('cardinality') === 'single' ? 'base' : 'list';
+            var rawPairs;
             var pairs, entries;
             if(isSanitizing){
                 return;
             }
-            if(data && data.response &&  data.response[type] && data.response[type].pair){
-               var sanitizedResponse = arrowResponseHelper.sanitizePairChange(interaction, data.response[type].pair);
+            rawPairs = arrowResponseHelper.extractResponsePairs(data && data.response, type);
+            if(rawPairs !== null){
+               var sanitizedResponse = arrowResponseHelper.sanitizePairChange(interaction, rawPairs);
                var validRawPairs = sanitizedResponse.pairs;
                if(sanitizedResponse.changed){
                    arrowResponseHelper.showInvalidDirectionWarning(instruction);
