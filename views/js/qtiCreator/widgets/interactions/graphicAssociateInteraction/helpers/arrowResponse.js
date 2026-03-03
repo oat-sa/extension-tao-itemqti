@@ -53,6 +53,22 @@ define([
         });
     }
 
+    function extractResponsePairs(responsePayload, type) {
+        if (!responsePayload || !type || !_.isObject(responsePayload[type])) {
+            return null;
+        }
+
+        if (typeof responsePayload[type].pair !== 'undefined') {
+            return responsePayload[type].pair;
+        }
+
+        if (typeof responsePayload[type].directedPair !== 'undefined') {
+            return responsePayload[type].directedPair;
+        }
+
+        return null;
+    }
+
     function sanitizePairs(interaction, rawPairs) {
         const pairs = _.isArray(rawPairs) ? rawPairs : [];
         return arrowRenderingHelper.filterValidPairs(interaction, pairs);
@@ -178,6 +194,7 @@ define([
     return {
         getInstructionMessage: getInstructionMessage,
         showInvalidDirectionWarning: showInvalidDirectionWarning,
+        extractResponsePairs: extractResponsePairs,
         normalizePairs: normalizePairs,
         sanitizePairs: sanitizePairs,
         sanitizePairChange: sanitizePairChange,

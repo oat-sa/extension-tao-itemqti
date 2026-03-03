@@ -43,6 +43,25 @@ define(['taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/
         assert.strictEqual(lineMessage, baseMessage, 'message stays unchanged outside arrow mode');
     });
 
+    QUnit.test('extracts pair payload from both pair and directedPair response keys', function (assert) {
+        assert.expect(3);
+        assert.deepEqual(
+            arrowResponseHelper.extractResponsePairs({ list: { pair: [['A', 'B']] } }, 'list'),
+            [['A', 'B']],
+            'pair payload is returned'
+        );
+        assert.deepEqual(
+            arrowResponseHelper.extractResponsePairs({ list: { directedPair: [['B', 'A']] } }, 'list'),
+            [['B', 'A']],
+            'directedPair payload is returned'
+        );
+        assert.strictEqual(
+            arrowResponseHelper.extractResponsePairs({ list: {} }, 'list'),
+            null,
+            'missing pair payload returns null'
+        );
+    });
+
     QUnit.test('reverses selected pair by endpoint ids', function (assert) {
         assert.expect(3);
         const pairs = [
@@ -173,6 +192,41 @@ define(['taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/
 
         assert.ok(sanitized.changed, 'changed flag is raised');
         assert.deepEqual(sanitized.pairs, [['A', 'B']], 'only valid direction remains');
+    });
+
+    QUnit.test('keeps pair when both hotspots allow start and end direction', function (assert) {
+        assert.expect(2);
+        const attrsA = { 'data-start': 'true', 'data-end': 'true' };
+        const attrsB = { 'data-start': 'true', 'data-end': 'true' };
+        const interaction = {
+            attr: function (name) {
+                return name === 'data-interaction-subtype' ? 'arrow' : undefined;
+            },
+            getChoices: function () {
+                return [
+                    {
+                        id: function () {
+                            return 'A';
+                        },
+                        attr: function (name) {
+                            return attrsA[name];
+                        }
+                    },
+                    {
+                        id: function () {
+                            return 'B';
+                        },
+                        attr: function (name) {
+                            return attrsB[name];
+                        }
+                    }
+                ];
+            }
+        };
+        const sanitized = arrowResponseHelper.sanitizePairChange(interaction, [['A', 'B']]);
+
+        assert.notOk(sanitized.changed, 'valid bidirectional pair is preserved');
+        assert.deepEqual(sanitized.pairs, [['A', 'B']], 'pair remains available');
     });
 
     QUnit.test('reverses only selected directional pair via controller helper', function (assert) {

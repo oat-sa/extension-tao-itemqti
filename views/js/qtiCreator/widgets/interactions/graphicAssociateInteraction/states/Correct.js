@@ -110,11 +110,14 @@ define([
         }
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
+           var type = response.attr('cardinality') === 'single' ? 'base' : 'list';
+           var rawPairs;
            if(isSanitizing){
                 return;
            }
-           if(data.response && data.response.list){
-                var sanitizedResponse = arrowResponseHelper.sanitizePairChange(interaction, data.response.list.pair || []);
+           rawPairs = arrowResponseHelper.extractResponsePairs(data && data.response, type);
+           if(rawPairs !== null){
+                var sanitizedResponse = arrowResponseHelper.sanitizePairChange(interaction, rawPairs);
                 var pairs = sanitizedResponse.pairs;
                 if (sanitizedResponse.changed) {
                     arrowResponseHelper.showInvalidDirectionWarning(instruction);
