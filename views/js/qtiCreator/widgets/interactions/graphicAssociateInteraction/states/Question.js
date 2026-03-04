@@ -72,6 +72,13 @@ define([
         let $left, $top, $width, $height;
         let activeChoiceSerial = null;
 
+        function detachChoiceThresholdHandler() {
+            if (_.isFunction(widget.off) && _.isFunction(widget._choiceThresholdHandler)) {
+                widget.off('choiceCreated choiceDeleted', widget._choiceThresholdHandler);
+                widget._choiceThresholdHandler = null;
+            }
+        }
+
         if (!paper) {
             return;
         }
@@ -161,11 +168,13 @@ define([
                     },
                     upperThreshold: _.size(interaction.getChoices())
                 }).on('render', function () {
-                    widget.on('choiceCreated choiceDeleted', data => {
+                    detachChoiceThresholdHandler();
+                    widget._choiceThresholdHandler = data => {
                         if (data.interaction.serial === interaction.serial) {
                             this.updateThresholds(1, _.size(interaction.getChoices()));
                         }
-                    });
+                    };
+                    widget.on('choiceCreated choiceDeleted', widget._choiceThresholdHandler);
                 });
 
                 formElement.initWidget($choiceForm);
@@ -205,6 +214,7 @@ define([
          */
         function leaveChoiceForm() {
             if ($formChoicePanel.css('display') !== 'none') {
+                detachChoiceThresholdHandler();
                 panel.openSections($formInteractionPanel.children('section'));
                 $formChoicePanel.hide();
                 $choiceForm.empty();
@@ -235,6 +245,10 @@ define([
 
         if (widget._editor) {
             widget._editor.destroy();
+        }
+        if (_.isFunction(widget.off) && _.isFunction(widget._choiceThresholdHandler)) {
+            widget.off('choiceCreated choiceDeleted', widget._choiceThresholdHandler);
+            widget._choiceThresholdHandler = null;
         }
         widget._enterChoiceForm = null;
         widget._activeChoiceSerial = null;

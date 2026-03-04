@@ -108,7 +108,7 @@ define(['lodash'], function (_) {
     }
 
     function isArrowMode(interaction) {
-        return interaction && interaction.attr(SUBTYPE_ATTR) === ARROW_SUBTYPE;
+        return interaction && _.isFunction(interaction.attr) && interaction.attr(SUBTYPE_ATTR) === ARROW_SUBTYPE;
     }
 
     function setArrowMode(interaction, enabled) {
