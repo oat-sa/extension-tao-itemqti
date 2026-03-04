@@ -304,4 +304,86 @@ define(['taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/
             ['C', 'D']
         ], 'only selected pair is modified');
     });
+
+    QUnit.test('does not mutate hotspot roles when reversal remains blocked', function (assert) {
+        assert.expect(7);
+        const attrsA = { 'data-start': 'true', 'data-end': 'false' };
+        const attrsB = { 'data-start': 'false', 'data-end': 'true' };
+        const attrsC = { 'data-start': 'false', 'data-end': 'true' };
+        const attrsD = { 'data-start': 'true', 'data-end': 'false' };
+        const interaction = {
+            attr: function (name) {
+                return name === 'data-interaction-subtype' ? 'arrow' : undefined;
+            },
+            getChoices: function () {
+                return [
+                    {
+                        id: function () {
+                            return 'A';
+                        },
+                        attr: function (name, value) {
+                            if (typeof value === 'undefined') {
+                                return attrsA[name];
+                            }
+                            attrsA[name] = value;
+                        }
+                    },
+                    {
+                        id: function () {
+                            return 'B';
+                        },
+                        attr: function (name, value) {
+                            if (typeof value === 'undefined') {
+                                return attrsB[name];
+                            }
+                            attrsB[name] = value;
+                        }
+                    },
+                    {
+                        id: function () {
+                            return 'C';
+                        },
+                        attr: function (name, value) {
+                            if (typeof value === 'undefined') {
+                                return attrsC[name];
+                            }
+                            attrsC[name] = value;
+                        }
+                    },
+                    {
+                        id: function () {
+                            return 'D';
+                        },
+                        attr: function (name, value) {
+                            if (typeof value === 'undefined') {
+                                return attrsD[name];
+                            }
+                            attrsD[name] = value;
+                        }
+                    }
+                ];
+            }
+        };
+
+        const result = arrowResponseHelper.reverseSelectedPair(
+            interaction,
+            [
+                ['A', 'B'],
+                ['C', 'D']
+            ],
+            'A',
+            'B'
+        );
+
+        assert.notOk(result.changed, 'reversal is rejected');
+        assert.ok(result.blocked, 'blocked flag is set');
+        assert.deepEqual(result.pairs, [
+            ['A', 'B'],
+            ['C', 'D']
+        ], 'original normalized pairs are returned');
+        assert.strictEqual(attrsA['data-start'], 'true', 'source start role is restored');
+        assert.strictEqual(attrsA['data-end'], 'false', 'source end role is restored');
+        assert.strictEqual(attrsB['data-start'], 'false', 'target start role is restored');
+        assert.strictEqual(attrsB['data-end'], 'true', 'target end role is restored');
+    });
 });

@@ -83,6 +83,12 @@ define(['taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/
         assert.ok(arrowModeHelper.isArrowMode(createInteraction('arrow')), 'arrow mode is detected');
     });
 
+    QUnit.test('returns false when interaction does not expose attr function', function (assert) {
+        assert.expect(2);
+        assert.notOk(arrowModeHelper.isArrowMode({}), 'malformed interaction is handled');
+        assert.notOk(arrowModeHelper.isArrowMode(null), 'null interaction is handled');
+    });
+
     QUnit.test('sets and unsets subtype attribute', function (assert) {
         assert.expect(6);
         const interaction = createInteraction();
