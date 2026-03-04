@@ -26,6 +26,8 @@ define([
 
     const ARROW_HINT_MESSAGE = __('Arrow direction: start hotspot to end hotspot.');
     const INVALID_DIRECTION_MESSAGE = __('Invalid arrow direction. Create associations from a start hotspot to an end hotspot.');
+    const START_ATTR = 'data-start';
+    const END_ATTR = 'data-end';
 
     function getInstructionMessage(interaction, baseMessage) {
         let message = baseMessage || '';
@@ -94,6 +96,75 @@ define([
         };
     }
 
+    function getChoicesById(interaction) {
+        return _.reduce(
+            interaction.getChoices(),
+            function (result, choice) {
+                result[choice.id()] = choice;
+                return result;
+            },
+            {}
+        );
+    }
+
+    function setRawDirectionFlag(choice, attrName, value) {
+        if (!choice) {
+            return;
+        }
+
+        if (typeof value === 'undefined') {
+            if (_.isFunction(choice.removeAttr)) {
+                choice.removeAttr(attrName);
+            }
+            return;
+        }
+
+        if (_.isFunction(choice.attr)) {
+            choice.attr(attrName, value);
+        }
+    }
+
+    function captureDirectionRolesForPair(interaction, pair) {
+        let sourceChoice;
+        let targetChoice;
+        const choicesById = getChoicesById(interaction);
+
+        if (!arrowModeHelper.isArrowMode(interaction) || !_.isArray(pair) || pair.length !== 2) {
+            return null;
+        }
+
+        sourceChoice = choicesById[pair[0]];
+        targetChoice = choicesById[pair[1]];
+
+        if (!sourceChoice || !targetChoice) {
+            return null;
+        }
+
+        return {
+            source: {
+                choice: sourceChoice,
+                start: sourceChoice.attr(START_ATTR),
+                end: sourceChoice.attr(END_ATTR)
+            },
+            target: {
+                choice: targetChoice,
+                start: targetChoice.attr(START_ATTR),
+                end: targetChoice.attr(END_ATTR)
+            }
+        };
+    }
+
+    function restoreDirectionRoles(snapshot) {
+        if (!snapshot) {
+            return;
+        }
+
+        setRawDirectionFlag(snapshot.source.choice, START_ATTR, snapshot.source.start);
+        setRawDirectionFlag(snapshot.source.choice, END_ATTR, snapshot.source.end);
+        setRawDirectionFlag(snapshot.target.choice, START_ATTR, snapshot.target.start);
+        setRawDirectionFlag(snapshot.target.choice, END_ATTR, snapshot.target.end);
+    }
+
     function reversePair(pairs, leftId, rightId, strictDirection) {
         const nextPairs = _.map(pairs || [], function (pair) {
             return _.isArray(pair) ? pair.slice(0, 2) : pair;
@@ -134,14 +205,7 @@ define([
             return false;
         }
 
-        const choicesById = _.reduce(
-            interaction.getChoices(),
-            function (result, choice) {
-                result[choice.id()] = choice;
-                return result;
-            },
-            {}
-        );
+        const choicesById = getChoicesById(interaction);
 
         const sourceChoice = choicesById[pair[0]];
         const targetChoice = choicesById[pair[1]];
@@ -160,6 +224,8 @@ define([
     function reverseSelectedPair(interaction, currentPairs, leftId, rightId, instruction) {
         const normalizedPairs = normalizePairs(currentPairs);
         const reversed = reversePair(normalizedPairs, leftId, rightId, true);
+        let previousRoles;
+        let rolesUpdated;
         let sanitizedResult;
 
         if (!reversed.changed) {
@@ -171,9 +237,13 @@ define([
 
         sanitizedResult = sanitizePairChange(interaction, reversed.pairs);
         if (sanitizedResult.changed) {
-            updateDirectionRolesForPair(interaction, reversed.reversedPair);
-            sanitizedResult = sanitizePairChange(interaction, reversed.pairs);
-            if (sanitizedResult.changed) {
+            previousRoles = captureDirectionRolesForPair(interaction, reversed.reversedPair);
+            rolesUpdated = updateDirectionRolesForPair(interaction, reversed.reversedPair);
+            if (rolesUpdated) {
+                sanitizedResult = sanitizePairChange(interaction, reversed.pairs);
+            }
+            if (!rolesUpdated || sanitizedResult.changed) {
+                restoreDirectionRoles(previousRoles);
                 showInvalidDirectionWarning(instruction);
                 return {
                     changed: false,
