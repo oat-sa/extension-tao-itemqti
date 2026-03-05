@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-05 17:48\n"
+"PO-Revision-Date: 2026-03-05 09:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -474,7 +474,7 @@ msgid "Define correct response"
 msgstr "正解を設定"
 
 msgid "Define correct response (for post-processing)"
-msgstr "正しい応答を定義する (ポストプロセス用)"
+msgstr "正答を定義する (後処理用)"
 
 msgid "Define item language."
 msgstr "アイテム言語を定義します"
@@ -1634,7 +1634,7 @@ msgid "Score value"
 msgstr "スコア値"
 
 msgid "Scrollable multi-column"
-msgstr "スクロール可能な複数カラム"
+msgstr "スクロール可能複数カラム"
 
 msgid "sec"
 msgstr "秒"
