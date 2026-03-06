@@ -13,9 +13,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
- * Copyright (c) 2025 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2025-2026 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -37,7 +37,6 @@ use oat\taoQtiItem\model\qti\Figure;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\OutcomeDeclaration;
 use oat\taoQtiItem\model\qti\ParserFactory;
-use oat\taoQtiItem\model\qti\response\SimpleFeedbackRuleScore;
 use oat\taoQtiItem\model\qti\response\TemplatesDriven;
 use oat\taoQtiItem\model\qti\ResponseDeclaration;
 use PHPUnit\Framework\TestCase;
