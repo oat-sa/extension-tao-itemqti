@@ -32,6 +32,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
     'taoQtiItem/qtiCreator/widgets/helpers/identifier',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowMode',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicAssociate',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/associableHotspot',
     'taoQtiItem/qtiCreator/helper/panel',
@@ -48,6 +49,7 @@ define([
     formElement,
     minMaxComponentFactory,
     identifierHelper,
+    arrowModeHelper,
     formTpl,
     choiceFormTpl,
     panel,
@@ -68,6 +70,14 @@ define([
         const $formChoicePanel = $('#item-editor-choice-property-bar');
 
         let $left, $top, $width, $height;
+        let activeChoiceSerial = null;
+
+        function detachChoiceThresholdHandler() {
+            if (_.isFunction(widget.off) && _.isFunction(widget._choiceThresholdHandler)) {
+                widget.off('choiceCreated choiceDeleted', widget._choiceThresholdHandler);
+                widget._choiceThresholdHandler = null;
+            }
+        }
 
         if (!paper) {
             return;
@@ -83,6 +93,9 @@ define([
 
                 //link the shape to the choice
                 shape.id = newChoice.serial;
+                if (arrowModeHelper.isArrowMode(interaction)) {
+                    arrowModeHelper.ensureChoiceDirectionDefaults(newChoice);
+                }
             },
             shapeRemoved: function (id) {
                 interaction.removeChoice(id);
@@ -124,12 +137,16 @@ define([
                 //get shape bounding box
                 const element = interaction.paper.getById(serial);
                 const bbox = element.getBBox();
+                const direction = arrowModeHelper.getChoiceDirection(choice);
 
                 $choiceForm.empty().html(
                     choiceFormTpl({
                         identifier: choice.id(),
                         fixed: choice.attr('fixed'),
                         serial: serial,
+                        arrowMode: arrowModeHelper.isArrowMode(interaction),
+                        startEnabled: direction.start,
+                        endEnabled: direction.end,
                         x: parseInt(bbox.x, 10),
                         y: parseInt(bbox.y, 10),
                         width: parseInt(bbox.width, 10),
@@ -151,11 +168,13 @@ define([
                     },
                     upperThreshold: _.size(interaction.getChoices())
                 }).on('render', function () {
-                    widget.on('choiceCreated choiceDeleted', data => {
+                    detachChoiceThresholdHandler();
+                    widget._choiceThresholdHandler = data => {
                         if (data.interaction.serial === interaction.serial) {
                             this.updateThresholds(1, _.size(interaction.getChoices()));
                         }
-                    });
+                    };
+                    widget.on('choiceCreated choiceDeleted', widget._choiceThresholdHandler);
                 });
 
                 formElement.initWidget($choiceForm);
@@ -164,6 +183,14 @@ define([
                 const callbacks = formElement.getMinMaxAttributeCallbacks('matchMin', 'matchMax');
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
+                callbacks['data-start'] = function (choiceElement, value) {
+                    const current = arrowModeHelper.getChoiceDirection(choiceElement);
+                    arrowModeHelper.setChoiceDirection(choiceElement, value === true, current.end);
+                };
+                callbacks['data-end'] = function (choiceElement, value) {
+                    const current = arrowModeHelper.getChoiceDirection(choiceElement);
+                    arrowModeHelper.setChoiceDirection(choiceElement, current.start, value === true);
+                };
 
                 formElement.setChangeCallbacks($choiceForm, choice, callbacks);
 
@@ -176,6 +203,8 @@ define([
                 $top = $('input[name=y]', $choiceForm);
                 $width = $('input[name=width]', $choiceForm);
                 $height = $('input[name=height]', $choiceForm);
+                activeChoiceSerial = serial;
+                widget._activeChoiceSerial = serial;
             }
         }
 
@@ -185,11 +214,16 @@ define([
          */
         function leaveChoiceForm() {
             if ($formChoicePanel.css('display') !== 'none') {
+                detachChoiceThresholdHandler();
                 panel.openSections($formInteractionPanel.children('section'));
                 $formChoicePanel.hide();
                 $choiceForm.empty();
+                activeChoiceSerial = null;
+                widget._activeChoiceSerial = null;
             }
         }
+
+        widget._enterChoiceForm = enterChoiceForm;
     }
 
     /**
@@ -212,6 +246,12 @@ define([
         if (widget._editor) {
             widget._editor.destroy();
         }
+        if (_.isFunction(widget.off) && _.isFunction(widget._choiceThresholdHandler)) {
+            widget.off('choiceCreated choiceDeleted', widget._choiceThresholdHandler);
+            widget._choiceThresholdHandler = null;
+        }
+        widget._enterChoiceForm = null;
+        widget._activeChoiceSerial = null;
         $('.image-editor.solid, .block-listing.source', this.widget.$container).css('min-width', 0);
     }
 
@@ -250,7 +290,8 @@ define([
                 data: interaction.object.attr('data'),
                 width: interaction.object.attr('width'),
                 height: interaction.object.attr('height'),
-                type: interaction.object.attr('type')
+                type: interaction.object.attr('type'),
+                arrowMode: arrowModeHelper.isArrowMode(interaction)
             })
         );
 
@@ -282,11 +323,17 @@ define([
 
         bgImage.setupImage(widget);
 
-        bgImage.setChangeCallbacks(
-            widget,
-            formElement,
-            formElement.getMinMaxAttributeCallbacks('minAssociations', 'maxAssociations')
-        );
+        const callbacks = formElement.getMinMaxAttributeCallbacks('minAssociations', 'maxAssociations');
+        callbacks['data-interaction-subtype'] = function (element, value) {
+            const isEnabled = arrowModeHelper.setArrowMode(element, value === true);
+            if (widget._activeChoiceSerial && _.isFunction(widget._enterChoiceForm)) {
+                widget._enterChoiceForm(widget._activeChoiceSerial);
+            }
+            if (isEnabled !== (value === true)) {
+                widget.$form.find('[name="data-interaction-subtype"]').prop('checked', isEnabled);
+            }
+        };
+        bgImage.setChangeCallbacks(widget, formElement, callbacks);
     };
 
     return GraphicAssociateInteractionStateQuestion;
