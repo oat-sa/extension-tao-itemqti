@@ -27,8 +27,11 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/GraphicAssociateInteraction',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
-    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse'
-], function(_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse){
+    'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowRendering',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowResponse',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowReverseControl'
+], function(_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse, arrowRenderingHelper, arrowResponseHelper, arrowReverseControlHelper){
 
     'use strict';
 
@@ -40,6 +43,14 @@ define([
         var interaction = widget.element;
         var response = interaction.getResponseDeclaration();
         var corrects  = _.values(response.getCorrect());
+        var isSanitizing = false;
+        var instructionMessage = __('Please set the correct associations by linking the choices.');
+        var instruction;
+
+        if (_.isFunction(widget._detachArrowReverseControl)) {
+            widget._detachArrowReverseControl();
+            widget._detachArrowReverseControl = null;
+        }
 
         commonRenderer.resetResponse(interaction);
         commonRenderer.destroy(interaction);
@@ -48,25 +59,80 @@ define([
             return;
         }
         
+        instructionMessage = arrowResponseHelper.getInstructionMessage(interaction, instructionMessage);
+
         //add a specific instruction
-        instructionMgr.appendInstruction(interaction, __('Please set the correct associations by linking the choices.'));
+        instruction = instructionMgr.appendInstruction(interaction, instructionMessage);
         
         //use the common Renderer
         commonRenderer.render.call(interaction.getRenderer(), interaction);
 
-        commonRenderer.setResponse(
-            interaction, 
-            PciResponse.serialize(_.invokeMap(corrects, String.prototype.split, ' '), interaction)
+        corrects = _.invokeMap(corrects, String.prototype.split, ' ');
+        corrects = arrowResponseHelper.sanitizePairs(interaction, corrects);
+        response.setCorrect(
+            _.map(corrects, function(pair){
+                return pair.join(' ');
+            })
         );
+        commonRenderer.setResponse(interaction, PciResponse.serialize(corrects, interaction));
+        arrowRenderingHelper.scheduleApply(interaction);
+
+        if (arrowRenderingHelper.isArrowMode(interaction)) {
+            widget._detachArrowReverseControl = arrowReverseControlHelper.attach(widget.$container, interaction, {
+                onReverse: function (leftId, rightId) {
+                    let currentPairs;
+                    const reversed = arrowResponseHelper.reverseSelectedPair(
+                        interaction,
+                        PciResponse.unserialize(commonRenderer.getResponse(interaction), interaction),
+                        leftId,
+                        rightId,
+                        instruction
+                    );
+
+                    if (!reversed.changed) {
+                        return;
+                    }
+
+                    currentPairs = reversed.pairs;
+
+                    isSanitizing = true;
+                    commonRenderer.resetResponse(interaction);
+                    commonRenderer.setResponse(interaction, PciResponse.serialize(currentPairs, interaction));
+                    response.setCorrect(
+                        _.map(currentPairs, function (pair) {
+                            return pair.join(' ');
+                        })
+                    );
+                    isSanitizing = false;
+                    arrowRenderingHelper.scheduleApply(interaction, 20);
+                }
+            });
+        }
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
-           if(data.response && data.response.list){
+           var type = response.attr('cardinality') === 'single' ? 'base' : 'list';
+           var rawPairs;
+           if(isSanitizing){
+                return;
+           }
+           rawPairs = arrowResponseHelper.extractResponsePairs(data && data.response, type);
+           if(rawPairs !== null){
+                var sanitizedResponse = arrowResponseHelper.sanitizePairChange(interaction, rawPairs);
+                var pairs = sanitizedResponse.pairs;
+                if (sanitizedResponse.changed) {
+                    arrowResponseHelper.showInvalidDirectionWarning(instruction);
+                    isSanitizing = true;
+                    commonRenderer.resetResponse(interaction);
+                    commonRenderer.setResponse(interaction, PciResponse.serialize(pairs, interaction));
+                    isSanitizing = false;
+                }
                 response.setCorrect(
-                    _.map(data.response.list.pair, function(pair){
+                    _.map(pairs, function(pair){
                         return pair.join(' ');
                     })
-                ); 
+                );
            }
+            arrowRenderingHelper.scheduleApply(interaction);
         });
 
     }
@@ -84,7 +150,11 @@ define([
 
         //stop listening responses changes
         widget.$container.off('responseChange.qti-widget');
-        
+        if (_.isFunction(widget._detachArrowReverseControl)) {
+            widget._detachArrowReverseControl();
+            widget._detachArrowReverseControl = null;
+        }
+
         //destroy the common renderer
         commonRenderer.resetResponse(interaction); 
         commonRenderer.destroy(interaction); 
