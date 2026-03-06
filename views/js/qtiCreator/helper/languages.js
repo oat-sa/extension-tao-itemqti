@@ -22,10 +22,11 @@
  * v1 example: [{"ar-arb": "Arabic"}, ...]
  * v2 example: [{code: "ar-arb", label: "Arabic", orientation: "rtl", uri: "http://www.tao.lu/Ontologies/TAO.rdf#Langar-arb"}, ...]
  */
-define(['util/url', 'core/dataProvider/request'], function (urlUtil, request) {
+define(['util/url', 'core/dataProvider/request', 'module'], function (urlUtil, request, module) {
     'use strict';
 
-    const languagesUrl = urlUtil.route('index', 'Languages', 'tao');
+    const config = module.config();
+    const languagesUrl = config?.languagesUrl || urlUtil.route('index', 'Languages', 'tao');
     const headers = {'Accept-version': 'v2'};
 
     let languagesRequest = null;
