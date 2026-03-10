@@ -164,8 +164,11 @@ define([
 
         const hidePositionPanel = () => {
             getPositionPanel().hide();
-            $interaction.removeClass(`qti-choices-${position}`);
+            ['top', 'bottom', 'left', 'right'].forEach(pos => {
+                $interaction.removeClass(`qti-choices-${pos}`);
+            });
             interaction.removeAttr('data-position');
+            interaction.removeAttr('class');
             position = getDefaultPosition();
         }
 
@@ -228,10 +231,10 @@ define([
             interaction.removeAttr('data-position');
             interaction.removeAttr('class');
             position = getDefaultPosition();
-            applyPosition(position);
 
             if (value === 'sort') {
                 makeSortOrder();
+                applyPosition(position);
                 showPositionPanel();
             } else {
                 makeSingleOrder();
