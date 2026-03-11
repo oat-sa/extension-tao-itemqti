@@ -117,10 +117,12 @@ define([
             createMinMaxComponent();
         }
 
-        const normalizePositionClass = (className, position) => {
+        const normalizeClass = (className, position) => {
             const classes = (className || '').split(/\s+/).filter(Boolean).filter((c) => !c.startsWith("qti-choices-"));
-            classes.push(`qti-choices-${position}`);
-            return classes.join(' ');
+            if (position) {
+                classes.push(`qti-choices-${position}`);
+            }
+            return classes.join(' ').trim();
         }
 
         const updateArrowDirection =(position) =>{
@@ -144,7 +146,7 @@ define([
         const applyPosition = (position) => {
             if (!position) return;
             const baseClass = $interaction.attr('class') || '';
-            const newClass = normalizePositionClass(baseClass, position);
+            const newClass = normalizeClass(baseClass, position);
             $interaction.attr('class', newClass);
             interaction.attr('data-position', position);
             interaction.attr('class', `qti-choices-${position}`);
@@ -168,9 +170,7 @@ define([
                 $interaction.removeClass(`qti-choices-${pos}`);
             });
             interaction.removeAttr('data-position');
-            const currentClass = interaction.attr('class') || '';
-            const strippedClass = currentClass.split(/\s+/).filter(Boolean)
-                .filter((c) => !c.startsWith('qti-choices-')).join(' ').trim();
+            const strippedClass = normalizeClass(interaction.attr('class'));
             if (strippedClass) {
                 interaction.attr('class', strippedClass);
             } else {
