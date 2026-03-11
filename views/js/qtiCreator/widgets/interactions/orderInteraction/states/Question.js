@@ -168,7 +168,14 @@ define([
                 $interaction.removeClass(`qti-choices-${pos}`);
             });
             interaction.removeAttr('data-position');
-            interaction.removeAttr('class');
+            const currentClass = interaction.attr('class') || '';
+            const strippedClass = currentClass.split(/\s+/).filter(Boolean)
+                .filter((c) => !c.startsWith('qti-choices-')).join(' ').trim();
+            if (strippedClass) {
+                interaction.attr('class', strippedClass);
+            } else {
+                interaction.removeAttr('class');
+            }
             position = getDefaultPosition();
         }
 
