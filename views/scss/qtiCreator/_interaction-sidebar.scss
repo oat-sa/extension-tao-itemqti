@@ -112,3 +112,25 @@
         }
     }
 }
+
+#item-editor-choice-property-bar {
+    .arrow-direction-panel {
+        .arrow-direction-options {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .arrow-direction-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .arrow-direction-option label {
+            margin: 0;
+        }
+    }
+}

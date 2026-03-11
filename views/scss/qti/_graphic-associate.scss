@@ -142,24 +142,29 @@
         }
     }
 
-    .close-btn {
-        @include transform-unscale;
+    .close-btn,
+    .swap-btn {
+        transform-box: fill-box;
+        transform-origin: center center;
+        transform: scale(calc(1 / var(--paper-scale, 1)));
         cursor: pointer;
         transition: opacity 200ms;
     }
-    .close-btn-path {
-        fill: $colorLight;
-        stroke: $colorLight;
+    .close-btn-hitbox,
+    .swap-btn-hitbox {
+        fill: $colorBrand;
+        opacity: 0;
         stroke-width: 0;
     }
-    .close-btn-bg {
+    .close-btn-bg,
+    .swap-btn-bg {
         fill: $colorBrand;
         stroke: $colorLight;
         stroke-width: 2;
     }
-    .close-btn-hitbox {
-        fill: $colorBrand;
-        opacity: 0;
+    .close-btn-path {
+        fill: $colorLight;
+        stroke: $colorLight;
         stroke-width: 0;
     }
     .assoc-line:not(.selected) + .close-btn {
@@ -170,5 +175,14 @@
         fill: $colorDark;
         opacity: 0.4;
         stroke-width: 0;
+    }
+
+    .swap-btn-path {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        pointer-events: none;
     }
 }
