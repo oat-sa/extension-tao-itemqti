@@ -117,10 +117,12 @@ define([
             createMinMaxComponent();
         }
 
-        const normalizePositionClass = (className, position) => {
+        const normalizeClass = (className, position) => {
             const classes = (className || '').split(/\s+/).filter(Boolean).filter((c) => !c.startsWith("qti-choices-"));
-            classes.push(`qti-choices-${position}`);
-            return classes.join(' ');
+            if (position) {
+                classes.push(`qti-choices-${position}`);
+            }
+            return classes.join(' ').trim();
         }
 
         const updateArrowDirection =(position) =>{
@@ -144,7 +146,7 @@ define([
         const applyPosition = (position) => {
             if (!position) return;
             const baseClass = $interaction.attr('class') || '';
-            const newClass = normalizePositionClass(baseClass, position);
+            const newClass = normalizeClass(baseClass, position);
             $interaction.attr('class', newClass);
             interaction.attr('data-position', position);
             interaction.attr('class', `qti-choices-${position}`);
@@ -164,8 +166,16 @@ define([
 
         const hidePositionPanel = () => {
             getPositionPanel().hide();
-            $interaction.removeClass(`qti-choices-${position}`);
+            ['top', 'bottom', 'left', 'right'].forEach(pos => {
+                $interaction.removeClass(`qti-choices-${pos}`);
+            });
             interaction.removeAttr('data-position');
+            const strippedClass = normalizeClass(interaction.attr('class'));
+            if (strippedClass) {
+                interaction.attr('class', strippedClass);
+            } else {
+                interaction.removeAttr('class');
+            }
             position = getDefaultPosition();
         }
 
@@ -228,10 +238,10 @@ define([
             interaction.removeAttr('data-position');
             interaction.removeAttr('class');
             position = getDefaultPosition();
-            applyPosition(position);
 
             if (value === 'sort') {
                 makeSortOrder();
+                applyPosition(position);
                 showPositionPanel();
             } else {
                 makeSingleOrder();
