@@ -26,13 +26,21 @@
 </div>
 
 <div class="panel">
-    <h3>{{__ "Association mode"}}</h3>
+    <h3>{{__ "Association display"}}</h3>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+    <div class="tooltip-content">{{__ "Controls the visual style of association links. Line shows non-directional links. Arrow adds an arrowhead to indicate direction and works together with Start/End hotspot settings."}}</div>
 
-    <div class="panel">
-        <label for="data-interaction-subtype">{{__ "Arrow mode"}}</label>
-        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-        <div class="tooltip-content">{{__ "Enable directional associations (start to end). Disable to keep classic undirected associations."}}</div>
-        <input type="checkbox" name="data-interaction-subtype" id="data-interaction-subtype"{{#if arrowMode}} checked{{/if}} />
+    <div>
+        <label class="smaller-prompt">
+            <input type="radio" name="data-interaction-subtype" value="arrow" {{#if arrowMode}}checked{{/if}} />
+            <span class="icon-radio"></span>
+            {{__ "Arrow"}}
+        </label>
+        <br>
+        <label class="smaller-prompt">
+            <input type="radio" name="data-interaction-subtype" value="line" {{#unless arrowMode}}checked{{/unless}} />
+            <span class="icon-radio"></span>
+            {{__ "Line"}}
+        </label>
     </div>
 </div>
-

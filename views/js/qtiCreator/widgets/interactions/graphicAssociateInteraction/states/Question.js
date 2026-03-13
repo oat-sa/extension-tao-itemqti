@@ -325,12 +325,14 @@ define([
 
         const callbacks = formElement.getMinMaxAttributeCallbacks('minAssociations', 'maxAssociations');
         callbacks['data-interaction-subtype'] = function (element, value) {
-            const isEnabled = arrowModeHelper.setArrowMode(element, value === true);
+            const isEnabled = arrowModeHelper.setArrowMode(element, value === 'arrow');
             if (widget._activeChoiceSerial && _.isFunction(widget._enterChoiceForm)) {
                 widget._enterChoiceForm(widget._activeChoiceSerial);
             }
-            if (isEnabled !== (value === true)) {
-                widget.$form.find('[name="data-interaction-subtype"]').prop('checked', isEnabled);
+            if (isEnabled !== (value === 'arrow')) {
+                widget.$form
+                    .find('[name="data-interaction-subtype"][value="' + (isEnabled ? 'arrow' : 'line') + '"]')
+                    .prop('checked', true);
             }
         };
         bgImage.setChangeCallbacks(widget, formElement, callbacks);

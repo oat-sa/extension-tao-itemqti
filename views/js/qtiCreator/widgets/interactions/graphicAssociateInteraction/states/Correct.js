@@ -29,9 +29,8 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowRendering',
-    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowResponse',
-    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowReverseControl'
-], function(_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse, arrowRenderingHelper, arrowResponseHelper, arrowReverseControlHelper){
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowResponse'
+], function(_, __, stateFactory, Correct, commonRenderer, instructionMgr, PciResponse, arrowRenderingHelper, arrowResponseHelper){
 
     'use strict';
 
@@ -77,37 +76,7 @@ define([
         commonRenderer.setResponse(interaction, PciResponse.serialize(corrects, interaction));
         arrowRenderingHelper.scheduleApply(interaction);
 
-        if (arrowRenderingHelper.isArrowMode(interaction)) {
-            widget._detachArrowReverseControl = arrowReverseControlHelper.attach(widget.$container, interaction, {
-                onReverse: function (leftId, rightId) {
-                    let currentPairs;
-                    const reversed = arrowResponseHelper.reverseSelectedPair(
-                        interaction,
-                        PciResponse.unserialize(commonRenderer.getResponse(interaction), interaction),
-                        leftId,
-                        rightId,
-                        instruction
-                    );
-
-                    if (!reversed.changed) {
-                        return;
-                    }
-
-                    currentPairs = reversed.pairs;
-
-                    isSanitizing = true;
-                    commonRenderer.resetResponse(interaction);
-                    commonRenderer.setResponse(interaction, PciResponse.serialize(currentPairs, interaction));
-                    response.setCorrect(
-                        _.map(currentPairs, function (pair) {
-                            return pair.join(' ');
-                        })
-                    );
-                    isSanitizing = false;
-                    arrowRenderingHelper.scheduleApply(interaction, 20);
-                }
-            });
-        }
+  
 
         widget.$container.on('responseChange.qti-widget', function(e, data){
            var type = response.attr('cardinality') === 'single' ? 'base' : 'list';
