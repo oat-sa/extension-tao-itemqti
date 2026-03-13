@@ -87,7 +87,8 @@ define([
             editMode = 'latex',
             $popupsContainer,
             areaBroker = this.widget.getAreaBroker(),
-            wirisMathEnabled = context.featureFlags && context.featureFlags.FEATURE_FLAG_WIRIS_MATH_PATH;
+            wirisMathPathFlag = context.featureFlags && context.featureFlags.FEATURE_FLAG_WIRIS_MATH_PATH,
+            wirisMathEnabled = _.isUndefined(wirisMathPathFlag) ? true : wirisMathPathFlag;
 
         if(!tex.trim() && mathML.trim()){
             editMode = 'mathml';
