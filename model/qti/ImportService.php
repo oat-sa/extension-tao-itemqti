@@ -328,14 +328,16 @@ class ImportService extends ConfigurableService
 
             if ($importMetadataEnabled) {
                 $metaMetadataValues = $this->getMetaMetadataExtractor()->extract($domManifest);
+                $metadataValues = $this->getMetadataImporter()->extract($domManifest);
                 $mappedMetadataValues = $this->getMetaMetadataImportMapper()->mapMetaMetadataToProperties(
                     $metaMetadataValues,
-                    $itemClass
+                    $itemClass,
+                    null,
+                    $metadataValues
                 );
-                $metadataValues = $this->getMetadataImporter()->extract($domManifest);
                 $notMatchingProperties = $this->checkMissingClassProperties(
                     $metadataValues,
-                    $mappedMetadataValues['itemProperties']
+                    $mappedMetadataValues['itemProperties'] ?? []
                 );
                 if (!empty($notMatchingProperties)) {
                     return Report::createError(
