@@ -26,7 +26,7 @@ define(['util/url', 'core/dataProvider/request', 'module'], function (urlUtil, r
     'use strict';
 
     const config = module.config();
-    const languagesUrl = config?.languagesUrl || urlUtil.route('index', 'Languages', 'tao');
+    const languagesUrl = (config && config.languagesUrl) || urlUtil.route('index', 'Languages', 'tao');
     const headers = {'Accept-version': 'v2'};
 
     let languagesRequest = null;
