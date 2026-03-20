@@ -33,9 +33,8 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowRendering',
-    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowResponse',
-    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowReverseControl'
-], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, scoringFormFactory, arrowRenderingHelper, arrowResponseHelper, arrowReverseControlHelper){
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicAssociateInteraction/helpers/arrowResponse'
+], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, scoringFormFactory, arrowRenderingHelper, arrowResponseHelper){
 
     'use strict';
 
@@ -84,53 +83,7 @@ define([
         }
         arrowRenderingHelper.scheduleApply(interaction);
 
-        if (arrowRenderingHelper.isArrowMode(interaction)) {
-            widget._detachArrowReverseControl = arrowReverseControlHelper.attach(widget.$container, interaction, {
-                onReverse: function (leftId, rightId) {
-                    let pairs;
-                    let mapEntries;
-                    let oldKey;
-                    let newKey;
-                    const reversed = arrowResponseHelper.reverseSelectedPair(
-                        interaction,
-                        PciResponse.unserialize(commonRenderer.getResponse(interaction), interaction),
-                        leftId,
-                        rightId,
-                        instruction
-                    );
-
-                    if (!reversed.changed) {
-                        return;
-                    }
-
-                    pairs = reversed.pairs;
-
-                    mapEntries = response.getMapEntries();
-                    oldKey = reversed.previousPair.join(' ');
-                    newKey = reversed.reversedPair.join(' ');
-                    if (mapEntries[oldKey] !== undefined) {
-                        if (mapEntries[newKey] === undefined) {
-                            mapEntries[newKey] = mapEntries[oldKey];
-                        }
-                        if (oldKey !== newKey) {
-                            delete mapEntries[oldKey];
-                        }
-                    }
-
-                    isSanitizing = true;
-                    commonRenderer.resetResponse(interaction);
-                    commonRenderer.setResponse(interaction, PciResponse.serialize(pairs, interaction));
-                    isSanitizing = false;
-
-                    if (interaction.pairScoringForm) {
-                        interaction.pairScoringForm.destroy();
-                    }
-                    updateForm(widget);
-                    arrowRenderingHelper.scheduleApply(interaction, 20);
-                }
-            });
-        }
-
+  
         //each response change leads to an update of the scoring form
         widget.$container.on('responseChange.qti-widget', function(e, data){
             var type  = response.attr('cardinality') === 'single' ? 'base' : 'list';
