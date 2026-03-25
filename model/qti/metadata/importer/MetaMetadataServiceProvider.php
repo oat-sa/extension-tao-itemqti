@@ -49,9 +49,16 @@ class MetaMetadataServiceProvider implements ContainerServiceProviderInterface
             ->public();
 
         $services
-            ->set(MetaMetadataImportMapper::class, MetaMetadataImportMapper::class)
+            ->set(PropertyImportCompatibilityChecker::class, PropertyImportCompatibilityChecker::class)
             ->args([
                 service(ListService::class)
+            ])
+            ->public();
+
+        $services
+            ->set(MetaMetadataImportMapper::class, MetaMetadataImportMapper::class)
+            ->args([
+                service(PropertyImportCompatibilityChecker::class)
             ])
             ->public();
 

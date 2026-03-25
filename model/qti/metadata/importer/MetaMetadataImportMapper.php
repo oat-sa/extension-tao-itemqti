@@ -26,18 +26,16 @@ use core_kernel_classes_Class as kernelClass;
 use core_kernel_classes_Property as Property;
 use core_kernel_classes_Resource;
 use oat\generis\model\GenerisRdf;
-use oat\taoBackOffice\model\lists\ListService;
-use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 
 class MetaMetadataImportMapper
 {
     private const RDF_LIST = 'http://www.tao.lu/Ontologies/TAO.rdf#List';
 
-    private ListService $listService;
+    private PropertyImportCompatibilityChecker $propertyImportCompatibilityChecker;
 
-    public function __construct(ListService $listService)
+    public function __construct(PropertyImportCompatibilityChecker $propertyImportCompatibilityChecker)
     {
-        $this->listService = $listService;
+        $this->propertyImportCompatibilityChecker = $propertyImportCompatibilityChecker;
     }
 
     public function mapMetaMetadataToProperties(
@@ -120,71 +118,10 @@ class MetaMetadataImportMapper
             return false;
         }
 
-        return $this->hasMatchingImportedListValues(
+        return $this->propertyImportCompatibilityChecker->hasMatchingImportedListValues(
             $classProperty,
             $metaMetadataProperty['uri'],
             $metadataValues
         );
-    }
-
-    private function hasMatchingImportedListValues(
-        Property $classProperty,
-        string $propertyUri,
-        array $metadataValues
-    ): bool {
-        $importedValues = $this->extractImportedValues($propertyUri, $metadataValues);
-
-        if ($importedValues === []) {
-            return false;
-        }
-
-        foreach ($importedValues as $importedValue) {
-            if (!$this->hasRangeValue($classProperty, $importedValue)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private function hasRangeValue(Property $property, string $value): bool
-    {
-        $range = $property->getRange();
-
-        if ($range === null) {
-            return false;
-        }
-
-        foreach ($this->listService->getListElements($range) as $listEntry) {
-            if (
-                $listEntry->getLabel() === $value
-                || $listEntry->getOriginalUri() === $value
-            ) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private function extractImportedValues(string $propertyUri, array $metadataValues): array
-    {
-        $importedValues = [];
-
-        foreach ($metadataValues as $metadataValueCollection) {
-            foreach ($metadataValueCollection as $metadataValue) {
-                if (!$metadataValue instanceof SimpleMetadataValue) {
-                    continue;
-                }
-
-                if (($metadataValue->getPath()[1] ?? null) !== $propertyUri) {
-                    continue;
-                }
-
-                $importedValues[] = $metadataValue->getValue();
-            }
-        }
-
-        return array_values(array_unique($importedValues));
     }
 }

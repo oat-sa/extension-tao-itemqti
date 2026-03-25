@@ -27,6 +27,7 @@ use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\taoBackOffice\model\lists\ListService;
 use oat\taoQtiItem\model\qti\metadata\importer\MetaMetadataImportMapper;
+use oat\taoQtiItem\model\qti\metadata\importer\PropertyImportCompatibilityChecker;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -39,7 +40,9 @@ class MetaMetadataImportMapperTest extends TestCase
     public function setUp(): void
     {
         $this->listServiceMock = $this->createMock(ListService::class);
-        $this->subject = new MetaMetadataImportMapper($this->listServiceMock);
+        $this->subject = new MetaMetadataImportMapper(
+            new PropertyImportCompatibilityChecker($this->listServiceMock)
+        );
     }
 
     public function testMapMetaMetadataToProperties(): void
