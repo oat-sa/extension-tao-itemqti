@@ -337,7 +337,8 @@ class ImportService extends ConfigurableService
                 );
                 $notMatchingProperties = $this->checkMissingClassProperties(
                     $metadataValues,
-                    $mappedMetadataValues['itemProperties'] ?? []
+                    $mappedMetadataValues['itemProperties'] ?? [],
+                    $metaMetadataValues
                 );
                 if (!empty($notMatchingProperties)) {
                     return Report::createError(
@@ -980,15 +981,57 @@ class ImportService extends ConfigurableService
     /**
      * Checks if target class has all the properties needed to import the metadata.
      * @param array $metadataValues
-     * @param $itemProperties
+     * @param array $itemProperties
+     * @param array $metaMetadataValues
      * @return array
      */
-    private function checkMissingClassProperties(array $metadataValues, $itemProperties): array
-    {
+    private function checkMissingClassProperties(
+        array $metadataValues,
+        array $itemProperties,
+        array $metaMetadataValues = []
+    ): array {
         $metadataValueUris = $this->getMetadataImporter()->metadataValueUris($metadataValues);
-        return array_diff(
+        $missingProperties = array_diff(
             $metadataValueUris,
             array_keys($itemProperties)
         );
+
+        if (empty($missingProperties) || empty($metaMetadataValues)) {
+            return $missingProperties;
+        }
+
+        $metaMetadataByUri = [];
+        foreach ($metaMetadataValues as $metaMetadataValue) {
+            $uri = $metaMetadataValue['uri'] ?? '';
+            if ($uri === '') {
+                continue;
+            }
+
+            $metaMetadataByUri[$uri] = $metaMetadataValue;
+        }
+
+        $formattedMissingProperties = [];
+        foreach ($missingProperties as $missingPropertyUri) {
+            if (!isset($metaMetadataByUri[$missingPropertyUri])) {
+                $formattedMissingProperties[] = $missingPropertyUri;
+                continue;
+            }
+
+            $parts = [];
+            $label = trim((string)($metaMetadataByUri[$missingPropertyUri]['label'] ?? ''));
+            $alias = trim((string)($metaMetadataByUri[$missingPropertyUri]['alias'] ?? ''));
+
+            if ($label !== '') {
+                $parts[] = sprintf('label: "%s"', $label);
+            }
+            if ($alias !== '') {
+                $parts[] = sprintf('alias: "%s"', $alias);
+            }
+
+            $parts[] = sprintf('uri: %s', $missingPropertyUri);
+            $formattedMissingProperties[] = implode(', ', $parts);
+        }
+
+        return $formattedMissingProperties;
     }
 }

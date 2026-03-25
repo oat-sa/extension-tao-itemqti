@@ -29,9 +29,19 @@ class PropertyDoesNotExistException extends Exception
     public function __construct(array $message)
     {
         if (isset($message['checksum_result']) && $message['checksum_result'] === false) {
+            if (!empty($message['properties']) && is_array($message['properties'])) {
+                parent::__construct(
+                    sprintf(
+                        'The imported metadata contains values that are missing in the target list for the following properties: %s',
+                        implode('; ', $message['properties'])
+                    )
+                );
+                return;
+            }
+
             parent::__construct(
                 sprintf(
-                    'The property %s selected list is not defined as expected by the imported package',
+                    'The imported metadata contains values that are missing in the target list for property %s',
                     $message['label'] ?? 'unknown label',
                 )
             );
