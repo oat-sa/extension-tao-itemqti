@@ -37,10 +37,9 @@
 
     <div class="panel">
         <button class="btn-info small block popup-btn" data-control="latex">{{__ "Large editor"}}</button>
+        <button class="btn-info small block popup-btn" data-control="latexWysiwyg">{{__ "WYSIWYG editor"}}</button>
         {{#if wirisMath}}
             <button class="btn-info small block wiris-popup-btn">Wiris Math</button>
-        {{else}}
-            <button class="btn-info small block popup-btn" data-control="latexWysiwyg">{{__ "WYSIWYG editor"}}</button>
         {{/if}}
     </div>
 </div>
