@@ -162,14 +162,18 @@ define([
             itemScrollingMethods.initSelect($form, $scrolling.prop('checked'));
         });
 
-
         toggleVerticalWritingModeByLang(widget, $form);
     };
 
     const changeCallbacks = function (widget, $form) {
         return {
             textBlockCssClass: function (element, value) {
-                const $wrap = createWrapper(widget);
+                let $wrap = getWrapper(widget);
+                if (!$wrap.length) {
+                    itemScrollingMethods.wrapContent(widget, false);
+                    $wrap = getWrapper(widget);
+                }
+
                 const customClasses = cleanDefaultTextBlockClasses($wrap);
                 customClasses.split(' ').forEach(cls => {
                     $wrap.removeClass(cls);
@@ -177,8 +181,13 @@ define([
                 $wrap.addClass(value.trim());
             },
             writingMode(i, mode) {
+                let $wrap = getWrapper(widget);
+                if (!$wrap.length) {
+                    itemScrollingMethods.wrapContent(widget, false);
+                    $wrap = getWrapper(widget);
+                }
+
                 let isScrolling = false;
-                const $wrap = createWrapper(widget);
                 if (mode === 'vertical' && !$form.data('isItemVertical')) {
                     $wrap.attr(writingModeAttr, writingModeVerticalRlClass);
                     isScrolling = true;
@@ -209,15 +218,6 @@ define([
 
     const getWrapper = widget => {
         return widget.$container.find(`.${wrapperCls}`);
-    };
-
-    const createWrapper = widget => {
-        let $wrap = getWrapper(widget);
-        if (!$wrap.length) {
-            $wrap = widget.$container.find('[data-html-editable="true"]').wrapInner('<div />').children();
-            $wrap.addClass(wrapperCls);
-        }
-        return $wrap;
     };
 
     const toggleVerticalWritingModeByLang = (widget, $form) =>
