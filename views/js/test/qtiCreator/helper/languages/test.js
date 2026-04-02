@@ -352,9 +352,12 @@ define([
     });
 
     /**
-     * Test: When module.config() returns null, falls back to urlUtil.route()
+     * Test: When module.config() returns null/undefined, falls back to urlUtil.route()
+     *
+     * Note: RequireJS module.config() returns {} for both null and undefined config values,
+     * so this test verifies the fallback behavior when no languagesUrl is present.
      */
-    QUnit.test('languagesUrl falls back to urlUtil.route when config is null', function (assert) {
+    QUnit.test('languagesUrl falls back to urlUtil.route when config is null/undefined', function (assert) {
         const done = assert.async();
 
         const expectedFallbackUrl = urlUtil.route('index', 'Languages', 'tao');
@@ -371,12 +374,12 @@ define([
             status: 200
         });
 
-        // Undefine and reload with null/undefined config
+        // Undefine and reload with null config
         require.undef('taoQtiItem/qtiCreator/helper/languages');
-        // Setting config to undefined effectively means module.config() returns {}
+        // RequireJS normalizes both null and undefined to {}, triggering the fallback
         require.config({
             config: {
-                'taoQtiItem/qtiCreator/helper/languages': undefined
+                'taoQtiItem/qtiCreator/helper/languages': null
             }
         });
 
