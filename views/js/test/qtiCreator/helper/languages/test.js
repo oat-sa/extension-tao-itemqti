@@ -16,10 +16,12 @@
  * Copyright (c) 2022 (original work) Open Assessment Technologies SA ;
  */
 
-define(['jquery', 'taoQtiItem/qtiCreator/helper/languages', 'lib/jquery.mockjax/jquery.mockjax'], function (
-    $,
-    languages
-) {
+define([
+    'jquery',
+    'taoQtiItem/qtiCreator/helper/languages',
+    'util/url',
+    'lib/jquery.mockjax/jquery.mockjax'
+], function ($, languages, urlUtil) {
     'use strict';
     const languagesDataMock = [
         {
@@ -221,5 +223,181 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/languages', 'lib/jquery.mockjax/
                 );
             })
             .finally(done);
+    });
+
+    /**
+     * Tests for languagesUrl configuration fallback (lines 28-29 of languages.js):
+     *   const config = module.config();
+     *   const languagesUrl = (config && config.languagesUrl) || urlUtil.route('index', 'Languages', 'tao');
+     */
+    QUnit.module('languagesUrl configuration', {
+        afterEach: function () {
+            // Clean up: undefine the module so subsequent tests start fresh
+            require.undef('taoQtiItem/qtiCreator/helper/languages');
+        }
+    });
+
+    /**
+     * Test: When module.config() returns no languagesUrl, falls back to urlUtil.route()
+     *
+     * This tests the fallback branch:
+     *   const languagesUrl = (config && config.languagesUrl) || urlUtil.route('index', 'Languages', 'tao');
+     *
+     * When config.languagesUrl is falsy, urlUtil.route('index', 'Languages', 'tao') is used.
+     */
+    QUnit.test('languagesUrl falls back to urlUtil.route when not configured', function (assert) {
+        const done = assert.async();
+
+        // Get the expected fallback URL from urlUtil.route
+        const expectedFallbackUrl = urlUtil.route('index', 'Languages', 'tao');
+
+        // The module is already loaded with default config (no languagesUrl override)
+        // Mock the AJAX call to capture the URL being requested
+        $.mockjax.clear();
+
+        let capturedUrl = null;
+        $.mockjax({
+            url: /.*Languages.*/,
+            response: function (settings) {
+                capturedUrl = settings.url;
+                this.responseText = { success: true, data: [] };
+            },
+            status: 200
+        });
+
+        // Reload the module fresh with no languagesUrl config
+        require.undef('taoQtiItem/qtiCreator/helper/languages');
+        require.config({
+            config: {
+                'taoQtiItem/qtiCreator/helper/languages': {}
+            }
+        });
+
+        require(['taoQtiItem/qtiCreator/helper/languages'], function (langModule) {
+            // Reset the internal cache by creating a fresh request
+            langModule
+                .getList()
+                .then(function () {
+                    assert.ok(capturedUrl, 'AJAX request was made');
+                    assert.equal(
+                        capturedUrl,
+                        expectedFallbackUrl,
+                        'languagesUrl equals urlUtil.route("index", "Languages", "tao") when not configured'
+                    );
+                })
+                .catch(function (err) {
+                    assert.ok(false, 'getList() failed: ' + err);
+                })
+                .finally(function () {
+                    $.mockjax.clear();
+                    done();
+                });
+        });
+    });
+
+    /**
+     * Test: When module.config() returns an object with languagesUrl, that URL is used
+     *
+     * This tests the primary branch:
+     *   const languagesUrl = (config && config.languagesUrl) || urlUtil.route('index', 'Languages', 'tao');
+     *
+     * When config.languagesUrl is truthy, it takes precedence over the fallback.
+     */
+    QUnit.test('languagesUrl uses module.config().languagesUrl when provided', function (assert) {
+        const done = assert.async();
+        const customLanguagesUrl = 'http://custom.server/api/languages';
+
+        // Clear existing mocks
+        $.mockjax.clear();
+
+        let capturedUrl = null;
+        $.mockjax({
+            url: customLanguagesUrl,
+            response: function (settings) {
+                capturedUrl = settings.url;
+                this.responseText = { success: true, data: [] };
+            },
+            status: 200
+        });
+
+        // Undefine and reload the module with custom languagesUrl config
+        require.undef('taoQtiItem/qtiCreator/helper/languages');
+        require.config({
+            config: {
+                'taoQtiItem/qtiCreator/helper/languages': {
+                    languagesUrl: customLanguagesUrl
+                }
+            }
+        });
+
+        require(['taoQtiItem/qtiCreator/helper/languages'], function (langModule) {
+            langModule
+                .getList()
+                .then(function () {
+                    assert.ok(capturedUrl, 'AJAX request was made');
+                    assert.equal(
+                        capturedUrl,
+                        customLanguagesUrl,
+                        'languagesUrl equals the configured languagesUrl from module.config()'
+                    );
+                })
+                .catch(function (err) {
+                    assert.ok(false, 'getList() failed: ' + err);
+                })
+                .finally(function () {
+                    $.mockjax.clear();
+                    done();
+                });
+        });
+    });
+
+    /**
+     * Test: When module.config() returns null, falls back to urlUtil.route()
+     */
+    QUnit.test('languagesUrl falls back to urlUtil.route when config is null', function (assert) {
+        const done = assert.async();
+
+        const expectedFallbackUrl = urlUtil.route('index', 'Languages', 'tao');
+
+        $.mockjax.clear();
+
+        let capturedUrl = null;
+        $.mockjax({
+            url: /.*Languages.*/,
+            response: function (settings) {
+                capturedUrl = settings.url;
+                this.responseText = { success: true, data: [] };
+            },
+            status: 200
+        });
+
+        // Undefine and reload with null/undefined config
+        require.undef('taoQtiItem/qtiCreator/helper/languages');
+        // Setting config to undefined effectively means module.config() returns {}
+        require.config({
+            config: {
+                'taoQtiItem/qtiCreator/helper/languages': undefined
+            }
+        });
+
+        require(['taoQtiItem/qtiCreator/helper/languages'], function (langModule) {
+            langModule
+                .getList()
+                .then(function () {
+                    assert.ok(capturedUrl, 'AJAX request was made');
+                    assert.equal(
+                        capturedUrl,
+                        expectedFallbackUrl,
+                        'languagesUrl equals urlUtil.route fallback when config is null/undefined'
+                    );
+                })
+                .catch(function (err) {
+                    assert.ok(false, 'getList() failed: ' + err);
+                })
+                .finally(function () {
+                    $.mockjax.clear();
+                    done();
+                });
+        });
     });
 });
