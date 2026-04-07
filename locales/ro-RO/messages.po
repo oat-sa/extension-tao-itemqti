@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-03-28 09:27\n"
+"PO-Revision-Date: 2026-04-07 10:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro\n"
@@ -2328,3 +2328,4 @@ msgstr "Trebuie să selectați din opțiunile %s la %s."
 
 msgid "Your item has been saved"
 msgstr "Articolul tău a fost salvat"
+
