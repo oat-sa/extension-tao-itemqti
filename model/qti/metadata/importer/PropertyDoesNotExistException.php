@@ -32,7 +32,8 @@ class PropertyDoesNotExistException extends Exception
         if (!empty($message['properties']) && is_array($message['properties'])) {
             parent::__construct(
                 sprintf(
-                    'The imported metadata contains values that are missing in the target list for the following properties: %s',
+                    'The imported metadata contains values that are missing in the target list'
+                    . ' for the following properties: %s',
                     implode('; ', $message['properties'])
                 )
             );

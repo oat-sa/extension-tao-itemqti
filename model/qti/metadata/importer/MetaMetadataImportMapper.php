@@ -46,7 +46,9 @@ class MetaMetadataImportMapper
     ): array {
         $matchedProperties = [];
         foreach ($metaMetadataProperties as $metaMetadataProperty) {
-            if ($match = $this->matchProperty($metaMetadataProperty, $itemClass->getProperties(true), $metadataValues)) {
+            if (
+                $match = $this->matchProperty($metaMetadataProperty, $itemClass->getProperties(true), $metadataValues)
+            ) {
                 $matchedProperties['itemProperties'][$metaMetadataProperty['uri']] = $match;
             }
 
@@ -76,8 +78,11 @@ class MetaMetadataImportMapper
         return $this->mapMetaMetadataToProperties($parsedMetadataProperties, $itemClass, $testClass);
     }
 
-    private function matchProperty(array &$metaMetadataProperty, array $classProperties, array $metadataValues = []): ?Property
-    {
+    private function matchProperty(
+        array &$metaMetadataProperty,
+        array $classProperties,
+        array $metadataValues = []
+    ): ?Property {
         /** @var Property $itemClassProperty */
         foreach ($classProperties as $classProperty) {
             if (
