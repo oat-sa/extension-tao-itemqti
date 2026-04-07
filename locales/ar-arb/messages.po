@@ -79,6 +79,24 @@ msgstr ""
 msgid "3/4 of height"
 msgstr ""
 
+msgid "1/3 of width"
+msgstr ""
+
+msgid "1/4 of width"
+msgstr ""
+
+msgid "2/3 of width"
+msgstr ""
+
+msgid "3/4 of width"
+msgstr ""
+
+msgid "Full width"
+msgstr ""
+
+msgid "Half width"
+msgstr ""
+
 msgid "A choice must be selected"
 msgstr "يجب تحديد خيار"
 
@@ -450,6 +468,15 @@ msgstr ""
 
 msgid "Custom Response Processing Mode"
 msgstr "وضع معالجةالجواب المخصصة"
+
+msgid "Dashed"
+msgstr ""
+
+msgid "Solid"
+msgstr ""
+
+msgid "Wavy"
+msgstr ""
 
 msgid "Default"
 msgstr "افتراضي"
