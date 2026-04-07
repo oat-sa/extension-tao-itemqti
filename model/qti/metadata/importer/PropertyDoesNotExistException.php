@@ -28,26 +28,18 @@ class PropertyDoesNotExistException extends Exception
 {
     public function __construct(array $message)
     {
-        if (isset($message['checksum_result']) && $message['checksum_result'] === false) {
-            if (!empty($message['properties']) && is_array($message['properties'])) {
-                parent::__construct(
-                    sprintf(
-                        'The imported metadata contains values that are missing in the target list for the following properties: %s',
-                        implode('; ', $message['properties'])
-                    )
-                );
-                return;
-            }
-
+        // Handle multiple properties with missing values
+        if (!empty($message['properties']) && is_array($message['properties'])) {
             parent::__construct(
                 sprintf(
-                    'The imported metadata contains values that are missing in the target list for property %s',
-                    $message['label'] ?? 'unknown label',
+                    'The imported metadata contains values that are missing in the target list for the following properties: %s',
+                    implode('; ', $message['properties'])
                 )
             );
             return;
         }
 
+        // Handle single property with mismatched widget
         if (isset($message['widget_result']) && $message['widget_result'] === false) {
             parent::__construct(
                 sprintf(
@@ -58,6 +50,18 @@ class PropertyDoesNotExistException extends Exception
             return;
         }
 
+        // Handle single property with missing values
+        if (isset($message['has_missing_values']) && $message['has_missing_values'] === true) {
+            parent::__construct(
+                sprintf(
+                    'The imported metadata contains values that are missing in the target list for property %s',
+                    $message['label'] ?? 'unknown label',
+                )
+            );
+            return;
+        }
+
+        // Default: property does not exist
         parent::__construct(
             sprintf(
                 'Property with label %s and alias %s does not exist.',

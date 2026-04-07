@@ -43,7 +43,7 @@ class PropertyImportCompatibilityChecker
         $importedValues = $this->extractImportedValues($propertyUri, $metadataValues);
 
         if ($importedValues === []) {
-            return false;
+            return true;
         }
 
         foreach ($importedValues as $importedValue) {
@@ -63,10 +63,17 @@ class PropertyImportCompatibilityChecker
             return false;
         }
 
+        $normalizedValue = trim($value);
+
         foreach ($this->listService->getListElements($range) as $listEntry) {
+            $entryLabel = trim((string) $listEntry->getLabel());
+            $entryOriginalUri = trim((string) $listEntry->getOriginalUri());
+            $entryUri = method_exists($listEntry, 'getUri') ? trim((string) $listEntry->getUri()) : '';
+
             if (
-                $listEntry->getLabel() === $value
-                || $listEntry->getOriginalUri() === $value
+                $entryLabel === $normalizedValue
+                || $entryOriginalUri === $normalizedValue
+                || $entryUri === $normalizedValue
             ) {
                 return true;
             }

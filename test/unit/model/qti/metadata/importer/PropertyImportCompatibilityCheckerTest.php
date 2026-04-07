@@ -41,9 +41,10 @@ class PropertyImportCompatibilityCheckerTest extends TestCase
         $this->subject = new PropertyImportCompatibilityChecker($this->listServiceMock);
     }
 
-    public function testHasMatchingImportedListValuesReturnsFalseWhenNoMetadataValuesProvided(): void
+    public function testHasMatchingImportedListValuesReturnsTrueWhenNoMetadataValuesProvided(): void
     {
         $propertyMock = $this->createMock(core_kernel_classes_Property::class);
+        $this->listServiceMock->expects($this->never())->method('getListElements');
 
         $result = $this->subject->hasMatchingImportedListValues(
             $propertyMock,
@@ -51,12 +52,13 @@ class PropertyImportCompatibilityCheckerTest extends TestCase
             []
         );
 
-        $this->assertFalse($result);
+        $this->assertTrue($result);
     }
 
-    public function testHasMatchingImportedListValuesReturnsFalseWhenNoMatchingPropertyUri(): void
+    public function testHasMatchingImportedListValuesReturnsTrueWhenNoMatchingPropertyUri(): void
     {
         $propertyMock = $this->createMock(core_kernel_classes_Property::class);
+        $this->listServiceMock->expects($this->never())->method('getListElements');
         $metadataValues = [
             [
                 new SimpleMetadataValue(
@@ -73,7 +75,7 @@ class PropertyImportCompatibilityCheckerTest extends TestCase
             $metadataValues
         );
 
-        $this->assertFalse($result);
+        $this->assertTrue($result);
     }
 
     public function testHasMatchingImportedListValuesReturnsFalseWhenPropertyHasNoRange(): void
@@ -184,6 +186,38 @@ class PropertyImportCompatibilityCheckerTest extends TestCase
                     'item-1',
                     ['metadata', 'http://example.com/property-uri'],
                     'http://uri/allowed-value'
+                ),
+            ],
+        ];
+
+        $result = $this->subject->hasMatchingImportedListValues(
+            $propertyMock,
+            'http://example.com/property-uri',
+            $metadataValues
+        );
+
+        $this->assertTrue($result);
+    }
+
+    public function testHasMatchingImportedListValuesReturnsTrueWhenValueMatchesByEntryUri(): void
+    {
+        $propertyMock = $this->createMock(core_kernel_classes_Property::class);
+        $rangeMock = $this->createMock(core_kernel_classes_Class::class);
+
+        $propertyMock->method('getRange')->willReturn($rangeMock);
+
+        $this->listServiceMock->method('getListElements')
+            ->with($rangeMock)
+            ->willReturn([
+                $this->createListEntry('some-label', 'http://uri/original', 'http://uri/current'),
+            ]);
+
+        $metadataValues = [
+            [
+                new SimpleMetadataValue(
+                    'item-1',
+                    ['metadata', 'http://example.com/property-uri'],
+                    'http://uri/current'
                 ),
             ],
         ];
@@ -406,15 +440,15 @@ class PropertyImportCompatibilityCheckerTest extends TestCase
         $this->assertTrue($result);
     }
 
-    private function createListEntry(string $label, string $originalUri): object
+    private function createListEntry(string $label, string $originalUri, ?string $uri = null): object
     {
         $entry = $this->getMockBuilder(\stdClass::class)
-            ->addMethods(['getLabel', 'getOriginalUri'])
+            ->addMethods(['getLabel', 'getOriginalUri', 'getUri'])
             ->getMock();
         $entry->method('getLabel')->willReturn($label);
         $entry->method('getOriginalUri')->willReturn($originalUri);
+        $entry->method('getUri')->willReturn($uri ?? $originalUri);
 
         return $entry;
     }
 }
-
