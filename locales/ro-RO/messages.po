@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-04 14:44\n"
+"PO-Revision-Date: 2026-03-28 09:27\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro\n"
@@ -285,7 +285,7 @@ msgid "Block height (%)"
 msgstr "Înălțimea blocului (%)"
 
 msgid "Block width (%)"
-msgstr ""
+msgstr "Lățime bloc (%)"
 
 msgid "Border color"
 msgstr "Culoare chenar"
@@ -1715,7 +1715,7 @@ msgid "Select height of text block base of container height"
 msgstr "Selectați înălțimea blocurilor de text înălțimea containerului"
 
 msgid "Select width of block based on container width"
-msgstr ""
+msgstr "Selectați lățimea blocului în funcție de lățimea containerului"
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
 msgstr "Selectați dacă doriți ca declarația rezultatului să fie procesată de un sistem extern sau un scor uman. Acesta este de obicei cazul elementelor care solicită candidaților să scrie un eseu."

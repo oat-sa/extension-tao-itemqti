@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-03-05 09:17\n"
+"PO-Revision-Date: 2026-04-01 08:31\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -2328,3 +2328,4 @@ msgstr "少なくとも%sつ，最大%sつまで選べます"
 
 msgid "Your item has been saved"
 msgstr "アイテムが保存されました"
+

@@ -45,7 +45,7 @@ define([
 
     const changeCallbacks = function (widget, $form) {
         const getWrap = function () {
-            return widget.$container.find(`.${wrapperCls}`);
+            return widget.$container.parent(`.${wrapperCls}`);
         };
 
         return itemScrollingMethods.generateChangeCallback(widget, getWrap, $form, 'outer');

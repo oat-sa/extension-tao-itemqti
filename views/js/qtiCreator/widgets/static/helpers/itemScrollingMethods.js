@@ -155,7 +155,7 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
             }
         },
 
-        wrapContent: function (widget, isScrolling, wrapType) {
+        wrapContent: function (widget, isScrolling, wrapType = 'inner') {
             const $form = widget.$form;
 
             /**

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-04 15:43\n"
+"PO-Revision-Date: 2026-03-28 09:28\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: hu\n"
@@ -285,7 +285,7 @@ msgid "Block height (%)"
 msgstr "Blokk magassága (%)"
 
 msgid "Block width (%)"
-msgstr ""
+msgstr "Blokk szélessége (%)"
 
 msgid "Border color"
 msgstr "Szegély színe"
@@ -1715,7 +1715,7 @@ msgid "Select height of text block base of container height"
 msgstr "Válassza ki a szövegblokk alapjának magasságát, vagy a konténer magasságát"
 
 msgid "Select width of block based on container width"
-msgstr ""
+msgstr "A blokk szélességének kiválasztása a konténer szélessége alapján"
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
 msgstr "Válassza ki, hogy az eredménynyilatkozatot külső rendszer vagy emberi pontozó dolgozza-e fel. Ez jellemzően azoknál a tételeknél fordul elő, amelyekben a jelölteknek esszét kell írniuk."
