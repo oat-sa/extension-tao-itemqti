@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-03-28 09:28\n"
+"PO-Revision-Date: 2026-04-01 08:31\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -2301,3 +2301,4 @@ msgstr "Musíte si vybrať z %s až %s možností."
 
 msgid "Your item has been saved"
 msgstr "Vaša položka bola uložená"
+
