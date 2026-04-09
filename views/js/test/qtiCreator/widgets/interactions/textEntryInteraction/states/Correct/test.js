@@ -25,8 +25,8 @@ define([], function () {
      * @returns {string} - The formatted response
      */
     function formatFloatResponse(correctResponse) {
-        if (correctResponse) {
-            return (+correctResponse % 1) ? correctResponse : `${correctResponse}.0`;
+        if (correctResponse && !String(correctResponse).includes('.')) {
+            return `${correctResponse}.0`;
         }
         return correctResponse;
     }
