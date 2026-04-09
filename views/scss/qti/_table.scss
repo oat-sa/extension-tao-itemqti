@@ -44,6 +44,12 @@ table {
             padding-inline: 5px;
         }
 
+        td:has(sub:is(.txt-subscript)) {
+            @include writing-mode-vertical-rl {
+                padding-right: 7px;
+            }
+        }
+
         caption.no-block-size {
             block-size: 0;
             overflow: visible;
