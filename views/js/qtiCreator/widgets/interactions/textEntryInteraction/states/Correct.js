@@ -55,7 +55,9 @@ define([
         if (attributes.baseType === 'float') {
             $correctInput.attr('placeholder', __(`example: 999${decimalSeparator}99`));
             // converting preloaded number to float if it not
-            correctResponse = (+correctResponse % 1) ? correctResponse : `${correctResponse}.0`;
+            if (correctResponse) {
+                correctResponse = (+correctResponse % 1) ? correctResponse : `${correctResponse}.0`;
+            }
         }
 
         if (attributes.baseType === 'float' && decimalSeparator !== '.') {
