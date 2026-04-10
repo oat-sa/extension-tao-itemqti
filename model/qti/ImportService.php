@@ -335,6 +335,12 @@ class ImportService extends ConfigurableService
                     null,
                     $metadataValues
                 );
+                if (empty($mappedMetadataValues)) {
+                    $mappedMetadataValues = $this->getMetaMetadataImportMapper()->mapMetadataToProperties(
+                        $metadataValues,
+                        $itemClass
+                    );
+                }
                 $notMatchingProperties = $this->checkMissingClassProperties(
                     $metadataValues,
                     $mappedMetadataValues['itemProperties'] ?? [],
@@ -346,12 +352,6 @@ class ImportService extends ConfigurableService
                             __('Target class is missing the following metadata properties: %s'),
                             implode(', ', $notMatchingProperties)
                         )
-                    );
-                }
-                if (empty($mappedMetadataValues)) {
-                    $mappedMetadataValues = $this->getMetaMetadataImportMapper()->mapMetadataToProperties(
-                        $metadataValues,
-                        $itemClass
                     );
                 }
             }
