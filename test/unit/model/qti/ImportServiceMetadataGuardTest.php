@@ -302,12 +302,14 @@ class ImportServiceMetadataGuardTest extends TestCase
                 false,
                 $overwrittenItems
             );
+        } catch (\PHPUnit\Framework\ExpectationFailedException $e) {
+            throw $e;
         } catch (\Throwable $e) {
             // Expected - method will fail later due to missing file, but guard methods weren't called
         }
 
-        // Assertions are in the mock expectations (expects never)
-        $this->assertTrue(true);
+        // Mock expectations (expects never) are verified by PHPUnit after test completes
+        $this->addToAssertionCount(1);
     }
 
     /**
