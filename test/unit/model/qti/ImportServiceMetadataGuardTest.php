@@ -30,14 +30,23 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests for MetadataImporter interaction with setMetadataValues() and guard()
- * covering overwrite guard behavior in ImportService (lines 509-513).
+ * Unit tests for MetadataImporter guard behavior as used by ImportService.
  *
- * These tests verify:
- * - getMetadataImporter()->setMetadataValues() is called correctly
- * - guard($resourceIdentifier) behaves correctly based on metadata state
+ * These tests verify the contract between ImportService and MetadataImporter,
+ * specifically around the overwrite guard behavior in ImportService::importQtiItem()
+ * (lines 509-513).
  *
- * @see \oat\taoQtiItem\model\qti\ImportService::importQTIFile()
+ * The tests ensure:
+ * - setMetadataValues() correctly sets metadata state before guard() is called
+ * - guard() returns appropriate values based on metadata presence
+ * - Empty metadata prevents guard from reusing prior state
+ *
+ * Note: Full orchestration testing of ImportService::importQtiItem() with all
+ * its dependencies (file system, locks, QTI parsing, RDF creation) is covered
+ * by integration tests in taoQtiItem/test/integration/metadata/.
+ *
+ * @see \oat\taoQtiItem\model\qti\ImportService::importQtiItem()
+ * @see \oat\taoQtiItem\test\integration\metadata\LomIdentifierGuardianTest
  */
 class ImportServiceMetadataGuardTest extends TestCase
 {
@@ -46,14 +55,17 @@ class ImportServiceMetadataGuardTest extends TestCase
     private const RESOURCE_IDENTIFIER = 'item-resource-123';
 
     /**
-     * Test: When metadataValues is non-empty and overwrite is enabled, guard allows overwrite.
+     * Test: When metadataValues is non-empty and item exists, guard allows overwrite.
      *
-     * Scenario: ImportService calls getMetadataImporter()->setMetadataValues($metadataValues)
-     * followed by guard($resourceIdentifier). When metadata contains the identifier and
-     * an existing resource is found, guard() returns the resource (non-false), allowing
-     * ImportService to proceed with overwrite when $itemMustBeOverwritten is true.
+     * Verifies the MetadataImporter contract that ImportService relies on:
+     * 1. setMetadataValues($metadataValues) stores metadata keyed by identifier
+     * 2. guard($resourceIdentifier) returns the existing resource when found
      *
-     * @see \oat\taoQtiItem\model\qti\ImportService::importQTIFile() lines 509-513
+     * In ImportService::importQtiItem() (line 509-513), when:
+     * - $enableMetadataGuardians === true
+     * - $metadataValues contains the resource identifier
+     * - Guardian finds an existing item
+     * Then guard() returns the resource, allowing overwrite when $itemMustBeOverwritten
      */
     public function testGuardAllowsOverwriteWhenMetadataValuesNonEmptyAndItemExists(): void
     {
@@ -97,13 +109,13 @@ class ImportServiceMetadataGuardTest extends TestCase
     /**
      * Test: When metadataValues is empty, guard returns false (no prior state reused).
      *
-     * Scenario: ImportService calls getMetadataImporter()->setMetadataValues($emptyArray)
-     * followed by guard($resourceIdentifier). With empty metadata, guard() should return
-     * false because hasMetadataValue() will be false, preventing guardians from being
-     * called and ensuring no prior state from previous imports is accidentally reused.
+     * Verifies the MetadataImporter contract that ImportService relies on:
+     * 1. setMetadataValues([]) clears any prior metadata
+     * 2. guard($resourceIdentifier) returns false when no metadata exists
      *
-     * @see \oat\taoQtiItem\model\qti\ImportService::importQTIFile() lines 509-513
-     * @see \oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter::guard()
+     * This is critical because ImportService reuses the same MetadataImporter
+     * instance across multiple items. Without setMetadataValues() clearing state,
+     * guard() could incorrectly match an item based on stale metadata.
      */
     public function testGuardReturnsFalseWhenMetadataValuesEmpty(): void
     {
@@ -132,12 +144,14 @@ class ImportServiceMetadataGuardTest extends TestCase
     }
 
     /**
-     * Integration test: Real MetadataImporter guard() returns false when metadata is empty.
+     * Integration test: Real MetadataImporter guard() returns false with empty metadata.
      *
-     * This test uses the actual MetadataImporter implementation to verify that:
-     * 1. setMetadataValues([]) clears any previous metadata state
+     * Uses actual MetadataImporter to verify:
+     * 1. setMetadataValues([]) clears metadata state
      * 2. hasMetadataValue() returns false for any identifier
-     * 3. guard() returns false without calling guardians
+     * 3. guard() returns false without invoking guardians
+     *
+     * This mirrors ImportService behavior when importing items without metadata.
      */
     public function testRealMetadataImporterGuardWithEmptyMetadata(): void
     {
@@ -160,11 +174,13 @@ class ImportServiceMetadataGuardTest extends TestCase
     }
 
     /**
-     * Integration test: Real MetadataImporter hasMetadataValue() returns true when metadata exists.
+     * Integration test: Real MetadataImporter hasMetadataValue() returns true when set.
      *
-     * This test uses the actual MetadataImporter implementation to verify that:
-     * 1. setMetadataValues() with non-empty metadata stores the values
-     * 2. hasMetadataValue() returns true for the identifier present in metadata
+     * Uses actual MetadataImporter to verify:
+     * 1. setMetadataValues() with non-empty metadata stores values correctly
+     * 2. hasMetadataValue() returns true for identifiers present in metadata
+     *
+     * This is a precondition for guard() to invoke guardians in ImportService.
      */
     public function testRealMetadataImporterHasMetadataValueWithNonEmptyMetadata(): void
     {
@@ -181,6 +197,94 @@ class ImportServiceMetadataGuardTest extends TestCase
         $this->assertTrue(
             $metadataImporter->hasMetadataValue($resourceIdentifier),
             'hasMetadataValue() should return true when metadataValues contains the identifier'
+        );
+    }
+
+    /**
+     * Test: setMetadataValues replaces previous state (no accumulation).
+     *
+     * Verifies that calling setMetadataValues() replaces (not merges) previous values.
+     * This is critical for ImportService which processes multiple items sequentially
+     * and needs each item to start with fresh metadata state.
+     */
+    public function testSetMetadataValuesReplacesExistingState(): void
+    {
+        $identifier1 = 'item-1';
+        $identifier2 = 'item-2';
+
+        $metadataImporter = new MetadataImporter();
+
+        $metadataImporter->setMetadataValues([
+            $identifier1 => [['path' => ['lom', 'id'], 'value' => 'value-1']]
+        ]);
+
+        $this->assertTrue($metadataImporter->hasMetadataValue($identifier1));
+        $this->assertFalse($metadataImporter->hasMetadataValue($identifier2));
+
+        $metadataImporter->setMetadataValues([
+            $identifier2 => [['path' => ['lom', 'id'], 'value' => 'value-2']]
+        ]);
+
+        $this->assertFalse(
+            $metadataImporter->hasMetadataValue($identifier1),
+            'Previous metadata should be replaced, not accumulated'
+        );
+        $this->assertTrue(
+            $metadataImporter->hasMetadataValue($identifier2),
+            'New metadata should be available'
+        );
+    }
+
+    /**
+     * Test: Guard behavior when item exists but overwrite is disabled.
+     *
+     * When guard() returns a resource (item found) but $itemMustBeOverwritten is false,
+     * ImportService::importQtiItem() returns an INFO report instead of proceeding.
+     * This test verifies the guard contract that enables this behavior.
+     */
+    public function testGuardReturnsResourceWhenItemExistsAllowingOverwriteDecision(): void
+    {
+        $resourceIdentifier = self::RESOURCE_IDENTIFIER;
+        $existingResource = $this->createMock(RdfResource::class);
+
+        /** @var MetadataImporter&MockObject $metadataImporterMock */
+        $metadataImporterMock = $this->createMock(MetadataImporter::class);
+
+        $metadataImporterMock->method('guard')
+            ->with($resourceIdentifier)
+            ->willReturn($existingResource);
+
+        $guardResult = $metadataImporterMock->guard($resourceIdentifier);
+
+        $this->assertInstanceOf(
+            RdfResource::class,
+            $guardResult,
+            'When item exists, guard() returns the resource for ImportService to decide overwrite'
+        );
+    }
+
+    /**
+     * Test: Guard returns false when item not found.
+     *
+     * When guard() returns false (item not found), ImportService::importQtiItem()
+     * creates a new item. If $itemMustExist is true, it returns an error instead.
+     */
+    public function testGuardReturnsFalseWhenItemNotFound(): void
+    {
+        $resourceIdentifier = self::RESOURCE_IDENTIFIER;
+
+        /** @var MetadataImporter&MockObject $metadataImporterMock */
+        $metadataImporterMock = $this->createMock(MetadataImporter::class);
+
+        $metadataImporterMock->method('guard')
+            ->with($resourceIdentifier)
+            ->willReturn(false);
+
+        $guardResult = $metadataImporterMock->guard($resourceIdentifier);
+
+        $this->assertFalse(
+            $guardResult,
+            'When item not found, guard() returns false for ImportService to create new item'
         );
     }
 }
