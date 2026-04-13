@@ -23,8 +23,6 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\qti\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use oat\taoBackOffice\model\lists\ListService;
-use oat\taoQtiItem\model\import\ChecksumGenerator;
 use oat\generis\model\data\Ontology;
 use oat\taoQtiItem\model\metadata\ResourceMetadataRetriever;
 use oat\taoQtiItem\model\presentation\web\UpdateMetadataRequestHandler;
@@ -44,12 +42,6 @@ class MetadataServiceProvider implements ContainerServiceProviderInterface
             ->public();
 
         $services->set(UpdateMetadataRequestHandler::class, UpdateMetadataRequestHandler::class)
-            ->public();
-
-        $services->set(ChecksumGenerator::class, ChecksumGenerator::class)
-            ->args([
-                service(ListService::class)
-            ])
             ->public();
 
         $services->set(MetaMetadataExtractor::class, MetaMetadataExtractor::class)
