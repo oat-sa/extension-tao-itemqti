@@ -164,6 +164,7 @@ class MetaMetadataImportMapperTest extends TestCase
         $itemClass = $this->createMock(core_kernel_classes_Class::class);
         $propertyMock = $this->createMock(core_kernel_classes_Property::class);
         $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
+        $widgetMock = $this->createMock(core_kernel_classes_Property::class);
 
         $itemClass->method('getProperties')->willReturn([$propertyMock]);
         $propertyMock->method('getUri')->willReturn('http://example.com/destination-uri');
@@ -171,10 +172,20 @@ class MetaMetadataImportMapperTest extends TestCase
         $propertyMock->method('getAlias')->willReturn('alias1');
         $propertyMock->method('getRange')->willReturn(null);
         $propertyMock->method('getOnePropertyValue')->willReturn($resourceMock);
-        $propertyMock->method('getWidget')->willReturn($propertyMock);
+        $propertyMock->method('getWidget')->willReturn($widgetMock);
+        $widgetMock->method('getUri')->willReturn('http://widget.uri');
         $resourceMock->method('getUri')->willReturn('http://resource.uri/false');
 
-        $result = $this->subject->mapMetaMetadataToProperties($metaMetadataProperties, $itemClass);
+        $result = $this->subject->mapMetaMetadataToProperties(
+            $metaMetadataProperties,
+            $itemClass,
+            null,
+            [
+                'item-1' => [
+                    new SimpleMetadataValue('item-1', ['metadata', 'http://example.com/uri1'], 'value-from-import'),
+                ],
+            ]
+        );
 
         $this->assertEmpty($result);
     }
