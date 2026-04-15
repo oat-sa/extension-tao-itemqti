@@ -421,7 +421,7 @@ define([
                             _.isNumber(maxValue) && this.isFieldEnabled('min') && this.setMinValue(maxValue);
                         }
                         if (fromField === fields.min && minValue > maxValue) {
-                            _.isNumber(maxValue) && this.isFieldEnabled('min') && this.setMaxValue(minValue);
+                            _.isNumber(maxValue) && this.isFieldEnabled('max') && this.setMaxValue(minValue);
                         }
                     }
                     if (
@@ -445,6 +445,10 @@ define([
                  */
                 convertToNumber: function convertToNumber(fromField) {
                     if (isFieldSupported(fromField) && this.is('rendered')) {
+                        if (!this.isFieldEnabled(fromField)) {
+                            return this;
+                        }
+
                         if (fromField === fields.max) {
                             this.setMaxValue(this.parseNumber(this.getMaxValue()));
                         } else {
