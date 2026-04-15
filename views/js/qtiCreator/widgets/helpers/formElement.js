@@ -300,6 +300,10 @@ define([
             };
 
             callbacks[attributeNameMax] = function (element, value, name) {
+                if (this && (this.disabled || $(this).hasClass('disabled'))) {
+                    value = 0;
+                }
+
                 value = options.floatVal ? parseFloat(value) : parseInt(value, 10) || 0;
 
                 if (element.is('interaction')) {

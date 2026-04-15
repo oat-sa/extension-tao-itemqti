@@ -374,6 +374,39 @@ define([
         callbacks.maxChoices(element, 0, 'maxChoices');
     });
 
+    QUnit.test('max attribute with choiceInteraction uses zero when input is disabled', function (assert) {
+        assert.expect(2);
+        const callbacks = formElement.getMinMaxAttributeCallbacks('minChoices', 'maxChoices');
+
+        const element = elementFactory('choiceInteraction');
+        element.removeAttr = function () {
+            throw new Error('Attribute should not be removed');
+        };
+        element.attr = function (actualName, actualValue) {
+            assert.ok(actualName === 'maxChoices', 'Correct name should be used in set attribute callback');
+            assert.ok(actualValue === 0, 'Disabled input should force maxChoices to 0');
+        };
+
+        callbacks.maxChoices.call({ disabled: true }, element, 2, 'maxChoices');
+    });
+
+    QUnit.test('max attribute with choiceInteraction uses zero when input has disabled class', function (assert) {
+        assert.expect(2);
+        const callbacks = formElement.getMinMaxAttributeCallbacks('minChoices', 'maxChoices');
+
+        const element = elementFactory('choiceInteraction');
+        element.removeAttr = function () {
+            throw new Error('Attribute should not be removed');
+        };
+        element.attr = function (actualName, actualValue) {
+            assert.ok(actualName === 'maxChoices', 'Correct name should be used in set attribute callback');
+            assert.ok(actualValue === 0, 'Disabled class should force maxChoices to 0');
+        };
+
+        const disabledInput = $('<input class="disabled" />')[0];
+        callbacks.maxChoices.call(disabledInput, element, 2, 'maxChoices');
+    });
+
 
     QUnit.module('getLowerUpperAttributeCallbacks');
 
