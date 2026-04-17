@@ -1,4 +1,4 @@
-@import "inc/bootstrap";
+@import 'inc/bootstrap';
 
 select.qti-inlineChoiceInteraction {
     min-inline-size: 150px;
@@ -21,10 +21,13 @@ select.qti-inlineChoiceInteraction,
     font-weight: normal !important;
 }
 
-
 .qti-inlineChoiceInteraction {
     &.select2-container {
         max-inline-size: 100%;
+    }
+
+    &.writing-mode-vertical-rl {
+        padding-block-start: 0;
     }
 
     // shadow like focused element
