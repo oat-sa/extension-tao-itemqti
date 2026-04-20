@@ -106,8 +106,8 @@ define(['taoQtiItem/qtiCreator/widgets/component/minMax/minMax'], function(minMa
 
             assert.deepEqual(this.getFields(), {min: 'min', max: 'max'}, 'The fields values are exposed');
 
-            assert.equal(this.getValue('min'), 0, 'With the correct field the method is executed');
-            assert.equal(this.getValue('max'), 0, 'With the correct field the method is executed');
+            assert.equal(this.getValue('min'), null, 'With the correct field the method is executed');
+            assert.equal(this.getValue('max'), null, 'With the correct field the method is executed');
 
             assert.throws(function() {
                 self.getValue();
@@ -211,7 +211,7 @@ define(['taoQtiItem/qtiCreator/widgets/component/minMax/minMax'], function(minMa
             assert.ok(minInput.classList.contains('disabled'), 'The min starts disabled');
             assert.ok(!minToggler.checked, 'The toggler starts unchecked');
             assert.equal(minInput.value, '', 'min starts empty');
-            assert.equal(this.getMinValue(), 0, 'min starts with a value at 0');
+            assert.equal(this.getMinValue(), null, 'min starts without a value when disabled');
 
             this.on('enablemin', function() {
 
@@ -255,7 +255,7 @@ define(['taoQtiItem/qtiCreator/widgets/component/minMax/minMax'], function(minMa
             assert.ok(!this.isFieldEnabled('max'), 'max starts disabled');
             assert.ok(maxInput.classList.contains('disabled'), 'The max starts disabled');
             assert.equal(maxInput.value, '', 'max starts empty');
-            assert.equal(this.getMaxValue(), 0, 'max starts with a value at 0');
+            assert.equal(this.getMaxValue(), null, 'max starts without a value when disabled');
 
             this.on('enablemax', function() {
 
@@ -271,7 +271,7 @@ define(['taoQtiItem/qtiCreator/widgets/component/minMax/minMax'], function(minMa
                 assert.ok(!this.isFieldEnabled('max'), 'max is now disabled');
                 assert.ok(maxInput.classList.contains('disabled'), 'The max is now disabled');
                 assert.equal(maxInput.value, '', 'max is empty when disabled');
-                assert.equal(this.getMaxValue(), 0, 'max has now a value of 0');
+                assert.equal(this.getMaxValue(), null, 'max has no value when disabled');
 
                 ready();
             });
