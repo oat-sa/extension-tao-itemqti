@@ -150,9 +150,11 @@ define([
                  */
                 getValue: function getValue(field) {
                     const config = this.getConfig();
+                    const hasInputControl =
+                        controls[field] && controls[field].input && controls[field].input.length;
 
                     if (isFieldSupported(field)) {
-                        if (!this.is('rendered')) {
+                        if (!this.is('rendered') || !hasInputControl) {
                             return config[field].value;
                         }
 
@@ -213,9 +215,11 @@ define([
                     const intValue = this.parseNumber(value);
                     const lowerThreshold = this.getLowerThreshold(field);
                     const upperThreshold = this.getUpperThreshold(field);
+                    const hasInputControl =
+                        controls[field] && controls[field].input && controls[field].input.length;
 
                     if (config[field].canBeNull && value === null) {
-                        if (this.is('rendered')) {
+                        if (this.is('rendered') && hasInputControl) {
                             controls[field].input.val('').trigger('change');
                         }
                         config[field].value = null;
@@ -223,7 +227,7 @@ define([
                     }
 
                     if (_.isNumber(intValue) && (intValue >= lowerThreshold) && intValue <= upperThreshold) {
-                        if (this.is('rendered') && controls[field].input.val() !== `${intValue}`) {
+                        if (this.is('rendered') && hasInputControl && controls[field].input.val() !== `${intValue}`) {
                             controls[field].input.val(intValue).trigger('change');
                         }
 
@@ -261,12 +265,15 @@ define([
                  */
                 updateThresholds: function updateThresholds(lower, upper, field) {
                     const config = this.getConfig();
+                    const hasInputControl = targetField =>
+                        controls[targetField] && controls[targetField].input && controls[targetField].input.length;
+
                     if (_.isNumber(lower) && _.isNumber(upper) && upper >= lower) {
                         if (!field) {
                             config.lowerThreshold = this.parseNumber(lower);
                             config.upperThreshold = this.parseNumber(upper);
 
-                            if (this.is('rendered')) {
+                            if (this.is('rendered') && hasInputControl(fields.min) && hasInputControl(fields.max)) {
                                 const fieldOptions = {
                                     min: config.lowerThreshold,
                                     max: config.upperThreshold
@@ -274,18 +281,18 @@ define([
 
                                 controls.min.input.incrementer('options', fieldOptions);
                                 if (this.isFieldEnabled('min')) {
-                                    controls.min.input.keyup();
+                                    this.convertToNumber('min');
                                 }
                                 controls.max.input.incrementer('options', fieldOptions);
                                 if (this.isFieldEnabled('max')) {
-                                    controls.max.input.keyup();
+                                    this.convertToNumber('max');
                                 }
                             }
                         } else if (field === 'min' || field === 'max') {
                             config[field].lowerThreshold = this.parseNumber(lower);
                             config[field].upperThreshold = this.parseNumber(upper);
 
-                            if (this.is('rendered')) {
+                            if (this.is('rendered') && hasInputControl(field)) {
                                 const fieldOptions = {
                                     min: config[field].lowerThreshold,
                                     max: config[field].upperThreshold
@@ -293,7 +300,7 @@ define([
 
                                 controls[field].input.incrementer('options', fieldOptions);
                                 if (this.isFieldEnabled(field)) {
-                                    controls[field].input.keyup();
+                                    this.convertToNumber(field);
                                 }
                             }
                         }
@@ -333,6 +340,7 @@ define([
                 enableField: function enableField(field, initialValue) {
                     if (isFieldSupported(field) && this.is('rendered')) {
                         const config = this.getConfig();
+                        const $fieldInput = controls[field].input;
 
                         let valueToSet;
                         if (config[field].canBeNull) {
@@ -341,9 +349,16 @@ define([
                             valueToSet = initialValue > 1 ? initialValue : 1;
                         }
 
-                        controls[field].input
-                            .val(valueToSet)
+                        config[field].value = valueToSet;
+
+                        $fieldInput
                             .incrementer('enable')
+                            .prop('disabled', false)
+                            .prop('readonly', false)
+                            .removeAttr('disabled')
+                            .removeAttr('readonly')
+                            .removeClass('disabled')
+                            .val(valueToSet)
                             .trigger('change');
 
                         /**
@@ -376,9 +391,17 @@ define([
                         config[field].toggler === true
                     ) {
                         config[field].value = config[field].canBeNull ? null : 0;
-                        controls[field].input
-                            .val(config[field].canBeNull ? '' : 0)
+                        const disabledValue = '';
+                        const $fieldInput = controls[field].input;
+
+                        $fieldInput
                             .incrementer('disable')
+                            .prop('disabled', true)
+                            .prop('readonly', true)
+                            .attr('disabled', 'disabled')
+                            .attr('readonly', 'readonly')
+                            .addClass('disabled')
+                            .val(disabledValue)
                             .trigger('change');
 
                         /**
@@ -402,10 +425,10 @@ define([
 
                     fromField = fromField || fields.min;
 
-                    if (isNaN(this.getMinValue())) {
+                    if (isNaN(this.getMinValue()) && this.isFieldEnabled(fields.min)) {
                         this.setMinValue(this.getLowerThreshold(fromField));
                     }
-                    if (isNaN(this.getMaxValue())) {
+                    if (isNaN(this.getMaxValue()) && this.isFieldEnabled(fields.max)) {
                         this.setMaxValue(this.getLowerThreshold(fromField));
                     }
 

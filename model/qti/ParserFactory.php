@@ -732,6 +732,15 @@ class ParserFactory
 
                 $myInteraction = new $interactionClass($this->extractAttributes($data), $this->item);
 
+                if (strtolower($type) === 'choiceinteraction') {
+                    if (!$data->hasAttribute('minChoices')) {
+                        $myInteraction->removeAttributeValue('minChoices');
+                    }
+                    if (!$data->hasAttribute('maxChoices')) {
+                        $myInteraction->removeAttributeValue('maxChoices');
+                    }
+                }
+
                 if ($myInteraction instanceof BlockInteraction) {
                     //extract prompt:
                     $promptNodes = $this->queryXPath("*[name(.) = 'prompt']", $data); //prompt

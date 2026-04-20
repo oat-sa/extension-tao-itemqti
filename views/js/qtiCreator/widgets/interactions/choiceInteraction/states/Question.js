@@ -54,9 +54,25 @@ define([
     const exitState = function exitState() {
         const widget = this.widget;
         const interaction = widget.element;
+        const $form = widget.$form;
         const $choiceArea = widget.$container.find('.choice-area');
         const choiceCount = _.size(interaction.getChoices());
         const realCount = $choiceArea.find('.qti-choice:visible').length;
+
+        if ($form && $form.length && $form.find('[name="constraints"]:checked').val() === 'other') {
+            const $minToggler = $form.find('[name="minChoices-toggler"]');
+            const $maxToggler = $form.find('[name="maxChoices-toggler"]');
+            const minIsEnabled = !$minToggler.length || $minToggler.prop('checked');
+            const maxIsEnabled = !$maxToggler.length || $maxToggler.prop('checked');
+
+            if (!minIsEnabled) {
+                interaction.removeAttr('minChoices');
+            }
+            if (!maxIsEnabled) {
+                interaction.removeAttr('maxChoices');
+            }
+        }
+
         if (choiceCount !== realCount) {
             // widget is closed while undo phase of removing choice
             if (interaction.attr('maxChoices') > realCount) {
@@ -104,7 +120,6 @@ define([
         }
     ];
     const DEFAULT_MIN = 1;
-    const DEFAULT_MAX = 2;
 
     function getListStyle(interaction) {
         const className = interaction.attr('class') || '';
@@ -125,7 +140,7 @@ define([
         let selectedCase = null;
         let type = '';
         let constraints = '';
-        let prevValues = {};
+        let isCheckingOtherEdgeCases = false;
 
         // minValue and maxValue - number or underfined
         const minValue = interaction.attr('minChoices')
@@ -137,38 +152,95 @@ define([
         const numberOfChoices = _.size(interaction.getChoices());
 
         const checkOtherEdgeCases = () => {
-            if (constraints === 'other' && minMaxComponent) {
+            if (constraints !== 'other' || !minMaxComponent || isCheckingOtherEdgeCases) {
+                return;
+            }
+
+            if (!_.isFunction(minMaxComponent.getConfig) || !_.isFunction(minMaxComponent.is)) {
+                return;
+            }
+
+            if (!minMaxComponent.is('rendered')) {
+                return;
+            }
+
+            const config = minMaxComponent.getConfig();
+            if (!config || !config.min || !config.max) {
+                return;
+            }
+
+            isCheckingOtherEdgeCases = true;
+
+            try {
                 const min = _.parseInt(interaction.attr('minChoices'));
-                const max = _.parseInt(interaction.attr('maxChoices'));
-                const firstRender = typeof prevValues.min === 'undefined';
-                // deny case minChoices = 1 and maxChoices = Disabled(0) because it simiar to Multiple choice Constraint: Answer required
-                if ((min === 1 || min === 0) && (firstRender || prevValues.min > 1)) {
-                    minMaxComponent.disableToggler('max');
-                } else if (min > 1 && (firstRender || prevValues.min <= 1)) {
-                    minMaxComponent.enableToggler('max');
+                const minEnabled = minMaxComponent.isFieldEnabled('min');
+                const maxEnabled = minMaxComponent.isFieldEnabled('max');
+                const $component = minMaxComponent.getElement();
+                const $minToggler = $component.find('[name="min-toggler"]');
+                const $maxToggler = $component.find('[name="max-toggler"]');
+                const choiceCount = _.size(interaction.getChoices());
+
+                // Safety recovery: we should never keep both disabled
+                if (!minEnabled && !maxEnabled) {
+                    minMaxComponent.enableField('min', DEFAULT_MIN);
                 }
-                // deny case minChoices = Disabled(0) and maxChoices = Disabled(0) because it simiar to Multiple choice Constraint: None
-                if (max === 0 && (firstRender || prevValues.max > 0)) {
+
+                // refresh state after safety recovery
+                const minIsEnabled = minMaxComponent.isFieldEnabled('min');
+                const maxIsEnabled = minMaxComponent.isFieldEnabled('max');
+
+                if (!maxIsEnabled) {
+                    // max is disabled -> min must stay enabled, cannot be unchecked
                     minMaxComponent.disableToggler('min');
-                    prevValues = { min, max }; // set before updateThresholds to prevent recursive call on update
-                    // IF maxChoices = Disabled  THEN minChoices ≥ 2
-                    const choiceCount = _.size(interaction.getChoices());
-                    minMaxComponent.updateThresholds(DEFAULT_MIN + 1, choiceCount - 1, 'min');
-                } else if (max > 0 && (firstRender || prevValues.max === 0)) {
-                    minMaxComponent.enableToggler('min');
-                    if (!firstRender) {
-                        prevValues = { min, max }; // set before updateThresholds to prevent recursive call on update
-                        // reset DEFAULT_MIN
-                        const choiceCount = _.size(interaction.getChoices());
-                        minMaxComponent.updateThresholds(DEFAULT_MIN, choiceCount - 1, 'min');
+                    minMaxComponent.enableToggler('max');
+                    if ($minToggler.length) {
+                        $minToggler.prop('checked', true);
                     }
+
+                    minMaxComponent.updateThresholds(DEFAULT_MIN, choiceCount - 1, 'min');
+                    if (!minIsEnabled || min < DEFAULT_MIN) {
+                        minMaxComponent.enableField('min', DEFAULT_MIN);
+                    }
+                } else if (!minIsEnabled) {
+                    // min is disabled -> max must stay enabled, cannot be unchecked
+                    minMaxComponent.disableToggler('max');
+                    minMaxComponent.enableToggler('min');
+                    if ($maxToggler.length) {
+                        $maxToggler.prop('checked', true);
+                    }
+
+                    minMaxComponent.updateThresholds(DEFAULT_MIN, choiceCount, 'max');
+                } else {
+                    // both enabled: both togglers can be used
+                    minMaxComponent.enableToggler('min');
+                    minMaxComponent.enableToggler('max');
+                    minMaxComponent.updateThresholds(DEFAULT_MIN, choiceCount - 1, 'min');
                 }
-                prevValues = { min, max };
+
+                // Keep interaction attributes in sync with enabled/disabled widget state.
+                // Disabled fields must not persist as attributes in XML.
+                const normalizedMinEnabled = minMaxComponent.isFieldEnabled('min');
+                const normalizedMaxEnabled = minMaxComponent.isFieldEnabled('max');
+                const minWidgetValue = minMaxComponent.getMinValue();
+                const maxWidgetValue = minMaxComponent.getMaxValue();
+
+                if (!normalizedMinEnabled) {
+                    interaction.removeAttr('minChoices');
+                } else if (_.isNumber(minWidgetValue)) {
+                    interaction.attr('minChoices', minWidgetValue);
+                }
+
+                if (!normalizedMaxEnabled) {
+                    interaction.removeAttr('maxChoices');
+                } else if (_.isNumber(maxWidgetValue)) {
+                    interaction.attr('maxChoices', maxWidgetValue);
+                }
+            } finally {
+                isCheckingOtherEdgeCases = false;
             }
         };
         // min / max choices control, with sync values
         const createMinMaxComponent = (min, max) => {
-            prevValues = {};
             minMaxComponent = minMaxComponentFactory($form.find('.min-max-panel'), {
                 min: {
                     value: min,
@@ -177,29 +249,84 @@ define([
                 },
                 max: {
                     value: max,
-                    lowerThreshold: DEFAULT_MAX,
+                    lowerThreshold: DEFAULT_MIN,
                     upperThreshold: numberOfChoices
                 },
                 hideTooltips: true
             }).after('render.choice-widget', () => {
-                checkOtherEdgeCases();
+                _.defer(() => {
+                    checkOtherEdgeCases();
+                });
                 minMaxComponent.off('render.choice-widget');
+            });
+
+            minMaxComponent.on('change', () => {
+                checkOtherEdgeCases();
+            });
+
+            minMaxComponent.on('change.choice-widget', () => {
+                checkOtherEdgeCases();
+            });
+
+            minMaxComponent.on('disablemin', () => {
+                if (constraints === 'other') {
+                    interaction.removeAttr('minChoices');
+                }
+            });
+
+            minMaxComponent.on('disablemax', () => {
+                if (constraints === 'other') {
+                    interaction.removeAttr('maxChoices');
+                }
+            });
+
+            minMaxComponent.on('enablemin', () => {
+                if (constraints === 'other') {
+                    const min = minMaxComponent.getMinValue();
+                    if (_.isNumber(min)) {
+                        interaction.attr('minChoices', min);
+                    }
+                }
+            });
+
+            minMaxComponent.on('enablemax', () => {
+                if (constraints === 'other') {
+                    const max = minMaxComponent.getMaxValue();
+                    if (_.isNumber(max)) {
+                        interaction.attr('maxChoices', max);
+                    }
+                }
             });
         };
         const deleteMinMax = () => {
             if (minMaxComponent) {
+                minMaxComponent.off('change');
+                minMaxComponent.off('disablemin');
+                minMaxComponent.off('disablemax');
+                minMaxComponent.off('enablemin');
+                minMaxComponent.off('enablemax');
+                minMaxComponent.off('.choice-widget');
                 minMaxComponent.destroy();
                 minMaxComponent = null;
             }
         };
 
+        const currentType = response.attr('cardinality') === 'single' ? 'single' : 'multiple';
+
         allowedChoices.forEach(allowedChoice => {
-            if (minValue === allowedChoice.minChoices && maxValue === allowedChoice.maxChoices) {
+            if (
+                allowedChoice.type === currentType &&
+                minValue === allowedChoice.minChoices &&
+                maxValue === allowedChoice.maxChoices
+            ) {
                 selectedCase = allowedChoice;
             }
         });
         if (!selectedCase) {
-            selectedCase = allowedChoices[allowedChoices.length - 1];
+            selectedCase =
+                allowedChoices.find(
+                    allowedChoice => allowedChoice.type === currentType && allowedChoice.constraints === 'other'
+                ) || allowedChoices[allowedChoices.length - 1];
         }
         type = selectedCase.type;
         constraints = selectedCase.constraints;
@@ -276,6 +403,33 @@ define([
             allowNull: true
         });
 
+        const baseMinChoicesCallback = callbacks.minChoices;
+        const baseMaxChoicesCallback = callbacks.maxChoices;
+
+        callbacks.minChoices = function (interactionParam, value, name) {
+            if (constraints === 'other') {
+                const isMinEnabled = $form.find('[name="minChoices-toggler"]').prop('checked');
+                if (!isMinEnabled) {
+                    interactionParam.removeAttr(name);
+                    return;
+                }
+            }
+
+            baseMinChoicesCallback.call(this, interactionParam, value, name);
+        };
+
+        callbacks.maxChoices = function (interactionParam, value, name) {
+            if (constraints === 'other') {
+                const isMaxEnabled = $form.find('[name="maxChoices-toggler"]').prop('checked');
+                if (!isMaxEnabled) {
+                    interactionParam.removeAttr(name);
+                    return;
+                }
+            }
+
+            baseMaxChoicesCallback.call(this, interactionParam, value, name);
+        };
+
         const widgetState = interaction.metaData.widget && interaction.metaData.widget.getCurrentState().name;
         if (widgetState === 'question') {
             callbacks = Object.assign(
@@ -343,8 +497,9 @@ define([
         callbacks.constraints = function (interactionParam, value) {
             constraints = value;
             if (constraints === 'other') {
-                setAttrMaxMinChoices(DEFAULT_MIN, DEFAULT_MAX);
-                createMinMaxComponent(DEFAULT_MIN, DEFAULT_MAX);
+                interaction.attr('minChoices', DEFAULT_MIN);
+                interaction.removeAttr('maxChoices');
+                createMinMaxComponent(DEFAULT_MIN);
             } else {
                 deleteMinMax();
                 setSelectedCase();
@@ -441,7 +596,7 @@ define([
                 }
                 if (constraints === 'other' && minMaxComponent) {
                     minMaxComponent.updateThresholds(DEFAULT_MIN, choiceCount - 1, 'min');
-                    minMaxComponent.updateThresholds(DEFAULT_MAX, choiceCount, 'max');
+                    minMaxComponent.updateThresholds(DEFAULT_MIN, choiceCount, 'max');
                 }
             }
         });

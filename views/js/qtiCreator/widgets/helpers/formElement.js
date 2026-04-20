@@ -295,13 +295,27 @@ define([
             const callbacks = {};
             options = getAttrsOptions(options);
 
-            callbacks[attributeNameMin] = (element, value, name) => {
+            callbacks[attributeNameMin] = function (element, value, name) {
+                if (this && this.disabled) {
+                    element[options.attrMethodNames.remove](name);
+                    options.callback(element, null, name);
+                    return;
+                }
+
                 minCallback(element, value, name, options);
             };
 
             callbacks[attributeNameMax] = function (element, value, name) {
-                if (this && (this.disabled || $(this).hasClass('disabled'))) {
-                    value = 0;
+                const isDisabled = this && this.disabled;
+
+                if (isDisabled) {
+                    if (element.is('interaction')) {
+                        updateResponseDeclaration(element, 0, options.updateCardinality);
+                    }
+
+                    element[options.attrMethodNames.remove](name);
+                    options.callback(element, null, name);
+                    return;
                 }
 
                 value = options.floatVal ? parseFloat(value) : parseInt(value, 10) || 0;
