@@ -736,8 +736,16 @@ class ParserFactory
                     if (!$data->hasAttribute('minChoices')) {
                         $myInteraction->removeAttributeValue('minChoices');
                     }
+
                     if (!$data->hasAttribute('maxChoices')) {
-                        $myInteraction->removeAttributeValue('maxChoices');
+                        $response = $myInteraction->getResponse();
+                        $cardinality = $response ? $response->getAttributeValue('cardinality') : null;
+
+                        if ($cardinality === 'single') {
+                            $myInteraction->setAttributeValue('maxChoices', 1);
+                        } else {
+                            $myInteraction->removeAttributeValue('maxChoices');
+                        }
                     }
                 }
 

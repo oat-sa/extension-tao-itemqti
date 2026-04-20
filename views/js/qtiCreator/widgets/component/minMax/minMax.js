@@ -159,7 +159,7 @@ define([
                         }
 
                         const inputValue = controls[field].input.val();
-                        return inputValue === '' ? null : this.parseNumber(inputValue);
+                        return inputValue === '' ? config[field].value : this.parseNumber(inputValue);
                     }
                 },
 

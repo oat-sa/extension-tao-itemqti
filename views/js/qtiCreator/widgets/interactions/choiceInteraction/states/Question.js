@@ -176,8 +176,8 @@ define([
                 const minEnabled = minMaxComponent.isFieldEnabled('min');
                 const maxEnabled = minMaxComponent.isFieldEnabled('max');
                 const $component = minMaxComponent.getElement();
-                const $minToggler = $component.find('[name="min-toggler"]');
-                const $maxToggler = $component.find('[name="max-toggler"]');
+                const $minToggler = $component.find(`[name="${config.min.fieldName}-toggler"]`);
+                const $maxToggler = $component.find(`[name="${config.max.fieldName}-toggler"]`);
                 const choiceCount = _.size(interaction.getChoices());
 
                 // Safety recovery: we should never keep both disabled
