@@ -88,7 +88,7 @@ define([
                         const isCtrlPressed = domEvent.ctrlKey || domEvent.metaKey;
                         const key = domEvent.key;
 
-                        const blockedKeys = ['b', 'i', 'u', 'k'];
+                        const blockedKeys = ['b', 'i', 'u', 'k', 'l'];
                         if (isCtrlPressed && blockedKeys.includes(key)) {
                             evt.cancel();
                             domEvent.preventDefault();
