@@ -138,6 +138,7 @@ define([
             if (!config.skipReplaceNonBreakingSpaceCharacters) {
                 returnValue = replaceNonBreakingSpaceCharacters(returnValue);
             }
+            returnValue = trimRtBoundarySpaces(returnValue);
             returnValue = mergeSiblings(returnValue);
         }
 
@@ -175,6 +176,30 @@ define([
         }
         html = html.replace(/(&#160;)/g, ' ');
         return html.replace(/(&nbsp;)/g, ' ');
+    }
+
+    /**
+     * Trims boundary spaces in non-empty ruby annotation tags.
+     * Empty placeholders are kept unchanged.
+     * @param {string} html
+     * @returns {string}
+     */
+    function trimRtBoundarySpaces(html) {
+        if (typeof html !== 'string' || html.length <= 0) {
+            return html;
+        }
+
+        return html.replace(/(<(?:qh5:)?rt(?:\s+[^>]*)?>)([\s\S]*?)(<\/(?:qh5:)?rt>)/gi, function ($0, openTag, content, closeTag) {
+            if (/^(?:[\s\u00A0\u200B\uFEFF\u3000]|&nbsp;|&#160;)*$/i.test(content)) {
+                return $0;
+            }
+
+            const normalizedContent = content
+                .replace(/(&nbsp;|&#160;)/gi, ' ')
+                .replace(/^[\s\u00A0\u200B\uFEFF\u3000]+|[\s\u00A0\u200B\uFEFF\u3000]+$/g, '');
+
+            return `${openTag}${normalizedContent}${closeTag}`;
+        });
     }
 
     /**
