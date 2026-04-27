@@ -59,6 +59,25 @@ table {
                 transform: translateX(100%);
             }
         }
+
+        /* Safari + `writing-mode: vertical-rl`: all `position: relative` elements inside thead get shifted by the size of tbody. */
+        thead {
+            @include writing-mode-vertical-rl {
+                display: contents;
+            }
+            @include writing-mode-horizontal-tb {
+                display: table-header-group;
+            }
+        }
+        /* Safari + `writing-mode: vertical-rl`: all `position: relative` elements inside tbody get shifted by the size of thead. */
+        tbody {
+            @include writing-mode-vertical-rl {
+                display: contents;
+            }
+            @include writing-mode-horizontal-tb {
+                display: table-row-group;
+            }
+        }
     }
 }
 
