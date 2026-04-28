@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-04-24 19:14\n"
+"PO-Revision-Date: 2026-04-28 07:02\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -1364,10 +1364,10 @@ msgid "Please add one or more gaps to the text in question mode."
 msgstr "V režime otázky pridajte do textu jednu alebo viac medzier."
 
 msgid "Please create areas that correspond to the response and associate them a score. You can also position the target to the exact point as the correct response."
-msgstr "Vytvorte oblasti, ktoré zodpovedajú odpovedi, a priraďte im skóre. Cieľ môžete tiež umiestniť presne do bodu, ktorý zodpovedá správnej odpovedi."
+msgstr "Vytvorte oblasti, ktoré zodpovedajú odpovedi, a priraďte im bodové hodnotenie. Cieľ môžete tiež umiestniť presne na miesto, ktoré zodpovedá správnej odpovedi."
 
 msgid "Please define association pairs and their scores below."
-msgstr "Prosím, definujte asociačné páry a ich skóre nižšie."
+msgstr "Nižšie definujte asociačné páry a ich bodové hodnotenie."
 
 msgid "Please define the correct association pairs below."
 msgstr "Nižšie definujte správne asociačné páry."
@@ -1727,7 +1727,7 @@ msgid "Select line to remove"
 msgstr "Vyberte riadok, ktorý chcete odstrániť"
 
 msgid "Select media file"
-msgstr "Vyberte mediálny súbor"
+msgstr "Vyberte multimediálny súbor"
 
 msgid "Select object"
 msgstr "Vybrať objekt"
@@ -2240,7 +2240,7 @@ msgid "warning"
 msgstr "POZOR"
 
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
-msgstr "Na to použijeme patternMask, aby sme boli v súlade so štandardom IMS."
+msgstr "Na tento účel použijeme patternMask, aby sme splnili požiadavky štandardu IMS"
 
 msgid "Width"
 msgstr "Šírka"
