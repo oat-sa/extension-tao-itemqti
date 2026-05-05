@@ -33,6 +33,7 @@ module.exports = function (grunt) {
                     dependencies: ['taoItems'],
                     allowExternal: ['qtiCustomInteractionContext', 'qtiInfoControlContext'],
                     paths: require('./paths.json'),
+                    babelPreTransform: { enabled: true, exclude: ['mathjax'] },
                     bundles: [
                         {
                             name: 'taoQtiItem',
