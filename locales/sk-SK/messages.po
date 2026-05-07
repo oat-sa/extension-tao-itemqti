@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-04-28 07:02\n"
+"PO-Revision-Date: 2026-05-07 20:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -260,6 +260,9 @@ msgstr "Automatické spustenie"
 msgid "Back to Manage Items"
 msgstr "Späť na Správu položiek"
 
+msgid "Back to test authoring"
+msgstr "Späť k tvorbe testov"
+
 msgid "Background color"
 msgstr "Farba pozadia"
 
@@ -394,6 +397,9 @@ msgstr "Kliknutím zobrazíte interaktívny widget"
 
 msgid "Click to remove"
 msgstr "Kliknite pre odstránenie"
+
+msgid "Close"
+msgstr "Zatvoriť"
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr "Získajte otvorené odpovede prostredníctvom krátkeho textového poľa (reťazce alebo číselné hodnoty)."
