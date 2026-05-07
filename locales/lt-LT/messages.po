@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-04-07 10:35\n"
+"PO-Revision-Date: 2026-05-07 20:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt\n"
@@ -260,6 +260,9 @@ msgstr "Automatiškai pradėti"
 msgid "Back to Manage Items"
 msgstr "Grįžti į visų klausimų tvarkimą"
 
+msgid "Back to test authoring"
+msgstr ""
+
 msgid "Background color"
 msgstr "Fono spalva"
 
@@ -394,6 +397,9 @@ msgstr "Spauskite, kad parodytų užduoties plėtinį"
 
 msgid "Click to remove"
 msgstr ""
+
+msgid "Close"
+msgstr "Uždaryti"
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr ""
