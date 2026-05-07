@@ -26,11 +26,21 @@
 define([
     'jquery',
     'i18n',
+    'util/url',
     'core/plugin',
     'ui/hider',
     'tpl!taoQtiItem/qtiCreator/plugins/button'
-], function($, __, pluginFactory, hider, buttonTpl){
+], function($, __, urlUtil, pluginFactory, hider, buttonTpl){
     'use strict';
+
+    /**
+     * Check if the page was opened via autoAction (e.g., from test creator's Edit button)
+     * @returns {Boolean}
+     */
+    function wasOpenedViaAutoAction() {
+        const parsedUrl = urlUtil.parse(window.location.href);
+        return !!parsedUrl.query.autoAction;
+    }
 
     /**
      * Returns the configured plugin
@@ -46,15 +56,26 @@ define([
          */
         init : function init(){
             var itemCreator = this.getHost();
+            var openedViaAutoAction = wasOpenedViaAutoAction();
 
             itemCreator.on('exit', function(){
-                window.history.back();
+                // If opened via autoAction (e.g., from test creator's Edit button in a new tab),
+                // close the window/tab instead of navigating back
+                if (openedViaAutoAction) {
+                    window.close();
+                } else {
+                    window.history.back();
+                }
             });
+
+            // Use different button text when opened from test creator
+            const buttonTitle = openedViaAutoAction ? __('Back to test authoring') : __('Back to Manage Items');
+            const buttonText = openedViaAutoAction ? __('Close') : __('Manage Items');
 
             this.$element = $(buttonTpl({
                 icon: 'left',
-                title: __('Back to Manage Items'),
-                text : __('Manage Items'),
+                title: buttonTitle,
+                text : buttonText,
                 cssClass: 'back-action',
                 testId: 'manage-items'
             })).on('click', function backHandler(e){
