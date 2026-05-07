@@ -44,6 +44,12 @@ table {
             padding-inline: 5px;
         }
 
+        td:has(sub:is(.txt-subscript)) {
+            @include writing-mode-vertical-rl {
+                padding-right: 7px;
+            }
+        }
+
         caption.no-block-size {
             block-size: 0;
             overflow: visible;
@@ -51,6 +57,25 @@ table {
             & > span {
                 display: block;
                 transform: translateX(100%);
+            }
+        }
+
+        /* Safari + `writing-mode: vertical-rl`: all `position: relative` elements inside thead get shifted by the size of tbody. */
+        thead {
+            @include writing-mode-vertical-rl {
+                display: contents;
+            }
+            @include writing-mode-horizontal-tb {
+                display: table-header-group;
+            }
+        }
+        /* Safari + `writing-mode: vertical-rl`: all `position: relative` elements inside tbody get shifted by the size of thead. */
+        tbody {
+            @include writing-mode-vertical-rl {
+                display: contents;
+            }
+            @include writing-mode-horizontal-tb {
+                display: table-row-group;
             }
         }
     }

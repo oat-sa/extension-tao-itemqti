@@ -27,7 +27,6 @@ use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\Lists\Business\Service\RemoteSource;
 use oat\taoBackOffice\model\lists\ListService;
-use oat\taoQtiItem\model\import\ChecksumGenerator;
 use oat\taoQtiItem\model\qti\metadata\exporter\CustomPropertiesManifestScanner;
 use oat\taoQtiItem\model\qti\metadata\exporter\scale\ScalePreprocessor;
 use oat\taoQtiItem\model\qti\metadata\ontology\MappedMetadataInjector;
@@ -50,9 +49,16 @@ class MetaMetadataServiceProvider implements ContainerServiceProviderInterface
             ->public();
 
         $services
+            ->set(PropertyImportCompatibilityChecker::class, PropertyImportCompatibilityChecker::class)
+            ->args([
+                service(ListService::class)
+            ])
+            ->public();
+
+        $services
             ->set(MetaMetadataImportMapper::class, MetaMetadataImportMapper::class)
             ->args([
-                service(ChecksumGenerator::class)
+                service(PropertyImportCompatibilityChecker::class)
             ])
             ->public();
 
