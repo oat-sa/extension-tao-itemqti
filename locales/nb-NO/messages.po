@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-04-07 10:35\n"
+"PO-Revision-Date: 2026-05-07 20:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nb_NO\n"
@@ -260,6 +260,9 @@ msgstr ""
 msgid "Back to Manage Items"
 msgstr "Tilbake til administrer oppgaver"
 
+msgid "Back to test authoring"
+msgstr "Tilbake til testskriving"
+
 msgid "Background color"
 msgstr "Bakgrunnsfarge"
 
@@ -394,6 +397,9 @@ msgstr "Klikk for å vise oppgavetype widget"
 
 msgid "Click to remove"
 msgstr "Klikk for å fjerne"
+
+msgid "Close"
+msgstr "Lukk"
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr "Samle åpen informasjon i en kort tekst (strenger eller numeriske verdier)."
