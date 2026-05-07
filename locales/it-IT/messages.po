@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-04-07 10:34\n"
+"PO-Revision-Date: 2026-05-07 20:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it\n"
@@ -260,6 +260,9 @@ msgstr "Avvio automatico"
 msgid "Back to Manage Items"
 msgstr ""
 
+msgid "Back to test authoring"
+msgstr "Torna all'autore del test"
+
 msgid "Background color"
 msgstr "Colore di fondo"
 
@@ -394,6 +397,9 @@ msgstr "Clicca per visualizzare widget di interazione"
 
 msgid "Click to remove"
 msgstr "Fare clic per rimuovere"
+
+msgid "Close"
+msgstr "Chiudi"
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr "Raccogli informazione indeterminata in un breve input di testo (stringhe o valori numerici)."
