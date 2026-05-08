@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-03-28 09:28\n"
+"PO-Revision-Date: 2026-05-07 20:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl\n"
@@ -260,6 +260,9 @@ msgstr "Automatisch starten"
 msgid "Back to Manage Items"
 msgstr "Terug naar Items Beheren"
 
+msgid "Back to test authoring"
+msgstr "Terug naar test authoring"
+
 msgid "Background color"
 msgstr "Achtergrondkleur"
 
@@ -394,6 +397,9 @@ msgstr "Klik om de interactie widget te tonen"
 
 msgid "Click to remove"
 msgstr "Klik om te verwijderen"
+
+msgid "Close"
+msgstr "Sluiten"
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr "Verzamel open einde informatie in een korte tekst invoer (strings of numerieke waarde)."
@@ -2328,3 +2334,4 @@ msgstr "U moet %s naar %s keuzes selecteren."
 
 msgid "Your item has been saved"
 msgstr "Uw item is opgeslagen"
+
