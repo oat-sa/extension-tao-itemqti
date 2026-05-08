@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-03-28 09:27\n"
+"PO-Revision-Date: 2026-05-07 20:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro\n"
@@ -260,6 +260,9 @@ msgstr "Autostart"
 msgid "Back to Manage Items"
 msgstr "Înapoi la gestionarea articolelor"
 
+msgid "Back to test authoring"
+msgstr "Inapoi la testarea de autor"
+
 msgid "Background color"
 msgstr "Culoare fundal"
 
@@ -394,6 +397,9 @@ msgstr "Apăsați pentru a afișa widget-ul interacțiunii"
 
 msgid "Click to remove"
 msgstr "Click pentru a elimina"
+
+msgid "Close"
+msgstr "Inchide"
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr "Colectează informații deschise într-un scurt text introdus (șiruri sau valori numerice)."
@@ -2328,3 +2334,4 @@ msgstr "Trebuie să selectați din opțiunile %s la %s."
 
 msgid "Your item has been saved"
 msgstr "Articolul tău a fost salvat"
+

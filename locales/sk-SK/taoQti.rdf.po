@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-03 18:41\n"
+"PO-Revision-Date: 2026-04-24 19:14\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -30,16 +30,16 @@ msgstr "IMS Interoperabilita Otázok a Testov"
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "QTI Manager"
-msgstr "Manažér QTI"
+msgstr "Správca QTI"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "QTI Manager Role"
-msgstr "Rola manažéra QTI"
+msgstr "Rola Správcu QTI"
 
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Scales"
-msgstr "Váhy"
+msgstr "Mierky"
 
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTI
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -49,5 +49,5 @@ msgstr "QTI"
 # http://www.tao.lu/Ontologies/TAOItem.rdf#QTIManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "QTI Manager"
-msgstr "Manažér QTI"
+msgstr "Správca QTI"
 
