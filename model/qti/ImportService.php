@@ -506,6 +506,7 @@ class ImportService extends ConfigurableService
                 $guardian = false;
 
                 if ($enableMetadataGuardians === true) {
+                    $this->getMetadataImporter()->setMetadataValues($metadataValues);
                     $guardian = $this->getMetadataImporter()->guard($resourceIdentifier);
                     if ($guardian !== false) {
                         // Item found by guardians.
