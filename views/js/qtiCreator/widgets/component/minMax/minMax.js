@@ -341,6 +341,9 @@ define([
                             valueToSet = initialValue > 1 ? initialValue : 1;
                         }
 
+                        // Keep config in sync before input 'change' so convertToNumber and isFieldEnabled see enabled state
+                        config[field].value = valueToSet;
+
                         controls[field].input
                             .val(valueToSet)
                             .incrementer('enable')
