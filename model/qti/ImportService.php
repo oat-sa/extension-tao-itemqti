@@ -995,8 +995,7 @@ class ImportService extends ConfigurableService
         $itemClassUri = $itemClass->getUri();
         $matches = [];
         foreach ($instances as $instance) {
-            $resourceClass = $instance->getClass();
-            if ($resourceClass !== null && $resourceClass->getUri() === $itemClassUri) {
+            if ($instance->getParentClassId() === $itemClassUri) {
                 $matches[] = $instance;
             }
         }
