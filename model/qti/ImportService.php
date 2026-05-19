@@ -514,15 +514,28 @@ class ImportService extends ConfigurableService
                 $guardian = false;
 
                 if ($enableMetadataGuardians === true) {
-                    $metadataValues = $this->enrichMetadataWithItemLabel(
-                        $metadataValues,
-                        $tmpFolder,
-                        $qtiItemResource
-                    );
-                    $this->getMetadataImporter()->setMetadataValues($metadataValues);
-                    $this->getMetadataImporter()->setScopeClass($itemClass);
-                    $guardian = $this->getMetadataImporter()->guard($resourceIdentifier);
-                    $this->getMetadataImporter()->setScopeClass(null);
+                    $metadataImporter = $this->getMetadataImporter();
+                    $hasLabelGuardian = $metadataImporter->hasItemLabelMetadataGuardian();
+
+                    if ($hasLabelGuardian) {
+                        $metadataValues = $this->enrichMetadataWithItemLabel(
+                            $metadataValues,
+                            $tmpFolder,
+                            $qtiItemResource
+                        );
+                    }
+
+                    $metadataImporter->setMetadataValues($metadataValues);
+
+                    if ($hasLabelGuardian) {
+                        $metadataImporter->setScopeClass($itemClass);
+                    }
+
+                    $guardian = $metadataImporter->guard($resourceIdentifier);
+
+                    if ($hasLabelGuardian) {
+                        $metadataImporter->setScopeClass(null);
+                    }
                     if ($guardian !== false) {
                         // Item found by guardians.
                         if ($itemMustBeOverwritten === true) {
@@ -986,6 +999,10 @@ class ImportService extends ConfigurableService
         ];
 
         foreach ($metadataValueCollection as $metadataValue) {
+            if (!$metadataValue instanceof MetadataValue) {
+                continue;
+            }
+
             if (in_array($metadataValue->getPath(), $labelPaths, true)) {
                 return true;
             }

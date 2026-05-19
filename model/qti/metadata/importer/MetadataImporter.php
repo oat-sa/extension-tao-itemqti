@@ -29,6 +29,7 @@ use core_kernel_classes_Class;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardian;
 use oat\taoQtiItem\model\qti\metadata\ContextualMetadataGuardian;
 use oat\taoQtiItem\model\qti\metadata\ScopedMetadataGuardian;
+use oat\taoQtiItem\model\qti\metadata\guardians\ItemLabelMetadataGuardian;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\metadata\MetadataValidator;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
@@ -55,6 +56,17 @@ class MetadataImporter extends AbstractMetadataService
     public function setScopeClass(?core_kernel_classes_Class $class): void
     {
         $this->scopeClass = $class;
+    }
+
+    public function hasItemLabelMetadataGuardian(): bool
+    {
+        foreach ($this->getGuardians() as $guardian) {
+            if ($guardian instanceof ItemLabelMetadataGuardian) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
