@@ -25,8 +25,10 @@ use oat\tao\model\metadata\exception\MetadataImportException;
 use oat\taoQtiItem\model\qti\metadata\AbstractMetadataService;
 use oat\taoQtiItem\model\qti\metadata\MetadataClassLookup;
 use oat\taoQtiItem\model\qti\metadata\MetadataClassLookupClassCreator;
+use core_kernel_classes_Class;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardian;
 use oat\taoQtiItem\model\qti\metadata\ContextualMetadataGuardian;
+use oat\taoQtiItem\model\qti\metadata\ScopedMetadataGuardian;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\metadata\MetadataValidator;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
@@ -47,6 +49,13 @@ class MetadataImporter extends AbstractMetadataService
      * Config key to store validator classes
      */
     public const VALIDATOR_KEY = 'validators';
+
+    private ?core_kernel_classes_Class $scopeClass = null;
+
+    public function setScopeClass(?core_kernel_classes_Class $class): void
+    {
+        $this->scopeClass = $class;
+    }
 
     /**
      * Extract metadata value from a DomManifest
@@ -93,6 +102,10 @@ class MetadataImporter extends AbstractMetadataService
         foreach ($this->getGuardians() as $guardian) {
             if ($guardian instanceof ContextualMetadataGuardian && $guardian->getContext() !== $context) {
                 continue;
+            }
+
+            if ($guardian instanceof ScopedMetadataGuardian) {
+                $guardian->setScopeClass($this->scopeClass);
             }
 
             if ($this->hasMetadataValue($identifier)) {

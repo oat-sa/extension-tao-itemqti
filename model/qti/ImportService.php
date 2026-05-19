@@ -52,8 +52,11 @@ use oat\taoQtiItem\model\qti\exception\TemplateException;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
 use oat\taoQtiItem\model\qti\metadata\importer\MetaMetadataImportMapper;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataExtractor;
+use oat\generis\model\OntologyRdfs;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardianResource;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
+use oat\taoQtiItem\model\qti\metadata\MetadataValue;
+use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 use oat\taoQtiItem\model\qti\metadata\ontology\MappedMetadataInjector;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
 use oat\taoQtiItem\model\event\ItemImported;
@@ -326,6 +329,9 @@ class ImportService extends ConfigurableService
             /** @var Resource[] $qtiItemResources */
             $qtiItemResources = $this->createQtiManifest($folder . 'imsmanifest.xml');
 
+            $metadataValues = [];
+            $mappedMetadataValues = [];
+
             if ($importMetadataEnabled) {
                 $metaMetadataValues = $this->getMetaMetadataExtractor()->extract($domManifest);
                 $metadataValues = $this->getMetadataImporter()->extract($domManifest);
@@ -354,6 +360,8 @@ class ImportService extends ConfigurableService
                         )
                     );
                 }
+            } elseif (($enableMetadataGuardians || $enableMetadataValidators ) && $itemMustBeOverwritten) {
+                $metadataValues = $this->getMetadataImporter()->extract($domManifest);
             }
 
             $sharedFiles = [];
@@ -366,7 +374,7 @@ class ImportService extends ConfigurableService
                     $itemClass,
                     $sharedFiles,
                     [],
-                    $metadataValues ?? [],
+                    $metadataValues,
                     $createdClasses,
                     $enableMetadataGuardians,
                     $enableMetadataValidators,
@@ -506,8 +514,15 @@ class ImportService extends ConfigurableService
                 $guardian = false;
 
                 if ($enableMetadataGuardians === true) {
+                    $metadataValues = $this->enrichMetadataWithItemLabel(
+                        $metadataValues,
+                        $tmpFolder,
+                        $qtiItemResource
+                    );
                     $this->getMetadataImporter()->setMetadataValues($metadataValues);
+                    $this->getMetadataImporter()->setScopeClass($itemClass);
                     $guardian = $this->getMetadataImporter()->guard($resourceIdentifier);
+                    $this->getMetadataImporter()->setScopeClass(null);
                     if ($guardian !== false) {
                         // Item found by guardians.
                         if ($itemMustBeOverwritten === true) {
@@ -911,6 +926,72 @@ class ImportService extends ConfigurableService
         foreach ($createdClasses as $createdClass) {
             @$createdClass->delete();
         }
+    }
+
+    /**
+     * Adds the QTI item label/title to metadata values so label-based guardians can match existing items.
+     */
+    private function enrichMetadataWithItemLabel(
+        array $metadataValues,
+        string $tmpFolder,
+        Resource $qtiItemResource
+    ): array {
+        $resourceIdentifier = $qtiItemResource->getIdentifier();
+
+        if ($this->hasItemLabelMetadataValue($metadataValues[$resourceIdentifier] ?? [])) {
+            return $metadataValues;
+        }
+
+        $tmpQtiFile = $tmpFolder . helpers_File::urlToPath($qtiItemResource->getFile());
+        $this->convertToQti2($tmpQtiFile);
+        $qtiModel = $this->createQtiItemModel($tmpQtiFile);
+
+        $label = '';
+        if ($qtiModel->hasAttribute('label')) {
+            $label = trim((string) $qtiModel->getAttributeValue('label'));
+        }
+
+        if ($label === '' && $qtiModel->hasAttribute('title')) {
+            $label = trim((string) $qtiModel->getAttributeValue('title'));
+        }
+
+        if ($label === '') {
+            return $metadataValues;
+        }
+
+        if (!isset($metadataValues[$resourceIdentifier])) {
+            $metadataValues[$resourceIdentifier] = [];
+        }
+
+        $metadataValues[$resourceIdentifier][] = new SimpleMetadataValue(
+            $resourceIdentifier,
+            [OntologyRdfs::RDFS_LABEL],
+            $label
+        );
+
+        return $metadataValues;
+    }
+
+    /**
+     * @param MetadataValue[] $metadataValueCollection
+     */
+    private function hasItemLabelMetadataValue(array $metadataValueCollection): bool
+    {
+        $labelPaths = [
+            [OntologyRdfs::RDFS_LABEL],
+            [
+                'http://ltsc.ieee.org/xsd/LOM#lom',
+                OntologyRdfs::RDFS_LABEL,
+            ],
+        ];
+
+        foreach ($metadataValueCollection as $metadataValue) {
+            if (in_array($metadataValue->getPath(), $labelPaths, true)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
