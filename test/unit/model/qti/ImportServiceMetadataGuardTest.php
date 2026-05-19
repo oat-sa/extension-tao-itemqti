@@ -79,14 +79,14 @@ class ImportServiceMetadataGuardTest extends TestCase
             ->method('setMetadataValues')
             ->with($metadataValues);
 
+        $importService = $this->createImportServiceWithMetadataImporter($metadataImporterMock);
+        $qtiResource = $this->createQtiResourceMock($resourceIdentifier);
+        $itemClass = $this->createMock(RdfClass::class);
+
         $metadataImporterMock->expects($this->once())
             ->method('guard')
             ->with($resourceIdentifier)
             ->willReturn($existingResource);
-
-        $importService = $this->createImportServiceWithMetadataImporter($metadataImporterMock);
-        $qtiResource = $this->createQtiResourceMock($resourceIdentifier);
-        $itemClass = $this->createMock(RdfClass::class);
 
         $sharedFiles = [];
         $createdClasses = [];
@@ -150,14 +150,14 @@ class ImportServiceMetadataGuardTest extends TestCase
             ->method('setMetadataValues')
             ->with($metadataValues);
 
+        $importService = $this->createImportServiceWithMetadataImporter($metadataImporterMock);
+        $qtiResource = $this->createQtiResourceMock($resourceIdentifier);
+        $itemClass = $this->createMock(RdfClass::class);
+
         $metadataImporterMock->expects($this->once())
             ->method('guard')
             ->with($resourceIdentifier)
             ->willReturn(false);
-
-        $importService = $this->createImportServiceWithMetadataImporter($metadataImporterMock);
-        $qtiResource = $this->createQtiResourceMock($resourceIdentifier);
-        $itemClass = $this->createMock(RdfClass::class);
 
         $sharedFiles = [];
         $createdClasses = [];

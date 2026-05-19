@@ -118,7 +118,8 @@ class RestQtiItem extends AbstractRestQti
                 $this->isMetadataValidatorsEnabled(),
                 $this->isItemMustExistEnabled(),
                 $this->isItemMustBeOverwrittenEnabled(),
-                $this->isMetadataRequired()
+                $this->isMetadataRequired(),
+                $this->isOverwriteByLabelInTargetClassEnabled()
             );
             helpers_TimeOutHelper::reset();
 
@@ -181,7 +182,8 @@ class RestQtiItem extends AbstractRestQti
                 $this->isMetadataValidatorsEnabled(),
                 $this->isItemMustExistEnabled(),
                 $this->isItemMustBeOverwrittenEnabled(),
-                $this->isMetadataRequired()
+                $this->isMetadataRequired(),
+                $this->isOverwriteByLabelInTargetClassEnabled()
             );
 
             $result = [
