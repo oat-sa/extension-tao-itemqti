@@ -79,14 +79,15 @@ class ImportServiceMetadataGuardTest extends TestCase
             ->method('setMetadataValues')
             ->with($metadataValues);
 
+        $importService = $this->createImportServiceWithMetadataImporter($metadataImporterMock);
+        $qtiResource = $this->createQtiResourceMock($resourceIdentifier);
+        $itemClass = $this->createMock(RdfClass::class);
+        $this->expectGuardianScopeCalls($metadataImporterMock, $itemClass);
+
         $metadataImporterMock->expects($this->once())
             ->method('guard')
             ->with($resourceIdentifier)
             ->willReturn($existingResource);
-
-        $importService = $this->createImportServiceWithMetadataImporter($metadataImporterMock);
-        $qtiResource = $this->createQtiResourceMock($resourceIdentifier);
-        $itemClass = $this->createMock(RdfClass::class);
 
         $sharedFiles = [];
         $createdClasses = [];
@@ -150,14 +151,15 @@ class ImportServiceMetadataGuardTest extends TestCase
             ->method('setMetadataValues')
             ->with($metadataValues);
 
+        $importService = $this->createImportServiceWithMetadataImporter($metadataImporterMock);
+        $qtiResource = $this->createQtiResourceMock($resourceIdentifier);
+        $itemClass = $this->createMock(RdfClass::class);
+        $this->expectGuardianScopeCalls($metadataImporterMock, $itemClass);
+
         $metadataImporterMock->expects($this->once())
             ->method('guard')
             ->with($resourceIdentifier)
             ->willReturn(false);
-
-        $importService = $this->createImportServiceWithMetadataImporter($metadataImporterMock);
-        $qtiResource = $this->createQtiResourceMock($resourceIdentifier);
-        $itemClass = $this->createMock(RdfClass::class);
 
         $sharedFiles = [];
         $createdClasses = [];
@@ -220,6 +222,16 @@ class ImportServiceMetadataGuardTest extends TestCase
                 $callOrder[] = 'setMetadataValues';
             });
 
+        $importService = $this->createImportServiceWithMetadataImporter($metadataImporterMock);
+        $qtiResource = $this->createQtiResourceMock($resourceIdentifier);
+        $itemClass = $this->createMock(RdfClass::class);
+
+        $metadataImporterMock->expects($this->exactly(2))
+            ->method('setScopeClass')
+            ->willReturnCallback(function (?RdfClass $class) use (&$callOrder, $itemClass) {
+                $callOrder[] = $class === $itemClass ? 'setScopeClass' : 'clearScopeClass';
+            });
+
         $metadataImporterMock->expects($this->once())
             ->method('guard')
             ->with($resourceIdentifier)
@@ -227,10 +239,6 @@ class ImportServiceMetadataGuardTest extends TestCase
                 $callOrder[] = 'guard';
                 return $existingResource;
             });
-
-        $importService = $this->createImportServiceWithMetadataImporter($metadataImporterMock);
-        $qtiResource = $this->createQtiResourceMock($resourceIdentifier);
-        $itemClass = $this->createMock(RdfClass::class);
 
         $sharedFiles = [];
         $createdClasses = [];
@@ -252,9 +260,9 @@ class ImportServiceMetadataGuardTest extends TestCase
         );
 
         $this->assertSame(
-            ['setMetadataValues', 'guard'],
+            ['setMetadataValues', 'setScopeClass', 'guard', 'clearScopeClass'],
             $callOrder,
-            'ImportService must call setMetadataValues() before guard()'
+            'ImportService must prepare metadata and scope before guard()'
         );
     }
 
@@ -347,6 +355,16 @@ class ImportServiceMetadataGuardTest extends TestCase
             'Empty setMetadataValues() should clear all metadata'
         );
         $this->assertFalse($metadataImporter->guard($identifier2));
+    }
+
+    /**
+     * @param MetadataImporter&MockObject $metadataImporterMock
+     */
+    private function expectGuardianScopeCalls(MockObject $metadataImporterMock, RdfClass $itemClass): void
+    {
+        $metadataImporterMock->expects($this->exactly(2))
+            ->method('setScopeClass')
+            ->withConsecutive([$itemClass], [null]);
     }
 
     /**
