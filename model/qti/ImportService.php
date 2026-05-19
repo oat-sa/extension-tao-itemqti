@@ -1006,7 +1006,8 @@ class ImportService extends ConfigurableService
 
         if (count($matches) > 1) {
             \common_Logger::i(sprintf(
-                'Multiple items with label "%s" found in class "%s". The most recently created item will be overwritten.',
+                'Multiple items with label "%s" found in class "%s". '
+                . 'The most recently created item will be overwritten.',
                 $label,
                 $itemClass->getLabel()
             ));
