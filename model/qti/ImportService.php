@@ -518,11 +518,22 @@ class ImportService extends ConfigurableService
                 $overwriteByLabelInTargetClassEnabled = $itemMustBeOverwritten === true
                     && $overwriteByLabelInTargetClass === true;
 
+                if (
+                    $overwriteByLabelInTargetClassEnabled
+                    || $enableMetadataGuardians === true
+                    || $enableMetadataValidators === true
+                ) {
+                    $this->getMetadataImporter()->setMetadataValues($metadataValues);
+                }
+
                 if ($overwriteByLabelInTargetClassEnabled) {
                     $tmpQtiFile = $tmpFolder . helpers_File::urlToPath($qtiItemResource->getFile());
                     $this->convertToQti2($tmpQtiFile);
                     $qtiModel = $this->createQtiItemModel($tmpQtiFile);
-                    $guardian = $this->findItemByLabelInClass($itemClass, $this->extractItemLabel($qtiModel));
+                    $guardian = $this->findItemByLabelInClass(
+                        $itemClass,
+                        $this->extractItemLabel($qtiModel)
+                    );
 
                     if ($guardian !== false) {
                         \common_Logger::i(
@@ -532,7 +543,6 @@ class ImportService extends ConfigurableService
                         $overWriting = true;
                     }
                 } elseif ($enableMetadataGuardians === true) {
-                    $this->getMetadataImporter()->setMetadataValues($metadataValues);
                     $guardian = $this->getMetadataImporter()->guard($resourceIdentifier);
                     if ($guardian !== false) {
                         // Item found by guardians.
@@ -970,14 +980,40 @@ class ImportService extends ConfigurableService
 
         $instances = $itemClass->searchInstances(
             [OntologyRdfs::RDFS_LABEL => $label],
-            ['like' => false, 'recursive' => true]
+            [
+                'like' => false,
+                'recursive' => false,
+                'order' => TaoOntology::PROPERTY_UPDATED_AT,
+                'orderdir' => 'DESC',
+            ]
         );
 
         if (empty($instances)) {
             return false;
         }
 
-        return reset($instances);
+        $itemClassUri = $itemClass->getUri();
+        $matches = [];
+        foreach ($instances as $instance) {
+            $resourceClass = $instance->getClass();
+            if ($resourceClass !== null && $resourceClass->getUri() === $itemClassUri) {
+                $matches[] = $instance;
+            }
+        }
+
+        if (empty($matches)) {
+            return false;
+        }
+
+        if (count($matches) > 1) {
+            \common_Logger::i(sprintf(
+                'Multiple items with label "%s" found in class "%s". The most recently created item will be overwritten.',
+                $label,
+                $itemClass->getLabel()
+            ));
+        }
+
+        return reset($matches);
     }
 
     /**
