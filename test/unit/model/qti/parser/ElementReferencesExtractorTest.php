@@ -26,9 +26,12 @@ use oat\taoQtiItem\model\qti\ElementReferences;
 use oat\taoQtiItem\model\qti\Img;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\parser\ElementReferencesExtractor;
+use oat\taoQtiItem\model\qti\parser\TextReaderReferencesExtractor;
 use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\qti\QtiObject;
 use oat\taoQtiItem\model\qti\XInclude;
+use oat\taoQtiItem\model\qti\interaction\ImsPortableCustomInteraction;
+use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ElementReferencesExtractorTest extends TestCase
@@ -39,6 +42,8 @@ class ElementReferencesExtractorTest extends TestCase
         . 'tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d5';
     private const MEDIA_LINK_3 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_'
         . 'tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d3';
+    private const MEDIA_LINK_4 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_'
+        . 'tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d7';
 
     /** @var ElementReferencesExtractor */
     private $subject;
@@ -46,6 +51,11 @@ class ElementReferencesExtractorTest extends TestCase
     protected function setUp(): void
     {
         $this->subject = new ElementReferencesExtractor();
+        $this->subject->setServiceLocator(
+            $this->getServiceLocatorMock([
+                TextReaderReferencesExtractor::class => new TextReaderReferencesExtractor(),
+            ])
+        );
     }
 
     public function testExtract(): void
@@ -99,6 +109,25 @@ class ElementReferencesExtractorTest extends TestCase
         $element3->method('attr')
             ->willReturn(self::MEDIA_LINK_3);
 
+        $textReaderInteraction = $this->createMock(PortableCustomInteraction::class);
+        $textReaderInteraction->method('getTypeIdentifier')
+            ->willReturn('textReaderInteraction');
+        $textReaderInteraction->method('getProperties')
+            ->willReturn(
+                [
+                    'pages' => json_encode(
+                        [
+                            [
+                                'content' => [
+                                    '<p><img src="' . self::MEDIA_LINK_4 . '"/></p>',
+                                    '<p><img src="' . self::MEDIA_LINK_4 . '"/></p>',
+                                ],
+                            ],
+                        ]
+                    ),
+                ]
+            );
+
         /** @var Item|MockObject $item */
         $item = $this->createMock(Item::class);
         $item->method('getComposingElements')
@@ -106,7 +135,9 @@ class ElementReferencesExtractorTest extends TestCase
                 ...[
                     [$element1],
                     [$element2],
-                    [$element3]
+                    [$element3],
+                    [$textReaderInteraction],
+                    [],
                 ]
             );
 
@@ -114,9 +145,55 @@ class ElementReferencesExtractorTest extends TestCase
             new ElementReferences(
                 [self::MEDIA_LINK_1],
                 [self::MEDIA_LINK_2],
-                [self::MEDIA_LINK_3]
+                [self::MEDIA_LINK_3],
+                [self::MEDIA_LINK_4]
             ),
             $this->subject->extractAll($item)
+        );
+    }
+
+    public function testExtractTextReaderReferences(): void
+    {
+        $textReaderInteraction = $this->createMock(PortableCustomInteraction::class);
+        $textReaderInteraction->method('getTypeIdentifier')
+            ->willReturn('textReaderInteraction');
+        $textReaderInteraction->method('getProperties')
+            ->willReturn(
+                [
+                    'pages' => json_encode(
+                        [
+                            [
+                                'content' => [
+                                    '<p><img src="' . self::MEDIA_LINK_4 . '"/></p>',
+                                    '<p><img src="' . self::MEDIA_LINK_2 . '"/></p>',
+                                ],
+                            ],
+                        ]
+                    ),
+                ]
+            );
+
+        $otherInteraction = $this->createMock(PortableCustomInteraction::class);
+        $otherInteraction->method('getTypeIdentifier')
+            ->willReturn('someOtherInteraction');
+
+        /** @var Item|MockObject $item */
+        $item = $this->createMock(Item::class);
+        $item->expects($this->exactly(2))
+            ->method('getComposingElements')
+            ->willReturnMap(
+                [
+                    [PortableCustomInteraction::class, [$textReaderInteraction, $otherInteraction]],
+                    [ImsPortableCustomInteraction::class, []],
+                ]
+            );
+
+        $this->assertSame(
+            [
+                self::MEDIA_LINK_4,
+                self::MEDIA_LINK_2,
+            ],
+            $this->subject->extractTextReaderReferences($item)
         );
     }
 }

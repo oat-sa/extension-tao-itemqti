@@ -80,6 +80,7 @@ class UpdatedItemEventDispatcherTest extends TestCase
                         'includeElementReferences' => $ids,
                         'objectElementReferences' => $ids,
                         'imgElementReferences' => $ids,
+                        'textReaderElementReferences' => [],
                     ]
                 )
             );
@@ -92,6 +93,11 @@ class UpdatedItemEventDispatcherTest extends TestCase
                 [$item, QtiObject::class, 'data', $ids],
                 [$item, Img::class, 'src', $ids],
             ]);
+        $this->referencesExtractor
+            ->expects($this->once())
+            ->method('extractTextReaderReferences')
+            ->with($item)
+            ->willReturn([]);
 
         $this->assertNull($this->subject->dispatch($item, $rdfItem));
     }

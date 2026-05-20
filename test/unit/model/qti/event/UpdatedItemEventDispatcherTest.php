@@ -79,6 +79,7 @@ class UpdatedItemEventDispatcherTest extends TestCase
         $hrefValue = ['href-value 1', 'href-value 2', 'href-value 3'];
         $dataValue = ['data-value 1', 'data-value 2'];
         $srcValue = ['src-value 1', 'src-value 2'];
+        $textReaderValue = ['text-reader-value 1', 'text-reader-value 2'];
 
         $this->referencesExtractor
             ->expects($this->exactly(3))
@@ -90,6 +91,11 @@ class UpdatedItemEventDispatcherTest extends TestCase
                     [$this->qtiItem, Img::class, 'src', $srcValue],
                 ]
             );
+        $this->referencesExtractor
+            ->expects($this->once())
+            ->method('extractTextReaderReferences')
+            ->with($this->qtiItem)
+            ->willReturn($textReaderValue);
 
         $this->eventManager
             ->expects($this->once())
@@ -100,7 +106,8 @@ class UpdatedItemEventDispatcherTest extends TestCase
                     [
                         'includeElementReferences' => $hrefValue,
                         'objectElementReferences' => $dataValue,
-                        'imgElementReferences' => $srcValue
+                        'imgElementReferences' => $srcValue,
+                        'textReaderElementReferences' => $textReaderValue,
                     ]
                 )
             );
