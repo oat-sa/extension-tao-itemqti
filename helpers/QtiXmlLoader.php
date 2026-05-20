@@ -49,7 +49,9 @@ class QtiXmlLoader
         $dom = new DOMDocument('1.0', 'UTF-8');
         $this->configDomParser($dom);
         try {
-            $dom->loadXML($xml);
+            if ($dom->loadXML($xml) === false) {
+                throw new QtiModelException('Invalid QTI XML');
+            }
         } catch (Exception $e) {
             throw new QtiModelException('Invalid QTI XML', 0, $e);
         }
