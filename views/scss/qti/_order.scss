@@ -94,8 +94,21 @@
         }
         &.test-preview {
             .order-interaction-area {
+                display: flex;
+                align-items: flex-start;
+                flex-direction: row;
+                gap: 10px;
+                >.arrow-bar:not(.middle) {
+                    display: flex;
+                    flex: 0 0 40px;
+                    flex-direction: column;
+                    margin-left: 0;
+                    width: 40px;
+                }
                 >.result-area {
                     display: block;
+                    flex: 1 1 auto;
+                    width: auto;
                 }
                 >.choice-area {
                     display: none;
