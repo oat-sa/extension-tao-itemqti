@@ -1,4 +1,4 @@
-@import "inc/bootstrap";
+@import 'inc/bootstrap';
 
 @mixin flex-center {
     display: flex;
@@ -87,8 +87,8 @@
     &.qti-single {
         .order-interaction-area {
             display: block;
-            >.arrow-bar,
-            >.result-area {
+            > .arrow-bar,
+            > .result-area {
                 display: none;
             }
         }
@@ -98,19 +98,20 @@
                 align-items: flex-start;
                 flex-direction: row;
                 gap: 10px;
-                >.arrow-bar:not(.middle) {
+                > .arrow-bar:not(.middle) {
                     display: flex;
                     flex: 0 0 40px;
                     flex-direction: column;
                     margin-left: 0;
                     width: 40px;
+                    height: 100%;
                 }
-                >.result-area {
+                > .result-area {
                     display: block;
                     flex: 1 1 auto;
                     width: auto;
                 }
-                >.choice-area {
+                > .choice-area {
                     display: none;
                 }
             }
