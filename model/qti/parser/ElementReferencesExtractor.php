@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\model\qti\parser;
 
-use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\ElementReferences;
 use oat\taoQtiItem\model\qti\Img;
@@ -30,10 +29,15 @@ use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\QtiObject;
 use oat\taoQtiItem\model\qti\XInclude;
 
-class ElementReferencesExtractor extends ConfigurableService
+class ElementReferencesExtractor
 {
     /** @var string[] */
     private $elementReferences;
+
+    public function __construct(
+        private readonly TextReaderReferencesExtractorInterface $textReaderReferencesExtractor
+    ) {
+    }
 
     public function extract(Item $qtiItem, string $elementClass, string $attributeName): array
     {
@@ -59,11 +63,6 @@ class ElementReferencesExtractor extends ConfigurableService
 
     public function extractTextReaderReferences(Item $qtiItem): array
     {
-        return $this->getTextReaderReferencesExtractor()->extract($qtiItem);
-    }
-
-    private function getTextReaderReferencesExtractor(): TextReaderReferencesExtractor
-    {
-        return new TextReaderReferencesExtractor();
+        return $this->textReaderReferencesExtractor->extract($qtiItem);
     }
 }

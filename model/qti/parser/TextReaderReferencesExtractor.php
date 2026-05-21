@@ -23,12 +23,11 @@ declare(strict_types=1);
 namespace oat\taoQtiItem\model\qti\parser;
 
 use DOMDocument;
-use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\interaction\ImsPortableCustomInteraction;
 use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
 
-class TextReaderReferencesExtractor extends ConfigurableService
+class TextReaderReferencesExtractor implements TextReaderReferencesExtractorInterface
 {
     private const TEXT_READER_TYPE_IDENTIFIER = 'textReaderInteraction';
 

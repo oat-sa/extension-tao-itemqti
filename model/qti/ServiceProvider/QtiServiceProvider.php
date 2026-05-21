@@ -35,6 +35,9 @@ use oat\taoQtiItem\model\qti\converter\ItemConverter;
 use oat\taoQtiItem\model\qti\converter\ManifestConverter;
 use oat\taoQtiItem\model\qti\Identifier\Service\QtiIdentifierSetter;
 use oat\taoQtiItem\model\qti\ItemMaxScoreService;
+use oat\taoQtiItem\model\qti\parser\ElementReferencesExtractor;
+use oat\taoQtiItem\model\qti\parser\TextReaderReferencesExtractor;
+use oat\taoQtiItem\model\qti\parser\TextReaderReferencesExtractorInterface;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\QtiCreator\Scales\RemoteScaleListService;
 use oat\taoQtiItem\model\ValidationService;
@@ -98,6 +101,18 @@ class QtiServiceProvider implements ContainerServiceProviderInterface
             ->public();
 
         $services->set(ItemMaxScoreService::class, ItemMaxScoreService::class)
+            ->public();
+
+        $services->set(TextReaderReferencesExtractor::class, TextReaderReferencesExtractor::class)
+            ->public();
+
+        $services->set(TextReaderReferencesExtractorInterface::class, TextReaderReferencesExtractor::class)
+            ->public();
+
+        $services->set(ElementReferencesExtractor::class, ElementReferencesExtractor::class)
+            ->args([
+                service(TextReaderReferencesExtractorInterface::class),
+            ])
             ->public();
     }
 }

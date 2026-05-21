@@ -22,12 +22,12 @@ declare(strict_types=1);
 
 namespace oat\taoQtiItem\test\unit\model\qti\parser;
 
+use PHPUnit\Framework\TestCase;
 use oat\taoQtiItem\model\qti\ElementReferences;
 use oat\taoQtiItem\model\qti\Img;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\parser\ElementReferencesExtractor;
 use oat\taoQtiItem\model\qti\parser\TextReaderReferencesExtractor;
-use oat\generis\test\TestCase;
 use oat\taoQtiItem\model\qti\QtiObject;
 use oat\taoQtiItem\model\qti\XInclude;
 use oat\taoQtiItem\model\qti\interaction\ImsPortableCustomInteraction;
@@ -50,12 +50,7 @@ class ElementReferencesExtractorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->subject = new ElementReferencesExtractor();
-        $this->subject->setServiceLocator(
-            $this->getServiceLocatorMock([
-                TextReaderReferencesExtractor::class => new TextReaderReferencesExtractor(),
-            ])
-        );
+        $this->subject = new ElementReferencesExtractor(new TextReaderReferencesExtractor());
     }
 
     public function testExtract(): void
