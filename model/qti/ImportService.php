@@ -537,7 +537,8 @@ class ImportService extends ConfigurableService
                             $qtiModel,
                             $importMetadataEnabled,
                             $resourceIdentifier,
-                            $metadataValues
+                            $metadataValues,
+                            $metaMedataValues
                         )
                     );
 
@@ -961,19 +962,24 @@ class ImportService extends ConfigurableService
     /**
      * @param \qtism\data\AssessmentItem $qtiModel
      * @param array<string, array> $metadataValues
+     * @param array<string, \core_kernel_classes_Property> $mappedItemProperties
      */
     private function extractItemLabel(
         $qtiModel,
         bool $importMetadataEnabled = false,
         string $resourceIdentifier = '',
-        array $metadataValues = []
+        array $metadataValues = [],
+        array $mappedItemProperties = []
     ): string {
         if (
             $importMetadataEnabled
             && $resourceIdentifier !== ''
             && isset($metadataValues[$resourceIdentifier])
         ) {
-            $labelFromMetadata = $this->extractItemLabelFromMetadata($metadataValues[$resourceIdentifier]);
+            $labelFromMetadata = $this->extractItemLabelFromMetadata(
+                $metadataValues[$resourceIdentifier],
+                $mappedItemProperties
+            );
             if ($labelFromMetadata !== '') {
                 return $labelFromMetadata;
             }
@@ -992,23 +998,39 @@ class ImportService extends ConfigurableService
     }
 
     /**
+     * Resolves the item label from manifest metadata using the same path matching as MappedMetadataInjector.
+     *
      * @param MetadataValue[] $metadataValuesForResource
+     * @param array<string, \core_kernel_classes_Property> $mappedItemProperties
      */
-    private function extractItemLabelFromMetadata(array $metadataValuesForResource): string
-    {
+    private function extractItemLabelFromMetadata(
+        array $metadataValuesForResource,
+        array $mappedItemProperties = []
+    ): string {
         foreach ($metadataValuesForResource as $metadataValue) {
             if (!$metadataValue instanceof MetadataValue) {
                 continue;
             }
 
-            $path = $metadataValue->getPath();
-            if (!isset($path[1]) || $path[1] !== OntologyRdfs::RDFS_LABEL) {
+            $value = trim((string) $metadataValue->getValue());
+            if ($value === '') {
                 continue;
             }
 
-            $value = trim((string) $metadataValue->getValue());
-            if ($value !== '') {
-                return $value;
+            foreach ($metadataValue->getPath() as $mappedPath) {
+                if (!empty($mappedItemProperties)) {
+                    if (
+                        isset($mappedItemProperties[$mappedPath])
+                        && $mappedItemProperties[$mappedPath]->getUri() === OntologyRdfs::RDFS_LABEL
+                    ) {
+                        return $value;
+                    }
+                    continue;
+                }
+
+                if ($mappedPath === OntologyRdfs::RDFS_LABEL) {
+                    return $value;
+                }
             }
         }
 
