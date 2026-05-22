@@ -55,6 +55,7 @@ use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataExtractor;
 use oat\generis\model\OntologyRdfs;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardianResource;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
+use oat\taoQtiItem\model\qti\metadata\MetadataValue;
 use oat\taoQtiItem\model\qti\metadata\ontology\MappedMetadataInjector;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
 use oat\taoQtiItem\model\event\ItemImported;
@@ -532,7 +533,12 @@ class ImportService extends ConfigurableService
                     $qtiModel = $this->createQtiItemModel($tmpQtiFile);
                     $guardian = $this->findItemByLabelInClass(
                         $itemClass,
-                        $this->extractItemLabel($qtiModel)
+                        $this->extractItemLabel(
+                            $qtiModel,
+                            $importMetadataEnabled,
+                            $resourceIdentifier,
+                            $metadataValues
+                        )
                     );
 
                     if ($guardian !== false) {
@@ -954,9 +960,25 @@ class ImportService extends ConfigurableService
 
     /**
      * @param \qtism\data\AssessmentItem $qtiModel
+     * @param array<string, array> $metadataValues
      */
-    private function extractItemLabel($qtiModel): string
-    {
+    private function extractItemLabel(
+        $qtiModel,
+        bool $importMetadataEnabled = false,
+        string $resourceIdentifier = '',
+        array $metadataValues = []
+    ): string {
+        if (
+            $importMetadataEnabled
+            && $resourceIdentifier !== ''
+            && isset($metadataValues[$resourceIdentifier])
+        ) {
+            $labelFromMetadata = $this->extractItemLabelFromMetadata($metadataValues[$resourceIdentifier]);
+            if ($labelFromMetadata !== '') {
+                return $labelFromMetadata;
+            }
+        }
+
         $label = '';
         if ($qtiModel->hasAttribute('label')) {
             $label = trim((string) $qtiModel->getAttributeValue('label'));
@@ -967,6 +989,30 @@ class ImportService extends ConfigurableService
         }
 
         return $label;
+    }
+
+    /**
+     * @param MetadataValue[] $metadataValuesForResource
+     */
+    private function extractItemLabelFromMetadata(array $metadataValuesForResource): string
+    {
+        foreach ($metadataValuesForResource as $metadataValue) {
+            if (!$metadataValue instanceof MetadataValue) {
+                continue;
+            }
+
+            $path = $metadataValue->getPath();
+            if (!isset($path[1]) || $path[1] !== OntologyRdfs::RDFS_LABEL) {
+                continue;
+            }
+
+            $value = trim((string) $metadataValue->getValue());
+            if ($value !== '') {
+                return $value;
+            }
+        }
+
+        return '';
     }
 
     /**
