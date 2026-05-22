@@ -60,6 +60,8 @@ abstract class AbstractRestQti extends tao_actions_RestController
 
     public const ITEM_MUST_BE_OVERWRITTEN = 'itemMustBeOverwritten';
 
+    public const OVERWRITE_ITEM_BY_LABEL_IN_TARGET_CLASS = 'overwriteByLabelInTargetClass';
+
     protected static $accepted_types = [
         'application/zip',
         'application/x-zip-compressed',
@@ -194,6 +196,23 @@ abstract class AbstractRestQti extends tao_actions_RestController
         }
 
         return filter_var($isItemMustBeOverwrittenEnabled, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    protected function isOverwriteByLabelInTargetClassEnabled(): bool
+    {
+        $overwriteByLabelInTargetClass = $this->getQueryParams(self::OVERWRITE_ITEM_BY_LABEL_IN_TARGET_CLASS);
+
+        if (is_null($overwriteByLabelInTargetClass)) {
+            return false;
+        }
+
+        if (!in_array($overwriteByLabelInTargetClass, ['true', 'false'], true)) {
+            throw new BadRequestException(
+                self::OVERWRITE_ITEM_BY_LABEL_IN_TARGET_CLASS . ' parameter should be boolean (true or false).'
+            );
+        }
+
+        return filter_var($overwriteByLabelInTargetClass, FILTER_VALIDATE_BOOLEAN);
     }
 
     /**

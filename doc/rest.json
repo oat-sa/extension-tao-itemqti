@@ -136,6 +136,13 @@
                         "required": false
                     },
                     {
+                        "name": "overwriteByLabelInTargetClass",
+                        "in": "formData",
+                        "description": "When true together with itemMustBeOverwritten, finds an existing item by label in the target class (class-uri or class-label) and overwrites it. Metadata guardians are not used for this lookup. Default value is false.",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
                         "name": "metadataRequired",
                         "in": "formData",
                         "description": "Boolean flag that indicates whether metadata is required for the import. Default value is false.",
@@ -273,6 +280,13 @@
                         "name": "itemMustBeOverwritten",
                         "in": "formData",
                         "description": "Boolean flag that indicates whether items found by guardians should be overwritten. Default value is false.",
+                        "type": "boolean",
+                        "required": false
+                    },
+                    {
+                        "name": "overwriteByLabelInTargetClass",
+                        "in": "formData",
+                        "description": "When true together with itemMustBeOverwritten, finds an existing item by label in the target class (class-uri or class-label) and overwrites it. Metadata guardians are not used for this lookup. Default value is false.",
                         "type": "boolean",
                         "required": false
                     },

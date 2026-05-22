@@ -44,6 +44,7 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
     public const PARAM_ITEM_MUST_EXIST = 'itemMustExist';
     public const PARAM_ITEM_MUST_BE_OVERWRITTEN = 'itemMustBeOverwritten';
     public const PARAM_ITEM_METADATA = 'importMetadata';
+    public const PARAM_OVERWRITE_BY_LABEL_IN_TARGET_CLASS = 'overwriteByLabelInTargetClass';
 
     protected $service;
 
@@ -73,7 +74,8 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
             (isset($params[self::PARAM_VALIDATORS])) ? $params[self::PARAM_VALIDATORS] : true,
             (isset($params[self::PARAM_ITEM_MUST_EXIST])) ? $params[self::PARAM_ITEM_MUST_EXIST] : false,
             $params[self::PARAM_ITEM_MUST_BE_OVERWRITTEN] ?? false,
-            $params[self::PARAM_ITEM_METADATA] ?? false
+            $params[self::PARAM_ITEM_METADATA] ?? false,
+            $params[self::PARAM_OVERWRITE_BY_LABEL_IN_TARGET_CLASS] ?? false
         );
     }
 
@@ -95,6 +97,8 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
      * @param boolean                    $enableMetadataValidators
      * @param boolean                    $itemMustExist
      * @param boolean                    $itemMustBeOverwritten
+     * @param boolean                    $itemMetadata
+     * @param boolean                    $overwriteByLabelInTargetClass
      * @return TaskInterface
      */
     public static function createTask(
@@ -105,7 +109,8 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
         $enableMetadataValidators = true,
         $itemMustExist = false,
         $itemMustBeOverwritten = false,
-        $itemMetadata = false
+        $itemMetadata = false,
+        $overwriteByLabelInTargetClass = false
     ) {
         $action = new self();
         $action->setServiceLocator($serviceManager);
@@ -124,7 +129,8 @@ class ImportQtiItem extends AbstractTaskAction implements \JsonSerializable
                 self::PARAM_VALIDATORS => $enableMetadataValidators,
                 self::PARAM_ITEM_MUST_EXIST => $itemMustExist,
                 self::PARAM_ITEM_MUST_BE_OVERWRITTEN => $itemMustBeOverwritten,
-                self::PARAM_ITEM_METADATA => $itemMetadata
+                self::PARAM_ITEM_METADATA => $itemMetadata,
+                self::PARAM_OVERWRITE_BY_LABEL_IN_TARGET_CLASS => $overwriteByLabelInTargetClass,
             ],
             __('Import QTI ITEM into "%s"', $class->getLabel())
         );
