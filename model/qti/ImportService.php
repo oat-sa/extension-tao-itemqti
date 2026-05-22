@@ -52,8 +52,10 @@ use oat\taoQtiItem\model\qti\exception\TemplateException;
 use oat\taoQtiItem\model\qti\metadata\importer\MetadataImporter;
 use oat\taoQtiItem\model\qti\metadata\importer\MetaMetadataImportMapper;
 use oat\taoQtiItem\model\qti\metadata\imsManifest\MetaMetadataExtractor;
+use oat\generis\model\OntologyRdfs;
 use oat\taoQtiItem\model\qti\metadata\MetadataGuardianResource;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
+use oat\taoQtiItem\model\qti\metadata\MetadataValue;
 use oat\taoQtiItem\model\qti\metadata\ontology\MappedMetadataInjector;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
 use oat\taoQtiItem\model\event\ItemImported;
@@ -265,6 +267,7 @@ class ImportService extends ConfigurableService
      * @param bool $enableMetadataValidators
      * @param bool $itemMustExist
      * @param bool $itemMustBeOverwritten
+     * @param bool $overwriteByLabelInTargetClass
      * @return Report
      * @throws Exception
      * @throws ExtractException
@@ -284,7 +287,8 @@ class ImportService extends ConfigurableService
         $enableMetadataValidators = true,
         $itemMustExist = false,
         $itemMustBeOverwritten = false,
-        $importMetadataEnabled = false
+        $importMetadataEnabled = false,
+        $overwriteByLabelInTargetClass = false
     ) {
         $initialLogMsg = "Importing QTI Package with the following options:\n";
         $initialLogMsg .= '- Rollback On Warning: ' . json_encode($rollbackOnWarning) . "\n";
@@ -294,6 +298,7 @@ class ImportService extends ConfigurableService
         $initialLogMsg .= '- Item Must Exist: ' . json_encode($itemMustExist) . "\n";
         $initialLogMsg .= '- Item Must Be Overwritten: ' . json_encode($itemMustBeOverwritten) . "\n";
         $initialLogMsg .= '- Import Metadata Enabled: ' . json_encode($importMetadataEnabled) . "\n";
+        $initialLogMsg .= '- Overwrite By Label In Target Class: ' . json_encode($overwriteByLabelInTargetClass) . "\n";
         \common_Logger::d($initialLogMsg);
 
         //load and validate the package
@@ -325,6 +330,8 @@ class ImportService extends ConfigurableService
 
             /** @var Resource[] $qtiItemResources */
             $qtiItemResources = $this->createQtiManifest($folder . 'imsmanifest.xml');
+
+            $mappedMetadataValues = [];
 
             if ($importMetadataEnabled) {
                 $metaMetadataValues = $this->getMetaMetadataExtractor()->extract($domManifest);
@@ -371,7 +378,8 @@ class ImportService extends ConfigurableService
                     $itemMustBeOverwritten,
                     $overwrittenItems,
                     isset($mappedMetadataValues['itemProperties']) ? $mappedMetadataValues['itemProperties'] : [],
-                    $importMetadataEnabled
+                    $importMetadataEnabled,
+                    $overwriteByLabelInTargetClass
                 );
 
                 $allCreatedClasses = array_merge($allCreatedClasses, $createdClasses);
@@ -462,6 +470,7 @@ class ImportService extends ConfigurableService
      * @param bool $itemMustExist
      * @param bool $itemMustBeOverwritten
      * @param array $overwrittenItems
+     * @param bool $overwriteByLabelInTargetClass
      * @return Report
      * @throws common_exception_Error
      */
@@ -479,7 +488,8 @@ class ImportService extends ConfigurableService
         $itemMustBeOverwritten = false,
         &$overwrittenItems = [],
         $metaMedataValues = [],
-        $importMetadataEnabled = false
+        $importMetadataEnabled = false,
+        $overwriteByLabelInTargetClass = false
     ) {
         // if report can't be finished
         $report = Report::createError(
@@ -501,9 +511,42 @@ class ImportService extends ConfigurableService
             try {
                 $resourceIdentifier = $qtiItemResource->getIdentifier();
                 $guardian = false;
+                $qtiModel = null;
 
-                if ($enableMetadataGuardians === true) {
+                $overwriteByLabelInTargetClassEnabled = $itemMustBeOverwritten === true
+                    && $overwriteByLabelInTargetClass === true;
+
+                if (
+                    $overwriteByLabelInTargetClassEnabled
+                    || $enableMetadataGuardians === true
+                    || $enableMetadataValidators === true
+                ) {
                     $this->getMetadataImporter()->setMetadataValues($metadataValues);
+                }
+
+                if ($overwriteByLabelInTargetClassEnabled) {
+                    $tmpQtiFile = $tmpFolder . helpers_File::urlToPath($qtiItemResource->getFile());
+                    $this->convertToQti2($tmpQtiFile);
+                    $qtiModel = $this->createQtiItemModel($tmpQtiFile);
+                    $guardian = $this->findItemByLabelInClass(
+                        $itemClass,
+                        $this->extractItemLabel(
+                            $qtiModel,
+                            $importMetadataEnabled,
+                            $resourceIdentifier,
+                            $metadataValues,
+                            $metaMedataValues
+                        )
+                    );
+
+                    if ($guardian !== false) {
+                        \common_Logger::i(
+                            'Resource "' . $resourceIdentifier
+                                . '" matches an item label in the target class and will be overwritten.'
+                        );
+                        $overWriting = true;
+                    }
+                } elseif ($enableMetadataGuardians === true) {
                     $guardian = $this->getMetadataImporter()->guard($resourceIdentifier);
                     if ($guardian !== false) {
                         // Item found by guardians.
@@ -559,8 +602,11 @@ class ImportService extends ConfigurableService
                 $targetClass = $this->getMetadataImporter()->classLookUp($resourceIdentifier, $createdClasses);
                 $tmpQtiFile = $tmpFolder . helpers_File::urlToPath($qtiItemResource->getFile());
                 common_Logger::i('file :: ' . $qtiItemResource->getFile());
-                $this->convertToQti2($tmpQtiFile);
-                $qtiModel = $this->createQtiItemModel($tmpQtiFile);
+
+                if ($qtiModel === null) {
+                    $this->convertToQti2($tmpQtiFile);
+                    $qtiModel = $this->createQtiItemModel($tmpQtiFile);
+                }
 
                 if (
                     $this->getOption(self::CONFIG_VALIDATE_RESPONSE_PROCESSING) && !$this->validResponseProcessing(
@@ -908,6 +954,131 @@ class ImportService extends ConfigurableService
         foreach ($createdClasses as $createdClass) {
             @$createdClass->delete();
         }
+    }
+
+    /**
+     * @param \qtism\data\AssessmentItem $qtiModel
+     * @param array<string, array> $metadataValues
+     * @param array<string, \core_kernel_classes_Property> $mappedItemProperties
+     */
+    private function extractItemLabel(
+        $qtiModel,
+        bool $importMetadataEnabled = false,
+        string $resourceIdentifier = '',
+        array $metadataValues = [],
+        array $mappedItemProperties = []
+    ): string {
+        if (
+            $importMetadataEnabled
+            && $resourceIdentifier !== ''
+            && isset($metadataValues[$resourceIdentifier])
+        ) {
+            $labelFromMetadata = $this->extractItemLabelFromMetadata(
+                $metadataValues[$resourceIdentifier],
+                $mappedItemProperties
+            );
+            if ($labelFromMetadata !== '') {
+                return $labelFromMetadata;
+            }
+        }
+
+        $label = '';
+        if ($qtiModel->hasAttribute('label')) {
+            $label = trim((string) $qtiModel->getAttributeValue('label'));
+        }
+
+        if ($label === '' && $qtiModel->hasAttribute('title')) {
+            $label = trim((string) $qtiModel->getAttributeValue('title'));
+        }
+
+        return $label;
+    }
+
+    /**
+     * Resolves the item label from manifest metadata using the same path matching as MappedMetadataInjector.
+     *
+     * @param MetadataValue[] $metadataValuesForResource
+     * @param array<string, \core_kernel_classes_Property> $mappedItemProperties
+     */
+    private function extractItemLabelFromMetadata(
+        array $metadataValuesForResource,
+        array $mappedItemProperties = []
+    ): string {
+        foreach ($metadataValuesForResource as $metadataValue) {
+            if (!$metadataValue instanceof MetadataValue) {
+                continue;
+            }
+
+            $value = trim((string) $metadataValue->getValue());
+            if ($value === '') {
+                continue;
+            }
+
+            foreach ($metadataValue->getPath() as $mappedPath) {
+                if (!empty($mappedItemProperties)) {
+                    if (
+                        isset($mappedItemProperties[$mappedPath])
+                        && $mappedItemProperties[$mappedPath]->getUri() === OntologyRdfs::RDFS_LABEL
+                    ) {
+                        return $value;
+                    }
+                    continue;
+                }
+
+                if ($mappedPath === OntologyRdfs::RDFS_LABEL) {
+                    return $value;
+                }
+            }
+        }
+
+        return '';
+    }
+
+    /**
+     * @return false|core_kernel_classes_Resource
+     */
+    private function findItemByLabelInClass(core_kernel_classes_Class $itemClass, string $label)
+    {
+        if ($label === '') {
+            return false;
+        }
+
+        $instances = $itemClass->searchInstances(
+            [OntologyRdfs::RDFS_LABEL => $label],
+            [
+                'like' => false,
+                'recursive' => false,
+                'order' => TaoOntology::PROPERTY_UPDATED_AT,
+                'orderdir' => 'DESC',
+            ]
+        );
+
+        if (empty($instances)) {
+            return false;
+        }
+
+        $itemClassUri = $itemClass->getUri();
+        $matches = [];
+        foreach ($instances as $instance) {
+            if ($instance->getParentClassId() === $itemClassUri) {
+                $matches[] = $instance;
+            }
+        }
+
+        if (empty($matches)) {
+            return false;
+        }
+
+        if (count($matches) > 1) {
+            \common_Logger::i(sprintf(
+                'Multiple items with label "%s" found in class "%s". '
+                . 'The most recently created item will be overwritten.',
+                $label,
+                $itemClass->getLabel()
+            ));
+        }
+
+        return reset($matches);
     }
 
     /**
