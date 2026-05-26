@@ -341,6 +341,9 @@ define([
                             valueToSet = initialValue > 1 ? initialValue : 1;
                         }
 
+                        // Keep config in sync before input 'change' so convertToNumber and isFieldEnabled see enabled state
+                        config[field].value = valueToSet;
+
                         controls[field].input
                             .val(valueToSet)
                             .incrementer('enable')
@@ -421,7 +424,7 @@ define([
                             _.isNumber(maxValue) && this.isFieldEnabled('min') && this.setMinValue(maxValue);
                         }
                         if (fromField === fields.min && minValue > maxValue) {
-                            _.isNumber(maxValue) && this.isFieldEnabled('min') && this.setMaxValue(minValue);
+                            _.isNumber(maxValue) && this.isFieldEnabled('max') && this.setMaxValue(minValue);
                         }
                     }
                     if (
@@ -445,6 +448,10 @@ define([
                  */
                 convertToNumber: function convertToNumber(fromField) {
                     if (isFieldSupported(fromField) && this.is('rendered')) {
+                        if (!this.isFieldEnabled(fromField)) {
+                            return this;
+                        }
+
                         if (fromField === fields.max) {
                             this.setMaxValue(this.parseNumber(this.getMaxValue()));
                         } else {

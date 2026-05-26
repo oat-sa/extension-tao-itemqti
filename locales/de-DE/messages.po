@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-03-28 09:28\n"
+"PO-Revision-Date: 2026-05-07 20:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de\n"
@@ -260,6 +260,9 @@ msgstr "Automatischer Start"
 msgid "Back to Manage Items"
 msgstr "Zurück zu Elemente verwalten"
 
+msgid "Back to test authoring"
+msgstr "Zurück zum Test-Authoring"
+
 msgid "Background color"
 msgstr "Hintergrundfarbe"
 
@@ -394,6 +397,9 @@ msgstr "Klicken, um das Interaktionswidget anzuzeigen"
 
 msgid "Click to remove"
 msgstr "Zum Entfernen klicken"
+
+msgid "Close"
+msgstr "Schließen"
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr "Rufe offene Informationen in einer kurzen Texteingabe (Strings oder numerische Werte) ab."
@@ -2328,3 +2334,4 @@ msgstr "Sie müssen zwischen %s und %s auswählen."
 
 msgid "Your item has been saved"
 msgstr "Ihr Element wurde gespeichert"
+
