@@ -66,6 +66,7 @@ define([
     QUnit.module('behavior', {
         afterEach: function(assert) {
             $('.modal').remove();
+            $(window).off('beforeunload');
             window.onbeforeunload = null;
         }
     });
