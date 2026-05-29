@@ -102,7 +102,12 @@ interface QtiItemAssetReplacer
      * Replace the current asset with the external
      * @param PackedAsset $packetAsset
      * @param string $itemId
+     * @param string $deliveryCompilationId
      * @return PackedAsset
      */
-    public function replace(PackedAsset $packetAsset, string $itemId): PackedAsset;
+    public function replace(
+        PackedAsset $packetAsset,
+        string $itemId,
+        string $deliveryCompilationId = ''
+    ): PackedAsset;
 }
