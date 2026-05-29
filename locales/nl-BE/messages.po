@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2026.02 LTS\n"
-"PO-Revision-Date: 2026-02-03T14:43:04\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2026-05-26 13:33\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nl-BE\n"
+"Language: nl_BE\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: nl-BE\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: nl-BE\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: Dutch, Belgium\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr ""
@@ -253,6 +260,9 @@ msgstr ""
 msgid "Back to Manage Items"
 msgstr ""
 
+msgid "Back to test authoring"
+msgstr ""
+
 msgid "Background color"
 msgstr ""
 
@@ -364,6 +374,12 @@ msgstr ""
 msgid "Class successfully created."
 msgstr ""
 
+msgid "Classic"
+msgstr ""
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr ""
+
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr ""
 
@@ -380,6 +396,9 @@ msgid "Click to display interaction widget"
 msgstr ""
 
 msgid "Click to remove"
+msgstr ""
+
+msgid "Close"
 msgstr ""
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
@@ -565,6 +584,9 @@ msgstr ""
 msgid "Divide"
 msgstr ""
 
+msgid "Document"
+msgstr ""
+
 msgid "Don't save"
 msgstr ""
 
@@ -613,9 +635,6 @@ msgstr ""
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr ""
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr ""
-
 msgid "Edit math expression using MathML"
 msgstr ""
 
@@ -629,6 +648,9 @@ msgid "Edit stylesheet label"
 msgstr ""
 
 msgid "Editing Mode"
+msgstr ""
+
+msgid "Editor type"
 msgstr ""
 
 msgid "Element Properties"
@@ -689,9 +711,6 @@ msgid "Error on item %s"
 msgstr ""
 
 msgid "Error to export item %s: %s"
-msgstr ""
-
-msgid "Euler\'s constant"
 msgstr ""
 
 msgid "Euler\\'s constant"
@@ -860,6 +879,9 @@ msgid "Identifier"
 msgstr ""
 
 msgid "identifier already taken"
+msgstr ""
+
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
 msgstr ""
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
@@ -2311,3 +2333,4 @@ msgstr ""
 
 msgid "Your item has been saved"
 msgstr ""
+
