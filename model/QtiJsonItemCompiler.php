@@ -105,7 +105,12 @@ class QtiJsonItemCompiler extends QtiItemCompiler
             $publicLangDirectory = $publicDirectory->getDirectory($language);
 
             // retrieve the media assets
-            $packedAssets = $this->parseAndReplaceAssetByPlaceholder($qtiItem, $resolver, $publicLangDirectory);
+            $this->parseAndReplaceAssetByPlaceholder(
+                $qtiItem,
+                $resolver,
+                $publicLangDirectory,
+                $publicDirectory->getId()
+            );
 
             $this->compileItemIndex($item->getUri(), $qtiItem, $language);
 
@@ -177,12 +182,14 @@ class QtiJsonItemCompiler extends QtiItemCompiler
     private function parseAndReplaceAssetByPlaceholder(
         Item &$qtiItem,
         ItemMediaResolver $resolver,
-        Directory $publicLangDirectory
+        Directory $publicLangDirectory,
+        string $deliveryCompilationId
     ) {
         $packedAssets = $this->getQtiItemAssetCompiler()->extractAndCopyAssetFiles(
             $qtiItem,
             $publicLangDirectory,
-            $resolver
+            $resolver,
+            $deliveryCompilationId
         );
 
         $dom = new DOMDocument('1.0', 'UTF-8');
