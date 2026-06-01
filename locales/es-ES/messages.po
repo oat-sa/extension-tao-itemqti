@@ -1,5 +1,5 @@
 msgid ""
-msgstr ""
+msgstr " {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 "Project-Id-Version: tao-open-source\n"
 "PO-Revision-Date: 2026-03-28 09:27\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
@@ -21,2310 +21,2310 @@ msgstr ""
 "Language-Team: Spanish\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
-msgstr " Rellenar los huecos en un texto a partir de un conjunto de opciones."
+msgstr " Rellenar los huecos en un texto a partir de un conjunto de opciones. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid " For Resource "
-msgstr " Para Recurso "
+msgstr " Para Recurso  {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid " or "
-msgstr " o "
+msgstr " o  {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%d characters allowed"
-msgstr "%d caracteres permitidos"
+msgstr "%d caracteres permitidos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%d Item(s) of %d imported from the given IMS QTI Package."
-msgstr "%d elemento(s) de %d importados desde el paquete IMS QTI."
+msgstr "%d elemento(s) de %d importados desde el paquete IMS QTI. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%d/%d"
-msgstr "%d/%d"
+msgstr "%d/%d {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s - Original"
-msgstr "%s - Original"
+msgstr "%s - Original {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s metadata values found in source by extractor(s)."
-msgstr "Valores de metadatos %s encontrados en origen por extractor(s)."
+msgstr "Valores de metadatos %s encontrados en origen por extractor(s). {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s of %s characters maximum."
-msgstr "%s de %s caracteres permitidos."
+msgstr "%s de %s caracteres permitidos. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s of %s characters recommended."
-msgstr "%s de %s caracteres recomendados."
+msgstr "%s de %s caracteres recomendados. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%s of %s words maximum."
-msgstr "%s de %s palabras permitidas."
+msgstr "%s de %s palabras permitidas. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "%title% - Translation (%lang%)"
-msgstr "%title% - Traducción (%lang%)"
+msgstr "%title% - Traducción (%lang%) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "(comma)"
-msgstr "(coma)"
+msgstr "(coma) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "(dot)"
-msgstr "(punto)"
+msgstr "(punto) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "(space)"
-msgstr "(espacio)"
+msgstr "(espacio) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "-- Any kind of file --"
-msgstr "--Cualquier tipo de archivo--"
+msgstr "--Cualquier tipo de archivo-- {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "--- leave empty ---"
-msgstr "--- dejar vacío ---"
+msgstr "--- dejar vacío --- {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
-msgstr "1 elemento importado del documento QTI/APIP XML."
+msgstr "1 elemento importado del documento QTI/APIP XML. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "1/3 of height"
-msgstr "1/3 de altura"
+msgstr "1/3 de altura {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "1/4 of height"
-msgstr "1/4 de altura"
+msgstr "1/4 de altura {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "2/3 of height"
-msgstr "2/3 de altura"
+msgstr "2/3 de altura {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "3/4 of height"
-msgstr "3/4 de altura"
+msgstr "3/4 de altura {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "1/3 of width"
-msgstr "1/3 de anchura"
+msgstr "1/3 de anchura {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "1/4 of width"
-msgstr "1/4 de anchura"
+msgstr "1/4 de anchura {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "2/3 of width"
-msgstr "2/3 de anchura"
+msgstr "2/3 de anchura {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "3/4 of width"
-msgstr "3/4 de anchura"
+msgstr "3/4 de anchura {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Full width"
-msgstr "Anchura completa"
+msgstr "Anchura completa {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Half width"
-msgstr "Anchura de la mitad"
+msgstr "Anchura de la mitad {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "A choice must be selected"
-msgstr "Se debe seleccionar una opción"
+msgstr "Se debe seleccionar una opción {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "A human interpretation of the variable's value."
-msgstr "Una interpretación humana del valor de la variable."
+msgstr "Una interpretación humana del valor de la variable. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-msgstr "No se admite un componente QTI. El sistema devolvió el siguiente error: %s\n"
+msgstr "No se admite un componente QTI. El sistema devolvió el siguiente error: %s\n {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
-msgstr "Un bloque rúbrica identifica parte de itemBody de un assessmentItem que representa instrucciones a uno o más de los actores que ven el artículo. Aunque los bloques rúbrica se definen como simpleBlocks no deben contener interacciones."
+msgstr "Un bloque rúbrica identifica parte de itemBody de un assessmentItem que representa instrucciones a uno o más de los actores que ven el artículo. Aunque los bloques rúbrica se definen como simpleBlocks no deben contener interacciones. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Adapt to screen size"
-msgstr "Adapatar a tamaño de pantalla"
+msgstr "Adapatar a tamaño de pantalla {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add"
-msgstr "Adapatar a tamaño de pantalla"
+msgstr "Adapatar a tamaño de pantalla {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add a CSV file"
-msgstr "Añadir un archivo CSV"
+msgstr "Añadir un archivo CSV {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add a modal feedback"
-msgstr "Añadir una retroalimentación modal"
+msgstr "Añadir una retroalimentación modal {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add a QTI/APIP XML Item Document"
-msgstr "Añadir un documento QTI/APIP XML"
+msgstr "Añadir un documento QTI/APIP XML {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add a ZIP file containing QTI/APIP items"
-msgstr "Añadir un archivo ZIP que contenga elementos QTI/APIP"
+msgstr "Añadir un archivo ZIP que contenga elementos QTI/APIP {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add an outcome"
-msgstr "Añadir un resultado"
+msgstr "Añadir un resultado {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add another option"
-msgstr "Añadir otra opción"
+msgstr "Añadir otra opción {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add choice"
-msgstr "Añadir un archivo zip que contiene elementos QTI"
+msgstr "Añadir un archivo zip que contiene elementos QTI {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add else feedback"
-msgstr "Añadir otra retroalimentación"
+msgstr "Añadir otra retroalimentación {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add new column"
-msgstr "Añadir nueva columna"
+msgstr "Añadir nueva columna {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add new pairs"
-msgstr "Agregar nuevos pares"
+msgstr "Agregar nuevos pares {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add new row"
-msgstr "Añadir nueva fila"
+msgstr "Añadir nueva fila {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Add Style Sheet"
-msgstr "Añadir otra retroalimentación"
+msgstr "Añadir otra retroalimentación {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "after"
-msgstr "después"
+msgstr "después {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Alignment"
-msgstr "Alineación"
+msgstr "Alineación {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Allow elimination"
-msgstr "Permitir eliminación"
+msgstr "Permitir eliminación {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Allowed associations"
-msgstr "Asociaciones permitidas"
+msgstr "Asociaciones permitidas {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Allowed choices"
-msgstr "Opciones permitidas"
+msgstr "Opciones permitidas {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Allowed number of matches"
-msgstr "Asociaciones permitidas"
+msgstr "Asociaciones permitidas {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Allowed number of uses"
-msgstr "Cantidad de usos permitidos"
+msgstr "Cantidad de usos permitidos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Alpha"
-msgstr "Alfa"
+msgstr "Alfa {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Alt Text"
-msgstr "Texto Alt"
+msgstr "Texto Alt {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "An error occured while exporting an item."
-msgstr "Ocurrió un error mientras se exportaba un artículo."
+msgstr "Ocurrió un error mientras se exportaba un artículo. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
-msgstr "Se produjo un error al extraer el archivo ZIP que representa el paquete de contenido IMS."
+msgstr "Se produjo un error al extraer el archivo ZIP que representa el paquete de contenido IMS. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "An error occured while loading a shared stimulus."
-msgstr "Se produjo un error al cargar un estímulo compartido."
+msgstr "Se produjo un error al cargar un estímulo compartido. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "An error occured while parsing IMS QTI data."
-msgstr "Se produjo un error al analizar los datos de IMS QTI."
+msgstr "Se produjo un error al analizar los datos de IMS QTI. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "An error occurred at the level of the QTI model."
-msgstr "Se ha producido un error en el nivel del modelo QTI."
+msgstr "Se ha producido un error en el nivel del modelo QTI. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "An optional link to an extended interpretation of the outcome variable."
-msgstr "Un enlace opcional a una interpretación extendida de la variable de resultado."
+msgstr "Un enlace opcional a una interpretación extendida de la variable de resultado. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "An unexpected error occured during the import of the IMS QTI Item Package."
-msgstr "Se ha producido un error inesperado durante la importación del paquete IMS QTI."
+msgstr "Se ha producido un error inesperado durante la importación del paquete IMS QTI. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "An unexpected error occured while dealing with Response Processing."
-msgstr "Se ha producido un error inesperado durante la importación del artículo QTI . El sistema devuelve el siguiente error:"
+msgstr "Se ha producido un error inesperado durante la importación del artículo QTI . El sistema devuelve el siguiente error: {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "An unexpected error occurred during the import of the IMS QTI Item Package. "
-msgstr "Se ha producido un error inesperado durante la importación del paquete IMS QTI. "
+msgstr "Se ha producido un error inesperado durante la importación del paquete IMS QTI.  {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "An unexpected error occurred during the import of the IMS QTI Item Package. The system returned the following error: \"%s"
-msgstr "Se ha producido un error inesperado durante la importación del paquete IMS QTI Item Package. El sistema devolvió el siguiente error: \"%s"
+msgstr "Se ha producido un error inesperado durante la importación del paquete IMS QTI Item Package. El sistema devolvió el siguiente error: \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-msgstr "Se ha producido un error inesperado durante la importación del elemento QTI. El sistema devolvió el siguiente error: %s\n"
+msgstr "Se ha producido un error inesperado durante la importación del elemento QTI. El sistema devolvió el siguiente error: %s\n {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
-msgstr "Se ha producido un error desconocido al importar el paquete QTI IMS con identificador: "
+msgstr "Se ha producido un error desconocido al importar el paquete QTI IMS con identificador:  {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Angle"
-msgstr "Ángulo"
+msgstr "Ángulo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Answer required"
-msgstr "Respuesta requerida"
+msgstr "Respuesta requerida {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "APIP Content Package"
-msgstr "Paquete de contenido APIP"
+msgstr "Paquete de contenido APIP {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Apip Package successfully exported."
-msgstr "Paquete Apip exportado con éxito."
+msgstr "Paquete Apip exportado con éxito. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Arc"
-msgstr "Arco"
+msgstr "Arco {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Arrange a list of choices in the correct order."
-msgstr "Organizar una lista de opciones en el orden correcto."
+msgstr "Organizar una lista de opciones en el orden correcto. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Associate"
-msgstr "Asociar"
+msgstr "Asociar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Associate Interaction"
-msgstr "Interacción Asociar"
+msgstr "Interacción Asociar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "association pairs"
-msgstr "Organizar una lista de opciones en el orden correcto."
+msgstr "Organizar una lista de opciones en el orden correcto. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "at least"
-msgstr "al menos"
+msgstr "al menos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
-msgstr "Intentando inyectar valores de metadatos \"%s\" para el objetivo \"%s\" con inyector de metadatos \"%s\"."
+msgstr "Intentando inyectar valores de metadatos \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Autostart"
-msgstr "Inicio automático"
+msgstr "Inicio automático {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Back to Manage Items"
-msgstr "Volver a Administrar artículos"
+msgstr "Volver a Administrar artículos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Background color"
-msgstr "Color de fondo"
+msgstr "Color de fondo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Base"
-msgstr "Base"
+msgstr "Base {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Be aware, if you choose to remove the instructions, the system will not provide any warnings to the test takers if constraints are set."
-msgstr "Tenga en cuenta, si decide eliminar las instrucciones, el sistema no proporcionará ninguna advertencia a los tomadores de pruebas si se establecen restricciones."
+msgstr "Tenga en cuenta, si decide eliminar las instrucciones, el sistema no proporcionará ninguna advertencia a los tomadores de pruebas si se establecen restricciones. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Beta"
-msgstr "Beta"
+msgstr "Beta {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Block"
-msgstr "Bloque"
+msgstr "Bloque {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "block"
-msgstr "al menos"
+msgstr "al menos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
-msgstr "Bloque que contiene el contenido (estímulo) del elemento como texto o imagen. También se requiere para interacciones Inline."
+msgstr "Bloque que contiene el contenido (estímulo) del elemento como texto o imagen. También se requiere para interacciones Inline. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Block height (%)"
-msgstr "Altura del bloque (%)"
+msgstr "Altura del bloque (%) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Block width (%)"
-msgstr "Ancho del bloque (%)"
+msgstr "Ancho del bloque (%) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Border color"
-msgstr "Color del borde"
+msgstr "Color del borde {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Bottom"
-msgstr "Abajo"
+msgstr "Abajo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Browse your computer and select the appropriate file."
-msgstr "Busque en el equipo y seleccione el archivo apropiado."
+msgstr "Busque en el equipo y seleccione el archivo apropiado. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Browse..."
-msgstr "Buscar..."
+msgstr "Buscar... {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Cancelar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "cancel"
-msgstr "cancelar"
+msgstr "cancelar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
-msgstr "No se puede crear hueco a partir de esta selección. Por favor, compruebe que no tiene elementos parcialmente seleccionados."
+msgstr "No se puede crear hueco a partir de esta selección. Por favor, compruebe que no tiene elementos parcialmente seleccionados. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cannot create hottext from this selection."
-msgstr "No se puede crear hottext a partir de esta selección."
+msgstr "No se puede crear hottext a partir de esta selección. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words."
-msgstr "No se puede crear el hottext a partir de esta selección. Por favor, asegúrese de que la selección no contiene tanto palabras formateadas como sin formato."
+msgstr "No se puede crear el hottext a partir de esta selección. Por favor, asegúrese de que la selección no contiene tanto palabras formateadas como sin formato. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cannot create hottext from this selection. Please make sure the selection does not contain multiple lines."
-msgstr "No se puede crear un hottext a partir de esta selección. Por favor, asegúrese de que la selección no contiene varias líneas."
+msgstr "No se puede crear un hottext a partir de esta selección. Por favor, asegúrese de que la selección no contiene varias líneas. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cannot delete a variable currently used in response processing"
-msgstr "No se puede eliminar una variable actualmente usada en el procesamiento de respuestas"
+msgstr "No se puede eliminar una variable actualmente usada en el procesamiento de respuestas {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cannot edit a variable currently used in response processing"
-msgstr "No se puede editar una variable actualmente usada en el procesamiento de respuestas"
+msgstr "No se puede editar una variable actualmente usada en el procesamiento de respuestas {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "cannot find QTI XML"
-msgstr "no se puede encontrar QTI XML"
+msgstr "no se puede encontrar QTI XML {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "cannot load QTI XML"
-msgstr "no se puede cargar QTI XML"
+msgstr "no se puede cargar QTI XML {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cannot locate the file \"%s"
-msgstr "No se puede localizar el archivo \"%s"
+msgstr "No se puede localizar el archivo \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Center"
-msgstr "Centrar"
+msgstr "Centrar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with."
-msgstr "Cambia el ancho del elemento. Por defecto el elemento tiene un ancho de 100% y se adapta al tamaño de cualquier pantalla. El ancho máximo es por defecto 1024px - esto también cambiará cuando se establece una personalización."
+msgstr "Cambia el ancho del elemento. Por defecto el elemento tiene un ancho de 100% y se adapta al tamaño de cualquier pantalla. El ancho máximo es por defecto 1024px - esto también cambiará cuando se establece una personalización. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "chars"
-msgstr "caracteres"
+msgstr "caracteres {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Choice"
-msgstr "Opciones"
+msgstr "Opciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Choice Image"
-msgstr "Imagen de Elección"
+msgstr "Imagen de Elección {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Choice Interaction"
-msgstr "Interacción de Elección"
+msgstr "Interacción de Elección {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Choice Properties"
-msgstr "Interacción de Elección"
+msgstr "Interacción de Elección {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "choices"
-msgstr "opciones"
+msgstr "opciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Choices"
-msgstr "Elecciones"
+msgstr "Elecciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Choices position"
-msgstr "Posición de las opciones"
+msgstr "Posición de las opciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Choose the horizontal alignment for the table."
-msgstr "Elija la alineación horizontal para la tabla."
+msgstr "Elija la alineación horizontal para la tabla. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
-msgstr "Búsqueda de clases exitosa. El recurso \"%s\" se almacenará en la clase RDFS \"%s\"."
+msgstr "Búsqueda de clases exitosa. El recurso \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Class successfully created."
-msgstr "Clase creada correctamente."
+msgstr "Clase creada correctamente. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Classic"
-msgstr "Clásico"
+msgstr "Clásico {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
-msgstr "El editor clásico parece un editor web; el editor de documentos parece un procesador de textos. Aparte de la apariencia comparten las mismas características."
+msgstr "El editor clásico parece un editor web; el editor de documentos parece un procesador de textos. Aparte de la apariencia comparten las mismas características. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
-msgstr "Las entradas de clasificación deben ser una instancia de ClassificationEntryMetadataValue"
+msgstr "Las entradas de clasificación deben ser una instancia de ClassificationEntryMetadataValue {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Classification metadata is required to be extracted."
-msgstr "Es necesario extraer metadatos de clasificación."
+msgstr "Es necesario extraer metadatos de clasificación. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Classification value to map has to a string"
-msgstr "El valor de clasificación del mapa tiene una cadena"
+msgstr "El valor de clasificación del mapa tiene una cadena {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Click again to remove"
-msgstr "Haga clic de nuevo para eliminar"
+msgstr "Haga clic de nuevo para eliminar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Click to display interaction widget"
-msgstr "Haga clic para mostrar widget de interacción"
+msgstr "Haga clic para mostrar widget de interacción {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Click to remove"
-msgstr "Clic para eliminar"
+msgstr "Clic para eliminar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
-msgstr "Recopilar información open-ended en una entrada de texto corta (cadenas o valores numéricos)."
+msgstr "Recopilar información open-ended en una entrada de texto corta (cadenas o valores numéricos). {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
-msgstr "Recopilar información open-ended en una o más area(s) de texto (cadenas o valores numéricos)."
+msgstr "Recopilar información open-ended en una o más area(s) de texto (cadenas o valores numéricos). {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Colon"
-msgstr "Colón"
+msgstr "Colón {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Color Picker"
-msgstr "Selector de color"
+msgstr "Selector de color {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Column separator"
-msgstr "Separador de columnas"
+msgstr "Separador de columnas {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Common Interactions"
-msgstr "Interacciones comunes"
+msgstr "Interacciones comunes {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Compact Appearance"
-msgstr "Apariencia de pacto"
+msgstr "Apariencia de pacto {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Configures the position of the choices relative to the target list."
-msgstr "Configura la posición de las opciones en relación a la lista de destino."
+msgstr "Configura la posición de las opciones en relación a la lista de destino. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Congruent"
-msgstr "Congruente"
+msgstr "Congruente {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Constraints"
-msgstr "Restricciones"
+msgstr "Restricciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
-msgstr "Controlar los parámetros de reproducción (de inicio automático, bucle) de un archivo de vídeo o audio y reportar el número de veces que se ha reproducido."
+msgstr "Controlar los parámetros de reproducción (de inicio automático, bucle) de un archivo de vídeo o audio y reportar el número de veces que se ha reproducido. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Correct"
-msgstr "Correcto"
+msgstr "Correcto {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "correct"
-msgstr "correcto"
+msgstr "correcto {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cosine"
-msgstr "Cosine"
+msgstr "Cosine {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Cosinus"
-msgstr "Cosinus"
+msgstr "Cosinus {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Create a single hottext from the selection"
-msgstr "Crear un solo hottext de la selección"
+msgstr "Crear un solo hottext de la selección {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Create assocations and fill the score in the form below"
-msgstr "Crear assocaciones y rellenar la puntuación en el siguiente formulario"
+msgstr "Crear assocaciones y rellenar la puntuación en el siguiente formulario {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Create association(s) between areas (hotspots) displayed on a picture."
-msgstr "Crear asociacion(es) entre áreas (zonas activas) que aparecen en una imagen."
+msgstr "Crear asociacion(es) entre áreas (zonas activas) que aparecen en una imagen. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
-msgstr "Crear asociacion(es) entre dos conjuntos de opciones que se muestran en un cuadro (fila y columna)."
+msgstr "Crear asociacion(es) entre dos conjuntos de opciones que se muestran en un cuadro (fila y columna). {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Create gap"
-msgstr "Crear intervalo"
+msgstr "Crear intervalo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Create hottext"
-msgstr "Crear texto activo"
+msgstr "Crear texto activo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Create multiple hottexts from the selection"
-msgstr "Crear múltiples hottexts de la selección"
+msgstr "Crear múltiples hottexts de la selección {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Create pair(s) from a series of choices."
-msgstr "Crear par(es) de una serie de opciones."
+msgstr "Crear par(es) de una serie de opciones. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "CSV content + metadata"
-msgstr "Contenido CSV + metadatos"
+msgstr "Contenido CSV + metadatos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Current value:"
-msgstr "Valor actual:"
+msgstr "Valor actual: {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
-msgstr "Actualmente la conversión de MathML a LaTeX no está disponible. Editando MathML aquí tendrá el código LaTex descartado."
+msgstr "Actualmente la conversión de MathML a LaTeX no está disponible. Editando MathML aquí tendrá el código LaTex descartado. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "custom"
-msgstr "costumbre"
+msgstr "costumbre {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Custom Interactions"
-msgstr "Interacciones personalizadas"
+msgstr "Interacciones personalizadas {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Custom Response Processing Mode"
-msgstr "Modo de Procesamiento de respuesta personalizada"
+msgstr "Modo de Procesamiento de respuesta personalizada {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Dashed"
-msgstr "Discontinua"
+msgstr "Discontinua {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Solid"
-msgstr "Sólida"
+msgstr "Sólida {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Wavy"
-msgstr "Ondulada"
+msgstr "Ondulada {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Default"
-msgstr "Predeterminado"
+msgstr "Predeterminado {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "default"
-msgstr "predeterminado"
+msgstr "predeterminado {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
-msgstr "Definir restricciones sobre el número de opciones requeridas para formar una respuesta válida. Ninguno: defina ninguna restricción adicional. Respuesta requerida: requerir que el tomador de pruebas seleccione al menos una opción. Otras restricciones: definir restricciones personalizadas mínimas y/o máximas (sólo disponibles para múltiples opciones)"
+msgstr "Definir restricciones sobre el número de opciones requeridas para formar una respuesta válida. Ninguno: defina ninguna restricción adicional. Respuesta requerida: requerir que el tomador de pruebas seleccione al menos una opción. Otras restricciones: definir restricciones personalizadas mínimas y/o máximas (sólo disponibles para múltiples opciones) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Define correct response"
-msgstr "Definir respuesta correcta"
+msgstr "Definir respuesta correcta {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Define correct response (for post-processing)"
-msgstr "Definir respuesta correcta (para postprocesamiento)"
+msgstr "Definir respuesta correcta (para postprocesamiento) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Define item language."
-msgstr "Definir idioma del artículo."
+msgstr "Definir idioma del artículo. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "define prompt"
-msgstr "definir prompt"
+msgstr "definir prompt {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Define the correct response."
-msgstr "Definir la respuesta correcta."
+msgstr "Definir la respuesta correcta. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Define the status of the translation."
-msgstr "Definir el estado de la traducción."
+msgstr "Definir el estado de la traducción. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
-msgstr "Definir si una opción debe ser seleccionada por el candidato en orden par formar una respuesta válida a la interacción."
+msgstr "Definir si una opción debe ser seleccionada por el candidato en orden par formar una respuesta válida a la interacción. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Define whether the item should be time dependent on delivery."
-msgstr "Definir si el elemento debe ser dependiente del tiempo en la entrega."
+msgstr "Definir si el elemento debe ser dependiente del tiempo en la entrega. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Defined width"
-msgstr "Defina ancho"
+msgstr "Defina ancho {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
-msgstr "Define la magnitud máxima de las variables de resultado numéricas, el máximo debe ser un valor positivo y el mínimo puede ser negativo."
+msgstr "Define la magnitud máxima de las variables de resultado numéricas, el máximo debe ser un valor positivo y el mínimo puede ser negativo. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Degrees"
-msgstr "Grados"
+msgstr "Grados {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "delay after"
-msgstr "retraso después de"
+msgstr "retraso después de {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "delay between"
-msgstr "retraso entre"
+msgstr "retraso entre {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Delete"
-msgstr "Eliminar"
+msgstr "Eliminar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "delete"
-msgstr "eliminar"
+msgstr "eliminar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Delete else statement"
-msgstr "Eliminar otro estado"
+msgstr "Eliminar otro estado {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Delete this modal feedback"
-msgstr "Eliminar esta retroalimentación modal"
+msgstr "Eliminar esta retroalimentación modal {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Delimiter"
-msgstr "Delimitador"
+msgstr "Delimitador {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Delta"
-msgstr "Delta"
+msgstr "Delta {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Description"
-msgstr "Descripción"
+msgstr "Descripción {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Direction of writing"
-msgstr "Dirección de la escritura"
+msgstr "Dirección de la escritura {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Disable this stylesheet temporarily"
-msgstr "Desactivar esta hoja de estilos temporalmente"
+msgstr "Desactivar esta hoja de estilos temporalmente {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Display"
-msgstr "Muestra"
+msgstr "Muestra {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Display media player"
-msgstr "Mostrar reproductor de medios"
+msgstr "Mostrar reproductor de medios {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Display the choices either horizontally or vertically"
-msgstr "Mostrar las opciones tanto horizontal como verticalmente"
+msgstr "Mostrar las opciones tanto horizontal como verticalmente {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Divide"
-msgstr "Dividir"
+msgstr "Dividir {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Document"
-msgstr "Documento"
+msgstr "Documento {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Don't save"
-msgstr "No guardar"
+msgstr "No guardar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "done"
-msgstr "hecho"
+msgstr "hecho {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Done"
-msgstr "Hecho"
+msgstr "Hecho {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Download"
-msgstr "Descargar"
+msgstr "Descargar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Download sample csv file"
-msgstr "Descargar ejemplo de archivo csv"
+msgstr "Descargar ejemplo de archivo csv {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Download this stylesheet"
-msgstr "Descargar esta hoja de estilos"
+msgstr "Descargar esta hoja de estilos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Draw a circle on the image"
-msgstr "Dibujar un circulo sobre la imagen"
+msgstr "Dibujar un circulo sobre la imagen {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Draw a free form on the image"
-msgstr "Dibujar una forma libre sobre la imagen"
+msgstr "Dibujar una forma libre sobre la imagen {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Draw a rectangle on the image"
-msgstr "Dibujar un rectángulo sobre la imagen"
+msgstr "Dibujar un rectángulo sobre la imagen {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Draw an ellipsis on the image"
-msgstr "Dibujar un elipse sobre la imagen"
+msgstr "Dibujar un elipse sobre la imagen {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Drop the target to select a point"
-msgstr "Coloquar el destino para seleccionar un punto"
+msgstr "Coloquar el destino para seleccionar un punto {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "e.g. 13"
-msgstr "p.e. 13"
+msgstr "p.e. 13 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "e.g. 960"
-msgstr "p.e. 960"
+msgstr "p.e. 960 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Edit"
-msgstr "Editar"
+msgstr "Editar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "edit choices"
-msgstr "editar elecciones"
+msgstr "editar elecciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
-msgstr "Editar la expresión matemática usando el sistema de ajuste del tipo de látex, por ejemplo, e^{i\\pi}=-1"
+msgstr "Editar la expresión matemática usando el sistema de ajuste del tipo de látex, por ejemplo, e^{i\\pi}=-1 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Edit math expression using MathML"
-msgstr "Editar la expresión matemática usando MathML"
+msgstr "Editar la expresión matemática usando MathML {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Edit modal feedback"
-msgstr "Editar comentario modal"
+msgstr "Editar comentario modal {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Edit modal feedback title"
-msgstr "Editar título de retroalimentación modal"
+msgstr "Editar título de retroalimentación modal {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Edit stylesheet label"
-msgstr "Editar etiqueta de hoja de estilos"
+msgstr "Editar etiqueta de hoja de estilos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Editing Mode"
-msgstr "Modo de edición"
+msgstr "Modo de edición {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Editor type"
-msgstr "Tipo de editor"
+msgstr "Tipo de editor {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Element Properties"
-msgstr "Propiedades de Elemento"
+msgstr "Propiedades de Elemento {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "elements"
-msgstr "elementos"
+msgstr "elementos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Eliminate"
-msgstr "Eliminar"
+msgstr "Eliminar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Enable Scrolling"
-msgstr "Habilitar desplazamiento"
+msgstr "Habilitar desplazamiento {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Enable the test taker to pause and restart the playing."
-msgstr "Habilitar el participante para pausar y reiniciar el juego."
+msgstr "Habilitar el participante para pausar y reiniciar el juego. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Enable/disable scrolling."
-msgstr "Activar/desactivar el desplazamiento."
+msgstr "Activar/desactivar el desplazamiento. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "End Attempt"
-msgstr "Finalizar intento"
+msgstr "Finalizar intento {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "End Attempt Interaction"
-msgstr "Fin Intento de Interacción"
+msgstr "Fin Intento de Interacción {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Enlarge font size"
-msgstr "Ampliar tamaño de fuente"
+msgstr "Ampliar tamaño de fuente {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Enter a select MIME-type"
-msgstr "Introduzca un tipo MIME seleccionado"
+msgstr "Introduzca un tipo MIME seleccionado {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Enter choices…"
-msgstr "Introduzca opciones…"
+msgstr "Introduzca opciones… {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Enter tooltip content"
-msgstr "Introducir contenido de tooltip"
+msgstr "Introducir contenido de tooltip {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Enter tooltip target"
-msgstr "Enter tooltip target"
+msgstr "Enter tooltip target {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Equals"
-msgstr "Iguales"
+msgstr "Iguales {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "error"
-msgstr "error"
+msgstr "error {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Error in post rendering: %s"
-msgstr "Error al procesar la publicación: %s"
+msgstr "Error al procesar la publicación: %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Error in template rendering: %s"
-msgstr "Error en el procesamiento de plantillas: %s"
+msgstr "Error en el procesamiento de plantillas: %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Error on item %1$s : %2$s"
-msgstr "Error en el elemento %1$s : %2$s"
+msgstr "Error en el elemento %1$s : %2$s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Error on item %s"
-msgstr "Error en el elemento %s"
+msgstr "Error en el elemento %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Error to export item %s: %s"
-msgstr "Error al exportar el elemento %s: %s"
+msgstr "Error al exportar el elemento %s: %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Euler\\'s constant"
-msgstr "Constante de Euler"
+msgstr "Constante de Euler {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Exponent"
-msgstr "Exponente"
+msgstr "Exponente {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Export"
-msgstr "Exportar"
+msgstr "Exportar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Export APIP 1.0 Package"
-msgstr "Exportar Paquete APIP 1.0"
+msgstr "Exportar Paquete APIP 1.0 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Export failed for the item \"%s\": %s"
-msgstr "La exportación falló para el elemento \"%s\": %s"
+msgstr "La exportación falló para el elemento \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Export metadata"
-msgstr "Exportar metadatos"
+msgstr "Exportar metadatos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Export metadata item"
-msgstr "Exportar elemento metadata"
+msgstr "Exportar elemento metadata {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Export QTI 2.1 Package"
-msgstr "Exportar Paquete QTI 2.1"
+msgstr "Exportar Paquete QTI 2.1 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Export QTI 2.2 Package"
-msgstr "Exportar paquete QTI 2.2"
+msgstr "Exportar paquete QTI 2.2 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Export QTI 3.0 Package"
-msgstr "Exportar paquete QTI 3.0"
+msgstr "Exportar paquete QTI 3.0 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Extended Text"
-msgstr "Texto extendido"
+msgstr "Texto extendido {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Extended Text Interaction"
-msgstr "Interacción de Texto Extendido"
+msgstr "Interacción de Texto Extendido {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "External Machine"
-msgstr "Máquina externa"
+msgstr "Máquina externa {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "External Scored"
-msgstr "Puntuación externa"
+msgstr "Puntuación externa {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Fail to export item"
-msgstr "Error al exportar el artículo"
+msgstr "Error al exportar el artículo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Failed to publish %1$s in %2$s"
-msgstr "Publicaión fallida %1$s en %2$s"
+msgstr "Publicaión fallida %1$s en %2$s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Feedback"
-msgstr "Comentario"
+msgstr "Comentario {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Feedback Style"
-msgstr "Estilo de Feedback"
+msgstr "Estilo de Feedback {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Field"
-msgstr "Campo"
+msgstr "Campo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "File"
-msgstr "Archivo"
+msgstr "Archivo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "File name"
-msgstr "Nombre de archivo"
+msgstr "Nombre de archivo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "File Upload"
-msgstr "Carga de archivo"
+msgstr "Carga de archivo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "File Upload Interaction"
-msgstr "Carga de archivos de Interacción"
+msgstr "Carga de archivos de Interacción {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Fill in the gaps on a picture with a set of image choices."
-msgstr "Llenar los espacios vacíos en una imagen con un conjunto de opciones de imágenes."
+msgstr "Llenar los espacios vacíos en una imagen con un conjunto de opciones de imágenes. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "float"
-msgstr "flotante"
+msgstr "flotante {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Font family"
-msgstr "Familia tipográfica"
+msgstr "Familia tipográfica {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Font size"
-msgstr "Tamaño de fuente"
+msgstr "Tamaño de fuente {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Format"
-msgstr "Formato"
+msgstr "Formato {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Fraction"
-msgstr "Fracción"
+msgstr "Fracción {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Full height"
-msgstr "Altura completa"
+msgstr "Altura completa {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Gap"
-msgstr "Espacio libre"
+msgstr "Espacio libre {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Gap Match"
-msgstr "Escojer Espacio"
+msgstr "Escojer Espacio {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Gap Match Interaction"
-msgstr "Interacción Gap Match"
+msgstr "Interacción Gap Match {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Graphic Associate Interaction"
-msgstr "Interacción Gráfico Asociado"
+msgstr "Interacción Gráfico Asociado {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Graphic Gap Match Interaction"
-msgstr "Grafico de Interación escojer espacio"
+msgstr "Grafico de Interación escojer espacio {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Graphic Interactions"
-msgstr "Interacciones gráficas"
+msgstr "Interacciones gráficas {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Graphic Order Interaction"
-msgstr "Graficar Orden de Interacción"
+msgstr "Graficar Orden de Interacción {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Greater than or equal"
-msgstr "Mayor o igual"
+msgstr "Mayor o igual {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Group toolbar items"
-msgstr "Elementos de la barra de herramientas"
+msgstr "Elementos de la barra de herramientas {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Guard for resource \"%s\"..."
-msgstr "Guardián de recursos \"%s\"..."
+msgstr "Guardián de recursos \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Half height"
-msgstr "Altura de la mitad"
+msgstr "Altura de la mitad {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Height"
-msgstr "Alto"
+msgstr "Alto {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
-msgstr "Aquí puede proporcionar aspectos de puntuación para puntuación manual, por ejemplo CONTENT, GRAMMAR, SPELLING"
+msgstr "Aquí puede proporcionar aspectos de puntuación para puntuación manual, por ejemplo CONTENT, GRAMMAR, SPELLING {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Horizontal"
-msgstr "Horizontal"
+msgstr "Horizontal {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Horizontal text"
-msgstr "Texto horizontal"
+msgstr "Texto horizontal {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Hotspot"
-msgstr "Zona de acceso"
+msgstr "Zona de acceso {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Hotspot Interaction"
-msgstr "Interacción de zona activa"
+msgstr "Interacción de zona activa {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Hottext"
-msgstr "Texto rápido"
+msgstr "Texto rápido {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Hottext Interaction"
-msgstr "Interacción Hottext"
+msgstr "Interacción Hottext {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "How the math expression should be displayed."
-msgstr "Cómo se debe mostrar la expresión matemática."
+msgstr "Cómo se debe mostrar la expresión matemática. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "How the math expression should be edited"
-msgstr "Cómo se debe editar la expresión matemática"
+msgstr "Cómo se debe editar la expresión matemática {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Human"
-msgstr "Humano"
+msgstr "Humano {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "identical pair already exists"
-msgstr "ya existe par idéntico"
+msgstr "ya existe par idéntico {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "identifier"
-msgstr "identificador"
+msgstr "identificador {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Identifier"
-msgstr "Identificador"
+msgstr "Identificador {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "identifier already taken"
-msgstr "identificador ya tomado"
+msgstr "identificador ya tomado {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
-msgstr "Los identificadores deben comenzar con una letra o un guión bajo y contener sólo letras, números, puntos, guiones bajos ( _ ) o guiones ( - )."
+msgstr "Los identificadores deben comenzar con una letra o un guión bajo y contener sólo letras, números, puntos, guiones bajos ( _ ) o guiones ( - ). {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
-msgstr "Si está marcado, la barra de herramientas del editor se limitará a una fila y otros elementos aparecerán en un menú desplegable."
+msgstr "Si está marcado, la barra de herramientas del editor se limitará a una fila y otros elementos aparecerán en un menú desplegable. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
-msgstr "ya existe par idéntico"
+msgstr "ya existe par idéntico {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "If pattern mask does not match match value provided, this message will be shown."
-msgstr "Si la máscara de patrón no coincide con el valor proporcionado, se mostrará este mensaje."
+msgstr "Si la máscara de patrón no coincide con el valor proporcionado, se mostrará este mensaje. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
-msgstr "Si el atributo aleatorio es cierto entonces el motor de entrega aleatoriza el orden en el que las opciones se presentan inicialmente. Sin embargo, cada opción puede ser \"aleatoria\" de \"fijada\" individualmente."
+msgstr "Si el atributo aleatorio es cierto entonces el motor de entrega aleatoriza el orden en el que las opciones se presentan inicialmente. Sin embargo, cada opción puede ser \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
-msgstr "Si el atributo aleatorio es cierto entonces el motor de entrega aleatoriza el orden en el que las opciones se presentan inicialmente. Sin embargo, cada opción puede ser “aleatoria” de “fijada” individualmente."
+msgstr "Si el atributo aleatorio es cierto entonces el motor de entrega aleatoriza el orden en el que las opciones se presentan inicialmente. Sin embargo, cada opción puede ser “aleatoria” de “fijada” individualmente. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
-msgstr "Si la interacción cadena se une a una variable de respuesta numérico entonces el atributo base debe ser utilizado para establecer la base de número en el que interpretar el valor introducido por el participante."
+msgstr "Si la interacción cadena se une a una variable de respuesta numérico entonces el atributo base debe ser utilizado para establecer la base de número en el que interpretar el valor introducido por el participante. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "If the variable value is a float and powerForm is set to 'false', the variable will be rendered using the 'e' or 'E' format. If the powerform is set to 'true', the form 'e+n' is changed to 'x 10n'."
-msgstr "Si el valor de la variable es un float y powerForm se establece en 'false', la variable será renderizada usando el formato 'e' o 'E'. Si el powerform está configurado en 'true', el formulario 'e+n' se cambia a 'x 10n'."
+msgstr "Si el valor de la variable es un float y powerForm se establece en 'false', la variable será renderizada usando el formato 'e' o 'E'. Si el powerform está configurado en 'true', el formulario 'e+n' se cambia a 'x 10n'. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "If this box is checked the student will be able to eliminate choices."
-msgstr "Si esta casilla está marcada, el estudiante podrá eliminar las opciones."
+msgstr "Si esta casilla está marcada, el estudiante podrá eliminar las opciones. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Image caption"
-msgstr "Título de la imagen"
+msgstr "Título de la imagen {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Image caption not enabled when position is set to inline"
-msgstr "Leyenda de la imagen no habilitada cuando la posición está configurada en línea"
+msgstr "Leyenda de la imagen no habilitada cuando la posición está configurada en línea {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Import"
-msgstr "Importar"
+msgstr "Importar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Import a QTI/APIP Content Package"
-msgstr "Importar un paquete de contenido QTI/APIP"
+msgstr "Importar un paquete de contenido QTI/APIP {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Import a QTI/APIP XML Item Document"
-msgstr "Importar un documento de elemento QTI/APIP XML"
+msgstr "Importar un documento de elemento QTI/APIP XML {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Import item content and metadata from CSV file. Only choice interactions are supported."
-msgstr "Importar contenido de artículo y metadatos del archivo CSV. Sólo se admiten interacciones de elección."
+msgstr "Importar contenido de artículo y metadatos del archivo CSV. Sólo se admiten interacciones de elección. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Import QTI ITEM into \"%s"
-msgstr "Importar QTI ITEM a \"%s"
+msgstr "Importar QTI ITEM a \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "IMS QTI Item referenced as \"%s\" cannot be imported."
-msgstr "IMS QTI Item referenciado como \"%s\" no puede ser importado."
+msgstr "IMS QTI Item referenciado como \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
-msgstr "IMS QTI Item referenciado como \"%s\" contiene un elemento portable y no puede ser importado."
+msgstr "IMS QTI Item referenciado como \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
-msgstr "IMS QTI Item referenciado como \"%s\" en el archivo de Manifiesto de IMS no pudo ser importado."
+msgstr "IMS QTI Item referenciado como \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "In progress"
-msgstr "En progreso"
+msgstr "En progreso {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "In Progress"
-msgstr "En curso"
+msgstr "En curso {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "In seconds. Delay during which the replay of the media is allowed. Once reached, the media is disabled and cannot be played anymore."
-msgstr "En segundos. Retraso durante el cual se permite la repetición de los medios. Una vez alcanzado, el medio está desactivado y ya no se puede reproducir."
+msgstr "En segundos. Retraso durante el cual se permite la repetición de los medios. Una vez alcanzado, el medio está desactivado y ya no se puede reproducir. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "In visual environments, string interactions are typically represented by empty boxes into which the candidate writes or types.  Delivery engines should use the value of this attribute (if provided) instead of their default placeholder text when this is required."
-msgstr "En entornos visuales, las interacciones de cadena se suele representar por cajas vacías en la que el participante escribe.  Motores de entrega deben utilizar el valor de este atributo (si la hubiere) en lugar de su texto del marcador por defecto cuando es necesario."
+msgstr "En entornos visuales, las interacciones de cadena se suele representar por cajas vacías en la que el participante escribe.  Motores de entrega deben utilizar el valor de este atributo (si la hubiere) en lugar de su texto del marcador por defecto cuando es necesario. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "incorrect"
-msgstr "incorreccto"
+msgstr "incorreccto {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Index"
-msgstr "Índice"
+msgstr "Índice {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Indicates that the audio forms part of a sequence with other sequential interactions. The advancing of the sequence is handled by the delivery engine. Delays are also respected."
-msgstr "Indica que el audio forma parte de una secuencia con otras interacciones secuenciales. El desarrollo de la secuencia es manejado por el motor de entrega, también se respetan los retrasos."
+msgstr "Indica que el audio forma parte de una secuencia con otras interacciones secuenciales. El desarrollo de la secuencia es manejado por el motor de entrega, también se respetan los retrasos. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Infinity"
-msgstr "Infinidad"
+msgstr "Infinidad {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "inline"
-msgstr "en línea"
+msgstr "en línea {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Inline Choice"
-msgstr "Opción Enlinea"
+msgstr "Opción Enlinea {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Inline Choice Interaction"
-msgstr "Interacción Opción Enlinea"
+msgstr "Interacción Opción Enlinea {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Inline Interactions"
-msgstr "Interacciones en línea"
+msgstr "Interacciones en línea {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Inline interactions need to be inserted into a text block."
-msgstr "Interacciones Enlinea necesitan para ser insertado un bloque de texto."
+msgstr "Interacciones Enlinea necesitan para ser insertado un bloque de texto. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "integer"
-msgstr "entero"
+msgstr "entero {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Interaction Background"
-msgstr "Fondo de Interacción"
+msgstr "Fondo de Interacción {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Interaction Properties"
-msgstr "Propiedades de interacción"
+msgstr "Propiedades de interacción {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Interpretation"
-msgstr "Interpretación"
+msgstr "Interpretación {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid identifier"
-msgstr "Identificador inválido"
+msgstr "Identificador inválido {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid Outcome Declaration"
-msgstr "Declaración de resultado no válida"
+msgstr "Declaración de resultado no válida {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "invalid QTI XML"
-msgstr "invalid QTI XML"
+msgstr "invalid QTI XML {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid response identifier"
-msgstr "Identificador de respuesta inválido"
+msgstr "Identificador de respuesta inválido {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid URL"
-msgstr "URL inválida"
+msgstr "URL inválida {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid value in correct response property."
-msgstr "Valor inválido en la propiedad de respuesta correcta."
+msgstr "Valor inválido en la propiedad de respuesta correcta. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid value, should be an integer number."
-msgstr "Valor no válido, debe ser un número entero."
+msgstr "Valor no válido, debe ser un número entero. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Invalid value, use %s %s for decimal point."
-msgstr "Valor no válido, utilice %s %s para punto decimal."
+msgstr "Valor no válido, utilice %s %s para punto decimal. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "is null"
-msgstr "es nulo"
+msgstr "es nulo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Is this choice the correct response?"
-msgstr "Esta selección es la respuesta correcta?"
+msgstr "Esta selección es la respuesta correcta? {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Is this pair the correct response?"
-msgstr "Este par is la respuesta correcta?"
+msgstr "Este par is la respuesta correcta? {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "It is intended only for post-processing and will not influence the actual score computation."
-msgstr "Está pensado sólo para el post-procesamiento y no influirá en el cálculo real de la puntuación."
+msgstr "Está pensado sólo para el post-procesamiento y no influirá en el cálculo real de la puntuación. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
-msgstr "Parece que hay un error durante la carga del elemento. El error ha sido reportado. La prueba se pausará."
+msgstr "Parece que hay un error durante la carga del elemento. El error ha sido reportado. La prueba se pausará. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Item \"%s\" cannot be exported: %s"
-msgstr "Artículo \"%s\" no se puede exportar: %s"
+msgstr "Artículo \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Item \"%s\" has no xml document"
-msgstr "Artículo \"%s\" no tiene ningún documento xml"
+msgstr "Artículo \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Item \"%s\" is not available in any language"
-msgstr "Elemento \"%s\" no está disponible en todos los idiomas"
+msgstr "Elemento \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Item \"%s\" is ready to be exported"
-msgstr "Artículo \"%s\" está listo para ser exportado"
+msgstr "Artículo \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Item cannot be saved."
-msgstr "No se puede guardar el artículo."
+msgstr "No se puede guardar el artículo. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Item metadata successfully exported."
-msgstr "Metadatos de artículo exportados correctamente."
+msgstr "Metadatos de artículo exportados correctamente. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Item metadata with identifier \"%s\" is not valid: "
-msgstr "Los metadatos de artículo con identificador \"%s\" no son válidos: "
+msgstr "Los metadatos de artículo con identificador \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Item properties"
-msgstr "Propiedades del elemento"
+msgstr "Propiedades del elemento {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Item Properties"
-msgstr "Propiedades del Elemento"
+msgstr "Propiedades del Elemento {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Item width"
-msgstr "Ancho del elemento"
+msgstr "Ancho del elemento {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Items"
-msgstr "Elementos"
+msgstr "Elementos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Label"
-msgstr "Etiqueta"
+msgstr "Etiqueta {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Language"
-msgstr "Idioma"
+msgstr "Idioma {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Large editor"
-msgstr "Editor grande"
+msgstr "Editor grande {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "LaTeX"
-msgstr "LaTeX"
+msgstr "LaTeX {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Latex"
-msgstr "Látex"
+msgstr "Látex {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Layout"
-msgstr "Diseño"
+msgstr "Diseño {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Left"
-msgstr "Izquierda"
+msgstr "Izquierda {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "left"
-msgstr "izquierda"
+msgstr "izquierda {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Left bracket"
-msgstr "Soporte izquierdo"
+msgstr "Soporte izquierdo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Left parenthesis"
-msgstr "Paréntesis izquierda"
+msgstr "Paréntesis izquierda {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Length"
-msgstr "Longitud"
+msgstr "Longitud {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Less than or equal"
-msgstr "Menos o igual"
+msgstr "Menos o igual {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Level"
-msgstr "Nivel"
+msgstr "Nivel {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Line"
-msgstr "Línea"
+msgstr "Línea {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Line Segment"
-msgstr "Segmento de línea"
+msgstr "Segmento de línea {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Lines"
-msgstr "Líneas"
+msgstr "Líneas {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "List Style"
-msgstr "Estilo de Lista"
+msgstr "Estilo de Lista {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Ln"
-msgstr "Ln"
+msgstr "Ln {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Log"
-msgstr "Logo"
+msgstr "Logo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Long interpretation"
-msgstr "Interpretación larga"
+msgstr "Interpretación larga {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Loop"
-msgstr "Repetir"
+msgstr "Repetir {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Lower Bound"
-msgstr "Límite Inferior"
+msgstr "Límite Inferior {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Lower bound is bigger than upper bound."
-msgstr "El límite inferior es mayor que el límite superior."
+msgstr "El límite inferior es mayor que el límite superior. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Lower than or equal"
-msgstr "Menor o igual"
+msgstr "Menor o igual {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Malformed XML[%s]:\n"
 "%s"
-msgstr "Malformed XML[%s]:\n"
+msgstr "Malformed XML[%s]:\n {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 "%s"
 
 msgid "Manage Items"
-msgstr "Gestionar Elementos"
+msgstr "Gestionar Elementos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "Manage items"
-msgstr "Gestionar elementos"
+msgstr "Gestionar elementos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "map response"
-msgstr "respuesta de mapa"
+msgstr "respuesta de mapa {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Mapping default"
-msgstr "Mapeo por defecto"
+msgstr "Mapeo por defecto {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Mapping Indicator"
-msgstr "Indicador de mapeo"
+msgstr "Indicador de mapeo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Match"
-msgstr "Coincidencia"
+msgstr "Coincidencia {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "match correct"
-msgstr "coincidencia correcta"
+msgstr "coincidencia correcta {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Match Interaction"
-msgstr "Interaccipon de Coincidencia"
+msgstr "Interaccipon de Coincidencia {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "MathJax is not installed."
-msgstr "MathJax no esta instalada."
+msgstr "MathJax no esta instalada. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "MathML"
-msgstr "MathML"
+msgstr "MathML {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Max"
-msgstr "Máximo"
+msgstr "Máximo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Max length"
-msgstr "Longitud máxima"
+msgstr "Longitud máxima {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Max Length"
-msgstr "Longitud máxima"
+msgstr "Longitud máxima {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Max plays count"
-msgstr "Número máximo de reproducciones"
+msgstr "Número máximo de reproducciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Max words"
-msgstr "Máx. de palabras"
+msgstr "Máx. de palabras {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Max Words"
-msgstr "Máx. de palabras"
+msgstr "Máx. de palabras {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Max. number of matches"
-msgstr "Cantidad máx. de coincidencias"
+msgstr "Cantidad máx. de coincidencias {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Maximal score for this interaction."
-msgstr "Puntuación máxima para esta interacción."
+msgstr "Puntuación máxima para esta interacción. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "maximum"
-msgstr "máximo"
+msgstr "máximo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Maximum choices reached"
-msgstr "Opciones máximas alcanzadas"
+msgstr "Opciones máximas alcanzadas {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Maximum number of choices reached."
-msgstr "Cantidad máxima de opciones alcanzadas."
+msgstr "Cantidad máxima de opciones alcanzadas. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Media"
-msgstr "Medios"
+msgstr "Medios {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Media file path or YouTube video address"
-msgstr "Ruta del archivo de medios o dirección de vídeo de YouTube"
+msgstr "Ruta del archivo de medios o dirección de vídeo de YouTube {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Media Interaction"
-msgstr "Interacción de Medios"
+msgstr "Interacción de Medios {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Metadata export requires an instance of core_kernel_classes_Resource to extract metadata"
-msgstr "La exportación de metadatos requiere una instancia de core_kernel_classes_Resource para extraer metadatos"
+msgstr "La exportación de metadatos requiere una instancia de core_kernel_classes_Resource para extraer metadatos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Metadata export requires an instance of DomManifest to inject metadata"
-msgstr "La exportación de metadatos requiere una instancia de DomManifest para inyectar metadatos"
+msgstr "La exportación de metadatos requiere una instancia de DomManifest para inyectar metadatos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Metadata import requires an instance of core_kernel_classes_Resource to inject metadata"
-msgstr "La importación de metadatos requiere una instancia de core_kernel_classes_Resource para inyectar metadatos"
+msgstr "La importación de metadatos requiere una instancia de core_kernel_classes_Resource para inyectar metadatos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Metadata import requires an instance of DomManifest to extract metadata"
-msgstr "La importación de metadatos requiere una instancia de DomManifest para extraer metadatos"
+msgstr "La importación de metadatos requiere una instancia de DomManifest para extraer metadatos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Metadata service successfully registered."
-msgstr "Servicio de metadatos registrado con éxito."
+msgstr "Servicio de metadatos registrado con éxito. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "MIME-type"
-msgstr "Tipo-MIME"
+msgstr "Tipo-MIME {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Min"
-msgstr "Mínimo"
+msgstr "Mínimo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Minimal  score for this interaction."
-msgstr "Puntuación   mínima para esta interacción."
+msgstr "Puntuación   mínima para esta interacción. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Modal feedback is shown to the candidate directly following response processing."
-msgstr "Retroalimentación modal se muestra al candidato inmediatamente después del procesamiento de la respuesta."
+msgstr "Retroalimentación modal se muestra al candidato inmediatamente después del procesamiento de la respuesta. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Modal Feedback Prop."
-msgstr "Retroalimentación Modal Prop."
+msgstr "Retroalimentación Modal Prop. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "modal feedback title"
-msgstr "título de retroalimentación modal"
+msgstr "título de retroalimentación modal {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Modal Feedbacks"
-msgstr "Retroalimentación Modal"
+msgstr "Retroalimentación Modal {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Multiple choices"
-msgstr "Varias opciones"
+msgstr "Varias opciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Multiply"
-msgstr "Multiplicar"
+msgstr "Multiplicar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "negative"
-msgstr "negativo"
+msgstr "negativo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 #, tao-public
 msgid "New item"
-msgstr "Elemento nuevo"
+msgstr "Elemento nuevo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "No"
-msgstr "Nu"
+msgstr "Nu {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "no configuration property needed"
-msgstr "ninguna configuración propiemente necesaria"
+msgstr "ninguna configuración propiemente necesaria {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "No file selected"
-msgstr "No se seleccionó ningún archivo"
+msgstr "No se seleccionó ningún archivo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "no item content"
-msgstr "sin contenido de elemento"
+msgstr "sin contenido de elemento {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "No Items could be imported from the given IMS QTI package."
-msgstr "No hay items que podrían ser importados desde el paquete IMS QTI dado."
+msgstr "No hay items que podrían ser importados desde el paquete IMS QTI dado. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "No preview available"
-msgstr "No hay vista previa disponible"
+msgstr "No hay vista previa disponible {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "No uploaded file"
-msgstr "Ningún archivo subido"
+msgstr "Ningún archivo subido {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "No value set"
-msgstr "No hay valor asignado"
+msgstr "No hay valor asignado {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "None"
-msgstr "Ninguno"
+msgstr "Ninguno {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "none"
-msgstr "ninguno"
+msgstr "ninguno {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "None defined yet."
-msgstr "Aún no definido."
+msgstr "Aún no definido. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "not a QTI item"
-msgstr "no es un artículo QTI"
+msgstr "no es un artículo QTI {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Number of associations"
-msgstr "Cantidad de asociaciones"
+msgstr "Cantidad de asociaciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "of"
-msgstr "de"
+msgstr "de {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "OK"
-msgstr "Ok"
+msgstr "Ok {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "one association pair"
-msgstr "una asociación par"
+msgstr "una asociación par {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-msgstr "Uno o más componentes QTI no son soportados por el sistema. El sistema devolvió el siguiente error: %s\n"
+msgstr "Uno o más componentes QTI no son soportados por el sistema. El sistema devolvió el siguiente error: %s\n {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Order"
-msgstr "Orden"
+msgstr "Orden {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Order Interaction"
-msgstr "Orden de Interacción"
+msgstr "Orden de Interacción {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Order single list"
-msgstr "Ordenar lista única"
+msgstr "Ordenar lista única {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "order single list"
-msgstr "lista única de pedidos"
+msgstr "lista única de pedidos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Order the areas (hotspots) displayed on a picture."
-msgstr "Ordenar las áreas (zonas activas) que aparecen en una imagen."
+msgstr "Ordenar las áreas (zonas activas) que aparecen en una imagen. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Orientation"
-msgstr "Orientación"
+msgstr "Orientación {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Other constraints"
-msgstr "Otras restricciones"
+msgstr "Otras restricciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Outcome Declarations"
-msgstr "Declaraciones de resultados"
+msgstr "Declaraciones de resultados {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Pair scoring"
-msgstr "Par de puntuación"
+msgstr "Par de puntuación {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Parallel"
-msgstr "Paralelo"
+msgstr "Paralelo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Pattern"
-msgstr "Patrón"
+msgstr "Patrón {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Pattern violation message"
-msgstr "Mensaje de violación del patrón"
+msgstr "Mensaje de violación del patrón {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Pause"
-msgstr "Pausar"
+msgstr "Pausar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Perpendicular"
-msgstr "Perpendicular"
+msgstr "Perpendicular {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Pi"
-msgstr "Pi"
+msgstr "Pi {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Placeholder Text"
-msgstr "Texto del marcador"
+msgstr "Texto del marcador {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Plain text"
-msgstr "Texto plano"
+msgstr "Texto plano {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Play audio several times in a row. Delay between plays can be set if needed."
-msgstr "Reproducir audio varias veces seguidas. Si es necesario, se puede ajustar el retardo entre reproducciones."
+msgstr "Reproducir audio varias veces seguidas. Si es necesario, se puede ajustar el retardo entre reproducciones. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please add one or more gaps to the text in question mode."
-msgstr "Por favor, añade uno o más huecos al texto en modo de pregunta."
+msgstr "Por favor, añade uno o más huecos al texto en modo de pregunta. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please create areas that correspond to the response and associate them a score. You can also position the target to the exact point as the correct response."
-msgstr "Por favor, cree áreas que correspondan a la respuesta y asocie una puntuación. También puede posicionar el objetivo al punto exacto como la respuesta correcta."
+msgstr "Por favor, cree áreas que correspondan a la respuesta y asocie una puntuación. También puede posicionar el objetivo al punto exacto como la respuesta correcta. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please define association pairs and their scores below."
-msgstr "Por favor definir pares de asociación y sus puntajes por debajo."
+msgstr "Por favor definir pares de asociación y sus puntajes por debajo. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please define the correct association pairs below."
-msgstr "Por favor definir los pares de asociación correctos abajo."
+msgstr "Por favor definir los pares de asociación correctos abajo. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please define the correct order in the box to the right."
-msgstr "Por favor, defina el orden correcto en el cuadro de la derecha."
+msgstr "Por favor, defina el orden correcto en el cuadro de la derecha. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please define the correct order."
-msgstr "Por favor, defina el orden correcto."
+msgstr "Por favor, defina el orden correcto. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please define the correct response and the score below."
-msgstr "Por favor, defina la respuesta correcta y la puntuación abajo."
+msgstr "Por favor, defina la respuesta correcta y la puntuación abajo. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please define the correct response below."
-msgstr "Por favor, defina la respuesta correcta abajo."
+msgstr "Por favor, defina la respuesta correcta abajo. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please define the correct response using the slider."
-msgstr "Por favor definir la respuesta correcta con el control deslizante."
+msgstr "Por favor definir la respuesta correcta con el control deslizante. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please enter the score for the given hottexts."
-msgstr "Por favor, introduzca la puntuación para los hottexts."
+msgstr "Por favor, introduzca la puntuación para los hottexts. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please fill the gap with the correct choices below."
-msgstr "Por favor llenar el vacío con las opciones correctas de abajo."
+msgstr "Por favor llenar el vacío con las opciones correctas de abajo. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please fill the gap with the correct choices."
-msgstr "Por favor llenar el vacío con las opciones correctas."
+msgstr "Por favor llenar el vacío con las opciones correctas. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please fill the gap with the images below, then edit the score for each gap/image pair."
-msgstr "Llenar el espacio vacío con las imágenes que aparecen a continuación y luego modificar la puntuación de cada par de espacio vacío/imagen."
+msgstr "Llenar el espacio vacío con las imágenes que aparecen a continuación y luego modificar la puntuación de cada par de espacio vacío/imagen. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please fill the gap with the texts below, then edit the score for each pair."
-msgstr "Por favor llenar el vacío con los textos siguientes, y luego editar la puntuación para cada par."
+msgstr "Por favor llenar el vacío con los textos siguientes, y luego editar la puntuación para cada par. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please order the choices below to set the correct answer"
-msgstr "Por favor, ordene las opciones para configurar la respuesta correcta"
+msgstr "Por favor, ordene las opciones para configurar la respuesta correcta {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
-msgstr "Por favor, seleccione una imagen de fondo para su interacción desde el gestor de recursos. Puede agregar nuevos archivos desde su computadora con el botón \"Añadir archivo(s)\"."
+msgstr "Por favor, seleccione una imagen de fondo para su interacción desde el gestor de recursos. Puede agregar nuevos archivos desde su computadora con el botón \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "Por favor, seleccione un archivo multimedia (vídeo o audio) desde el administrador de recursos . Puede agregar archivos desde el ordenador con el botón \"Añadir archivo(s)\"."
+msgstr "Por favor, seleccione un archivo multimedia (vídeo o audio) desde el administrador de recursos . Puede agregar archivos desde el ordenador con el botón \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "Por favor, seleccione un archivo multimedia del administrador de recursos. Puede añadir archivos desde su computadora con el botón \"Añadir archivo(s)\"."
+msgstr "Por favor, seleccione un archivo multimedia del administrador de recursos. Puede añadir archivos desde su computadora con el botón \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please select a shared stimulus file from the resource manager."
-msgstr "Por favor, seleccione un archivo de estímulo compartido desde el gestor de recursos."
+msgstr "Por favor, seleccione un archivo de estímulo compartido desde el gestor de recursos. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please select the correct hotspot choices below."
-msgstr "Por favor, seleccione las opciones correctas de hotspot a continuación."
+msgstr "Por favor, seleccione las opciones correctas de hotspot a continuación. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please select the correct hottext choices below."
-msgstr "Por favor, seleccione las opciones correctas de hotspot a continuación."
+msgstr "Por favor, seleccione las opciones correctas de hotspot a continuación. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please set the correct associations by linking the choices."
-msgstr "Por favor, establece las asociaciones correctas mediante la vinculación de las opciones."
+msgstr "Por favor, establece las asociaciones correctas mediante la vinculación de las opciones. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please the score of each hotspot choice."
-msgstr "Por favor dar la puntuación de cada opción de zona activa."
+msgstr "Por favor dar la puntuación de cada opción de zona activa. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please type the correct response below."
-msgstr "Escribir la respuesta correcta a continuación."
+msgstr "Escribir la respuesta correcta a continuación. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Please type the correct response in the box below."
-msgstr "Por favor escriba la respuesta correcta en el cuadro a continuación."
+msgstr "Por favor escriba la respuesta correcta en el cuadro a continuación. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Plus/minus"
-msgstr "Más/menos"
+msgstr "Más/menos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Portable element model %s not found. Required extension might be missing"
-msgstr "No se ha encontrado el modelo de elemento portátil %s . Podría faltar la extensión requerida"
+msgstr "No se ha encontrado el modelo de elemento portátil %s . Podría faltar la extensión requerida {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Position one or more points on a picture (response areas are not displayed)."
-msgstr "Coloque uno o más puntos en una imagen (las áreas de respuesta no se muestran)."
+msgstr "Coloque uno o más puntos en una imagen (las áreas de respuesta no se muestran). {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "positive"
-msgstr "positivo"
+msgstr "positivo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Power form"
-msgstr "Forma de energía"
+msgstr "Forma de energía {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Pre-formatted text"
-msgstr "Texto preformateado"
+msgstr "Texto preformateado {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Preparing CSS, please wait…"
-msgstr "Preparando CSS, por favor espere..."
+msgstr "Preparando CSS, por favor espere... {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Preparing Metadata Values for target \"%s\"..."
-msgstr "Preparando Valores de Metadatos para el objetivo \"%s\"..."
+msgstr "Preparando Valores de Metadatos para el objetivo \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Preview"
-msgstr "Vista previa"
+msgstr "Vista previa {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Preview the item"
-msgstr "Vista previa del elemento"
+msgstr "Vista previa del elemento {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Print"
-msgstr "Imprimir"
+msgstr "Imprimir {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Print the item"
-msgstr "Imprimir el artículo"
+msgstr "Imprimir el artículo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Printed Variable"
-msgstr "Variable impresa"
+msgstr "Variable impresa {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Properties"
-msgstr "Propiedades"
+msgstr "Propiedades {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "PropertyUri to map has to a valid uri"
-msgstr "PropertyUri al mapa tiene un uri válido"
+msgstr "PropertyUri al mapa tiene un uri válido {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Provides a hint to the candidate as to the expected number of lines of input required. A line is expected to have about 72 characters."
-msgstr "Proporciona una pista para el candidato como para el número esperado de líneas de entrada requeridos. Se espera que una línea deba tener cerca de 72 caracteres."
+msgstr "Proporciona una pista para el candidato como para el número esperado de líneas de entrada requeridos. Se espera que una línea deba tener cerca de 72 caracteres. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."
-msgstr "Proporciona una pista para el participante, en cuanto a la longitud total esperada de la respuesta deseada, se mide en número de caracteres."
+msgstr "Proporciona una pista para el participante, en cuanto a la longitud total esperada de la respuesta deseada, se mide en número de caracteres. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters. This is not a validity constraint."
-msgstr "Proporciona una pista al candidato en cuanto a la longitud total esperada de la respuesta deseada medida en número de caracteres. Esta no es una restricción de validez."
+msgstr "Proporciona una pista al candidato en cuanto a la longitud total esperada de la respuesta deseada medida en número de caracteres. Esta no es una restricción de validez. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Published %s"
-msgstr "Publicado %s"
+msgstr "Publicado %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "QTI Item Runner"
-msgstr "Item QTI Runner"
+msgstr "Item QTI Runner {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "QTI Metadata"
-msgstr "QTI Metadata"
+msgstr "QTI Metadata {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "QTI metadata as properties"
-msgstr "Metadatos QTI como propiedades"
+msgstr "Metadatos QTI como propiedades {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "QTI Package 2.1"
-msgstr "Paquete QTI 2.1"
+msgstr "Paquete QTI 2.1 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "QTI Package 2.2"
-msgstr "Paquete QTI 2.2"
+msgstr "Paquete QTI 2.2 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "QTI Package 3.0"
-msgstr "Paquete QTI 3.0"
+msgstr "Paquete QTI 3.0 {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "QTI-XML error at line %1$d \"%2$s\"."
-msgstr "Error QTI-XML en la línea %1$d \"%2$s\"."
+msgstr "Error QTI-XML en la línea %1$d \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "QTI/APIP Content Package"
-msgstr "QTI/APIP Content Package"
+msgstr "QTI/APIP Content Package {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "QTI/APIP XML Item Document"
-msgstr "Documento del elemento QTI/APIP XML"
+msgstr "Documento del elemento QTI/APIP XML {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Question"
-msgstr "Pregunta"
+msgstr "Pregunta {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Ray"
-msgstr "Rayo"
+msgstr "Rayo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Recommendations"
-msgstr "Recomendaciones"
+msgstr "Recomendaciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "recommended"
-msgstr "recomendado"
+msgstr "recomendado {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Reduce font size"
-msgstr "Reducir tamaño de fuente"
+msgstr "Reducir tamaño de fuente {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Register method expects $key and $name parameters"
-msgstr "El método de registro espera parámetros $key y $name"
+msgstr "El método de registro espera parámetros $key y $name {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Register method expects $key and $name parameters."
-msgstr "El método de registro espera parámetros $key y $name."
+msgstr "El método de registro espera parámetros $key y $name. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "remove"
-msgstr "eliminar"
+msgstr "eliminar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remove"
-msgstr "Eliminar"
+msgstr "Eliminar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remove custom background color"
-msgstr "Eliminar color de fondo personalizado"
+msgstr "Eliminar color de fondo personalizado {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remove custom border color"
-msgstr "Eliminar borde de color personalizado"
+msgstr "Eliminar borde de color personalizado {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remove custom font family"
-msgstr "Eliminar familia de fuente personalizada"
+msgstr "Eliminar familia de fuente personalizada {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remove custom font size"
-msgstr "Retire tamaño de fuente personalizado"
+msgstr "Retire tamaño de fuente personalizado {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remove custom item width"
-msgstr "Eliminar ancho predeterminado del item"
+msgstr "Eliminar ancho predeterminado del item {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remove custom text color"
-msgstr "Eliminar color de texto predeterminado"
+msgstr "Eliminar color de texto predeterminado {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remove Instructions"
-msgstr "Eliminar Instrucciones"
+msgstr "Eliminar Instrucciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remove Message"
-msgstr "Eliminar Mensaje"
+msgstr "Eliminar Mensaje {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remove pair"
-msgstr "Eliminar par"
+msgstr "Eliminar par {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remove the selected shape"
-msgstr "Eliminar la forma seleccionada"
+msgstr "Eliminar la forma seleccionada {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Remove this stylesheet"
-msgstr "Eliminar esta hoja de estilo"
+msgstr "Eliminar esta hoja de estilo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Removes all instruction messages generated by the system from the interface."
-msgstr "Elimina de la interfaz todos los mensajes de instrucción generados por el sistema."
+msgstr "Elimina de la interfaz todos los mensajes de instrucción generados por el sistema. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "repeats"
-msgstr "repite"
+msgstr "repite {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Replay timeout"
-msgstr "Tiempo de espera de repetición"
+msgstr "Tiempo de espera de repetición {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "required"
-msgstr "requerido"
+msgstr "requerido {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Resource "
-msgstr "Recurso "
+msgstr "Recurso  {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Resource(s) successfully exported."
-msgstr "Recursos(s) exportados con éxito."
+msgstr "Recursos(s) exportados con éxito. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Response"
-msgstr "Respuesta"
+msgstr "Respuesta {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Response [\"%s\"] is bigger than the upper bound value \"%s\"."
-msgstr "La respuesta [\"%s\"] es más grande que el valor del límite superior \"%s\"."
+msgstr "La respuesta [\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Response [\"%s\"] is lower than the lower bound value \"%s\"."
-msgstr "Respuesta [\"%s\"] es menor que el valor límite inferior \"%s\"."
+msgstr "Respuesta [\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Response [\"%s\"] should be the only possible value \"%s\"."
-msgstr "La respuesta [\"%s\"] debe ser el único valor posible \"%s\"."
+msgstr "La respuesta [\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Response base type"
-msgstr "Tipo base de respuesta"
+msgstr "Tipo base de respuesta {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Response identifier"
-msgstr "Identificador de respuesta"
+msgstr "Identificador de respuesta {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Response processing"
-msgstr "Procesando respuesta"
+msgstr "Procesando respuesta {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Response Properties"
-msgstr "Propiedades de respuesta"
+msgstr "Propiedades de respuesta {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Rich text"
-msgstr "Texto rico"
+msgstr "Texto rico {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Rich text + math"
-msgstr "Texto rico + matemáticas"
+msgstr "Texto rico + matemáticas {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Right"
-msgstr "Derecha"
+msgstr "Derecha {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "right"
-msgstr "derecha"
+msgstr "derecha {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Right bracket"
-msgstr "Soporte derecho"
+msgstr "Soporte derecho {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Right parenthesis"
-msgstr "Paréntesis correcta"
+msgstr "Paréntesis correcta {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Rollback on..."
-msgstr "Retroceso en..."
+msgstr "Retroceso en... {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Save"
-msgstr "Guardar"
+msgstr "Guardar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Save the item"
-msgstr "Guardar el elemento"
+msgstr "Guardar el elemento {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Scale size"
-msgstr "Tamaño de escala"
+msgstr "Tamaño de escala {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Score"
-msgstr "Puntuación"
+msgstr "Puntuación {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "score"
-msgstr "puntuacion"
+msgstr "puntuacion {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Score range"
-msgstr "Rango de puntuación"
+msgstr "Rango de puntuación {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Score value"
-msgstr "Valor de puntaje"
+msgstr "Valor de puntaje {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Scrollable multi-column"
-msgstr "Multi-columna desplazable"
+msgstr "Multi-columna desplazable {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "sec"
-msgstr "seg"
+msgstr "seg {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "seconds"
-msgstr "segundos"
+msgstr "segundos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select"
-msgstr "Seleccionar"
+msgstr "Seleccionar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "select a choice"
-msgstr "seleccionar una opción"
+msgstr "seleccionar una opción {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select a choice from a drop-down list."
-msgstr "Seleccione una opción de una lista desplegable."
+msgstr "Seleccione una opción de una lista desplegable. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select a left"
-msgstr "Seleccione una izquierda"
+msgstr "Seleccione una izquierda {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select a response identifier from the list."
-msgstr "Seleccione un identificador de respuesta de la lista."
+msgstr "Seleccione un identificador de respuesta de la lista. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select a right"
-msgstr "Seleccione una derecha"
+msgstr "Seleccione una derecha {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select a single (radio buttons) or multiple (check boxes) responses among a set of choices."
-msgstr "Seleccione una sola (botones de opción) o múltiples (casillas de verificación) respuestas entre un conjunto de opciones."
+msgstr "Seleccione una sola (botones de opción) o múltiples (casillas de verificación) respuestas entre un conjunto de opciones. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select a value within a numerical range."
-msgstr "Seleccionar un valor dentro de un rango numérico."
+msgstr "Seleccionar un valor dentro de un rango numérico. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select an image first"
-msgstr "Seleccionar una imagen primero"
+msgstr "Seleccionar una imagen primero {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select an image first."
-msgstr "Seleccione una imagen primero."
+msgstr "Seleccione una imagen primero. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "select correct choice"
-msgstr "seleccione la opción correcta"
+msgstr "seleccione la opción correcta {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select height of block based off container height"
-msgstr "Seleccione la altura del bloque basado en la altura del contenedor"
+msgstr "Seleccione la altura del bloque basado en la altura del contenedor {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select height of passage base of container height"
-msgstr "Seleccione la altura de la base del pasaje de la altura del contenedor"
+msgstr "Seleccione la altura de la base del pasaje de la altura del contenedor {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select height of text block base of container height"
-msgstr "Seleccione la altura del bloque de texto base de la altura del contenedor"
+msgstr "Seleccione la altura del bloque de texto base de la altura del contenedor {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select width of block based on container width"
-msgstr "Seleccione el ancho del bloque basado en el ancho del contenedor"
+msgstr "Seleccione el ancho del bloque basado en el ancho del contenedor {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
-msgstr "Seleccione si desea que la declaración de resultado sea procesada por un sistema externo o un puntuador humano. Este es típicamente el caso de los artículos que piden a los candidatos que escriban un ensayo."
+msgstr "Seleccione si desea que la declaración de resultado sea procesada por un sistema externo o un puntuador humano. Este es típicamente el caso de los artículos que piden a los candidatos que escriban un ensayo. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select image"
-msgstr "Seleccionar imagen"
+msgstr "Seleccionar imagen {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select line to remove"
-msgstr "Seleccionar línea a eliminar"
+msgstr "Seleccionar línea a eliminar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select media file"
-msgstr "Seleccionar archivos multimedia"
+msgstr "Seleccionar archivos multimedia {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select object"
-msgstr "Seleccionar objeto"
+msgstr "Seleccionar objeto {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select one or more areas (hotspots) displayed on an picture."
-msgstr "Seleccione una o más áreas (hotspots) que aparecen en la imagen."
+msgstr "Seleccione una o más áreas (hotspots) que aparecen en la imagen. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select one or more text parts (hottext) within a text."
-msgstr "Seleccionar una o más partes de texto (hottext) dentro de un texto."
+msgstr "Seleccionar una o más partes de texto (hottext) dentro de un texto. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select Point"
-msgstr "Seleccionar un Punto"
+msgstr "Seleccionar un Punto {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select Point Interaction"
-msgstr "Interacción de Seleccionar un Punto"
+msgstr "Interacción de Seleccionar un Punto {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select predefined feedback style from the list."
-msgstr "Seleccione el estilo de retroalimentación predefinido de la lista."
+msgstr "Seleccione el estilo de retroalimentación predefinido de la lista. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select shared stimulus"
-msgstr "Seleccione un estímulo compartido"
+msgstr "Seleccione un estímulo compartido {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select the area to add an image"
-msgstr "Seleccione el área para agregar una imagen"
+msgstr "Seleccione el área para agregar una imagen {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select the expected input value type that will define the way the response of your interaction will be processed."
-msgstr "Seleccione el tipo de valor de entrada esperado que definirá la forma en que se procesará la respuesta de su interacción."
+msgstr "Seleccione el tipo de valor de entrada esperado que definirá la forma en que se procesará la respuesta de su interacción. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select the outcome variable you want to display."
-msgstr "Seleccione la variable de resultado que desea mostrar."
+msgstr "Seleccione la variable de resultado que desea mostrar. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select the way the response of your interaction should be processed"
-msgstr "Seleccionar la manera en que debe procesarse la respuesta de su interacción"
+msgstr "Seleccionar la manera en que debe procesarse la respuesta de su interacción {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select this area"
-msgstr "Seleccionar esta área"
+msgstr "Seleccionar esta área {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select this area to finish an association"
-msgstr "Seleccione esta área para terminar una asociación"
+msgstr "Seleccione esta área para terminar una asociación {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Select this area to start an association"
-msgstr "Seleccionar esta área para iniciar una asociación"
+msgstr "Seleccionar esta área para iniciar una asociación {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Sequential"
-msgstr "Secuencial"
+msgstr "Secuencial {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Set a CSS class name in order to customize the display style."
-msgstr "Establezca un nombre de clase CSS para personalizar el estilo de visualización."
+msgstr "Establezca un nombre de clase CSS para personalizar el estilo de visualización. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Set the media player UI to Compact mode, displaying only the play button icon, hiding all other controls such as volume, seek bar."
-msgstr "Establezca la interfaz del reproductor de medios en modo compacto, mostrando sólo el icono del botón de reproducción, ocultando todos los demás controles como volumen, busque la barra."
+msgstr "Establezca la interfaz del reproductor de medios en modo compacto, mostrando sólo el icono del botón de reproducción, ocultando todos los demás controles como volumen, busque la barra. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Set the score for this response"
-msgstr "Configuara el puntaje para esta respuesta"
+msgstr "Configuara el puntaje para esta respuesta {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Shape position"
-msgstr "Posisicón de forma"
+msgstr "Posisicón de forma {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Shuffle choices"
-msgstr "Selecciones aleatorias"
+msgstr "Selecciones aleatorias {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Similar"
-msgstr "Similar"
+msgstr "Similar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Sine"
-msgstr "Sena"
+msgstr "Sena {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Single choice"
-msgstr "Elección única"
+msgstr "Elección única {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Sinus"
-msgstr "Sinus"
+msgstr "Sinus {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Size and position"
-msgstr "Tamaño y posición"
+msgstr "Tamaño y posición {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Slider"
-msgstr "Deslizador"
+msgstr "Deslizador {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Slider Interaction"
-msgstr "Interacción de barra deslizadora"
+msgstr "Interacción de barra deslizadora {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Some feedback text."
-msgstr "Algún texto de comentario."
+msgstr "Algún texto de comentario. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "some text ..."
-msgstr "algún texto..."
+msgstr "algún texto... {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Something went wrong while destroying an interaction: %s"
-msgstr "Algo salió mal al destruir una interacción: %s"
+msgstr "Algo salió mal al destruir una interacción: %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Sort from source to target list"
-msgstr "Ordenar de origen a lista de destino"
+msgstr "Ordenar de origen a lista de destino {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "sort from source to target list"
-msgstr "ordenar de origen a lista de destino"
+msgstr "ordenar de origen a lista de destino {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Square root"
-msgstr "Raíz cuadrada"
+msgstr "Raíz cuadrada {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "standard"
-msgstr "estándar"
+msgstr "estándar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Status"
-msgstr "Estado"
+msgstr "Estado {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Step"
-msgstr "Paso"
+msgstr "Paso {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "string"
-msgstr "cadena"
+msgstr "cadena {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Style Editor"
-msgstr "Editor de Estilos"
+msgstr "Editor de Estilos {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-apply."
-msgstr "Hoja de Estilos <b>%s</b> eliminada<br> Click <i>Añadir Hoja de Estilos</i> to re-apply."
+msgstr "Hoja de Estilos <b>%s</b> eliminada<br> Click <i>Añadir Hoja de Estilos</i> to re-apply. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Style Sheet Manager"
-msgstr "Administrador de Hoja de Estilo"
+msgstr "Administrador de Hoja de Estilo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Success"
-msgstr "Éxito"
+msgstr "Éxito {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Successfully compiled \"%s"
-msgstr "Compilado sastisfactoriamente \"%s"
+msgstr "Compilado sastisfactoriamente \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Successfully created item \"%s"
-msgstr "Artículo \"%s creado con éxito"
+msgstr "Artículo \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Switches the interaction's direction of writing between horizontal and vertical."
-msgstr "Cambia la dirección de la interacción de escritura entre horizontal y vertical."
+msgstr "Cambia la dirección de la interacción de escritura entre horizontal y vertical. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Switches the text block's direction of writing between horizontal and vertical."
-msgstr "Cambia la dirección del bloque de texto de escritura entre horizontal y vertical."
+msgstr "Cambia la dirección del bloque de texto de escritura entre horizontal y vertical. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Switches the whole item's direction of writing between horizontal and vertical."
-msgstr "Cambia toda la dirección del elemento de escritura entre horizontal y vertical."
+msgstr "Cambia toda la dirección del elemento de escritura entre horizontal y vertical. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Table headings"
-msgstr "Encabezados de tabla"
+msgstr "Encabezados de tabla {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Tangent"
-msgstr "Tangent"
+msgstr "Tangent {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "TAO default styles"
-msgstr "Estilos predeterminados de TAO"
+msgstr "Estilos predeterminados de TAO {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Target class is missing the following metadata properties: %s"
-msgstr "A la clase de destino le faltan las siguientes propiedades de metadatos: %s"
+msgstr "A la clase de destino le faltan las siguientes propiedades de metadatos: %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Target Class Lookup for resource \"%s\"..."
-msgstr "Búsqueda de clase objetivo para el recurso \"%s\"..."
+msgstr "Búsqueda de clase objetivo para el recurso \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Text Block"
-msgstr "Bloque de Texto"
+msgstr "Bloque de Texto {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Text Block CSS Class"
-msgstr "Clase CSS del bloque de texto"
+msgstr "Clase CSS del bloque de texto {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Text Block Properties"
-msgstr "Propiedades Bloque de Texto"
+msgstr "Propiedades Bloque de Texto {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Text color"
-msgstr "Color de texto"
+msgstr "Color de texto {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Text Entry"
-msgstr "Entrada de Texto"
+msgstr "Entrada de Texto {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Text Entry Interaction"
-msgstr "Interacción de entrada de texto"
+msgstr "Interacción de entrada de texto {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."
-msgstr "El atributo de inicio automático determina si el objeto multimedia debe comenzar tan pronto como el participante empieza el intento (marcada) o si el objeto multimedia debe iniciarse bajo el control del candidato (sin marcar)."
+msgstr "El atributo de inicio automático determina si el objeto multimedia debe comenzar tan pronto como el participante empieza el intento (marcada) o si el objeto multimedia debe iniciarse bajo el control del candidato (sin marcar). {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The button label."
-msgstr "La etiqueta de botón."
+msgstr "La etiqueta de botón. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The default value from the target set to be used when no explicit mapping for a source value is given."
-msgstr "El valor por defecto del conjunto de destino que se utiliza cuando no se da una asignación explícita para un valor de origen."
+msgstr "El valor por defecto del conjunto de destino que se utiliza cuando no se da una asignación explícita para un valor de origen. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The delimiter to use between values when displaying variables of ordered, multiple or record cardinality. \";\" is default when delimiter is not declared. Implementations can override this default with personal preferences or locale settings."
-msgstr "El delimitador a usar entre valores al mostrar variables de ordenado, múltiples o cardinalidad de registro. \";\" es por defecto cuando el delimitador no es declarado. Las implementaciones pueden anular este valor predeterminado con preferencias personales o configuración de localización."
+msgstr "El delimitador a usar entre valores al mostrar variables de ordenado, múltiples o cardinalidad de registro. \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The field specifier to use when displaying variables of record cardinality."
-msgstr "El especificador de campo a usar al mostrar variables de cardinalidad del registro."
+msgstr "El especificador de campo a usar al mostrar variables de cardinalidad del registro. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The file path to the image."
-msgstr "La ruta de archivo a la imagen."
+msgstr "La ruta de archivo a la imagen. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The file path to the object."
-msgstr "La ruta del archivo al objeto."
+msgstr "La ruta del archivo al objeto. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The file path to the shared stimulus."
-msgstr "La ruta del archivo estímulo compartido."
+msgstr "La ruta del archivo estímulo compartido. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The format conversion specifier to use when converting numerical values to strings. See QTI Number Formatting Rules for details."
-msgstr "El especificador de conversión de formato a usar cuando se convierten valores numéricos a cadenas. Consulte las Reglas de formato de número QTI para más detalles."
+msgstr "El especificador de conversión de formato a usar cuando se convierten valores numéricos a cadenas. Consulte las Reglas de formato de número QTI para más detalles. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The given target is not an instance of core_kernel_classes_Resource"
-msgstr "El objetivo dado no es una instancia de core_kernel_classes_Resource"
+msgstr "El objetivo dado no es una instancia de core_kernel_classes_Resource {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The highlighted choice cannot be associated more than %d time(s)."
-msgstr "La opción resaltada no se puede asociar más de %d tiempo(s)."
+msgstr "La opción resaltada no se puede asociar más de %d tiempo(s). {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The identifier of the choice. This identifier must not be used by any other choice or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr "El identificador de la opción. Este identificador no debe ser utilizado por cualquier otra opción o variable de ítem. Un identificador es una cadena de caracteres que debe comenzar con una letra o un guión bajo (\"_\") y contener sólo letras, guiones bajos, guiones (\"-\"), punto (\".\", a.k.a), dígitos, combinación de caractéres y extensores."
+msgstr "El identificador de la opción. Este identificador no debe ser utilizado por cualquier otra opción o variable de ítem. Un identificador es una cadena de caracteres que debe comenzar con una letra o un guión bajo (\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The identifier of the choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr "El identificador de la opción. Este identificador no debe ser utilizado por cualquier otra respuesta o variable artículo. Un identificador es una cadena de caracteres que debe comenzar con una letra o un guión bajo (\"_\") y contener sólo letras, guiones bajos , guiones (\"-\"), punto (\".\", a.k.a), Dígitos, combinación de caractéres y extensores."
+msgstr "El identificador de la opción. Este identificador no debe ser utilizado por cualquier otra respuesta o variable artículo. Un identificador es una cadena de caracteres que debe comenzar con una letra o un guión bajo (\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The identifier of the modal feedback. This identifier must not be used by any other modal feedback or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr "El identificador de la retroalimentación modal. Este identificador no debe ser utilizado por cualquier otro comentario o variable de ítem. Un identificador es una cadena de caracteres que debe comenzar con una letra o un guión bajo (\"_\") y contener sólo letras, guiones bajos, guiones (\"-\"), punto (\".\", a.k.a), dígitos, combianción de caractéres y extensores."
+msgstr "El identificador de la retroalimentación modal. Este identificador no debe ser utilizado por cualquier otro comentario o variable de ítem. Un identificador es una cadena de caracteres que debe comenzar con una letra o un guión bajo (\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The identifier of the response identifier. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
-msgstr "El identificador de respuesta. Este identificador no debe ser utilizado por cualquier otra respuesta o variable artículo. Un identificador es una cadena de caracteres que debe comenzar con una letra o un guión bajo (\"_\") y contener sólo letras, guiones bajos, guiones (\"-\"), punto (\".\", a.k.a), Dígitos, combinación de caractéres y extensores."
+msgstr "El identificador de respuesta. Este identificador no debe ser utilizado por cualquier otra respuesta o variable artículo. Un identificador es una cadena de caracteres que debe comenzar con una letra o un guión bajo (\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The IMS QTI Item could not be imported."
-msgstr "El ítem IMS QTI no puede ser importado."
+msgstr "El ítem IMS QTI no puede ser importado. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
-msgstr "El artículo QTI de IMS referenciado como \"%s\" en el archivo de Manifiesto de IMS ha fallado:  %s"
+msgstr "El artículo QTI de IMS referenciado como \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
-msgstr "El artículo QTI de IMS referenciado como \"%s\" en el archivo de Manifiesto de IMS tiene definiciones incorrectas de Procesamiento de Respuesta y de Declaración de Salida."
+msgstr "El artículo QTI de IMS referenciado como \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
-msgstr "El IMS QTI Item referenciado como \"%s\" en el archivo de Manifiesto IMS debe haber sido encontrado el banco de artículos. Artículo no encontrado."
+msgstr "El IMS QTI Item referenciado como \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
-msgstr "El artículo QTI de IMS referenciado como \"%s\" en el archivo de manifiesto de IMS ya fue almacenado en el banco de artículos."
+msgstr "El artículo QTI de IMS referenciado como \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
-msgstr "El IMS QTI Item referenciado como \"%s\" en el archivo de Manifiesto de IMS fue importado con éxito."
+msgstr "El IMS QTI Item referenciado como \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
-msgstr "El IMS QTI Item referenciado como \"%s\" en el archivo de Manifiesto de IMS fue sobrescrito con éxito."
+msgstr "El IMS QTI Item referenciado como \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
-msgstr "El ítem IMS QTI referenciado como \"%s\" en el IMS Manifiests fue rodado con éxito."
+msgstr "El ítem IMS QTI referenciado como \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The IMS QTI Item was successfully imported."
-msgstr "El ítem IMS QTI se ha importado correctamente."
+msgstr "El ítem IMS QTI se ha importado correctamente. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The index to use when displaying a variable of ordered cardinality. If a variable of ordered cardinality is to be displayed and index is not set, all the values in the container are displayed."
-msgstr "El índice a usar al mostrar una variable de cardinalidad ordenada. Si se quiere mostrar una variable de cardinalidad ordenada y no se establece el índice, se mostrarán todos los valores del contenedor."
+msgstr "El índice a usar al mostrar una variable de cardinalidad ordenada. Si se quiere mostrar una variable de cardinalidad ordenada y no se establece el índice, se mostrarán todos los valores del contenedor. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The item cannot be saved because it contains an unsupported custom interaction."
-msgstr "El elemento no se puede guardar porque contiene una interacción personalizada no soportada."
+msgstr "El elemento no se puede guardar porque contiene una interacción personalizada no soportada. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The item has not been saved!"
-msgstr "¡El artículo no ha sido guardado!"
+msgstr "¡El artículo no ha sido guardado! {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The item has unsaved changes, are you sure you want to leave ?"
-msgstr "El elemento tiene cambios sin guardar, ¿estás seguro de que quieres salir?"
+msgstr "El elemento tiene cambios sin guardar, ¿estás seguro de que quieres salir? {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The item has unsaved changes, would you like to save it ?"
-msgstr "El elemento tiene cambios sin guardar, ¿quieres guardarlo?"
+msgstr "El elemento tiene cambios sin guardar, ¿quieres guardarlo? {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The item needs to be saved before it can be previewed"
-msgstr "El ítem necesita ser guardado antes de que se pueda previsualizar"
+msgstr "El ítem necesita ser guardado antes de que se pueda previsualizar {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The item of the qti item. It is currently used as a meta data only. It is required by the QTI standard."
-msgstr "El ítem del ítem QTI . Actualmente se utiliza como sólo los metadatos. Es requerido por el estándar QTI."
+msgstr "El ítem del ítem QTI . Actualmente se utiliza como sólo los metadatos. Es requerido por el estándar QTI. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The left position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr "La posición izquierda de la forma respecto a la esquina superior izquierda del fondo en píxeles. Este valor puede ser escalado cuando el tamaño de la imagen de fondo se adapta al contenedor"
+msgstr "La posición izquierda de la forma respecto a la esquina superior izquierda del fondo en píxeles. Este valor puede ser escalado cuando el tamaño de la imagen de fondo se adapta al contenedor {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The loop attribute is used to set continuous play mode. In continuous play mode, once the media object has started to play it should play continuously (subject to maxPlays)."
-msgstr "El atributo de bucle se utiliza para establecer el modo de reproducción continua. En el modo de reproducción continua, una vez iniciado el objeto multimedia a reproducir se debe desempeñar de forma continua (sujeto a maxPlays)."
+msgstr "El atributo de bucle se utiliza para establecer el modo de reproducción continua. En el modo de reproducción continua, una vez iniciado el objeto multimedia a reproducir se debe desempeñar de forma continua (sujeto a maxPlays). {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The lower bound of the slider"
-msgstr "El límite inferior del control deslizante"
+msgstr "El límite inferior del control deslizante {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The manifest argument must be an instance of DOMDocument."
-msgstr "El argumento manifiesto debe ser una instancia de DOMDocument."
+msgstr "El argumento manifiesto debe ser una instancia de DOMDocument. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The mapping indicator to use between field name and field value when displaying variables of record cardinality. \"=\" is default when mappingIndicator is not declared. Implementations can override this default with personal preferences or locale settings."
-msgstr "El indicador de mapeo para usar entre el nombre del campo y el valor del campo al mostrar variables de cardinalidad del registro. \"=\" es por defecto cuando el indicador de mapeo no es declarado. Las implementaciones pueden anular este valor predeterminado con preferencias personales o configuración de localización."
+msgstr "El indicador de mapeo para usar entre el nombre del campo y el valor del campo al mostrar variables de cardinalidad del registro. \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The mapping options are available when at least one map entry is defined."
-msgstr "Las opciones de mapeo están disponibles cuando al menos una entrada de mapa está definida."
+msgstr "Las opciones de mapeo están disponibles cuando al menos una entrada de mapa está definida. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The maximum number of association is unlimited."
-msgstr "El número máximo de asociaciones es ilimitado."
+msgstr "El número máximo de asociaciones es ilimitado. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The maximum number of associations that the candidate is allowed to make."
-msgstr "El argumento manifiesto debe ser una instancia del DOMDocument."
+msgstr "El argumento manifiesto debe ser una instancia del DOMDocument. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The maximum number of choices that the candidate is allowed to select."
-msgstr "El número máximo de opciones que se permite al candidato seleccionar."
+msgstr "El número máximo de opciones que se permite al candidato seleccionar. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr "El número máximo de opciones que el candidato debe seleccionar para formar una respuesta válida."
+msgstr "El número máximo de opciones que el candidato debe seleccionar para formar una respuesta válida. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The maximum number of choices this choice may be associated with."
-msgstr "El número máximo de opciones de esta elección puede estar asociada con."
+msgstr "El número máximo de opciones de esta elección puede estar asociada con. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
-msgstr "El número máximo de opciones de esta elección puede estar asociada con. Si matchMax es 0 no hay ninguna restricción."
+msgstr "El número máximo de opciones de esta elección puede estar asociada con. Si matchMax es 0 no hay ninguna restricción. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
-msgstr "El atributo maxPlays indica que el objeto de comunicación se puede reproducir en la mayoría de maxPlays veces - no debe ser posible para el particpante reproducir la multimedia más veces que Maxplay. Un valor de 0 (predeterminado) indica que no hay límite."
+msgstr "El atributo maxPlays indica que el objeto de comunicación se puede reproducir en la mayoría de maxPlays veces - no debe ser posible para el particpante reproducir la multimedia más veces que Maxplay. Un valor de 0 (predeterminado) indica que no hay límite. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score."
-msgstr "El MAXSCORE de este elemento se elimina porque los ajustes de interacción actuales permiten un valor infinito a la puntuación."
+msgstr "El MAXSCORE de este elemento se elimina porque los ajustes de interacción actuales permiten un valor infinito a la puntuación. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The MIME-type attribute describes which kind of file may be uploaded."
-msgstr "El atributo de tipo-MIME describe qué tipo de archivo puede ser cargado."
+msgstr "El atributo de tipo-MIME describe qué tipo de archivo puede ser cargado. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The minimum number of answers is "
-msgstr "La cantidad mínima de respuestas es "
+msgstr "La cantidad mínima de respuestas es  {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The minimum number of associations that the candidate is required to make to form a valid response."
-msgstr "El número mínimo de asociaciones que se requiere que el candidato haga para formar una respuesta válida."
+msgstr "El número mínimo de asociaciones que se requiere que el candidato haga para formar una respuesta válida. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The minimum number of choices that the candidate is required to select to form a valid response."
-msgstr "El número mínimo de opciones que se requiere que el candidato para seleccionar para formar una respuesta válida."
+msgstr "El número mínimo de opciones que se requiere que el candidato para seleccionar para formar una respuesta válida. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The minimum number of choices this choice must be associated with to form a valid response."
-msgstr "El número mínimo de opciones esta elección que debe estar asociada para formar una respuesta válida."
+msgstr "El número mínimo de opciones esta elección que debe estar asociada para formar una respuesta válida. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The number base to use when converting integer variables to strings with the i conversion type code."
-msgstr "La base de números a usar cuando se convierten variables enteras a cadenas con el código de tipo i conversión."
+msgstr "La base de números a usar cuando se convierten variables enteras a cadenas con el código de tipo i conversión. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The number of units corresponding to a step on the slider"
-msgstr "El número de unidades que corresponde a un paso en el control deslizante"
+msgstr "El número de unidades que corresponde a un paso en el control deslizante {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The path argument for extractor must be a non-empty array."
-msgstr "El argumento de ruta para el extractor debe ser un arreglo no vacío."
+msgstr "El argumento de ruta para el extractor debe ser un arreglo no vacío. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The principle identifier of the item. This identifier must have a corresponding entry in the item's metadata."
-msgstr "El identificador principio del artículo. Este identificador debe tener una entrada correspondiente en los metadatos del elemento."
+msgstr "El identificador principio del artículo. Este identificador debe tener una entrada correspondiente en los metadatos del elemento. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The purpose for which the rubric is intended to be used. As a reading passage for multiple items, or instructions for a particular section, for example."
-msgstr "El propósito para el que está destinada usarse la rúbrica. Como un pasaje de lectura por varios elementos, o instrucciones para una sección particular, por ejemplo."
+msgstr "El propósito para el que está destinada usarse la rúbrica. Como un pasaje de lectura por varios elementos, o instrucciones para una sección particular, por ejemplo. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The QTI class \"%1$s\" located at line \"%2$d\" is currently not supported."
-msgstr "La clase QTI \"%1$s\" que se encuentra en la línea \"%2$d\" actualmente no es compatible."
+msgstr "La clase QTI \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The Response Processing Template \"%s\" is not supported."
-msgstr "La plantilla de procesamiento de respuesta \"%s\" no es compatible."
+msgstr "La plantilla de procesamiento de respuesta \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The score format is not numeric"
-msgstr "El formato de puntuación no es numérico"
+msgstr "El formato de puntuación no es numérico {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The scrollable multi-column layout configuration is optimized for items with a single row of content only. Both columns will scroll independently and fit the available page height."
-msgstr "La configuración de distribución multicolumna desplazable está optimizada para elementos con una sola fila de contenido. Ambas columnas se desplazarán independientemente y se ajustarán a la altura de página disponible."
+msgstr "La configuración de distribución multicolumna desplazable está optimizada para elementos con una sola fila de contenido. Ambas columnas se desplazarán independientemente y se ajustarán a la altura de página disponible. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The selected file is ready to be sent."
-msgstr "El archivo seleccionado está listo para ser enviado."
+msgstr "El archivo seleccionado está listo para ser enviado. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The shape height in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr "La altura de la forma en píxeles. Este valor puede ser escalado cuando el tamaño de la imagen de fondo se adapta al contenedor"
+msgstr "La altura de la forma en píxeles. Este valor puede ser escalado cuando el tamaño de la imagen de fondo se adapta al contenedor {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The shape width in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr "Ancho de la forma en píxeles. Este valor puede ser escalado cuando el tamaño de la imagen de fondo se adapta al contenedor"
+msgstr "Ancho de la forma en píxeles. Este valor puede ser escalado cuando el tamaño de la imagen de fondo se adapta al contenedor {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The target must be an instance of DOMDocument"
-msgstr "El target debe ser una instancia de DOMDocument"
+msgstr "El target debe ser una instancia de DOMDocument {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The text to be displayed below the image."
-msgstr "El texto que se mostrará debajo de la imagen."
+msgstr "El texto que se mostrará debajo de la imagen. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The text to be displayed if the image is not available."
-msgstr "El texto que se mostrará si la imagen no está disponible."
+msgstr "El texto que se mostrará si la imagen no está disponible. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The top position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
-msgstr "La posición superior de la forma respecto a la esquina superior izquierda del fondo en píxeles. Este valor puede ser escalado cuando el tamaño de la imagen de fondo se adapta al contenedor"
+msgstr "La posición superior de la forma respecto a la esquina superior izquierda del fondo en píxeles. Este valor puede ser escalado cuando el tamaño de la imagen de fondo se adapta al contenedor {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The upper bound of the slider"
-msgstr "Límite superior del control deslizante"
+msgstr "Límite superior del control deslizante {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-msgstr "La validación del ítem QTI importado falló. El sistema devuelve el siguiente error:%s\n"
+msgstr "La validación del ítem QTI importado falló. El sistema devuelve el siguiente error:%s\n {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
-msgstr "El archivo ZIP que contiene el Ítem IMS QTI no se puede extraer."
+msgstr "El archivo ZIP que contiene el Ítem IMS QTI no se puede extraer. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive."
-msgstr "El archivo ZIP no contiene un archivo imsmanifest.xml o es un archivo ZIP inválido."
+msgstr "El archivo ZIP no contiene un archivo imsmanifest.xml o es un archivo ZIP inválido. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "There are errors in the following shared stimulus : "
-msgstr "Hay errores en el siguiente estímulo compartido: "
+msgstr "Hay errores en el siguiente estímulo compartido:  {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "There is an incomplete element in your item: please click on it to complete it."
-msgstr "Hay un elemento incompleto en su ítem: por favor, haga clic en él para terminarlo."
+msgstr "Hay un elemento incompleto en su ítem: por favor, haga clic en él para terminarlo. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "There was a problem downloading your CSS, please try again."
-msgstr "Hubo un problema al descargar el CSS, por favor intente de nuevo."
+msgstr "Hubo un problema al descargar el CSS, por favor intente de nuevo. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Theta"
-msgstr "Teta"
+msgstr "Teta {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This identifier is already used by another variable."
-msgstr "Este identificador ya está siendo utilizado por otra variable."
+msgstr "Este identificador ya está siendo utilizado por otra variable. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This identifier must not be used by any other response or item variable."
-msgstr "Este identificador no debe ser utilizado por ninguna otra variable de respuesta o elemento."
+msgstr "Este identificador no debe ser utilizado por ninguna otra variable de respuesta o elemento. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This interaction has no text defined in question mode."
-msgstr "Esta interacción no tiene texto definido en el modo de pregunta."
+msgstr "Esta interacción no tiene texto definido en el modo de pregunta. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This is not a valid answer"
-msgstr "Esta respuesta no es válida"
+msgstr "Esta respuesta no es válida {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This is not a valid value. Expected %s"
-msgstr ""
+msgstr "This is not a valid value. Expected %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This is required"
-msgstr "Esto es requerido"
+msgstr "Esto es requerido {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This shows or hides the entire audio player from view. Test takers will not be able to play, pause, or change the volume level."
-msgstr "Esto muestra u oculta el reproductor de audio completo de la vista. Los tomadores de prueba no podrán reproducir, pausar, o cambiar el nivel de volumen."
+msgstr "Esto muestra u oculta el reproductor de audio completo de la vista. Los tomadores de prueba no podrán reproducir, pausar, o cambiar el nivel de volumen. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This stylesheet has not been found on the server. you may want to delete this reference"
-msgstr "Esta hoja de estilo no se ha encontrado en el servidor. Es posible que desee eliminar esta referencia"
+msgstr "Esta hoja de estilo no se ha encontrado en el servidor. Es posible que desee eliminar esta referencia {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
-msgstr "Este valor no sigue las pautas de puntuación de caracteres. No será compatible con la puntuación manual de TAO"
+msgstr "Este valor no sigue las pautas de puntuación de caracteres. No será compatible con la puntuación manual de TAO {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Time dependent"
-msgstr "Dependiente del tiempo"
+msgstr "Dependiente del tiempo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Title"
-msgstr "Título"
+msgstr "Título {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "to"
-msgstr "a"
+msgstr "a {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Toggles the display of a vertical separator between columns."
-msgstr "Activa la visualización de un separador vertical entre columnas."
+msgstr "Activa la visualización de un separador vertical entre columnas. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Tooltip Content"
-msgstr "Contenido de descripción"
+msgstr "Contenido de descripción {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Tooltip editor"
-msgstr "Editor de sugerencias"
+msgstr "Editor de sugerencias {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Tooltip Target"
-msgstr "Tooltip Target"
+msgstr "Tooltip Target {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Top"
-msgstr "Arriba"
+msgstr "Arriba {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Translation completed"
-msgstr "Traducción completada"
+msgstr "Traducción completada {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Triangle"
-msgstr "Triángulo"
+msgstr "Triángulo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Trigger the end of the item attempt."
-msgstr "Desencadenar la finalización del intento del ítem."
+msgstr "Desencadenar la finalización del intento del ítem. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to load item from the given data."
-msgstr "No se puede cargar el elemento de los datos dados."
+msgstr "No se puede cargar el elemento de los datos dados. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to process your request"
-msgstr "No se puede procesar su solicitud"
+msgstr "No se puede procesar su solicitud {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to retrieve asset \"%s"
-msgstr "No se puede recuperar recurso\"%s"
+msgstr "No se puede recuperar recurso\ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to retrieve item : "
-msgstr "No se puede recuperar el elemento: "
+msgstr "No se puede recuperar el elemento:  {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to retrieve item : \"%s"
-msgstr "No se puede recuperar el elemento : \"%s"
+msgstr "No se puede recuperar el elemento : \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unable to validate %s: %s"
-msgstr "No se puede validar %s: %s"
+msgstr "No se puede validar %s: %s {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Undo"
-msgstr "Deshacer"
+msgstr "Deshacer {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "undo"
-msgstr "deshacer"
+msgstr "deshacer {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unknown $key to register MetadataService instance"
-msgstr "$key desconocido para registrar instancia de MetadataService"
+msgstr "$key desconocido para registrar instancia de MetadataService {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Unregister method expects $key and $name parameters."
-msgstr "El método de desregistro espera parámetros $key y $name."
+msgstr "El método de desregistro espera parámetros $key y $name. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Upload a file (e.g. document, picture...) as a response."
-msgstr "Cargar un archivo (por ejemplo, un documento o una imagen) como respuesta."
+msgstr "Cargar un archivo (por ejemplo, un documento o una imagen) como respuesta. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Upper Bound"
-msgstr "Límite Superior"
+msgstr "Límite Superior {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Use this if you want the list of choices to be prefixed (e.g. 1,2,3 a,b,c)"
-msgstr "Utilice esta opción si desea que la lista de opciones sea prefijada (por ejemplo 1,2,3 a,b,c)"
+msgstr "Utilice esta opción si desea que la lista de opciones sea prefijada (por ejemplo 1,2,3 a,b,c) {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Used to control the format of the text entered by the candidate."
-msgstr "Se utiliza para controlar el formato del texto introducido por el candidato."
+msgstr "Se utiliza para controlar el formato del texto introducido por el candidato. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Value"
-msgstr "Valor"
+msgstr "Valor {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Vector"
-msgstr "Vector"
+msgstr "Vector {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Vertical"
-msgstr "Vertical"
+msgstr "Vertical {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Vertical text"
-msgstr "Texto vertical"
+msgstr "Texto vertical {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "warning"
-msgstr "advertencia"
+msgstr "advertencia {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
-msgstr "Vamos a utilizar el patternMask hacer esto, para ser compatible con el estándar IMS"
+msgstr "Vamos a utilizar el patternMask hacer esto, para ser compatible con el estándar IMS {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Width"
-msgstr "Ancho"
+msgstr "Ancho {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "words"
-msgstr "palabras"
+msgstr "palabras {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Would you like to replace the alt text"
-msgstr "Te gustaría reemplazar el texto alternativo"
+msgstr "Te gustaría reemplazar el texto alternativo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "WYSIWYG editor"
-msgstr "WYSIWYG editor"
+msgstr "WYSIWYG editor {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "XML error \"%1$s\"."
-msgstr "Error XML \"%1$s\"."
+msgstr "Error XML \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "XML error at line %1$d \"%2$s\"."
-msgstr "Error XML en la línea %1$d \"%2$s\"."
+msgstr "Error XML en la línea %1$d \ {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Yes"
-msgstr "Sí"
+msgstr "Sí {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You can select maximum %d choice"
-msgstr "Puedes seleccionar máximo %d opciones"
+msgstr "Puedes seleccionar máximo %d opciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You can select maximum %d choices"
-msgstr "Puede usar selccionar como máximo %d opciones"
+msgstr "Puede usar selccionar como máximo %d opciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You can select up to %s choices."
-msgstr "Puedes seleccionar hasta %s opciones."
+msgstr "Puedes seleccionar hasta %s opciones. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You can use maximum %d choices"
-msgstr "Puedes usar máximo %d opciones"
+msgstr "Puedes usar máximo %d opciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You have deleted"
-msgstr "Has elminado"
+msgstr "Has elminado {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You have deleted an element"
-msgstr "Ha eliminado un elemento"
+msgstr "Ha eliminado un elemento {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You have deleted an element."
-msgstr "Ha eliminado un elemento."
+msgstr "Ha eliminado un elemento. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You may make as many association pairs as you want."
-msgstr "Usted puede hacer la mayor cantidad de pares de asociación como quiera."
+msgstr "Usted puede hacer la mayor cantidad de pares de asociación como quiera. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You must select %1$d to %2$d choices."
-msgstr "Debe seleccionar de %1$d a %2$d opciones."
+msgstr "Debe seleccionar de %1$d a %2$d opciones. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You must select 0 to %d choices."
-msgstr "Debe seleccionar de 0 a %d opciones."
+msgstr "Debe seleccionar de 0 a %d opciones. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You must select at least %d choice"
-msgstr "Debes seleccionar al menos la opción %d"
+msgstr "Debes seleccionar al menos la opción %d {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You must select at least %d choices"
-msgstr "Debe seleccionar al menos %d opciones"
+msgstr "Debe seleccionar al menos %d opciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You must select exactly %d choice"
-msgstr "Debes seleccionar exactamente %d opcion"
+msgstr "Debes seleccionar exactamente %d opcion {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You must select exactly %d choice(s)."
-msgstr "Debes seleccionar exactamente %d opcion(es)."
+msgstr "Debes seleccionar exactamente %d opcion(es). {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You must select exactly %d choices"
-msgstr "Debes seleccionar exactamente %d opciones"
+msgstr "Debes seleccionar exactamente %d opciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You must use at least %d choices"
-msgstr "Debe usar al menos %d opciones"
+msgstr "Debe usar al menos %d opciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You need to make"
-msgstr "Necesita hacerlo"
+msgstr "Necesita hacerlo {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You need to select %s choices"
-msgstr "Necesitas seleccionar %s opciones"
+msgstr "Necesitas seleccionar %s opciones {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You need to select at least %s choices."
-msgstr "Debe seleccionar al menos %s opciones."
+msgstr "Debe seleccionar al menos %s opciones. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You need to select at least 1 choice."
-msgstr "Debe seleccionar al menos 1 opción."
+msgstr "Debe seleccionar al menos 1 opción. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "You need to select from %s to %s choices."
-msgstr "Necesitas seleccionar de %s a %s opciones."
+msgstr "Necesitas seleccionar de %s a %s opciones. {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
 
 msgid "Your item has been saved"
-msgstr "Tu elemento ha sido guardado"
+msgstr "Tu elemento ha sido guardado {ruby}{rb}6{/rb}{rt}7{/rt}{/ruby}"
