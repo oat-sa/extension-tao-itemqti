@@ -44,7 +44,6 @@
             background: $uiGeneralContentBg;
             cursor: pointer;
             padding-block: 0;
-            min-width: 0;
 
             @media (hover: hover) {
                 &:not(.empty):hover {
