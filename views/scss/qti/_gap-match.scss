@@ -14,7 +14,7 @@
         }
 
         border: solid 1px transparent;
-        border-width: 0 0 1px 0;
+        border-width: 1px 0 1px 0;
         border-bottom-color: $textColor;
         background: $uiClickableDefaultBg;
         color: $textColor;
@@ -58,6 +58,7 @@
                         color: $uiGeneralContentBg;
                         position: absolute;
                         font-size: 12px;
+                        height: calc(100% + 2px);
                         inset-inline-end: -18px;
                         top: -1px;
                         padding-block-start: 6px;
@@ -65,10 +66,7 @@
                         padding-inline-end: 4px;
                         border-radius: 0 2px 2px 0;
                         background: $colorBrand;
-                        height: calc(100% + 1px);
-                        margin-top: 1px;
                         border: solid 1px transparent;
-                        border-width: 0 0 0 1px;
                     }
                 }
             }
