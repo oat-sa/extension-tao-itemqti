@@ -29,6 +29,7 @@ use oat\taoQtiItem\model\qti\Img;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\QtiObject;
 use oat\taoQtiItem\model\qti\XInclude;
+
 class ElementReferencesExtractor extends ConfigurableService
 {
     /** @var string[] */
