@@ -191,4 +191,40 @@ class ElementReferencesExtractorTest extends TestCase
             $this->subject->extractTextReaderReferences($item)
         );
     }
+
+    public function testExtractTextReaderReferencesWithoutInjectedDependency(): void
+    {
+        $textReaderInteraction = $this->createMock(PortableCustomInteraction::class);
+        $textReaderInteraction->method('getTypeIdentifier')
+            ->willReturn('textReaderInteraction');
+        $textReaderInteraction->method('getProperties')
+            ->willReturn(
+                [
+                    'pages' => json_encode(
+                        [
+                            [
+                                'content' => [
+                                    '<p><img src="' . self::MEDIA_LINK_4 . '"/></p>',
+                                ],
+                            ],
+                        ]
+                    ),
+                ]
+            );
+
+        /** @var Item|MockObject $item */
+        $item = $this->createMock(Item::class);
+        $item->expects($this->exactly(2))
+            ->method('getComposingElements')
+            ->willReturnMap(
+                [
+                    [PortableCustomInteraction::class, [$textReaderInteraction]],
+                    [ImsPortableCustomInteraction::class, []],
+                ]
+            );
+
+        $subject = new ElementReferencesExtractor();
+
+        $this->assertSame([self::MEDIA_LINK_4], $subject->extractTextReaderReferences($item));
+    }
 }
