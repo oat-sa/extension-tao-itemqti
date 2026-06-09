@@ -68,7 +68,7 @@ class TextReaderReferencesExtractor implements TextReaderReferencesExtractorInte
         PortableCustomInteraction|ImsPortableCustomInteraction $interaction
     ): array {
         $properties = $interaction->getProperties();
-        $pages = $this->normalizePagesProperty($properties['pages'] ?? null);
+        $pages = $this->normalizePages($properties['pages'] ?? null);
         if ($pages === []) {
             return [];
         }
@@ -116,18 +116,19 @@ class TextReaderReferencesExtractor implements TextReaderReferencesExtractorInte
         return $references;
     }
 
-    private function normalizePagesProperty($pages): array
+    private function normalizePages($pages): array
     {
         if (is_array($pages)) {
             return $pages;
         }
-
-        if (!is_string($pages) || $pages === '') {
+        if (!is_string($pages)) {
             return [];
         }
-
-        $decoded = json_decode($pages, true);
-
-        return is_array($decoded) ? $decoded : [];
+        try {
+            $decoded = json_decode($pages, true, 512, JSON_THROW_ON_ERROR);
+            return is_array($decoded) ? $decoded : [];
+        } catch (\JsonException $_) {
+            return [];
+        }
     }
 }
