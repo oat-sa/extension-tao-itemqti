@@ -37,8 +37,7 @@ class NullQtiItemAssetReplacer extends ConfigurableService implements QtiItemAss
         PackedAsset $packetAsset,
         string $itemId,
         string $deliveryCompilationId = ''
-    ): PackedAsset
-    {
+    ): PackedAsset {
         return $packetAsset;
     }
 }
