@@ -101,8 +101,7 @@ class QtiItemAssetCompiler extends ConfigurationService
         PackedAsset $packedAsset,
         Item $qtiItem,
         string $deliveryCompilationId
-    ): PackedAsset
-    {
+    ): PackedAsset {
         $qtiItemAssetReplacer = $this->getQtiItemAssetReplacer();
         return $qtiItemAssetReplacer->replace(
             $packedAsset,
