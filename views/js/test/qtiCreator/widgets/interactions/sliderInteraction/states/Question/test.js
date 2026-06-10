@@ -135,12 +135,30 @@ define([
 
     QUnit.module('qtiCreator/widgets/interactions/sliderInteraction/states/Question', {
         beforeEach() {
+            const originalVal = $.fn.val;
+
             $.fn.noUiSlider = function (options) {
                 if (options) {
                     this.data('noUiSliderOptions', options);
                 }
                 return this;
             };
+            $.fn.val = function (value) {
+                if (this.hasClass('qti-slider')) {
+                    if (typeof value !== 'undefined') {
+                        this.data('noUiSliderValue', value);
+                        return this;
+                    }
+
+                    return this.data('noUiSliderValue');
+                }
+
+                return originalVal.apply(this, arguments);
+            };
+            this.originalVal = originalVal;
+        },
+        afterEach() {
+            $.fn.val = this.originalVal;
         }
     });
 
@@ -362,7 +380,7 @@ define([
     });
 
     QUnit.test('existing numeric controls still render and lower bound callback updates the attribute', assert => {
-        assert.expect(5);
+        assert.expect(6);
 
         const widget = initForm();
 
@@ -374,6 +392,7 @@ define([
 
         assert.strictEqual(widget.element.attr('lowerBound'), 7, 'lower bound attribute is updated');
         assert.strictEqual(widget.element.attr('step'), 1, 'step callback path still keeps step attribute valid');
+        assert.strictEqual(widget.$container.find('.qti-slider').val(), 7, 'slider value is updated');
     });
 
     QUnit.test('lower and upper bound validation still clamps as before', assert => {
