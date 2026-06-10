@@ -237,6 +237,21 @@ define([
         );
     });
 
+    QUnit.test('invalid orientation falls back to horizontal', assert => {
+        assert.expect(2);
+
+        const widget = initForm();
+
+        widget.$form
+            .find('input[name="orientation"][value="vertical"]')
+            .val('diagonal')
+            .prop('checked', true)
+            .trigger('change');
+
+        assert.strictEqual(widget.element.attr('orientation'), 'horizontal', 'invalid orientation falls back');
+        assert.strictEqual(widget.renderCount, 1, 'slider is re-rendered after invalid orientation changes');
+    });
+
     QUnit.test('changing reverse persists after form reinitialization', assert => {
         assert.expect(4);
 
