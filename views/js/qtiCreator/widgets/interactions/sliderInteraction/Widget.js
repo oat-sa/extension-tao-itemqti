@@ -22,6 +22,7 @@ define([
     'taoQtiItem/qtiCommonRenderer/renderers/interactions/SliderInteraction'
 ], function (Widget, states, SliderInteraction) {
     const SliderInteractionWidget = Widget.clone();
+    const itemLayoutChangeEvents = 'item-dir-changed item-writing-mode-changed';
 
     SliderInteractionWidget.rerenderSlider = function rerenderSlider(interaction) {
         interaction = interaction || this.element;
@@ -44,10 +45,22 @@ define([
         this.$container.find('.qti-slider').attr('disabled', 'disabled');
 
         // rerender slider after dir/writing-mode changes because layout support is computed by js
-        const $itemBody = this.$container.closest('.qti-itemBody');
-        $itemBody.on('item-dir-changed item-writing-mode-changed', () => {
+        this._itemBody = this.$container.closest('.qti-itemBody');
+        this._onItemDirOrWritingModeChanged = () => {
             this.rerenderSlider(this.element);
-        });
+        };
+        this._itemBody.on(itemLayoutChangeEvents, this._onItemDirOrWritingModeChanged);
+    };
+
+    SliderInteractionWidget.destroy = function destroy() {
+        if (this._itemBody && this._onItemDirOrWritingModeChanged) {
+            this._itemBody.off(itemLayoutChangeEvents, this._onItemDirOrWritingModeChanged);
+        }
+
+        this._itemBody = null;
+        this._onItemDirOrWritingModeChanged = null;
+
+        Widget.destroy.call(this);
     };
 
     return SliderInteractionWidget;

@@ -77,10 +77,13 @@ define([
             $container,
             element: interaction,
             renderCount: 0,
+            serial: 'slider-interaction-serial',
             rerenderSlider(interactionParam) {
                 this.renderCount++;
                 SliderInteractionWidget.rerenderSlider.call(this, interactionParam);
             },
+            changeState() {},
+            offEvents() {},
             registerStates() {},
             createToolbar() {},
             createOkButton() {},
@@ -310,7 +313,7 @@ define([
     });
 
     QUnit.test('item direction and writing-mode events re-render through the widget helper', assert => {
-        assert.expect(8);
+        assert.expect(9);
 
         const widget = createWidget();
 
@@ -326,6 +329,11 @@ define([
 
         assert.strictEqual(widget.renderCount, 2, 'writing-mode event re-renders the slider');
         assert.strictEqual(widget.$container.find('.qti-slider').attr('disabled'), 'disabled', 'slider remains disabled again');
+
+        SliderInteractionWidget.destroy.call(widget);
+        widget.$itemBody.trigger('item-dir-changed');
+
+        assert.strictEqual(widget.renderCount, 2, 'direction event is unregistered on destroy');
     });
 
     QUnit.test('horizontal LTR and RTL positioning follows effective direction', assert => {
