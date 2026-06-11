@@ -23,6 +23,19 @@ define([
 ], function (Widget, states, SliderInteraction) {
     const SliderInteractionWidget = Widget.clone();
 
+    SliderInteractionWidget.rerenderSlider = function rerenderSlider(interaction) {
+        interaction = interaction || this.element;
+
+        interaction
+            .getContainer()
+            .removeClass('qti-slider-horizontal qti-slider-vertical')
+            .find('.qti-slider,.qti-slider-values,.qti-slider-cur-value,.qti-slider-value')
+            .remove();
+
+        SliderInteraction.render(interaction);
+        interaction.getContainer().find('.qti-slider').attr('disabled', 'disabled');
+    };
+
     SliderInteractionWidget.initCreator = function () {
         this.registerStates(states);
         Widget.initCreator.call(this);
@@ -30,15 +43,10 @@ define([
         // Disable slider until response edition.
         this.$container.find('.qti-slider').attr('disabled', 'disabled');
 
-        // rerender Slider after dir is changed, because support of rtl/ltr is done by js code, not css
+        // rerender slider after dir/writing-mode changes because layout support is computed by js
         const $itemBody = this.$container.closest('.qti-itemBody');
-        $itemBody.on('item-dir-changed', () => {
-            const interaction = this.element;
-            interaction
-                .getContainer()
-                .find('.qti-slider,.qti-slider-values,.qti-slider-cur-value,.qti-slider-value')
-                .remove();
-            SliderInteraction.render(interaction);
+        $itemBody.on('item-dir-changed item-writing-mode-changed', () => {
+            this.rerenderSlider(this.element);
         });
     };
 

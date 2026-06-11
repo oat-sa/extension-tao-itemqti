@@ -155,12 +155,16 @@ define([
 
         // -- orientation Callback
         callbacks.orientation = (interactionParam, attrValue) => {
-            interactionParam.attr('orientation', attrValue || 'horizontal');
+            const orientation = ['horizontal', 'vertical'].includes(attrValue) ? attrValue : 'horizontal';
+
+            interactionParam.attr('orientation', orientation);
+            _widget.rerenderSlider(interactionParam);
         };
 
         // -- reverse Callback
         callbacks.reverse = (interactionParam, attrValue) => {
             interactionParam.attr('reverse', !!attrValue);
+            _widget.rerenderSlider(interactionParam);
         };
 
         // -- step Callback
