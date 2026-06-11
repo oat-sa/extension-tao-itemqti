@@ -113,6 +113,86 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
     }
 
     /**
+     * Test slider orientation and reverse import/export persistence.
+     *
+     * @return void
+     */
+    public function testSliderOrientationReversePersistence(): void
+    {
+        $file = dirname(__FILE__)
+            . '/samples/xml/qtiv2p1/slider-orientation-reverse-persistence.xml';
+        $qtiParser = new Parser($file);
+        $item = $qtiParser->load();
+
+        $this->assertTrue($qtiParser->isValid());
+
+        $interactions = array_values($item->getInteractions());
+        $expected = [
+            'RESPONSE' => ['orientation' => null, 'reverse' => false],
+            'RESPONSE_1' => ['orientation' => 'horizontal', 'reverse' => false],
+            'RESPONSE_2' => ['orientation' => 'vertical', 'reverse' => false],
+            'RESPONSE_3' => ['orientation' => null, 'reverse' => true],
+            'RESPONSE_4' => ['orientation' => 'horizontal', 'reverse' => true],
+            'RESPONSE_5' => ['orientation' => 'vertical', 'reverse' => true],
+        ];
+
+        $this->assertCount(count($expected), $interactions);
+
+        foreach ($interactions as $interaction) {
+            $responseIdentifier = $interaction->getResponse()->getIdentifier();
+
+            $this->assertArrayHasKey($responseIdentifier, $expected);
+            $this->assertSame(
+                $expected[$responseIdentifier]['orientation'] ?? 'horizontal',
+                $interaction->getAttributeValue('orientation')
+            );
+            $this->assertSame(
+                $expected[$responseIdentifier]['reverse'],
+                $interaction->getAttributeValue('reverse')
+            );
+        }
+
+        $qti = $item->toXML();
+        $doc = new DOMDocument();
+        $doc->loadXML($qti);
+        $exportedSliders = $doc->getElementsByTagName('sliderInteraction');
+
+        $this->assertSame(count($expected), $exportedSliders->length);
+
+        foreach ($exportedSliders as $slider) {
+            $responseIdentifier = $slider->getAttribute('responseIdentifier');
+
+            $this->assertArrayHasKey($responseIdentifier, $expected);
+            $expectation = $expected[$responseIdentifier];
+
+            if ($expectation['orientation'] === 'vertical') {
+                $this->assertSame('vertical', $slider->getAttribute('orientation'));
+            } elseif ($expectation['orientation'] === 'horizontal') {
+                $this->assertSame(
+                    'horizontal',
+                    $slider->getAttribute('orientation')
+                );
+            } else {
+                $this->assertTrue(
+                    !$slider->hasAttribute('orientation')
+                        || $slider->getAttribute('orientation') === 'horizontal'
+                );
+            }
+
+            if ($expectation['reverse'] === true) {
+                $this->assertSame('true', $slider->getAttribute('reverse'));
+            } elseif ($expectation['reverse'] === false) {
+                $this->assertSame('false', $slider->getAttribute('reverse'));
+            } else {
+                $this->assertTrue(
+                    !$slider->hasAttribute('reverse')
+                        || $slider->getAttribute('reverse') === 'false'
+                );
+            }
+        }
+    }
+
+    /**
      * test the building and exporting out the items
      * @dataProvider itemProvider
      */
