@@ -20,3 +20,36 @@
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <span class="tooltip-content">{{__ "The number of units corresponding to a step on the slider"}}</span>
 </div>
+
+<div class="panel">
+    <h3>{{__ 'Orientation'}}</h3>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+    <span class="tooltip-content">
+        {{__ 'Displays the slider bar either horizontally or vertically'}}
+    </span>
+    <div>
+        <label class="smaller-prompt">
+            <input type="radio" name="orientation" value="vertical" {{#unless horizontal}}checked{{/unless}} />
+            <span class="icon-radio"></span>
+            {{__ 'Vertical'}}
+        </label>
+        <br>
+        <label class="smaller-prompt">
+            <input type="radio" name="orientation" value="horizontal" {{#if horizontal}}checked{{/if}} />
+            <span class="icon-radio"></span>
+            {{__ 'Horizontal'}}
+        </label>
+    </div>
+</div>
+
+<div class="panel">
+    <label>
+        <input name="reverse" type="checkbox" {{#if reverse}}checked="checked"{{/if}}/>
+        <span class="icon-checkbox"></span>
+        {{__ "Reverse direction"}}
+    </label>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+    <span class="tooltip-content">
+        {{__ "Reverse the slider bar boundaries"}}
+    </span>
+</div>
