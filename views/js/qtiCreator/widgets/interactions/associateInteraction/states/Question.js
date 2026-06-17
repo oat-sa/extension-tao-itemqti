@@ -64,6 +64,7 @@ define([
         return classes.join(' ').trim();
     };
 
+    AssociateInteractionStateQuestion.getPositionFromClass = getPositionFromClass;
     AssociateInteractionStateQuestion.normalizePositionClass = normalizePositionClass;
 
     AssociateInteractionStateQuestion.prototype.initForm = function initForm(){
