@@ -16,7 +16,7 @@ final class Version202606181430001102_taoQtiItem extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Update @oat-sa/tao-qti-item: sync mathquill IME composition handling for QTI Creator';
+        return 'Update @oat-sa/tao-qti-item 0.4.1: sync mathquill IME composition handling for QTI Creator';
     }
 
     public function up(Schema $schema): void
@@ -24,7 +24,7 @@ final class Version202606181430001102_taoQtiItem extends AbstractMigration
         $this->addReport(
             $this->propagate(
                 new RegisterNpmPaths()
-            )([])
+            )(['0.4.1'])
         );
     }
 
