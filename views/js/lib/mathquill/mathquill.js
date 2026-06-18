@@ -13,7 +13,9 @@
  * - wrap in a AMD module
  * - Disabled eslint warnings
  */
-var __extends = (this && this.__extends) || (function () {
+var __extends = (this && this.__extends) || /* eslint-disable */
+define(['jquery'], function(jQuery) {
+
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -28,9 +30,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-/* eslint-disable */
-define(['jquery'], function(jQuery) {
-
+(function () {
     var L = -1;
     var R = 1;
     var min = Math.min;
@@ -1766,15 +1766,9 @@ define(['jquery'], function(jQuery) {
             var compositionTextLength = 0;
             var compositionString = '';
             var is_iPad = isIpadOS();
-            var LOG_PREFIX = '[Math Entry PCI | MathQuill]';
             var noopKeyboardEvent = {
                 preventDefault: noop,
             };
-            function debugIme(event, detail) {
-                if (typeof console !== 'undefined' && console.debug) {
-                    console.debug(LOG_PREFIX, event, detail || '');
-                }
-            }
             var textarea = jQuery(el);
             var target = jQuery(controller.container || textarea);
             // checkTextareaFor() is called after key or clipboard events to
@@ -1848,7 +1842,6 @@ define(['jquery'], function(jQuery) {
             function insertText(text) {
                 if (!text)
                     return;
-                debugIme('insertText', { text: text, length: text.length });
                 if (controller.options && controller.options.overrideTypedText) {
                     for (var i = 0; i < text.length; i += 1) {
                         controller.options.overrideTypedText(text.charAt(i));
@@ -1864,9 +1857,6 @@ define(['jquery'], function(jQuery) {
             function clearCompositionText() {
                 if (!compositionTextLength)
                     return;
-                debugIme('clearCompositionText', {
-                    backspaceCount: compositionTextLength,
-                });
                 for (var i = 0; i < compositionTextLength; i += 1) {
                     if (controller.options && controller.options.overrideKeystroke) {
                         controller.options.overrideKeystroke('Backspace', noopKeyboardEvent);
@@ -1882,10 +1872,6 @@ define(['jquery'], function(jQuery) {
                 compositionString = '';
             }
             function updateCompositionText(text) {
-                debugIme('updateCompositionText', {
-                    text: text,
-                    priorLength: compositionTextLength,
-                });
                 clearCompositionText();
                 if (!text)
                     return;
@@ -1901,35 +1887,15 @@ define(['jquery'], function(jQuery) {
                 }
                 compositionTextLength = text.length;
                 compositionString = text;
-                debugIme('updateCompositionText:done', {
-                    compositionTextLength: compositionTextLength,
-                });
             }
-            function syncCompositionText(source) {
+            function syncCompositionText() {
                 if (!isComposing)
                     return;
                 var text = textarea.val();
-                if (!text) {
-                    debugIme(source, {
-                        textareaVal: text,
-                        compositionTextLength: compositionTextLength,
-                        action: 'skip-empty',
-                    });
+                if (!text)
                     return;
-                }
-                if (text === compositionString) {
-                    debugIme(source, {
-                        textareaVal: text,
-                        compositionTextLength: compositionTextLength,
-                        action: 'skip-unchanged',
-                    });
+                if (text === compositionString)
                     return;
-                }
-                debugIme(source, {
-                    textareaVal: text,
-                    compositionTextLength: compositionTextLength,
-                    action: 'sync',
-                });
                 updateCompositionText(text);
             }
             // -*- event handlers -*- //
@@ -1950,13 +1916,6 @@ define(['jquery'], function(jQuery) {
                         }
                     });
                 if (isComposing || e.isComposing || e.keyCode === 229) {
-                    debugIme('keydown', {
-                        key: e.key,
-                        keyCode: e.keyCode,
-                        isComposing: isComposing,
-                        eventIsComposing: e.isComposing,
-                        action: 'skip-ime',
-                    });
                     return;
                 }
                 handleKey();
@@ -1990,14 +1949,6 @@ define(['jquery'], function(jQuery) {
                 // use the mq.keystroke('Right') command while a single character
                 // is selected. Only detected in FF.
                 if (!isArrowKey(e)) {
-                    if (isComposing) {
-                        debugIme('keypress', {
-                            key: e.key,
-                            keyCode: e.keyCode,
-                            isComposing: isComposing,
-                            action: 'schedule-typedText',
-                        });
-                    }
                     checkTextareaFor(typedText);
                 }
             }
@@ -2012,14 +1963,6 @@ define(['jquery'], function(jQuery) {
                     // is selected. Only detected in FF.
                     if (!isArrowKey(e)) {
                         keyup = e;
-                        if (isComposing) {
-                            debugIme('keyup', {
-                                key: e.key,
-                                keyCode: e.keyCode,
-                                isComposing: isComposing,
-                                action: 'schedule-typedText',
-                            });
-                        }
                         checkTextareaFor(typedText);
                     }
                 }
@@ -2043,41 +1986,14 @@ define(['jquery'], function(jQuery) {
                 // If anything like #40 or #71 is reported in IE < 9, see
                 // b1318e5349160b665003e36d4eedd64101ceacd8
                 var text = textarea.val();
-                if (hasSelection()) {
-                    debugIme('typedText', {
-                        textareaVal: text,
-                        hasSelection: true,
-                        isComposing: isComposing,
-                        textWasInserted: textWasInserted,
-                        action: 'skip',
-                    });
+                if (hasSelection())
                     return;
-                }
-                if (isComposing) {
-                    debugIme('typedText', {
-                        textareaVal: text,
-                        isComposing: isComposing,
-                        textWasInserted: textWasInserted,
-                        action: 'skip',
-                    });
+                if (isComposing)
                     return;
-                }
-                if (textWasInserted) {
-                    debugIme('typedText', {
-                        textareaVal: text,
-                        isComposing: isComposing,
-                        textWasInserted: textWasInserted,
-                        action: 'skip',
-                    });
+                if (textWasInserted)
                     return;
-                }
                 if (text.length === 1) {
                     textarea.val('');
-                    debugIme('typedText', {
-                        textareaVal: text,
-                        isComposing: isComposing,
-                        action: 'insertText',
-                    });
                     insertText(text);
                 }
                 else if (text.length === 0 &&
@@ -2090,21 +2006,10 @@ define(['jquery'], function(jQuery) {
                     // only first symbol put in textare,
                     // rest ignored and no text in textarea, no input event
                     // will be used keydown.key
-                    debugIme('typedText', {
-                        textareaVal: text,
-                        isComposing: isComposing,
-                        key: keydown.key,
-                        action: 'iPad-fallback',
-                    });
                     insertText(keydown.key || '');
                 } // in Firefox, keys that don't type text, just clear seln, fire keypress
                 // https://github.com/mathquill/mathquill/issues/293#issuecomment-40997668
                 else if (text) {
-                    debugIme('typedText', {
-                        textareaVal: text,
-                        isComposing: isComposing,
-                        action: 're-select',
-                    });
                     guardedTextareaSelect(); // re-select if that's why we're here
                 }
             }
@@ -2114,12 +2019,9 @@ define(['jquery'], function(jQuery) {
                 compositionString = '';
                 checkTextarea = noop;
                 clearTimeout(timeoutId);
-                debugIme('compositionstart', {
-                    compositionTextLength: compositionTextLength,
-                });
             }
             function onCompositionUpdate() {
-                syncCompositionText('compositionupdate');
+                syncCompositionText();
             }
             function onCompositionEnd(e) {
                 var textareaVal = textarea.val();
@@ -2132,26 +2034,15 @@ define(['jquery'], function(jQuery) {
                     text = eventData;
                 }
                 textarea.val('');
-                var priorCompositionLength = compositionTextLength;
-                var action = 'keep-interim';
                 if (text) {
                     if (compositionTextLength === 0) {
-                        action = 'insertText';
                         insertText(text);
                         compositionString = text;
                     }
                     else {
-                        action = 'updateCompositionText';
                         updateCompositionText(text);
                     }
                 }
-                debugIme('compositionend', {
-                    textareaVal: textareaVal,
-                    eventData: eventData,
-                    resolvedText: text,
-                    compositionTextLength: priorCompositionLength,
-                    action: action,
-                });
                 compositionTextLength = 0;
                 keydown = null;
                 keypress = null;
@@ -2236,7 +2127,7 @@ define(['jquery'], function(jQuery) {
                 input: function (e) {
                     input = e;
                     if (isComposing) {
-                        syncCompositionText('input-composing');
+                        syncCompositionText();
                     }
                 },
             });
