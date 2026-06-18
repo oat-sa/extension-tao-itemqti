@@ -1,11 +1,17 @@
 /**
- * MathQuill v0.10.2, by Han, Jeanine, and Mary
- * http://mathquill.com | maintainers@mathquill.com
+ * ORGINAL VERSION:
+ * MathQuill v0.10.2               http://mathquill.com
+ * by Han, Jeanine, and Mary  maintainers@mathquill.com
  *
  * This Source Code Form is subject to the terms of the
  * Mozilla Public License, v. 2.0. If a copy of the MPL
  * was not distributed with this file, You can obtain
  * one at http://mozilla.org/MPL/2.0/.
+ *
+ * MODIFIED VERSION:
+ * @author Christophe Noël <christophe@taotesting.com> for OAT SA in 2017
+ * - wrap in a AMD module
+ * - Disabled eslint warnings
  */
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -22,10 +28,11 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-(function () {
+/* eslint-disable */
+define(['jquery'], function(jQuery) {
+
     var L = -1;
     var R = 1;
-    var jQuery = window.jQuery;
     var min = Math.min;
     var max = Math.max;
     if (!jQuery)
@@ -8135,5 +8142,5 @@ var __extends = (this && this.__extends) || (function () {
             else
                 MathQuill[key] = val;
         }(key, MQ1[key]));
-}());
-
+    return MathQuill;
+});
