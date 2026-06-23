@@ -1,6 +1,6 @@
 /**
  * ORGINAL VERSION:
- * MathQuill v0.10.1               http://mathquill.com
+ * MathQuill v0.10.2               http://mathquill.com
  * by Han, Jeanine, and Mary  maintainers@mathquill.com
  *
  * This Source Code Form is subject to the terms of the
@@ -33,96 +33,11 @@ define(['jquery'], function(jQuery) {
     var undefined,
         L = -1,
         R = 1,
-        mqCmdId = 'mathquill-command-id',
-        mqBlockId = 'mathquill-block-id',
         min = Math.min,
         max = Math.max;
-
-    function noop() {}
-
-    /**
-     * A utility higher-order function that makes defining variadic
-     * functions more convenient by letting you essentially define functions
-     * with the last argument as a splat, i.e. the last argument "gathers up"
-     * remaining arguments to the function:
-     *   var doStuff = variadic(function(first, rest) { return rest; });
-     *   doStuff(1, 2, 3); // => [2, 3]
-     */
-    var __slice = [].slice;
-    function variadic(fn) {
-        var numFixedArgs = fn.length - 1;
-        return function() {
-            var args = __slice.call(arguments, 0, numFixedArgs);
-            var varArg = __slice.call(arguments, numFixedArgs);
-            return fn.apply(this, args.concat([ varArg ]));
-        };
-    }
-
-    /**
-     * A utility higher-order function that makes combining object-oriented
-     * programming and functional programming techniques more convenient:
-     * given a method name and any number of arguments to be bound, returns
-     * a function that calls it's first argument's method of that name (if
-     * it exists) with the bound arguments and any additional arguments that
-     * are passed:
-     *   var sendMethod = send('method', 1, 2);
-     *   var obj = { method: function() { return Array.apply(this, arguments); } };
-     *   sendMethod(obj, 3, 4); // => [1, 2, 3, 4]
-     *   // or more specifically,
-     *   var obj2 = { method: function(one, two, three) { return one*two + three; } };
-     *   sendMethod(obj2, 3); // => 5
-     *   sendMethod(obj2, 4); // => 6
-     */
-    var send = variadic(function(method, args) {
-        return variadic(function(obj, moreArgs) {
-            if (method in obj) return obj[method].apply(obj, args.concat(moreArgs));
-        });
-    });
-
-    /**
-     * A utility higher-order function that creates "implicit iterators"
-     * from "generators": given a function that takes in a sole argument,
-     * a "yield_" function, that calls "yield_" repeatedly with an object as
-     * a sole argument (presumably objects being iterated over), returns
-     * a function that calls it's first argument on each of those objects
-     * (if the first argument is a function, it is called repeatedly with
-     * each object as the first argument, otherwise it is stringified and
-     * the method of that name is called on each object (if such a method
-     * exists)), passing along all additional arguments:
-     *   var a = [
-     *     { method: function(list) { list.push(1); } },
-     *     { method: function(list) { list.push(2); } },
-     *     { method: function(list) { list.push(3); } }
-     *   ];
-     *   a.each = iterator(function(yield_) {
- *     for (var i in this) yield_(this[i]);
- *   });
-     *   var list = [];
-     *   a.each('method', list);
-     *   list; // => [1, 2, 3]
-     *   // Note that the for-in loop will yield 'each', but 'each' maps to
-     *   // the function object created by iterator() which does not have a
-     *   // .method() method, so that just fails silently.
-     */
-    function iterator(generator) {
-        return variadic(function(fn, args) {
-            if (typeof fn !== 'function') fn = send(fn);
-            var yield_ = function(obj) { return fn.apply(obj, [ obj ].concat(args)); };
-            return generator.call(this, yield_);
-        });
-    }
-
-    /**
-     * sugar to make defining lots of commands easier.
-     * TODO: rethink this.
-     */
-    function bind(cons /*, args... */) {
-        var args = __slice.call(arguments, 1);
-        return function() {
-            return cons.apply(this, args);
-        };
-    }
-
+    if (!jQuery)
+        throw 'MathQuill requires jQuery 1.5.2+ to be loaded first';
+    function noop() { }
     /**
      * a development-only debug method.  This definition and all
      * calls to `pray` will be stripped from the minified
@@ -259,26 +174,26 @@ define(['jquery'], function(jQuery) {
          called.
       3) even if everything above worked it's really common for users of
          mathquill to forget to tear it down correctly.
-
+    
       It turns out mathquill always uses the Node and the Element as pairs. So we
       can store the Node on the Element and the Element on the Node. That makes it
       possible to get one from the other. This also has the added benefit of meaning
       the Node isn't stored in a global dictionary. If you lose all references to
       the Element, then you'll also lose all references to the Node. This means the
       browser can garbage collect all of mathquill's internals when the DOM is destroyed.
-
+    
       There's only 1 small gotcha. The linking between Element and Node is a little clumsy.
       1) All of the Nodes will be created.
       2) Then all of the Elements will be created.
       3) Then the two will be linked
-
+    
       The problem is that the linking step only has access to the elements. It doesn't have
       access to the nodes. That means we need to store the id of the node we want on the element
       at creation time. Then we need to lookup that Node by id during the linking step. This
       means we still need a dictionary. But at least it can be a temporary dictionary.
       Steps 1 - 3 happen synchronously. So after those steps we can simply clean out the
       temporary dictionary and remove all hard references to the Nodes.
-
+    
       Any time we create a Node we schedule a task to clean all Nodes out of the dictionary
       on the next frame. That's safe because there's no opportunity for nodes to be created
       and NOT linked between the time we schedule the cleaning step and actually do it.
@@ -1250,7 +1165,7 @@ define(['jquery'], function(jQuery) {
         return MQ1(el);
     }
     MathQuill.prototype = Progenote.prototype;
-    MathQuill.VERSION = 'v0.10.1';
+    MathQuill.VERSION = 'v0.10.2';
     MathQuill.interfaceVersion = function (v) {
         // shim for #459-era interface versioning (ended with #495)
         if (v !== 1)
@@ -1835,9 +1750,9 @@ define(['jquery'], function(jQuery) {
                 keyVal);
         }
         function isIpadOS() {
-            return navigator.maxTouchPoints &&
+            return (navigator.maxTouchPoints &&
                 navigator.maxTouchPoints > 2 &&
-                /MacIntel/.test(navigator.platform);
+                /MacIntel/.test(navigator.platform));
         }
         // create a keyboard events shim that calls callbacks at useful times
         // and exports useful public methods
@@ -1847,7 +1762,13 @@ define(['jquery'], function(jQuery) {
             var keyup = null;
             var input = null;
             var textWasInserted = false;
+            var isComposing = false;
+            var compositionTextLength = 0;
+            var compositionString = '';
             var is_iPad = isIpadOS();
+            var noopKeyboardEvent = {
+                preventDefault: noop,
+            };
             var textarea = jQuery(el);
             var target = jQuery(controller.container || textarea);
             // checkTextareaFor() is called after key or clipboard events to
@@ -1918,6 +1839,69 @@ define(['jquery'], function(jQuery) {
                     controller.keystroke(stringify(keydown), keydown);
                 }
             }
+            function insertText(text) {
+                if (!text)
+                    return;
+                if (controller.options && controller.options.overrideTypedText) {
+                    for (var i = 0; i < text.length; i += 1) {
+                        controller.options.overrideTypedText(text.charAt(i));
+                    }
+                }
+                else {
+                    for (var j = 0; j < text.length; j += 1) {
+                        controller.typedText(text.charAt(j));
+                    }
+                }
+                textWasInserted = true;
+            }
+            function clearCompositionText() {
+                if (!compositionTextLength)
+                    return;
+                for (var i = 0; i < compositionTextLength; i += 1) {
+                    if (controller.options && controller.options.overrideKeystroke) {
+                        controller.options.overrideKeystroke('Backspace', noopKeyboardEvent);
+                    }
+                    else if (typeof controller.backspace === 'function') {
+                        controller.backspace();
+                    }
+                    else {
+                        controller.keystroke('Backspace', noopKeyboardEvent);
+                    }
+                }
+                compositionTextLength = 0;
+                compositionString = '';
+            }
+            function updateCompositionText(text) {
+                clearCompositionText();
+                if (!text)
+                    return;
+                if (controller.options && controller.options.overrideTypedText) {
+                    for (var k = 0; k < text.length; k += 1) {
+                        controller.options.overrideTypedText(text.charAt(k));
+                    }
+                }
+                else {
+                    for (var l = 0; l < text.length; l += 1) {
+                        controller.typedText(text.charAt(l));
+                    }
+                }
+                compositionTextLength = text.length;
+                compositionString = text;
+            }
+            function syncCompositionText() {
+                if (!isComposing)
+                    return;
+                var text = textarea.val();
+                if (!text) {
+                    if (compositionTextLength > 0) {
+                        clearCompositionText();
+                    }
+                    return;
+                }
+                if (text === compositionString)
+                    return;
+                updateCompositionText(text);
+            }
             // -*- event handlers -*- //
             function onKeydown(e) {
                 if (e.target !== textarea[0])
@@ -1935,6 +1919,9 @@ define(['jquery'], function(jQuery) {
                             guardedTextareaSelect();
                         }
                     });
+                if (isComposing || e.isComposing || e.keyCode === 229) {
+                    return;
+                }
                 handleKey();
             }
             function isArrowKey(e) {
@@ -2002,28 +1989,77 @@ define(['jquery'], function(jQuery) {
                 //   reliable as our tests are comprehensive
                 // If anything like #40 or #71 is reported in IE < 9, see
                 // b1318e5349160b665003e36d4eedd64101ceacd8
+                var text = textarea.val();
                 if (hasSelection())
                     return;
-                var text = textarea.val();
+                if (isComposing)
+                    return;
+                if (textWasInserted)
+                    return;
                 if (text.length === 1) {
                     textarea.val('');
-                    if (controller.options && controller.options.overrideTypedText) {
-                        controller.options.overrideTypedText(text);
-                    }
-                    else {
-                        controller.typedText(text);
-                    }
+                    insertText(text);
                 }
-                else if (text.length === 0 && is_iPad && !input && keydown && keyup && !textWasInserted && isVisibleKey(keydown)) {
+                else if (text.length === 0 &&
+                    is_iPad &&
+                    !input &&
+                    keydown &&
+                    keyup &&
+                    isVisibleKey(keydown)) {
                     // issue with iPad and Japanese keyboard
                     // only first symbol put in textare,
                     // rest ignored and no text in textarea, no input event
                     // will be used keydown.key
-                    controller.typedText(keydown.key || '');
+                    var fallbackKey = keydown.key ||
+                        (keydown.originalEvent && keydown.originalEvent.key) ||
+                        '';
+                    if (fallbackKey.length === 1) {
+                        insertText(fallbackKey);
+                    }
                 } // in Firefox, keys that don't type text, just clear seln, fire keypress
                 // https://github.com/mathquill/mathquill/issues/293#issuecomment-40997668
-                else if (text)
+                else if (text) {
                     guardedTextareaSelect(); // re-select if that's why we're here
+                }
+            }
+            function onCompositionStart() {
+                isComposing = true;
+                compositionTextLength = 0;
+                compositionString = '';
+                checkTextarea = noop;
+                clearTimeout(timeoutId);
+            }
+            function onCompositionUpdate() {
+                syncCompositionText();
+            }
+            function onCompositionEnd(e) {
+                var textareaVal = textarea.val();
+                var eventData = e && e.originalEvent
+                    ? e.originalEvent.data
+                    : undefined;
+                isComposing = false;
+                var text = textareaVal;
+                if (!text && eventData) {
+                    text = eventData;
+                }
+                textarea.val('');
+                if (text) {
+                    if (compositionTextLength === 0) {
+                        insertText(text);
+                        compositionString = text;
+                    }
+                    else if (text !== compositionString) {
+                        updateCompositionText(text);
+                    }
+                }
+                else if (compositionTextLength > 0) {
+                    clearCompositionText();
+                }
+                compositionTextLength = 0;
+                keydown = null;
+                keypress = null;
+                keyup = null;
+                input = null;
             }
             function onBlur() {
                 keydown = null;
@@ -2097,7 +2133,15 @@ define(['jquery'], function(jQuery) {
             }
             // -*- attach event handlers -*- //
             textarea.bind({
-                input: function (e) { input = e; },
+                compositionstart: onCompositionStart,
+                compositionupdate: onCompositionUpdate,
+                compositionend: onCompositionEnd,
+                input: function (e) {
+                    input = e;
+                    if (isComposing) {
+                        syncCompositionText();
+                    }
+                },
             });
             // -*- export public methods -*- //
             return {
@@ -3819,9 +3863,9 @@ define(['jquery'], function(jQuery) {
             '<span>&0</span>'
           or
             '<span><span>&0</span><span>&1</span></span>'
-
+      
           See html.test.js for more examples.
-
+      
           Requirements:
           - For each block of the command, there must be exactly one "block content
             marker" of the form '&<number>' where <number> is the 0-based index of the
@@ -3835,7 +3879,7 @@ define(['jquery'], function(jQuery) {
             conform to the XHTML requirements on tags, specifically all tags must
             either be self-closing (like '<br/>') or come in matching pairs.
             Close tags are never optional.
-
+      
           Note that &<number> isn't well-formed HTML; if you wanted a literal '&123',
           your HTML template would have to have '&amp;123'.
         */
@@ -8001,7 +8045,5 @@ define(['jquery'], function(jQuery) {
             else
                 MathQuill[key] = val;
         }(key, MQ1[key]));
-
     return MathQuill;
 });
-
