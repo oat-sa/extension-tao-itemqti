@@ -537,6 +537,30 @@ define([
         var options = widget.options;
         var interaction = widget.element;
         var $form = widget.$form;
+        var $interaction = widget.$container.find('.qti-interaction');
+        var getPosition = function getPosition(className) {
+            var match = (className || '').match(/(?:^|\s)qti-choices-(top|bottom|left|right)(?:\s|$)/);
+
+            return match ? match[1] : 'bottom';
+        };
+        var normalizeClass = function normalizeClass(className, position) {
+            var classes = (className || '').split(/\s+/).filter(Boolean).filter(function (c) {
+                return !/^qti-choices-(top|bottom|left|right)$/.test(c);
+            });
+
+            classes.push('qti-choices-' + position);
+
+            return classes.join(' ');
+        };
+        var applyPosition = function applyPosition(position) {
+            var className = normalizeClass(interaction.attr('class'), position);
+
+            interaction.attr('class', className);
+            $interaction.attr('class', normalizeClass($interaction.attr('class'), position));
+        };
+        var position = getPosition(interaction.attr('class'));
+
+        applyPosition(position);
 
         $form.html(
             formTpl({
@@ -544,7 +568,8 @@ define([
                 data: interaction.object.attr('data'),
                 width: interaction.object.attr('width'),
                 height: interaction.object.attr('height'),
-                type: interaction.object.attr('type')
+                type: interaction.object.attr('type'),
+                position: position
             })
         );
 
@@ -554,7 +579,11 @@ define([
 
         bgImage.setupImage(widget);
 
-        bgImage.setChangeCallbacks(widget, formElement);
+        bgImage.setChangeCallbacks(widget, formElement, {
+            position: function (interaction, value) {
+                applyPosition(value);
+            }
+        });
     };
 
     return GraphicGapMatchInteractionStateQuestion;

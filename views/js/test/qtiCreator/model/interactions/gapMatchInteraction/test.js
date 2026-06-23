@@ -23,8 +23,9 @@ define([
     'jquery',
     'taoQtiItem/qtiCreator/component/itemAuthoring',
     'json!taoQtiItem/test/samples/json/gapmatch-text-sam.json',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicGapMatch',
     'lib/jquery.mockjax/jquery.mockjax'
-], function ($, itemAuthoringFactory, gapMatchJson) {
+], function ($, itemAuthoringFactory, gapMatchJson, graphicGapMatchFormTpl) {
     'use strict';
 
     function getInstance(fixture, config = {}) {
@@ -67,6 +68,21 @@ define([
         }
     ]);
 
+    $.mockjax({
+        url: /mockItemWithPositionEndpoint/,
+        status: 200,
+        response: function () {
+            var itemData = $.extend(true, {}, gapMatchJson);
+            var interaction = itemData.body.elements.interaction_gapmatchinteraction_547dd4d24d2d0146858817;
+
+            interaction.attributes.class = 'custom-position-class qti-choices-right';
+            this.responseText = {
+                itemIdentifier: 'item-1',
+                itemData: itemData
+            };
+        }
+    });
+
     QUnit.module('API');
 
     QUnit.test('module', function (assert) {
@@ -90,6 +106,27 @@ define([
         });
 
     QUnit.module('interact');
+
+    QUnit.test('graphic gap match form exposes choices position', function (assert) {
+        var $form = $(graphicGapMatchFormTpl({
+            baseUrl: '',
+            data: '',
+            width: '',
+            height: '',
+            type: '',
+            position: 'bottom'
+        }));
+        var $positionInputs = $form.find('input[name="position"]');
+
+        assert.expect(6);
+
+        assert.equal($positionInputs.length, 4, 'The form contains the four choices-position options');
+        assert.equal($positionInputs.filter('[value="top"]').length, 1, 'Top option is available');
+        assert.equal($positionInputs.filter('[value="bottom"]').length, 1, 'Bottom option is available');
+        assert.equal($positionInputs.filter('[value="left"]').length, 1, 'Left option is available');
+        assert.equal($positionInputs.filter('[value="right"]').length, 1, 'Right option is available');
+        assert.ok($positionInputs.filter('[value="bottom"]').prop('checked'), 'The current position is selected');
+    });
 
     QUnit.test('create a choice (using button)', function (assert) {
         var done = assert.async();
@@ -237,6 +274,51 @@ define([
 
                     instance.destroy();
                 }, 100);
+            })
+            .after('destroy', function () {
+                done();
+            });
+    });
+
+    QUnit.test('configure choices position', function (assert) {
+        var done = assert.async();
+        var $container = $('#fixture-render');
+        var config = {
+            properties: {
+                uri: 'http://item#rdf-123',
+                label: 'Item',
+                baseUrl: 'http://foo/bar',
+                itemDataUrl: '//mockItemWithPositionEndpoint'
+            }
+        };
+        var instance;
+
+        assert.expect(11);
+
+        instance = itemAuthoringFactory($container, config)
+            .on('ready', function () {
+                var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]', $container);
+                var $positionInputs;
+
+                $interaction.click();
+                $positionInputs = $('#item-editor-interaction-property-bar input[name="position"]');
+
+                assert.equal($positionInputs.length, 4, 'The form contains the four choices-position options');
+                assert.equal($positionInputs.filter('[value="top"]').length, 1, 'Top option is available');
+                assert.equal($positionInputs.filter('[value="bottom"]').length, 1, 'Bottom option is available');
+                assert.equal($positionInputs.filter('[value="left"]').length, 1, 'Left option is available');
+                assert.equal($positionInputs.filter('[value="right"]').length, 1, 'Right option is available');
+                assert.ok($positionInputs.filter('[value="right"]').prop('checked'), 'The current position is selected');
+                assert.ok($interaction.hasClass('custom-position-class'), 'Unrelated classes are preserved initially');
+                assert.ok($interaction.hasClass('qti-choices-right'), 'The current position class is on the canvas');
+
+                $positionInputs.filter('[value="left"]').prop('checked', true).trigger('change');
+
+                assert.ok($interaction.hasClass('custom-position-class'), 'Unrelated classes are preserved after position change');
+                assert.ok($interaction.hasClass('qti-choices-left'), 'The selected position class is applied to the canvas');
+                assert.notOk($interaction.hasClass('qti-choices-right'), 'The previous position class is removed from the canvas');
+
+                instance.destroy();
             })
             .after('destroy', function () {
                 done();
