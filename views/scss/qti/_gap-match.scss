@@ -39,6 +39,16 @@
         }
     }
 
+    &.qti-choices-left {
+        > .choice-area {
+            order: 2;
+        }
+
+        > .qti-flow-container {
+            order: 3;
+        }
+    }
+
     &.qti-choices-left,
     &.qti-choices-right {
         > .choice-area {

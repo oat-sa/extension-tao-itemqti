@@ -500,9 +500,13 @@ define([
         var widget = this.widget;
         var interaction = widget.element;
         var paper = interaction.paper;
-        var valid = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices);
+        var valid = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices) && !_.isEmpty(interaction.getGapImgs());
 
-        widget.isValid('graphicGapMatchInteraction', valid);
+        widget.isValid(
+            'graphicGapMatchInteraction',
+            valid,
+            __('A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image.')
+        );
 
         if (!paper) {
             return;
