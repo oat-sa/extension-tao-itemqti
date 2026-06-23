@@ -549,7 +549,7 @@ define([
         };
         var normalizeClass = function normalizeClass(className, position) {
             var classes = (className || '').split(/\s+/).filter(Boolean).filter(function (c) {
-                return !/^qti-choices-(top|bottom|left|right)$/.test(c);
+                return !/^qti-choices-\S+$/.test(c);
             });
 
             classes.push('qti-choices-' + position);

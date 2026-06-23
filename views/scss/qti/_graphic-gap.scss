@@ -48,6 +48,7 @@
             z-index: 1000;
             background: whiten($uiClickableDefaultBg, .5);
             @include simple-border();
+
             box-sizing: border-box;
             clear: none;
             width: 124px;
@@ -85,6 +86,7 @@
             z-index: 1000;
             background: whiten($uiClickableDefaultBg, .5);
             @include simple-border();
+
             box-sizing: border-box;
             clear: none;
             display: flex;
