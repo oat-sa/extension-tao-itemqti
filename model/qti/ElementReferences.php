@@ -33,11 +33,19 @@ class ElementReferences
     /** @var string[] */
     private $imgReferences;
 
-    public function __construct(array $xIncludeReferences, array $objectReferences, array $imgReferences)
-    {
+    /** @var string[] */
+    private $textReaderReferences;
+
+    public function __construct(
+        array $xIncludeReferences,
+        array $objectReferences,
+        array $imgReferences,
+        array $textReaderReferences = []
+    ) {
         $this->xIncludeReferences = $xIncludeReferences;
         $this->objectReferences = $objectReferences;
         $this->imgReferences = $imgReferences;
+        $this->textReaderReferences = $textReaderReferences;
     }
 
     public function getXIncludeReferences(): array
@@ -55,12 +63,18 @@ class ElementReferences
         return $this->imgReferences;
     }
 
+    public function getTextReaderReferences(): array
+    {
+        return $this->textReaderReferences;
+    }
+
     public function getAllReferences(): array
     {
         return array_merge(
             $this->xIncludeReferences,
             $this->objectReferences,
-            $this->imgReferences
+            $this->imgReferences,
+            $this->textReaderReferences
         );
     }
 }

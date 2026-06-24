@@ -15,29 +15,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2026 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\taoQtiItem\model\compile\QtiAssetReplacer;
+namespace oat\taoQtiItem\model\qti\parser;
 
-use oat\oatbox\service\ConfigurableService;
-use oat\taoQtiItem\model\pack\QtiAssetPacker\PackedAsset;
+use oat\taoQtiItem\model\qti\interaction\ImsPortableCustomInteraction;
+use oat\taoQtiItem\model\qti\interaction\PortableCustomInteraction;
+use oat\taoQtiItem\model\qti\Item;
 
-class NullQtiItemAssetReplacer extends ConfigurableService implements QtiItemAssetReplacer
+interface TextReaderReferencesExtractorInterface
 {
-    public function shouldBeReplaced(PackedAsset $packetAsset): bool
-    {
-        return false;
-    }
+    public function extract(Item $qtiItem): array;
 
-    public function replace(
-        PackedAsset $packetAsset,
-        string $itemId,
-        string $deliveryCompilationId = ''
-    ): PackedAsset {
-        return $packetAsset;
-    }
+    /**
+     * @return array<int, PortableCustomInteraction|ImsPortableCustomInteraction>
+     */
+    public function getTextReaderInteractions(Item $qtiItem): array;
+
+    public function extractFromInteraction(
+        PortableCustomInteraction|ImsPortableCustomInteraction $interaction
+    ): array;
 }
