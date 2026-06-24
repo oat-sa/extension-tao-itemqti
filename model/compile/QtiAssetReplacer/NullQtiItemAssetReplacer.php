@@ -33,8 +33,11 @@ class NullQtiItemAssetReplacer extends ConfigurableService implements QtiItemAss
         return false;
     }
 
-    public function replace(PackedAsset $packetAsset, $itemId): PackedAsset
-    {
+    public function replace(
+        PackedAsset $packetAsset,
+        string $itemId,
+        string $deliveryCompilationId = ''
+    ): PackedAsset {
         return $packetAsset;
     }
 }

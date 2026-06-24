@@ -50,7 +50,8 @@ class QtiItemAssetCompiler extends ConfigurationService
     public function extractAndCopyAssetFiles(
         Item $qtiItem,
         Directory $publicDirectory,
-        ItemMediaResolver $resolver
+        ItemMediaResolver $resolver,
+        string $deliveryCompilationId = ''
     ): array {
         $assetParser = new AssetParser($qtiItem, $publicDirectory);
         $assetParser->setGetSharedLibraries(false);
@@ -80,7 +81,11 @@ class QtiItemAssetCompiler extends ConfigurationService
 
                 if ($type != 'xinclude') {
                     if ($this->getQtiItemAssetReplacer()->shouldBeReplaced($packedAsset)) {
-                        $packedAsset = $this->replaceWithExternalSource($packedAsset, $qtiItem);
+                        $packedAsset = $this->replaceWithExternalSource(
+                            $packedAsset,
+                            $qtiItem,
+                            $deliveryCompilationId
+                        );
                     } else {
                         $this->copyAssetFileToPublicDirectory($publicDirectory, $packedAsset);
                     }
@@ -92,12 +97,16 @@ class QtiItemAssetCompiler extends ConfigurationService
         return $packedAssets;
     }
 
-    private function replaceWithExternalSource(PackedAsset $packedAsset, Item $qtiItem): PackedAsset
-    {
+    private function replaceWithExternalSource(
+        PackedAsset $packedAsset,
+        Item $qtiItem,
+        string $deliveryCompilationId
+    ): PackedAsset {
         $qtiItemAssetReplacer = $this->getQtiItemAssetReplacer();
         return $qtiItemAssetReplacer->replace(
             $packedAsset,
-            $qtiItem->getIdentifier()
+            (string) $qtiItem->getIdentifier(),
+            $deliveryCompilationId
         );
     }
 
