@@ -25,15 +25,23 @@ namespace oat\taoQtiItem\model\qti\parser;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoQtiItem\model\qti\Element;
 use oat\taoQtiItem\model\qti\ElementReferences;
+use oat\taoQtiItem\model\qti\Img;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\QtiObject;
 use oat\taoQtiItem\model\qti\XInclude;
-use oat\taoQtiItem\model\qti\Img;
 
 class ElementReferencesExtractor extends ConfigurableService
 {
     /** @var string[] */
     private $elementReferences;
+
+    private ?TextReaderReferencesExtractorInterface $textReaderReferencesExtractor;
+
+    public function __construct(
+        ?TextReaderReferencesExtractorInterface $textReaderReferencesExtractor = null
+    ) {
+        $this->textReaderReferencesExtractor = $textReaderReferencesExtractor;
+    }
 
     public function extract(Item $qtiItem, string $elementClass, string $attributeName): array
     {
@@ -52,7 +60,22 @@ class ElementReferencesExtractor extends ConfigurableService
         return new ElementReferences(
             $this->extract($qtiItem, XInclude::class, 'href'),
             $this->extract($qtiItem, QtiObject::class, 'data'),
-            $this->extract($qtiItem, Img::class, 'src')
+            $this->extract($qtiItem, Img::class, 'src'),
+            $this->extractTextReaderReferences($qtiItem)
         );
+    }
+
+    public function extractTextReaderReferences(Item $qtiItem): array
+    {
+        return $this->getTextReaderReferencesExtractor()->extract($qtiItem);
+    }
+
+    private function getTextReaderReferencesExtractor(): TextReaderReferencesExtractorInterface
+    {
+        if ($this->textReaderReferencesExtractor !== null) {
+            return $this->textReaderReferencesExtractor;
+        }
+
+        return new TextReaderReferencesExtractor();
     }
 }
