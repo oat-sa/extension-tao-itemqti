@@ -1,5 +1,5 @@
 <div class="tlb-wrapper" style="" data-edit="active" data-for="{{serial}}">
-    <span class="tlb-title" title="{{title}}">{{title}}</span>
+    <span class="tlb-title" title="{{title}}">{{__ title}}</span>
     <div class="tlb">
         <div class="rgt tlb-button" data-role="delete" title="{{__ 'delete'}}">
             <span class="icon-bin"></span>
