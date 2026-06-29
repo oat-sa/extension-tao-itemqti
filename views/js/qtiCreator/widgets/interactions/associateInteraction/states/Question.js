@@ -39,18 +39,66 @@ define([
 
     var AssociateInteractionStateQuestion = stateFactory.extend(Question);
 
+    var choicesPositionClassPrefix = 'qti-choices-';
+    var choicesPositions = ['top', 'bottom', 'left', 'right'];
+
+    var getPositionFromClass = function getPositionFromClass(className) {
+        var classes = (className || '').split(/\s+/).filter(Boolean);
+        var positionClass = _.find(classes, function(classToken) {
+            return classToken.indexOf(choicesPositionClassPrefix) === 0 &&
+                _.indexOf(choicesPositions, classToken.replace(choicesPositionClassPrefix, '')) !== -1;
+        });
+
+        return positionClass ? positionClass.replace(choicesPositionClassPrefix, '') : 'top';
+    };
+
+    var normalizePositionClass = function normalizePositionClass(className, position) {
+        var classes = (className || '').split(/\s+/).filter(Boolean).filter(function(classToken) {
+            return classToken.indexOf(choicesPositionClassPrefix) !== 0;
+        });
+
+        if (_.indexOf(choicesPositions, position) !== -1) {
+            classes.push(choicesPositionClassPrefix + position);
+        }
+
+        return classes.join(' ').trim();
+    };
+
+    AssociateInteractionStateQuestion.getPositionFromClass = getPositionFromClass;
+    AssociateInteractionStateQuestion.normalizePositionClass = normalizePositionClass;
+
     AssociateInteractionStateQuestion.prototype.initForm = function initForm(){
 
        var widget      = this.widget;
        var $form       = this.widget.$form;
        var interaction = this.widget.element;
+       var $interaction = this.widget.$container.find('.qti-interaction');
+       var isAssociateInteraction = interaction.qtiClass === 'associateInteraction';
+       var position = getPositionFromClass(interaction.attr('class'));
+
+       var applyPosition = function applyPosition(position) {
+           var interactionClass;
+
+           if (!isAssociateInteraction) {
+               return;
+           }
+
+           interactionClass = normalizePositionClass(interaction.attr('class'), position);
+           interaction.attr('class', interactionClass);
+           $interaction.attr('class', normalizePositionClass($interaction.attr('class'), position));
+           sizeAdapter.adaptSize(widget);
+       };
 
         $form.html(formTpl({
             shuffle : !!interaction.attr('shuffle'),
+            position: position,
             enabledFeatures: {
-                shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/associate/property/shuffle')
+                shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/associate/property/shuffle'),
+                position: isAssociateInteraction
             }
         }));
+
+        applyPosition(position);
 
         minMaxComponentFactory($form.find('.min-max-panel'), {
             min : {
@@ -75,6 +123,10 @@ define([
         //init data change callbacks
         var callbacks = formElement.getMinMaxAttributeCallbacks('minAssociations', 'maxAssociations');
         callbacks.shuffle = formElement.getAttributeChangeCallback();
+        callbacks.position = function(interaction, value) {
+            position = value;
+            applyPosition(position);
+        };
         formElement.setChangeCallbacks($form, interaction, callbacks);
 
         //adapt size
