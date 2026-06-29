@@ -44,12 +44,14 @@ define([
         const _widget = this.widget;
         const $form = _widget.$form;
         const interaction = _widget.element;
+        const orientation = interaction.attr('orientation') || 'horizontal';
 
         $form.html(formTpl({
             // tpl data for the interaction
             lowerBound : parseFloat(interaction.attr('lowerBound')),
             upperBound : parseFloat(interaction.attr('upperBound')),
-            orientation : interaction.attr('orientation'),
+            orientation : orientation,
+            horizontal : orientation !== 'vertical',
             reverse : !!interaction.attr('reverse'),
             step : parseInt(interaction.attr('step')),
             stepLabel : !!interaction.attr('stepLabel')
@@ -148,39 +150,22 @@ define([
                 .noUiSlider(
                     { range: { min: lowerBound, max: upperBound } },
                     true
-                );
+            );
         };
 
-        // TODO clean old logic after UX review, tech debt
-        // TODO orientation in Item runner tao-item-runner-qti-fe/src/qtiCommonRenderer/renderers/interactions/SliderInteraction.js
-        // // -- orientation Callback
-        // callbacks.orientation = function(interaction, attrValue, attrName){
-        //     interaction.attr('orientation', attrValue);
+        // -- orientation Callback
+        callbacks.orientation = (interactionParam, attrValue) => {
+            const orientation = ['horizontal', 'vertical'].includes(attrValue) ? attrValue : 'horizontal';
 
-        //     var orientation = (interaction.attr('orientation')) ? interaction.attr('orientation') : 'horizontal';
-        //     var reverse = interaction.attr('reverse');
+            interactionParam.attr('orientation', orientation);
+            _widget.rerenderSlider(interactionParam);
+        };
 
-        //     _widget.$container.find('.qti-slider').noUiSlider({ 'orientation': interaction.attr('orientation') }, true);
-        // };
-
-        // TODO clean old logic after UX review, tech debt
-        // TODO reverse in Item runner tao-item-runner-qti-fe/src/qtiCommonRenderer/renderers/interactions/SliderInteraction.js
-        // // -- reverse Callback
-        // callbacks.reverse = function(interaction, attrValue, attrName){
-
-        //     interaction.attr('reverse', !!attrValue);
-
-        //     var reverse = interaction.attr('reverse');
-        //     var lowerBound = parseInt(interaction.attr('lowerBound'));
-        //     var upperBound = parseInt(interaction.attr('upperBound'));
-        //     var $sliderElt = _widget.$container.find('.qti-slider');
-        //     var start = (reverse) ? upperBound : lowerBound;
-        //     $sliderElt.noUiSlider({ start: start }, true);
-
-        //     _widget.$container.find('span.qti-slider-cur-value').text(lowerBound);
-        //     _widget.$container.find('.slider-min').text(!reverse ? lowerBound : upperBound);
-        //     _widget.$container.find('.slider-max').text(!reverse ? upperBound : lowerBound);
-        // };
+        // -- reverse Callback
+        callbacks.reverse = (interactionParam, attrValue) => {
+            interactionParam.attr('reverse', !!attrValue);
+            _widget.rerenderSlider(interactionParam);
+        };
 
         // -- step Callback
         callbacks.step = (interactionParam, attrValue) => {
@@ -203,28 +188,6 @@ define([
                 $form.find('input[name="step"]').incrementer('options', { max: sliderLength });
             }
         };
-
-        // TODO clean old logic after UX review, tech debt
-        // // -- stepLabel Callback
-        // callbacks.stepLabel = function(interaction, attrValue, attrName){
-
-        //     interaction.attr('stepLabel', !!attrValue);
-
-        //     _widget.$container.find('span.slider-middle').remove();
-
-        //     if (interaction.attr('stepLabel')) {
-        //         var upperBound = interaction.attr('upperBound');
-        //         var lowerBound = interaction.attr('lowerBound');
-        //         var step = interaction.attr('step');
-        //         var reverse = interaction.attr('reverse');
-
-        //         var steps = parseInt((upperBound - lowerBound) / step);
-        //         var middleStep = parseInt(steps / 2);
-        //         var leftOffset = (100 / steps) * middleStep;
-        //         var middleValue = (reverse) ? upperBound - middleStep * step : lowerBound + middleStep * step;
-        //         _widget.$container.find('.slider-min').after('<span class="slider-middle" style="left:' + leftOffset + '%">' + middleValue + '</span>');
-        //     }
-        // };
 
         formElement.setChangeCallbacks($form, interaction, callbacks);
     };
