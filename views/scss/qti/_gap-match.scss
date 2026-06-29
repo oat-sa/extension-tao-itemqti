@@ -1,6 +1,69 @@
 @import 'inc/bootstrap';
 
 .qti-gapMatchInteraction {
+    &.qti-choices-top,
+    &.qti-choices-bottom,
+    &.qti-choices-left,
+    &.qti-choices-right {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 10px;
+
+        > .qti-prompt,
+        > .instruction-container {
+            flex: 0 0 100%;
+        }
+    }
+
+    &.qti-choices-top,
+    &.qti-choices-bottom {
+        > .choice-area,
+        > .qti-flow-container {
+            flex: 0 0 100%;
+        }
+
+        > .choice-area {
+            flex-direction: row;
+        }
+    }
+
+    &.qti-choices-bottom,
+    &.qti-choices-right {
+        > .choice-area {
+            order: 3;
+        }
+
+        > .qti-flow-container {
+            order: 2;
+        }
+    }
+
+    &.qti-choices-left {
+        > .choice-area {
+            order: 2;
+        }
+
+        > .qti-flow-container {
+            order: 3;
+        }
+    }
+
+    &.qti-choices-left,
+    &.qti-choices-right {
+        > .choice-area {
+            display: flex;
+            flex: 0 0 auto;
+            max-width: 30%;
+            flex-direction: column;
+        }
+
+        > .qti-flow-container {
+            flex: 1 1 0;
+            min-width: 0;
+        }
+    }
+
     .qti-gap {
         display: inline-block;
     }

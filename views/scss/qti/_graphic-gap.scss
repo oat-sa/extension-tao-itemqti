@@ -40,6 +40,78 @@
         }
     }
 
+    &.qti-choices-top {
+        ul.source {
+            position: absolute;
+            top: -78px;
+            left: 0;
+            z-index: 1000;
+            background: whiten($uiClickableDefaultBg, .5);
+            @include simple-border();
+
+            box-sizing: border-box;
+            clear: none;
+            width: 124px;
+            max-width: 124px;
+            margin: 0;
+            padding: 5px !important;
+        }
+    }
+
+    &.qti-choices-bottom,
+    &.qti-choices-top,
+    &.qti-choices-left,
+    &.qti-choices-right {
+        ul.source > li {
+            float: none;
+            box-sizing: border-box;
+            width: 110px;
+            line-height: normal;
+        }
+
+        ul.source .qti-gapImg img {
+            width: auto !important;
+            height: auto !important;
+            max-width: 100%;
+            max-height: 110px;
+            margin: auto;
+            object-fit: contain;
+        }
+    }
+
+    &.qti-choices-left,
+    &.qti-choices-right {
+        ul.source {
+            position: absolute;
+            top: 2px;
+            z-index: 1000;
+            background: whiten($uiClickableDefaultBg, .5);
+            @include simple-border();
+
+            box-sizing: border-box;
+            clear: none;
+            display: flex;
+            flex-direction: column;
+            width: 124px;
+            max-width: 124px;
+            margin: 0;
+            padding: 5px !important;
+        }
+    }
+
+    &.qti-choices-left {
+        ul.source {
+            top: 214px;
+            left: -120px;
+        }
+    }
+
+    &.qti-choices-right {
+        ul.source {
+            right: -134px;
+        }
+    }
+
     .placed-fillers {
         pointer-events: none;
         position: absolute;
