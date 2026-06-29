@@ -23,8 +23,10 @@ define([
     'jquery',
     'taoQtiItem/qtiCreator/component/itemAuthoring',
     'json!taoQtiItem/test/samples/json/gapmatch-text-sam.json',
+    'json!taoQtiItem/test/samples/json/airports-tags.json',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicGapMatch',
     'lib/jquery.mockjax/jquery.mockjax'
-], function ($, itemAuthoringFactory, gapMatchJson) {
+], function ($, itemAuthoringFactory, gapMatchJson, graphicGapMatchJson, graphicGapMatchFormTpl) {
     'use strict';
 
     function getInstance(fixture, config = {}) {
@@ -67,6 +69,51 @@ define([
         }
     ]);
 
+    $.mockjax({
+        url: /mockItemWithPositionEndpoint/,
+        status: 200,
+        response: function () {
+            var itemData = $.extend(true, {}, gapMatchJson);
+            var interaction = itemData.body.elements.interaction_gapmatchinteraction_547dd4d24d2d0146858817;
+
+            interaction.attributes.class = 'custom-position-class qti-choices-right';
+            this.responseText = {
+                itemIdentifier: 'item-1',
+                itemData: itemData
+            };
+        }
+    });
+
+    $.mockjax({
+        url: /mockGraphicGapMatchInvalidPositionEndpoint/,
+        status: 200,
+        response: function () {
+            var itemData = $.extend(true, {}, graphicGapMatchJson);
+            var interaction = itemData.body.elements.interaction_graphicgapmatchinteraction_547dd6fb53c17021201802;
+
+            interaction.attributes.class = 'custom-position-class qti-choices-sideways';
+            this.responseText = {
+                itemIdentifier: 'item-1',
+                itemData: itemData
+            };
+        }
+    });
+
+    $.mockjax({
+        url: /mockGraphicGapMatchMissingPositionEndpoint/,
+        status: 200,
+        response: function () {
+            var itemData = $.extend(true, {}, graphicGapMatchJson);
+            var interaction = itemData.body.elements.interaction_graphicgapmatchinteraction_547dd6fb53c17021201802;
+
+            interaction.attributes.class = 'custom-position-class';
+            this.responseText = {
+                itemIdentifier: 'item-1',
+                itemData: itemData
+            };
+        }
+    });
+
     QUnit.module('API');
 
     QUnit.test('module', function (assert) {
@@ -90,6 +137,94 @@ define([
         });
 
     QUnit.module('interact');
+
+    QUnit.test('graphic gap match form exposes choices position', function (assert) {
+        var $form = $(graphicGapMatchFormTpl({
+            baseUrl: '',
+            data: '',
+            width: '',
+            height: '',
+            type: '',
+            position: 'bottom'
+        }));
+        var $positionInputs = $form.find('input[name="position"]');
+
+        assert.expect(6);
+
+        assert.equal($positionInputs.length, 4, 'The form contains the four choices-position options');
+        assert.equal($positionInputs.filter('[value="top"]').length, 1, 'Top option is available');
+        assert.equal($positionInputs.filter('[value="bottom"]').length, 1, 'Bottom option is available');
+        assert.equal($positionInputs.filter('[value="left"]').length, 1, 'Left option is available');
+        assert.equal($positionInputs.filter('[value="right"]').length, 1, 'Right option is available');
+        assert.ok($positionInputs.filter('[value="bottom"]').prop('checked'), 'The current position is selected');
+    });
+
+    QUnit.test('graphic gap match form falls back to default choices position', function (assert) {
+        var done = assert.async();
+        var $container = $('#fixture-render');
+        var cases = [{
+            title: 'invalid',
+            itemDataUrl: '//mockGraphicGapMatchInvalidPositionEndpoint',
+            invalidClass: 'qti-choices-sideways'
+        }, {
+            title: 'missing',
+            itemDataUrl: '//mockGraphicGapMatchMissingPositionEndpoint'
+        }];
+        var index = 0;
+        var instance;
+
+        assert.expect(14);
+
+        function runCase() {
+            var testCase = cases[index];
+
+            $container.empty();
+
+            instance = itemAuthoringFactory($container, {
+                properties: {
+                    uri: 'http://item#rdf-123',
+                    label: 'Item',
+                    baseUrl: 'http://foo/bar',
+                    itemDataUrl: testCase.itemDataUrl
+                }
+            })
+                .on('ready', function () {
+                    var $interaction = $('.qti-graphicGapMatchInteraction', $container);
+                    var $positionInputs;
+                    var positionClassMatches;
+
+                    assert.equal($interaction.length, 1, 'The ' + testCase.title + ' graphic gap match interaction is rendered');
+                    $interaction.click();
+                    $positionInputs = $('#item-editor-interaction-property-bar input[name="position"]');
+
+                    assert.equal($positionInputs.length, 4, 'The ' + testCase.title + ' form contains all choices-position options');
+                    assert.equal($positionInputs.filter(':checked').length, 1, 'The ' + testCase.title + ' form selects one fallback option');
+                    assert.ok($positionInputs.filter('[value="bottom"]').prop('checked'), 'The ' + testCase.title + ' position falls back to bottom');
+                    assert.ok($interaction.hasClass('custom-position-class'), 'The ' + testCase.title + ' unrelated class is preserved');
+                    assert.ok($interaction.hasClass('qti-choices-bottom'), 'The ' + testCase.title + ' fallback class is applied');
+
+                    if (testCase.invalidClass) {
+                        assert.notOk($interaction.hasClass(testCase.invalidClass), 'The invalid choices-position class is removed');
+                    } else {
+                        positionClassMatches = ($interaction.attr('class') || '').match(/qti-choices-/g) || [];
+                        assert.equal(positionClassMatches.length, 1, 'Only one choices-position class is present');
+                    }
+
+                    instance.destroy();
+                })
+                .after('destroy', function () {
+                    index++;
+
+                    if (index < cases.length) {
+                        runCase();
+                    } else {
+                        done();
+                    }
+                });
+        }
+
+        runCase();
+    });
 
     QUnit.test('create a choice (using button)', function (assert) {
         var done = assert.async();
@@ -237,6 +372,51 @@ define([
 
                     instance.destroy();
                 }, 100);
+            })
+            .after('destroy', function () {
+                done();
+            });
+    });
+
+    QUnit.test('configure choices position', function (assert) {
+        var done = assert.async();
+        var $container = $('#fixture-render');
+        var config = {
+            properties: {
+                uri: 'http://item#rdf-123',
+                label: 'Item',
+                baseUrl: 'http://foo/bar',
+                itemDataUrl: '//mockItemWithPositionEndpoint'
+            }
+        };
+        var instance;
+
+        assert.expect(11);
+
+        instance = itemAuthoringFactory($container, config)
+            .on('ready', function () {
+                var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]', $container);
+                var $positionInputs;
+
+                $interaction.click();
+                $positionInputs = $('#item-editor-interaction-property-bar input[name="position"]');
+
+                assert.equal($positionInputs.length, 4, 'The form contains the four choices-position options');
+                assert.equal($positionInputs.filter('[value="top"]').length, 1, 'Top option is available');
+                assert.equal($positionInputs.filter('[value="bottom"]').length, 1, 'Bottom option is available');
+                assert.equal($positionInputs.filter('[value="left"]').length, 1, 'Left option is available');
+                assert.equal($positionInputs.filter('[value="right"]').length, 1, 'Right option is available');
+                assert.ok($positionInputs.filter('[value="right"]').prop('checked'), 'The current position is selected');
+                assert.ok($interaction.hasClass('custom-position-class'), 'Unrelated classes are preserved initially');
+                assert.ok($interaction.hasClass('qti-choices-right'), 'The current position class is on the canvas');
+
+                $positionInputs.filter('[value="left"]').prop('checked', true).trigger('change');
+
+                assert.ok($interaction.hasClass('custom-position-class'), 'Unrelated classes are preserved after position change');
+                assert.ok($interaction.hasClass('qti-choices-left'), 'The selected position class is applied to the canvas');
+                assert.notOk($interaction.hasClass('qti-choices-right'), 'The previous position class is removed from the canvas');
+
+                instance.destroy();
             })
             .after('destroy', function () {
                 done();

@@ -294,10 +294,39 @@ define([
 
         var _widget = this.widget,
             $form = _widget.$form,
-            interaction = _widget.element;
+            interaction = _widget.element,
+            $interaction = _widget.$container.find('.qti-interaction');
+
+        var getPosition = function getPosition(className){
+            var match = (className || '').match(/(?:^|\s)qti-choices-(top|bottom|left|right)(?:\s|$)/);
+
+            return match ? match[1] : 'top';
+        };
+
+        var normalizeClass = function normalizeClass(className, position){
+            var classes = (className || '').split(/\s+/).filter(Boolean).filter(function(c){
+                return !/^qti-choices-(top|bottom|left|right)$/.test(c);
+            });
+
+            classes.push('qti-choices-' + position);
+
+            return classes.join(' ');
+        };
+
+        var applyPosition = function applyPosition(position){
+            var className = normalizeClass(interaction.attr('class'), position);
+
+            interaction.attr('class', className);
+            $interaction.attr('class', normalizeClass($interaction.attr('class'), position));
+        };
+
+        var position = getPosition(interaction.attr('class'));
+
+        applyPosition(position);
 
         $form.html(formTpl({
             shuffle : !!interaction.attr('shuffle'),
+            position : position,
             enabledFeatures: {
                 shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/gapMatch/property/shuffle')
             }
@@ -306,7 +335,10 @@ define([
         formElement.initWidget($form);
 
         formElement.setChangeCallbacks($form, interaction, {
-            shuffle : formElement.getAttributeChangeCallback()
+            shuffle : formElement.getAttributeChangeCallback(),
+            position : function(interaction, value){
+                applyPosition(value);
+            }
         });
 
     };
