@@ -44,7 +44,14 @@ define([
         const _widget = this.widget;
         const $form = _widget.$form;
         const interaction = _widget.element;
-        const orientation = interaction.attr('orientation') || 'horizontal';
+        const rawOrientation = interaction.attr('orientation');
+        const orientation = ['horizontal', 'vertical'].includes(rawOrientation)
+            ? rawOrientation
+            : 'horizontal';
+
+        if (rawOrientation && orientation !== rawOrientation) {
+            interaction.attr('orientation', orientation);
+        }
 
         $form.html(formTpl({
             // tpl data for the interaction

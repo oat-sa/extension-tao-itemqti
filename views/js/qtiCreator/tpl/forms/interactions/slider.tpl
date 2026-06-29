@@ -22,24 +22,26 @@
 </div>
 
 <div class="panel">
-    <h3>{{__ 'Orientation'}}</h3>
-    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
-    <span class="tooltip-content">
-        {{__ 'Displays the slider bar either horizontally or vertically'}}
-    </span>
-    <div>
-        <label class="smaller-prompt">
-            <input type="radio" name="orientation" value="vertical" {{#unless horizontal}}checked{{/unless}} />
-            <span class="icon-radio"></span>
-            {{__ 'Vertical'}}
-        </label>
-        <br>
-        <label class="smaller-prompt">
-            <input type="radio" name="orientation" value="horizontal" {{#if horizontal}}checked{{/if}} />
-            <span class="icon-radio"></span>
-            {{__ 'Horizontal'}}
-        </label>
-    </div>
+    <fieldset>
+        <legend>{{__ 'Orientation'}}</legend>
+        <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+        <span class="tooltip-content">
+            {{__ 'Displays the slider bar either horizontally or vertically'}}
+        </span>
+        <div>
+            <label class="smaller-prompt">
+                <input type="radio" name="orientation" value="vertical" {{#unless horizontal}}checked{{/unless}} />
+                <span class="icon-radio"></span>
+                {{__ 'Vertical'}}
+            </label>
+            <br>
+            <label class="smaller-prompt">
+                <input type="radio" name="orientation" value="horizontal" {{#if horizontal}}checked{{/if}} />
+                <span class="icon-radio"></span>
+                {{__ 'Horizontal'}}
+            </label>
+        </div>
+    </fieldset>
 </div>
 
 <div class="panel">

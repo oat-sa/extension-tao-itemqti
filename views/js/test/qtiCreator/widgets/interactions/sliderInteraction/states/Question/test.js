@@ -139,6 +139,7 @@ define([
     QUnit.module('qtiCreator/widgets/interactions/sliderInteraction/states/Question', {
         beforeEach() {
             const originalVal = $.fn.val;
+            const originalNoUiSlider = $.fn.noUiSlider;
 
             $.fn.noUiSlider = function (options) {
                 if (options) {
@@ -159,9 +160,11 @@ define([
                 return originalVal.apply(this, arguments);
             };
             this.originalVal = originalVal;
+            this.originalNoUiSlider = originalNoUiSlider;
         },
         afterEach() {
             $.fn.val = this.originalVal;
+            $.fn.noUiSlider = this.originalNoUiSlider;
         }
     });
 
@@ -255,6 +258,19 @@ define([
             widget.$form.find('input[name="orientation"][value="horizontal"]').prop('checked'),
             false,
             'horizontal remains unselected after reinitialization'
+        );
+    });
+
+    QUnit.test('invalid orientation on load is sanitized to horizontal', assert => {
+        assert.expect(2);
+
+        const widget = initForm({ orientation: 'diagonal' });
+
+        assert.strictEqual(widget.element.attr('orientation'), 'horizontal', 'invalid orientation is written back as horizontal');
+        assert.strictEqual(
+            widget.$form.find('input[name="orientation"][value="horizontal"]').prop('checked'),
+            true,
+            'horizontal is selected after sanitization'
         );
     });
 

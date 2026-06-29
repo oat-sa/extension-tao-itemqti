@@ -143,7 +143,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
 
             $this->assertArrayHasKey($responseIdentifier, $expected);
             $this->assertSame(
-                $expected[$responseIdentifier]['orientation'] ?? 'horizontal',
+                $expected[$responseIdentifier]['orientation'],
                 $interaction->getAttributeValue('orientation')
             );
             $this->assertSame(
@@ -173,10 +173,7 @@ class QtiOutputTest extends TaoPhpUnitTestRunner
                     $slider->getAttribute('orientation')
                 );
             } else {
-                $this->assertTrue(
-                    !$slider->hasAttribute('orientation')
-                        || $slider->getAttribute('orientation') === 'horizontal'
-                );
+                $this->assertFalse($slider->hasAttribute('orientation'));
             }
 
             if ($expectation['reverse'] === true) {
