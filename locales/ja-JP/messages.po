@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-05-11 04:23\n"
+"PO-Revision-Date: 2026-07-01 10:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -426,7 +426,7 @@ msgid "Configures the position of the choices relative to the target list."
 msgstr "選択リストの位置を設定します。"
 
 msgid "Congruent"
-msgstr "おめでとうございます"
+msgstr "合同"
 
 msgid "Constraints"
 msgstr "選択肢の解答数制限"
