@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-05-26 13:33\n"
+"PO-Revision-Date: 2026-07-02 10:35\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl_BE\n"
@@ -294,7 +294,7 @@ msgid "Border color"
 msgstr ""
 
 msgid "Bottom"
-msgstr ""
+msgstr "Onder"
 
 msgid "Browse your computer and select the appropriate file."
 msgstr ""
