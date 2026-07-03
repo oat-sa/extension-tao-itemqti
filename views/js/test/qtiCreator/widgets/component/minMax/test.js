@@ -280,6 +280,76 @@ define(['taoQtiItem/qtiCreator/widgets/component/minMax/minMax'], function(minMa
         });
     });
 
+    QUnit.test('disable max keeps zero when lower threshold is higher', function(assert) {
+        var ready = assert.async();
+        var container = document.getElementById('qunit-fixture');
+
+        assert.expect(4);
+
+        minMaxComponentFactory(container, {
+            min: {
+                fieldName: 'min',
+                value: 2,
+                toggler: true,
+                lowerThreshold: 1
+            },
+            max: {
+                fieldName: 'max',
+                value: 2,
+                toggler: true,
+                lowerThreshold: 2
+            },
+            upperThreshold: 5
+        })
+        .on('render', function() {
+            var element = this.getElement()[0];
+            var maxInput = element.querySelector('[name=max]');
+
+            this.disableField('max');
+
+            setTimeout(function() {
+                assert.ok(!this.isFieldEnabled('max'), 'max is disabled');
+                assert.equal(this.getMaxValue(), 0, 'max value remains at 0 after disabling');
+                assert.equal(maxInput.value, 0, 'max input remains at 0 after disabling');
+                assert.ok(maxInput.classList.contains('disabled'), 'max input stays disabled');
+                ready();
+            }.bind(this), 0);
+        });
+    });
+
+    QUnit.test('sync does not re-enable disabled max', function(assert) {
+        var ready = assert.async();
+        var container = document.getElementById('qunit-fixture');
+
+        assert.expect(2);
+
+        minMaxComponentFactory(container, {
+            min: {
+                fieldName: 'min',
+                value: 1,
+                toggler: true,
+                lowerThreshold: 1
+            },
+            max: {
+                fieldName: 'max',
+                value: 2,
+                toggler: true,
+                lowerThreshold: 2
+            },
+            upperThreshold: 5
+        })
+        .on('render', function() {
+            this.disableField('max');
+            this.updateThresholds(2, 4, 'min');
+
+            setTimeout(function() {
+                assert.equal(this.getMaxValue(), 0, 'max stays at 0 when min threshold changes');
+                assert.ok(!this.isFieldEnabled('max'), 'max remains disabled');
+                ready();
+            }.bind(this), 0);
+        });
+    });
+
     QUnit.test('change values, upper bound', function(assert) {
         var ready = assert.async();
         var container = document.getElementById('qunit-fixture');

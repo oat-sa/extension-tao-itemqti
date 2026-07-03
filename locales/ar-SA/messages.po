@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-03-28 09:27\n"
+"PO-Revision-Date: 2026-05-07 20:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -260,6 +260,9 @@ msgstr "بدء أتوماتيكي"
 msgid "Back to Manage Items"
 msgstr "عودة إلى إدارة البنود"
 
+msgid "Back to test authoring"
+msgstr "العودة إلى المؤلف الاختباري"
+
 msgid "Background color"
 msgstr "لون الخلفية"
 
@@ -394,6 +397,9 @@ msgstr "انقر لعرض أداة التفاعل"
 
 msgid "Click to remove"
 msgstr "انقر لإزالة"
+
+msgid "Close"
+msgstr "إغلاق"
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr "اجمع المعلومات ذات النهايات المفتوحة في إدخال نص قصير (سلاسل أو قيم رقمية)."
@@ -2328,3 +2334,4 @@ msgstr "تحتاج إلى الاختيار من %s إلى %s اختيارات."
 
 msgid "Your item has been saved"
 msgstr "تم حفظ البند الخاص بك"
+

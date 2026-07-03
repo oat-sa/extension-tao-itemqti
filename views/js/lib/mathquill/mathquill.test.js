@@ -1428,6 +1428,8 @@ var saneKeyboardEvents = (function() {
     144: 'NumLock'
   };
 
+  var SPECIAL_KEYS = Object.keys(KEY_VALUES).map(function (key) { return KEY_VALUES[key]; });
+
   // To the extent possible, create a normalized string representation
   // of the key combo (i.e., key code and modifier keys).
   function stringify(evt) {
@@ -1435,6 +1437,10 @@ var saneKeyboardEvents = (function() {
     var keyVal = KEY_VALUES[which];
     var key;
     var modifiers = [];
+    var originalEventKey = evt.originalEvent && evt.originalEvent.key;
+    if (!keyVal && SPECIAL_KEYS.indexOf(originalEventKey) !== -1) {
+      keyVal = originalEventKey;
+    }
 
     if (evt.ctrlKey) modifiers.push('Ctrl');
     if (evt.originalEvent && evt.originalEvent.metaKey) modifiers.push('Meta');

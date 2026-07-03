@@ -45,12 +45,12 @@ abstract class AbstractMetadataService extends ConfigurableService
     /**
      * @var array Array of metadata, with metadata key with associated value
      */
-    protected $metadataValues;
+    protected $metadataValues = [];
 
     /**
      * @var array Instances to manage metadata values
      */
-    protected $instances;
+    protected $instances = [];
 
     /**
      * Allow to register into config a metadataService

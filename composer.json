@@ -64,7 +64,7 @@
         "ext-simplexml": "*",
         "naneau/semver": "~0.0.7",
         "oat-sa/extension-tao-backoffice": ">=7.1.0",
-        "oat-sa/extension-tao-item": ">=12.4.0",
+        "oat-sa/extension-tao-item": ">=13.1.0",
         "oat-sa/extension-tao-test": ">=16.3.0",
         "oat-sa/generis": ">=17.0.0",
         "oat-sa/lib-tao-qti": "^7.8.1",
