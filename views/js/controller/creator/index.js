@@ -104,7 +104,7 @@ define([
                 logger.error(err);
 
                 if (err instanceof Error) {
-                    feedback().error(err.message);
+                    feedback().error(err.message, null, { encodeHtml: false });
                 }
             }
 
@@ -144,7 +144,7 @@ define([
                     //build a new item creator
                     itemCreatorFactory(config, loadAreaBroker(config), pluginLoader.getPlugins())
                         .on('error', reportError)
-                        .on('success', message => feedback().success(message))
+                        .on('success', message => feedback().success(message, null, { encodeHtml: false }))
                         .on('init', function onInit() {
                             this.render();
                         })
