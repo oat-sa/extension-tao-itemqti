@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-07-02 10:35\n"
+"PO-Revision-Date: 2026-07-03 10:32\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl_BE\n"
@@ -849,7 +849,7 @@ msgid "Horizontal text"
 msgstr ""
 
 msgid "Hotspot"
-msgstr ""
+msgstr "Hotspot"
 
 msgid "Hotspot Interaction"
 msgstr ""
@@ -939,7 +939,7 @@ msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be i
 msgstr ""
 
 msgid "In progress"
-msgstr ""
+msgstr "Bezig"
 
 msgid "In Progress"
 msgstr ""
@@ -1060,7 +1060,7 @@ msgstr ""
 
 #, tao-public
 msgid "Items"
-msgstr ""
+msgstr "Artikelen"
 
 msgid "Label"
 msgstr ""
@@ -1549,7 +1549,7 @@ msgid "remove"
 msgstr ""
 
 msgid "Remove"
-msgstr ""
+msgstr "Verwijderen"
 
 msgid "Remove custom background color"
 msgstr ""
@@ -1648,7 +1648,7 @@ msgid "Rollback on..."
 msgstr ""
 
 msgid "Save"
-msgstr ""
+msgstr "Opslaan"
 
 msgid "Save the item"
 msgstr ""
@@ -1801,7 +1801,7 @@ msgid "Sine"
 msgstr ""
 
 msgid "Single choice"
-msgstr ""
+msgstr "Enkele keus"
 
 msgid "Sinus"
 msgstr ""
@@ -1810,7 +1810,7 @@ msgid "Size and position"
 msgstr ""
 
 msgid "Slider"
-msgstr ""
+msgstr "Schuifknop"
 
 msgid "Slider Interaction"
 msgstr ""
@@ -2191,7 +2191,7 @@ msgid "Unable to load item from the given data."
 msgstr ""
 
 msgid "Unable to process your request"
-msgstr ""
+msgstr "Kan uw verzoek niet verwerken"
 
 msgid "Unable to retrieve asset \"%s"
 msgstr ""
