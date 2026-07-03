@@ -33,6 +33,8 @@ class ElementReferencesTest extends TestCase
         . 'tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d5';
     private const MEDIA_LINK_3 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_'
         . 'tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d3';
+    private const MEDIA_LINK_4 = 'taomedia://mediamanager/https_2_test-tao-deploy_0_docker_0_localhost_1_ontologies_1_'
+        . 'tao_0_rdf_3_i5ec293a38ebe623833180e3b0a547a6d7';
 
     /** @var ElementReferences */
     private $subject;
@@ -42,7 +44,8 @@ class ElementReferencesTest extends TestCase
         $this->subject = new ElementReferences(
             [self::MEDIA_LINK_1],
             [self::MEDIA_LINK_2],
-            [self::MEDIA_LINK_3]
+            [self::MEDIA_LINK_3],
+            [self::MEDIA_LINK_4]
         );
     }
 
@@ -51,12 +54,14 @@ class ElementReferencesTest extends TestCase
         $this->assertSame($this->subject->getXIncludeReferences(), [self::MEDIA_LINK_1]);
         $this->assertSame($this->subject->getObjectReferences(), [self::MEDIA_LINK_2]);
         $this->assertSame($this->subject->getImgReferences(), [self::MEDIA_LINK_3]);
+        $this->assertSame($this->subject->getTextReaderReferences(), [self::MEDIA_LINK_4]);
         $this->assertSame(
             $this->subject->getAllReferences(),
             [
                 self::MEDIA_LINK_1,
                 self::MEDIA_LINK_2,
                 self::MEDIA_LINK_3,
+                self::MEDIA_LINK_4,
             ]
         );
     }

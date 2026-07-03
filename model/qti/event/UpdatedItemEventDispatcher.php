@@ -37,6 +37,7 @@ class UpdatedItemEventDispatcher extends ConfigurableService
     private const INCLUDE_ELEMENT_REFERENCES_KEY = 'includeElementReferences';
     private const OBJECT_ELEMENT_REFERENCES_KEY = 'objectElementReferences';
     private const IMG_ELEMENT_REFERENCES_KEY = 'imgElementReferences';
+    private const TEXT_READER_ELEMENT_REFERENCES_KEY = 'textReaderElementReferences';
 
     public function dispatch(Item $qtiItem, core_kernel_classes_Resource $rdfItem): void
     {
@@ -46,6 +47,7 @@ class UpdatedItemEventDispatcher extends ConfigurableService
             self::INCLUDE_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, XInclude::class, 'href'),
             self::OBJECT_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, QtiObject::class, 'data'),
             self::IMG_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, Img::class, 'src'),
+            self::TEXT_READER_ELEMENT_REFERENCES_KEY => $extractor->extractTextReaderReferences($qtiItem),
         ];
 
         $this->getEventManager()

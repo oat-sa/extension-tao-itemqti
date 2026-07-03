@@ -1,6 +1,10 @@
 @import 'inc/bootstrap';
 
 .qti-gapMatchInteraction {
+    .qti-gap {
+        display: inline-block;
+    }
+
     .gapmatch-content {
         audio,
         canvas,
@@ -10,6 +14,7 @@
         }
 
         border: solid 1px transparent;
+        border-width: 1px 0 1px 0;
         border-bottom-color: $textColor;
         background: $uiClickableDefaultBg;
         color: $textColor;
@@ -61,6 +66,7 @@
                         padding-inline-end: 4px;
                         border-radius: 0 2px 2px 0;
                         background: $colorBrand;
+                        border: solid 1px transparent;
                     }
                 }
             }
