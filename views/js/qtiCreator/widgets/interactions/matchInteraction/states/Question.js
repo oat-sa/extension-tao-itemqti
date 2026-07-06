@@ -104,8 +104,9 @@ define([
         var $form = this.widget.$form;
         var interaction = this.widget.element;
         var $interaction = this.widget.$container.find('.qti-interaction');
-        var mode = getMode(interaction.attr('class')) || MODE_NON_TABULAR;
-        var position = getPosition(interaction.attr('class')) || DEFAULT_POSITION;
+        var initialClass = interaction.attr('class');
+        var mode = getMode(initialClass) || MODE_NON_TABULAR;
+        var position = mode === MODE_NON_TABULAR ? getPosition(initialClass) || DEFAULT_POSITION : DEFAULT_POSITION;
         var callbacks;
 
         function applyDisplaySettings(newMode, newPosition) {
@@ -135,7 +136,7 @@ define([
             nonTabular: mode === MODE_NON_TABULAR,
             position: position,
             enabledFeatures: {
-                shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/associate/property/shuffle')
+                shuffleChoices: features.isVisible('taoQtiItem/creator/interaction/match/property/shuffle')
             }
         }));
 
@@ -152,7 +153,7 @@ define([
             },
             lowerThreshold: 0,
             upperThreshold: 100
-        }).on('change', function(){});
+        });
 
         formElement.initWidget($form);
         refreshDisplayControls();
@@ -163,7 +164,7 @@ define([
         );
         callbacks.shuffle = formElement.getAttributeChangeCallback();
         callbacks.displayMode = function(matchInteraction, value) {
-            var nextPosition = value === MODE_NON_TABULAR ? position || DEFAULT_POSITION : null;
+            var nextPosition = value === MODE_NON_TABULAR && mode === MODE_NON_TABULAR ? position : DEFAULT_POSITION;
             applyDisplaySettings(value, nextPosition);
             refreshDisplayControls();
         };
@@ -178,10 +179,6 @@ define([
             sizeAdapter.adaptSize(widget);
         });
     };
-
-    MatchInteractionStateQuestion.prototype.normalizeClass = normalizeClass;
-    MatchInteractionStateQuestion.prototype.getMode = getMode;
-    MatchInteractionStateQuestion.prototype.getPosition = getPosition;
 
     MatchInteractionStateQuestion.prototype.addNewChoiceButton = function(){
 
