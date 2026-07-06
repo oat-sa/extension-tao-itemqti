@@ -72,6 +72,228 @@ define([
         }
     ];
 
+    var sliderPersistenceItem = {
+        identifier: 'slider-orientation-reverse-persistence',
+        serial: 'item_slider_orientation_reverse_persistence',
+        qtiClass: 'assessmentItem',
+        attributes: {
+            identifier: 'slider-orientation-reverse-persistence',
+            title: 'Slider orientation reverse persistence',
+            label: '',
+            adaptive: false,
+            timeDependent: false,
+            toolName: 'TAO',
+            toolVersion: '3.0'
+        },
+        body: {
+            serial: 'container_slider_orientation_reverse_body',
+            body: '<p>Slider default orientation</p>{{interaction_slider_persistence_a}}' +
+                '<p>Slider horizontal</p>{{interaction_slider_persistence_b}}' +
+                '<p>Slider vertical</p>{{interaction_slider_persistence_c}}' +
+                '<p>Slider default orientation, reversed</p>{{interaction_slider_persistence_d}}' +
+                '<p>Slider horizontal, reversed</p>{{interaction_slider_persistence_e}}' +
+                '<p>Slider vertical, reversed</p>{{interaction_slider_persistence_f}}',
+            elements: {
+                interaction_slider_persistence_a: {
+                    serial: 'interaction_slider_persistence_a',
+                    qtiClass: 'sliderInteraction',
+                    attributes: {
+                        responseIdentifier: 'RESPONSE',
+                        lowerBound: 0,
+                        upperBound: 100,
+                        step: 1,
+                        stepLabel: false,
+                        reverse: false
+                    },
+                    choices: []
+                },
+                interaction_slider_persistence_b: {
+                    serial: 'interaction_slider_persistence_b',
+                    qtiClass: 'sliderInteraction',
+                    attributes: {
+                        responseIdentifier: 'RESPONSE_1',
+                        lowerBound: 0,
+                        upperBound: 100,
+                        step: 1,
+                        stepLabel: false,
+                        orientation: 'horizontal',
+                        reverse: false
+                    },
+                    choices: []
+                },
+                interaction_slider_persistence_c: {
+                    serial: 'interaction_slider_persistence_c',
+                    qtiClass: 'sliderInteraction',
+                    attributes: {
+                        responseIdentifier: 'RESPONSE_2',
+                        lowerBound: 0,
+                        upperBound: 100,
+                        step: 1,
+                        stepLabel: false,
+                        orientation: 'vertical',
+                        reverse: false
+                    },
+                    choices: []
+                },
+                interaction_slider_persistence_d: {
+                    serial: 'interaction_slider_persistence_d',
+                    qtiClass: 'sliderInteraction',
+                    attributes: {
+                        responseIdentifier: 'RESPONSE_3',
+                        lowerBound: 0,
+                        upperBound: 100,
+                        step: 1,
+                        stepLabel: false,
+                        reverse: true
+                    },
+                    choices: []
+                },
+                interaction_slider_persistence_e: {
+                    serial: 'interaction_slider_persistence_e',
+                    qtiClass: 'sliderInteraction',
+                    attributes: {
+                        responseIdentifier: 'RESPONSE_4',
+                        lowerBound: 0,
+                        upperBound: 100,
+                        step: 1,
+                        stepLabel: false,
+                        orientation: 'horizontal',
+                        reverse: true
+                    },
+                    choices: []
+                },
+                interaction_slider_persistence_f: {
+                    serial: 'interaction_slider_persistence_f',
+                    qtiClass: 'sliderInteraction',
+                    attributes: {
+                        responseIdentifier: 'RESPONSE_5',
+                        lowerBound: 0,
+                        upperBound: 100,
+                        step: 1,
+                        stepLabel: false,
+                        orientation: 'vertical',
+                        reverse: true
+                    },
+                    choices: []
+                }
+            }
+        },
+        namespaces: {
+            xml: 'http://www.w3.org/XML/1998/namespace',
+            xsi: 'http://www.w3.org/2001/XMLSchema-instance',
+            '': 'http://www.imsglobal.org/xsd/imsqti_v2p1'
+        },
+        outcomes: {
+            outcomedeclaration_slider_persistence_score: {
+                identifier: 'SCORE',
+                serial: 'outcomedeclaration_slider_persistence_score',
+                qtiClass: 'outcomeDeclaration',
+                attributes: {
+                    identifier: 'SCORE',
+                    cardinality: 'single',
+                    baseType: 'float'
+                },
+                defaultValue: null
+            }
+        },
+        responses: {
+            responsedeclaration_slider_persistence_response: {
+                identifier: 'RESPONSE',
+                serial: 'responsedeclaration_slider_persistence_response',
+                qtiClass: 'responseDeclaration',
+                attributes: {
+                    identifier: 'RESPONSE',
+                    cardinality: 'single',
+                    baseType: 'integer'
+                },
+                correctResponses: [],
+                mapping: [],
+                areaMapping: [],
+                feedbackRules: []
+            },
+            responsedeclaration_slider_persistence_response_1: {
+                identifier: 'RESPONSE_1',
+                serial: 'responsedeclaration_slider_persistence_response_1',
+                qtiClass: 'responseDeclaration',
+                attributes: {
+                    identifier: 'RESPONSE_1',
+                    cardinality: 'single',
+                    baseType: 'integer'
+                },
+                correctResponses: [],
+                mapping: [],
+                areaMapping: [],
+                feedbackRules: []
+            },
+            responsedeclaration_slider_persistence_response_2: {
+                identifier: 'RESPONSE_2',
+                serial: 'responsedeclaration_slider_persistence_response_2',
+                qtiClass: 'responseDeclaration',
+                attributes: {
+                    identifier: 'RESPONSE_2',
+                    cardinality: 'single',
+                    baseType: 'integer'
+                },
+                correctResponses: [],
+                mapping: [],
+                areaMapping: [],
+                feedbackRules: []
+            },
+            responsedeclaration_slider_persistence_response_3: {
+                identifier: 'RESPONSE_3',
+                serial: 'responsedeclaration_slider_persistence_response_3',
+                qtiClass: 'responseDeclaration',
+                attributes: {
+                    identifier: 'RESPONSE_3',
+                    cardinality: 'single',
+                    baseType: 'integer'
+                },
+                correctResponses: [],
+                mapping: [],
+                areaMapping: [],
+                feedbackRules: []
+            },
+            responsedeclaration_slider_persistence_response_4: {
+                identifier: 'RESPONSE_4',
+                serial: 'responsedeclaration_slider_persistence_response_4',
+                qtiClass: 'responseDeclaration',
+                attributes: {
+                    identifier: 'RESPONSE_4',
+                    cardinality: 'single',
+                    baseType: 'integer'
+                },
+                correctResponses: [],
+                mapping: [],
+                areaMapping: [],
+                feedbackRules: []
+            },
+            responsedeclaration_slider_persistence_response_5: {
+                identifier: 'RESPONSE_5',
+                serial: 'responsedeclaration_slider_persistence_response_5',
+                qtiClass: 'responseDeclaration',
+                attributes: {
+                    identifier: 'RESPONSE_5',
+                    cardinality: 'single',
+                    baseType: 'integer'
+                },
+                correctResponses: [],
+                mapping: [],
+                areaMapping: [],
+                feedbackRules: []
+            }
+        },
+        feedbacks: []
+    };
+
+    var expectedSliderAttributes = {
+        RESPONSE: { orientation: null, reverse: 'false' },
+        RESPONSE_1: { orientation: 'horizontal', reverse: 'false' },
+        RESPONSE_2: { orientation: 'vertical', reverse: 'false' },
+        RESPONSE_3: { orientation: null, reverse: 'true' },
+        RESPONSE_4: { orientation: 'horizontal', reverse: 'true' },
+        RESPONSE_5: { orientation: 'vertical', reverse: 'true' }
+    };
+
     QUnit
         .cases.init(items)
         .test('xml rendering', function(sample, assert) {
@@ -104,5 +326,69 @@ define([
             });
 
         });
+
+    QUnit.test('slider orientation and reverse attributes are persisted in exported XML', function(assert) {
+        var ready = assert.async();
+        var loader = new Loader();
+        var renderer = new Renderer({
+            shuffleChoices: false,
+            runtimeContext: {
+                runtime_base_www: '/taoQtiItem/test/samples/test_base_www/',
+                root_url: '',
+                debug: true
+            }
+        });
+
+        loader.loadItemData(sliderPersistenceItem, function(item) {
+            assert.ok(Element.isA(item, 'assessmentItem'), 'slider persistence fixture item loaded');
+
+            renderer.load(function() {
+                var xml;
+                var doc;
+                var sliders;
+                var slider;
+                var expected;
+                var responseIdentifier;
+                var i;
+
+                item.setRenderer(renderer);
+                xml = item.render();
+                doc = new DOMParser().parseFromString(xml, 'application/xml');
+                sliders = doc.getElementsByTagName('sliderInteraction');
+
+                assert.equal(sliders.length, 6, 'six slider interactions are exported');
+
+                for (i = 0; i < sliders.length; i++) {
+                    slider = sliders[i];
+                    responseIdentifier = slider.getAttribute('responseIdentifier');
+                    expected = expectedSliderAttributes[responseIdentifier];
+
+                    assert.ok(expected, responseIdentifier + ' is part of the slider persistence fixture');
+
+                    if (expected.orientation) {
+                        assert.equal(
+                            slider.getAttribute('orientation'),
+                            expected.orientation,
+                            responseIdentifier + ' orientation is exported'
+                        );
+                    } else {
+                        assert.ok(
+                            !slider.hasAttribute('orientation') ||
+                                slider.getAttribute('orientation') === 'horizontal',
+                            responseIdentifier + ' keeps horizontal default orientation'
+                        );
+                    }
+
+                    assert.equal(
+                        slider.getAttribute('reverse'),
+                        expected.reverse,
+                        responseIdentifier + ' reverse is exported'
+                    );
+                }
+
+                ready();
+            }, this.getLoadedClasses());
+        });
+    });
 
 });

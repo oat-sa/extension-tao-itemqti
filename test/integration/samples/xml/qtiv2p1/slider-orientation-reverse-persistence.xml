@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
+    identifier="slider-orientation-reverse-persistence"
+    title="Slider orientation reverse persistence"
+    label=""
+    adaptive="false"
+    timeDependent="false">
+    <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="integer"/>
+    <responseDeclaration identifier="RESPONSE_1" cardinality="single" baseType="integer"/>
+    <responseDeclaration identifier="RESPONSE_2" cardinality="single" baseType="integer"/>
+    <responseDeclaration identifier="RESPONSE_3" cardinality="single" baseType="integer"/>
+    <responseDeclaration identifier="RESPONSE_4" cardinality="single" baseType="integer"/>
+    <responseDeclaration identifier="RESPONSE_5" cardinality="single" baseType="integer"/>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
+    <itemBody>
+        <p>Slider default orientation</p>
+        <sliderInteraction responseIdentifier="RESPONSE" lowerBound="0" upperBound="100" step="1" stepLabel="false" reverse="false"/>
+        <p>Slider horizontal</p>
+        <sliderInteraction responseIdentifier="RESPONSE_1" lowerBound="0" upperBound="100" step="1" stepLabel="false" orientation="horizontal" reverse="false"/>
+        <p>Slider vertical</p>
+        <sliderInteraction responseIdentifier="RESPONSE_2" lowerBound="0" upperBound="100" step="1" stepLabel="false" orientation="vertical" reverse="false"/>
+        <p>Slider default orientation, reversed</p>
+        <sliderInteraction responseIdentifier="RESPONSE_3" lowerBound="0" upperBound="100" step="1" stepLabel="false" reverse="true"/>
+        <p>Slider horizontal, reversed</p>
+        <sliderInteraction responseIdentifier="RESPONSE_4" lowerBound="0" upperBound="100" step="1" stepLabel="false" orientation="horizontal" reverse="true"/>
+        <p>Slider vertical, reversed</p>
+        <sliderInteraction responseIdentifier="RESPONSE_5" lowerBound="0" upperBound="100" step="1" stepLabel="false" orientation="vertical" reverse="true"/>
+    </itemBody>
+</assessmentItem>
