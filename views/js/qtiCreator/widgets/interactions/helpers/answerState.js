@@ -28,6 +28,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/modalFeedbackRule',
     'taoQtiItem/qtiCreator/helper/qtiElements',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
+    'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm',
+    'text!taoQtiItem/qtiCreator/tpl/forms/response/textEntryEvaluation.tpl',
+    'handlebars',
 ], function (
     $,
     _,
@@ -39,9 +42,14 @@ define([
     responseFormTpl,
     modalFeedbackRule,
     qtiElements,
-    xmlRenderer
+    xmlRenderer,
+    textEntryEvaluationForm,
+    textEntryEvaluationPartial,
+    handlebars
 ) {
     'use strict';
+
+    handlebars.registerPartial('textEntryEvaluation', textEntryEvaluationPartial);
 
     const modalFeedbackConfigKey = 'taoQtiItem/creator/interaction/property/modalFeedback';
     const showResponseIdentifierKey = 'taoQtiItem/creator/interaction/response/property/identifier';
@@ -243,26 +251,38 @@ define([
                 template = 'CUSTOM';
             }
 
+            const isTextEntryInteraction =
+                interaction.qtiClass === allQtiElements.textEntryInteraction.qtiClass;
+
+            const evaluationTplData = isTextEntryInteraction
+                ? textEntryEvaluationForm.getTplData(interaction)
+                : {};
+
             widget.$responseForm.html(
-                responseFormTpl({
-                    identifier: response.id(),
-                    showIdentifier: features.isVisible(showResponseIdentifierKey),
-                    serial: response.getSerial(),
-                    defineCorrect: defineCorrect,
-                    editMapping: editMapping,
-                    editFeedbacks: template !== 'CUSTOM' && features.isVisible(modalFeedbackConfigKey),
-                    mappingDisabled: _.isEmpty(response.mapEntries),
-                    template: template,
-                    templates: _getAvailableRpTemplates(
-                        interaction,
-                        options.rpTemplates,
-                        widget.options.allowCustomTemplate
-                    ),
-                    listOfBaseType: listOfBaseType,
-                    listOfBaseTypes: _getAvailableListOfBaseTypes(listOfBaseType),
-                    textEntryInteraction: interaction.qtiClass === allQtiElements.textEntryInteraction.qtiClass,
-                    defaultValue: response.getMappingAttribute('defaultValue')
-                })
+                responseFormTpl(
+                    Object.assign(
+                        {
+                            identifier: response.id(),
+                            showIdentifier: features.isVisible(showResponseIdentifierKey),
+                            serial: response.getSerial(),
+                            defineCorrect: defineCorrect,
+                            editMapping: editMapping,
+                            editFeedbacks: template !== 'CUSTOM' && features.isVisible(modalFeedbackConfigKey),
+                            mappingDisabled: _.isEmpty(response.mapEntries),
+                            template: template,
+                            templates: _getAvailableRpTemplates(
+                                interaction,
+                                options.rpTemplates,
+                                widget.options.allowCustomTemplate
+                            ),
+                            listOfBaseType: listOfBaseType,
+                            listOfBaseTypes: _getAvailableListOfBaseTypes(listOfBaseType),
+                            textEntryInteraction: isTextEntryInteraction,
+                            defaultValue: response.getMappingAttribute('defaultValue')
+                        },
+                        evaluationTplData
+                    )
+                )
             );
             widget.$responseForm.find('select[name=template]').val(template);
 
@@ -348,6 +368,10 @@ define([
             widget.$responseForm.trigger('initResponseForm');
 
             formElement.initWidget(widget.$responseForm);
+
+            if (isTextEntryInteraction) {
+                textEntryEvaluationForm.bindEvents(widget.$responseForm, widget);
+            }
         },
 
         /**

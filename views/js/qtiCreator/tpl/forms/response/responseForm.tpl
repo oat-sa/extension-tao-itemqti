@@ -38,6 +38,8 @@
         {{/each}}
     </select>
 </div>
+
+{{> textEntryEvaluation }}
 {{/if}}
 
 {{#if editMapping}}

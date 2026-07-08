@@ -1,0 +1,77 @@
+.text-entry-evaluation-panel {
+    $control-column-width: 20px;
+    $control-gap: 8px;
+
+    h3.full-width {
+        .icon-help {
+            margin-left: 0.25rem;
+        }
+    }
+
+    .text-entry-evaluation-expanded {
+        margin-top: 0.25rem;
+    }
+
+    label.smaller-prompt {
+        display: grid;
+        grid-template-columns: $control-column-width 1fr;
+        column-gap: $control-gap;
+        align-items: start;
+        margin-bottom: 0.25rem;
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            grid-column: 1;
+            grid-row: 1;
+            margin: 0;
+        }
+
+        .icon-checkbox,
+        .icon-radio {
+            grid-column: 1;
+            grid-row: 1;
+            float: none;
+            margin: 0;
+            top: 0;
+        }
+
+        .label-text {
+            grid-column: 2;
+            grid-row: 1;
+            line-height: 1.4;
+        }
+    }
+
+    .allow-lexical-fields-on-scoring {
+        margin-top: 0.5rem;
+    }
+
+    .text-entry-evaluation-info {
+        display: grid;
+        grid-template-columns: $control-column-width 1fr;
+        column-gap: $control-gap;
+        align-items: start;
+        margin: 0.15rem 0 0.75rem;
+        color: $info;
+        font-size: 12px;
+        line-height: 1.4;
+
+        body.solar-design & {
+            color: var(--color-brand, #{$info});
+        }
+
+        .icon-info {
+            grid-column: 1;
+            grid-row: 1;
+            margin: 1px 0 0;
+            font-size: 14px;
+            color: inherit;
+        }
+
+        .info-text {
+            grid-column: 2;
+            grid-row: 1;
+            line-height: 1.4;
+        }
+    }
+}
