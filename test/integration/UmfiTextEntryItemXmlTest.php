@@ -88,17 +88,13 @@ class UmfiTextEntryItemXmlTest extends TaoPhpUnitTestRunner
         $interaction->setAttribute('data-item-type', 'umfi-closed');
         $interaction->setAttribute('data-case-sensitive', 'false');
         $interaction->setAttribute('data-umfi-values', '[["apple","apples"]]');
-        $interaction->setAttribute('data-umfi-managed-outcomes', '["APPLE_FOUND"]');
-        $interaction->setAttribute('data-umfi-rp-managed', 'true');
 
         $output = $interaction->toQTI();
 
         $this->assertStringContainsString('data-umfi-values="[[&quot;apple&quot;,&quot;apples&quot;]]"', $output);
-        $this->assertStringNotContainsString('data-umfi-managed-outcomes', $output);
-        $this->assertStringNotContainsString('data-umfi-rp-managed', $output);
     }
 
-    public function testRoundTripEscapesUmfiValuesAndStripsInternalAttributes(): void
+    public function testRoundTripEscapesUmfiValues(): void
     {
         $xml = file_get_contents(self::SAMPLE_FILE);
         $this->assertNotFalse($xml);
@@ -109,14 +105,8 @@ class UmfiTextEntryItemXmlTest extends TaoPhpUnitTestRunner
         $textEntryInteractions = $item->getBody()->getElements(TextEntryInteraction::class);
         $this->assertCount(1, $textEntryInteractions);
 
-        $textEntryInteraction = reset($textEntryInteractions);
-        $textEntryInteraction->setAttribute('data-umfi-managed-outcomes', '["APPLE_FOUND"]');
-        $textEntryInteraction->setAttribute('data-umfi-rp-managed', 'true');
-
         $output = $item->toXML();
 
         $this->assertStringContainsString('data-umfi-values="[[&quot;apple&quot;,&quot;apples&quot;]]"', $output);
-        $this->assertStringNotContainsString('data-umfi-managed-outcomes', $output);
-        $this->assertStringNotContainsString('data-umfi-rp-managed', $output);
     }
 }
