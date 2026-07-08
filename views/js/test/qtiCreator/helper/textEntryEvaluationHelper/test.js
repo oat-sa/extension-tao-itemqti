@@ -87,4 +87,51 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.strictEqual(secondEntry.attr('data-item-type'), undefined);
         assert.strictEqual(firstEntry.attr('data-allow-lexical-fields-on-scoring'), undefined);
     });
+
+    QUnit.test('parse and serialize lexical groups from data-umfi-values', assert => {
+        const json = '[["Germany","Federal Republic of Germany"],["France","french republic"]]';
+        const groups = evaluationHelper.parseDataUmfiValues(json);
+
+        assert.strictEqual(groups.length, 2);
+        assert.strictEqual(groups[0].label, 'Germany');
+        assert.deepEqual(groups[0].synonyms, ['Germany', 'Federal Republic of Germany']);
+        assert.strictEqual(groups[1].label, 'France');
+        assert.deepEqual(groups[1].synonyms, ['France', 'french republic']);
+
+        assert.strictEqual(
+            evaluationHelper.serializeDataUmfiValues(groups),
+            '[["Germany","Federal Republic of Germany"],["France","french republic"]]'
+        );
+    });
+
+    QUnit.test('buildGroupOutcomeId normalizes labels', assert => {
+        assert.strictEqual(evaluationHelper.buildGroupOutcomeId('Apple', 0), 'APPLE_FOUND');
+        assert.strictEqual(evaluationHelper.buildGroupOutcomeId('', 2), 'GROUP_2_FOUND');
+    });
+
+    QUnit.test('getEvaluationConfig reads lexical groups and case sensitivity', assert => {
+        const item = createItem([]);
+        const textEntry = createTextEntry(item);
+
+        item.getElements = function (qtiClass) {
+            if (qtiClass !== 'textEntryInteraction') {
+                return {};
+            }
+
+            return { 1: textEntry };
+        };
+
+        textEntry.attr('data-item-type', 'umfi-closed');
+        textEntry.attr('data-umfi-values', '[["Banana","bananas"]]');
+        textEntry.attr('data-case-sensitive', 'true');
+        textEntry.attr('data-allow-lexical-fields-on-scoring', 'true');
+
+        const config = evaluationHelper.getEvaluationConfig(textEntry);
+
+        assert.strictEqual(config.evaluateAsUmfi, true);
+        assert.strictEqual(config.caseSensitive, true);
+        assert.strictEqual(config.allowLexicalFieldsOnScoring, true);
+        assert.strictEqual(config.lexicalGroups.length, 1);
+        assert.strictEqual(config.lexicalGroups[0].label, 'Banana');
+    });
 });

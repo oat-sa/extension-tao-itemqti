@@ -17,20 +17,59 @@
  */
 define([
     'jquery',
-    'taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'
-], function ($, evaluationHelper) {
+    'lodash',
+    'taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/response/lexicalFieldGroup'
+], function ($, _, evaluationHelper, lexicalFieldGroupTpl) {
     'use strict';
 
     const NS = '.textEntryEvaluation';
 
     /**
+     * @param {Object} widget
+     * @returns {Object}
+     */
+    const getConfig = function getConfig(widget) {
+        if (!widget._textEntryEvaluationConfig) {
+            widget._textEntryEvaluationConfig = evaluationHelper.getEvaluationConfig(widget.element);
+        }
+
+        return widget._textEntryEvaluationConfig;
+    };
+
+    /**
+     * @param {Object} widget
+     * @param {Object} config
+     */
+    const setConfig = function setConfig(widget, config) {
+        widget._textEntryEvaluationConfig = config;
+        evaluationHelper.persistEvaluationConfig(widget.element, config);
+    };
+
+    /**
+     * @param {Object[]} groups
+     * @returns {Object[]}
+     */
+    const prepareGroupsForTpl = function prepareGroupsForTpl(groups) {
+        return _.map(evaluationHelper.normalizeLexicalGroups(groups), (group, index) =>
+            Object.assign({}, group, {
+                index,
+                draftVariant: !!group.draftVariant
+            })
+        );
+    };
+
+    /**
      * @param {Object} interaction
-     * @returns {{evaluateAsUmfi: boolean, allowLexicalFieldsOnScoring: boolean}}
+     * @returns {Object}
      */
     const getTplData = function getTplData(interaction) {
+        const config = evaluationHelper.getEvaluationConfig(interaction);
+
         return {
-            evaluateAsUmfi: evaluationHelper.isUmfiEnabled(interaction),
-            allowLexicalFieldsOnScoring: evaluationHelper.isAllowLexicalFieldsOnScoring(interaction)
+            evaluateAsUmfi: config.evaluateAsUmfi,
+            allowLexicalFieldsOnScoring: config.allowLexicalFieldsOnScoring,
+            lexicalGroups: prepareGroupsForTpl(config.lexicalGroups)
         };
     };
 
@@ -40,6 +79,102 @@ define([
      */
     const toggleDetails = function toggleDetails($responseForm, expanded) {
         $responseForm.find('.text-entry-evaluation-expanded').toggleClass('hidden', !expanded);
+    };
+
+    /**
+     * @param {jQuery} $group
+     * @returns {string[]}
+     */
+    const readVariantsFromGroup = function readVariantsFromGroup($group) {
+        const synonyms = [];
+
+        $group.find('.lexical-field-variant-chip .variant-text').each(function () {
+            const value = String($(this).text()).trim();
+            if (value) {
+                synonyms.push(value);
+            }
+        });
+
+        $group.find('.lexical-field-variant-input').each(function () {
+            const value = String($(this).val()).trim();
+            if (value) {
+                synonyms.push(value);
+            }
+        });
+
+        return synonyms;
+    };
+
+    /**
+     * @param {jQuery} $form
+     * @returns {Object[]}
+     */
+    const readLexicalGroupsFromForm = function readLexicalGroupsFromForm($form) {
+        const groups = [];
+
+        $form.find('.lexical-field-group').each(function () {
+            const $group = $(this);
+
+            groups.push({
+                label: String($group.find('.lexical-field-label').val() || '').trim(),
+                synonyms: readVariantsFromGroup($group),
+                draftVariant: $group.find('.lexical-field-variant-input').length > 0
+            });
+        });
+
+        return groups;
+    };
+
+    /**
+     * @param {jQuery} $responseForm
+     * @param {Object} widget
+     */
+    const syncConfigFromForm = function syncConfigFromForm($responseForm, widget) {
+        const config = getConfig(widget);
+
+        config.allowLexicalFieldsOnScoring = $responseForm
+            .find('input[name="allowLexicalFieldsOnScoring"]')
+            .prop('checked');
+        config.lexicalGroups = readLexicalGroupsFromForm($responseForm);
+
+        setConfig(widget, config);
+    };
+
+    /**
+     * @param {jQuery} $responseForm
+     * @param {Object} widget
+     * @param {Object} [options]
+     */
+    const renderLexicalFieldGroups = function renderLexicalFieldGroups($responseForm, widget, options) {
+        const config = getConfig(widget);
+        const $groups = $responseForm.find('.lexical-field-groups');
+        const focusGroupIndex = options && options.focusGroupIndex;
+
+        $groups.empty();
+
+        _.forEach(prepareGroupsForTpl(config.lexicalGroups), group => {
+            $groups.append(lexicalFieldGroupTpl(group));
+        });
+
+        if (_.isNumber(focusGroupIndex)) {
+            const $input = $groups
+                .find(`.lexical-field-group[data-group-index="${focusGroupIndex}"] .lexical-field-variant-input`)
+                .first();
+
+            if ($input.length) {
+                $input.trigger('focus');
+            }
+        }
+    };
+
+    /**
+     * @param {jQuery} $responseForm
+     * @param {Object} widget
+     * @param {Object} [options]
+     */
+    const refreshLexicalFields = function refreshLexicalFields($responseForm, widget, options) {
+        renderLexicalFieldGroups($responseForm, widget, options);
+        bindEvents($responseForm, widget);
     };
 
     /**
@@ -53,25 +188,133 @@ define([
 
         $responseForm.on(`change${NS}`, 'input[name="evaluateAsUmfi"]', function () {
             const enabled = $(this).prop('checked');
+            const config = getConfig(widget);
 
-            evaluationHelper.setUmfiEnabled(interaction, enabled);
-            toggleDetails($responseForm, enabled);
+            config.evaluateAsUmfi = enabled;
 
             if (!enabled) {
+                config.allowLexicalFieldsOnScoring = false;
+                config.lexicalGroups = [];
                 $responseForm.find('input[name="allowLexicalFieldsOnScoring"]').prop('checked', false);
             }
+
+            setConfig(widget, config);
+            toggleDetails($responseForm, enabled);
+            refreshLexicalFields($responseForm, widget);
         });
 
         $responseForm.on(`change${NS}`, 'input[name="allowLexicalFieldsOnScoring"]', function () {
-            evaluationHelper.setAllowLexicalFieldsOnScoring(interaction, $(this).prop('checked'));
+            syncConfigFromForm($responseForm, widget);
         });
+
+        $responseForm.on(
+            `input${NS}`,
+            '.lexical-field-label',
+            _.debounce(function () {
+                syncConfigFromForm($responseForm, widget);
+            }, 300)
+        );
+
+        $responseForm.on(`click${NS}`, '[data-action="add-lexical-field"]', function (e) {
+            e.preventDefault();
+            syncConfigFromForm($responseForm, widget);
+            const config = getConfig(widget);
+
+            config.lexicalGroups.push({
+                label: '',
+                synonyms: [],
+                draftVariant: true
+            });
+            setConfig(widget, config);
+            refreshLexicalFields($responseForm, widget, {
+                focusGroupIndex: config.lexicalGroups.length - 1
+            });
+        });
+
+        $responseForm.on(`click${NS}`, '[data-action="remove-lexical-field"]', function (e) {
+            e.preventDefault();
+            syncConfigFromForm($responseForm, widget);
+            const index = parseInt($(this).closest('.lexical-field-group').data('group-index'), 10);
+            const config = getConfig(widget);
+
+            config.lexicalGroups.splice(index, 1);
+            setConfig(widget, config);
+            refreshLexicalFields($responseForm, widget);
+        });
+
+        $responseForm.on(`click${NS}`, '[data-action="add-variant"]', function (e) {
+            e.preventDefault();
+            syncConfigFromForm($responseForm, widget);
+            const $group = $(this).closest('.lexical-field-group');
+            const index = parseInt($group.data('group-index'), 10);
+            const config = getConfig(widget);
+
+            if (config.lexicalGroups[index]) {
+                config.lexicalGroups[index].draftVariant = true;
+                setConfig(widget, config);
+                refreshLexicalFields($responseForm, widget, {
+                    focusGroupIndex: index
+                });
+            }
+        });
+
+        $responseForm.on(`click${NS}`, '[data-action="remove-variant"]', function (e) {
+            e.preventDefault();
+            syncConfigFromForm($responseForm, widget);
+            const $chip = $(this).closest('.lexical-field-variant-chip');
+            const $group = $(this).closest('.lexical-field-group');
+            const groupIndex = parseInt($group.data('group-index'), 10);
+            const variantIndex = parseInt($chip.data('variant-index'), 10);
+            const config = getConfig(widget);
+
+            if (config.lexicalGroups[groupIndex] && config.lexicalGroups[groupIndex].synonyms[variantIndex]) {
+                config.lexicalGroups[groupIndex].synonyms.splice(variantIndex, 1);
+                config.lexicalGroups[groupIndex].draftVariant = false;
+                setConfig(widget, config);
+                refreshLexicalFields($responseForm, widget);
+            }
+        });
+
+        const commitVariantInput = function commitVariantInput($input) {
+            const $group = $input.closest('.lexical-field-group');
+            const groupIndex = parseInt($group.data('group-index'), 10);
+            const config = getConfig(widget);
+
+            if (!config.lexicalGroups[groupIndex]) {
+                return;
+            }
+
+            config.lexicalGroups[groupIndex].synonyms = readVariantsFromGroup($group);
+            config.lexicalGroups[groupIndex].draftVariant = false;
+            setConfig(widget, config);
+            refreshLexicalFields($responseForm, widget);
+        };
+
+        $responseForm.on(`keydown${NS}`, '.lexical-field-variant-input', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                commitVariantInput($(this));
+            }
+        });
+
+        $responseForm.on(`blur${NS}`, '.lexical-field-variant-input', function () {
+            commitVariantInput($(this));
+        });
+
+        if (evaluationHelper.isUmfiEnabled(interaction)) {
+            renderLexicalFieldGroups($responseForm, widget);
+        }
     };
 
     /**
      * @param {jQuery} $responseForm
+     * @param {Object} [widget]
      */
-    const unbindEvents = function unbindEvents($responseForm) {
+    const unbindEvents = function unbindEvents($responseForm, widget) {
         $responseForm.off(NS);
+        if (widget) {
+            delete widget._textEntryEvaluationConfig;
+        }
     };
 
     return {

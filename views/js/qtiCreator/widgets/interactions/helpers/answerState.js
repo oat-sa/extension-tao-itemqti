@@ -30,6 +30,7 @@ define([
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm',
     'text!taoQtiItem/qtiCreator/tpl/forms/response/textEntryEvaluation.tpl',
+    'text!taoQtiItem/qtiCreator/tpl/forms/response/lexicalFieldGroup.tpl',
     'handlebars',
 ], function (
     $,
@@ -45,11 +46,13 @@ define([
     xmlRenderer,
     textEntryEvaluationForm,
     textEntryEvaluationPartial,
+    lexicalFieldGroupPartial,
     handlebars
 ) {
     'use strict';
 
     handlebars.registerPartial('textEntryEvaluation', textEntryEvaluationPartial);
+    handlebars.registerPartial('lexicalFieldGroup', lexicalFieldGroupPartial);
 
     const modalFeedbackConfigKey = 'taoQtiItem/creator/interaction/property/modalFeedback';
     const showResponseIdentifierKey = 'taoQtiItem/creator/interaction/response/property/identifier';

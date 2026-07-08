@@ -30,5 +30,23 @@
             <span class="icon-info"></span>
             <span class="info-text">{{__ "Enable this option if the list of expected answers may need to be extended during evaluation."}}</span>
         </p>
+
+        <div class="lexical-fields-panel">
+            <h4 class="lexical-fields-title">
+                {{__ "Lexical fields"}}
+                <span class="icon-help tooltipstered" data-tooltip="~ .lexical-fields-tooltip" data-tooltip-theme="info"></span>
+            </h4>
+            <span class="tooltip-content lexical-fields-tooltip">
+                {{__ "Define the expected lexical fields and their acceptable variants for scoring."}}
+            </span>
+            <a href="#" class="action-link add-lexical-field-action" data-action="add-lexical-field">
+                <span class="icon-add"></span>{{__ "Add lexical field"}}
+            </a>
+            <div class="lexical-field-groups">
+                {{#each lexicalGroups}}
+                {{> lexicalFieldGroup this}}
+                {{/each}}
+            </div>
+        </div>
     </div>
 </div>
