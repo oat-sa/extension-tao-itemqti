@@ -4,10 +4,10 @@
     .match-interaction-area {
         margin-top: 32px;
     }
+}
 
-    .match-non-tabular-info {
-        padding: 10px;
-    }
+@at-root #item-editor-interaction-property-bar [class*="feedback-"].match-display-mode-info {
+    padding: 10px !important;
 }
 
 .qti-matchInteraction {

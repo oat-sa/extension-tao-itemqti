@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<div class="feedback-info match-non-tabular-info" style="display:none;">
+<div class="feedback-info match-display-mode-info match-non-tabular-info" style="display:none;">
     {{__ 'Authoring view remains tabular. Preview and delivery use non-tabular mode.'}}
 </div>
 
