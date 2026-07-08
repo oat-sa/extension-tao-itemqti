@@ -31,6 +31,8 @@ use common_Logger;
 use common_ext_ExtensionsManager;
 use taoItems_models_classes_TemplateRenderer;
 use DOMDocument;
+use DOMElement;
+use DOMXPath;
 use oat\tao\helpers\Template;
 
 /**

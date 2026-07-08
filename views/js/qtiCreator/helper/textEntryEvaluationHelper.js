@@ -15,7 +15,11 @@
  *
  * Copyright (c) 2026 (original work) Open Assessment Technologies SA ;
  */
-define(['lodash'], function (_) {
+define([
+    'lodash',
+    'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiXmlRenderer/helper/synonymGroupResponseProcessingGenerator'
+], function (_, Element, synonymGroupGenerator) {
     'use strict';
 
     const UMFI_ITEM_TYPE = 'umfi-closed';
@@ -23,20 +27,107 @@ define(['lodash'], function (_) {
     const DATA_UMFI_VALUES = 'data-umfi-values';
     const DATA_CASE_SENSITIVE = 'data-case-sensitive';
     const DATA_ALLOW_LEXICAL_FIELDS = 'data-allow-lexical-fields-on-scoring';
+    const DATA_MANAGED_OUTCOMES = 'data-umfi-managed-outcomes';
+    const DATA_RP_MANAGED = 'data-umfi-rp-managed';
     const TEXT_ENTRY_QTI_CLASS = 'textEntryInteraction';
+    const PRIMARY_RESPONSE_IDENTIFIER = 'RESPONSE';
+
+    /**
+     * @param {Object} textEntry
+     * @returns {string|null}
+     */
+    const getTextEntryResponseIdentifier = function getTextEntryResponseIdentifier(textEntry) {
+        if (!textEntry || !_.isFunction(textEntry.attr)) {
+            return null;
+        }
+
+        return textEntry.attr('responseIdentifier') || null;
+    };
+
+    /**
+     * @param {Object} textEntry
+     * @returns {number|string|null}
+     */
+    const getTextEntrySerial = function getTextEntrySerial(textEntry) {
+        if (!textEntry) {
+            return null;
+        }
+
+        if (_.isFunction(textEntry.getSerial)) {
+            return textEntry.getSerial();
+        }
+
+        return textEntry.serial;
+    };
+
+    /**
+     * @param {Object[]} textEntries
+     * @returns {Object[]}
+     */
+    const sortTextEntries = function sortTextEntries(textEntries) {
+        return _.sortBy(textEntries, textEntry => {
+            const responseIdentifier = getTextEntryResponseIdentifier(textEntry);
+
+            if (responseIdentifier === PRIMARY_RESPONSE_IDENTIFIER) {
+                return '0';
+            }
+
+            return `1_${String(responseIdentifier || getTextEntrySerial(textEntry)).padStart(10, '0')}`;
+        });
+    };
+
+    /**
+     * @param {Object} element
+     * @returns {boolean}
+     */
+    const isTextEntryElement = function isTextEntryElement(element) {
+        if (!element) {
+            return false;
+        }
+
+        if (_.isFunction(element.is)) {
+            return element.is(TEXT_ENTRY_QTI_CLASS);
+        }
+
+        return Element.isA(element, TEXT_ENTRY_QTI_CLASS) || element.qtiClass === TEXT_ENTRY_QTI_CLASS;
+    };
+
+    /**
+     * @param {Object[]} elements
+     * @returns {Object[]}
+     */
+    const collectTextEntries = function collectTextEntries(elements) {
+        return _.filter(elements, isTextEntryElement);
+    };
 
     /**
      * @param {Object} interaction
      * @returns {Object[]}
      */
     const getItemTextEntries = function getItemTextEntries(interaction) {
-        const item = interaction.getRootElement();
+        const item = interaction && _.isFunction(interaction.getRootElement) ? interaction.getRootElement() : null;
 
-        if (!item || !_.isFunction(item.getElements)) {
+        if (item && _.isFunction(item.getComposingElements)) {
+            const textEntries = collectTextEntries(_.values(item.getComposingElements()));
+
+            if (textEntries.length) {
+                return sortTextEntries(textEntries);
+            }
+        }
+
+        if (item && _.isFunction(item.getElements)) {
+            const textEntries = collectTextEntries(_.values(item.getElements(TEXT_ENTRY_QTI_CLASS) || {}));
+
+            if (textEntries.length) {
+                return sortTextEntries(textEntries);
+            }
+        }
+
+        if (isTextEntryElement(interaction)) {
             return [interaction];
         }
 
-        return _.values(item.getElements(TEXT_ENTRY_QTI_CLASS));
+        return [];
     };
 
     /**
@@ -44,7 +135,32 @@ define(['lodash'], function (_) {
      * @returns {Object|null}
      */
     const getPrimaryTextEntry = function getPrimaryTextEntry(textEntries) {
-        return textEntries.length ? textEntries[0] : null;
+        if (!textEntries.length) {
+            return null;
+        }
+
+        const responseTextEntry = _.find(
+            textEntries,
+            textEntry => getTextEntryResponseIdentifier(textEntry) === PRIMARY_RESPONSE_IDENTIFIER
+        );
+
+        if (responseTextEntry) {
+            return responseTextEntry;
+        }
+
+        const metadataTextEntry = _.find(textEntries, textEntry => {
+            if (!textEntry || !_.isFunction(textEntry.attr)) {
+                return false;
+            }
+
+            return !!(textEntry.attr(DATA_ITEM_TYPE) || textEntry.attr(DATA_UMFI_VALUES));
+        });
+
+        if (metadataTextEntry) {
+            return metadataTextEntry;
+        }
+
+        return sortTextEntries(textEntries)[0];
     };
 
     /**
@@ -52,9 +168,17 @@ define(['lodash'], function (_) {
      * @returns {boolean}
      */
     const isUmfiEnabled = function isUmfiEnabled(interaction) {
-        const primaryTextEntry = getPrimaryTextEntry(getItemTextEntries(interaction));
+        const primaryTextEntry = getPrimaryTextEntryForInteraction(interaction);
 
-        return !!(primaryTextEntry && primaryTextEntry.attr(DATA_ITEM_TYPE) === UMFI_ITEM_TYPE);
+        if (!primaryTextEntry || !_.isFunction(primaryTextEntry.attr)) {
+            return false;
+        }
+
+        if (primaryTextEntry.attr(DATA_ITEM_TYPE) === UMFI_ITEM_TYPE) {
+            return true;
+        }
+
+        return parseDataUmfiValues(primaryTextEntry.attr(DATA_UMFI_VALUES)).length > 0;
     };
 
     /**
@@ -90,13 +214,302 @@ define(['lodash'], function (_) {
                 primaryTextEntry.attr(DATA_CASE_SENSITIVE, 'false');
             }
         } else {
+            clearUmfiResponseProcessing(interaction);
             _.forEach(textEntries, textEntry => {
                 textEntry.removeAttr(DATA_ITEM_TYPE);
                 textEntry.removeAttr(DATA_UMFI_VALUES);
                 textEntry.removeAttr(DATA_CASE_SENSITIVE);
                 textEntry.removeAttr(DATA_ALLOW_LEXICAL_FIELDS);
+                textEntry.removeAttr(DATA_MANAGED_OUTCOMES);
+                textEntry.removeAttr(DATA_RP_MANAGED);
             });
         }
+    };
+
+    /**
+     * @param {string|null|undefined} jsonString
+     * @returns {string[]}
+     */
+    const parseJsonStringArray = function parseJsonStringArray(jsonString) {
+        if (!jsonString || !_.isString(jsonString)) {
+            return [];
+        }
+
+        try {
+            const parsed = JSON.parse(jsonString);
+
+            return _.isArray(parsed) ? parsed : [];
+        } catch (e) {
+            return [];
+        }
+    };
+
+    /**
+     * @param {Object} interaction
+     * @returns {string[]}
+     */
+    const getTextEntryResponseIdentifiers = function getTextEntryResponseIdentifiers(interaction) {
+        return _.chain(getItemTextEntries(interaction))
+            .map(textEntry => (_.isFunction(textEntry.attr) ? textEntry.attr('responseIdentifier') : null))
+            .filter(Boolean)
+            .uniq()
+            .value();
+    };
+
+    /**
+     * @param {Object[]} groups
+     * @returns {Object[]}
+     */
+    const getScorableLexicalGroups = function getScorableLexicalGroups(groups) {
+        return _.filter(normalizeLexicalGroups(groups), group => group.synonyms.length > 0);
+    };
+
+    /**
+     * @param {Object} item
+     * @returns {Object|null}
+     */
+    const ensureItemResponseProcessing = function ensureItemResponseProcessing(item) {
+        if (!item) {
+            return null;
+        }
+
+        if (item.responseProcessing) {
+            return item.responseProcessing;
+        }
+
+        if (_.isFunction(item.createResponseProcessing)) {
+            return item.createResponseProcessing();
+        }
+
+        return null;
+    };
+
+    /**
+     * @param {Object} item
+     * @param {string} xml
+     */
+    const updateCustomResponseProcessing = function updateCustomResponseProcessing(item, xml) {
+        const rp = ensureItemResponseProcessing(item);
+
+        if (!rp || !_.isString(xml) || !xml.trim()) {
+            return;
+        }
+
+        if (_.isFunction(rp.setProcessingType)) {
+            rp.setProcessingType('custom', xml);
+        } else {
+            rp.processingType = 'custom';
+            rp.xml = xml;
+        }
+    };
+
+    /**
+     * @param {Object} item
+     * @param {string} identifier
+     * @param {Object} attributes
+     * @param {number|null} [defaultValue]
+     * @returns {Object}
+     */
+    const ensureOutcomeDeclaration = function ensureOutcomeDeclaration(item, identifier, attributes, defaultValue) {
+        let outcome = item.getOutcomeDeclaration(identifier);
+
+        if (!outcome) {
+            outcome = item.createOutcomeDeclaration(_.clone(attributes));
+            outcome.buildIdentifier(identifier, false);
+        }
+
+        if (!_.isUndefined(defaultValue) && _.isFunction(outcome.setDefaultValue)) {
+            outcome.setDefaultValue(defaultValue);
+        }
+
+        return outcome;
+    };
+
+    /**
+     * @param {Object} item
+     * @param {Object} primaryTextEntry
+     * @param {Object[]} groups
+     * @param {number} maxScore
+     */
+    const syncOutcomeDeclarations = function syncOutcomeDeclarations(item, primaryTextEntry, groups, maxScore) {
+        const desiredGroupIds = _.map(groups, 'id');
+        const previousManaged = parseJsonStringArray(primaryTextEntry.attr(DATA_MANAGED_OUTCOMES));
+
+        _.forEach(previousManaged, id => {
+            if (!_.includes(desiredGroupIds, id)) {
+                item.removeOutcome(id);
+            }
+        });
+
+        _.forEach(desiredGroupIds, id => {
+            const groupOutcome = ensureOutcomeDeclaration(
+                item,
+                id,
+                {
+                    cardinality: 'single',
+                    baseType: 'integer'
+                },
+                0
+            );
+
+            groupOutcome.attr('normalMinimum', 0);
+            groupOutcome.attr('normalMaximum', 1);
+        });
+
+        const scoreOutcome = ensureOutcomeDeclaration(
+            item,
+            'SCORE',
+            {
+                cardinality: 'single',
+                baseType: 'float'
+            },
+            0
+        );
+
+        scoreOutcome.attr('normalMinimum', 0);
+        scoreOutcome.attr('normalMaximum', maxScore);
+
+        ensureOutcomeDeclaration(
+            item,
+            'MAXSCORE',
+            {
+                cardinality: 'single',
+                baseType: 'float'
+            },
+            maxScore
+        );
+
+        primaryTextEntry.attr(DATA_MANAGED_OUTCOMES, JSON.stringify(desiredGroupIds));
+    };
+
+    /**
+     * @param {Object} primaryTextEntry
+     */
+    const stripInternalAuthoringAttrs = function stripInternalAuthoringAttrs(primaryTextEntry) {
+        if (!primaryTextEntry || !_.isFunction(primaryTextEntry.removeAttr)) {
+            return;
+        }
+
+        primaryTextEntry.removeAttr(DATA_MANAGED_OUTCOMES);
+        primaryTextEntry.removeAttr(DATA_RP_MANAGED);
+    };
+
+    /**
+     * @param {Object} interaction
+     */
+    const ensureUmfiResponseTemplates = function ensureUmfiResponseTemplates(interaction) {
+        if (!isUmfiEnabled(interaction)) {
+            return;
+        }
+
+        _.forEach(getItemTextEntries(interaction), textEntry => {
+            if (!_.isFunction(textEntry.getResponseDeclaration)) {
+                return;
+            }
+
+            const response = textEntry.getResponseDeclaration();
+
+            if (response && _.isFunction(response.setTemplate)) {
+                response.setTemplate('CUSTOM');
+            }
+        });
+    };
+
+    /**
+     * @param {Object} item
+     */
+    const ensurePersistedBeforeSave = function ensurePersistedBeforeSave(item) {
+        const sampleInteraction = {
+            getRootElement: function getRootElement() {
+                return item;
+            }
+        };
+        const textEntries = getItemTextEntries(sampleInteraction);
+        const primaryTextEntry = getPrimaryTextEntry(textEntries);
+
+        if (!primaryTextEntry) {
+            return;
+        }
+
+        const config = getEvaluationConfig(sampleInteraction);
+
+        if (!config.evaluateAsUmfi) {
+            stripInternalAuthoringAttrs(primaryTextEntry);
+            return;
+        }
+
+        syncResponseProcessing(sampleInteraction, config);
+        stripInternalAuthoringAttrs(primaryTextEntry);
+    };
+
+    /**
+     * @param {Object} interaction
+     */
+    const clearUmfiResponseProcessing = function clearUmfiResponseProcessing(interaction) {
+        const item = interaction.getRootElement();
+        const primaryTextEntry = getPrimaryTextEntryForInteraction(interaction);
+
+        if (!item || !primaryTextEntry) {
+            return;
+        }
+
+        if (primaryTextEntry.attr(DATA_RP_MANAGED) === 'true' || isUmfiEnabled(interaction)) {
+            const rp = item.responseProcessing;
+
+            if (rp && rp.processingType === 'custom' && _.isFunction(rp.setProcessingType)) {
+                rp.setProcessingType('templateDriven');
+            }
+
+            primaryTextEntry.removeAttr(DATA_RP_MANAGED);
+        }
+
+        _.forEach(parseJsonStringArray(primaryTextEntry.attr(DATA_MANAGED_OUTCOMES)), id => {
+            item.removeOutcome(id);
+        });
+
+        primaryTextEntry.removeAttr(DATA_MANAGED_OUTCOMES);
+    };
+
+    /**
+     * @param {Object} interaction
+     * @param {{evaluateAsUmfi?: boolean, lexicalGroups?: Object[]}} config
+     */
+    const syncResponseProcessing = function syncResponseProcessing(interaction, config) {
+        const item = interaction && _.isFunction(interaction.getRootElement) ? interaction.getRootElement() : null;
+        const primaryTextEntry = getPrimaryTextEntryForInteraction(interaction);
+        const lexicalGroups =
+            config && config.lexicalGroups ? normalizeLexicalGroups(config.lexicalGroups) : getLexicalGroups(interaction);
+        const scorableGroups = getScorableLexicalGroups(lexicalGroups);
+
+        if (!item || !primaryTextEntry || !isUmfiEnabled(interaction) || !scorableGroups.length) {
+            return;
+        }
+
+        const responseIdentifiers = getTextEntryResponseIdentifiers(interaction);
+
+        if (!responseIdentifiers.length) {
+            return;
+        }
+
+        const rpConfig = synonymGroupGenerator.normalizeConfig({
+            interactions: responseIdentifiers,
+            synonymGroups: _.map(scorableGroups, group => ({
+                id: group.id,
+                label: group.label,
+                synonyms: group.synonyms
+            })),
+            caseSensitive: isCaseSensitive(interaction)
+        });
+
+        synonymGroupGenerator.validateConfig(rpConfig);
+
+        const rpXml = synonymGroupGenerator.generateResponseProcessing(rpConfig);
+        const maxScore = synonymGroupGenerator.getMaxScore(rpConfig);
+
+        updateCustomResponseProcessing(item, rpXml);
+        ensureUmfiResponseTemplates(interaction);
+        primaryTextEntry.attr(DATA_RP_MANAGED, 'true');
+        syncOutcomeDeclarations(item, primaryTextEntry, scorableGroups, maxScore);
     };
 
     /**
@@ -123,6 +536,8 @@ define(['lodash'], function (_) {
      * @returns {Array<{id: string, label: string, synonyms: string[], collapsed: boolean}>}
      */
     const normalizeLexicalGroups = function normalizeLexicalGroups(groups) {
+        const usedIds = {};
+
         return _.map(groups || [], (group, index) => {
             const synonyms = _.chain(group.synonyms || group.variants || [])
                 .map(String)
@@ -130,9 +545,18 @@ define(['lodash'], function (_) {
                 .filter(Boolean)
                 .value();
             const label = String(group.label || synonyms[0] || `Group ${index + 1}`).trim();
+            let id = group.id || buildGroupOutcomeId(label, index);
+            let suffix = 1;
+
+            while (usedIds[id]) {
+                id = `${buildGroupOutcomeId(label, index).replace(/_FOUND$/, '')}_${suffix}_FOUND`;
+                suffix += 1;
+            }
+
+            usedIds[id] = true;
 
             return {
-                id: group.id || buildGroupOutcomeId(label, index),
+                id,
                 label,
                 synonyms,
                 draftVariant: !!group.draftVariant
@@ -265,6 +689,7 @@ define(['lodash'], function (_) {
      */
     const persistEvaluationConfig = function persistEvaluationConfig(interaction, config) {
         if (config.evaluateAsUmfi === false) {
+            clearUmfiResponseProcessing(interaction);
             setUmfiEnabled(interaction, false);
             return;
         }
@@ -284,6 +709,11 @@ define(['lodash'], function (_) {
         if (!_.isUndefined(config.allowLexicalFieldsOnScoring)) {
             setAllowLexicalFieldsOnScoring(interaction, config.allowLexicalFieldsOnScoring);
         }
+
+        syncResponseProcessing(interaction, {
+            evaluateAsUmfi: isUmfiEnabled(interaction),
+            lexicalGroups: getLexicalGroups(interaction)
+        });
     };
 
     /**
@@ -306,16 +736,23 @@ define(['lodash'], function (_) {
 
     return {
         UMFI_ITEM_TYPE,
+        PRIMARY_RESPONSE_IDENTIFIER,
         DATA_ITEM_TYPE,
         DATA_UMFI_VALUES,
         DATA_CASE_SENSITIVE,
         DATA_ALLOW_LEXICAL_FIELDS,
+        DATA_MANAGED_OUTCOMES,
+        DATA_RP_MANAGED,
         getItemTextEntries,
+        getPrimaryTextEntry,
+        getTextEntryResponseIdentifier,
+        getTextEntryResponseIdentifiers,
         isUmfiEnabled,
         isAllowLexicalFieldsOnScoring,
         isCaseSensitive,
         getLexicalGroups,
         getEvaluationConfig,
+        getScorableLexicalGroups,
         normalizeLexicalGroups,
         parseDataUmfiValues,
         serializeDataUmfiValues,
@@ -324,6 +761,11 @@ define(['lodash'], function (_) {
         setAllowLexicalFieldsOnScoring,
         setLexicalGroups,
         setCaseSensitive,
-        persistEvaluationConfig
+        syncResponseProcessing,
+        clearUmfiResponseProcessing,
+        persistEvaluationConfig,
+        stripInternalAuthoringAttrs,
+        ensureUmfiResponseTemplates,
+        ensurePersistedBeforeSave
     };
 });

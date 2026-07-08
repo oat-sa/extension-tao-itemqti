@@ -21,7 +21,8 @@ define([
     'taoQtiItem/qtiItem/helper/maxScore',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiXmlRenderer/renderers/RendererPerInteractionRP',
-], function(loggerFactory, XmlRenderer, maxScore, Element, XmlRendererPerInteractionRP){
+    'taoQtiItem/qtiXmlRenderer/helper/umfiTextEntryXmlAttributes'
+], function(loggerFactory, XmlRenderer, maxScore, Element, XmlRendererPerInteractionRP, umfiTextEntryXmlAttributes){
     'use strict';
 
     const logger = loggerFactory('taoQtiItem/qtiCreator/helper/xmlRenderer');
@@ -60,6 +61,10 @@ define([
                     xmlRenderer,
                     options
                 );
+
+                if (element.is('assessmentItem')) {
+                    xml = umfiTextEntryXmlAttributes.stripInternalAuthoringAttrsFromItemXml(xml);
+                }
             }
         }catch(e){
             logger.error(e);

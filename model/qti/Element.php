@@ -465,7 +465,7 @@ abstract class Element implements Exportable
         $template = static::getTemplateQti();
         $variables = $this->getTemplateQtiVariables();
         if (isset($variables['attributes'])) {
-            $variables['attributes'] = $this->xmlizeOptions($variables['attributes'], true);
+            $variables['attributes'] = $this->xmlizeOptions([], false);
         }
         $tplRenderer = new taoItems_models_classes_TemplateRenderer($template, $variables);
         $returnValue = $tplRenderer->render();
@@ -634,6 +634,16 @@ abstract class Element implements Exportable
     }
 
     /**
+     * Attribute names omitted from saved QTI XML output.
+     *
+     * @return string[]
+     */
+    protected function getExcludedXmlAttributeNames(): array
+    {
+        return [];
+    }
+
+    /**
      * This method enables you to build a string of attributes for an xml node
      * from the Qti Element attributes according to their types.
      *
@@ -651,7 +661,13 @@ abstract class Element implements Exportable
         }
 
         $options = (!$recursive) ? $this->getAttributeValues() : $formalOpts;
+        $excludedAttributeNames = $this->getExcludedXmlAttributeNames();
+
         foreach ($options as $key => $value) {
+            if (in_array($key, $excludedAttributeNames, true)) {
+                continue;
+            }
+
             if (is_string($value) || is_numeric($value)) {
                 // str_replace is unicode safe...
                 $returnValue .= ' ' . $key . '="' . str_replace([

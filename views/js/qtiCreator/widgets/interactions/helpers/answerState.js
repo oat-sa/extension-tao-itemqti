@@ -29,6 +29,7 @@ define([
     'taoQtiItem/qtiCreator/helper/qtiElements',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm',
+    'taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper',
     'text!taoQtiItem/qtiCreator/tpl/forms/response/textEntryEvaluation.tpl',
     'text!taoQtiItem/qtiCreator/tpl/forms/response/lexicalFieldGroup.tpl',
     'handlebars',
@@ -45,6 +46,7 @@ define([
     qtiElements,
     xmlRenderer,
     textEntryEvaluationForm,
+    textEntryEvaluationHelper,
     textEntryEvaluationPartial,
     lexicalFieldGroupPartial,
     handlebars
@@ -374,6 +376,13 @@ define([
 
             if (isTextEntryInteraction) {
                 textEntryEvaluationForm.bindEvents(widget.$responseForm, widget);
+
+                if (textEntryEvaluationHelper.isUmfiEnabled(interaction)) {
+                    textEntryEvaluationHelper.persistEvaluationConfig(
+                        interaction,
+                        textEntryEvaluationHelper.getEvaluationConfig(interaction)
+                    );
+                }
             }
         },
 

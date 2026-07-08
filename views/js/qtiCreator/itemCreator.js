@@ -43,6 +43,7 @@ define([
     'taoQtiItem/qtiCreator/editor/propertiesPanel',
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
+    'taoQtiItem/qtiCreator/helper/textEntryEvaluationSave',
     'handlebars',
     'text!taoQtiItem/qtiCreator/tpl/partials/scrollingSelect.tpl'
 ], function (
@@ -62,6 +63,7 @@ define([
     propertiesPanel,
     eventHelper,
     styleEditor,
+    textEntryEvaluationSave,
     handlebars,
     scrollingSelect
 ) {
@@ -314,6 +316,7 @@ define([
                         qtiCreatorContext.on('registerBeforeSaveProcess', beforeSaveProcess => {
                             this.beforeSaveProcess = Promise.all([this.beforeSaveProcess, beforeSaveProcess]);
                         });
+                        textEntryEvaluationSave.register(qtiCreatorContext, () => this.getItem());
                         return qtiCreatorContext.init();
                     })
                     .catch(err => this.trigger('error', err));

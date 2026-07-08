@@ -24,6 +24,37 @@ define([
     'use strict';
 
     const NS = '.textEntryEvaluation';
+    const DOC_NS = '.textEntryEvaluationDoc';
+
+    /**
+     * Action links inside a lexical field group can steal focus from the draft
+     * variant input. Blur fires before click and rebuilds the DOM, so the click
+     * never reaches the original link. Suppress blur-commit while such a click is
+     * in progress.
+     */
+    let suppressVariantBlurCommit = false;
+
+    /**
+     * @param {jQuery} $responseForm
+     */
+    const bindVariantBlurGuard = function bindVariantBlurGuard($responseForm) {
+        $(document)
+            .off(`mouseup${DOC_NS}`)
+            .on(`mouseup${DOC_NS}`, () => {
+                suppressVariantBlurCommit = false;
+            });
+
+        $responseForm
+            .off(`mousedown${DOC_NS}`)
+            .on(
+                `mousedown${DOC_NS}`,
+                '[data-action="add-variant"], [data-action="add-lexical-field"], [data-action="remove-variant"], [data-action="remove-lexical-field"]',
+                function (e) {
+                    e.preventDefault();
+                    suppressVariantBlurCommit = true;
+                }
+            );
+    };
 
     /**
      * @param {Object} widget
@@ -131,6 +162,11 @@ define([
      */
     const syncConfigFromForm = function syncConfigFromForm($responseForm, widget) {
         const config = getConfig(widget);
+        const $evaluateAsUmfi = $responseForm.find('input[name="evaluateAsUmfi"]');
+
+        if ($evaluateAsUmfi.length) {
+            config.evaluateAsUmfi = $evaluateAsUmfi.prop('checked');
+        }
 
         config.allowLexicalFieldsOnScoring = $responseForm
             .find('input[name="allowLexicalFieldsOnScoring"]')
@@ -138,6 +174,33 @@ define([
         config.lexicalGroups = readLexicalGroupsFromForm($responseForm);
 
         setConfig(widget, config);
+    };
+
+    /**
+     * @param {Object} item
+     */
+    const flushOpenForms = function flushOpenForms(item) {
+        if (!item) {
+            return;
+        }
+
+        const sampleInteraction = {
+            getRootElement: function getRootElement() {
+                return item;
+            }
+        };
+        const textEntries = evaluationHelper.getItemTextEntries(sampleInteraction);
+
+        _.forEach(textEntries, textEntry => {
+            const widget = textEntry.data && textEntry.data('widget');
+
+            if (!widget || !widget.$responseForm || !widget.$responseForm.find('.text-entry-evaluation-panel').length) {
+                return;
+            }
+
+            delete widget._textEntryEvaluationConfig;
+            syncConfigFromForm(widget.$responseForm, widget);
+        });
     };
 
     /**
@@ -174,17 +237,20 @@ define([
      */
     const refreshLexicalFields = function refreshLexicalFields($responseForm, widget, options) {
         renderLexicalFieldGroups($responseForm, widget, options);
-        bindEvents($responseForm, widget);
+        bindEvents($responseForm, widget, { skipInitialRender: true });
     };
 
     /**
      * @param {jQuery} $responseForm
      * @param {Object} widget
+     * @param {{skipInitialRender?: boolean}} [options]
      */
-    const bindEvents = function bindEvents($responseForm, widget) {
+    const bindEvents = function bindEvents($responseForm, widget, options) {
         const interaction = widget.element;
+        const skipInitialRender = !!(options && options.skipInitialRender);
 
         $responseForm.off(NS);
+        bindVariantBlurGuard($responseForm);
 
         $responseForm.on(`change${NS}`, 'input[name="evaluateAsUmfi"]', function () {
             const enabled = $(this).prop('checked');
@@ -249,13 +315,22 @@ define([
             const index = parseInt($group.data('group-index'), 10);
             const config = getConfig(widget);
 
-            if (config.lexicalGroups[index]) {
-                config.lexicalGroups[index].draftVariant = true;
-                setConfig(widget, config);
-                refreshLexicalFields($responseForm, widget, {
-                    focusGroupIndex: index
-                });
+            if (!config.lexicalGroups[index]) {
+                return;
             }
+
+            const $existingDraftInput = $group.find('.lexical-field-variant-input').first();
+
+            if (config.lexicalGroups[index].draftVariant && $existingDraftInput.length) {
+                $existingDraftInput.trigger('focus');
+                return;
+            }
+
+            config.lexicalGroups[index].draftVariant = true;
+            setConfig(widget, config);
+            refreshLexicalFields($responseForm, widget, {
+                focusGroupIndex: index
+            });
         });
 
         $responseForm.on(`click${NS}`, '[data-action="remove-variant"]', function (e) {
@@ -279,15 +354,19 @@ define([
             const $group = $input.closest('.lexical-field-group');
             const groupIndex = parseInt($group.data('group-index'), 10);
             const config = getConfig(widget);
+            const value = String($input.val()).trim();
 
             if (!config.lexicalGroups[groupIndex]) {
                 return;
             }
 
             config.lexicalGroups[groupIndex].synonyms = readVariantsFromGroup($group);
-            config.lexicalGroups[groupIndex].draftVariant = false;
+            config.lexicalGroups[groupIndex].draftVariant = !value;
             setConfig(widget, config);
-            refreshLexicalFields($responseForm, widget);
+
+            if (value) {
+                refreshLexicalFields($responseForm, widget);
+            }
         };
 
         $responseForm.on(`keydown${NS}`, '.lexical-field-variant-input', function (e) {
@@ -298,10 +377,14 @@ define([
         });
 
         $responseForm.on(`blur${NS}`, '.lexical-field-variant-input', function () {
+            if (suppressVariantBlurCommit) {
+                return;
+            }
+
             commitVariantInput($(this));
         });
 
-        if (evaluationHelper.isUmfiEnabled(interaction)) {
+        if (!skipInitialRender && evaluationHelper.isUmfiEnabled(interaction)) {
             renderLexicalFieldGroups($responseForm, widget);
         }
     };
@@ -312,6 +395,10 @@ define([
      */
     const unbindEvents = function unbindEvents($responseForm, widget) {
         $responseForm.off(NS);
+        $responseForm.off(DOC_NS);
+        $(document).off(`mouseup${DOC_NS}`);
+        suppressVariantBlurCommit = false;
+
         if (widget) {
             delete widget._textEntryEvaluationConfig;
         }
@@ -320,6 +407,10 @@ define([
     return {
         getTplData,
         bindEvents,
-        unbindEvents
+        unbindEvents,
+        syncConfigFromForm,
+        flushOpenForms,
+        readVariantsFromGroup,
+        readLexicalGroupsFromForm
     };
 });

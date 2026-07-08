@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -58,6 +60,14 @@ class TextEntryInteraction extends InlineInteraction
             'oat\\taoQtiItem\\model\\qti\\attribute\\PlaceholderText'
                 ]
         );
+    }
+
+    protected function getExcludedXmlAttributeNames(): array
+    {
+        return [
+            'data-umfi-managed-outcomes',
+            'data-umfi-rp-managed',
+        ];
     }
 
     public function getBaseType()
