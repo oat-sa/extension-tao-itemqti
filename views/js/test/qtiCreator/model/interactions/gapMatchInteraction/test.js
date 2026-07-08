@@ -423,6 +423,54 @@ define([
             });
     });
 
+    QUnit.test('prompt editor fills the available flow width', function (assert) {
+        var done = assert.async();
+        var $container = $('#fixture-render');
+        var config = {
+            properties: {
+                uri: 'http://item#rdf-123',
+                label: 'Item',
+                baseUrl: 'http://foo/bar',
+                itemDataUrl: '//mockItemWithPositionEndpoint'
+            }
+        };
+        var instance;
+
+        assert.expect(3);
+
+        instance = itemAuthoringFactory($container, config)
+            .on('ready', function () {
+                var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]', $container);
+                var $promptContainer;
+                var $prompt;
+                var $editable;
+                var promptContainerWidth;
+                var promptWidth;
+                var editableWidth;
+
+                $interaction.click();
+
+                $promptContainer = $('.qti-gapMatchInteraction .qti-prompt-container', $container);
+                $prompt = $promptContainer.find('.qti-prompt').first();
+                $editable = $promptContainer.find('[data-html-editable="true"]').first();
+                promptContainerWidth = $promptContainer.get(0).getBoundingClientRect().width;
+                promptWidth = $prompt.get(0).getBoundingClientRect().width;
+                editableWidth = $editable.get(0).getBoundingClientRect().width;
+
+                assert.equal($promptContainer.length, 1, 'The prompt container is rendered');
+                assert.ok(promptContainerWidth > 0, 'The prompt container has a measurable width');
+                assert.ok(
+                    promptWidth >= promptContainerWidth - 1 && editableWidth >= promptContainerWidth - 1,
+                    'The prompt editor spans the full available prompt container width'
+                );
+
+                instance.destroy();
+            })
+            .after('destroy', function () {
+                done();
+            });
+    });
+
     /* TODO:
      * Test for deleting gaps (with button)
      * Test for deleting gaps (with backspace)
