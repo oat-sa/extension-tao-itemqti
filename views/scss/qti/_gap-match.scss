@@ -11,8 +11,19 @@
         gap: 10px;
 
         > .qti-prompt,
+        > .qti-prompt-container,
         > .instruction-container {
             flex: 0 0 100%;
+        }
+
+        > .qti-prompt-container,
+        > .qti-prompt {
+            width: 100%;
+        }
+
+        > .qti-prompt-container .qti-prompt,
+        > .qti-prompt {
+            display: block;
         }
     }
 
