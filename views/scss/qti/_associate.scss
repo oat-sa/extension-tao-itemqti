@@ -32,6 +32,8 @@
         flex-direction: row;
         flex-wrap: wrap;
 
+        > .qti-prompt,
+        > .instruction-container,
         .qti-prompt-container {
             flex: 0 0 100%;
         }
@@ -50,13 +52,32 @@
         }
     }
 
-    &.qti-choices-bottom,
-    &.qti-choices-right {
-        .choice-area {
+    &.qti-choices-left {
+        > .choice-area {
+            order: 1;
+        }
+
+        > .result-area {
+            order: 2;
+        }
+    }
+
+    &.qti-choices-bottom {
+        > .choice-area {
             order: 2;
         }
 
-        .result-area {
+        > .result-area {
+            order: 1;
+        }
+    }
+
+    &.qti-choices-right {
+        > .choice-area {
+            order: 2;
+        }
+
+        > .result-area {
             order: 1;
         }
     }
@@ -187,6 +208,28 @@
 
     img {
         max-width: 180px;
+    }
+}
+
+.qti-itemBody[dir="rtl"] .qti-associateInteraction {
+    &.qti-choices-left {
+        > .choice-area {
+            order: 2;
+        }
+
+        > .result-area {
+            order: 1;
+        }
+    }
+
+    &.qti-choices-right {
+        > .choice-area {
+            order: 1;
+        }
+
+        > .result-area {
+            order: 2;
+        }
     }
 }
 

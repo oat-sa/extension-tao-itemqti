@@ -58,6 +58,28 @@
         > .qti-flow-container {
             order: 3;
         }
+
+        @include rtl {
+            > .choice-area {
+                order: 3;
+            }
+
+            > .qti-flow-container {
+                order: 2;
+            }
+        }
+    }
+
+    &.qti-choices-right {
+        @include rtl {
+            > .choice-area {
+                order: 2;
+            }
+
+            > .qti-flow-container {
+                order: 3;
+            }
+        }
     }
 
     &.qti-choices-left,
