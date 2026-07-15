@@ -44,6 +44,15 @@ define([
         $editable.one('editorready', callback);
     }
 
+    function assertFullWidth(assert, promptContainerWidth, promptWidth, editableWidth, message) {
+        assert.ok(promptContainerWidth > 0, 'The prompt container has a measurable width');
+        assert.ok(
+            Math.abs(promptWidth - promptContainerWidth) <= 1 &&
+                Math.abs(editableWidth - promptContainerWidth) <= 1,
+            message
+        );
+    }
+
     // Prevent the AJAX mocks to pollute the logs
     $.mockjaxSettings.logger = null;
     $.mockjaxSettings.responseTime = 1;
@@ -486,9 +495,11 @@ define([
                     promptWidth = $prompt.get(0).getBoundingClientRect().width;
                     editableWidth = $editable.get(0).getBoundingClientRect().width;
 
-                    assert.ok(promptContainerWidth > 0, 'The prompt container has a measurable width');
-                    assert.ok(
-                        promptWidth >= promptContainerWidth - 1 && editableWidth >= promptContainerWidth - 1,
+                    assertFullWidth(
+                        assert,
+                        promptContainerWidth,
+                        promptWidth,
+                        editableWidth,
                         'The prompt editor spans the full available prompt container width'
                     );
 
@@ -537,9 +548,11 @@ define([
                     promptWidth = $prompt.get(0).getBoundingClientRect().width;
                     editableWidth = $editable.get(0).getBoundingClientRect().width;
 
-                    assert.ok(promptContainerWidth > 0, 'The prompt container has a measurable width');
-                    assert.ok(
-                        promptWidth >= promptContainerWidth - 1 && editableWidth >= promptContainerWidth - 1,
+                    assertFullWidth(
+                        assert,
+                        promptContainerWidth,
+                        promptWidth,
+                        editableWidth,
                         'The prompt editor spans the full available prompt container width'
                     );
 
@@ -590,9 +603,11 @@ define([
                     promptWidth = $prompt.get(0).getBoundingClientRect().width;
                     editableWidth = $editable.get(0).getBoundingClientRect().width;
 
-                    assert.ok(promptContainerWidth > 0, 'The narrow prompt container has a measurable width');
-                    assert.ok(
-                        promptWidth >= promptContainerWidth - 1 && editableWidth >= promptContainerWidth - 1,
+                    assertFullWidth(
+                        assert,
+                        promptContainerWidth,
+                        promptWidth,
+                        editableWidth,
                         'The prompt editor fills the narrow prompt container width'
                     );
 
