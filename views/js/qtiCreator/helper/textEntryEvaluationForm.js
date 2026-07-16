@@ -28,10 +28,10 @@ define([
     const DOC_NS = '.textEntryEvaluationDoc';
 
     /**
-     * Action links inside a lexical field group can steal focus from the draft
-     * variant input. Blur fires before click and rebuilds the DOM, so the click
-     * never reaches the original link. Suppress blur-commit while such a click is
-     * in progress.
+     * Draft variant inputs commit on blur. Action controls must run on mousedown
+     * (before blur) and suppress that commit, otherwise the rebuild removes the
+     * control before click can fire. Do not preventDefault on the guard alone —
+     * that can cancel the subsequent click on <a> elements.
      */
     let suppressVariantBlurCommit = false;
 
@@ -50,8 +50,7 @@ define([
             .on(
                 `mousedown${DOC_NS}`,
                 '[data-action="add-variant"], [data-action="add-lexical-field"], [data-action="remove-variant"], [data-action="remove-lexical-field"]',
-                function (e) {
-                    e.preventDefault();
+                function () {
                     suppressVariantBlurCommit = true;
                 }
             );
@@ -288,8 +287,9 @@ define([
             }, 300)
         );
 
-        $responseForm.on(`click${NS}`, '[data-action="add-lexical-field"]', function (e) {
+        $responseForm.on(`mousedown${NS}`, '[data-action="add-lexical-field"]', function (e) {
             e.preventDefault();
+            suppressVariantBlurCommit = true;
             syncConfigFromForm($responseForm, widget);
             const config = getConfig(widget);
 
@@ -304,35 +304,36 @@ define([
             });
         });
 
-        $responseForm.on(`click${NS}`, '[data-action="remove-lexical-field"]', function (e) {
+        $responseForm.on(`mousedown${NS}`, '[data-action="remove-lexical-field"]', function (e) {
             e.preventDefault();
+            suppressVariantBlurCommit = true;
             syncConfigFromForm($responseForm, widget);
             const index = parseInt($(this).closest('.lexical-field-group').data('group-index'), 10);
             const config = getConfig(widget);
+
+            if (_.isNaN(index)) {
+                return;
+            }
 
             config.lexicalGroups.splice(index, 1);
             setConfig(widget, config);
             refreshLexicalFields($responseForm, widget);
         });
 
-        $responseForm.on(`click${NS}`, '[data-action="add-variant"]', function (e) {
+        $responseForm.on(`mousedown${NS}`, '[data-action="add-variant"]', function (e) {
             e.preventDefault();
+            suppressVariantBlurCommit = true;
             syncConfigFromForm($responseForm, widget);
             const $group = $(this).closest('.lexical-field-group');
             const index = parseInt($group.data('group-index'), 10);
             const config = getConfig(widget);
 
-            if (!config.lexicalGroups[index]) {
+            if (_.isNaN(index) || !config.lexicalGroups[index]) {
                 return;
             }
 
-            const $existingDraftInput = $group.find('.lexical-field-variant-input').first();
-
-            if (config.lexicalGroups[index].draftVariant && $existingDraftInput.length) {
-                $existingDraftInput.trigger('focus');
-                return;
-            }
-
+            // Commit any draft text already read by syncConfigFromForm, then open
+            // a fresh empty draft so "Add variant" works while editing.
             config.lexicalGroups[index].draftVariant = true;
             setConfig(widget, config);
             refreshLexicalFields($responseForm, widget, {
@@ -340,8 +341,9 @@ define([
             });
         });
 
-        $responseForm.on(`click${NS}`, '[data-action="remove-variant"]', function (e) {
+        $responseForm.on(`mousedown${NS}`, '[data-action="remove-variant"]', function (e) {
             e.preventDefault();
+            suppressVariantBlurCommit = true;
             syncConfigFromForm($responseForm, widget);
             const $chip = $(this).closest('.lexical-field-variant-chip');
             const $group = $(this).closest('.lexical-field-group');
@@ -349,12 +351,19 @@ define([
             const variantIndex = parseInt($chip.data('variant-index'), 10);
             const config = getConfig(widget);
 
-            if (config.lexicalGroups[groupIndex] && config.lexicalGroups[groupIndex].synonyms[variantIndex]) {
-                config.lexicalGroups[groupIndex].synonyms.splice(variantIndex, 1);
-                config.lexicalGroups[groupIndex].draftVariant = false;
-                setConfig(widget, config);
-                refreshLexicalFields($responseForm, widget);
+            if (
+                _.isNaN(groupIndex) ||
+                _.isNaN(variantIndex) ||
+                !config.lexicalGroups[groupIndex] ||
+                !config.lexicalGroups[groupIndex].synonyms[variantIndex]
+            ) {
+                return;
             }
+
+            config.lexicalGroups[groupIndex].synonyms.splice(variantIndex, 1);
+            config.lexicalGroups[groupIndex].draftVariant = false;
+            setConfig(widget, config);
+            refreshLexicalFields($responseForm, widget);
         });
 
         const commitVariantInput = function commitVariantInput($input) {
