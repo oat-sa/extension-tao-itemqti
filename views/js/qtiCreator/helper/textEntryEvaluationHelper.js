@@ -31,6 +31,8 @@ define([
     const DATA_RP_MANAGED = 'data-umfi-rp-managed';
     const TEXT_ENTRY_QTI_CLASS = 'textEntryInteraction';
     const PRIMARY_RESPONSE_IDENTIFIER = 'RESPONSE';
+    const LEXICAL_GROUP_PREFIX = 'GROUP_';
+    const GROUP_OUTCOME_SUFFIX = '_FOUND';
 
     /**
      * @param {Object} textEntry
@@ -207,7 +209,7 @@ define([
             primaryTextEntry.attr(DATA_ITEM_TYPE, UMFI_ITEM_TYPE);
 
             if (!primaryTextEntry.attr(DATA_UMFI_VALUES)) {
-                primaryTextEntry.attr(DATA_UMFI_VALUES, '[]');
+                primaryTextEntry.attr(DATA_UMFI_VALUES, '{}');
             }
 
             if (!primaryTextEntry.attr(DATA_CASE_SENSITIVE)) {
@@ -495,7 +497,7 @@ define([
             interactions: responseIdentifiers,
             synonymGroups: _.map(scorableGroups, group => ({
                 id: group.id,
-                label: group.label,
+                label: group.identifier,
                 synonyms: group.synonyms
             })),
             caseSensitive: isCaseSensitive(interaction)
@@ -513,30 +515,60 @@ define([
     };
 
     /**
-     * @param {string} label
      * @param {number} index
      * @returns {string}
      */
-    const buildGroupOutcomeId = function buildGroupOutcomeId(label, index) {
-        const normalized = String(label || '')
+    const buildDefaultLexicalGroupIdentifier = function buildDefaultLexicalGroupIdentifier(index) {
+        return `${LEXICAL_GROUP_PREFIX}${index + 1}`;
+    };
+
+    /**
+     * @param {string} identifier
+     * @returns {string}
+     */
+    const buildGroupOutcomeId = function buildGroupOutcomeId(identifier) {
+        const normalized = String(identifier || '')
             .trim()
             .replace(/[^a-zA-Z0-9]+/g, '_')
             .replace(/^_+|_+$/g, '')
             .toUpperCase();
 
-        if (normalized) {
-            return `${normalized}_FOUND`;
+        if (!normalized) {
+            return '';
         }
 
-        return `GROUP_${index}_FOUND`;
+        if (normalized.endsWith(GROUP_OUTCOME_SUFFIX)) {
+            return normalized;
+        }
+
+        return `${normalized}${GROUP_OUTCOME_SUFFIX}`;
     };
 
     /**
-     * @param {Array<{label?: string, synonyms: string[], collapsed?: boolean}>} groups
-     * @returns {Array<{id: string, label: string, synonyms: string[], collapsed: boolean}>}
+     * @param {Array<{identifier?: string}>} [groups]
+     * @returns {string}
+     */
+    const buildNextLexicalGroupIdentifier = function buildNextLexicalGroupIdentifier(groups) {
+        const normalized = normalizeLexicalGroups(groups || []);
+        const usedIdentifiers = _.map(normalized, 'identifier');
+        let index = normalized.length;
+        let identifier = buildDefaultLexicalGroupIdentifier(index);
+
+        while (_.includes(usedIdentifiers, identifier)) {
+            index += 1;
+            identifier = buildDefaultLexicalGroupIdentifier(index);
+        }
+
+        return identifier;
+    };
+
+    /**
+     * @param {Array<{id?: string, identifier?: string, label?: string, synonyms: string[], collapsed?: boolean}>} groups
+     * @returns {Array<{id: string, identifier: string, synonyms: string[], collapsed: boolean}>}
      */
     const normalizeLexicalGroups = function normalizeLexicalGroups(groups) {
-        const usedIds = {};
+        const usedIdentifiers = {};
+        const usedOutcomeIds = {};
 
         return _.map(groups || [], (group, index) => {
             const synonyms = _.chain(group.synonyms || group.variants || [])
@@ -544,29 +576,60 @@ define([
                 .map(value => value.trim())
                 .filter(Boolean)
                 .value();
-            const label = String(group.label || synonyms[0] || `Group ${index + 1}`).trim();
-            let id = group.id || buildGroupOutcomeId(label, index);
-            let suffix = 1;
+            const requestedIdentifier = String(
+                group.identifier || group.groupIdentifier || group.label || ''
+            ).trim();
+            let identifier = requestedIdentifier || buildDefaultLexicalGroupIdentifier(index);
+            let identifierIndex = index;
 
-            while (usedIds[id]) {
-                id = `${buildGroupOutcomeId(label, index).replace(/_FOUND$/, '')}_${suffix}_FOUND`;
+            while (usedIdentifiers[identifier]) {
+                identifierIndex += 1;
+                identifier = buildDefaultLexicalGroupIdentifier(identifierIndex);
+            }
+
+            usedIdentifiers[identifier] = true;
+
+            let id = group.id || buildGroupOutcomeId(identifier);
+            let suffix = 1;
+            const outcomeBase = id.replace(new RegExp(`${GROUP_OUTCOME_SUFFIX}$`), '');
+
+            while (usedOutcomeIds[id]) {
+                id = `${outcomeBase}_${suffix}${GROUP_OUTCOME_SUFFIX}`;
                 suffix += 1;
             }
 
-            usedIds[id] = true;
+            usedOutcomeIds[id] = true;
 
             return {
                 id,
-                label,
+                identifier,
                 synonyms,
                 draftVariant: !!group.draftVariant
             };
         });
     };
 
+    const mapDataUmfiEntry = function mapDataUmfiEntry(entry) {
+        if (_.isObject(entry) && !_.isArray(entry)) {
+            const synonyms = entry.variants || entry.synonyms || [];
+            const storedId = String(entry.id || entry.identifier || entry.groupIdentifier || '').trim();
+            const legacyLabel = _.isString(entry.label) ? entry.label.trim() : '';
+
+            return {
+                identifier: storedId || legacyLabel,
+                synonyms: _.isArray(synonyms) ? synonyms : []
+            };
+        }
+
+        return {
+            identifier: '',
+            synonyms: _.isArray(entry) ? entry : []
+        };
+    };
+
     /**
      * @param {string|null|undefined} jsonString
-     * @returns {Array<{label: string, synonyms: string[]}>}
+     * @returns {Array<{identifier: string, synonyms: string[]}>}
      */
     const parseDataUmfiValues = function parseDataUmfiValues(jsonString) {
         if (!jsonString || !_.isString(jsonString)) {
@@ -576,32 +639,42 @@ define([
         try {
             const parsed = JSON.parse(jsonString);
 
-            if (!_.isArray(parsed)) {
-                return [];
+            if (parsed && typeof parsed === 'object' && !_.isArray(parsed)) {
+                return normalizeLexicalGroups(
+                    _.map(parsed, (variants, identifier) => ({
+                        identifier: String(identifier),
+                        synonyms: _.isArray(variants) ? variants : []
+                    }))
+                );
             }
 
-            return normalizeLexicalGroups(
-                _.map(parsed, (variants, index) => ({
-                    label: _.isArray(variants) ? String(variants[0] || `Group ${index + 1}`) : `Group ${index + 1}`,
-                    synonyms: _.isArray(variants) ? variants : []
-                }))
-            );
+            if (_.isArray(parsed)) {
+                return normalizeLexicalGroups(_.map(parsed, mapDataUmfiEntry));
+            }
+
+            return [];
         } catch (e) {
             return [];
         }
     };
 
     /**
-     * @param {Array<{label?: string, synonyms: string[]}>} groups
+     * @param {Array<{identifier?: string, synonyms: string[]}>} groups
      * @returns {string}
      */
     const serializeDataUmfiValues = function serializeDataUmfiValues(groups) {
-        const payload = _.map(normalizeLexicalGroups(groups), group =>
-            _.chain(group.synonyms)
+        const payload = {};
+
+        _.forEach(normalizeLexicalGroups(groups), group => {
+            const variants = _.chain(group.synonyms)
                 .map(value => String(value).trim())
                 .filter(Boolean)
-                .value()
-        ).filter(variants => variants.length);
+                .value();
+
+            if (variants.length) {
+                payload[group.identifier] = variants;
+            }
+        });
 
         return JSON.stringify(payload);
     };
@@ -745,6 +818,7 @@ define([
         DATA_RP_MANAGED,
         getItemTextEntries,
         getPrimaryTextEntry,
+        getTextEntrySerial,
         getTextEntryResponseIdentifier,
         getTextEntryResponseIdentifiers,
         isUmfiEnabled,
@@ -756,7 +830,11 @@ define([
         normalizeLexicalGroups,
         parseDataUmfiValues,
         serializeDataUmfiValues,
+        buildDefaultLexicalGroupIdentifier,
+        buildNextLexicalGroupIdentifier,
         buildGroupOutcomeId,
+        LEXICAL_GROUP_PREFIX,
+        GROUP_OUTCOME_SUFFIX,
         setUmfiEnabled,
         setAllowLexicalFieldsOnScoring,
         setLexicalGroups,

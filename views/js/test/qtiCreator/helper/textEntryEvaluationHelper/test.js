@@ -128,7 +128,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         evaluationHelper.setUmfiEnabled(firstEntry, true);
 
         assert.strictEqual(firstEntry.attr('data-item-type'), 'umfi-closed');
-        assert.strictEqual(firstEntry.attr('data-umfi-values'), '[]');
+        assert.strictEqual(firstEntry.attr('data-umfi-values'), '{}');
         assert.strictEqual(evaluationHelper.isUmfiEnabled(secondEntry), true);
 
         evaluationHelper.setAllowLexicalFieldsOnScoring(firstEntry, true);
@@ -166,7 +166,8 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         const groups = evaluationHelper.getLexicalGroups(otherEntry);
 
         assert.strictEqual(groups.length, 1);
-        assert.strictEqual(groups[0].label, 'Apple');
+        assert.strictEqual(groups[0].identifier, 'GROUP_1');
+        assert.strictEqual(groups[0].id, 'GROUP_1_FOUND');
         assert.deepEqual(groups[0].synonyms, ['Apple', 'apple', 'apples']);
         assert.strictEqual(evaluationHelper.isUmfiEnabled(otherEntry), true);
 
@@ -174,13 +175,16 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
             evaluateAsUmfi: true,
             lexicalGroups: [
                 {
-                    label: 'Banana',
+                    identifier: 'BANANA',
                     synonyms: ['banana', 'bananas']
                 }
             ]
         });
 
-        assert.strictEqual(responseEntry.attr('data-umfi-values'), '[["banana","bananas"]]');
+        assert.strictEqual(
+            responseEntry.attr('data-umfi-values'),
+            '{"BANANA":["banana","bananas"]}'
+        );
         assert.strictEqual(otherEntry.attr('data-umfi-values'), undefined);
         assert.strictEqual(
             evaluationHelper.getPrimaryTextEntry(evaluationHelper.getItemTextEntries(otherEntry)),
@@ -189,24 +193,44 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
     });
 
     QUnit.test('parse and serialize lexical groups from data-umfi-values', assert => {
-        const json = '[["Germany","Federal Republic of Germany"],["France","french republic"]]';
-        const groups = evaluationHelper.parseDataUmfiValues(json);
+        const legacyJson = '[["Germany","Federal Republic of Germany"],["France","french republic"]]';
+        const legacyGroups = evaluationHelper.parseDataUmfiValues(legacyJson);
 
-        assert.strictEqual(groups.length, 2);
-        assert.strictEqual(groups[0].label, 'Germany');
-        assert.deepEqual(groups[0].synonyms, ['Germany', 'Federal Republic of Germany']);
-        assert.strictEqual(groups[1].label, 'France');
-        assert.deepEqual(groups[1].synonyms, ['France', 'french republic']);
+        assert.strictEqual(legacyGroups.length, 2);
+        assert.strictEqual(legacyGroups[0].identifier, 'GROUP_1');
+        assert.strictEqual(legacyGroups[0].id, 'GROUP_1_FOUND');
+        assert.deepEqual(legacyGroups[0].synonyms, ['Germany', 'Federal Republic of Germany']);
+        assert.strictEqual(legacyGroups[1].identifier, 'GROUP_2');
+        assert.deepEqual(legacyGroups[1].synonyms, ['France', 'french republic']);
 
-        assert.strictEqual(
-            evaluationHelper.serializeDataUmfiValues(groups),
-            '[["Germany","Federal Republic of Germany"],["France","french republic"]]'
-        );
+        const modernJson =
+            '{"GERMANY":["Germany","Federal Republic of Germany"],"FRANCE":["France","french republic"]}';
+        const modernGroups = evaluationHelper.parseDataUmfiValues(modernJson);
+
+        assert.strictEqual(modernGroups[0].identifier, 'GERMANY');
+        assert.strictEqual(modernGroups[0].id, 'GERMANY_FOUND');
+        assert.deepEqual(modernGroups[0].synonyms, ['Germany', 'Federal Republic of Germany']);
+
+        assert.strictEqual(evaluationHelper.serializeDataUmfiValues(modernGroups), modernJson);
     });
 
-    QUnit.test('buildGroupOutcomeId normalizes labels', assert => {
-        assert.strictEqual(evaluationHelper.buildGroupOutcomeId('Apple', 0), 'APPLE_FOUND');
-        assert.strictEqual(evaluationHelper.buildGroupOutcomeId('', 2), 'GROUP_2_FOUND');
+    QUnit.test('buildDefaultLexicalGroupIdentifier generates incremental identifiers', assert => {
+        assert.strictEqual(evaluationHelper.buildDefaultLexicalGroupIdentifier(0), 'GROUP_1');
+        assert.strictEqual(evaluationHelper.buildDefaultLexicalGroupIdentifier(2), 'GROUP_3');
+    });
+
+    QUnit.test('buildGroupOutcomeId appends FOUND suffix to identifier base', assert => {
+        assert.strictEqual(evaluationHelper.buildGroupOutcomeId('APPLE'), 'APPLE_FOUND');
+        assert.strictEqual(evaluationHelper.buildGroupOutcomeId('GROUP_1'), 'GROUP_1_FOUND');
+        assert.strictEqual(evaluationHelper.buildGroupOutcomeId('APPLE_FOUND'), 'APPLE_FOUND');
+    });
+
+    QUnit.test('normalizeLexicalGroups keeps default identifier when variants are added', assert => {
+        const groups = evaluationHelper.normalizeLexicalGroups([{ identifier: '', synonyms: ['Apple', 'apple'] }]);
+
+        assert.strictEqual(groups[0].identifier, 'GROUP_1');
+        assert.strictEqual(groups[0].id, 'GROUP_1_FOUND');
+        assert.deepEqual(groups[0].synonyms, ['Apple', 'apple']);
     });
 
     QUnit.test('getEvaluationConfig reads lexical groups and case sensitivity', assert => {
@@ -232,7 +256,8 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.strictEqual(config.caseSensitive, true);
         assert.strictEqual(config.allowLexicalFieldsOnScoring, true);
         assert.strictEqual(config.lexicalGroups.length, 1);
-        assert.strictEqual(config.lexicalGroups[0].label, 'Banana');
+        assert.strictEqual(config.lexicalGroups[0].identifier, 'GROUP_1');
+        assert.strictEqual(config.lexicalGroups[0].id, 'GROUP_1_FOUND');
     });
 
     QUnit.test('persistEvaluationConfig updates data-umfi-values and responseProcessing', assert => {
@@ -258,13 +283,16 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
             evaluateAsUmfi: true,
             lexicalGroups: [
                 {
-                    label: 'Apple',
+                    identifier: 'APPLE',
                     synonyms: ['apple', 'apples']
                 }
             ]
         });
 
-        assert.strictEqual(firstEntry.attr('data-umfi-values'), '[["apple","apples"]]');
+        assert.strictEqual(
+            firstEntry.attr('data-umfi-values'),
+            '{"APPLE":["apple","apples"]}'
+        );
         assert.strictEqual(item.responseProcessing.processingType, 'custom');
         assert.ok(item.responseProcessing.xml.indexOf('<stringMatch') > -1);
         assert.ok(item.responseProcessing.xml.indexOf('apple') > -1);
@@ -295,7 +323,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
             evaluateAsUmfi: true,
             lexicalGroups: [
                 {
-                    label: 'Pear',
+                    identifier: 'PEAR',
                     synonyms: ['pear']
                 }
             ]
@@ -310,17 +338,19 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
     QUnit.test('normalizeLexicalGroups keeps outcome ids unique', assert => {
         const groups = evaluationHelper.normalizeLexicalGroups([
             {
-                label: 'Apple',
+                identifier: 'APPLE',
                 synonyms: ['apple']
             },
             {
-                label: 'apple',
+                identifier: 'APPLE',
                 synonyms: ['apples']
             }
         ]);
 
         assert.strictEqual(groups.length, 2);
         assert.notStrictEqual(groups[0].id, groups[1].id);
+        assert.strictEqual(groups[0].identifier, 'APPLE');
+        assert.strictEqual(groups[1].identifier, 'GROUP_2');
         assert.ok(groups[0].id.indexOf('_FOUND') > -1);
         assert.ok(groups[1].id.indexOf('_FOUND') > -1);
     });
@@ -349,20 +379,23 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
 
         textEntry.attr('data-item-type', 'umfi-closed');
         textEntry.attr('data-umfi-values', '[["apple","apples"]]');
-        textEntry.attr('data-umfi-managed-outcomes', '["APPLE_FOUND"]');
+        textEntry.attr('data-umfi-managed-outcomes', '["GROUP_1_FOUND"]');
         textEntry.attr('data-umfi-rp-managed', 'true');
 
         evaluationHelper.ensurePersistedBeforeSave(item);
 
         assert.strictEqual(item.responseProcessing.processingType, 'custom');
-        assert.ok(item.getOutcomeDeclaration('APPLE_FOUND'));
-        assert.strictEqual(item.getOutcomeDeclaration('APPLE_FOUND').defaultValue, 0);
+        assert.ok(item.getOutcomeDeclaration('GROUP_1_FOUND'));
+        assert.strictEqual(item.getOutcomeDeclaration('GROUP_1_FOUND').defaultValue, 0);
         assert.strictEqual(item.getOutcomeDeclaration('SCORE').defaultValue, 0);
         assert.strictEqual(item.getOutcomeDeclaration('MAXSCORE').defaultValue, 1);
         assert.strictEqual(textEntry.getResponseDeclaration().template, 'CUSTOM');
         assert.strictEqual(textEntry.attr('data-umfi-managed-outcomes'), undefined);
         assert.strictEqual(textEntry.attr('data-umfi-rp-managed'), undefined);
-        assert.strictEqual(textEntry.attr('data-umfi-values'), '[["apple","apples"]]');
+        assert.strictEqual(
+            textEntry.attr('data-umfi-values'),
+            '{"GROUP_1":["apple","apples"]}'
+        );
     });
 
     QUnit.test('getItemTextEntries finds nested text entries via getComposingElements', assert => {
@@ -410,14 +443,17 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
             evaluateAsUmfi: true,
             lexicalGroups: [
                 {
-                    label: 'Apple',
+                    identifier: 'APPLE',
                     synonyms: ['apple', 'apples']
                 }
             ]
         });
 
         assert.strictEqual(nestedEntry.attr('data-item-type'), 'umfi-closed');
-        assert.strictEqual(nestedEntry.attr('data-umfi-values'), '[["apple","apples"]]');
+        assert.strictEqual(
+            nestedEntry.attr('data-umfi-values'),
+            '{"APPLE":["apple","apples"]}'
+        );
         assert.strictEqual(item.responseProcessing.processingType, 'custom');
         assert.ok(item.getOutcomeDeclaration('APPLE_FOUND'));
         assert.strictEqual(item.getOutcomeDeclaration('APPLE_FOUND').attr('normalMaximum'), 1);

@@ -1,10 +1,11 @@
 <div class="lexical-field-group" data-group-index="{{index}}">
     <div class="lexical-field-group-header">
         <input type="text"
-               class="lexical-field-label"
-               name="lexicalFieldLabel-{{index}}"
-               value="{{label}}"
-               placeholder="{{__ 'Lexical field label'}}" />
+               class="lexical-field-identifier"
+               name="lexicalFieldIdentifier-{{index}}"
+               value="{{identifier}}"
+               placeholder="e.g. GROUP_1"
+               data-validate="$notEmpty; $qtiOutcomeIdentifier{{#if textEntrySerial}}(serial={{textEntrySerial}}){{/if}};" />
         <span class="trigger icon-bin lexical-field-remove"
               data-action="remove-lexical-field"
               title="{{__ 'Remove lexical field'}}"></span>

@@ -9,7 +9,7 @@
     toolName="TAO"
     toolVersion="2026.08 LTS">
     <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="string"/>
-    <outcomeDeclaration identifier="APPLE_FOUND" cardinality="single" baseType="integer">
+    <outcomeDeclaration identifier="GROUP_1_FOUND" cardinality="single" baseType="integer">
         <defaultValue><value>0</value></defaultValue>
     </outcomeDeclaration>
     <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="1" normalMinimum="0">
@@ -23,7 +23,7 @@
             <textEntryInteraction responseIdentifier="RESPONSE"
                 data-item-type="umfi-closed"
                 data-case-sensitive="false"
-                data-umfi-values='[["apple","apples"]]'/>
+                data-umfi-values='{"GROUP_1":["apple","apples"]}'/>
         </p>
     </itemBody>
     <responseProcessing>
@@ -39,14 +39,14 @@
                         <baseValue baseType="string">apples</baseValue>
                     </stringMatch>
                 </or>
-                <setOutcomeValue identifier="APPLE_FOUND">
+                <setOutcomeValue identifier="GROUP_1_FOUND">
                     <baseValue baseType="integer">1</baseValue>
                 </setOutcomeValue>
             </responseIf>
         </responseCondition>
         <setOutcomeValue identifier="SCORE">
             <sum>
-                <variable identifier="APPLE_FOUND"/>
+                <variable identifier="GROUP_1_FOUND"/>
             </sum>
         </setOutcomeValue>
     </responseProcessing>

@@ -473,8 +473,8 @@ body.solar-design .item-editor-choice-related .text-entry-evaluation-panel .acti
   gap: 0.5rem;
   margin-bottom: 0.75rem;
 }
-.item-editor-response-related .text-entry-evaluation-panel .lexical-field-group-header .lexical-field-label,
-.item-editor-choice-related .text-entry-evaluation-panel .lexical-field-group-header .lexical-field-label {
+.item-editor-response-related .text-entry-evaluation-panel .lexical-field-group-header .lexical-field-identifier,
+.item-editor-choice-related .text-entry-evaluation-panel .lexical-field-group-header .lexical-field-identifier {
   flex: 1;
   min-width: 0;
   margin: 0;

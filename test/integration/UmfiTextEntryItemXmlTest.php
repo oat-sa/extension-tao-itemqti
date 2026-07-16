@@ -78,7 +78,7 @@ class UmfiTextEntryItemXmlTest extends TaoPhpUnitTestRunner
 
         $this->assertInstanceOf(AssessmentItem::class, $item);
         $this->assertSame('umfi-text-entry-sample', $item->getIdentifier());
-        $this->assertStringContainsString("data-umfi-values='[[", file_get_contents(self::SAMPLE_FILE));
+        $this->assertStringContainsString('data-umfi-values=\'{"GROUP_1"', file_get_contents(self::SAMPLE_FILE));
         $this->assertStringContainsString('"apple"', file_get_contents(self::SAMPLE_FILE));
     }
 
@@ -87,11 +87,14 @@ class UmfiTextEntryItemXmlTest extends TaoPhpUnitTestRunner
         $interaction = new TextEntryInteraction();
         $interaction->setAttribute('data-item-type', 'umfi-closed');
         $interaction->setAttribute('data-case-sensitive', 'false');
-        $interaction->setAttribute('data-umfi-values', '[["apple","apples"]]');
+        $interaction->setAttribute('data-umfi-values', '{"GROUP_1":["apple","apples"]}');
 
         $output = $interaction->toQTI();
 
-        $this->assertStringContainsString('data-umfi-values="[[&quot;apple&quot;,&quot;apples&quot;]]"', $output);
+        $this->assertStringContainsString(
+            'data-umfi-values="{&quot;GROUP_1&quot;:[&quot;apple&quot;,&quot;apples&quot;]}"',
+            $output
+        );
     }
 
     public function testRoundTripEscapesUmfiValues(): void
@@ -107,6 +110,9 @@ class UmfiTextEntryItemXmlTest extends TaoPhpUnitTestRunner
 
         $output = $item->toXML();
 
-        $this->assertStringContainsString('data-umfi-values="[[&quot;apple&quot;,&quot;apples&quot;]]"', $output);
+        $this->assertStringContainsString(
+            'data-umfi-values="{&quot;GROUP_1&quot;:[&quot;apple&quot;,&quot;apples&quot;]}"',
+            $output
+        );
     }
 }

@@ -38,7 +38,7 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm'], funct
 
         return $(
             `<div class="lexical-field-group" data-group-index="0">
-                <input type="text" class="lexical-field-label" value="${(options && options.label) || 'Apple'}" />
+                <input type="text" class="lexical-field-identifier" value="${(options && options.identifier) || 'GROUP_1'}" />
                 <div class="lexical-field-variant-chips">${chips}${draftInput}</div>
             </div>`
         );
@@ -58,12 +58,12 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm'], funct
         const $groupWithDraft = buildGroupDom({ draftValue: '' });
 
         $form.append($groupWithDraft);
-        $form.append(buildGroupDom({ label: 'Banana', synonyms: ['banana'] }));
+        $form.append(buildGroupDom({ identifier: 'GROUP_2', synonyms: ['banana'] }));
 
         const groups = textEntryEvaluationForm.readLexicalGroupsFromForm($form);
 
         assert.strictEqual(groups.length, 2);
-        assert.strictEqual(groups[0].label, 'Apple');
+        assert.strictEqual(groups[0].identifier, 'GROUP_1');
         assert.strictEqual(groups[0].draftVariant, true);
         assert.deepEqual(groups[0].synonyms, []);
         assert.strictEqual(groups[1].draftVariant, false);

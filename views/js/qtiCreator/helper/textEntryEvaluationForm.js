@@ -19,8 +19,9 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper',
+    'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/lexicalFieldGroup'
-], function ($, _, evaluationHelper, lexicalFieldGroupTpl) {
+], function ($, _, evaluationHelper, formElement, lexicalFieldGroupTpl) {
     'use strict';
 
     const NS = '.textEntryEvaluation';
@@ -81,11 +82,15 @@ define([
      * @param {Object[]} groups
      * @returns {Object[]}
      */
-    const prepareGroupsForTpl = function prepareGroupsForTpl(groups) {
+    const prepareGroupsForTpl = function prepareGroupsForTpl(groups, widget) {
+        const textEntrySerial =
+            widget && widget.element ? evaluationHelper.getTextEntrySerial(widget.element) : null;
+
         return _.map(evaluationHelper.normalizeLexicalGroups(groups), (group, index) =>
             Object.assign({}, group, {
                 index,
-                draftVariant: !!group.draftVariant
+                draftVariant: !!group.draftVariant,
+                textEntrySerial: textEntrySerial || ''
             })
         );
     };
@@ -100,7 +105,7 @@ define([
         return {
             evaluateAsUmfi: config.evaluateAsUmfi,
             allowLexicalFieldsOnScoring: config.allowLexicalFieldsOnScoring,
-            lexicalGroups: prepareGroupsForTpl(config.lexicalGroups)
+            lexicalGroups: prepareGroupsForTpl(config.lexicalGroups, interaction)
         };
     };
 
@@ -147,7 +152,7 @@ define([
             const $group = $(this);
 
             groups.push({
-                label: String($group.find('.lexical-field-label').val() || '').trim(),
+                identifier: String($group.find('.lexical-field-identifier').val() || '').trim(),
                 synonyms: readVariantsFromGroup($group),
                 draftVariant: $group.find('.lexical-field-variant-input').length > 0
             });
@@ -215,9 +220,11 @@ define([
 
         $groups.empty();
 
-        _.forEach(prepareGroupsForTpl(config.lexicalGroups), group => {
+        _.forEach(prepareGroupsForTpl(config.lexicalGroups, widget), group => {
             $groups.append(lexicalFieldGroupTpl(group));
         });
+
+        formElement.initWidget($responseForm.find('.lexical-field-groups'));
 
         if (_.isNumber(focusGroupIndex)) {
             const $input = $groups
@@ -275,7 +282,7 @@ define([
 
         $responseForm.on(
             `input${NS}`,
-            '.lexical-field-label',
+            '.lexical-field-identifier',
             _.debounce(function () {
                 syncConfigFromForm($responseForm, widget);
             }, 300)
@@ -287,7 +294,7 @@ define([
             const config = getConfig(widget);
 
             config.lexicalGroups.push({
-                label: '',
+                identifier: '',
                 synonyms: [],
                 draftVariant: true
             });
@@ -360,6 +367,9 @@ define([
                 return;
             }
 
+            config.lexicalGroups[groupIndex].identifier = String(
+                $group.find('.lexical-field-identifier').val() || ''
+            ).trim();
             config.lexicalGroups[groupIndex].synonyms = readVariantsFromGroup($group);
             config.lexicalGroups[groupIndex].draftVariant = !value;
             setConfig(widget, config);

@@ -36,7 +36,7 @@ define([
     QUnit.test('getData uses single quotes for data-umfi-values without escaping JSON', function (assert) {
         const interaction = createInteraction({
             responseIdentifier: 'RESPONSE',
-            'data-umfi-values': '[["France","French Republic"]]'
+            'data-umfi-values': '{"GROUP_1":["France","French Republic"]}'
         });
 
         const result = TextEntryInteractionRenderer.getData(interaction, {
@@ -46,7 +46,7 @@ define([
 
         assert.strictEqual(
             result.attributesMarkup,
-            'responseIdentifier="RESPONSE" data-umfi-values=\'[["France","French Republic"]]\''
+            'responseIdentifier="RESPONSE" data-umfi-values=\'{"GROUP_1":["France","French Republic"]}\''
         );
         assert.strictEqual(result.attributesMarkup.indexOf('&quot;'), -1);
     });
@@ -56,7 +56,8 @@ define([
             responseIdentifier: 'RESPONSE',
             'data-item-type': 'umfi-closed',
             'data-case-sensitive': 'false',
-            'data-umfi-values': '[["France","French Republic"],["Germany","Federal Republic of Germany"]]'
+            'data-umfi-values':
+                '{"GROUP_1":["France","French Republic"],"GROUP_2":["Germany","Federal Republic of Germany"]}'
         });
 
         const tplData = TextEntryInteractionRenderer.getData(interaction, {
@@ -67,7 +68,7 @@ define([
         const doc = new DOMParser().parseFromString(xml, 'application/xml');
 
         assert.strictEqual(doc.getElementsByTagName('parsererror').length, 0, 'generated XML is well-formed');
-        assert.ok(xml.indexOf("data-umfi-values='[[") > -1, 'JSON attribute uses single quotes');
+        assert.ok(xml.indexOf("data-umfi-values='{\"GROUP_1\"") > -1, 'JSON attribute uses single quotes');
         assert.ok(xml.indexOf('"France"') > -1, 'JSON keeps literal double quotes');
         assert.strictEqual(xml.indexOf('&quot;'), -1, 'JSON quotes are not entity-escaped');
     });
