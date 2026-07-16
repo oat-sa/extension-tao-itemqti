@@ -53,6 +53,31 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm'], funct
         assert.deepEqual(textEntryEvaluationForm.readVariantsFromGroup($group), ['apple', 'apples', 'apfel']);
     });
 
+    QUnit.test('readVariantsFromGroup skips draft that duplicates an existing chip', assert => {
+        const $group = buildGroupDom({
+            synonyms: ['Apple', 'apples'],
+            draftValue: 'apple'
+        });
+
+        assert.deepEqual(
+            textEntryEvaluationForm.readVariantsFromGroup($group, { caseSensitive: false }),
+            ['Apple', 'apples']
+        );
+        assert.deepEqual(
+            textEntryEvaluationForm.readVariantsFromGroup($group, { caseSensitive: true }),
+            ['Apple', 'apples', 'apple']
+        );
+    });
+
+    QUnit.test('readChipVariantsFromGroup ignores draft input', assert => {
+        const $group = buildGroupDom({
+            synonyms: ['apple'],
+            draftValue: 'apples'
+        });
+
+        assert.deepEqual(textEntryEvaluationForm.readChipVariantsFromGroup($group), ['apple']);
+    });
+
     QUnit.test('readLexicalGroupsFromForm tracks draftVariant from input presence', assert => {
         const $form = $('<div class="text-entry-evaluation-panel"></div>');
         const $groupWithDraft = buildGroupDom({ draftValue: '' });

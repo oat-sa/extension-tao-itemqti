@@ -18,14 +18,17 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
+    'ui/tooltip',
     'taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/lexicalFieldGroup'
-], function ($, _, evaluationHelper, formElement, lexicalFieldGroupTpl) {
+], function ($, _, __, tooltip, evaluationHelper, formElement, lexicalFieldGroupTpl) {
     'use strict';
 
     const NS = '.textEntryEvaluation';
     const DOC_NS = '.textEntryEvaluationDoc';
+    const DUPLICATE_VARIANT_MESSAGE = __('This variant already exists');
 
     /**
      * Draft variant inputs commit on blur. Action controls must run on mousedown
@@ -34,6 +37,66 @@ define([
      * that can cancel the subsequent click on <a> elements.
      */
     let suppressVariantBlurCommit = false;
+
+    /**
+     * @param {jQuery} $input
+     * @returns {Object}
+     */
+    const getVariantInputTooltip = function getVariantInputTooltip($input) {
+        let variantTooltip = $input.data('$tooltip');
+
+        if (!variantTooltip) {
+            $input.siblings('.tooltip.tooltip-red').remove();
+            variantTooltip = tooltip.error($input, ' ', {
+                trigger: 'manual'
+            });
+            $input.data('$tooltip', variantTooltip);
+            $input.attr('data-has-tooltip', true);
+        }
+
+        return variantTooltip;
+    };
+
+    /**
+     * @param {jQuery} $input
+     * @param {string} message
+     */
+    const showVariantInputError = function showVariantInputError($input, message) {
+        const variantTooltip = getVariantInputTooltip($input);
+
+        $input.addClass('error');
+        variantTooltip.updateTitleContent(message);
+        variantTooltip.show();
+    };
+
+    /**
+     * @param {jQuery} $input
+     */
+    const clearVariantInputError = function clearVariantInputError($input) {
+        const variantTooltip = $input.data('$tooltip');
+
+        $input.removeClass('error');
+
+        if (variantTooltip) {
+            variantTooltip.hide();
+        }
+    };
+
+    /**
+     * @param {jQuery} $input
+     */
+    const disposeVariantInputTooltip = function disposeVariantInputTooltip($input) {
+        const variantTooltip = $input.data('$tooltip');
+
+        if (variantTooltip) {
+            variantTooltip.dispose();
+            $input.removeData('$tooltip');
+            $input.removeAttr('data-has-tooltip');
+        }
+
+        $input.removeClass('error');
+        $input.siblings('.tooltip.tooltip-red').remove();
+    };
 
     /**
      * @param {jQuery} $responseForm
@@ -120,7 +183,7 @@ define([
      * @param {jQuery} $group
      * @returns {string[]}
      */
-    const readVariantsFromGroup = function readVariantsFromGroup($group) {
+    const readChipVariantsFromGroup = function readChipVariantsFromGroup($group) {
         const synonyms = [];
 
         $group.find('.lexical-field-variant-chip .variant-text').each(function () {
@@ -130,9 +193,21 @@ define([
             }
         });
 
+        return synonyms;
+    };
+
+    /**
+     * @param {jQuery} $group
+     * @param {{caseSensitive?: boolean}} [options]
+     * @returns {string[]}
+     */
+    const readVariantsFromGroup = function readVariantsFromGroup($group, options) {
+        const caseSensitive = !!(options && options.caseSensitive);
+        const synonyms = readChipVariantsFromGroup($group);
+
         $group.find('.lexical-field-variant-input').each(function () {
             const value = String($(this).val()).trim();
-            if (value) {
+            if (value && !evaluationHelper.hasLexicalVariant(synonyms, value, caseSensitive)) {
                 synonyms.push(value);
             }
         });
@@ -142,9 +217,10 @@ define([
 
     /**
      * @param {jQuery} $form
+     * @param {{caseSensitive?: boolean}} [options]
      * @returns {Object[]}
      */
-    const readLexicalGroupsFromForm = function readLexicalGroupsFromForm($form) {
+    const readLexicalGroupsFromForm = function readLexicalGroupsFromForm($form, options) {
         const groups = [];
 
         $form.find('.lexical-field-group').each(function () {
@@ -152,7 +228,7 @@ define([
 
             groups.push({
                 identifier: String($group.find('.lexical-field-identifier').val() || '').trim(),
-                synonyms: readVariantsFromGroup($group),
+                synonyms: readVariantsFromGroup($group, options),
                 draftVariant: $group.find('.lexical-field-variant-input').length > 0
             });
         });
@@ -175,7 +251,9 @@ define([
         config.allowLexicalFieldsOnScoring = $responseForm
             .find('input[name="allowLexicalFieldsOnScoring"]')
             .prop('checked');
-        config.lexicalGroups = readLexicalGroupsFromForm($responseForm);
+        config.lexicalGroups = readLexicalGroupsFromForm($responseForm, {
+            caseSensitive: config.caseSensitive
+        });
 
         setConfig(widget, config);
     };
@@ -371,6 +449,7 @@ define([
             const groupIndex = parseInt($group.data('group-index'), 10);
             const config = getConfig(widget);
             const value = String($input.val()).trim();
+            const chipVariants = readChipVariantsFromGroup($group);
 
             if (!config.lexicalGroups[groupIndex]) {
                 return;
@@ -379,7 +458,19 @@ define([
             config.lexicalGroups[groupIndex].identifier = String(
                 $group.find('.lexical-field-identifier').val() || ''
             ).trim();
-            config.lexicalGroups[groupIndex].synonyms = readVariantsFromGroup($group);
+
+            if (value && evaluationHelper.hasLexicalVariant(chipVariants, value, config.caseSensitive)) {
+                showVariantInputError($input, DUPLICATE_VARIANT_MESSAGE);
+                config.lexicalGroups[groupIndex].synonyms = chipVariants;
+                config.lexicalGroups[groupIndex].draftVariant = true;
+                setConfig(widget, config);
+                return;
+            }
+
+            disposeVariantInputTooltip($input);
+            config.lexicalGroups[groupIndex].synonyms = readVariantsFromGroup($group, {
+                caseSensitive: config.caseSensitive
+            });
             config.lexicalGroups[groupIndex].draftVariant = !value;
             setConfig(widget, config);
 
@@ -387,6 +478,10 @@ define([
                 refreshLexicalFields($responseForm, widget);
             }
         };
+
+        $responseForm.on(`input${NS}`, '.lexical-field-variant-input', function () {
+            clearVariantInputError($(this));
+        });
 
         $responseForm.on(`keydown${NS}`, '.lexical-field-variant-input', function (e) {
             if (e.key === 'Enter') {
@@ -429,6 +524,7 @@ define([
         unbindEvents,
         syncConfigFromForm,
         flushOpenForms,
+        readChipVariantsFromGroup,
         readVariantsFromGroup,
         readLexicalGroupsFromForm
     };

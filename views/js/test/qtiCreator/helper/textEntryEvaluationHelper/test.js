@@ -228,6 +228,15 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.strictEqual(evaluationHelper.buildGroupOutcomeId('APPLE_FOUND'), 'APPLE_FOUND');
     });
 
+    QUnit.test('hasLexicalVariant detects existing variants using case sensitivity', assert => {
+        const variants = ['Apple', 'apples'];
+
+        assert.strictEqual(evaluationHelper.hasLexicalVariant(variants, 'apple', false), true);
+        assert.strictEqual(evaluationHelper.hasLexicalVariant(variants, 'apple', true), false);
+        assert.strictEqual(evaluationHelper.hasLexicalVariant(variants, 'apples', true), true);
+        assert.strictEqual(evaluationHelper.hasLexicalVariant(variants, 'banana', false), false);
+    });
+
     QUnit.test('normalizeLexicalGroups keeps default identifier when variants are added', assert => {
         const groups = evaluationHelper.normalizeLexicalGroups([{ identifier: '', synonyms: ['Apple', 'apple'] }]);
 

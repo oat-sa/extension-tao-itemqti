@@ -547,6 +547,11 @@ body.solar-design .item-editor-choice-related .text-entry-evaluation-panel .acti
   font-size: 13px;
   font-size: 1.3rem;
 }
+.item-editor-response-related .text-entry-evaluation-panel .lexical-field-variant-input.error,
+.item-editor-choice-related .text-entry-evaluation-panel .lexical-field-variant-input.error {
+  border-color: rgb(186, 18, 43);
+  color: rgb(186, 18, 43);
+}
 .item-editor-response-related .text-entry-evaluation-panel .text-entry-evaluation-info,
 .item-editor-choice-related .text-entry-evaluation-panel .text-entry-evaluation-info {
   display: grid;

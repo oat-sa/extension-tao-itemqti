@@ -186,6 +186,11 @@
         min-width: 4rem;
         margin: 0;
         @include font-size(13);
+
+        &.error {
+            border-color: $error;
+            color: $error;
+        }
     }
 
     .text-entry-evaluation-info {

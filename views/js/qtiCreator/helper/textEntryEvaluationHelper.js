@@ -575,6 +575,36 @@ define([
     };
 
     /**
+     * @param {string} value
+     * @param {boolean} [caseSensitive=false]
+     * @returns {string}
+     */
+    const normalizeVariantForCompare = function normalizeVariantForCompare(value, caseSensitive) {
+        const trimmed = String(value || '').trim();
+
+        return caseSensitive ? trimmed : trimmed.toLowerCase();
+    };
+
+    /**
+     * @param {string[]} variants
+     * @param {string} candidate
+     * @param {boolean} [caseSensitive=false]
+     * @returns {boolean}
+     */
+    const hasLexicalVariant = function hasLexicalVariant(variants, candidate, caseSensitive) {
+        const needle = normalizeVariantForCompare(candidate, caseSensitive);
+
+        if (!needle) {
+            return false;
+        }
+
+        return _.some(
+            variants || [],
+            variant => normalizeVariantForCompare(variant, caseSensitive) === needle
+        );
+    };
+
+    /**
      * @param {Array<{id?: string, group?: string, identifier?: string, label?: string, canonical?: string, synonyms?: string[], variants?: string[], collapsed?: boolean}>} groups
      * @returns {Array<{id: string, identifier: string, canonical: string, synonyms: string[], collapsed: boolean}>}
      */
@@ -858,6 +888,7 @@ define([
         getEvaluationConfig,
         getScorableLexicalGroups,
         normalizeLexicalGroups,
+        hasLexicalVariant,
         parseDataUmfiValues,
         serializeDataUmfiValues,
         buildDefaultLexicalGroupIdentifier,
