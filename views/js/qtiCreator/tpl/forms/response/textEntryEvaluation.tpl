@@ -4,10 +4,12 @@
     <h3 class="full-width">
         {{__ "Evaluation"}}
         <span class="icon-help tooltipstered" data-tooltip="~ .evaluation-section-tooltip" data-tooltip-theme="info"></span>
+        <span class="tooltip-content evaluation-section-tooltip">
+            <b>{{__ "Defines how multiple Text Entry interactions are evaluated."}}</b><br />
+            <b>{{__ "Ordered"}}</b> — {{__ "each response must be entered in its corresponding field."}}<br />
+            <b>{{__ "Unordered"}}</b> — {{__ "responses can be entered in any field and are evaluated as a set."}}
+        </span>
     </h3>
-    <span class="tooltip-content evaluation-section-tooltip">
-        {{__ "Configure how Text Entry interactions are scored when multiple fields are used in the same item."}}
-    </span>
 
     <label class="smaller-prompt text-entry-evaluation-toggle">
         <input type="checkbox" name="evaluateAsUmfi" {{#if evaluateAsUmfi}}checked="checked"{{/if}} />
@@ -35,10 +37,10 @@
             <h4 class="lexical-fields-title">
                 {{__ "Lexical fields"}}
                 <span class="icon-help tooltipstered" data-tooltip="~ .lexical-fields-tooltip" data-tooltip-theme="info"></span>
+                <span class="tooltip-content lexical-fields-tooltip">
+                    {{__ "A Lexical Field groups multiple accepted answer variants into a single expected response. The first variant is used as the canonical label displayed during scoring."}}
+                </span>
             </h4>
-            <span class="tooltip-content lexical-fields-tooltip">
-                {{__ "Define the expected lexical fields and their acceptable variants for scoring."}}
-            </span>
             <a href="#" class="action-link add-lexical-field-action" data-action="add-lexical-field">
                 <span class="icon-add"></span>{{__ "Add lexical field"}}
             </a>
