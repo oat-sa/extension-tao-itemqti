@@ -436,12 +436,44 @@ define([
         const config = getEvaluationConfig(sampleInteraction);
 
         if (!config.evaluateAsUmfi) {
-            stripInternalAuthoringAttrs(primaryTextEntry);
             return;
         }
 
         syncResponseProcessing(sampleInteraction, config);
-        stripInternalAuthoringAttrs(primaryTextEntry);
+    };
+
+    /**
+     * @param {Object} item
+     * @param {Object} primaryTextEntry
+     * @returns {string[]}
+     */
+    const getManagedGroupOutcomeIds = function getManagedGroupOutcomeIds(item, primaryTextEntry) {
+        const fromManagedAttr = parseJsonStringArray(primaryTextEntry.attr(DATA_MANAGED_OUTCOMES));
+        const fromUmfiValues = _.map(parseDataUmfiValues(primaryTextEntry.attr(DATA_UMFI_VALUES)), 'id');
+
+        return _.uniq(_.filter(fromManagedAttr.concat(fromUmfiValues), Boolean));
+    };
+
+    /**
+     * @param {Object} item
+     */
+    const resetScoreOutcomeBounds = function resetScoreOutcomeBounds(item) {
+        const scoreOutcome = item.getOutcomeDeclaration('SCORE');
+
+        if (!scoreOutcome) {
+            return;
+        }
+
+        if (_.isFunction(scoreOutcome.removeAttr)) {
+            scoreOutcome.removeAttr('normalMinimum');
+            scoreOutcome.removeAttr('normalMaximum');
+            return;
+        }
+
+        if (_.isFunction(scoreOutcome.attr)) {
+            scoreOutcome.attr('normalMinimum', undefined);
+            scoreOutcome.attr('normalMaximum', undefined);
+        }
     };
 
     /**
@@ -455,21 +487,34 @@ define([
             return;
         }
 
-        if (primaryTextEntry.attr(DATA_RP_MANAGED) === 'true' || isUmfiEnabled(interaction)) {
-            const rp = item.responseProcessing;
+        const wasRpManaged =
+            primaryTextEntry.attr(DATA_RP_MANAGED) === 'true' ||
+            isUmfiEnabled(interaction) ||
+            parseDataUmfiValues(primaryTextEntry.attr(DATA_UMFI_VALUES)).length > 0;
 
-            if (rp && rp.processingType === 'custom' && _.isFunction(rp.setProcessingType)) {
-                rp.setProcessingType('templateDriven');
-            }
-
-            primaryTextEntry.removeAttr(DATA_RP_MANAGED);
-        }
-
-        _.forEach(parseJsonStringArray(primaryTextEntry.attr(DATA_MANAGED_OUTCOMES)), id => {
+        _.forEach(getManagedGroupOutcomeIds(item, primaryTextEntry), id => {
             item.removeOutcome(id);
         });
 
+        if (wasRpManaged) {
+            const rp = item.responseProcessing;
+
+            if (rp && _.isFunction(rp.setProcessingType) && rp.processingType === 'custom') {
+                rp.setProcessingType('templateDriven');
+            } else if (rp) {
+                rp.processingType = 'templateDriven';
+            }
+
+            if (rp) {
+                rp.xml = '';
+            }
+
+            item.removeOutcome('MAXSCORE');
+            resetScoreOutcomeBounds(item);
+        }
+
         primaryTextEntry.removeAttr(DATA_MANAGED_OUTCOMES);
+        primaryTextEntry.removeAttr(DATA_RP_MANAGED);
     };
 
     /**
@@ -822,7 +867,6 @@ define([
      */
     const persistEvaluationConfig = function persistEvaluationConfig(interaction, config) {
         if (config.evaluateAsUmfi === false) {
-            clearUmfiResponseProcessing(interaction);
             setUmfiEnabled(interaction, false);
             return;
         }

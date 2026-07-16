@@ -471,12 +471,9 @@ define([
             config.lexicalGroups[groupIndex].synonyms = readVariantsFromGroup($group, {
                 caseSensitive: config.caseSensitive
             });
-            config.lexicalGroups[groupIndex].draftVariant = !value;
+            config.lexicalGroups[groupIndex].draftVariant = false;
             setConfig(widget, config);
-
-            if (value) {
-                refreshLexicalFields($responseForm, widget);
-            }
+            refreshLexicalFields($responseForm, widget);
         };
 
         $responseForm.on(`input${NS}`, '.lexical-field-variant-input', function () {

@@ -369,7 +369,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.ok(groups[1].id.indexOf('_FOUND') > -1);
     });
 
-    QUnit.test('ensurePersistedBeforeSave syncs RP, outcomes and strips internal attrs', assert => {
+    QUnit.test('ensurePersistedBeforeSave syncs RP and keeps internal authoring attrs on the live model', assert => {
         const item = createItem([]);
         const textEntry = createTextEntry(item);
 
@@ -404,12 +404,58 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.strictEqual(item.getOutcomeDeclaration('SCORE').defaultValue, 0);
         assert.strictEqual(item.getOutcomeDeclaration('MAXSCORE').defaultValue, 1);
         assert.strictEqual(textEntry.getResponseDeclaration().template, 'CUSTOM');
-        assert.strictEqual(textEntry.attr('data-umfi-managed-outcomes'), undefined);
-        assert.strictEqual(textEntry.attr('data-umfi-rp-managed'), undefined);
+        assert.strictEqual(textEntry.attr('data-umfi-managed-outcomes'), '["GROUP_1_FOUND"]');
+        assert.strictEqual(textEntry.attr('data-umfi-rp-managed'), 'true');
         assert.strictEqual(
             textEntry.attr('data-umfi-values'),
             '[{"group":"GROUP_1_FOUND","canonical":"apple","variants":["apple","apples"]}]'
         );
+    });
+
+    QUnit.test('disabling UMFI removes generated outcomes, attributes and responseProcessing', assert => {
+        const item = createItem([]);
+        const textEntry = createTextEntry(item);
+
+        textEntry.attr('responseIdentifier', 'RESPONSE');
+        item.getElements = function (qtiClass) {
+            if (qtiClass !== 'textEntryInteraction') {
+                return {};
+            }
+
+            return { 1: textEntry };
+        };
+
+        evaluationHelper.persistEvaluationConfig(textEntry, {
+            evaluateAsUmfi: true,
+            lexicalGroups: [
+                {
+                    identifier: 'APPLE',
+                    synonyms: ['apple', 'apples']
+                }
+            ]
+        });
+
+        assert.ok(item.getOutcomeDeclaration('APPLE_FOUND'));
+        assert.ok(item.getOutcomeDeclaration('MAXSCORE'));
+        assert.strictEqual(item.getOutcomeDeclaration('SCORE').attr('normalMaximum'), 1);
+        assert.strictEqual(item.responseProcessing.processingType, 'custom');
+        assert.strictEqual(textEntry.attr('data-item-type'), 'umfi-closed');
+        assert.ok(textEntry.attr('data-umfi-values'));
+
+        evaluationHelper.persistEvaluationConfig(textEntry, {
+            evaluateAsUmfi: false
+        });
+
+        assert.strictEqual(item.getOutcomeDeclaration('APPLE_FOUND'), null);
+        assert.strictEqual(item.getOutcomeDeclaration('MAXSCORE'), null);
+        assert.strictEqual(item.getOutcomeDeclaration('SCORE').attr('normalMaximum'), undefined);
+        assert.strictEqual(item.responseProcessing.processingType, 'templateDriven');
+        assert.strictEqual(item.responseProcessing.xml, '');
+        assert.strictEqual(textEntry.attr('data-item-type'), undefined);
+        assert.strictEqual(textEntry.attr('data-umfi-values'), undefined);
+        assert.strictEqual(textEntry.attr('data-case-sensitive'), undefined);
+        assert.strictEqual(textEntry.attr('data-umfi-managed-outcomes'), undefined);
+        assert.strictEqual(textEntry.attr('data-umfi-rp-managed'), undefined);
     });
 
     QUnit.test('getItemTextEntries finds nested text entries via getComposingElements', assert => {
