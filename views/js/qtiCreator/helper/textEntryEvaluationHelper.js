@@ -209,7 +209,7 @@ define([
             primaryTextEntry.attr(DATA_ITEM_TYPE, UMFI_ITEM_TYPE);
 
             if (!primaryTextEntry.attr(DATA_UMFI_VALUES)) {
-                primaryTextEntry.attr(DATA_UMFI_VALUES, '{}');
+                primaryTextEntry.attr(DATA_UMFI_VALUES, '[]');
             }
 
             if (!primaryTextEntry.attr(DATA_CASE_SENSITIVE)) {
@@ -519,7 +519,7 @@ define([
      * @returns {string}
      */
     const buildDefaultLexicalGroupIdentifier = function buildDefaultLexicalGroupIdentifier(index) {
-        return `${LEXICAL_GROUP_PREFIX}${index + 1}`;
+        return `${LEXICAL_GROUP_PREFIX}${index + 1}${GROUP_OUTCOME_SUFFIX}`;
     };
 
     /**
@@ -563,23 +563,36 @@ define([
     };
 
     /**
-     * @param {Array<{id?: string, identifier?: string, label?: string, synonyms: string[], collapsed?: boolean}>} groups
-     * @returns {Array<{id: string, identifier: string, synonyms: string[], collapsed: boolean}>}
+     * @param {string[]} values
+     * @returns {string[]}
+     */
+    const normalizeVariantList = function normalizeVariantList(values) {
+        return _.chain(values || [])
+            .map(String)
+            .map(value => value.trim())
+            .filter(Boolean)
+            .value();
+    };
+
+    /**
+     * @param {Array<{id?: string, group?: string, identifier?: string, label?: string, canonical?: string, synonyms?: string[], variants?: string[], collapsed?: boolean}>} groups
+     * @returns {Array<{id: string, identifier: string, canonical: string, synonyms: string[], collapsed: boolean}>}
      */
     const normalizeLexicalGroups = function normalizeLexicalGroups(groups) {
         const usedIdentifiers = {};
         const usedOutcomeIds = {};
 
         return _.map(groups || [], (group, index) => {
-            const synonyms = _.chain(group.synonyms || group.variants || [])
-                .map(String)
-                .map(value => value.trim())
-                .filter(Boolean)
-                .value();
+            const explicitCanonical = String(group.canonical || '').trim();
+            const rawSynonyms = normalizeVariantList(group.synonyms || group.variants || []);
+            const synonyms = explicitCanonical
+                ? _.uniq([explicitCanonical].concat(rawSynonyms))
+                : rawSynonyms;
             const requestedIdentifier = String(
-                group.identifier || group.groupIdentifier || group.label || ''
+                group.group || group.id || group.identifier || group.groupIdentifier || group.label || ''
             ).trim();
-            let identifier = requestedIdentifier || buildDefaultLexicalGroupIdentifier(index);
+            let identifier =
+                buildGroupOutcomeId(requestedIdentifier) || buildDefaultLexicalGroupIdentifier(index);
             let identifierIndex = index;
 
             while (usedIdentifiers[identifier]) {
@@ -589,7 +602,7 @@ define([
 
             usedIdentifiers[identifier] = true;
 
-            let id = group.id || buildGroupOutcomeId(identifier);
+            let id = identifier;
             let suffix = 1;
             const outcomeBase = id.replace(new RegExp(`${GROUP_OUTCOME_SUFFIX}$`), '');
 
@@ -599,37 +612,50 @@ define([
             }
 
             usedOutcomeIds[id] = true;
+            identifier = id;
 
             return {
                 id,
                 identifier,
+                canonical: synonyms[0] || '',
                 synonyms,
                 draftVariant: !!group.draftVariant
             };
         });
     };
 
+    /**
+     * @param {*} entry
+     * @returns {{identifier: string, canonical?: string, synonyms: string[]}}
+     */
     const mapDataUmfiEntry = function mapDataUmfiEntry(entry) {
         if (_.isObject(entry) && !_.isArray(entry)) {
-            const synonyms = entry.variants || entry.synonyms || [];
-            const storedId = String(entry.id || entry.identifier || entry.groupIdentifier || '').trim();
+            const canonical = String(entry.canonical || '').trim();
+            const variants = normalizeVariantList(entry.variants || entry.synonyms || []);
+            const storedGroup = String(
+                entry.group || entry.id || entry.identifier || entry.groupIdentifier || ''
+            ).trim();
             const legacyLabel = _.isString(entry.label) ? entry.label.trim() : '';
 
             return {
-                identifier: storedId || legacyLabel,
-                synonyms: _.isArray(synonyms) ? synonyms : []
+                identifier: storedGroup || legacyLabel,
+                canonical,
+                synonyms: canonical ? _.uniq([canonical].concat(variants)) : variants
             };
         }
 
+        const synonyms = normalizeVariantList(entry);
+
         return {
             identifier: '',
-            synonyms: _.isArray(entry) ? entry : []
+            canonical: synonyms[0] || '',
+            synonyms
         };
     };
 
     /**
      * @param {string|null|undefined} jsonString
-     * @returns {Array<{identifier: string, synonyms: string[]}>}
+     * @returns {Array<{identifier: string, canonical: string, synonyms: string[]}>}
      */
     const parseDataUmfiValues = function parseDataUmfiValues(jsonString) {
         if (!jsonString || !_.isString(jsonString)) {
@@ -663,18 +689,22 @@ define([
      * @returns {string}
      */
     const serializeDataUmfiValues = function serializeDataUmfiValues(groups) {
-        const payload = {};
+        const payload = _.chain(normalizeLexicalGroups(groups))
+            .map(group => {
+                const synonyms = normalizeVariantList(group.synonyms);
 
-        _.forEach(normalizeLexicalGroups(groups), group => {
-            const variants = _.chain(group.synonyms)
-                .map(value => String(value).trim())
-                .filter(Boolean)
-                .value();
+                if (!synonyms.length) {
+                    return null;
+                }
 
-            if (variants.length) {
-                payload[group.identifier] = variants;
-            }
-        });
+                return {
+                    group: group.id,
+                    canonical: synonyms[0],
+                    variants: synonyms
+                };
+            })
+            .filter(Boolean)
+            .value();
 
         return JSON.stringify(payload);
     };

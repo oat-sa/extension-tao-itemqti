@@ -78,7 +78,8 @@ class UmfiTextEntryItemXmlTest extends TaoPhpUnitTestRunner
 
         $this->assertInstanceOf(AssessmentItem::class, $item);
         $this->assertSame('umfi-text-entry-sample', $item->getIdentifier());
-        $this->assertStringContainsString('data-umfi-values=\'{"GROUP_1"', file_get_contents(self::SAMPLE_FILE));
+        $this->assertStringContainsString('data-umfi-values=\'[{"group"', file_get_contents(self::SAMPLE_FILE));
+        $this->assertStringContainsString('"canonical"', file_get_contents(self::SAMPLE_FILE));
         $this->assertStringContainsString('"apple"', file_get_contents(self::SAMPLE_FILE));
     }
 
@@ -87,12 +88,15 @@ class UmfiTextEntryItemXmlTest extends TaoPhpUnitTestRunner
         $interaction = new TextEntryInteraction();
         $interaction->setAttribute('data-item-type', 'umfi-closed');
         $interaction->setAttribute('data-case-sensitive', 'false');
-        $interaction->setAttribute('data-umfi-values', '{"GROUP_1":["apple","apples"]}');
+        $interaction->setAttribute(
+            'data-umfi-values',
+            '[{"group":"GROUP_1_FOUND","canonical":"apple","variants":["apple","apples"]}]'
+        );
 
         $output = $interaction->toQTI();
 
         $this->assertStringContainsString(
-            'data-umfi-values="{&quot;GROUP_1&quot;:[&quot;apple&quot;,&quot;apples&quot;]}"',
+            'data-umfi-values="[{&quot;group&quot;:&quot;GROUP_1_FOUND&quot;,&quot;canonical&quot;:&quot;apple&quot;,&quot;variants&quot;:[&quot;apple&quot;,&quot;apples&quot;]}]"',
             $output
         );
     }
@@ -111,7 +115,7 @@ class UmfiTextEntryItemXmlTest extends TaoPhpUnitTestRunner
         $output = $item->toXML();
 
         $this->assertStringContainsString(
-            'data-umfi-values="{&quot;GROUP_1&quot;:[&quot;apple&quot;,&quot;apples&quot;]}"',
+            'data-umfi-values="[{&quot;group&quot;:&quot;GROUP_1_FOUND&quot;,&quot;canonical&quot;:&quot;apple&quot;,&quot;variants&quot;:[&quot;apple&quot;,&quot;apples&quot;]}]"',
             $output
         );
     }

@@ -128,7 +128,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         evaluationHelper.setUmfiEnabled(firstEntry, true);
 
         assert.strictEqual(firstEntry.attr('data-item-type'), 'umfi-closed');
-        assert.strictEqual(firstEntry.attr('data-umfi-values'), '{}');
+        assert.strictEqual(firstEntry.attr('data-umfi-values'), '[]');
         assert.strictEqual(evaluationHelper.isUmfiEnabled(secondEntry), true);
 
         evaluationHelper.setAllowLexicalFieldsOnScoring(firstEntry, true);
@@ -166,8 +166,9 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         const groups = evaluationHelper.getLexicalGroups(otherEntry);
 
         assert.strictEqual(groups.length, 1);
-        assert.strictEqual(groups[0].identifier, 'GROUP_1');
+        assert.strictEqual(groups[0].identifier, 'GROUP_1_FOUND');
         assert.strictEqual(groups[0].id, 'GROUP_1_FOUND');
+        assert.strictEqual(groups[0].canonical, 'Apple');
         assert.deepEqual(groups[0].synonyms, ['Apple', 'apple', 'apples']);
         assert.strictEqual(evaluationHelper.isUmfiEnabled(otherEntry), true);
 
@@ -183,7 +184,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
 
         assert.strictEqual(
             responseEntry.attr('data-umfi-values'),
-            '{"BANANA":["banana","bananas"]}'
+            '[{"group":"BANANA_FOUND","canonical":"banana","variants":["banana","bananas"]}]'
         );
         assert.strictEqual(otherEntry.attr('data-umfi-values'), undefined);
         assert.strictEqual(
@@ -197,26 +198,28 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         const legacyGroups = evaluationHelper.parseDataUmfiValues(legacyJson);
 
         assert.strictEqual(legacyGroups.length, 2);
-        assert.strictEqual(legacyGroups[0].identifier, 'GROUP_1');
+        assert.strictEqual(legacyGroups[0].identifier, 'GROUP_1_FOUND');
         assert.strictEqual(legacyGroups[0].id, 'GROUP_1_FOUND');
+        assert.strictEqual(legacyGroups[0].canonical, 'Germany');
         assert.deepEqual(legacyGroups[0].synonyms, ['Germany', 'Federal Republic of Germany']);
-        assert.strictEqual(legacyGroups[1].identifier, 'GROUP_2');
+        assert.strictEqual(legacyGroups[1].identifier, 'GROUP_2_FOUND');
         assert.deepEqual(legacyGroups[1].synonyms, ['France', 'french republic']);
 
         const modernJson =
-            '{"GERMANY":["Germany","Federal Republic of Germany"],"FRANCE":["France","french republic"]}';
+            '[{"group":"FRANCE_FOUND","canonical":"France","variants":["France","france","FR"]},{"group":"GERMANY_FOUND","canonical":"Germany","variants":["Germany","Federal Republic of Germany"]}]';
         const modernGroups = evaluationHelper.parseDataUmfiValues(modernJson);
 
-        assert.strictEqual(modernGroups[0].identifier, 'GERMANY');
-        assert.strictEqual(modernGroups[0].id, 'GERMANY_FOUND');
-        assert.deepEqual(modernGroups[0].synonyms, ['Germany', 'Federal Republic of Germany']);
+        assert.strictEqual(modernGroups[0].identifier, 'FRANCE_FOUND');
+        assert.strictEqual(modernGroups[0].id, 'FRANCE_FOUND');
+        assert.strictEqual(modernGroups[0].canonical, 'France');
+        assert.deepEqual(modernGroups[0].synonyms, ['France', 'france', 'FR']);
 
         assert.strictEqual(evaluationHelper.serializeDataUmfiValues(modernGroups), modernJson);
     });
 
     QUnit.test('buildDefaultLexicalGroupIdentifier generates incremental identifiers', assert => {
-        assert.strictEqual(evaluationHelper.buildDefaultLexicalGroupIdentifier(0), 'GROUP_1');
-        assert.strictEqual(evaluationHelper.buildDefaultLexicalGroupIdentifier(2), 'GROUP_3');
+        assert.strictEqual(evaluationHelper.buildDefaultLexicalGroupIdentifier(0), 'GROUP_1_FOUND');
+        assert.strictEqual(evaluationHelper.buildDefaultLexicalGroupIdentifier(2), 'GROUP_3_FOUND');
     });
 
     QUnit.test('buildGroupOutcomeId appends FOUND suffix to identifier base', assert => {
@@ -228,8 +231,9 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
     QUnit.test('normalizeLexicalGroups keeps default identifier when variants are added', assert => {
         const groups = evaluationHelper.normalizeLexicalGroups([{ identifier: '', synonyms: ['Apple', 'apple'] }]);
 
-        assert.strictEqual(groups[0].identifier, 'GROUP_1');
+        assert.strictEqual(groups[0].identifier, 'GROUP_1_FOUND');
         assert.strictEqual(groups[0].id, 'GROUP_1_FOUND');
+        assert.strictEqual(groups[0].canonical, 'Apple');
         assert.deepEqual(groups[0].synonyms, ['Apple', 'apple']);
     });
 
@@ -256,8 +260,9 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.strictEqual(config.caseSensitive, true);
         assert.strictEqual(config.allowLexicalFieldsOnScoring, true);
         assert.strictEqual(config.lexicalGroups.length, 1);
-        assert.strictEqual(config.lexicalGroups[0].identifier, 'GROUP_1');
+        assert.strictEqual(config.lexicalGroups[0].identifier, 'GROUP_1_FOUND');
         assert.strictEqual(config.lexicalGroups[0].id, 'GROUP_1_FOUND');
+        assert.strictEqual(config.lexicalGroups[0].canonical, 'Banana');
     });
 
     QUnit.test('persistEvaluationConfig updates data-umfi-values and responseProcessing', assert => {
@@ -291,7 +296,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
 
         assert.strictEqual(
             firstEntry.attr('data-umfi-values'),
-            '{"APPLE":["apple","apples"]}'
+            '[{"group":"APPLE_FOUND","canonical":"apple","variants":["apple","apples"]}]'
         );
         assert.strictEqual(item.responseProcessing.processingType, 'custom');
         assert.ok(item.responseProcessing.xml.indexOf('<stringMatch') > -1);
@@ -349,8 +354,8 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
 
         assert.strictEqual(groups.length, 2);
         assert.notStrictEqual(groups[0].id, groups[1].id);
-        assert.strictEqual(groups[0].identifier, 'APPLE');
-        assert.strictEqual(groups[1].identifier, 'GROUP_2');
+        assert.strictEqual(groups[0].identifier, 'APPLE_FOUND');
+        assert.strictEqual(groups[1].identifier, 'GROUP_2_FOUND');
         assert.ok(groups[0].id.indexOf('_FOUND') > -1);
         assert.ok(groups[1].id.indexOf('_FOUND') > -1);
     });
@@ -394,7 +399,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.strictEqual(textEntry.attr('data-umfi-rp-managed'), undefined);
         assert.strictEqual(
             textEntry.attr('data-umfi-values'),
-            '{"GROUP_1":["apple","apples"]}'
+            '[{"group":"GROUP_1_FOUND","canonical":"apple","variants":["apple","apples"]}]'
         );
     });
 
@@ -452,7 +457,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.strictEqual(nestedEntry.attr('data-item-type'), 'umfi-closed');
         assert.strictEqual(
             nestedEntry.attr('data-umfi-values'),
-            '{"APPLE":["apple","apples"]}'
+            '[{"group":"APPLE_FOUND","canonical":"apple","variants":["apple","apples"]}]'
         );
         assert.strictEqual(item.responseProcessing.processingType, 'custom');
         assert.ok(item.getOutcomeDeclaration('APPLE_FOUND'));
