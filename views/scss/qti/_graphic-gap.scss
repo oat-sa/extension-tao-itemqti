@@ -43,16 +43,20 @@
     &.qti-choices-top {
         ul.source {
             position: absolute;
-            top: -137px;
-            left: -134px;
+            top: -135px;
+            left: -8px;
             z-index: 1000;
             background: whiten($uiClickableDefaultBg, .5);
             @include simple-border();
 
             box-sizing: border-box;
             clear: none;
-            width: 124px;
-            max-width: 124px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            width: auto;
+            max-width: none;
             margin: 0;
             padding: 5px !important;
         }
