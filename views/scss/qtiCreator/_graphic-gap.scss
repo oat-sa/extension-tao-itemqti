@@ -41,3 +41,9 @@
         }
     }
 }
+
+// Sleep (unselected) chrome has less padding than edit-active; pull top choices closer.
+.widget-box.edit-sleep .qti-graphicGapMatchInteraction.qti-choices-top ul.source {
+    top: -82px;
+    left: -100px;
+}

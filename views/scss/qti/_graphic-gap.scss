@@ -43,8 +43,8 @@
     &.qti-choices-top {
         ul.source {
             position: absolute;
-            top: -78px;
-            left: 0;
+            top: -137px;
+            left: -134px;
             z-index: 1000;
             background: whiten($uiClickableDefaultBg, .5);
             @include simple-border();
