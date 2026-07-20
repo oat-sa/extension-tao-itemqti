@@ -40,6 +40,15 @@
         }
     }
 
+    // Keep top/bottom choice bay on the physical left in both LTR and RTL
+    // (matches Figma / test-runner; left/right use physical left/right offsets).
+    &.qti-choices-top,
+    &.qti-choices-bottom {
+        ul.source {
+            direction: ltr;
+        }
+    }
+
     &.qti-choices-top {
         ul.source {
             position: absolute;
