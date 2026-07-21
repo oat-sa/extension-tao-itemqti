@@ -140,6 +140,44 @@ $mainContainer: '.qti-item';
             border-color: #8c8c8c;
             border-top: solid 1px;
         }
+
+        &.separator-between-columns {
+            & > .grid-row {
+                position: relative;
+
+                & > [class^='col-'] {
+                    position: relative;
+                }
+
+                & > [class^='col-'] + [class^='col-']::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: -8px;
+                    width: 2px;
+                    background: #121212;
+                    pointer-events: none;
+                }
+
+                &.separator-between-columns-stacked > [class^='col-'] + [class^='col-'] {
+                    padding-top: 12px;
+                    box-sizing: border-box;
+                }
+
+                &.separator-between-columns-stacked > [class^='col-'] + [class^='col-']::before {
+                    top: 0;
+                    bottom: auto;
+                    left: calc(-1 * var(--separator-row-offset-start, 0px));
+                    right: calc(-1 * var(--separator-row-offset-end, 0px));
+                    width: auto;
+                    height: 2px;
+                    background: #121212;
+                    pointer-events: none;
+                    z-index: 1;
+                }
+            }
+        }
     }
 
     .interaction-cover {

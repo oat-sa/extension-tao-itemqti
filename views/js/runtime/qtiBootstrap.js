@@ -21,10 +21,11 @@ define([
     'module',
     'taoQtiItem/qtiRunner/core/QtiRunner',
     'taoQtiItem/qtiCommonRenderer/renderers/Renderer',
+    'taoQtiItem/qtiCommonRenderer/helpers/separatorLayout',
     'iframeNotifier',
     'core/history',
     'taoQtiItem/runner/provider/manager/userModules'
-], function($, _, module, QtiRunner, Renderer, iframeNotifier, history, userModules){
+], function($, _, module, QtiRunner, Renderer, separatorLayout, iframeNotifier, history, userModules){
     'use strict';
 
     //fix backspace going back into the history
@@ -60,6 +61,10 @@ define([
                 qtiRunner.loadElements(variableElementsData, function() {
 
                     qtiRunner.renderItem(undefined, function() {
+                        const clearSeparatorLayout = separatorLayout.setupSeparatorLayout(document, {
+                            eventNamespace: '.separator-layout-bootstrap',
+                            themeChangeTarget: document
+                        });
 
                         //userModules loading
                         //we use any user modules bound to this module configuration instead of the ones bound to the new test runner
@@ -88,6 +93,8 @@ define([
                                 _.defer(function(){
                                     window.focus();
                                 });
+
+                                $(window).one('unload.separator-layout-bootstrap', clearSeparatorLayout);
                             })
                             .catch(function(err) {
                                 throw new Error('Error in user modules : ' + err.message);
@@ -106,4 +113,3 @@ define([
 
     };
 });
-

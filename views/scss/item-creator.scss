@@ -1591,6 +1591,8 @@ img.dragging.ui-draggable-dragging {
 }
 .qti-itemBody.separator-between-columns {
     & > .grid-row {
+        position: relative;
+
         & > [class^='col-'] {
             position: relative;
         }
@@ -1604,6 +1606,23 @@ img.dragging.ui-draggable-dragging {
             left: -8px; /* approximate, given responsive columns */
             width: 2px;
             background: $colorGsDark;
+        }
+
+        &.separator-between-columns-stacked > [class^='col-'] + [class^='col-'] {
+            padding-top: 12px;
+            box-sizing: border-box;
+        }
+
+        &.separator-between-columns-stacked > [class^='col-'] + [class^='col-']::before {
+            top: 0;
+            bottom: auto;
+            left: calc(-1 * var(--separator-row-offset-start, 0px));
+            right: calc(-1 * var(--separator-row-offset-end, 0px));
+            width: auto;
+            height: 2px;
+            background: $colorGsDark;
+            pointer-events: none;
+            z-index: 1;
         }
     }
 }
@@ -1805,4 +1824,3 @@ body, #mediaManager {
 }
 
 @import "inc/solar/creator";
-

@@ -20,15 +20,22 @@ define([
     'core/plugin',
     'ui/tooltip',
     'tpl!taoQtiItem/qtiCreator/tpl/layoutEditor/panel',
-    'taoQtiItem/qtiCreator/editor/gridEditor/content'
-], function ($, pluginFactory, tooltip, panelTpl, contentHelper) {
+    'taoQtiItem/qtiCreator/editor/gridEditor/content',
+    'taoQtiItem/qtiCommonRenderer/helpers/separatorLayout'
+], function ($, pluginFactory, tooltip, panelTpl, contentHelper, separatorLayout) {
     'use strict';
 
     const dualColClass = 'dual-column-layout';
     const separatorClass = 'separator-between-columns';
+    const stackedSeparatorClass = separatorLayout.STACKED_SEPARATOR_CLASS;
 
     return pluginFactory({
         name: 'layoutEditor',
+
+        destroy() {
+            $(window).off('.layout-editor');
+            this.getAreaBroker().getContainer().off('.layout-editor');
+        },
 
         /**
          * Initialize the plugin (called during runner's init)
@@ -161,8 +168,11 @@ define([
                     if (checked) {
                         item.addClass(separatorClass);
                         addClassToTarget(this.$target, separatorClass);
+                        separatorLayout.updateSeparatorLayout(this.$target);
                     } else {
                         item.removeClass(separatorClass);
+                        this.$target.find(`> .grid-row`).removeClass(stackedSeparatorClass)
+                            .children('[class^="col-"]').each((idx, column) => separatorLayout.clearSeparatorLineExtent(column));
                         removeClassFromTarget(this.$target, separatorClass);
                     }
                 },
@@ -212,8 +222,27 @@ define([
                 }
                 if (separatorEnabled) {
                     separatorManager.init();
+                    separatorLayout.updateSeparatorLayout(_getItemBody());
                 }
                 $container.trigger('initDone.layout-editor');
+            });
+
+            $container.on('resize.layout-editor resize.gridEdit.layout-editor resize.itemResizer.layout-editor', function() {
+                if (separatorEnabled) {
+                    separatorLayout.updateSeparatorLayout(_getItemBody());
+                }
+            });
+
+            $container.on('item-writing-mode-changed.layout-editor item-dir-changed.layout-editor', '.qti-itemBody', function() {
+                if (separatorEnabled) {
+                    separatorLayout.updateSeparatorLayout($(this));
+                }
+            });
+
+            $(window).on('resize.layout-editor', function() {
+                if (separatorEnabled) {
+                    separatorLayout.updateSeparatorLayout(_getItemBody());
+                }
             });
         }
     });
