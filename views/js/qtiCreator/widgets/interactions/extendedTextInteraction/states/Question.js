@@ -209,6 +209,14 @@ define([
             }
         }
 
+        const toggleScrollingCheckbox = isScrolling => {
+            if (isScrolling) {
+                $form.find('.scrolling-toggle-container input[name="scrolling"]').prop('checked', true).prop('disabled', true);
+            } else {
+                $form.find('.scrolling-toggle-container input[name="scrolling"]').prop('disabled', false);
+            }
+        }
+
         const toggleVerticalWritingModeByLang = (widget, $form, interaction) =>
             verticalWritingEditing
                 .checkItemWritingMode(widget)
@@ -216,6 +224,7 @@ define([
                     $form.data('isItemVertical', isItemVertical);
 
                     $form.find('.writingMode-panel').toggle(isVerticalSupported);
+                    $form.find('.scrolling-toggle-container').css('display', isVerticalSupported ? 'block' : 'none');
 
                     let isVertical = null;
                     if (interaction.hasClass(writingModeVerticalRlClass)) {
@@ -232,6 +241,7 @@ define([
                     $form.find('input[name="writingMode"][value="horizontal"]').prop('checked', !isVertical);
 
                     const isScrolling = itemScrollingMethods.isScrolling(interaction);
+                    toggleScrollingCheckbox(isScrolling);
                     itemScrollingMethods.setIsVertical($form, !!$form.data('isItemVertical'));
                     itemScrollingMethods.toggleScrollingSelect($form, isScrolling);
                 });
@@ -266,6 +276,7 @@ define([
                     $('input[name="writingModeItem"]:checked').val() !==
                     $form.find('input[name="writingMode"]:checked').val();
                 itemScrollingMethods.initSelect($form, isScrolling);
+                toggleScrollingCheckbox(isScrolling);
             });
         });
 
@@ -417,6 +428,8 @@ define([
                 interaction.addClass(writingModeHorizontalTbClass);
                 isScrolling = true;
             }
+
+            toggleScrollingCheckbox(isScrolling);
 
             itemScrollingMethods.initSelect($form, isScrolling);
             itemScrollingMethods.setIsVertical($form, isVertical);

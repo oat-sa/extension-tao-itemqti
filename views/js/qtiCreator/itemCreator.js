@@ -44,6 +44,7 @@ define([
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'handlebars',
+    'text!taoQtiItem/qtiCreator/tpl/partials/scrollingToggle.tpl',
     'text!taoQtiItem/qtiCreator/tpl/partials/scrollingSelect.tpl'
 ], function (
     $,
@@ -63,10 +64,12 @@ define([
     eventHelper,
     styleEditor,
     handlebars,
+    scrollingToggle,
     scrollingSelect
 ) {
     'use strict';
 
+    handlebars.registerPartial('scrollingToggle', scrollingToggle);
     handlebars.registerPartial('scrollingSelect', scrollingSelect);
 
     /**

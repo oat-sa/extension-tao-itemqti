@@ -280,7 +280,7 @@ define([
         if (widgetState === 'question') {
             callbacks = Object.assign(
                 callbacks,
-                itemScrollingMethods.generateChangeCallback(widget, () => interaction, $form)
+                itemScrollingMethods.generateChangeCallback(widget, () => interaction, $form, 'interaction')
             );
         }
 
@@ -351,6 +351,14 @@ define([
             }
         };
 
+        const toggleScrollingCheckbox = isScrolling => {
+            if (isScrolling) {
+                $form.find('.scrolling-toggle-container input[name="scrolling"]').prop('checked', true).prop('disabled', true);
+            } else {
+                $form.find('.scrolling-toggle-container input[name="scrolling"]').prop('disabled', false);
+            }
+        }
+
         callbacks.writingMode = function (i, mode) {
             let isScrolling = false;
             const isVertical = !!$form.data('isItemVertical');
@@ -364,6 +372,8 @@ define([
                 isScrolling = true;
             }
 
+            toggleScrollingCheckbox(isScrolling);
+
             itemScrollingMethods.initSelect($form, isScrolling);
             itemScrollingMethods.setIsVertical($form, isVertical);
             itemScrollingMethods.wrapContent(widget, isScrolling, 'interaction');
@@ -376,6 +386,7 @@ define([
                     $form.data('isItemVertical', isItemVertical);
 
                     $form.find('.writingMode-panel').toggle(isVerticalSupported);
+                    $form.find('.scrolling-toggle-container').css('display', isVerticalSupported ? 'block' : 'none');
 
                     let isVertical = null;
                     if (interaction.hasClass(writingModeVerticalRlClass)) {
@@ -394,6 +405,7 @@ define([
 
                     // draw scrolling methods
                     const isScrolling = itemScrollingMethods.isScrolling(interaction);
+                    toggleScrollingCheckbox(isScrolling);
                     itemScrollingMethods.setIsVertical($form, !!$form.data('isItemVertical'));
                     itemScrollingMethods.toggleScrollingSelect($form, isScrolling);
                 });
@@ -401,6 +413,12 @@ define([
         toggleVerticalWritingModeByLang(widget, $form, interaction);
 
         function waitForElement(selector, callback) {
+            const element = $(selector);
+            if (element.length) {
+                callback(element);
+                return;
+            }
+
             const observer = new MutationObserver((mutations, obs) => {
                 const element = $(selector);
                 if (element.length) {
@@ -421,6 +439,7 @@ define([
                     $('input[name="writingModeItem"]:checked').val() !==
                     $form.find('input[name="writingMode"]:checked').val();
                 itemScrollingMethods.initSelect($form, isScrolling);
+                toggleScrollingCheckbox(isScrolling);
             });
         });
 
