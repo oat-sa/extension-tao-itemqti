@@ -229,6 +229,13 @@ define([
                     }
                     //do the save
                     return this.beforeSaveProcess
+                        .then(() =>
+                            Promise.all(
+                                (this.beforeSaveFactories || []).map(factory =>
+                                    Promise.resolve().then(() => factory())
+                                )
+                            )
+                        )
                         .then(() => styleEditor.save())
                         .then(() => itemWidget.save())
                         .then(() => this.trigger('updateTranslations'))
@@ -312,8 +319,16 @@ define([
                         // forward context error
                         qtiCreatorContext.on('error', err => this.trigger('error', err));
                         // handle before save processes
+                        // - Promise/thenable: settled once at registration (legacy)
+                        // - function factory: invoked on every save
                         this.beforeSaveProcess = Promise.resolve();
+                        this.beforeSaveFactories = [];
                         qtiCreatorContext.on('registerBeforeSaveProcess', beforeSaveProcess => {
+                            if (typeof beforeSaveProcess === 'function') {
+                                this.beforeSaveFactories.push(beforeSaveProcess);
+                                return;
+                            }
+
                             this.beforeSaveProcess = Promise.all([this.beforeSaveProcess, beforeSaveProcess]);
                         });
                         textEntryEvaluationSave.register(qtiCreatorContext, () => this.getItem());

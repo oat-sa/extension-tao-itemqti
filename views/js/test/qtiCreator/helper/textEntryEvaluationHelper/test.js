@@ -412,6 +412,96 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         );
     });
 
+    QUnit.test('removing a lexical group removes its outcome and refreshes responseProcessing', assert => {
+        const item = createItem([]);
+        const textEntry = createTextEntry(item);
+
+        textEntry.attr('responseIdentifier', 'RESPONSE');
+        item.getElements = function (qtiClass) {
+            if (qtiClass !== 'textEntryInteraction') {
+                return {};
+            }
+
+            return { 1: textEntry };
+        };
+
+        evaluationHelper.persistEvaluationConfig(textEntry, {
+            evaluateAsUmfi: true,
+            lexicalGroups: [
+                {
+                    identifier: 'APPLE',
+                    synonyms: ['apple']
+                },
+                {
+                    identifier: 'BANANA',
+                    synonyms: ['banana']
+                }
+            ]
+        });
+
+        assert.ok(item.getOutcomeDeclaration('APPLE_FOUND'));
+        assert.ok(item.getOutcomeDeclaration('BANANA_FOUND'));
+        assert.strictEqual(item.getOutcomeDeclaration('SCORE').attr('normalMaximum'), 2);
+        assert.ok(item.responseProcessing.xml.indexOf('APPLE_FOUND') > -1);
+        assert.ok(item.responseProcessing.xml.indexOf('BANANA_FOUND') > -1);
+
+        evaluationHelper.persistEvaluationConfig(textEntry, {
+            evaluateAsUmfi: true,
+            lexicalGroups: [
+                {
+                    identifier: 'BANANA',
+                    synonyms: ['banana']
+                }
+            ]
+        });
+
+        assert.strictEqual(item.getOutcomeDeclaration('APPLE_FOUND'), null);
+        assert.ok(item.getOutcomeDeclaration('BANANA_FOUND'));
+        assert.strictEqual(item.getOutcomeDeclaration('SCORE').attr('normalMaximum'), 1);
+        assert.strictEqual(item.responseProcessing.xml.indexOf('APPLE_FOUND'), -1);
+        assert.ok(item.responseProcessing.xml.indexOf('BANANA_FOUND') > -1);
+        assert.strictEqual(textEntry.attr('data-umfi-managed-outcomes'), '["BANANA_FOUND"]');
+    });
+
+    QUnit.test('removing all lexical groups clears generated outcomes and responseProcessing', assert => {
+        const item = createItem([]);
+        const textEntry = createTextEntry(item);
+
+        textEntry.attr('responseIdentifier', 'RESPONSE');
+        item.getElements = function (qtiClass) {
+            if (qtiClass !== 'textEntryInteraction') {
+                return {};
+            }
+
+            return { 1: textEntry };
+        };
+
+        evaluationHelper.persistEvaluationConfig(textEntry, {
+            evaluateAsUmfi: true,
+            lexicalGroups: [
+                {
+                    identifier: 'APPLE',
+                    synonyms: ['apple']
+                }
+            ]
+        });
+
+        evaluationHelper.persistEvaluationConfig(textEntry, {
+            evaluateAsUmfi: true,
+            lexicalGroups: []
+        });
+
+        assert.strictEqual(item.getOutcomeDeclaration('APPLE_FOUND'), null);
+        assert.strictEqual(item.getOutcomeDeclaration('MAXSCORE'), null);
+        assert.strictEqual(item.getOutcomeDeclaration('SCORE').attr('normalMaximum'), undefined);
+        assert.strictEqual(item.responseProcessing.processingType, 'templateDriven');
+        assert.strictEqual(item.responseProcessing.xml, '');
+        assert.strictEqual(textEntry.attr('data-umfi-values'), '[]');
+        assert.strictEqual(textEntry.attr('data-umfi-managed-outcomes'), '[]');
+        assert.strictEqual(textEntry.attr('data-umfi-rp-managed'), undefined);
+        assert.strictEqual(textEntry.attr('data-item-type'), 'umfi-closed');
+    });
+
     QUnit.test('disabling UMFI removes generated outcomes, attributes and responseProcessing', assert => {
         const item = createItem([]);
         const textEntry = createTextEntry(item);

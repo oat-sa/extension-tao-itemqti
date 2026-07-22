@@ -32,19 +32,16 @@ define([
 
         qtiCreatorContext._textEntryEvaluationSaveRegistered = true;
 
-        qtiCreatorContext.trigger(
-            'registerBeforeSaveProcess',
-            Promise.resolve().then(() => {
-                const item = getItem();
+        qtiCreatorContext.trigger('registerBeforeSaveProcess', () => {
+            const item = getItem();
 
-                if (!item) {
-                    return;
-                }
+            if (!item) {
+                return;
+            }
 
-                textEntryEvaluationForm.flushOpenForms(item);
-                evaluationHelper.ensurePersistedBeforeSave(item);
-            })
-        );
+            textEntryEvaluationForm.flushOpenForms(item);
+            evaluationHelper.ensurePersistedBeforeSave(item);
+        });
     };
 
     return {
