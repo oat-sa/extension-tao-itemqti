@@ -18,9 +18,13 @@
 define(['lodash'], function (_) {
     'use strict';
 
-    const INTERNAL_AUTHORING_ATTRS = ['data-umfi-managed-outcomes', 'data-umfi-rp-managed'];
+    const INTERNAL_AUTHORING_ATTRS = [
+        'data-umfi-managed-outcomes',
+        'data-umfi-rp-managed',
+        'data-scoring-model-rp-managed'
+    ];
 
-    const SINGLE_QUOTED_JSON_ATTRS = ['data-umfi-values'];
+    const SINGLE_QUOTED_JSON_ATTRS = ['data-umfi-values', 'data-scoring-model'];
 
     /**
      * @param {string} name

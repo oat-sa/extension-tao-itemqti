@@ -44,6 +44,7 @@ define([
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'taoQtiItem/qtiCreator/helper/textEntryEvaluationSave',
+    'taoQtiItem/qtiCreator/helper/scoringModelSave',
     'handlebars',
     'text!taoQtiItem/qtiCreator/tpl/partials/scrollingSelect.tpl'
 ], function (
@@ -64,6 +65,7 @@ define([
     eventHelper,
     styleEditor,
     textEntryEvaluationSave,
+    scoringModelSave,
     handlebars,
     scrollingSelect
 ) {
@@ -332,6 +334,7 @@ define([
                             this.beforeSaveProcess = Promise.all([this.beforeSaveProcess, beforeSaveProcess]);
                         });
                         textEntryEvaluationSave.register(qtiCreatorContext, () => this.getItem());
+                        scoringModelSave.register(qtiCreatorContext, () => this.getItem());
                         return qtiCreatorContext.init();
                     })
                     .catch(err => this.trigger('error', err));
