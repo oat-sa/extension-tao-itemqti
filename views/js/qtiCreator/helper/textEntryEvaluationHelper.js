@@ -24,7 +24,9 @@ define([
 
     const UMFI_ITEM_TYPE = 'umfi-closed';
     const DATA_ITEM_TYPE = 'data-item-type';
-    // Public lexical-group payload kept in saved item XML (group/canonical/variants).
+    // Public lexical-group payload kept in saved item XML:
+    // [{ group: "GROUP_1", canonical: "Apple", variants: ["Apple", ...] }]
+    // `group` is the authoring identifier (no _FOUND). Outcome ids still use *_FOUND.
     const DATA_UMFI_VALUES = 'data-umfi-values';
     const DATA_CASE_SENSITIVE = 'data-case-sensitive';
     const DATA_ALLOW_LEXICAL_FIELDS = 'data-allow-lexical-fields-on-scoring';
@@ -767,12 +769,12 @@ define([
                 entry.group || entry.id || entry.identifier || entry.groupIdentifier || ''
             ).trim();
             const legacyLabel = _.isString(entry.label) ? entry.label.trim() : '';
-            // data-umfi-values.group is the outcome id (*_FOUND); UI shows the base identifier.
+            // `group` is the authoring identifier; legacy values may still include *_FOUND.
             const identifier = stripGroupOutcomeSuffix(storedGroup) || legacyLabel;
 
             return {
                 identifier,
-                id: storedGroup ? buildGroupOutcomeId(storedGroup) : '',
+                id: identifier ? buildGroupOutcomeId(identifier) : '',
                 canonical,
                 synonyms: canonical ? _.uniq([canonical].concat(variants)) : variants
             };
@@ -832,7 +834,8 @@ define([
                 }
 
                 return {
-                    group: group.id,
+                    // Authoring identifier as typed (no _FOUND). Outcome id is derived via buildGroupOutcomeId.
+                    group: group.identifier,
                     canonical: synonyms[0],
                     variants: synonyms
                 };

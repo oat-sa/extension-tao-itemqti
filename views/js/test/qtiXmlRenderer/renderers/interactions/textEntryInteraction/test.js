@@ -37,7 +37,7 @@ define([
         const interaction = createInteraction({
             responseIdentifier: 'RESPONSE',
             'data-umfi-values':
-                '[{"group":"GROUP_1_FOUND","canonical":"France","variants":["France","French Republic"]}]'
+                '[{"group":"GROUP_1","canonical":"France","variants":["France","French Republic"]}]'
         });
 
         const result = TextEntryInteractionRenderer.getData(interaction, {
@@ -47,7 +47,7 @@ define([
 
         assert.strictEqual(
             result.attributesMarkup,
-            'responseIdentifier="RESPONSE" data-umfi-values=\'[{"group":"GROUP_1_FOUND","canonical":"France","variants":["France","French Republic"]}]\''
+            'responseIdentifier="RESPONSE" data-umfi-values=\'[{"group":"GROUP_1","canonical":"France","variants":["France","French Republic"]}]\''
         );
         assert.strictEqual(result.attributesMarkup.indexOf('&quot;'), -1);
     });
@@ -55,6 +55,10 @@ define([
     QUnit.test('rendered textEntryInteraction XML stays well-formed with scoring model metadata', function (assert) {
         const interaction = createInteraction({
             responseIdentifier: 'RESPONSE',
+            'data-item-type': 'umfi-closed',
+            'data-case-sensitive': 'false',
+            'data-umfi-values':
+                '[{"group":"GROUP_1","canonical":"France","variants":["France","French Republic"]},{"group":"GROUP_2","canonical":"Germany","variants":["Germany","Federal Republic of Germany"]}]',
             'data-scoring-model': '{"2":1}'
         });
 
