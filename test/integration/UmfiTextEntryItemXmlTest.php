@@ -95,10 +95,10 @@ class UmfiTextEntryItemXmlTest extends TaoPhpUnitTestRunner
 
         $output = $interaction->toQTI();
 
-        $this->assertStringContainsString(
-            'data-umfi-values="[{&quot;group&quot;:&quot;GROUP_1_FOUND&quot;,&quot;canonical&quot;:&quot;apple&quot;,&quot;variants&quot;:[&quot;apple&quot;,&quot;apples&quot;]}]"',
-            $output
-        );
+        $expected = 'data-umfi-values="[{&quot;group&quot;:&quot;GROUP_1_FOUND&quot;'
+            . ',&quot;canonical&quot;:&quot;apple&quot;'
+            . ',&quot;variants&quot;:[&quot;apple&quot;,&quot;apples&quot;]}]"';
+        $this->assertStringContainsString($expected, $output);
     }
 
     public function testRoundTripEscapesUmfiValues(): void
@@ -114,9 +114,9 @@ class UmfiTextEntryItemXmlTest extends TaoPhpUnitTestRunner
 
         $output = $item->toXML();
 
-        $this->assertStringContainsString(
-            'data-umfi-values="[{&quot;group&quot;:&quot;GROUP_1_FOUND&quot;,&quot;canonical&quot;:&quot;apple&quot;,&quot;variants&quot;:[&quot;apple&quot;,&quot;apples&quot;]}]"',
-            $output
-        );
+        $expected = 'data-umfi-values="[{&quot;group&quot;:&quot;GROUP_1_FOUND&quot;'
+            . ',&quot;canonical&quot;:&quot;apple&quot;'
+            . ',&quot;variants&quot;:[&quot;apple&quot;,&quot;apples&quot;]}]"';
+        $this->assertStringContainsString($expected, $output);
     }
 }
