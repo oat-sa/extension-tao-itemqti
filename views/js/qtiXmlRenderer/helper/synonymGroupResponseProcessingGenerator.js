@@ -141,7 +141,7 @@ define([
     const getMaxScore = function getMaxScore(config) {
         return _.reduce(
             config.synonymGroups,
-            (total, group) => total + group.maxScore,
+            (total, group) => total + (_.isUndefined(group.maxScore) ? 1 : group.maxScore),
             0
         );
     };

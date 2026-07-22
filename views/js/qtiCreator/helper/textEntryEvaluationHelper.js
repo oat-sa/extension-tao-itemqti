@@ -446,6 +446,7 @@ define([
             return;
         }
 
+        setLexicalGroups(sampleInteraction, config.lexicalGroups);
         syncResponseProcessing(sampleInteraction, config);
     };
 
@@ -727,8 +728,8 @@ define([
             let identifierIndex = index;
 
             while (usedIdentifiers[identifier]) {
-                identifierIndex += 1;
                 identifier = buildDefaultLexicalGroupIdentifier(identifierIndex);
+                identifierIndex += 1;
             }
 
             usedIdentifiers[identifier] = true;

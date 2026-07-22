@@ -88,6 +88,9 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
                         this.attributes[name] = value;
                         return this;
                     },
+                    removeAttr: function (name) {
+                        delete this.attributes[name];
+                    },
                     setDefaultValue: function (value) {
                         this.defaultValue = value;
                     },
