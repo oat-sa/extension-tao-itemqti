@@ -599,10 +599,13 @@ define([
      * @returns {string}
      */
     const buildDefaultLexicalGroupIdentifier = function buildDefaultLexicalGroupIdentifier(index) {
-        return `${LEXICAL_GROUP_PREFIX}${index + 1}${GROUP_OUTCOME_SUFFIX}`;
+        return `${LEXICAL_GROUP_PREFIX}${index + 1}`;
     };
 
     /**
+     * Outcome declaration id derived from a lexical-field identifier.
+     * Appends `_FOUND` when missing (APPLE → APPLE_FOUND). The UI identifier itself is not renamed.
+     *
      * @param {string} identifier
      * @returns {string}
      */
@@ -622,6 +625,22 @@ define([
         }
 
         return `${normalized}${GROUP_OUTCOME_SUFFIX}`;
+    };
+
+    /**
+     * Strip trailing `_FOUND` when recovering a UI identifier from a stored outcome id.
+     *
+     * @param {string} value
+     * @returns {string}
+     */
+    const stripGroupOutcomeSuffix = function stripGroupOutcomeSuffix(value) {
+        const normalized = String(value || '').trim();
+
+        if (!normalized.endsWith(GROUP_OUTCOME_SUFFIX)) {
+            return normalized;
+        }
+
+        return normalized.slice(0, -GROUP_OUTCOME_SUFFIX.length);
     };
 
     /**
@@ -698,11 +717,11 @@ define([
             const synonyms = explicitCanonical
                 ? _.uniq([explicitCanonical].concat(rawSynonyms))
                 : rawSynonyms;
+            // Prefer the authoring identifier as typed in the input; do not rename it with _FOUND.
             const requestedIdentifier = String(
-                group.group || group.id || group.identifier || group.groupIdentifier || group.label || ''
+                group.identifier || group.groupIdentifier || group.label || ''
             ).trim();
-            let identifier =
-                buildGroupOutcomeId(requestedIdentifier) || buildDefaultLexicalGroupIdentifier(index);
+            let identifier = requestedIdentifier || buildDefaultLexicalGroupIdentifier(index);
             let identifierIndex = index;
 
             while (usedIdentifiers[identifier]) {
@@ -712,7 +731,10 @@ define([
 
             usedIdentifiers[identifier] = true;
 
-            let id = identifier;
+            // _FOUND is applied only here, for the outcome / data-umfi-values.group id.
+            let id =
+                buildGroupOutcomeId(group.id || group.group || identifier) ||
+                buildGroupOutcomeId(identifier);
             let suffix = 1;
             const outcomeBase = id.replace(new RegExp(`${GROUP_OUTCOME_SUFFIX}$`), '');
 
@@ -722,7 +744,6 @@ define([
             }
 
             usedOutcomeIds[id] = true;
-            identifier = id;
 
             return {
                 id,
@@ -746,9 +767,12 @@ define([
                 entry.group || entry.id || entry.identifier || entry.groupIdentifier || ''
             ).trim();
             const legacyLabel = _.isString(entry.label) ? entry.label.trim() : '';
+            // data-umfi-values.group is the outcome id (*_FOUND); UI shows the base identifier.
+            const identifier = stripGroupOutcomeSuffix(storedGroup) || legacyLabel;
 
             return {
-                identifier: storedGroup || legacyLabel,
+                identifier,
+                id: storedGroup ? buildGroupOutcomeId(storedGroup) : '',
                 canonical,
                 synonyms: canonical ? _.uniq([canonical].concat(variants)) : variants
             };
