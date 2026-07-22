@@ -23,7 +23,7 @@
             <textEntryInteraction responseIdentifier="RESPONSE"
                 data-item-type="umfi-closed"
                 data-case-sensitive="false"
-                data-umfi-values='[{"group":"GROUP_1_FOUND","canonical":"apple","variants":["apple","apples"]}]'/>
+                data-umfi-values='[{"group":"GROUP_1","canonical":"apple","variants":["apple","apples"]}]'/>
         </p>
     </itemBody>
     <responseProcessing>
