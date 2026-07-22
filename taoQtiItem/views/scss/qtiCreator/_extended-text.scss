@@ -1,0 +1,28 @@
+@import "inc/bootstrap";
+.edit-sleep textarea{
+    cursor:pointer;
+}
+
+//ck toolbar style for the readonly mode for the authoring
+.qti-extendedTextInteraction{
+    .cke{
+        .cke_toolbar{
+            .cke_button_icon{
+                line-height: 1.5rem !important;
+            }
+            .cke_combo_disabled .cke_combo_button:hover,
+            .cke_combo_disabled .cke_combo_button:hover .cke_combo_text,
+            .cke_combo_disabled .cke_combo_button:hover .cke_combo_open,
+            .cke_combo_disabled .cke_combo_button:hover .cke_combo_arrow,
+            .cke_combo_disabled .cke_combo_open:hover,
+            .cke_button_disabled:hover {
+                background: transparent !important;
+                color: $textColor !important;
+                cursor: default;
+            }
+            .cke_button_on {
+                background: $uiClickableHoverBg !important;
+            }
+        }
+    }
+}

@@ -1,0 +1,35 @@
+$titleBarTxt: white(1);
+$titleBarTxtShadow: 1px 1px 0 blacken($info, .2);
+$titleBarBg: whiten($info, .1);
+$bodyBg: rgba($uiClickableDefaultBg, .9);;
+
+.window-component.widget-popup {
+    border: 0;
+    z-index: 99;
+    background-color: $bodyBg;
+
+    .window-component-title-bar {
+        background-color: $titleBarBg;
+        color: $titleBarTxt;
+        text-shadow: $titleBarTxtShadow;
+
+        .window-component-title {
+            padding: auto;
+        }
+
+        .window-component-controls {
+
+        }
+    }
+
+    .window-component-body {
+        padding: 20px 20px 0;
+        background-color: transparent;
+    }
+
+    .widget-popup-controls-area {
+        padding: 10px 10px;
+        display: flex;
+        justify-content: flex-end;
+    }
+}

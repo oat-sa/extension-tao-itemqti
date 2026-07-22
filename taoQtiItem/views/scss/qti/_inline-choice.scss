@@ -1,0 +1,57 @@
+@import 'inc/bootstrap';
+
+select.qti-inlineChoiceInteraction {
+    min-inline-size: 150px;
+    max-inline-size: 100%;
+    inline-size: auto;
+    padding-inline-end: 20px;
+    font-size: 14px;
+}
+
+.qti-inlineChoiceInteraction.qti-inlineChoiceInteraction {
+    .select2-chosen {
+        margin-block: 0;
+        margin-inline: 0 30px;
+    }
+}
+.qti-inlineChoiceInteraction .select2-chosen,
+select.qti-inlineChoiceInteraction,
+.qti-inlineChoiceInteraction-dropdown .select2-result-label {
+    font-family: $regularFont !important;
+    font-weight: normal !important;
+}
+
+.qti-inlineChoiceInteraction {
+    &.select2-container {
+        max-inline-size: 100%;
+    }
+
+    &.writing-mode-vertical-rl {
+        padding-block-start: 0;
+    }
+
+    // shadow like focused element
+    .select2-container-active {
+        outline-color: $colorWheel-05;
+        outline-style: auto;
+        outline-width: 5px;
+    }
+
+    // needed to adjust select2 height to the math content
+    .select2-choice {
+        min-inline-size: 150px;
+        min-block-size: 26px;
+        block-size: 100%;
+    }
+}
+.select2-container.select2-container {
+    .select2-choice {
+        padding-inline: 8px 0;
+        padding-block: 0;
+
+        .select2-arrow {
+            inset-inline-end: 0;
+            inset-inline-start: auto;
+        }
+    }
+}

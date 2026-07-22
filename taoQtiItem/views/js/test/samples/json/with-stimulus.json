@@ -1,0 +1,36 @@
+{
+    "identifier": "item-with-stimulus",
+    "serial": "item_546cb89e037d2926817182",
+    "qtiClass": "assessmentItem",
+    "attributes": {
+        "identifier": "item-with-stimulus",
+        "title": "Item with Stimulus",
+        "label": "",
+        "adaptive": false,
+        "timeDependent": false,
+        "toolName": "TAO",
+        "toolVersion": "3.0"
+    },
+    "body": {
+        "serial": "container_containeritembody_546cb89e037ba814681360",
+        "body": "<p>Hello included part: {{xinclude_5c7171fdcf8dc701870747}}</p>",
+        "elements": {
+            "xinclude_5c7171fdcf8dc701870747": {
+                "serial": "xinclude_5c7171fdcf8dc701870747",
+                "qtiClass": "include",
+                "attributes": {
+                    "href": "taomedia://mediamanager/http_2_tao12_0_local_1_first_0_rdf_3_i1550672688604730"
+                },
+                "bdy": {
+                    "serial": "_container_gmubfwfv01v6xfw5e90khi",
+                    "bdy": "<pre>Unthrifty loveliness, why dost thou speak</pre>"
+                }
+            }
+        }
+    },
+    "namespaces": {
+        "xml": "http://www.w3.org/XML/1998/namespace",
+        "xsi": "http://www.w3.org/2001/XMLSchema-instance",
+        "": "http://www.imsglobal.org/xsd/imsqti_v2p1"
+    }
+}

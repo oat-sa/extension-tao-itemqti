@@ -1,0 +1,116 @@
+@import 'inc/bootstrap';
+table {
+    &.qti-table {
+        border: 1px solid $websiteBorder;
+        display: table;
+        margin-block: 0;
+        margin-inline: 0 auto;
+
+        @include writing-mode-vertical-rl {
+            margin-block-start: var(--caption-block-size-p, var(--caption-block-size, 0));
+            margin-block-end: 0;
+        }
+        @include writing-mode-horizontal-tb {
+            margin-block: 0;
+        }
+
+        &.table-center {
+            margin-inline: auto;
+        }
+
+        &.table-right {
+            margin-inline: auto 0;
+        }
+
+        tr {
+            &:nth-child(even) {
+                background: white;
+            }
+            &:nth-child(odd) {
+                background: whiten($uiHeaderBg, 0.7);
+            }
+        }
+
+        th {
+            background-color: rgba(whiten(black, 0.25), 0.25);
+            font-weight: bold;
+        }
+
+        th,
+        td {
+            border: 1px solid $websiteBorder;
+            min-inline-size: 30px;
+            padding-block: 3px;
+            padding-inline: 5px;
+        }
+
+        td:has(sub:is(.txt-subscript)) {
+            @include writing-mode-vertical-rl {
+                padding-right: 7px;
+            }
+        }
+
+        td:has(ruby rb span.txt-wavy, span.txt-wavy>ruby>rb) {
+            @include writing-mode-vertical-rl {
+                padding-block-start: 9px;
+            }
+        }
+
+        td:has(
+            ruby rb span.txt-dashed,
+            span.txt-dashed>ruby>rb,
+            ruby rb span.txt-underline,
+            span.txt-underline>ruby>rb
+        ) {
+            @include writing-mode-vertical-rl {
+                padding-block-start: 5px;
+            }
+        }
+
+        td:has(
+            ruby rb span.txt-wavy,
+            span.txt-wavy>ruby>rb,
+            ruby rb span.txt-dashed,
+            span.txt-dashed>ruby>rb,
+            ruby rb span.txt-underline,
+            span.txt-underline>ruby>rb
+        ) {
+            @include writing-mode-horizontal-tb {
+                padding-block-start: 3px;
+            }
+        }
+
+        caption.no-block-size {
+            block-size: 0;
+            overflow: visible;
+
+            & > span {
+                display: block;
+                transform: translateX(100%);
+            }
+        }
+
+        /* Safari + `writing-mode: vertical-rl`: all `position: relative` elements inside thead get shifted by the size of tbody. */
+        thead {
+            @include writing-mode-vertical-rl {
+                display: contents;
+            }
+            @include writing-mode-horizontal-tb {
+                display: table-header-group;
+            }
+        }
+        /* Safari + `writing-mode: vertical-rl`: all `position: relative` elements inside tbody get shifted by the size of thead. */
+        tbody {
+            @include writing-mode-vertical-rl {
+                display: contents;
+            }
+            @include writing-mode-horizontal-tb {
+                display: table-row-group;
+            }
+        }
+    }
+}
+
+p + table.qti-table {
+    --caption-block-size-p: calc(var(--caption-block-size, 0px) + 10px); /* 10px is the bottom margin of <p> */
+}

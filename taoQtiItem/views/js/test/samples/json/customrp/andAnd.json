@@ -1,0 +1,223 @@
+{
+  "type": "qti",
+  "data": {
+    "identifier": "andAnd",
+    "serial": "item_570e0b3f9d679965077104",
+    "qtiClass": "assessmentItem",
+    "attributes": {
+      "identifier": "andAnd",
+      "title": "andAnd",
+      "label": "",
+      "xml:lang": "en-US",
+      "adaptive": false,
+      "timeDependent": false,
+      "toolName": "TAO",
+      "toolVersion": "3.1.0-sprint15",
+      "class": ""
+    },
+    "body": {
+      "serial": "container_containeritembody_570e0b3f9d654202329748",
+      "body": "<div>{{interaction_textentryinteraction_570e0b3f9edd2775967056}} and {{interaction_textentryinteraction_570e0b3f9f3a8122278710}}<\/div>",
+      "elements": {
+        "interaction_textentryinteraction_570e0b3f9edd2775967056": {
+          "serial": "interaction_textentryinteraction_570e0b3f9edd2775967056",
+          "qtiClass": "textEntryInteraction",
+          "attributes": {
+            "responseIdentifier": "RESPONSE",
+            "base": 10,
+            "expectedLength": 10,
+            "class": "",
+            "id": "r1"
+          },
+          "debug": {
+            "relatedItem": "item_570e0b3f9d679965077104"
+          },
+          "choices": {}
+        },
+        "interaction_textentryinteraction_570e0b3f9f3a8122278710": {
+          "serial": "interaction_textentryinteraction_570e0b3f9f3a8122278710",
+          "qtiClass": "textEntryInteraction",
+          "attributes": {
+            "responseIdentifier": "RESPONSE_2",
+            "base": 10,
+            "expectedLength": 10,
+            "class": "",
+            "id": "r2"
+          },
+          "debug": {
+            "relatedItem": "item_570e0b3f9d679965077104"
+          },
+          "choices": {}
+        }
+      },
+      "debug": {
+        "relatedItem": "item_570e0b3f9d679965077104"
+      }
+    },
+    "debug": {
+      "relatedItem": "item_570e0b3f9d679965077104"
+    },
+    "namespaces": {
+        "xml": "http:\/\/www.w3.org\/XML\/1998\/namespace",
+        "xsi": "http:\/\/www.w3.org\/2001\/XMLSchema-instance",
+        "": "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p1"
+    },
+    "stylesheets": {},
+    "outcomes": {
+      "outcomedeclaration_570e0b3f9e60b716575993": {
+        "identifier": "SCORE",
+        "serial": "outcomedeclaration_570e0b3f9e60b716575993",
+        "qtiClass": "outcomeDeclaration",
+        "attributes": {
+          "identifier": "SCORE",
+          "cardinality": "single",
+          "baseType": "float",
+          "normalMaximum": 1,
+          "normalMinimum": 0
+        },
+        "debug": {
+          "relatedItem": "item_570e0b3f9d679965077104"
+        },
+        "defaultValue": null
+      }
+    },
+    "responses": {
+      "responsedeclaration_570e0b3f9e0c1460580188": {
+        "identifier": "RESPONSE",
+        "serial": "responsedeclaration_570e0b3f9e0c1460580188",
+        "qtiClass": "responseDeclaration",
+        "attributes": {
+          "identifier": "RESPONSE",
+
+          "cardinality": "single",
+          "baseType": "float"
+        },
+        "debug": {
+          "relatedItem": "item_570e0b3f9d679965077104"
+        },
+        "mapping": [],
+        "areaMapping": [],
+        "howMatch": null,
+        "correctResponses": [ 1234 ],
+        "mappingAttributes": {
+          "defaultValue": 0
+        },
+        "feedbackRules": {}
+      },
+      "responsedeclaration_570e0b3f9e456011320875": {
+        "identifier": "RESPONSE_2",
+        "serial": "responsedeclaration_570e0b3f9e456011320875",
+        "qtiClass": "responseDeclaration",
+        "attributes": {
+          "identifier": "RESPONSE_2",
+          "cardinality": "single",
+          "baseType": "float"
+        },
+        "debug": {
+          "relatedItem": "item_570e0b3f9d679965077104"
+        },
+        "mapping": [],
+        "areaMapping": [],
+        "howMatch": null,
+        "correctResponses": [ 42 ],
+        "mappingAttributes": {
+          "defaultValue": 0
+        },
+        "feedbackRules": {}
+      }
+    },
+    "feedbacks": {},
+    "responseProcessing": {
+      "serial": "response_custom_570e0b3fa0a7e390290134",
+      "qtiClass": "responseProcessing",
+      "attributes": [],
+      "debug": {
+        "relatedItem": ""
+      },
+      "processingType": "custom",
+      "data": "",
+      "responseRules": [{
+        "qtiClass": "responseCondition",
+        "responseIf": {
+          "qtiClass": "responseIf",
+          "expression": {
+            "qtiClass": "and",
+            "expressions": [{
+              "qtiClass": "and",
+              "expressions": [
+              {
+                "qtiClass": "baseValue",
+                "attributes": {
+                  "baseType": "boolean"
+                },
+                "value": true
+              }, {
+                "qtiClass": "equal",
+                "attributes": {
+                  "toleranceMode": "exact"
+                },
+                "expressions": [{
+                  "qtiClass": "variable",
+                  "attributes": {
+                    "identifier": "RESPONSE"
+                  }
+                }, {
+                  "qtiClass": "correct",
+                  "attributes": {
+                    "identifier": "RESPONSE"
+                  }
+                }]
+              }]
+            }, {
+              "qtiClass": "equal",
+              "attributes": {
+                "toleranceMode": "exact"
+              },
+              "expressions": [{
+                "qtiClass": "variable",
+                "attributes": {
+                  "identifier": "RESPONSE_2"
+                }
+              }, {
+                "qtiClass": "correct",
+                "attributes": {
+                  "identifier": "RESPONSE_2"
+                }
+              }]
+            }]
+          },
+          "responseRules": [{
+            "qtiClass": "setOutcomeValue",
+            "attributes": {
+              "identifier": "SCORE"
+            },
+            "expression": {
+              "qtiClass": "baseValue",
+              "attributes": {
+                "baseType": "float"
+              },
+              "value": "1"
+            }
+          }]
+        },
+        "responseElse": {
+          "qtiClass": "responseElse",
+          "responseRules": [{
+            "qtiClass": "setOutcomeValue",
+            "attributes": {
+              "identifier": "SCORE"
+            },
+            "expression": {
+              "qtiClass": "baseValue",
+              "attributes": {
+                "baseType": "float"
+              },
+              "value": "0.0"
+            }
+          }]
+        }
+      }]
+    }
+  },
+  "assets": []
+}
