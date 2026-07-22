@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd"
+                identifier="choice" title="出身地"
+                label="出身地"
+                xml:lang="en-US"
+                adaptive="false"
+                timeDependent="false"
+                toolName="TAO"
+                toolVersion="3.3.0-sprint65"
+>
+    <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier">
+        <correctResponse>
+            <value><![CDATA[ChoiceHK]]></value>
+        </correctResponse>
+    </responseDeclaration>
+    <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title=""/>
+    <itemBody>
+        <div class="grid-row">
+            <div class="col-12">
+                <p>村田__PLACEHOLDER__の出身地はどこですか</p>
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="col-12">
+                <choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="0" minChoices="0" orientation="vertical">
+                    <prompt>選びなさい</prompt>
+                    <simpleChoice identifier="ChoiceHK" fixed="false" showHide="show">
+                        __PLACEHOLDER__
+                    </simpleChoice>
+                </choiceInteraction>
+            </div>
+        </div>
+    </itemBody>
+</assessmentItem>

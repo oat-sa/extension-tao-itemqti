@@ -1,0 +1,36 @@
+@import "inc/bootstrap";
+
+.qti-mediaInteraction {
+
+    .mejs-container iframe{
+        min-height : inherit;
+    }
+    .overlay {
+        background: #000;
+        z-index: 999;
+        position: relative;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+
+.compact-appearance {
+    .qti-mediaInteraction {
+        .mediaplayer.audio {
+            max-width: 4rem;
+            max-height: 4rem;
+            min-width: 4rem;
+
+            .seek,
+            .timer,
+            .sound { display: none; } // hide timer and sound
+
+            .action.play {
+                border: none;
+            }
+        }
+    }
+}
+

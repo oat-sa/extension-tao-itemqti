@@ -1,0 +1,175 @@
+{
+    "identifier": "i1480079448133120",
+    "serial": "item_583d7e701e5a8766808923",
+    "qtiClass": "assessmentItem",
+    "attributes": {
+        "identifier": "i1480079448133120",
+        "title": "Item 12",
+        "label": "text interactions",
+        "xml:lang": "it-IT",
+        "adaptive": false,
+        "timeDependent": false,
+        "toolName": "TAO",
+        "toolVersion": "3.2.0-sprint39",
+        "class": ""
+    },
+    "body": {
+        "serial": "container_containeritembody_583d7e701e589102600642",
+        "body": "\n        <div class=\"grid-row\">\n            <div class=\"col-12\">\n                <p>Lorem ipsum dolor sit amet, consectetur adipisicing ...\u00a0\n\n                    {{interaction_textentryinteraction_583d7e702b765605308755}} qui street art .\n\n                <\/p>\n            <\/div>\n        <\/div>\n    ",
+        "elements": {
+            "interaction_textentryinteraction_583d7e702b765605308755": {
+                "serial": "interaction_textentryinteraction_583d7e702b765605308755",
+                "qtiClass": "textEntryInteraction",
+                "attributes": {
+                    "responseIdentifier": "RESPONSE",
+                    "base": 10,
+                    "expectedLength": 6,
+                    "patternMask": "^[\\s\\S]{0,5}$",
+                    "placeholderText": ""
+                },
+                "debug": {
+                    "relatedItem": "item_583d7e701e5a8766808923"
+                },
+                "choices": {}
+            }
+        },
+        "debug": {
+            "relatedItem": "item_583d7e701e5a8766808923"
+        }
+    },
+    "debug": {
+        "relatedItem": "item_583d7e701e5a8766808923"
+    },
+    "namespaces": {
+        "": "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p2",
+        "m": "http:\/\/www.w3.org\/1998\/Math\/MathML",
+        "xsi": "http:\/\/www.w3.org\/2001\/XMLSchema-instance"
+    },
+    "schemaLocations": {
+        "http:\/\/www.imsglobal.org\/xsd\/imsqti_v2p2": "http:\/\/www.imsglobal.org\/xsd\/qti\/qtiv2p2\/imsqti_v2p2p1.xsd"
+    },
+    "stylesheets": {
+        "stylesheet_583d7e7023a50695608434": {
+            "serial": "stylesheet_583d7e7023a50695608434",
+            "qtiClass": "stylesheet",
+            "attributes": {
+                "href": "style\/custom\/tao-user-styles.css",
+                "type": "text\/css",
+                "media": "all",
+                "title": ""
+            },
+            "debug": {
+                "relatedItem": "item_583d7e701e5a8766808923"
+            }
+        }
+    },
+    "outcomes": {
+        "outcomedeclaration_583d7e702845b442064760": {
+            "identifier": "SCORE",
+            "serial": "outcomedeclaration_583d7e702845b442064760",
+            "qtiClass": "outcomeDeclaration",
+            "attributes": {
+                "identifier": "SCORE",
+                "cardinality": "single",
+                "baseType": "float"
+            },
+            "debug": {
+                "relatedItem": "item_583d7e701e5a8766808923"
+            },
+            "defaultValue": null
+        }
+    },
+    "responses": {
+        "responsedeclaration_583d7e7026d22927547154": {
+            "identifier": "RESPONSE",
+            "serial": "responsedeclaration_583d7e7026d22927547154",
+            "qtiClass": "responseDeclaration",
+            "attributes": {
+                "identifier": "RESPONSE",
+                "cardinality": "single",
+                "baseType": "string"
+            },
+            "debug": {
+                "relatedItem": "item_583d7e701e5a8766808923"
+            },
+            "defaultValue": [],
+            "mapping": [],
+            "areaMapping": [],
+            "howMatch": "http:\/\/www.imsglobal.org\/question\/qti_v2p1\/rptemplates\/match_correct",
+            "correctResponses": [],
+            "mappingAttributes": {
+                "defaultValue": 0
+            },
+            "feedbackRules": {}
+        }
+    },
+    "feedbacks": {},
+    "responseProcessing": {
+        "serial": "response_templatesdriven_583d7e70344ad046859860",
+        "qtiClass": "responseProcessing",
+        "attributes": [],
+        "debug": {
+            "relatedItem": "item_583d7e701e5a8766808923"
+        },
+        "processingType": "templateDriven",
+        "responseRules": [
+            {
+                "qtiClass": "responseCondition",
+                "responseIf": {
+                    "qtiClass": "responseIf",
+                    "expression": {
+                        "qtiClass": "match",
+                        "expressions": [
+                            {
+                                "qtiClass": "variable",
+                                "attributes": {
+                                    "identifier": "RESPONSE"
+                                }
+                            },
+                            {
+                                "qtiClass": "correct",
+                                "attributes": {
+                                    "identifier": "RESPONSE"
+                                }
+                            }
+                        ]
+                    },
+                    "responseRules": [
+                        {
+                            "qtiClass": "setOutcomeValue",
+                            "attributes": {
+                                "identifier": "SCORE"
+                            },
+                            "expression": {
+                                "qtiClass": "baseValue",
+                                "attributes": {
+                                    "baseType": "float"
+                                },
+                                "value": "1"
+                            }
+                        }
+                    ]
+                },
+                "responseElse": {
+                    "qtiClass": "responseElse",
+                    "responseRules": [
+                        {
+                            "qtiClass": "setOutcomeValue",
+                            "attributes": {
+                                "identifier": "SCORE"
+                            },
+                            "expression": {
+                                "qtiClass": "baseValue",
+                                "attributes": {
+                                    "baseType": "float"
+                                },
+                                "value": "0"
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "apipAccessibility": ""
+}
