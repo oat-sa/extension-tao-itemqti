@@ -69,7 +69,7 @@
         "oat-sa/generis": ">=17.0.0",
         "oat-sa/lib-tao-qti": "^7.8.1",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
-        "oat-sa/tao-core": ">=56.1.13"
+        "oat-sa/tao-core": ">=56.7.0"
     },
     "autoload": {
         "psr-4": {

@@ -12,6 +12,42 @@
 </div>
 {{/if}}
 
+{{#if enabledFeatures.position}}
+<hr/>
+<div class="panel position-panel">
+    <h3>{{__ 'Choices position'}}</h3>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
+    <span class="tooltip-content">
+        {{__ 'Configures the position of the choices relative to the answer area.'}}
+    </span>
+    <div>
+        <label class="smaller-prompt">
+            <input type="radio" name="position" value="top" {{#equal position 'top'}}checked{{/equal}} />
+            <span class="icon-radio"></span>
+            {{__ 'Top'}}
+        </label>
+        <br>
+        <label class="smaller-prompt">
+            <input type="radio" name="position" value="bottom" {{#equal position 'bottom'}}checked{{/equal}} />
+            <span class="icon-radio"></span>
+            {{__ 'Bottom'}}
+        </label>
+        <br>
+        <label class="smaller-prompt">
+            <input type="radio" name="position" value="left" {{#equal position 'left'}}checked{{/equal}} />
+            <span class="icon-radio"></span>
+            {{__ 'Left'}}
+        </label>
+        <br>
+        <label class="smaller-prompt">
+            <input type="radio" name="position" value="right" {{#equal position 'right'}}checked{{/equal}} />
+            <span class="icon-radio"></span>
+            {{__ 'Right'}}
+        </label>
+    </div>
+</div>
+{{/if}}
+
 <div class="panel min-max-panel">
     <h3>{{__ "Number of associations"}}</h3>
 </div>

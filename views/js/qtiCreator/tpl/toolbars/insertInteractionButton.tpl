@@ -17,5 +17,5 @@
     <img class="icon" src="{{icon}}">
     {{/if}}
 
-    <div class="tool-name">{{short}}</div>
+    <div class="tool-name">{{__ short}}</div>
 </li>

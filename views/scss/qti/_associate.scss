@@ -1,6 +1,66 @@
 @import 'inc/bootstrap';
 
 .qti-associateInteraction {
+    &.qti-choices-top,
+    &.qti-choices-bottom,
+    &.qti-choices-left,
+    &.qti-choices-right {
+        display: flex;
+        gap: 30px;
+
+        .choice-area,
+        .result-area {
+            margin-bottom: 0;
+        }
+    }
+
+    &.qti-choices-top,
+    &.qti-choices-bottom {
+        flex-direction: column;
+
+        .choice-area {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+    }
+
+    &.qti-choices-left,
+    &.qti-choices-right {
+        align-items: flex-start;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        .qti-prompt-container {
+            flex: 0 0 100%;
+        }
+
+        .choice-area {
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .result-area {
+            flex: 1 1 0;
+            margin: 0;
+            width: auto;
+        }
+    }
+
+    &.qti-choices-bottom,
+    &.qti-choices-right {
+        .choice-area {
+            order: 2;
+        }
+
+        .result-area {
+            order: 1;
+        }
+    }
+
     .empty {
         cursor: pointer;
         min-height: 0;
