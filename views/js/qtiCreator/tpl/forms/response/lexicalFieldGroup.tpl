@@ -4,7 +4,7 @@
                class="lexical-field-identifier"
                name="lexicalFieldIdentifier-{{index}}"
                value="{{identifier}}"
-               placeholder="e.g. GROUP_1_FOUND"
+               placeholder="e.g. GROUP_1"
                data-validate="$notEmpty; $qtiLexicalGroupIdentifier{{#if textEntrySerial}}(serial={{textEntrySerial}}){{/if}};" />
         <span class="trigger icon-bin lexical-field-remove"
               data-action="remove-lexical-field"

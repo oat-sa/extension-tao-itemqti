@@ -166,7 +166,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         const groups = evaluationHelper.getLexicalGroups(otherEntry);
 
         assert.strictEqual(groups.length, 1);
-        assert.strictEqual(groups[0].identifier, 'GROUP_1_FOUND');
+        assert.strictEqual(groups[0].identifier, 'GROUP_1');
         assert.strictEqual(groups[0].id, 'GROUP_1_FOUND');
         assert.strictEqual(groups[0].canonical, 'Apple');
         assert.deepEqual(groups[0].synonyms, ['Apple', 'apple', 'apples']);
@@ -198,18 +198,18 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         const legacyGroups = evaluationHelper.parseDataUmfiValues(legacyJson);
 
         assert.strictEqual(legacyGroups.length, 2);
-        assert.strictEqual(legacyGroups[0].identifier, 'GROUP_1_FOUND');
+        assert.strictEqual(legacyGroups[0].identifier, 'GROUP_1');
         assert.strictEqual(legacyGroups[0].id, 'GROUP_1_FOUND');
         assert.strictEqual(legacyGroups[0].canonical, 'Germany');
         assert.deepEqual(legacyGroups[0].synonyms, ['Germany', 'Federal Republic of Germany']);
-        assert.strictEqual(legacyGroups[1].identifier, 'GROUP_2_FOUND');
+        assert.strictEqual(legacyGroups[1].identifier, 'GROUP_2');
         assert.deepEqual(legacyGroups[1].synonyms, ['France', 'french republic']);
 
         const modernJson =
             '[{"group":"FRANCE_FOUND","canonical":"France","variants":["France","france","FR"]},{"group":"GERMANY_FOUND","canonical":"Germany","variants":["Germany","Federal Republic of Germany"]}]';
         const modernGroups = evaluationHelper.parseDataUmfiValues(modernJson);
 
-        assert.strictEqual(modernGroups[0].identifier, 'FRANCE_FOUND');
+        assert.strictEqual(modernGroups[0].identifier, 'FRANCE');
         assert.strictEqual(modernGroups[0].id, 'FRANCE_FOUND');
         assert.strictEqual(modernGroups[0].canonical, 'France');
         assert.deepEqual(modernGroups[0].synonyms, ['France', 'france', 'FR']);
@@ -218,8 +218,8 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
     });
 
     QUnit.test('buildDefaultLexicalGroupIdentifier generates incremental identifiers', assert => {
-        assert.strictEqual(evaluationHelper.buildDefaultLexicalGroupIdentifier(0), 'GROUP_1_FOUND');
-        assert.strictEqual(evaluationHelper.buildDefaultLexicalGroupIdentifier(2), 'GROUP_3_FOUND');
+        assert.strictEqual(evaluationHelper.buildDefaultLexicalGroupIdentifier(0), 'GROUP_1');
+        assert.strictEqual(evaluationHelper.buildDefaultLexicalGroupIdentifier(2), 'GROUP_3');
     });
 
     QUnit.test('buildGroupOutcomeId appends FOUND suffix to identifier base', assert => {
@@ -240,10 +240,22 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
     QUnit.test('normalizeLexicalGroups keeps default identifier when variants are added', assert => {
         const groups = evaluationHelper.normalizeLexicalGroups([{ identifier: '', synonyms: ['Apple', 'apple'] }]);
 
-        assert.strictEqual(groups[0].identifier, 'GROUP_1_FOUND');
+        assert.strictEqual(groups[0].identifier, 'GROUP_1');
         assert.strictEqual(groups[0].id, 'GROUP_1_FOUND');
         assert.strictEqual(groups[0].canonical, 'Apple');
         assert.deepEqual(groups[0].synonyms, ['Apple', 'apple']);
+    });
+
+    QUnit.test('normalizeLexicalGroups keeps input identifier and applies FOUND only to outcome id', assert => {
+        const groups = evaluationHelper.normalizeLexicalGroups([
+            {
+                identifier: 'FRANCE',
+                synonyms: ['France', 'FR']
+            }
+        ]);
+
+        assert.strictEqual(groups[0].identifier, 'FRANCE');
+        assert.strictEqual(groups[0].id, 'FRANCE_FOUND');
     });
 
     QUnit.test('getEvaluationConfig reads lexical groups and case sensitivity', assert => {
@@ -269,7 +281,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.strictEqual(config.caseSensitive, true);
         assert.strictEqual(config.allowLexicalFieldsOnScoring, true);
         assert.strictEqual(config.lexicalGroups.length, 1);
-        assert.strictEqual(config.lexicalGroups[0].identifier, 'GROUP_1_FOUND');
+        assert.strictEqual(config.lexicalGroups[0].identifier, 'GROUP_1');
         assert.strictEqual(config.lexicalGroups[0].id, 'GROUP_1_FOUND');
         assert.strictEqual(config.lexicalGroups[0].canonical, 'Banana');
     });
@@ -363,8 +375,10 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
 
         assert.strictEqual(groups.length, 2);
         assert.notStrictEqual(groups[0].id, groups[1].id);
-        assert.strictEqual(groups[0].identifier, 'APPLE_FOUND');
-        assert.strictEqual(groups[1].identifier, 'GROUP_2_FOUND');
+        assert.strictEqual(groups[0].identifier, 'APPLE');
+        assert.strictEqual(groups[1].identifier, 'GROUP_2');
+        assert.strictEqual(groups[0].id, 'APPLE_FOUND');
+        assert.strictEqual(groups[1].id, 'GROUP_2_FOUND');
         assert.ok(groups[0].id.indexOf('_FOUND') > -1);
         assert.ok(groups[1].id.indexOf('_FOUND') > -1);
     });
