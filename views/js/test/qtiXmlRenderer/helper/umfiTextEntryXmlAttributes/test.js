@@ -80,8 +80,7 @@ define(['taoQtiItem/qtiXmlRenderer/helper/umfiTextEntryXmlAttributes'], function
 
     QUnit.test('stripInternalAuthoringAttrsFromItemXml removes internal attrs only', assert => {
         const xml =
-            '<textEntryInteraction responseIdentifier="RESPONSE" data-umfi-values='[{"group":"GROUP_1","canonical":"France","variants":["France","French Republic"]}]' data-umfi-rp-managed="true" data-scoring-model-rp-managed="true" data-scoring-model='{"2":1}'/>';
-
+            '<textEntryInteraction responseIdentifier="RESPONSE" data-umfi-values=\'[{"group":"GROUP_1","canonical":"France","variants":["France","French Republic"]}]\' data-umfi-rp-managed="true" data-scoring-model-rp-managed="true" data-scoring-model=\'{"2":1}\'/>';
         const sanitized = umfiTextEntryXmlAttributes.stripInternalAuthoringAttrsFromItemXml(xml);
 
         assert.strictEqual(sanitized.indexOf('data-umfi-rp-managed'), -1);
