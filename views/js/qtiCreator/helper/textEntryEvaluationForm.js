@@ -39,6 +39,12 @@ define([
     let suppressVariantBlurCommit = false;
 
     /**
+     * After a pointer mousedown action, ignore the following click (including on a
+     * rebuilt control under the cursor) so actions do not double-fire.
+     */
+    let suppressNextActionClick = false;
+
+    /**
      * @param {jQuery} $input
      * @returns {Object}
      */
@@ -325,6 +331,47 @@ define([
     };
 
     /**
+     * Run lexical-field actions from mousedown (pointer, before blur) or click
+     * (keyboard). Skip the click that follows a handled mousedown so pointer
+     * actions do not double-fire.
+     *
+     * @param {Function} action
+     * @returns {Function}
+     */
+    const bindPointerOrKeyboardAction = function bindPointerOrKeyboardAction(action) {
+        return function (e) {
+            if (e.type === 'mousedown') {
+                e.preventDefault();
+                suppressVariantBlurCommit = true;
+                suppressNextActionClick = true;
+                action.call(this, e);
+                setTimeout(function () {
+                    suppressNextActionClick = false;
+                }, 0);
+                return;
+            }
+
+            if (suppressNextActionClick) {
+                suppressNextActionClick = false;
+                return;
+            }
+
+            e.preventDefault();
+            action.call(this, e);
+        };
+    };
+
+    /**
+     * @param {Object} [widget]
+     */
+    const cancelDebouncedSync = function cancelDebouncedSync(widget) {
+        if (widget && widget._textEntryEvaluationDebouncedSync) {
+            widget._textEntryEvaluationDebouncedSync.cancel();
+            delete widget._textEntryEvaluationDebouncedSync;
+        }
+    };
+
+    /**
      * @param {jQuery} $responseForm
      * @param {Object} widget
      * @param {{skipInitialRender?: boolean}} [options]
@@ -332,6 +379,12 @@ define([
     const bindEvents = function bindEvents($responseForm, widget, options) {
         const interaction = widget.element;
         const skipInitialRender = !!(options && options.skipInitialRender);
+        const debouncedSyncIdentifier = _.debounce(function () {
+            syncConfigFromForm($responseForm, widget);
+        }, 300);
+
+        cancelDebouncedSync(widget);
+        widget._textEntryEvaluationDebouncedSync = debouncedSyncIdentifier;
 
         $responseForm.off(NS);
         bindVariantBlurGuard($responseForm);
@@ -357,92 +410,94 @@ define([
             syncConfigFromForm($responseForm, widget);
         });
 
+        $responseForm.on(`input${NS}`, '.lexical-field-identifier', debouncedSyncIdentifier);
+
         $responseForm.on(
-            `input${NS}`,
-            '.lexical-field-identifier',
-            _.debounce(function () {
+            `mousedown${NS} click${NS}`,
+            '[data-action="add-lexical-field"]',
+            bindPointerOrKeyboardAction(function () {
                 syncConfigFromForm($responseForm, widget);
-            }, 300)
+                const config = getConfig(widget);
+
+                config.lexicalGroups.push({
+                    identifier: '',
+                    synonyms: [],
+                    draftVariant: true
+                });
+                setConfig(widget, config);
+                refreshLexicalFields($responseForm, widget, {
+                    focusGroupIndex: config.lexicalGroups.length - 1
+                });
+            })
         );
 
-        $responseForm.on(`mousedown${NS}`, '[data-action="add-lexical-field"]', function (e) {
-            e.preventDefault();
-            suppressVariantBlurCommit = true;
-            syncConfigFromForm($responseForm, widget);
-            const config = getConfig(widget);
+        $responseForm.on(
+            `mousedown${NS} click${NS}`,
+            '[data-action="remove-lexical-field"]',
+            bindPointerOrKeyboardAction(function () {
+                syncConfigFromForm($responseForm, widget);
+                const index = parseInt($(this).closest('.lexical-field-group').data('group-index'), 10);
+                const config = getConfig(widget);
 
-            config.lexicalGroups.push({
-                identifier: '',
-                synonyms: [],
-                draftVariant: true
-            });
-            setConfig(widget, config);
-            refreshLexicalFields($responseForm, widget, {
-                focusGroupIndex: config.lexicalGroups.length - 1
-            });
-        });
+                if (_.isNaN(index)) {
+                    return;
+                }
 
-        $responseForm.on(`mousedown${NS}`, '[data-action="remove-lexical-field"]', function (e) {
-            e.preventDefault();
-            suppressVariantBlurCommit = true;
-            syncConfigFromForm($responseForm, widget);
-            const index = parseInt($(this).closest('.lexical-field-group').data('group-index'), 10);
-            const config = getConfig(widget);
+                config.lexicalGroups.splice(index, 1);
+                setConfig(widget, config);
+                refreshLexicalFields($responseForm, widget);
+            })
+        );
 
-            if (_.isNaN(index)) {
-                return;
-            }
+        $responseForm.on(
+            `mousedown${NS} click${NS}`,
+            '[data-action="add-variant"]',
+            bindPointerOrKeyboardAction(function () {
+                syncConfigFromForm($responseForm, widget);
+                const $group = $(this).closest('.lexical-field-group');
+                const index = parseInt($group.data('group-index'), 10);
+                const config = getConfig(widget);
 
-            config.lexicalGroups.splice(index, 1);
-            setConfig(widget, config);
-            refreshLexicalFields($responseForm, widget);
-        });
+                if (_.isNaN(index) || !config.lexicalGroups[index]) {
+                    return;
+                }
 
-        $responseForm.on(`mousedown${NS}`, '[data-action="add-variant"]', function (e) {
-            e.preventDefault();
-            suppressVariantBlurCommit = true;
-            syncConfigFromForm($responseForm, widget);
-            const $group = $(this).closest('.lexical-field-group');
-            const index = parseInt($group.data('group-index'), 10);
-            const config = getConfig(widget);
+                // Commit any draft text already read by syncConfigFromForm, then open
+                // a fresh empty draft so "Add variant" works while editing.
+                config.lexicalGroups[index].draftVariant = true;
+                setConfig(widget, config);
+                refreshLexicalFields($responseForm, widget, {
+                    focusGroupIndex: index
+                });
+            })
+        );
 
-            if (_.isNaN(index) || !config.lexicalGroups[index]) {
-                return;
-            }
+        $responseForm.on(
+            `mousedown${NS} click${NS}`,
+            '[data-action="remove-variant"]',
+            bindPointerOrKeyboardAction(function () {
+                syncConfigFromForm($responseForm, widget);
+                const $chip = $(this).closest('.lexical-field-variant-chip');
+                const $group = $(this).closest('.lexical-field-group');
+                const groupIndex = parseInt($group.data('group-index'), 10);
+                const variantIndex = parseInt($chip.data('variant-index'), 10);
+                const config = getConfig(widget);
 
-            // Commit any draft text already read by syncConfigFromForm, then open
-            // a fresh empty draft so "Add variant" works while editing.
-            config.lexicalGroups[index].draftVariant = true;
-            setConfig(widget, config);
-            refreshLexicalFields($responseForm, widget, {
-                focusGroupIndex: index
-            });
-        });
+                if (
+                    _.isNaN(groupIndex) ||
+                    _.isNaN(variantIndex) ||
+                    !config.lexicalGroups[groupIndex] ||
+                    !config.lexicalGroups[groupIndex].synonyms[variantIndex]
+                ) {
+                    return;
+                }
 
-        $responseForm.on(`mousedown${NS}`, '[data-action="remove-variant"]', function (e) {
-            e.preventDefault();
-            suppressVariantBlurCommit = true;
-            syncConfigFromForm($responseForm, widget);
-            const $chip = $(this).closest('.lexical-field-variant-chip');
-            const $group = $(this).closest('.lexical-field-group');
-            const groupIndex = parseInt($group.data('group-index'), 10);
-            const variantIndex = parseInt($chip.data('variant-index'), 10);
-            const config = getConfig(widget);
-
-            if (
-                _.isNaN(groupIndex) ||
-                _.isNaN(variantIndex) ||
-                !config.lexicalGroups[groupIndex] ||
-                !config.lexicalGroups[groupIndex].synonyms[variantIndex]
-            ) {
-                return;
-            }
-
-            config.lexicalGroups[groupIndex].synonyms.splice(variantIndex, 1);
-            config.lexicalGroups[groupIndex].draftVariant = false;
-            setConfig(widget, config);
-            refreshLexicalFields($responseForm, widget);
-        });
+                config.lexicalGroups[groupIndex].synonyms.splice(variantIndex, 1);
+                config.lexicalGroups[groupIndex].draftVariant = false;
+                setConfig(widget, config);
+                refreshLexicalFields($responseForm, widget);
+            })
+        );
 
         const commitVariantInput = function commitVariantInput($input) {
             const $group = $input.closest('.lexical-field-group');
@@ -505,10 +560,12 @@ define([
      * @param {Object} [widget]
      */
     const unbindEvents = function unbindEvents($responseForm, widget) {
+        cancelDebouncedSync(widget);
         $responseForm.off(NS);
         $responseForm.off(DOC_NS);
         $(document).off(`mouseup${DOC_NS}`);
         suppressVariantBlurCommit = false;
+        suppressNextActionClick = false;
 
         if (widget) {
             delete widget._textEntryEvaluationConfig;
