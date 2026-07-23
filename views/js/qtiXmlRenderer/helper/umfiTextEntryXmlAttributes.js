@@ -23,18 +23,35 @@ define(['lodash'], function (_) {
     const SINGLE_QUOTED_JSON_ATTRS = ['data-umfi-values'];
 
     /**
+     * Escape attribute text for the chosen quote style.
+     * XML parsers decode entities when reading attributes, so JSON consumers still see raw quotes/apostrophes.
+     *
+     * @param {string} value
+     * @param {string} quoteChar
+     * @returns {string}
+     */
+    const escapeXmlAttributeValue = function escapeXmlAttributeValue(value, quoteChar) {
+        const stringValue = String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+
+        return quoteChar === "'"
+            ? stringValue.replace(/'/g, '&apos;')
+            : stringValue.replace(/"/g, '&quot;');
+    };
+
+    /**
      * @param {string} name
      * @param {string} value
      * @returns {string}
      */
     const formatXmlAttribute = function formatXmlAttribute(name, value) {
-        const stringValue = String(value);
-
         if (_.includes(SINGLE_QUOTED_JSON_ATTRS, name)) {
-            return `${name}='${stringValue}'`;
+            return `${name}='${escapeXmlAttributeValue(value, "'")}'`;
         }
 
-        return `${name}="${stringValue}"`;
+        return `${name}="${escapeXmlAttributeValue(value, '"')}"`;
     };
 
     /**
@@ -87,6 +104,7 @@ define(['lodash'], function (_) {
     return {
         INTERNAL_AUTHORING_ATTRS,
         SINGLE_QUOTED_JSON_ATTRS,
+        escapeXmlAttributeValue,
         formatXmlAttribute,
         prepareTextEntryRenderData,
         stripInternalAuthoringAttrsFromItemXml
