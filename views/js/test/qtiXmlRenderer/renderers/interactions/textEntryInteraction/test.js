@@ -73,4 +73,30 @@ define([
         assert.ok(xml.indexOf('data-scoring-model=\'{"2":1}\'') > -1, 'scoring model JSON uses single quotes');
         assert.strictEqual(xml.indexOf('data-scoring-model="{'), -1, 'does not use broken double-quoted JSON');
     });
+
+    QUnit.test('rendered textEntryInteraction XML stays well-formed with apostrophes in UMFI values', function (assert) {
+        const umfiValues = JSON.stringify([
+            {
+                group: 'GROUP_1',
+                canonical: "don't",
+                variants: ["don't", "l'école"]
+            }
+        ]);
+        const interaction = createInteraction({
+            responseIdentifier: 'RESPONSE',
+            'data-umfi-values': umfiValues
+        });
+
+        const tplData = TextEntryInteractionRenderer.getData(interaction, {
+            tag: 'textEntryInteraction',
+            attributes: interaction.getAttributes()
+        });
+        const xml = textEntryInteractionTpl(tplData);
+        const doc = new DOMParser().parseFromString(xml, 'application/xml');
+        const node = doc.getElementsByTagName('textEntryInteraction')[0];
+
+        assert.strictEqual(doc.getElementsByTagName('parsererror').length, 0, 'generated XML is well-formed');
+        assert.ok(xml.indexOf('&apos;') > -1, 'apostrophes are escaped in attribute markup');
+        assert.deepEqual(JSON.parse(node.getAttribute('data-umfi-values')), JSON.parse(umfiValues));
+    });
 });

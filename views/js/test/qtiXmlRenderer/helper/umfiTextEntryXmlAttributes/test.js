@@ -41,6 +41,43 @@ define(['taoQtiItem/qtiXmlRenderer/helper/umfiTextEntryXmlAttributes'], function
         assert.strictEqual(prepared.attributesMarkup.indexOf('&quot;'), -1);
     });
 
+    QUnit.test('prepareTextEntryRenderData escapes apostrophes in data-umfi-values', assert => {
+        const umfiValues = JSON.stringify([
+            {
+                group: 'GROUP_1',
+                canonical: "don't",
+                variants: ["don't", "l'école"]
+            }
+        ]);
+        const prepared = umfiTextEntryXmlAttributes.prepareTextEntryRenderData({
+            responseIdentifier: 'RESPONSE',
+            'data-umfi-values': umfiValues
+        });
+        const xml = `<textEntryInteraction ${prepared.attributesMarkup} />`;
+        const doc = new DOMParser().parseFromString(xml, 'application/xml');
+        const node = doc.getElementsByTagName('textEntryInteraction')[0];
+
+        assert.strictEqual(doc.getElementsByTagName('parsererror').length, 0, 'generated XML is well-formed');
+        assert.ok(prepared.attributesMarkup.indexOf('&apos;') > -1, 'apostrophes are XML-escaped');
+        assert.strictEqual(prepared.attributesMarkup.indexOf("don't"), -1, 'raw apostrophe is not left in markup');
+        assert.ok(
+            prepared.attributesMarkup.indexOf('&quot;') === -1,
+            'JSON double quotes stay literal inside single-quoted attr'
+        );
+        assert.deepEqual(JSON.parse(node.getAttribute('data-umfi-values')), JSON.parse(umfiValues));
+    });
+
+    QUnit.test('formatXmlAttribute escapes special characters for quote style', assert => {
+        assert.strictEqual(
+            umfiTextEntryXmlAttributes.formatXmlAttribute('data-umfi-values', "a'b&c<d>e"),
+            "data-umfi-values='a&apos;b&amp;c&lt;d&gt;e'"
+        );
+        assert.strictEqual(
+            umfiTextEntryXmlAttributes.formatXmlAttribute('responseIdentifier', 'R"1'),
+            'responseIdentifier="R&quot;1"'
+        );
+    });
+
     QUnit.test('stripInternalAuthoringAttrsFromItemXml removes internal attrs only', assert => {
         const xml =
             '<textEntryInteraction responseIdentifier="RESPONSE" data-umfi-values='[{"group":"GROUP_1","canonical":"France","variants":["France","French Republic"]}]' data-umfi-rp-managed="true" data-scoring-model-rp-managed="true" data-scoring-model='{"2":1}'/>';
