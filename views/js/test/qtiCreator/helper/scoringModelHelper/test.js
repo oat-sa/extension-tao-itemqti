@@ -217,8 +217,8 @@ define(['taoQtiItem/qtiCreator/helper/scoringModelHelper'], function (scoringMod
             return createItem([textEntry]);
         };
 
-        assert.true(scoringModelHelper.shouldShowScoringModel(textEntry));
-        assert.true(
+        assert.ok(scoringModelHelper.shouldShowScoringModel(textEntry));
+        assert.ok(
             scoringModelHelper.shouldShowScoringModel(textEntry, {
                 evaluateAsUmfi: false
             })
@@ -258,15 +258,15 @@ define(['taoQtiItem/qtiCreator/helper/scoringModelHelper'], function (scoringMod
             }
         };
 
-        assert.false(scoringModelHelper.shouldShowScoringModel(textEntry));
-        assert.true(
+        assert.ok(!scoringModelHelper.shouldShowScoringModel(textEntry));
+        assert.ok(
             scoringModelHelper.shouldShowScoringModel(textEntry, {
                 evaluateAsUmfi: true
             })
         );
 
         attrs['data-item-type'] = 'umfi-closed';
-        assert.true(scoringModelHelper.shouldShowScoringModel(textEntry));
+        assert.ok(scoringModelHelper.shouldShowScoringModel(textEntry));
     });
 
     QUnit.test('getScoringModelConfig reads persisted model', assert => {

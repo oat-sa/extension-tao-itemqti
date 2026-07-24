@@ -93,8 +93,8 @@ define([
 
         const tplData = scoringModelForm.getTplData(interaction);
 
-        assert.true(tplData.showScoringModel);
-        assert.true(tplData.isDichotomous);
+        assert.ok(tplData.showScoringModel);
+        assert.ok(tplData.isDichotomous);
         assert.strictEqual(tplData.dichotomousThreshold, 5);
         assert.strictEqual(tplData.dichotomousScore, 1);
     });

@@ -446,7 +446,14 @@ define([
             return;
         }
 
-        syncResponseProcessing(sampleInteraction, config);
+        // Re-serialize so legacy payloads (e.g. [["apple"]]) become the current
+        // object shape before response processing is regenerated.
+        persistEvaluationConfig(sampleInteraction, {
+            evaluateAsUmfi: true,
+            lexicalGroups: config.lexicalGroups,
+            caseSensitive: config.caseSensitive,
+            allowLexicalFieldsOnScoring: config.allowLexicalFieldsOnScoring
+        });
     };
 
     /**
@@ -728,8 +735,8 @@ define([
             let identifierIndex = index;
 
             while (usedIdentifiers[identifier]) {
-                identifierIndex += 1;
                 identifier = buildDefaultLexicalGroupIdentifier(identifierIndex);
+                identifierIndex += 1;
             }
 
             usedIdentifiers[identifier] = true;

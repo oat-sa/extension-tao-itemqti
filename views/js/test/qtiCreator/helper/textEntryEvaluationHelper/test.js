@@ -88,6 +88,9 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
                         this.attributes[name] = value;
                         return this;
                     },
+                    removeAttr: function (name) {
+                        delete this.attributes[name];
+                    },
                     setDefaultValue: function (value) {
                         this.defaultValue = value;
                     },
@@ -465,13 +468,14 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         const textEntry = createTextEntry(item);
 
         textEntry.attr('responseIdentifier', 'RESPONSE');
+        const responseDeclaration = {
+            template: 'MATCH_CORRECT',
+            setTemplate: function (template) {
+                this.template = template;
+            }
+        };
         textEntry.getResponseDeclaration = function () {
-            return {
-                template: 'MATCH_CORRECT',
-                setTemplate: function (template) {
-                    this.template = template;
-                }
-            };
+            return responseDeclaration;
         };
 
         item.getElements = function (qtiClass) {
@@ -479,6 +483,9 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
                 return {};
             }
 
+            return { 1: textEntry };
+        };
+        item.getComposingElements = function () {
             return { 1: textEntry };
         };
 
