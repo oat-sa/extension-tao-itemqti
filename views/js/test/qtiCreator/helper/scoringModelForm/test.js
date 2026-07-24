@@ -15,10 +15,19 @@
  *
  * Copyright (c) 2026 (original work) Open Assessment Technologies SA ;
  */
-define(['jquery', 'taoQtiItem/qtiCreator/helper/scoringModelForm'], function ($, scoringModelForm) {
+define([
+    'jquery',
+    'context',
+    'taoQtiItem/qtiCreator/helper/scoringModelForm'
+], function ($, context, scoringModelForm) {
     'use strict';
 
-    QUnit.module('scoringModelForm');
+    QUnit.module('scoringModelForm', {
+        beforeEach: function () {
+            context.featureFlags = context.featureFlags || {};
+            context.featureFlags.FEATURE_FLAG_MULTI_FIELD_SCORING = true;
+        }
+    });
 
     QUnit.test('readPolytomousLevelsFromForm collects valid rows', assert => {
         const $form = $(

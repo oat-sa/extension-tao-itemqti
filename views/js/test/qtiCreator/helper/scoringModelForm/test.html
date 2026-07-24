@@ -3,24 +3,22 @@
     <head>
         <meta charset="utf-8">
         <title>Scoring Model Form Test</title>
-        <link rel="stylesheet" href="../../../../../js/lib/qunit/qunit.css">
+        <base href="../../../../../../../tao/views/" />
+        <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+        <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+        <script type="text/javascript" src="js/lib/require.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
+        <script type="text/javascript">
+            QUnit.config.autostart = false;
+            require(['/tao/ClientConfig/config'], function () {
+                require(['taoQtiItem/test/qtiCreator/helper/scoringModelForm/test'], function () {
+                    QUnit.start();
+                });
+            });
+        </script>
     </head>
     <body>
         <div id="qunit"></div>
         <div id="qunit-fixture"></div>
-        <script src="../../../../../js/lib/require.js"></script>
-        <script src="../../../../../js/lib/qunit/qunit.js"></script>
-        <script>
-            require.config({
-                baseUrl: '../../../../../js',
-                paths: {
-                    jquery: 'lib/jquery-3.7.1.min',
-                    lodash: 'lib/lodash.min'
-                }
-            });
-            require(['taoQtiItem/test/qtiCreator/helper/scoringModelForm/test'], function () {
-                QUnit.start();
-            });
-        </script>
     </body>
 </html>
