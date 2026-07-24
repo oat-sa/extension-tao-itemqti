@@ -41,8 +41,10 @@ define([
     /**
      * After a pointer mousedown action, ignore the following click (including on a
      * rebuilt control under the cursor) so actions do not double-fire.
+     * Cleared when that click is consumed, or as a short fallback if click never comes.
      */
     let suppressNextActionClick = false;
+    let suppressNextActionClickTimer = null;
 
     /**
      * @param {jQuery} $input
@@ -148,6 +150,7 @@ define([
 
     /**
      * @param {Object[]} groups
+     * @param {Object} [widget]
      * @returns {Object[]}
      */
     const prepareGroupsForTpl = function prepareGroupsForTpl(groups, widget) {
@@ -222,19 +225,94 @@ define([
     };
 
     /**
-     * @param {jQuery} $form
+     * Build synonyms with the canonical value as the first entry.
+     * The first rendered chip is the previous canonical; additional chips and
+     * draft input values become extra variants.
+     *
+     * @param {jQuery} $group
+     * @param {string} canonical
      * @param {{caseSensitive?: boolean}} [options]
+     * @returns {string[]}
+     */
+    const buildSynonymsFromGroup = function buildSynonymsFromGroup($group, canonical, options) {
+        const caseSensitive = !!(options && options.caseSensitive);
+        const chipVariants = readChipVariantsFromGroup($group);
+        const additional = chipVariants.slice(1);
+
+        $group.find('.lexical-field-variant-input').each(function () {
+            const value = String($(this).val()).trim();
+
+            if (
+                value &&
+                !evaluationHelper.hasLexicalVariant(additional, value, caseSensitive) &&
+                !(canonical && evaluationHelper.hasLexicalVariant([canonical], value, caseSensitive))
+            ) {
+                additional.push(value);
+            }
+        });
+
+        const filteredAdditional = additional.filter(value => {
+            if (!canonical) {
+                return true;
+            }
+
+            return !evaluationHelper.hasLexicalVariant([canonical], value, caseSensitive);
+        });
+
+        if (!canonical) {
+            return filteredAdditional;
+        }
+
+        return [canonical].concat(filteredAdditional);
+    };
+
+    /**
+     * @param {string} canonical
+     * @param {string[]} chipVariants Chip texts only (no draft); index 0 = previous canonical
+     * @param {{caseSensitive?: boolean}} [options]
+     * @returns {string[]}
+     */
+    const mergeCanonicalIntoSynonyms = function mergeCanonicalIntoSynonyms(canonical, chipVariants, options) {
+        const caseSensitive = !!(options && options.caseSensitive);
+        const chips = _.isArray(chipVariants) ? chipVariants.slice() : [];
+        const additional = chips.slice(1).filter(value => {
+            if (!canonical) {
+                return true;
+            }
+
+            return !evaluationHelper.hasLexicalVariant([canonical], value, caseSensitive);
+        });
+
+        if (!canonical) {
+            return additional;
+        }
+
+        return [canonical].concat(additional);
+    };
+
+    /**
+     * @param {jQuery} $form
+     * @param {{caseSensitive?: boolean, existingGroups?: Object[]}} [options]
      * @returns {Object[]}
      */
     const readLexicalGroupsFromForm = function readLexicalGroupsFromForm($form, options) {
         const groups = [];
+        const existingGroups = (options && options.existingGroups) || [];
+        const caseSensitive = !!(options && options.caseSensitive);
 
-        $form.find('.lexical-field-group').each(function () {
+        $form.find('.lexical-field-group').each(function (index) {
             const $group = $(this);
+            const existing = existingGroups[index] || {};
+            const identifier = String(
+                $group.attr('data-group-identifier') || existing.identifier || ''
+            ).trim();
+            const canonical = String($group.find('.lexical-field-canonical').val() || '').trim();
+            const synonyms = buildSynonymsFromGroup($group, canonical, { caseSensitive });
 
             groups.push({
-                identifier: String($group.find('.lexical-field-identifier').val() || '').trim(),
-                synonyms: readVariantsFromGroup($group, options),
+                identifier,
+                canonical,
+                synonyms,
                 draftVariant: $group.find('.lexical-field-variant-input').length > 0
             });
         });
@@ -258,7 +336,8 @@ define([
             .find('input[name="allowLexicalFieldsOnScoring"]')
             .prop('checked');
         config.lexicalGroups = readLexicalGroupsFromForm($responseForm, {
-            caseSensitive: config.caseSensitive
+            caseSensitive: config.caseSensitive,
+            existingGroups: config.lexicalGroups
         });
 
         setConfig(widget, config);
@@ -300,6 +379,7 @@ define([
         const config = getConfig(widget);
         const $groups = $responseForm.find('.lexical-field-groups');
         const focusGroupIndex = options && options.focusGroupIndex;
+        const focusCanonical = !!(options && options.focusCanonical);
 
         $groups.empty();
 
@@ -310,12 +390,16 @@ define([
         formElement.initWidget($responseForm.find('.lexical-field-groups'));
 
         if (_.isNumber(focusGroupIndex)) {
-            const $input = $groups
-                .find(`.lexical-field-group[data-group-index="${focusGroupIndex}"] .lexical-field-variant-input`)
-                .first();
+            const $group = $groups.find(`.lexical-field-group[data-group-index="${focusGroupIndex}"]`);
+            const $input = focusCanonical
+                ? $group.find('.lexical-field-canonical').first()
+                : $group.find('.lexical-field-variant-input').first();
 
             if ($input.length) {
-                $input.trigger('focus');
+                // Defer focus so it does not cancel/alter the click that added the group.
+                setTimeout(function () {
+                    $input.trigger('focus');
+                }, 0);
             }
         }
     };
@@ -331,9 +415,22 @@ define([
     };
 
     /**
+     * Clear the post-mousedown click suppression flag.
+     */
+    const clearSuppressNextActionClick = function clearSuppressNextActionClick() {
+        suppressNextActionClick = false;
+
+        if (suppressNextActionClickTimer) {
+            clearTimeout(suppressNextActionClickTimer);
+            suppressNextActionClickTimer = null;
+        }
+    };
+
+    /**
      * Run lexical-field actions from mousedown (pointer, before blur) or click
      * (keyboard). Skip the click that follows a handled mousedown so pointer
-     * actions do not double-fire.
+     * actions do not double-fire. Do not clear suppression with setTimeout(0):
+     * that can run before click when refresh/rebind yields to the browser.
      *
      * @param {Function} action
      * @returns {Function}
@@ -341,22 +438,29 @@ define([
     const bindPointerOrKeyboardAction = function bindPointerOrKeyboardAction(action) {
         return function (e) {
             if (e.type === 'mousedown') {
-                e.preventDefault();
-                suppressVariantBlurCommit = true;
-                suppressNextActionClick = true;
-                action.call(this, e);
-                setTimeout(function () {
-                    suppressNextActionClick = false;
-                }, 0);
-                return;
-            }
+                // Primary button only; ignore right/middle click.
+                if (typeof e.which === 'number' && e.which !== 0 && e.which !== 1) {
+                    return;
+                }
 
-            if (suppressNextActionClick) {
-                suppressNextActionClick = false;
+                e.preventDefault();
+                e.stopPropagation();
+                suppressVariantBlurCommit = true;
+                clearSuppressNextActionClick();
+                suppressNextActionClick = true;
+                // Fallback if the browser never delivers click (drag-off, etc.).
+                suppressNextActionClickTimer = setTimeout(clearSuppressNextActionClick, 500);
+                action.call(this, e);
                 return;
             }
 
             e.preventDefault();
+
+            if (suppressNextActionClick) {
+                clearSuppressNextActionClick();
+                return;
+            }
+
             action.call(this, e);
         };
     };
@@ -372,6 +476,39 @@ define([
     };
 
     /**
+     * Commit the canonical input into config and re-render chips.
+     *
+     * @param {jQuery} $input
+     * @param {jQuery} $responseForm
+     * @param {Object} widget
+     */
+    const commitCanonicalInput = function commitCanonicalInput($input, $responseForm, widget) {
+        const $group = $input.closest('.lexical-field-group');
+        const groupIndex = parseInt($group.data('group-index'), 10);
+        const config = getConfig(widget);
+
+        if (_.isNaN(groupIndex) || !config.lexicalGroups[groupIndex]) {
+            return;
+        }
+
+        const canonical = String($input.val() || '').trim();
+        const synonyms = buildSynonymsFromGroup($group, canonical, {
+            caseSensitive: config.caseSensitive
+        });
+        const identifier =
+            String($group.attr('data-group-identifier') || config.lexicalGroups[groupIndex].identifier || '').trim() ||
+            evaluationHelper.buildNextLexicalGroupIdentifier(config.lexicalGroups);
+
+        config.lexicalGroups[groupIndex].identifier = identifier;
+        config.lexicalGroups[groupIndex].canonical = canonical;
+        config.lexicalGroups[groupIndex].synonyms = synonyms;
+        config.lexicalGroups[groupIndex].draftVariant = $group.find('.lexical-field-variant-input').length > 0;
+
+        setConfig(widget, config);
+        refreshLexicalFields($responseForm, widget);
+    };
+
+    /**
      * @param {jQuery} $responseForm
      * @param {Object} widget
      * @param {{skipInitialRender?: boolean}} [options]
@@ -379,12 +516,12 @@ define([
     const bindEvents = function bindEvents($responseForm, widget, options) {
         const interaction = widget.element;
         const skipInitialRender = !!(options && options.skipInitialRender);
-        const debouncedSyncIdentifier = _.debounce(function () {
+        const debouncedSyncCanonical = _.debounce(function () {
             syncConfigFromForm($responseForm, widget);
         }, 300);
 
         cancelDebouncedSync(widget);
-        widget._textEntryEvaluationDebouncedSync = debouncedSyncIdentifier;
+        widget._textEntryEvaluationDebouncedSync = debouncedSyncCanonical;
 
         $responseForm.off(NS);
         bindVariantBlurGuard($responseForm);
@@ -410,26 +547,75 @@ define([
             syncConfigFromForm($responseForm, widget);
         });
 
-        $responseForm.on(`input${NS}`, '.lexical-field-identifier', debouncedSyncIdentifier);
+        $responseForm.on(`input${NS}`, '.lexical-field-canonical', debouncedSyncCanonical);
 
-        $responseForm.on(
-            `mousedown${NS} click${NS}`,
-            '[data-action="add-lexical-field"]',
-            bindPointerOrKeyboardAction(function () {
+        $responseForm.on(`keydown${NS}`, '.lexical-field-canonical', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                commitCanonicalInput($(this), $responseForm, widget);
+            }
+        });
+
+        $responseForm.on(`blur${NS}`, '.lexical-field-canonical', function (e) {
+            if (suppressVariantBlurCommit) {
+                return;
+            }
+
+            const related = e.relatedTarget || document.activeElement;
+            if (
+                related &&
+                $(related).closest(
+                    '[data-action="add-lexical-field"], [data-action="add-variant"], [data-action="remove-variant"], [data-action="remove-lexical-field"]'
+                ).length
+            ) {
+                return;
+            }
+
+            commitCanonicalInput($(this), $responseForm, widget);
+        });
+
+        $responseForm.on(`mousedown${NS}`, '[data-action="add-lexical-field"]', function () {
+            // Only guard blur commits; the add button is outside the rebuilt
+            // groups container, so the action itself must run on click only.
+            // Running add on both mousedown and click doubles groups once a
+            // canonical field is focused (first add often cancels click via focus()).
+            suppressVariantBlurCommit = true;
+        });
+
+        $responseForm.on(`click${NS}`, '[data-action="add-lexical-field"]', function (e) {
+            e.preventDefault();
+
+            if (widget._addingLexicalField) {
+                return;
+            }
+
+            widget._addingLexicalField = true;
+
+            try {
                 syncConfigFromForm($responseForm, widget);
                 const config = getConfig(widget);
+                const identifier = evaluationHelper.buildNextLexicalGroupIdentifier(
+                    config.lexicalGroups
+                );
 
-                config.lexicalGroups.push({
-                    identifier: '',
+                // Newest lexical group appears at the top of the list.
+                config.lexicalGroups.unshift({
+                    identifier,
+                    canonical: '',
                     synonyms: [],
-                    draftVariant: true
+                    draftVariant: false
                 });
                 setConfig(widget, config);
                 refreshLexicalFields($responseForm, widget, {
-                    focusGroupIndex: config.lexicalGroups.length - 1
+                    focusGroupIndex: 0,
+                    focusCanonical: true
                 });
-            })
-        );
+            } finally {
+                setTimeout(function () {
+                    widget._addingLexicalField = false;
+                }, 0);
+            }
+        });
 
         $responseForm.on(
             `mousedown${NS} click${NS}`,
@@ -486,13 +672,17 @@ define([
                 if (
                     _.isNaN(groupIndex) ||
                     _.isNaN(variantIndex) ||
+                    variantIndex === 0 ||
                     !config.lexicalGroups[groupIndex] ||
                     !config.lexicalGroups[groupIndex].synonyms[variantIndex]
                 ) {
+                    // Index 0 is the canonical chip and is not removable from the variants list.
                     return;
                 }
 
                 config.lexicalGroups[groupIndex].synonyms.splice(variantIndex, 1);
+                config.lexicalGroups[groupIndex].canonical =
+                    config.lexicalGroups[groupIndex].synonyms[0] || '';
                 config.lexicalGroups[groupIndex].draftVariant = false;
                 setConfig(widget, config);
                 refreshLexicalFields($responseForm, widget);
@@ -505,25 +695,36 @@ define([
             const config = getConfig(widget);
             const value = String($input.val()).trim();
             const chipVariants = readChipVariantsFromGroup($group);
+            const canonical = String(
+                $group.find('.lexical-field-canonical').val() ||
+                    (config.lexicalGroups[groupIndex] && config.lexicalGroups[groupIndex].canonical) ||
+                    ''
+            ).trim();
 
             if (!config.lexicalGroups[groupIndex]) {
                 return;
             }
 
-            config.lexicalGroups[groupIndex].identifier = String(
-                $group.find('.lexical-field-identifier').val() || ''
-            ).trim();
+            const identifier =
+                String(
+                    $group.attr('data-group-identifier') || config.lexicalGroups[groupIndex].identifier || ''
+                ).trim() || evaluationHelper.buildNextLexicalGroupIdentifier(config.lexicalGroups);
+
+            config.lexicalGroups[groupIndex].identifier = identifier;
+            config.lexicalGroups[groupIndex].canonical = canonical;
 
             if (value && evaluationHelper.hasLexicalVariant(chipVariants, value, config.caseSensitive)) {
                 showVariantInputError($input, DUPLICATE_VARIANT_MESSAGE);
-                config.lexicalGroups[groupIndex].synonyms = chipVariants;
+                config.lexicalGroups[groupIndex].synonyms = mergeCanonicalIntoSynonyms(canonical, chipVariants, {
+                    caseSensitive: config.caseSensitive
+                });
                 config.lexicalGroups[groupIndex].draftVariant = true;
                 setConfig(widget, config);
                 return;
             }
 
             disposeVariantInputTooltip($input);
-            config.lexicalGroups[groupIndex].synonyms = readVariantsFromGroup($group, {
+            config.lexicalGroups[groupIndex].synonyms = buildSynonymsFromGroup($group, canonical, {
                 caseSensitive: config.caseSensitive
             });
             config.lexicalGroups[groupIndex].draftVariant = false;
@@ -565,10 +766,11 @@ define([
         $responseForm.off(DOC_NS);
         $(document).off(`mouseup${DOC_NS}`);
         suppressVariantBlurCommit = false;
-        suppressNextActionClick = false;
+        clearSuppressNextActionClick();
 
         if (widget) {
             delete widget._textEntryEvaluationConfig;
+            delete widget._addingLexicalField;
         }
     };
 
@@ -580,6 +782,7 @@ define([
         flushOpenForms,
         readChipVariantsFromGroup,
         readVariantsFromGroup,
-        readLexicalGroupsFromForm
+        readLexicalGroupsFromForm,
+        mergeCanonicalIntoSynonyms
     };
 });

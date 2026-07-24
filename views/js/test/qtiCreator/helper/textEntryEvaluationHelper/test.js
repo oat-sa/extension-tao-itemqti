@@ -222,6 +222,72 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.strictEqual(evaluationHelper.buildDefaultLexicalGroupIdentifier(2), 'GROUP_3');
     });
 
+    QUnit.test('buildNextLexicalGroupIdentifier allocates unused GROUP_n values', assert => {
+        assert.strictEqual(evaluationHelper.buildNextLexicalGroupIdentifier([]), 'GROUP_1');
+        assert.strictEqual(
+            evaluationHelper.buildNextLexicalGroupIdentifier([{ identifier: 'GROUP_1', synonyms: ['a'] }]),
+            'GROUP_2'
+        );
+        assert.strictEqual(
+            evaluationHelper.buildNextLexicalGroupIdentifier([
+                { identifier: 'GROUP_1', synonyms: ['a'] },
+                { identifier: 'GROUP_2', synonyms: ['b'] }
+            ]),
+            'GROUP_3'
+        );
+        assert.strictEqual(
+            evaluationHelper.buildNextLexicalGroupIdentifier([
+                { identifier: 'CUSTOM', synonyms: ['a'] },
+                { identifier: 'GROUP_1', synonyms: ['b'] }
+            ]),
+            'GROUP_2'
+        );
+        assert.strictEqual(
+            evaluationHelper.buildNextLexicalGroupIdentifier([
+                { identifier: 'GROUP_1', synonyms: ['a'] },
+                { identifier: 'GROUP_3', synonyms: ['b'] }
+            ]),
+            'GROUP_2'
+        );
+    });
+
+    QUnit.test('normalizeLexicalGroups preserves legacy custom identifiers on load', assert => {
+        const groups = evaluationHelper.normalizeLexicalGroups([
+            {
+                identifier: 'FRANCE',
+                canonical: 'France',
+                synonyms: ['France', 'FR']
+            },
+            {
+                identifier: '',
+                synonyms: []
+            }
+        ]);
+
+        assert.strictEqual(groups[0].identifier, 'FRANCE');
+        assert.strictEqual(groups[0].canonical, 'France');
+        assert.deepEqual(groups[0].synonyms, ['France', 'FR']);
+        assert.strictEqual(groups[1].identifier, 'GROUP_2');
+        assert.strictEqual(groups[1].canonical, '');
+        assert.deepEqual(groups[1].synonyms, []);
+    });
+
+    QUnit.test('parseDataUmfiValues keeps custom group ids and assigns GROUP_n for legacy arrays', assert => {
+        const modernGroups = evaluationHelper.parseDataUmfiValues(
+            '[{"group":"CUSTOM_ID","canonical":"Apple","variants":["Apple","apples"]}]'
+        );
+
+        assert.strictEqual(modernGroups[0].identifier, 'CUSTOM_ID');
+        assert.strictEqual(modernGroups[0].canonical, 'Apple');
+        assert.deepEqual(modernGroups[0].synonyms, ['Apple', 'apples']);
+
+        const emptyModern = evaluationHelper.normalizeLexicalGroups([
+            { identifier: '', canonical: '', synonyms: [] }
+        ]);
+
+        assert.strictEqual(emptyModern[0].identifier, 'GROUP_1');
+    });
+
     QUnit.test('buildGroupOutcomeId appends FOUND suffix to identifier base', assert => {
         assert.strictEqual(evaluationHelper.buildGroupOutcomeId('APPLE'), 'APPLE_FOUND');
         assert.strictEqual(evaluationHelper.buildGroupOutcomeId('GROUP_1'), 'GROUP_1_FOUND');

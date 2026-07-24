@@ -1,13 +1,12 @@
-<div class="lexical-field-group" data-group-index="{{index}}">
+<div class="lexical-field-group" data-group-index="{{index}}" data-group-identifier="{{identifier}}">
     <div class="lexical-field-group-header">
         <input type="text"
-               id="lexicalFieldIdentifier-{{index}}"
-               class="lexical-field-identifier"
-               name="lexicalFieldIdentifier-{{index}}"
-               value="{{identifier}}"
-               placeholder="e.g. GROUP_1"
-               aria-label="{{__ 'Lexical field identifier'}}"
-               data-validate="$notEmpty; $qtiLexicalGroupIdentifier{{#if textEntrySerial}}(serial={{textEntrySerial}}){{/if}};" />
+               id="lexicalFieldCanonical-{{index}}"
+               class="lexical-field-canonical"
+               name="lexicalFieldCanonical-{{index}}"
+               value="{{canonical}}"
+               placeholder="{{__ 'e.g. Apple'}}"
+               aria-label="{{__ 'Lexical field canonical value'}}" />
         <span class="trigger icon-bin lexical-field-remove"
               data-action="remove-lexical-field"
               role="button"
@@ -20,14 +19,16 @@
         <div class="lexical-field-variant-chips">
             {{#each synonyms}}
             {{#if this}}
-            <span class="lexical-field-variant-chip" data-variant-index="{{@index}}">
+            <span class="lexical-field-variant-chip{{#unless @first}} has-remove{{/unless}}" data-variant-index="{{@index}}">
                 <span class="variant-text">{{this}}</span>
+                {{#unless @first}}
                 <span class="icon-close variant-remove"
                       data-action="remove-variant"
                       role="button"
                       tabindex="0"
                       title="{{__ 'Remove variant'}}"
                       aria-label="{{__ 'Remove variant'}}"></span>
+                {{/unless}}
             </span>
             {{/if}}
             {{/each}}

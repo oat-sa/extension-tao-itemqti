@@ -473,8 +473,8 @@ body.solar-design .item-editor-choice-related .text-entry-evaluation-panel .acti
   gap: 0.5rem;
   margin-bottom: 0.75rem;
 }
-.item-editor-response-related .text-entry-evaluation-panel .lexical-field-group-header .lexical-field-identifier,
-.item-editor-choice-related .text-entry-evaluation-panel .lexical-field-group-header .lexical-field-identifier {
+.item-editor-response-related .text-entry-evaluation-panel .lexical-field-group-header .lexical-field-canonical,
+.item-editor-choice-related .text-entry-evaluation-panel .lexical-field-group-header .lexical-field-canonical {
   flex: 1;
   min-width: 0;
   margin: 0;
@@ -522,6 +522,10 @@ body.solar-design .item-editor-choice-related .text-entry-evaluation-panel .acti
   font-size: 13px;
   font-size: 1.3rem;
   line-height: 1.3;
+}
+.item-editor-response-related .text-entry-evaluation-panel .lexical-field-variant-chip:not(.has-remove),
+.item-editor-choice-related .text-entry-evaluation-panel .lexical-field-variant-chip:not(.has-remove) {
+  padding-right: 0.5rem;
 }
 .item-editor-response-related .text-entry-evaluation-panel .lexical-field-variant-chip .variant-text,
 .item-editor-choice-related .text-entry-evaluation-panel .lexical-field-variant-chip .variant-text {

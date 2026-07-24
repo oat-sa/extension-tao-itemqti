@@ -606,7 +606,7 @@ define([
 
     /**
      * Outcome declaration id derived from a lexical-field identifier.
-     * Appends `_FOUND` when missing (APPLE → APPLE_FOUND). The UI identifier itself is not renamed.
+     * Appends `_FOUND` when missing (GROUP_1 → GROUP_1_FOUND).
      *
      * @param {string} identifier
      * @returns {string}
@@ -652,7 +652,7 @@ define([
     const buildNextLexicalGroupIdentifier = function buildNextLexicalGroupIdentifier(groups) {
         const normalized = normalizeLexicalGroups(groups || []);
         const usedIdentifiers = _.map(normalized, 'identifier');
-        let index = normalized.length;
+        let index = 0;
         let identifier = buildDefaultLexicalGroupIdentifier(index);
 
         while (_.includes(usedIdentifiers, identifier)) {
@@ -719,7 +719,8 @@ define([
             const synonyms = explicitCanonical
                 ? _.uniq([explicitCanonical].concat(rawSynonyms))
                 : rawSynonyms;
-            // Prefer the authoring identifier as typed in the input; do not rename it with _FOUND.
+            // Prefer an existing authoring identifier (legacy or previously assigned);
+            // otherwise allocate GROUP_n. Do not rename with _FOUND here.
             const requestedIdentifier = String(
                 group.identifier || group.groupIdentifier || group.label || ''
             ).trim();
@@ -750,7 +751,8 @@ define([
             return {
                 id,
                 identifier,
-                canonical: synonyms[0] || '',
+                // Prefer explicit canonical when provided; otherwise first synonym.
+                canonical: explicitCanonical || synonyms[0] || '',
                 synonyms,
                 draftVariant: !!group.draftVariant
             };
@@ -834,9 +836,9 @@ define([
                 }
 
                 return {
-                    // Authoring identifier as typed (no _FOUND). Outcome id is derived via buildGroupOutcomeId.
+                    // System-assigned (or legacy) authoring identifier; outcome id uses *_FOUND.
                     group: group.identifier,
-                    canonical: synonyms[0],
+                    canonical: group.canonical || synonyms[0],
                     variants: synonyms
                 };
             })
