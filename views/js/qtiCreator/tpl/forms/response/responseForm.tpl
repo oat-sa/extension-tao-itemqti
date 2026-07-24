@@ -39,9 +39,11 @@
     </select>
 </div>
 
+{{#if showMultiFieldScoring}}
 {{> scoringModel }}
 
 {{> textEntryEvaluation }}
+{{/if}}
 {{/if}}
 
 {{#if editMapping}}

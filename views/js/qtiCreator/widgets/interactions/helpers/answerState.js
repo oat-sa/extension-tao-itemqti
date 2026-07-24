@@ -32,6 +32,7 @@ define([
     'taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper',
     'taoQtiItem/qtiCreator/helper/scoringModelForm',
     'taoQtiItem/qtiCreator/helper/scoringModelHelper',
+    'taoQtiItem/qtiCreator/widgets/helpers/featureFlags',
     'text!taoQtiItem/qtiCreator/tpl/forms/response/textEntryEvaluation.tpl',
     'text!taoQtiItem/qtiCreator/tpl/forms/response/lexicalFieldGroup.tpl',
     'text!taoQtiItem/qtiCreator/tpl/forms/response/scoringModel.tpl',
@@ -53,6 +54,7 @@ define([
     textEntryEvaluationHelper,
     scoringModelForm,
     scoringModelHelper,
+    featureFlags,
     textEntryEvaluationPartial,
     lexicalFieldGroupPartial,
     scoringModelPartial,
@@ -262,10 +264,13 @@ define([
 
             const isTextEntryInteraction =
                 interaction.qtiClass === allQtiElements.textEntryInteraction.qtiClass;
-            const scoringModelConfig = isTextEntryInteraction
+            const showMultiFieldScoring =
+                isTextEntryInteraction && featureFlags.isMultiFieldScoringAvailable();
+            const scoringModelConfig = showMultiFieldScoring
                 ? scoringModelHelper.getScoringModelConfig(interaction)
                 : { model: scoringModelHelper.MODEL_SIMPLE_SUM };
             const isScoringModelManaged =
+                showMultiFieldScoring &&
                 scoringModelConfig.model !== scoringModelHelper.MODEL_SIMPLE_SUM;
 
             // Scoring-model RP is stored as custom XML but authoring stays on map response.
@@ -286,10 +291,10 @@ define([
             const editMapping = _.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0;
             const defineCorrect = answerStateHelper.defineCorrect(response);
 
-            const evaluationTplData = isTextEntryInteraction
+            const evaluationTplData = showMultiFieldScoring
                 ? textEntryEvaluationForm.getTplData(interaction)
                 : {};
-            const scoringModelTplData = isTextEntryInteraction
+            const scoringModelTplData = showMultiFieldScoring
                 ? scoringModelForm.getTplData(interaction)
                 : {};
 
@@ -313,6 +318,7 @@ define([
                             listOfBaseType: listOfBaseType,
                             listOfBaseTypes: _getAvailableListOfBaseTypes(listOfBaseType),
                             textEntryInteraction: isTextEntryInteraction,
+                            showMultiFieldScoring: showMultiFieldScoring,
                             defaultValue: response.getMappingAttribute('defaultValue')
                         },
                         evaluationTplData,
@@ -364,9 +370,10 @@ define([
                     response.setMappingAttribute(key, value);
                 },
                 template: function (res, value) {
-                    const activeScoringModel = isTextEntryInteraction
-                        ? scoringModelHelper.getScoringModelConfig(interaction)
-                        : { model: scoringModelHelper.MODEL_SIMPLE_SUM };
+                    const activeScoringModel =
+                        isTextEntryInteraction && featureFlags.isMultiFieldScoringAvailable()
+                            ? scoringModelHelper.getScoringModelConfig(interaction)
+                            : { model: scoringModelHelper.MODEL_SIMPLE_SUM };
                     const scoringManaged =
                         activeScoringModel.model !== scoringModelHelper.MODEL_SIMPLE_SUM;
 
@@ -429,7 +436,7 @@ define([
 
             formElement.initWidget(widget.$responseForm);
 
-            if (isTextEntryInteraction) {
+            if (showMultiFieldScoring) {
                 scoringModelForm.bindEvents(widget.$responseForm, widget);
                 textEntryEvaluationForm.bindEvents(widget.$responseForm, widget);
 

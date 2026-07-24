@@ -19,9 +19,10 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/qtiCreator/helper/scoringModelHelper',
+    'taoQtiItem/qtiCreator/widgets/helpers/featureFlags',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/response/scoringModelLevel'
-], function ($, _, scoringModelHelper, formElement, scoringModelLevelTpl) {
+], function ($, _, scoringModelHelper, featureFlags, formElement, scoringModelLevelTpl) {
     'use strict';
 
     const NS = '.scoringModel';
@@ -43,7 +44,9 @@ define([
      * @returns {Object}
      */
     const getTplData = function getTplData(interaction) {
-        const showScoringModel = scoringModelHelper.shouldShowScoringModel(interaction);
+        const showScoringModel =
+            featureFlags.isMultiFieldScoringAvailable() &&
+            scoringModelHelper.shouldShowScoringModel(interaction);
         const config = scoringModelHelper.getScoringModelConfig(interaction);
         const model = config.model;
         const thresholds = scoringModelHelper.ensureThresholdsForModel(model, config.thresholds);
