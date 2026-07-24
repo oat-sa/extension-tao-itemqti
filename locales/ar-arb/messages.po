@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2026.02 LTS\n"
-"PO-Revision-Date: 2026-02-03T14:42:06\n"
+"Project-Id-Version: TAO 2026.08 LTS\n"
+"PO-Revision-Date: 2026-07-24T15:37:50\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar-arb\n"
@@ -70,41 +70,43 @@ msgstr "تم استيراد بند واحد من مستند بند QTI/APIP XML 
 msgid "1/3 of height"
 msgstr ""
 
-msgid "1/4 of height"
-msgstr ""
-
-msgid "2/3 of height"
-msgstr ""
-
-msgid "3/4 of height"
-msgstr ""
-
 msgid "1/3 of width"
+msgstr ""
+
+msgid "1/4 of height"
 msgstr ""
 
 msgid "1/4 of width"
 msgstr ""
 
+msgid "2/3 of height"
+msgstr ""
+
 msgid "2/3 of width"
+msgstr ""
+
+msgid "3/4 of height"
 msgstr ""
 
 msgid "3/4 of width"
 msgstr ""
 
-msgid "Full width"
-msgstr ""
-
-msgid "Half width"
-msgstr ""
-
 msgid "A choice must be selected"
 msgstr "يجب تحديد خيار"
+
+msgid "A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image."
+msgstr ""
 
 msgid "A human interpretation of the variable's value."
 msgstr "تفسير بشري لقيمة المتغير."
 
+msgid "A Lexical Field groups a canonical answer and optional variants into a single expected response. The canonical value is stored in the item data and used for response processing; only additional variants are listed here. Group identifiers are assigned automatically."
+msgstr ""
+
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
+""
 msgstr "مكون QTI غير مدعوم.أرجع النظام الخطأ التالي: %s\n"
+""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "حدد مجموعة نموذج التقييم جزءًا من بند التقييم ، وهو الجزء الذي يمثل الإرشادات لواحد أو أكثر من الممثلين الذين يعرضون البند. على الرغم من تعريف كتل القاعدة على أنها كتل بسيطة ، إلا أنها يجب ألا تحتوي على تفاعلات."
@@ -139,6 +141,12 @@ msgstr "إضافة خيار"
 msgid "Add else feedback"
 msgstr "إضافة ملاحظات أخرى"
 
+msgid "Add level"
+msgstr ""
+
+msgid "Add lexical field"
+msgstr ""
+
 msgid "Add new column"
 msgstr ""
 
@@ -151,14 +159,23 @@ msgstr ""
 msgid "Add Style Sheet"
 msgstr "أضف ورقة الأنماط"
 
+msgid "Add variant"
+msgstr ""
+
 msgid "after"
 msgstr ""
 
 msgid "Alignment"
 msgstr "المحاذاة"
 
+msgid "All-or-nothing scoring. A single score is awarded only when the configured threshold is reached."
+msgstr ""
+
 msgid "Allow elimination"
 msgstr "السماح بالحذف"
+
+msgid "Allow evaluators to extend the Lexical Field list"
+msgstr ""
 
 msgid "Allowed associations"
 msgstr "الجمعيات المسموح بها"
@@ -209,7 +226,9 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "حدث خطأ غير متوقع أثناء استيراد حزمة بنود IMS QTI . أرجع النظام الخطأ التالي.: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
+""
 msgstr "حدث خطأ غير متوقع أثناء استيراد بند QTI.أرجع النظام الخطأ التالي: %s\n"
+""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr ""
@@ -226,11 +245,20 @@ msgstr "حزمة محتوى APIP"
 msgid "Apip Package successfully exported."
 msgstr "تم تصدير حزمة Apip بنجاح."
 
+msgid "Applies to all Text Entry interactions in this item"
+msgstr ""
+
 msgid "Arc"
 msgstr ""
 
 msgid "Arrange a list of choices in the correct order."
 msgstr "رتب قائمة بالاختيارات بالترتيب الصحيح."
+
+msgid "Arrow"
+msgstr ""
+
+msgid "Arrow direction: start hotspot to end hotspot."
+msgstr ""
 
 msgid "Associate"
 msgstr "Associate"
@@ -238,8 +266,14 @@ msgstr "Associate"
 msgid "Associate Interaction"
 msgstr "تفاعل الشريك"
 
+msgid "Association display"
+msgstr ""
+
 msgid "association pairs"
 msgstr "شراكة مزدوجة"
+
+msgid "Association role"
+msgstr ""
 
 msgid "at least"
 msgstr "على الأقل"
@@ -252,6 +286,9 @@ msgstr "بدء أتوماتيكي"
 
 msgid "Back to Manage Items"
 msgstr "عودة إلى إدارة البنود"
+
+msgid "Back to test authoring"
+msgstr ""
 
 msgid "Background color"
 msgstr "لون الخلفية"
@@ -364,6 +401,12 @@ msgstr ""
 msgid "Class successfully created."
 msgstr "تم إنشاء الفصل بنجاح."
 
+msgid "Classic"
+msgstr ""
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr ""
+
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr "يجب أن تكون إدخالات التصنيف مثيلاً لـ ClassificationEntryMetadataValue"
 
@@ -380,6 +423,9 @@ msgid "Click to display interaction widget"
 msgstr "انقر لعرض أداة التفاعل"
 
 msgid "Click to remove"
+msgstr ""
+
+msgid "Close"
 msgstr ""
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
@@ -403,6 +449,15 @@ msgstr "التفاعلات المشتركة"
 msgid "Compact Appearance"
 msgstr ""
 
+msgid "Configures the position of the choices relative to the answer area."
+msgstr ""
+
+msgid "Configures the position of the choices relative to the gaps."
+msgstr ""
+
+msgid "Configures the position of the choices relative to the image."
+msgstr ""
+
 msgid "Configures the position of the choices relative to the target list."
 msgstr ""
 
@@ -415,11 +470,17 @@ msgstr "ملف تار المضغوط"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "تحكم في معلمات التشغيل (بدء أتوماتيكي ، حلقة) لملف فيديو أو صوت وأبلغ عن عدد مرات تشغيله."
 
+msgid "Controls the visual style of association links. Line shows non-directional links. Arrow adds an arrowhead to indicate direction and works together with Start/End hotspot settings."
+msgstr ""
+
 msgid "Correct"
 msgstr ""
 
 msgid "correct"
 msgstr "صحيح"
+
+msgid "Correct responses"
+msgstr ""
 
 msgid "Cosine"
 msgstr ""
@@ -438,6 +499,9 @@ msgstr "قم بإنشاء روابط بين  hotspots المعروضة على ا
 
 msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
 msgstr "قم بإنشاء اقتران (روابط) بين مجموعتين من الاختيارات المعروضة في جدول (صف وعمود)."
+
+msgid "Create associations and fill the score in the form below"
+msgstr ""
 
 msgid "Create gap"
 msgstr "خلق فجوة"
@@ -470,12 +534,6 @@ msgid "Custom Response Processing Mode"
 msgstr "وضع معالجةالجواب المخصصة"
 
 msgid "Dashed"
-msgstr ""
-
-msgid "Solid"
-msgstr ""
-
-msgid "Wavy"
 msgstr ""
 
 msgid "Default"
@@ -514,8 +572,17 @@ msgstr "حدد ما إذا كان البند يجب أن يعتمد على ال�
 msgid "Defined width"
 msgstr "العرض المحدد"
 
+msgid "Defines how interaction points are transformed into the final item score."
+msgstr ""
+
+msgid "Defines how multiple Text Entry interactions are evaluated."
+msgstr ""
+
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "يحدد الحد الأقصى لمقدار متغيرات النتيجة الرقمية ، يجب أن يكون الحد الأقصى قيمة موجبة والحد الأدنى قد يكون سالبًا."
+
+msgid "Defines whether this hotspot can be used as the start and/or end of an association."
+msgstr ""
 
 msgid "Degrees"
 msgstr ""
@@ -547,6 +614,9 @@ msgstr ""
 msgid "Description"
 msgstr "وصف"
 
+msgid "Dichotomous"
+msgstr ""
+
 msgid "Direction of writing"
 msgstr ""
 
@@ -562,8 +632,14 @@ msgstr ""
 msgid "Display the choices either horizontally or vertically"
 msgstr "اعرض الاختيارات إما أفقيًا أو رأسيًا"
 
+msgid "Displays the slider bar either horizontally or vertically"
+msgstr ""
+
 msgid "Divide"
 msgstr "يقسم"
+
+msgid "Document"
+msgstr ""
 
 msgid "Don't save"
 msgstr ""
@@ -604,6 +680,15 @@ msgstr "على سبيل المثال 13"
 msgid "e.g. 960"
 msgstr "على سبيل المثال 960"
 
+msgid "e.g. Apple"
+msgstr ""
+
+msgid "Each interaction contributes its own points to the final item score. The final score is the sum of all interaction scores."
+msgstr ""
+
+msgid "each response must be entered in its corresponding field."
+msgstr ""
+
 msgid "Edit"
 msgstr "الإصدار"
 
@@ -628,6 +713,9 @@ msgstr "تحرير تسمية ورقة الأنماط"
 msgid "Editing Mode"
 msgstr "وضع التحرير"
 
+msgid "Editor type"
+msgstr ""
+
 msgid "Element Properties"
 msgstr "خصائص العنصر"
 
@@ -643,8 +731,14 @@ msgstr "تمكين التمرير"
 msgid "Enable the test taker to pause and restart the playing."
 msgstr "قم بتمكين المتقدم للاختبار من إيقاف التشغيل مؤقتًا وإعادة تشغيله."
 
+msgid "Enable this option if the list of expected answers may need to be extended during evaluation."
+msgstr ""
+
 msgid "Enable/disable scrolling."
 msgstr "تمكين / تعطيل التمرير."
+
+msgid "End (target)"
+msgstr ""
 
 msgid "End Attempt"
 msgstr "إنهاء المحاولة"
@@ -690,6 +784,12 @@ msgstr "خطأ في تصدير البند   %s: %s"
 
 msgid "Euler\'s constant"
 msgstr "ثابت أويلر"
+
+msgid "Evaluate Text Entry interactions as Unordered Multi-Field"
+msgstr ""
+
+msgid "Evaluation"
+msgstr ""
 
 msgid "Exponent"
 msgstr "متسارع"
@@ -778,6 +878,9 @@ msgstr "جزء"
 msgid "Full height"
 msgstr ""
 
+msgid "Full width"
+msgstr ""
+
 msgid "Gap"
 msgstr "الفارق"
 
@@ -809,6 +912,9 @@ msgid "Guard for resource \"%s\"..."
 msgstr "حماية للمورد \"%s\" ..."
 
 msgid "Half height"
+msgstr ""
+
+msgid "Half width"
 msgstr ""
 
 msgid "Height"
@@ -855,6 +961,9 @@ msgstr ""
 
 msgid "identifier already taken"
 msgstr "المعرف مأخوذ بالفعل"
+
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr ""
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
 msgstr ""
@@ -961,7 +1070,13 @@ msgstr "خصائص التفاعل"
 msgid "Interpretation"
 msgstr "تأويل"
 
+msgid "Invalid arrow direction. Create associations from a start hotspot to an end hotspot."
+msgstr ""
+
 msgid "Invalid identifier"
+msgstr ""
+
+msgid "Invalid Lexical Group Identifier"
 msgstr ""
 
 msgid "Invalid Outcome Declaration"
@@ -1072,6 +1187,12 @@ msgstr ""
 
 msgid "Level"
 msgstr "مستوى"
+
+msgid "Lexical field canonical value"
+msgstr ""
+
+msgid "Lexical fields"
+msgstr ""
 
 msgid "Line"
 msgstr ""
@@ -1282,7 +1403,12 @@ msgid "one association pair"
 msgstr "رابط مزدوج واحد"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
+""
 msgstr "لا يدعم النظام مكونًا أو أكثر من مكونات QTI. أرجع النظام الخطأ التالي: %s\n"
+""
+
+msgid "or more"
+msgstr ""
 
 msgid "Order"
 msgstr "ترتيب"
@@ -1298,6 +1424,9 @@ msgstr ""
 
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "اطلب المناطق (النقاط الفعالة) المعروضة على الصورة."
+
+msgid "Ordered"
+msgstr ""
 
 msgid "Orientation"
 msgstr "اتجاه"
@@ -1414,6 +1543,9 @@ msgid "Please type the correct response in the box below."
 msgstr "الرجاء كتابة الإجابة الصحيحة في المربع أدناه."
 
 msgid "Plus/minus"
+msgstr ""
+
+msgid "Polytomous"
 msgstr ""
 
 msgid "Portable element model %s not found. Required extension might be missing"
@@ -1545,6 +1677,12 @@ msgstr "قم بإزالة لون النص المخصص"
 msgid "Remove Instructions"
 msgstr ""
 
+msgid "Remove level"
+msgstr ""
+
+msgid "Remove lexical field"
+msgstr ""
+
 msgid "Remove Message"
 msgstr "قم بإزالة هذه الرسالة"
 
@@ -1556,6 +1694,9 @@ msgstr "قم بإزالة الشكل المحدد"
 
 msgid "Remove this stylesheet"
 msgstr "قم بإزالة ورقة الأنماط هذه"
+
+msgid "Remove variant"
+msgstr ""
 
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr ""
@@ -1599,6 +1740,15 @@ msgstr "معالجة الاستجابة"
 msgid "Response Properties"
 msgstr "خصائص الاستجابة"
 
+msgid "responses can be entered in any field and are evaluated as a set."
+msgstr ""
+
+msgid "Reverse direction"
+msgstr ""
+
+msgid "Reverse the slider bar boundaries"
+msgstr ""
+
 msgid "Rich text"
 msgstr "النص الغني"
 
@@ -1640,6 +1790,12 @@ msgstr "نطاق النتيجة"
 
 msgid "Score value"
 msgstr "قيمة النتيجة"
+
+msgid "Scores"
+msgstr ""
+
+msgid "Scoring Model"
+msgstr ""
 
 msgid "Scrollable multi-column"
 msgstr ""
@@ -1686,13 +1842,13 @@ msgstr "حدد الاختيار الصحيح"
 msgid "Select height of block based off container height"
 msgstr ""
 
+msgid "Select height of block based on container height"
+msgstr ""
+
 msgid "Select height of passage base of container height"
 msgstr ""
 
 msgid "Select height of text block base of container height"
-msgstr ""
-
-msgid "Select width of block based on container width"
 msgstr ""
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
@@ -1749,6 +1905,9 @@ msgstr ""
 msgid "Select this area to start an association"
 msgstr "حدد هذه المنطقة لبدء ارتباط"
 
+msgid "Select width of block based on container width"
+msgstr ""
+
 msgid "Sequential"
 msgstr ""
 
@@ -1770,6 +1929,9 @@ msgstr "تبديل الخيارات عشوائيًا"
 msgid "Similar"
 msgstr ""
 
+msgid "Simple sum"
+msgstr ""
+
 msgid "Sine"
 msgstr ""
 
@@ -1787,6 +1949,9 @@ msgstr "عنصر تحكم/واجهة رسومية"
 
 msgid "Slider Interaction"
 msgstr "تفاعل واجهة رسومية"
+
+msgid "Solid"
+msgstr ""
 
 msgid "Some feedback text."
 msgstr ""
@@ -1808,6 +1973,9 @@ msgstr "الجذر التربيعي"
 
 msgid "standard"
 msgstr "موحد"
+
+msgid "Start (source)"
+msgstr ""
 
 msgid "Status"
 msgstr ""
@@ -1953,6 +2121,9 @@ msgstr "تم استيراد بند IMS QTI بنجاح."
 msgid "The index to use when displaying a variable of ordered cardinality. If a variable of ordered cardinality is to be displayed and index is not set, all the values in the container are displayed."
 msgstr "الفهرس المراد استخدامه عند عرض متغير من أصل مرتب. إذا تم عرض متغير من أصل مرتب ولم يتم تعيين الفهرس ، فسيتم عرض جميع القيم الموجودة في الحاوية."
 
+msgid "The item awards different scores depending on how many correct responses are provided. Configure one or more thresholds with their corresponding scores."
+msgstr ""
+
 msgid "The item cannot be saved because it contains an unsupported custom interaction."
 msgstr "لا يمكن حفظ البند لأنه يحتوي على تفاعل مخصص غير مدعوم."
 
@@ -2077,7 +2248,9 @@ msgid "The upper bound of the slider"
 msgstr "الحد العلوي لشريط التمرير"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
+""
 msgstr "فشل التحقق من صحة بند QTI الذي تم استيراده. أرجع النظام الخطأ التالي: %s\n"
+""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "لا يمكن استخراج أرشيف ZIP الذي يحتوي على بند IMS QTI."
@@ -2122,6 +2295,9 @@ msgid "This stylesheet has not been found on the server. you may want to delete 
 msgstr "لم يتم العثور على ورقة الأنماط هذه على الخادم. قد ترغب في حذف هذا المرجع"
 
 msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
+msgstr ""
+
+msgid "This variant already exists"
 msgstr ""
 
 msgid "Time dependent"
@@ -2184,6 +2360,9 @@ msgstr "الغاء التحميل"
 msgid "Unknown $key to register MetadataService instance"
 msgstr "key$  غير معروف لتسجيل مثيل MetadataService"
 
+msgid "Unordered"
+msgstr ""
+
 msgid "Unregister method expects $key and $name parameters."
 msgstr "تتوقع طريقة إلغاء التسجيل معايير key$ و name$."
 
@@ -2202,6 +2381,12 @@ msgstr "تستخدم للتحكم في تنسيق النص الذي يدخله �
 msgid "Value"
 msgstr "قيمة"
 
+msgid "Variant"
+msgstr ""
+
+msgid "Variants"
+msgstr ""
+
 msgid "Vector"
 msgstr ""
 
@@ -2212,6 +2397,9 @@ msgid "Vertical text"
 msgstr ""
 
 msgid "warning"
+msgstr ""
+
+msgid "Wavy"
 msgstr ""
 
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
@@ -2303,3 +2491,4 @@ msgstr ""
 
 msgid "Your item has been saved"
 msgstr "تم حفظ البند الخاص بك"
+

@@ -1,24 +1,17 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-07-01 10:16\n"
+"Project-Id-Version: TAO 2026.08 LTS\n"
+"PO-Revision-Date: 2026-07-24T15:38:50\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: ja\n"
+"Language: ja-JP\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-US\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"targetLanguage: ja-JP\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Crowdin-Project: tao-open-source\n"
-"X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: ja\n"
-"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
-"X-Crowdin-File-ID: 519\n"
-"Language-Team: Japanese\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " 空欄に当てはまるものを選択肢から選んでください"
@@ -77,41 +70,43 @@ msgstr "指定されたQTI/APIP XML Item Documentから1アイテムがインポ
 msgid "1/3 of height"
 msgstr "高さ:1/3"
 
-msgid "1/4 of height"
-msgstr "高さ:1/4"
-
-msgid "2/3 of height"
-msgstr "高さ:2/3"
-
-msgid "3/4 of height"
-msgstr "高さ:3/4"
-
 msgid "1/3 of width"
 msgstr "幅:1/3"
+
+msgid "1/4 of height"
+msgstr "高さ:1/4"
 
 msgid "1/4 of width"
 msgstr "幅:1/4"
 
+msgid "2/3 of height"
+msgstr "高さ:2/3"
+
 msgid "2/3 of width"
 msgstr "幅:2/3"
+
+msgid "3/4 of height"
+msgstr "高さ:3/4"
 
 msgid "3/4 of width"
 msgstr "幅:3/4"
 
-msgid "Full width"
-msgstr "幅:100%"
-
-msgid "Half width"
-msgstr "幅:1/2"
-
 msgid "A choice must be selected"
 msgstr "必ず１つ選んでください"
+
+msgid "A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image."
+msgstr ""
 
 msgid "A human interpretation of the variable's value."
 msgstr "変数値の翻訳"
 
+msgid "A Lexical Field groups a canonical answer and optional variants into a single expected response. The canonical value is stored in the item data and used for response processing; only additional variants are listed here. Group identifiers are assigned automatically."
+msgstr ""
+
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
+""
 msgstr "QTIコンポーネントはサポートされていません。システムは次のエラーを返しました: %s\n"
+""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "ルーブリックブロックは、アイテムを表示する1つ以上のアクターへの指示を表す評価アイテムのitemBodyの一部を識別します。ルーブリックブロックはsimpleBlocks要素として定義されているのでインタラクションを含めることはできません。"
@@ -146,6 +141,12 @@ msgstr "選択肢を追加"
 msgid "Add else feedback"
 msgstr "他のフィードバックを追加"
 
+msgid "Add level"
+msgstr ""
+
+msgid "Add lexical field"
+msgstr ""
+
 msgid "Add new column"
 msgstr "列の追加"
 
@@ -158,14 +159,23 @@ msgstr "行の追加"
 msgid "Add Style Sheet"
 msgstr "スタイルシート追加"
 
+msgid "Add variant"
+msgstr ""
+
 msgid "after"
 msgstr "後"
 
 msgid "Alignment"
 msgstr "配置"
 
+msgid "All-or-nothing scoring. A single score is awarded only when the configured threshold is reached."
+msgstr ""
+
 msgid "Allow elimination"
 msgstr "消去法の許可"
+
+msgid "Allow evaluators to extend the Lexical Field list"
+msgstr ""
 
 msgid "Allowed associations"
 msgstr "関連付けを許可"
@@ -216,7 +226,9 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "QTIアイテムパッケージのインポート中に予期しないエラーが発生しました。システムは次のエラーを返しました: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
+""
 msgstr "QTIアイテムパッケージのインポート中に予期しないエラーが発生しました。システムは次のエラーを返しました: %s\n"
+""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr "IMS QTI パッケージを識別子でインポートするときに不明なエラーが発生しました。"
@@ -233,11 +245,20 @@ msgstr "APIPコンテンツパッケージ"
 msgid "Apip Package successfully exported."
 msgstr "APIPパッケージのエクスポートが完了しました"
 
+msgid "Applies to all Text Entry interactions in this item"
+msgstr ""
+
 msgid "Arc"
 msgstr "円弧を作成"
 
 msgid "Arrange a list of choices in the correct order."
 msgstr "正しい順序で選択項目のリストを並べます"
+
+msgid "Arrow"
+msgstr ""
+
+msgid "Arrow direction: start hotspot to end hotspot."
+msgstr ""
 
 msgid "Associate"
 msgstr "組合せ"
@@ -245,8 +266,14 @@ msgstr "組合せ"
 msgid "Associate Interaction"
 msgstr "組合せ問題"
 
+msgid "Association display"
+msgstr ""
+
 msgid "association pairs"
 msgstr "組合せ"
+
+msgid "Association role"
+msgstr ""
 
 msgid "at least"
 msgstr "最低"
@@ -422,6 +449,15 @@ msgstr "標準インタラクション"
 msgid "Compact Appearance"
 msgstr "コンパクトな外観"
 
+msgid "Configures the position of the choices relative to the answer area."
+msgstr ""
+
+msgid "Configures the position of the choices relative to the gaps."
+msgstr ""
+
+msgid "Configures the position of the choices relative to the image."
+msgstr ""
+
 msgid "Configures the position of the choices relative to the target list."
 msgstr "選択リストの位置を設定します。"
 
@@ -434,11 +470,17 @@ msgstr "選択肢の解答数制限"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "ビデオまたはオーディオファイルの再生パラメータ（オートスタート、ループ）を制御し、それが再生された回数を報告します"
 
+msgid "Controls the visual style of association links. Line shows non-directional links. Arrow adds an arrowhead to indicate direction and works together with Start/End hotspot settings."
+msgstr ""
+
 msgid "Correct"
 msgstr "正解"
 
 msgid "correct"
 msgstr "正解"
+
+msgid "Correct responses"
+msgstr ""
 
 msgid "Cosine"
 msgstr "cos"
@@ -457,6 +499,9 @@ msgstr "画面上に表示された領域（ホットスポット）との間の
 
 msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
 msgstr "テーブル（行と列）の関連づけを作成します"
+
+msgid "Create associations and fill the score in the form below"
+msgstr ""
 
 msgid "Create gap"
 msgstr "穴埋め作成"
@@ -490,12 +535,6 @@ msgstr "カスタムレスポンス処理モード"
 
 msgid "Dashed"
 msgstr "破線"
-
-msgid "Solid"
-msgstr "実線"
-
-msgid "Wavy"
-msgstr "波線"
 
 msgid "Default"
 msgstr "デフォルト"
@@ -533,8 +572,17 @@ msgstr "アイテムがデリバリにおいて時間制限に依存するかど
 msgid "Defined width"
 msgstr "指定幅"
 
+msgid "Defines how interaction points are transformed into the final item score."
+msgstr ""
+
+msgid "Defines how multiple Text Entry interactions are evaluated."
+msgstr ""
+
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "数値型の結果変数の最大値を設定します。最大値は正の値、最小は負の値にすることができます。"
+
+msgid "Defines whether this hotspot can be used as the start and/or end of an association."
+msgstr ""
 
 msgid "Degrees"
 msgstr "度"
@@ -566,8 +614,12 @@ msgstr "Delta"
 msgid "Description"
 msgstr "説明"
 
+msgid "Dichotomous"
+msgstr ""
+
 msgid "Direction of writing"
 msgstr "縦書き／横書き\n"
+""
 
 msgid "Disable this stylesheet temporarily"
 msgstr "一時的にこのスタイルシートを無効にします"
@@ -580,6 +632,9 @@ msgstr "メディアプレーヤーを表示する"
 
 msgid "Display the choices either horizontally or vertically"
 msgstr "選択肢を水平または垂直に並べる"
+
+msgid "Displays the slider bar either horizontally or vertically"
+msgstr ""
 
 msgid "Divide"
 msgstr "分割"
@@ -626,6 +681,15 @@ msgstr "例えば13"
 msgid "e.g. 960"
 msgstr "例えば960"
 
+msgid "e.g. Apple"
+msgstr ""
+
+msgid "Each interaction contributes its own points to the final item score. The final score is the sum of all interaction scores."
+msgstr ""
+
+msgid "each response must be entered in its corresponding field."
+msgstr ""
+
 msgid "Edit"
 msgstr "編集"
 
@@ -634,6 +698,9 @@ msgstr "選択肢を編集"
 
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "LaTex構文を使って数式を編集することができます。例：e^{i ˶pi} = -1」など"
+
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgstr ""
 
 msgid "Edit math expression using MathML"
 msgstr "MathMLを利用して数式編集"
@@ -668,8 +735,14 @@ msgstr "スクロール有効"
 msgid "Enable the test taker to pause and restart the playing."
 msgstr "一時停止、再生を受験者に有効にします"
 
+msgid "Enable this option if the list of expected answers may need to be extended during evaluation."
+msgstr ""
+
 msgid "Enable/disable scrolling."
 msgstr "スクロールの有効/無効を設定します。"
+
+msgid "End (target)"
+msgstr ""
 
 msgid "End Attempt"
 msgstr "エンドアテンプト"
@@ -713,8 +786,17 @@ msgstr "アイテム %s のエラー"
 msgid "Error to export item %s: %s"
 msgstr "アイテム %s のエクスポートエラー: %s"
 
+msgid "Euler\'s constant"
+msgstr ""
+
 msgid "Euler\\'s constant"
 msgstr "オイラーの定義"
+
+msgid "Evaluate Text Entry interactions as Unordered Multi-Field"
+msgstr ""
+
+msgid "Evaluation"
+msgstr ""
 
 msgid "Exponent"
 msgstr "指数"
@@ -803,6 +885,9 @@ msgstr "分数"
 msgid "Full height"
 msgstr "高さ:100%"
 
+msgid "Full width"
+msgstr "幅:100%"
+
 msgid "Gap"
 msgstr "選択肢"
 
@@ -835,6 +920,9 @@ msgstr "リソース \"％s\" のガード..."
 
 msgid "Half height"
 msgstr "高さ:1/2"
+
+msgid "Half width"
+msgstr "幅:1/2"
 
 msgid "Height"
 msgstr "高さ"
@@ -989,8 +1077,14 @@ msgstr "基本プロパティ"
 msgid "Interpretation"
 msgstr "翻訳"
 
+msgid "Invalid arrow direction. Create associations from a start hotspot to an end hotspot."
+msgstr ""
+
 msgid "Invalid identifier"
 msgstr "無効な識別子です"
+
+msgid "Invalid Lexical Group Identifier"
+msgstr ""
 
 msgid "Invalid Outcome Declaration"
 msgstr "無効な結果宣言"
@@ -1100,6 +1194,12 @@ msgstr "以下"
 
 msgid "Level"
 msgstr "レベル"
+
+msgid "Lexical field canonical value"
+msgstr ""
+
+msgid "Lexical fields"
+msgstr ""
 
 msgid "Line"
 msgstr "線"
@@ -1310,7 +1410,12 @@ msgid "one association pair"
 msgstr "１つの組み合わせ"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
+""
 msgstr "1つ以上のQTIコンポーネントがシステムでサポートされていません。システムは次のエラーを返しました：%s\n"
+""
+
+msgid "or more"
+msgstr ""
 
 msgid "Order"
 msgstr "並べ替え"
@@ -1326,6 +1431,9 @@ msgstr "単一リスト並び替え"
 
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "画像の領域（ホットスポット）を選んでください"
+
+msgid "Ordered"
+msgstr ""
 
 msgid "Orientation"
 msgstr "選択肢の並び方"
@@ -1443,6 +1551,9 @@ msgstr "正解を枠内に入力してください"
 
 msgid "Plus/minus"
 msgstr "プラス/マイナス"
+
+msgid "Polytomous"
+msgstr ""
 
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "ポータブル要素モデル％sが見つかりません。必要な拡張子が欠落している可能性があります。"
@@ -1573,6 +1684,12 @@ msgstr "文字色を元に戻す"
 msgid "Remove Instructions"
 msgstr "アラート非表示"
 
+msgid "Remove level"
+msgstr ""
+
+msgid "Remove lexical field"
+msgstr ""
+
 msgid "Remove Message"
 msgstr "メッセージを削除"
 
@@ -1584,6 +1701,9 @@ msgstr "選択した図形を削除"
 
 msgid "Remove this stylesheet"
 msgstr "このスタイルシートを削除"
+
+msgid "Remove variant"
+msgstr ""
 
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr "すべてのアラートを非表示にします"
@@ -1627,6 +1747,15 @@ msgstr "採点方法"
 msgid "Response Properties"
 msgstr "レスポンスプロパティ"
 
+msgid "responses can be entered in any field and are evaluated as a set."
+msgstr ""
+
+msgid "Reverse direction"
+msgstr ""
+
+msgid "Reverse the slider bar boundaries"
+msgstr ""
+
 msgid "Rich text"
 msgstr "リッチテキスト"
 
@@ -1668,6 +1797,12 @@ msgstr "スコア範囲"
 
 msgid "Score value"
 msgstr "スコア値"
+
+msgid "Scores"
+msgstr ""
+
+msgid "Scoring Model"
+msgstr ""
 
 msgid "Scrollable multi-column"
 msgstr "スクロール可能複数カラム"
@@ -1714,14 +1849,14 @@ msgstr "正しい選択肢を指定してください"
 msgid "Select height of block based off container height"
 msgstr "コンテナの高さからブロックの高さを選択"
 
+msgid "Select height of block based on container height"
+msgstr ""
+
 msgid "Select height of passage base of container height"
 msgstr "コンテナの高さを選択"
 
 msgid "Select height of text block base of container height"
 msgstr "テキストブロックの高さを選択"
-
-msgid "Select width of block based on container width"
-msgstr "コンテナの幅からブロックの幅を選択"
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
 msgstr "結果変数の拡張解釈へのオプションリンクです。"
@@ -1777,6 +1912,9 @@ msgstr "関連付けを終了するにはこの領域を選択"
 msgid "Select this area to start an association"
 msgstr "組み合わせを開始するには、この範囲を選んでください。"
 
+msgid "Select width of block based on container width"
+msgstr "コンテナの幅からブロックの幅を選択"
+
 msgid "Sequential"
 msgstr "シーケンシャル"
 
@@ -1798,6 +1936,9 @@ msgstr "選択肢をシャッフル"
 msgid "Similar"
 msgstr "似ています"
 
+msgid "Simple sum"
+msgstr ""
+
 msgid "Sine"
 msgstr "sin"
 
@@ -1815,6 +1956,9 @@ msgstr "スライダー"
 
 msgid "Slider Interaction"
 msgstr "スライダー問題"
+
+msgid "Solid"
+msgstr "実線"
 
 msgid "Some feedback text."
 msgstr "フィードバックテキスト"
@@ -1836,6 +1980,9 @@ msgstr "平方根"
 
 msgid "standard"
 msgstr "標準"
+
+msgid "Start (source)"
+msgstr ""
 
 msgid "Status"
 msgstr "ステータス"
@@ -1981,6 +2128,9 @@ msgstr "IMS QTIアイテムのインポートが完了しました。"
 msgid "The index to use when displaying a variable of ordered cardinality. If a variable of ordered cardinality is to be displayed and index is not set, all the values in the container are displayed."
 msgstr "順序付けされたカーディナリティの変数を表示するときに使用するインデックスです。インデックスが設定されていない場合は、コンテナ内のすべての値が表示されます。"
 
+msgid "The item awards different scores depending on how many correct responses are provided. Configure one or more thresholds with their corresponding scores."
+msgstr ""
+
 msgid "The item cannot be saved because it contains an unsupported custom interaction."
 msgstr "サポートされていないカスタムインタラクションが含まれているため、アイテムを保存できません。"
 
@@ -2108,7 +2258,9 @@ msgid "The upper bound of the slider"
 msgstr "スライダー最大値"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
+""
 msgstr "QTIアイテムのインポートに失敗しました。エラー内容:%s\n"
+""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "QTIアイテムを含むZIPファイルを抽出できません"
@@ -2154,6 +2306,9 @@ msgstr "このスタイルシートがサーバ上で見つかりません。こ
 
 msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
 msgstr "この値は、スコアリング特性のガイドラインに沿っていません。TAO手動採点（TAO Manual Scoring）との互換性はありません。"
+
+msgid "This variant already exists"
+msgstr ""
 
 msgid "Time dependent"
 msgstr "時間依存"
@@ -2215,6 +2370,9 @@ msgstr "取り消し"
 msgid "Unknown $key to register MetadataService instance"
 msgstr "MetadataServiceインスタンスを登録するための不明な$key"
 
+msgid "Unordered"
+msgstr ""
+
 msgid "Unregister method expects $key and $name parameters."
 msgstr "登録解除メソッドでは、$keyおよび$nameパラメーターが必要です。"
 
@@ -2233,6 +2391,12 @@ msgstr "受験者が入力する際のテキストの書式を設定します"
 msgid "Value"
 msgstr "値"
 
+msgid "Variant"
+msgstr ""
+
+msgid "Variants"
+msgstr ""
+
 msgid "Vector"
 msgstr "ベクトル"
 
@@ -2244,6 +2408,9 @@ msgstr "縦書き"
 
 msgid "warning"
 msgstr "警告"
+
+msgid "Wavy"
+msgstr "波線"
 
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
 msgstr "IMS標準規格に準拠するために、patternMaskを使用します。"

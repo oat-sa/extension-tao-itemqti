@@ -1,24 +1,17 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-05-07 20:08\n"
+"Project-Id-Version: TAO 2026.08 LTS\n"
+"PO-Revision-Date: 2026-07-24T15:39:00\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nb_NO\n"
+"Language: nb-NO\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-US\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"targetLanguage: nb-NO\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: tao-open-source\n"
-"X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: nb\n"
-"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
-"X-Crowdin-File-ID: 519\n"
-"Language-Team: Norwegian Bokmal\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Fyll ut mellomrommene i en tekst med de gitte alternativene."
@@ -77,41 +70,43 @@ msgstr "1 oppgave importert fra det gitte QTI/APIP XML-oppgavedokumentet."
 msgid "1/3 of height"
 msgstr ""
 
-msgid "1/4 of height"
-msgstr ""
-
-msgid "2/3 of height"
-msgstr ""
-
-msgid "3/4 of height"
-msgstr ""
-
 msgid "1/3 of width"
 msgstr "1/3 av bredde"
+
+msgid "1/4 of height"
+msgstr ""
 
 msgid "1/4 of width"
 msgstr "1/4 av bredde"
 
+msgid "2/3 of height"
+msgstr ""
+
 msgid "2/3 of width"
 msgstr "2/3 av bredde"
+
+msgid "3/4 of height"
+msgstr ""
 
 msgid "3/4 of width"
 msgstr "3/4 av bredde"
 
-msgid "Full width"
-msgstr "Full bredde"
-
-msgid "Half width"
-msgstr "Halv bredde"
-
 msgid "A choice must be selected"
 msgstr "Du må gjøre et valg"
+
+msgid "A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image."
+msgstr ""
 
 msgid "A human interpretation of the variable's value."
 msgstr "En manuell tolkning av variablens verdi."
 
+msgid "A Lexical Field groups a canonical answer and optional variants into a single expected response. The canonical value is stored in the item data and used for response processing; only additional variants are listed here. Group identifiers are assigned automatically."
+msgstr ""
+
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
+""
 msgstr "En QTI-komponent støttes ikke. Systemet returnerte følgende feil: %s\n"
+""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "En boks identifiserer en del av en vurdering som representerer instruksjoner til en eller flere av aktørene som ser oppgaven. Selv om bokser er definert som \"simple Blocks\", må de ikke inneholde oppgavetyper."
@@ -146,6 +141,12 @@ msgstr "Legg til valg"
 msgid "Add else feedback"
 msgstr "Legg til annen tilbakemelding"
 
+msgid "Add level"
+msgstr ""
+
+msgid "Add lexical field"
+msgstr ""
+
 msgid "Add new column"
 msgstr ""
 
@@ -158,14 +159,23 @@ msgstr ""
 msgid "Add Style Sheet"
 msgstr "Legg til stilark"
 
+msgid "Add variant"
+msgstr ""
+
 msgid "after"
 msgstr ""
 
 msgid "Alignment"
 msgstr "Justering"
 
+msgid "All-or-nothing scoring. A single score is awarded only when the configured threshold is reached."
+msgstr ""
+
 msgid "Allow elimination"
 msgstr "Tillat eliminering"
+
+msgid "Allow evaluators to extend the Lexical Field list"
+msgstr ""
 
 msgid "Allowed associations"
 msgstr "Tillatte tilknytninger"
@@ -216,7 +226,9 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "En uventet feil oppstod under importen av IMS QTI-oppgavene. Systemet returnerte følgende feil: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
+""
 msgstr "Det oppstod en uventet feil under importen av QTI-oppgaven. Systemet returnerte følgende feil: %s\n"
+""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr ""
@@ -233,11 +245,20 @@ msgstr "APIP innholdspakke"
 msgid "Apip Package successfully exported."
 msgstr "Apip-pakken ble eksportert."
 
+msgid "Applies to all Text Entry interactions in this item"
+msgstr ""
+
 msgid "Arc"
 msgstr "Bue"
 
 msgid "Arrange a list of choices in the correct order."
 msgstr "Sett opp en liste med valg i riktig rekkefølge."
+
+msgid "Arrow"
+msgstr ""
+
+msgid "Arrow direction: start hotspot to end hotspot."
+msgstr ""
 
 msgid "Associate"
 msgstr "Kobling"
@@ -245,8 +266,14 @@ msgstr "Kobling"
 msgid "Associate Interaction"
 msgstr "Oppgavetype kobling"
 
+msgid "Association display"
+msgstr ""
+
 msgid "association pairs"
 msgstr "kobling av par par"
+
+msgid "Association role"
+msgstr ""
 
 msgid "at least"
 msgstr "minst"
@@ -422,6 +449,15 @@ msgstr "Vanlige oppgavetyper"
 msgid "Compact Appearance"
 msgstr "Kompakt utseende"
 
+msgid "Configures the position of the choices relative to the answer area."
+msgstr ""
+
+msgid "Configures the position of the choices relative to the gaps."
+msgstr ""
+
+msgid "Configures the position of the choices relative to the image."
+msgstr ""
+
 msgid "Configures the position of the choices relative to the target list."
 msgstr "Konfigurerer posisjonen til valgene i forhold til mållisten."
 
@@ -434,11 +470,17 @@ msgstr "Begrensninger"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Kontroller avspillingsparametrene (automatisk start, loop) for en video- eller lydfil og rapporter hvor mange ganger den har blitt spilt."
 
+msgid "Controls the visual style of association links. Line shows non-directional links. Arrow adds an arrowhead to indicate direction and works together with Start/End hotspot settings."
+msgstr ""
+
 msgid "Correct"
 msgstr "Riktig"
 
 msgid "correct"
 msgstr "riktig"
+
+msgid "Correct responses"
+msgstr ""
 
 msgid "Cosine"
 msgstr "Kosinus"
@@ -457,6 +499,9 @@ msgstr "Lag kobling(er) mellom områder (hotspots) som vises på et bilde."
 
 msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
 msgstr "Opprett kobling(er) mellom to sett med valg som vises i en tabell (rad og kolonne)."
+
+msgid "Create associations and fill the score in the form below"
+msgstr ""
 
 msgid "Create gap"
 msgstr "Lag mellomrom"
@@ -490,12 +535,6 @@ msgstr "Egendefinert skåringsinnstilling"
 
 msgid "Dashed"
 msgstr "Stiplet"
-
-msgid "Solid"
-msgstr "Solid"
-
-msgid "Wavy"
-msgstr "Bølgefull"
 
 msgid "Default"
 msgstr "Standard"
@@ -533,8 +572,17 @@ msgstr "Definer om oppgaven skal være tidsavhengig ved levering."
 msgid "Defined width"
 msgstr "Definer bredde"
 
+msgid "Defines how interaction points are transformed into the final item score."
+msgstr ""
+
+msgid "Defines how multiple Text Entry interactions are evaluated."
+msgstr ""
+
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Definerer maksimal størrelse på numeriske resultatvariabler, maksimum må være en positiv verdi og minimum kan være en negativ verdi."
+
+msgid "Defines whether this hotspot can be used as the start and/or end of an association."
+msgstr ""
 
 msgid "Degrees"
 msgstr "Grader"
@@ -566,6 +614,9 @@ msgstr "Delta"
 msgid "Description"
 msgstr "Beskrivelse"
 
+msgid "Dichotomous"
+msgstr ""
+
 msgid "Direction of writing"
 msgstr "Skriftretning"
 
@@ -580,6 +631,9 @@ msgstr ""
 
 msgid "Display the choices either horizontally or vertically"
 msgstr "Vis valgene enten horisontalt eller vertikalt"
+
+msgid "Displays the slider bar either horizontally or vertically"
+msgstr ""
 
 msgid "Divide"
 msgstr "Dele opp"
@@ -626,6 +680,15 @@ msgstr "f.eks. 13"
 msgid "e.g. 960"
 msgstr "f.eks. 960"
 
+msgid "e.g. Apple"
+msgstr ""
+
+msgid "Each interaction contributes its own points to the final item score. The final score is the sum of all interaction scores."
+msgstr ""
+
+msgid "each response must be entered in its corresponding field."
+msgstr ""
+
 msgid "Edit"
 msgstr "Redigere"
 
@@ -634,6 +697,9 @@ msgstr "redigere valg"
 
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "Rediger matematisk uttrykk ved hjelp av LaTex type innstillingssystem, f.eks. e^{i \\ pi} = -1"
+
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgstr ""
 
 msgid "Edit math expression using MathML"
 msgstr "Rediger matematisk uttrykk ved hjelp av MathML"
@@ -668,8 +734,14 @@ msgstr "Aktiver skrolling"
 msgid "Enable the test taker to pause and restart the playing."
 msgstr "Tillat eleven å ta pause og starte avspillingen på nytt."
 
+msgid "Enable this option if the list of expected answers may need to be extended during evaluation."
+msgstr ""
+
 msgid "Enable/disable scrolling."
 msgstr "Aktiver/deaktiver skrolling."
+
+msgid "End (target)"
+msgstr ""
 
 msgid "End Attempt"
 msgstr "End attempt"
@@ -713,8 +785,17 @@ msgstr "Feil på oppgave %s"
 msgid "Error to export item %s: %s"
 msgstr "Feil ved eksport av element %s: %s"
 
+msgid "Euler\'s constant"
+msgstr ""
+
 msgid "Euler\\'s constant"
 msgstr "Eulers konstante"
+
+msgid "Evaluate Text Entry interactions as Unordered Multi-Field"
+msgstr ""
+
+msgid "Evaluation"
+msgstr ""
 
 msgid "Exponent"
 msgstr "Eksponent"
@@ -803,6 +884,9 @@ msgstr "Brøk"
 msgid "Full height"
 msgstr ""
 
+msgid "Full width"
+msgstr "Full bredde"
+
 msgid "Gap"
 msgstr "Mellomrom"
 
@@ -835,6 +919,9 @@ msgstr ""
 
 msgid "Half height"
 msgstr ""
+
+msgid "Half width"
+msgstr "Halv bredde"
 
 msgid "Height"
 msgstr "Høyde"
@@ -989,8 +1076,14 @@ msgstr "Egenskaper for oppgavetyper"
 msgid "Interpretation"
 msgstr "Navn"
 
+msgid "Invalid arrow direction. Create associations from a start hotspot to an end hotspot."
+msgstr ""
+
 msgid "Invalid identifier"
 msgstr "Ugyldig identifikator"
+
+msgid "Invalid Lexical Group Identifier"
+msgstr ""
 
 msgid "Invalid Outcome Declaration"
 msgstr "Ugyldig resultatvisning"
@@ -1100,6 +1193,12 @@ msgstr "Mindre enn eller lik"
 
 msgid "Level"
 msgstr "Nivå"
+
+msgid "Lexical field canonical value"
+msgstr ""
+
+msgid "Lexical fields"
+msgstr ""
 
 msgid "Line"
 msgstr "Linje"
@@ -1309,7 +1408,12 @@ msgid "one association pair"
 msgstr "kobling av et par"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
+""
 msgstr "En eller flere QTI-komponenter støttes ikke av systemet. Systemet returnerte følgende feil: %s\n"
+""
+
+msgid "or more"
+msgstr ""
 
 msgid "Order"
 msgstr "Sortering"
@@ -1325,6 +1429,9 @@ msgstr "Sorter i gjeldende listed"
 
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Ordne områdene (hotspots) som vises på et bildet i riktig rekkefølge."
+
+msgid "Ordered"
+msgstr ""
 
 msgid "Orientation"
 msgstr "Orientering"
@@ -1441,6 +1548,9 @@ msgid "Please type the correct response in the box below."
 msgstr "Skriv inn riktig svar i boksen nedenfor."
 
 msgid "Plus/minus"
+msgstr ""
+
+msgid "Polytomous"
 msgstr ""
 
 msgid "Portable element model %s not found. Required extension might be missing"
@@ -1572,6 +1682,12 @@ msgstr "Fjern egendefinert tekstfarge"
 msgid "Remove Instructions"
 msgstr ""
 
+msgid "Remove level"
+msgstr ""
+
+msgid "Remove lexical field"
+msgstr ""
+
 msgid "Remove Message"
 msgstr "Fjern medling"
 
@@ -1583,6 +1699,9 @@ msgstr "Fjern den valgte formen"
 
 msgid "Remove this stylesheet"
 msgstr "Fjern dette stilarket"
+
+msgid "Remove variant"
+msgstr ""
 
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr ""
@@ -1626,6 +1745,15 @@ msgstr "Skåringsinnstillinger"
 msgid "Response Properties"
 msgstr "Skåringsegenskaper"
 
+msgid "responses can be entered in any field and are evaluated as a set."
+msgstr ""
+
+msgid "Reverse direction"
+msgstr ""
+
+msgid "Reverse the slider bar boundaries"
+msgstr ""
+
 msgid "Rich text"
 msgstr "Rik tekst"
 
@@ -1667,6 +1795,12 @@ msgstr "Poenggrense"
 
 msgid "Score value"
 msgstr "Poengsum"
+
+msgid "Scores"
+msgstr ""
+
+msgid "Scoring Model"
+msgstr ""
 
 msgid "Scrollable multi-column"
 msgstr "Skrollbar flerkolonne"
@@ -1713,14 +1847,14 @@ msgstr "velg riktig alternativ"
 msgid "Select height of block based off container height"
 msgstr "Velg høyden på blokken basert på beholderens høyde"
 
+msgid "Select height of block based on container height"
+msgstr ""
+
 msgid "Select height of passage base of container height"
 msgstr ""
 
 msgid "Select height of text block base of container height"
 msgstr ""
-
-msgid "Select width of block based on container width"
-msgstr "Velg bredde på blokker basert på containerbredden"
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
 msgstr "Velg om oppgaven skal manuelt skåres i skåringsverktøyet eller sendes til plagiatkontroll. Du må legge til flere vurderingsalternativer dersom oppgaven både skal skåres manuelt og plagiatkontrolleres."
@@ -1776,6 +1910,9 @@ msgstr "Velg dette området for å fullføre en assosiasjon"
 msgid "Select this area to start an association"
 msgstr "Velg dette området for å starte en kobling"
 
+msgid "Select width of block based on container width"
+msgstr "Velg bredde på blokker basert på containerbredden"
+
 msgid "Sequential"
 msgstr ""
 
@@ -1797,6 +1934,9 @@ msgstr "Tilfeldig rekkefølge for svaralternativer"
 msgid "Similar"
 msgstr "Liknende"
 
+msgid "Simple sum"
+msgstr ""
+
 msgid "Sine"
 msgstr "Sinus"
 
@@ -1814,6 +1954,9 @@ msgstr "Målelinje"
 
 msgid "Slider Interaction"
 msgstr "Oppgavetype målelinje"
+
+msgid "Solid"
+msgstr "Solid"
 
 msgid "Some feedback text."
 msgstr ""
@@ -1834,6 +1977,9 @@ msgid "Square root"
 msgstr "Kvadratrot"
 
 msgid "standard"
+msgstr ""
+
+msgid "Start (source)"
 msgstr ""
 
 msgid "Status"
@@ -1980,6 +2126,9 @@ msgstr "IMS QTI-oppgaven ble importert."
 msgid "The index to use when displaying a variable of ordered cardinality. If a variable of ordered cardinality is to be displayed and index is not set, all the values in the container are displayed."
 msgstr "Indeksen som skal brukes når du viser en variabel av bestilt kardinalitet. Hvis en variabel av bestilt kardinalitet skal vises og indeksen ikke er angitt, vil alle verdiene i boksen vises."
 
+msgid "The item awards different scores depending on how many correct responses are provided. Configure one or more thresholds with their corresponding scores."
+msgstr ""
+
 msgid "The item cannot be saved because it contains an unsupported custom interaction."
 msgstr "Oppgaven kan ikke lagres fordi den inneholder en interaksjon som ikke støttes."
 
@@ -2107,7 +2256,9 @@ msgid "The upper bound of the slider"
 msgstr "Linjalens øvre grense"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
+""
 msgstr "Valideringen av den importerte QTI-oppgaven mislyktes. Systemet returnerte følgende feil:%s\n"
+""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "ZIP-arkivet som inneholder IMS QTI-oppgaven kan ikke hentes."
@@ -2152,6 +2303,9 @@ msgid "This stylesheet has not been found on the server. you may want to delete 
 msgstr "Dette stilarket er ikke funnet på serveren. Det kan være lurt å slette denne referansen"
 
 msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
+msgstr ""
+
+msgid "This variant already exists"
 msgstr ""
 
 msgid "Time dependent"
@@ -2214,6 +2368,9 @@ msgstr "angre"
 msgid "Unknown $key to register MetadataService instance"
 msgstr "Ukjent $-nøkkel for å registrere MetadataService-forekomst"
 
+msgid "Unordered"
+msgstr ""
+
 msgid "Unregister method expects $key and $name parameters."
 msgstr "Avregistreringsmetoden forventer parametere for $key og $name."
 
@@ -2232,6 +2389,12 @@ msgstr "Brukes til å kontrollere formatet på teksten som er lagt inn av eleven
 msgid "Value"
 msgstr "Verdi"
 
+msgid "Variant"
+msgstr ""
+
+msgid "Variants"
+msgstr ""
+
 msgid "Vector"
 msgstr "Vektor"
 
@@ -2243,6 +2406,9 @@ msgstr "Vertikal tekst"
 
 msgid "warning"
 msgstr ""
+
+msgid "Wavy"
+msgstr "Bølgefull"
 
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
 msgstr "Vi vil bruke patternMask for å utføre dette, slik at det blir i samsvar med IMS-standarden"
