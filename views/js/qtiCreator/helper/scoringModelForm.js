@@ -115,8 +115,15 @@ define([
 
         $responseForm.find('.scoring-model-level').each(function () {
             const $level = $(this);
-            const threshold = Number($level.find('.scoring-level-threshold').val());
-            const score = Number($level.find('.scoring-level-score').val());
+            const thresholdRaw = String($level.find('.scoring-level-threshold').val() || '').trim();
+            const scoreRaw = String($level.find('.scoring-level-score').val() || '').trim();
+
+            if (!thresholdRaw.length || !scoreRaw.length) {
+                return;
+            }
+
+            const threshold = Number(thresholdRaw);
+            const score = Number(scoreRaw);
 
             if (_.isFinite(threshold) && _.isFinite(score)) {
                 levels.push({ threshold, score });

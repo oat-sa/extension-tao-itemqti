@@ -158,7 +158,10 @@ define(['taoQtiItem/qtiCreator/helper/scoringModelHelper'], function (scoringMod
             ]
         });
 
-        assert.strictEqual(primary.attr('data-scoring-model'), '{"5":2,"3":1}');
+        assert.deepEqual(JSON.parse(primary.attr('data-scoring-model')), {
+            5: 2,
+            3: 1
+        });
         assert.strictEqual(secondary.attr('data-scoring-model'), undefined);
 
         scoringModelHelper.persistScoringModelConfig(secondary, {
