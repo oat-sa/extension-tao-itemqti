@@ -46,25 +46,6 @@ define(['lodash'], function (_) {
     };
 
     /**
-     * Escape attribute text for the chosen quote style.
-     * XML parsers decode entities when reading attributes, so JSON consumers still see raw quotes/apostrophes.
-     *
-     * @param {string} value
-     * @param {string} quoteChar
-     * @returns {string}
-     */
-    const escapeXmlAttributeValue = function escapeXmlAttributeValue(value, quoteChar) {
-        const stringValue = String(value)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
-
-        return quoteChar === "'"
-            ? stringValue.replace(/'/g, '&apos;')
-            : stringValue.replace(/"/g, '&quot;');
-    };
-
-    /**
      * @param {string} name
      * @param {string} value
      * @returns {string}

@@ -25,8 +25,8 @@ define([
     const UMFI_ITEM_TYPE = 'umfi-closed';
     const DATA_ITEM_TYPE = 'data-item-type';
     // Public lexical-group payload kept in saved item XML:
-    // [{ group: "GROUP_1", canonical: "Apple", variants: ["Apple", ...] }]
-    // `group` is the authoring identifier (no _FOUND). Outcome ids still use *_FOUND.
+    // [{ group: "GROUP_1_FOUND", canonical: "Apple", variants: ["Apple", ...] }]
+    // `group` matches the response-processing / outcome identifier (*_FOUND).
     const DATA_UMFI_VALUES = 'data-umfi-values';
     const DATA_CASE_SENSITIVE = 'data-case-sensitive';
     const DATA_ALLOW_LEXICAL_FIELDS = 'data-allow-lexical-fields-on-scoring';
@@ -734,7 +734,7 @@ define([
 
             usedIdentifiers[identifier] = true;
 
-            // _FOUND is applied only here, for the outcome / data-umfi-values.group id.
+            // _FOUND is applied here for the outcome id stored in data-umfi-values.group.
             let id =
                 buildGroupOutcomeId(group.id || group.group || identifier) ||
                 buildGroupOutcomeId(identifier);
@@ -771,7 +771,7 @@ define([
                 entry.group || entry.id || entry.identifier || entry.groupIdentifier || ''
             ).trim();
             const legacyLabel = _.isString(entry.label) ? entry.label.trim() : '';
-            // `group` is the authoring identifier; legacy values may still include *_FOUND.
+            // `group` is the RP/outcome identifier (*_FOUND); strip for authoring identifier.
             const identifier = stripGroupOutcomeSuffix(storedGroup) || legacyLabel;
 
             return {
@@ -836,8 +836,8 @@ define([
                 }
 
                 return {
-                    // System-assigned (or legacy) authoring identifier; outcome id uses *_FOUND.
-                    group: group.identifier,
+                    // RP/outcome identifier so data-umfi-values.group matches response processing.
+                    group: group.id || buildGroupOutcomeId(group.identifier),
                     canonical: group.canonical || synonyms[0],
                     variants: synonyms
                 };

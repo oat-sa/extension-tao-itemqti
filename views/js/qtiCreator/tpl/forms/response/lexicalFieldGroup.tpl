@@ -17,18 +17,16 @@
     <div class="lexical-field-group-body">
         <p class="lexical-field-variants-label" id="lexicalFieldVariantsLabel-{{index}}">{{__ "Variants"}}</p>
         <div class="lexical-field-variant-chips">
-            {{#each synonyms}}
+            {{#each additionalVariants}}
             {{#if this}}
-            <span class="lexical-field-variant-chip{{#unless @first}} has-remove{{/unless}}" data-variant-index="{{@index}}">
+            <span class="lexical-field-variant-chip has-remove" data-variant-index="{{@index}}">
                 <span class="variant-text">{{this}}</span>
-                {{#unless @first}}
                 <span class="icon-close variant-remove"
                       data-action="remove-variant"
                       role="button"
                       tabindex="0"
                       title="{{__ 'Remove variant'}}"
                       aria-label="{{__ 'Remove variant'}}"></span>
-                {{/unless}}
             </span>
             {{/if}}
             {{/each}}

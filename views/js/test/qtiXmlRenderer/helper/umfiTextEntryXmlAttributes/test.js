@@ -24,7 +24,7 @@ define(['taoQtiItem/qtiXmlRenderer/helper/umfiTextEntryXmlAttributes'], function
         const prepared = umfiTextEntryXmlAttributes.prepareTextEntryRenderData({
             responseIdentifier: 'RESPONSE',
             'data-item-type': 'umfi-closed',
-            'data-umfi-values': '[{"group":"GROUP_1","canonical":"apple","variants":["apple","apples"]}]',
+            'data-umfi-values': '[{"group":"GROUP_1_FOUND","canonical":"apple","variants":["apple","apples"]}]',
             'data-scoring-model': '{"2":1}',
             'data-umfi-managed-outcomes': '["GROUP_1_FOUND"]',
             'data-umfi-rp-managed': 'true'
@@ -32,7 +32,7 @@ define(['taoQtiItem/qtiXmlRenderer/helper/umfiTextEntryXmlAttributes'], function
 
         assert.ok(
             prepared.attributesMarkup.indexOf(
-                'data-umfi-values=\'[{"group":"GROUP_1","canonical":"apple","variants":["apple","apples"]}]\''
+                'data-umfi-values=\'[{"group":"GROUP_1_FOUND","canonical":"apple","variants":["apple","apples"]}]\''
             ) > -1
         );
         assert.ok(prepared.attributesMarkup.indexOf('data-scoring-model=\'{"2":1}\'') > -1);
@@ -44,7 +44,7 @@ define(['taoQtiItem/qtiXmlRenderer/helper/umfiTextEntryXmlAttributes'], function
     QUnit.test('prepareTextEntryRenderData escapes apostrophes in data-umfi-values', assert => {
         const umfiValues = JSON.stringify([
             {
-                group: 'GROUP_1',
+                group: 'GROUP_1_FOUND',
                 canonical: "don't",
                 variants: ["don't", "l'école"]
             }
@@ -80,14 +80,14 @@ define(['taoQtiItem/qtiXmlRenderer/helper/umfiTextEntryXmlAttributes'], function
 
     QUnit.test('stripInternalAuthoringAttrsFromItemXml removes internal attrs only', assert => {
         const xml =
-            '<textEntryInteraction responseIdentifier="RESPONSE" data-umfi-values=\'[{"group":"GROUP_1","canonical":"France","variants":["France","French Republic"]}]\' data-umfi-rp-managed="true" data-scoring-model-rp-managed="true" data-scoring-model=\'{"2":1}\'/>';
+            '<textEntryInteraction responseIdentifier="RESPONSE" data-umfi-values=\'[{"group":"GROUP_1_FOUND","canonical":"France","variants":["France","French Republic"]}]\' data-umfi-rp-managed="true" data-scoring-model-rp-managed="true" data-scoring-model=\'{"2":1}\'/>';
         const sanitized = umfiTextEntryXmlAttributes.stripInternalAuthoringAttrsFromItemXml(xml);
 
         assert.strictEqual(sanitized.indexOf('data-umfi-rp-managed'), -1);
         assert.strictEqual(sanitized.indexOf('data-scoring-model-rp-managed'), -1);
         assert.ok(
             sanitized.indexOf(
-                'data-umfi-values=\'[{"group":"GROUP_1","canonical":"France","variants":["France","French Republic"]}]\''
+                'data-umfi-values=\'[{"group":"GROUP_1_FOUND","canonical":"France","variants":["France","French Republic"]}]\''
             ) > -1
         );
         assert.ok(sanitized.indexOf('data-scoring-model=\'{"2":1}\'') > -1);

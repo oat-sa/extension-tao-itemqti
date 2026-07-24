@@ -20,18 +20,23 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm'], funct
 
     QUnit.module('textEntryEvaluationForm');
 
+    /**
+     * @param {Object} [options]
+     * @param {string} [options.identifier]
+     * @param {string} [options.canonical]
+     * @param {string[]} [options.additionalVariants] Chips only (canonical is not rendered in the list)
+     * @param {string} [options.draftValue]
+     * @returns {jQuery}
+     */
     const buildGroupDom = function buildGroupDom(options) {
-        const synonyms = (options && options.synonyms) || [];
+        const additionalVariants = (options && options.additionalVariants) || [];
         const draftValue = options && options.draftValue;
-        const canonical =
-            typeof (options && options.canonical) !== 'undefined'
-                ? options.canonical
-                : synonyms[0] || '';
+        const canonical = (options && options.canonical) || '';
         const identifier = (options && options.identifier) || 'GROUP_1';
-        const chips = synonyms
+        const chips = additionalVariants
             .map(
                 (value, index) =>
-                    `<span class="lexical-field-variant-chip" data-variant-index="${index}">
+                    `<span class="lexical-field-variant-chip has-remove" data-variant-index="${index}">
                         <span class="variant-text">${value}</span>
                     </span>`
             )
@@ -51,7 +56,7 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm'], funct
 
     QUnit.test('readVariantsFromGroup collects chips and draft input', assert => {
         const $group = buildGroupDom({
-            synonyms: ['apple', 'apples'],
+            additionalVariants: ['apple', 'apples'],
             draftValue: 'apfel'
         });
 
@@ -60,7 +65,7 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm'], funct
 
     QUnit.test('readVariantsFromGroup skips draft that duplicates an existing chip', assert => {
         const $group = buildGroupDom({
-            synonyms: ['Apple', 'apples'],
+            additionalVariants: ['Apple', 'apples'],
             draftValue: 'apple'
         });
 
@@ -76,35 +81,47 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm'], funct
 
     QUnit.test('readChipVariantsFromGroup ignores draft input', assert => {
         const $group = buildGroupDom({
-            synonyms: ['apple'],
+            additionalVariants: ['apple'],
             draftValue: 'apples'
         });
 
         assert.deepEqual(textEntryEvaluationForm.readChipVariantsFromGroup($group), ['apple']);
     });
 
-    QUnit.test('mergeCanonicalIntoSynonyms puts canonical first and drops chip duplicates', assert => {
+    QUnit.test('getAdditionalVariants hides canonical from the visible variants list', assert => {
         assert.deepEqual(
-            textEntryEvaluationForm.mergeCanonicalIntoSynonyms('Apple', ['Old', 'apples', 'Apple'], {
+            textEntryEvaluationForm.getAdditionalVariants('Apple', ['Apple', 'apples', 'apfel'], false),
+            ['apples', 'apfel']
+        );
+        assert.deepEqual(
+            textEntryEvaluationForm.getAdditionalVariants('Apple', ['Apple', 'apple', 'apples'], true),
+            ['apple', 'apples']
+        );
+        assert.deepEqual(textEntryEvaluationForm.getAdditionalVariants('', ['a', 'b'], false), ['a', 'b']);
+    });
+
+    QUnit.test('mergeCanonicalIntoSynonyms puts canonical first and keeps additional chips', assert => {
+        assert.deepEqual(
+            textEntryEvaluationForm.mergeCanonicalIntoSynonyms('Apple', ['apples', 'Apple'], {
                 caseSensitive: false
             }),
             ['Apple', 'apples']
         );
         assert.deepEqual(
-            textEntryEvaluationForm.mergeCanonicalIntoSynonyms('Apple', ['Old', 'apples', 'apple'], {
+            textEntryEvaluationForm.mergeCanonicalIntoSynonyms('Apple', ['apples', 'apple'], {
                 caseSensitive: true
             }),
             ['Apple', 'apples', 'apple']
         );
-        assert.deepEqual(textEntryEvaluationForm.mergeCanonicalIntoSynonyms('', ['a', 'b']), ['b']);
+        assert.deepEqual(textEntryEvaluationForm.mergeCanonicalIntoSynonyms('', ['a', 'b']), ['a', 'b']);
     });
 
-    QUnit.test('readLexicalGroupsFromForm uses data-group-identifier and merges canonical into synonyms', assert => {
+    QUnit.test('readLexicalGroupsFromForm merges canonical into synonyms without showing it as a chip', assert => {
         const $form = $('<div class="text-entry-evaluation-panel"></div>');
         const $groupWithDraft = buildGroupDom({
             identifier: 'GROUP_1',
             canonical: 'Apple',
-            synonyms: ['Apple', 'apples'],
+            additionalVariants: ['apples'],
             draftValue: 'apfel'
         });
 
@@ -113,7 +130,7 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm'], funct
             buildGroupDom({
                 identifier: 'LEGACY_CUSTOM',
                 canonical: 'Banana',
-                synonyms: ['Banana']
+                additionalVariants: []
             })
         );
 
@@ -130,14 +147,14 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm'], funct
         assert.deepEqual(groups[1].synonyms, ['Banana']);
     });
 
-    QUnit.test('readLexicalGroupsFromForm replaces previous canonical chip when field changes', assert => {
+    QUnit.test('readLexicalGroupsFromForm keeps additional chips when canonical field changes', assert => {
         const $form = $('<div class="text-entry-evaluation-panel"></div>');
 
         $form.append(
             buildGroupDom({
                 identifier: 'GROUP_1',
                 canonical: 'Pear',
-                synonyms: ['Apple', 'apples']
+                additionalVariants: ['apples']
             })
         );
 

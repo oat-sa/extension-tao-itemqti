@@ -38,7 +38,7 @@
                 {{__ "Lexical fields"}}
                 <span class="icon-help tooltipstered" data-tooltip="~ .lexical-fields-tooltip" data-tooltip-theme="info"></span>
                 <span class="tooltip-content lexical-fields-tooltip">
-                    {{__ "A Lexical Field groups a canonical answer and optional variants into a single expected response. The canonical value is shown during scoring and is always included in the variants list. Group identifiers are assigned automatically."}}
+                    {{__ "A Lexical Field groups a canonical answer and optional variants into a single expected response. The canonical value is stored in the item data and used for response processing; only additional variants are listed here. Group identifiers are assigned automatically."}}
                 </span>
             </h4>
             <a href="#" class="action-link add-lexical-field-action" data-action="add-lexical-field">
