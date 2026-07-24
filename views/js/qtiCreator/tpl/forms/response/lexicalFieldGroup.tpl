@@ -16,6 +16,7 @@
     </div>
     <div class="lexical-field-group-body">
         <p class="lexical-field-variants-label" id="lexicalFieldVariantsLabel-{{index}}">{{__ "Variants"}}</p>
+        {{#if showVariantChips}}
         <div class="lexical-field-variant-chips">
             {{#each additionalVariants}}
             {{#if this}}
@@ -40,6 +41,7 @@
                    aria-labelledby="lexicalFieldVariantsLabel-{{index}}" />
             {{/if}}
         </div>
+        {{/if}}
         <a href="#" class="action-link add-variant-action" data-action="add-variant">
             <span class="icon-add"></span>{{__ "Add variant"}}
         </a>

@@ -186,14 +186,22 @@ define([
                   ? evaluationHelper.isCaseSensitive(widget.element)
                   : false;
 
-        return _.map(evaluationHelper.normalizeLexicalGroups(groups), (group, index) =>
-            Object.assign({}, group, {
+        return _.map(evaluationHelper.normalizeLexicalGroups(groups), (group, index) => {
+            const additionalVariants = getAdditionalVariants(
+                group.canonical,
+                group.synonyms,
+                caseSensitive
+            );
+            const draftVariant = !!group.draftVariant;
+
+            return Object.assign({}, group, {
                 index,
-                draftVariant: !!group.draftVariant,
+                draftVariant,
                 textEntrySerial: textEntrySerial || '',
-                additionalVariants: getAdditionalVariants(group.canonical, group.synonyms, caseSensitive)
-            })
-        );
+                additionalVariants,
+                showVariantChips: draftVariant || additionalVariants.length > 0
+            });
+        });
     };
 
     /**

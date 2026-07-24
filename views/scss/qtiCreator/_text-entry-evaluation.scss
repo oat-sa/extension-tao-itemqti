@@ -140,7 +140,7 @@
     }
 
     .lexical-field-variants-label {
-        margin: 0 0 0.35rem;
+        margin: 0 0 0.15rem;
         @include font-size(13);
         color: var(--color-gs-dark-secondary, #666);
     }
@@ -150,8 +150,7 @@
         flex-wrap: wrap;
         align-items: center;
         gap: 0.35rem;
-        margin-bottom: 0.5rem;
-        min-height: 1.75rem;
+        margin: 0 0 0.35rem;
     }
 
     .lexical-field-variant-chip {

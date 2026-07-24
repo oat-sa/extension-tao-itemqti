@@ -496,7 +496,7 @@ body.solar-design .item-editor-choice-related .text-entry-evaluation-panel .acti
 }
 .item-editor-response-related .text-entry-evaluation-panel .lexical-field-variants-label,
 .item-editor-choice-related .text-entry-evaluation-panel .lexical-field-variants-label {
-  margin: 0 0 0.35rem;
+  margin: 0 0 0.15rem;
   font-size: 13px;
   font-size: 1.3rem;
   color: var(--color-gs-dark-secondary, #666);
@@ -507,8 +507,7 @@ body.solar-design .item-editor-choice-related .text-entry-evaluation-panel .acti
   flex-wrap: wrap;
   align-items: center;
   gap: 0.35rem;
-  margin-bottom: 0.5rem;
-  min-height: 1.75rem;
+  margin: 0 0 0.35rem;
 }
 .item-editor-response-related .text-entry-evaluation-panel .lexical-field-variant-chip,
 .item-editor-choice-related .text-entry-evaluation-panel .lexical-field-variant-chip {
