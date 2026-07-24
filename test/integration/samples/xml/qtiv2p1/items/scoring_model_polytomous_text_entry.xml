@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
+    identifier="scoring-model-polytomous-text-entry"
+    title="NIV-292 Polytomous scoring model sample"
+    adaptive="false"
+    timeDependent="false"
+    toolName="TAO"
+    toolVersion="2026.08 LTS">
+    <!--
+      Example for NIV-292 / FR3:
+      - map-response on multiple textEntryInteractions
+      - polytomous item scoring via data-scoring-model on the first text entry
+      - TEMP_SCORE accumulates interaction points; SCORE is derived from thresholds
+
+      data-scoring-model={"5":2,"3":1}
+        >= 5 interaction points -> final SCORE 2
+        >= 3 interaction points -> final SCORE 1
+        otherwise -> SCORE 0
+    -->
+    <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="string">
+        <correctResponse>
+            <value>Paris</value>
+        </correctResponse>
+        <mapping defaultValue="0" lowerBound="0">
+            <mapEntry mapKey="Paris" mappedValue="1" caseSensitive="false"/>
+            <mapEntry mapKey="paris" mappedValue="0.5" caseSensitive="true"/>
+        </mapping>
+    </responseDeclaration>
+    <responseDeclaration identifier="RESPONSE_1" cardinality="single" baseType="string">
+        <correctResponse>
+            <value>Berlin</value>
+        </correctResponse>
+        <mapping defaultValue="0" lowerBound="0">
+            <mapEntry mapKey="Berlin" mappedValue="1" caseSensitive="false"/>
+            <mapEntry mapKey="berlin" mappedValue="0.5" caseSensitive="true"/>
+        </mapping>
+    </responseDeclaration>
+    <responseDeclaration identifier="RESPONSE_2" cardinality="single" baseType="string">
+        <correctResponse>
+            <value>Rome</value>
+        </correctResponse>
+        <mapping defaultValue="0" lowerBound="0">
+            <mapEntry mapKey="Rome" mappedValue="1" caseSensitive="false"/>
+            <mapEntry mapKey="rome" mappedValue="0.5" caseSensitive="true"/>
+        </mapping>
+    </responseDeclaration>
+    <responseDeclaration identifier="RESPONSE_3" cardinality="single" baseType="string">
+        <correctResponse>
+            <value>Madrid</value>
+        </correctResponse>
+        <mapping defaultValue="0" lowerBound="0">
+            <mapEntry mapKey="Madrid" mappedValue="1" caseSensitive="false"/>
+            <mapEntry mapKey="madrid" mappedValue="0.5" caseSensitive="true"/>
+        </mapping>
+    </responseDeclaration>
+    <responseDeclaration identifier="RESPONSE_4" cardinality="single" baseType="string">
+        <correctResponse>
+            <value>Lisbon</value>
+        </correctResponse>
+        <mapping defaultValue="0" lowerBound="0">
+            <mapEntry mapKey="Lisbon" mappedValue="1" caseSensitive="false"/>
+            <mapEntry mapKey="lisbon" mappedValue="0.5" caseSensitive="true"/>
+        </mapping>
+    </responseDeclaration>
+
+    <outcomeDeclaration identifier="TEMP_SCORE" cardinality="single" baseType="float">
+        <defaultValue>
+            <value>0</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="2" normalMinimum="0">
+        <defaultValue>
+            <value>0</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+        <defaultValue>
+            <value>2</value>
+        </defaultValue>
+    </outcomeDeclaration>
+
+    <itemBody>
+        <div class="grid-row">
+            <div class="col-12">
+                <p>Fill in the European capitals (1 point each when spelled correctly):</p>
+                <p>
+                    France:
+                    <textEntryInteraction responseIdentifier="RESPONSE"
+                        expectedLength="15"
+                        data-scoring-model='{"5":2,"3":1}'/>
+                </p>
+                <p>
+                    Germany:
+                    <textEntryInteraction responseIdentifier="RESPONSE_1" expectedLength="15"/>
+                </p>
+                <p>
+                    Italy:
+                    <textEntryInteraction responseIdentifier="RESPONSE_2" expectedLength="15"/>
+                </p>
+                <p>
+                    Spain:
+                    <textEntryInteraction responseIdentifier="RESPONSE_3" expectedLength="15"/>
+                </p>
+                <p>
+                    Portugal:
+                    <textEntryInteraction responseIdentifier="RESPONSE_4" expectedLength="15"/>
+                </p>
+            </div>
+        </div>
+    </itemBody>
+
+    <responseProcessing>
+        <!-- Accumulate interaction map-response points into TEMP_SCORE -->
+        <setOutcomeValue identifier="TEMP_SCORE">
+            <sum>
+                <mapResponse identifier="RESPONSE"/>
+                <mapResponse identifier="RESPONSE_1"/>
+                <mapResponse identifier="RESPONSE_2"/>
+                <mapResponse identifier="RESPONSE_3"/>
+                <mapResponse identifier="RESPONSE_4"/>
+            </sum>
+        </setOutcomeValue>
+
+        <!-- Transform TEMP_SCORE into final SCORE using polytomous thresholds -->
+        <responseCondition>
+            <responseIf>
+                <gte>
+                    <variable identifier="TEMP_SCORE"/>
+                    <baseValue baseType="float">5</baseValue>
+                </gte>
+                <setOutcomeValue identifier="SCORE">
+                    <baseValue baseType="float">2</baseValue>
+                </setOutcomeValue>
+            </responseIf>
+            <responseElseIf>
+                <gte>
+                    <variable identifier="TEMP_SCORE"/>
+                    <baseValue baseType="float">3</baseValue>
+                </gte>
+                <setOutcomeValue identifier="SCORE">
+                    <baseValue baseType="float">1</baseValue>
+                </setOutcomeValue>
+            </responseElseIf>
+            <responseElse>
+                <setOutcomeValue identifier="SCORE">
+                    <baseValue baseType="float">0</baseValue>
+                </setOutcomeValue>
+            </responseElse>
+        </responseCondition>
+    </responseProcessing>
+</assessmentItem>

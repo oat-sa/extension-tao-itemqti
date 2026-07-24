@@ -25,6 +25,7 @@ define(['taoQtiItem/qtiXmlRenderer/helper/umfiTextEntryXmlAttributes'], function
             responseIdentifier: 'RESPONSE',
             'data-item-type': 'umfi-closed',
             'data-umfi-values': '[{"group":"GROUP_1","canonical":"apple","variants":["apple","apples"]}]',
+            'data-scoring-model': '{"2":1}',
             'data-umfi-managed-outcomes': '["GROUP_1_FOUND"]',
             'data-umfi-rp-managed': 'true'
         });
@@ -34,6 +35,7 @@ define(['taoQtiItem/qtiXmlRenderer/helper/umfiTextEntryXmlAttributes'], function
                 'data-umfi-values=\'[{"group":"GROUP_1","canonical":"apple","variants":["apple","apples"]}]\''
             ) > -1
         );
+        assert.ok(prepared.attributesMarkup.indexOf('data-scoring-model=\'{"2":1}\'') > -1);
         assert.ok(prepared.attributesMarkup.indexOf('responseIdentifier="RESPONSE"') > -1);
         assert.strictEqual(prepared.attributesMarkup.indexOf('data-umfi-managed-outcomes'), -1);
         assert.strictEqual(prepared.attributesMarkup.indexOf('&quot;'), -1);
@@ -78,14 +80,16 @@ define(['taoQtiItem/qtiXmlRenderer/helper/umfiTextEntryXmlAttributes'], function
 
     QUnit.test('stripInternalAuthoringAttrsFromItemXml removes internal attrs only', assert => {
         const xml =
-            '<textEntryInteraction responseIdentifier="RESPONSE" data-umfi-values=\'[{"group":"GROUP_1","canonical":"France","variants":["France","French Republic"]}]\' data-umfi-rp-managed="true"/>';
+            '<textEntryInteraction responseIdentifier="RESPONSE" data-umfi-values=\'[{"group":"GROUP_1","canonical":"France","variants":["France","French Republic"]}]\' data-umfi-rp-managed="true" data-scoring-model-rp-managed="true" data-scoring-model=\'{"2":1}\'/>';
         const sanitized = umfiTextEntryXmlAttributes.stripInternalAuthoringAttrsFromItemXml(xml);
 
         assert.strictEqual(sanitized.indexOf('data-umfi-rp-managed'), -1);
+        assert.strictEqual(sanitized.indexOf('data-scoring-model-rp-managed'), -1);
         assert.ok(
             sanitized.indexOf(
                 'data-umfi-values=\'[{"group":"GROUP_1","canonical":"France","variants":["France","French Republic"]}]\''
             ) > -1
         );
+        assert.ok(sanitized.indexOf('data-scoring-model=\'{"2":1}\'') > -1);
     });
 });

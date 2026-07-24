@@ -1,0 +1,139 @@
+.scoring-model-panel {
+    $control-column-width: 20px;
+    $control-gap: 8px;
+
+    h3.full-width {
+        .icon-help {
+            margin-left: 0.25rem;
+        }
+    }
+
+    .scoring-model-options {
+        margin-bottom: 0.25rem;
+
+        .scoring-model-option {
+            margin-bottom: 0.5rem;
+        }
+
+        label.smaller-prompt {
+            display: grid;
+            grid-template-columns: $control-column-width 1fr;
+            column-gap: $control-gap;
+            align-items: start;
+            margin-bottom: 0.15rem;
+
+            input[type="radio"] {
+                grid-column: 1;
+                grid-row: 1;
+                margin: 0;
+            }
+
+            .icon-radio {
+                grid-column: 1;
+                grid-row: 1;
+                float: none;
+                margin: 0;
+                top: 0;
+            }
+
+            .label-text {
+                grid-column: 2;
+                grid-row: 1;
+                line-height: 1.4;
+            }
+        }
+    }
+
+    .scoring-model-details {
+        margin: 0.15rem 0 0.35rem ($control-column-width + $control-gap);
+    }
+
+    .scoring-model-description {
+        margin: 0 0 0.5rem;
+        @include font-size(12);
+        line-height: 1.4;
+        color: var(--color-gs-dark-secondary, #666);
+    }
+
+    .scoring-model-dichotomous-fields {
+        .panel {
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    .scoring-model-levels-header {
+        display: grid;
+        grid-template-columns: minmax(3rem, 4.5rem) auto minmax(3rem, 4.5rem) 24px;
+        column-gap: 0.5rem;
+        margin-bottom: 0.35rem;
+        @include font-size(12);
+        font-weight: bold;
+        color: var(--color-gs-dark-secondary, #666);
+
+        span:last-child {
+            grid-column: 3;
+        }
+    }
+
+    .scoring-model-level {
+        display: grid;
+        grid-template-columns: minmax(3rem, 4.5rem) auto minmax(3rem, 4.5rem) 24px;
+        column-gap: 0.5rem;
+        align-items: center;
+        margin-bottom: 0.5rem;
+
+        input.score {
+            margin: 0;
+            width: 100%;
+        }
+
+        .scoring-level-suffix {
+            @include font-size(13);
+            white-space: nowrap;
+        }
+
+        .scoring-level-remove {
+            color: $info;
+            cursor: pointer;
+            padding: 3px;
+            justify-self: end;
+
+            &:hover {
+                color: whiten($info, 0.4);
+            }
+        }
+    }
+
+    .add-scoring-level-action {
+        display: inline-block;
+        border: none;
+        background: none;
+        padding: 0;
+        color: $info;
+        cursor: pointer;
+        @include font-size(13);
+        line-height: 1.4;
+        text-decoration: none;
+
+        body.solar-design & {
+            color: var(--color-brand, #{$info});
+
+            &:hover,
+            &:focus {
+                color: var(--color-brand-hover, #{whiten($info, 0.4)});
+            }
+        }
+
+        &:hover,
+        &:focus {
+            color: whiten($info, 0.4);
+            text-decoration: none;
+        }
+
+        .icon-add {
+            margin-right: 0.25rem;
+            @include font-size(12);
+            color: inherit;
+        }
+    }
+}

@@ -30,8 +30,12 @@ define([
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm',
     'taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper',
+    'taoQtiItem/qtiCreator/helper/scoringModelForm',
+    'taoQtiItem/qtiCreator/helper/scoringModelHelper',
     'text!taoQtiItem/qtiCreator/tpl/forms/response/textEntryEvaluation.tpl',
     'text!taoQtiItem/qtiCreator/tpl/forms/response/lexicalFieldGroup.tpl',
+    'text!taoQtiItem/qtiCreator/tpl/forms/response/scoringModel.tpl',
+    'text!taoQtiItem/qtiCreator/tpl/forms/response/scoringModelLevel.tpl',
     'handlebars',
 ], function (
     $,
@@ -47,14 +51,20 @@ define([
     xmlRenderer,
     textEntryEvaluationForm,
     textEntryEvaluationHelper,
+    scoringModelForm,
+    scoringModelHelper,
     textEntryEvaluationPartial,
     lexicalFieldGroupPartial,
+    scoringModelPartial,
+    scoringModelLevelPartial,
     handlebars
 ) {
     'use strict';
 
     handlebars.registerPartial('textEntryEvaluation', textEntryEvaluationPartial);
     handlebars.registerPartial('lexicalFieldGroup', lexicalFieldGroupPartial);
+    handlebars.registerPartial('scoringModel', scoringModelPartial);
+    handlebars.registerPartial('scoringModelLevel', scoringModelLevelPartial);
 
     const modalFeedbackConfigKey = 'taoQtiItem/creator/interaction/property/modalFeedback';
     const showResponseIdentifierKey = 'taoQtiItem/creator/interaction/response/property/identifier';
@@ -232,8 +242,6 @@ define([
                 response = interaction.getResponseDeclaration();
             let template = responseHelper.getTemplateNameFromUri(response.template);
             const listOfBaseType = response.attributes.baseType,
-                editMapping = _.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0,
-                defineCorrect = answerStateHelper.defineCorrect(response),
                 allQtiElements = qtiElements.getAvailableAuthoringElements();
 
             const outcome = item.getOutcomeDeclaration(`SCORE_${response.id()}`);
@@ -252,15 +260,37 @@ define([
                 rpTemplates: []
             });
 
-            if (!template || rp.processingType === 'custom') {
+            const isTextEntryInteraction =
+                interaction.qtiClass === allQtiElements.textEntryInteraction.qtiClass;
+            const scoringModelConfig = isTextEntryInteraction
+                ? scoringModelHelper.getScoringModelConfig(interaction)
+                : { model: scoringModelHelper.MODEL_SIMPLE_SUM };
+            const isScoringModelManaged =
+                scoringModelConfig.model !== scoringModelHelper.MODEL_SIMPLE_SUM;
+
+            // Scoring-model RP is stored as custom XML but authoring stays on map response.
+            if (isScoringModelManaged) {
+                if (
+                    !template ||
+                    template === 'CUSTOM' ||
+                    (!responseHelper.isUsingTemplate(response, 'MAP_RESPONSE') &&
+                        !responseHelper.isUsingTemplate(response, 'MAP_RESPONSE_POINT'))
+                ) {
+                    template = 'MAP_RESPONSE';
+                    response.setTemplate('MAP_RESPONSE');
+                }
+            } else if (!template || rp.processingType === 'custom') {
                 template = 'CUSTOM';
             }
 
-            const isTextEntryInteraction =
-                interaction.qtiClass === allQtiElements.textEntryInteraction.qtiClass;
+            const editMapping = _.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0;
+            const defineCorrect = answerStateHelper.defineCorrect(response);
 
             const evaluationTplData = isTextEntryInteraction
                 ? textEntryEvaluationForm.getTplData(interaction)
+                : {};
+            const scoringModelTplData = isTextEntryInteraction
+                ? scoringModelForm.getTplData(interaction)
                 : {};
 
             widget.$responseForm.html(
@@ -285,7 +315,8 @@ define([
                             textEntryInteraction: isTextEntryInteraction,
                             defaultValue: response.getMappingAttribute('defaultValue')
                         },
-                        evaluationTplData
+                        evaluationTplData,
+                        scoringModelTplData
                     )
                 )
             );
@@ -333,6 +364,30 @@ define([
                     response.setMappingAttribute(key, value);
                 },
                 template: function (res, value) {
+                    const activeScoringModel = isTextEntryInteraction
+                        ? scoringModelHelper.getScoringModelConfig(interaction)
+                        : { model: scoringModelHelper.MODEL_SIMPLE_SUM };
+                    const scoringManaged =
+                        activeScoringModel.model !== scoringModelHelper.MODEL_SIMPLE_SUM;
+
+                    if (
+                        scoringManaged &&
+                        (value === 'MAP_RESPONSE' || value === 'MAP_RESPONSE_POINT')
+                    ) {
+                        // Keep scoring-model custom RP; only refresh the response template.
+                        response.setTemplate(value);
+                        answerStateHelper.forward(widget);
+                        answerStateHelper.initResponseForm(widget);
+                        return;
+                    }
+
+                    if (scoringManaged && value !== 'CUSTOM') {
+                        scoringModelHelper.persistScoringModelConfig(interaction, {
+                            model: scoringModelHelper.MODEL_SIMPLE_SUM,
+                            thresholds: []
+                        });
+                    }
+
                     rp.setProcessingType(value === 'CUSTOM' ? 'custom' : 'templateDriven');
                     response.setTemplate(value);
                     answerStateHelper.forward(widget);
@@ -375,6 +430,7 @@ define([
             formElement.initWidget(widget.$responseForm);
 
             if (isTextEntryInteraction) {
+                scoringModelForm.bindEvents(widget.$responseForm, widget);
                 textEntryEvaluationForm.bindEvents(widget.$responseForm, widget);
 
                 if (textEntryEvaluationHelper.isUmfiEnabled(interaction)) {
@@ -382,6 +438,10 @@ define([
                         interaction,
                         textEntryEvaluationHelper.getEvaluationConfig(interaction)
                     );
+                }
+
+                if (isScoringModelManaged) {
+                    scoringModelHelper.persistScoringModelConfig(interaction, scoringModelConfig);
                 }
             }
         },

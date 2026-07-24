@@ -585,6 +585,142 @@ body.solar-design .item-editor-choice-related .text-entry-evaluation-panel .text
   grid-row: 1;
   line-height: 1.4;
 }
+.item-editor-response-related .scoring-model-panel h3.full-width .icon-help,
+.item-editor-choice-related .scoring-model-panel h3.full-width .icon-help {
+  margin-left: 0.25rem;
+}
+.item-editor-response-related .scoring-model-panel .scoring-model-options,
+.item-editor-choice-related .scoring-model-panel .scoring-model-options {
+  margin-bottom: 0.25rem;
+}
+.item-editor-response-related .scoring-model-panel .scoring-model-options .scoring-model-option,
+.item-editor-choice-related .scoring-model-panel .scoring-model-options .scoring-model-option {
+  margin-bottom: 0.5rem;
+}
+.item-editor-response-related .scoring-model-panel .scoring-model-options label.smaller-prompt,
+.item-editor-choice-related .scoring-model-panel .scoring-model-options label.smaller-prompt {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  column-gap: 8px;
+  align-items: start;
+  margin-bottom: 0.15rem;
+}
+.item-editor-response-related .scoring-model-panel .scoring-model-options label.smaller-prompt input[type=radio],
+.item-editor-choice-related .scoring-model-panel .scoring-model-options label.smaller-prompt input[type=radio] {
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0;
+}
+.item-editor-response-related .scoring-model-panel .scoring-model-options label.smaller-prompt .icon-radio,
+.item-editor-choice-related .scoring-model-panel .scoring-model-options label.smaller-prompt .icon-radio {
+  grid-column: 1;
+  grid-row: 1;
+  float: none;
+  margin: 0;
+  top: 0;
+}
+.item-editor-response-related .scoring-model-panel .scoring-model-options label.smaller-prompt .label-text,
+.item-editor-choice-related .scoring-model-panel .scoring-model-options label.smaller-prompt .label-text {
+  grid-column: 2;
+  grid-row: 1;
+  line-height: 1.4;
+}
+.item-editor-response-related .scoring-model-panel .scoring-model-details,
+.item-editor-choice-related .scoring-model-panel .scoring-model-details {
+  margin: 0.15rem 0 0.35rem 28px;
+}
+.item-editor-response-related .scoring-model-panel .scoring-model-description,
+.item-editor-choice-related .scoring-model-panel .scoring-model-description {
+  margin: 0 0 0.5rem;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 1.4;
+  color: var(--color-gs-dark-secondary, #666);
+}
+.item-editor-response-related .scoring-model-panel .scoring-model-dichotomous-fields .panel,
+.item-editor-choice-related .scoring-model-panel .scoring-model-dichotomous-fields .panel {
+  margin-bottom: 0.5rem;
+}
+.item-editor-response-related .scoring-model-panel .scoring-model-levels-header,
+.item-editor-choice-related .scoring-model-panel .scoring-model-levels-header {
+  display: grid;
+  grid-template-columns: minmax(3rem, 4.5rem) auto minmax(3rem, 4.5rem) 24px;
+  column-gap: 0.5rem;
+  margin-bottom: 0.35rem;
+  font-size: 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--color-gs-dark-secondary, #666);
+}
+.item-editor-response-related .scoring-model-panel .scoring-model-levels-header span:last-child,
+.item-editor-choice-related .scoring-model-panel .scoring-model-levels-header span:last-child {
+  grid-column: 3;
+}
+.item-editor-response-related .scoring-model-panel .scoring-model-level,
+.item-editor-choice-related .scoring-model-panel .scoring-model-level {
+  display: grid;
+  grid-template-columns: minmax(3rem, 4.5rem) auto minmax(3rem, 4.5rem) 24px;
+  column-gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.item-editor-response-related .scoring-model-panel .scoring-model-level input.score,
+.item-editor-choice-related .scoring-model-panel .scoring-model-level input.score {
+  margin: 0;
+  width: 100%;
+}
+.item-editor-response-related .scoring-model-panel .scoring-model-level .scoring-level-suffix,
+.item-editor-choice-related .scoring-model-panel .scoring-model-level .scoring-level-suffix {
+  font-size: 13px;
+  font-size: 1.3rem;
+  white-space: nowrap;
+}
+.item-editor-response-related .scoring-model-panel .scoring-model-level .scoring-level-remove,
+.item-editor-choice-related .scoring-model-panel .scoring-model-level .scoring-level-remove {
+  color: rgb(14, 93, 145);
+  cursor: pointer;
+  padding: 3px;
+  justify-self: end;
+}
+.item-editor-response-related .scoring-model-panel .scoring-model-level .scoring-level-remove:hover,
+.item-editor-choice-related .scoring-model-panel .scoring-model-level .scoring-level-remove:hover {
+  color: rgb(110.4, 157.8, 189);
+}
+.item-editor-response-related .scoring-model-panel .add-scoring-level-action,
+.item-editor-choice-related .scoring-model-panel .add-scoring-level-action {
+  display: inline-block;
+  border: none;
+  background: none;
+  padding: 0;
+  color: rgb(14, 93, 145);
+  cursor: pointer;
+  font-size: 13px;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  text-decoration: none;
+}
+body.solar-design .item-editor-response-related .scoring-model-panel .add-scoring-level-action,
+body.solar-design .item-editor-choice-related .scoring-model-panel .add-scoring-level-action {
+  color: var(--color-brand, rgb(14, 93, 145));
+}
+body.solar-design .item-editor-response-related .scoring-model-panel .add-scoring-level-action:hover, body.solar-design .item-editor-response-related .scoring-model-panel .add-scoring-level-action:focus,
+body.solar-design .item-editor-choice-related .scoring-model-panel .add-scoring-level-action:hover,
+body.solar-design .item-editor-choice-related .scoring-model-panel .add-scoring-level-action:focus {
+  color: var(--color-brand-hover, rgb(110.4, 157.8, 189));
+}
+.item-editor-response-related .scoring-model-panel .add-scoring-level-action:hover, .item-editor-response-related .scoring-model-panel .add-scoring-level-action:focus,
+.item-editor-choice-related .scoring-model-panel .add-scoring-level-action:hover,
+.item-editor-choice-related .scoring-model-panel .add-scoring-level-action:focus {
+  color: rgb(110.4, 157.8, 189);
+  text-decoration: none;
+}
+.item-editor-response-related .scoring-model-panel .add-scoring-level-action .icon-add,
+.item-editor-choice-related .scoring-model-panel .add-scoring-level-action .icon-add {
+  margin-right: 0.25rem;
+  font-size: 12px;
+  font-size: 1.2rem;
+  color: inherit;
+}
 
 .item-editor-css-editor select {
   min-width: 0 !important;

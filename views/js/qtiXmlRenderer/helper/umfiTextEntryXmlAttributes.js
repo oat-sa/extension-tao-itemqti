@@ -18,9 +18,32 @@
 define(['lodash'], function (_) {
     'use strict';
 
-    const INTERNAL_AUTHORING_ATTRS = ['data-umfi-managed-outcomes', 'data-umfi-rp-managed'];
+    const INTERNAL_AUTHORING_ATTRS = [
+        'data-umfi-managed-outcomes',
+        'data-umfi-rp-managed',
+        'data-scoring-model-rp-managed'
+    ];
 
-    const SINGLE_QUOTED_JSON_ATTRS = ['data-umfi-values'];
+    const SINGLE_QUOTED_JSON_ATTRS = ['data-umfi-values', 'data-scoring-model'];
+
+    /**
+     * Escape attribute text for the chosen quote style.
+     * XML parsers decode entities when reading attributes, so JSON consumers still see raw quotes/apostrophes.
+     *
+     * @param {string} value
+     * @param {string} quoteChar
+     * @returns {string}
+     */
+    const escapeXmlAttributeValue = function escapeXmlAttributeValue(value, quoteChar) {
+        const stringValue = String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+
+        return quoteChar === "'"
+            ? stringValue.replace(/'/g, '&apos;')
+            : stringValue.replace(/"/g, '&quot;');
+    };
 
     /**
      * Escape attribute text for the chosen quote style.
