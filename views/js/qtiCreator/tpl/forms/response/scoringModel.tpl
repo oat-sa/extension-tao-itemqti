@@ -47,6 +47,8 @@
                                name="dichotomousThreshold"
                                value="{{dichotomousThreshold}}"
                                class="score"
+                               data-increment="1"
+                               data-min="0"
                                data-validate="$notEmpty; $numeric;"
                                data-validate-option="$lazy; $event(type=keyup)" />
                     </div>
@@ -57,6 +59,8 @@
                                name="dichotomousScore"
                                value="{{dichotomousScore}}"
                                class="score"
+                               data-increment="1"
+                               data-min="0"
                                data-validate="$notEmpty; $numeric;"
                                data-validate-option="$lazy; $event(type=keyup)" />
                     </div>
@@ -79,8 +83,8 @@
                 </p>
                 <div class="scoring-model-levels">
                     <div class="scoring-model-levels-header">
-                        <span>{{__ "Correct responses"}}</span>
-                        <span>{{__ "Scores"}}</span>
+                        <span class="scoring-level-threshold">{{__ "Correct responses"}}</span>
+                        <span class="scoring-level-score">{{__ "Scores"}}</span>
                     </div>
                     <div class="scoring-model-level-list">
                         {{#each scoringLevels}}

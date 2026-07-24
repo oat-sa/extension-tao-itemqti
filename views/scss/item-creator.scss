@@ -263,6 +263,25 @@ img.dragging.ui-draggable-dragging {
     @import "qtiCreator/_scoring-model";
 }
 
+// Keep polytomous level score inputs compact; beat solar --input-height (44px) in the sidebar.
+.item-editor-sidebar .tool-group .panel .scoring-model-level input.score {
+    width: 40px;
+    min-width: 40px;
+    max-width: 40px;
+    height: 2rem;
+    min-height: 2rem;
+    padding: 0 0.25rem;
+    line-height: 2rem;
+    box-sizing: border-box;
+}
+
+.item-editor-sidebar .tool-group .panel .scoring-model-dichotomous-fields .incrementer-ctrl-wrapper input.score,
+.item-editor-sidebar .tool-group .panel .scoring-model-dichotomous-fields .incrementer-ctrl-wrapper input.incrementer {
+    width: calc(var(--input-height) + 16px);
+    min-width: var(--input-height);
+    max-width: none;
+}
+
 .item-editor-css-editor {
     select {
         min-width: 0 !important;
