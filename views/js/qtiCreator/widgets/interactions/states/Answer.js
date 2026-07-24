@@ -2,8 +2,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Answer',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState',
+    'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm',
     'taoQtiItem/qtiCreator/widgets/helpers/content'
-], function(stateFactory, Answer, answerStateHelper, contentHelper){
+], function(stateFactory, Answer, answerStateHelper, textEntryEvaluationForm, contentHelper){
     'use strict';
 
     var InteractionStateAnswer = stateFactory.create(Answer, function initInteractionStateAnswer(){
@@ -24,6 +25,7 @@ define([
         //remove runtime style
         this.widget.$container.removeClass('runtime');
 
+        textEntryEvaluationForm.unbindEvents(this.widget.$responseForm);
         this.widget.$responseForm.empty().hide();
         
         contentHelper.changeInnerWidgetState(this.widget, 'sleep');

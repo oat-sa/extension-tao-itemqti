@@ -1,0 +1,228 @@
+.text-entry-evaluation-panel {
+    $control-column-width: 20px;
+    $control-gap: 8px;
+
+    h3.full-width {
+        .icon-help {
+            margin-left: 0.25rem;
+        }
+    }
+
+    .text-entry-evaluation-expanded {
+        margin-top: 0.25rem;
+    }
+
+    label.smaller-prompt {
+        display: grid;
+        grid-template-columns: $control-column-width 1fr;
+        column-gap: $control-gap;
+        align-items: start;
+        margin-bottom: 0.25rem;
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            grid-column: 1;
+            grid-row: 1;
+            margin: 0;
+        }
+
+        .icon-checkbox,
+        .icon-radio {
+            grid-column: 1;
+            grid-row: 1;
+            float: none;
+            margin: 0;
+            top: 0;
+        }
+
+        .label-text {
+            grid-column: 2;
+            grid-row: 1;
+            line-height: 1.4;
+        }
+    }
+
+    .allow-lexical-fields-on-scoring {
+        margin-top: 0.75rem;
+    }
+
+    .lexical-fields-panel {
+        margin: 0.75rem 0;
+
+        .lexical-fields-title {
+            margin: 0 0 0.5rem;
+            @include font-size(14);
+            font-weight: bold;
+
+            .icon-help {
+                margin-left: 0.25rem;
+                font-weight: normal;
+            }
+        }
+
+        .add-lexical-field-action {
+            display: inline-block;
+            margin-bottom: 0.75rem;
+        }
+    }
+
+    .action-link {
+        display: inline-block;
+        border: none;
+        background: none;
+        padding: 0;
+        color: $info;
+        cursor: pointer;
+        @include font-size(13);
+        line-height: 1.4;
+        text-decoration: none;
+
+        body.solar-design & {
+            color: var(--color-brand, #{$info});
+
+            &:hover,
+            &:focus {
+                color: var(--color-brand-hover, #{whiten($info, 0.4)});
+            }
+        }
+
+        &:hover,
+        &:focus {
+            color: whiten($info, 0.4);
+            text-decoration: none;
+        }
+
+        .icon-add {
+            margin-right: 0.25rem;
+            @include font-size(12);
+            color: inherit;
+        }
+    }
+
+    .add-variant-action {
+        margin-top: 0.15rem;
+    }
+
+    .lexical-field-group {
+        border: 1px solid var(--color-gs-light-secondary, #ddd);
+        border-radius: 3px;
+        margin-bottom: 0.75rem;
+        padding: 0.75rem;
+        background: var(--color-gs-light, #fff);
+    }
+
+    .lexical-field-group-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+
+        .lexical-field-canonical {
+            flex: 1;
+            min-width: 0;
+            margin: 0;
+        }
+    }
+
+    .lexical-field-remove {
+        flex-shrink: 0;
+        color: $info;
+        cursor: pointer;
+        padding: 3px;
+
+        &:hover {
+            color: whiten($info, 0.4);
+        }
+
+        &:active {
+            color: whiten($info, 0.6);
+        }
+    }
+
+    .lexical-field-variants-label {
+        margin: 0 0 0.35rem;
+        @include font-size(13);
+        color: var(--color-gs-dark-secondary, #666);
+    }
+
+    .lexical-field-variant-chips {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.35rem;
+        margin-bottom: 0.5rem;
+        min-height: 1.75rem;
+    }
+
+    .lexical-field-variant-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.15rem;
+        padding: 0.15rem 0.35rem 0.15rem 0.5rem;
+        border: 1px solid var(--color-gs-light-secondary, #ddd);
+        border-radius: 3px;
+        background: var(--color-gs-light-alternative, #f5f5f5);
+        @include font-size(13);
+        line-height: 1.3;
+
+        &:not(.has-remove) {
+            padding-right: 0.5rem;
+        }
+
+        .variant-text {
+            word-break: break-word;
+        }
+
+        .variant-remove {
+            cursor: pointer;
+            @include font-size(11);
+            line-height: 1;
+            padding: 0 0.1rem;
+
+            &:hover {
+                color: whiten($info, 0.4);
+            }
+        }
+    }
+
+    .lexical-field-variant-input {
+        width: 6rem;
+        min-width: 4rem;
+        margin: 0;
+        @include font-size(13);
+
+        &.error {
+            border-color: $error;
+            color: $error;
+        }
+    }
+
+    .text-entry-evaluation-info {
+        display: grid;
+        grid-template-columns: $control-column-width 1fr;
+        column-gap: $control-gap;
+        align-items: start;
+        margin: 0.15rem 0 0.75rem;
+        color: $info;
+        font-size: 12px;
+        line-height: 1.4;
+
+        body.solar-design & {
+            color: var(--color-brand, #{$info});
+        }
+
+        .icon-info {
+            grid-column: 1;
+            grid-row: 1;
+            margin: 1px 0 0;
+            font-size: 14px;
+            color: inherit;
+        }
+
+        .info-text {
+            grid-column: 2;
+            grid-row: 1;
+            line-height: 1.4;
+        }
+    }
+}

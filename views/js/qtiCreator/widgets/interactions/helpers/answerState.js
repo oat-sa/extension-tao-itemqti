@@ -11,7 +11,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
  *
@@ -28,6 +28,11 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/modalFeedbackRule',
     'taoQtiItem/qtiCreator/helper/qtiElements',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
+    'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm',
+    'taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper',
+    'text!taoQtiItem/qtiCreator/tpl/forms/response/textEntryEvaluation.tpl',
+    'text!taoQtiItem/qtiCreator/tpl/forms/response/lexicalFieldGroup.tpl',
+    'handlebars',
 ], function (
     $,
     _,
@@ -39,9 +44,17 @@ define([
     responseFormTpl,
     modalFeedbackRule,
     qtiElements,
-    xmlRenderer
+    xmlRenderer,
+    textEntryEvaluationForm,
+    textEntryEvaluationHelper,
+    textEntryEvaluationPartial,
+    lexicalFieldGroupPartial,
+    handlebars
 ) {
     'use strict';
+
+    handlebars.registerPartial('textEntryEvaluation', textEntryEvaluationPartial);
+    handlebars.registerPartial('lexicalFieldGroup', lexicalFieldGroupPartial);
 
     const modalFeedbackConfigKey = 'taoQtiItem/creator/interaction/property/modalFeedback';
     const showResponseIdentifierKey = 'taoQtiItem/creator/interaction/response/property/identifier';
@@ -243,26 +256,38 @@ define([
                 template = 'CUSTOM';
             }
 
+            const isTextEntryInteraction =
+                interaction.qtiClass === allQtiElements.textEntryInteraction.qtiClass;
+
+            const evaluationTplData = isTextEntryInteraction
+                ? textEntryEvaluationForm.getTplData(interaction)
+                : {};
+
             widget.$responseForm.html(
-                responseFormTpl({
-                    identifier: response.id(),
-                    showIdentifier: features.isVisible(showResponseIdentifierKey),
-                    serial: response.getSerial(),
-                    defineCorrect: defineCorrect,
-                    editMapping: editMapping,
-                    editFeedbacks: template !== 'CUSTOM' && features.isVisible(modalFeedbackConfigKey),
-                    mappingDisabled: _.isEmpty(response.mapEntries),
-                    template: template,
-                    templates: _getAvailableRpTemplates(
-                        interaction,
-                        options.rpTemplates,
-                        widget.options.allowCustomTemplate
-                    ),
-                    listOfBaseType: listOfBaseType,
-                    listOfBaseTypes: _getAvailableListOfBaseTypes(listOfBaseType),
-                    textEntryInteraction: interaction.qtiClass === allQtiElements.textEntryInteraction.qtiClass,
-                    defaultValue: response.getMappingAttribute('defaultValue')
-                })
+                responseFormTpl(
+                    Object.assign(
+                        {
+                            identifier: response.id(),
+                            showIdentifier: features.isVisible(showResponseIdentifierKey),
+                            serial: response.getSerial(),
+                            defineCorrect: defineCorrect,
+                            editMapping: editMapping,
+                            editFeedbacks: template !== 'CUSTOM' && features.isVisible(modalFeedbackConfigKey),
+                            mappingDisabled: _.isEmpty(response.mapEntries),
+                            template: template,
+                            templates: _getAvailableRpTemplates(
+                                interaction,
+                                options.rpTemplates,
+                                widget.options.allowCustomTemplate
+                            ),
+                            listOfBaseType: listOfBaseType,
+                            listOfBaseTypes: _getAvailableListOfBaseTypes(listOfBaseType),
+                            textEntryInteraction: isTextEntryInteraction,
+                            defaultValue: response.getMappingAttribute('defaultValue')
+                        },
+                        evaluationTplData
+                    )
+                )
             );
             widget.$responseForm.find('select[name=template]').val(template);
 
@@ -348,6 +373,17 @@ define([
             widget.$responseForm.trigger('initResponseForm');
 
             formElement.initWidget(widget.$responseForm);
+
+            if (isTextEntryInteraction) {
+                textEntryEvaluationForm.bindEvents(widget.$responseForm, widget);
+
+                if (textEntryEvaluationHelper.isUmfiEnabled(interaction)) {
+                    textEntryEvaluationHelper.persistEvaluationConfig(
+                        interaction,
+                        textEntryEvaluationHelper.getEvaluationConfig(interaction)
+                    );
+                }
+            }
         },
 
         /**

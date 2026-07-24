@@ -11,7 +11,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * 31 Milk St # 960789 Boston, MA 02196 USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2016-2026 (original work) Open Assessment Technologies SA ;
  *
@@ -43,6 +43,7 @@ define([
     'taoQtiItem/qtiCreator/editor/propertiesPanel',
     'taoQtiItem/qtiCreator/model/helper/event',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
+    'taoQtiItem/qtiCreator/helper/textEntryEvaluationSave',
     'handlebars',
     'text!taoQtiItem/qtiCreator/tpl/partials/scrollingSelect.tpl'
 ], function (
@@ -62,6 +63,7 @@ define([
     propertiesPanel,
     eventHelper,
     styleEditor,
+    textEntryEvaluationSave,
     handlebars,
     scrollingSelect
 ) {
@@ -227,6 +229,13 @@ define([
                     }
                     //do the save
                     return this.beforeSaveProcess
+                        .then(() =>
+                            Promise.all(
+                                (this.beforeSaveFactories || []).map(factory =>
+                                    Promise.resolve().then(() => factory())
+                                )
+                            )
+                        )
                         .then(() => styleEditor.save())
                         .then(() => itemWidget.save())
                         .then(() => this.trigger('updateTranslations'))
@@ -310,10 +319,19 @@ define([
                         // forward context error
                         qtiCreatorContext.on('error', err => this.trigger('error', err));
                         // handle before save processes
+                        // - Promise/thenable: settled once at registration (legacy)
+                        // - function factory: invoked on every save
                         this.beforeSaveProcess = Promise.resolve();
+                        this.beforeSaveFactories = [];
                         qtiCreatorContext.on('registerBeforeSaveProcess', beforeSaveProcess => {
+                            if (typeof beforeSaveProcess === 'function') {
+                                this.beforeSaveFactories.push(beforeSaveProcess);
+                                return;
+                            }
+
                             this.beforeSaveProcess = Promise.all([this.beforeSaveProcess, beforeSaveProcess]);
                         });
+                        textEntryEvaluationSave.register(qtiCreatorContext, () => this.getItem());
                         return qtiCreatorContext.init();
                     })
                     .catch(err => this.trigger('error', err));

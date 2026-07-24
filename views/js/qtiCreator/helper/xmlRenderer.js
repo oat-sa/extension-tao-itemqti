@@ -11,7 +11,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2015-2017 (original work) Open Assessment Technologies SA ;
  */
@@ -21,7 +21,8 @@ define([
     'taoQtiItem/qtiItem/helper/maxScore',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiXmlRenderer/renderers/RendererPerInteractionRP',
-], function(loggerFactory, XmlRenderer, maxScore, Element, XmlRendererPerInteractionRP){
+    'taoQtiItem/qtiXmlRenderer/helper/umfiTextEntryXmlAttributes'
+], function(loggerFactory, XmlRenderer, maxScore, Element, XmlRendererPerInteractionRP, umfiTextEntryXmlAttributes){
     'use strict';
 
     const logger = loggerFactory('taoQtiItem/qtiCreator/helper/xmlRenderer');
@@ -60,6 +61,10 @@ define([
                     xmlRenderer,
                     options
                 );
+
+                if (element.is('assessmentItem')) {
+                    xml = umfiTextEntryXmlAttributes.stripInternalAuthoringAttrsFromItemXml(xml);
+                }
             }
         }catch(e){
             logger.error(e);
