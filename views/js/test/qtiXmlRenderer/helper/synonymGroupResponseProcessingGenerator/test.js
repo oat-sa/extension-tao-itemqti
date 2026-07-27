@@ -76,7 +76,7 @@ define(['taoQtiItem/qtiXmlRenderer/helper/synonymGroupResponseProcessingGenerato
         });
     });
 
-    QUnit.test('getMaxScore sums group weights', assert => {
+    QUnit.test('getMaxScore uses threshold max when scoring model thresholds are set', assert => {
         assert.equal(generator.getMaxScore(sampleConfig), 3);
 
         const weightedConfig = generator.normalizeConfig({
@@ -88,6 +88,22 @@ define(['taoQtiItem/qtiXmlRenderer/helper/synonymGroupResponseProcessingGenerato
         });
 
         assert.equal(generator.getMaxScore(weightedConfig), 5);
+
+        const withThresholds = generator.normalizeConfig({
+            interactions: ['R1', 'R2', 'R3', 'R4'],
+            synonymGroups: [
+                { id: 'A_FOUND', synonyms: ['a'] },
+                { id: 'B_FOUND', synonyms: ['b'] },
+                { id: 'C_FOUND', synonyms: ['c'] },
+                { id: 'D_FOUND', synonyms: ['d'] }
+            ],
+            thresholds: [
+                { threshold: 3, score: 2 },
+                { threshold: 2, score: 1 }
+            ]
+        });
+
+        assert.equal(generator.getMaxScore(withThresholds), 2);
     });
 
     QUnit.test('generateOutcomeDeclarations includes group and score outcomes', assert => {
@@ -154,6 +170,57 @@ define(['taoQtiItem/qtiXmlRenderer/helper/synonymGroupResponseProcessingGenerato
                 }),
             /must not collide/
         );
+    });
+
+    QUnit.test('generateResponseProcessing applies TEMP_SCORE threshold ladder for polytomous', assert => {
+        const xml = generator.generateResponseProcessing({
+            interactions: ['RESPONSE', 'RESPONSE_1', 'RESPONSE_2', 'RESPONSE_3'],
+            synonymGroups: [
+                { id: 'BELGIA_FOUND', synonyms: ['Belgia', 'Belgium'] },
+                { id: 'FRANCJA_FOUND', synonyms: ['Francja', 'France'] },
+                { id: 'GERMANY_FOUND', synonyms: ['Germany', 'Niemcy'] },
+                { id: 'POLSKA_FOUND', synonyms: ['Polska', 'Poland'] }
+            ],
+            thresholds: [
+                { threshold: 3, score: 2 },
+                { threshold: 2, score: 1 }
+            ]
+        });
+
+        assert.ok(xml.indexOf('identifier="TEMP_SCORE"') > -1, 'Sums groups into TEMP_SCORE');
+        assert.ok(xml.indexOf('<gte>') > -1, 'Applies threshold comparison');
+        assert.ok(xml.indexOf('<baseValue baseType="float">3</baseValue>') > -1);
+        assert.ok(xml.indexOf('<baseValue baseType="float">2</baseValue>') > -1);
+        assert.ok(xml.indexOf('<responseElseIf>') > -1, 'Polytomous elseIf chain');
+        assert.equal(countOccurrences(xml, '<setOutcomeValue identifier="SCORE">'), 3);
+    });
+
+    QUnit.test('generateResponseProcessing applies dichotomous TEMP_SCORE threshold', assert => {
+        const xml = generator.generateResponseProcessing({
+            interactions: ['RESPONSE', 'RESPONSE_1', 'RESPONSE_2'],
+            synonymGroups: [
+                { id: 'FRANCJA_FOUND', synonyms: ['Francja', 'France'] },
+                { id: 'GERMANY_FOUND', synonyms: ['Germany', 'Niemcy'] },
+                { id: 'POLSKA_FOUND', synonyms: ['Polska', 'Poland'] }
+            ],
+            thresholds: [{ threshold: 2, score: 1 }]
+        });
+
+        assert.ok(xml.indexOf('identifier="TEMP_SCORE"') > -1, 'Sums groups into TEMP_SCORE');
+        assert.ok(xml.indexOf('<gte>') > -1, 'Applies threshold comparison');
+        assert.ok(xml.indexOf('<baseValue baseType="float">2</baseValue>') > -1);
+        assert.strictEqual(xml.indexOf('<responseElseIf>'), -1, 'No elseIf for dichotomous');
+        assert.ok(xml.indexOf('<responseElse>') > -1, 'No-credit else branch');
+        assert.equal(countOccurrences(xml, '<setOutcomeValue identifier="SCORE">'), 2);
+        assert.equal(generator.getMaxScore({
+            interactions: ['RESPONSE', 'RESPONSE_1', 'RESPONSE_2'],
+            synonymGroups: [
+                { id: 'FRANCJA_FOUND', synonyms: ['Francja'] },
+                { id: 'GERMANY_FOUND', synonyms: ['Germany'] },
+                { id: 'POLSKA_FOUND', synonyms: ['Polska'] }
+            ],
+            thresholds: [{ threshold: 2, score: 1 }]
+        }), 1);
     });
 
     QUnit.test('each synonym group uses a single maxScore assignment', assert => {

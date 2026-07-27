@@ -17,11 +17,19 @@
  */
 define([
     'lodash',
+    'taoQtiItem/qtiXmlRenderer/helper/scoringModelResponseProcessingGenerator',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/synonym_group_condition',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/responses/synonym_group_score_sum',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/outcomes/synonym_group_outcome',
     'tpl!taoQtiItem/qtiXmlRenderer/tpl/outcomes/synonym_group_score_outcomes'
-], function (_, synonymGroupTpl, scoreSumTpl, groupOutcomeTpl, scoreOutcomesTpl) {
+], function (
+    _,
+    scoringModelRpGenerator,
+    synonymGroupTpl,
+    scoreSumTpl,
+    groupOutcomeTpl,
+    scoreOutcomesTpl
+) {
     'use strict';
 
     /**
@@ -38,14 +46,23 @@ define([
      */
 
     /**
+     * @typedef {Object} SynonymGroupThreshold
+     * @property {number} threshold
+     * @property {number} score
+     */
+
+    /**
      * @typedef {Object} SynonymGroupResponseProcessingConfig
      * @property {string[]} interactions Text entry response identifiers
      * @property {SynonymGroupDefinition[]} synonymGroups Synonym groups to score holistically
      * @property {boolean} [caseSensitive=false] stringMatch case sensitivity
      * @property {string} [scoreOutcome=SCORE] Final score outcome identifier
+     * @property {string} [tempScoreOutcome=TEMP_SCORE] Intermediate sum when thresholds apply
+     * @property {SynonymGroupThreshold[]} [thresholds] Optional dichotomous/polytomous ladder
      */
 
     const DEFAULT_SCORE_OUTCOME = 'SCORE';
+    const DEFAULT_TEMP_SCORE_OUTCOME = scoringModelRpGenerator.DEFAULT_TEMP_SCORE_OUTCOME;
 
     const resolveSynonyms = group => group.synonyms || group.variants || group.aliases || [];
 
@@ -54,16 +71,25 @@ define([
      * @returns {SynonymGroupResponseProcessingConfig}
      */
     const normalizeConfig = function normalizeConfig(config) {
-        const normalized = _.cloneDeep(config);
+        const normalized = _.cloneDeep(config) || {};
 
         normalized.caseSensitive = normalized.caseSensitive === true;
         normalized.scoreOutcome = normalized.scoreOutcome || DEFAULT_SCORE_OUTCOME;
-        normalized.synonymGroups = _.map(normalized.synonymGroups, group => ({
+        normalized.tempScoreOutcome = normalized.tempScoreOutcome || DEFAULT_TEMP_SCORE_OUTCOME;
+        normalized.synonymGroups = _.map(normalized.synonymGroups || [], group => ({
             id: group.id,
             label: group.label,
             synonyms: _.map(resolveSynonyms(group), String),
             maxScore: _.isUndefined(group.maxScore) ? 1 : group.maxScore
         }));
+        normalized.thresholds = _.chain(normalized.thresholds || [])
+            .map(entry => ({
+                threshold: Number(entry.threshold),
+                score: Number(entry.score)
+            }))
+            .filter(entry => _.isFinite(entry.threshold) && _.isFinite(entry.score))
+            .sortBy(entry => -entry.threshold)
+            .value();
 
         return normalized;
     };
@@ -109,6 +135,12 @@ define([
         if (outcomeIds[config.scoreOutcome]) {
             throw new Error(`scoreOutcome "${config.scoreOutcome}" must not collide with a synonym group id`);
         }
+
+        if (config.thresholds && config.thresholds.length && outcomeIds[config.tempScoreOutcome]) {
+            throw new Error(
+                `tempScoreOutcome "${config.tempScoreOutcome}" must not collide with a synonym group id`
+            );
+        }
     };
 
     /**
@@ -138,7 +170,7 @@ define([
      * @param {SynonymGroupResponseProcessingConfig} config
      * @returns {number}
      */
-    const getMaxScore = function getMaxScore(config) {
+    const getGroupSumMaxScore = function getGroupSumMaxScore(config) {
         const groups = (config && config.synonymGroups) || [];
 
         return _.reduce(
@@ -146,6 +178,36 @@ define([
             (total, group) => total + (_.isUndefined(group.maxScore) ? 1 : Number(group.maxScore)),
             0
         );
+    };
+
+    /**
+     * When thresholds are configured, MAXSCORE is the highest threshold score.
+     * Otherwise it is the sum of group maxScore values.
+     *
+     * @param {SynonymGroupResponseProcessingConfig} config
+     * @returns {number}
+     */
+    const getMaxScore = function getMaxScore(config) {
+        const normalized = normalizeConfig(config);
+
+        if (normalized.thresholds.length) {
+            return scoringModelRpGenerator.getMaxScore({
+                interactions: normalized.interactions,
+                thresholds: normalized.thresholds
+            });
+        }
+
+        return getGroupSumMaxScore(normalized);
+    };
+
+    /**
+     * @param {SynonymGroupResponseProcessingConfig} config
+     * @returns {boolean}
+     */
+    const hasThresholds = function hasThresholds(config) {
+        const normalized = normalizeConfig(config);
+
+        return normalized.thresholds.length > 0;
     };
 
     /**
@@ -165,12 +227,26 @@ define([
             })
         );
 
+        const sumTargetOutcome = normalized.thresholds.length
+            ? normalized.tempScoreOutcome
+            : normalized.scoreOutcome;
+
         rules.push(
             scoreSumTpl({
-                scoreOutcome: normalized.scoreOutcome,
+                scoreOutcome: sumTargetOutcome,
                 groupOutcomeIds: _.map(normalized.synonymGroups, 'id')
             })
         );
+
+        if (normalized.thresholds.length) {
+            rules.push(
+                scoringModelRpGenerator.buildThresholdRules(
+                    normalized.thresholds,
+                    normalized.tempScoreOutcome,
+                    normalized.scoreOutcome
+                )
+            );
+        }
 
         return `<responseProcessing>\n${rules.join('\n')}\n</responseProcessing>`;
     };
@@ -199,10 +275,13 @@ define([
     };
 
     return {
+        DEFAULT_SCORE_OUTCOME,
+        DEFAULT_TEMP_SCORE_OUTCOME,
         normalizeConfig,
         validateConfig,
         buildMatches,
         getMaxScore,
+        hasThresholds,
         generateResponseProcessing,
         generateOutcomeDeclarations
     };

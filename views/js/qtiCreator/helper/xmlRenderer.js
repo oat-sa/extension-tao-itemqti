@@ -11,7 +11,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015-2017 (original work) Open Assessment Technologies SA ;
  */
@@ -21,20 +21,29 @@ define([
     'taoQtiItem/qtiItem/helper/maxScore',
     'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiXmlRenderer/renderers/RendererPerInteractionRP',
-    'taoQtiItem/qtiXmlRenderer/helper/umfiTextEntryXmlAttributes'
-], function(loggerFactory, XmlRenderer, maxScore, Element, XmlRendererPerInteractionRP, umfiTextEntryXmlAttributes){
+    'taoQtiItem/qtiXmlRenderer/helper/umfiTextEntryXmlAttributes',
+    'taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'
+], function (
+    loggerFactory,
+    XmlRenderer,
+    maxScore,
+    Element,
+    XmlRendererPerInteractionRP,
+    umfiTextEntryXmlAttributes,
+    textEntryEvaluationHelper
+) {
     'use strict';
 
     const logger = loggerFactory('taoQtiItem/qtiCreator/helper/xmlRenderer');
 
     const xmlRendererProviders = {
         default: new XmlRenderer({
-            shuffleChoices : false
+            shuffleChoices: false
         }).load(),
         perInteractionRP: new XmlRendererPerInteractionRP({
-            shuffleChoices : false
-        }).load(),
-    }
+            shuffleChoices: false
+        }).load()
+    };
 
     // set default xml renderer provider
     let xmlRenderer = xmlRendererProviders.default;
@@ -48,32 +57,44 @@ define([
      *
      * @returns {String} rendered XML
      */
-    var _render = function(element, options){
+    var _render = function (element, options) {
         var xml = '';
-        try{
-            if(element instanceof Element) {
-                if (element.is('assessmentItem')) {
+        try {
+            // Prefer duck-typing over instanceof: creator Item and Element can come from
+            // different AMD resolutions (source vs @oat-sa/tao-item-runner-qti dist).
+            const isAssessmentItem =
+                element &&
+                typeof element.is === 'function' &&
+                element.is('assessmentItem') &&
+                typeof element.render === 'function';
+
+            if (isAssessmentItem || element instanceof Element) {
+                if (isAssessmentItem || (element.is && element.is('assessmentItem'))) {
+                    textEntryEvaluationHelper.syncTextContainersFromDom(element);
+                    textEntryEvaluationHelper.migrateFeatureDataAttributesToPrimary({
+                        getRootElement: function getRootElement() {
+                            return element;
+                        }
+                    });
                     maxScore.setNormalMaximum(element);
                     maxScore.setMaxScore(element);
                 }
 
-                xml = element.render(
-                    xmlRenderer,
-                    options
-                );
+                xml = element.render(xmlRenderer, options);
 
-                if (element.is('assessmentItem')) {
+                if (isAssessmentItem || (element.is && element.is('assessmentItem'))) {
+                    xml = umfiTextEntryXmlAttributes.relocateFeatureDataAttrsToFirstTextEntry(xml);
                     xml = umfiTextEntryXmlAttributes.stripInternalAuthoringAttrsFromItemXml(xml);
                 }
             }
-        }catch(e){
+        } catch (e) {
             logger.error(e);
         }
         return xml;
     };
 
     return {
-        render : _render,
+        render: _render,
         get() {
             return xmlRenderer;
         },

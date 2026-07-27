@@ -39,6 +39,7 @@ use oat\tao\model\TaoOntology;
 use oat\taoItems\model\event\ItemCreatedEvent;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\helpers\Authoring;
+use oat\taoQtiItem\helpers\UmfiTextEntryXmlAttributes;
 use oat\taoQtiItem\model\CreatorConfig;
 use oat\taoQtiItem\model\event\ItemCreatorLoad;
 use oat\taoQtiItem\model\HookRegistry;
@@ -206,6 +207,7 @@ class QtiCreator extends tao_actions_CommonModule
                     $this->validateXmlInput($xml);
                     Authoring::checkEmptyMedia($xml);
 
+                    $xml = UmfiTextEntryXmlAttributes::relocateFeatureDataAttrsToFirstTextEntry($xml);
                     $item = $this->getXmlToItemParser()->parseAndSanitize($xml);
                     $this->getItemIdentifierValidator()->validate($item);
 

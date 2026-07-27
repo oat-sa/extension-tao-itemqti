@@ -39,6 +39,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\taoItems\model\event\ItemCreatedEvent;
 use oat\taoItems\model\event\ItemUpdatedEvent;
 use oat\taoQtiItem\helpers\Authoring;
+use oat\taoQtiItem\helpers\UmfiTextEntryXmlAttributes;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\exception\XIncludeException;
 use oat\taoQtiItem\model\qti\metadata\MetadataRegistry;
@@ -159,7 +160,8 @@ class Service extends ConfigurableService
         $qtiItem->setAttribute('label', $label);
 
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
-        $success = $directory->getFile(self::QTI_ITEM_FILE)->put($qtiItem->toXML());
+        $xml = UmfiTextEntryXmlAttributes::relocateFeatureDataAttrsToFirstTextEntry($qtiItem->toXML());
+        $success = $directory->getFile(self::QTI_ITEM_FILE)->put($xml);
 
         if ($success) {
             $this->getEventManager()->trigger(new ItemUpdatedEvent($rdfItem->getUri()));

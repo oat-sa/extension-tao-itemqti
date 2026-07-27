@@ -15,7 +15,10 @@
  *
  * Copyright (c) 2026 (original work) Open Assessment Technologies SA ;
  */
-define(['taoQtiItem/qtiCreator/helper/scoringModelHelper'], function (scoringModelHelper) {
+define([
+    'taoQtiItem/qtiCreator/helper/scoringModelHelper',
+    'taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'
+], function (scoringModelHelper, textEntryEvaluationHelper) {
     'use strict';
 
     QUnit.module('scoringModelHelper');
@@ -27,8 +30,12 @@ define(['taoQtiItem/qtiCreator/helper/scoringModelHelper'], function (scoringMod
 
         return {
             qtiClass: 'textEntryInteraction',
+            serial: null,
             is: function (qtiClass) {
                 return qtiClass === 'textEntryInteraction' || qtiClass === 'interaction';
+            },
+            getSerial: function () {
+                return this.serial;
             },
             getRootElement: function () {
                 return item;
@@ -57,9 +64,27 @@ define(['taoQtiItem/qtiCreator/helper/scoringModelHelper'], function (scoringMod
 
     const createItem = function createItem(textEntries) {
         const entriesBySerial = textEntries.reduce(function (acc, textEntry, index) {
-            acc[index + 1] = textEntry;
+            const serial = String(index + 1);
+
+            textEntry.serial = serial;
+            acc[serial] = textEntry;
             return acc;
         }, {});
+        const bodyString = textEntries
+            .map(function (textEntry) {
+                return '{{' + textEntry.serial + '}}';
+            })
+            .join('');
+        const bodyContainer = {
+            elements: entriesBySerial,
+            bdy: bodyString,
+            body: function () {
+                return this.bdy;
+            },
+            getElements: function () {
+                return this.elements;
+            }
+        };
         const outcomes = {};
         const responseProcessing = {
             processingType: 'templateDriven',
@@ -72,8 +97,11 @@ define(['taoQtiItem/qtiCreator/helper/scoringModelHelper'], function (scoringMod
             }
         };
 
-        return {
+        const item = {
             responseProcessing,
+            getBody: function () {
+                return bodyContainer;
+            },
             getComposingElements: function () {
                 return entriesBySerial;
             },
@@ -106,8 +134,23 @@ define(['taoQtiItem/qtiCreator/helper/scoringModelHelper'], function (scoringMod
             },
             removeOutcome: function (identifier) {
                 delete outcomes[identifier];
+            },
+            setBodyOrder: function (orderedEntries) {
+                bodyContainer.bdy = orderedEntries
+                    .map(function (textEntry) {
+                        return '{{' + textEntry.serial + '}}';
+                    })
+                    .join('');
             }
         };
+
+        textEntries.forEach(function (textEntry) {
+            textEntry.getRootElement = function () {
+                return item;
+            };
+        });
+
+        return item;
     };
 
     QUnit.test('parseScoringModelAttribute accepts JSON and single-quoted mapping', assert => {
@@ -285,5 +328,107 @@ define(['taoQtiItem/qtiCreator/helper/scoringModelHelper'], function (scoringMod
             model: 'dichotomous',
             thresholds: [{ threshold: 5, score: 1 }]
         });
+    });
+
+    QUnit.test('migrates data-scoring-model to first TEI after insert-before', assert => {
+        const originalFirst = createTextEntry(null, 'RESPONSE');
+        const insertedBefore = createTextEntry(null, 'RESPONSE_1');
+        const item = createItem([originalFirst, insertedBefore]);
+
+        scoringModelHelper.persistScoringModelConfig(originalFirst, {
+            model: 'dichotomous',
+            thresholds: [{ threshold: 2, score: 1 }]
+        });
+
+        assert.strictEqual(originalFirst.attr('data-scoring-model'), '{"2":1}');
+        assert.strictEqual(insertedBefore.attr('data-scoring-model'), undefined);
+
+        item.setBodyOrder([insertedBefore, originalFirst]);
+        scoringModelHelper.ensurePersistedBeforeSave(item);
+
+        assert.strictEqual(insertedBefore.attr('data-scoring-model'), '{"2":1}');
+        assert.strictEqual(insertedBefore.attr('data-scoring-model-rp-managed'), 'true');
+        assert.strictEqual(originalFirst.attr('data-scoring-model'), undefined);
+        assert.strictEqual(originalFirst.attr('data-scoring-model-rp-managed'), undefined);
+    });
+
+    QUnit.test('UMFI polytomous rebuilds synonym-group RP with TEMP_SCORE thresholds', assert => {
+        const primary = createTextEntry(null, 'RESPONSE');
+        const second = createTextEntry(null, 'RESPONSE_1');
+        const third = createTextEntry(null, 'RESPONSE_2');
+        const fourth = createTextEntry(null, 'RESPONSE_3');
+        const item = createItem([primary, second, third, fourth]);
+
+        [primary, second, third, fourth].forEach(entry => {
+            entry.getRootElement = function () {
+                return item;
+            };
+        });
+
+        textEntryEvaluationHelper.persistEvaluationConfig(primary, {
+            evaluateAsUmfi: true,
+            lexicalGroups: [
+                { identifier: 'BELGIA', synonyms: ['Belgia', 'Belgium'] },
+                { identifier: 'FRANCJA', synonyms: ['Francja', 'France'] },
+                { identifier: 'GERMANY', synonyms: ['Germany', 'Niemcy'] },
+                { identifier: 'POLSKA', synonyms: ['Polska', 'Poland'] }
+            ]
+        });
+
+        assert.strictEqual(item.getOutcomeDeclaration('MAXSCORE').defaultValue, 4);
+
+        scoringModelHelper.persistScoringModelConfig(primary, {
+            model: 'polytomous',
+            thresholds: [
+                { threshold: 3, score: 2 },
+                { threshold: 2, score: 1 }
+            ]
+        });
+
+        assert.strictEqual(primary.attr('data-scoring-model'), '{"3":2,"2":1}');
+        assert.ok(item.responseProcessing.xml.indexOf('TEMP_SCORE') > -1);
+        assert.ok(item.responseProcessing.xml.indexOf('<stringMatch') > -1);
+        assert.ok(item.responseProcessing.xml.indexOf('<gte>') > -1);
+        assert.ok(item.getOutcomeDeclaration('TEMP_SCORE'));
+        assert.strictEqual(item.getOutcomeDeclaration('SCORE').attr('normalMaximum'), 2);
+        assert.strictEqual(item.getOutcomeDeclaration('MAXSCORE').defaultValue, 2);
+    });
+
+    QUnit.test('UMFI dichotomous rebuilds synonym-group RP with single TEMP_SCORE threshold', assert => {
+        const primary = createTextEntry(null, 'RESPONSE');
+        const second = createTextEntry(null, 'RESPONSE_1');
+        const third = createTextEntry(null, 'RESPONSE_2');
+        const item = createItem([primary, second, third]);
+
+        [primary, second, third].forEach(entry => {
+            entry.getRootElement = function () {
+                return item;
+            };
+        });
+
+        textEntryEvaluationHelper.persistEvaluationConfig(primary, {
+            evaluateAsUmfi: true,
+            lexicalGroups: [
+                { identifier: 'FRANCJA', synonyms: ['Francja', 'France'] },
+                { identifier: 'GERMANY', synonyms: ['Germany', 'Niemcy'] },
+                { identifier: 'POLSKA', synonyms: ['Polska', 'Poland'] }
+            ]
+        });
+
+        assert.strictEqual(item.getOutcomeDeclaration('MAXSCORE').defaultValue, 3);
+
+        scoringModelHelper.persistScoringModelConfig(primary, {
+            model: 'dichotomous',
+            thresholds: [{ threshold: 2, score: 1 }]
+        });
+
+        assert.strictEqual(primary.attr('data-scoring-model'), '{"2":1}');
+        assert.ok(item.responseProcessing.xml.indexOf('TEMP_SCORE') > -1);
+        assert.ok(item.responseProcessing.xml.indexOf('<stringMatch') > -1);
+        assert.ok(item.responseProcessing.xml.indexOf('<gte>') > -1);
+        assert.strictEqual(item.responseProcessing.xml.indexOf('<responseElseIf>'), -1);
+        assert.ok(item.getOutcomeDeclaration('TEMP_SCORE'));
+        assert.strictEqual(item.getOutcomeDeclaration('SCORE').attr('normalMaximum'), 1);
+        assert.strictEqual(item.getOutcomeDeclaration('MAXSCORE').defaultValue, 1);
     });
 });

@@ -26,6 +26,127 @@ define(['lodash'], function (_) {
 
     const SINGLE_QUOTED_JSON_ATTRS = ['data-umfi-values', 'data-scoring-model'];
 
+    // Public feature attrs that must live on the first textEntryInteraction in itemBody order.
+    const FEATURE_DATA_ATTRS = [
+        'data-item-type',
+        'data-umfi-values',
+        'data-case-sensitive',
+        'data-allow-lexical-fields-on-scoring',
+        'data-scoring-model'
+    ];
+
+    /**
+     * Match textEntryInteraction start tags without consuming the self-close slash
+     * after empty attrs like placeholderText=""/>.
+     * Groups: 1=open, 2=attrs, 3=close
+     */
+    const TEXT_ENTRY_TAG_RE =
+        /(<textEntryInteraction\b)((?:\s+[\w:.-]+(?:=(?:"[^"]*"|'[^']*'))?)*)(\s*\/?>)/gi;
+
+    /**
+     * @param {string} attrs
+     * @param {string} name
+     * @returns {string|null} full `name="value"` / `name='value'` assignment, or null
+     */
+    const extractAttributeAssignment = function extractAttributeAssignment(attrs, name) {
+        const match = String(attrs || '').match(
+            new RegExp(`(?:^|\\s)(${name}=(?:"[^"]*"|'[^']*'))`, 'i')
+        );
+
+        return match ? match[1] : null;
+    };
+
+    /**
+     * @param {string} attrs
+     * @param {string} name
+     * @returns {string}
+     */
+    const removeAttributeAssignment = function removeAttributeAssignment(attrs, name) {
+        return String(attrs || '').replace(new RegExp(`\\s${name}=(?:"[^"]*"|'[^']*')`, 'gi'), '');
+    };
+
+    /**
+     * Move feature data-* onto the first <textEntryInteraction> in document order.
+     * Guarantees saved XML matches "first interaction in block" even if the model
+     * still has attrs stuck on a later TEI (e.g. after insert-before).
+     *
+     * @param {string} xml
+     * @returns {string}
+     */
+    const relocateFeatureDataAttrsToFirstTextEntry = function relocateFeatureDataAttrsToFirstTextEntry(xml) {
+        if (!xml || typeof xml !== 'string') {
+            return xml;
+        }
+
+        const teiRe = new RegExp(TEXT_ENTRY_TAG_RE.source, 'gi');
+        const matches = [];
+        let match;
+
+        while ((match = teiRe.exec(xml)) !== null) {
+            matches.push({
+                full: match[0],
+                open: match[1],
+                attrs: match[2],
+                close: match[3],
+                index: match.index
+            });
+        }
+
+        if (!matches.length) {
+            return xml;
+        }
+
+        const collected = {};
+
+        _.forEach(matches, tei => {
+            _.forEach(FEATURE_DATA_ATTRS, name => {
+                if (collected[name]) {
+                    return;
+                }
+
+                const assignment = extractAttributeAssignment(tei.attrs, name);
+
+                if (assignment) {
+                    collected[name] = assignment;
+                }
+            });
+        });
+
+        if (!_.size(collected)) {
+            return xml;
+        }
+
+        const extras = _.map(FEATURE_DATA_ATTRS, name => collected[name]).filter(Boolean);
+        let result = '';
+        let lastIndex = 0;
+
+        _.forEach(matches, (tei, index) => {
+            result += xml.substring(lastIndex, tei.index);
+
+            let attrs = tei.attrs;
+
+            _.forEach(FEATURE_DATA_ATTRS, name => {
+                attrs = removeAttributeAssignment(attrs, name);
+            });
+
+            attrs = attrs.replace(/\s+$/, '');
+
+            if (index === 0) {
+                attrs = `${attrs} ${extras.join(' ')}`;
+            }
+
+            if (attrs && attrs.charAt(0) !== ' ') {
+                attrs = ` ${attrs}`;
+            }
+
+            result += tei.open + attrs + tei.close;
+            lastIndex = tei.index + tei.full.length;
+        });
+
+        result += xml.substring(lastIndex);
+
+        return result;
+    };
     /**
      * Escape attribute text for the chosen quote style.
      * XML parsers decode entities when reading attributes, so JSON consumers still see raw quotes/apostrophes.
@@ -91,14 +212,11 @@ define(['lodash'], function (_) {
             return xml;
         }
 
-        return xml.replace(/(<textEntryInteraction\b)([^>]*)(\/?>)/gi, function (match, openTag, attrs, close) {
+        return xml.replace(new RegExp(TEXT_ENTRY_TAG_RE.source, 'gi'), function (match, openTag, attrs, close) {
             let cleanedAttrs = attrs;
 
             _.forEach(INTERNAL_AUTHORING_ATTRS, attributeName => {
-                cleanedAttrs = cleanedAttrs.replace(
-                    new RegExp(`\\s${attributeName}=(?:"[^"]*"|'[^']*')`, 'gi'),
-                    ''
-                );
+                cleanedAttrs = removeAttributeAssignment(cleanedAttrs, attributeName);
             });
 
             return openTag + cleanedAttrs + close;
@@ -107,10 +225,12 @@ define(['lodash'], function (_) {
 
     return {
         INTERNAL_AUTHORING_ATTRS,
+        FEATURE_DATA_ATTRS,
         SINGLE_QUOTED_JSON_ATTRS,
         escapeXmlAttributeValue,
         formatXmlAttribute,
         prepareTextEntryRenderData,
+        relocateFeatureDataAttrsToFirstTextEntry,
         stripInternalAuthoringAttrsFromItemXml
     };
 });

@@ -92,4 +92,33 @@ define(['taoQtiItem/qtiXmlRenderer/helper/umfiTextEntryXmlAttributes'], function
         );
         assert.ok(sanitized.indexOf('data-scoring-model=\'{"2":1}\'') > -1);
     });
+
+    QUnit.test('relocateFeatureDataAttrsToFirstTextEntry moves attrs after insert-before', assert => {
+        const xml =
+            '<itemBody>' +
+            '<textEntryInteraction responseIdentifier="RESPONSE_2" base="10" placeholderText=""/>' +
+            '<textEntryInteraction responseIdentifier="RESPONSE_3" base="10" placeholderText=""/>' +
+            '<textEntryInteraction responseIdentifier="RESPONSE" base="10" placeholderText="" data-item-type="umfi-closed" data-umfi-values=\'[{"group":"GROUP_1_FOUND","canonical":"Poland","variants":["Poland"]}]\' data-case-sensitive="false"/>' +
+            '<textEntryInteraction responseIdentifier="RESPONSE_1" base="10" placeholderText=""/>' +
+            '</itemBody>';
+
+        const relocated = umfiTextEntryXmlAttributes.relocateFeatureDataAttrsToFirstTextEntry(xml);
+        const teiRe = /<textEntryInteraction\b[\s\S]*?\/>/gi;
+        const tags = relocated.match(teiRe) || [];
+
+        assert.strictEqual(tags.length, 4);
+        assert.ok(tags[0].indexOf('responseIdentifier="RESPONSE_2"') > -1);
+        assert.ok(tags[0].endsWith('/>'), 'first tag remains well-formed self-closing');
+        assert.ok(tags[0].indexOf('data-item-type="umfi-closed"') > -1);
+        assert.ok(tags[0].indexOf('data-case-sensitive="false"') > -1);
+        assert.ok(
+            tags[0].indexOf(
+                'data-umfi-values=\'[{"group":"GROUP_1_FOUND","canonical":"Poland","variants":["Poland"]}]\''
+            ) > -1
+        );
+        assert.strictEqual(tags[1].indexOf('data-item-type'), -1);
+        assert.strictEqual(tags[2].indexOf('data-item-type'), -1);
+        assert.strictEqual(tags[2].indexOf('data-umfi-values'), -1);
+        assert.strictEqual(tags[3].indexOf('data-item-type'), -1);
+    });
 });

@@ -20,13 +20,18 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
 
     QUnit.module('textEntryEvaluationHelper');
 
-    const createTextEntry = function createTextEntry(item) {
+    const createTextEntry = function createTextEntry(item, serial) {
         const attrs = {};
+        const entrySerial = serial || null;
 
         return {
             qtiClass: 'textEntryInteraction',
+            serial: entrySerial,
             is: function (qtiClass) {
                 return qtiClass === 'textEntryInteraction' || qtiClass === 'interaction';
+            },
+            getSerial: function () {
+                return this.serial;
             },
             getRootElement: function () {
                 return item;
@@ -56,13 +61,34 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
             }
         };
         const entriesBySerial = textEntries.reduce(function (acc, textEntry, index) {
-            acc[index + 1] = textEntry;
+            const serial = String(index + 1);
+
+            textEntry.serial = serial;
+            acc[serial] = textEntry;
             return acc;
         }, {});
+        const bodyString = textEntries
+            .map(function (textEntry) {
+                return '{{' + textEntry.serial + '}}';
+            })
+            .join('');
+        const bodyContainer = {
+            elements: entriesBySerial,
+            bdy: bodyString,
+            body: function () {
+                return this.bdy;
+            },
+            getElements: function () {
+                return this.elements;
+            }
+        };
 
-        return {
+        const item = {
             responseProcessing,
             outcomes,
+            getBody: function () {
+                return bodyContainer;
+            },
             getElements: function (qtiClass) {
                 if (qtiClass !== 'textEntryInteraction') {
                     return {};
@@ -105,28 +131,38 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
             },
             removeOutcome: function (identifier) {
                 delete outcomes[identifier];
+            },
+            /**
+             * Reorder text entries in the item body (simulates insert-before).
+             *
+             * @param {Object[]} orderedEntries
+             */
+            setBodyOrder: function (orderedEntries) {
+                bodyContainer.bdy = orderedEntries
+                    .map(function (textEntry) {
+                        return '{{' + textEntry.serial + '}}';
+                    })
+                    .join('');
             }
         };
+
+        textEntries.forEach(function (textEntry) {
+            textEntry.getRootElement = function () {
+                return item;
+            };
+        });
+
+        return item;
     };
 
     QUnit.test('toggle UMFI stores metadata on the primary text entry only', assert => {
-        const item = createItem([]);
-        const firstEntry = createTextEntry(item);
-        const secondEntry = createTextEntry(item);
+        const firstEntry = createTextEntry(null);
+        const secondEntry = createTextEntry(null);
 
         firstEntry.attr('responseIdentifier', 'RESPONSE');
         secondEntry.attr('responseIdentifier', 'RESPONSE_1');
 
-        item.getElements = function (qtiClass) {
-            if (qtiClass !== 'textEntryInteraction') {
-                return {};
-            }
-
-            return {
-                1: firstEntry,
-                2: secondEntry
-            };
-        };
+        const item = createItem([firstEntry, secondEntry]);
 
         evaluationHelper.setUmfiEnabled(firstEntry, true);
 
@@ -142,40 +178,37 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.strictEqual(firstEntry.attr('data-item-type'), undefined);
         assert.strictEqual(secondEntry.attr('data-item-type'), undefined);
         assert.strictEqual(firstEntry.attr('data-allow-lexical-fields-on-scoring'), undefined);
+        assert.strictEqual(item.getBody().body().indexOf('{{1}}') > -1, true);
     });
 
-    QUnit.test('uses RESPONSE text entry as metadata source for lexical fields', assert => {
-        const item = createItem([]);
-        const responseEntry = createTextEntry(item);
-        const otherEntry = createTextEntry(item);
+    QUnit.test('uses first text entry in body order as metadata source for lexical fields', assert => {
+        const responseEntry = createTextEntry(null);
+        const otherEntry = createTextEntry(null);
 
         responseEntry.attr('responseIdentifier', 'RESPONSE');
         otherEntry.attr('responseIdentifier', 'RESPONSE_1');
 
-        item.getElements = function (qtiClass) {
-            if (qtiClass !== 'textEntryInteraction') {
-                return {};
-            }
-
-            return {
-                2: otherEntry,
-                1: responseEntry
-            };
-        };
+        // Body order: RESPONSE_1 first, RESPONSE second.
+        const item = createItem([otherEntry, responseEntry]);
 
         responseEntry.attr('data-item-type', 'umfi-closed');
         responseEntry.attr('data-umfi-values', '[["Apple","apple","apples"]]');
 
-        const groups = evaluationHelper.getLexicalGroups(otherEntry);
+        evaluationHelper.migrateFeatureDataAttributesToPrimary(otherEntry);
+
+        assert.strictEqual(otherEntry.attr('data-item-type'), 'umfi-closed');
+        assert.strictEqual(responseEntry.attr('data-item-type'), undefined);
+
+        const groups = evaluationHelper.getLexicalGroups(responseEntry);
 
         assert.strictEqual(groups.length, 1);
         assert.strictEqual(groups[0].identifier, 'GROUP_1');
         assert.strictEqual(groups[0].id, 'GROUP_1_FOUND');
         assert.strictEqual(groups[0].canonical, 'Apple');
         assert.deepEqual(groups[0].synonyms, ['Apple', 'apple', 'apples']);
-        assert.strictEqual(evaluationHelper.isUmfiEnabled(otherEntry), true);
+        assert.strictEqual(evaluationHelper.isUmfiEnabled(responseEntry), true);
 
-        evaluationHelper.persistEvaluationConfig(otherEntry, {
+        evaluationHelper.persistEvaluationConfig(responseEntry, {
             evaluateAsUmfi: true,
             lexicalGroups: [
                 {
@@ -186,13 +219,172 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         });
 
         assert.strictEqual(
-            responseEntry.attr('data-umfi-values'),
+            otherEntry.attr('data-umfi-values'),
             '[{"group":"BANANA_FOUND","canonical":"banana","variants":["banana","bananas"]}]'
         );
-        assert.strictEqual(otherEntry.attr('data-umfi-values'), undefined);
+        assert.strictEqual(responseEntry.attr('data-umfi-values'), undefined);
         assert.strictEqual(
-            evaluationHelper.getPrimaryTextEntry(evaluationHelper.getItemTextEntries(otherEntry)),
-            responseEntry
+            evaluationHelper.getPrimaryTextEntry(evaluationHelper.getItemTextEntries(responseEntry)),
+            otherEntry
+        );
+        assert.ok(item);
+    });
+
+    QUnit.test('migrates feature data-* to first TEI after insert-before', assert => {
+        const originalFirst = createTextEntry(null);
+        const insertedBefore = createTextEntry(null);
+
+        originalFirst.attr('responseIdentifier', 'RESPONSE');
+        insertedBefore.attr('responseIdentifier', 'RESPONSE_1');
+
+        const item = createItem([originalFirst, insertedBefore]);
+
+        evaluationHelper.persistEvaluationConfig(originalFirst, {
+            evaluateAsUmfi: true,
+            caseSensitive: false,
+            allowLexicalFieldsOnScoring: true,
+            lexicalGroups: [
+                {
+                    identifier: 'APPLE',
+                    synonyms: ['apple', 'apples']
+                }
+            ]
+        });
+
+        assert.strictEqual(originalFirst.attr('data-item-type'), 'umfi-closed');
+        assert.ok(originalFirst.attr('data-umfi-values'));
+        assert.strictEqual(originalFirst.attr('data-case-sensitive'), 'false');
+        assert.strictEqual(originalFirst.attr('data-allow-lexical-fields-on-scoring'), 'true');
+        assert.strictEqual(insertedBefore.attr('data-item-type'), undefined);
+
+        // Insert RESPONSE_1 before RESPONSE in the body.
+        item.setBodyOrder([insertedBefore, originalFirst]);
+
+        evaluationHelper.ensurePersistedBeforeSave(item);
+
+        assert.strictEqual(insertedBefore.attr('data-item-type'), 'umfi-closed');
+        assert.strictEqual(
+            insertedBefore.attr('data-umfi-values'),
+            '[{"group":"APPLE_FOUND","canonical":"apple","variants":["apple","apples"]}]'
+        );
+        assert.strictEqual(insertedBefore.attr('data-case-sensitive'), 'false');
+        assert.strictEqual(insertedBefore.attr('data-allow-lexical-fields-on-scoring'), 'true');
+        assert.strictEqual(originalFirst.attr('data-item-type'), undefined);
+        assert.strictEqual(originalFirst.attr('data-umfi-values'), undefined);
+        assert.strictEqual(originalFirst.attr('data-case-sensitive'), undefined);
+        assert.strictEqual(originalFirst.attr('data-allow-lexical-fields-on-scoring'), undefined);
+        assert.strictEqual(originalFirst.attr('data-umfi-managed-outcomes'), undefined);
+        assert.strictEqual(originalFirst.attr('data-umfi-rp-managed'), undefined);
+    });
+
+    QUnit.test('migrates feature data-* across nested text _container after insert-before', assert => {
+        const originalFirst = createTextEntry(null);
+        const insertedBefore = createTextEntry(null);
+
+        originalFirst.attr('responseIdentifier', 'RESPONSE');
+        insertedBefore.attr('responseIdentifier', 'RESPONSE_2');
+        originalFirst.serial = 'tei_response';
+        insertedBefore.serial = 'tei_response_2';
+
+        const textContainer = {
+            qtiClass: '_container',
+            serial: 'container_text',
+            elements: {
+                tei_response: originalFirst,
+                tei_response_2: insertedBefore
+            },
+            bdy: '{{tei_response}}{{tei_response_2}}',
+            body: function () {
+                return this.bdy;
+            },
+            getElements: function () {
+                return this.elements;
+            }
+        };
+        const itemBody = {
+            elements: {
+                container_text: textContainer
+            },
+            bdy: '<div class="grid-row"><div class="col-12">{{container_text}}</div></div>',
+            body: function () {
+                return this.bdy;
+            },
+            getElements: function () {
+                return this.elements;
+            }
+        };
+        const item = {
+            getBody: function () {
+                return itemBody;
+            },
+            getComposingElements: function () {
+                return {
+                    container_text: textContainer,
+                    tei_response: originalFirst,
+                    tei_response_2: insertedBefore
+                };
+            },
+            getElements: function () {
+                return {};
+            },
+            outcomes: {},
+            responseProcessing: {
+                processingType: 'templateDriven',
+                xml: '',
+                setProcessingType: function (processingType, xml) {
+                    this.processingType = processingType;
+                    this.xml = xml;
+                }
+            },
+            getOutcomeDeclaration: function () {
+                return null;
+            },
+            createOutcomeDeclaration: function () {
+                return {
+                    attr: function () {
+                        return this;
+                    },
+                    setDefaultValue: function () {},
+                    buildIdentifier: function () {
+                        return this;
+                    }
+                };
+            },
+            removeOutcome: function () {}
+        };
+
+        originalFirst.getRootElement = function () {
+            return item;
+        };
+        insertedBefore.getRootElement = function () {
+            return item;
+        };
+
+        evaluationHelper.persistEvaluationConfig(originalFirst, {
+            evaluateAsUmfi: true,
+            caseSensitive: false,
+            lexicalGroups: [
+                {
+                    identifier: 'APPLE',
+                    synonyms: ['apple']
+                }
+            ]
+        });
+
+        assert.strictEqual(originalFirst.attr('data-item-type'), 'umfi-closed');
+
+        // Insert before: new TEI becomes first in the nested text container body.
+        textContainer.bdy = '{{tei_response_2}}{{tei_response}}';
+
+        evaluationHelper.migrateFeatureDataAttributesToPrimary(originalFirst);
+
+        assert.strictEqual(insertedBefore.attr('data-item-type'), 'umfi-closed');
+        assert.ok(insertedBefore.attr('data-umfi-values'));
+        assert.strictEqual(originalFirst.attr('data-item-type'), undefined);
+        assert.strictEqual(originalFirst.attr('data-umfi-values'), undefined);
+        assert.strictEqual(
+            evaluationHelper.getPrimaryTextEntry(evaluationHelper.getItemTextEntries(originalFirst)),
+            insertedBefore
         );
     });
 
@@ -339,16 +531,8 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
     });
 
     QUnit.test('getEvaluationConfig reads lexical groups and case sensitivity', assert => {
-        const item = createItem([]);
-        const textEntry = createTextEntry(item);
-
-        item.getElements = function (qtiClass) {
-            if (qtiClass !== 'textEntryInteraction') {
-                return {};
-            }
-
-            return { 1: textEntry };
-        };
+        const textEntry = createTextEntry(null);
+        const item = createItem([textEntry]);
 
         textEntry.attr('data-item-type', 'umfi-closed');
         textEntry.attr('data-umfi-values', '[["Banana","bananas"]]');
@@ -367,23 +551,13 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
     });
 
     QUnit.test('persistEvaluationConfig updates data-umfi-values and responseProcessing', assert => {
-        const item = createItem([]);
-        const firstEntry = createTextEntry(item);
-        const secondEntry = createTextEntry(item);
+        const firstEntry = createTextEntry(null);
+        const secondEntry = createTextEntry(null);
 
         firstEntry.attr('responseIdentifier', 'RESPONSE');
         secondEntry.attr('responseIdentifier', 'RESPONSE_1');
 
-        item.getElements = function (qtiClass) {
-            if (qtiClass !== 'textEntryInteraction') {
-                return {};
-            }
-
-            return {
-                1: firstEntry,
-                2: secondEntry
-            };
-        };
+        const item = createItem([firstEntry, secondEntry]);
 
         evaluationHelper.persistEvaluationConfig(firstEntry, {
             evaluateAsUmfi: true,
@@ -410,20 +584,12 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
     });
 
     QUnit.test('persistEvaluationConfig refreshes custom responseProcessing xml', assert => {
-        const item = createItem([]);
-        const textEntry = createTextEntry(item);
-
+        const textEntry = createTextEntry(null);
         textEntry.attr('responseIdentifier', 'RESPONSE');
+        const item = createItem([textEntry]);
+
         item.responseProcessing.processingType = 'custom';
         item.responseProcessing.xml = '<responseProcessing><responseCondition/></responseProcessing>';
-
-        item.getElements = function (qtiClass) {
-            if (qtiClass !== 'textEntryInteraction') {
-                return {};
-            }
-
-            return { 1: textEntry };
-        };
 
         evaluationHelper.persistEvaluationConfig(textEntry, {
             evaluateAsUmfi: true,
@@ -464,9 +630,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
     });
 
     QUnit.test('ensurePersistedBeforeSave syncs RP and keeps internal authoring attrs on the live model', assert => {
-        const item = createItem([]);
-        const textEntry = createTextEntry(item);
-
+        const textEntry = createTextEntry(null);
         textEntry.attr('responseIdentifier', 'RESPONSE');
         const responseDeclaration = {
             template: 'MATCH_CORRECT',
@@ -477,17 +641,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         textEntry.getResponseDeclaration = function () {
             return responseDeclaration;
         };
-
-        item.getElements = function (qtiClass) {
-            if (qtiClass !== 'textEntryInteraction') {
-                return {};
-            }
-
-            return { 1: textEntry };
-        };
-        item.getComposingElements = function () {
-            return { 1: textEntry };
-        };
+        const item = createItem([textEntry]);
 
         textEntry.attr('data-item-type', 'umfi-closed');
         textEntry.attr('data-umfi-values', '[["apple","apples"]]');
@@ -511,17 +665,9 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
     });
 
     QUnit.test('removing a lexical group removes its outcome and refreshes responseProcessing', assert => {
-        const item = createItem([]);
-        const textEntry = createTextEntry(item);
-
+        const textEntry = createTextEntry(null);
         textEntry.attr('responseIdentifier', 'RESPONSE');
-        item.getElements = function (qtiClass) {
-            if (qtiClass !== 'textEntryInteraction') {
-                return {};
-            }
-
-            return { 1: textEntry };
-        };
+        const item = createItem([textEntry]);
 
         evaluationHelper.persistEvaluationConfig(textEntry, {
             evaluateAsUmfi: true,
@@ -562,17 +708,9 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
     });
 
     QUnit.test('removing all lexical groups clears generated outcomes and responseProcessing', assert => {
-        const item = createItem([]);
-        const textEntry = createTextEntry(item);
-
+        const textEntry = createTextEntry(null);
         textEntry.attr('responseIdentifier', 'RESPONSE');
-        item.getElements = function (qtiClass) {
-            if (qtiClass !== 'textEntryInteraction') {
-                return {};
-            }
-
-            return { 1: textEntry };
-        };
+        const item = createItem([textEntry]);
 
         evaluationHelper.persistEvaluationConfig(textEntry, {
             evaluateAsUmfi: true,
@@ -601,17 +739,9 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
     });
 
     QUnit.test('disabling UMFI removes generated outcomes, attributes and responseProcessing', assert => {
-        const item = createItem([]);
-        const textEntry = createTextEntry(item);
-
+        const textEntry = createTextEntry(null);
         textEntry.attr('responseIdentifier', 'RESPONSE');
-        item.getElements = function (qtiClass) {
-            if (qtiClass !== 'textEntryInteraction') {
-                return {};
-            }
-
-            return { 1: textEntry };
-        };
+        const item = createItem([textEntry]);
 
         evaluationHelper.persistEvaluationConfig(textEntry, {
             evaluateAsUmfi: true,
@@ -647,19 +777,9 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
     });
 
     QUnit.test('getItemTextEntries finds nested text entries via getComposingElements', assert => {
-        const item = createItem([]);
-        const nestedEntry = createTextEntry(item);
-
+        const nestedEntry = createTextEntry(null);
         nestedEntry.attr('responseIdentifier', 'RESPONSE');
-
-        item.getElements = function () {
-            return {};
-        };
-        item.getComposingElements = function () {
-            return {
-                42: nestedEntry
-            };
-        };
+        const item = createItem([nestedEntry]);
 
         const entries = evaluationHelper.getItemTextEntries({
             getRootElement: function () {
@@ -673,19 +793,9 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
     });
 
     QUnit.test('persistEvaluationConfig works for nested text entry in paragraph container', assert => {
-        const item = createItem([]);
-        const nestedEntry = createTextEntry(item);
-
+        const nestedEntry = createTextEntry(null);
         nestedEntry.attr('responseIdentifier', 'RESPONSE');
-
-        item.getElements = function () {
-            return {};
-        };
-        item.getComposingElements = function () {
-            return {
-                42: nestedEntry
-            };
-        };
+        const item = createItem([nestedEntry]);
 
         evaluationHelper.persistEvaluationConfig(nestedEntry, {
             evaluateAsUmfi: true,
@@ -705,6 +815,73 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.strictEqual(item.responseProcessing.processingType, 'custom');
         assert.ok(item.getOutcomeDeclaration('APPLE_FOUND'));
         assert.strictEqual(item.getOutcomeDeclaration('APPLE_FOUND').attr('normalMaximum'), 1);
+        assert.strictEqual(item.getOutcomeDeclaration('SCORE').attr('normalMaximum'), 1);
+        assert.strictEqual(item.getOutcomeDeclaration('MAXSCORE').defaultValue, 1);
+    });
+
+    QUnit.test('UMFI with polytomous data-scoring-model applies TEMP_SCORE thresholds', assert => {
+        const firstEntry = createTextEntry(null);
+        const secondEntry = createTextEntry(null);
+        const thirdEntry = createTextEntry(null);
+        const fourthEntry = createTextEntry(null);
+
+        firstEntry.attr('responseIdentifier', 'RESPONSE');
+        secondEntry.attr('responseIdentifier', 'RESPONSE_1');
+        thirdEntry.attr('responseIdentifier', 'RESPONSE_2');
+        fourthEntry.attr('responseIdentifier', 'RESPONSE_3');
+
+        const item = createItem([firstEntry, secondEntry, thirdEntry, fourthEntry]);
+
+        firstEntry.attr('data-scoring-model', '{"3":2,"2":1}');
+
+        evaluationHelper.persistEvaluationConfig(firstEntry, {
+            evaluateAsUmfi: true,
+            lexicalGroups: [
+                { identifier: 'BELGIA', synonyms: ['Belgia', 'Belgium'] },
+                { identifier: 'FRANCJA', synonyms: ['Francja', 'France'] },
+                { identifier: 'GERMANY', synonyms: ['Germany', 'Niemcy'] },
+                { identifier: 'POLSKA', synonyms: ['Polska', 'Poland'] }
+            ]
+        });
+
+        assert.strictEqual(item.responseProcessing.processingType, 'custom');
+        assert.ok(item.responseProcessing.xml.indexOf('TEMP_SCORE') > -1);
+        assert.ok(item.responseProcessing.xml.indexOf('<gte>') > -1);
+        assert.ok(item.responseProcessing.xml.indexOf('<responseElseIf>') > -1);
+        assert.ok(item.responseProcessing.xml.indexOf('BELGIA_FOUND') > -1);
+        assert.ok(item.getOutcomeDeclaration('TEMP_SCORE'));
+        assert.strictEqual(item.getOutcomeDeclaration('SCORE').attr('normalMaximum'), 2);
+        assert.strictEqual(item.getOutcomeDeclaration('MAXSCORE').defaultValue, 2);
+    });
+
+    QUnit.test('UMFI with dichotomous data-scoring-model applies single TEMP_SCORE threshold', assert => {
+        const firstEntry = createTextEntry(null);
+        const secondEntry = createTextEntry(null);
+        const thirdEntry = createTextEntry(null);
+
+        firstEntry.attr('responseIdentifier', 'RESPONSE');
+        secondEntry.attr('responseIdentifier', 'RESPONSE_1');
+        thirdEntry.attr('responseIdentifier', 'RESPONSE_2');
+
+        const item = createItem([firstEntry, secondEntry, thirdEntry]);
+
+        firstEntry.attr('data-scoring-model', '{"2":1}');
+
+        evaluationHelper.persistEvaluationConfig(firstEntry, {
+            evaluateAsUmfi: true,
+            lexicalGroups: [
+                { identifier: 'FRANCJA', synonyms: ['Francja', 'France'] },
+                { identifier: 'GERMANY', synonyms: ['Germany', 'Niemcy'] },
+                { identifier: 'POLSKA', synonyms: ['Polska', 'Poland'] }
+            ]
+        });
+
+        assert.strictEqual(item.responseProcessing.processingType, 'custom');
+        assert.ok(item.responseProcessing.xml.indexOf('TEMP_SCORE') > -1);
+        assert.ok(item.responseProcessing.xml.indexOf('<gte>') > -1);
+        assert.strictEqual(item.responseProcessing.xml.indexOf('<responseElseIf>'), -1);
+        assert.ok(item.responseProcessing.xml.indexOf('FRANCJA_FOUND') > -1);
+        assert.ok(item.getOutcomeDeclaration('TEMP_SCORE'));
         assert.strictEqual(item.getOutcomeDeclaration('SCORE').attr('normalMaximum'), 1);
         assert.strictEqual(item.getOutcomeDeclaration('MAXSCORE').defaultValue, 1);
     });
