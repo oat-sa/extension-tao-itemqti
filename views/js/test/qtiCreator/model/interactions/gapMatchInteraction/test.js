@@ -35,15 +35,6 @@ define([
         });
     }
 
-    function waitForEditorReady($editable, callback) {
-        if ($editable.data('editor')) {
-            callback();
-            return;
-        }
-
-        $editable.one('editorready', callback);
-    }
-
     function assertFullWidth(assert, promptContainerWidth, promptWidth, editableWidth, message) {
         assert.ok(promptContainerWidth > 0, 'The prompt container has a measurable width');
         assert.ok(
@@ -51,6 +42,26 @@ define([
                 Math.abs(editableWidth - promptContainerWidth) <= 1,
             message
         );
+    }
+
+    /**
+     * Enter question state and measure prompt layout.
+     * Width rules live under .edit-question and do not require CKEditor instanceReady
+     * (waiting on editorready hangs in headless CI when the editor never becomes ready).
+     */
+    function measurePromptWidthsAfterQuestionClick(assert, $interaction, $promptContainer, $prompt, $editable) {
+        $interaction.click();
+
+        assert.ok(
+            $interaction.hasClass('edit-question'),
+            'The interaction enters question state so prompt width rules apply'
+        );
+
+        return {
+            promptContainerWidth: $promptContainer.get(0).getBoundingClientRect().width,
+            promptWidth: $prompt.get(0).getBoundingClientRect().width,
+            editableWidth: $editable.get(0).getBoundingClientRect().width
+        };
     }
 
     // Prevent the AJAX mocks to pollute the logs
@@ -470,43 +481,39 @@ define([
         };
         var instance;
 
-        assert.expect(5);
+        assert.expect(6);
 
         instance = itemAuthoringFactory($container, config)
             .on('ready', function () {
                 var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]', $container);
-                var $promptContainer;
-                var $prompt;
-                var $editable;
-                var promptContainerWidth;
-                var promptWidth;
-                var editableWidth;
-
-                $promptContainer = $('.qti-gapMatchInteraction .qti-prompt-container', $container);
-                $prompt = $promptContainer.find('.qti-prompt').first();
-                $editable = $promptContainer.find('[data-html-editable="true"]').first();
+                var $promptContainer = $('.qti-gapMatchInteraction .qti-prompt-container', $container);
+                var $prompt = $promptContainer.find('.qti-prompt').first();
+                var $editable = $promptContainer.find('[data-html-editable="true"]').first();
+                var widths;
 
                 assert.equal($promptContainer.length, 1, 'The prompt container is rendered');
                 assert.equal($prompt.length, 1, 'The prompt is rendered');
                 assert.equal($editable.length, 1, 'The prompt editor is rendered');
 
-                waitForEditorReady($editable, function() {
-                    promptContainerWidth = $promptContainer.get(0).getBoundingClientRect().width;
-                    promptWidth = $prompt.get(0).getBoundingClientRect().width;
-                    editableWidth = $editable.get(0).getBoundingClientRect().width;
+                try {
+                    widths = measurePromptWidthsAfterQuestionClick(
+                        assert,
+                        $interaction,
+                        $promptContainer,
+                        $prompt,
+                        $editable
+                    );
 
                     assertFullWidth(
                         assert,
-                        promptContainerWidth,
-                        promptWidth,
-                        editableWidth,
+                        widths.promptContainerWidth,
+                        widths.promptWidth,
+                        widths.editableWidth,
                         'The prompt editor spans the full available prompt container width'
                     );
-
+                } finally {
                     instance.destroy();
-                });
-
-                $interaction.click();
+                }
             })
             .after('destroy', function () {
                 done();
@@ -526,7 +533,7 @@ define([
         };
         var instance;
 
-        assert.expect(6);
+        assert.expect(7);
 
         instance = itemAuthoringFactory($container, config)
             .on('ready', function () {
@@ -534,32 +541,32 @@ define([
                 var $promptContainer = $('.qti-gapMatchInteraction .qti-prompt-container', $container);
                 var $prompt = $promptContainer.find('.qti-prompt').first();
                 var $editable = $promptContainer.find('[data-html-editable="true"]').first();
-                var promptContainerWidth;
-                var promptWidth;
-                var editableWidth;
+                var widths;
 
                 assert.equal($promptContainer.length, 1, 'The prompt container is rendered');
                 assert.equal($prompt.length, 1, 'The prompt is rendered even without prompt content');
                 assert.equal($editable.length, 1, 'The prompt editor is rendered even without prompt content');
                 assert.equal($.trim($prompt.text()).length, 0, 'The prompt content starts empty');
 
-                waitForEditorReady($editable, function() {
-                    promptContainerWidth = $promptContainer.get(0).getBoundingClientRect().width;
-                    promptWidth = $prompt.get(0).getBoundingClientRect().width;
-                    editableWidth = $editable.get(0).getBoundingClientRect().width;
+                try {
+                    widths = measurePromptWidthsAfterQuestionClick(
+                        assert,
+                        $interaction,
+                        $promptContainer,
+                        $prompt,
+                        $editable
+                    );
 
                     assertFullWidth(
                         assert,
-                        promptContainerWidth,
-                        promptWidth,
-                        editableWidth,
+                        widths.promptContainerWidth,
+                        widths.promptWidth,
+                        widths.editableWidth,
                         'The prompt editor spans the full available prompt container width'
                     );
-
+                } finally {
                     instance.destroy();
-                });
-
-                $interaction.click();
+                }
             })
             .after('destroy', function () {
                 done();
@@ -580,7 +587,7 @@ define([
         };
         var instance;
 
-        assert.expect(5);
+        assert.expect(6);
 
         $container.css('width', '280px');
 
@@ -590,32 +597,32 @@ define([
                 var $promptContainer = $('.qti-gapMatchInteraction .qti-prompt-container', $container);
                 var $prompt = $promptContainer.find('.qti-prompt').first();
                 var $editable = $promptContainer.find('[data-html-editable="true"]').first();
-                var promptContainerWidth;
-                var promptWidth;
-                var editableWidth;
+                var widths;
 
                 assert.equal($promptContainer.length, 1, 'The prompt container is rendered');
                 assert.equal($prompt.length, 1, 'The prompt is rendered');
                 assert.equal($editable.length, 1, 'The prompt editor is rendered');
 
-                waitForEditorReady($editable, function() {
-                    promptContainerWidth = $promptContainer.get(0).getBoundingClientRect().width;
-                    promptWidth = $prompt.get(0).getBoundingClientRect().width;
-                    editableWidth = $editable.get(0).getBoundingClientRect().width;
+                try {
+                    widths = measurePromptWidthsAfterQuestionClick(
+                        assert,
+                        $interaction,
+                        $promptContainer,
+                        $prompt,
+                        $editable
+                    );
 
                     assertFullWidth(
                         assert,
-                        promptContainerWidth,
-                        promptWidth,
-                        editableWidth,
+                        widths.promptContainerWidth,
+                        widths.promptWidth,
+                        widths.editableWidth,
                         'The prompt editor fills the narrow prompt container width'
                     );
-
+                } finally {
                     $container.attr('style', originalWidth);
                     instance.destroy();
-                });
-
-                $interaction.click();
+                }
             })
             .after('destroy', function () {
                 done();
