@@ -41,3 +41,103 @@
         }
     }
 }
+
+// Fixed thumbnail tiles in authoring so tall/wide uploads stay compact.
+// Authored object size is unchanged; authoring only shows a compact preview.
+$ggm-choice-size: 60px;
+$ggm-bay-pad: 72px;
+$ggm-top-bay-offset: -130px;
+
+@mixin ggm-fixed-choice-tile {
+    flex: 0 0 auto;
+    width: $ggm-choice-size;
+    max-width: $ggm-choice-size;
+    height: $ggm-choice-size;
+    max-height: $ggm-choice-size;
+    overflow: hidden;
+    line-height: normal;
+
+    &.empty,
+    &.placeholder,
+    &.add-option.empty {
+        width: $ggm-choice-size;
+        height: $ggm-choice-size;
+        max-height: $ggm-choice-size;
+    }
+
+    img {
+        display: block;
+        width: auto !important;
+        height: auto !important;
+        max-width: 100% !important;
+        max-height: $ggm-choice-size !important;
+        margin: auto;
+        object-fit: contain;
+    }
+
+    &.add-option.empty > div > span[class^="icon-"] {
+        @include font-size(28);
+    }
+}
+
+.widget-box .qti-graphicGapMatchInteraction {
+    &.qti-choices-top,
+    &.qti-choices-bottom,
+    &.qti-choices-left,
+    &.qti-choices-right {
+        ul.source > li {
+            @include ggm-fixed-choice-tile;
+        }
+    }
+
+    &.qti-choices-top,
+    &.qti-choices-bottom {
+        ul.source {
+            display: flex;
+            flex-direction: row;
+            max-height: $ggm-bay-pad;
+            overflow-x: auto;
+            overflow-y: hidden;
+            flex-wrap: nowrap;
+            align-items: center;
+        }
+    }
+
+    &.qti-choices-top {
+        ul.source {
+            top: $ggm-top-bay-offset;
+            left: -8px;
+        }
+    }
+
+    &.qti-choices-left,
+    &.qti-choices-right {
+        ul.source {
+            width: $ggm-bay-pad;
+            max-width: $ggm-bay-pad;
+            max-height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            flex-wrap: nowrap;
+            align-items: center;
+        }
+    }
+
+    &.qti-choices-left {
+        ul.source {
+            left: -$ggm-bay-pad - 8px;
+        }
+    }
+
+    &.qti-choices-right {
+        ul.source {
+            right: -$ggm-bay-pad - 10px;
+        }
+    }
+}
+
+// Sleep (unfocused): pull top choices closer; focused keeps $ggm-top-bay-offset (-130px).
+.widget-box.edit-sleep .qti-graphicGapMatchInteraction.qti-choices-top ul.source {
+    top: -84px;
+    left: -6px;
+}
