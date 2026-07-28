@@ -17,7 +17,8 @@ define([
             return {
                 'shuffle' : false,
                 'maxAssociations' : 1,
-                'minAssociations' : 0
+                'minAssociations' : 0,
+                'class' : 'qti-match-tabular'
             };
         },
         afterCreate : function(){
@@ -31,54 +32,50 @@ define([
             });
         },
         createChoice : function(matchSet, attr){
-        
             var choice = new Choice('', attr);
-            
+            var rank;
+
             this.addChoice(choice, matchSet);
-            
-            var rank = _.size(this.getChoices(matchSet));
-            
+
+            rank = _.size(this.getChoices(matchSet));
+
             choice
-                .body('choice' + ' #' + rank)
+                .body(`choice #${rank}`)
                 .buildIdentifier('choice');
-            
+
             if(this.getRenderer()){
                 choice.setRenderer(this.getRenderer());
             }
-            
+
             event.choiceCreated(choice, this);
-            
+
             return choice;
         },
         removeChoice : function(choice){
-            
             var serial = '', c;
-            
+
             if(typeof(choice) === 'string'){
                 serial = choice;
             }else if(Element.isA(choice, 'choice')){
                 serial = choice.getSerial();
             }
-            
+
             c = this.choices[0][serial] || this.choices[1][serial] || null;
-            
+
             if(c){
-                
                 //remove choice
                 delete this.choices[0][serial];
                 delete this.choices[1][serial];
-                
+
                 //update the response
                 responseHelper.removeChoice(this.getResponseDeclaration(), c);
-                
+
                 //trigger event
                 event.deleted(c, this);
             }
-            
+
             return this;
         }
     });
     return Interaction.extend(methods);
 });
-
-
