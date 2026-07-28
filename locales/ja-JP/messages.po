@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-07-01 10:16\n"
+"PO-Revision-Date: 2026-07-28 06:38\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -1826,10 +1826,10 @@ msgid "Something went wrong while destroying an interaction: %s"
 msgstr "インタラクションの破棄時に何か問題が発生しました: %s。"
 
 msgid "Sort from source to target list"
-msgstr "左右移動の並び替え"
+msgstr "移動での並び替え"
 
 msgid "sort from source to target list"
-msgstr "左右移動の並び替え"
+msgstr "移動での並び替え"
 
 msgid "Square root"
 msgstr "平方根"
