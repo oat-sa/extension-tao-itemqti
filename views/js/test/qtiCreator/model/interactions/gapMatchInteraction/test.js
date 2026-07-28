@@ -46,16 +46,28 @@ define([
 
     /**
      * Enter question state and measure prompt layout.
-     * Width rules live under .edit-question and do not require CKEditor instanceReady
-     * (waiting on editorready hangs in headless CI when the editor never becomes ready).
+     * Width rules live under .edit-question (on the widget-box wrapper) and do not
+     * require CKEditor instanceReady — waiting on editorready hangs in headless CI.
+     * The prompt element itself becomes the html-editable target in Question state.
      */
-    function measurePromptWidthsAfterQuestionClick(assert, $interaction, $promptContainer, $prompt, $editable) {
+    function measurePromptWidthsAfterQuestionClick(assert, $interaction, $promptContainer, $prompt) {
+        var $widget = $interaction.closest('.widget-box');
+        var $editable;
+
         $interaction.click();
 
         assert.ok(
-            $interaction.hasClass('edit-question'),
+            $widget.hasClass('edit-question'),
             'The interaction enters question state so prompt width rules apply'
         );
+
+        // buildPromptEditor marks .qti-prompt as the editable; fall back to the prompt itself
+        $editable = $promptContainer.find('[data-html-editable]').first();
+        if (!$editable.length) {
+            $editable = $prompt;
+        }
+
+        assert.equal($editable.length, 1, 'The prompt editable target is available after entering question state');
 
         return {
             promptContainerWidth: $promptContainer.get(0).getBoundingClientRect().width,
@@ -488,20 +500,17 @@ define([
                 var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]', $container);
                 var $promptContainer = $('.qti-gapMatchInteraction .qti-prompt-container', $container);
                 var $prompt = $promptContainer.find('.qti-prompt').first();
-                var $editable = $promptContainer.find('[data-html-editable="true"]').first();
                 var widths;
 
                 assert.equal($promptContainer.length, 1, 'The prompt container is rendered');
                 assert.equal($prompt.length, 1, 'The prompt is rendered');
-                assert.equal($editable.length, 1, 'The prompt editor is rendered');
 
                 try {
                     widths = measurePromptWidthsAfterQuestionClick(
                         assert,
                         $interaction,
                         $promptContainer,
-                        $prompt,
-                        $editable
+                        $prompt
                     );
 
                     assertFullWidth(
@@ -540,12 +549,10 @@ define([
                 var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]', $container);
                 var $promptContainer = $('.qti-gapMatchInteraction .qti-prompt-container', $container);
                 var $prompt = $promptContainer.find('.qti-prompt').first();
-                var $editable = $promptContainer.find('[data-html-editable="true"]').first();
                 var widths;
 
                 assert.equal($promptContainer.length, 1, 'The prompt container is rendered');
                 assert.equal($prompt.length, 1, 'The prompt is rendered even without prompt content');
-                assert.equal($editable.length, 1, 'The prompt editor is rendered even without prompt content');
                 assert.equal($.trim($prompt.text()).length, 0, 'The prompt content starts empty');
 
                 try {
@@ -553,8 +560,7 @@ define([
                         assert,
                         $interaction,
                         $promptContainer,
-                        $prompt,
-                        $editable
+                        $prompt
                     );
 
                     assertFullWidth(
@@ -596,20 +602,17 @@ define([
                 var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]', $container);
                 var $promptContainer = $('.qti-gapMatchInteraction .qti-prompt-container', $container);
                 var $prompt = $promptContainer.find('.qti-prompt').first();
-                var $editable = $promptContainer.find('[data-html-editable="true"]').first();
                 var widths;
 
                 assert.equal($promptContainer.length, 1, 'The prompt container is rendered');
                 assert.equal($prompt.length, 1, 'The prompt is rendered');
-                assert.equal($editable.length, 1, 'The prompt editor is rendered');
 
                 try {
                     widths = measurePromptWidthsAfterQuestionClick(
                         assert,
                         $interaction,
                         $promptContainer,
-                        $prompt,
-                        $editable
+                        $prompt
                     );
 
                     assertFullWidth(

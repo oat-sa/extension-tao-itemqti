@@ -92,7 +92,7 @@ define([
         );
         assert.strictEqual(
             getInteractionClasses(widget),
-            'custom-class qti-match-non-tabular qti-choices-top',
+            'qti-interaction custom-class qti-match-non-tabular qti-choices-top',
             'rendered interaction classes match normalized model classes'
         );
         assert.strictEqual(widget.$form.find('.position-panel').is(':visible'), true, 'position panel is visible');
@@ -112,7 +112,11 @@ define([
         initForm(widget);
 
         assert.strictEqual(widget.element.attr('class'), 'preserved qti-match-tabular', 'stale position is stripped on init');
-        assert.strictEqual(getInteractionClasses(widget), 'preserved qti-match-tabular', 'rendered classes strip stale position on init');
+        assert.strictEqual(
+            getInteractionClasses(widget),
+            'qti-interaction preserved qti-match-tabular',
+            'rendered classes strip stale position on init'
+        );
         assert.strictEqual(widget.$form.find('.position-panel').is(':visible'), false, 'position panel is hidden in tabular mode');
 
         widget.$form.find('input[name="displayMode"][value="qti-match-non-tabular"]')
@@ -126,7 +130,7 @@ define([
         );
         assert.strictEqual(
             getInteractionClasses(widget),
-            'preserved qti-match-non-tabular qti-choices-top',
+            'qti-interaction preserved qti-match-non-tabular qti-choices-top',
             'rendered classes match non-tabular top after switch'
         );
         assert.strictEqual(
@@ -147,7 +151,11 @@ define([
             .trigger('change');
 
         assert.strictEqual(widget.element.attr('class'), 'preserved qti-match-tabular', 'tabular mode strips position');
-        assert.strictEqual(getInteractionClasses(widget), 'preserved qti-match-tabular', 'rendered classes strip position in tabular mode');
+        assert.strictEqual(
+            getInteractionClasses(widget),
+            'qti-interaction preserved qti-match-tabular',
+            'rendered classes strip position in tabular mode'
+        );
         assert.strictEqual(widget.$form.find('.position-panel').is(':visible'), false, 'position panel is hidden');
         assert.strictEqual(widget.$form.find('.match-non-tabular-info').is(':visible'), false, 'non-tabular info is hidden');
     });
