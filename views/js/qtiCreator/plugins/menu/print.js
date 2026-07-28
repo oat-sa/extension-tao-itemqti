@@ -77,11 +77,11 @@ define([
                     try {
                         request({
                             url: urlUtil.route('logFrontendAction', 'TaoEventLog', 'taoEventLog'),
+                            method: 'POST',
                             data: {
                                 action: 'itemPrintAttempt',
                                 resourceUri: itemUri
-                            },
-                            noToken: true
+                            }
                         }).catch(function () {
                             return null;
                         });
