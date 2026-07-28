@@ -11,8 +11,19 @@
         gap: 10px;
 
         > .qti-prompt,
+        > .qti-prompt-container,
         > .instruction-container {
             flex: 0 0 100%;
+        }
+
+        > .qti-prompt-container,
+        > .qti-prompt {
+            width: 100%;
+        }
+
+        > .qti-prompt-container .qti-prompt,
+        > .qti-prompt {
+            display: block;
         }
     }
 
@@ -46,6 +57,28 @@
 
         > .qti-flow-container {
             order: 3;
+        }
+
+        @include rtl {
+            > .choice-area {
+                order: 3;
+            }
+
+            > .qti-flow-container {
+                order: 2;
+            }
+        }
+    }
+
+    &.qti-choices-right {
+        @include rtl {
+            > .choice-area {
+                order: 2;
+            }
+
+            > .qti-flow-container {
+                order: 3;
+            }
         }
     }
 
