@@ -48,6 +48,22 @@
 
 .edit-question {
     .qti-gapMatchInteraction {
+        .qti-prompt-container {
+            width: 100%;
+            min-width: 0;
+        }
+
+        .qti-prompt-container .qti-prompt {
+            display: block;
+            width: 100%;
+            min-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .qti-flow-container {
+            width: 100%;
+        }
+
         .horizontal {
             .qti-choice {
                 margin-top: 3px;
