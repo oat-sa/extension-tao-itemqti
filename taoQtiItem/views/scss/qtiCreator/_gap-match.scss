@@ -1,0 +1,75 @@
+@import "inc/bootstrap";
+@import '_response-pairs';
+
+.qti-gapMatchInteraction {
+
+    .qti-flow-container {
+
+        position: relative;
+        [data-html-editable]{
+            min-height: 3rem;
+        }
+        .mini-tlb[data-role=create-gap-tlb]{
+            postion: absolute;
+            right: -30px;
+        }
+        #selection-wrapper{
+            z-index: 1000;
+            position: relative;
+        }
+        &:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+    }
+
+    .choice-area {
+        .qti-choice {
+            @include simple-border();
+            border-color: #ddd !important;
+            min-width: 80px;
+        }
+    }
+
+    .gap-info {
+        color: $info;
+        font-style: italic;
+    }
+
+    .qti-gap {
+        span.mini-tlb[data-edit] {
+            position: absolute !important;
+            top: -4px !important;
+            right: -30px !important;
+        }
+    }
+}
+
+.edit-question {
+    .qti-gapMatchInteraction {
+        .horizontal {
+            .qti-choice {
+                margin-top: 3px;
+
+                .mini-tlb {
+                    margin-bottom: 0;
+                    height: 31px;
+                    border: 0!important;
+
+                    .tlb-button {
+                        height: 100%;
+                        border: 1px $itemCreatorMiniTlbBorderColor solid
+                    }
+                }
+
+                .dummy-element ~ span.mini-tlb[data-edit] {
+                    height: 26px;
+                }
+            }
+        }
+        [data-html-editable] {
+            margin-right: 2em;
+        }
+    }
+}

@@ -1,0 +1,44 @@
+{
+    "typeIdentifier" : "samplePciDisabled",
+    "label" : "Sample Pci",
+    "short" : "sample",
+    "description" : "A simple implementation of custom interaction",
+    "version" : "1.0.0",
+    "author" : "Sam Sipasseuth",
+    "email" : "sam@taotesting.com",
+    "tags" : [
+        "mcq",
+        "likert"
+    ],
+    "response" : {
+        "baseType" : "integer",
+        "cardinality" : "single"
+    },
+    "runtime" : {
+        "hook" : "samplePciDisabled/runtime/samplePciDisabled.amd.js",
+        "libraries" : [
+            "IMSGlobal/jquery_2_1_1",
+            "samplePciDisabled/runtime/js/renderer.js"
+        ],
+        "stylesheets" : [
+            "samplePciDisabled/runtime/css/base.css",
+            "samplePciDisabled/runtime/css/samplePciDisabled.css"
+        ],
+        "mediaFiles" : [
+            "samplePciDisabled/runtime/assets/ThumbDown.png",
+            "samplePciDisabled/runtime/assets/ThumbUp.png",
+            "samplePciDisabled/runtime/css/img/bg.png"
+        ]
+    },
+    "creator" : {
+        "icon" : "samplePciDisabled/creator/img/icon.svg",
+        "hook" : "samplePciDisabled/pciCreator.js",
+        "libraries" : [
+            "samplePciDisabled/creator/tpl/markup.tpl",
+            "samplePciDisabled/creator/tpl/propertiesForm.tpl",
+            "samplePciDisabled/creator/widget/Widget.js",
+            "samplePciDisabled/creator/widget/states/Question.js",
+            "samplePciDisabled/creator/widget/states/states.js"
+        ]
+    }
+}

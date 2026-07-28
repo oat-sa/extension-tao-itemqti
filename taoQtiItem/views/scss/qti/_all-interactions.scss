@@ -1,0 +1,21 @@
+// avoid unwanted list styles
+.qti-interaction {
+    &[class^="list-style-"], &[class*=" list-style-"] {
+        & > p, & > div, & > li {
+            &::before {
+                content: normal;
+            }
+        }
+    }
+    .instruction-container {
+        clear: both;
+    }
+}
+
+.__custom__remove-instructions, .remove-instructions {
+    .qti-interaction {
+        .instruction-container {
+            display: none;
+        }
+    }
+}

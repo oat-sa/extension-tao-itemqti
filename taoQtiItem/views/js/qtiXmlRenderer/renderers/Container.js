@@ -1,0 +1,196 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
+ *
+ * Copyright (c) 2014-2025 (original work) Open Assessment Technologies SA
+ */
+
+define([
+    'module',
+    'taoQtiItem/qtiCreator/widgets/helpers/comments',
+    'tpl!taoQtiItem/qtiXmlRenderer/tpl/container'
+], function (module, comments, tpl) {
+    const config = module.config();
+    /**
+     * Elements that need to be prefixed
+     *
+     * @see http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd
+     * @type {string}
+     */
+    const prefixed = 'article|aside|bdi|figure|footer|header|nav|rb|rp|rt|rtc|ruby|section';
+    const defaultNsName = 'qh5';
+    const defaultNsUri = 'http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0';
+
+    const condenseImgTags = htmlString => {
+        //<img...></img> are replaced by <img... />
+        htmlString = htmlString.replace(/<img([^>]*)?\s?[^\/]>\s?(<\/img>)+/gi, function ($0, $1, $2) {
+            return $0.replace('>', ' />').replace($2, '');
+        });
+        //<img...> are replaced by <img... />
+        htmlString = htmlString.replace(/(<img([^>]*)?\s?[^\/]>)+/gi, function ($0) {
+            return $0.replace('>', ' />');
+        });
+        return htmlString;
+    };
+    const handleRtTags = htmlString => {
+        //<rt></rt> are replaced by <rt>&nbsp;</rt>
+        htmlString = htmlString.replace(/(<rt(|\s+[^>]*)><\/rt\s*>)+/gi, function ($0) {
+            return $0.replace('</rt', '&nbsp;</rt');
+        });
+        return htmlString;
+    };
+    const addClosingSlash = htmlString => {
+        //<br...> are replaced by <br... />
+        //<hr...> are replaced by <hr... />
+        htmlString = htmlString.replace(/<br([^>]*)?>/gi, '<br />');
+        htmlString = htmlString.replace(/<hr([^>]*)?>/gi, '<hr />');
+        return htmlString;
+    };
+
+    const xhtmlEntities = function (html) {
+        //@todo : check other names entities
+        return html.replace(/&nbsp;/g, '&#160;');
+    };
+
+    /**
+     * Wraps media elements (object, img) that are direct children of the container
+     * with a <div> tag to comply with QTI schema.
+     * @param {string} htmlString - The HTML content to process
+     * @returns {string} - HTML with media elements wrapped
+     */
+    const wrapMediaElements = htmlString => {
+        if (!htmlString || typeof htmlString !== 'string') {
+            return htmlString;
+        }
+        if (typeof DOMParser !== 'function' || typeof XMLSerializer !== 'function') {
+            return htmlString;
+        }
+
+        const mediaElements = ['object', 'img'];
+        const wrapperTag = 'wrap-root';
+        const openingTag = `<${wrapperTag}>`;
+        const closingTag = `</${wrapperTag}>`;
+        const wrappedMarkup = `${openingTag}${htmlString}${closingTag}`;
+
+        try {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(wrappedMarkup, 'application/xml');
+            const parseErrors = xmlDoc.getElementsByTagName('parsererror');
+
+            if (parseErrors.length) {
+                throw new Error(parseErrors[0].textContent || 'Unable to parse markup.');
+            }
+
+            const root = xmlDoc.documentElement;
+            const nodesToWrap = [];
+
+            Array.from(root.childNodes).forEach(node => {
+                if (node.nodeType === 1 && mediaElements.includes(node.nodeName.toLowerCase())) {
+                    nodesToWrap.push(node);
+                }
+            });
+
+            if (!nodesToWrap.length) {
+                return htmlString;
+            }
+
+            nodesToWrap.forEach(node => {
+                const wrapper = xmlDoc.createElement('div');
+                wrapper.setAttribute('class', 'qti-media-wrapper');
+                node.parentNode.insertBefore(wrapper, node);
+                wrapper.appendChild(node);
+            });
+
+            const serialized = new XMLSerializer().serializeToString(root);
+
+            if (serialized.startsWith(openingTag) && serialized.endsWith(closingTag)) {
+                return serialized.substring(openingTag.length, serialized.length - closingTag.length);
+            }
+
+            return htmlString;
+
+        } catch (error) {
+            return htmlString;
+        }
+    };
+
+    const xhtmlEncode = function (encodedStr) {
+        let returnValue = '';
+
+        if (encodedStr) {
+            returnValue = encodedStr;
+            returnValue = addClosingSlash(returnValue);
+            returnValue = condenseImgTags(returnValue);
+            returnValue = handleRtTags(returnValue);
+            returnValue = comments.removeAutogeneratedComments(returnValue);
+
+            if (!config.skipReplaceNonBreakingSpaceCharacters) {
+                returnValue = replaceNonBreakingSpaceCharacters(returnValue);
+            }
+            returnValue = mergeSiblings(returnValue);
+        }
+
+        return returnValue;
+    };
+
+    return {
+        qtiClass: '_container',
+        template: tpl,
+        getData: function (container, data) {
+            data.body = xhtmlEntities(data.body);
+            data.body = xhtmlEncode(data.body);
+            const openRegEx = new RegExp(`(<(${prefixed}))`, 'gi');
+            if (openRegEx.test(data.body)) {
+                const relatedItem = container.rootElement;
+                const namespaces = relatedItem.getNamespaces();
+                if (!namespaces[defaultNsName]) {
+                    //if no ns found in the item, set the default one!
+                    relatedItem.namespaces[defaultNsName] = defaultNsUri;
+                }
+            }
+            return data;
+        },
+        wrapMediaElements
+    };
+
+    /**
+     * Replaces non-breaking characters with space
+     * @param {string} html
+     * @returns {string}
+     */
+    function replaceNonBreakingSpaceCharacters(html) {
+        if (typeof html !== 'string' || html.length <= 0) {
+            return html;
+        }
+        html = html.replace(/(&#160;)/g, ' ');
+        return html.replace(/(&nbsp;)/g, ' ');
+    }
+
+    /**
+     * Merges specified sibling html tags into one
+     * @param {string} html
+     * @returns {string}
+     */
+    function mergeSiblings(html) {
+        if (typeof html !== 'string' || html.length <= 0) {
+            return html;
+        }
+        const tagsToMerge = ['strong', 'em', 'sub', 'sup'];
+        tagsToMerge.forEach(function (tag) {
+            let matchedTags = new RegExp(`<\\/${tag}>([\\s\\u00A0]*)<${tag}>`, 'gi');
+            html = html.replace(matchedTags, ' ');
+        });
+        return html;
+    }
+});
