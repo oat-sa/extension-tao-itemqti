@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
+    identifier="synonym-group-dichotomous-scoring-sample"
+    title="Synonym group dichotomous scoring sample"
+    adaptive="false"
+    timeDependent="false"
+    toolName="TAO"
+    toolVersion="2026.08 LTS">
+    <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="string"/>
+    <responseDeclaration identifier="RESPONSE_1" cardinality="single" baseType="string"/>
+    <responseDeclaration identifier="RESPONSE_2" cardinality="single" baseType="string"/>
+    <outcomeDeclaration identifier="FRANCJA_FOUND" cardinality="single" baseType="integer" normalMaximum="1" normalMinimum="0">
+        <defaultValue><value>0</value></defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration identifier="GERMANY_FOUND" cardinality="single" baseType="integer" normalMaximum="1" normalMinimum="0">
+        <defaultValue><value>0</value></defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration identifier="POLSKA_FOUND" cardinality="single" baseType="integer" normalMaximum="1" normalMinimum="0">
+        <defaultValue><value>0</value></defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration identifier="TEMP_SCORE" cardinality="single" baseType="float" normalMinimum="0">
+        <defaultValue><value>0</value></defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="1" normalMinimum="0">
+        <defaultValue><value>0</value></defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+        <defaultValue><value>1</value></defaultValue>
+    </outcomeDeclaration>
+    <itemBody>
+        <p>
+            <textEntryInteraction responseIdentifier="RESPONSE" base="10" data-item-type="umfi-closed" data-scoring-model='{"2":1}'/>
+            <textEntryInteraction responseIdentifier="RESPONSE_1" base="10"/>
+            <textEntryInteraction responseIdentifier="RESPONSE_2" base="10"/>
+        </p>
+    </itemBody>
+    <responseProcessing>
+        <responseCondition>
+            <responseIf>
+                <or>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE"/>
+                        <baseValue baseType="string">Francja</baseValue>
+                    </stringMatch>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE"/>
+                        <baseValue baseType="string">France</baseValue>
+                    </stringMatch>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE_1"/>
+                        <baseValue baseType="string">Francja</baseValue>
+                    </stringMatch>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE_1"/>
+                        <baseValue baseType="string">France</baseValue>
+                    </stringMatch>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE_2"/>
+                        <baseValue baseType="string">Francja</baseValue>
+                    </stringMatch>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE_2"/>
+                        <baseValue baseType="string">France</baseValue>
+                    </stringMatch>
+                </or>
+                <setOutcomeValue identifier="FRANCJA_FOUND">
+                    <baseValue baseType="integer">1</baseValue>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+        <responseCondition>
+            <responseIf>
+                <or>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE"/>
+                        <baseValue baseType="string">Germany</baseValue>
+                    </stringMatch>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE"/>
+                        <baseValue baseType="string">Niemcy</baseValue>
+                    </stringMatch>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE_1"/>
+                        <baseValue baseType="string">Germany</baseValue>
+                    </stringMatch>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE_1"/>
+                        <baseValue baseType="string">Niemcy</baseValue>
+                    </stringMatch>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE_2"/>
+                        <baseValue baseType="string">Germany</baseValue>
+                    </stringMatch>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE_2"/>
+                        <baseValue baseType="string">Niemcy</baseValue>
+                    </stringMatch>
+                </or>
+                <setOutcomeValue identifier="GERMANY_FOUND">
+                    <baseValue baseType="integer">1</baseValue>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+        <responseCondition>
+            <responseIf>
+                <or>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE"/>
+                        <baseValue baseType="string">Polska</baseValue>
+                    </stringMatch>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE"/>
+                        <baseValue baseType="string">Poland</baseValue>
+                    </stringMatch>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE_1"/>
+                        <baseValue baseType="string">Polska</baseValue>
+                    </stringMatch>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE_1"/>
+                        <baseValue baseType="string">Poland</baseValue>
+                    </stringMatch>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE_2"/>
+                        <baseValue baseType="string">Polska</baseValue>
+                    </stringMatch>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE_2"/>
+                        <baseValue baseType="string">Poland</baseValue>
+                    </stringMatch>
+                </or>
+                <setOutcomeValue identifier="POLSKA_FOUND">
+                    <baseValue baseType="integer">1</baseValue>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+        <setOutcomeValue identifier="TEMP_SCORE">
+            <sum>
+                <variable identifier="FRANCJA_FOUND"/>
+                <variable identifier="GERMANY_FOUND"/>
+                <variable identifier="POLSKA_FOUND"/>
+            </sum>
+        </setOutcomeValue>
+        <responseCondition>
+            <responseIf>
+                <gte>
+                    <variable identifier="TEMP_SCORE"/>
+                    <baseValue baseType="float">2</baseValue>
+                </gte>
+                <setOutcomeValue identifier="SCORE">
+                    <baseValue baseType="float">1</baseValue>
+                </setOutcomeValue>
+            </responseIf>
+            <responseElse>
+                <setOutcomeValue identifier="SCORE">
+                    <baseValue baseType="float">0</baseValue>
+                </setOutcomeValue>
+            </responseElse>
+        </responseCondition>
+    </responseProcessing>
+</assessmentItem>
