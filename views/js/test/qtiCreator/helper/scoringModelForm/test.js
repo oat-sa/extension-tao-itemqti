@@ -53,6 +53,123 @@ define([
         ]);
     });
 
+    QUnit.test('remove-scoring-level drops the clicked DOM row after unsorted edits', assert => {
+        assert.expect(2);
+
+        const attrs = {
+            responseIdentifier: 'RESPONSE',
+            'data-scoring-model': '{"5":2,"3":1,"1":0}'
+        };
+        const interaction = {
+            qtiClass: 'textEntryInteraction',
+            is: function (qtiClass) {
+                return qtiClass === 'textEntryInteraction';
+            },
+            getRootElement: function () {
+                return {
+                    getComposingElements: function () {
+                        return { 1: interaction };
+                    },
+                    responseProcessing: {
+                        processingType: 'templateDriven',
+                        setProcessingType: function () {
+                            return this;
+                        },
+                        setXml: function () {
+                            return this;
+                        }
+                    },
+                    getOutcomes: function () {
+                        return [];
+                    },
+                    addOutcomeDeclaration: function () {
+                        return this;
+                    }
+                };
+            },
+            getResponseDeclaration: function () {
+                return {
+                    template: 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response',
+                    getTemplate: function () {
+                        return this.template;
+                    },
+                    setTemplate: function () {
+                        return this;
+                    }
+                };
+            },
+            attr: function (name, value) {
+                if (typeof value === 'undefined') {
+                    return attrs[name];
+                }
+
+                attrs[name] = value;
+                return this;
+            },
+            removeAttr: function (name) {
+                delete attrs[name];
+            }
+        };
+        const $form = $(
+            `<div class="scoring-model-panel">
+                <input type="radio" name="scoringModel" value="polytomous" checked="checked" />
+                <div class="scoring-model-polytomous">
+                    <div class="scoring-model-level-list">
+                        <div class="scoring-model-level" data-level-index="0">
+                            <input class="scoring-level-threshold" value="0" />
+                            <input class="scoring-level-score" value="0" />
+                            <span data-action="remove-scoring-level"></span>
+                        </div>
+                        <div class="scoring-model-level" data-level-index="1">
+                            <input class="scoring-level-threshold" value="3" />
+                            <input class="scoring-level-score" value="1" />
+                            <span data-action="remove-scoring-level"></span>
+                        </div>
+                        <div class="scoring-model-level" data-level-index="2">
+                            <input class="scoring-level-threshold" value="1" />
+                            <input class="scoring-level-score" value="0" />
+                            <span data-action="remove-scoring-level"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>`
+        );
+        const widget = {
+            element: interaction,
+            $responseForm: $form,
+            // Sorted config (3,1,0) while DOM still shows edited order (0,3,1) with stale indices —
+            // removing index 0 via config would drop threshold 3; DOM-first remove must drop 0.
+            _scoringModelConfig: {
+                model: 'polytomous',
+                thresholds: [
+                    { threshold: 3, score: 1 },
+                    { threshold: 1, score: 0 },
+                    { threshold: 0, score: 0 }
+                ]
+            }
+        };
+
+        scoringModelForm.bindEvents($form, widget);
+        $form.find('[data-action="remove-scoring-level"]').first().trigger('click');
+
+        assert.deepEqual(
+            widget._scoringModelConfig.thresholds,
+            [
+                { threshold: 3, score: 1 },
+                { threshold: 1, score: 0 }
+            ],
+            'clicked edited row (threshold 0) was removed, not sorted index 0'
+        );
+        assert.deepEqual(
+            scoringModelForm.readPolytomousLevelsFromForm($form),
+            [
+                { threshold: 3, score: 1 },
+                { threshold: 1, score: 0 }
+            ],
+            'rerendered form matches the remaining thresholds'
+        );
+    });
+
     QUnit.test('getTplData exposes dichotomous fields from attribute', assert => {
         const attrs = {
             responseIdentifier: 'RESPONSE',

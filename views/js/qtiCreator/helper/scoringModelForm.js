@@ -293,23 +293,17 @@ define([
             e.preventDefault();
 
             const $level = $(this).closest('.scoring-model-level');
-            const index = Number($level.data('level-index'));
-            const config = syncConfigFromForm($responseForm, widget);
-            let thresholds = scoringModelHelper.ensureThresholdsForModel(
-                scoringModelHelper.MODEL_POLYTOMOUS,
-                config.thresholds
-            );
+            const $levels = $responseForm.find('.scoring-model-level');
 
-            if (thresholds.length <= 2) {
+            // Identify by the clicked DOM row, not data-level-index: syncConfigFromForm
+            // re-sorts thresholds while the form is not re-rendered on edits, so DOM order
+            // can diverge from the sorted config and an index filter would remove the wrong level.
+            if ($levels.length <= 2) {
                 return;
             }
 
-            thresholds = _.filter(thresholds, (level, levelIndex) => levelIndex !== index);
-
-            setWidgetConfig(widget, {
-                model: scoringModelHelper.MODEL_POLYTOMOUS,
-                thresholds
-            });
+            $level.remove();
+            syncConfigFromForm($responseForm, widget);
             renderPolytomousLevels($responseForm, widget);
         });
     };
