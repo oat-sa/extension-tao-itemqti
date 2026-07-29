@@ -6,6 +6,10 @@
     }
 }
 
+@at-root #item-editor-interaction-property-bar [class*="feedback-"].match-display-mode-info {
+    padding: 10px !important;
+}
+
 .qti-matchInteraction {
 
     .qti-prompt-container {
