@@ -57,9 +57,12 @@
 
     $score-input-size: 40px;
     $score-input-height: 2rem;
+    $threshold-incrementer-col: calc(var(--input-height, 2.2rem) + 16px + 1.6rem);
     $or-more-col: 4.5rem;
     $bin-col: 24px;
-    $levels-grid-columns: $score-input-size $or-more-col minmax(0, 1fr) max-content $bin-col;
+    // Col1: Correct responses (incrementer wrapper), Col2: "or more", Col3: spacer,
+    // Col4: Scores, Col5: remove.
+    $levels-grid-columns: $threshold-incrementer-col $or-more-col minmax(0, 1fr) max-content $bin-col;
 
     // Shared white box for dichotomous fields and polytomous levels.
     // Cancel .scoring-model-details left indent so the box spans the full panel width.
@@ -150,10 +153,19 @@
         align-items: center;
     }
 
-    .scoring-level-threshold {
-        grid-column: 1;
-        justify-self: start;
-        white-space: nowrap;
+    // Header labels keep class-based placement.
+    .scoring-model-levels-header {
+        .scoring-level-threshold {
+            grid-column: 1;
+            justify-self: start;
+            white-space: nowrap;
+        }
+
+        .scoring-level-score {
+            grid-column: 4;
+            justify-self: start;
+            white-space: nowrap;
+        }
     }
 
     .scoring-level-suffix {
@@ -161,12 +173,6 @@
         justify-self: start;
         @include font-size(13);
         line-height: $score-input-height;
-        white-space: nowrap;
-    }
-
-    .scoring-level-score {
-        grid-column: 4;
-        justify-self: start;
         white-space: nowrap;
     }
 
@@ -187,7 +193,28 @@
     .scoring-model-level {
         margin-bottom: 0.5rem;
 
-        input.score {
+        // data-increment wraps the threshold input; the wrapper is the grid item.
+        > .incrementer-ctrl-wrapper {
+            grid-column: 1;
+            justify-self: start;
+
+            input.score,
+            input.incrementer {
+                float: none;
+                display: block;
+                margin: 0;
+                width: calc(var(--input-height, 2.2rem) + 16px);
+                min-width: var(--input-height, 2.2rem);
+                max-width: none;
+                box-sizing: border-box;
+                text-align: right;
+            }
+        }
+
+        // Scores stay as a compact plain input (no data-increment).
+        > input.scoring-level-score {
+            grid-column: 4;
+            justify-self: start;
             @extend %scoring-model-compact-score-input;
         }
 

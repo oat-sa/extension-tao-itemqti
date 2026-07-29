@@ -44,6 +44,92 @@ define([
     ];
 
     /**
+     * Max attainable "Correct responses" = number of text-entry fields.
+     * TEMP_SCORE accumulates one mapResponse point per correct field in the usual case.
+     *
+     * @param {Object} interaction
+     * @returns {number}
+     */
+    const getMaxCorrectResponses = function getMaxCorrectResponses(interaction) {
+        return getItemTextEntries(interaction).length;
+    };
+
+    /**
+     * @param {number} threshold
+     * @param {number} max
+     * @returns {number}
+     */
+    const clampCorrectResponses = function clampCorrectResponses(threshold, max) {
+        const value = toFiniteNumber(threshold);
+        const maxValue = toFiniteNumber(max);
+
+        if (value === null) {
+            return 0;
+        }
+
+        if (maxValue === null || maxValue < 0) {
+            return Math.max(0, value);
+        }
+
+        return Math.min(Math.max(0, value), maxValue);
+    };
+
+    /**
+     * @param {Object[]} thresholds
+     * @param {number} max
+     * @returns {Object[]}
+     */
+    const clampThresholdsToMax = function clampThresholdsToMax(thresholds, max) {
+        const maxValue = toFiniteNumber(max);
+        const normalized = normalizeThresholds(thresholds);
+
+        if (maxValue === null || maxValue < 0) {
+            return normalized;
+        }
+
+        const used = {};
+
+        return normalizeThresholds(
+            _.map(normalized, entry => {
+                let threshold = clampCorrectResponses(entry.threshold, maxValue);
+
+                while (used[threshold] && threshold > 0) {
+                    threshold -= 1;
+                }
+
+                used[threshold] = true;
+
+                return {
+                    threshold,
+                    score: entry.score
+                };
+            })
+        );
+    };
+
+    /**
+     * Build default polytomous levels that fit within the available fields.
+     *
+     * @param {number} [max]
+     * @returns {Object[]}
+     */
+    const getDefaultPolytomousLevels = function getDefaultPolytomousLevels(max) {
+        const maxValue = toFiniteNumber(max);
+
+        if (maxValue === null || maxValue < 1) {
+            return _.map(DEFAULT_POLYTOMOUS_LEVELS, _.clone);
+        }
+
+        const high = maxValue;
+        const low = Math.max(0, Math.min(maxValue - 1, Math.floor(maxValue / 2)));
+
+        return [
+            { threshold: high, score: 2 },
+            { threshold: low, score: 1 }
+        ];
+    };
+
+    /**
      * @param {Object} element
      * @returns {boolean}
      */
@@ -196,34 +282,36 @@ define([
     /**
      * @param {string} model
      * @param {Object[]} [thresholds]
+     * @param {number} [maxCorrectResponses]
      * @returns {Object[]}
      */
-    const ensureThresholdsForModel = function ensureThresholdsForModel(model, thresholds) {
+    const ensureThresholdsForModel = function ensureThresholdsForModel(model, thresholds, maxCorrectResponses) {
         const normalized = normalizeThresholds(thresholds);
+        const hasMax = toFiniteNumber(maxCorrectResponses) !== null;
 
         if (model === MODEL_DICHOTOMOUS) {
-            if (normalized.length) {
-                return [normalized[0]];
-            }
+            const level = normalized.length
+                ? normalized[0]
+                : {
+                      threshold: DEFAULT_DICHOTOMOUS_THRESHOLD,
+                      score: DEFAULT_DICHOTOMOUS_SCORE
+                  };
 
-            return [
-                {
-                    threshold: DEFAULT_DICHOTOMOUS_THRESHOLD,
-                    score: DEFAULT_DICHOTOMOUS_SCORE
-                }
-            ];
+            return hasMax ? clampThresholdsToMax([level], maxCorrectResponses) : [level];
         }
 
         if (model === MODEL_POLYTOMOUS) {
+            let levels;
+
             if (normalized.length >= 2) {
-                return normalized;
+                levels = normalized;
+            } else if (normalized.length === 1) {
+                levels = [normalized[0], _.clone(getDefaultPolytomousLevels(maxCorrectResponses)[1])];
+            } else {
+                levels = getDefaultPolytomousLevels(maxCorrectResponses);
             }
 
-            if (normalized.length === 1) {
-                return [normalized[0], _.clone(DEFAULT_POLYTOMOUS_LEVELS[1])];
-            }
-
-            return _.map(DEFAULT_POLYTOMOUS_LEVELS, _.clone);
+            return hasMax ? clampThresholdsToMax(levels, maxCorrectResponses) : levels;
         }
 
         return [];
@@ -438,7 +526,11 @@ define([
             return;
         }
 
-        const thresholds = ensureThresholdsForModel(model, config && config.thresholds);
+        const thresholds = ensureThresholdsForModel(
+            model,
+            config && config.thresholds,
+            getMaxCorrectResponses(interaction)
+        );
         const interactions = getTextEntryResponseIdentifiers(interaction);
 
         if (!interactions.length || !thresholds.length) {
@@ -487,7 +579,11 @@ define([
             return;
         }
 
-        const thresholds = ensureThresholdsForModel(model, config && config.thresholds);
+        const thresholds = ensureThresholdsForModel(
+            model,
+            config && config.thresholds,
+            getMaxCorrectResponses(interaction)
+        );
 
         primary.attr(DATA_SCORING_MODEL, serializeScoringModelAttribute(thresholds));
         syncResponseProcessing(interaction, { model, thresholds });
@@ -577,6 +673,10 @@ define([
         getItemTextEntries,
         getPrimaryTextEntry,
         getTextEntryResponseIdentifiers,
+        getMaxCorrectResponses,
+        clampCorrectResponses,
+        clampThresholdsToMax,
+        getDefaultPolytomousLevels,
         parseScoringModelAttribute,
         serializeScoringModelAttribute,
         resolveModelFromThresholds,

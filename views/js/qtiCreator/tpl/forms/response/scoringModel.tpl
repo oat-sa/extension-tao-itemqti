@@ -49,7 +49,8 @@
                                class="score"
                                data-increment="1"
                                data-min="0"
-                               data-validate="$notEmpty; $numeric;"
+                               data-max="{{maxCorrectResponses}}"
+                               data-validate="$notEmpty; $numeric; $correctResponsesMax(max={{maxCorrectResponses}});"
                                data-validate-option="$lazy; $event(type=keyup)" />
                     </div>
                     <div class="panel">

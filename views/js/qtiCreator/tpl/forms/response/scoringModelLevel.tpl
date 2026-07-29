@@ -3,7 +3,10 @@
            class="score scoring-level-threshold"
            name="scoringLevelThreshold-{{index}}"
            value="{{threshold}}"
-           data-validate="$notEmpty; $numeric;"
+           data-increment="1"
+           data-min="0"
+           data-max="{{maxCorrectResponses}}"
+           data-validate="$notEmpty; $numeric; $correctResponsesMax(max={{maxCorrectResponses}});"
            data-validate-option="$lazy; $event(type=keyup)" />
     <span class="scoring-level-suffix">{{__ "or more"}}</span>
     <input type="text"

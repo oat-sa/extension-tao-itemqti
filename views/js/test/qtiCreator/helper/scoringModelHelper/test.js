@@ -184,14 +184,16 @@ define([
         const item = {};
         const primary = createTextEntry(item, 'RESPONSE');
         const secondary = createTextEntry(item, 'RESPONSE_2');
-        const boundItem = createItem([primary, secondary]);
+        const tertiary = createTextEntry(item, 'RESPONSE_3');
+        const quaternary = createTextEntry(item, 'RESPONSE_4');
+        const quinary = createTextEntry(item, 'RESPONSE_5');
+        const boundItem = createItem([primary, secondary, tertiary, quaternary, quinary]);
 
-        primary.getRootElement = function () {
-            return boundItem;
-        };
-        secondary.getRootElement = function () {
-            return boundItem;
-        };
+        [primary, secondary, tertiary, quaternary, quinary].forEach(function (textEntry) {
+            textEntry.getRootElement = function () {
+                return boundItem;
+            };
+        });
 
         scoringModelHelper.persistScoringModelConfig(secondary, {
             model: 'polytomous',
@@ -213,6 +215,65 @@ define([
         });
 
         assert.strictEqual(primary.attr('data-scoring-model'), undefined);
+    });
+
+    QUnit.test('persistScoringModelConfig clamps Correct responses to text-entry count', assert => {
+        const item = {};
+        const primary = createTextEntry(item, 'RESPONSE');
+        const secondary = createTextEntry(item, 'RESPONSE_2');
+        const boundItem = createItem([primary, secondary]);
+
+        primary.getRootElement = function () {
+            return boundItem;
+        };
+        secondary.getRootElement = function () {
+            return boundItem;
+        };
+
+        assert.strictEqual(scoringModelHelper.getMaxCorrectResponses(primary), 2);
+
+        scoringModelHelper.persistScoringModelConfig(primary, {
+            model: 'dichotomous',
+            thresholds: [{ threshold: 9, score: 1 }]
+        });
+
+        assert.strictEqual(primary.attr('data-scoring-model'), '{"2":1}');
+
+        scoringModelHelper.persistScoringModelConfig(primary, {
+            model: 'polytomous',
+            thresholds: [
+                { threshold: 9, score: 2 },
+                { threshold: 5, score: 1 }
+            ]
+        });
+
+        assert.deepEqual(JSON.parse(primary.attr('data-scoring-model')), {
+            2: 2,
+            1: 1
+        });
+    });
+
+    QUnit.test('clampCorrectResponses and getDefaultPolytomousLevels respect max', assert => {
+        assert.strictEqual(scoringModelHelper.clampCorrectResponses(9, 3), 3);
+        assert.strictEqual(scoringModelHelper.clampCorrectResponses(-1, 3), 0);
+        assert.deepEqual(scoringModelHelper.clampThresholdsToMax(
+            [
+                { threshold: 9, score: 2 },
+                { threshold: 4, score: 1 }
+            ],
+            3
+        ), [
+            { threshold: 3, score: 2 },
+            { threshold: 2, score: 1 }
+        ]);
+        assert.deepEqual(scoringModelHelper.getDefaultPolytomousLevels(4), [
+            { threshold: 4, score: 2 },
+            { threshold: 2, score: 1 }
+        ]);
+        assert.deepEqual(scoringModelHelper.getDefaultPolytomousLevels(2), [
+            { threshold: 2, score: 2 },
+            { threshold: 1, score: 1 }
+        ]);
     });
 
     QUnit.test('persistScoringModelConfig dichotomous regenerates custom responseProcessing', assert => {
