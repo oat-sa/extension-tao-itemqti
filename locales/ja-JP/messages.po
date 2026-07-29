@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-07-01 10:16\n"
+"PO-Revision-Date: 2026-03-05 09:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -27,10 +27,10 @@ msgid " For Resource "
 msgstr "リソース用"
 
 msgid " or "
-msgstr "｜"
+msgstr "  "
 
 msgid "%d characters allowed"
-msgstr "%d 文字以内"
+msgstr "%d文字まで入力できます。"
 
 msgid "%d Item(s) of %d imported from the given IMS QTI Package."
 msgstr "指定された IMS QTI パッケージから %d 個のアイテムがインポートされました。"
@@ -45,13 +45,13 @@ msgid "%s metadata values found in source by extractor(s)."
 msgstr "抽出プログラムによってソースで見つかったメタデータ値：％s"
 
 msgid "%s of %s characters maximum."
-msgstr "%s ／最大 %s 文字"
+msgstr "%s／最大 %s 文字"
 
 msgid "%s of %s characters recommended."
-msgstr "%s ／推奨 %s 文字"
+msgstr "%s／%s 文字推奨"
 
 msgid "%s of %s words maximum."
-msgstr "%s ／最大 %s 単語"
+msgstr "%s／最大%s 単語"
 
 msgid "%title% - Translation (%lang%)"
 msgstr "%title% - 翻訳 (%lang%)"
@@ -69,7 +69,7 @@ msgid "-- Any kind of file --"
 msgstr "-- すべてのファイル --"
 
 msgid "--- leave empty ---"
-msgstr "--- 空のまま ---"
+msgstr "---"
 
 msgid "1 item imported from the given QTI/APIP XML Item Document."
 msgstr "指定されたQTI/APIP XML Item Documentから1アイテムがインポートされました"
@@ -105,7 +105,7 @@ msgid "Half width"
 msgstr "幅:1/2"
 
 msgid "A choice must be selected"
-msgstr "必ず１つ選んでください"
+msgstr "必ず１つ選択してください"
 
 msgid "A human interpretation of the variable's value."
 msgstr "変数値の翻訳"
@@ -240,13 +240,13 @@ msgid "Arrange a list of choices in the correct order."
 msgstr "正しい順序で選択項目のリストを並べます"
 
 msgid "Associate"
-msgstr "組合せ"
+msgstr "画像線つなぎ"
 
 msgid "Associate Interaction"
 msgstr "組合せ問題"
 
 msgid "association pairs"
-msgstr "組合せ"
+msgstr "{ruby}組合{rt}くみあわ{/rt}{/ruby}せ"
 
 msgid "at least"
 msgstr "最低"
@@ -259,9 +259,6 @@ msgstr "自動再生"
 
 msgid "Back to Manage Items"
 msgstr "アイテム管理に戻る"
-
-msgid "Back to test authoring"
-msgstr "テストオーサリングに戻る"
 
 msgid "Background color"
 msgstr "背景色"
@@ -297,7 +294,7 @@ msgid "Bottom"
 msgstr "下部"
 
 msgid "Browse your computer and select the appropriate file."
-msgstr "コンピュータを参照し、適切なファイルを選択してください"
+msgstr "コンピュータを{ruby}参照{rt}さんしょう{/rt}{/ruby}し、{ruby}適切{rt}てきせつ{/rt}{/ruby}なファイルを{ruby}選択{rt}せんたく{/rt}{/ruby}してください"
 
 msgid "Browse..."
 msgstr "参照..."
@@ -398,9 +395,6 @@ msgstr "インタラクションのウィジェットを表示します"
 msgid "Click to remove"
 msgstr "クリックして削除"
 
-msgid "Close"
-msgstr "閉じる"
-
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr "短いテキスト入力（文字列または数値）でオープンエンドの情報を収集します"
 
@@ -411,7 +405,7 @@ msgid "Colon"
 msgstr "Colon"
 
 msgid "Color Picker"
-msgstr "カラーピッカー"
+msgstr "色の取得"
 
 msgid "Column separator"
 msgstr "コラムセパレーター"
@@ -423,13 +417,13 @@ msgid "Compact Appearance"
 msgstr "コンパクトな外観"
 
 msgid "Configures the position of the choices relative to the target list."
-msgstr "選択リストの位置を設定します。"
+msgstr "ターゲットリストからの選択範囲の位置を設定します。"
 
 msgid "Congruent"
-msgstr "合同"
+msgstr "おめでとうございます"
 
 msgid "Constraints"
-msgstr "選択肢の解答数制限"
+msgstr "記述制限"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "ビデオまたはオーディオファイルの再生パラメータ（オートスタート、ループ）を制御し、それが再生された回数を報告します"
@@ -465,13 +459,13 @@ msgid "Create hottext"
 msgstr "ホットテキスト作成"
 
 msgid "Create multiple hottexts from the selection"
-msgstr "選択範囲から複数のホットエクスポートを作成"
+msgstr "選択範囲から複数のホットテキストを作成"
 
 msgid "Create pair(s) from a series of choices."
 msgstr "選択肢からペアを作成"
 
 msgid "CSV content + metadata"
-msgstr "CSVコンテンツ + metadata"
+msgstr "CSVコンテンツ + メタデータ"
 
 msgid "Current value:"
 msgstr "現在の値:"
@@ -487,15 +481,6 @@ msgstr "カスタム（PCI）"
 
 msgid "Custom Response Processing Mode"
 msgstr "カスタムレスポンス処理モード"
-
-msgid "Dashed"
-msgstr "破線"
-
-msgid "Solid"
-msgstr "実線"
-
-msgid "Wavy"
-msgstr "波線"
 
 msgid "Default"
 msgstr "デフォルト"
@@ -525,7 +510,7 @@ msgid "Define the status of the translation."
 msgstr "翻訳のステータスを定義します。"
 
 msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
-msgstr "チェックを入れると，受験者は「ーー」を選択できません。必ず選択肢を選ぶ必要があります。"
+msgstr "チェックを入れると，受検者は「ーー」を選択できません。必ず選択肢を選ぶ必要があります。"
 
 msgid "Define whether the item should be time dependent on delivery."
 msgstr "アイテムがデリバリにおいて時間制限に依存するかどうかを定義します"
@@ -666,7 +651,7 @@ msgid "Enable Scrolling"
 msgstr "スクロール有効"
 
 msgid "Enable the test taker to pause and restart the playing."
-msgstr "一時停止、再生を受験者に有効にします"
+msgstr "一時停止、再生を受検者に有効にします"
 
 msgid "Enable/disable scrolling."
 msgstr "スクロールの有効/無効を設定します。"
@@ -681,7 +666,7 @@ msgid "Enlarge font size"
 msgstr "フォントサイズを拡大"
 
 msgid "Enter a select MIME-type"
-msgstr "MINEタイプを選択"
+msgstr "MIMEタイプを選択"
 
 msgid "Enter choices…"
 msgstr "- 選択 -"
@@ -807,22 +792,22 @@ msgid "Gap"
 msgstr "選択肢"
 
 msgid "Gap Match"
-msgstr "穴埋め"
+msgstr "画像D&D"
 
 msgid "Gap Match Interaction"
 msgstr "穴埋め問題"
 
 msgid "Graphic Associate Interaction"
-msgstr "画像組み合わせ"
+msgstr "画像線つなぎ"
 
 msgid "Graphic Gap Match Interaction"
-msgstr "画像穴埋め"
+msgstr "画像ドラッグ&ドロップ"
 
 msgid "Graphic Interactions"
 msgstr "グラフィック"
 
 msgid "Graphic Order Interaction"
-msgstr "画像並び替え"
+msgstr "画像オーダー"
 
 msgid "Greater than or equal"
 msgstr "以上"
@@ -870,7 +855,7 @@ msgid "Human"
 msgstr "手動採点"
 
 msgid "identical pair already exists"
-msgstr "すでに同じ組み合わせがあります"
+msgstr "すでに{ruby}同{rt}おな{/rt}{/ruby}じ{ruby}組{rt}く{/rt}{/ruby}み{ruby}合{rt}あ{/rt}{/ruby}わせがあります"
 
 msgid "identifier"
 msgstr "識別子"
@@ -882,25 +867,25 @@ msgid "identifier already taken"
 msgstr "識別子は既に使用されています"
 
 msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
-msgstr "識別子は、文字またはアンダースコアで始まり、文字、数字、ドット、アンダースコア(_ )、またはハイフン(- )のみを含む必要があります。"
+msgstr "識別子は文字またはアンダースコアで始まる必要があり、文字、数字、ドット、アンダースコア( _ )、ハイフン( - )のみを使用できます。"
 
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
 msgstr "チェックされている場合、エディターツールバーは1行に制限され、さらにドロップダウンメニューに表示されます。"
 
 msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
-msgstr "設定する場合、受験者のレスポンスが有効となるような正規表現を指定します"
+msgstr "設定する場合、受検者のレスポンスが有効となるような正規表現を指定します"
 
 msgid "If pattern mask does not match match value provided, this message will be shown."
 msgstr "パターンマスクが一致しない場合、このメッセージが表示されます。"
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
-msgstr "シャッフルが適用されると，選択肢の順番が受験ごと，受験者ごとにランダムに提示されます。また各選択肢は，個別に順番を固定することもできます。"
+msgstr "シャッフルが適用されると，選択肢の順番が受検ごと，受験者ごとにランダムに提示されます。また各選択肢は，個別に順番を固定することもできます。"
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
 msgstr "選択肢の順序をランダムに提示します。ただし、各選択肢は個別に提示順を「固定」に設定することもができます。"
 
 msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
-msgstr "文字インタラクションが数値レスポンス変数に紐付けされている場合、base属性を使用して、受験者が入力した値を解釈する基数を設定する必要があります。"
+msgstr "文字インタラクションが数値レスポンス変数に紐付けされている場合、base属性を使用して、受検者が入力した値を解釈する基数を設定する必要があります。"
 
 msgid "If the variable value is a float and powerForm is set to 'false', the variable will be rendered using the 'e' or 'E' format. If the powerform is set to 'true', the form 'e+n' is changed to 'x 10n'."
 msgstr "変数の値が float で powerForm が 'false' に設定されている場合、変数は 'e' または 'E' 形式でレンダリングされます。powerform が 'true' に設定されている場合、'e+n' の形式は 'x 10n' に変更されます。"
@@ -909,10 +894,10 @@ msgid "If this box is checked the student will be able to eliminate choices."
 msgstr "ボックスにチェックを入れると、選択肢を消去することができます。"
 
 msgid "Image caption"
-msgstr "画像のキャプション表示"
+msgstr "画像キャプション"
 
 msgid "Image caption not enabled when position is set to inline"
-msgstr "位置がインラインに設定されている場合、画像キャプションは有効になりません"
+msgstr "画像位置がインラインの場合は画像キャプションは使えません"
 
 msgid "Import"
 msgstr "インポート"
@@ -1014,7 +999,7 @@ msgid "Invalid value, use %s %s for decimal point."
 msgstr "無効な値です。小数点には %s %s を使用してください。"
 
 msgid "is null"
-msgstr "はnull です"
+msgstr "未回答"
 
 msgid "Is this choice the correct response?"
 msgstr "この選択は正しい答えですか？"
@@ -1079,6 +1064,9 @@ msgstr "LaTeX"
 
 msgid "Layout"
 msgstr "レイアウト"
+
+msgid "leave empty"
+msgstr "{ruby}選{rt}えら{/rt}{/ruby}ばない "
 
 msgid "Left"
 msgstr "左"
@@ -1198,10 +1186,10 @@ msgid "maximum"
 msgstr "以内"
 
 msgid "Maximum choices reached"
-msgstr "これ以上選べません"
+msgstr "{ruby}選択数{rt}せんたくすう{/rt}{/ruby}が{ruby}上限{rt}じょうげん{/rt}{/ruby}に{ruby}達{rt}たっ{/rt}{/ruby}しました。これ{ruby}以上{rt}いじょう{/rt}{/ruby}{ruby}選択{rt}せんたく{/rt}{/ruby}できません。"
 
 msgid "Maximum number of choices reached."
-msgstr "選択数の上限に達しました"
+msgstr "{ruby}選択肢{rt}せんたくし{/rt}{/ruby}の{ruby}上限{rt}じょうげん{/rt}{/ruby}に{ruby}達{rt}たっ{/rt}{/ruby}しました"
 
 msgid "Media"
 msgstr "メディア"
@@ -1228,7 +1216,7 @@ msgid "Metadata service successfully registered."
 msgstr "メタデータサービスの登録が完了しました"
 
 msgid "MIME-type"
-msgstr "MINEタイプ"
+msgstr "MIMEタイプ"
 
 msgid "Min"
 msgstr "最小"
@@ -1237,7 +1225,7 @@ msgid "Minimal  score for this interaction."
 msgstr "この問題の最小スコア"
 
 msgid "Modal feedback is shown to the candidate directly following response processing."
-msgstr "解答内容に応じて、受験者に直接フィードバックが表示されます。"
+msgstr "解答内容に応じて、受検者に直接フィードバックが表示されます。"
 
 msgid "Modal Feedback Prop."
 msgstr "モーダルフィードバックプロップ"
@@ -1249,7 +1237,7 @@ msgid "Modal Feedbacks"
 msgstr "モーダルフィードバック"
 
 msgid "Multiple choices"
-msgstr "多肢選択問題"
+msgstr "複数選択問題"
 
 msgid "Multiply"
 msgstr "乗算"
@@ -1307,13 +1295,13 @@ msgid "OK"
 msgstr "OK"
 
 msgid "one association pair"
-msgstr "１つの組み合わせ"
+msgstr "１つの{ruby}組{rt}く{/rt}{/ruby}み{ruby}合{rt}あ{/rt}{/ruby}わせ"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
 msgstr "1つ以上のQTIコンポーネントがシステムでサポートされていません。システムは次のエラーを返しました：%s\n"
 
 msgid "Order"
-msgstr "並べ替え"
+msgstr "画像オーダー"
 
 msgid "Order Interaction"
 msgstr "並べ替え問題"
@@ -1331,7 +1319,7 @@ msgid "Orientation"
 msgstr "選択肢の並び方"
 
 msgid "Other constraints"
-msgstr "複数解答設定"
+msgstr "他の制限"
 
 msgid "Outcome Declarations"
 msgstr "結果変数の宣言"
@@ -1487,10 +1475,10 @@ msgid "PropertyUri to map has to a valid uri"
 msgstr "プロパティURIは，有効なURIに関連付ける必要があります"
 
 msgid "Provides a hint to the candidate as to the expected number of lines of input required. A line is expected to have about 72 characters."
-msgstr "推奨行数をもとに解答中の文字数を受験者に表示します。1行の文字数は約72文字目安です。"
+msgstr "推奨行数をもとに解答中の行数を受検者に表示します。1行の文字数は約72文字目安です。"
 
 msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."
-msgstr "推奨文字数をもとに解答中の文字数を受験者に表示します"
+msgstr "推奨文字数をもとに解答中の文字数を受検者に表示します"
 
 msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters. This is not a validity constraint."
 msgstr "推奨文字数に応じてブランクの幅を設定できます。ただしここでの設定は文字数入力の制限にはなりません。"
@@ -1631,7 +1619,7 @@ msgid "Rich text"
 msgstr "リッチテキスト"
 
 msgid "Rich text + math"
-msgstr "リッチテキスト + math"
+msgstr "リッチテキスト + マッチ"
 
 msgid "Right"
 msgstr "右"
@@ -1670,7 +1658,7 @@ msgid "Score value"
 msgstr "スコア値"
 
 msgid "Scrollable multi-column"
-msgstr "スクロール可能複数カラム"
+msgstr "スクロール可能なマルチカラム"
 
 msgid "sec"
 msgstr "秒"
@@ -1682,7 +1670,7 @@ msgid "Select"
 msgstr "選択"
 
 msgid "select a choice"
-msgstr "空欄を選択"
+msgstr "{ruby}選択肢{rt}せんたくし{/rt}{/ruby}から{ruby}選{rt}えら{/rt}{/ruby}ぶ"
 
 msgid "Select a choice from a drop-down list."
 msgstr "ドロップダウンリストから解答"
@@ -1907,7 +1895,7 @@ msgid "Text Entry Interaction"
 msgstr "テキスト入力問題"
 
 msgid "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."
-msgstr "メディアを自動再生させる場合はチェックを入れて、メディアを受験者の操作で開始させる場合はチェックを外してください。"
+msgstr "メディアを自動再生させる場合はチェックを入れて、メディアを受検者の操作で開始させる場合はチェックを外してください。"
 
 msgid "The button label."
 msgstr "ボタンラベル"
@@ -1937,7 +1925,7 @@ msgid "The given target is not an instance of core_kernel_classes_Resource"
 msgstr "指定されたターゲットはcore_kernel_classes_Resourceのインスタンスではありません"
 
 msgid "The highlighted choice cannot be associated more than %d time(s)."
-msgstr "ハイライト表示された選択肢は、%d回以上関連付けることはできません。"
+msgstr "{ruby}該当{rt}がいとう{/rt}{/ruby}の{ruby}選択肢{rt}せんたくし{/rt}{/ruby}は%dか{ruby}所{rt}しょ{/rt}{/ruby}を{ruby}超{rt}こ{/rt}{/ruby}えて{ruby}選択{rt}せんたく{/rt}{/ruby}することはできません。"
 
 msgid "The identifier of the choice. This identifier must not be used by any other choice or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
 msgstr "選択肢の識別子：同じ識別子を，他の選択肢やアイテム変数で使用できません。識別子は、文字またはアンダースコア(\"_\") で始まり、文字、アンダースコア、ハイフン (\"-\")、ピリオド (\".\")、10進数値（digit）、結合文字（CombiningChars）、エクステンダ（Extender）を含む文字列です。"
@@ -2018,16 +2006,16 @@ msgid "The mapping options are available when at least one map entry is defined.
 msgstr "採点方法の「マップレスポンス」は、準正答などにスコアを設定したい場合に使用します。"
 
 msgid "The maximum number of association is unlimited."
-msgstr "組合せの最大数に制限はありません"
+msgstr "{ruby}組合{rt}くみあわ{/rt}{/ruby}せの{ruby}最大数{rt}さいだいすう{/rt}{/ruby}に{ruby}制限{rt}せいげん{/rt}{/ruby}はありません"
 
 msgid "The maximum number of associations that the candidate is allowed to make."
-msgstr "受験者が解答できる組合せの最大数"
+msgstr "受検者が解答できる組合せの最大数"
 
 msgid "The maximum number of choices that the candidate is allowed to select."
-msgstr "受験者が選択できる選択肢の最大数"
+msgstr "受検者が選択できる選択肢の最大数"
 
 msgid "The maximum number of choices that the candidate is required to select to form a valid response."
-msgstr "受験者に最低限の選択数を求める場合に選択可能な最大数です。"
+msgstr "受検者が選択しなくてはいけない選択肢の最大数"
 
 msgid "The maximum number of choices this choice may be associated with."
 msgstr "この選択肢を選べる回数"
@@ -2036,10 +2024,10 @@ msgid "The maximum number of choices this choice may be associated with. If matc
 msgstr "この選択肢を選べる回数。0の場合は、選択回数の制限はありません。"
 
 msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
-msgstr "メディアの最大再生回数です。受験者はこの再生回数を超えて再生することはできません。0（デフォルト）は制限なく再生できます。"
+msgstr "メディアの最大再生回数です。受検者はこの再生回数を超えて再生することはできません。0（デフォルト）は制限なく再生できます。"
 
 msgid "The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score."
-msgstr "このアイテムのMAXSCOREは、電流相互作用設定によって無限の値がスコアに与えられるため、除去されます。"
+msgstr "現在のインタラクション設定では、スコアに無限の値を設定できるため、このアイテムのMAXSCOREは削除されました。"
 
 msgid "The MIME-type attribute describes which kind of file may be uploaded."
 msgstr "MIMEタイプ属性は、アップロードできるファイル形式を設定します"
@@ -2048,13 +2036,13 @@ msgid "The minimum number of answers is "
 msgstr "最低限の回答数"
 
 msgid "The minimum number of associations that the candidate is required to make to form a valid response."
-msgstr "組み合わせの最小数は、受験者が最低限解答すべき組合せ数です。"
+msgstr "組み合わせの最小数は、受検者が最低限解答すべき組合せ数です。"
 
 msgid "The minimum number of choices that the candidate is required to select to form a valid response."
-msgstr "受験者に求める最低限の選択数です。"
+msgstr "受検者に求める最低限の選択数です。"
 
 msgid "The minimum number of choices this choice must be associated with to form a valid response."
-msgstr "受験者に求める最低限の組合せ数です"
+msgstr "受検者に求める最低限の組合せ数です"
 
 msgid "The number base to use when converting integer variables to strings with the i conversion type code."
 msgstr "i変換型コードで整数変数を文字列に変換する際に使用する数字の基数です。"
@@ -2096,7 +2084,7 @@ msgid "The target must be an instance of DOMDocument"
 msgstr "ターゲットはのDOMDocumentのインスタンスである必要があります"
 
 msgid "The text to be displayed below the image."
-msgstr "画像の下に表示されるテキスト。"
+msgstr "画像の下に表示されるテキスト"
 
 msgid "The text to be displayed if the image is not available."
 msgstr "代替えテキスト（画像が使用できない場合に表示されるテキスト）"
@@ -2132,7 +2120,7 @@ msgid "This identifier is already used by another variable."
 msgstr "この識別子はすでに別の変数で使用されています。"
 
 msgid "This identifier must not be used by any other response or item variable."
-msgstr "この識別子は、他のレスポンス変数やアイテム変数で使用しいでください。"
+msgstr "この識別子は他で使用されているので使用しないでください。"
 
 msgid "This interaction has no text defined in question mode."
 msgstr "このインタラクションには、質問モードで定義されたテキストがありません。"
@@ -2141,7 +2129,7 @@ msgid "This is not a valid answer"
 msgstr "有効な解答ではありません"
 
 msgid "This is not a valid value. Expected %s"
-msgstr "これは有効な値ではありません。期待される %s"
+msgstr "入力できる値はこちらです: %s"
 
 msgid "This is required"
 msgstr "これは必須です"
@@ -2177,7 +2165,7 @@ msgid "Tooltip Target"
 msgstr "Tipsリンク文字"
 
 msgid "Top"
-msgstr "上部"
+msgstr "トップ"
 
 msgid "Translation completed"
 msgstr "翻訳が完了しました"
@@ -2228,7 +2216,7 @@ msgid "Use this if you want the list of choices to be prefixed (e.g. 1,2,3 a,b,c
 msgstr "選択肢リストの前にプレフィクス（例えば1,2,3 a,b,cなど）付けたい場合に使用します"
 
 msgid "Used to control the format of the text entered by the candidate."
-msgstr "受験者が入力する際のテキストの書式を設定します"
+msgstr "受検者が入力する際のテキストの書式を設定します"
 
 msgid "Value"
 msgstr "値"
@@ -2270,16 +2258,16 @@ msgid "Yes"
 msgstr "Yes"
 
 msgid "You can select maximum %d choice"
-msgstr "最大%dつ選べます"
+msgstr "{ruby}最大{rt}さいだい{/rt}{/ruby}%d{ruby}個{rt}こ{/rt}{/ruby}{ruby}選択{rt}せんたく{/rt}{/ruby}できます"
 
 msgid "You can select maximum %d choices"
-msgstr "最大%dつ選べます"
+msgstr "{ruby}最大{rt}さいだい{/rt}{/ruby}%d{ruby}個{rt}こ{/rt}{/ruby}{ruby}選択{rt}せんたく{/rt}{/ruby}できます"
 
 msgid "You can select up to %s choices."
-msgstr "最大%sつまで選べます"
+msgstr "{ruby}最大{rt}さいだい{/rt}{/ruby}%s{ruby}個{rt}こ{/rt}{/ruby}まで{ruby}選択{rt}せんたく{/rt}{/ruby}できます"
 
 msgid "You can use maximum %d choices"
-msgstr "最大%dつの選択肢を使えます"
+msgstr "{ruby}最大{rt}さいだい{/rt}{/ruby}%d{ruby}個{rt}こ{/rt}{/ruby}の{ruby}選択肢{rt}せんたくし{/rt}{/ruby}を{ruby}使{rt}つか{/rt}{/ruby}えます"
 
 msgid "You have deleted"
 msgstr "削除しました"
@@ -2291,46 +2279,46 @@ msgid "You have deleted an element."
 msgstr "エレメントを削除しました"
 
 msgid "You may make as many association pairs as you want."
-msgstr "組合せを複数作ることができます。"
+msgstr "{ruby}組合{rt}くみあわ{/rt}{/ruby}せを{ruby}複数{rt}ふくすう{/rt}{/ruby}{ruby}作{rt}つく{/rt}{/ruby}ることができます。"
 
 msgid "You must select %1$d to %2$d choices."
-msgstr "少なくとも%1$dつ，最大%2$dつまで選べます"
+msgstr "{ruby}少{rt}すく{/rt}{/ruby}なくとも%1$d{ruby}個{rt}こ{/rt}{/ruby}，{ruby}最大{rt}さいだい{/rt}{/ruby}%2$d{ruby}個{rt}こ{/rt}{/ruby}まで{ruby}選択{rt}せんたく{/rt}{/ruby}してください"
 
 msgid "You must select 0 to %d choices."
-msgstr "最大%dつまで選べます"
+msgstr "{ruby}少{rt}すく{/rt}{/ruby}なくとも0〜%d{ruby}個{rt}こ{/rt}{/ruby}まで，{ruby}選択{rt}せんたく{/rt}{/ruby}してください"
 
 msgid "You must select at least %d choice"
-msgstr "%dつ以上選んでください"
+msgstr "{ruby}最低{rt}さいてい{/rt}{/ruby}%d{ruby}個{rt}こ{/rt}{/ruby}{ruby}選択{rt}せんたく{/rt}{/ruby}してください"
 
 msgid "You must select at least %d choices"
-msgstr "%dつ以上選んでください"
+msgstr "%d{ruby}個{rt}こ{/rt}{/ruby}{ruby}選択{rt}せんたく{/rt}{/ruby}してください"
 
 msgid "You must select exactly %d choice"
-msgstr "必ず%dつ選んでください"
+msgstr "{ruby}必{rt}かなら{/rt}{/ruby}ず%d{ruby}個{rt}こ{/rt}{/ruby}，{ruby}選択{rt}せんたく{/rt}{/ruby}してください"
 
 msgid "You must select exactly %d choice(s)."
-msgstr "必ず%dつ選んでください"
+msgstr "{ruby}必{rt}かなら{/rt}{/ruby}ず%d{ruby}個{rt}こ{/rt}{/ruby}，{ruby}選択{rt}せんたく{/rt}{/ruby}してください"
 
 msgid "You must select exactly %d choices"
-msgstr "必ず%dつ選んでください"
+msgstr "{ruby}必{rt}かなら{/rt}{/ruby}ず%d{ruby}個{rt}こ{/rt}{/ruby}，{ruby}選択{rt}せんたく{/rt}{/ruby}してください"
 
 msgid "You must use at least %d choices"
-msgstr "少なくとも%dつの選択肢を使ってください"
+msgstr "{ruby}少{rt}すく{/rt}{/ruby}なくとも%d{ruby}個{rt}こ{/rt}{/ruby}の{ruby}選択肢{rt}せんたくし{/rt}{/ruby}を{ruby}使{rt}つか{/rt}{/ruby}ってください"
 
 msgid "You need to make"
-msgstr "必須組合せ数："
+msgstr "{ruby}必須{rt}ひっす{/rt}{/ruby}{ruby}組合{rt}くみあわ{/rt}{/ruby}せ{ruby}数{rt}すう{/rt}{/ruby}："
 
 msgid "You need to select %s choices"
-msgstr "%dつ選んでください"
+msgstr "%s{ruby}個{rt}こ{/rt}{/ruby}{ruby}選択{rt}せんたく{/rt}{/ruby}してください"
 
 msgid "You need to select at least %s choices."
-msgstr "少なくとも%sつ選んでください"
+msgstr "少なくとも%sつ選択してください"
 
 msgid "You need to select at least 1 choice."
-msgstr "少なくとも1つ選んでください。"
+msgstr "少なくとも1つ選択してください"
 
 msgid "You need to select from %s to %s choices."
-msgstr "少なくとも%sつ，最大%sつまで選べます"
+msgstr "%s〜%s{ruby}個{rt}こ{/rt}{/ruby}の{ruby}間{rt}あいだ{/rt}{/ruby}で{ruby}選択{rt}せんたく{/rt}{/ruby}してください"
 
 msgid "Your item has been saved"
 msgstr "アイテムが保存されました"
