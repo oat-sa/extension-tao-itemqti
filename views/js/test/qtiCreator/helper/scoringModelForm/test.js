@@ -197,25 +197,28 @@ define([
             }
         };
         const interaction = textEntries[0];
+        // Wrap the panel: bindEvents looks for .scoring-model-panel descendants (as in creator).
         const $form = $(
-            `<div class="scoring-model-panel">
-                <input type="radio" name="scoringModel" value="polytomous" checked="checked" />
-                <div class="scoring-model-polytomous">
-                    <div class="scoring-model-level-list">
-                        <div class="scoring-model-level" data-level-index="0">
-                            <input class="scoring-level-threshold" value="0" />
-                            <input class="scoring-level-score" value="0" />
-                            <span data-action="remove-scoring-level"></span>
-                        </div>
-                        <div class="scoring-model-level" data-level-index="1">
-                            <input class="scoring-level-threshold" value="3" />
-                            <input class="scoring-level-score" value="1" />
-                            <span data-action="remove-scoring-level"></span>
-                        </div>
-                        <div class="scoring-model-level" data-level-index="2">
-                            <input class="scoring-level-threshold" value="1" />
-                            <input class="scoring-level-score" value="0" />
-                            <span data-action="remove-scoring-level"></span>
+            `<div class="response-form">
+                <div class="scoring-model-panel">
+                    <input type="radio" name="scoringModel" value="polytomous" checked="checked" />
+                    <div class="scoring-model-polytomous">
+                        <div class="scoring-model-level-list">
+                            <div class="scoring-model-level" data-level-index="0">
+                                <input class="scoring-level-threshold" value="0" />
+                                <input class="scoring-level-score" value="0" />
+                                <span data-action="remove-scoring-level"></span>
+                            </div>
+                            <div class="scoring-model-level" data-level-index="1">
+                                <input class="scoring-level-threshold" value="3" />
+                                <input class="scoring-level-score" value="1" />
+                                <span data-action="remove-scoring-level"></span>
+                            </div>
+                            <div class="scoring-model-level" data-level-index="2">
+                                <input class="scoring-level-threshold" value="1" />
+                                <input class="scoring-level-score" value="0" />
+                                <span data-action="remove-scoring-level"></span>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -446,7 +446,7 @@ define([
             ]
         });
 
-        assert.strictEqual(primary.attr('data-scoring-model'), '{"3":2,"2":1}');
+        assert.deepEqual(JSON.parse(primary.attr('data-scoring-model')), { 3: 2, 2: 1 });
         assert.ok(item.responseProcessing.xml.indexOf('TEMP_SCORE') > -1);
         assert.ok(item.responseProcessing.xml.indexOf('<stringMatch') > -1);
         assert.ok(item.responseProcessing.xml.indexOf('<gte>') > -1);
