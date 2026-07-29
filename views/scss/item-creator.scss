@@ -1589,7 +1589,7 @@ img.dragging.ui-draggable-dragging {
         z-index:-1;
     }
 }
-.qti-itemBody.separator-between-columns {
+#item-editor-scope .qti-itemBody.separator-between-columns {
     & > .grid-row {
         & > [class^='col-'] {
             position: relative;
