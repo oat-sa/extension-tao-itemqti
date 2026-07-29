@@ -36,7 +36,13 @@ class UmfiTextEntryXmlAttributesTest extends TestCase
     <p>
       <textEntryInteraction responseIdentifier="RESPONSE_2" base="10" placeholderText=""/>
       <textEntryInteraction responseIdentifier="RESPONSE_3" base="10" placeholderText=""/>
-      <textEntryInteraction responseIdentifier="RESPONSE" base="10" placeholderText="" data-item-type="umfi-closed" data-umfi-values="[{&quot;group&quot;:&quot;GROUP_1_FOUND&quot;,&quot;canonical&quot;:&quot;Poland&quot;,&quot;variants&quot;:[&quot;Poland&quot;]}]" data-case-sensitive="false"/>
+      <textEntryInteraction
+        responseIdentifier="RESPONSE"
+        base="10"
+        placeholderText=""
+        data-item-type="umfi-closed"
+        data-umfi-values="[{&quot;group&quot;:&quot;G1&quot;,&quot;canonical&quot;:&quot;P&quot;,&quot;variants&quot;:[]}]"
+        data-case-sensitive="false"/>
       <textEntryInteraction responseIdentifier="RESPONSE_1" base="10" placeholderText=""/>
     </p>
   </itemBody>
