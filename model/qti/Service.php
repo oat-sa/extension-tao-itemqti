@@ -159,8 +159,7 @@ class Service extends ConfigurableService
         $qtiItem->setAttribute('label', $label);
 
         $directory = taoItems_models_classes_ItemsService::singleton()->getItemDirectory($rdfItem);
-        $xml = $qtiItem->toXML();
-        $success = $directory->getFile(self::QTI_ITEM_FILE)->put($xml);
+        $success = $directory->getFile(self::QTI_ITEM_FILE)->put($qtiItem->toXML());
 
         if ($success) {
             $this->getEventManager()->trigger(new ItemUpdatedEvent($rdfItem->getUri()));
