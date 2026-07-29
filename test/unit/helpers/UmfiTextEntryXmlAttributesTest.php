@@ -41,7 +41,7 @@ class UmfiTextEntryXmlAttributesTest extends TestCase
         base="10"
         placeholderText=""
         data-item-type="umfi-closed"
-        data-umfi-values="[{&quot;group&quot;:&quot;G1&quot;,&quot;canonical&quot;:&quot;P&quot;,&quot;variants&quot;:[]}]"
+        data-umfi-values="[]"
         data-case-sensitive="false"/>
       <textEntryInteraction responseIdentifier="RESPONSE_1" base="10" placeholderText=""/>
     </p>
