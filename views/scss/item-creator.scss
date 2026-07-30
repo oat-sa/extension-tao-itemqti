@@ -276,27 +276,44 @@ img.dragging.ui-draggable-dragging {
 }
 
 .item-editor-sidebar .tool-group .panel .scoring-model-level > button.scoring-level-remove {
-    width: 24px;
-    min-width: 24px;
-    max-width: 24px;
-    height: 2rem;
-    min-height: 2rem;
-    margin: 0;
-    padding: 0;
-    border: none;
-    border-radius: 0;
-    background: none;
-    box-shadow: none;
-    line-height: 1;
+    position: static !important;
+    float: none !important;
+    display: block !important;
+    width: 24px !important;
+    min-width: 0 !important;
+    max-width: 24px !important;
+    height: 2rem !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    line-height: 2rem !important;
+    text-align: center;
+    overflow: hidden;
 }
 
 .item-editor-sidebar .tool-group .panel .scoring-model-dichotomous-fields .incrementer-ctrl-wrapper input.score,
-.item-editor-sidebar .tool-group .panel .scoring-model-dichotomous-fields .incrementer-ctrl-wrapper input.incrementer,
-.item-editor-sidebar .tool-group .panel .scoring-model-level > .incrementer-ctrl-wrapper input.score,
-.item-editor-sidebar .tool-group .panel .scoring-model-level > .incrementer-ctrl-wrapper input.incrementer {
+.item-editor-sidebar .tool-group .panel .scoring-model-dichotomous-fields .incrementer-ctrl-wrapper input.incrementer {
     width: calc(var(--input-height) + 16px);
     min-width: var(--input-height);
     max-width: none;
+}
+
+// Polytomous level rows are narrow; do not force solar input min-width or the row
+// (and bin) overflows .scoring-model-levels horizontally.
+.item-editor-sidebar .tool-group .panel .scoring-model-level > .incrementer-ctrl-wrapper {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.item-editor-sidebar .tool-group .panel .scoring-model-level > .incrementer-ctrl-wrapper input.score,
+.item-editor-sidebar .tool-group .panel .scoring-model-level > .incrementer-ctrl-wrapper input.incrementer {
+    width: 100%;
+    min-width: 0;
+    max-width: calc(var(--input-height) + 16px);
 }
 
 .item-editor-css-editor {

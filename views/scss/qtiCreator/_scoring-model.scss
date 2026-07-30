@@ -57,12 +57,7 @@
 
     $score-input-size: 40px;
     $score-input-height: 2rem;
-    $threshold-incrementer-col: calc(var(--input-height, 2.2rem) + 16px + 1.6rem);
-    $or-more-col: 4.5rem;
     $bin-col: 24px;
-    // Col1: Correct responses (incrementer wrapper), Col2: "or more", Col3: spacer,
-    // Col4: Scores, Col5: remove.
-    $levels-grid-columns: $threshold-incrementer-col $or-more-col minmax(0, 1fr) max-content $bin-col;
 
     // Shared white box for dichotomous fields and polytomous levels.
     // Cancel .scoring-model-details left indent so the box spans the full panel width.
@@ -143,37 +138,33 @@
 
     .scoring-model-levels {
         @extend %scoring-model-white-box;
+        // Equal left/right inset so the bin sits with the same margin as the first input.
+        padding: 0.75rem;
+        // Keep rows/bin painted inside this white box (narrow sidebar).
+        overflow: hidden;
+        max-width: calc(100% + #{$control-column-width + $control-gap});
     }
 
+    .scoring-model-level-list {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    // Flex (not grid): fixed grid tracks overflow this narrow box and paint the bin
+    // outside .scoring-model-level / .scoring-model-levels. margin-left: auto on the
+    // score control pushes Scores + bin right while keeping them in-flow.
     .scoring-model-levels-header,
     .scoring-model-level {
-        display: grid;
-        grid-template-columns: $levels-grid-columns;
-        column-gap: 0.5rem;
+        display: flex;
+        flex-wrap: nowrap;
         align-items: center;
-    }
-
-    // Header labels keep class-based placement.
-    .scoring-model-levels-header {
-        .scoring-level-threshold {
-            grid-column: 1;
-            justify-self: start;
-            white-space: nowrap;
-        }
-
-        .scoring-level-score {
-            grid-column: 4;
-            justify-self: start;
-            white-space: nowrap;
-        }
-    }
-
-    .scoring-level-suffix {
-        grid-column: 2;
-        justify-self: start;
-        @include font-size(13);
-        line-height: $score-input-height;
-        white-space: nowrap;
+        column-gap: 0.5rem;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
     }
 
     .scoring-model-levels-header {
@@ -183,67 +174,90 @@
         @include font-size(12);
         font-weight: bold;
         color: var(--color-gs-dark-secondary, #666);
+
+        .scoring-level-threshold {
+            flex: 1 1 auto;
+            min-width: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        // Align with the score input (leave room for the bin column + gap).
+        .scoring-level-score {
+            flex: 0 0 auto;
+            margin-left: auto;
+            margin-right: calc(#{$bin-col} + 0.5rem);
+            white-space: nowrap;
+        }
+    }
+
+    .scoring-level-suffix {
+        flex: 0 1 auto;
+        min-width: 0;
+        @include font-size(13);
+        line-height: $score-input-height;
+        white-space: nowrap;
     }
 
     .scoring-model-level {
         margin-bottom: 0.5rem;
 
-        // data-increment wraps the threshold input; the wrapper is the grid item.
         > .incrementer-ctrl-wrapper {
-            grid-column: 1;
-            justify-self: start;
+            flex: 1 1 auto;
+            min-width: 0;
+            max-width: calc(var(--input-height, 2.2rem) + 16px);
 
             input.score,
             input.incrementer {
                 float: none;
                 display: block;
                 margin: 0;
-                width: calc(var(--input-height, 2.2rem) + 16px);
-                min-width: var(--input-height, 2.2rem);
-                max-width: none;
+                width: 100%;
+                min-width: 0;
+                max-width: 100%;
                 box-sizing: border-box;
                 text-align: right;
             }
         }
 
-        // Scores stay as a compact plain input (no data-increment).
         > input.scoring-level-score {
-            grid-column: 4;
-            justify-self: start;
+            flex: 0 0 $score-input-size;
+            margin-left: auto;
             @extend %scoring-model-compact-score-input;
         }
 
-        // Keep icon button in the bin column and vertically aligned with inputs
-        // (native <button> UA styles otherwise inflate size and shift the glyph).
+        // Must stay in normal flow inside this row (never float/absolute).
         > button.scoring-level-remove {
-            grid-column: 5;
-            justify-self: center;
-            align-self: center;
+            flex: 0 0 $bin-col;
             box-sizing: border-box;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            position: static;
+            float: none;
+            appearance: none;
+            -webkit-appearance: none;
+            display: block;
             width: $bin-col;
-            min-width: $bin-col;
+            min-width: 0;
             max-width: $bin-col;
             height: $score-input-height;
-            min-height: $score-input-height;
+            min-height: 0;
             margin: 0;
             padding: 0;
             border: none;
             border-radius: 0;
-            background: none;
+            background: transparent;
             box-shadow: none;
-            appearance: none;
-            -webkit-appearance: none;
-            line-height: 1;
+            line-height: $score-input-height;
+            text-align: center;
             color: $info;
             cursor: pointer;
+            overflow: hidden;
 
             &::before {
+                display: block;
                 margin: 0;
                 padding: 0;
-                line-height: 1;
+                line-height: inherit;
                 position: static;
             }
 
