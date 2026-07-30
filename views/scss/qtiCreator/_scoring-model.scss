@@ -253,12 +253,22 @@
             cursor: pointer;
             overflow: hidden;
 
+            body.solar-design #item-editor-scope .item-editor-sidebar-wrapper.right-bar & {
+                color: var(--color-brand, #{$info});
+
+                &:hover,
+                &:focus {
+                    color: var(--color-brand-hover, #{whiten($info, 0.4)});
+                }
+            }
+
             &::before {
                 display: block;
                 margin: 0;
                 padding: 0;
                 line-height: inherit;
                 position: static;
+                color: inherit;
             }
 
             &:hover,

@@ -293,6 +293,22 @@ img.dragging.ui-draggable-dragging {
     line-height: 2rem !important;
     text-align: center;
     overflow: hidden;
+    // Beat solar sidebar button color (otherwise the icon renders as black).
+    color: $info !important;
+
+    &:hover,
+    &:focus {
+        color: whiten($info, 0.4) !important;
+    }
+}
+
+body.solar-design #item-editor-scope .item-editor-sidebar .tool-group .panel .scoring-model-level > button.scoring-level-remove {
+    color: var(--color-brand, #{$info}) !important;
+
+    &:hover,
+    &:focus {
+        color: var(--color-brand-hover, #{whiten($info, 0.4)}) !important;
+    }
 }
 
 .item-editor-sidebar .tool-group .panel .scoring-model-dichotomous-fields .incrementer-ctrl-wrapper input.score,
