@@ -27,7 +27,7 @@ define([
         this.widget.$container.removeClass('runtime');
 
         scoringModelForm.unbindEvents(this.widget.$responseForm, this.widget);
-        textEntryEvaluationForm.unbindEvents(this.widget.$responseForm);
+        textEntryEvaluationForm.unbindEvents(this.widget.$responseForm, this.widget);
         this.widget.$responseForm.empty().hide();
         
         contentHelper.changeInnerWidgetState(this.widget, 'sleep');
