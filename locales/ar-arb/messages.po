@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2026.08 LTS\n"
-"PO-Revision-Date: 2026-07-24T15:37:50\n"
+"PO-Revision-Date: 2026-07-30T13:14:47\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar-arb\n"
@@ -281,6 +281,9 @@ msgstr "على الأقل"
 msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
 msgstr ""
 
+msgid "Authoring view remains tabular. Preview and delivery use non-tabular mode."
+msgstr ""
+
 msgid "Autostart"
 msgstr "بدء أتوماتيكي"
 
@@ -450,6 +453,9 @@ msgid "Compact Appearance"
 msgstr ""
 
 msgid "Configures the position of the choices relative to the answer area."
+msgstr ""
+
+msgid "Configures the position of the choices relative to the buckets. Columns are choices and rows are buckets."
 msgstr ""
 
 msgid "Configures the position of the choices relative to the gaps."
@@ -627,6 +633,9 @@ msgid "Display"
 msgstr "عرض"
 
 msgid "Display media player"
+msgstr ""
+
+msgid "Display mode"
 msgstr ""
 
 msgid "Display the choices either horizontally or vertically"
@@ -977,6 +986,9 @@ msgstr ""
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
 msgstr ""
 
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" or \"fixed\" individually."
+msgstr ""
+
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
 msgstr ""
 
@@ -1293,6 +1305,9 @@ msgstr "الحد الأقصى"
 msgid "Maximum choices reached"
 msgstr "تم الوصول إلى الحد الأقصى من الخيارات"
 
+msgid "Maximum correct responses: %d."
+msgstr ""
+
 msgid "Maximum number of choices reached."
 msgstr "تم الوصول إلى الحد الأقصى من الخيارات"
 
@@ -1377,6 +1392,9 @@ msgstr ""
 
 msgid "No value set"
 msgstr "لم يتم تعيين قيمة"
+
+msgid "Non-tabular"
+msgstr ""
 
 msgid "None"
 msgstr ""
@@ -2016,6 +2034,12 @@ msgstr ""
 msgid "Table headings"
 msgstr "عناوين الجدول"
 
+msgid "Tabular"
+msgstr ""
+
+msgid "Tabular uses a table layout. Non-tabular uses choices and buckets in preview and delivery."
+msgstr ""
+
 msgid "Tangent"
 msgstr ""
 
@@ -2295,6 +2319,9 @@ msgid "This stylesheet has not been found on the server. you may want to delete 
 msgstr "لم يتم العثور على ورقة الأنماط هذه على الخادم. قد ترغب في حذف هذا المرجع"
 
 msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
+msgstr ""
+
+msgid "This value is already used."
 msgstr ""
 
 msgid "This variant already exists"

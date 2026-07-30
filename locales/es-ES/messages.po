@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2026.08 LTS\n"
-"PO-Revision-Date: 2026-07-24T15:38:15\n"
+"PO-Revision-Date: 2026-07-30T13:15:14\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -281,6 +281,9 @@ msgstr "al menos"
 msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
 msgstr "Intentando inyectar valores de metadatos \"%s\" para el objetivo \"%s\" con inyector de metadatos \"%s\"."
 
+msgid "Authoring view remains tabular. Preview and delivery use non-tabular mode."
+msgstr ""
+
 msgid "Autostart"
 msgstr "Inicio automático"
 
@@ -450,6 +453,9 @@ msgid "Compact Appearance"
 msgstr "Apariencia de pacto"
 
 msgid "Configures the position of the choices relative to the answer area."
+msgstr ""
+
+msgid "Configures the position of the choices relative to the buckets. Columns are choices and rows are buckets."
 msgstr ""
 
 msgid "Configures the position of the choices relative to the gaps."
@@ -628,6 +634,9 @@ msgstr "Muestra"
 
 msgid "Display media player"
 msgstr "Mostrar reproductor de medios"
+
+msgid "Display mode"
+msgstr ""
 
 msgid "Display the choices either horizontally or vertically"
 msgstr "Mostrar las opciones tanto horizontal como verticalmente"
@@ -983,6 +992,9 @@ msgstr "Si la máscara de patrón no coincide con el valor proporcionado, se mos
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
 msgstr "Si el atributo aleatorio es cierto entonces el motor de entrega aleatoriza el orden en el que las opciones se presentan inicialmente. Sin embargo, cada opción puede ser \"aleatoria\" de \"fijada\" individualmente."
 
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" or \"fixed\" individually."
+msgstr ""
+
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
 msgstr "Si el atributo aleatorio es cierto entonces el motor de entrega aleatoriza el orden en el que las opciones se presentan inicialmente. Sin embargo, cada opción puede ser “aleatoria” de “fijada” individualmente."
 
@@ -1299,6 +1311,9 @@ msgstr "máximo"
 msgid "Maximum choices reached"
 msgstr "Opciones máximas alcanzadas"
 
+msgid "Maximum correct responses: %d."
+msgstr ""
+
 msgid "Maximum number of choices reached."
 msgstr "Cantidad máxima de opciones alcanzadas."
 
@@ -1383,6 +1398,9 @@ msgstr "Ningún archivo subido"
 
 msgid "No value set"
 msgstr "No hay valor asignado"
+
+msgid "Non-tabular"
+msgstr ""
 
 msgid "None"
 msgstr "Ninguno"
@@ -2022,6 +2040,12 @@ msgstr "Cambia toda la dirección del elemento de escritura entre horizontal y v
 msgid "Table headings"
 msgstr "Encabezados de tabla"
 
+msgid "Tabular"
+msgstr ""
+
+msgid "Tabular uses a table layout. Non-tabular uses choices and buckets in preview and delivery."
+msgstr ""
+
 msgid "Tangent"
 msgstr "Tangent"
 
@@ -2305,6 +2329,9 @@ msgstr "Esta hoja de estilo no se ha encontrado en el servidor. Es posible que d
 
 msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
 msgstr "Este valor no sigue las pautas de puntuación de caracteres. No será compatible con la puntuación manual de TAO"
+
+msgid "This value is already used."
+msgstr ""
 
 msgid "This variant already exists"
 msgstr ""
