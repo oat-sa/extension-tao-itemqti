@@ -207,17 +207,17 @@ define([
                             <div class="scoring-model-level" data-level-index="0">
                                 <input class="scoring-level-threshold" value="0" />
                                 <input class="scoring-level-score" value="0" />
-                                <span data-action="remove-scoring-level"></span>
+                                <button type="button" data-action="remove-scoring-level"></button>
                             </div>
                             <div class="scoring-model-level" data-level-index="1">
                                 <input class="scoring-level-threshold" value="3" />
                                 <input class="scoring-level-score" value="1" />
-                                <span data-action="remove-scoring-level"></span>
+                                <button type="button" data-action="remove-scoring-level"></button>
                             </div>
                             <div class="scoring-model-level" data-level-index="2">
                                 <input class="scoring-level-threshold" value="1" />
                                 <input class="scoring-level-score" value="0" />
-                                <span data-action="remove-scoring-level"></span>
+                                <button type="button" data-action="remove-scoring-level"></button>
                             </div>
                         </div>
                     </div>

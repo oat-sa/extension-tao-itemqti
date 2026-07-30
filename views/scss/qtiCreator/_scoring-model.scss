@@ -219,12 +219,16 @@
         }
 
         .scoring-level-remove {
+            display: inline-block;
+            border: none;
+            background: none;
             color: $info;
             cursor: pointer;
             padding: 3px;
             line-height: $score-input-height;
 
-            &:hover {
+            &:hover,
+            &:focus {
                 color: whiten($info, 0.4);
             }
         }

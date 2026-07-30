@@ -15,7 +15,9 @@
            value="{{score}}"
            data-validate="$notEmpty; $numeric;"
            data-validate-option="$lazy; $event(type=keyup)" />
-    <span class="trigger icon-bin scoring-level-remove"
-          data-action="remove-scoring-level"
-          title="{{__ 'Remove level'}}"></span>
+    <button type="button"
+            class="trigger icon-bin scoring-level-remove"
+            data-action="remove-scoring-level"
+            title="{{__ 'Remove level'}}"
+            aria-label="{{__ 'Remove level'}}"></button>
 </div>
