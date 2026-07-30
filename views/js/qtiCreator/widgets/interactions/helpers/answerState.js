@@ -29,7 +29,6 @@ define([
     'taoQtiItem/qtiCreator/helper/qtiElements',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm',
-    'taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper',
     'taoQtiItem/qtiCreator/helper/scoringModelForm',
     'taoQtiItem/qtiCreator/helper/scoringModelHelper',
     'taoQtiItem/qtiCreator/widgets/helpers/featureFlags',
@@ -51,7 +50,6 @@ define([
     qtiElements,
     xmlRenderer,
     textEntryEvaluationForm,
-    textEntryEvaluationHelper,
     scoringModelForm,
     scoringModelHelper,
     featureFlags,
@@ -437,19 +435,9 @@ define([
             formElement.initWidget(widget.$responseForm);
 
             if (showMultiFieldScoring) {
+                // Persist only on form edits / save — not on every Answer panel render.
                 scoringModelForm.bindEvents(widget.$responseForm, widget);
                 textEntryEvaluationForm.bindEvents(widget.$responseForm, widget);
-
-                if (textEntryEvaluationHelper.isUmfiEnabled(interaction)) {
-                    textEntryEvaluationHelper.persistEvaluationConfig(
-                        interaction,
-                        textEntryEvaluationHelper.getEvaluationConfig(interaction)
-                    );
-                }
-
-                if (isScoringModelManaged) {
-                    scoringModelHelper.persistScoringModelConfig(interaction, scoringModelConfig);
-                }
             }
         },
 
