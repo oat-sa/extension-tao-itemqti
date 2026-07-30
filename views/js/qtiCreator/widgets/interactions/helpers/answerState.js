@@ -271,7 +271,9 @@ define([
                 showMultiFieldScoring &&
                 scoringModelConfig.model !== scoringModelHelper.MODEL_SIMPLE_SUM;
 
-            // Scoring-model RP is stored as custom XML but authoring stays on map response.
+            // Scoring-model RP is stored as custom XML but authoring UI shows map response.
+            // Only coerce the local template for rendering; model mutation happens on
+            // scoring-model persist (ensureMapResponseTemplates) / explicit template change.
             if (isScoringModelManaged) {
                 if (
                     !template ||
@@ -280,7 +282,6 @@ define([
                         !responseHelper.isUsingTemplate(response, 'MAP_RESPONSE_POINT'))
                 ) {
                     template = 'MAP_RESPONSE';
-                    response.setTemplate('MAP_RESPONSE');
                 }
             } else if (!template || rp.processingType === 'custom') {
                 template = 'CUSTOM';
