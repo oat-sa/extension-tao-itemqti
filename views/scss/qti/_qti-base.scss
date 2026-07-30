@@ -5,9 +5,6 @@
 // override font to avoid @font-face load
 $regularFont: 'Franklin Gothic', 'Franklin Gothic Medium', sans-serif;
 
-// colors ported from nextgen TAO design system
-$colorGsDark: #121212;
-
 $mainContainer: '.qti-item';
 @import 'inc/base';
 @import 'inc/select2';
@@ -80,13 +77,6 @@ $mainContainer: '.qti-item';
             }
             &:last-child {
                 margin-right: 0;
-            }
-        }
-
-        &:last-child {
-            [class*=' col-'],
-            [class^='col-'] {
-                margin-block-end: 0;
             }
         }
     }
@@ -311,51 +301,6 @@ $mainContainer: '.qti-item';
         select {
             border-top-color: #aaa;
             border-left-color: #aaa;
-        }
-    }
-
-    :where(.qti-itemBody).writing-mode-vertical-rl {
-        line-height: 1.8; /* assuming ruby tags */
-    }
-
-    /* fit underlines and ruby tags on the first line of a-block or interaction prompt */
-    .qti-itemBody {
-        .custom-text-box.writing-mode-vertical-rl,
-        .qti-interaction.writing-mode-vertical-rl:has(.qti-prompt ruby) {
-            padding-block-start: 12px;
-        }
-        &.writing-mode-vertical-rl .custom-text-box:not(.writing-mode-horizontal-tb),
-        &.writing-mode-vertical-rl .qti-interaction:not(.writing-mode-horizontal-tb):has(.qti-prompt ruby) {
-            padding-block-start: 12px;
-        }
-    }
-
-    &.runtime .separator-between-columns {
-        & > .grid-row {
-            display: flex;
-            flex-direction: row;
-
-            & > [class*=' col-'],
-            & > [class^='col-'] {
-                position: relative;
-                float: none;
-
-                &:not(:first-child) {
-                    margin-inline-start: 8px;
-                }
-                &:not(:last-child) {
-                    margin-inline-end: 8px;
-                }
-                &:not(:first-child)::before {
-                    content: '';
-                    position: absolute;
-                    inset-block-start: 0;
-                    inset-block-end: 0;
-                    inset-inline-start: -9px;
-                    inline-size: 2px;
-                    background: $colorGsDark;
-                }
-            }
         }
     }
 

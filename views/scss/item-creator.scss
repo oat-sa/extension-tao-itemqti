@@ -18,9 +18,6 @@ $itemCreatorMiniTlbBorderColor: $itemCreatorBlue20;
 $itemCreatorMiniTlbBgColor: $itemCreatorBlue95;
 $itemCreatorSeparatorBar: whiten($info, 0.1);
 
-// colors ported from nextgen TAO design system
-$colorGsDark: #121212;
-
 $itemCreatorSeparatorSize: 36px;
 
 // @todo this a temporary solution, see taoQtiItem/views/js/qtiCreator/editor/gridEditor/draggable.js, createDraggable()
