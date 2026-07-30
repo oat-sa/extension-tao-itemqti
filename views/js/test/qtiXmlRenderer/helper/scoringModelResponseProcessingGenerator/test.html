@@ -13,7 +13,11 @@
             require(['/tao/ClientConfig/config'], function () {
                 require(['taoQtiItem/test/qtiXmlRenderer/helper/scoringModelResponseProcessingGenerator/test'], function () {
                     QUnit.start();
+                }, function (err) {
+                    throw err;
                 });
+            }, function (err) {
+                throw err;
             });
         </script>
     </head>
