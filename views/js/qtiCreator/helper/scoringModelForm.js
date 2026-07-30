@@ -39,18 +39,14 @@ define([
      * @returns {string}
      */
     const getCorrectResponsesMaxExceededMessage = function getCorrectResponsesMaxExceededMessage(max) {
-        return __(
-            'Correct responses cannot exceed %d because this item has only %d text entry fields.'
-        )
-            .replace('%d', String(max))
-            .replace('%d', String(max));
+        return __('Maximum correct responses: %d.').replace('%d', String(max));
     };
 
     /**
      * @returns {string}
      */
     const getCorrectResponsesDuplicateMessage = function getCorrectResponsesDuplicateMessage() {
-        return __('This Correct responses value is already used by another level.');
+        return __('This value is already used.');
     };
 
     /**
@@ -69,9 +65,7 @@ define([
         'correctResponsesMax',
         {
             name: 'correctResponsesMax',
-            message: __(
-                'Correct responses cannot exceed the number of text entry fields in this item.'
-            ),
+            message: __('Maximum correct responses: %d.'),
             validate: function validate(value, callback, options) {
                 const max = Number(options && options.max);
                 const number = Number(value);

@@ -54,10 +54,17 @@ define([
     });
 
     QUnit.test('getCorrectResponsesMaxExceededMessage explains the field-count limit', assert => {
-        const message = scoringModelForm.getCorrectResponsesMaxExceededMessage(3);
+        assert.strictEqual(
+            scoringModelForm.getCorrectResponsesMaxExceededMessage(3),
+            'Maximum correct responses: 3.'
+        );
+    });
 
-        assert.ok(message.indexOf('3') > -1);
-        assert.ok(message.toLowerCase().indexOf('text entry') > -1);
+    QUnit.test('getCorrectResponsesDuplicateMessage is concise', assert => {
+        assert.strictEqual(
+            scoringModelForm.getCorrectResponsesDuplicateMessage(),
+            'This value is already used.'
+        );
     });
 
     QUnit.test('buildThresholdValidateAttr includes correctResponsesMax rule', assert => {
