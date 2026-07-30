@@ -54,6 +54,10 @@ define([
     };
 
     /**
+     * Build `data-validate` for scoring-model Correct-responses threshold fields.
+     * Ensures thresholds are non-empty, numeric, and do not exceed the item's text-entry
+     * field count (success thresholds for dichotomous/polytomous models).
+     *
      * @param {number} max
      * @returns {string}
      */
