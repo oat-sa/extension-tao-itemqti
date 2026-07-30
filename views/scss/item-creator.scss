@@ -275,6 +275,21 @@ img.dragging.ui-draggable-dragging {
     box-sizing: border-box;
 }
 
+.item-editor-sidebar .tool-group .panel .scoring-model-level > button.scoring-level-remove {
+    width: 24px;
+    min-width: 24px;
+    max-width: 24px;
+    height: 2rem;
+    min-height: 2rem;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    line-height: 1;
+}
+
 .item-editor-sidebar .tool-group .panel .scoring-model-dichotomous-fields .incrementer-ctrl-wrapper input.score,
 .item-editor-sidebar .tool-group .panel .scoring-model-dichotomous-fields .incrementer-ctrl-wrapper input.incrementer,
 .item-editor-sidebar .tool-group .panel .scoring-model-level > .incrementer-ctrl-wrapper input.score,

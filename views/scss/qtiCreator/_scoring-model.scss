@@ -176,11 +176,6 @@
         white-space: nowrap;
     }
 
-    .scoring-level-remove {
-        grid-column: 5;
-        justify-self: center;
-    }
-
     .scoring-model-levels-header {
         margin-bottom: 0.5rem;
         padding-bottom: 0.35rem;
@@ -218,14 +213,39 @@
             @extend %scoring-model-compact-score-input;
         }
 
-        .scoring-level-remove {
-            display: inline-block;
+        // Keep icon button in the bin column and vertically aligned with inputs
+        // (native <button> UA styles otherwise inflate size and shift the glyph).
+        > button.scoring-level-remove {
+            grid-column: 5;
+            justify-self: center;
+            align-self: center;
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: $bin-col;
+            min-width: $bin-col;
+            max-width: $bin-col;
+            height: $score-input-height;
+            min-height: $score-input-height;
+            margin: 0;
+            padding: 0;
             border: none;
+            border-radius: 0;
             background: none;
+            box-shadow: none;
+            appearance: none;
+            -webkit-appearance: none;
+            line-height: 1;
             color: $info;
             cursor: pointer;
-            padding: 3px;
-            line-height: $score-input-height;
+
+            &::before {
+                margin: 0;
+                padding: 0;
+                line-height: 1;
+                position: static;
+            }
 
             &:hover,
             &:focus {
