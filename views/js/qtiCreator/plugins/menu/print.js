@@ -76,7 +76,7 @@ define([
                 if (itemUri) {
                     try {
                         request({
-                            url: urlUtil.route('logFrontendAction', 'TaoEventLog', 'taoEventLog'),
+                            url: urlUtil.route('logFrontendAction', 'Log', 'tao'),
                             method: 'POST',
                             data: {
                                 action: 'itemPrintAttempt',
