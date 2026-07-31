@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
+    identifier="umfi-text-entry-sample"
+    title="UMFI text entry sample"
+    adaptive="false"
+    timeDependent="false"
+    toolName="TAO"
+    toolVersion="2026.08 LTS">
+    <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="string"/>
+    <outcomeDeclaration identifier="GROUP_1_FOUND" cardinality="single" baseType="integer">
+        <defaultValue><value>0</value></defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="1" normalMinimum="0">
+        <defaultValue><value>0</value></defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+        <defaultValue><value>1</value></defaultValue>
+    </outcomeDeclaration>
+    <itemBody>
+        <p>
+            <textEntryInteraction responseIdentifier="RESPONSE"
+                data-item-type="umfi-closed"
+                data-case-sensitive="false"
+                data-umfi-values='[{"group":"GROUP_1_FOUND","canonical":"apple","variants":["apple","apples"]}]'/>
+        </p>
+    </itemBody>
+    <responseProcessing>
+        <responseCondition>
+            <responseIf>
+                <or>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE"/>
+                        <baseValue baseType="string">apple</baseValue>
+                    </stringMatch>
+                    <stringMatch caseSensitive="false">
+                        <variable identifier="RESPONSE"/>
+                        <baseValue baseType="string">apples</baseValue>
+                    </stringMatch>
+                </or>
+                <setOutcomeValue identifier="GROUP_1_FOUND">
+                    <baseValue baseType="integer">1</baseValue>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+        <setOutcomeValue identifier="SCORE">
+            <sum>
+                <variable identifier="GROUP_1_FOUND"/>
+            </sum>
+        </setOutcomeValue>
+    </responseProcessing>
+</assessmentItem>

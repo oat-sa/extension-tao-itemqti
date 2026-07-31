@@ -30,7 +30,8 @@ define([
     const typeToMessage = {
         item: __('Invalid identifier'),
         response: __('Invalid response identifier'),
-        outcome: __('Invalid Outcome Declaration')
+        outcome: __('Invalid Outcome Declaration'),
+        lexicalGroup: __('Invalid Lexical Group Identifier')
     };
     const invalidIdentifier = qtiResponseIdentifier.invalidQtiIdMessage;
     const validateIdentifier = (value, callback, options, type) => {
@@ -68,6 +69,13 @@ define([
             message: `<b>${typeToMessage.outcome}</b></br>${invalidIdentifier}`,
             validate: function validate(value, callback, options) {
                 validateIdentifier(value, callback, options, 'outcome');
+            }
+        },
+        {
+            name: 'qtiLexicalGroupIdentifier',
+            message: `<b>${typeToMessage.lexicalGroup}</b></br>${invalidIdentifier}`,
+            validate: function validate(value, callback, options) {
+                validateIdentifier(value, callback, options, 'lexicalGroup');
             }
         },
         //warning: simplistic implementation, allow only one unique identifier in the item no matter the element class/type
