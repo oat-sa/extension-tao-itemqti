@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-05-07 20:08\n"
+"PO-Revision-Date: 2026-07-31 15:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl\n"
@@ -77,38 +77,38 @@ msgstr "1 item geïmporteerd uit het betreffende QTI/APIP XML-itemdocument."
 msgid "1/3 of height"
 msgstr "1/3 hoogte"
 
-msgid "1/4 of height"
-msgstr "1/4 van hoogte"
-
-msgid "2/3 of height"
-msgstr "2/3 van hoogte"
-
-msgid "3/4 of height"
-msgstr "3/4 van hoogte"
-
 msgid "1/3 of width"
 msgstr "1/3 breedte"
+
+msgid "1/4 of height"
+msgstr "1/4 van hoogte"
 
 msgid "1/4 of width"
 msgstr "1/4 van breedte"
 
+msgid "2/3 of height"
+msgstr "2/3 van hoogte"
+
 msgid "2/3 of width"
 msgstr "2/3 van breedte"
+
+msgid "3/4 of height"
+msgstr "3/4 van hoogte"
 
 msgid "3/4 of width"
 msgstr "3/4 van breedte"
 
-msgid "Full width"
-msgstr "Volledige breedte"
-
-msgid "Half width"
-msgstr "Halve breedte"
-
 msgid "A choice must be selected"
 msgstr "Er moet een keuze worden geselecteerd."
 
+msgid "A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image."
+msgstr "Een grafische gat komt overeen met de interactie vereist een achtergrondafbeelding, ten minste één hotspot, en ten minste één afbeelding met één gat."
+
 msgid "A human interpretation of the variable's value."
 msgstr "Een menselijke interpretatie van de waarde van de variabele."
+
+msgid "A Lexical Field groups a canonical answer and optional variants into a single expected response. The canonical value is stored in the item data and used for response processing; only additional variants are listed here. Group identifiers are assigned automatically."
+msgstr "Een Lexical Field groepeert een canonical antwoord en optionele varianten in een enkel verwacht antwoord. De canonische waarde wordt opgeslagen in de artikelgegevens en wordt gebruikt voor reactieverwerking; alleen extra varianten worden hier vermeld. Groepsidentificaties worden automatisch toegewezen."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
 msgstr "Een QTI-component wordt niet ondersteund. Het systeem heeft de volgende fout teruggegeven: %s\n"
@@ -146,6 +146,12 @@ msgstr "Voeg een keuze toe"
 msgid "Add else feedback"
 msgstr "Voeg andere feedback toe"
 
+msgid "Add level"
+msgstr "Niveau toevoegen"
+
+msgid "Add lexical field"
+msgstr "Voeg lexical field toe"
+
 msgid "Add new column"
 msgstr "Nieuwe kolom toevoegen"
 
@@ -158,14 +164,23 @@ msgstr "Nieuwe rij toevoegen"
 msgid "Add Style Sheet"
 msgstr "Voeg stijlblad toe"
 
+msgid "Add variant"
+msgstr "Variant toevoegen"
+
 msgid "after"
 msgstr "na"
 
 msgid "Alignment"
 msgstr "Uitlijning"
 
+msgid "All-or-nothing scoring. A single score is awarded only when the configured threshold is reached."
+msgstr "Alles of niets scoren. Een enkele score wordt alleen toegekend wanneer de ingestelde drempelwaarde is bereikt."
+
 msgid "Allow elimination"
 msgstr "Laat eliminatie toe"
+
+msgid "Allow evaluators to extend the Lexical Field list"
+msgstr "Sta beoordelaars toe om de lijst van Lexical Field uit te breiden"
 
 msgid "Allowed associations"
 msgstr "Toegestane associaties"
@@ -233,11 +248,20 @@ msgstr "APIP inhoudspakket"
 msgid "Apip Package successfully exported."
 msgstr "Apip Pakket met succes geëxporteerd."
 
+msgid "Applies to all Text Entry interactions in this item"
+msgstr "Van toepassing op alle interacties voor tekstinvoer in dit item"
+
 msgid "Arc"
 msgstr "Boog"
 
 msgid "Arrange a list of choices in the correct order."
 msgstr "Zet een lijst van keuzes in de juiste volgorde."
+
+msgid "Arrow"
+msgstr "Pijl"
+
+msgid "Arrow direction: start hotspot to end hotspot."
+msgstr "Pijl richting: start hotspot tot einde hotspot."
 
 msgid "Associate"
 msgstr "Verbind"
@@ -245,14 +269,23 @@ msgstr "Verbind"
 msgid "Associate Interaction"
 msgstr "Verbind interactie"
 
+msgid "Association display"
+msgstr "Associatie display"
+
 msgid "association pairs"
 msgstr "Verbind paren"
+
+msgid "Association role"
+msgstr "Associatie rol"
 
 msgid "at least"
 msgstr "ten minste"
 
 msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
 msgstr "Poging om \"%s\" metadata waarden voor doel \"%s\" te injecteren met metadata Injector \"%s\"."
+
+msgid "Authoring view remains tabular. Preview and delivery use non-tabular mode."
+msgstr "Weergave genereren blijft tabellen. Voorbeeld en levering gebruiken niet-tabulaire modus."
 
 msgid "Autostart"
 msgstr "Automatisch starten"
@@ -422,6 +455,18 @@ msgstr "Gemeenschappelijke interacties"
 msgid "Compact Appearance"
 msgstr "Compacte uiterlijk"
 
+msgid "Configures the position of the choices relative to the answer area."
+msgstr "Configureert de positie van de keuzes ten opzichte van het antwoordgebied."
+
+msgid "Configures the position of the choices relative to the buckets. Columns are choices and rows are buckets."
+msgstr "Configureert de positie van de keuzes ten opzichte van de buckets. Kolommen zijn keuzes en rijen zijn buckets."
+
+msgid "Configures the position of the choices relative to the gaps."
+msgstr "Configureert de positie van de keuzes ten opzichte van de gaten."
+
+msgid "Configures the position of the choices relative to the image."
+msgstr "Configureert de positie van de keuzes ten opzichte van de afbeelding."
+
 msgid "Configures the position of the choices relative to the target list."
 msgstr "Configureert de positie van de keuzes ten opzichte van de doellijst."
 
@@ -434,11 +479,17 @@ msgstr "Beperkingen"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Beheer de speel parameters (auto-start, loop) van een video- of audiobestand en rapporteer het aantal keren dat het is gespeeld."
 
+msgid "Controls the visual style of association links. Line shows non-directional links. Arrow adds an arrowhead to indicate direction and works together with Start/End hotspot settings."
+msgstr "Bepaalt de visuele stijl van associatielinks. Lijn toont niet-directionele links. Pijl voegt een pijl toe om richting aan te geven en werkt samen met Start/End hotspot instellingen."
+
 msgid "Correct"
 msgstr "Goed!"
 
 msgid "correct"
 msgstr "Goed!"
+
+msgid "Correct responses"
+msgstr "Correcte reacties"
 
 msgid "Cosine"
 msgstr "Cosinus"
@@ -457,6 +508,9 @@ msgstr "Maak verbindingen aan tussen gebieden (hotspots) getoond op een afbeeldi
 
 msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
 msgstr "Maak verbindingen aan tussen twee sets van keuzes die in een tabel worden getoond (rij en kolom)."
+
+msgid "Create associations and fill the score in the form below"
+msgstr "Maak associaties aan en vul de score in onderstaand formulier"
 
 msgid "Create gap"
 msgstr "Maak een opening aan"
@@ -490,12 +544,6 @@ msgstr "Aangepaste antwoord verwerkingsmode"
 
 msgid "Dashed"
 msgstr "Gestreept"
-
-msgid "Solid"
-msgstr "Doorgetrokken"
-
-msgid "Wavy"
-msgstr "Golvend"
 
 msgid "Default"
 msgstr "Standaard"
@@ -533,8 +581,17 @@ msgstr "Definieer of het item tijdafhankelijk moet zijn bij aflevering"
 msgid "Defined width"
 msgstr "De vaste breedte"
 
+msgid "Defines how interaction points are transformed into the final item score."
+msgstr "Bepaalt hoe interactiepunten worden omgezet in de score van het eindartikel."
+
+msgid "Defines how multiple Text Entry interactions are evaluated."
+msgstr "Definieert hoe meervoudige tekstinvoer interacties worden geëvalueerd."
+
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Bepaalt de maximale omvang van numerieke uitkomstvariabelen, het maximum moet een positieve waarde zijn en het minimum mag negatief zijn."
+
+msgid "Defines whether this hotspot can be used as the start and/or end of an association."
+msgstr "Definieert of deze hotspot kan worden gebruikt als begin en/of einde van een associatie."
 
 msgid "Degrees"
 msgstr "Graden"
@@ -566,6 +623,9 @@ msgstr "Delta"
 msgid "Description"
 msgstr "Omschrijving"
 
+msgid "Dichotomous"
+msgstr "Dichotomistisch"
+
 msgid "Direction of writing"
 msgstr "Richting van het schrijven"
 
@@ -578,8 +638,14 @@ msgstr "Weergave"
 msgid "Display media player"
 msgstr "Mediaspeler weergeven"
 
+msgid "Display mode"
+msgstr "Weergave modus"
+
 msgid "Display the choices either horizontally or vertically"
 msgstr "Geef de keuzes horizontaal of verticaal weer"
+
+msgid "Displays the slider bar either horizontally or vertically"
+msgstr "Laat de schuifbalk horizontaal of verticaal zien"
 
 msgid "Divide"
 msgstr "Delen"
@@ -626,6 +692,15 @@ msgstr "bijv. 13"
 msgid "e.g. 960"
 msgstr "bijv. 960"
 
+msgid "e.g. Apple"
+msgstr "bijv. Apple"
+
+msgid "Each interaction contributes its own points to the final item score. The final score is the sum of all interaction scores."
+msgstr "Elke interactie draagt zijn eigen punten bij aan de eindscore. De eindscore is de som van alle interactie scores."
+
+msgid "each response must be entered in its corresponding field."
+msgstr "elke reactie moet worden ingevoerd in het overeenkomstige veld."
+
 msgid "Edit"
 msgstr "Aanpassen"
 
@@ -668,8 +743,14 @@ msgstr "Scrollen inschakelen"
 msgid "Enable the test taker to pause and restart the playing."
 msgstr "Schakel in dat de kandidaat het afspelen kan pauzeren en herstarten."
 
+msgid "Enable this option if the list of expected answers may need to be extended during evaluation."
+msgstr "Schakel deze optie in als de lijst met verwachte antwoorden tijdens de evaluatie uitgebreid moet worden."
+
 msgid "Enable/disable scrolling."
 msgstr "Schuiven in-/uitschakelen"
+
+msgid "End (target)"
+msgstr "Einde (doel)"
 
 msgid "End Attempt"
 msgstr "Einde poging"
@@ -715,6 +796,12 @@ msgstr "Fout bij de export van het item %s: %s"
 
 msgid "Euler\\'s constant"
 msgstr "Euler's constante"
+
+msgid "Evaluate Text Entry interactions as Unordered Multi-Field"
+msgstr "Evalueer tekstinvoer interacties als ongeordend Multi-Field"
+
+msgid "Evaluation"
+msgstr "Beoordeling"
 
 msgid "Exponent"
 msgstr "Exponent"
@@ -803,6 +890,9 @@ msgstr "Fractie"
 msgid "Full height"
 msgstr "Volledige hoogte"
 
+msgid "Full width"
+msgstr "Volledige breedte"
+
 msgid "Gap"
 msgstr "Opening"
 
@@ -835,6 +925,9 @@ msgstr "Bewaker voor grondstof \"%s\"..."
 
 msgid "Half height"
 msgstr "Halve hoogte"
+
+msgid "Half width"
+msgstr "Halve breedte"
 
 msgid "Height"
 msgstr "Hoogte"
@@ -895,6 +988,9 @@ msgstr "Als het patroonmasker niet overeenkomt met de opgegeven waarde, wordt di
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
 msgstr "Als het shuffle attribuut waar is dan zal de delivery engine willekeurig de volgorde bepalen waarin de keuzes in het begin worden gepresenteerd. Elke keuze kan echter individueel \"schudden\" van \"vastgesteld\" worden."
+
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" or \"fixed\" individually."
+msgstr "Als het shuffle attribuut waar is dan zal de delivery engine willekeurig de volgorde bepalen waarin de keuzes in het begin worden gepresenteerd. Elke keuze kan echter individueel \"shuffled\" of \"fixed\" worden."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
 msgstr "Als het shuffle attribuut waar is dan zal de delivery engine willekeurig de volgorde bepalen waarin de keuzes in het begin worden gepresenteerd. Elke keuze kan echter individueel “gescheiden” van “vastgesteld” worden."
@@ -989,8 +1085,14 @@ msgstr "Interactie eigenschappen"
 msgid "Interpretation"
 msgstr "Interpretatie"
 
+msgid "Invalid arrow direction. Create associations from a start hotspot to an end hotspot."
+msgstr "Ongeldige pijl richting. Maak associaties van een start hotspot naar een eindhotspot."
+
 msgid "Invalid identifier"
 msgstr "Ongeldige ID"
+
+msgid "Invalid Lexical Group Identifier"
+msgstr "Ongeldige Lexical Group Identificatie"
 
 msgid "Invalid Outcome Declaration"
 msgstr "Ongeldige Resultatenverklaring"
@@ -1101,6 +1203,12 @@ msgstr "Minder dan of gelijk aan"
 msgid "Level"
 msgstr "Niveau"
 
+msgid "Lexical field canonical value"
+msgstr "Lexical field canonical waarde"
+
+msgid "Lexical fields"
+msgstr "Lexische velden"
+
 msgid "Line"
 msgstr "Lijn"
 
@@ -1200,6 +1308,9 @@ msgstr "maximum"
 msgid "Maximum choices reached"
 msgstr "Maximaal aantal keuze bereikt"
 
+msgid "Maximum correct responses: %d."
+msgstr "Maximum aantal juiste antwoorden: %d."
+
 msgid "Maximum number of choices reached."
 msgstr "Maximaal aantal keuze bereikt"
 
@@ -1285,6 +1396,9 @@ msgstr "Geen geüploade bestand"
 msgid "No value set"
 msgstr "Geen waarde ingesteld"
 
+msgid "Non-tabular"
+msgstr "Non-tabular"
+
 msgid "None"
 msgstr "Geen"
 
@@ -1312,6 +1426,9 @@ msgstr "een paar associaties"
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
 msgstr "Een of meedere QTI-componenten worden niet door het systeem ondersteund. Het systeem heeft de volgende fout geretourneerd: %s\n"
 
+msgid "or more"
+msgstr "of meer"
+
 msgid "Order"
 msgstr "Volgorde"
 
@@ -1326,6 +1443,9 @@ msgstr "order enkele lijst"
 
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Zet de gebieden (hotspots) die in de afbeelding worden getoond op volgorde."
+
+msgid "Ordered"
+msgstr "Besteld"
 
 msgid "Orientation"
 msgstr "Oriëntatie"
@@ -1443,6 +1563,9 @@ msgstr "Type a.u.b. hieronder het correcte antwoord in het venster."
 
 msgid "Plus/minus"
 msgstr "Plus/min"
+
+msgid "Polytomous"
+msgstr "Polytomeus"
 
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "Portable element model %s niet gevonden. Vereiste extensie kan ontbreken"
@@ -1573,6 +1696,12 @@ msgstr "Verwijder de aangepaste tekst kleur"
 msgid "Remove Instructions"
 msgstr "Instructies verwijderen"
 
+msgid "Remove level"
+msgstr "Niveau verwijderen"
+
+msgid "Remove lexical field"
+msgstr "Verwijder lexical field"
+
 msgid "Remove Message"
 msgstr "Verwijder bericht"
 
@@ -1584,6 +1713,9 @@ msgstr "Verwijder de geselecteerde vorm"
 
 msgid "Remove this stylesheet"
 msgstr "Verwijder dit stijlblad"
+
+msgid "Remove variant"
+msgstr "Variant verwijderen"
 
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr "Verwijdert alle instructie berichten die door het systeem zijn gegenereerd."
@@ -1627,6 +1759,15 @@ msgstr "Antwoord verwerking"
 msgid "Response Properties"
 msgstr "Antwoord eigenschappen"
 
+msgid "responses can be entered in any field and are evaluated as a set."
+msgstr "Reacties kunnen op elk gebied worden ingevoerd en worden als zodanig geëvalueerd."
+
+msgid "Reverse direction"
+msgstr "Omgekeerde richting"
+
+msgid "Reverse the slider bar boundaries"
+msgstr "Omgekeerd de slider balk grenzen"
+
 msgid "Rich text"
 msgstr "Rich tekst"
 
@@ -1668,6 +1809,12 @@ msgstr "Scorebereik"
 
 msgid "Score value"
 msgstr "Score waarde"
+
+msgid "Scores"
+msgstr "Score"
+
+msgid "Scoring Model"
+msgstr "Scoring model"
 
 msgid "Scrollable multi-column"
 msgstr "Scrollbare multi-kolom"
@@ -1714,14 +1861,14 @@ msgstr "Selecteer de correcte keuze"
 msgid "Select height of block based off container height"
 msgstr "Selecteer de hoogte van blok gebaseerd op container hoogte"
 
+msgid "Select height of block based on container height"
+msgstr "Selecteer de hoogte van blok gebaseerd op container hoogte"
+
 msgid "Select height of passage base of container height"
 msgstr "Selecteer de hoogte van de doorgangsbasis van container hoogte"
 
 msgid "Select height of text block base of container height"
 msgstr "Selecteer hoogte van tekstblok basis van container hoogte"
-
-msgid "Select width of block based on container width"
-msgstr "Selecteer blokbreedte gebaseerd op container breedte"
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
 msgstr "Selecteer als u wilt dat de resultaatverklaring wordt verwerkt door een extern systeem of menselijke scorer. Dit is meestal het geval voor items die de kandidaten vragen een essay te schrijven."
@@ -1777,6 +1924,9 @@ msgstr "Selecteer dit gebied om een associatie te voltooien"
 msgid "Select this area to start an association"
 msgstr "Selecteer dit gebied om een interactie te starten"
 
+msgid "Select width of block based on container width"
+msgstr "Selecteer blokbreedte gebaseerd op container breedte"
+
 msgid "Sequential"
 msgstr "Sequentiële"
 
@@ -1798,6 +1948,9 @@ msgstr "Schud de keuzes"
 msgid "Similar"
 msgstr "Vergelijkbaar"
 
+msgid "Simple sum"
+msgstr "Eenvoudige som"
+
 msgid "Sine"
 msgstr "Sinus"
 
@@ -1815,6 +1968,9 @@ msgstr "Schuifknop"
 
 msgid "Slider Interaction"
 msgstr "Schuifknop interactie"
+
+msgid "Solid"
+msgstr "Doorgetrokken"
 
 msgid "Some feedback text."
 msgstr "Enige feedback tekst."
@@ -1836,6 +1992,9 @@ msgstr "Vierkantswortel"
 
 msgid "standard"
 msgstr "standaard"
+
+msgid "Start (source)"
+msgstr "Start (bron)"
 
 msgid "Status"
 msgstr "status"
@@ -1875,6 +2034,12 @@ msgstr "Verander de hele voorwerprichting tussen het schrijven van horizontaal e
 
 msgid "Table headings"
 msgstr "Tabelkoppen"
+
+msgid "Tabular"
+msgstr "Tabblad"
+
+msgid "Tabular uses a table layout. Non-tabular uses choices and buckets in preview and delivery."
+msgstr "Tabullen gebruiken een tabelweergave. Niet-tabulaire gebruikt keuzes en emmers in voorbeeld en levering."
 
 msgid "Tangent"
 msgstr "Tangent"
@@ -1980,6 +2145,9 @@ msgstr "Het IMS QTI item is succesvol geïmporteerd."
 
 msgid "The index to use when displaying a variable of ordered cardinality. If a variable of ordered cardinality is to be displayed and index is not set, all the values in the container are displayed."
 msgstr "De index om te gebruiken bij het weergeven van een variabele van geordende kardinaliteit. Als een variabele van geordende kardinaliteit moet worden weergegeven en de index niet is ingesteld, worden alle waarden in de container weergegeven."
+
+msgid "The item awards different scores depending on how many correct responses are provided. Configure one or more thresholds with their corresponding scores."
+msgstr "Het item onderscheidt verschillende scores afhankelijk van het aantal juiste antwoorden. Configureer een of meer drempels met hun corresponderende scores."
 
 msgid "The item cannot be saved because it contains an unsupported custom interaction."
 msgstr "Het item kan niet worden opgeslagen omdat het een niet-ondersteunde custom interactie bevat."
@@ -2155,6 +2323,12 @@ msgstr "Dit stijlblad kan niet worden gevonden op de server. Misschien wilt u de
 msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
 msgstr "Deze waarde volgt de richtsnoeren van de score niet en is niet compatibel met de TAO handmatige score"
 
+msgid "This value is already used."
+msgstr "Deze waarde wordt al gebruikt."
+
+msgid "This variant already exists"
+msgstr "Deze variant bestaat al"
+
 msgid "Time dependent"
 msgstr "Tijdafhankelijk"
 
@@ -2215,6 +2389,9 @@ msgstr "ongedaan maken"
 msgid "Unknown $key to register MetadataService instance"
 msgstr "Onbekende $key om MetadataService instantie te registreren"
 
+msgid "Unordered"
+msgstr "Ongesorteerd"
+
 msgid "Unregister method expects $key and $name parameters."
 msgstr "Unregister methode verwacht $key en $name parameters."
 
@@ -2233,6 +2410,12 @@ msgstr "Wordt gebruikt om het formaat te beheren van de ingevoerde tekst door de
 msgid "Value"
 msgstr "Waarde"
 
+msgid "Variant"
+msgstr "Variant"
+
+msgid "Variants"
+msgstr "Varianten"
+
 msgid "Vector"
 msgstr "Vector"
 
@@ -2244,6 +2427,9 @@ msgstr "Verticale tekst"
 
 msgid "warning"
 msgstr "waarschuwing"
+
+msgid "Wavy"
+msgstr "Golvend"
 
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
 msgstr "We zullen de patternmMask gebruiken om dit te doen, zodat we compliant blijven met de IMS standaard"
