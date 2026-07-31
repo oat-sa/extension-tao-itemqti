@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2026.02 LTS\n"
-"PO-Revision-Date: 2026-02-03T14:43:25\n"
+"Project-Id-Version: TAO 2026.08 LTS\n"
+"PO-Revision-Date: 2026-07-31T09:47:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -70,40 +70,41 @@ msgstr ""
 msgid "1/3 of height"
 msgstr ""
 
-msgid "1/4 of height"
-msgstr ""
-
-msgid "2/3 of height"
-msgstr ""
-
-msgid "3/4 of height"
-msgstr ""
-
 msgid "1/3 of width"
+msgstr ""
+
+msgid "1/4 of height"
 msgstr ""
 
 msgid "1/4 of width"
 msgstr ""
 
+msgid "2/3 of height"
+msgstr ""
+
 msgid "2/3 of width"
+msgstr ""
+
+msgid "3/4 of height"
 msgstr ""
 
 msgid "3/4 of width"
 msgstr ""
 
-msgid "Full width"
-msgstr ""
-
-msgid "Half width"
-msgstr ""
-
 msgid "A choice must be selected"
 msgstr "必须选择一个选项"
+
+msgid "A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image."
+msgstr ""
 
 msgid "A human interpretation of the variable's value."
 msgstr ""
 
+msgid "A Lexical Field groups a canonical answer and optional variants into a single expected response. The canonical value is stored in the item data and used for response processing; only additional variants are listed here. Group identifiers are assigned automatically."
+msgstr ""
+
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
+""
 msgstr ""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
@@ -139,6 +140,12 @@ msgstr "添加选项"
 msgid "Add else feedback"
 msgstr "添加其他建议"
 
+msgid "Add level"
+msgstr ""
+
+msgid "Add lexical field"
+msgstr ""
+
 msgid "Add new column"
 msgstr ""
 
@@ -151,13 +158,22 @@ msgstr ""
 msgid "Add Style Sheet"
 msgstr "添加样式表"
 
+msgid "Add variant"
+msgstr ""
+
 msgid "after"
 msgstr ""
 
 msgid "Alignment"
 msgstr "对齐方式"
 
+msgid "All-or-nothing scoring. A single score is awarded only when the configured threshold is reached."
+msgstr ""
+
 msgid "Allow elimination"
+msgstr ""
+
+msgid "Allow evaluators to extend the Lexical Field list"
 msgstr ""
 
 msgid "Allowed associations"
@@ -209,6 +225,7 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr ""
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
+""
 msgstr ""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
@@ -226,11 +243,20 @@ msgstr ""
 msgid "Apip Package successfully exported."
 msgstr ""
 
+msgid "Applies to all Text Entry interactions in this item"
+msgstr ""
+
 msgid "Arc"
 msgstr ""
 
 msgid "Arrange a list of choices in the correct order."
 msgstr "按正确的顺序排列选项列表。"
+
+msgid "Arrow"
+msgstr ""
+
+msgid "Arrow direction: start hotspot to end hotspot."
+msgstr ""
 
 msgid "Associate"
 msgstr "关联"
@@ -238,8 +264,14 @@ msgstr "关联"
 msgid "Associate Interaction"
 msgstr "关联互动"
 
+msgid "Association display"
+msgstr ""
+
 msgid "association pairs"
 msgstr "关联配对"
+
+msgid "Association role"
+msgstr ""
 
 msgid "at least"
 msgstr "最少"
@@ -247,10 +279,16 @@ msgstr "最少"
 msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
 msgstr ""
 
+msgid "Authoring view remains tabular. Preview and delivery use non-tabular mode."
+msgstr ""
+
 msgid "Autostart"
 msgstr "自动启动"
 
 msgid "Back to Manage Items"
+msgstr ""
+
+msgid "Back to test authoring"
 msgstr ""
 
 msgid "Background color"
@@ -364,6 +402,12 @@ msgstr ""
 msgid "Class successfully created."
 msgstr ""
 
+msgid "Classic"
+msgstr ""
+
+msgid "Classic editor looks like a web editor; Document editor looks like a word processor. Other than appearance they share the same features."
+msgstr ""
+
 msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
 msgstr ""
 
@@ -380,6 +424,9 @@ msgid "Click to display interaction widget"
 msgstr "点击以显示互动小部件"
 
 msgid "Click to remove"
+msgstr ""
+
+msgid "Close"
 msgstr ""
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
@@ -403,6 +450,18 @@ msgstr ""
 msgid "Compact Appearance"
 msgstr ""
 
+msgid "Configures the position of the choices relative to the answer area."
+msgstr ""
+
+msgid "Configures the position of the choices relative to the buckets. Columns are choices and rows are buckets."
+msgstr ""
+
+msgid "Configures the position of the choices relative to the gaps."
+msgstr ""
+
+msgid "Configures the position of the choices relative to the image."
+msgstr ""
+
 msgid "Configures the position of the choices relative to the target list."
 msgstr ""
 
@@ -415,11 +474,17 @@ msgstr "约束"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "控制视频和音频的播放文件(自动播放，循环)再报告已播放的次数。"
 
+msgid "Controls the visual style of association links. Line shows non-directional links. Arrow adds an arrowhead to indicate direction and works together with Start/End hotspot settings."
+msgstr ""
+
 msgid "Correct"
 msgstr "正确"
 
 msgid "correct"
 msgstr "正确"
+
+msgid "Correct responses"
+msgstr ""
 
 msgid "Cosine"
 msgstr ""
@@ -438,6 +503,9 @@ msgstr "在显示的图片上创建区域(热点)之间的关联"
 
 msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
 msgstr "在表(行和列)显示的两组选择中创建关联。"
+
+msgid "Create associations and fill the score in the form below"
+msgstr ""
 
 msgid "Create gap"
 msgstr "建立空格"
@@ -470,12 +538,6 @@ msgid "Custom Response Processing Mode"
 msgstr "订制回应处理模式"
 
 msgid "Dashed"
-msgstr ""
-
-msgid "Solid"
-msgstr ""
-
-msgid "Wavy"
 msgstr ""
 
 msgid "Default"
@@ -514,7 +576,16 @@ msgstr "设定当在递送时，题目是否有记考生载累计运行的时间
 msgid "Defined width"
 msgstr "限定的阔度"
 
+msgid "Defines how interaction points are transformed into the final item score."
+msgstr ""
+
+msgid "Defines how multiple Text Entry interactions are evaluated."
+msgstr ""
+
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
+msgstr ""
+
+msgid "Defines whether this hotspot can be used as the start and/or end of an association."
 msgstr ""
 
 msgid "Degrees"
@@ -547,6 +618,9 @@ msgstr ""
 msgid "Description"
 msgstr "描述"
 
+msgid "Dichotomous"
+msgstr ""
+
 msgid "Direction of writing"
 msgstr ""
 
@@ -559,10 +633,19 @@ msgstr "显示"
 msgid "Display media player"
 msgstr ""
 
+msgid "Display mode"
+msgstr ""
+
 msgid "Display the choices either horizontally or vertically"
 msgstr ""
 
+msgid "Displays the slider bar either horizontally or vertically"
+msgstr ""
+
 msgid "Divide"
+msgstr ""
+
+msgid "Document"
 msgstr ""
 
 msgid "Don't save"
@@ -604,6 +687,15 @@ msgstr "例如：13"
 msgid "e.g. 960"
 msgstr "例如：960"
 
+msgid "e.g. Apple"
+msgstr ""
+
+msgid "Each interaction contributes its own points to the final item score. The final score is the sum of all interaction scores."
+msgstr ""
+
+msgid "each response must be entered in its corresponding field."
+msgstr ""
+
 msgid "Edit"
 msgstr ""
 
@@ -628,6 +720,9 @@ msgstr "编辑样式表标签"
 msgid "Editing Mode"
 msgstr "编辑模式"
 
+msgid "Editor type"
+msgstr ""
+
 msgid "Element Properties"
 msgstr "元素属性"
 
@@ -643,7 +738,13 @@ msgstr ""
 msgid "Enable the test taker to pause and restart the playing."
 msgstr "允许考生暂停并重新启动播放。"
 
+msgid "Enable this option if the list of expected answers may need to be extended during evaluation."
+msgstr ""
+
 msgid "Enable/disable scrolling."
+msgstr ""
+
+msgid "End (target)"
 msgstr ""
 
 msgid "End Attempt"
@@ -689,6 +790,12 @@ msgid "Error to export item %s: %s"
 msgstr ""
 
 msgid "Euler\'s constant"
+msgstr ""
+
+msgid "Evaluate Text Entry interactions as Unordered Multi-Field"
+msgstr ""
+
+msgid "Evaluation"
 msgstr ""
 
 msgid "Exponent"
@@ -778,6 +885,9 @@ msgstr ""
 msgid "Full height"
 msgstr ""
 
+msgid "Full width"
+msgstr ""
+
 msgid "Gap"
 msgstr "空格"
 
@@ -809,6 +919,9 @@ msgid "Guard for resource \"%s\"..."
 msgstr ""
 
 msgid "Half height"
+msgstr ""
+
+msgid "Half width"
 msgstr ""
 
 msgid "Height"
@@ -856,6 +969,9 @@ msgstr "识别码"
 msgid "identifier already taken"
 msgstr ""
 
+msgid "Identifiers must start with a letter or an underscore and contain only letters, numbers, dots, underscores ( _ ), or hyphens ( - )."
+msgstr ""
+
 msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
 msgstr ""
 
@@ -866,6 +982,9 @@ msgid "If pattern mask does not match match value provided, this message will be
 msgstr ""
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
+msgstr ""
+
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" or \"fixed\" individually."
 msgstr ""
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
@@ -961,7 +1080,13 @@ msgstr "互动属性"
 msgid "Interpretation"
 msgstr ""
 
+msgid "Invalid arrow direction. Create associations from a start hotspot to an end hotspot."
+msgstr ""
+
 msgid "Invalid identifier"
+msgstr ""
+
+msgid "Invalid Lexical Group Identifier"
 msgstr ""
 
 msgid "Invalid Outcome Declaration"
@@ -1073,6 +1198,12 @@ msgstr ""
 msgid "Level"
 msgstr ""
 
+msgid "Lexical field canonical value"
+msgstr ""
+
+msgid "Lexical fields"
+msgstr ""
+
 msgid "Line"
 msgstr ""
 
@@ -1171,6 +1302,9 @@ msgstr "最大上限"
 msgid "Maximum choices reached"
 msgstr "已达到最多选择数量的限制"
 
+msgid "Maximum correct responses: %d."
+msgstr ""
+
 msgid "Maximum number of choices reached."
 msgstr "已达到最多选择数量的限制。"
 
@@ -1256,6 +1390,9 @@ msgstr ""
 msgid "No value set"
 msgstr "没有设定数值"
 
+msgid "Non-tabular"
+msgstr ""
+
 msgid "None"
 msgstr "无"
 
@@ -1281,6 +1418,10 @@ msgid "one association pair"
 msgstr "一对组合"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
+""
+msgstr ""
+
+msgid "or more"
 msgstr ""
 
 msgid "Order"
@@ -1297,6 +1438,9 @@ msgstr ""
 
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "在图片上排列这些区域(热点)。"
+
+msgid "Ordered"
+msgstr ""
 
 msgid "Orientation"
 msgstr ""
@@ -1413,6 +1557,9 @@ msgid "Please type the correct response in the box below."
 msgstr "请在下面的框中输入正确的回应。"
 
 msgid "Plus/minus"
+msgstr ""
+
+msgid "Polytomous"
 msgstr ""
 
 msgid "Portable element model %s not found. Required extension might be missing"
@@ -1544,6 +1691,12 @@ msgstr "删除自定文字颜色"
 msgid "Remove Instructions"
 msgstr ""
 
+msgid "Remove level"
+msgstr ""
+
+msgid "Remove lexical field"
+msgstr ""
+
 msgid "Remove Message"
 msgstr "移除信件"
 
@@ -1555,6 +1708,9 @@ msgstr "移除选取的形状"
 
 msgid "Remove this stylesheet"
 msgstr "移除这个样式表"
+
+msgid "Remove variant"
+msgstr ""
 
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr ""
@@ -1598,6 +1754,15 @@ msgstr "处理回应"
 msgid "Response Properties"
 msgstr "回应属性"
 
+msgid "responses can be entered in any field and are evaluated as a set."
+msgstr ""
+
+msgid "Reverse direction"
+msgstr ""
+
+msgid "Reverse the slider bar boundaries"
+msgstr ""
+
 msgid "Rich text"
 msgstr ""
 
@@ -1639,6 +1804,12 @@ msgstr "分数范围"
 
 msgid "Score value"
 msgstr "分值"
+
+msgid "Scores"
+msgstr ""
+
+msgid "Scoring Model"
+msgstr ""
 
 msgid "Scrollable multi-column"
 msgstr ""
@@ -1685,13 +1856,13 @@ msgstr "选择正确答案"
 msgid "Select height of block based off container height"
 msgstr ""
 
+msgid "Select height of block based on container height"
+msgstr ""
+
 msgid "Select height of passage base of container height"
 msgstr ""
 
 msgid "Select height of text block base of container height"
-msgstr ""
-
-msgid "Select width of block based on container width"
 msgstr ""
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
@@ -1748,6 +1919,9 @@ msgstr ""
 msgid "Select this area to start an association"
 msgstr "选择这个区域来开始一个关联"
 
+msgid "Select width of block based on container width"
+msgstr ""
+
 msgid "Sequential"
 msgstr ""
 
@@ -1769,6 +1943,9 @@ msgstr "随机设定选择的位置"
 msgid "Similar"
 msgstr ""
 
+msgid "Simple sum"
+msgstr ""
+
 msgid "Sine"
 msgstr ""
 
@@ -1786,6 +1963,9 @@ msgstr "滑动钮"
 
 msgid "Slider Interaction"
 msgstr "滑动钮互动"
+
+msgid "Solid"
+msgstr ""
 
 msgid "Some feedback text."
 msgstr ""
@@ -1806,6 +1986,9 @@ msgid "Square root"
 msgstr ""
 
 msgid "standard"
+msgstr ""
+
+msgid "Start (source)"
 msgstr ""
 
 msgid "Status"
@@ -1846,6 +2029,12 @@ msgstr ""
 
 msgid "Table headings"
 msgstr "表格标题"
+
+msgid "Tabular"
+msgstr ""
+
+msgid "Tabular uses a table layout. Non-tabular uses choices and buckets in preview and delivery."
+msgstr ""
 
 msgid "Tangent"
 msgstr ""
@@ -1950,6 +2139,9 @@ msgid "The IMS QTI Item was successfully imported."
 msgstr ""
 
 msgid "The index to use when displaying a variable of ordered cardinality. If a variable of ordered cardinality is to be displayed and index is not set, all the values in the container are displayed."
+msgstr ""
+
+msgid "The item awards different scores depending on how many correct responses are provided. Configure one or more thresholds with their corresponding scores."
 msgstr ""
 
 msgid "The item cannot be saved because it contains an unsupported custom interaction."
@@ -2076,6 +2268,7 @@ msgid "The upper bound of the slider"
 msgstr "滑动钮的上限"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
+""
 msgstr ""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
@@ -2121,6 +2314,12 @@ msgid "This stylesheet has not been found on the server. you may want to delete 
 msgstr "这个样式表没有在服务器上找到。 您可能需要删除这个参照。"
 
 msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
+msgstr ""
+
+msgid "This value is already used."
+msgstr ""
+
+msgid "This variant already exists"
 msgstr ""
 
 msgid "Time dependent"
@@ -2183,6 +2382,9 @@ msgstr "复原"
 msgid "Unknown $key to register MetadataService instance"
 msgstr ""
 
+msgid "Unordered"
+msgstr ""
+
 msgid "Unregister method expects $key and $name parameters."
 msgstr ""
 
@@ -2201,6 +2403,12 @@ msgstr "用来控制考生输入的文本格式。"
 msgid "Value"
 msgstr ""
 
+msgid "Variant"
+msgstr ""
+
+msgid "Variants"
+msgstr ""
+
 msgid "Vector"
 msgstr ""
 
@@ -2211,6 +2419,9 @@ msgid "Vertical text"
 msgstr ""
 
 msgid "warning"
+msgstr ""
+
+msgid "Wavy"
 msgstr ""
 
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
@@ -2302,3 +2513,4 @@ msgstr ""
 
 msgid "Your item has been saved"
 msgstr "您的题目已储存"
+

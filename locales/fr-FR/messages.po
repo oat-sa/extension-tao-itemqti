@@ -1,24 +1,17 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-05-07 20:08\n"
+"Project-Id-Version: TAO 2026.08 LTS\n"
+"PO-Revision-Date: 2026-07-31T09:46:09\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: fr\n"
+"Language: fr-FR\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-US\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"targetLanguage: fr-FR\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Crowdin-Project: tao-open-source\n"
-"X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: fr\n"
-"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
-"X-Crowdin-File-ID: 519\n"
-"Language-Team: French\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Remplis les espaces libres dans un texte à partir d'un ensemble de choix."
@@ -77,41 +70,43 @@ msgstr "1 item importé depuis le document QTI/APIP Item XML."
 msgid "1/3 of height"
 msgstr "1/3 de hauteur"
 
-msgid "1/4 of height"
-msgstr "1/4 de hauteur"
-
-msgid "2/3 of height"
-msgstr "2/3 de hauteur"
-
-msgid "3/4 of height"
-msgstr "3/4 de hauteur"
-
 msgid "1/3 of width"
 msgstr "1/3 de largeur"
+
+msgid "1/4 of height"
+msgstr "1/4 de hauteur"
 
 msgid "1/4 of width"
 msgstr "1/4 de largeur"
 
+msgid "2/3 of height"
+msgstr "2/3 de hauteur"
+
 msgid "2/3 of width"
 msgstr "2/3 de largeur"
+
+msgid "3/4 of height"
+msgstr "3/4 de hauteur"
 
 msgid "3/4 of width"
 msgstr "3/4 de largeur"
 
-msgid "Full width"
-msgstr "Pleine largeur"
-
-msgid "Half width"
-msgstr "Demi-largeur"
-
 msgid "A choice must be selected"
 msgstr "Un choix doit être selectionné"
+
+msgid "A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image."
+msgstr ""
 
 msgid "A human interpretation of the variable's value."
 msgstr "Une interprétation humaine de la valeur de la variable."
 
+msgid "A Lexical Field groups a canonical answer and optional variants into a single expected response. The canonical value is stored in the item data and used for response processing; only additional variants are listed here. Group identifiers are assigned automatically."
+msgstr ""
+
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
+""
 msgstr "Un composant QTI n'est pas supporté. Le système a renvoyé l'erreur suivante : %s\n"
+""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Un bloc de rubrique identifie une partie du corps de l'item de l'item d'évaluation qui représente des instructions pour un ou plusieurs acteurs qui regardent l'item. Bien que les blocs de rubrique sont définis comme des blocs simples, ils ne doivent contenir aucune d'interaction."
@@ -146,6 +141,12 @@ msgstr "Ajouter un choix"
 msgid "Add else feedback"
 msgstr "Ajoute l'autre retour"
 
+msgid "Add level"
+msgstr ""
+
+msgid "Add lexical field"
+msgstr ""
+
 msgid "Add new column"
 msgstr "Ajouter une nouvelle colonne"
 
@@ -158,14 +159,23 @@ msgstr "Ajouter une nouvelle ligne"
 msgid "Add Style Sheet"
 msgstr "Ajouter une feuille de style"
 
+msgid "Add variant"
+msgstr ""
+
 msgid "after"
 msgstr "après"
 
 msgid "Alignment"
 msgstr "Alignement"
 
+msgid "All-or-nothing scoring. A single score is awarded only when the configured threshold is reached."
+msgstr ""
+
 msgid "Allow elimination"
 msgstr "Permettre l'élimination"
+
+msgid "Allow evaluators to extend the Lexical Field list"
+msgstr ""
 
 msgid "Allowed associations"
 msgstr "Associations permises"
@@ -216,7 +226,9 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "Une erreur inattendue s'est produite au cours de l'import du paquet d'items IMS QTI. Le système a renvoyé l'erreur suivante : \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
+""
 msgstr "Une erreur inattendue s'est produite au cours de l'import de l'item QTI. Le système a renvoyé l'erreur suivante : %s\n"
+""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr "Une erreur inconnue s'est produite lors de l'importation du paquet IMS QTI avec l'identifiant : "
@@ -233,11 +245,20 @@ msgstr "Paquet de contenu APIP"
 msgid "Apip Package successfully exported."
 msgstr "Paquet Apip exporté avec succès."
 
+msgid "Applies to all Text Entry interactions in this item"
+msgstr ""
+
 msgid "Arc"
 msgstr "Arc"
 
 msgid "Arrange a list of choices in the correct order."
 msgstr "Arranger une liste de choix dans l'ordre correct."
+
+msgid "Arrow"
+msgstr ""
+
+msgid "Arrow direction: start hotspot to end hotspot."
+msgstr ""
 
 msgid "Associate"
 msgstr "Associé"
@@ -245,14 +266,23 @@ msgstr "Associé"
 msgid "Associate Interaction"
 msgstr "Interaction associée"
 
+msgid "Association display"
+msgstr ""
+
 msgid "association pairs"
 msgstr "paires associées"
+
+msgid "Association role"
+msgstr ""
 
 msgid "at least"
 msgstr "au moins"
 
 msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
 msgstr "Tentative d'injection des valeurs de métadonnées \"%s\" pour la cible \"%s\" avec l'injecteur de métadonnées \"%s\"."
+
+msgid "Authoring view remains tabular. Preview and delivery use non-tabular mode."
+msgstr ""
 
 msgid "Autostart"
 msgstr "Démarrage automatique"
@@ -422,6 +452,18 @@ msgstr "Interactions communes"
 msgid "Compact Appearance"
 msgstr "Apparence compacte"
 
+msgid "Configures the position of the choices relative to the answer area."
+msgstr ""
+
+msgid "Configures the position of the choices relative to the buckets. Columns are choices and rows are buckets."
+msgstr ""
+
+msgid "Configures the position of the choices relative to the gaps."
+msgstr ""
+
+msgid "Configures the position of the choices relative to the image."
+msgstr ""
+
 msgid "Configures the position of the choices relative to the target list."
 msgstr "Configure la position des choix par rapport à la liste cible."
 
@@ -434,11 +476,17 @@ msgstr "Contraintes"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "Contrôler les paramètres de lecture (auto-démarrage, en boucle) d'une vidéo ou d'un fichier audio et reporter le nombre de fois qu'il a été lu."
 
+msgid "Controls the visual style of association links. Line shows non-directional links. Arrow adds an arrowhead to indicate direction and works together with Start/End hotspot settings."
+msgstr ""
+
 msgid "Correct"
 msgstr "Corriger"
 
 msgid "correct"
 msgstr "corrects"
+
+msgid "Correct responses"
+msgstr ""
 
 msgid "Cosine"
 msgstr "Cosinus"
@@ -457,6 +505,9 @@ msgstr "Créez une ou des associations entre les zones (hotspots) affichées sur
 
 msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
 msgstr "Créez une ou des associations entre deux ensembles de choix affichés dans une table (ligne et colonne)."
+
+msgid "Create associations and fill the score in the form below"
+msgstr ""
 
 msgid "Create gap"
 msgstr "Créer un espace"
@@ -490,12 +541,6 @@ msgstr "Mode de traitement de la réponse personnalisée"
 
 msgid "Dashed"
 msgstr "Pointillés"
-
-msgid "Solid"
-msgstr "Continu"
-
-msgid "Wavy"
-msgstr "Ondulé"
 
 msgid "Default"
 msgstr "Par défaut"
@@ -533,8 +578,17 @@ msgstr "Définir si l'item va dépendre du temps au cours de la passation."
 msgid "Defined width"
 msgstr "Largeur définie"
 
+msgid "Defines how interaction points are transformed into the final item score."
+msgstr ""
+
+msgid "Defines how multiple Text Entry interactions are evaluated."
+msgstr ""
+
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Définit l'ampleur maximale des variables numériques de résultat, le maximum devant être une valeur positive, et le minimum pouvant être négatif."
+
+msgid "Defines whether this hotspot can be used as the start and/or end of an association."
+msgstr ""
 
 msgid "Degrees"
 msgstr "Degrés"
@@ -566,6 +620,9 @@ msgstr "Delta"
 msgid "Description"
 msgstr "Libellé"
 
+msgid "Dichotomous"
+msgstr ""
+
 msgid "Direction of writing"
 msgstr "Direction de l'écriture"
 
@@ -578,8 +635,14 @@ msgstr "Affichage"
 msgid "Display media player"
 msgstr "Afficher le lecteur multimédia"
 
+msgid "Display mode"
+msgstr ""
+
 msgid "Display the choices either horizontally or vertically"
 msgstr "Afficher les choix horizontalement ou verticalement"
+
+msgid "Displays the slider bar either horizontally or vertically"
+msgstr ""
 
 msgid "Divide"
 msgstr "Diviser"
@@ -626,6 +689,15 @@ msgstr "par ex. 13"
 msgid "e.g. 960"
 msgstr "par ex. 960"
 
+msgid "e.g. Apple"
+msgstr ""
+
+msgid "Each interaction contributes its own points to the final item score. The final score is the sum of all interaction scores."
+msgstr ""
+
+msgid "each response must be entered in its corresponding field."
+msgstr ""
+
 msgid "Edit"
 msgstr "Modifier"
 
@@ -634,6 +706,9 @@ msgstr "éditer les choix"
 
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "Modifier l'expression mathématique en utilisant le système de configuration de type LaTex, par exemple e^{i \\pi} = -1"
+
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgstr ""
 
 msgid "Edit math expression using MathML"
 msgstr "Éditer l'expression mathématique en utilisant MathML"
@@ -668,8 +743,14 @@ msgstr "Activer le défilement"
 msgid "Enable the test taker to pause and restart the playing."
 msgstr "Permettre au participant d'interrompre et de reprendre la lecture."
 
+msgid "Enable this option if the list of expected answers may need to be extended during evaluation."
+msgstr ""
+
 msgid "Enable/disable scrolling."
 msgstr "Activer/désactiver le défilement."
+
+msgid "End (target)"
+msgstr ""
 
 msgid "End Attempt"
 msgstr "Terminer la tentative"
@@ -713,8 +794,17 @@ msgstr "Erreur sur l'item %s"
 msgid "Error to export item %s: %s"
 msgstr "Erreur pour exporter l'item %s: %s"
 
+msgid "Euler\'s constant"
+msgstr ""
+
 msgid "Euler\\'s constant"
 msgstr "Constante d'Euler"
+
+msgid "Evaluate Text Entry interactions as Unordered Multi-Field"
+msgstr ""
+
+msgid "Evaluation"
+msgstr ""
 
 msgid "Exponent"
 msgstr "Exposant"
@@ -803,6 +893,9 @@ msgstr "Fraction"
 msgid "Full height"
 msgstr "Pleine hauteur"
 
+msgid "Full width"
+msgstr "Pleine largeur"
+
 msgid "Gap"
 msgstr "Espace"
 
@@ -835,6 +928,9 @@ msgstr "Garder pour la ressource \"%s\"..."
 
 msgid "Half height"
 msgstr "Demi-hauteur"
+
+msgid "Half width"
+msgstr "Demi-largeur"
 
 msgid "Height"
 msgstr "Hauteur"
@@ -895,6 +991,9 @@ msgstr "Si le masque de motif ne correspond pas à la valeur fournie, ce message
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
 msgstr "Si l'attribut Mélanger les choix est vrai, le moteur d'exécution rendra aléatoire l'ordre dans lequel les choix sont initialement présentés. Cependant, chaque choix peut être \"mélangé\" ou \"fixé\" individuellement."
+
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" or \"fixed\" individually."
+msgstr ""
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
 msgstr "Si l'attribut aléatoire est vrai, alors le moteur de livraison va aléatoirer l'ordre dans lequel les choix sont initialement présentés. Cependant, chaque choix peut être « mélangé » de « fixe » individuellement."
@@ -989,8 +1088,14 @@ msgstr "Propriétés de l'interaction"
 msgid "Interpretation"
 msgstr "Interprétation"
 
+msgid "Invalid arrow direction. Create associations from a start hotspot to an end hotspot."
+msgstr ""
+
 msgid "Invalid identifier"
 msgstr "Identifiant invalide"
+
+msgid "Invalid Lexical Group Identifier"
+msgstr ""
 
 msgid "Invalid Outcome Declaration"
 msgstr "Déclaration de résultat invalide"
@@ -1101,6 +1206,12 @@ msgstr "Inférieur ou égal à"
 msgid "Level"
 msgstr "Niveau"
 
+msgid "Lexical field canonical value"
+msgstr ""
+
+msgid "Lexical fields"
+msgstr ""
+
 msgid "Line"
 msgstr "Lignes"
 
@@ -1200,6 +1311,9 @@ msgstr "maximum"
 msgid "Maximum choices reached"
 msgstr "Nombre maximal de choix atteint"
 
+msgid "Maximum correct responses: %d."
+msgstr ""
+
 msgid "Maximum number of choices reached."
 msgstr "Nombre de choix maximum atteint"
 
@@ -1285,6 +1399,9 @@ msgstr "Aucun fichier téléchargé"
 msgid "No value set"
 msgstr "Aucune valeur définie"
 
+msgid "Non-tabular"
+msgstr ""
+
 msgid "None"
 msgstr "Aucun"
 
@@ -1310,7 +1427,12 @@ msgid "one association pair"
 msgstr "une paire à associer"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
+""
 msgstr "Un ou plusieurs composants QTI ne sont pas supportés par le système. Le système renvoie l'erreur suivante : %s\n"
+""
+
+msgid "or more"
+msgstr ""
 
 msgid "Order"
 msgstr "Ordre"
@@ -1326,6 +1448,9 @@ msgstr "commander une seule liste"
 
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Ordonne les aires (hotspots) affichées sur une image."
+
+msgid "Ordered"
+msgstr ""
 
 msgid "Orientation"
 msgstr "Orientation"
@@ -1443,6 +1568,9 @@ msgstr "Veuillez entrer la réponse correcte dans la boîte ci-dessous."
 
 msgid "Plus/minus"
 msgstr "Plus/moins"
+
+msgid "Polytomous"
+msgstr ""
 
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "Modèle d'élément portable %s non trouvé. Il se peut que l'extension requise soit manquante."
@@ -1573,6 +1701,12 @@ msgstr "Supprimer une couleur de texte personnalisée"
 msgid "Remove Instructions"
 msgstr "Supprimer les instructions"
 
+msgid "Remove level"
+msgstr ""
+
+msgid "Remove lexical field"
+msgstr ""
+
 msgid "Remove Message"
 msgstr "Supprimer le message"
 
@@ -1584,6 +1718,9 @@ msgstr "Supprimer la forme sélectionnée"
 
 msgid "Remove this stylesheet"
 msgstr "Supprimer cette feuille de style"
+
+msgid "Remove variant"
+msgstr ""
 
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr "Supprime tous les messages d'instructions générés par le système de l'interface."
@@ -1627,6 +1764,15 @@ msgstr "Traitement de la réponse"
 msgid "Response Properties"
 msgstr "Propriétés de la réponse"
 
+msgid "responses can be entered in any field and are evaluated as a set."
+msgstr ""
+
+msgid "Reverse direction"
+msgstr ""
+
+msgid "Reverse the slider bar boundaries"
+msgstr ""
+
 msgid "Rich text"
 msgstr "Texte enrichi"
 
@@ -1668,6 +1814,12 @@ msgstr "Échelle de score"
 
 msgid "Score value"
 msgstr "Valeur du score"
+
+msgid "Scores"
+msgstr ""
+
+msgid "Scoring Model"
+msgstr ""
 
 msgid "Scrollable multi-column"
 msgstr "Défilement multi-colonnes"
@@ -1714,14 +1866,14 @@ msgstr "Sélectionnez le choix correct."
 msgid "Select height of block based off container height"
 msgstr "Sélectionnez la hauteur du bloc en fonction de la hauteur du conteneur"
 
+msgid "Select height of block based on container height"
+msgstr ""
+
 msgid "Select height of passage base of container height"
 msgstr "Sélectionner la hauteur de la base de passage de la hauteur du conteneur"
 
 msgid "Select height of text block base of container height"
 msgstr "Sélectionner la hauteur de la base du bloc de texte de la hauteur du conteneur"
-
-msgid "Select width of block based on container width"
-msgstr "Sélectionnez la largeur du bloc selon la largeur du conteneur"
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
 msgstr "Sélectionnez si vous souhaitez que la déclaration de résultat soit traitée par un système externe ou un évaluateur humain. C'est typiquement le cas pour les questions demandant aux candidats de rédiger une dissertation"
@@ -1777,6 +1929,9 @@ msgstr "Sélectionnez cette zone pour terminer une association"
 msgid "Select this area to start an association"
 msgstr "Sélectionnez cette zone pour débuter une association."
 
+msgid "Select width of block based on container width"
+msgstr "Sélectionnez la largeur du bloc selon la largeur du conteneur"
+
 msgid "Sequential"
 msgstr "Séquentiel"
 
@@ -1798,6 +1953,9 @@ msgstr "Mélanger les choix"
 msgid "Similar"
 msgstr "Similaire"
 
+msgid "Simple sum"
+msgstr ""
+
 msgid "Sine"
 msgstr "Sinus"
 
@@ -1815,6 +1973,9 @@ msgstr "Curseur"
 
 msgid "Slider Interaction"
 msgstr "Interaction Curseur"
+
+msgid "Solid"
+msgstr "Continu"
 
 msgid "Some feedback text."
 msgstr "Un texte de commentaire."
@@ -1836,6 +1997,9 @@ msgstr "Racine carrée"
 
 msgid "standard"
 msgstr "standard"
+
+msgid "Start (source)"
+msgstr ""
 
 msgid "Status"
 msgstr "Statut"
@@ -1875,6 +2039,12 @@ msgstr "Bascule la direction d'écriture de l'élément entier entre horizontal 
 
 msgid "Table headings"
 msgstr "En-tête du tableau"
+
+msgid "Tabular"
+msgstr ""
+
+msgid "Tabular uses a table layout. Non-tabular uses choices and buckets in preview and delivery."
+msgstr ""
 
 msgid "Tangent"
 msgstr "Tangente"
@@ -1981,6 +2151,9 @@ msgstr "L'item IMS QTI a été importé avec succès."
 msgid "The index to use when displaying a variable of ordered cardinality. If a variable of ordered cardinality is to be displayed and index is not set, all the values in the container are displayed."
 msgstr "L'indice à utiliser lors de l'affichage d'une variable de cardinalité ordonnée. Si une variable de cardinalité ordonnée doit être affichée et que l'indice n'est pas défini, alors toutes les valeurs dans le conteneur sont affichées."
 
+msgid "The item awards different scores depending on how many correct responses are provided. Configure one or more thresholds with their corresponding scores."
+msgstr ""
+
 msgid "The item cannot be saved because it contains an unsupported custom interaction."
 msgstr "L'item n'a pu être enregistré car il contient une interaction personnalisée non supportée."
 
@@ -2012,7 +2185,8 @@ msgid "The manifest argument must be an instance of DOMDocument."
 msgstr "L'argument manifest doit être une instance de DOMDocument."
 
 msgid "The mapping indicator to use between field name and field value when displaying variables of record cardinality. \"=\" is default when mappingIndicator is not declared. Implementations can override this default with personal preferences or locale settings."
-msgstr "L'indicateur de correspondance à utiliser entre le nom du champ et la valeur du champ lors de l'affichage de variables de cardinalité de registre. \"=\\n\"est choisi par défaut quand mappingIndicator n'est pas déclaré. Les implémentations peuvent outrepasser ce réglage par défaut avec les préférences personnelles ou les paramètres locaux."
+msgstr "L'indicateur de correspondance à utiliser entre le nom du champ et la valeur du champ lors de l'affichage de variables de cardinalité de registre. \"=\\n"
+"\"est choisi par défaut quand mappingIndicator n'est pas déclaré. Les implémentations peuvent outrepasser ce réglage par défaut avec les préférences personnelles ou les paramètres locaux."
 
 msgid "The mapping options are available when at least one map entry is defined."
 msgstr "Les options de correspondance sont disponibles lorsqu'au moins une entrée de correspondance a été définie."
@@ -2108,7 +2282,9 @@ msgid "The upper bound of the slider"
 msgstr "La limite supérieure du curseur"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
+""
 msgstr "La validation de l'item QTI importé a échoué. Le système a renvoyé l'erreur suivante : %s\n"
+""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "L'archive ZIP contenant l'item IMS QTI ne peut être extraite."
@@ -2154,6 +2330,12 @@ msgstr "Cette feuille de style n'a pas été trouvée sur le serveur. Vous voudr
 
 msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
 msgstr "Cette valeur ne respecte pas les règles de marquage des traits. Elle ne sera pas compatible avec le score manuel TAO"
+
+msgid "This value is already used."
+msgstr ""
+
+msgid "This variant already exists"
+msgstr ""
 
 msgid "Time dependent"
 msgstr "Dépendant du temps"
@@ -2215,6 +2397,9 @@ msgstr "défaire"
 msgid "Unknown $key to register MetadataService instance"
 msgstr "$key inconnue pour inscrire l'instance MetadataService"
 
+msgid "Unordered"
+msgstr ""
+
 msgid "Unregister method expects $key and $name parameters."
 msgstr "La méthode de désinscription attend des paramètres $key et $name."
 
@@ -2233,6 +2418,12 @@ msgstr "Utilisé pour contrôler le format du texte entré par le candidat."
 msgid "Value"
 msgstr "Valeur"
 
+msgid "Variant"
+msgstr ""
+
+msgid "Variants"
+msgstr ""
+
 msgid "Vector"
 msgstr "Vecteur"
 
@@ -2244,6 +2435,9 @@ msgstr "Texte vertical"
 
 msgid "warning"
 msgstr "avertissement"
+
+msgid "Wavy"
+msgstr "Ondulé"
 
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
 msgstr "Nous utiliserons le patternMask pour faire cela, pour rester en conformité avec le standard IMS."
