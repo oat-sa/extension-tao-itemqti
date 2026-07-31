@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-05-07 20:08\n"
+"PO-Revision-Date: 2026-07-31 15:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -77,38 +77,38 @@ msgstr "تم استيراد بند واحد من مستند بند QTI/APIP XML 
 msgid "1/3 of height"
 msgstr "1/3 من الارتفاع"
 
-msgid "1/4 of height"
-msgstr "1/4 من الارتفاع"
-
-msgid "2/3 of height"
-msgstr "2/3 من الارتفاع"
-
-msgid "3/4 of height"
-msgstr "3/4 من الارتفاع"
-
 msgid "1/3 of width"
 msgstr "1/3 من العرض"
+
+msgid "1/4 of height"
+msgstr "1/4 من الارتفاع"
 
 msgid "1/4 of width"
 msgstr "1/4 من العرض"
 
+msgid "2/3 of height"
+msgstr "2/3 من الارتفاع"
+
 msgid "2/3 of width"
 msgstr "2/3 من العرض"
+
+msgid "3/4 of height"
+msgstr "3/4 من الارتفاع"
 
 msgid "3/4 of width"
 msgstr "3/4 من العرض"
 
-msgid "Full width"
-msgstr "عرض كامل"
-
-msgid "Half width"
-msgstr "نصف عرض"
-
 msgid "A choice must be selected"
 msgstr "يجب تحديد خيار"
 
+msgid "A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image."
+msgstr "يتطلب التفاعل بين الفجوات الرسم البياني صورة خلفية، على الأقل نقطة ساخنة، وصورة ثغرة واحدة على الأقل."
+
 msgid "A human interpretation of the variable's value."
 msgstr "تفسير بشري لقيمة المتغير."
+
+msgid "A Lexical Field groups a canonical answer and optional variants into a single expected response. The canonical value is stored in the item data and used for response processing; only additional variants are listed here. Group identifiers are assigned automatically."
+msgstr "الحقل اللاكسي يجمع إجابة لاجنبية ومتغيرات اختيارية في استجابة واحدة متوقعة. يتم تخزين القيمة الكونية في بيانات العنصر ويتم استخدامها لمعالجة الاستجابة؛ يتم إدراج المتغيرات الإضافية هنا فقط. يتم تعيين معرفات المجموعات تلقائياً."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
 msgstr "مكون QTI غير مدعوم.أرجع النظام الخطأ التالي: %s\n"
@@ -146,6 +146,12 @@ msgstr "إضافة خيار"
 msgid "Add else feedback"
 msgstr "إضافة ملاحظات أخرى"
 
+msgid "Add level"
+msgstr "إضافة مستوى"
+
+msgid "Add lexical field"
+msgstr "إضافة حقل معجم"
+
 msgid "Add new column"
 msgstr "أضف عمودا جديدا"
 
@@ -158,14 +164,23 @@ msgstr "أضف صفا جديدا"
 msgid "Add Style Sheet"
 msgstr "أضف ورقة الأنماط"
 
+msgid "Add variant"
+msgstr "إضافة متغير"
+
 msgid "after"
 msgstr "بعد"
 
 msgid "Alignment"
 msgstr "المحاذاة"
 
+msgid "All-or-nothing scoring. A single score is awarded only when the configured threshold is reached."
+msgstr "الكل او لا شيء يتم منح نتيجة واحدة فقط عندما يتم الوصول الى الحد الاقصى."
+
 msgid "Allow elimination"
 msgstr "السماح بالحذف"
+
+msgid "Allow evaluators to extend the Lexical Field list"
+msgstr "السماح للمقيِّمين بتوسيع قائمة الحقل المكتوب"
 
 msgid "Allowed associations"
 msgstr "الجمعيات المسموح بها"
@@ -233,11 +248,20 @@ msgstr "حزمة محتوى APIP"
 msgid "Apip Package successfully exported."
 msgstr "تم تصدير حزمة Apip بنجاح."
 
+msgid "Applies to all Text Entry interactions in this item"
+msgstr "ينطبق على جميع تفاعلات إدخال النص في هذا العنصر"
+
 msgid "Arc"
 msgstr "قوس"
 
 msgid "Arrange a list of choices in the correct order."
 msgstr "رتب قائمة بالاختيارات بالترتيب الصحيح."
+
+msgid "Arrow"
+msgstr "سهم"
+
+msgid "Arrow direction: start hotspot to end hotspot."
+msgstr "اتجاه السهم: بدء نقطة الاتصال لإنهاء نقطة الاتصال."
 
 msgid "Associate"
 msgstr "ارتباط"
@@ -245,14 +269,23 @@ msgstr "ارتباط"
 msgid "Associate Interaction"
 msgstr "تفاعل الشريك"
 
+msgid "Association display"
+msgstr "عرض الرابطة"
+
 msgid "association pairs"
 msgstr "شراكة مزدوجة"
+
+msgid "Association role"
+msgstr "دور الرابطة"
 
 msgid "at least"
 msgstr "على الأقل"
 
 msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
 msgstr "محاولة حقن قيم البيانات الوصفية \"%s\" للهدف \"%s\" مع حاقن البيانات الوصفية \"%s\"."
+
+msgid "Authoring view remains tabular. Preview and delivery use non-tabular mode."
+msgstr "لا تزال طريقة عرض التأليف جدولة. المعاينة والتسليم تستخدم وضع غير الجدول."
 
 msgid "Autostart"
 msgstr "بدء أتوماتيكي"
@@ -422,6 +455,18 @@ msgstr "التفاعلات المشتركة"
 msgid "Compact Appearance"
 msgstr "مظهر مبسط"
 
+msgid "Configures the position of the choices relative to the answer area."
+msgstr "يكوّن موضع الخيارات بالنسبة لمجال الإجابة."
+
+msgid "Configures the position of the choices relative to the buckets. Columns are choices and rows are buckets."
+msgstr "يكوّن موضع الخيارات نسبة إلى الدلاء. الأعمدة هي خيارات والصفوف هي الدلاء."
+
+msgid "Configures the position of the choices relative to the gaps."
+msgstr "2 - تحديد وضع الخيارات بالنسبة للفجوات."
+
+msgid "Configures the position of the choices relative to the image."
+msgstr "يكوّن موضع الخيارات بالنسبة للصورة."
+
 msgid "Configures the position of the choices relative to the target list."
 msgstr "يكوّن موضع الخيارات بالنسبة لقائمة الأهداف."
 
@@ -434,11 +479,17 @@ msgstr "ملف تار المضغوط"
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "تحكم في معلمات التشغيل (بدء أتوماتيكي ، حلقة) لملف فيديو أو صوت وأبلغ عن عدد مرات تشغيله."
 
+msgid "Controls the visual style of association links. Line shows non-directional links. Arrow adds an arrowhead to indicate direction and works together with Start/End hotspot settings."
+msgstr "يتحكم في النمط المرئي لروابط الارتباط. يعرض الخط روابط غير اتجاهية. يضيف السهم روكوداد للإشارة إلى الاتجاه ويعمل مع إعدادات نقطة الاتصال Start/End Hotspot."
+
 msgid "Correct"
 msgstr "صحيح"
 
 msgid "correct"
 msgstr "صحيح"
+
+msgid "Correct responses"
+msgstr "الردود الصحيحة"
 
 msgid "Cosine"
 msgstr "جيب التمام "
@@ -457,6 +508,9 @@ msgstr "قم بإنشاء روابط بين  hotspots المعروضة على ا
 
 msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
 msgstr "قم بإنشاء اقتران (روابط) بين مجموعتين من الاختيارات المعروضة في جدول (صف وعمود)."
+
+msgid "Create associations and fill the score in the form below"
+msgstr "إنشاء روابط وملء النتيجة في النموذج أدناه"
 
 msgid "Create gap"
 msgstr "خلق فجوة"
@@ -490,12 +544,6 @@ msgstr "وضع معالجةالجواب المخصصة"
 
 msgid "Dashed"
 msgstr "متقطع"
-
-msgid "Solid"
-msgstr "متصل"
-
-msgid "Wavy"
-msgstr "متموج"
 
 msgid "Default"
 msgstr "افتراضي"
@@ -533,8 +581,17 @@ msgstr "حدد ما إذا كان البند يجب أن يعتمد على ال�
 msgid "Defined width"
 msgstr "العرض المحدد"
 
+msgid "Defines how interaction points are transformed into the final item score."
+msgstr "يحدد كيفية تحويل نقاط التفاعل إلى النتيجة النهائية."
+
+msgid "Defines how multiple Text Entry interactions are evaluated."
+msgstr "يحدد كيفية تقييم تفاعلات إدخال النص المتعددة."
+
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "يحدد الحد الأقصى لمقدار متغيرات النتيجة الرقمية ، يجب أن يكون الحد الأقصى قيمة موجبة والحد الأدنى قد يكون سالبًا."
+
+msgid "Defines whether this hotspot can be used as the start and/or end of an association."
+msgstr "يحدد ما إذا كان يمكن استخدام هذه النقطة الساخنة كبداية و/أو نهاية للرابطة."
 
 msgid "Degrees"
 msgstr "الدرجات"
@@ -566,6 +623,9 @@ msgstr "دلتا"
 msgid "Description"
 msgstr "وصف"
 
+msgid "Dichotomous"
+msgstr "ديشوتوس"
+
 msgid "Direction of writing"
 msgstr "اتجاه الكتابة"
 
@@ -578,8 +638,14 @@ msgstr "عرض"
 msgid "Display media player"
 msgstr "عرض مشغل الوسائط"
 
+msgid "Display mode"
+msgstr "وضع العرض"
+
 msgid "Display the choices either horizontally or vertically"
 msgstr "اعرض الاختيارات إما أفقيًا أو رأسيًا"
+
+msgid "Displays the slider bar either horizontally or vertically"
+msgstr "يعرض شريط التمرير أفقياً أو عمودياً"
 
 msgid "Divide"
 msgstr "يقسم"
@@ -626,6 +692,15 @@ msgstr "على سبيل المثال 13"
 msgid "e.g. 960"
 msgstr "على سبيل المثال 960"
 
+msgid "e.g. Apple"
+msgstr "مثل أبل"
+
+msgid "Each interaction contributes its own points to the final item score. The final score is the sum of all interaction scores."
+msgstr "وكل تفاعل يسهم بنقاط خاصة به في النتيجة النهائية للبند والنتيجة النهائية هي مجموع كل درجات التفاعل."
+
+msgid "each response must be entered in its corresponding field."
+msgstr "يجب إدخال كل رد في الحقل المقابل."
+
 msgid "Edit"
 msgstr "الإصدار"
 
@@ -668,8 +743,14 @@ msgstr "تمكين التمرير"
 msgid "Enable the test taker to pause and restart the playing."
 msgstr "قم بتمكين المتقدم للاختبار من إيقاف التشغيل مؤقتًا وإعادة تشغيله."
 
+msgid "Enable this option if the list of expected answers may need to be extended during evaluation."
+msgstr "تمكين هذا الخيار إذا كانت قائمة الإجابات المتوقعة قد تحتاج إلى تمديد أثناء التقييم."
+
 msgid "Enable/disable scrolling."
 msgstr "تمكين / تعطيل التمرير."
+
+msgid "End (target)"
+msgstr "نهاية (الهدف)"
 
 msgid "End Attempt"
 msgstr "إنهاء المحاولة"
@@ -715,6 +796,12 @@ msgstr "خطأ في تصدير البند   %s: %s"
 
 msgid "Euler\\'s constant"
 msgstr "ثابت أويلر"
+
+msgid "Evaluate Text Entry interactions as Unordered Multi-Field"
+msgstr "تقييم تفاعلات إدخال النص كحقول متعددة غير مرتبة"
+
+msgid "Evaluation"
+msgstr "التقييم"
 
 msgid "Exponent"
 msgstr "متسارع"
@@ -803,6 +890,9 @@ msgstr "جزء"
 msgid "Full height"
 msgstr "ارتفاع كامل"
 
+msgid "Full width"
+msgstr "عرض كامل"
+
 msgid "Gap"
 msgstr "الفارق"
 
@@ -835,6 +925,9 @@ msgstr "حماية للمورد \"%s\" ..."
 
 msgid "Half height"
 msgstr "نصف ارتفاع"
+
+msgid "Half width"
+msgstr "نصف عرض"
 
 msgid "Height"
 msgstr "ارتفاع"
@@ -895,6 +988,9 @@ msgstr "إذا كان قناع النمط لا يتطابق مع القيمة ا
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
 msgstr "إذا كانت سمة الخلط صحيحة، فسيقوم محرك التسليم بتوزيع الترتيب الذي يتم به تقديم الخيارات في البداية. ومع ذلك، يمكن \"خلط\" أو \"تثبيت\" كل خِيار على حدة."
+
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" or \"fixed\" individually."
+msgstr "إذا كانت سمة الخلط صحيحة حينئذ فإن محرك التسليم سوف يقوم عشوائيا بالترتيب الذي يتم فيه عرض الخيارات في البداية. غير أن كل اختيار يمكن أن يكون \"ممزقاً\" أو \"ثابتاً\" على حدة."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
 msgstr "إذا كانت سمة الخلط صحيحة، فسيقوم محرك التسليم بتوزيع الترتيب الذي يتم به تقديم الخيارات في البداية. ومع ذلك، يمكن \"خلط\" أو \"تثبيت\" كل خِيار بشكل فردي."
@@ -989,8 +1085,14 @@ msgstr "خصائص التفاعل"
 msgid "Interpretation"
 msgstr "تأويل"
 
+msgid "Invalid arrow direction. Create associations from a start hotspot to an end hotspot."
+msgstr "اتجاه الأسهم غير صالح. إنشاء روابط من نقطة البداية إلى نقطة النهاية الساخنة."
+
 msgid "Invalid identifier"
 msgstr "معرف غير صالح"
+
+msgid "Invalid Lexical Group Identifier"
+msgstr "معرف المجموعة غير صالح"
 
 msgid "Invalid Outcome Declaration"
 msgstr "إعلان النتيجة غير صالح"
@@ -1101,6 +1203,12 @@ msgstr "أقل من أو يساوي"
 msgid "Level"
 msgstr "مستوى"
 
+msgid "Lexical field canonical value"
+msgstr "القيمة الكلاسيكية للحقل"
+
+msgid "Lexical fields"
+msgstr "الحقول النكسية"
+
 msgid "Line"
 msgstr "سطر"
 
@@ -1200,6 +1308,9 @@ msgstr "الحد الأقصى"
 msgid "Maximum choices reached"
 msgstr "تم الوصول إلى الحد الأقصى من الخيارات"
 
+msgid "Maximum correct responses: %d."
+msgstr "الحد الأقصى للردود الصحيحة: %d."
+
 msgid "Maximum number of choices reached."
 msgstr "تم الوصول إلى الحد الأقصى من الخيارات"
 
@@ -1285,6 +1396,9 @@ msgstr "لا يوجد مِلَفّ تم تحميله"
 msgid "No value set"
 msgstr "لم يتم تعيين قيمة"
 
+msgid "Non-tabular"
+msgstr "Non-tabular"
+
 msgid "None"
 msgstr "لا شيء"
 
@@ -1312,6 +1426,9 @@ msgstr "رابط مزدوج واحد"
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
 msgstr "لا يدعم النظام مكونًا أو أكثر من مكونات QTI. أرجع النظام الخطأ التالي: %s\n"
 
+msgid "or more"
+msgstr "أو أكثر"
+
 msgid "Order"
 msgstr "ترتيب"
 
@@ -1326,6 +1443,9 @@ msgstr "طلب قائمة واحدة"
 
 msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "اطلب المناطق (النقاط الفعالة) المعروضة على الصورة."
+
+msgid "Ordered"
+msgstr "طلب"
 
 msgid "Orientation"
 msgstr "اتجاه"
@@ -1443,6 +1563,9 @@ msgstr "الرجاء كتابة الإجابة الصحيحة في المربع 
 
 msgid "Plus/minus"
 msgstr "زائد/ناقص"
+
+msgid "Polytomous"
+msgstr "متعددات"
 
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "لم يتم العثور على نوع البند المحمول %s. قد يكون الامتداد المطلوب مفقودًا"
@@ -1573,6 +1696,12 @@ msgstr "قم بإزالة لون النص المخصص"
 msgid "Remove Instructions"
 msgstr "إزالة التعليمات"
 
+msgid "Remove level"
+msgstr "إزالة المستوى"
+
+msgid "Remove lexical field"
+msgstr "إزالة الحقل المعجم"
+
 msgid "Remove Message"
 msgstr "قم بإزالة هذه الرسالة"
 
@@ -1584,6 +1713,9 @@ msgstr "قم بإزالة الشكل المحدد"
 
 msgid "Remove this stylesheet"
 msgstr "قم بإزالة ورقة الأنماط هذه"
+
+msgid "Remove variant"
+msgstr "إزالة المتغير"
 
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr "إزالة جميع رسائل التعليمات التي يتم إنشاؤها بواسطة النظام من الواجهة."
@@ -1627,6 +1759,15 @@ msgstr "معالجة الاستجابة"
 msgid "Response Properties"
 msgstr "خصائص الاستجابة"
 
+msgid "responses can be entered in any field and are evaluated as a set."
+msgstr "يمكن إدخال الردود في أي حقل ويتم تقييمها كمجموعة."
+
+msgid "Reverse direction"
+msgstr "عكس الاتجاه"
+
+msgid "Reverse the slider bar boundaries"
+msgstr "عكس حدود شريط التمرير"
+
 msgid "Rich text"
 msgstr "النص الغني"
 
@@ -1668,6 +1809,12 @@ msgstr "نطاق النتيجة"
 
 msgid "Score value"
 msgstr "قيمة النتيجة"
+
+msgid "Scores"
+msgstr "النقاط"
+
+msgid "Scoring Model"
+msgstr "نموذج الدرجات"
 
 msgid "Scrollable multi-column"
 msgstr "عمود متعدد قابل للتمرير"
@@ -1714,14 +1861,14 @@ msgstr "حدد الاختيار الصحيح"
 msgid "Select height of block based off container height"
 msgstr "حدد ارتفاع الكتلة على أساس ارتفاع الحاوية"
 
+msgid "Select height of block based on container height"
+msgstr "حدد ارتفاع الكتلة استناداً إلى ارتفاع الحاوية"
+
 msgid "Select height of passage base of container height"
 msgstr "حدد ارتفاع قاعدة النص من ارتفاع الحاوية"
 
 msgid "Select height of text block base of container height"
 msgstr "حدد ارتفاع قاعدة كتلة النص من ارتفاع الحاوية"
-
-msgid "Select width of block based on container width"
-msgstr "حدد عرض الكتلة استنادًا إلى عرض الحاوية"
 
 msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
 msgstr "حدد ما إذا كنت تريد معالجة إعلان النتيجة بواسطة نظام خارجي أو مسجل بشري. هذا هو الحال عادةً بالنسبة للبنود التي تطلب من المرشحين كتابة مقال."
@@ -1777,6 +1924,9 @@ msgstr "حدد هذه المنطقة لإنهاء رابطة"
 msgid "Select this area to start an association"
 msgstr "حدد هذه المنطقة لبدء ارتباط"
 
+msgid "Select width of block based on container width"
+msgstr "حدد عرض الكتلة استنادًا إلى عرض الحاوية"
+
 msgid "Sequential"
 msgstr "تسلسل"
 
@@ -1798,6 +1948,9 @@ msgstr "تبديل الخيارات عشوائيًا"
 msgid "Similar"
 msgstr "مشابه"
 
+msgid "Simple sum"
+msgstr "مبلغ بسيط"
+
 msgid "Sine"
 msgstr "شرط"
 
@@ -1815,6 +1968,9 @@ msgstr "شريط التمرير"
 
 msgid "Slider Interaction"
 msgstr "تفاعل واجهة رسومية"
+
+msgid "Solid"
+msgstr "متصل"
 
 msgid "Some feedback text."
 msgstr "بعض نصوص التعليقات."
@@ -1836,6 +1992,9 @@ msgstr "الجذر التربيعي"
 
 msgid "standard"
 msgstr "موحد"
+
+msgid "Start (source)"
+msgstr "بدء (المصدر)"
 
 msgid "Status"
 msgstr "حالة"
@@ -1875,6 +2034,12 @@ msgstr "يغير اتجاه البند بأكمله للكتابة بين أفق
 
 msgid "Table headings"
 msgstr "عناوين الجدول"
+
+msgid "Tabular"
+msgstr "جدول"
+
+msgid "Tabular uses a table layout. Non-tabular uses choices and buckets in preview and delivery."
+msgstr "يستخدم الجدول تخطيط الجدول. تستخدم غير الجداول الخيارات والدلاء في المعاينة والتسليم المسبق."
 
 msgid "Tangent"
 msgstr "مماس"
@@ -1980,6 +2145,9 @@ msgstr "تم استيراد بند IMS QTI بنجاح."
 
 msgid "The index to use when displaying a variable of ordered cardinality. If a variable of ordered cardinality is to be displayed and index is not set, all the values in the container are displayed."
 msgstr "الفهرس المراد استخدامه عند عرض متغير من أصل مرتب. إذا تم عرض متغير من أصل مرتب ولم يتم تعيين الفهرس ، فسيتم عرض جميع القيم الموجودة في الحاوية."
+
+msgid "The item awards different scores depending on how many correct responses are provided. Configure one or more thresholds with their corresponding scores."
+msgstr "هذا العنصر يمنح درجات مختلفة اعتماداً على عدد الردود الصحيحة المقدمة. تكوين عتبة واحدة أو أكثر مع درجاتها المقابلة."
 
 msgid "The item cannot be saved because it contains an unsupported custom interaction."
 msgstr "لا يمكن حفظ البند لأنه يحتوي على تفاعل مخصص غير مدعوم."
@@ -2155,6 +2323,12 @@ msgstr "لم يتم العثور على ورقة الأنماط هذه على ا
 msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
 msgstr "لا تتبع هذه القيمة إرشادات سمات التنقيط. لن يكون متوافقًا مع التنقيط اليدوي لـ TAO"
 
+msgid "This value is already used."
+msgstr "هذه القيمة مستخدمة مسبقاً."
+
+msgid "This variant already exists"
+msgstr "هذا الخيار موجود مسبقاً"
+
 msgid "Time dependent"
 msgstr "حسب الوقت"
 
@@ -2215,6 +2389,9 @@ msgstr "الغاء التحميل"
 msgid "Unknown $key to register MetadataService instance"
 msgstr "key$  غير معروف لتسجيل مثيل MetadataService"
 
+msgid "Unordered"
+msgstr "غير مرتبة"
+
 msgid "Unregister method expects $key and $name parameters."
 msgstr "تتوقع طريقة إلغاء التسجيل معايير key$ و name$."
 
@@ -2233,6 +2410,12 @@ msgstr "تستخدم للتحكم في تنسيق النص الذي يدخله �
 msgid "Value"
 msgstr "قيمة"
 
+msgid "Variant"
+msgstr "المتغير"
+
+msgid "Variants"
+msgstr "المتغيرات"
+
 msgid "Vector"
 msgstr "ناقل"
 
@@ -2244,6 +2427,9 @@ msgstr "النص العمودي"
 
 msgid "warning"
 msgstr "تحذير"
+
+msgid "Wavy"
+msgstr "متموج"
 
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
 msgstr "سوف نستخدم patternMask للقيام بذلك ، لتكون متوافقة مع معيار IMS"
