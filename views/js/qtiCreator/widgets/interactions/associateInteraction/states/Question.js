@@ -26,13 +26,13 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter',
     'services/features'
 ], function (
-    _, 
-    stateFactory, 
-    Question, 
-    formElement, 
-    minMaxComponentFactory, 
-    formTpl, 
-    sizeAdapter, 
+    _,
+    stateFactory,
+    Question,
+    formElement,
+    minMaxComponentFactory,
+    formTpl,
+    sizeAdapter,
     features
 ) {
     'use strict';
@@ -76,16 +76,15 @@ define([
        var isAssociateInteraction = interaction.qtiClass === 'associateInteraction';
        var position = getPositionFromClass(interaction.attr('class'));
 
-       var applyPosition = function applyPosition(position) {
-           var interactionClass;
-
+       var applyPosition = function applyPosition(selectedPosition) {
            if (!isAssociateInteraction) {
                return;
            }
 
-           interactionClass = normalizePositionClass(interaction.attr('class'), position);
+           position = selectedPosition;
+           var interactionClass = normalizePositionClass(interaction.attr('class'), selectedPosition);
            interaction.attr('class', interactionClass);
-           $interaction.attr('class', normalizePositionClass($interaction.attr('class'), position));
+           $interaction.attr('class', normalizePositionClass($interaction.attr('class'), selectedPosition));
            sizeAdapter.adaptSize(widget);
        };
 
@@ -124,8 +123,7 @@ define([
         var callbacks = formElement.getMinMaxAttributeCallbacks('minAssociations', 'maxAssociations');
         callbacks.shuffle = formElement.getAttributeChangeCallback();
         callbacks.position = function(interaction, value) {
-            position = value;
-            applyPosition(position);
+            applyPosition(value);
         };
         formElement.setChangeCallbacks($form, interaction, callbacks);
 

@@ -40,19 +40,32 @@
         }
     }
 
+    // Keep top/bottom choice bay on the physical left in both LTR and RTL
+    // (matches Figma / test-runner; left/right use physical left/right offsets).
+    &.qti-choices-top,
+    &.qti-choices-bottom {
+        ul.source {
+            direction: ltr;
+        }
+    }
+
     &.qti-choices-top {
         ul.source {
             position: absolute;
-            top: -78px;
-            left: 0;
+            top: -135px;
+            left: -8px;
             z-index: 1000;
             background: whiten($uiClickableDefaultBg, .5);
             @include simple-border();
 
             box-sizing: border-box;
             clear: none;
-            width: 124px;
-            max-width: 124px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            width: auto;
+            max-width: none;
             margin: 0;
             padding: 5px !important;
         }

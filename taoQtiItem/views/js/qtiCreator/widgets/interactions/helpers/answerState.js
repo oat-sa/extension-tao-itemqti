@@ -11,7 +11,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
  *
@@ -28,6 +28,15 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/modalFeedbackRule',
     'taoQtiItem/qtiCreator/helper/qtiElements',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
+    'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm',
+    'taoQtiItem/qtiCreator/helper/scoringModelForm',
+    'taoQtiItem/qtiCreator/helper/scoringModelHelper',
+    'taoQtiItem/qtiCreator/widgets/helpers/featureFlags',
+    'text!taoQtiItem/qtiCreator/tpl/forms/response/textEntryEvaluation.tpl',
+    'text!taoQtiItem/qtiCreator/tpl/forms/response/lexicalFieldGroup.tpl',
+    'text!taoQtiItem/qtiCreator/tpl/forms/response/scoringModel.tpl',
+    'text!taoQtiItem/qtiCreator/tpl/forms/response/scoringModelLevel.tpl',
+    'handlebars',
 ], function (
     $,
     _,
@@ -39,9 +48,23 @@ define([
     responseFormTpl,
     modalFeedbackRule,
     qtiElements,
-    xmlRenderer
+    xmlRenderer,
+    textEntryEvaluationForm,
+    scoringModelForm,
+    scoringModelHelper,
+    featureFlags,
+    textEntryEvaluationPartial,
+    lexicalFieldGroupPartial,
+    scoringModelPartial,
+    scoringModelLevelPartial,
+    handlebars
 ) {
     'use strict';
+
+    handlebars.registerPartial('textEntryEvaluation', textEntryEvaluationPartial);
+    handlebars.registerPartial('lexicalFieldGroup', lexicalFieldGroupPartial);
+    handlebars.registerPartial('scoringModel', scoringModelPartial);
+    handlebars.registerPartial('scoringModelLevel', scoringModelLevelPartial);
 
     const modalFeedbackConfigKey = 'taoQtiItem/creator/interaction/property/modalFeedback';
     const showResponseIdentifierKey = 'taoQtiItem/creator/interaction/response/property/identifier';
@@ -219,8 +242,6 @@ define([
                 response = interaction.getResponseDeclaration();
             let template = responseHelper.getTemplateNameFromUri(response.template);
             const listOfBaseType = response.attributes.baseType,
-                editMapping = _.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0,
-                defineCorrect = answerStateHelper.defineCorrect(response),
                 allQtiElements = qtiElements.getAvailableAuthoringElements();
 
             const outcome = item.getOutcomeDeclaration(`SCORE_${response.id()}`);
@@ -239,30 +260,70 @@ define([
                 rpTemplates: []
             });
 
-            if (!template || rp.processingType === 'custom') {
+            const isTextEntryInteraction =
+                interaction.qtiClass === allQtiElements.textEntryInteraction.qtiClass;
+            const showMultiFieldScoring =
+                isTextEntryInteraction && featureFlags.isMultiFieldScoringAvailable();
+            const scoringModelConfig = showMultiFieldScoring
+                ? scoringModelHelper.getScoringModelConfig(interaction)
+                : { model: scoringModelHelper.MODEL_SIMPLE_SUM };
+            const isScoringModelManaged =
+                showMultiFieldScoring &&
+                scoringModelConfig.model !== scoringModelHelper.MODEL_SIMPLE_SUM;
+
+            // Scoring-model RP is stored as custom XML but authoring UI shows map response.
+            // Only coerce the local template for rendering; model mutation happens on
+            // scoring-model persist (ensureMapResponseTemplates) / explicit template change.
+            if (isScoringModelManaged) {
+                if (
+                    !template ||
+                    template === 'CUSTOM' ||
+                    (!responseHelper.isUsingTemplate(response, 'MAP_RESPONSE') &&
+                        !responseHelper.isUsingTemplate(response, 'MAP_RESPONSE_POINT'))
+                ) {
+                    template = 'MAP_RESPONSE';
+                }
+            } else if (!template || rp.processingType === 'custom') {
                 template = 'CUSTOM';
             }
 
+            const editMapping = _.indexOf(['MAP_RESPONSE', 'MAP_RESPONSE_POINT'], template) >= 0;
+            const defineCorrect = answerStateHelper.defineCorrect(response);
+
+            const evaluationTplData = showMultiFieldScoring
+                ? textEntryEvaluationForm.getTplData(interaction)
+                : {};
+            const scoringModelTplData = showMultiFieldScoring
+                ? scoringModelForm.getTplData(interaction)
+                : {};
+
             widget.$responseForm.html(
-                responseFormTpl({
-                    identifier: response.id(),
-                    showIdentifier: features.isVisible(showResponseIdentifierKey),
-                    serial: response.getSerial(),
-                    defineCorrect: defineCorrect,
-                    editMapping: editMapping,
-                    editFeedbacks: template !== 'CUSTOM' && features.isVisible(modalFeedbackConfigKey),
-                    mappingDisabled: _.isEmpty(response.mapEntries),
-                    template: template,
-                    templates: _getAvailableRpTemplates(
-                        interaction,
-                        options.rpTemplates,
-                        widget.options.allowCustomTemplate
-                    ),
-                    listOfBaseType: listOfBaseType,
-                    listOfBaseTypes: _getAvailableListOfBaseTypes(listOfBaseType),
-                    textEntryInteraction: interaction.qtiClass === allQtiElements.textEntryInteraction.qtiClass,
-                    defaultValue: response.getMappingAttribute('defaultValue')
-                })
+                responseFormTpl(
+                    Object.assign(
+                        {
+                            identifier: response.id(),
+                            showIdentifier: features.isVisible(showResponseIdentifierKey),
+                            serial: response.getSerial(),
+                            defineCorrect: defineCorrect,
+                            editMapping: editMapping,
+                            editFeedbacks: template !== 'CUSTOM' && features.isVisible(modalFeedbackConfigKey),
+                            mappingDisabled: _.isEmpty(response.mapEntries),
+                            template: template,
+                            templates: _getAvailableRpTemplates(
+                                interaction,
+                                options.rpTemplates,
+                                widget.options.allowCustomTemplate
+                            ),
+                            listOfBaseType: listOfBaseType,
+                            listOfBaseTypes: _getAvailableListOfBaseTypes(listOfBaseType),
+                            textEntryInteraction: isTextEntryInteraction,
+                            showMultiFieldScoring: showMultiFieldScoring,
+                            defaultValue: response.getMappingAttribute('defaultValue')
+                        },
+                        evaluationTplData,
+                        scoringModelTplData
+                    )
+                )
             );
             widget.$responseForm.find('select[name=template]').val(template);
 
@@ -308,6 +369,31 @@ define([
                     response.setMappingAttribute(key, value);
                 },
                 template: function (res, value) {
+                    const activeScoringModel =
+                        isTextEntryInteraction && featureFlags.isMultiFieldScoringAvailable()
+                            ? scoringModelHelper.getScoringModelConfig(interaction)
+                            : { model: scoringModelHelper.MODEL_SIMPLE_SUM };
+                    const scoringManaged =
+                        activeScoringModel.model !== scoringModelHelper.MODEL_SIMPLE_SUM;
+
+                    if (
+                        scoringManaged &&
+                        (value === 'MAP_RESPONSE' || value === 'MAP_RESPONSE_POINT')
+                    ) {
+                        // Keep scoring-model custom RP; only refresh the response template.
+                        response.setTemplate(value);
+                        answerStateHelper.forward(widget);
+                        answerStateHelper.initResponseForm(widget);
+                        return;
+                    }
+
+                    if (scoringManaged && value !== 'CUSTOM') {
+                        scoringModelHelper.persistScoringModelConfig(interaction, {
+                            model: scoringModelHelper.MODEL_SIMPLE_SUM,
+                            thresholds: []
+                        });
+                    }
+
                     rp.setProcessingType(value === 'CUSTOM' ? 'custom' : 'templateDriven');
                     response.setTemplate(value);
                     answerStateHelper.forward(widget);
@@ -348,6 +434,12 @@ define([
             widget.$responseForm.trigger('initResponseForm');
 
             formElement.initWidget(widget.$responseForm);
+
+            if (showMultiFieldScoring) {
+                // Persist only on form edits / save — not on every Answer panel render.
+                scoringModelForm.bindEvents(widget.$responseForm, widget);
+                textEntryEvaluationForm.bindEvents(widget.$responseForm, widget);
+            }
         },
 
         /**

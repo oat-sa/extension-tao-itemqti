@@ -35,6 +35,29 @@ define([
         });
     }
 
+    function assertPromptReadyInQuestionState(assert, $interaction, $promptContainer, $prompt) {
+        var $widget = $interaction.closest('.widget-box');
+        var $editable;
+
+        $interaction.click();
+
+        assert.ok(
+            $widget.hasClass('edit-question'),
+            'The interaction enters question state so creator prompt width rules apply'
+        );
+
+        $editable = $promptContainer.find('[data-html-editable]').first();
+        if (!$editable.length) {
+            $editable = $prompt;
+        }
+
+        assert.equal($editable.length, 1, 'The prompt editable target is available in question state');
+        assert.ok(
+            $editable.is('.qti-prompt') || $editable.closest('.qti-prompt-container').length === 1,
+            'The editable target stays within the prompt container'
+        );
+    }
+
     // Prevent the AJAX mocks to pollute the logs
     $.mockjaxSettings.logger = null;
     $.mockjaxSettings.responseTime = 1;
@@ -77,6 +100,22 @@ define([
             var interaction = itemData.body.elements.interaction_gapmatchinteraction_547dd4d24d2d0146858817;
 
             interaction.attributes.class = 'custom-position-class qti-choices-right';
+            this.responseText = {
+                itemIdentifier: 'item-1',
+                itemData: itemData
+            };
+        }
+    });
+
+    $.mockjax({
+        url: /mockItemMissingPromptEndpoint/,
+        status: 200,
+        response: function () {
+            var itemData = $.extend(true, {}, gapMatchJson);
+            var interaction = itemData.body.elements.interaction_gapmatchinteraction_547dd4d24d2d0146858817;
+
+            delete interaction.prompt;
+
             this.responseText = {
                 itemIdentifier: 'item-1',
                 itemData: itemData
@@ -417,6 +456,116 @@ define([
                 assert.notOk($interaction.hasClass('qti-choices-right'), 'The previous position class is removed from the canvas');
 
                 instance.destroy();
+            })
+            .after('destroy', function () {
+                done();
+            });
+    });
+
+    QUnit.test('prompt enters question state with editable target', function (assert) {
+        var done = assert.async();
+        var $container = $('#fixture-render');
+        var config = {
+            properties: {
+                uri: 'http://item#rdf-123',
+                label: 'Item',
+                baseUrl: 'http://foo/bar',
+                itemDataUrl: '//mockItemWithPositionEndpoint'
+            }
+        };
+        var instance;
+
+        assert.expect(5);
+
+        instance = itemAuthoringFactory($container, config)
+            .on('ready', function () {
+                var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]', $container);
+                var $promptContainer = $('.qti-gapMatchInteraction .qti-prompt-container', $container);
+                var $prompt = $promptContainer.find('.qti-prompt').first();
+
+                assert.equal($promptContainer.length, 1, 'The prompt container is rendered');
+                assert.equal($prompt.length, 1, 'The prompt is rendered');
+
+                try {
+                    assertPromptReadyInQuestionState(assert, $interaction, $promptContainer, $prompt);
+                } finally {
+                    instance.destroy();
+                }
+            })
+            .after('destroy', function () {
+                done();
+            });
+    });
+
+    QUnit.test('prompt enters question state when prompt content is missing', function (assert) {
+        var done = assert.async();
+        var $container = $('#fixture-render');
+        var config = {
+            properties: {
+                uri: 'http://item#rdf-123',
+                label: 'Item',
+                baseUrl: 'http://foo/bar',
+                itemDataUrl: '//mockItemMissingPromptEndpoint'
+            }
+        };
+        var instance;
+
+        assert.expect(6);
+
+        instance = itemAuthoringFactory($container, config)
+            .on('ready', function () {
+                var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]', $container);
+                var $promptContainer = $('.qti-gapMatchInteraction .qti-prompt-container', $container);
+                var $prompt = $promptContainer.find('.qti-prompt').first();
+
+                assert.equal($promptContainer.length, 1, 'The prompt container is rendered');
+                assert.equal($prompt.length, 1, 'The prompt is rendered even without prompt content');
+                assert.equal($.trim($prompt.text()).length, 0, 'The prompt content starts empty');
+
+                try {
+                    assertPromptReadyInQuestionState(assert, $interaction, $promptContainer, $prompt);
+                } finally {
+                    instance.destroy();
+                }
+            })
+            .after('destroy', function () {
+                done();
+            });
+    });
+
+    QUnit.test('prompt enters question state in a narrow container', function (assert) {
+        var done = assert.async();
+        var $container = $('#fixture-render');
+        var originalWidth = $container.attr('style') || '';
+        var config = {
+            properties: {
+                uri: 'http://item#rdf-123',
+                label: 'Item',
+                baseUrl: 'http://foo/bar',
+                itemDataUrl: '//mockItemWithPositionEndpoint'
+            }
+        };
+        var instance;
+
+        assert.expect(5);
+
+        $container.css('width', '280px');
+
+        instance = itemAuthoringFactory($container, config)
+            .on('ready', function () {
+                var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]', $container);
+                var $promptContainer = $('.qti-gapMatchInteraction .qti-prompt-container', $container);
+                var $prompt = $promptContainer.find('.qti-prompt').first();
+
+                assert.equal($promptContainer.length, 1, 'The prompt container is rendered');
+                assert.equal($prompt.length, 1, 'The prompt is rendered');
+
+                try {
+                    assertPromptReadyInQuestionState(assert, $interaction, $promptContainer, $prompt);
+                } finally {
+                    $container.attr('style', originalWidth);
+                    instance.destroy();
+                }
             })
             .after('destroy', function () {
                 done();

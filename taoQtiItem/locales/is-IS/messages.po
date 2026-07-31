@@ -1,0 +1,2304 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 2026.02 LTS\n"
+"PO-Revision-Date: 2026-02-03T14:42:47\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: is-IS\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: is-IS\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid " Fill in the gaps in a text from a set of choices."
+msgstr "Fylltu í eyðurnar úr gefnum valmöguleikum"
+
+msgid " For Resource "
+msgstr ""
+
+msgid " or "
+msgstr ""
+
+msgid "%d characters allowed"
+msgstr ""
+
+msgid "%d Item(s) of %d imported from the given IMS QTI Package."
+msgstr ""
+
+msgid "%d/%d"
+msgstr ""
+
+msgid "%s - Original"
+msgstr ""
+
+msgid "%s metadata values found in source by extractor(s)."
+msgstr ""
+
+msgid "%s of %s characters maximum."
+msgstr ""
+
+msgid "%s of %s characters recommended."
+msgstr ""
+
+msgid "%s of %s words maximum."
+msgstr ""
+
+msgid "%title% - Translation (%lang%)"
+msgstr ""
+
+msgid "(comma)"
+msgstr ""
+
+msgid "(dot)"
+msgstr ""
+
+msgid "(space)"
+msgstr ""
+
+msgid "-- Any kind of file --"
+msgstr "-- Hvaða skráartegund sem er --"
+
+msgid "--- leave empty ---"
+msgstr "--- hafa autt ---"
+
+msgid "1 item imported from the given QTI/APIP XML Item Document."
+msgstr ""
+
+msgid "1/3 of height"
+msgstr ""
+
+msgid "1/4 of height"
+msgstr ""
+
+msgid "2/3 of height"
+msgstr ""
+
+msgid "3/4 of height"
+msgstr ""
+
+msgid "1/3 of width"
+msgstr ""
+
+msgid "1/4 of width"
+msgstr ""
+
+msgid "2/3 of width"
+msgstr ""
+
+msgid "3/4 of width"
+msgstr ""
+
+msgid "Full width"
+msgstr ""
+
+msgid "Half width"
+msgstr ""
+
+msgid "A choice must be selected"
+msgstr "Það verður að merkja við valmöguleika"
+
+msgid "A human interpretation of the variable's value."
+msgstr ""
+
+msgid "A QTI component is not supported. The system returned the following error: %s\n"
+msgstr ""
+
+msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
+msgstr "Fyrirmælablokk þekkir hluta af matsatriðis itemBody sem hefur í sér leiðbeiningar fyrir einn eða fleiri leikara sem skoða atriðið. Þótt fyrirmælablokkir séu skilgreindar sem simpleBlock þurfa þær ekki að vera með samskiptum."
+
+msgid "Adapt to screen size"
+msgstr "Aðlaga að skjástærð"
+
+msgid "Add"
+msgstr "Bæta við"
+
+msgid "Add a CSV file"
+msgstr ""
+
+msgid "Add a modal feedback"
+msgstr "Bæta við glugga fyrir athugasemdir"
+
+msgid "Add a QTI/APIP XML Item Document"
+msgstr ""
+
+msgid "Add a ZIP file containing QTI/APIP items"
+msgstr ""
+
+msgid "Add an outcome"
+msgstr ""
+
+msgid "Add another option"
+msgstr "Bæta við öðrum valmöguleika"
+
+msgid "Add choice"
+msgstr "Nýr valmöguleiki"
+
+msgid "Add else feedback"
+msgstr "Bæta við annars athugasemdir"
+
+msgid "Add new column"
+msgstr ""
+
+msgid "Add new pairs"
+msgstr "Bæta við nýjum pörum"
+
+msgid "Add new row"
+msgstr ""
+
+msgid "Add Style Sheet"
+msgstr "Bæta við hönnunarlýsingu"
+
+msgid "after"
+msgstr ""
+
+msgid "Alignment"
+msgstr "Jöfnun"
+
+msgid "Allow elimination"
+msgstr ""
+
+msgid "Allowed associations"
+msgstr "Leyfð vensl"
+
+msgid "Allowed choices"
+msgstr "Leyfðir valkostir"
+
+msgid "Allowed number of matches"
+msgstr "Leyfður fjöldi samstæða"
+
+msgid "Allowed number of uses"
+msgstr "Leyfður fjöldi nota"
+
+msgid "Alpha"
+msgstr ""
+
+msgid "Alt Text"
+msgstr "Alt Texti"
+
+msgid "An error occured while exporting an item."
+msgstr ""
+
+msgid "An error occured while extracting the ZIP archive representing the IMS Content Package."
+msgstr "Villa kom upp þegar verið var að draga út ZIP safnið sem geymir IMS innihald."
+
+msgid "An error occured while loading a shared stimulus."
+msgstr "Villa kom upp þegar verið var að hlaða inn samnýttum hvata."
+
+msgid "An error occured while parsing IMS QTI data."
+msgstr "Villa kom upp þegar verið var að greina IMS QTI gögn."
+
+msgid "An error occurred at the level of the QTI model."
+msgstr ""
+
+msgid "An optional link to an extended interpretation of the outcome variable."
+msgstr ""
+
+msgid "An unexpected error occured during the import of the IMS QTI Item Package."
+msgstr ""
+
+msgid "An unexpected error occured while dealing with Response Processing."
+msgstr "Óvænt villa kom upp þegar verið var að eiga við Svaravinnslu."
+
+msgid "An unexpected error occurred during the import of the IMS QTI Item Package. "
+msgstr ""
+
+msgid "An unexpected error occurred during the import of the IMS QTI Item Package. The system returned the following error: \"%s"
+msgstr ""
+
+msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
+msgstr ""
+
+msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
+msgstr ""
+
+msgid "Angle"
+msgstr ""
+
+msgid "Answer required"
+msgstr ""
+
+msgid "APIP Content Package"
+msgstr ""
+
+msgid "Apip Package successfully exported."
+msgstr ""
+
+msgid "Arc"
+msgstr ""
+
+msgid "Arrange a list of choices in the correct order."
+msgstr "Raðið lista valkosta í rétta röð."
+
+msgid "Associate"
+msgstr "Tengið"
+
+msgid "Associate Interaction"
+msgstr "Vensla Samskipti"
+
+msgid "association pairs"
+msgstr "venslapör"
+
+msgid "at least"
+msgstr "að minnsta kosti"
+
+msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metadata Injector \"%s\"."
+msgstr ""
+
+msgid "Autostart"
+msgstr "Sjálfræsing"
+
+msgid "Back to Manage Items"
+msgstr ""
+
+msgid "Background color"
+msgstr "Bakgrunnslitur"
+
+msgid "Base"
+msgstr ""
+
+msgid "Be aware, if you choose to remove the instructions, the system will not provide any warnings to the test takers if constraints are set."
+msgstr ""
+
+msgid "Beta"
+msgstr ""
+
+msgid "Block"
+msgstr "Blokk"
+
+msgid "block"
+msgstr "blokk"
+
+msgid "Block contains the content (stimulus) of the item such as text or image. It is also required for Inline Interactions."
+msgstr "Í blokkinni er efnið (hvati) atriðisins svo sem texti eða mynd. Hennar er líka þörf í samskiptum á línunni."
+
+msgid "Block height (%)"
+msgstr ""
+
+msgid "Block width (%)"
+msgstr ""
+
+msgid "Border color"
+msgstr "Litur ramma"
+
+msgid "Bottom"
+msgstr ""
+
+msgid "Browse your computer and select the appropriate file."
+msgstr "Vafraðu um tölvuna þína og veldu viðeigandi skrá."
+
+msgid "Browse..."
+msgstr "Velja..."
+
+msgid "Cancel"
+msgstr "Hætta við"
+
+msgid "cancel"
+msgstr "hætta við"
+
+msgid "Cannot create gap from this selection. Please check that you do not have partially selected elements."
+msgstr ""
+
+msgid "Cannot create hottext from this selection."
+msgstr ""
+
+msgid "Cannot create hottext from this selection. Please make sure the selection does not contain both formatted and unformatted words."
+msgstr ""
+
+msgid "Cannot create hottext from this selection. Please make sure the selection does not contain multiple lines."
+msgstr ""
+
+msgid "Cannot delete a variable currently used in response processing"
+msgstr ""
+
+msgid "Cannot edit a variable currently used in response processing"
+msgstr ""
+
+msgid "cannot find QTI XML"
+msgstr ""
+
+msgid "cannot load QTI XML"
+msgstr ""
+
+msgid "Cannot locate the file \"%s"
+msgstr ""
+
+msgid "Center"
+msgstr ""
+
+msgid "Change the width of the item. By default the item has a width of 100% and adapts to the size of any screen. The maximal width is by default 1024px - this will also change when you set a custom with."
+msgstr ""
+
+msgid "chars"
+msgstr "stafir"
+
+msgid "Choice"
+msgstr "Valmöguleiki"
+
+msgid "Choice Image"
+msgstr "Myndavalmöguleiki"
+
+msgid "Choice Interaction"
+msgstr "Valin samskipti"
+
+msgid "Choice Properties"
+msgstr "Eiginleikar valmöguleika"
+
+msgid "choices"
+msgstr ""
+
+msgid "Choices"
+msgstr "Valmöguleikar"
+
+msgid "Choices position"
+msgstr ""
+
+msgid "Choose the horizontal alignment for the table."
+msgstr ""
+
+msgid "Class Lookup Successful. Resource \"%s\" will be stored in RDFS Class \"%s\"."
+msgstr ""
+
+msgid "Class successfully created."
+msgstr ""
+
+msgid "Classification entries have to be an instance of ClassificationEntryMetadataValue"
+msgstr ""
+
+msgid "Classification metadata is required to be extracted."
+msgstr ""
+
+msgid "Classification value to map has to a string"
+msgstr ""
+
+msgid "Click again to remove"
+msgstr "Smelltu aftur til að fjarlægja"
+
+msgid "Click to display interaction widget"
+msgstr "Smelltu til að sýna samskiptatækið"
+
+msgid "Click to remove"
+msgstr ""
+
+msgid "Collect open-ended information in a short text input (strings or numeric values)."
+msgstr "Safnaðu óloknum upplýsingum í stuttan texta (strengi eða tölugildi)."
+
+msgid "Collect open-ended information in one or more text area(s) (strings or numeric values)."
+msgstr "Safnaðu óloknum upplýsingum í eitt eða fleiri textasvæði (strengi eða tölugildi)."
+
+msgid "Colon"
+msgstr ""
+
+msgid "Color Picker"
+msgstr "Litaval"
+
+msgid "Column separator"
+msgstr ""
+
+msgid "Common Interactions"
+msgstr ""
+
+msgid "Compact Appearance"
+msgstr ""
+
+msgid "Configures the position of the choices relative to the target list."
+msgstr ""
+
+msgid "Congruent"
+msgstr ""
+
+msgid "Constraints"
+msgstr "Höft"
+
+msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
+msgstr "Stjórna spilunarbreytum (sjálfvirk byrjun, lykkja) á myndskeiðs- eða hljóðskrá og tilkynna hve oft hún hefur verið leikin. "
+
+msgid "Correct"
+msgstr "Rétt"
+
+msgid "correct"
+msgstr "rétt"
+
+msgid "Cosine"
+msgstr ""
+
+msgid "Cosinus"
+msgstr ""
+
+msgid "Create a single hottext from the selection"
+msgstr ""
+
+msgid "Create assocations and fill the score in the form below"
+msgstr "Búa til vensl og skrá skor á eyðublaðið fyrir neðan"
+
+msgid "Create association(s) between areas (hotspots) displayed on a picture."
+msgstr "Búa til vensl milli svæða (heitra reita) sem sjást á mynd."
+
+msgid "Create association(s) between two sets of choices displayed in a table (row and column)."
+msgstr "Búa til vensl mill tveggja valmengja sem sýnd eru í töflu (röð og dálkur)."
+
+msgid "Create gap"
+msgstr "Búa til bil"
+
+msgid "Create hottext"
+msgstr "Búa til hottext"
+
+msgid "Create multiple hottexts from the selection"
+msgstr ""
+
+msgid "Create pair(s) from a series of choices."
+msgstr "Búa til par/pör úr syrpum af valkostum."
+
+msgid "CSV content + metadata"
+msgstr ""
+
+msgid "Current value:"
+msgstr "Núverandi gildi:"
+
+msgid "Currently conversion from MathML to LaTeX is not available. Editing MathML here will have the LaTex code discarded."
+msgstr "Breyting úr MathML í LaTeX er ekki aðgengileg núna. Breytingar á MathML hér verða til þess að LaTex kóðanum verður hent."
+
+msgid "custom"
+msgstr ""
+
+msgid "Custom Interactions"
+msgstr ""
+
+msgid "Custom Response Processing Mode"
+msgstr "Úrvinnsluhamur fyrir staðlað svar"
+
+msgid "Dashed"
+msgstr ""
+
+msgid "Solid"
+msgstr ""
+
+msgid "Wavy"
+msgstr ""
+
+msgid "Default"
+msgstr "Sjálfgefið"
+
+msgid "default"
+msgstr "Sjálfgefið"
+
+msgid "Define constraints on the number of choices required to form a valid response. None: define no additional constraints. Answer required: require the test taker to select at least one choice. Other constraints: define custom minimum and/or maximum constraints (only available for multiple choices)"
+msgstr ""
+
+msgid "Define correct response"
+msgstr "Skilgreina rétt svar"
+
+msgid "Define correct response (for post-processing)"
+msgstr ""
+
+msgid "Define item language."
+msgstr ""
+
+msgid "define prompt"
+msgstr "skilgreina kvaðningu"
+
+msgid "Define the correct response."
+msgstr "Skilgreina rétt svar."
+
+msgid "Define the status of the translation."
+msgstr ""
+
+msgid "Define whether a choice must be selected by the candidate in order to form a valid response to the interaction."
+msgstr "Skilgreina hvort próftaki verði að velja valmöguleika til að gilt svar verði til við samverkuninni."
+
+msgid "Define whether the item should be time dependent on delivery."
+msgstr "Skilgreina hvort atriði eigi að vera bundið tíma við skil."
+
+msgid "Defined width"
+msgstr "Skilgreind breidd"
+
+msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
+msgstr ""
+
+msgid "Degrees"
+msgstr ""
+
+msgid "delay after"
+msgstr ""
+
+msgid "delay between"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "delete"
+msgstr "eyða"
+
+msgid "Delete else statement"
+msgstr "Eyða annars yrðingu"
+
+msgid "Delete this modal feedback"
+msgstr "Eyða þessari form endurgjöf"
+
+msgid "Delimiter"
+msgstr ""
+
+msgid "Delta"
+msgstr ""
+
+msgid "Description"
+msgstr "Lýsing"
+
+msgid "Direction of writing"
+msgstr ""
+
+msgid "Disable this stylesheet temporarily"
+msgstr "Aftengið þetta háttarblað tímabundið"
+
+msgid "Display"
+msgstr "Sýna/Skjár"
+
+msgid "Display media player"
+msgstr ""
+
+msgid "Display the choices either horizontally or vertically"
+msgstr ""
+
+msgid "Divide"
+msgstr ""
+
+msgid "Don't save"
+msgstr ""
+
+msgid "done"
+msgstr "lokið"
+
+msgid "Done"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Download sample csv file"
+msgstr ""
+
+msgid "Download this stylesheet"
+msgstr "Hlaða niður háttarblaði"
+
+msgid "Draw a circle on the image"
+msgstr "Teikna hring á myndina"
+
+msgid "Draw a free form on the image"
+msgstr "Teikna frjálsa lögun á myndina"
+
+msgid "Draw a rectangle on the image"
+msgstr "Teikna rétthyrning á myndina"
+
+msgid "Draw an ellipsis on the image"
+msgstr "Teikna úrfellingu á myndina"
+
+msgid "Drop the target to select a point"
+msgstr "Sleppa markmiði til að velja punkt"
+
+msgid "e.g. 13"
+msgstr "t.d. 13"
+
+msgid "e.g. 960"
+msgstr "t.d 960"
+
+msgid "Edit"
+msgstr ""
+
+msgid "edit choices"
+msgstr "breyta valkostum"
+
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgstr "Breyta stærðfræðitákni með LaTex stafakerfi, t.d. e^{i \\pi} = -1"
+
+msgid "Edit math expression using MathML"
+msgstr "Breyta stærðfræðitákni með MathML"
+
+msgid "Edit modal feedback"
+msgstr ""
+
+msgid "Edit modal feedback title"
+msgstr "Breyta titli á formlegri endurgjöf"
+
+msgid "Edit stylesheet label"
+msgstr "Breyta merki á háttarblaði"
+
+msgid "Editing Mode"
+msgstr "Breytihamur"
+
+msgid "Element Properties"
+msgstr "Eiginleikar þáttar"
+
+msgid "elements"
+msgstr "þættir"
+
+msgid "Eliminate"
+msgstr ""
+
+msgid "Enable Scrolling"
+msgstr ""
+
+msgid "Enable the test taker to pause and restart the playing."
+msgstr "Gera próftaka kleift að stöðva og hefja spilun aftur."
+
+msgid "Enable/disable scrolling."
+msgstr ""
+
+msgid "End Attempt"
+msgstr "Hætta tilraun"
+
+msgid "End Attempt Interaction"
+msgstr "Hætta samverkun tilraunar"
+
+msgid "Enlarge font size"
+msgstr "Stækka letur"
+
+msgid "Enter a select MIME-type"
+msgstr ""
+
+msgid "Enter choices…"
+msgstr ""
+
+msgid "Enter tooltip content"
+msgstr ""
+
+msgid "Enter tooltip target"
+msgstr ""
+
+msgid "Equals"
+msgstr ""
+
+msgid "error"
+msgstr ""
+
+msgid "Error in post rendering: %s"
+msgstr ""
+
+msgid "Error in template rendering: %s"
+msgstr ""
+
+msgid "Error on item %1$s : %2$s"
+msgstr ""
+
+msgid "Error on item %s"
+msgstr ""
+
+msgid "Error to export item %s: %s"
+msgstr ""
+
+msgid "Euler\'s constant"
+msgstr ""
+
+msgid "Exponent"
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "Export APIP 1.0 Package"
+msgstr "Flytja út APIP 1.0 pakka"
+
+msgid "Export failed for the item \"%s\": %s"
+msgstr ""
+
+msgid "Export metadata"
+msgstr ""
+
+msgid "Export metadata item"
+msgstr ""
+
+msgid "Export QTI 2.1 Package"
+msgstr "Flytja út QTI 2.1 pakka"
+
+msgid "Export QTI 2.2 Package"
+msgstr ""
+
+msgid "Export QTI 3.0 Package"
+msgstr ""
+
+msgid "Extended Text"
+msgstr "Ítarlegur Texti"
+
+msgid "Extended Text Interaction"
+msgstr "Ítarleg Texta Gagnvirkni"
+
+msgid "External Machine"
+msgstr ""
+
+msgid "External Scored"
+msgstr ""
+
+msgid "Fail to export item"
+msgstr ""
+
+msgid "Failed to publish %1$s in %2$s"
+msgstr ""
+
+msgid "Feedback"
+msgstr "Endurgjöf"
+
+msgid "Feedback Style"
+msgstr ""
+
+msgid "Field"
+msgstr ""
+
+msgid "File"
+msgstr "Skrá"
+
+msgid "File name"
+msgstr "Skráarheiti"
+
+msgid "File Upload"
+msgstr "Skrá Flutt inn"
+
+msgid "File Upload Interaction"
+msgstr "Skráarflutnings Samverkun"
+
+msgid "Fill in the gaps on a picture with a set of image choices."
+msgstr "Fylltu í eyðurnar á myndinni með valkvæðum myndum."
+
+msgid "float"
+msgstr ""
+
+msgid "Font family"
+msgstr "Leturfjölskylda"
+
+msgid "Font size"
+msgstr "Leturstærð"
+
+msgid "Format"
+msgstr "Snið"
+
+msgid "Fraction"
+msgstr ""
+
+msgid "Full height"
+msgstr ""
+
+msgid "Gap"
+msgstr "Bil"
+
+msgid "Gap Match"
+msgstr "Eyðutenging"
+
+msgid "Gap Match Interaction"
+msgstr "Eyðutenging með Samverkun"
+
+msgid "Graphic Associate Interaction"
+msgstr "Grafísk venslasamverkun"
+
+msgid "Graphic Gap Match Interaction"
+msgstr "Grafísk eyðutenging með gagnvirkni"
+
+msgid "Graphic Interactions"
+msgstr ""
+
+msgid "Graphic Order Interaction"
+msgstr "Grafísk röðunargagnvirkni"
+
+msgid "Greater than or equal"
+msgstr ""
+
+msgid "Group toolbar items"
+msgstr ""
+
+msgid "Guard for resource \"%s\"..."
+msgstr ""
+
+msgid "Half height"
+msgstr ""
+
+msgid "Height"
+msgstr "Hæð"
+
+msgid "Here you can provide scoring aspects for manual scoring/marking, e.g. CONTENT, GRAMMAR, SPELLING"
+msgstr ""
+
+msgid "Horizontal"
+msgstr ""
+
+msgid "Horizontal text"
+msgstr ""
+
+msgid "Hotspot"
+msgstr "Heitur reitur"
+
+msgid "Hotspot Interaction"
+msgstr "Gagnvirkni heits reits"
+
+msgid "Hottext"
+msgstr "Hottext"
+
+msgid "Hottext Interaction"
+msgstr "Hottext Gagnvirkni"
+
+msgid "How the math expression should be displayed."
+msgstr "Hvernig á að sýna stærðfræðitáknið."
+
+msgid "How the math expression should be edited"
+msgstr "Hvernig á að breyta stærðfræðitákninu."
+
+msgid "Human"
+msgstr ""
+
+msgid "identical pair already exists"
+msgstr "eins par er þegar til"
+
+msgid "identifier"
+msgstr "aðgreinir"
+
+msgid "Identifier"
+msgstr "Aðgreinir"
+
+msgid "identifier already taken"
+msgstr ""
+
+msgid "If checked, editor toolbar will be limited to one row and further items will appear in a dropdown menu."
+msgstr ""
+
+msgid "If given, the pattern mask specifies a regular expression that the candidate's response must match in order to be considered valid"
+msgstr "Ef gefið upp, tilgreinir mynstursían hefðbundna framsetningu sem svar próftaka verður að máta við til að teljast gilt "
+
+msgid "If pattern mask does not match match value provided, this message will be shown."
+msgstr ""
+
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" of \"fixed\" individually."
+msgstr ""
+
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
+msgstr ""
+
+msgid "If the string interaction is bound to a numeric response variable then the base attribute must be used to set the number base in which to interpret the value entered by the candidate."
+msgstr "Ef strengsgagnvirkni er bundin tölulegri svarbreytu þá verður að nota grunneiginleikann tl að ákvarða tölugrunninn sem notaður er ti lað túlka gildið sem próftaki setur inn."
+
+msgid "If the variable value is a float and powerForm is set to 'false', the variable will be rendered using the 'e' or 'E' format. If the powerform is set to 'true', the form 'e+n' is changed to 'x 10n'."
+msgstr ""
+
+msgid "If this box is checked the student will be able to eliminate choices."
+msgstr ""
+
+msgid "Image caption"
+msgstr ""
+
+msgid "Image caption not enabled when position is set to inline"
+msgstr ""
+
+msgid "Import"
+msgstr "Flytja inn"
+
+msgid "Import a QTI/APIP Content Package"
+msgstr ""
+
+msgid "Import a QTI/APIP XML Item Document"
+msgstr ""
+
+msgid "Import item content and metadata from CSV file. Only choice interactions are supported."
+msgstr ""
+
+msgid "Import QTI ITEM into \"%s"
+msgstr ""
+
+msgid "IMS QTI Item referenced as \"%s\" cannot be imported."
+msgstr ""
+
+msgid "IMS QTI Item referenced as \"%s\" contains a portable element and cannot be imported."
+msgstr ""
+
+msgid "IMS QTI Item referenced as \"%s\" in the IMS Manifest file could not be imported."
+msgstr ""
+
+msgid "In progress"
+msgstr ""
+
+msgid "In Progress"
+msgstr ""
+
+msgid "In seconds. Delay during which the replay of the media is allowed. Once reached, the media is disabled and cannot be played anymore."
+msgstr ""
+
+msgid "In visual environments, string interactions are typically represented by empty boxes into which the candidate writes or types.  Delivery engines should use the value of this attribute (if provided) instead of their default placeholder text when this is required."
+msgstr "Í sjónrænu umhverfi, er gagnvirkni strengja yfirleitt táknum með tómum kössum sem próftaki skrifar í. Próftökutæki ættu að nota gildi þessa einkennis (ef það er gefið) í stað sjálfgefins texta þeirra þegar þessa er krafist."
+
+msgid "incorrect"
+msgstr "rangt"
+
+msgid "Index"
+msgstr ""
+
+msgid "Indicates that the audio forms part of a sequence with other sequential interactions. The advancing of the sequence is handled by the delivery engine. Delays are also respected."
+msgstr ""
+
+msgid "Infinity"
+msgstr ""
+
+msgid "inline"
+msgstr "innfellt"
+
+msgid "Inline Choice"
+msgstr "Innfelldur valkostur"
+
+msgid "Inline Choice Interaction"
+msgstr "Innfelld Valkostagagnvirkni"
+
+msgid "Inline Interactions"
+msgstr ""
+
+msgid "Inline interactions need to be inserted into a text block."
+msgstr "Innfellda gagnvirkni þarf að setja inn í textabálk."
+
+msgid "integer"
+msgstr ""
+
+msgid "Interaction Background"
+msgstr "Bakgrunnur gagnvirkni"
+
+msgid "Interaction Properties"
+msgstr "Eiginleikar Gagnvirkni"
+
+msgid "Interpretation"
+msgstr ""
+
+msgid "Invalid identifier"
+msgstr ""
+
+msgid "Invalid Outcome Declaration"
+msgstr ""
+
+msgid "invalid QTI XML"
+msgstr ""
+
+msgid "Invalid response identifier"
+msgstr ""
+
+msgid "Invalid URL"
+msgstr ""
+
+msgid "Invalid value in correct response property."
+msgstr ""
+
+msgid "Invalid value, should be an integer number."
+msgstr ""
+
+msgid "Invalid value, use %s %s for decimal point."
+msgstr ""
+
+msgid "is null"
+msgstr ""
+
+msgid "Is this choice the correct response?"
+msgstr "Er þessi valkostur rétta svarið?"
+
+msgid "Is this pair the correct response?"
+msgstr "Er þetta par rétta svarið?"
+
+msgid "It is intended only for post-processing and will not influence the actual score computation."
+msgstr ""
+
+msgid "It seems that there is an error during item loading. The error has been reported. The test will be paused."
+msgstr ""
+
+msgid "Item \"%s\" cannot be exported: %s"
+msgstr ""
+
+msgid "Item \"%s\" has no xml document"
+msgstr ""
+
+msgid "Item \"%s\" is not available in any language"
+msgstr ""
+
+msgid "Item \"%s\" is ready to be exported"
+msgstr ""
+
+msgid "Item cannot be saved."
+msgstr ""
+
+msgid "Item metadata successfully exported."
+msgstr ""
+
+msgid "Item metadata with identifier \"%s\" is not valid: "
+msgstr ""
+
+msgid "Item properties"
+msgstr "Eiginleikar atriðis"
+
+msgid "Item Properties"
+msgstr "Eiginleikar Atriðis"
+
+msgid "Item width"
+msgstr "Breidd atriðis"
+
+#, tao-public
+msgid "Items"
+msgstr "Atriði"
+
+msgid "Label"
+msgstr "Merki"
+
+msgid "Language"
+msgstr ""
+
+msgid "Large editor"
+msgstr ""
+
+msgid "LaTeX"
+msgstr ""
+
+msgid "Latex"
+msgstr "Latex"
+
+msgid "Layout"
+msgstr ""
+
+msgid "Left"
+msgstr "Vinstri"
+
+msgid "left"
+msgstr "vinstri"
+
+msgid "Left bracket"
+msgstr ""
+
+msgid "Left parenthesis"
+msgstr ""
+
+msgid "Length"
+msgstr "Lengd"
+
+msgid "Less than or equal"
+msgstr ""
+
+msgid "Level"
+msgstr ""
+
+msgid "Line"
+msgstr ""
+
+msgid "Line Segment"
+msgstr ""
+
+msgid "Lines"
+msgstr "Línur"
+
+msgid "List Style"
+msgstr "Listastíll"
+
+msgid "Ln"
+msgstr ""
+
+msgid "Log"
+msgstr ""
+
+msgid "Long interpretation"
+msgstr ""
+
+msgid "Loop"
+msgstr "Lykkja"
+
+msgid "Lower Bound"
+msgstr "Neðri mörk"
+
+msgid "Lower bound is bigger than upper bound."
+msgstr ""
+
+msgid "Lower than or equal"
+msgstr ""
+
+msgid "Malformed XML[%s]:\n"
+"%s"
+msgstr ""
+
+msgid "Manage Items"
+msgstr "Vinna með Atriði"
+
+#, tao-public
+msgid "Manage items"
+msgstr "Vinna með atriði"
+
+msgid "map response"
+msgstr ""
+
+msgid "Mapping default"
+msgstr "Sjálfgefin vörpun"
+
+msgid "Mapping Indicator"
+msgstr ""
+
+msgid "Match"
+msgstr "Passar við"
+
+msgid "match correct"
+msgstr ""
+
+msgid "Match Interaction"
+msgstr "Gagnvirkni samsvörunar"
+
+msgid "MathJax is not installed."
+msgstr "MathJax er ekki sett upp."
+
+msgid "MathML"
+msgstr "MathML"
+
+msgid "Max"
+msgstr "Hámark"
+
+msgid "Max length"
+msgstr "Hámarks lengd"
+
+msgid "Max Length"
+msgstr "Hámarks Lengd"
+
+msgid "Max plays count"
+msgstr ""
+
+msgid "Max words"
+msgstr "Hámarksfjöldi orða"
+
+msgid "Max Words"
+msgstr "Hámarksfjöldi Orða"
+
+msgid "Max. number of matches"
+msgstr "Hámarksfjöldi tenginga"
+
+msgid "Maximal score for this interaction."
+msgstr "Hámarksskor fyrir þessa samverkun."
+
+msgid "maximum"
+msgstr "hámark"
+
+msgid "Maximum choices reached"
+msgstr "Hámarksfjölda valkosta náð"
+
+msgid "Maximum number of choices reached."
+msgstr "Hámarksfjölda valkosta náð."
+
+msgid "Media"
+msgstr "Miðlar"
+
+msgid "Media file path or YouTube video address"
+msgstr "Skráarslóð miðla eða netslóð YouTube"
+
+msgid "Media Interaction"
+msgstr "Samverkun við miðla"
+
+msgid "Metadata export requires an instance of core_kernel_classes_Resource to extract metadata"
+msgstr ""
+
+msgid "Metadata export requires an instance of DomManifest to inject metadata"
+msgstr ""
+
+msgid "Metadata import requires an instance of core_kernel_classes_Resource to inject metadata"
+msgstr ""
+
+msgid "Metadata import requires an instance of DomManifest to extract metadata"
+msgstr ""
+
+msgid "Metadata service successfully registered."
+msgstr ""
+
+msgid "MIME-type"
+msgstr "MIME tegund"
+
+msgid "Min"
+msgstr "Lágmark"
+
+msgid "Minimal  score for this interaction."
+msgstr "Lágmarks skor fyrir þessa samverkun."
+
+msgid "Modal feedback is shown to the candidate directly following response processing."
+msgstr "Formsendurgjöf er sýnd próftaka beint eftir að unnið hefur verið úr svari."
+
+msgid "Modal Feedback Prop."
+msgstr "Tákn fyrir Formsendurgjöf."
+
+msgid "modal feedback title"
+msgstr ""
+
+msgid "Modal Feedbacks"
+msgstr "Formsendurgjafir"
+
+msgid "Multiple choices"
+msgstr ""
+
+msgid "Multiply"
+msgstr ""
+
+msgid "negative"
+msgstr ""
+
+#, tao-public
+msgid "New item"
+msgstr "Nýtt atriði"
+
+msgid "No"
+msgstr "Nei"
+
+msgid "no configuration property needed"
+msgstr "engin þörf á formeiginleika"
+
+msgid "No file selected"
+msgstr "Engin skrá valin"
+
+msgid "no item content"
+msgstr ""
+
+msgid "No Items could be imported from the given IMS QTI package."
+msgstr "Ekki var hægt að flytja nein atriði úr gefnum IMS QTI pakka."
+
+msgid "No preview available"
+msgstr ""
+
+msgid "No uploaded file"
+msgstr ""
+
+msgid "No value set"
+msgstr "Ekkert gildi sett"
+
+msgid "None"
+msgstr "Ekkert"
+
+msgid "none"
+msgstr ""
+
+msgid "None defined yet."
+msgstr "Ekkert skilgreint enn."
+
+msgid "not a QTI item"
+msgstr ""
+
+msgid "Number of associations"
+msgstr "Fjöldi vensla"
+
+msgid "of"
+msgstr "af"
+
+msgid "OK"
+msgstr ""
+
+msgid "one association pair"
+msgstr "eitt venslapar"
+
+msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
+msgstr ""
+
+msgid "Order"
+msgstr "Röð"
+
+msgid "Order Interaction"
+msgstr "Röðunar Samverkun"
+
+msgid "Order single list"
+msgstr ""
+
+msgid "order single list"
+msgstr ""
+
+msgid "Order the areas (hotspots) displayed on a picture."
+msgstr "Raðaðu svæðunum (heitreitum) sem sýnd eru á myndinni."
+
+msgid "Orientation"
+msgstr ""
+
+msgid "Other constraints"
+msgstr ""
+
+msgid "Outcome Declarations"
+msgstr ""
+
+msgid "Pair scoring"
+msgstr "Paraskorun"
+
+msgid "Parallel"
+msgstr ""
+
+msgid "Pattern"
+msgstr "Mynstur"
+
+msgid "Pattern violation message"
+msgstr ""
+
+msgid "Pause"
+msgstr "Hlé"
+
+msgid "Perpendicular"
+msgstr ""
+
+msgid "Pi"
+msgstr ""
+
+msgid "Placeholder Text"
+msgstr ""
+
+msgid "Plain text"
+msgstr "Venjulegur texti"
+
+msgid "Play audio several times in a row. Delay between plays can be set if needed."
+msgstr ""
+
+msgid "Please add one or more gaps to the text in question mode."
+msgstr ""
+
+msgid "Please create areas that correspond to the response and associate them a score. You can also position the target to the exact point as the correct response."
+msgstr ""
+
+msgid "Please define association pairs and their scores below."
+msgstr "Skilgreina venslapör og skor þeirra fyrir neðan."
+
+msgid "Please define the correct association pairs below."
+msgstr "Skilgreina rétt venslapör fyrir neðan."
+
+msgid "Please define the correct order in the box to the right."
+msgstr "Skilgreina rétta röð í kassanum til hægri."
+
+msgid "Please define the correct order."
+msgstr ""
+
+msgid "Please define the correct response and the score below."
+msgstr "Skilgreina rétt svar og skor fyrir neðan."
+
+msgid "Please define the correct response below."
+msgstr "Skilgreina rétt svar fyrir neðan."
+
+msgid "Please define the correct response using the slider."
+msgstr "Skilgreina rétt svar með því að nota sleðann."
+
+msgid "Please enter the score for the given hottexts."
+msgstr "Skrá skor fyrir gefna hottexta."
+
+msgid "Please fill the gap with the correct choices below."
+msgstr "Fylltu í eyðuna með réttu vali fyrir neðan."
+
+msgid "Please fill the gap with the correct choices."
+msgstr "Fylltu í eyðuna með réttum valkostum."
+
+msgid "Please fill the gap with the images below, then edit the score for each gap/image pair."
+msgstr "Fylltu í eyðuna með myndunum að neðan, breyttu síðan skorinu fyrir hverja eyðu/hvert myndapar."
+
+msgid "Please fill the gap with the texts below, then edit the score for each pair."
+msgstr "Fylltu í eyðuna með textunum að neðan, breyttu síðan skorinu fyrir hvert par."
+
+msgid "Please order the choices below to set the correct answer"
+msgstr "Raðaðu valkostunum fyrir neðan til að fá rétt svar"
+
+msgid "Please select a background picture for your interaction from the resource manager. You can add new files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr "Veldu miðilsskrá (myndskeið eða hljóðskrá) úr forðastjóranum. Þú gætur bætt við skrám úr tölvunni þinni með hnappnum \"Bæta við skrá(m)\"."
+
+msgid "Please select a media file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please select a shared stimulus file from the resource manager."
+msgstr "Veldu samnýtta hvataskrá úr forðastjóranum."
+
+msgid "Please select the correct hotspot choices below."
+msgstr "Veldu réttan heitra reita valkost fyrir neðan. "
+
+msgid "Please select the correct hottext choices below."
+msgstr "Veldu rétta heittexta valkosti fyrir neðan."
+
+msgid "Please set the correct associations by linking the choices."
+msgstr "Veltu rétt vensl með því að tengja valkostina."
+
+msgid "Please the score of each hotspot choice."
+msgstr "...skorið af hverjum heitreits valkosti."
+
+msgid "Please type the correct response below."
+msgstr "Skrifaðu rétt svar fyrir neðan."
+
+msgid "Please type the correct response in the box below."
+msgstr "Ritaðu rétt svar í reitinn fyrir neðan."
+
+msgid "Plus/minus"
+msgstr ""
+
+msgid "Portable element model %s not found. Required extension might be missing"
+msgstr ""
+
+msgid "Position one or more points on a picture (response areas are not displayed)."
+msgstr "Staðsetja einn eða fleiri punkta á mynd (svarsvæði eru ekki sýnd)."
+
+msgid "positive"
+msgstr ""
+
+msgid "Power form"
+msgstr ""
+
+msgid "Pre-formatted text"
+msgstr "Forsniðinn texti"
+
+msgid "Preparing CSS, please wait…"
+msgstr "Undirbý CSS, gerðu svo vel að bíða..."
+
+msgid "Preparing Metadata Values for target \"%s\"..."
+msgstr ""
+
+msgid "Preview"
+msgstr "Forsýning"
+
+msgid "Preview the item"
+msgstr ""
+
+msgid "Print"
+msgstr "Prenta"
+
+msgid "Print the item"
+msgstr ""
+
+msgid "Printed Variable"
+msgstr ""
+
+msgid "Properties"
+msgstr ""
+
+msgid "PropertyUri to map has to a valid uri"
+msgstr ""
+
+msgid "Provides a hint to the candidate as to the expected number of lines of input required. A line is expected to have about 72 characters."
+msgstr "Gefur próftaka vísbendingu hvað varðar fjölda lína sem þörf er á í svari. Lína á að hafa um 72 stafbil."
+
+msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters."
+msgstr "Gefur próftaka vísbendingu hvað varðar heildarlengd svars sem vænst er mælt í stafafjölda."
+
+msgid "Provides a hint to the candidate as to the expected overall length of the desired response measured in number of characters. This is not a validity constraint."
+msgstr ""
+
+msgid "Published %s"
+msgstr ""
+
+msgid "QTI Item Runner"
+msgstr ""
+
+msgid "QTI Metadata"
+msgstr ""
+
+msgid "QTI metadata as properties"
+msgstr ""
+
+msgid "QTI Package 2.1"
+msgstr "QTI Pakki 2.1"
+
+msgid "QTI Package 2.2"
+msgstr ""
+
+msgid "QTI Package 3.0"
+msgstr ""
+
+msgid "QTI-XML error at line %1$d \"%2$s\"."
+msgstr ""
+
+msgid "QTI/APIP Content Package"
+msgstr ""
+
+msgid "QTI/APIP XML Item Document"
+msgstr ""
+
+msgid "Question"
+msgstr "Spurning"
+
+msgid "Ray"
+msgstr ""
+
+msgid "Recommendations"
+msgstr "Ráðleggingar"
+
+msgid "recommended"
+msgstr "mælt með"
+
+msgid "Reduce font size"
+msgstr "Minnkið leturstærð"
+
+msgid "Register method expects $key and $name parameters"
+msgstr ""
+
+msgid "Register method expects $key and $name parameters."
+msgstr ""
+
+msgid "remove"
+msgstr "fjarlægja"
+
+msgid "Remove"
+msgstr "Fjarlægja"
+
+msgid "Remove custom background color"
+msgstr "Fjarlægja umbeðinn bakgrunnslit"
+
+msgid "Remove custom border color"
+msgstr "Fjarlægja umbeðinn jaðarlit"
+
+msgid "Remove custom font family"
+msgstr "Fjarlægja umbeðna leturfjölskyldu"
+
+msgid "Remove custom font size"
+msgstr "Fjarlægja umbeðna leturstærð"
+
+msgid "Remove custom item width"
+msgstr "Fjarlægja umbeðna atriðisbreidd"
+
+msgid "Remove custom text color"
+msgstr "Fjarlægja umbeðinn lit á texta"
+
+msgid "Remove Instructions"
+msgstr ""
+
+msgid "Remove Message"
+msgstr "Fjarlægja skeyti"
+
+msgid "Remove pair"
+msgstr "Fjarlægja par"
+
+msgid "Remove the selected shape"
+msgstr "Fjarlægja valið form"
+
+msgid "Remove this stylesheet"
+msgstr "Fjarlægja þetta háttarblað"
+
+msgid "Removes all instruction messages generated by the system from the interface."
+msgstr ""
+
+msgid "repeats"
+msgstr ""
+
+msgid "Replay timeout"
+msgstr ""
+
+msgid "required"
+msgstr "nauðsynlegt"
+
+msgid "Resource "
+msgstr ""
+
+msgid "Resource(s) successfully exported."
+msgstr ""
+
+msgid "Response"
+msgstr "Svar"
+
+msgid "Response [\"%s\"] is bigger than the upper bound value \"%s\"."
+msgstr ""
+
+msgid "Response [\"%s\"] is lower than the lower bound value \"%s\"."
+msgstr ""
+
+msgid "Response [\"%s\"] should be the only possible value \"%s\"."
+msgstr ""
+
+msgid "Response base type"
+msgstr ""
+
+msgid "Response identifier"
+msgstr "Svarsheiti"
+
+msgid "Response processing"
+msgstr "Úrvinnsla svars"
+
+msgid "Response Properties"
+msgstr "Eigindir Svars"
+
+msgid "Rich text"
+msgstr ""
+
+msgid "Rich text + math"
+msgstr ""
+
+msgid "Right"
+msgstr ""
+
+msgid "right"
+msgstr "hægri"
+
+msgid "Right bracket"
+msgstr ""
+
+msgid "Right parenthesis"
+msgstr ""
+
+msgid "Rollback on..."
+msgstr "Draga til baka á..."
+
+msgid "Save"
+msgstr "Vista"
+
+msgid "Save the item"
+msgstr ""
+
+msgid "Scale size"
+msgstr ""
+
+msgid "Score"
+msgstr "Stig"
+
+msgid "score"
+msgstr "stig"
+
+msgid "Score range"
+msgstr "Stigabil"
+
+msgid "Score value"
+msgstr "Stigagildi"
+
+msgid "Scrollable multi-column"
+msgstr ""
+
+msgid "sec"
+msgstr ""
+
+msgid "seconds"
+msgstr ""
+
+msgid "Select"
+msgstr ""
+
+msgid "select a choice"
+msgstr "veldu valkost"
+
+msgid "Select a choice from a drop-down list."
+msgstr "Veldu valkost úr lista í felliglugga."
+
+msgid "Select a left"
+msgstr ""
+
+msgid "Select a response identifier from the list."
+msgstr "Veldu valkostskenni úr listanum."
+
+msgid "Select a right"
+msgstr ""
+
+msgid "Select a single (radio buttons) or multiple (check boxes) responses among a set of choices."
+msgstr "Veldu eitt (útvarpshnappar) eða mörg (krossareitir) svör úr valkostunum."
+
+msgid "Select a value within a numerical range."
+msgstr "Veldu gildi innan talnabils."
+
+msgid "Select an image first"
+msgstr "Veldu fyrst mynd"
+
+msgid "Select an image first."
+msgstr "Veldu fyrst mynd."
+
+msgid "select correct choice"
+msgstr "veldu réttan valkost"
+
+msgid "Select height of block based off container height"
+msgstr ""
+
+msgid "Select height of passage base of container height"
+msgstr ""
+
+msgid "Select height of text block base of container height"
+msgstr ""
+
+msgid "Select width of block based on container width"
+msgstr ""
+
+msgid "Select if you want the outcome declaration to be processed by an external system or human scorer. This is typically the case for items asking candidates to write an essay."
+msgstr ""
+
+msgid "Select image"
+msgstr "Veldu mynd"
+
+msgid "Select line to remove"
+msgstr ""
+
+msgid "Select media file"
+msgstr "Veldu miðlaskrá"
+
+msgid "Select object"
+msgstr ""
+
+msgid "Select one or more areas (hotspots) displayed on an picture."
+msgstr "Veldu eitt eða fleiri svæði (heitreiti) sem sjást á mynd."
+
+msgid "Select one or more text parts (hottext) within a text."
+msgstr "Veldu einn eða fleiri textabúta (heittexta) innan texta."
+
+msgid "Select Point"
+msgstr "Veldu Punkt"
+
+msgid "Select Point Interaction"
+msgstr "Veldu Samverkun Punkts"
+
+msgid "Select predefined feedback style from the list."
+msgstr ""
+
+msgid "Select shared stimulus"
+msgstr "Veldu samnýttan hvata"
+
+msgid "Select the area to add an image"
+msgstr "Veldu svæði til að bæta við mynd"
+
+msgid "Select the expected input value type that will define the way the response of your interaction will be processed."
+msgstr ""
+
+msgid "Select the outcome variable you want to display."
+msgstr ""
+
+msgid "Select the way the response of your interaction should be processed"
+msgstr "Veldu hvernig á að meðhöndla svar við samvirkni þinni"
+
+msgid "Select this area"
+msgstr "Veldu þetta svæði"
+
+msgid "Select this area to finish an association"
+msgstr ""
+
+msgid "Select this area to start an association"
+msgstr "Veldu þetta svæði til að hefja vensl"
+
+msgid "Sequential"
+msgstr ""
+
+msgid "Set a CSS class name in order to customize the display style."
+msgstr ""
+
+msgid "Set the media player UI to Compact mode, displaying only the play button icon, hiding all other controls such as volume, seek bar."
+msgstr ""
+
+msgid "Set the score for this response"
+msgstr "Ákveða skor fyrir þetta svar"
+
+msgid "Shape position"
+msgstr "Staðsetning forms"
+
+msgid "Shuffle choices"
+msgstr "Rugla röð valkosta"
+
+msgid "Similar"
+msgstr ""
+
+msgid "Sine"
+msgstr ""
+
+msgid "Single choice"
+msgstr ""
+
+msgid "Sinus"
+msgstr ""
+
+msgid "Size and position"
+msgstr "Stærð og staðsetning"
+
+msgid "Slider"
+msgstr "Sleði"
+
+msgid "Slider Interaction"
+msgstr "Stiku víxlverkun"
+
+msgid "Some feedback text."
+msgstr ""
+
+msgid "some text ..."
+msgstr "einhver texti ..."
+
+msgid "Something went wrong while destroying an interaction: %s"
+msgstr ""
+
+msgid "Sort from source to target list"
+msgstr ""
+
+msgid "sort from source to target list"
+msgstr ""
+
+msgid "Square root"
+msgstr ""
+
+msgid "standard"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Step"
+msgstr "Þrep"
+
+msgid "string"
+msgstr ""
+
+msgid "Style Editor"
+msgstr "Háttarritill"
+
+msgid "Style Sheet <b>%s</b> removed<br> Click <i>Add Style Sheet</i> to re-apply."
+msgstr "Háttarblað <b>%s</b> fjarlægt<br> Smella <i>Bæta við Háttarblaði</i> til að sækja um aftur."
+
+msgid "Style Sheet Manager"
+msgstr "Stjórn Háttarblaðs"
+
+msgid "Success"
+msgstr ""
+
+msgid "Successfully compiled \"%s"
+msgstr ""
+
+msgid "Successfully created item \"%s"
+msgstr ""
+
+msgid "Switches the interaction's direction of writing between horizontal and vertical."
+msgstr ""
+
+msgid "Switches the text block's direction of writing between horizontal and vertical."
+msgstr ""
+
+msgid "Switches the whole item's direction of writing between horizontal and vertical."
+msgstr ""
+
+msgid "Table headings"
+msgstr "Fyrirsögn töflu"
+
+msgid "Tangent"
+msgstr ""
+
+msgid "TAO default styles"
+msgstr "TAO sjálfgefnir hættir"
+
+msgid "Target class is missing the following metadata properties: %s"
+msgstr ""
+
+msgid "Target Class Lookup for resource \"%s\"..."
+msgstr ""
+
+msgid "Text Block"
+msgstr "Textablokk"
+
+msgid "Text Block CSS Class"
+msgstr ""
+
+msgid "Text Block Properties"
+msgstr "Eigindir Textablokkar"
+
+msgid "Text color"
+msgstr "Textalitur"
+
+msgid "Text Entry"
+msgstr "Textafærsla"
+
+msgid "Text Entry Interaction"
+msgstr "Samverkun Textafærslu"
+
+msgid "The autostart attribute determines if the media object should begin as soon as the candidate starts the attempt (checked) or if the media object should be started under the control of the candidate (unchecked)."
+msgstr "Sjálfræsieiginleikinn ákvarðar hvort miðlatækið eigi að byrja um leið og próftakinn hefur próftökuna (merkt) eða hvort miðlatækin eigi að ræsa af próftakanum (ómerkt)."
+
+msgid "The button label."
+msgstr "Hnappaskýring."
+
+msgid "The default value from the target set to be used when no explicit mapping for a source value is given."
+msgstr "Sjálfgefið gildi úr markmiðsmengi sem nota á þegar ekkert ákveðið grunngildi er gefið."
+
+msgid "The delimiter to use between values when displaying variables of ordered, multiple or record cardinality. \";\" is default when delimiter is not declared. Implementations can override this default with personal preferences or locale settings."
+msgstr ""
+
+msgid "The field specifier to use when displaying variables of record cardinality."
+msgstr ""
+
+msgid "The file path to the image."
+msgstr "Skráaslóð að myndinni."
+
+msgid "The file path to the object."
+msgstr ""
+
+msgid "The file path to the shared stimulus."
+msgstr "Skráarslóð til sameiginlegs hvata."
+
+msgid "The format conversion specifier to use when converting numerical values to strings. See QTI Number Formatting Rules for details."
+msgstr ""
+
+msgid "The given target is not an instance of core_kernel_classes_Resource"
+msgstr ""
+
+msgid "The highlighted choice cannot be associated more than %d time(s)."
+msgstr "Upplýsti valkosturinn getur ekki tengst oftar en %d skipti."
+
+msgid "The identifier of the choice. This identifier must not be used by any other choice or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "Heiti valkostsins. Heitið má ekki nota með neinum öðrum valkosti eða atriðisbreytu. Heiti er strengur tákna sem verður að byrja með Bókstaf eða undirstriki (\"_\") og aðeins mega vera Bókstafir, undirstrik, bandstrik (\"-\"), punktur (\".\"), Tölustarfir, TengiStafir og Lengingar."
+
+msgid "The identifier of the choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "Heiti valkostsins. Heitið má ekki nota með neinu öðru svari eða atriðisbreytu. Heiti er strengur tákna sem verður að byrja með Bókstaf eða undirstriki (\"_\") og aðeins mega vera Bókstafir, undirstrik, bandstrik (\"-\"), punktur (\".\"), Tölustarfir, TengiStafir og Lengingar."
+
+msgid "The identifier of the modal feedback. This identifier must not be used by any other modal feedback or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "Heiti háttarendurgjafar. Þetta heiti má ekki nota af neinni annarri háttarendurgjöf eða atriðisbreytu. Heiti er strengur tákna sem verður að byrja á Bókstaf eða undirstriki (\"_\") og má aðeins innihalda Bókstafi, undirstrik, bilstrik (\"-\"), punkt (\".\"), Tölur, TengiTákn og Framhaldstákn."
+
+msgid "The identifier of the response identifier. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "Heitið á heiti svarsins. Þetta heiti má ekki nota af neinu öðru svari eða atriðisbreytu. Heiti er strengur tákna sem verður að byrja á Bókstaf eða undirstriki (\"_\") og má aðeins innihalda Bókstafi, undirstrik, bilstrik (\"-\"), punkt (\".\"), Tölur, TengiTákn og Framhaldstákn."
+
+msgid "The IMS QTI Item could not be imported."
+msgstr "Ekki var hægt að flytja inn IMS QTI Atriðið."
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file failed:  %s"
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file has incorrect Response Processing and outcomeDeclaration definitions."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file should have been found the Item Bank. Item not found."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was already stored in the Item Bank."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully imported."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest file was successfully overwritten."
+msgstr ""
+
+msgid "The IMS QTI Item referenced as \"%s\" in the IMS Manifest was successfully rolled back."
+msgstr ""
+
+msgid "The IMS QTI Item was successfully imported."
+msgstr ""
+
+msgid "The index to use when displaying a variable of ordered cardinality. If a variable of ordered cardinality is to be displayed and index is not set, all the values in the container are displayed."
+msgstr ""
+
+msgid "The item cannot be saved because it contains an unsupported custom interaction."
+msgstr ""
+
+msgid "The item has not been saved!"
+msgstr ""
+
+msgid "The item has unsaved changes, are you sure you want to leave ?"
+msgstr ""
+
+msgid "The item has unsaved changes, would you like to save it ?"
+msgstr ""
+
+msgid "The item needs to be saved before it can be previewed"
+msgstr "Atriðið þarf að vista áður en hægt er að forskoða það"
+
+msgid "The item of the qti item. It is currently used as a meta data only. It is required by the QTI standard."
+msgstr "Atriðið af qti atriðinu. Það er nú notað sem skýringagagn. QTI staðallinn krefst þess."
+
+msgid "The left position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr "Vinstri staða reitsins í samanburði við efra vinstra horn bakgrunnsins í pixlum. Gildið má skala þegar stærð bakgrunnsmyndarinnar er löguð að svæðinu."
+
+msgid "The loop attribute is used to set continuous play mode. In continuous play mode, once the media object has started to play it should play continuously (subject to maxPlays)."
+msgstr "Lykkjueiginleikinn er notaður til að stilla á samfella spilun. Í samfelldri spilun á miðillinn að spila stöðugt eftir að hann byrjar (takmarkast af maxPlays)."
+
+msgid "The lower bound of the slider"
+msgstr "Neðri mörk rennistyku"
+
+msgid "The manifest argument must be an instance of DOMDocument."
+msgstr "Röksemd í heildarskrá verður að vera tilvik í DOMDocument."
+
+msgid "The mapping indicator to use between field name and field value when displaying variables of record cardinality. \"=\" is default when mappingIndicator is not declared. Implementations can override this default with personal preferences or locale settings."
+msgstr ""
+
+msgid "The mapping options are available when at least one map entry is defined."
+msgstr ""
+
+msgid "The maximum number of association is unlimited."
+msgstr "Heildarfjöldi vensla er ótakmarkaður."
+
+msgid "The maximum number of associations that the candidate is allowed to make."
+msgstr "Hámarksfjöldi vensla sem próftaki má búa til."
+
+msgid "The maximum number of choices that the candidate is allowed to select."
+msgstr "Hámarksfjöldi valkosta sem próftaki má velja."
+
+msgid "The maximum number of choices this choice may be associated with."
+msgstr "Hámarksfjöldi valkosta sem vensla má þennan valkost við."
+
+msgid "The maximum number of choices this choice may be associated with. If matchMax is 0 there is no restriction."
+msgstr "Hámarksfjöldi valkosta sem geta tengst þessum valkosti. Ef matchMax er 0 eru engin mörk."
+
+msgid "The maxPlays attribute indicates that the media object can be played at most maxPlays times - it must not be possible for the candidate to play the media object more than maxPlay times. A value of 0 (the default) indicates that there is no limit."
+msgstr "maxPlays eiginleikinn gefur til kynna að hægt sé að leika miðlunarefnið í mesta lagi maxPlays sinnum - próftakinn má ekki geta leikið miðlunarefnið oftar en maxPalay sinnum. Gildi 0 (sjálfgefið) gefur til kynna að engin mörk séu."
+
+msgid "The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score."
+msgstr ""
+
+msgid "The MIME-type attribute describes which kind of file may be uploaded."
+msgstr "MIME-háttar eiginleikinn lýsir því hvers konar skrá er hægt að hlaða upp."
+
+msgid "The minimum number of answers is "
+msgstr "Lágmarksfjöldi svara er"
+
+msgid "The minimum number of associations that the candidate is required to make to form a valid response."
+msgstr "Lágmarksfjöldi vensla sem próftaka ber að finna svo að úr verði gilt svar."
+
+msgid "The minimum number of choices that the candidate is required to select to form a valid response."
+msgstr "Lágmarksfjöldi valkosta sem próftaki verður að velja svo að úr verði gilt svar."
+
+msgid "The minimum number of choices this choice must be associated with to form a valid response."
+msgstr "Lágmarksfjöldi valkosta sem þessi valkostur verður að venslast við svo að úr verði gilt svar."
+
+msgid "The number base to use when converting integer variables to strings with the i conversion type code."
+msgstr ""
+
+msgid "The number of units corresponding to a step on the slider"
+msgstr "Fjöldi eininga á við þrep á rennistikunni"
+
+msgid "The path argument for extractor must be a non-empty array."
+msgstr ""
+
+msgid "The principle identifier of the item. This identifier must have a corresponding entry in the item's metadata."
+msgstr "Aðalheiti atriðisins. Þetta heiti verður að eiga sér samsvarandi skráningu í aðalskrá atriðisins."
+
+msgid "The purpose for which the rubric is intended to be used. As a reading passage for multiple items, or instructions for a particular section, for example."
+msgstr "Tilgangurinn fyrir notkun fyrirmælanna. Sem leskafli fyrir mörg atriði, eða leiðbeiningar fyrir ákveðinn hluta, til dæmis."
+
+msgid "The QTI class \"%1$s\" located at line \"%2$d\" is currently not supported."
+msgstr "QTI flokkurinn \"%1$s\" í línu \"%2$d\" er ekki studdur núna."
+
+msgid "The Response Processing Template \"%s\" is not supported."
+msgstr ""
+
+msgid "The score format is not numeric"
+msgstr ""
+
+msgid "The scrollable multi-column layout configuration is optimized for items with a single row of content only. Both columns will scroll independently and fit the available page height."
+msgstr ""
+
+msgid "The selected file is ready to be sent."
+msgstr "Valin skrá er tilbúin til sendingar."
+
+msgid "The shape height in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr "Hæð formsins er í pixlum. Gildið má kvarða þegar stærð bakgrunnsmyndarinnar er aðhæfð svæði sínu."
+
+msgid "The shape width in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr "Breidd forms í pixlum. Gildir má kvarða þegar stærð bakgrunnsmyndar er aðhæfð svæði sínu."
+
+msgid "The target must be an instance of DOMDocument"
+msgstr "Markmiðið verður að vera tilfelli í DOMDocument"
+
+msgid "The text to be displayed below the image."
+msgstr ""
+
+msgid "The text to be displayed if the image is not available."
+msgstr "Textinn sem á að birta ef myndin er ekki tiltæk."
+
+msgid "The top position of the shape relative to the top left corner of the background in pixels. This value may be scaled when the background image size is adapted to it's container"
+msgstr "Efsta staða formsins í samanburði við efsta hornið vinstra megin á bakgrunninum í pixlum. Þetta gildi má kvarða þegar stærð bakgrunnsmyndarinnar er aðhæfð svæði sínu "
+
+msgid "The upper bound of the slider"
+msgstr "Efri mörk sleðans"
+
+msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
+msgstr ""
+
+msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
+msgstr "Ekki er hægt að draga út ZIP skjalasafnið með IMS QTI Atriðinu."
+
+msgid "The ZIP archive does not contain an imsmanifest.xml file or is an invalid ZIP archive."
+msgstr "Í ZIP skjalasafninu er ekki imsmanifest.xml skrá eða þetta er ógilt ZIP skjalasafn."
+
+msgid "There are errors in the following shared stimulus : "
+msgstr ""
+
+msgid "There is an incomplete element in your item: please click on it to complete it."
+msgstr "Eitthvað vantar í atriðið þitt: smelltu á það til að ljúka við það."
+
+msgid "There was a problem downloading your CSS, please try again."
+msgstr "Vandamál kom upp við að hlaða niður CSS þínu, reyndu aftur."
+
+msgid "Theta"
+msgstr ""
+
+msgid "This identifier is already used by another variable."
+msgstr ""
+
+msgid "This identifier must not be used by any other response or item variable."
+msgstr ""
+
+msgid "This interaction has no text defined in question mode."
+msgstr ""
+
+msgid "This is not a valid answer"
+msgstr "Þetta er ekki gilt svar"
+
+msgid "This is not a valid value. Expected %s"
+msgstr ""
+
+msgid "This is required"
+msgstr ""
+
+msgid "This shows or hides the entire audio player from view. Test takers will not be able to play, pause, or change the volume level."
+msgstr ""
+
+msgid "This stylesheet has not been found on the server. you may want to delete this reference"
+msgstr "Háttarblaðið hefur ekki fundist á þjóninum, þú ættir að eyða þessari tilvísun"
+
+msgid "This value does not follow scoring traits guidelines. It won't be compatible with TAO Manual Scoring"
+msgstr ""
+
+msgid "Time dependent"
+msgstr "Tímabundið"
+
+msgid "Title"
+msgstr "Titill"
+
+msgid "to"
+msgstr ""
+
+msgid "Toggles the display of a vertical separator between columns."
+msgstr ""
+
+msgid "Tooltip Content"
+msgstr ""
+
+msgid "Tooltip editor"
+msgstr ""
+
+msgid "Tooltip Target"
+msgstr ""
+
+msgid "Top"
+msgstr "Efst"
+
+msgid "Translation completed"
+msgstr ""
+
+msgid "Triangle"
+msgstr ""
+
+msgid "Trigger the end of the item attempt."
+msgstr "Gefur til kynna lok tilraunar."
+
+msgid "Unable to load item from the given data."
+msgstr ""
+
+msgid "Unable to process your request"
+msgstr ""
+
+msgid "Unable to retrieve asset \"%s"
+msgstr ""
+
+msgid "Unable to retrieve item : "
+msgstr ""
+
+msgid "Unable to retrieve item : \"%s"
+msgstr ""
+
+msgid "Unable to validate %s: %s"
+msgstr ""
+
+msgid "Undo"
+msgstr "Afturkalla"
+
+msgid "undo"
+msgstr "afturkalla"
+
+msgid "Unknown $key to register MetadataService instance"
+msgstr ""
+
+msgid "Unregister method expects $key and $name parameters."
+msgstr ""
+
+msgid "Upload a file (e.g. document, picture...) as a response."
+msgstr "Hlaða upp skrá (t.d. textaskrá, mynd...) sem svari."
+
+msgid "Upper Bound"
+msgstr "Efri Mörk"
+
+msgid "Use this if you want the list of choices to be prefixed (e.g. 1,2,3 a,b,c)"
+msgstr "Notaðu þetta ef þú vilt að listi yfir valkosti sé nefndur (t.d. 1,2,3 a,b,c)"
+
+msgid "Used to control the format of the text entered by the candidate."
+msgstr "Notað til að stjórna sniði textans sem próftaki setur inn."
+
+msgid "Value"
+msgstr ""
+
+msgid "Vector"
+msgstr ""
+
+msgid "Vertical"
+msgstr ""
+
+msgid "Vertical text"
+msgstr ""
+
+msgid "warning"
+msgstr ""
+
+msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
+msgstr "Við notum patternMask til að gera þetta, svo að það sé í samræmi við IMS staðalinn"
+
+msgid "Width"
+msgstr "Breidd"
+
+msgid "words"
+msgstr "orð"
+
+msgid "Would you like to replace the alt text"
+msgstr "Viltu skipta út breyttum texta"
+
+msgid "WYSIWYG editor"
+msgstr ""
+
+msgid "XML error \"%1$s\"."
+msgstr ""
+
+msgid "XML error at line %1$d \"%2$s\"."
+msgstr ""
+
+msgid "Yes"
+msgstr "Já"
+
+msgid "You can select maximum %d choice"
+msgstr ""
+
+msgid "You can select maximum %d choices"
+msgstr ""
+
+msgid "You can select up to %s choices."
+msgstr ""
+
+msgid "You can use maximum %d choices"
+msgstr ""
+
+msgid "You have deleted"
+msgstr "Þú hefur eytt"
+
+msgid "You have deleted an element"
+msgstr "Þú hefur eytt grunnþætti"
+
+msgid "You have deleted an element."
+msgstr "Þú hefur eytt grunnþætti."
+
+msgid "You may make as many association pairs as you want."
+msgstr "Þú mátt búa til eins mörg venslapör og þú vilt."
+
+msgid "You must select %1$d to %2$d choices."
+msgstr "Þú verður að velja %1$d til %2$d valkosti."
+
+msgid "You must select 0 to %d choices."
+msgstr "Þú verður að velja 0 til %d valkosti."
+
+msgid "You must select at least %d choice"
+msgstr ""
+
+msgid "You must select at least %d choices"
+msgstr ""
+
+msgid "You must select exactly %d choice"
+msgstr ""
+
+msgid "You must select exactly %d choice(s)."
+msgstr "Þú verður að velja nákvæmlega %d valkost(i)."
+
+msgid "You must select exactly %d choices"
+msgstr ""
+
+msgid "You must use at least %d choices"
+msgstr ""
+
+msgid "You need to make"
+msgstr "Þú þarft að taka"
+
+msgid "You need to select %s choices"
+msgstr ""
+
+msgid "You need to select at least %s choices."
+msgstr ""
+
+msgid "You need to select at least 1 choice."
+msgstr ""
+
+msgid "You need to select from %s to %s choices."
+msgstr ""
+
+msgid "Your item has been saved"
+msgstr "Atriðið  þitt hefur verið vistað"
