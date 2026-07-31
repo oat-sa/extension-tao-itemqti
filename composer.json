@@ -64,12 +64,12 @@
         "ext-simplexml": "*",
         "naneau/semver": "~0.0.7",
         "oat-sa/extension-tao-backoffice": ">=7.1.0",
-        "oat-sa/extension-tao-item": ">=13.1.0",
+        "oat-sa/extension-tao-item": "dev-feat/EP-693/content-bank-event-logs as 99.99",
         "oat-sa/extension-tao-test": ">=16.3.0",
         "oat-sa/generis": ">=17.0.0",
         "oat-sa/lib-tao-qti": "^7.8.1",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
-        "oat-sa/tao-core": ">=56.7.0"
+        "oat-sa/tao-core": "dev-feat/EP-693/content-bank-event-logs as 99.99"
     },
     "autoload": {
         "psr-4": {
