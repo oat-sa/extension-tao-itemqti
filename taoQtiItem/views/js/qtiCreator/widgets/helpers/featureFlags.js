@@ -11,21 +11,43 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
- * Copyright (c) 2025 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2025-2026 (original work) Open Assessment Technologies SA;
  */
 
-define(['services/features'], function(features) {
+define(['context', 'services/features'], function (context, features) {
     'use strict';
 
+    const MULTI_FIELD_SCORING_FLAG = 'FEATURE_FLAG_MULTI_FIELD_SCORING';
+    const MULTI_FIELD_SCORING_VISIBILITY =
+        'taoQtiItem/creator/interaction/textEntry/property/multiFieldScoring';
+
     return {
+        MULTI_FIELD_SCORING_FLAG,
+        MULTI_FIELD_SCORING_VISIBILITY,
+
         /**
          * Check if compact appearance feature is available
          * @returns {boolean} true if compact appearance feature is enabled
          */
-        isCompactAppearanceAvailable: function() {
+        isCompactAppearanceAvailable: function () {
             return features.isVisible('taoQtiItem/creator/interaction/media/property/compactAppearance');
+        },
+
+        /**
+         * Multi-field scoring authoring UI (UMFI evaluation + dichotomous/polytomous
+         * scoring model). Disabled unless FEATURE_FLAG_MULTI_FIELD_SCORING is enabled.
+         *
+         * @returns {boolean}
+         */
+        isMultiFieldScoringAvailable: function () {
+            if (context.featureFlags && context.featureFlags[MULTI_FIELD_SCORING_FLAG] === true) {
+                return true;
+            }
+
+            // Optional visibility override; defaults to hidden when the env flag is off.
+            return features.isVisible(MULTI_FIELD_SCORING_VISIBILITY, false);
         }
     };
 });

@@ -25,10 +25,12 @@
 define([
     'jquery',
     'i18n',
+    'core/request',
+    'util/url',
     'core/plugin',
     'ui/hider',
     'tpl!taoQtiItem/qtiCreator/plugins/button'
-], function($, __, pluginFactory, hider, buttonTpl){
+], function($, __, request, urlUtil, pluginFactory, hider, buttonTpl){
     'use strict';
 
     /**
@@ -69,6 +71,25 @@ define([
                 cssClass: 'print-trigger'
             })).on('click', function printHandler(e){
                 e.preventDefault();
+                const itemUri = itemCreator?.getConfig()?.properties?.uri || null;
+
+                if (itemUri) {
+                    try {
+                        request({
+                            url: urlUtil.route('logFrontendAction', 'Log', 'tao'),
+                            method: 'POST',
+                            data: {
+                                action: 'itemPrintAttempt',
+                                resourceUri: itemUri
+                            }
+                        }).catch(function () {
+                            return null;
+                        });
+                    } catch (e) {
+                        // keep print flow non-blocking even if logging request setup fails
+                    }
+                }
+
                 window.print();
             });
 
