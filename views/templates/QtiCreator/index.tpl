@@ -14,12 +14,26 @@ use oat\tao\helpers\Template;
 
         <ul class="menu action-group plain item-editor-menu"></ul>
 
-        <ul class="menu-right action-group plain item-editor-menu">
-            <li id="appearance-trigger" class="btn-info small rgt">
+        <ul class="menu-right action-group plain item-editor-menu" id="item-editor-item-mode-tabs" role="tablist">
+            <li role="tab" data-tab="style" class="btn-info small" aria-selected="false"
+                title="<?= __('Style Editor') ?>" aria-label="<?= __('Style Editor') ?>">
                 <span class="li-inner">
-                    <span class="icon-item"></span>
-                    <span class="icon-style"></span>
-                    <span class="menu-label" data-item="<?= __('Item properties') ?>" data-style="<?= __('Style Editor') ?>"><?= __('Style Editor') ?></span>
+                    <span class="icon-style" aria-hidden="true"></span>
+                    <span class="tab-label menu-label"><?= __('Style Editor') ?></span>
+                </span>
+            </li>
+            <li role="tab" data-tab="properties" class="btn-info small active" aria-selected="true"
+                title="<?= __('Properties') ?>" aria-label="<?= __('Properties') ?>">
+                <span class="li-inner">
+                    <span class="icon-settings" aria-hidden="true"></span>
+                    <span class="tab-label menu-label"><?= __('Properties') ?></span>
+                </span>
+            </li>
+            <li role="tab" data-tab="comments" class="btn-info small" aria-selected="false"
+                data-label="<?= __('Comments') ?>" title="<?= __('Comments') ?>" aria-label="<?= __('Comments') ?>">
+                <span class="li-inner">
+                    <span class="icon-speech-bubble" aria-hidden="true"></span>
+                    <span class="tab-label menu-label"><?= __('Comments') ?></span>
                 </span>
             </li>
         </ul>

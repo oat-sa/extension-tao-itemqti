@@ -1,0 +1,270 @@
+/* Style | Properties | Comments — active fills remaining width; inactive = icon only.
+ * Classic (non-solar) action-bar is blue: keep tabs on that chrome.
+ * Solar keeps light grey chips.
+ */
+#item-editor-scope > nav.action-bar .menu-right#item-editor-item-mode-tabs {
+    padding: 0 !important;
+    background: transparent !important;
+}
+
+#item-editor-item-mode-tabs {
+    display: flex !important;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    max-width: 100%;
+    list-style: none;
+    box-sizing: border-box;
+    overflow: hidden;
+    background: transparent !important;
+
+    > [role='tab'] {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        float: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        text-align: center !important;
+        /* inactive: fixed icon-only width */
+        flex: 0 0 32px !important;
+        width: 32px !important;
+        min-width: 32px !important;
+        max-width: 32px !important;
+        height: 100%;
+        cursor: pointer;
+        box-sizing: border-box;
+        overflow: hidden;
+        /* classic blue action-bar */
+        background: transparent !important;
+        color: var(--action-bar-color, #e7eff4) !important;
+        border: 1px solid transparent !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.25) !important;
+        border-radius: 0 !important;
+        -webkit-border-radius: 0 !important;
+        box-shadow: none !important;
+        opacity: 0.92;
+
+        .li-inner {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            min-width: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-align: center !important;
+            float: none !important;
+            color: inherit !important;
+        }
+
+        [class^='icon-'],
+        [class*=' icon-'] {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            float: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            line-height: 1 !important;
+            position: static !important;
+            top: auto !important;
+            left: auto !important;
+            right: auto !important;
+            color: inherit !important;
+
+            &::before {
+                margin: 0 !important;
+                float: none !important;
+                position: static !important;
+                line-height: 1 !important;
+                color: inherit !important;
+            }
+        }
+
+        .tab-label {
+            display: none !important;
+            color: inherit !important;
+        }
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.12) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            opacity: 1;
+            color: var(--action-bar-hover-color, #ffffff) !important;
+        }
+
+        &:last-child {
+            border-right-color: transparent !important;
+        }
+
+        &.active,
+        &[aria-selected='true'] {
+            /* active: take all leftover space in .menu-right */
+            flex: 1 1 auto !important;
+            width: auto !important;
+            min-width: 0 !important;
+            max-width: none !important;
+            background: rgba(255, 255, 255, 0.18) !important;
+            border: 1px solid rgba(255, 255, 255, 0.35) !important;
+            color: var(--action-bar-active-color, #ffffff) !important;
+            text-align: left !important;
+            opacity: 1;
+
+            .li-inner {
+                justify-content: flex-start !important;
+                padding: 0 8px !important;
+                text-align: left !important;
+            }
+
+            .tab-label {
+                display: inline !important;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+}
+
+/* Solar Design: light chips on light chrome */
+body.solar-design #item-editor-item-mode-tabs {
+    > [role='tab'] {
+        background: #ececec !important;
+        color: #333 !important;
+        border: 0 !important;
+        border-right: 1px solid #b0b0b0 !important;
+        opacity: 1;
+
+        &:hover {
+            background: #e2e2e2 !important;
+            border-color: #b0b0b0 !important;
+            color: #222 !important;
+        }
+
+        &:last-child {
+            border-right: 0 !important;
+        }
+
+        &.active,
+        &[aria-selected='true'] {
+            background: #c8ccd0 !important;
+            border: 0 !important;
+            border-right: 1px solid #9aa0a6 !important;
+            color: #222 !important;
+        }
+    }
+}
+
+#item-editor-item-comments-bar {
+    padding: 0;
+
+    .comments-guidance {
+        margin: 8px 10px;
+        font-size: 12px;
+        color: #666;
+    }
+
+    .item-comments-content-panel {
+        padding: 0;
+        min-height: 280px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+.item-comments-panel {
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+    max-height: calc(100vh - 220px);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.item-comments-list {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 120px;
+    margin-bottom: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.item-comment {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 8px 12px;
+    background: #ffffff;
+    border: 0;
+    border-bottom: 1px solid #e5e5e5;
+    color: #333;
+
+    .item-comment-meta {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 4px;
+    }
+
+    .item-comment-author {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .item-comment-body {
+        white-space: pre-wrap;
+        word-break: break-word;
+        color: #333;
+    }
+}
+
+.item-comments-empty,
+.item-comments-error {
+    font-size: 13px;
+    margin: 8px 10px;
+}
+
+.item-comments-error {
+    color: #a94442;
+}
+
+.item-comments-entry {
+    flex: 0 0 auto;
+    border-top: 1px solid #e5e5e5;
+    padding: 8px 10px 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.item-comments-reminder {
+    font-size: 11px;
+    color: #666;
+    margin: 0 0 8px;
+}
+
+.item-comments-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+
+.item-comments-input {
+    width: 100%;
+    min-height: 72px;
+    resize: vertical;
+    margin-bottom: 8px;
+}
+
+.item-comments-submit {
+    float: right;
+}

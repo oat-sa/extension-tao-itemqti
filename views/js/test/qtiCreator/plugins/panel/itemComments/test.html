@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>itemComments plugin</title>
+        <script type="text/javascript" src="/tao/views/js/lib/require.js"></script>
+        <script type="text/javascript" src="/tao/views/js/loader/bootstrap.js" data-config="config.json"></script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture">
+            <ul class="menu-right action-group plain item-editor-menu" id="item-editor-item-mode-tabs" role="tablist">
+                <li role="tab" data-tab="style">
+                    <span class="li-inner">
+                        <span class="icon-style"></span>
+                        <span class="tab-label menu-label">Style Editor</span>
+                    </span>
+                </li>
+                <li role="tab" data-tab="properties" class="active" aria-selected="true">
+                    <span class="li-inner">
+                        <span class="icon-settings"></span>
+                        <span class="tab-label menu-label">Properties</span>
+                    </span>
+                </li>
+                <li role="tab" data-tab="comments" data-label="Comments">
+                    <span class="li-inner">
+                        <span class="icon-speech-bubble"></span>
+                        <span class="tab-label menu-label">Comments</span>
+                    </span>
+                </li>
+            </ul>
+            <div id="item-style-editor-bar" data-mode-panel="style" hidden></div>
+            <div id="item-editor-item-property-bar" data-mode-panel="properties">
+                <section id="sidebar-right-item-properties">
+                    <div class="panel"></div>
+                </section>
+            </div>
+            <div id="item-editor-item-comments-bar" data-mode-panel="comments" hidden>
+                <section id="sidebar-right-item-comments">
+                    <div class="item-comments-content-panel panel"></div>
+                </section>
+            </div>
+            <div id="item-editor-panel"></div>
+        </div>
+    </body>
+</html>
