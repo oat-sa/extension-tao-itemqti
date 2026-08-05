@@ -184,6 +184,12 @@ img.dragging.ui-draggable-dragging {
     }
 }
 
+#appearance-trigger {
+    .icon-item {
+        display:none;
+    }
+}
+
 #item-editor-widget-bar {
     display: none;
 }
@@ -211,9 +217,6 @@ img.dragging.ui-draggable-dragging {
         .menu-right {
             @include simple-flex-box(195px);
             border-left: 1px solid $uiGeneralContentBorder;
-            max-width: 195px;
-            overflow: hidden;
-            box-sizing: border-box;
         }
         .menu {
             @include simple-flex-box(auto);

@@ -76,7 +76,6 @@ define([
             propertyPanel: $('#item-editor-item-widget-bar', $container),
             itemPanel: $('#item-editor-scroll-inner', $container),
             itemPropertyPanel: $('#sidebar-right-item-properties', $container),
-            itemCommentsPanel: $('#item-editor-item-comments-bar', $container),
             itemStylePanel: $('#item-style-editor-bar', $container),
             modalContainer: $('#modal-container', $container),
             elementPropertyPanel: $('#item-editor-body-element-property-bar .panel', $container)

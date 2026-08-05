@@ -1,6 +1,10 @@
-/* Style | Properties | Comments — active fills remaining width; inactive = icon only */
+/* Style | Properties | Comments — active fills remaining width; inactive = icon only.
+ * Classic (non-solar) action-bar is blue: keep tabs on that chrome.
+ * Solar keeps light grey chips.
+ */
 #item-editor-scope > nav.action-bar .menu-right#item-editor-item-mode-tabs {
     padding: 0 !important;
+    background: transparent !important;
 }
 
 #item-editor-item-mode-tabs {
@@ -15,7 +19,7 @@
     list-style: none;
     box-sizing: border-box;
     overflow: hidden;
-    background: transparent;
+    background: transparent !important;
 
     > [role='tab'] {
         display: flex !important;
@@ -34,12 +38,15 @@
         cursor: pointer;
         box-sizing: border-box;
         overflow: hidden;
-        background: #ececec !important;
-        border: 0 !important;
-        border-right: 1px solid #b0b0b0 !important;
+        /* classic blue action-bar */
+        background: transparent !important;
+        color: var(--action-bar-color, #e7eff4) !important;
+        border: 1px solid transparent !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.25) !important;
         border-radius: 0 !important;
         -webkit-border-radius: 0 !important;
         box-shadow: none !important;
+        opacity: 0.92;
 
         .li-inner {
             display: flex !important;
@@ -55,6 +62,7 @@
             overflow: hidden;
             text-align: center !important;
             float: none !important;
+            color: inherit !important;
         }
 
         [class^='icon-'],
@@ -70,25 +78,31 @@
             top: auto !important;
             left: auto !important;
             right: auto !important;
+            color: inherit !important;
 
             &::before {
                 margin: 0 !important;
                 float: none !important;
                 position: static !important;
                 line-height: 1 !important;
+                color: inherit !important;
             }
         }
 
         .tab-label {
             display: none !important;
+            color: inherit !important;
         }
 
         &:hover {
-            background: #e2e2e2 !important;
+            background: rgba(255, 255, 255, 0.12) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            opacity: 1;
+            color: var(--action-bar-hover-color, #ffffff) !important;
         }
 
         &:last-child {
-            border-right: 0 !important;
+            border-right-color: transparent !important;
         }
 
         &.active,
@@ -98,9 +112,11 @@
             width: auto !important;
             min-width: 0 !important;
             max-width: none !important;
-            background: #c8ccd0 !important;
-            border-right-color: #9aa0a6 !important;
+            background: rgba(255, 255, 255, 0.18) !important;
+            border: 1px solid rgba(255, 255, 255, 0.35) !important;
+            color: var(--action-bar-active-color, #ffffff) !important;
             text-align: left !important;
+            opacity: 1;
 
             .li-inner {
                 justify-content: flex-start !important;
@@ -117,8 +133,37 @@
     }
 }
 
+/* Solar Design: light chips on light chrome */
+body.solar-design #item-editor-item-mode-tabs {
+    > [role='tab'] {
+        background: #ececec !important;
+        color: #333 !important;
+        border: 0 !important;
+        border-right: 1px solid #b0b0b0 !important;
+        opacity: 1;
+
+        &:hover {
+            background: #e2e2e2 !important;
+            border-color: #b0b0b0 !important;
+            color: #222 !important;
+        }
+
+        &:last-child {
+            border-right: 0 !important;
+        }
+
+        &.active,
+        &[aria-selected='true'] {
+            background: #c8ccd0 !important;
+            border: 0 !important;
+            border-right: 1px solid #9aa0a6 !important;
+            color: #222 !important;
+        }
+    }
+}
+
 #item-editor-item-comments-bar {
-    padding: 0 0 10px;
+    padding: 0;
 
     .comments-guidance {
         margin: 8px 10px;
@@ -127,8 +172,10 @@
     }
 
     .item-comments-content-panel {
-        padding: 0 10px;
+        padding: 0;
         min-height: 280px;
+        width: 100%;
+        box-sizing: border-box;
     }
 }
 
@@ -137,6 +184,8 @@
     flex-direction: column;
     min-height: 280px;
     max-height: calc(100vh - 220px);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .item-comments-list {
@@ -144,11 +193,20 @@
     overflow-y: auto;
     min-height: 120px;
     margin-bottom: 8px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .item-comment {
-    padding: 8px 0;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 8px 12px;
+    background: #ffffff;
+    border: 0;
     border-bottom: 1px solid #e5e5e5;
+    color: #333;
 
     .item-comment-meta {
         font-size: 12px;
@@ -164,13 +222,14 @@
     .item-comment-body {
         white-space: pre-wrap;
         word-break: break-word;
+        color: #333;
     }
 }
 
 .item-comments-empty,
 .item-comments-error {
     font-size: 13px;
-    margin: 8px 0;
+    margin: 8px 10px;
 }
 
 .item-comments-error {
@@ -180,7 +239,9 @@
 .item-comments-entry {
     flex: 0 0 auto;
     border-top: 1px solid #e5e5e5;
-    padding-top: 8px;
+    padding: 8px 10px 10px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .item-comments-reminder {

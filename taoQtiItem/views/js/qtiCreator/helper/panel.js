@@ -37,15 +37,6 @@ define([
         }
     };
 
-    /**
-     * Item-level sidebar mode: style | properties | comments.
-     * Assigned inside initFormVisibilityListener once DOM refs exist.
-     * @param {string} mode
-     */
-    var setItemSidebarMode = function(mode){
-        return mode;
-    };
-
     var initFormVisibilityListener = function(){
 
         //first of all, clear all listener
@@ -65,10 +56,6 @@ define([
             infoControl : 'Student Tool'
         };
 
-        var MODE_STYLE = 'style',
-            MODE_PROPERTIES = 'properties',
-            MODE_COMMENTS = 'comments';
-
         // all sections on the right sidebar are invisible by default
         var $formInteractionPanel = $('#item-editor-interaction-property-bar'),
             $formChoicePanel = $('#item-editor-choice-property-bar'),
@@ -78,60 +65,64 @@ define([
             $formTextBlockPanel = $('#item-editor-text-property-bar'),
             $formModalFeedbackPanel = $('#item-editor-modal-feedback-property-bar'),
             $formStylePanel = $('#item-style-editor-bar'),
-            $formCommentsPanel = $('#item-editor-item-comments-bar'),
-            $modeTabs = $('#item-editor-item-mode-tabs'),
-            currentItemMode = MODE_PROPERTIES;
+            $appearanceToggler = $('#appearance-trigger'),
+            $menuLabel = $appearanceToggler.find('.menu-label'),
+            $itemIcon = $appearanceToggler.find('.icon-item'),
+            $styleIcon = $appearanceToggler.find('.icon-style');
 
-        /**
-         * Switch item-level right sidebar mode. Style keeps inner accordion sections.
-         * Mode tabs live in the top action-bar menu-right.
-         * @param {string} mode
-         */
-        setItemSidebarMode = function(mode){
-            if(mode !== MODE_STYLE && mode !== MODE_PROPERTIES && mode !== MODE_COMMENTS){
-                return currentItemMode;
-            }
+        var _toggleAppearanceEditor = function(active){
 
-            currentItemMode = mode;
+            if(active){
 
-            $modeTabs.find('[role="tab"]').each(function(){
-                var $tab = $(this),
-                    selected = $tab.data('tab') === mode;
-                $tab.attr('aria-selected', selected ? 'true' : 'false');
-                $tab.toggleClass('active', selected);
-            });
+                $appearanceToggler.addClass('active');
+                $formStylePanel.show();
+                $formItemPanel.hide();
 
-            if(mode === MODE_STYLE){
-                $formItemPanel.hide().prop('hidden', true);
-                $formCommentsPanel.hide().prop('hidden', true);
-                $formStylePanel.show().prop('hidden', false);
+                //current widget sleep:
                 $itemContainer.trigger('styleedit');
+
+                /* At the time of writing this the following sections are available:
+                 *
+                 * #sidebar-left-section-text
+                 * #sidebar-left-section-block-interactions
+                 * #sidebar-left-section-inline-interactions
+                 * #sidebar-left-section-graphic-interactions
+                 * #sidebar-left-section-media
+                 * #sidebar-right-css-manager
+                 * #sidebar-right-style-editor
+                 * #sidebar-right-item-properties
+                 * #sidebar-right-body-element-properties
+                 * #sidebar-right-text-block-properties
+                 * #sidebar-right-interaction-properties
+                 * #sidebar-right-choice-properties
+                 * #sidebar-right-response-properties
+                 */
                 showPanel($formStylePanel);
+                $menuLabel.text($menuLabel.data('item'));
+                $itemIcon.show();
+                $styleIcon.hide();
             }else{
-                $formStylePanel.hide().prop('hidden', true);
-
-                if(mode === MODE_COMMENTS){
-                    $formItemPanel.hide().prop('hidden', true);
-                    $formCommentsPanel.show().prop('hidden', false);
-                }else{
-                    $formCommentsPanel.hide().prop('hidden', true);
-                    $formItemPanel.show().prop('hidden', false);
-                    showPanel($formItemPanel);
-                }
+                $appearanceToggler.removeClass('active');
+                $formStylePanel.hide();
+                showPanel($formItemPanel);
+                $menuLabel.text($menuLabel.data('style'));
+                $itemIcon.hide();
+                $styleIcon.show();
             }
-
-            $(document).trigger('itemsidebarmodechange.qti-creator', [mode]);
-            return currentItemMode;
         };
 
-        $modeTabs.off('click.panel').on('click.panel', '[role="tab"]', function(e){
-            e.preventDefault();
-            setItemSidebarMode($(this).data('tab'));
+        $appearanceToggler.on('click', function(){
+
+            if($appearanceToggler.hasClass('active')){
+                _toggleAppearanceEditor(false);
+            }else{
+                _toggleAppearanceEditor(true);
+            }
         });
 
         //@todo : fix this timeout event
         _.delay(function(){
-            setItemSidebarMode(MODE_PROPERTIES);
+            showPanel($formItemPanel);
         }, 200);
 
         $(document).on('afterStateInit.qti-widget.panel', function(e, element, state){
@@ -139,11 +130,9 @@ define([
             switch(state.name){
                 case 'active':
 
-                    setItemSidebarMode(MODE_PROPERTIES);
+                    _toggleAppearanceEditor(false);
                     if(!Element.isA(element, 'assessmentItem')){
                         $formItemPanel.hide();
-                        $formCommentsPanel.hide().prop('hidden', true);
-                        $formStylePanel.hide().prop('hidden', true);
                     }
 
                     var label = _staticElements[element.qtiClass];
@@ -163,24 +152,15 @@ define([
                 case 'question':
 
                     showPanel($formInteractionPanel);
-                    $formItemPanel.hide();
-                    $formCommentsPanel.hide().prop('hidden', true);
-                    $formStylePanel.hide().prop('hidden', true);
                     break;
 
                 case 'answer':
 
                     showPanel($formResponsePanel);
-                    $formItemPanel.hide();
-                    $formCommentsPanel.hide().prop('hidden', true);
-                    $formStylePanel.hide().prop('hidden', true);
                     break;
 
                 case 'choice':
                     showPanel($formChoicePanel, $formInteractionPanel);
-                    $formItemPanel.hide();
-                    $formCommentsPanel.hide().prop('hidden', true);
-                    $formStylePanel.hide().prop('hidden', true);
                     break;
 
                 case 'sleep':
@@ -193,9 +173,7 @@ define([
 
                     if(!Element.isA(element, 'choice')){
                         if(!$itemContainer.find('.widget-box.edit-active').length){
-                            setItemSidebarMode(
-                                currentItemMode === MODE_STYLE ? MODE_PROPERTIES : currentItemMode
-                            );
+                            showPanel($formItemPanel);
                         }
                     }
                     break;
@@ -397,9 +375,6 @@ define([
 
     return {
         initFormVisibilityListener : initFormVisibilityListener,
-        setItemSidebarMode : function(mode){
-            return setItemSidebarMode(mode);
-        },
         showPanel : showPanel,
         toggleInlineInteractionGroup : toggleInlineInteractionGroup,
         initSidebarAccordion : initSidebarAccordion,

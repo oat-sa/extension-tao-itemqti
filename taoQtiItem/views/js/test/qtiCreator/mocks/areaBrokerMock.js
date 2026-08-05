@@ -47,7 +47,6 @@ define([
         'contentCreatorPanel',
         'propertyPanel',
         'itemPropertyPanel',
-        'itemCommentsPanel',
         'itemStylePanel',
         'modalContainer',
         'elementPropertyPanel'
