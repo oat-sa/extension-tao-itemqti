@@ -83,6 +83,19 @@ define([
             currentItemMode = MODE_PROPERTIES;
 
         /**
+         * Element-scoped property bars (interaction/choice/…) must not leak into
+         * item-level Style / Comments modes.
+         */
+        var hideElementPropertyPanels = function(){
+            $formInteractionPanel.hide();
+            $formChoicePanel.hide();
+            $formResponsePanel.hide();
+            $formBodyElementPanel.hide();
+            $formTextBlockPanel.hide();
+            $formModalFeedbackPanel.hide();
+        };
+
+        /**
          * Switch item-level right sidebar mode. Style keeps inner accordion sections.
          * Mode tabs live in the top action-bar menu-right.
          * @param {string} mode
@@ -102,19 +115,35 @@ define([
             });
 
             if(mode === MODE_STYLE){
+                hideElementPropertyPanels();
                 $formItemPanel.hide().prop('hidden', true);
                 $formCommentsPanel.hide().prop('hidden', true);
                 $formStylePanel.show().prop('hidden', false);
                 $itemContainer.trigger('styleedit');
                 showPanel($formStylePanel);
+            }else if(mode === MODE_COMMENTS){
+                hideElementPropertyPanels();
+                $formStylePanel.hide().prop('hidden', true);
+                $formItemPanel.hide().prop('hidden', true);
+                $formCommentsPanel.show().prop('hidden', false);
+                showPanel($formCommentsPanel);
             }else{
                 $formStylePanel.hide().prop('hidden', true);
+                $formCommentsPanel.hide().prop('hidden', true);
 
-                if(mode === MODE_COMMENTS){
+                // Restore element-scoped bar when a widget is still being edited;
+                // otherwise show item-level properties.
+                if($itemContainer.find('.edit-question').length){
                     $formItemPanel.hide().prop('hidden', true);
-                    $formCommentsPanel.show().prop('hidden', false);
+                    showPanel($formInteractionPanel);
+                }else if($itemContainer.find('.edit-choice').length){
+                    $formItemPanel.hide().prop('hidden', true);
+                    showPanel($formChoicePanel, $formInteractionPanel);
+                }else if($itemContainer.find('.edit-answer').length){
+                    $formItemPanel.hide().prop('hidden', true);
+                    showPanel($formResponsePanel);
                 }else{
-                    $formCommentsPanel.hide().prop('hidden', true);
+                    hideElementPropertyPanels();
                     $formItemPanel.show().prop('hidden', false);
                     showPanel($formItemPanel);
                 }
@@ -162,25 +191,22 @@ define([
 
                 case 'question':
 
+                    setItemSidebarMode(MODE_PROPERTIES);
                     showPanel($formInteractionPanel);
                     $formItemPanel.hide();
-                    $formCommentsPanel.hide().prop('hidden', true);
-                    $formStylePanel.hide().prop('hidden', true);
                     break;
 
                 case 'answer':
 
+                    setItemSidebarMode(MODE_PROPERTIES);
                     showPanel($formResponsePanel);
                     $formItemPanel.hide();
-                    $formCommentsPanel.hide().prop('hidden', true);
-                    $formStylePanel.hide().prop('hidden', true);
                     break;
 
                 case 'choice':
+                    setItemSidebarMode(MODE_PROPERTIES);
                     showPanel($formChoicePanel, $formInteractionPanel);
                     $formItemPanel.hide();
-                    $formCommentsPanel.hide().prop('hidden', true);
-                    $formStylePanel.hide().prop('hidden', true);
                     break;
 
                 case 'sleep':
