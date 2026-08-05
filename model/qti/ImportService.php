@@ -57,6 +57,7 @@ use oat\taoQtiItem\model\qti\metadata\MetadataGuardianResource;
 use oat\taoQtiItem\model\qti\metadata\MetadataService;
 use oat\taoQtiItem\model\qti\metadata\MetadataValue;
 use oat\taoQtiItem\model\qti\metadata\ontology\MappedMetadataInjector;
+use oat\taoQtiItem\model\qti\parser\MatchInteractionModeNormalizer;
 use oat\taoQtiItem\model\qti\parser\ValidationException;
 use oat\taoQtiItem\model\event\ItemImported;
 use qtism\data\QtiComponentCollection;
@@ -217,6 +218,10 @@ class ImportService extends ConfigurableService
             }
 
             throw new ValidationException($qtiFile, $errors);
+        }
+
+        if ($qtiItem) {
+            (new MatchInteractionModeNormalizer())->normalize($qtiItem);
         }
 
         return $qtiItem;
