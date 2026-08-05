@@ -11,7 +11,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA
  *
  * Copyright (c) 2026 (original work) Open Assessment Technologies SA;
  */
@@ -155,7 +155,10 @@ define([
                                 authorLabel: comment.authorLabel,
                                 createdAt: comment.createdAt,
                                 displayTime: formatDisplayTime(comment.createdAt),
-                                body: comment.body
+                                body: comment.body,
+                                edited: !!comment.edited,
+                                editable: !!comment.editable,
+                                resolved: !!comment.resolved
                             })
                         );
                     });
@@ -166,8 +169,32 @@ define([
                 updateCountLabel();
             }
 
+            function closeMoreMenus($keep) {
+                $list.find('.item-comment-more').each(function () {
+                    const $more = $(this);
+                    if ($keep && $more.is($keep)) {
+                        return;
+                    }
+                    $more.find('.item-comment-more-menu').prop('hidden', true);
+                    $more.find('.item-comment-more-toggle').attr('aria-expanded', 'false');
+                });
+            }
+
+            function closeEditForms($keep) {
+                $list.find('[data-role="edit-form"]').each(function () {
+                    const $form = $(this);
+                    if ($keep && $form.is($keep)) {
+                        return;
+                    }
+                    const $article = $form.closest('.item-comment');
+                    $form.prop('hidden', true);
+                    $article.find('[data-role="body"]').prop('hidden', false);
+                    $article.find('[data-role="actions"]').prop('hidden', false);
+                });
+            }
+
             store
-                .on('loaded countchange submitted', () => {
+                .on('loaded countchange submitted updated resolved deleted', () => {
                     renderComments();
                     updateCountLabel();
                 })
@@ -181,12 +208,24 @@ define([
                 .on('submitFailed', () => {
                     showError(__('The comment was not saved.'));
                 })
+                .on('updateFailed', () => {
+                    showError(__('The comment was not updated.'));
+                })
+                .on('resolveFailed', () => {
+                    showError(__('The comment was not resolved.'));
+                })
+                .on('deleteFailed', () => {
+                    showError(__('The comment was not deleted.'));
+                })
                 .on('error', () => {
                     showError(__('Unable to load comments.'));
                 })
                 .on('submitted', () => {
                     clearError();
                     scrollToNewest();
+                })
+                .on('updated resolved deleted', () => {
+                    clearError();
                 });
 
             $input.on(`input${NS}`, () => {
@@ -213,6 +252,87 @@ define([
                     });
             });
 
+            $list.on(`click${NS}`, '.item-comment-more-toggle', e => {
+                e.preventDefault();
+                e.stopPropagation();
+                const $toggle = $(e.currentTarget);
+                const $more = $toggle.closest('.item-comment-more');
+                const $menu = $more.find('.item-comment-more-menu');
+                const willOpen = $menu.prop('hidden');
+                closeMoreMenus(willOpen ? $more : null);
+                $menu.prop('hidden', !willOpen);
+                $toggle.attr('aria-expanded', willOpen ? 'true' : 'false');
+            });
+
+            $list.on(`click${NS}`, '.item-comment-edit', e => {
+                e.preventDefault();
+                const $button = $(e.currentTarget);
+                const $article = $button.closest('.item-comment');
+                const $editForm = $article.find('[data-role="edit-form"]');
+                closeMoreMenus();
+                closeEditForms($editForm);
+                $article.find('[data-role="body"]').prop('hidden', true);
+                $article.find('[data-role="actions"]').prop('hidden', true);
+                $editForm.prop('hidden', false);
+                $editForm.find('.item-comment-edit-input').trigger('focus');
+            });
+
+            $list.on(`click${NS}`, '.item-comment-cancel', e => {
+                e.preventDefault();
+                closeEditForms();
+            });
+
+            $list.on(`click${NS}`, '.item-comment-save', e => {
+                e.preventDefault();
+                const $button = $(e.currentTarget);
+                const commentId = $button.data('comment-id');
+                const $article = $button.closest('.item-comment');
+                const body = $article.find('.item-comment-edit-input').val();
+                $button.prop('disabled', true);
+                store
+                    .update(commentId, body)
+                    .catch(_.noop)
+                    .then(() => {
+                        $button.prop('disabled', false);
+                    });
+            });
+
+            $list.on(`click${NS}`, '.item-comment-resolve-link', e => {
+                e.preventDefault();
+                closeMoreMenus();
+                const $link = $(e.currentTarget);
+                if ($link.attr('aria-disabled') === 'true') {
+                    return;
+                }
+                const commentId = $link.data('comment-id');
+                const resolved = $link.data('action') === 'resolve';
+                $link.attr('aria-disabled', 'true');
+                store
+                    .resolve(commentId, resolved)
+                    .catch(_.noop)
+                    .then(() => {
+                        $link.attr('aria-disabled', 'false');
+                    });
+            });
+
+            $list.on(`click${NS}`, '.item-comment-delete', e => {
+                e.preventDefault();
+                closeMoreMenus();
+                const commentId = $(e.currentTarget).data('comment-id');
+                store.delete(commentId).catch(_.noop);
+            });
+
+            $(document).on(`click${NS}`, () => {
+                closeMoreMenus();
+            });
+
+            $(document).on(`keydown${NS}`, e => {
+                if (e.key === 'Escape') {
+                    closeMoreMenus();
+                    closeEditForms();
+                }
+            });
+
             $(document).on(`itemsidebarmodechange.qti-creator${NS}`, (e, mode) => {
                 if (mode === TAB_COMMENTS) {
                     renderComments();
@@ -225,6 +345,7 @@ define([
             plugin.$form = $form;
             plugin.$input = $input;
             plugin.$panel = $panel;
+            plugin.$list = $list;
             plugin.updateCountLabel = updateCountLabel;
             plugin.renderComments = renderComments;
 
@@ -252,6 +373,9 @@ define([
             }
             if (this.$input) {
                 this.$input.off(NS);
+            }
+            if (this.$list) {
+                this.$list.off(NS);
             }
             if (this.store) {
                 this.store.off('*');
