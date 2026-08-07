@@ -15,7 +15,7 @@
             placeholder="{{__ 'Add a comment'}}"
         ></textarea>
         <button type="submit" class="btn-info small item-comments-submit" disabled>
-            {{__ 'Submit comment'}}
+            {{__ 'Post comment'}}
         </button>
     </form>
 </div>
