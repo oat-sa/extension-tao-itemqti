@@ -7,3 +7,44 @@
         margin:0;
     }
 }
+
+.wiris-popup-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.5rem;
+    padding: 0.4rem 0.8rem;
+
+    .wiris-popup-btn-logo {
+        display: block;
+        height: 2.75rem;
+        width: auto;
+        max-width: 100%;
+        pointer-events: none;
+    }
+
+    // classic btn-info: dark/brand background → light logo
+    .wiris-popup-btn-logo-light {
+        display: block;
+    }
+
+    .wiris-popup-btn-logo-dark {
+        display: none;
+        height: 3rem;
+    }
+}
+
+// Solar form maps .btn-info to secondary (light bg) → dark logo
+body.solar-design {
+    .wiris-popup-btn {
+        height: auto;
+
+        .wiris-popup-btn-logo-light {
+            display: none;
+        }
+
+        .wiris-popup-btn-logo-dark {
+            display: block;
+        }
+    }
+}
