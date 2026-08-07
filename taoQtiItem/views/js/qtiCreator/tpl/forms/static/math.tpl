@@ -38,23 +38,7 @@
     <div class="panel">
         <button class="btn-info small block popup-btn" data-control="latex">{{__ "Large editor"}}</button>
         {{#if wirisMath}}
-            <button
-                type="button"
-                class="btn-info small block wiris-popup-btn"
-                title="{{__ "MathType"}}"
-                aria-label="{{__ "MathType"}}"
-            >
-                <img
-                    class="wiris-popup-btn-logo wiris-popup-btn-logo-light"
-                    src="{{mathtypeLogoLight}}"
-                    alt=""
-                />
-                <img
-                    class="wiris-popup-btn-logo wiris-popup-btn-logo-dark"
-                    src="{{mathtypeLogoDark}}"
-                    alt=""
-                />
-            </button>
+            <button class="btn-info small block wiris-popup-btn">Wiris Math</button>
         {{else}}
             <button class="btn-info small block popup-btn" data-control="latexWysiwyg">{{__ "WYSIWYG editor"}}</button>
         {{/if}}
