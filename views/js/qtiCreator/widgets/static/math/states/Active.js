@@ -22,6 +22,7 @@ define([
     'ui/tooltip',
     'context',
     'taoQtiItem/lib/mathml2latex',
+    'taoQtiItem/qtiCreator/widgets/static/math/helpers/wirisTrialMode',
     'module',
     'taoQtiItem/lib/wirisplugin-generic'
 ], function(
@@ -42,6 +43,7 @@ define([
     tooltip,
     context,
     mathMLToLaTeX,
+    wirisTrialModeHelper,
     module
 ){
     'use strict';
@@ -80,8 +82,10 @@ define([
             areaBroker = this.widget.getAreaBroker(),
             wirisMathPathFlag = context.featureFlags && context.featureFlags.FEATURE_FLAG_WIRIS_MATH_PATH,
             wirisMathEnabled = _.isUndefined(wirisMathPathFlag) ? true : wirisMathPathFlag,
-            wirisTrialModeFlag = (module.config() || {}).wirisTrialMode,
-            wirisTrialMode = _.isUndefined(wirisTrialModeFlag) ? true : !!wirisTrialModeFlag;
+            wirisTrialMode = wirisTrialModeHelper.shouldShowWirisTrialNotice(
+                wirisMathEnabled,
+                (module.config() || {}).wirisTrialMode
+            );
 
         if(!tex.trim() && mathML.trim()){
             editMode = 'mathml';
@@ -93,7 +97,7 @@ define([
             latex : tex,
             mathml : mathML,
             wirisMath : wirisMathEnabled,
-            wirisTrialMode : wirisMathEnabled && wirisTrialMode
+            wirisTrialMode : wirisTrialMode
         }));
 
         if(mathJax){
