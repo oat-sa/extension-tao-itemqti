@@ -94,3 +94,4 @@ REMOTE_LIST_SCALE='https://gist.githubusercontent.com/bartlomiejmarszal/7bac38b0
 | FEATURE_FLAG_MULTI_FIELD_SCORING            | Enables Multi-Field scoring UI in Item Creator (UMFI Evaluation + Dichotomous/Polytomous Scoring Model) | false         |
 | REMOTE_LIST_SCALE                           | Define and enable Remote List Scale feature                               | -             |
 | FEATURE_FLAG_WIRIS_MATH_PATH                | Toggles Wiris MathPath Editor for MathJax flow                            | true          |
+| ENV_CLIENT_WIRIS_TRIAL_MODE                 | Shows MathType trial/licensing notice in Item Creator. Default on when unset; set `"false"` for paid Wiris licence | true (when unset) |

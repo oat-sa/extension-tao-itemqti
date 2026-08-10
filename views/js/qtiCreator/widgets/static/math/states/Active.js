@@ -1,19 +1,8 @@
 /**
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; under version 2
- * of the License (non-upgradable).
+ * SPDX-FileCopyrightText: 2017-2026 Open Assessment Technologies S.A.
+ * Copyright (C) 2026 (original work) Open Assessment Technologies S.A.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-TAO-Commercial-License
  */
 define([
     'jquery',
@@ -33,6 +22,7 @@ define([
     'ui/tooltip',
     'context',
     'taoQtiItem/lib/mathml2latex',
+    'module',
     'taoQtiItem/lib/wirisplugin-generic'
 ], function(
     $,
@@ -51,7 +41,8 @@ define([
     mathJax,
     tooltip,
     context,
-    mathMLToLaTeX
+    mathMLToLaTeX,
+    module
 ){
     'use strict';
 
@@ -88,7 +79,9 @@ define([
             $popupsContainer,
             areaBroker = this.widget.getAreaBroker(),
             wirisMathPathFlag = context.featureFlags && context.featureFlags.FEATURE_FLAG_WIRIS_MATH_PATH,
-            wirisMathEnabled = _.isUndefined(wirisMathPathFlag) ? true : wirisMathPathFlag;
+            wirisMathEnabled = _.isUndefined(wirisMathPathFlag) ? true : wirisMathPathFlag,
+            wirisTrialModeFlag = (module.config() || {}).wirisTrialMode,
+            wirisTrialMode = _.isUndefined(wirisTrialModeFlag) ? true : !!wirisTrialModeFlag;
 
         if(!tex.trim() && mathML.trim()){
             editMode = 'mathml';
@@ -99,7 +92,8 @@ define([
             editMode : editMode,
             latex : tex,
             mathml : mathML,
-            wirisMath : wirisMathEnabled
+            wirisMath : wirisMathEnabled,
+            wirisTrialMode : wirisMathEnabled && wirisTrialMode
         }));
 
         if(mathJax){
