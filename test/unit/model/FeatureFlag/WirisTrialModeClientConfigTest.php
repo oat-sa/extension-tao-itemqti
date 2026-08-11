@@ -31,6 +31,8 @@ class WirisTrialModeClientConfigTest extends TestCase
 
     private ?string $previousEnv;
     private bool $hadEnvKey;
+    /** @var string|false */
+    private $previousGetenv;
 
     protected function setUp(): void
     {
@@ -41,20 +43,25 @@ class WirisTrialModeClientConfigTest extends TestCase
         $this->previousEnv = $this->hadEnvKey
             ? $_ENV[WirisTrialModeClientConfig::ENV_CLIENT_WIRIS_TRIAL_MODE]
             : null;
+        $this->previousGetenv = getenv(WirisTrialModeClientConfig::ENV_CLIENT_WIRIS_TRIAL_MODE);
     }
 
     protected function tearDown(): void
     {
         if ($this->hadEnvKey) {
             $_ENV[WirisTrialModeClientConfig::ENV_CLIENT_WIRIS_TRIAL_MODE] = $this->previousEnv;
-            putenv(
-                WirisTrialModeClientConfig::ENV_CLIENT_WIRIS_TRIAL_MODE . '=' . $this->previousEnv
-            );
+        } else {
+            unset($_ENV[WirisTrialModeClientConfig::ENV_CLIENT_WIRIS_TRIAL_MODE]);
+        }
+
+        if ($this->previousGetenv === false) {
+            putenv(WirisTrialModeClientConfig::ENV_CLIENT_WIRIS_TRIAL_MODE);
             return;
         }
 
-        unset($_ENV[WirisTrialModeClientConfig::ENV_CLIENT_WIRIS_TRIAL_MODE]);
-        putenv(WirisTrialModeClientConfig::ENV_CLIENT_WIRIS_TRIAL_MODE);
+        putenv(
+            WirisTrialModeClientConfig::ENV_CLIENT_WIRIS_TRIAL_MODE . '=' . $this->previousGetenv
+        );
     }
 
     /**
@@ -87,6 +94,26 @@ class WirisTrialModeClientConfigTest extends TestCase
             'false disables notice' => ['false', false],
             'malformed defaults to true' => ['not-a-bool', true],
         ];
+    }
+
+    public function testUsesGetenvFallbackWhenEnvSuperglobalUnsetPositive(): void
+    {
+        unset($_ENV[WirisTrialModeClientConfig::ENV_CLIENT_WIRIS_TRIAL_MODE]);
+        putenv(WirisTrialModeClientConfig::ENV_CLIENT_WIRIS_TRIAL_MODE . '=true');
+
+        $result = (new WirisTrialModeClientConfig())([]);
+
+        $this->assertTrue($result[self::ACTIVE_MODULE]['wirisTrialMode']);
+    }
+
+    public function testUsesGetenvFallbackWhenEnvSuperglobalUnsetNegative(): void
+    {
+        unset($_ENV[WirisTrialModeClientConfig::ENV_CLIENT_WIRIS_TRIAL_MODE]);
+        putenv(WirisTrialModeClientConfig::ENV_CLIENT_WIRIS_TRIAL_MODE . '=false');
+
+        $result = (new WirisTrialModeClientConfig())([]);
+
+        $this->assertFalse($result[self::ACTIVE_MODULE]['wirisTrialMode']);
     }
 
     private function setTrialModeEnv(?string $value): void
