@@ -123,4 +123,8 @@
     </div>
 </div>
 
+<div class="scrolling-toggle-container" style="display:none;">
+{{> scrollingToggle this }}
+</div>
+
 {{> scrollingSelect this }}
