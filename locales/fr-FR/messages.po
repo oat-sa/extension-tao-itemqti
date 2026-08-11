@@ -1,12 +1,7 @@
 msgid ""
 msgstr ""
-<<<<<<< HEAD
 "Project-Id-Version: tao-open-source\n"
 "PO-Revision-Date: 2026-07-31 15:34\n"
-=======
-"Project-Id-Version: TAO 2026.08 LTS\n"
-"PO-Revision-Date: 2026-07-31T12:35:44\n"
->>>>>>> develop
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -100,21 +95,13 @@ msgid "A choice must be selected"
 msgstr "Un choix doit être selectionné"
 
 msgid "A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image."
-<<<<<<< HEAD
 msgstr "Une interaction entre correspondance graphique nécessite une image de fond, au moins un hotspot et au moins une image d'écart."
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "A human interpretation of the variable's value."
 msgstr "Une interprétation humaine de la valeur de la variable."
 
 msgid "A Lexical Field groups a canonical answer and optional variants into a single expected response. The canonical value is stored in the item data and used for response processing; only additional variants are listed here. Group identifiers are assigned automatically."
-<<<<<<< HEAD
 msgstr "Un champ lexical regroupe une réponse canonique et des variantes optionnelles en une seule réponse attendue. La valeur canonique est stockée dans les données de l'élément et utilisée pour le traitement des réponses; seules les variantes supplémentaires sont listées ici. Les identifiants de groupe sont assignés automatiquement."
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
 ""
@@ -155,17 +142,10 @@ msgid "Add else feedback"
 msgstr "Ajoute l'autre retour"
 
 msgid "Add level"
-<<<<<<< HEAD
 msgstr "Ajouter un niveau"
 
 msgid "Add lexical field"
 msgstr "Ajouter un champ lexical"
-=======
-msgstr ""
-
-msgid "Add lexical field"
-msgstr ""
->>>>>>> develop
 
 msgid "Add new column"
 msgstr "Ajouter une nouvelle colonne"
@@ -180,11 +160,7 @@ msgid "Add Style Sheet"
 msgstr "Ajouter une feuille de style"
 
 msgid "Add variant"
-<<<<<<< HEAD
 msgstr "Ajouter une variante"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "after"
 msgstr "après"
@@ -193,21 +169,13 @@ msgid "Alignment"
 msgstr "Alignement"
 
 msgid "All-or-nothing scoring. A single score is awarded only when the configured threshold is reached."
-<<<<<<< HEAD
 msgstr "Notation tout-ou/rien. Un seul score n'est attribué que lorsque le seuil configuré est atteint."
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Allow elimination"
 msgstr "Permettre l'élimination"
 
 msgid "Allow evaluators to extend the Lexical Field list"
-<<<<<<< HEAD
 msgstr "Permettre aux évaluateurs d'étendre la liste des champs lexicaux"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Allowed associations"
 msgstr "Associations permises"
@@ -278,11 +246,7 @@ msgid "Apip Package successfully exported."
 msgstr "Paquet Apip exporté avec succès."
 
 msgid "Applies to all Text Entry interactions in this item"
-<<<<<<< HEAD
 msgstr "S'applique à toutes les interactions de saisie de texte de cet élément"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Arc"
 msgstr "Arc"
@@ -291,17 +255,10 @@ msgid "Arrange a list of choices in the correct order."
 msgstr "Arranger une liste de choix dans l'ordre correct."
 
 msgid "Arrow"
-<<<<<<< HEAD
 msgstr "Flèche"
 
 msgid "Arrow direction: start hotspot to end hotspot."
 msgstr "Direction de la flèche : démarrez le point d'accès pour terminer le point d'accès."
-=======
-msgstr ""
-
-msgid "Arrow direction: start hotspot to end hotspot."
-msgstr ""
->>>>>>> develop
 
 msgid "Associate"
 msgstr "Associé"
@@ -310,21 +267,13 @@ msgid "Associate Interaction"
 msgstr "Interaction associée"
 
 msgid "Association display"
-<<<<<<< HEAD
 msgstr "Affichage de l'association"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "association pairs"
 msgstr "paires associées"
 
 msgid "Association role"
-<<<<<<< HEAD
 msgstr "Rôle d'association"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "at least"
 msgstr "au moins"
@@ -333,11 +282,7 @@ msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metada
 msgstr "Tentative d'injection des valeurs de métadonnées \"%s\" pour la cible \"%s\" avec l'injecteur de métadonnées \"%s\"."
 
 msgid "Authoring view remains tabular. Preview and delivery use non-tabular mode."
-<<<<<<< HEAD
 msgstr "La création de la vue reste tabulaire. L'aperçu et la livraison utilisent un mode non tabulaire."
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Autostart"
 msgstr "Démarrage automatique"
@@ -508,7 +453,6 @@ msgid "Compact Appearance"
 msgstr "Apparence compacte"
 
 msgid "Configures the position of the choices relative to the answer area."
-<<<<<<< HEAD
 msgstr "Configure la position des choix par rapport au domaine de réponse."
 
 msgid "Configures the position of the choices relative to the buckets. Columns are choices and rows are buckets."
@@ -519,18 +463,6 @@ msgstr "Configure la position des choix par rapport aux lacunes."
 
 msgid "Configures the position of the choices relative to the image."
 msgstr "Configure la position des choix par rapport à l'image."
-=======
-msgstr ""
-
-msgid "Configures the position of the choices relative to the buckets. Columns are choices and rows are buckets."
-msgstr ""
-
-msgid "Configures the position of the choices relative to the gaps."
-msgstr ""
-
-msgid "Configures the position of the choices relative to the image."
-msgstr ""
->>>>>>> develop
 
 msgid "Configures the position of the choices relative to the target list."
 msgstr "Configure la position des choix par rapport à la liste cible."
@@ -545,11 +477,7 @@ msgid "Control the playing parameters (auto-start, loop) of a video or audio fil
 msgstr "Contrôler les paramètres de lecture (auto-démarrage, en boucle) d'une vidéo ou d'un fichier audio et reporter le nombre de fois qu'il a été lu."
 
 msgid "Controls the visual style of association links. Line shows non-directional links. Arrow adds an arrowhead to indicate direction and works together with Start/End hotspot settings."
-<<<<<<< HEAD
 msgstr "Contrôle le style visuel des liens d'association. La ligne montre des liens non directionnels. Arrow ajoute une flèche pour indiquer la direction et fonctionne en même temps que les paramètres de point d'accès de démarrage/fin."
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Correct"
 msgstr "Corriger"
@@ -558,11 +486,7 @@ msgid "correct"
 msgstr "corrects"
 
 msgid "Correct responses"
-<<<<<<< HEAD
 msgstr "Réponses correctes"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Cosine"
 msgstr "Cosinus"
@@ -583,11 +507,7 @@ msgid "Create association(s) between two sets of choices displayed in a table (r
 msgstr "Créez une ou des associations entre deux ensembles de choix affichés dans une table (ligne et colonne)."
 
 msgid "Create associations and fill the score in the form below"
-<<<<<<< HEAD
 msgstr "Créez des associations et remplissez le score dans le formulaire ci-dessous"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Create gap"
 msgstr "Créer un espace"
@@ -659,27 +579,16 @@ msgid "Defined width"
 msgstr "Largeur définie"
 
 msgid "Defines how interaction points are transformed into the final item score."
-<<<<<<< HEAD
 msgstr "Définit comment les points d'interaction sont transformés en score final."
 
 msgid "Defines how multiple Text Entry interactions are evaluated."
 msgstr "Définit comment plusieurs interactions de saisie de texte sont évaluées."
-=======
-msgstr ""
-
-msgid "Defines how multiple Text Entry interactions are evaluated."
-msgstr ""
->>>>>>> develop
 
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Définit l'ampleur maximale des variables numériques de résultat, le maximum devant être une valeur positive, et le minimum pouvant être négatif."
 
 msgid "Defines whether this hotspot can be used as the start and/or end of an association."
-<<<<<<< HEAD
 msgstr "Définit si ce hotspot peut être utilisé comme début et/ou fin d'une association."
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Degrees"
 msgstr "Degrés"
@@ -712,11 +621,7 @@ msgid "Description"
 msgstr "Libellé"
 
 msgid "Dichotomous"
-<<<<<<< HEAD
 msgstr "Dichotome"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Direction of writing"
 msgstr "Direction de l'écriture"
@@ -731,21 +636,13 @@ msgid "Display media player"
 msgstr "Afficher le lecteur multimédia"
 
 msgid "Display mode"
-<<<<<<< HEAD
 msgstr "Mode d'affichage"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Display the choices either horizontally or vertically"
 msgstr "Afficher les choix horizontalement ou verticalement"
 
 msgid "Displays the slider bar either horizontally or vertically"
-<<<<<<< HEAD
 msgstr "Affiche la barre de curseur horizontalement ou verticalement"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Divide"
 msgstr "Diviser"
@@ -793,7 +690,6 @@ msgid "e.g. 960"
 msgstr "par ex. 960"
 
 msgid "e.g. Apple"
-<<<<<<< HEAD
 msgstr "par exemple Apple"
 
 msgid "Each interaction contributes its own points to the final item score. The final score is the sum of all interaction scores."
@@ -801,15 +697,6 @@ msgstr "Chaque interaction apporte ses propres points au score final de l'articl
 
 msgid "each response must be entered in its corresponding field."
 msgstr "chaque réponse doit être saisie dans le champ correspondant."
-=======
-msgstr ""
-
-msgid "Each interaction contributes its own points to the final item score. The final score is the sum of all interaction scores."
-msgstr ""
-
-msgid "each response must be entered in its corresponding field."
-msgstr ""
->>>>>>> develop
 
 msgid "Edit"
 msgstr "Modifier"
@@ -857,21 +744,13 @@ msgid "Enable the test taker to pause and restart the playing."
 msgstr "Permettre au participant d'interrompre et de reprendre la lecture."
 
 msgid "Enable this option if the list of expected answers may need to be extended during evaluation."
-<<<<<<< HEAD
 msgstr "Activez cette option si la liste des réponses attendues peut avoir besoin d'être étendue pendant l'évaluation."
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Enable/disable scrolling."
 msgstr "Activer/désactiver le défilement."
 
 msgid "End (target)"
-<<<<<<< HEAD
 msgstr "Fin (cible)"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "End Attempt"
 msgstr "Terminer la tentative"
@@ -922,17 +801,10 @@ msgid "Euler\\'s constant"
 msgstr "Constante d'Euler"
 
 msgid "Evaluate Text Entry interactions as Unordered Multi-Field"
-<<<<<<< HEAD
 msgstr "Évaluer les interactions de saisie de texte en tant que multi-champs non ordonnés"
 
 msgid "Evaluation"
 msgstr "Évaluation"
-=======
-msgstr ""
-
-msgid "Evaluation"
-msgstr ""
->>>>>>> develop
 
 msgid "Exponent"
 msgstr "Exposant"
@@ -1121,11 +993,7 @@ msgid "If the shuffle attribute is true then the delivery engine will randomize 
 msgstr "Si l'attribut Mélanger les choix est vrai, le moteur d'exécution rendra aléatoire l'ordre dans lequel les choix sont initialement présentés. Cependant, chaque choix peut être \"mélangé\" ou \"fixé\" individuellement."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" or \"fixed\" individually."
-<<<<<<< HEAD
 msgstr "Si l'attribut aléatoire est vrai, alors le moteur de livraison va aléatoirer l'ordre dans lequel les choix sont initialement présentés. Cependant, chaque choix peut être \"mélangé\" ou \"fixé\" individuellement."
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
 msgstr "Si l'attribut aléatoire est vrai, alors le moteur de livraison va aléatoirer l'ordre dans lequel les choix sont initialement présentés. Cependant, chaque choix peut être « mélangé » de « fixe » individuellement."
@@ -1221,21 +1089,13 @@ msgid "Interpretation"
 msgstr "Interprétation"
 
 msgid "Invalid arrow direction. Create associations from a start hotspot to an end hotspot."
-<<<<<<< HEAD
 msgstr "Direction de flèche non valide. Créer des associations à partir d'un point d'accès d'accès vers un point d'accès à la fin."
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Invalid identifier"
 msgstr "Identifiant invalide"
 
 msgid "Invalid Lexical Group Identifier"
-<<<<<<< HEAD
 msgstr "Identifiant de groupe lexical invalide"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Invalid Outcome Declaration"
 msgstr "Déclaration de résultat invalide"
@@ -1347,17 +1207,10 @@ msgid "Level"
 msgstr "Niveau"
 
 msgid "Lexical field canonical value"
-<<<<<<< HEAD
 msgstr "Valeur canonique du champ lexical"
 
 msgid "Lexical fields"
 msgstr "Champs lexicaux"
-=======
-msgstr ""
-
-msgid "Lexical fields"
-msgstr ""
->>>>>>> develop
 
 msgid "Line"
 msgstr "Lignes"
@@ -1459,11 +1312,7 @@ msgid "Maximum choices reached"
 msgstr "Nombre maximal de choix atteint"
 
 msgid "Maximum correct responses: %d."
-<<<<<<< HEAD
 msgstr "Nombre maximum de réponses correctes : %d."
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Maximum number of choices reached."
 msgstr "Nombre de choix maximum atteint"
@@ -1551,11 +1400,7 @@ msgid "No value set"
 msgstr "Aucune valeur définie"
 
 msgid "Non-tabular"
-<<<<<<< HEAD
 msgstr "Non-tabular"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "None"
 msgstr "Aucun"
@@ -1608,11 +1453,7 @@ msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Ordonne les aires (hotspots) affichées sur une image."
 
 msgid "Ordered"
-<<<<<<< HEAD
 msgstr "Commandé"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Orientation"
 msgstr "Orientation"
@@ -1732,11 +1573,7 @@ msgid "Plus/minus"
 msgstr "Plus/moins"
 
 msgid "Polytomous"
-<<<<<<< HEAD
 msgstr "Polytome"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "Modèle d'élément portable %s non trouvé. Il se peut que l'extension requise soit manquante."
@@ -1868,17 +1705,10 @@ msgid "Remove Instructions"
 msgstr "Supprimer les instructions"
 
 msgid "Remove level"
-<<<<<<< HEAD
 msgstr "Supprimer le niveau"
 
 msgid "Remove lexical field"
 msgstr "Supprimer le champ lexical"
-=======
-msgstr ""
-
-msgid "Remove lexical field"
-msgstr ""
->>>>>>> develop
 
 msgid "Remove Message"
 msgstr "Supprimer le message"
@@ -1893,11 +1723,7 @@ msgid "Remove this stylesheet"
 msgstr "Supprimer cette feuille de style"
 
 msgid "Remove variant"
-<<<<<<< HEAD
 msgstr "Supprimer la variante"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr "Supprime tous les messages d'instructions générés par le système de l'interface."
@@ -1942,7 +1768,6 @@ msgid "Response Properties"
 msgstr "Propriétés de la réponse"
 
 msgid "responses can be entered in any field and are evaluated as a set."
-<<<<<<< HEAD
 msgstr "peuvent être saisies dans n'importe quel champ et sont évaluées comme un ensemble."
 
 msgid "Reverse direction"
@@ -1950,15 +1775,6 @@ msgstr "Inverser la direction"
 
 msgid "Reverse the slider bar boundaries"
 msgstr "Inverser les limites de la barre de curseur"
-=======
-msgstr ""
-
-msgid "Reverse direction"
-msgstr ""
-
-msgid "Reverse the slider bar boundaries"
-msgstr ""
->>>>>>> develop
 
 msgid "Rich text"
 msgstr "Texte enrichi"
@@ -2003,17 +1819,10 @@ msgid "Score value"
 msgstr "Valeur du score"
 
 msgid "Scores"
-<<<<<<< HEAD
 msgstr "Sources"
 
 msgid "Scoring Model"
 msgstr "Modèle d'évaluation"
-=======
-msgstr ""
-
-msgid "Scoring Model"
-msgstr ""
->>>>>>> develop
 
 msgid "Scrollable multi-column"
 msgstr "Défilement multi-colonnes"
@@ -2061,11 +1870,7 @@ msgid "Select height of block based off container height"
 msgstr "Sélectionnez la hauteur du bloc en fonction de la hauteur du conteneur"
 
 msgid "Select height of block based on container height"
-<<<<<<< HEAD
 msgstr "Sélectionnez la hauteur du bloc en fonction de la hauteur du conteneur"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Select height of passage base of container height"
 msgstr "Sélectionner la hauteur de la base de passage de la hauteur du conteneur"
@@ -2152,11 +1957,7 @@ msgid "Similar"
 msgstr "Similaire"
 
 msgid "Simple sum"
-<<<<<<< HEAD
 msgstr "Somme simple"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Sine"
 msgstr "Sinus"
@@ -2201,11 +2002,7 @@ msgid "standard"
 msgstr "standard"
 
 msgid "Start (source)"
-<<<<<<< HEAD
 msgstr "Démarrer (source)"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Status"
 msgstr "Statut"
@@ -2247,17 +2044,10 @@ msgid "Table headings"
 msgstr "En-tête du tableau"
 
 msgid "Tabular"
-<<<<<<< HEAD
 msgstr "Tableau"
 
 msgid "Tabular uses a table layout. Non-tabular uses choices and buckets in preview and delivery."
 msgstr "Le tableau utilise une mise en page du tableau."
-=======
-msgstr ""
-
-msgid "Tabular uses a table layout. Non-tabular uses choices and buckets in preview and delivery."
-msgstr ""
->>>>>>> develop
 
 msgid "Tangent"
 msgstr "Tangente"
@@ -2365,11 +2155,7 @@ msgid "The index to use when displaying a variable of ordered cardinality. If a 
 msgstr "L'indice à utiliser lors de l'affichage d'une variable de cardinalité ordonnée. Si une variable de cardinalité ordonnée doit être affichée et que l'indice n'est pas défini, alors toutes les valeurs dans le conteneur sont affichées."
 
 msgid "The item awards different scores depending on how many correct responses are provided. Configure one or more thresholds with their corresponding scores."
-<<<<<<< HEAD
 msgstr "L'article attribue différents scores en fonction du nombre de réponses correctes fournies. Configurez un ou plusieurs seuils avec leurs notes correspondantes."
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "The item cannot be saved because it contains an unsupported custom interaction."
 msgstr "L'item n'a pu être enregistré car il contient une interaction personnalisée non supportée."
@@ -2549,17 +2335,10 @@ msgid "This value does not follow scoring traits guidelines. It won't be compati
 msgstr "Cette valeur ne respecte pas les règles de marquage des traits. Elle ne sera pas compatible avec le score manuel TAO"
 
 msgid "This value is already used."
-<<<<<<< HEAD
 msgstr "Cette valeur est déjà utilisée."
 
 msgid "This variant already exists"
 msgstr "Cette variante existe déjà"
-=======
-msgstr ""
-
-msgid "This variant already exists"
-msgstr ""
->>>>>>> develop
 
 msgid "Time dependent"
 msgstr "Dépendant du temps"
@@ -2622,11 +2401,7 @@ msgid "Unknown $key to register MetadataService instance"
 msgstr "$key inconnue pour inscrire l'instance MetadataService"
 
 msgid "Unordered"
-<<<<<<< HEAD
 msgstr "Non ordonné"
-=======
-msgstr ""
->>>>>>> develop
 
 msgid "Unregister method expects $key and $name parameters."
 msgstr "La méthode de désinscription attend des paramètres $key et $name."
@@ -2647,17 +2422,10 @@ msgid "Value"
 msgstr "Valeur"
 
 msgid "Variant"
-<<<<<<< HEAD
 msgstr "Variante"
 
 msgid "Variants"
 msgstr "Variantes"
-=======
-msgstr ""
-
-msgid "Variants"
-msgstr ""
->>>>>>> develop
 
 msgid "Vector"
 msgstr "Vecteur"
