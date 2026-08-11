@@ -8,11 +8,14 @@
     }
 }
 
-.wiris-popup-btn + .feedback-info {
-    margin-top: 0.5rem;
-    padding: 0.5rem;
+// Sidebar property form lives outside .item-editor-item — keep selectors at root.
+@at-root {
+    .wiris-popup-btn + .feedback-info {
+        margin-top: 0.5rem;
+        padding: 0.5rem;
 
-    p {
-        margin-bottom: 0;
+        p {
+            margin-bottom: 0;
+        }
     }
 }
