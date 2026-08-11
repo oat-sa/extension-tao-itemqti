@@ -4,21 +4,14 @@ msgstr ""
 "PO-Revision-Date: 2026-07-31 15:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nl\n"
+"Language: nl-NL\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-US\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"targetLanguage: nl-NL\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: tao-open-source\n"
-"X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: nl\n"
-"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
-"X-Crowdin-File-ID: 519\n"
-"Language-Team: Dutch\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Vul de gaten in de tekst in met een vast set van keuzes."
@@ -111,7 +104,9 @@ msgid "A Lexical Field groups a canonical answer and optional variants into a si
 msgstr "Een Lexical Field groepeert een canonical antwoord en optionele varianten in een enkel verwacht antwoord. De canonische waarde wordt opgeslagen in de artikelgegevens en wordt gebruikt voor reactieverwerking; alleen extra varianten worden hier vermeld. Groepsidentificaties worden automatisch toegewezen."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
+""
 msgstr "Een QTI-component wordt niet ondersteund. Het systeem heeft de volgende fout teruggegeven: %s\n"
+""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Een rubriek blok staat voor dat deel van een toets items' itembody dat instructies voor een of meer van de actoren bevat om dat item te bekijken. Hoewel rubriek blokken gedefinieerd zijn als simpleBlocks mogen ze geen interacties bevatten."
@@ -231,7 +226,9 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "Er is een onverwachte fout opgetreden tijdens het importeren van het IMS QTI Item Package. Het systeem heeft de volgende fout teruggegeven: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
+""
 msgstr "Er is een onverwachte fout opgetreden tijdens het importeren van het IMS QTI Item Package. Het systeem heeft de volgende fout teruggegeven: %s\n"
+""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr "Er is een onbekende fout opgetreden tijdens het importeren van het IMS QTI pakket met ID: "
@@ -710,6 +707,9 @@ msgstr "pas keuzes aan"
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "Bewerk wiskundige expressie met behulp van LaTex instellingssysteem, bijvoorbeeld e^{i \\pi} = -1"
 
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgstr ""
+
 msgid "Edit math expression using MathML"
 msgstr "Bewerk wiskundige expressies met gebruik van MathML"
 
@@ -793,6 +793,9 @@ msgstr "Fout in item %s"
 
 msgid "Error to export item %s: %s"
 msgstr "Fout bij de export van het item %s: %s"
+
+msgid "Euler\'s constant"
+msgstr ""
 
 msgid "Euler\\'s constant"
 msgstr "Euler's constante"
@@ -1424,7 +1427,12 @@ msgid "one association pair"
 msgstr "een paar associaties"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
+""
 msgstr "Een of meedere QTI-componenten worden niet door het systeem ondersteund. Het systeem heeft de volgende fout geretourneerd: %s\n"
+""
+
+msgid "or more"
+msgstr ""
 
 msgid "or more"
 msgstr "of meer"
@@ -2276,7 +2284,9 @@ msgid "The upper bound of the slider"
 msgstr "De bovengrens van de schuifknop"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
+""
 msgstr "De validatie van het geïmporteerde QTI item is mislukt. Het systeem gaf de volgende foutmelding:%s\n"
+""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "Het zip-bestand met het IMS QTI item kon niet worden uitgepakt."

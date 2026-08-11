@@ -1,0 +1,54 @@
+@import "inc/bootstrap";
+
+$tooltipBg: #ffffa3;
+$tooltipBorder: #f1d031;
+
+.qti-tooltip-editor {
+    min-width: 250px;
+    max-width: 350px;
+
+    .tooltip-editor-target-container {
+        margin-bottom: 5px;
+
+        .tooltip-editor-target {
+            border: 1px $uiGeneralContentBorder solid;
+            text-align: center;
+            cursor: text;
+            padding: 3px 5px;
+            background-color: #fff;
+            margin-bottom: 2px;
+        }
+    }
+
+    .tooltip-editor-content-container {
+        position: relative;
+        margin-bottom: 10px;
+
+        .tooltip-editor-content {
+            background-color: $tooltipBg;
+            border: 1px solid $tooltipBorder;
+            @include border-radius(5);
+            width: 90%;
+            margin: 0 auto;
+            padding: 5px;
+
+            font-size: 1.3rem;
+            font-weight: normal;
+            color: $textColor;
+
+            cursor: text;
+        }
+
+        .tooltip-editor-tip {
+            transform: rotate(45deg) skew(20deg, 20deg);
+            position: absolute;
+            bottom: -5px;
+            left: calc(50% - 5px);
+            width: 10px;
+            height: 10px;
+            background-color: $tooltipBg;
+            border-right: 1px solid $tooltipBorder;
+            border-bottom: 1px solid $tooltipBorder;
+        }
+    }
+}

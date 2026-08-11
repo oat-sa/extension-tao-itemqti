@@ -4,21 +4,14 @@ msgstr ""
 "PO-Revision-Date: 2026-07-31 15:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: ro\n"
+"Language: ro-RO\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-US\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"targetLanguage: ro-RO\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\n"
-"X-Crowdin-Project: tao-open-source\n"
-"X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: ro\n"
-"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
-"X-Crowdin-File-ID: 519\n"
-"Language-Team: Romanian\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Completează lacunele unui text dintr-o serie de opțiuni."
@@ -111,7 +104,9 @@ msgid "A Lexical Field groups a canonical answer and optional variants into a si
 msgstr ""
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
+""
 msgstr "O componentă QTI nu este suportată. Sistemul a returnat următoarea eroare: %s\n"
+""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Un bloc cauciucic identifică o parte dintr-un organism de evaluare a elementului care reprezintă instrucțiuni pentru unul sau mai mulți actori care vizualizează elementul. Deși blocurile de cauciuc sunt definite ca blocuri simple, acestea nu trebuie să conțină interacțiuni."
@@ -231,7 +226,9 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "O eroare neașteptată a apărut în timpul importului Pachetului Articol IMS QTI. Sistemul a returnat următoarea eroare: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
+""
 msgstr "O eroare neașteptată a apărut în timpul importului elementului QTI. Sistemul a returnat următoarea eroare: %s\n"
+""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr "A apărut o eroare necunoscută în timpul importării pachetului IMS QTI cu identificator: "
@@ -710,6 +707,9 @@ msgstr "editează opțiunile"
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "Editează expresia matematică folosind sistemul de setare de tip LaTex, ex. e^{i \\pi} = -1"
 
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgstr ""
+
 msgid "Edit math expression using MathML"
 msgstr "Editează expresia matematică folosind MathML"
 
@@ -793,6 +793,9 @@ msgstr "Eroare la articolul %s"
 
 msgid "Error to export item %s: %s"
 msgstr "Eroare la exportul articolului %s: %s"
+
+msgid "Euler\'s constant"
+msgstr ""
 
 msgid "Euler\\'s constant"
 msgstr "Constanta lui Uuler"
@@ -1424,7 +1427,12 @@ msgid "one association pair"
 msgstr "o pereche de asociații"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
+""
 msgstr "Una sau mai multe componente QTI nu sunt suportate de sistem. Sistemul a returnat următoarea eroare: %s\n"
+""
+
+msgid "or more"
+msgstr ""
 
 msgid "or more"
 msgstr "sau mai multe"
@@ -2276,7 +2284,9 @@ msgid "The upper bound of the slider"
 msgstr "Marginea superioară a cursorului"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
+""
 msgstr "Validarea elementului importat QTI a eșuat. Sistemul a returnat următoarea eroare:%s\n"
+""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "Arhiva ZIP care conţine elementul IMS QTI nu poate fi extrasă."

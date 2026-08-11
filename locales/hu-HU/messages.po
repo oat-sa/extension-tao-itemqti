@@ -1,24 +1,22 @@
 msgid ""
 msgstr ""
+<<<<<<< HEAD
 "Project-Id-Version: tao-open-source\n"
 "PO-Revision-Date: 2026-07-31 15:34\n"
+=======
+"Project-Id-Version: TAO 2026.08 LTS\n"
+"PO-Revision-Date: 2026-07-31T12:35:54\n"
+>>>>>>> develop
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: hu\n"
+"Language: hu-HU\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-US\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"targetLanguage: hu-HU\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: tao-open-source\n"
-"X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: hu\n"
-"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
-"X-Crowdin-File-ID: 519\n"
-"Language-Team: Hungarian\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Töltsd ki a szövegben a hiányzó részeket egy megadott választási lehetőségekkel."
@@ -102,16 +100,26 @@ msgid "A choice must be selected"
 msgstr "Ki kell választani egy lehetőséget"
 
 msgid "A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image."
+<<<<<<< HEAD
 msgstr "Egy grafikus rés-egyeztetési interakcióhoz háttérképre, legalább egy hotspotra és legalább egy résképre van szükség."
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "A human interpretation of the variable's value."
 msgstr "A változó értékének emberi értelmezése."
 
 msgid "A Lexical Field groups a canonical answer and optional variants into a single expected response. The canonical value is stored in the item data and used for response processing; only additional variants are listed here. Group identifiers are assigned automatically."
+<<<<<<< HEAD
 msgstr "Egy lexikai mező egyetlen várható válaszként csoportosítja a kanonikus választ és az opcionális változatokat. A kanonikus értéket az elemadatok tárolják, és a válaszfeldolgozáshoz használják; itt csak a további változatok szerepelnek. A csoportazonosítók hozzárendelése automatikusan történik."
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
+""
 msgstr "A QTI komponens nem támogatott. A rendszer a következő hibát adta vissza: %s\n"
+""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Egy rubrikablokk egy assessmentItem itemBody részének azt a részét azonosítja, amely utasításokat jelöl egy vagy több, az elemet megtekintő szereplő számára. Bár a rubrikablokkok simpleBlock-ként vannak definiálva, nem tartalmazhatnak interakciókat."
@@ -147,10 +155,17 @@ msgid "Add else feedback"
 msgstr "Egyéb visszajelzés hozzáadása"
 
 msgid "Add level"
+<<<<<<< HEAD
 msgstr "Szint hozzáadása"
 
 msgid "Add lexical field"
 msgstr "Lexikai mező hozzáadása"
+=======
+msgstr ""
+
+msgid "Add lexical field"
+msgstr ""
+>>>>>>> develop
 
 msgid "Add new column"
 msgstr "Új oszlop hozzáadása"
@@ -165,7 +180,11 @@ msgid "Add Style Sheet"
 msgstr "Stíluslap hozzáadása"
 
 msgid "Add variant"
+<<<<<<< HEAD
 msgstr "Változat hozzáadása"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "after"
 msgstr "után"
@@ -174,13 +193,21 @@ msgid "Alignment"
 msgstr "Igazítás"
 
 msgid "All-or-nothing scoring. A single score is awarded only when the configured threshold is reached."
+<<<<<<< HEAD
 msgstr "Mindent vagy semmit pontozás. Egyetlen pontszámot csak akkor adnak, ha elérik a beállított küszöbértéket."
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Allow elimination"
 msgstr "Engedélyezze az eltávolítást"
 
 msgid "Allow evaluators to extend the Lexical Field list"
+<<<<<<< HEAD
 msgstr "Lehetővé teszi az értékelők számára a lexikai mezők listájának bővítését"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Allowed associations"
 msgstr "Engedélyezett társítások"
@@ -231,7 +258,9 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "Váratlan hiba történt az IMS QTI tételcsomag importálása során. A rendszer a következő hibát adta vissza: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
+""
 msgstr "Váratlan hiba történt a QTI tétel importálása során. A rendszer a következő hibát adta vissza: %s\n"
+""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr "Ismeretlen hiba történt az IMS QTI csomag importálása során, amelynek azonosítója: "
@@ -249,7 +278,11 @@ msgid "Apip Package successfully exported."
 msgstr "Az Appip csomag exportálása sikeresen megtörtént."
 
 msgid "Applies to all Text Entry interactions in this item"
+<<<<<<< HEAD
 msgstr "Az elem összes szövegbeviteli interakciójára vonatkozik"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Arc"
 msgstr "Ív"
@@ -258,10 +291,17 @@ msgid "Arrange a list of choices in the correct order."
 msgstr "Rendezd el a választási lehetőségek listáját a megfelelő sorrendben."
 
 msgid "Arrow"
+<<<<<<< HEAD
 msgstr "Nyíl"
 
 msgid "Arrow direction: start hotspot to end hotspot."
 msgstr "Nyíl iránya: a hotspot kezdetétől a hotspot végéig."
+=======
+msgstr ""
+
+msgid "Arrow direction: start hotspot to end hotspot."
+msgstr ""
+>>>>>>> develop
 
 msgid "Associate"
 msgstr "Társult"
@@ -270,13 +310,21 @@ msgid "Associate Interaction"
 msgstr "Partneri interakció"
 
 msgid "Association display"
+<<<<<<< HEAD
 msgstr "Asszociációs kijelző"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "association pairs"
 msgstr "asszociációs párok"
 
 msgid "Association role"
+<<<<<<< HEAD
 msgstr "Egyesületi szerep"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "at least"
 msgstr "legalább"
@@ -285,7 +333,11 @@ msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metada
 msgstr "„%s” metaadatértékek befecskendezésére tett kísérlet a(z) „%s” célhoz a(z) „%s” metaadat-injektorral."
 
 msgid "Authoring view remains tabular. Preview and delivery use non-tabular mode."
+<<<<<<< HEAD
 msgstr "A szerzői nézet továbbra is táblázatos. Az előnézet és a kézbesítés nem táblázatos módot használ."
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Autostart"
 msgstr "Automatikus indítás"
@@ -456,6 +508,7 @@ msgid "Compact Appearance"
 msgstr "Kompakt megjelenés"
 
 msgid "Configures the position of the choices relative to the answer area."
+<<<<<<< HEAD
 msgstr "A választási lehetőségek helyzetét konfigurálja a választerülethez képest."
 
 msgid "Configures the position of the choices relative to the buckets. Columns are choices and rows are buckets."
@@ -466,6 +519,18 @@ msgstr "A választási lehetőségek helyzetét konfigurálja a résekhez képes
 
 msgid "Configures the position of the choices relative to the image."
 msgstr "A választási lehetőségek képhez viszonyított helyzetét konfigurálja."
+=======
+msgstr ""
+
+msgid "Configures the position of the choices relative to the buckets. Columns are choices and rows are buckets."
+msgstr ""
+
+msgid "Configures the position of the choices relative to the gaps."
+msgstr ""
+
+msgid "Configures the position of the choices relative to the image."
+msgstr ""
+>>>>>>> develop
 
 msgid "Configures the position of the choices relative to the target list."
 msgstr "A választási lehetőségek céllistához viszonyított pozícióját konfigurálja."
@@ -480,7 +545,11 @@ msgid "Control the playing parameters (auto-start, loop) of a video or audio fil
 msgstr "Szabályozhatja egy video- vagy hangfájl lejátszási paramétereit (automatikus indítás, ismétlés), és jelentheti a lejátszások számát."
 
 msgid "Controls the visual style of association links. Line shows non-directional links. Arrow adds an arrowhead to indicate direction and works together with Start/End hotspot settings."
+<<<<<<< HEAD
 msgstr "A társítási hivatkozások vizuális stílusát szabályozza. A vonal a nem irányított hivatkozásokat mutatja. A nyíl egy nyílfejet ad hozzá az irány jelzéséhez, és együttműködik a Kezdő/Befejező aktív pont beállításokkal."
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Correct"
 msgstr "Helyes"
@@ -489,7 +558,11 @@ msgid "correct"
 msgstr "helyes"
 
 msgid "Correct responses"
+<<<<<<< HEAD
 msgstr "Helyes válaszok"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Cosine"
 msgstr "Koszinusz"
@@ -510,7 +583,11 @@ msgid "Create association(s) between two sets of choices displayed in a table (r
 msgstr "Hozzon létre társítást két, egy táblázatban megjelenített választási lehetőségcsoport (sor és oszlop) között."
 
 msgid "Create associations and fill the score in the form below"
+<<<<<<< HEAD
 msgstr "Hozz létre asszociációkat és töltsd ki a pontszámot az alábbi űrlapon"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Create gap"
 msgstr "Rés létrehozása"
@@ -582,16 +659,27 @@ msgid "Defined width"
 msgstr "Meghatározott szélesség"
 
 msgid "Defines how interaction points are transformed into the final item score."
+<<<<<<< HEAD
 msgstr "Meghatározza, hogyan alakulnak át az interakciós pontok a végső elem pontszámmá."
 
 msgid "Defines how multiple Text Entry interactions are evaluated."
 msgstr "Meghatározza, hogyan kerül kiértékelésre a több szövegbeviteli interakció."
+=======
+msgstr ""
+
+msgid "Defines how multiple Text Entry interactions are evaluated."
+msgstr ""
+>>>>>>> develop
 
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Meghatározza a numerikus kimeneti változók maximális nagyságát, a maximumnak pozitív értéknek, a minimumnak pedig negatívnak kell lennie."
 
 msgid "Defines whether this hotspot can be used as the start and/or end of an association."
+<<<<<<< HEAD
 msgstr "Meghatározza, hogy ez a hotspot használható-e egy társítás kezdeteként és/vagy végeként."
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Degrees"
 msgstr "Fokok"
@@ -624,7 +712,11 @@ msgid "Description"
 msgstr "Leírás"
 
 msgid "Dichotomous"
+<<<<<<< HEAD
 msgstr "Dichotóm"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Direction of writing"
 msgstr "Az írás iránya"
@@ -639,13 +731,21 @@ msgid "Display media player"
 msgstr "Médialejátszó megjelenítése"
 
 msgid "Display mode"
+<<<<<<< HEAD
 msgstr "Kijelzési mód"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Display the choices either horizontally or vertically"
 msgstr "A választási lehetőségek megjelenítése vízszintesen vagy függőlegesen"
 
 msgid "Displays the slider bar either horizontally or vertically"
+<<<<<<< HEAD
 msgstr "A csúszka sávját vízszintesen vagy függőlegesen jeleníti meg"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Divide"
 msgstr "Osztás"
@@ -693,6 +793,7 @@ msgid "e.g. 960"
 msgstr "pl. 960"
 
 msgid "e.g. Apple"
+<<<<<<< HEAD
 msgstr "pl. Apple"
 
 msgid "Each interaction contributes its own points to the final item score. The final score is the sum of all interaction scores."
@@ -700,6 +801,15 @@ msgstr "Minden interakció a saját pontjait adja a végső elempontszámhoz. A 
 
 msgid "each response must be entered in its corresponding field."
 msgstr "minden választ a megfelelő mezőbe kell beírni."
+=======
+msgstr ""
+
+msgid "Each interaction contributes its own points to the final item score. The final score is the sum of all interaction scores."
+msgstr ""
+
+msgid "each response must be entered in its corresponding field."
+msgstr ""
+>>>>>>> develop
 
 msgid "Edit"
 msgstr "Szerkesztés"
@@ -709,6 +819,9 @@ msgstr "szerkesztési lehetőségek"
 
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "Matematikai kifejezés szerkesztése LaTex típusbeállítási rendszerrel, pl. e^{i \\pi} = -1"
+
+msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
+msgstr ""
 
 msgid "Edit math expression using MathML"
 msgstr "Matematikai kifejezések szerkesztése MathML használatával"
@@ -744,13 +857,21 @@ msgid "Enable the test taker to pause and restart the playing."
 msgstr "Engedélyezze a vizsgázó számára a lejátszás szüneteltetését és újraindítását."
 
 msgid "Enable this option if the list of expected answers may need to be extended during evaluation."
+<<<<<<< HEAD
 msgstr "Engedélyezze ezt a beállítást, ha a várható válaszok listáját a kiértékelés során esetleg ki kell bővíteni."
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Enable/disable scrolling."
 msgstr "Görgetés engedélyezése/letiltása."
 
 msgid "End (target)"
+<<<<<<< HEAD
 msgstr "Vége (cél)"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "End Attempt"
 msgstr "Kísérlet befejezése"
@@ -794,14 +915,24 @@ msgstr "Hiba a tételnél %s"
 msgid "Error to export item %s: %s"
 msgstr "Hiba az elem exportálásakor %s: %s"
 
+msgid "Euler\'s constant"
+msgstr ""
+
 msgid "Euler\\'s constant"
 msgstr "Euler-állandó"
 
 msgid "Evaluate Text Entry interactions as Unordered Multi-Field"
+<<<<<<< HEAD
 msgstr "Szövegbeviteli interakciók kiértékelése rendezetlen többmezős elemzésként"
 
 msgid "Evaluation"
 msgstr "Értékelés"
+=======
+msgstr ""
+
+msgid "Evaluation"
+msgstr ""
+>>>>>>> develop
 
 msgid "Exponent"
 msgstr "Kitevő"
@@ -990,7 +1121,11 @@ msgid "If the shuffle attribute is true then the delivery engine will randomize 
 msgstr "Ha a shuffle attribútum értéke igaz, akkor a szolgáltató véletlenszerűsíti a választási lehetőségek kezdeti megjelenítési sorrendjét. Azonban minden választási lehetőség egyenként „keverhető” vagy „rögzíthető”."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" or \"fixed\" individually."
+<<<<<<< HEAD
 msgstr "Ha a shuffle attribútum értéke igaz, akkor a megjelenítési motor véletlenszerűsíti a választási lehetőségek kezdeti megjelenítési sorrendjét. Azonban minden választási lehetőség külön-külön „keverhető” vagy „rögzíthető”."
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
 msgstr "Ha a shuffle attribútum értéke igaz, akkor a megjelenítési motor véletlenszerűsíti a választási lehetőségek kezdeti megjelenítési sorrendjét. Azonban minden választási lehetőség egyenként „keverhető” vagy „rögzíthető”."
@@ -1086,13 +1221,21 @@ msgid "Interpretation"
 msgstr "Értelmezés"
 
 msgid "Invalid arrow direction. Create associations from a start hotspot to an end hotspot."
+<<<<<<< HEAD
 msgstr "Érvénytelen nyílirány. Hozzon létre társításokat egy kezdő hotspottól egy vég hotspotig."
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Invalid identifier"
 msgstr "Érvénytelen azonosító"
 
 msgid "Invalid Lexical Group Identifier"
+<<<<<<< HEAD
 msgstr "Érvénytelen lexikai csoportazonosító"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Invalid Outcome Declaration"
 msgstr "Érvénytelen eredménynyilatkozat"
@@ -1204,10 +1347,17 @@ msgid "Level"
 msgstr "Szint"
 
 msgid "Lexical field canonical value"
+<<<<<<< HEAD
 msgstr "Lexikai mező kanonikus értéke"
 
 msgid "Lexical fields"
 msgstr "Lexikai mezők"
+=======
+msgstr ""
+
+msgid "Lexical fields"
+msgstr ""
+>>>>>>> develop
 
 msgid "Line"
 msgstr "Vonal"
@@ -1309,7 +1459,11 @@ msgid "Maximum choices reached"
 msgstr "Elérte a maximális választási lehetőséget"
 
 msgid "Maximum correct responses: %d."
+<<<<<<< HEAD
 msgstr "Maximális helyes válaszok száma: %d."
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Maximum number of choices reached."
 msgstr "Elérte a lehetséges választások maximális számát."
@@ -1397,7 +1551,11 @@ msgid "No value set"
 msgstr "Nincs beállított érték"
 
 msgid "Non-tabular"
+<<<<<<< HEAD
 msgstr "Nem táblázatos"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "None"
 msgstr "Egyik sem"
@@ -1424,7 +1582,12 @@ msgid "one association pair"
 msgstr "egy asszociációs pár"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
+""
 msgstr "Egy vagy több QTI komponenst a rendszer nem támogat. A rendszer a következő hibát adta vissza: %s\n"
+""
+
+msgid "or more"
+msgstr ""
 
 msgid "or more"
 msgstr "vagy több"
@@ -1445,7 +1608,11 @@ msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Rendezd sorrendbe a képen megjelenített területeket (gócpontokat)."
 
 msgid "Ordered"
+<<<<<<< HEAD
 msgstr "Rendelt"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Orientation"
 msgstr "Tájolás"
@@ -1565,7 +1732,11 @@ msgid "Plus/minus"
 msgstr "Plusz/mínusz"
 
 msgid "Polytomous"
+<<<<<<< HEAD
 msgstr "Politóm"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "A hordozható elem modellje %s nem található. Lehet, hogy hiányzik a szükséges kiterjesztés."
@@ -1697,10 +1868,17 @@ msgid "Remove Instructions"
 msgstr "Utasítások eltávolítása"
 
 msgid "Remove level"
+<<<<<<< HEAD
 msgstr "Szint eltávolítása"
 
 msgid "Remove lexical field"
 msgstr "Lexikai mező eltávolítása"
+=======
+msgstr ""
+
+msgid "Remove lexical field"
+msgstr ""
+>>>>>>> develop
 
 msgid "Remove Message"
 msgstr "Üzenet eltávolítása"
@@ -1715,7 +1893,11 @@ msgid "Remove this stylesheet"
 msgstr "Stíluslap eltávolítása"
 
 msgid "Remove variant"
+<<<<<<< HEAD
 msgstr "Változat eltávolítása"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr "Eltávolítja a rendszer által generált összes utasításüzenetet a felületről."
@@ -1760,6 +1942,7 @@ msgid "Response Properties"
 msgstr "Válasz tulajdonságai"
 
 msgid "responses can be entered in any field and are evaluated as a set."
+<<<<<<< HEAD
 msgstr "A válaszok bármelyik mezőbe beírhatók, és halmazként kerülnek kiértékelésre."
 
 msgid "Reverse direction"
@@ -1767,6 +1950,15 @@ msgstr "Fordított irány"
 
 msgid "Reverse the slider bar boundaries"
 msgstr "A csúszka határainak megfordítása"
+=======
+msgstr ""
+
+msgid "Reverse direction"
+msgstr ""
+
+msgid "Reverse the slider bar boundaries"
+msgstr ""
+>>>>>>> develop
 
 msgid "Rich text"
 msgstr "Rich text"
@@ -1811,10 +2003,17 @@ msgid "Score value"
 msgstr "Pontszám"
 
 msgid "Scores"
+<<<<<<< HEAD
 msgstr "Pontszámok"
 
 msgid "Scoring Model"
 msgstr "Pontozási modell"
+=======
+msgstr ""
+
+msgid "Scoring Model"
+msgstr ""
+>>>>>>> develop
 
 msgid "Scrollable multi-column"
 msgstr "Görgethető többoszlopos"
@@ -1862,7 +2061,11 @@ msgid "Select height of block based off container height"
 msgstr "A blokk magasságának kiválasztása a konténer magassága alapján"
 
 msgid "Select height of block based on container height"
+<<<<<<< HEAD
 msgstr "A blokk magasságának kiválasztása a konténer magassága alapján"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Select height of passage base of container height"
 msgstr "Válassza ki az átjáró aljának vagy a konténer magasságának magasságát"
@@ -1949,7 +2152,11 @@ msgid "Similar"
 msgstr "Hasonló"
 
 msgid "Simple sum"
+<<<<<<< HEAD
 msgstr "Egyszerű összeg"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Sine"
 msgstr "Szinusz"
@@ -1994,7 +2201,11 @@ msgid "standard"
 msgstr "standard"
 
 msgid "Start (source)"
+<<<<<<< HEAD
 msgstr "Indítás (forrás)"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Status"
 msgstr "Állapot"
@@ -2036,10 +2247,17 @@ msgid "Table headings"
 msgstr "Táblázatcímek"
 
 msgid "Tabular"
+<<<<<<< HEAD
 msgstr "Táblázatos"
 
 msgid "Tabular uses a table layout. Non-tabular uses choices and buckets in preview and delivery."
 msgstr "A táblázatos elrendezés táblázatos elrendezést használ. A nem táblázatos elrendezés választási lehetőségeket és gyűjtőket használ az előnézetben és a megjelenítésben."
+=======
+msgstr ""
+
+msgid "Tabular uses a table layout. Non-tabular uses choices and buckets in preview and delivery."
+msgstr ""
+>>>>>>> develop
 
 msgid "Tangent"
 msgstr "Tangens"
@@ -2147,7 +2365,11 @@ msgid "The index to use when displaying a variable of ordered cardinality. If a 
 msgstr "A rendezett számosságú változó megjelenítésekor használandó index. Ha rendezett számosságú változót kell megjeleníteni, és az index nincs beállítva, akkor a konténerben lévő összes érték megjelenik."
 
 msgid "The item awards different scores depending on how many correct responses are provided. Configure one or more thresholds with their corresponding scores."
+<<<<<<< HEAD
 msgstr "Az elem a helyes válaszok számától függően különböző pontszámokat ad. Konfiguráljon egy vagy több küszöbértéket a hozzájuk tartozó pontszámokkal."
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "The item cannot be saved because it contains an unsupported custom interaction."
 msgstr "Az elem nem menthető, mert nem támogatott egyéni interakciót tartalmaz."
@@ -2276,7 +2498,9 @@ msgid "The upper bound of the slider"
 msgstr "A csúszka felső határa"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
+""
 msgstr "Az importált QTI tétel érvényesítése sikertelen. A rendszer a következő hibát adta vissza:%s\n"
+""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "Az IMS QTI tételt tartalmazó ZIP archívum nem bontható ki."
@@ -2324,10 +2548,17 @@ msgid "This value does not follow scoring traits guidelines. It won't be compati
 msgstr "Ez az érték nem követi a tulajdonságok pontozására vonatkozó irányelveket. Nem lesz kompatibilis a TAO manuális pontozással."
 
 msgid "This value is already used."
+<<<<<<< HEAD
 msgstr "Ez az érték már használatban van."
 
 msgid "This variant already exists"
 msgstr "Ez a változat már létezik"
+=======
+msgstr ""
+
+msgid "This variant already exists"
+msgstr ""
+>>>>>>> develop
 
 msgid "Time dependent"
 msgstr "Időfüggő"
@@ -2390,7 +2621,11 @@ msgid "Unknown $key to register MetadataService instance"
 msgstr "Ismeretlen $key a MetadataService példány regisztrálásához"
 
 msgid "Unordered"
+<<<<<<< HEAD
 msgstr "Rendezetlen"
+=======
+msgstr ""
+>>>>>>> develop
 
 msgid "Unregister method expects $key and $name parameters."
 msgstr "Az Unregister metódus $key és $name paramétereket vár."
@@ -2411,10 +2646,17 @@ msgid "Value"
 msgstr "Érték"
 
 msgid "Variant"
+<<<<<<< HEAD
 msgstr "Változat"
 
 msgid "Variants"
 msgstr "Változatok"
+=======
+msgstr ""
+
+msgid "Variants"
+msgstr ""
+>>>>>>> develop
 
 msgid "Vector"
 msgstr "Vektor"

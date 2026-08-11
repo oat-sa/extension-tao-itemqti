@@ -1,0 +1,1 @@
+<div class="mini-tlb" data-edit="{{state}}" data-for="{{serial}}" data-role="cke-launcher-tlb"></div>

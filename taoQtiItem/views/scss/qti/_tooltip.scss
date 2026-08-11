@@ -1,0 +1,35 @@
+@import "inc/bootstrap";
+
+[data-role="tooltip-target"] {
+    color: $info;
+    text-decoration: dashed underline $info;
+    cursor: pointer;
+
+    &:after {
+        @include tao-icon-setup;
+        @include icon-info;
+
+        font-size: 0.9rem;
+        vertical-align: super;
+        margin-left: 2px;
+        text-decoration: none;
+        display: inline-block;
+    }
+}
+
+[data-role="tooltip-content"] {
+    &[aria-hidden="true"] {
+        display: none;
+    }
+}
+
+.qti-item .tooltip{
+    padding: 10px;
+}
+
+.tooltip-active {
+    position: static;
+    border-style: none;
+    padding: 0;
+    font-size: 1em;
+}

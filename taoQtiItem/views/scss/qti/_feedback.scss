@@ -1,0 +1,29 @@
+.item-instruction {
+    padding: 8px 20px 8px 45px;
+    text-align: left;
+
+    @include rtl {
+        padding: 8px 45px 8px 20px;
+        text-align: right;
+    }
+
+    @include ltr {
+        padding: 8px 20px 8px 45px;
+        text-align: left;
+        direction: ltr;
+    }
+
+    .icon {
+        left: 10px;
+
+        @include rtl {
+            left: auto;
+            right: 10px;
+        }
+
+        @include ltr {
+            left: 10px;
+            right: auto;
+        }
+    }
+}
