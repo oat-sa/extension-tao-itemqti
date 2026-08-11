@@ -2,6 +2,7 @@
 /* Style | Properties | Comments — active fills remaining width; inactive = icon only.
  * Classic (non-solar) action-bar is blue: keep tabs on that chrome.
  * Solar keeps light grey chips.
+ * Panel / list / row styles live in taoItems comments-panel.
  */
 #item-editor-scope > nav.action-bar .menu-right#item-editor-item-mode-tabs {
   padding: 0 !important;
@@ -161,122 +162,7 @@ body.solar-design #item-editor-item-mode-tabs > [role=tab].active, body.solar-de
   width: 100%;
   box-sizing: border-box;
 }
-
-.item-comments-panel {
-  display: flex;
-  flex-direction: column;
-  min-height: 280px;
-  max-height: calc(100vh - 220px);
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.item-comments-list {
-  flex: 1 1 auto;
-  overflow-y: auto;
-  min-height: 120px;
-  margin-bottom: 8px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.item-comment {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 8px 12px;
-  background: #ffffff;
-  border: 0;
-  border-bottom: 1px solid #e5e5e5;
-  color: #333;
-}
-.item-comment .item-comment-meta {
-  font-size: 12px;
-  color: #666;
-  margin-bottom: 4px;
-}
-.item-comment .item-comment-author {
-  font-weight: 600;
-  color: #333;
-}
-.item-comment .item-comment-body {
-  white-space: pre-wrap;
-  word-break: break-word;
-  color: #333;
-}
-.item-comment.is-resolved .item-comment-body {
-  opacity: 0.72;
-}
-
-.item-comments-empty,
-.item-comments-error {
-  font-size: 13px;
-  margin: 8px 10px;
-}
-
-.item-comments-error {
-  color: #a94442;
-}
-
-.item-comments-entry {
-  flex: 0 0 auto;
-  border-top: 1px solid #e5e5e5;
-  padding: 8px 10px 10px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.item-comments-reminder {
-  font-size: 11px;
-  color: #666;
-  margin: 0 0 8px;
-}
-
-.item-comments-label {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-}
-
-.item-comments-input {
-  width: 100%;
-  min-height: 72px;
-  resize: vertical;
-  margin-bottom: 8px;
-}
-
-.item-comments-submit {
-  float: right;
-}
-
-.item-comment-meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 8px;
-}
-
-.item-comment-edited {
-  font-size: 11px;
-  color: #888;
-  font-style: italic;
-}
-
-.item-comment-actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 2px;
-  margin-top: 6px;
-  min-height: 18px;
-}
-
-/* Match sidebar adder links (e.g. "Add a modal feedback"): a/#3e7da7, small. */
-#item-editor-item-comments-bar a.item-comment-resolve-link,
-.item-comments-panel a.item-comment-resolve-link {
+#item-editor-item-comments-bar a.item-comment-resolve-link {
   display: inline-flex;
   align-items: center;
   appearance: none;
@@ -294,110 +180,8 @@ body.solar-design #item-editor-item-mode-tabs > [role=tab].active, body.solar-de
   cursor: pointer;
   text-decoration: none;
 }
-#item-editor-item-comments-bar a.item-comment-resolve-link:hover, #item-editor-item-comments-bar a.item-comment-resolve-link:focus,
-.item-comments-panel a.item-comment-resolve-link:hover,
-.item-comments-panel a.item-comment-resolve-link:focus {
+#item-editor-item-comments-bar a.item-comment-resolve-link:hover, #item-editor-item-comments-bar a.item-comment-resolve-link:focus {
   color: #2e6285 !important;
   text-decoration: underline;
   background: none !important;
-}
-
-.item-comment-more {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  height: 18px;
-}
-
-.item-comment-more-toggle {
-  appearance: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  border-radius: 2px;
-  background: transparent;
-  color: #666;
-  cursor: pointer;
-  line-height: 18px;
-  vertical-align: middle;
-}
-.item-comment-more-toggle .item-comment-more-dots {
-  display: block;
-  font-family: "Source Sans Pro", sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 18px;
-  height: 18px;
-  letter-spacing: 0.5px;
-}
-.item-comment-more-toggle:hover, .item-comment-more-toggle:focus, .item-comment-more-toggle[aria-expanded=true] {
-  background: #ececec;
-  color: #333;
-}
-
-.item-comment-more-menu {
-  position: absolute;
-  right: 0;
-  bottom: calc(100% + 2px);
-  z-index: 20;
-  min-width: 120px;
-  margin: 0;
-  padding: 4px 0;
-  list-style: none;
-  background: #fff;
-  border: 1px solid #c8ccd0;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-}
-
-.item-comment-more-item {
-  appearance: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  margin: 0;
-  padding: 6px 12px;
-  border: 0;
-  background: transparent;
-  color: #333;
-  font: inherit;
-  font-size: 13px;
-  line-height: 1.3;
-  text-align: left;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.item-comment-more-item [class^=icon-],
-.item-comment-more-item [class*=" icon-"] {
-  color: #555;
-  font-size: 14px;
-  line-height: 1;
-}
-.item-comment-more-item:hover, .item-comment-more-item:focus {
-  background: #d9e8f4;
-  outline: none;
-}
-
-.item-comment-edit-form {
-  margin-top: 6px;
-}
-
-.item-comment-edit-input {
-  width: 100%;
-  min-height: 64px;
-  resize: vertical;
-  margin-bottom: 6px;
-  box-sizing: border-box;
-}
-
-.item-comment-edit-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 6px;
 }
