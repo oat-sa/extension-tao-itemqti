@@ -255,6 +255,78 @@ img.dragging.ui-draggable-dragging {
             padding: 5px;
         }
     }
+
+    @import "qtiCreator/_text-entry-evaluation";
+    @import "qtiCreator/_scoring-model";
+}
+
+// Keep polytomous level score inputs compact; beat solar --input-height (44px) in the sidebar.
+.item-editor-sidebar .tool-group .panel .scoring-model-level > input.scoring-level-score {
+    width: 40px;
+    min-width: 40px;
+    max-width: 40px;
+    height: 2rem;
+    min-height: 2rem;
+    padding: 0 0.25rem;
+    line-height: 2rem;
+    box-sizing: border-box;
+}
+
+.item-editor-sidebar .tool-group .panel .scoring-model-level > button.scoring-level-remove {
+    position: static !important;
+    float: none !important;
+    display: block !important;
+    width: 24px !important;
+    min-width: 0 !important;
+    max-width: 24px !important;
+    height: 2rem !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    line-height: 2rem !important;
+    text-align: center;
+    overflow: hidden;
+    // Beat solar sidebar button color (otherwise the icon renders as black).
+    color: $info !important;
+
+    &:hover,
+    &:focus {
+        color: whiten($info, 0.4) !important;
+    }
+}
+
+body.solar-design #item-editor-scope .item-editor-sidebar .tool-group .panel .scoring-model-level > button.scoring-level-remove {
+    color: var(--color-brand, #{$info}) !important;
+
+    &:hover,
+    &:focus {
+        color: var(--color-brand-hover, #{whiten($info, 0.4)}) !important;
+    }
+}
+
+.item-editor-sidebar .tool-group .panel .scoring-model-dichotomous-fields .incrementer-ctrl-wrapper input.score,
+.item-editor-sidebar .tool-group .panel .scoring-model-dichotomous-fields .incrementer-ctrl-wrapper input.incrementer {
+    width: calc(var(--input-height) + 16px);
+    min-width: var(--input-height);
+    max-width: none;
+}
+
+// Polytomous level rows are narrow; do not force solar input min-width or the row
+// (and bin) overflows .scoring-model-levels horizontally.
+.item-editor-sidebar .tool-group .panel .scoring-model-level > .incrementer-ctrl-wrapper {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.item-editor-sidebar .tool-group .panel .scoring-model-level > .incrementer-ctrl-wrapper input.score,
+.item-editor-sidebar .tool-group .panel .scoring-model-level > .incrementer-ctrl-wrapper input.incrementer {
+    width: 100%;
+    min-width: 0;
+    max-width: calc(var(--input-height) + 16px);
 }
 
 .item-editor-css-editor {
