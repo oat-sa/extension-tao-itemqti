@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2026.08 LTS\n"
-"PO-Revision-Date: 2026-07-31T12:36:39\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2026-07-31 15:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk-SK\n"
@@ -95,13 +95,13 @@ msgid "A choice must be selected"
 msgstr "Musí byť vybraná možnosť"
 
 msgid "A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image."
-msgstr ""
+msgstr "Interakcia grafického porovnania medzier vyžaduje obrázok pozadia, aspoň jeden aktívny bod a aspoň jeden obrázok medzery."
 
 msgid "A human interpretation of the variable's value."
 msgstr "Ľudská interpretácia hodnoty premennej."
 
 msgid "A Lexical Field groups a canonical answer and optional variants into a single expected response. The canonical value is stored in the item data and used for response processing; only additional variants are listed here. Group identifiers are assigned automatically."
-msgstr ""
+msgstr "Lexikálne pole zoskupuje kanonickú odpoveď a voliteľné varianty do jednej očakávanej odpovede. Kanonická hodnota je uložená v údajoch položky a používa sa na spracovanie odpovede; sú tu uvedené iba ďalšie varianty. Identifikátory skupín sa priraďujú automaticky."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
 ""
@@ -142,10 +142,10 @@ msgid "Add else feedback"
 msgstr "Pridať ďalšiu spätnú väzbu"
 
 msgid "Add level"
-msgstr ""
+msgstr "Pridať úroveň"
 
 msgid "Add lexical field"
-msgstr ""
+msgstr "Pridať lexikálne pole"
 
 msgid "Add new column"
 msgstr "Pridať nový stĺpec"
@@ -160,7 +160,7 @@ msgid "Add Style Sheet"
 msgstr "Pridať šablónu štýlu (CSS)"
 
 msgid "Add variant"
-msgstr ""
+msgstr "Pridať variant"
 
 msgid "after"
 msgstr "po"
@@ -169,13 +169,13 @@ msgid "Alignment"
 msgstr "Zarovnanie"
 
 msgid "All-or-nothing scoring. A single score is awarded only when the configured threshold is reached."
-msgstr ""
+msgstr "Bodovanie typu všetko alebo nič. Jedno skóre sa udelí iba po dosiahnutí nakonfigurovaného prahu."
 
 msgid "Allow elimination"
 msgstr "Povoliť elimináciu"
 
 msgid "Allow evaluators to extend the Lexical Field list"
-msgstr ""
+msgstr "Povoliť hodnotiteľom rozšíriť zoznam lexikálnych polí"
 
 msgid "Allowed associations"
 msgstr "Povolený počet asociácií"
@@ -246,7 +246,7 @@ msgid "Apip Package successfully exported."
 msgstr "Balík Apip bol úspešne exportovaný."
 
 msgid "Applies to all Text Entry interactions in this item"
-msgstr ""
+msgstr "Vzťahuje sa na všetky interakcie so zadávaním textu v tejto položke"
 
 msgid "Arc"
 msgstr "Oblúk"
@@ -255,10 +255,10 @@ msgid "Arrange a list of choices in the correct order."
 msgstr "Usporiadajte zoznam možností v správnom poradí."
 
 msgid "Arrow"
-msgstr ""
+msgstr "Šípka"
 
 msgid "Arrow direction: start hotspot to end hotspot."
-msgstr ""
+msgstr "Smer šípky: od začiatku hotspotu po koniec hotspotu."
 
 msgid "Associate"
 msgstr "Priraďuj"
@@ -267,13 +267,13 @@ msgid "Associate Interaction"
 msgstr "Interakcia asociácie"
 
 msgid "Association display"
-msgstr ""
+msgstr "Zobrazenie asociácií"
 
 msgid "association pairs"
 msgstr "asociačné páry"
 
 msgid "Association role"
-msgstr ""
+msgstr "Úloha združenia"
 
 msgid "at least"
 msgstr "aspoň"
@@ -282,7 +282,7 @@ msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metada
 msgstr "Pokus o vloženie hodnôt metadát „%s“ do cieľa „%s“ pomocou vkladača metadát „%s“."
 
 msgid "Authoring view remains tabular. Preview and delivery use non-tabular mode."
-msgstr ""
+msgstr "Zobrazenie pre tvorbu zostáva tabuľkové. Náhľad a doručenie používajú netabuľkový režim."
 
 msgid "Autostart"
 msgstr "Automatické spustenie"
@@ -453,16 +453,16 @@ msgid "Compact Appearance"
 msgstr "Kompaktný vzhľad"
 
 msgid "Configures the position of the choices relative to the answer area."
-msgstr ""
+msgstr "Konfiguruje polohu možností vzhľadom na oblasť odpovedí."
 
 msgid "Configures the position of the choices relative to the buckets. Columns are choices and rows are buckets."
-msgstr ""
+msgstr "Konfiguruje pozíciu možností vzhľadom na kontajnery. Stĺpce predstavujú možnosti a riadky kontajnery."
 
 msgid "Configures the position of the choices relative to the gaps."
-msgstr ""
+msgstr "Konfiguruje polohu možností vzhľadom na medzery."
 
 msgid "Configures the position of the choices relative to the image."
-msgstr ""
+msgstr "Konfiguruje polohu možností vzhľadom na obrázok."
 
 msgid "Configures the position of the choices relative to the target list."
 msgstr "Nastavuje polohu možností vo vzťahu k cieľovému zoznamu."
@@ -477,7 +477,7 @@ msgid "Control the playing parameters (auto-start, loop) of a video or audio fil
 msgstr "Ovládajte parametre prehrávania (automatické spustenie, opakované prehrávanie) video alebo audio súboru a zaznamenávajte počet prehrávaní."
 
 msgid "Controls the visual style of association links. Line shows non-directional links. Arrow adds an arrowhead to indicate direction and works together with Start/End hotspot settings."
-msgstr ""
+msgstr "Ovláda vizuálny štýl asociačných odkazov. Čiara zobrazuje nesmerové odkazy. Šípka pridáva hrot šípky na označenie smeru a funguje spolu s nastaveniami aktivačných bodov Začiatok/Koniec."
 
 msgid "Correct"
 msgstr "Správne"
@@ -486,7 +486,7 @@ msgid "correct"
 msgstr "správne"
 
 msgid "Correct responses"
-msgstr ""
+msgstr "Správne odpovede"
 
 msgid "Cosine"
 msgstr "Kosínus"
@@ -507,7 +507,7 @@ msgid "Create association(s) between two sets of choices displayed in a table (r
 msgstr "Vytvorte asociáciu (asociácie) medzi dvoma sadami možností zobrazenými v tabuľke (riadok a stĺpec)."
 
 msgid "Create associations and fill the score in the form below"
-msgstr ""
+msgstr "Vytvorte asociácie a vyplňte skóre vo formulári nižšie"
 
 msgid "Create gap"
 msgstr "Vytvoriť medzeru"
@@ -579,16 +579,16 @@ msgid "Defined width"
 msgstr "Definovaná šírka"
 
 msgid "Defines how interaction points are transformed into the final item score."
-msgstr ""
+msgstr "Definuje, ako sa interakčné body transformujú do konečného skóre položky."
 
 msgid "Defines how multiple Text Entry interactions are evaluated."
-msgstr ""
+msgstr "Definuje, ako sa vyhodnocujú viaceré interakcie so zadaním textu."
 
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Určuje maximálnu hodnotu numerických výsledných premenných; maximálna hodnota musí byť kladná a minimálna hodnota môže byť záporná."
 
 msgid "Defines whether this hotspot can be used as the start and/or end of an association."
-msgstr ""
+msgstr "Definuje, či sa tento hotspot môže použiť ako začiatok a/alebo koniec asociácie."
 
 msgid "Degrees"
 msgstr "Stupne"
@@ -621,7 +621,7 @@ msgid "Description"
 msgstr "Popis"
 
 msgid "Dichotomous"
-msgstr ""
+msgstr "Dichotomický"
 
 msgid "Direction of writing"
 msgstr "Smer písma"
@@ -636,13 +636,13 @@ msgid "Display media player"
 msgstr "Zobraziť prehrávač médií"
 
 msgid "Display mode"
-msgstr ""
+msgstr "Režim zobrazenia"
 
 msgid "Display the choices either horizontally or vertically"
 msgstr "Zobraziť možnosti horizontálne alebo vertikálne"
 
 msgid "Displays the slider bar either horizontally or vertically"
-msgstr ""
+msgstr "Zobrazuje posuvník horizontálne alebo vertikálne"
 
 msgid "Divide"
 msgstr "Rozdeliť"
@@ -690,13 +690,13 @@ msgid "e.g. 960"
 msgstr "napr. 960"
 
 msgid "e.g. Apple"
-msgstr ""
+msgstr "napr. Apple"
 
 msgid "Each interaction contributes its own points to the final item score. The final score is the sum of all interaction scores."
-msgstr ""
+msgstr "Každá interakcia prispieva k konečnému skóre položky vlastnými bodmi. Konečné skóre je súčtom skóre všetkých interakcií."
 
 msgid "each response must be entered in its corresponding field."
-msgstr ""
+msgstr "Každá odpoveď musí byť zadaná do príslušného poľa."
 
 msgid "Edit"
 msgstr "Upraviť"
@@ -744,13 +744,13 @@ msgid "Enable the test taker to pause and restart the playing."
 msgstr "Umožnite účastníkovi testu pozastaviť a znova spustiť prehrávanie."
 
 msgid "Enable this option if the list of expected answers may need to be extended during evaluation."
-msgstr ""
+msgstr "Túto možnosť povoľte, ak je počas hodnotenia potrebné rozšíriť zoznam očakávaných odpovedí."
 
 msgid "Enable/disable scrolling."
 msgstr "Povoliť/zakázať rolovanie."
 
 msgid "End (target)"
-msgstr ""
+msgstr "Koniec (cieľ)"
 
 msgid "End Attempt"
 msgstr "Ukončiť pokus"
@@ -801,10 +801,10 @@ msgid "Euler\\'s constant"
 msgstr "Eulerova konštanta"
 
 msgid "Evaluate Text Entry interactions as Unordered Multi-Field"
-msgstr ""
+msgstr "Vyhodnotenie interakcií pri zadávaní textu ako neusporiadaného viacpolového zadávania"
 
 msgid "Evaluation"
-msgstr ""
+msgstr "Hodnotenie"
 
 msgid "Exponent"
 msgstr "Exponent"
@@ -993,7 +993,7 @@ msgid "If the shuffle attribute is true then the delivery engine will randomize 
 msgstr "Ak je atribút „Náhodné poradie“ aktívny, modul na zobrazovanie náhodne usporiada poradie, v akom sa možnosti pôvodne zobrazujú. Každú možnosť je však možné náhodne usporiadať alebo „fixovať“ individuálne."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" or \"fixed\" individually."
-msgstr ""
+msgstr "Ak je atribút shuffle nastavený na hodnotu true, doručovací nástroj náhodne zoradí poradie, v akom sú možnosti pôvodne zobrazené. Každá možnosť však môže byť „zamiešaná“ alebo „opravená“ individuálne."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
 msgstr "Ak je atribút „Náhodné poradie“ aktívny, modul na zobrazovanie náhodne usporiada poradie, v akom sa možnosti pôvodne zobrazujú. Každú možnosť je však možné náhodne usporiadať alebo „fixovať“ individuálne."
@@ -1089,13 +1089,13 @@ msgid "Interpretation"
 msgstr "Interpretácia"
 
 msgid "Invalid arrow direction. Create associations from a start hotspot to an end hotspot."
-msgstr ""
+msgstr "Neplatný smer šípky. Vytvorte asociácie od počiatočného hotspotu ku koncovému hotspotu."
 
 msgid "Invalid identifier"
 msgstr "Neplatný identifikátor"
 
 msgid "Invalid Lexical Group Identifier"
-msgstr ""
+msgstr "Neplatný identifikátor lexikálnej skupiny"
 
 msgid "Invalid Outcome Declaration"
 msgstr "Neplatné Definovanie výsledku"
@@ -1207,10 +1207,10 @@ msgid "Level"
 msgstr "Úroveň"
 
 msgid "Lexical field canonical value"
-msgstr ""
+msgstr "Kanonická hodnota lexikálneho poľa"
 
 msgid "Lexical fields"
-msgstr ""
+msgstr "Lexikálne polia"
 
 msgid "Line"
 msgstr "Čiara"
@@ -1312,7 +1312,7 @@ msgid "Maximum choices reached"
 msgstr "Dosiahnutý maximálny počet možností"
 
 msgid "Maximum correct responses: %d."
-msgstr ""
+msgstr "Maximálny počet správnych odpovedí: %d."
 
 msgid "Maximum number of choices reached."
 msgstr "Bol dosiahnutý maximálny počet pokusov."
@@ -1400,7 +1400,7 @@ msgid "No value set"
 msgstr "Žiadna hodnota nie je nastavená"
 
 msgid "Non-tabular"
-msgstr ""
+msgstr "Netabuľkové"
 
 msgid "None"
 msgstr "Žiadne"
@@ -1434,6 +1434,9 @@ msgstr "Systém nepodporuje jeden alebo viac komponentov QTI. Systém vrátil na
 msgid "or more"
 msgstr ""
 
+msgid "or more"
+msgstr "alebo viac"
+
 msgid "Order"
 msgstr "Poradie"
 
@@ -1450,7 +1453,7 @@ msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Zoraďte oblasti (hotspots) zobrazené na obrázku."
 
 msgid "Ordered"
-msgstr ""
+msgstr "Objednané"
 
 msgid "Orientation"
 msgstr "Orientácia"
@@ -1570,7 +1573,7 @@ msgid "Plus/minus"
 msgstr "Plus/mínus"
 
 msgid "Polytomous"
-msgstr ""
+msgstr "Polytomický"
 
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "Model prenosného prvku %s sa nenašiel. Možno chýba požadované rozšírenie."
@@ -1702,10 +1705,10 @@ msgid "Remove Instructions"
 msgstr "Odstrániť pokyny"
 
 msgid "Remove level"
-msgstr ""
+msgstr "Odstrániť úroveň"
 
 msgid "Remove lexical field"
-msgstr ""
+msgstr "Odstrániť lexikálne pole"
 
 msgid "Remove Message"
 msgstr "Odstrániť správu"
@@ -1720,7 +1723,7 @@ msgid "Remove this stylesheet"
 msgstr "Odstrániť šablónu štýlov"
 
 msgid "Remove variant"
-msgstr ""
+msgstr "Odstrániť variant"
 
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr "Odstráni z rozhrania všetky systémové hlásenia."
@@ -1765,13 +1768,13 @@ msgid "Response Properties"
 msgstr "Vlastnosti odpovede"
 
 msgid "responses can be entered in any field and are evaluated as a set."
-msgstr ""
+msgstr "Odpovede je možné zadať do ľubovoľného poľa a vyhodnocujú sa ako sada."
 
 msgid "Reverse direction"
-msgstr ""
+msgstr "Opačný smer"
 
 msgid "Reverse the slider bar boundaries"
-msgstr ""
+msgstr "Obrátiť hranice posuvníka"
 
 msgid "Rich text"
 msgstr "Formátovaný text"
@@ -1816,10 +1819,10 @@ msgid "Score value"
 msgstr "Hodnota skóre"
 
 msgid "Scores"
-msgstr ""
+msgstr "Skóre"
 
 msgid "Scoring Model"
-msgstr ""
+msgstr "Model bodovania"
 
 msgid "Scrollable multi-column"
 msgstr "Posúvateľné viacstĺpcové"
@@ -1867,7 +1870,7 @@ msgid "Select height of block based off container height"
 msgstr "Vyberte výšku bloku na základe výšky kontajnera"
 
 msgid "Select height of block based on container height"
-msgstr ""
+msgstr "Vyberte výšku bloku na základe výšky kontajnera"
 
 msgid "Select height of passage base of container height"
 msgstr "Vyberte výšku základne kontajnera"
@@ -1954,7 +1957,7 @@ msgid "Similar"
 msgstr "Podobné"
 
 msgid "Simple sum"
-msgstr ""
+msgstr "Jednoduchý súčet"
 
 msgid "Sine"
 msgstr "Sínus"
@@ -1999,7 +2002,7 @@ msgid "standard"
 msgstr "štandard"
 
 msgid "Start (source)"
-msgstr ""
+msgstr "Štart (zdroj)"
 
 msgid "Status"
 msgstr "Stav"
@@ -2041,10 +2044,10 @@ msgid "Table headings"
 msgstr "Nadpisy tabuliek"
 
 msgid "Tabular"
-msgstr ""
+msgstr "Tabuľkový"
 
 msgid "Tabular uses a table layout. Non-tabular uses choices and buckets in preview and delivery."
-msgstr ""
+msgstr "Tabuľkové rozloženie používa tabuľkové rozloženie. Netabuľkové rozloženie používa možnosti a segmenty v ukážke a zobrazení."
 
 msgid "Tangent"
 msgstr "Tangens"
@@ -2152,7 +2155,7 @@ msgid "The index to use when displaying a variable of ordered cardinality. If a 
 msgstr "Index, ktorý sa má použiť pri zobrazení premennej s usporiadanou kardinalitou. Ak sa má zobraziť premenná s usporiadanou kardinalitou a index nie je nastavený, zobrazia sa všetky hodnoty v kontajneri."
 
 msgid "The item awards different scores depending on how many correct responses are provided. Configure one or more thresholds with their corresponding scores."
-msgstr ""
+msgstr "Položka udeľuje rôzne skóre v závislosti od počtu správnych odpovedí. Nakonfigurujte jeden alebo viac prahových hodnôt s ich zodpovedajúcimi skóre."
 
 msgid "The item cannot be saved because it contains an unsupported custom interaction."
 msgstr "Položku nie je možné uložiť, pretože obsahuje nepodporovanú vlastnú interakciu."
@@ -2331,10 +2334,10 @@ msgid "This value does not follow scoring traits guidelines. It won't be compati
 msgstr "Táto hodnota nespĺňa pokyny pre hodnotenie charakteristík. Nebude kompatibilná s manuálnym hodnotením PET."
 
 msgid "This value is already used."
-msgstr ""
+msgstr "Táto hodnota sa už používa."
 
 msgid "This variant already exists"
-msgstr ""
+msgstr "Táto varianta už existuje"
 
 msgid "Time dependent"
 msgstr "Závislé od času"
@@ -2397,7 +2400,7 @@ msgid "Unknown $key to register MetadataService instance"
 msgstr "Neznámy $key na registráciu inštancie MetadataService"
 
 msgid "Unordered"
-msgstr ""
+msgstr "Neusporiadané"
 
 msgid "Unregister method expects $key and $name parameters."
 msgstr "Metóda Unregister očakáva parametre $key a $name ."
@@ -2418,10 +2421,10 @@ msgid "Value"
 msgstr "Hodnota"
 
 msgid "Variant"
-msgstr ""
+msgstr "Variant"
 
 msgid "Variants"
-msgstr ""
+msgstr "Varianty"
 
 msgid "Vector"
 msgstr "Vektor"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2026.08 LTS\n"
-"PO-Revision-Date: 2026-07-31T12:35:11\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2026-07-31 15:35\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-BE\n"
@@ -1425,6 +1425,9 @@ msgstr ""
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
 ""
+msgstr ""
+
+msgid "or more"
 msgstr ""
 
 msgid "or more"

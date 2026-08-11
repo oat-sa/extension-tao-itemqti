@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2026.08 LTS\n"
-"PO-Revision-Date: 2026-07-31T12:36:04\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2026-07-31 15:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -97,11 +97,14 @@ msgstr "必ず１つ選択してください"
 msgid "A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image."
 msgstr ""
 
+msgid "A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image."
+msgstr "グラフィックスギャップマッチングには、バックグラウンド画像、少なくとも1つのホットスポット、および少なくとも1つのギャップ画像が必要です。"
+
 msgid "A human interpretation of the variable's value."
 msgstr "変数値の翻訳"
 
 msgid "A Lexical Field groups a canonical answer and optional variants into a single expected response. The canonical value is stored in the item data and used for response processing; only additional variants are listed here. Group identifiers are assigned automatically."
-msgstr ""
+msgstr "Lexical Fieldは、正規解答とオプションのバリアントを単一の期待される応答にグループ化します。 標準値はアイテムデータに保存され、応答処理に使用されます。ここには追加のバリアントのみがリストされます。グループ識別子は自動的に割り当てられます。"
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
 ""
@@ -142,10 +145,10 @@ msgid "Add else feedback"
 msgstr "他のフィードバックを追加"
 
 msgid "Add level"
-msgstr ""
+msgstr "レベルを追加"
 
 msgid "Add lexical field"
-msgstr ""
+msgstr "字句フィールドを追加"
 
 msgid "Add new column"
 msgstr "列の追加"
@@ -160,7 +163,7 @@ msgid "Add Style Sheet"
 msgstr "スタイルシート追加"
 
 msgid "Add variant"
-msgstr ""
+msgstr "バリエーションを追加"
 
 msgid "after"
 msgstr "後"
@@ -169,13 +172,13 @@ msgid "Alignment"
 msgstr "配置"
 
 msgid "All-or-nothing scoring. A single score is awarded only when the configured threshold is reached."
-msgstr ""
+msgstr "すべてまたは何も得点しません。設定されたしきい値に達したときにのみ、単一の得点が与えられます。"
 
 msgid "Allow elimination"
 msgstr "消去法の許可"
 
 msgid "Allow evaluators to extend the Lexical Field list"
-msgstr ""
+msgstr "レキシカルフィールドリストの拡張を評価者に許可する"
 
 msgid "Allowed associations"
 msgstr "関連付けを許可"
@@ -246,7 +249,7 @@ msgid "Apip Package successfully exported."
 msgstr "APIPパッケージのエクスポートが完了しました"
 
 msgid "Applies to all Text Entry interactions in this item"
-msgstr ""
+msgstr "この項目内のすべてのテキスト入力操作に適用されます。"
 
 msgid "Arc"
 msgstr "円弧を作成"
@@ -255,10 +258,10 @@ msgid "Arrange a list of choices in the correct order."
 msgstr "正しい順序で選択項目のリストを並べます"
 
 msgid "Arrow"
-msgstr ""
+msgstr "矢印"
 
 msgid "Arrow direction: start hotspot to end hotspot."
-msgstr ""
+msgstr "矢印方向:ホットスポットを終了します。"
 
 msgid "Associate"
 msgstr "画像線つなぎ"
@@ -267,13 +270,16 @@ msgid "Associate Interaction"
 msgstr "組合せ問題"
 
 msgid "Association display"
-msgstr ""
+msgstr "関連の表示"
 
 msgid "association pairs"
 msgstr "{ruby}組合{rt}くみあわ{/rt}{/ruby}せ"
 
 msgid "Association role"
 msgstr ""
+
+msgid "Association role"
+msgstr "関連付けの役割"
 
 msgid "at least"
 msgstr "最低"
@@ -282,7 +288,7 @@ msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metada
 msgstr "メタデータインジェクタ\"%s\"でターゲット \"%s\" のメタデータ値 \"%s\" を挿入しようとしています。"
 
 msgid "Authoring view remains tabular. Preview and delivery use non-tabular mode."
-msgstr ""
+msgstr "ビューの作成は表形式のままです。プレビューと配信は非表形式モードを使用します。"
 
 msgid "Autostart"
 msgstr "自動再生"
@@ -453,16 +459,16 @@ msgid "Compact Appearance"
 msgstr "コンパクトな外観"
 
 msgid "Configures the position of the choices relative to the answer area."
-msgstr ""
+msgstr "回答領域に対する選択範囲の位置を設定します。"
 
 msgid "Configures the position of the choices relative to the buckets. Columns are choices and rows are buckets."
-msgstr ""
+msgstr "バケットに対する選択の位置を設定します。列は選択、行はバケットです。"
 
 msgid "Configures the position of the choices relative to the gaps."
-msgstr ""
+msgstr "ギャップに対する選択の位置を設定します。"
 
 msgid "Configures the position of the choices relative to the image."
-msgstr ""
+msgstr "画像に対する選択の位置を設定します。"
 
 msgid "Configures the position of the choices relative to the target list."
 msgstr "ターゲットリストからの選択範囲の位置を設定します。"
@@ -477,7 +483,7 @@ msgid "Control the playing parameters (auto-start, loop) of a video or audio fil
 msgstr "ビデオまたはオーディオファイルの再生パラメータ（オートスタート、ループ）を制御し、それが再生された回数を報告します"
 
 msgid "Controls the visual style of association links. Line shows non-directional links. Arrow adds an arrowhead to indicate direction and works together with Start/End hotspot settings."
-msgstr ""
+msgstr "関連リンクの視覚的なスタイルを制御します。線は非方向リンクを表示します。矢印は方向を示す矢印を追加し、開始/終了ホットスポット設定と一緒に動作します。"
 
 msgid "Correct"
 msgstr "正解"
@@ -486,7 +492,7 @@ msgid "correct"
 msgstr "正解"
 
 msgid "Correct responses"
-msgstr ""
+msgstr "正解の回答"
 
 msgid "Cosine"
 msgstr "cos"
@@ -507,7 +513,7 @@ msgid "Create association(s) between two sets of choices displayed in a table (r
 msgstr "テーブル（行と列）の関連づけを作成します"
 
 msgid "Create associations and fill the score in the form below"
-msgstr ""
+msgstr "関連付けを作成し、以下のフォームにスコアを入力してください"
 
 msgid "Create gap"
 msgstr "穴埋め作成"
@@ -538,6 +544,9 @@ msgstr "カスタム（PCI）"
 
 msgid "Custom Response Processing Mode"
 msgstr "カスタムレスポンス処理モード"
+
+msgid "Dashed"
+msgstr "破線"
 
 msgid "Default"
 msgstr "デフォルト"
@@ -576,16 +585,16 @@ msgid "Defined width"
 msgstr "指定幅"
 
 msgid "Defines how interaction points are transformed into the final item score."
-msgstr ""
+msgstr "インタラクションポイントを最終項目スコアに変換する方法を定義します。"
 
 msgid "Defines how multiple Text Entry interactions are evaluated."
-msgstr ""
+msgstr "複数のテキスト入力操作を評価する方法を定義します。"
 
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "数値型の結果変数の最大値を設定します。最大値は正の値、最小は負の値にすることができます。"
 
 msgid "Defines whether this hotspot can be used as the start and/or end of an association."
-msgstr ""
+msgstr "このホットスポットを関連付けの開始および/または終了として使用できるかどうかを定義します。"
 
 msgid "Degrees"
 msgstr "度"
@@ -618,7 +627,7 @@ msgid "Description"
 msgstr "説明"
 
 msgid "Dichotomous"
-msgstr ""
+msgstr "二分法"
 
 msgid "Direction of writing"
 msgstr "縦書き／横書き\n"
@@ -634,13 +643,13 @@ msgid "Display media player"
 msgstr "メディアプレーヤーを表示する"
 
 msgid "Display mode"
-msgstr ""
+msgstr "表示モード"
 
 msgid "Display the choices either horizontally or vertically"
 msgstr "選択肢を水平または垂直に並べる"
 
 msgid "Displays the slider bar either horizontally or vertically"
-msgstr ""
+msgstr "スライダーバーを水平方向または垂直方向に表示します。"
 
 msgid "Divide"
 msgstr "分割"
@@ -688,13 +697,13 @@ msgid "e.g. 960"
 msgstr "例えば960"
 
 msgid "e.g. Apple"
-msgstr ""
+msgstr "例: Apple"
 
 msgid "Each interaction contributes its own points to the final item score. The final score is the sum of all interaction scores."
-msgstr ""
+msgstr "各インタラクションは、それぞれの点を最終項目の点数に寄与します。最終的な点数は、すべてのインタラクションの点数の合計です。"
 
 msgid "each response must be entered in its corresponding field."
-msgstr ""
+msgstr "各応答は対応するフィールドに入力する必要があります。"
 
 msgid "Edit"
 msgstr "編集"
@@ -744,11 +753,14 @@ msgstr "一時停止、再生を受検者に有効にします"
 msgid "Enable this option if the list of expected answers may need to be extended during evaluation."
 msgstr ""
 
+msgid "Enable this option if the list of expected answers may need to be extended during evaluation."
+msgstr "評価中に、予想される回答のリストを拡張する必要がある場合は、このオプションを有効にしてください。"
+
 msgid "Enable/disable scrolling."
 msgstr "スクロールの有効/無効を設定します。"
 
 msgid "End (target)"
-msgstr ""
+msgstr "End (target)"
 
 msgid "End Attempt"
 msgstr "エンドアテンプト"
@@ -799,10 +811,10 @@ msgid "Euler\\'s constant"
 msgstr "オイラーの定義"
 
 msgid "Evaluate Text Entry interactions as Unordered Multi-Field"
-msgstr ""
+msgstr "テキスト入力の相互作用を未順のマルチフィールドとして評価する"
 
 msgid "Evaluation"
-msgstr ""
+msgstr "評価"
 
 msgid "Exponent"
 msgstr "指数"
@@ -993,6 +1005,9 @@ msgstr "シャッフルが適用されると，選択肢の順番が受検ごと
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" or \"fixed\" individually."
 msgstr ""
 
+msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" or \"fixed\" individually."
+msgstr "shuffle 属性が true の場合、配信エンジンは最初に表示された順序をランダム化します。 しかし、それぞれの選択は個別に「シャッフル」または「固定」されることがあります。"
+
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
 msgstr "選択肢の順序をランダムに提示します。ただし、各選択肢は個別に提示順を「固定」に設定することもができます。"
 
@@ -1087,13 +1102,13 @@ msgid "Interpretation"
 msgstr "翻訳"
 
 msgid "Invalid arrow direction. Create associations from a start hotspot to an end hotspot."
-msgstr ""
+msgstr "無効な矢印方向。開始ホットスポットから終了ホットスポットへの関連付けを作成します。"
 
 msgid "Invalid identifier"
 msgstr "無効な識別子です"
 
 msgid "Invalid Lexical Group Identifier"
-msgstr ""
+msgstr "無効なレキシカルグループ識別子"
 
 msgid "Invalid Outcome Declaration"
 msgstr "無効な結果宣言"
@@ -1208,10 +1223,10 @@ msgid "Level"
 msgstr "レベル"
 
 msgid "Lexical field canonical value"
-msgstr ""
+msgstr "字句フィールドの正規値"
 
 msgid "Lexical fields"
-msgstr ""
+msgstr "字句フィールド"
 
 msgid "Line"
 msgstr "線"
@@ -1315,6 +1330,9 @@ msgstr "{ruby}選択数{rt}せんたくすう{/rt}{/ruby}が{ruby}上限{rt}じ�
 msgid "Maximum correct responses: %d."
 msgstr ""
 
+msgid "Maximum correct responses: %d."
+msgstr "最大正しい応答: %d."
+
 msgid "Maximum number of choices reached."
 msgstr "{ruby}選択肢{rt}せんたくし{/rt}{/ruby}の{ruby}上限{rt}じょうげん{/rt}{/ruby}に{ruby}達{rt}たっ{/rt}{/ruby}しました"
 
@@ -1401,7 +1419,7 @@ msgid "No value set"
 msgstr "何もセットされていません"
 
 msgid "Non-tabular"
-msgstr ""
+msgstr "Non-tabular"
 
 msgid "None"
 msgstr "なし"
@@ -1435,6 +1453,9 @@ msgstr "1つ以上のQTIコンポーネントがシステムでサポートさ�
 msgid "or more"
 msgstr ""
 
+msgid "or more"
+msgstr "またはもっと"
+
 msgid "Order"
 msgstr "画像オーダー"
 
@@ -1451,7 +1472,7 @@ msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "画像の領域（ホットスポット）を選んでください"
 
 msgid "Ordered"
-msgstr ""
+msgstr "注文済み"
 
 msgid "Orientation"
 msgstr "選択肢の並び方"
@@ -1571,7 +1592,7 @@ msgid "Plus/minus"
 msgstr "プラス/マイナス"
 
 msgid "Polytomous"
-msgstr ""
+msgstr "多指症"
 
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "ポータブル要素モデル％sが見つかりません。必要な拡張子が欠落している可能性があります。"
@@ -1703,10 +1724,10 @@ msgid "Remove Instructions"
 msgstr "アラート非表示"
 
 msgid "Remove level"
-msgstr ""
+msgstr "レベルを削除"
 
 msgid "Remove lexical field"
-msgstr ""
+msgstr "字句フィールドを削除"
 
 msgid "Remove Message"
 msgstr "メッセージを削除"
@@ -1721,7 +1742,7 @@ msgid "Remove this stylesheet"
 msgstr "このスタイルシートを削除"
 
 msgid "Remove variant"
-msgstr ""
+msgstr "バリエーションを削除"
 
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr "すべてのアラートを非表示にします"
@@ -1766,13 +1787,13 @@ msgid "Response Properties"
 msgstr "レスポンスプロパティ"
 
 msgid "responses can be entered in any field and are evaluated as a set."
-msgstr ""
+msgstr "応答は任意のフィールドに入力でき、セットとして評価されます。"
 
 msgid "Reverse direction"
-msgstr ""
+msgstr "逆方向"
 
 msgid "Reverse the slider bar boundaries"
-msgstr ""
+msgstr "スライダーの境界線を逆にする"
 
 msgid "Rich text"
 msgstr "リッチテキスト"
@@ -1817,10 +1838,10 @@ msgid "Score value"
 msgstr "スコア値"
 
 msgid "Scores"
-msgstr ""
+msgstr "スコア"
 
 msgid "Scoring Model"
-msgstr ""
+msgstr "スコアモデル"
 
 msgid "Scrollable multi-column"
 msgstr "スクロール可能なマルチカラム"
@@ -1868,7 +1889,7 @@ msgid "Select height of block based off container height"
 msgstr "コンテナの高さからブロックの高さを選択"
 
 msgid "Select height of block based on container height"
-msgstr ""
+msgstr "コンテナの高さに基づいてブロックの高さを選択"
 
 msgid "Select height of passage base of container height"
 msgstr "コンテナの高さを選択"
@@ -1955,7 +1976,7 @@ msgid "Similar"
 msgstr "似ています"
 
 msgid "Simple sum"
-msgstr ""
+msgstr "シンプルな合計"
 
 msgid "Sine"
 msgstr "sin"
@@ -1975,6 +1996,9 @@ msgstr "スライダー"
 msgid "Slider Interaction"
 msgstr "スライダー問題"
 
+msgid "Solid"
+msgstr "実線"
+
 msgid "Some feedback text."
 msgstr "フィードバックテキスト"
 
@@ -1985,10 +2009,10 @@ msgid "Something went wrong while destroying an interaction: %s"
 msgstr "インタラクションの破棄時に何か問題が発生しました: %s。"
 
 msgid "Sort from source to target list"
-msgstr "左右移動の並び替え"
+msgstr "移動での並び替え"
 
 msgid "sort from source to target list"
-msgstr "左右移動の並び替え"
+msgstr "移動での並び替え"
 
 msgid "Square root"
 msgstr "平方根"
@@ -1997,7 +2021,7 @@ msgid "standard"
 msgstr "標準"
 
 msgid "Start (source)"
-msgstr ""
+msgstr "開始 (ソース)"
 
 msgid "Status"
 msgstr "ステータス"
@@ -2039,10 +2063,10 @@ msgid "Table headings"
 msgstr "表の見出し"
 
 msgid "Tabular"
-msgstr ""
+msgstr "テーブル"
 
 msgid "Tabular uses a table layout. Non-tabular uses choices and buckets in preview and delivery."
-msgstr ""
+msgstr "表形式では、テーブルレイアウトを使用します。非表形式では、プレビューと配信に選択肢とバケットを使用します。"
 
 msgid "Tangent"
 msgstr "tan"
@@ -2150,7 +2174,7 @@ msgid "The index to use when displaying a variable of ordered cardinality. If a 
 msgstr "順序付けされたカーディナリティの変数を表示するときに使用するインデックスです。インデックスが設定されていない場合は、コンテナ内のすべての値が表示されます。"
 
 msgid "The item awards different scores depending on how many correct responses are provided. Configure one or more thresholds with their corresponding scores."
-msgstr ""
+msgstr "項目は、提供される正しい回答の数によって異なるスコアを授与します。対応するスコアで1つ以上のしきい値を設定します。"
 
 msgid "The item cannot be saved because it contains an unsupported custom interaction."
 msgstr "サポートされていないカスタムインタラクションが含まれているため、アイテムを保存できません。"
@@ -2329,10 +2353,10 @@ msgid "This value does not follow scoring traits guidelines. It won't be compati
 msgstr "この値は、スコアリング特性のガイドラインに沿っていません。TAO手動採点（TAO Manual Scoring）との互換性はありません。"
 
 msgid "This value is already used."
-msgstr ""
+msgstr "この値は既に使用されています。"
 
 msgid "This variant already exists"
-msgstr ""
+msgstr "このバリエーションは既に存在します"
 
 msgid "Time dependent"
 msgstr "時間依存"
@@ -2395,7 +2419,7 @@ msgid "Unknown $key to register MetadataService instance"
 msgstr "MetadataServiceインスタンスを登録するための不明な$key"
 
 msgid "Unordered"
-msgstr ""
+msgstr "注文なし"
 
 msgid "Unregister method expects $key and $name parameters."
 msgstr "登録解除メソッドでは、$keyおよび$nameパラメーターが必要です。"
@@ -2416,10 +2440,10 @@ msgid "Value"
 msgstr "値"
 
 msgid "Variant"
-msgstr ""
+msgstr "バリアント型"
 
 msgid "Variants"
-msgstr ""
+msgstr "バリアント"
 
 msgid "Vector"
 msgstr "ベクトル"
@@ -2432,6 +2456,9 @@ msgstr "縦書き"
 
 msgid "warning"
 msgstr "警告"
+
+msgid "Wavy"
+msgstr "波線"
 
 msgid "We will use the patternMask to do this, to be compliant with the IMS standard"
 msgstr "IMS標準規格に準拠するために、patternMaskを使用します。"

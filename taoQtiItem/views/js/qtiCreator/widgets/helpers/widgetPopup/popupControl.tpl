@@ -1,1 +1,0 @@
-<button title="{{description}}" class="btn-info small widget-popup-control" data-control="{{id}}">{{text}}</button>

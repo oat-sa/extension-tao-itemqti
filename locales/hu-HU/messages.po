@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2026.08 LTS\n"
-"PO-Revision-Date: 2026-07-31T12:35:54\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2026-07-31 15:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: hu-HU\n"
@@ -95,13 +95,13 @@ msgid "A choice must be selected"
 msgstr "Ki kell választani egy lehetőséget"
 
 msgid "A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image."
-msgstr ""
+msgstr "Egy grafikus rés-egyeztetési interakcióhoz háttérképre, legalább egy hotspotra és legalább egy résképre van szükség."
 
 msgid "A human interpretation of the variable's value."
 msgstr "A változó értékének emberi értelmezése."
 
 msgid "A Lexical Field groups a canonical answer and optional variants into a single expected response. The canonical value is stored in the item data and used for response processing; only additional variants are listed here. Group identifiers are assigned automatically."
-msgstr ""
+msgstr "Egy lexikai mező egyetlen várható válaszként csoportosítja a kanonikus választ és az opcionális változatokat. A kanonikus értéket az elemadatok tárolják, és a válaszfeldolgozáshoz használják; itt csak a további változatok szerepelnek. A csoportazonosítók hozzárendelése automatikusan történik."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
 ""
@@ -142,10 +142,10 @@ msgid "Add else feedback"
 msgstr "Egyéb visszajelzés hozzáadása"
 
 msgid "Add level"
-msgstr ""
+msgstr "Szint hozzáadása"
 
 msgid "Add lexical field"
-msgstr ""
+msgstr "Lexikai mező hozzáadása"
 
 msgid "Add new column"
 msgstr "Új oszlop hozzáadása"
@@ -160,7 +160,7 @@ msgid "Add Style Sheet"
 msgstr "Stíluslap hozzáadása"
 
 msgid "Add variant"
-msgstr ""
+msgstr "Változat hozzáadása"
 
 msgid "after"
 msgstr "után"
@@ -169,13 +169,13 @@ msgid "Alignment"
 msgstr "Igazítás"
 
 msgid "All-or-nothing scoring. A single score is awarded only when the configured threshold is reached."
-msgstr ""
+msgstr "Mindent vagy semmit pontozás. Egyetlen pontszámot csak akkor adnak, ha elérik a beállított küszöbértéket."
 
 msgid "Allow elimination"
 msgstr "Engedélyezze az eltávolítást"
 
 msgid "Allow evaluators to extend the Lexical Field list"
-msgstr ""
+msgstr "Lehetővé teszi az értékelők számára a lexikai mezők listájának bővítését"
 
 msgid "Allowed associations"
 msgstr "Engedélyezett társítások"
@@ -246,7 +246,7 @@ msgid "Apip Package successfully exported."
 msgstr "Az Appip csomag exportálása sikeresen megtörtént."
 
 msgid "Applies to all Text Entry interactions in this item"
-msgstr ""
+msgstr "Az elem összes szövegbeviteli interakciójára vonatkozik"
 
 msgid "Arc"
 msgstr "Ív"
@@ -255,10 +255,10 @@ msgid "Arrange a list of choices in the correct order."
 msgstr "Rendezd el a választási lehetőségek listáját a megfelelő sorrendben."
 
 msgid "Arrow"
-msgstr ""
+msgstr "Nyíl"
 
 msgid "Arrow direction: start hotspot to end hotspot."
-msgstr ""
+msgstr "Nyíl iránya: a hotspot kezdetétől a hotspot végéig."
 
 msgid "Associate"
 msgstr "Társult"
@@ -267,13 +267,13 @@ msgid "Associate Interaction"
 msgstr "Partneri interakció"
 
 msgid "Association display"
-msgstr ""
+msgstr "Asszociációs kijelző"
 
 msgid "association pairs"
 msgstr "asszociációs párok"
 
 msgid "Association role"
-msgstr ""
+msgstr "Egyesületi szerep"
 
 msgid "at least"
 msgstr "legalább"
@@ -282,7 +282,7 @@ msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metada
 msgstr "„%s” metaadatértékek befecskendezésére tett kísérlet a(z) „%s” célhoz a(z) „%s” metaadat-injektorral."
 
 msgid "Authoring view remains tabular. Preview and delivery use non-tabular mode."
-msgstr ""
+msgstr "A szerzői nézet továbbra is táblázatos. Az előnézet és a kézbesítés nem táblázatos módot használ."
 
 msgid "Autostart"
 msgstr "Automatikus indítás"
@@ -453,16 +453,16 @@ msgid "Compact Appearance"
 msgstr "Kompakt megjelenés"
 
 msgid "Configures the position of the choices relative to the answer area."
-msgstr ""
+msgstr "A választási lehetőségek helyzetét konfigurálja a választerülethez képest."
 
 msgid "Configures the position of the choices relative to the buckets. Columns are choices and rows are buckets."
-msgstr ""
+msgstr "A választási lehetőségek pozícióját konfigurálja a gyűjtőkhöz képest. Az oszlopok a választási lehetőségek, a sorok pedig a gyűjtők."
 
 msgid "Configures the position of the choices relative to the gaps."
-msgstr ""
+msgstr "A választási lehetőségek helyzetét konfigurálja a résekhez képest."
 
 msgid "Configures the position of the choices relative to the image."
-msgstr ""
+msgstr "A választási lehetőségek képhez viszonyított helyzetét konfigurálja."
 
 msgid "Configures the position of the choices relative to the target list."
 msgstr "A választási lehetőségek céllistához viszonyított pozícióját konfigurálja."
@@ -477,7 +477,7 @@ msgid "Control the playing parameters (auto-start, loop) of a video or audio fil
 msgstr "Szabályozhatja egy video- vagy hangfájl lejátszási paramétereit (automatikus indítás, ismétlés), és jelentheti a lejátszások számát."
 
 msgid "Controls the visual style of association links. Line shows non-directional links. Arrow adds an arrowhead to indicate direction and works together with Start/End hotspot settings."
-msgstr ""
+msgstr "A társítási hivatkozások vizuális stílusát szabályozza. A vonal a nem irányított hivatkozásokat mutatja. A nyíl egy nyílfejet ad hozzá az irány jelzéséhez, és együttműködik a Kezdő/Befejező aktív pont beállításokkal."
 
 msgid "Correct"
 msgstr "Helyes"
@@ -486,7 +486,7 @@ msgid "correct"
 msgstr "helyes"
 
 msgid "Correct responses"
-msgstr ""
+msgstr "Helyes válaszok"
 
 msgid "Cosine"
 msgstr "Koszinusz"
@@ -507,7 +507,7 @@ msgid "Create association(s) between two sets of choices displayed in a table (r
 msgstr "Hozzon létre társítást két, egy táblázatban megjelenített választási lehetőségcsoport (sor és oszlop) között."
 
 msgid "Create associations and fill the score in the form below"
-msgstr ""
+msgstr "Hozz létre asszociációkat és töltsd ki a pontszámot az alábbi űrlapon"
 
 msgid "Create gap"
 msgstr "Rés létrehozása"
@@ -579,16 +579,16 @@ msgid "Defined width"
 msgstr "Meghatározott szélesség"
 
 msgid "Defines how interaction points are transformed into the final item score."
-msgstr ""
+msgstr "Meghatározza, hogyan alakulnak át az interakciós pontok a végső elem pontszámmá."
 
 msgid "Defines how multiple Text Entry interactions are evaluated."
-msgstr ""
+msgstr "Meghatározza, hogyan kerül kiértékelésre a több szövegbeviteli interakció."
 
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Meghatározza a numerikus kimeneti változók maximális nagyságát, a maximumnak pozitív értéknek, a minimumnak pedig negatívnak kell lennie."
 
 msgid "Defines whether this hotspot can be used as the start and/or end of an association."
-msgstr ""
+msgstr "Meghatározza, hogy ez a hotspot használható-e egy társítás kezdeteként és/vagy végeként."
 
 msgid "Degrees"
 msgstr "Fokok"
@@ -621,7 +621,7 @@ msgid "Description"
 msgstr "Leírás"
 
 msgid "Dichotomous"
-msgstr ""
+msgstr "Dichotóm"
 
 msgid "Direction of writing"
 msgstr "Az írás iránya"
@@ -636,13 +636,13 @@ msgid "Display media player"
 msgstr "Médialejátszó megjelenítése"
 
 msgid "Display mode"
-msgstr ""
+msgstr "Kijelzési mód"
 
 msgid "Display the choices either horizontally or vertically"
 msgstr "A választási lehetőségek megjelenítése vízszintesen vagy függőlegesen"
 
 msgid "Displays the slider bar either horizontally or vertically"
-msgstr ""
+msgstr "A csúszka sávját vízszintesen vagy függőlegesen jeleníti meg"
 
 msgid "Divide"
 msgstr "Osztás"
@@ -690,13 +690,13 @@ msgid "e.g. 960"
 msgstr "pl. 960"
 
 msgid "e.g. Apple"
-msgstr ""
+msgstr "pl. Apple"
 
 msgid "Each interaction contributes its own points to the final item score. The final score is the sum of all interaction scores."
-msgstr ""
+msgstr "Minden interakció a saját pontjait adja a végső elempontszámhoz. A végső pontszám az összes interakciós pontszám összege."
 
 msgid "each response must be entered in its corresponding field."
-msgstr ""
+msgstr "minden választ a megfelelő mezőbe kell beírni."
 
 msgid "Edit"
 msgstr "Szerkesztés"
@@ -744,13 +744,13 @@ msgid "Enable the test taker to pause and restart the playing."
 msgstr "Engedélyezze a vizsgázó számára a lejátszás szüneteltetését és újraindítását."
 
 msgid "Enable this option if the list of expected answers may need to be extended during evaluation."
-msgstr ""
+msgstr "Engedélyezze ezt a beállítást, ha a várható válaszok listáját a kiértékelés során esetleg ki kell bővíteni."
 
 msgid "Enable/disable scrolling."
 msgstr "Görgetés engedélyezése/letiltása."
 
 msgid "End (target)"
-msgstr ""
+msgstr "Vége (cél)"
 
 msgid "End Attempt"
 msgstr "Kísérlet befejezése"
@@ -801,10 +801,10 @@ msgid "Euler\\'s constant"
 msgstr "Euler-állandó"
 
 msgid "Evaluate Text Entry interactions as Unordered Multi-Field"
-msgstr ""
+msgstr "Szövegbeviteli interakciók kiértékelése rendezetlen többmezős elemzésként"
 
 msgid "Evaluation"
-msgstr ""
+msgstr "Értékelés"
 
 msgid "Exponent"
 msgstr "Kitevő"
@@ -993,7 +993,7 @@ msgid "If the shuffle attribute is true then the delivery engine will randomize 
 msgstr "Ha a shuffle attribútum értéke igaz, akkor a szolgáltató véletlenszerűsíti a választási lehetőségek kezdeti megjelenítési sorrendjét. Azonban minden választási lehetőség egyenként „keverhető” vagy „rögzíthető”."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" or \"fixed\" individually."
-msgstr ""
+msgstr "Ha a shuffle attribútum értéke igaz, akkor a megjelenítési motor véletlenszerűsíti a választási lehetőségek kezdeti megjelenítési sorrendjét. Azonban minden választási lehetőség külön-külön „keverhető” vagy „rögzíthető”."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
 msgstr "Ha a shuffle attribútum értéke igaz, akkor a megjelenítési motor véletlenszerűsíti a választási lehetőségek kezdeti megjelenítési sorrendjét. Azonban minden választási lehetőség egyenként „keverhető” vagy „rögzíthető”."
@@ -1089,13 +1089,13 @@ msgid "Interpretation"
 msgstr "Értelmezés"
 
 msgid "Invalid arrow direction. Create associations from a start hotspot to an end hotspot."
-msgstr ""
+msgstr "Érvénytelen nyílirány. Hozzon létre társításokat egy kezdő hotspottól egy vég hotspotig."
 
 msgid "Invalid identifier"
 msgstr "Érvénytelen azonosító"
 
 msgid "Invalid Lexical Group Identifier"
-msgstr ""
+msgstr "Érvénytelen lexikai csoportazonosító"
 
 msgid "Invalid Outcome Declaration"
 msgstr "Érvénytelen eredménynyilatkozat"
@@ -1207,10 +1207,10 @@ msgid "Level"
 msgstr "Szint"
 
 msgid "Lexical field canonical value"
-msgstr ""
+msgstr "Lexikai mező kanonikus értéke"
 
 msgid "Lexical fields"
-msgstr ""
+msgstr "Lexikai mezők"
 
 msgid "Line"
 msgstr "Vonal"
@@ -1312,7 +1312,7 @@ msgid "Maximum choices reached"
 msgstr "Elérte a maximális választási lehetőséget"
 
 msgid "Maximum correct responses: %d."
-msgstr ""
+msgstr "Maximális helyes válaszok száma: %d."
 
 msgid "Maximum number of choices reached."
 msgstr "Elérte a lehetséges választások maximális számát."
@@ -1400,7 +1400,7 @@ msgid "No value set"
 msgstr "Nincs beállított érték"
 
 msgid "Non-tabular"
-msgstr ""
+msgstr "Nem táblázatos"
 
 msgid "None"
 msgstr "Egyik sem"
@@ -1434,6 +1434,9 @@ msgstr "Egy vagy több QTI komponenst a rendszer nem támogat. A rendszer a köv
 msgid "or more"
 msgstr ""
 
+msgid "or more"
+msgstr "vagy több"
+
 msgid "Order"
 msgstr "Rendelés"
 
@@ -1450,7 +1453,7 @@ msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Rendezd sorrendbe a képen megjelenített területeket (gócpontokat)."
 
 msgid "Ordered"
-msgstr ""
+msgstr "Rendelt"
 
 msgid "Orientation"
 msgstr "Tájolás"
@@ -1570,7 +1573,7 @@ msgid "Plus/minus"
 msgstr "Plusz/mínusz"
 
 msgid "Polytomous"
-msgstr ""
+msgstr "Politóm"
 
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "A hordozható elem modellje %s nem található. Lehet, hogy hiányzik a szükséges kiterjesztés."
@@ -1702,10 +1705,10 @@ msgid "Remove Instructions"
 msgstr "Utasítások eltávolítása"
 
 msgid "Remove level"
-msgstr ""
+msgstr "Szint eltávolítása"
 
 msgid "Remove lexical field"
-msgstr ""
+msgstr "Lexikai mező eltávolítása"
 
 msgid "Remove Message"
 msgstr "Üzenet eltávolítása"
@@ -1720,7 +1723,7 @@ msgid "Remove this stylesheet"
 msgstr "Stíluslap eltávolítása"
 
 msgid "Remove variant"
-msgstr ""
+msgstr "Változat eltávolítása"
 
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr "Eltávolítja a rendszer által generált összes utasításüzenetet a felületről."
@@ -1765,13 +1768,13 @@ msgid "Response Properties"
 msgstr "Válasz tulajdonságai"
 
 msgid "responses can be entered in any field and are evaluated as a set."
-msgstr ""
+msgstr "A válaszok bármelyik mezőbe beírhatók, és halmazként kerülnek kiértékelésre."
 
 msgid "Reverse direction"
-msgstr ""
+msgstr "Fordított irány"
 
 msgid "Reverse the slider bar boundaries"
-msgstr ""
+msgstr "A csúszka határainak megfordítása"
 
 msgid "Rich text"
 msgstr "Rich text"
@@ -1816,10 +1819,10 @@ msgid "Score value"
 msgstr "Pontszám"
 
 msgid "Scores"
-msgstr ""
+msgstr "Pontszámok"
 
 msgid "Scoring Model"
-msgstr ""
+msgstr "Pontozási modell"
 
 msgid "Scrollable multi-column"
 msgstr "Görgethető többoszlopos"
@@ -1867,7 +1870,7 @@ msgid "Select height of block based off container height"
 msgstr "A blokk magasságának kiválasztása a konténer magassága alapján"
 
 msgid "Select height of block based on container height"
-msgstr ""
+msgstr "A blokk magasságának kiválasztása a konténer magassága alapján"
 
 msgid "Select height of passage base of container height"
 msgstr "Válassza ki az átjáró aljának vagy a konténer magasságának magasságát"
@@ -1954,7 +1957,7 @@ msgid "Similar"
 msgstr "Hasonló"
 
 msgid "Simple sum"
-msgstr ""
+msgstr "Egyszerű összeg"
 
 msgid "Sine"
 msgstr "Szinusz"
@@ -1999,7 +2002,7 @@ msgid "standard"
 msgstr "standard"
 
 msgid "Start (source)"
-msgstr ""
+msgstr "Indítás (forrás)"
 
 msgid "Status"
 msgstr "Állapot"
@@ -2041,10 +2044,10 @@ msgid "Table headings"
 msgstr "Táblázatcímek"
 
 msgid "Tabular"
-msgstr ""
+msgstr "Táblázatos"
 
 msgid "Tabular uses a table layout. Non-tabular uses choices and buckets in preview and delivery."
-msgstr ""
+msgstr "A táblázatos elrendezés táblázatos elrendezést használ. A nem táblázatos elrendezés választási lehetőségeket és gyűjtőket használ az előnézetben és a megjelenítésben."
 
 msgid "Tangent"
 msgstr "Tangens"
@@ -2152,7 +2155,7 @@ msgid "The index to use when displaying a variable of ordered cardinality. If a 
 msgstr "A rendezett számosságú változó megjelenítésekor használandó index. Ha rendezett számosságú változót kell megjeleníteni, és az index nincs beállítva, akkor a konténerben lévő összes érték megjelenik."
 
 msgid "The item awards different scores depending on how many correct responses are provided. Configure one or more thresholds with their corresponding scores."
-msgstr ""
+msgstr "Az elem a helyes válaszok számától függően különböző pontszámokat ad. Konfiguráljon egy vagy több küszöbértéket a hozzájuk tartozó pontszámokkal."
 
 msgid "The item cannot be saved because it contains an unsupported custom interaction."
 msgstr "Az elem nem menthető, mert nem támogatott egyéni interakciót tartalmaz."
@@ -2331,10 +2334,10 @@ msgid "This value does not follow scoring traits guidelines. It won't be compati
 msgstr "Ez az érték nem követi a tulajdonságok pontozására vonatkozó irányelveket. Nem lesz kompatibilis a TAO manuális pontozással."
 
 msgid "This value is already used."
-msgstr ""
+msgstr "Ez az érték már használatban van."
 
 msgid "This variant already exists"
-msgstr ""
+msgstr "Ez a változat már létezik"
 
 msgid "Time dependent"
 msgstr "Időfüggő"
@@ -2397,7 +2400,7 @@ msgid "Unknown $key to register MetadataService instance"
 msgstr "Ismeretlen $key a MetadataService példány regisztrálásához"
 
 msgid "Unordered"
-msgstr ""
+msgstr "Rendezetlen"
 
 msgid "Unregister method expects $key and $name parameters."
 msgstr "Az Unregister metódus $key és $name paramétereket vár."
@@ -2418,10 +2421,10 @@ msgid "Value"
 msgstr "Érték"
 
 msgid "Variant"
-msgstr ""
+msgstr "Változat"
 
 msgid "Variants"
-msgstr ""
+msgstr "Változatok"
 
 msgid "Vector"
 msgstr "Vektor"
