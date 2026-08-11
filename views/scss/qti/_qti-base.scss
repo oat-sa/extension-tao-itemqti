@@ -65,9 +65,11 @@ $mainContainer: '.qti-item';
 
     //!important to override all attempts to change this in the theme
     overflow-x: visible !important;
+
     .grid-row,
     .fixed-grid-row {
         width: 100%;
+
         [class*=' col-'],
         [class^='col-'] {
             &.col-12 {

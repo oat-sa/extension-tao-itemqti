@@ -19,7 +19,7 @@ define([
     'lodash',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/extendedText',
     'taoQtiItem/qtiCreator/widgets/static/helpers/itemScrollingMethods'
-], function ($, _, formTpl, itemScrollingMethods) {
+], function ($, _, extendedTextFormTpl, itemScrollingMethods) {
     'use strict';
 
     QUnit.module('qtiCreator/widgets/interactions/extendedTextInteraction/states/Question - scrolling tpl vars');
@@ -46,7 +46,7 @@ define([
         assertOptionSelected(assert, tplVars.scrollingHeights, '75', 'horizontal - heights');
         assertOptionSelected(assert, tplVars.scrollingWidths, '75', 'horizontal - widths');
 
-        const html = formTpl(
+        const html = extendedTextFormTpl(
             _.extend(
                 {
                     formats: {
@@ -98,7 +98,7 @@ define([
         assertOptionSelected(assert, tplVars.scrollingHeights, '50', 'vertical fixture - heights');
         assertOptionSelected(assert, tplVars.scrollingWidths, '50', 'vertical fixture - widths');
 
-        const html = formTpl(
+        const html = extendedTextFormTpl(
             _.extend(
                 {
                     formats: {
@@ -157,5 +157,48 @@ define([
 
         // sanity: still provides both vars required by formTpl
         assert.ok(tplVars.scrollingWidths.length > 0, 'scrollingWidths provided');
+    });
+
+    QUnit.module('qtiCreator/widgets/interactions scrolling toggle visibility');
+
+    function createExtendedTextTemplateContext(scrollingTplVars) {
+        return _.extend(
+            {
+                formats: {
+                    plain: { label: 'Plain text', selected: true },
+                    xhtml: { label: 'Rich text', selected: false }
+                },
+                editorType: 'classic',
+                editorTypes: {
+                    classic: { label: 'Classic', selected: true },
+                    document: { label: 'Document', selected: false }
+                },
+                toolbarGroupWhenFull: false,
+                patternMask: '',
+                maxWords: NaN,
+                maxLength: NaN,
+                expectedLength: NaN,
+                expectedLines: NaN,
+                constraints: {
+                    none: { label: 'None', selected: true },
+                    maxLength: { label: 'Max Length', selected: false },
+                    maxWords: { label: 'Max Words', selected: false },
+                    pattern: { label: 'Pattern', selected: false }
+                },
+                constraintsAvailable: true
+            },
+            scrollingTplVars
+        );
+    }
+
+    QUnit.test('extended text form renders the scrolling checkbox', function (assert) {
+        assert.expect(3);
+
+        const tplVars = itemScrollingMethods.getTplVars($('<div class="qti-interaction" />'), '75');
+        const $extendedText = $('<div />').html(extendedTextFormTpl(createExtendedTextTemplateContext(tplVars)));
+
+        assert.strictEqual($extendedText.find('.scrolling-toggle-container input[name="scrolling"]').length, 1, 'extended text renders the scrolling checkbox');
+        assert.ok($extendedText.text().includes('Enable Scrolling'), 'extended text renders the scrolling label');
+        assert.strictEqual($extendedText.find('.scrolling-toggle-container').length, 1, 'extended text includes the scrolling toggle container');
     });
 });
