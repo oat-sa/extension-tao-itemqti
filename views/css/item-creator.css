@@ -3,3 +3,12 @@
 /*# sourceMappingURL=item-creator.css.map */
 .wiris-popup-btn+.feedback-info{margin-top:.5rem;padding:.5rem}
 .wiris-popup-btn+.feedback-info p{margin-bottom:0}
+/* PCR-347 MathType logo button */
+.wiris-popup-btn{display:flex;align-items:center;justify-content:center;min-height:2.5rem;padding:.4rem .8rem}
+.wiris-popup-btn .wiris-popup-btn-logo{display:block;height:2.75rem;width:auto;max-width:100%;pointer-events:none}
+.wiris-popup-btn .wiris-popup-btn-logo-light{display:block}
+.wiris-popup-btn .wiris-popup-btn-logo-dark{display:none;height:3rem}
+body.solar-design .wiris-popup-btn{height:auto}
+body.solar-design .wiris-popup-btn .wiris-popup-btn-logo-light{display:none}
+body.solar-design .wiris-popup-btn .wiris-popup-btn-logo-dark{display:block}
+
