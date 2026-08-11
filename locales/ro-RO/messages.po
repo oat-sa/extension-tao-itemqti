@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2026.08 LTS\n"
-"PO-Revision-Date: 2026-07-31T12:36:35\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2026-07-31 15:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro-RO\n"
@@ -169,13 +169,13 @@ msgid "Alignment"
 msgstr "Aliniere"
 
 msgid "All-or-nothing scoring. A single score is awarded only when the configured threshold is reached."
-msgstr ""
+msgstr "Scoring totul sau nimic. Un singur scor se acordă numai atunci când pragul configurat este atins."
 
 msgid "Allow elimination"
 msgstr "Permite eliminarea"
 
 msgid "Allow evaluators to extend the Lexical Field list"
-msgstr ""
+msgstr "Permite evaluatorilor să extindă lista câmpurilor Lexice"
 
 msgid "Allowed associations"
 msgstr "Asocieri permise"
@@ -246,7 +246,7 @@ msgid "Apip Package successfully exported."
 msgstr "Pachet Apip exportat cu succes."
 
 msgid "Applies to all Text Entry interactions in this item"
-msgstr ""
+msgstr "Se aplică la toate interacțiunile de intrare în text din acest element"
 
 msgid "Arc"
 msgstr "Arc"
@@ -255,10 +255,10 @@ msgid "Arrange a list of choices in the correct order."
 msgstr "Aranjați o listă de opțiuni în ordinea corectă."
 
 msgid "Arrow"
-msgstr ""
+msgstr "Săgeată"
 
 msgid "Arrow direction: start hotspot to end hotspot."
-msgstr ""
+msgstr "Direcția săgeții: pornește hotspot pentru a termina hotspotul."
 
 msgid "Associate"
 msgstr "Asociat"
@@ -267,13 +267,13 @@ msgid "Associate Interaction"
 msgstr "Interacţiuni asociate"
 
 msgid "Association display"
-msgstr ""
+msgstr "Afișaj asociație"
 
 msgid "association pairs"
 msgstr "perechi de asociații"
 
 msgid "Association role"
-msgstr ""
+msgstr "Rolul asociației"
 
 msgid "at least"
 msgstr "cel puțin"
@@ -282,7 +282,7 @@ msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metada
 msgstr "Se încearcă injectarea \"%s\" valori metadate pentru ținta \"%s\" cu metadata Injector \"%s\"."
 
 msgid "Authoring view remains tabular. Preview and delivery use non-tabular mode."
-msgstr ""
+msgstr "Vizualizarea de autorizare rămâne tabulară. Previzualizarea și utilizarea livrării în modul non-tabel."
 
 msgid "Autostart"
 msgstr "Autostart"
@@ -453,16 +453,16 @@ msgid "Compact Appearance"
 msgstr "Prezentare compactă"
 
 msgid "Configures the position of the choices relative to the answer area."
-msgstr ""
+msgstr "Configurează poziția opțiunilor în raport cu domeniul de răspuns."
 
 msgid "Configures the position of the choices relative to the buckets. Columns are choices and rows are buckets."
-msgstr ""
+msgstr "Configurează poziția opțiunilor în raport cu gălețile. Coloanele sunt opțiuni și rânduri sunt găleți."
 
 msgid "Configures the position of the choices relative to the gaps."
-msgstr ""
+msgstr "Configurează poziția opțiunilor în raport cu lacunele."
 
 msgid "Configures the position of the choices relative to the image."
-msgstr ""
+msgstr "Configurează poziția opțiunilor în raport cu imaginea."
 
 msgid "Configures the position of the choices relative to the target list."
 msgstr "Configurează poziția opțiunilor în raport cu lista țintă."
@@ -477,7 +477,7 @@ msgid "Control the playing parameters (auto-start, loop) of a video or audio fil
 msgstr "Controlează parametrii de redare (pornire automată, buclă) ai unui fișier video sau audio și raportează numărul de redare."
 
 msgid "Controls the visual style of association links. Line shows non-directional links. Arrow adds an arrowhead to indicate direction and works together with Start/End hotspot settings."
-msgstr ""
+msgstr "Controlează stilul vizual al link-urilor de asociere. Linia afișează link-uri non-direcționale. Săgeata adaugă un săgeată pentru a indica direcția și funcționează împreună cu setările hotspot Start/End."
 
 msgid "Correct"
 msgstr "Corect"
@@ -486,7 +486,7 @@ msgid "correct"
 msgstr "corect"
 
 msgid "Correct responses"
-msgstr ""
+msgstr "Răspunsuri corecte"
 
 msgid "Cosine"
 msgstr "Cosine"
@@ -507,7 +507,7 @@ msgid "Create association(s) between two sets of choices displayed in a table (r
 msgstr "Creează o asociație(i) între două seturi de opțiuni afișate într-un tabel (rând și coloană)."
 
 msgid "Create associations and fill the score in the form below"
-msgstr ""
+msgstr "Creaţi asocieri şi completaţi scorul în formularul de mai jos"
 
 msgid "Create gap"
 msgstr "Creează un gol"
@@ -579,16 +579,16 @@ msgid "Defined width"
 msgstr "Lățime definită"
 
 msgid "Defines how interaction points are transformed into the final item score."
-msgstr ""
+msgstr "Definește cum punctele de interacțiune sunt transformate în scorul final al elementului."
 
 msgid "Defines how multiple Text Entry interactions are evaluated."
-msgstr ""
+msgstr "Definește modul în care sunt evaluate interacțiunile multiple de intrare în text."
 
 msgid "Defines the maximum magnitude of numeric outcome variables, the maximum must be a positive value and the minimum may be negative."
 msgstr "Definește magnitudinea maximă a variabilelor numerice ale rezultatului, maximul trebuie să fie o valoare pozitivă, iar minimul poate fi negativ."
 
 msgid "Defines whether this hotspot can be used as the start and/or end of an association."
-msgstr ""
+msgstr "Definește dacă acest hotspot poate fi folosit ca început și/sau sfârșit al unei asociații."
 
 msgid "Degrees"
 msgstr "Grafice"
@@ -621,7 +621,7 @@ msgid "Description"
 msgstr "Descriere"
 
 msgid "Dichotomous"
-msgstr ""
+msgstr "Dichotomu"
 
 msgid "Direction of writing"
 msgstr "Direcția de scriere"
@@ -636,13 +636,13 @@ msgid "Display media player"
 msgstr "Afişare player media"
 
 msgid "Display mode"
-msgstr ""
+msgstr "Mod de afişare"
 
 msgid "Display the choices either horizontally or vertically"
 msgstr "Afișează opțiunile fie orizontal, fie vertical"
 
 msgid "Displays the slider bar either horizontally or vertically"
-msgstr ""
+msgstr "Afişează bara de glisare fie orizontal sau vertical"
 
 msgid "Divide"
 msgstr "Împărțirea"
@@ -690,13 +690,13 @@ msgid "e.g. 960"
 msgstr "ex. 960"
 
 msgid "e.g. Apple"
-msgstr ""
+msgstr "ex. Măr"
 
 msgid "Each interaction contributes its own points to the final item score. The final score is the sum of all interaction scores."
-msgstr ""
+msgstr "Fiecare interacţiune contribuie cu propriile puncte la scorul final al elementului. Scorul final este suma tuturor scorurilor de interacţiune."
 
 msgid "each response must be entered in its corresponding field."
-msgstr ""
+msgstr "fiecare răspuns trebuie să fie introdus în câmpul corespunzător."
 
 msgid "Edit"
 msgstr "Editare"
@@ -744,13 +744,13 @@ msgid "Enable the test taker to pause and restart the playing."
 msgstr "Activați tastatura de test pentru a întrerupe și a reporni redarea."
 
 msgid "Enable this option if the list of expected answers may need to be extended during evaluation."
-msgstr ""
+msgstr "Activați această opțiune în cazul în care ar putea fi necesară extinderea listei de răspunsuri așteptate în timpul evaluării."
 
 msgid "Enable/disable scrolling."
 msgstr "Activează/dezactivează derularea."
 
 msgid "End (target)"
-msgstr ""
+msgstr "Sfârșit (țintă)"
 
 msgid "End Attempt"
 msgstr "Încercare de încheiere"
@@ -801,10 +801,10 @@ msgid "Euler\\'s constant"
 msgstr "Constanta lui Uuler"
 
 msgid "Evaluate Text Entry interactions as Unordered Multi-Field"
-msgstr ""
+msgstr "Evaluează interacțiunile intrărilor de text ca și Multi-Câmp Neordonat"
 
 msgid "Evaluation"
-msgstr ""
+msgstr "Evaluare"
 
 msgid "Exponent"
 msgstr "Exponent"
@@ -993,7 +993,7 @@ msgid "If the shuffle attribute is true then the delivery engine will randomize 
 msgstr "În cazul în care atributul de amestecare este adevărat, motorul de livrare va randomiza ordinea în care opțiunile sunt prezentate inițial. Cu toate acestea, fiecare alegere poate fi „amestecată” de „fixat” individual."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" or \"fixed\" individually."
-msgstr ""
+msgstr "În cazul în care atributul de amestecare este adevărat, motorul de livrare va randomiza ordinea în care opțiunile sunt prezentate inițial. Cu toate acestea, fiecare alegere poate fi „amestecată” sau „fixată” individual."
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
 msgstr "În cazul în care atributul de amestecare este adevărat, motorul de livrare va randomiza ordinea în care opțiunile sunt prezentate inițial. Cu toate acestea, fiecare alegere poate fi „falsificată” individual de „fix”."
@@ -1089,13 +1089,13 @@ msgid "Interpretation"
 msgstr "Interpretare"
 
 msgid "Invalid arrow direction. Create associations from a start hotspot to an end hotspot."
-msgstr ""
+msgstr "Direcție sageată nevalidă. Creați asocieri de la punctul de pornire până la punctul de acces."
 
 msgid "Invalid identifier"
 msgstr "Identificator nevalid"
 
 msgid "Invalid Lexical Group Identifier"
-msgstr ""
+msgstr "Identificator grup Lexical nevalid"
 
 msgid "Invalid Outcome Declaration"
 msgstr "Declarație de rezultat nevalidă"
@@ -1207,10 +1207,10 @@ msgid "Level"
 msgstr "Nivel"
 
 msgid "Lexical field canonical value"
-msgstr ""
+msgstr "Valoarea canonică a câmpului lexic"
 
 msgid "Lexical fields"
-msgstr ""
+msgstr "Câmpuri lexice"
 
 msgid "Line"
 msgstr "Linie"
@@ -1312,7 +1312,7 @@ msgid "Maximum choices reached"
 msgstr "Maximul de opțiuni atins"
 
 msgid "Maximum correct responses: %d."
-msgstr ""
+msgstr "Numărul maxim de răspunsuri corecte: %d."
 
 msgid "Maximum number of choices reached."
 msgstr "S-a atins numărul maxim de opțiuni."
@@ -1400,7 +1400,7 @@ msgid "No value set"
 msgstr "Nicio valoare setată"
 
 msgid "Non-tabular"
-msgstr ""
+msgstr "Non-tabular"
 
 msgid "None"
 msgstr "Niciunul"
@@ -1434,6 +1434,9 @@ msgstr "Una sau mai multe componente QTI nu sunt suportate de sistem. Sistemul a
 msgid "or more"
 msgstr ""
 
+msgid "or more"
+msgstr "sau mai multe"
+
 msgid "Order"
 msgstr "Comanda"
 
@@ -1450,7 +1453,7 @@ msgid "Order the areas (hotspots) displayed on a picture."
 msgstr "Comandați zonele (hotspots) afișate într-o imagine."
 
 msgid "Ordered"
-msgstr ""
+msgstr "Comandat"
 
 msgid "Orientation"
 msgstr "Orientare"
@@ -1570,7 +1573,7 @@ msgid "Plus/minus"
 msgstr "Plus/minus"
 
 msgid "Polytomous"
-msgstr ""
+msgstr "Poliomielită"
 
 msgid "Portable element model %s not found. Required extension might be missing"
 msgstr "Modelul de element portabil %s nu a fost găsit. Extensia necesară ar putea lipsi"
@@ -1702,10 +1705,10 @@ msgid "Remove Instructions"
 msgstr "Elimină instrucțiunile"
 
 msgid "Remove level"
-msgstr ""
+msgstr "Elimină nivel"
 
 msgid "Remove lexical field"
-msgstr ""
+msgstr "Elimină câmpul lexical"
 
 msgid "Remove Message"
 msgstr "Elimină mesajul"
@@ -1720,7 +1723,7 @@ msgid "Remove this stylesheet"
 msgstr "Elimină această foaie de stil"
 
 msgid "Remove variant"
-msgstr ""
+msgstr "Elimină varianta"
 
 msgid "Removes all instruction messages generated by the system from the interface."
 msgstr "Elimină din interfață toate mesajele de instrucție generate de sistem."
@@ -1765,13 +1768,13 @@ msgid "Response Properties"
 msgstr "Proprietăți răspuns"
 
 msgid "responses can be entered in any field and are evaluated as a set."
-msgstr ""
+msgstr "răspunsurile pot fi introduse în orice câmp și sunt evaluate ca un set."
 
 msgid "Reverse direction"
-msgstr ""
+msgstr "Direcție inversă"
 
 msgid "Reverse the slider bar boundaries"
-msgstr ""
+msgstr "Inversează limitele barei de glisare"
 
 msgid "Rich text"
 msgstr "Text îmbogățit"
@@ -1816,10 +1819,10 @@ msgid "Score value"
 msgstr "Valoarea scorului"
 
 msgid "Scores"
-msgstr ""
+msgstr "Scoruri"
 
 msgid "Scoring Model"
-msgstr ""
+msgstr "Model de punctaj"
 
 msgid "Scrollable multi-column"
 msgstr "Multicoloană derulabilă"
@@ -1867,7 +1870,7 @@ msgid "Select height of block based off container height"
 msgstr "Selectați înălțimea containerului bazată pe bloc"
 
 msgid "Select height of block based on container height"
-msgstr ""
+msgstr "Selectați înălțimea blocului în funcție de înălțimea containerului"
 
 msgid "Select height of passage base of container height"
 msgstr "Selectați înălțimea de trecere a înălțimii containerului"
@@ -1954,7 +1957,7 @@ msgid "Similar"
 msgstr "Similare"
 
 msgid "Simple sum"
-msgstr ""
+msgstr "Sumă simplă"
 
 msgid "Sine"
 msgstr "Sâmbătă"
@@ -1999,7 +2002,7 @@ msgid "standard"
 msgstr "standard"
 
 msgid "Start (source)"
-msgstr ""
+msgstr "Începe (sursă)"
 
 msgid "Status"
 msgstr "Status"
@@ -2041,10 +2044,10 @@ msgid "Table headings"
 msgstr "Titlurile tabelului"
 
 msgid "Tabular"
-msgstr ""
+msgstr "Tabel"
 
 msgid "Tabular uses a table layout. Non-tabular uses choices and buckets in preview and delivery."
-msgstr ""
+msgstr "Tabular folosește un format de tabele. Opțiunile și gălețile de previzualizare și livrare."
 
 msgid "Tangent"
 msgstr "Tangent"
@@ -2152,7 +2155,7 @@ msgid "The index to use when displaying a variable of ordered cardinality. If a 
 msgstr "Indexul de folosit la afișarea unei variabile de cardinalitate comandată. Dacă o variabilă de cardinalitate comandată este afișată și indexul nu este setat, toate valorile din container sunt afișate."
 
 msgid "The item awards different scores depending on how many correct responses are provided. Configure one or more thresholds with their corresponding scores."
-msgstr ""
+msgstr "Elementul acordă diferite punctaje în funcție de numărul de răspunsuri corecte. Configurați unul sau mai multe praguri cu scorurile corespunzătoare."
 
 msgid "The item cannot be saved because it contains an unsupported custom interaction."
 msgstr "Elementul nu poate fi salvat deoarece conține o interacțiune personalizată nesuportată."
@@ -2331,10 +2334,10 @@ msgid "This value does not follow scoring traits guidelines. It won't be compati
 msgstr "Această valoare nu urmează ghidurile de notare. Nu va fi compatibilă cu valorile manuale TAO"
 
 msgid "This value is already used."
-msgstr ""
+msgstr "Această valoare este deja folosită."
 
 msgid "This variant already exists"
-msgstr ""
+msgstr "Această variantă există deja"
 
 msgid "Time dependent"
 msgstr "Dependență de timp"
@@ -2397,7 +2400,7 @@ msgid "Unknown $key to register MetadataService instance"
 msgstr "$key necunoscut pentru a înregistra instanța MetadataService"
 
 msgid "Unordered"
-msgstr ""
+msgstr "Neordonat"
 
 msgid "Unregister method expects $key and $name parameters."
 msgstr "Metoda de neînregistrare se așteaptă la parametrii $key și $name."
@@ -2418,10 +2421,10 @@ msgid "Value"
 msgstr "Valoare"
 
 msgid "Variant"
-msgstr ""
+msgstr "Variantă"
 
 msgid "Variants"
-msgstr ""
+msgstr "Variante"
 
 msgid "Vector"
 msgstr "Vector"
