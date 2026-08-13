@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-07-31 15:34\n"
+"PO-Revision-Date: 2026-08-13 08:57\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: hu-HU\n"
+"Language: hu\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: hu-HU\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: hu\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: Hungarian\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Töltsd ki a szövegben a hiányzó részeket egy megadott választási lehetőségekkel."
@@ -104,9 +111,7 @@ msgid "A Lexical Field groups a canonical answer and optional variants into a si
 msgstr "Egy lexikai mező egyetlen várható válaszként csoportosítja a kanonikus választ és az opcionális változatokat. A kanonikus értéket az elemadatok tárolják, és a válaszfeldolgozáshoz használják; itt csak a további változatok szerepelnek. A csoportazonosítók hozzárendelése automatikusan történik."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr "A QTI komponens nem támogatott. A rendszer a következő hibát adta vissza: %s\n"
-""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Egy rubrikablokk egy assessmentItem itemBody részének azt a részét azonosítja, amely utasításokat jelöl egy vagy több, az elemet megtekintő szereplő számára. Bár a rubrikablokkok simpleBlock-ként vannak definiálva, nem tartalmazhatnak interakciókat."
@@ -226,9 +231,7 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "Váratlan hiba történt az IMS QTI tételcsomag importálása során. A rendszer a következő hibát adta vissza: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr "Váratlan hiba történt a QTI tétel importálása során. A rendszer a következő hibát adta vissza: %s\n"
-""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr "Ismeretlen hiba történt az IMS QTI csomag importálása során, amelynek azonosítója: "
@@ -707,9 +710,6 @@ msgstr "szerkesztési lehetőségek"
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "Matematikai kifejezés szerkesztése LaTex típusbeállítási rendszerrel, pl. e^{i \\pi} = -1"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr ""
-
 msgid "Edit math expression using MathML"
 msgstr "Matematikai kifejezések szerkesztése MathML használatával"
 
@@ -793,9 +793,6 @@ msgstr "Hiba a tételnél %s"
 
 msgid "Error to export item %s: %s"
 msgstr "Hiba az elem exportálásakor %s: %s"
-
-msgid "Euler\'s constant"
-msgstr ""
 
 msgid "Euler\\'s constant"
 msgstr "Euler-állandó"
@@ -1115,6 +1112,9 @@ msgstr "Érvénytelen érték a helyes válasz tulajdonságban."
 msgid "Invalid value, should be an integer number."
 msgstr "Érvénytelen érték, egész számnak kell lennie."
 
+msgid "Invalid value, use %s %s for decimal point and %s %s for thousands separator."
+msgstr "Érvénytelen érték, tizedesvesszőként %s %s , ezreselválasztóként pedig %s %s karaktereket használjon."
+
 msgid "Invalid value, use %s %s for decimal point."
 msgstr "Érvénytelen érték, tizedesvesszőként használja a %s %s karaktereket."
 
@@ -1184,6 +1184,9 @@ msgstr "Latex"
 
 msgid "Layout"
 msgstr "Elrendezés"
+
+msgid "leave empty"
+msgstr "hagyd üresen"
 
 msgid "Left"
 msgstr "Balra"
@@ -1427,12 +1430,7 @@ msgid "one association pair"
 msgstr "egy asszociációs pár"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr "Egy vagy több QTI komponenst a rendszer nem támogat. A rendszer a következő hibát adta vissza: %s\n"
-""
-
-msgid "or more"
-msgstr ""
 
 msgid "or more"
 msgstr "vagy több"
@@ -2284,9 +2282,7 @@ msgid "The upper bound of the slider"
 msgstr "A csúszka felső határa"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "Az importált QTI tétel érvényesítése sikertelen. A rendszer a következő hibát adta vissza:%s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "Az IMS QTI tételt tartalmazó ZIP archívum nem bontható ki."
@@ -2452,6 +2448,9 @@ msgstr "szavak"
 
 msgid "Would you like to replace the alt text"
 msgstr "Szeretné lecserélni az alt szöveget?"
+
+msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
+msgstr "Hibás fájltípus. A várt érték: %s. A kiválasztott fájl MIME-típusa: \"%s\"."
 
 msgid "WYSIWYG editor"
 msgstr "WYSIWYG szerkesztő"
