@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-07-31 15:34\n"
+"PO-Revision-Date: 2026-08-13 08:57\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: ar-SA\n"
+"Language: ar\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: ar-SA\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: ar\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: Arabic\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr "املأ الفراغات في النص من مجموعة من الاختيارات."
@@ -104,9 +111,7 @@ msgid "A Lexical Field groups a canonical answer and optional variants into a si
 msgstr "الحقل اللاكسي يجمع إجابة لاجنبية ومتغيرات اختيارية في استجابة واحدة متوقعة. يتم تخزين القيمة الكونية في بيانات العنصر ويتم استخدامها لمعالجة الاستجابة؛ يتم إدراج المتغيرات الإضافية هنا فقط. يتم تعيين معرفات المجموعات تلقائياً."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr "مكون QTI غير مدعوم.أرجع النظام الخطأ التالي: %s\n"
-""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "حدد مجموعة نموذج التقييم جزءًا من بند التقييم ، وهو الجزء الذي يمثل الإرشادات لواحد أو أكثر من الممثلين الذين يعرضون البند. على الرغم من تعريف كتل القاعدة على أنها كتل بسيطة ، إلا أنها يجب ألا تحتوي على تفاعلات."
@@ -226,9 +231,7 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "حدث خطأ غير متوقع أثناء استيراد حزمة بنود IMS QTI . أرجع النظام الخطأ التالي.: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr "حدث خطأ غير متوقع أثناء استيراد بند QTI.أرجع النظام الخطأ التالي: %s\n"
-""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr "حدث خطأ غير معروف خلال استيراد حُزْمَة IMS QTI مع المعرف: "
@@ -707,9 +710,6 @@ msgstr "تحرير الاختيارات"
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "تحرير التعبير الرياضي باستخدام نظام إعداد نوع LaTex ، على سبيل المثالe ^ {i \\pi} = -1"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr ""
-
 msgid "Edit math expression using MathML"
 msgstr "قم بتحرير التعبير الرياضي باستخدام MathML"
 
@@ -793,9 +793,6 @@ msgstr "خطأ في البند %s"
 
 msgid "Error to export item %s: %s"
 msgstr "خطأ في تصدير البند   %s: %s"
-
-msgid "Euler\'s constant"
-msgstr ""
 
 msgid "Euler\\'s constant"
 msgstr "ثابت أويلر"
@@ -1115,6 +1112,9 @@ msgstr "قيمة غير صالحة في خاصية الرد الصحيح."
 msgid "Invalid value, should be an integer number."
 msgstr "قيمة غير صالحة، يجب أن تكون رقما صحيحا."
 
+msgid "Invalid value, use %s %s for decimal point and %s %s for thousands separator."
+msgstr "قيمة غير صالحة، استخدم %s %s للنقطة العشرية و %s %s لآلاف الفاصل."
+
 msgid "Invalid value, use %s %s for decimal point."
 msgstr "قيمة غير صالحة، استخدم %s %s لنقطة عشرية."
 
@@ -1184,6 +1184,9 @@ msgstr "اللاتكس"
 
 msgid "Layout"
 msgstr "تخطيط"
+
+msgid "leave empty"
+msgstr "ترك فارغاً"
 
 msgid "Left"
 msgstr "يسار"
@@ -1427,12 +1430,7 @@ msgid "one association pair"
 msgstr "رابط مزدوج واحد"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr "لا يدعم النظام مكونًا أو أكثر من مكونات QTI. أرجع النظام الخطأ التالي: %s\n"
-""
-
-msgid "or more"
-msgstr ""
 
 msgid "or more"
 msgstr "أو أكثر"
@@ -2284,9 +2282,7 @@ msgid "The upper bound of the slider"
 msgstr "الحد العلوي لشريط التمرير"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "فشل التحقق من صحة بند QTI الذي تم استيراده. أرجع النظام الخطأ التالي: %s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "لا يمكن استخراج أرشيف ZIP الذي يحتوي على بند IMS QTI."
@@ -2452,6 +2448,9 @@ msgstr "كلمات"
 
 msgid "Would you like to replace the alt text"
 msgstr "هل ترغب في استبدال النص البديل"
+
+msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
+msgstr "نوع خاطئ من الملف. المتوقع %s. الملف المحدد يحتوي على نوع \"%s\"."
 
 msgid "WYSIWYG editor"
 msgstr "محرر (ما تراه هو ما تحصل عليه) WYSIWYG"

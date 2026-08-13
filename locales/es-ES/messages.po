@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-07-31 15:34\n"
+"PO-Revision-Date: 2026-08-13 08:57\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: es-ES\n"
+"Language: es\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: es-ES\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: es-ES\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: Spanish\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Rellenar los huecos en un texto a partir de un conjunto de opciones."
@@ -104,9 +111,7 @@ msgid "A Lexical Field groups a canonical answer and optional variants into a si
 msgstr "Un campo léxico agrupa una respuesta canónica y variantes opcionales en una única respuesta esperada. El valor canónico se almacena en los datos del artículo y se utiliza para el procesamiento de respuestas; sólo se listan aquí variantes adicionales."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr "No se admite un componente QTI. El sistema devolvió el siguiente error: %s\n"
-""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Un bloque rúbrica identifica parte de itemBody de un assessmentItem que representa instrucciones a uno o más de los actores que ven el artículo. Aunque los bloques rúbrica se definen como simpleBlocks no deben contener interacciones."
@@ -226,9 +231,7 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "Se ha producido un error inesperado durante la importación del paquete IMS QTI Item Package. El sistema devolvió el siguiente error: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr "Se ha producido un error inesperado durante la importación del elemento QTI. El sistema devolvió el siguiente error: %s\n"
-""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr "Se ha producido un error desconocido al importar el paquete QTI IMS con identificador: "
@@ -707,9 +710,6 @@ msgstr "editar elecciones"
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "Editar la expresión matemática usando el sistema de ajuste del tipo de látex, por ejemplo, e^{i\\pi}=-1"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr ""
-
 msgid "Edit math expression using MathML"
 msgstr "Editar la expresión matemática usando MathML"
 
@@ -793,9 +793,6 @@ msgstr "Error en el elemento %s"
 
 msgid "Error to export item %s: %s"
 msgstr "Error al exportar el elemento %s: %s"
-
-msgid "Euler\'s constant"
-msgstr ""
 
 msgid "Euler\\'s constant"
 msgstr "Constante de Euler"
@@ -1115,6 +1112,9 @@ msgstr "Valor inválido en la propiedad de respuesta correcta."
 msgid "Invalid value, should be an integer number."
 msgstr "Valor no válido, debe ser un número entero."
 
+msgid "Invalid value, use %s %s for decimal point and %s %s for thousands separator."
+msgstr "Valor no válido, utilice %s %s para el punto decimal y %s %s para el separador de miles."
+
 msgid "Invalid value, use %s %s for decimal point."
 msgstr "Valor no válido, utilice %s %s para punto decimal."
 
@@ -1184,6 +1184,9 @@ msgstr "Látex"
 
 msgid "Layout"
 msgstr "Diseño"
+
+msgid "leave empty"
+msgstr "dejar vacío"
 
 msgid "Left"
 msgstr "Izquierda"
@@ -1427,12 +1430,7 @@ msgid "one association pair"
 msgstr "una asociación par"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr "Uno o más componentes QTI no son soportados por el sistema. El sistema devolvió el siguiente error: %s\n"
-""
-
-msgid "or more"
-msgstr ""
 
 msgid "or more"
 msgstr "o más"
@@ -2284,9 +2282,7 @@ msgid "The upper bound of the slider"
 msgstr "Límite superior del control deslizante"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "La validación del ítem QTI importado falló. El sistema devuelve el siguiente error:%s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "El archivo ZIP que contiene el Ítem IMS QTI no se puede extraer."
@@ -2452,6 +2448,9 @@ msgstr "palabras"
 
 msgid "Would you like to replace the alt text"
 msgstr "Te gustaría reemplazar el texto alternativo"
+
+msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
+msgstr "Tipo incorrecto de archivo. Se esperaba %s. El archivo seleccionado tiene el tipo mimetípo \"%s\"."
 
 msgid "WYSIWYG editor"
 msgstr "WYSIWYG editor"

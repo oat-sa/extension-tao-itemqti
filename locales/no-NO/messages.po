@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-07-31 15:34\n"
+"PO-Revision-Date: 2026-08-13 08:57\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: no-NO\n"
+"Language: no\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: no-NO\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: no\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: Norwegian\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr ""
@@ -104,7 +111,6 @@ msgid "A Lexical Field groups a canonical answer and optional variants into a si
 msgstr "Et Lekiske feltgrupper et kanonisk svar og valgfrie varianter i et enkelt forventet svar. Den kanoniske verdien lagres i objektdataene og brukes til responsbehandling, og det er bare ført opp ytterligere varianter her. Gruppe-identifikatorer tildeles automatisk."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
@@ -225,7 +231,6 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr ""
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
@@ -705,9 +710,6 @@ msgstr ""
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr ""
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr ""
-
 msgid "Edit math expression using MathML"
 msgstr ""
 
@@ -790,9 +792,6 @@ msgid "Error on item %s"
 msgstr ""
 
 msgid "Error to export item %s: %s"
-msgstr ""
-
-msgid "Euler\'s constant"
 msgstr ""
 
 msgid "Euler\\'s constant"
@@ -1113,6 +1112,9 @@ msgstr ""
 msgid "Invalid value, should be an integer number."
 msgstr "Ugyldig verdi, må være et heltall."
 
+msgid "Invalid value, use %s %s for decimal point and %s %s for thousands separator."
+msgstr "Ugyldig verdi, bruk %s %s for desimalpoeng og %s %s for tusenskilletegn"
+
 msgid "Invalid value, use %s %s for decimal point."
 msgstr ""
 
@@ -1182,6 +1184,9 @@ msgstr ""
 
 msgid "Layout"
 msgstr ""
+
+msgid "leave empty"
+msgstr "la stå tomt"
 
 msgid "Left"
 msgstr ""
@@ -1424,10 +1429,6 @@ msgid "one association pair"
 msgstr ""
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
-msgstr ""
-
-msgid "or more"
 msgstr ""
 
 msgid "or more"
@@ -2280,7 +2281,6 @@ msgid "The upper bound of the slider"
 msgstr ""
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr ""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
@@ -2447,6 +2447,9 @@ msgstr ""
 
 msgid "Would you like to replace the alt text"
 msgstr ""
+
+msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
+msgstr "Feil type fil. Forventet %s. Den valgte filen har mimetype \"%s\"."
 
 msgid "WYSIWYG editor"
 msgstr ""
