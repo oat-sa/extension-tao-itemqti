@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-07-31 15:34\n"
+"PO-Revision-Date: 2026-08-13 13:05\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: ja-JP\n"
+"Language: ja\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: ja-JP\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: Japanese\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " 空欄に当てはまるものを選択肢から選んでください"
@@ -95,9 +102,6 @@ msgid "A choice must be selected"
 msgstr "必ず１つ選択してください"
 
 msgid "A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image."
-msgstr ""
-
-msgid "A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image."
 msgstr "グラフィックスギャップマッチングには、バックグラウンド画像、少なくとも1つのホットスポット、および少なくとも1つのギャップ画像が必要です。"
 
 msgid "A human interpretation of the variable's value."
@@ -107,9 +111,7 @@ msgid "A Lexical Field groups a canonical answer and optional variants into a si
 msgstr "Lexical Fieldは、正規解答とオプションのバリアントを単一の期待される応答にグループ化します。 標準値はアイテムデータに保存され、応答処理に使用されます。ここには追加のバリアントのみがリストされます。グループ識別子は自動的に割り当てられます。"
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr "QTIコンポーネントはサポートされていません。システムは次のエラーを返しました: %s\n"
-""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "ルーブリックブロックは、アイテムを表示する1つ以上のアクターへの指示を表す評価アイテムのitemBodyの一部を識別します。ルーブリックブロックはsimpleBlocks要素として定義されているのでインタラクションを含めることはできません。"
@@ -229,9 +231,7 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "QTIアイテムパッケージのインポート中に予期しないエラーが発生しました。システムは次のエラーを返しました: \"%s"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr "QTIアイテムパッケージのインポート中に予期しないエラーが発生しました。システムは次のエラーを返しました: %s\n"
-""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr "IMS QTI パッケージを識別子でインポートするときに不明なエラーが発生しました。"
@@ -276,9 +276,6 @@ msgid "association pairs"
 msgstr "{ruby}組合{rt}くみあわ{/rt}{/ruby}せ"
 
 msgid "Association role"
-msgstr ""
-
-msgid "Association role"
 msgstr "関連付けの役割"
 
 msgid "at least"
@@ -297,7 +294,7 @@ msgid "Back to Manage Items"
 msgstr "アイテム管理に戻る"
 
 msgid "Back to test authoring"
-msgstr ""
+msgstr "テストオーサリングに戻る"
 
 msgid "Background color"
 msgstr "背景色"
@@ -435,7 +432,7 @@ msgid "Click to remove"
 msgstr "クリックして削除"
 
 msgid "Close"
-msgstr ""
+msgstr "閉じる"
 
 msgid "Collect open-ended information in a short text input (strings or numeric values)."
 msgstr "短いテキスト入力（文字列または数値）でオープンエンドの情報を収集します"
@@ -471,10 +468,10 @@ msgid "Configures the position of the choices relative to the image."
 msgstr "画像に対する選択の位置を設定します。"
 
 msgid "Configures the position of the choices relative to the target list."
-msgstr "ターゲットリストからの選択範囲の位置を設定します。"
+msgstr "選択リストの位置を設定します。"
 
 msgid "Congruent"
-msgstr "おめでとうございます"
+msgstr "合同"
 
 msgid "Constraints"
 msgstr "記述制限"
@@ -631,7 +628,6 @@ msgstr "二分法"
 
 msgid "Direction of writing"
 msgstr "縦書き／横書き\n"
-""
 
 msgid "Disable this stylesheet temporarily"
 msgstr "一時的にこのスタイルシートを無効にします"
@@ -714,9 +710,6 @@ msgstr "選択肢を編集"
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "LaTex構文を使って数式を編集することができます。例：e^{i ˶pi} = -1」など"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr ""
-
 msgid "Edit math expression using MathML"
 msgstr "MathMLを利用して数式編集"
 
@@ -749,9 +742,6 @@ msgstr "スクロール有効"
 
 msgid "Enable the test taker to pause and restart the playing."
 msgstr "一時停止、再生を受検者に有効にします"
-
-msgid "Enable this option if the list of expected answers may need to be extended during evaluation."
-msgstr ""
 
 msgid "Enable this option if the list of expected answers may need to be extended during evaluation."
 msgstr "評価中に、予想される回答のリストを拡張する必要がある場合は、このオプションを有効にしてください。"
@@ -803,9 +793,6 @@ msgstr "アイテム %s のエラー"
 
 msgid "Error to export item %s: %s"
 msgstr "アイテム %s のエクスポートエラー: %s"
-
-msgid "Euler\'s constant"
-msgstr ""
 
 msgid "Euler\\'s constant"
 msgstr "オイラーの定義"
@@ -1003,9 +990,6 @@ msgid "If the shuffle attribute is true then the delivery engine will randomize 
 msgstr "シャッフルが適用されると，選択肢の順番が受検ごと，受験者ごとにランダムに提示されます。また各選択肢は，個別に順番を固定することもできます。"
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" or \"fixed\" individually."
-msgstr ""
-
-msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be \"shuffled\" or \"fixed\" individually."
 msgstr "shuffle 属性が true の場合、配信エンジンは最初に表示された順序をランダム化します。 しかし、それぞれの選択は個別に「シャッフル」または「固定」されることがあります。"
 
 msgid "If the shuffle attribute is true then the delivery engine will randomize the order in which the choices are initially presented. However each choice may be “shuffled” of “fixed” individually."
@@ -1127,6 +1111,9 @@ msgstr "正しいレスポンスプロパティに無効な値があります。
 
 msgid "Invalid value, should be an integer number."
 msgstr "無効な値です。整数でなければなりません。"
+
+msgid "Invalid value, use %s %s for decimal point and %s %s for thousands separator."
+msgstr "無効な値です。小数点では %s %s を、桁区切りでは %s %s を使用してください。"
 
 msgid "Invalid value, use %s %s for decimal point."
 msgstr "無効な値です。小数点には %s %s を使用してください。"
@@ -1328,9 +1315,6 @@ msgid "Maximum choices reached"
 msgstr "{ruby}選択数{rt}せんたくすう{/rt}{/ruby}が{ruby}上限{rt}じょうげん{/rt}{/ruby}に{ruby}達{rt}たっ{/rt}{/ruby}しました。これ{ruby}以上{rt}いじょう{/rt}{/ruby}{ruby}選択{rt}せんたく{/rt}{/ruby}できません。"
 
 msgid "Maximum correct responses: %d."
-msgstr ""
-
-msgid "Maximum correct responses: %d."
 msgstr "最大正しい応答: %d."
 
 msgid "Maximum number of choices reached."
@@ -1446,12 +1430,7 @@ msgid "one association pair"
 msgstr "１つの{ruby}組{rt}く{/rt}{/ruby}み{ruby}合{rt}あ{/rt}{/ruby}わせ"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr "1つ以上のQTIコンポーネントがシステムでサポートされていません。システムは次のエラーを返しました：%s\n"
-""
-
-msgid "or more"
-msgstr ""
 
 msgid "or more"
 msgstr "またはもっと"
@@ -1844,7 +1823,7 @@ msgid "Scoring Model"
 msgstr "スコアモデル"
 
 msgid "Scrollable multi-column"
-msgstr "スクロール可能なマルチカラム"
+msgstr "段組スクロール"
 
 msgid "sec"
 msgstr "秒"
@@ -2303,9 +2282,7 @@ msgid "The upper bound of the slider"
 msgstr "スライダー最大値"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "QTIアイテムのインポートに失敗しました。エラー内容:%s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "QTIアイテムを含むZIPファイルを抽出できません"
@@ -2380,7 +2357,7 @@ msgid "Tooltip Target"
 msgstr "Tipsリンク文字"
 
 msgid "Top"
-msgstr "トップ"
+msgstr "上部"
 
 msgid "Translation completed"
 msgstr "翻訳が完了しました"
@@ -2395,7 +2372,7 @@ msgid "Unable to load item from the given data."
 msgstr "指定されたデータからアイテムを読み込むことができません"
 
 msgid "Unable to process your request"
-msgstr "リクエストが処理できません"
+msgstr "リクエストを処理できません"
 
 msgid "Unable to retrieve asset \"%s"
 msgstr "アセット \"%s を取得できません"
@@ -2471,6 +2448,9 @@ msgstr "単語"
 
 msgid "Would you like to replace the alt text"
 msgstr "代替えテキストを変更"
+
+msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
+msgstr "不正なファイルタイプです。 %sが期待されています。選択されたファイルには \"%s \" があります。"
 
 msgid "WYSIWYG editor"
 msgstr "WYSIWYGエディタ"

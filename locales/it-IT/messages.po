@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-07-31 15:34\n"
+"PO-Revision-Date: 2026-08-13 08:57\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: it-IT\n"
+"Language: it\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: it-IT\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: it\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: Italian\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr "Riempi gli spazi mancanti sotto forma di testo da una serie di scelte."
@@ -104,7 +111,6 @@ msgid "A Lexical Field groups a canonical answer and optional variants into a si
 msgstr "Un campo lessicale raggruppa una risposta canonica e varianti opzionali in una singola risposta attesa. Il valore canonico viene memorizzato nei dati dell'elemento e utilizzato per l'elaborazione della risposta; qui sono elencate solo le varianti aggiuntive. Gli identificatori del gruppo vengono assegnati automaticamente."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
@@ -225,7 +231,6 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr ""
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr ""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
@@ -705,9 +710,6 @@ msgstr "modifica scelte"
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "Modifica l'espressione matematica utilizzando un linguaggio tipo LaTex, per esempio e^{i \\pi} = -1"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr ""
-
 msgid "Edit math expression using MathML"
 msgstr "Modifica espressione matematica utilizzando MathML"
 
@@ -790,9 +792,6 @@ msgid "Error on item %s"
 msgstr ""
 
 msgid "Error to export item %s: %s"
-msgstr ""
-
-msgid "Euler\'s constant"
 msgstr ""
 
 msgid "Euler\\'s constant"
@@ -1113,6 +1112,9 @@ msgstr ""
 msgid "Invalid value, should be an integer number."
 msgstr "Valore non valido, dovrebbe essere un numero intero."
 
+msgid "Invalid value, use %s %s for decimal point and %s %s for thousands separator."
+msgstr "Valore non valido, usa %s %s per il punto decimale e %s %s per il separatore di migliaia."
+
 msgid "Invalid value, use %s %s for decimal point."
 msgstr ""
 
@@ -1182,6 +1184,9 @@ msgstr ""
 
 msgid "Layout"
 msgstr ""
+
+msgid "leave empty"
+msgstr "lascia vuoto"
 
 msgid "Left"
 msgstr "Sinistra"
@@ -1424,10 +1429,6 @@ msgid "one association pair"
 msgstr "una coppia di associazioni"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
-msgstr ""
-
-msgid "or more"
 msgstr ""
 
 msgid "or more"
@@ -2280,9 +2281,7 @@ msgid "The upper bound of the slider"
 msgstr "Il limite superiore del cursore"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "La convalida dell'item QTI importato non è riuscita. Il sistema ha restituito il seguente errore: %s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "L'archivio ZIP contenente l'item IMS QTI non può essere estratto."
@@ -2448,6 +2447,9 @@ msgstr "parole"
 
 msgid "Would you like to replace the alt text"
 msgstr "Volete sostituire il testo"
+
+msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
+msgstr "Tipo di file errato. Atteso %s. Il file selezionato ha il tipo mimico \"%s\"."
 
 msgid "WYSIWYG editor"
 msgstr ""
