@@ -50,4 +50,3 @@ msgstr "QTI"
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "QTI Manager"
 msgstr "مدير QTI"
-
