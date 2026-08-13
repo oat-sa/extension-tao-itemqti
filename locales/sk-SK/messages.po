@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-07-31 15:34\n"
+"PO-Revision-Date: 2026-08-13 08:57\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: sk-SK\n"
+"Language: sk\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: sk-SK\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: sk\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-itemqti] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 519\n"
+"Language-Team: Slovak\n"
 
 msgid " Fill in the gaps in a text from a set of choices."
 msgstr " Doplňte medzery v texte z ponuky možností."
@@ -104,9 +111,7 @@ msgid "A Lexical Field groups a canonical answer and optional variants into a si
 msgstr "Lexikálne pole zoskupuje kanonickú odpoveď a voliteľné varianty do jednej očakávanej odpovede. Kanonická hodnota je uložená v údajoch položky a používa sa na spracovanie odpovede; sú tu uvedené iba ďalšie varianty. Identifikátory skupín sa priraďujú automaticky."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
-""
 msgstr "Komponent QTI nie je podporovaný. Systém vrátil nasledujúcu chybu: %s\n"
-""
 
 msgid "A rubric block identifies part of an assessmentItem's itemBody that represents instructions to one or more of the actors that view the item. Although rubric blocks are defined as simpleBlocks they must not contain interactions."
 msgstr "Blok hodnotiacej šablóny (rubriky) označuje časť textu položky (itemBody) hodnotiacej položky (assessmentItem), ktorá obsahuje pokyny pre jedného alebo viacerých účastníkov, ktorí si túto položku prezerajú. Hoci sú bloky hodnotiacej šablóny definované ako jednoduché bloky (simpleBlocks), nesmú obsahovať interakcie."
@@ -226,9 +231,7 @@ msgid "An unexpected error occurred during the import of the IMS QTI Item Packag
 msgstr "Počas importu balíka položiek IMS QTI sa vyskytla neočakávaná chyba. Systém vrátil nasledujúcu chybu: „%s“"
 
 msgid "An unexpected error occurred during the import of the QTI Item. The system returned the following error: %s\n"
-""
 msgstr "Počas importu položky QTI sa vyskytla neočakávaná chyba. Systém vrátil nasledujúcu chybu: %s\n"
-""
 
 msgid "An unknown error occured while importing the IMS QTI Package with identifier: "
 msgstr "Pri importovaní balíka IMS QTI s identifikátorom sa vyskytla neznáma chyba: "
@@ -707,9 +710,6 @@ msgstr "upraviť možnosti"
 msgid "Edit math expression using LaTex type setting system, e.g. e^{i \\pi} = -1"
 msgstr "Upravte matematický výraz pomocou systému na formátovanie LaTeX, napr. e^{i \\pi} = -1"
 
-msgid "Edit math expression using LaTex type setting system, e.g. e^{i \pi} = -1"
-msgstr ""
-
 msgid "Edit math expression using MathML"
 msgstr "Upravte matematický výraz pomocou MathML"
 
@@ -793,9 +793,6 @@ msgstr "Chyba v položke %s"
 
 msgid "Error to export item %s: %s"
 msgstr "Chyba pri exporte položky %s: %s"
-
-msgid "Euler\'s constant"
-msgstr ""
 
 msgid "Euler\\'s constant"
 msgstr "Eulerova konštanta"
@@ -1115,6 +1112,9 @@ msgstr "Neplatná hodnota vo vlastnosti správnej odpovede."
 msgid "Invalid value, should be an integer number."
 msgstr "Neplatná hodnota, malo by to byť celé číslo."
 
+msgid "Invalid value, use %s %s for decimal point and %s %s for thousands separator."
+msgstr "Neplatná hodnota, použite %s %s pre desatinnú čiarku a %s %s pre oddeľovač tisícov."
+
 msgid "Invalid value, use %s %s for decimal point."
 msgstr "Neplatná hodnota, pre desatinnú čiarku použite %s %s ."
 
@@ -1184,6 +1184,9 @@ msgstr "Latex"
 
 msgid "Layout"
 msgstr "Rozloženie"
+
+msgid "leave empty"
+msgstr "nechajte prázdne"
 
 msgid "Left"
 msgstr "Vľavo"
@@ -1427,12 +1430,7 @@ msgid "one association pair"
 msgstr "jedna dvojica asociácií"
 
 msgid "One or more QTI components are not supported by the system. The system returned the following error: %s\n"
-""
 msgstr "Systém nepodporuje jeden alebo viac komponentov QTI. Systém vrátil nasledujúcu chybu: %s\n"
-""
-
-msgid "or more"
-msgstr ""
 
 msgid "or more"
 msgstr "alebo viac"
@@ -2284,9 +2282,7 @@ msgid "The upper bound of the slider"
 msgstr "Horná hranica posuvníka"
 
 msgid "The validation of the imported QTI item failed. The system returned the following error:%s\n"
-""
 msgstr "Overenie importovanej položky QTI zlyhalo. Systém vrátil nasledujúcu chybu:%s\n"
-""
 
 msgid "The ZIP archive containing the IMS QTI Item cannot be extracted."
 msgstr "ZIP archív obsahujúci položku IMS QTI nie je možné extrahovať."
@@ -2452,6 +2448,9 @@ msgstr "slová"
 
 msgid "Would you like to replace the alt text"
 msgstr "Chcete nahradiť alternatívny text"
+
+msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
+msgstr "Nesprávny typ súboru. Očakávaný typ %s. Vybraný súbor má typ MIME „%s“."
 
 msgid "WYSIWYG editor"
 msgstr "WYSIWYG editor"
