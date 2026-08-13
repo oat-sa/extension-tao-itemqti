@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2026.09\n"
-"PO-Revision-Date: 2026-08-12T18:09:29\n"
+"Project-Id-Version: TAO 2026.08 LTS\n"
+"PO-Revision-Date: 2026-07-31T09:45:49\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: en-US\n"
@@ -1107,9 +1107,6 @@ msgstr ""
 msgid "Invalid value, should be an integer number."
 msgstr ""
 
-msgid "Invalid value, use %s %s for decimal point and %s %s for thousands separator."
-msgstr ""
-
 msgid "Invalid value, use %s %s for decimal point."
 msgstr ""
 
@@ -1178,9 +1175,6 @@ msgid "Latex"
 msgstr ""
 
 msgid "Layout"
-msgstr ""
-
-msgid "leave empty"
 msgstr ""
 
 msgid "Left"
@@ -2443,9 +2437,6 @@ msgid "words"
 msgstr ""
 
 msgid "Would you like to replace the alt text"
-msgstr ""
-
-msgid "Wrong type of file. Expected %s. The selected file has the mimetype \"%s\"."
 msgstr ""
 
 msgid "WYSIWYG editor"
