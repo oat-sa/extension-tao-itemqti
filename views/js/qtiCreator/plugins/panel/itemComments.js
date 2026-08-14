@@ -88,6 +88,7 @@ define([
             const $form = $panel.find('.item-comments-entry');
             const $input = $panel.find('.item-comments-input');
             const $submit = $panel.find('.item-comments-submit');
+            let isFormLocked = false;
 
             $commentsHost.empty().append($panel);
 
@@ -115,6 +116,30 @@ define([
                 $commentsTab.attr('title', label).attr('aria-label', label);
             }
 
+            /**
+             * @param {string} draft
+             * @returns {boolean}
+             */
+            function hasNonWhitespaceDraft(draft) {
+                return /\S/.test(draft || '');
+            }
+
+            /**
+             * @param {boolean} disabled
+             */
+            function setFormDisabled(disabled) {
+                isFormLocked = disabled;
+                $form.find(':input').prop('disabled', disabled);
+            }
+
+            function updateSubmitState() {
+                if (isFormLocked) {
+                    return;
+                }
+
+                $submit.prop('disabled', !hasNonWhitespaceDraft(store.getDraft()) || store.isSubmitting());
+            }
+
             function renderComments() {
                 const comments = store.getComments();
                 $list.empty();
@@ -137,7 +162,7 @@ define([
                 }
 
                 $input.val(store.getDraft());
-                $submit.prop('disabled', !store.hasDirtyDraft() || store.isSubmitting());
+                updateSubmitState();
                 updateCountLabel();
             }
 
@@ -147,7 +172,11 @@ define([
                     updateCountLabel();
                 })
                 .on('draftchange', draft => {
-                    $submit.prop('disabled', !/\S/.test(draft || ''));
+                    if (isFormLocked) {
+                        return;
+                    }
+
+                    $submit.prop('disabled', !hasNonWhitespaceDraft(draft) || store.isSubmitting());
                 })
                 .on('submitFailed', () => {
                     showError(__('The comment was not saved.'));
@@ -166,15 +195,22 @@ define([
 
             $form.on(`submit${NS}`, e => {
                 e.preventDefault();
-                if ($submit.prop('disabled')) {
+                if ($submit.prop('disabled') || isFormLocked) {
                     return;
                 }
+
+                setFormDisabled(true);
+
                 store
                     .submit()
                     .then(() => {
                         $input.val('');
                     })
-                    .catch(_.noop);
+                    .catch(_.noop)
+                    .then(() => {
+                        setFormDisabled(false);
+                        updateSubmitState();
+                    });
             });
 
             $(document).on(`itemsidebarmodechange.qti-creator${NS}`, (e, mode) => {
