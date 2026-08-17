@@ -183,25 +183,25 @@ body.solar-design #item-editor-item-mode-tabs {
         display: inline-flex;
         align-items: center;
         appearance: none;
-        background: none !important;
-        border: 0 !important;
-        padding: 0 !important;
+        background: none;
+        border: 0;
+        padding: 0;
         margin: 0;
         height: 18px;
-        box-shadow: none !important;
+        box-shadow: none;
         font-family: 'Source Sans Pro', sans-serif;
-        font-size: 12px !important;
+        font-size: 12px;
         font-weight: 400;
         line-height: 18px;
-        color: #3e7da7 !important;
+        color: #3e7da7;
         cursor: pointer;
         text-decoration: none;
 
         &:hover,
         &:focus {
-            color: #2e6285 !important;
+            color: #2e6285;
             text-decoration: underline;
-            background: none !important;
+            background: none;
         }
     }
 }
