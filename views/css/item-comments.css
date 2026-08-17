@@ -4,26 +4,28 @@
  * Solar keeps light grey chips.
  * Panel / list / row styles live in taoItems comments-panel.
  */
-#item-editor-scope > nav.action-bar .menu-right#item-editor-item-mode-tabs {
-  padding: 0 !important;
-  background: transparent !important;
+body.qc-wins #item-editor-scope > nav.action-bar .menu-right#item-editor-item-mode-tabs,
+body:not(.qc-wins):not(.solar-design) #item-editor-scope > nav.action-bar .menu-right#item-editor-item-mode-tabs {
+  padding: 0;
+  background: transparent;
 }
-
-#item-editor-item-mode-tabs {
-  display: flex !important;
+body.qc-wins #item-editor-item-mode-tabs,
+body:not(.qc-wins):not(.solar-design) #item-editor-item-mode-tabs {
+  display: flex;
   align-items: stretch;
   justify-content: flex-start;
   gap: 0;
-  margin: 0 !important;
-  padding: 0 !important;
+  margin: 0;
+  padding: 0;
   width: 100%;
   max-width: 100%;
   list-style: none;
   box-sizing: border-box;
   overflow: hidden;
-  background: transparent !important;
+  background: transparent;
 }
-#item-editor-item-mode-tabs > [role=tab] {
+body.qc-wins #item-editor-item-mode-tabs > [role=tab],
+body:not(.qc-wins):not(.solar-design) #item-editor-item-mode-tabs > [role=tab] {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -50,7 +52,8 @@
   box-shadow: none !important;
   opacity: 0.92;
 }
-#item-editor-item-mode-tabs > [role=tab] .li-inner {
+body.qc-wins #item-editor-item-mode-tabs > [role=tab] .li-inner,
+body:not(.qc-wins):not(.solar-design) #item-editor-item-mode-tabs > [role=tab] .li-inner {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -66,8 +69,10 @@
   float: none !important;
   color: inherit !important;
 }
-#item-editor-item-mode-tabs > [role=tab] [class^=icon-],
-#item-editor-item-mode-tabs > [role=tab] [class*=" icon-"] {
+body.qc-wins #item-editor-item-mode-tabs > [role=tab] [class^=icon-],
+body.qc-wins #item-editor-item-mode-tabs > [role=tab] [class*=" icon-"],
+body:not(.qc-wins):not(.solar-design) #item-editor-item-mode-tabs > [role=tab] [class^=icon-],
+body:not(.qc-wins):not(.solar-design) #item-editor-item-mode-tabs > [role=tab] [class*=" icon-"] {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -81,28 +86,36 @@
   right: auto !important;
   color: inherit !important;
 }
-#item-editor-item-mode-tabs > [role=tab] [class^=icon-]::before,
-#item-editor-item-mode-tabs > [role=tab] [class*=" icon-"]::before {
+body.qc-wins #item-editor-item-mode-tabs > [role=tab] [class^=icon-]::before,
+body.qc-wins #item-editor-item-mode-tabs > [role=tab] [class*=" icon-"]::before,
+body:not(.qc-wins):not(.solar-design) #item-editor-item-mode-tabs > [role=tab] [class^=icon-]::before,
+body:not(.qc-wins):not(.solar-design) #item-editor-item-mode-tabs > [role=tab] [class*=" icon-"]::before {
   margin: 0 !important;
   float: none !important;
   position: static !important;
   line-height: 1 !important;
   color: inherit !important;
 }
-#item-editor-item-mode-tabs > [role=tab] .tab-label {
+body.qc-wins #item-editor-item-mode-tabs > [role=tab] .tab-label,
+body:not(.qc-wins):not(.solar-design) #item-editor-item-mode-tabs > [role=tab] .tab-label {
   display: none !important;
   color: inherit !important;
 }
-#item-editor-item-mode-tabs > [role=tab]:hover {
+body.qc-wins #item-editor-item-mode-tabs > [role=tab]:hover,
+body:not(.qc-wins):not(.solar-design) #item-editor-item-mode-tabs > [role=tab]:hover {
   background: rgba(255, 255, 255, 0.12) !important;
   border-color: rgba(255, 255, 255, 0.3) !important;
   opacity: 1;
   color: var(--action-bar-hover-color, #ffffff) !important;
 }
-#item-editor-item-mode-tabs > [role=tab]:last-child {
+body.qc-wins #item-editor-item-mode-tabs > [role=tab]:last-child,
+body:not(.qc-wins):not(.solar-design) #item-editor-item-mode-tabs > [role=tab]:last-child {
   border-right-color: transparent !important;
 }
-#item-editor-item-mode-tabs > [role=tab].active, #item-editor-item-mode-tabs > [role=tab][aria-selected=true] {
+body.qc-wins #item-editor-item-mode-tabs > [role=tab].active,
+body.qc-wins #item-editor-item-mode-tabs > [role=tab][aria-selected=true],
+body:not(.qc-wins):not(.solar-design) #item-editor-item-mode-tabs > [role=tab].active,
+body:not(.qc-wins):not(.solar-design) #item-editor-item-mode-tabs > [role=tab][aria-selected=true] {
   /* active: take all leftover space in .menu-right */
   flex: 1 1 auto !important;
   width: auto !important;
@@ -114,12 +127,18 @@
   text-align: left !important;
   opacity: 1;
 }
-#item-editor-item-mode-tabs > [role=tab].active .li-inner, #item-editor-item-mode-tabs > [role=tab][aria-selected=true] .li-inner {
+body.qc-wins #item-editor-item-mode-tabs > [role=tab].active .li-inner,
+body.qc-wins #item-editor-item-mode-tabs > [role=tab][aria-selected=true] .li-inner,
+body:not(.qc-wins):not(.solar-design) #item-editor-item-mode-tabs > [role=tab].active .li-inner,
+body:not(.qc-wins):not(.solar-design) #item-editor-item-mode-tabs > [role=tab][aria-selected=true] .li-inner {
   justify-content: flex-start !important;
   padding: 0 8px !important;
   text-align: left !important;
 }
-#item-editor-item-mode-tabs > [role=tab].active .tab-label, #item-editor-item-mode-tabs > [role=tab][aria-selected=true] .tab-label {
+body.qc-wins #item-editor-item-mode-tabs > [role=tab].active .tab-label,
+body.qc-wins #item-editor-item-mode-tabs > [role=tab][aria-selected=true] .tab-label,
+body:not(.qc-wins):not(.solar-design) #item-editor-item-mode-tabs > [role=tab].active .tab-label,
+body:not(.qc-wins):not(.solar-design) #item-editor-item-mode-tabs > [role=tab][aria-selected=true] .tab-label {
   display: inline !important;
   overflow: hidden;
   text-overflow: ellipsis;
