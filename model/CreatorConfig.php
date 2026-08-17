@@ -51,6 +51,8 @@ class CreatorConfig extends Config
 
         'mediaSourcesUrl' => ['taoQtiItem', 'QtiCreator', 'getMediaSources'],
         'getFilesUrl' => ['taoItems', 'ItemContent', 'files'],
+        // Search reuses ItemContent/files with a non-empty `query` param.
+        'searchUrl' => ['taoItems', 'ItemContent', 'files'],
         'fileAccessUrl' => ['taoQtiItem', 'QtiCreator', 'getFile'],
 
         'fileExistsUrl' => ['taoItems', 'ItemContent', 'fileExists'],

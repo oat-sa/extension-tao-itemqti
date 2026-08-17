@@ -102,6 +102,7 @@ define([
                     appendContainer: options.mediaManager.appendContainer,
                     mediaSourcesUrl: options.mediaManager.mediaSourcesUrl,
                     browseUrl:       options.mediaManager.browseUrl,
+                    searchUrl:       options.mediaManager.searchUrl,
                     uploadUrl:       options.mediaManager.uploadUrl,
                     deleteUrl:       options.mediaManager.deleteUrl,
                     downloadUrl:     options.mediaManager.downloadUrl,
