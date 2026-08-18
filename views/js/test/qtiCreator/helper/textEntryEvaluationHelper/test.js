@@ -223,7 +223,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.strictEqual(textEntry.attr('data-allow-lexical-fields-on-scoring'), undefined);
     });
 
-    QUnit.test('non-UMFI interaction is unchanged when only lexical scoring flag is set', assert => {
+    QUnit.test('non-UMFI interaction becomes umfi-open when lexical scoring is enabled', assert => {
         const textEntry = createTextEntry(null);
 
         textEntry.attr('responseIdentifier', 'RESPONSE');
@@ -232,8 +232,8 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
 
         evaluationHelper.setAllowLexicalFieldsOnScoring(textEntry, true);
 
-        assert.strictEqual(textEntry.attr('data-item-type'), 'map-response');
-        assert.strictEqual(textEntry.attr('data-allow-lexical-fields-on-scoring'), undefined);
+        assert.strictEqual(textEntry.attr('data-item-type'), 'umfi-open');
+        assert.strictEqual(textEntry.attr('data-allow-lexical-fields-on-scoring'), 'true');
     });
 
     QUnit.test('isUmfiEnabled accepts both UMFI item types only', assert => {

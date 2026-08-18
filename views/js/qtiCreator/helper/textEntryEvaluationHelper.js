@@ -1281,19 +1281,20 @@ define([
             return;
         }
 
+        if (enabled) {
+            primaryTextEntry.attr(DATA_ALLOW_LEXICAL_FIELDS, 'true');
+            primaryTextEntry.attr(DATA_ITEM_TYPE, UMFI_OPEN_ITEM_TYPE);
+            return;
+        }
+
         if (!isUmfiEnabled(interaction)) {
             return;
         }
 
-        if (enabled) {
-            primaryTextEntry.attr(DATA_ALLOW_LEXICAL_FIELDS, 'true');
-            primaryTextEntry.attr(DATA_ITEM_TYPE, UMFI_OPEN_ITEM_TYPE);
-        } else {
-            primaryTextEntry.removeAttr(DATA_ALLOW_LEXICAL_FIELDS);
+        primaryTextEntry.removeAttr(DATA_ALLOW_LEXICAL_FIELDS);
 
-            if (isUmfiEnabled(interaction)) {
-                primaryTextEntry.attr(DATA_ITEM_TYPE, UMFI_ITEM_TYPE);
-            }
+        if (isUmfiEnabled(interaction)) {
+            primaryTextEntry.attr(DATA_ITEM_TYPE, UMFI_ITEM_TYPE);
         }
     };
 
