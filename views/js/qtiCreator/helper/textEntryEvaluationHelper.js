@@ -1281,6 +1281,10 @@ define([
             return;
         }
 
+        if (!isUmfiEnabled(interaction)) {
+            return;
+        }
+
         if (enabled) {
             primaryTextEntry.attr(DATA_ALLOW_LEXICAL_FIELDS, 'true');
             primaryTextEntry.attr(DATA_ITEM_TYPE, UMFI_OPEN_ITEM_TYPE);
