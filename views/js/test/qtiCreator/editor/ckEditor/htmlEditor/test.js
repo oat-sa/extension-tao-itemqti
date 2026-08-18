@@ -93,4 +93,38 @@ define(['jquery', 'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor'], function 
         assert.ok(focused, 'focus ran');
         assert.strictEqual(editor.readOnly, false, 'editor stays writable');
     });
+
+    QUnit.test('autofocus false, readOnly true: restores contenteditable without _focus', function (assert) {
+        assert.expect(4);
+
+        const $editable = $('<div contenteditable="false"></div>');
+        let focused = false;
+        const editor = createFakeEditor(true, function () {
+            focused = true;
+        });
+
+        htmlEditor.restoreEditableThenFocus(editor, $editable, false);
+
+        assert.notOk(focused, 'focus did not run');
+        assert.strictEqual($editable.attr('contenteditable'), 'true', 'contenteditable is restored to true');
+        assert.deepEqual(editor.setReadOnlyCalls, [false], 'setReadOnly(false) ran');
+        assert.strictEqual(editor.readOnly, false, 'editor left readOnly');
+    });
+
+    QUnit.test('autofocus false, readOnly false: restores contenteditable without _focus', function (assert) {
+        assert.expect(4);
+
+        const $editable = $('<div contenteditable="false"></div>');
+        let focused = false;
+        const editor = createFakeEditor(false, function () {
+            focused = true;
+        });
+
+        htmlEditor.restoreEditableThenFocus(editor, $editable, false);
+
+        assert.notOk(focused, 'focus did not run');
+        assert.strictEqual($editable.attr('contenteditable'), 'true', 'contenteditable is restored to true');
+        assert.deepEqual(editor.setReadOnlyCalls, [], 'setReadOnly is not called when already editable');
+        assert.strictEqual(editor.readOnly, false, 'editor stays writable');
+    });
 });
