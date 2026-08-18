@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2015-2026 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 define([
     'lodash',
@@ -217,6 +217,14 @@ define([
                             _shieldInnerContent($editable, options.data.widget);
                         }
                     }
+
+                    // Inline CKEditor treats a parent contenteditable=false (interaction
+                    // widget-box) as readOnly and then sets this node to contenteditable=false
+                    // after focus — cke_focus with no typing. Force it back before focus.
+                    if (editor.readOnly) {
+                        editor.setReadOnly(false);
+                    }
+                    $editable.attr('contenteditable', true);
 
                     if (options.autofocus) {
                         _focus(editor);
