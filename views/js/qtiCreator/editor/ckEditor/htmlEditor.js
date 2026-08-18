@@ -218,17 +218,7 @@ define([
                         }
                     }
 
-                    // Inline CKEditor treats a parent contenteditable=false (interaction
-                    // widget-box) as readOnly and then sets this node to contenteditable=false
-                    // after focus — cke_focus with no typing. Force it back before focus.
-                    if (editor.readOnly) {
-                        editor.setReadOnly(false);
-                    }
-                    $editable.attr('contenteditable', true);
-
-                    if (options.autofocus) {
-                        _focus(editor);
-                    }
+                    restoreEditableThenFocus(editor, $editable, options.autofocus);
 
                     $editable.trigger('editorready', [editor]);
 
@@ -600,6 +590,25 @@ define([
         }
     }
 
+    /**
+     * Inline CKEditor treats a parent contenteditable=false (interaction widget-box)
+     * as readOnly and then sets this node to contenteditable=false after focus.
+     * Restore writability before focusing.
+     *
+     * @param {Object} editor
+     * @param {JQuery} $editable
+     * @param {Boolean} autofocus
+     */
+    function restoreEditableThenFocus(editor, $editable, autofocus) {
+        if (editor.readOnly) {
+            editor.setReadOnly(false);
+        }
+        $editable.attr('contenteditable', true);
+        if (autofocus) {
+            _focus(editor);
+        }
+    }
+
     editorFactory = {
         /**
          * Check if all data-html-editable has an editor
@@ -754,7 +763,8 @@ define([
                     _focus(editor);
                 }
             });
-        }
+        },
+        restoreEditableThenFocus: restoreEditableThenFocus
     };
 
     return editorFactory;
