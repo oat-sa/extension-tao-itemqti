@@ -25,6 +25,8 @@ define([
     'use strict';
 
     const UMFI_ITEM_TYPE = 'umfi-closed';
+    const UMFI_OPEN_ITEM_TYPE = 'umfi-open';
+    const UMFI_ITEM_TYPES = [UMFI_ITEM_TYPE, UMFI_OPEN_ITEM_TYPE];
     const DATA_ITEM_TYPE = 'data-item-type';
     // Public lexical-group payload kept in saved item XML:
     // [{ group: "GROUP_1_FOUND", canonical: "Apple", variants: ["Apple", ...] }]
@@ -323,7 +325,7 @@ define([
             return false;
         }
 
-        if (primaryTextEntry.attr(DATA_ITEM_TYPE) === UMFI_ITEM_TYPE) {
+        if (_.includes(UMFI_ITEM_TYPES, primaryTextEntry.attr(DATA_ITEM_TYPE))) {
             return true;
         }
 
@@ -354,7 +356,12 @@ define([
         }
 
         if (enabled) {
-            primaryTextEntry.attr(DATA_ITEM_TYPE, UMFI_ITEM_TYPE);
+            primaryTextEntry.attr(
+                DATA_ITEM_TYPE,
+                primaryTextEntry.attr(DATA_ALLOW_LEXICAL_FIELDS) === 'true'
+                    ? UMFI_OPEN_ITEM_TYPE
+                    : UMFI_ITEM_TYPE
+            );
 
             if (!primaryTextEntry.attr(DATA_UMFI_VALUES)) {
                 primaryTextEntry.attr(DATA_UMFI_VALUES, '[]');
@@ -1276,8 +1283,13 @@ define([
 
         if (enabled) {
             primaryTextEntry.attr(DATA_ALLOW_LEXICAL_FIELDS, 'true');
+            primaryTextEntry.attr(DATA_ITEM_TYPE, UMFI_OPEN_ITEM_TYPE);
         } else {
             primaryTextEntry.removeAttr(DATA_ALLOW_LEXICAL_FIELDS);
+
+            if (isUmfiEnabled(interaction)) {
+                primaryTextEntry.attr(DATA_ITEM_TYPE, UMFI_ITEM_TYPE);
+            }
         }
     };
 
