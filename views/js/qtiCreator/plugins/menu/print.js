@@ -71,7 +71,9 @@ define([
                 cssClass: 'print-trigger'
             })).on('click', function printHandler(e){
                 e.preventDefault();
-                const itemUri = itemCreator?.getConfig()?.properties?.uri || null;
+
+                const itemConfig = itemCreator.getConfig();
+                const itemUri = itemConfig && itemConfig.properties ? itemConfig.properties.uri : null;
 
                 if (itemUri) {
                     try {
