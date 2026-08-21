@@ -30,6 +30,7 @@ define([
     'taoQtiItem/qtiCreator/plugins/content/changeTracker',
     'taoQtiItem/qtiCreator/plugins/panel/outcomeEditor',
     'taoQtiItem/qtiCreator/plugins/panel/itemViewer',
+    'taoQtiItem/qtiCreator/plugins/panel/itemComments',
     'taoQtiItem/qtiCreator/plugins/interactionModifiers/interactionSourcePlugin'
 ], function (
     pluginLoader,
@@ -40,6 +41,7 @@ define([
     changeTracker,
     outcomeEditor,
     itemViewer,
+    itemComments,
     interactionSourceModifier
 ) {
     'use strict';
@@ -50,6 +52,6 @@ define([
     return pluginLoader({
         menu: [save, preview, print],
         content: [title, changeTracker, interactionSourceModifier],
-        panel: [outcomeEditor, itemViewer]
+        panel: [outcomeEditor, itemViewer, itemComments]
     });
 });
