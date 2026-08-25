@@ -75,6 +75,7 @@ define([
                     filters: 'application/qti+xml'
                 },
                 pathParam: 'path',
+                currentAsset: $href.val() || undefined,
                 select: function (e, files) {
                     let file;
 

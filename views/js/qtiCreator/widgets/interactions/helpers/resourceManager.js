@@ -53,6 +53,7 @@ define([
                 filters : 'image/jpeg,image/png,image/gif,image/svg+xml'
             },
             pathParam : 'path',
+            currentAsset: options.currentAsset || undefined,
             select : function(e, files){
                 var selected;
                 if(files.length > 0){

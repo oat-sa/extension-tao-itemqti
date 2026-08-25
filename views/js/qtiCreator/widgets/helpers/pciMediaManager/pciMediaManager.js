@@ -113,6 +113,7 @@ define([
                         filters : 'video/mp4,video/avi,video/ogv,video/mpeg,video/ogg,video/quicktime,video/webm,video/x-ms-wmv,video/x-flv,audio/mp3,audio/vnd.wav,audio/ogg,audio/vorbis,audio/webm,audio/mpeg,application/ogg,audio/aac,audio/wav,audio/flac'
                     },
                     pathParam : 'path',
+                    currentAsset: $src.val() || undefined,
                     select : function select(e, files){
                         if(files && files.length){
                             // set uri field content and maybe detect and set media type here
