@@ -22,9 +22,11 @@ define([], function () {
 
     function loadWithConfig(moduleConfig, callback) {
         require.undef(MODULE_ID);
+        // RequireJS merges module config; reset maxQtiIdLength so an empty config
+        // does not inherit a value from a previous parameterized case.
         require.config({
             config: {
-                [MODULE_ID]: moduleConfig
+                [MODULE_ID]: Object.assign({ maxQtiIdLength: undefined }, moduleConfig)
             }
         });
         require([MODULE_ID], callback);
