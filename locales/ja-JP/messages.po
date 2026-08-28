@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-08-13 13:05\n"
+"PO-Revision-Date: 2026-08-28 13:45\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -2372,7 +2372,7 @@ msgid "Unable to load item from the given data."
 msgstr "指定されたデータからアイテムを読み込むことができません"
 
 msgid "Unable to process your request"
-msgstr "リクエストを処理できません"
+msgstr "リクエストが処理できません"
 
 msgid "Unable to retrieve asset \"%s"
 msgstr "アセット \"%s を取得できません"
