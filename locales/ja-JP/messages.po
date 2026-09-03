@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-08-28 13:45\n"
+"PO-Revision-Date: 2026-09-03 10:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -2507,7 +2507,7 @@ msgid "You must select exactly %d choice(s)."
 msgstr "{ruby}必{rt}かなら{/rt}{/ruby}ず%d{ruby}個{rt}こ{/rt}{/ruby}，{ruby}選択{rt}せんたく{/rt}{/ruby}してください"
 
 msgid "You must select exactly %d choices"
-msgstr "{ruby}必{rt}かなら{/rt}{/ruby}ず%d{ruby}個{rt}こ{/rt}{/ruby}，{ruby}選択{rt}せんたく{/rt}{/ruby}してください"
+msgstr "必ず%dつ選んでください"
 
 msgid "You must use at least %d choices"
 msgstr "{ruby}少{rt}すく{/rt}{/ruby}なくとも%d{ruby}個{rt}こ{/rt}{/ruby}の{ruby}選択肢{rt}せんたくし{/rt}{/ruby}を{ruby}使{rt}つか{/rt}{/ruby}ってください"
