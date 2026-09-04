@@ -29,15 +29,17 @@ define([
     'lodash',
     'i18n',
     'core/plugin',
+    'context',
     'taoItems/services/itemComments',
     'taoItems/comments/itemCommentsStore',
     'taoItems/comments/commentsPanel',
     'css!taoQtiItemCss/item-comments.css'
-], function ($, _, __, pluginFactory, itemCommentsApi, itemCommentsStoreFactory, commentsPanelFactory) {
+], function ($, _, __, pluginFactory, context, itemCommentsApi, itemCommentsStoreFactory, commentsPanelFactory) {
     'use strict';
 
     const TAB_COMMENTS = 'comments';
     const NS = '.itemCommentsPlugin';
+    const ITEM_COMMENTS_FEATURE_FLAG = 'FEATURE_FLAG_ITEM_COMMENTS_ENABLED';
 
     return pluginFactory({
         name: 'itemComments',
@@ -46,6 +48,19 @@ define([
          * @returns {void}
          */
         init() {
+            const $modeTabs = $('#item-editor-item-mode-tabs');
+            const $commentsTab = $modeTabs.find('[data-tab="comments"]');
+            const $commentsPanel = $('#item-editor-item-comments-bar');
+
+            const commentsEnabled =
+                context.featureFlags && context.featureFlags[ITEM_COMMENTS_FEATURE_FLAG];
+
+            if (!commentsEnabled) {
+                $commentsTab.remove();
+                $commentsPanel.prop('hidden', true);
+                return;
+            }
+
             const itemCreator = this.getHost();
             const config = itemCreator.getConfig() || {};
             const properties = config.properties || {};
@@ -56,8 +71,6 @@ define([
                 resourceUri: itemUri,
                 resourceType: itemCommentsApi.RESOURCE_TYPE.ITEM
             });
-            const $modeTabs = $('#item-editor-item-mode-tabs');
-            const $commentsTab = $modeTabs.find('[data-tab="comments"]');
             const $commentsHost = $('#sidebar-right-item-comments .item-comments-content-panel');
 
             const panel = commentsPanelFactory({
