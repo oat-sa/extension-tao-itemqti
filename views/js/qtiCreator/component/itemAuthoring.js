@@ -24,7 +24,6 @@ define([
     'core/pluginLoader',
     'taoQtiItem/qtiCreator/itemCreator',
     'taoQtiItem/qtiCreator/editor/areaBroker',
-    'taoQtiItem/qtiCreator/widgets/helpers/featureFlags',
     'tpl!taoQtiItem/qtiCreator/component/tpl/itemAuthoring',
     'tpl!taoQtiItem/qtiCreator/tpl/layout/interactionsPanel',
     'tpl!taoQtiItem/qtiCreator/tpl/layout/itemPanel',
@@ -38,7 +37,6 @@ define([
     pluginLoaderFactory,
     itemCreatorFactory,
     areaBrokerFactory,
-    featureFlags,
     componentTpl,
     interactionsPanelTpl,
     itemPanelTpl,
@@ -81,7 +79,6 @@ define([
         let itemCreator;
 
         const pluginLoader = pluginLoaderFactory();
-        const itemCommentsEnabled = featureFlags.isItemCommentsEnabled();
 
         const api = {
             /**
@@ -107,9 +104,6 @@ define([
 
             // auto render on init
             .on('init', function () {
-                // Expose flag to the shell template before first paint.
-                this.getConfig().itemCommentsEnabled = itemCommentsEnabled;
-
                 // load plugins dynamically
                 _.forEach(this.getConfig().plugins, plugin => {
                     if (plugin && plugin.module) {
@@ -131,12 +125,7 @@ define([
             // renders the component
             .on('render', function () {
                 const $container = this.getElement();
-                const panelData = { itemCommentsEnabled };
-                const panels = [
-                    interactionsPanelTpl,
-                    itemPanelTpl,
-                    () => propertiesPanelTpl(panelData)
-                ];
+                const panels = [interactionsPanelTpl, itemPanelTpl, propertiesPanelTpl];
                 const $wrapper = $('#item-editor-wrapper', $container);
                 panels.forEach(panel => $wrapper.append(panel()));
                 areaBroker = areaBrokerFactory($container, {

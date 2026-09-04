@@ -142,14 +142,12 @@
                 <div class="panel"></div>
             </section>
         </div>
-        {{#if itemCommentsEnabled}}
         <div class="item-editor-item-related sidebar-right-section-box" id="item-editor-item-comments-bar" data-mode-panel="comments" hidden>
             <section class="tool-group clearfix" id="sidebar-right-item-comments">
                 <p class="comments-guidance">{{__ 'Comments apply to the whole item.'}}</p>
                 <div class="item-comments-content-panel panel"></div>
             </section>
         </div>
-        {{/if}}
         <div class="item-editor-item-related sidebar-right-section-box" id="item-editor-text-property-bar">
             <section class="tool-group clearfix" id="sidebar-right-text-block-properties">
                 <h2>{{__ 'Text Block Properties'}}</h2>

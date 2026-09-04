@@ -29,12 +29,11 @@ define([
     'lodash',
     'i18n',
     'core/plugin',
-    'taoQtiItem/qtiCreator/widgets/helpers/featureFlags',
     'taoItems/services/itemComments',
     'taoItems/comments/itemCommentsStore',
     'taoItems/comments/commentsPanel',
     'css!taoQtiItemCss/item-comments.css'
-], function ($, _, __, pluginFactory, featureFlags, itemCommentsApi, itemCommentsStoreFactory, commentsPanelFactory) {
+], function ($, _, __, pluginFactory, itemCommentsApi, itemCommentsStoreFactory, commentsPanelFactory) {
     'use strict';
 
     const TAB_COMMENTS = 'comments';
@@ -47,17 +46,6 @@ define([
          * @returns {void}
          */
         init() {
-            const $modeTabs = $('#item-editor-item-mode-tabs');
-            const $commentsTab = $modeTabs.find('[data-tab="comments"]');
-            const $commentsPanel = $('#item-editor-item-comments-bar');
-
-            // Safety net: markup should already be omitted when the flag is off.
-            if (!featureFlags.isItemCommentsEnabled()) {
-                $commentsTab.remove();
-                $commentsPanel.remove();
-                return;
-            }
-
             const itemCreator = this.getHost();
             const config = itemCreator.getConfig() || {};
             const properties = config.properties || {};
@@ -68,6 +56,8 @@ define([
                 resourceUri: itemUri,
                 resourceType: itemCommentsApi.RESOURCE_TYPE.ITEM
             });
+            const $modeTabs = $('#item-editor-item-mode-tabs');
+            const $commentsTab = $modeTabs.find('[data-tab="comments"]');
             const $commentsHost = $('#sidebar-right-item-comments .item-comments-content-panel');
 
             const panel = commentsPanelFactory({

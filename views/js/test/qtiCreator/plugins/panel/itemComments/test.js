@@ -17,18 +17,10 @@
  */
 define([
     'jquery',
-    'context',
     'taoQtiItem/test/qtiCreator/plugins/creatorMock',
     'taoQtiItem/qtiCreator/plugins/panel/itemComments'
-], function ($, context, creatorMock, itemCommentsPlugin) {
+], function ($, creatorMock, itemCommentsPlugin) {
     'use strict';
-
-    const FEATURE_FLAG = 'FEATURE_FLAG_ITEM_COMMENTS_ENABLED';
-
-    function setCommentsFlag(enabled) {
-        context.featureFlags = context.featureFlags || {};
-        context.featureFlags[FEATURE_FLAG] = enabled;
-    }
 
     QUnit.module('API');
 
@@ -53,86 +45,5 @@ define([
         assert.equal(typeof plugin.destroy, 'function', 'has destroy');
         assert.equal(plugin.getName(), 'itemComments', 'plugin name');
         assert.equal(typeof plugin.getAreaBroker, 'function', 'has getAreaBroker');
-    });
-
-    QUnit.module('FEATURE_FLAG_ITEM_COMMENTS_ENABLED', {
-        beforeEach: function () {
-            this.originalFeatureFlags = context.featureFlags;
-            context.featureFlags = Object.assign({}, context.featureFlags || {});
-        },
-        afterEach: function () {
-            context.featureFlags = this.originalFeatureFlags;
-        }
-    });
-
-    QUnit.test('init removes comments UI when flag is disabled', function (assert) {
-        assert.expect(4);
-        setCommentsFlag(false);
-
-        const $fixture = $('#qunit-fixture');
-        const itemCreator = creatorMock($fixture, {});
-        const plugin = itemCommentsPlugin(itemCreator);
-
-        plugin.init();
-
-        assert.equal(
-            $fixture.find('#item-editor-item-mode-tabs [data-tab="comments"]').length,
-            0,
-            'comments tab removed'
-        );
-        assert.equal(
-            $fixture.find('#item-editor-item-comments-bar').length,
-            0,
-            'comments panel removed'
-        );
-        assert.equal(plugin.store, undefined, 'store not created');
-        assert.equal(plugin.panel, undefined, 'panel not created');
-    });
-
-    QUnit.test('init removes comments UI when flag is missing', function (assert) {
-        assert.expect(3);
-        delete context.featureFlags[FEATURE_FLAG];
-
-        const $fixture = $('#qunit-fixture');
-        const plugin = itemCommentsPlugin(creatorMock($fixture, {}));
-
-        plugin.init();
-
-        assert.equal(
-            $fixture.find('#item-editor-item-mode-tabs [data-tab="comments"]').length,
-            0,
-            'comments tab removed'
-        );
-        assert.equal(
-            $fixture.find('#item-editor-item-comments-bar').length,
-            0,
-            'comments panel removed'
-        );
-        assert.equal(plugin.panel, undefined, 'panel not created');
-    });
-
-    QUnit.test('init mounts comments UI when flag is enabled', function (assert) {
-        assert.expect(4);
-        setCommentsFlag(true);
-
-        const $fixture = $('#qunit-fixture');
-        const plugin = itemCommentsPlugin(creatorMock($fixture, {}));
-
-        plugin.init();
-
-        assert.equal(
-            $fixture.find('#item-editor-item-mode-tabs [data-tab="comments"]').length,
-            1,
-            'comments tab kept'
-        );
-        assert.ok(plugin.store, 'store created');
-        assert.ok(plugin.panel, 'panel created');
-        assert.equal(
-            $fixture.find('#sidebar-right-item-comments .item-comments-panel').length,
-            1,
-            'comments panel rendered into host'
-        );
-
-        plugin.destroy();
     });
 });
