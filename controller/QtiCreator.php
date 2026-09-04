@@ -137,6 +137,12 @@ class QtiCreator extends tao_actions_CommonModule
         $config = $this->getCreatorConfig($item);
 
         $this->setData('config', $config->toArray());
+        $this->setData(
+            'itemCommentsEnabled',
+            $this->getFeatureFlagChecker()->isEnabled(
+                FeatureFlagCheckerInterface::FEATURE_FLAG_ITEM_COMMENTS_ENABLED
+            )
+        );
         $this->setView('QtiCreator/index.tpl');
 
         $this->getEventManager()->trigger(new ItemCreatorLoad());

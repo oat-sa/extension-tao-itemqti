@@ -22,10 +22,12 @@ define(['context', 'services/features'], function (context, features) {
     const MULTI_FIELD_SCORING_FLAG = 'FEATURE_FLAG_MULTI_FIELD_SCORING';
     const MULTI_FIELD_SCORING_VISIBILITY =
         'taoQtiItem/creator/interaction/textEntry/property/multiFieldScoring';
+    const ITEM_COMMENTS_FLAG = 'FEATURE_FLAG_ITEM_COMMENTS_ENABLED';
 
     return {
         MULTI_FIELD_SCORING_FLAG,
         MULTI_FIELD_SCORING_VISIBILITY,
+        ITEM_COMMENTS_FLAG,
 
         /**
          * Check if compact appearance feature is available
@@ -48,6 +50,16 @@ define(['context', 'services/features'], function (context, features) {
 
             // Optional visibility override; defaults to hidden when the env flag is off.
             return features.isVisible(MULTI_FIELD_SCORING_VISIBILITY, false);
+        },
+
+        /**
+         * Item/Test authoring Comments tab & panel.
+         * Disabled unless FEATURE_FLAG_ITEM_COMMENTS_ENABLED is truthy.
+         *
+         * @returns {boolean}
+         */
+        isItemCommentsEnabled: function () {
+            return !!(context.featureFlags && context.featureFlags[ITEM_COMMENTS_FLAG]);
         }
     };
 });

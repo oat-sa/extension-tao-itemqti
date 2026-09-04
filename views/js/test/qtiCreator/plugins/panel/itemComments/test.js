@@ -65,7 +65,7 @@ define([
         }
     });
 
-    QUnit.test('init hides comments UI when flag is disabled', function (assert) {
+    QUnit.test('init removes comments UI when flag is disabled', function (assert) {
         assert.expect(4);
         setCommentsFlag(false);
 
@@ -80,17 +80,17 @@ define([
             0,
             'comments tab removed'
         );
-        assert.strictEqual(
-            $fixture.find('#item-editor-item-comments-bar').prop('hidden'),
-            true,
-            'comments panel stays hidden'
+        assert.equal(
+            $fixture.find('#item-editor-item-comments-bar').length,
+            0,
+            'comments panel removed'
         );
         assert.equal(plugin.store, undefined, 'store not created');
         assert.equal(plugin.panel, undefined, 'panel not created');
     });
 
-    QUnit.test('init hides comments UI when flag is missing', function (assert) {
-        assert.expect(2);
+    QUnit.test('init removes comments UI when flag is missing', function (assert) {
+        assert.expect(3);
         delete context.featureFlags[FEATURE_FLAG];
 
         const $fixture = $('#qunit-fixture');
@@ -102,6 +102,11 @@ define([
             $fixture.find('#item-editor-item-mode-tabs [data-tab="comments"]').length,
             0,
             'comments tab removed'
+        );
+        assert.equal(
+            $fixture.find('#item-editor-item-comments-bar').length,
+            0,
+            'comments panel removed'
         );
         assert.equal(plugin.panel, undefined, 'panel not created');
     });

@@ -29,17 +29,16 @@ define([
     'lodash',
     'i18n',
     'core/plugin',
-    'context',
+    'taoQtiItem/qtiCreator/widgets/helpers/featureFlags',
     'taoItems/services/itemComments',
     'taoItems/comments/itemCommentsStore',
     'taoItems/comments/commentsPanel',
     'css!taoQtiItemCss/item-comments.css'
-], function ($, _, __, pluginFactory, context, itemCommentsApi, itemCommentsStoreFactory, commentsPanelFactory) {
+], function ($, _, __, pluginFactory, featureFlags, itemCommentsApi, itemCommentsStoreFactory, commentsPanelFactory) {
     'use strict';
 
     const TAB_COMMENTS = 'comments';
     const NS = '.itemCommentsPlugin';
-    const ITEM_COMMENTS_FEATURE_FLAG = 'FEATURE_FLAG_ITEM_COMMENTS_ENABLED';
 
     return pluginFactory({
         name: 'itemComments',
@@ -52,12 +51,10 @@ define([
             const $commentsTab = $modeTabs.find('[data-tab="comments"]');
             const $commentsPanel = $('#item-editor-item-comments-bar');
 
-            const commentsEnabled =
-                context.featureFlags && context.featureFlags[ITEM_COMMENTS_FEATURE_FLAG];
-
-            if (!commentsEnabled) {
+            // Safety net: markup should already be omitted when the flag is off.
+            if (!featureFlags.isItemCommentsEnabled()) {
                 $commentsTab.remove();
-                $commentsPanel.prop('hidden', true);
+                $commentsPanel.remove();
                 return;
             }
 

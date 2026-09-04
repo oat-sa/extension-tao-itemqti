@@ -32,6 +32,7 @@ define([
     'taoQtiItem/qtiCreator/itemCreator',
     'taoQtiItem/qtiCreator/editor/areaBroker',
     'taoQtiItem/qtiCreator/plugins/loader',
+    'taoQtiItem/qtiCreator/widgets/helpers/featureFlags',
     'tpl!taoQtiItem/qtiCreator/tpl/layout/interactionsPanel',
     'tpl!taoQtiItem/qtiCreator/tpl/layout/itemPanel',
     'tpl!taoQtiItem/qtiCreator/tpl/layout/propertiesPanel'
@@ -45,6 +46,7 @@ define([
     itemCreatorFactory,
     areaBrokerFactory,
     pluginLoader,
+    featureFlags,
     interactionsPanelTpl,
     itemPanelTpl,
     propertiesPanelTpl
@@ -58,7 +60,7 @@ define([
     function loadAreaBroker(config) {
         const $container = $('#item-editor-scope');
         const $wrapper = $('#item-editor-wrapper', $container);
-        const panels = [itemPanelTpl, propertiesPanelTpl];
+        const panels = [itemPanelTpl, () => propertiesPanelTpl({ itemCommentsEnabled: featureFlags.isItemCommentsEnabled() })];
         if (!config || !config.properties || !config.properties.translation) {
             panels.unshift(interactionsPanelTpl);
         }
