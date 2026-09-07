@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2015-2026 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 define([
     'lodash',
@@ -218,9 +218,7 @@ define([
                         }
                     }
 
-                    if (options.autofocus) {
-                        _focus(editor);
-                    }
+                    restoreEditableThenFocus(editor, $editable, options.autofocus);
 
                     $editable.trigger('editorready', [editor]);
 
@@ -592,6 +590,25 @@ define([
         }
     }
 
+    /**
+     * Inline CKEditor treats a parent contenteditable=false (interaction widget-box)
+     * as readOnly and then sets this node to contenteditable=false after focus.
+     * Restore writability before focusing.
+     *
+     * @param {Object} editor
+     * @param {JQuery} $editable
+     * @param {Boolean} autofocus
+     */
+    function restoreEditableThenFocus(editor, $editable, autofocus) {
+        if (editor.readOnly) {
+            editor.setReadOnly(false);
+        }
+        $editable.attr('contenteditable', true);
+        if (autofocus) {
+            _focus(editor);
+        }
+    }
+
     editorFactory = {
         /**
          * Check if all data-html-editable has an editor
@@ -746,7 +763,8 @@ define([
                     _focus(editor);
                 }
             });
-        }
+        },
+        restoreEditableThenFocus: restoreEditableThenFocus
     };
 
     return editorFactory;

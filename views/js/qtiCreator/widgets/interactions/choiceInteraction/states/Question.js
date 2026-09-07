@@ -280,7 +280,7 @@ define([
         if (widgetState === 'question') {
             callbacks = Object.assign(
                 callbacks,
-                itemScrollingMethods.generateChangeCallback(widget, () => interaction, $form)
+                itemScrollingMethods.generateChangeCallback(widget, () => interaction, $form, 'interaction')
             );
         }
 
@@ -351,22 +351,40 @@ define([
             }
         };
 
+        const getItemWritingMode = () => ($form.data('isItemVertical') ? 'vertical' : 'horizontal');
+        const getInteractionWritingMode = () => {
+            if (interaction.hasClass(writingModeVerticalRlClass)) {
+                return 'vertical';
+            }
+            if (interaction.hasClass(writingModeHorizontalTbClass)) {
+                return 'horizontal';
+            }
+            return getItemWritingMode();
+        };
+        const isWritingModeMismatch = (interactionWritingMode = getInteractionWritingMode()) =>
+            interactionWritingMode !== getItemWritingMode();
+        const syncScrollingControls = ({ isForcedScrolling = isWritingModeMismatch(), isScrolling } = {}) => {
+            const scrollingEnabled =
+                isScrolling === undefined ? itemScrollingMethods.isScrolling(interaction) || isForcedScrolling : isScrolling;
+            $form.find('.scrolling-toggle-container input[name="scrolling"]')
+                .prop('checked', scrollingEnabled)
+                .prop('disabled', isForcedScrolling);
+            itemScrollingMethods.initSelect($form, scrollingEnabled);
+        };
+
         callbacks.writingMode = function (i, mode) {
-            let isScrolling = false;
             const isVertical = !!$form.data('isItemVertical');
             interaction.removeClass(writingModeVerticalRlClass);
             interaction.removeClass(writingModeHorizontalTbClass);
             if (mode === 'vertical' && !$form.data('isItemVertical')) {
                 interaction.addClass(writingModeVerticalRlClass);
-                isScrolling = true;
             } else if (mode === 'horizontal' && $form.data('isItemVertical')) {
                 interaction.addClass(writingModeHorizontalTbClass);
-                isScrolling = true;
             }
-
-            itemScrollingMethods.initSelect($form, isScrolling);
+            const isForcedScrolling = isWritingModeMismatch(mode);
             itemScrollingMethods.setIsVertical($form, isVertical);
-            itemScrollingMethods.wrapContent(widget, isScrolling, 'interaction');
+            itemScrollingMethods.wrapContent(widget, isForcedScrolling, 'interaction');
+            syncScrollingControls({ isForcedScrolling });
         };
 
         const toggleVerticalWritingModeByLang = (widget, $form, interaction) =>
@@ -376,6 +394,7 @@ define([
                     $form.data('isItemVertical', isItemVertical);
 
                     $form.find('.writingMode-panel').toggle(isVerticalSupported);
+                    $form.find('.scrolling-toggle-container').css('display', isVerticalSupported ? 'block' : 'none');
 
                     let isVertical = null;
                     if (interaction.hasClass(writingModeVerticalRlClass)) {
@@ -391,38 +410,12 @@ define([
                 .then(isVertical => {
                     $form.find('input[name="writingMode"][value="vertical"]').prop('checked', isVertical);
                     $form.find('input[name="writingMode"][value="horizontal"]').prop('checked', !isVertical);
-
-                    // draw scrolling methods
-                    const isScrolling = itemScrollingMethods.isScrolling(interaction);
+                    const isForcedScrolling = isWritingModeMismatch(isVertical ? 'vertical' : 'horizontal');
+                    syncScrollingControls({ isForcedScrolling });
                     itemScrollingMethods.setIsVertical($form, !!$form.data('isItemVertical'));
-                    itemScrollingMethods.toggleScrollingSelect($form, isScrolling);
                 });
 
         toggleVerticalWritingModeByLang(widget, $form, interaction);
-
-        function waitForElement(selector, callback) {
-            const observer = new MutationObserver((mutations, obs) => {
-                const element = $(selector);
-                if (element.length) {
-                    obs.disconnect();
-                    callback(element);
-                }
-            });
-
-            observer.observe(document.body, {
-                childList: true,
-                subtree: true
-            });
-        }
-
-        waitForElement('input[name="writingMode"]:checked', () => {
-            $('input[name="writingMode"]:checked').ready(() => {
-                const isScrolling =
-                    $('input[name="writingModeItem"]:checked').val() !==
-                    $form.find('input[name="writingMode"]:checked').val();
-                itemScrollingMethods.initSelect($form, isScrolling);
-            });
-        });
 
         //when the number of choices changes we update the range
         widget.on('choiceCreated choiceDeleted', function (data, e) {

@@ -233,7 +233,7 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
             }
         },
 
-        setScrollingWeight: function ($wrapper, value, $form) {
+        setScrollingWidth: function ($wrapper, value, $form) {
             $wrapper.attr('data-scrolling-height', value);
 
             // remove classes tao-*-height for new UI test Runner
@@ -281,6 +281,7 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
         getTplVars: ($wrap, defaultValue) => {
             const currValue = self.selectedHeight($wrap) || defaultValue;
             return {
+                scrolling: self.isScrolling($wrap),
                 scrollingHeights: options.map(o => ({
                     value: o.value,
                     name: o.name,
@@ -303,7 +304,7 @@ define(['i18n', 'jquery', 'util/typeCaster'], function (__, $, typeCaster) {
                     self.setScrollingHeight(wrapCallback(), value, $form);
                 },
                 scrollingWidth: (element, value) => {
-                    self.setScrollingWeight(wrapCallback(), value, $form);
+                    self.setScrollingWidth(wrapCallback(), value, $form);
                 }
             };
         }

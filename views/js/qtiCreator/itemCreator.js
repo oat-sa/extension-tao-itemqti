@@ -46,6 +46,7 @@ define([
     'taoQtiItem/qtiCreator/helper/textEntryEvaluationSave',
     'taoQtiItem/qtiCreator/helper/scoringModelSave',
     'handlebars',
+    'text!taoQtiItem/qtiCreator/tpl/partials/scrollingToggle.tpl',
     'text!taoQtiItem/qtiCreator/tpl/partials/scrollingSelect.tpl'
 ], function (
     $,
@@ -67,10 +68,12 @@ define([
     textEntryEvaluationSave,
     scoringModelSave,
     handlebars,
+    scrollingToggle,
     scrollingSelect
 ) {
     'use strict';
 
+    handlebars.registerPartial('scrollingToggle', scrollingToggle);
     handlebars.registerPartial('scrollingSelect', scrollingSelect);
 
     /**
