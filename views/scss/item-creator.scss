@@ -207,6 +207,7 @@ img.dragging.ui-draggable-dragging {
         }
         .menu-right {
             @include simple-flex-box(var(--authoring-right-panel-width));
+
             border-left: 1px solid $uiGeneralContentBorder;
             max-width: var(--authoring-right-panel-width);
             overflow: hidden;
