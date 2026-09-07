@@ -172,6 +172,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
 
         evaluationHelper.setAllowLexicalFieldsOnScoring(firstEntry, true);
         assert.strictEqual(firstEntry.attr('data-allow-lexical-fields-on-scoring'), 'true');
+        assert.strictEqual(firstEntry.attr('data-item-type'), 'umfi-open');
 
         evaluationHelper.setUmfiEnabled(firstEntry, false);
 
@@ -179,6 +180,77 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.strictEqual(secondEntry.attr('data-item-type'), undefined);
         assert.strictEqual(firstEntry.attr('data-allow-lexical-fields-on-scoring'), undefined);
         assert.strictEqual(item.getBody().body().indexOf('{{1}}') > -1, true);
+    });
+
+    QUnit.test('UMFI with lexical fields uses umfi-open item type', assert => {
+        const textEntry = createTextEntry(null);
+
+        textEntry.attr('responseIdentifier', 'RESPONSE');
+        createItem([textEntry]);
+
+        evaluationHelper.persistEvaluationConfig(textEntry, {
+            evaluateAsUmfi: true,
+            allowLexicalFieldsOnScoring: true,
+            lexicalGroups: [
+                {
+                    identifier: 'APPLE',
+                    synonyms: ['apple']
+                }
+            ]
+        });
+
+        assert.strictEqual(textEntry.attr('data-item-type'), 'umfi-open');
+    });
+
+    QUnit.test('UMFI without lexical scoring keeps umfi-closed item type', assert => {
+        const textEntry = createTextEntry(null);
+
+        textEntry.attr('responseIdentifier', 'RESPONSE');
+        createItem([textEntry]);
+
+        evaluationHelper.persistEvaluationConfig(textEntry, {
+            evaluateAsUmfi: true,
+            allowLexicalFieldsOnScoring: false,
+            lexicalGroups: [
+                {
+                    identifier: 'APPLE',
+                    synonyms: ['apple']
+                }
+            ]
+        });
+
+        assert.strictEqual(textEntry.attr('data-item-type'), 'umfi-closed');
+        assert.strictEqual(textEntry.attr('data-allow-lexical-fields-on-scoring'), undefined);
+    });
+
+    QUnit.test('non-UMFI interaction becomes umfi-open when lexical scoring is enabled', assert => {
+        const textEntry = createTextEntry(null);
+
+        textEntry.attr('responseIdentifier', 'RESPONSE');
+        textEntry.attr('data-item-type', 'map-response');
+        createItem([textEntry]);
+
+        evaluationHelper.setAllowLexicalFieldsOnScoring(textEntry, true);
+
+        assert.strictEqual(textEntry.attr('data-item-type'), 'umfi-open');
+        assert.strictEqual(textEntry.attr('data-allow-lexical-fields-on-scoring'), 'true');
+    });
+
+    QUnit.test('isUmfiEnabled accepts both UMFI item types only', assert => {
+        const textEntry = createTextEntry(null);
+
+        textEntry.attr('responseIdentifier', 'RESPONSE');
+        createItem([textEntry]);
+
+        textEntry.attr('data-item-type', 'umfi-closed');
+        assert.strictEqual(evaluationHelper.isUmfiEnabled(textEntry), true);
+
+        textEntry.attr('data-item-type', 'umfi-open');
+        assert.strictEqual(evaluationHelper.isUmfiEnabled(textEntry), true);
+
+        textEntry.attr('data-item-type', 'map-response');
+        textEntry.removeAttr('data-umfi-values');
+        assert.strictEqual(evaluationHelper.isUmfiEnabled(textEntry), false);
     });
 
     QUnit.test('uses first text entry in body order as metadata source for lexical fields', assert => {
@@ -251,7 +323,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
             ]
         });
 
-        assert.strictEqual(originalFirst.attr('data-item-type'), 'umfi-closed');
+        assert.strictEqual(originalFirst.attr('data-item-type'), 'umfi-open');
         assert.ok(originalFirst.attr('data-umfi-values'));
         assert.strictEqual(originalFirst.attr('data-case-sensitive'), 'false');
         assert.strictEqual(originalFirst.attr('data-allow-lexical-fields-on-scoring'), 'true');
@@ -262,7 +334,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
 
         evaluationHelper.ensurePersistedBeforeSave(item);
 
-        assert.strictEqual(insertedBefore.attr('data-item-type'), 'umfi-closed');
+        assert.strictEqual(insertedBefore.attr('data-item-type'), 'umfi-open');
         assert.strictEqual(
             insertedBefore.attr('data-umfi-values'),
             '[{"group":"APPLE_FOUND","canonical":"apple","variants":["apple","apples"]}]'
