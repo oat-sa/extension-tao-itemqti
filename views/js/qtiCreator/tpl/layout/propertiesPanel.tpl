@@ -1,7 +1,7 @@
 <!-- properties panel -->
 <div class="select2-container item-editor-sidebar-wrapper right-bar sidebar-popup-parent">
     <div class="item-editor-sidebar" id="item-editor-item-widget-bar">
-        <div class="item-editor-item-related sidebar-right-section-box" id="item-style-editor-bar">
+        <div class="item-editor-item-related sidebar-right-section-box" id="item-style-editor-bar" data-mode-panel="style" hidden>
             <section class="tool-group clearfix" id="sidebar-right-css-manager">
 
                 <h2>{{__ 'Style Sheet Manager'}}</h2>
@@ -137,11 +137,15 @@
             </section>
 
         </div>
-        <div class="item-editor-item-related sidebar-right-section-box" id="item-editor-item-property-bar">
+        <div class="item-editor-item-related sidebar-right-section-box" id="item-editor-item-property-bar" data-mode-panel="properties">
             <section class="tool-group clearfix" id="sidebar-right-item-properties">
-                <h2>{{__ 'Item Properties'}}</h2>
-
                 <div class="panel"></div>
+            </section>
+        </div>
+        <div class="item-editor-item-related sidebar-right-section-box" id="item-editor-item-comments-bar" data-mode-panel="comments" hidden>
+            <section class="tool-group clearfix" id="sidebar-right-item-comments">
+                <p class="comments-guidance">{{__ 'Comments apply to the whole item.'}}</p>
+                <div class="item-comments-content-panel panel"></div>
             </section>
         </div>
         <div class="item-editor-item-related sidebar-right-section-box" id="item-editor-text-property-bar">
