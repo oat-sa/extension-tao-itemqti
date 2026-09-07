@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 - 2026 (original work) Open Assessment Technologies SA;
  */
 define([
     'jquery',
@@ -99,7 +99,9 @@ define([
             editMode : editMode,
             latex : tex,
             mathml : mathML,
-            wirisMath : wirisMathEnabled
+            wirisMath : wirisMathEnabled,
+            mathtypeLogoLight : (context.root_url || '/') + 'taoQtiItem/views/img/qtiIconsPng/mathtype-logo-light.png',
+            mathtypeLogoDark : (context.root_url || '/') + 'taoQtiItem/views/img/qtiIconsPng/mathtype-logo-dark.png'
         }));
 
         if(mathJax){
