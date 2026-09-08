@@ -25,6 +25,8 @@ define([
             var relatedItem = this.getRootElement();
             var isResponsive = relatedItem.data('responsive');
 
+            this.addClass('qti-choices-bottom');
+
             if(isResponsive === true){
                 this.addClass('responsive');
             }
@@ -87,5 +89,4 @@ define([
     });
     return Interaction.extend(methods);
 });
-
 
