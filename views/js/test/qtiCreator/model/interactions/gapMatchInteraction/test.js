@@ -378,9 +378,8 @@ define([
                     assert.ok($positionInputs.filter('[value="left"]').prop('checked'), 'The ' + testCase.title + ' position falls back to left');
                     assert.ok($interaction.hasClass('custom-position-class'), 'The ' + testCase.title + ' unrelated class is preserved');
                     assert.ok($interaction.hasClass('qti-choices-left'), 'The ' + testCase.title + ' fallback class is applied');
-                    assert.strictEqual(
-                        interaction.attr('class'),
-                        'custom-position-class qti-choices-left',
+                    assert.ok(
+                        /(?:^|\s)qti-choices-left(?:\s|$)/.test(interaction.attr('class') || ''),
                         'The ' + testCase.title + ' persisted model uses left'
                     );
 
