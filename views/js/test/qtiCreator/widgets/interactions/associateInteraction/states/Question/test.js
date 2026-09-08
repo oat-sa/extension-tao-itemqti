@@ -19,9 +19,10 @@
 define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/interactions/associateInteraction/states/Question',
+    'taoQtiItem/qtiCreator/model/interactions/AssociateInteraction',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCommonRenderer/helpers/sizeAdapter'
-], function ($, AssociateInteractionStateQuestion, formElement, sizeAdapter) {
+], function ($, AssociateInteractionStateQuestion, AssociateInteraction, formElement, sizeAdapter) {
     'use strict';
 
     var createInteraction = function createInteraction(attrs, qtiClass) {
@@ -102,33 +103,59 @@ define([
         );
         assert.strictEqual(
             AssociateInteractionStateQuestion.getPositionFromClass('foo qti-choices-center'),
-            'top',
+            'left',
             'falls back when the prefixed value is unsupported'
         );
         assert.strictEqual(
             AssociateInteractionStateQuestion.getPositionFromClass('choices-left'),
-            'top',
+            'left',
             'falls back when the expected prefix is missing'
         );
         assert.strictEqual(
             AssociateInteractionStateQuestion.getPositionFromClass('qti-direction-left'),
-            'top',
+            'left',
             'falls back for unrelated position-like classes'
         );
         assert.strictEqual(
             AssociateInteractionStateQuestion.getPositionFromClass('qti-choices-'),
-            'top',
+            'left',
             'falls back for an empty prefixed position'
         );
         assert.strictEqual(
             AssociateInteractionStateQuestion.getPositionFromClass(''),
-            'top',
+            'left',
             'falls back for empty strings'
         );
         assert.strictEqual(
             AssociateInteractionStateQuestion.getPositionFromClass('   '),
-            'top',
+            'left',
             'falls back for whitespace-only strings'
+        );
+    });
+
+    QUnit.test('new associate interactions keep the top choices position default', function (assert) {
+        var addedClass;
+        var choiceCount = 0;
+        var responseConfig;
+
+        AssociateInteraction.prototype.afterCreate.call({
+            addClass: function addClass(className) {
+                addedClass = className;
+            },
+            createChoice: function createChoice() {
+                choiceCount++;
+            },
+            createResponse: function createResponse(config) {
+                responseConfig = config;
+            }
+        });
+
+        assert.strictEqual(addedClass, 'qti-choices-top', 'sets the creation-only position default');
+        assert.strictEqual(choiceCount, 2, 'keeps creating the two default choices');
+        assert.deepEqual(
+            responseConfig,
+            { baseType: 'pair', cardinality: 'multiple' },
+            'keeps creating the default response'
         );
     });
 
@@ -201,6 +228,32 @@ define([
                 'custom qti-choices-right',
                 'position callback replaces the persisted position class and preserves unrelated classes'
             );
+        });
+    });
+
+    QUnit.test('initializes a classless loaded interaction with the delivery-compatible left position', function (assert) {
+        assert.expect(4);
+
+        withStubbedFormBindings(function () {
+            var interaction = createInteraction({
+                class: 'custom',
+                minAssociations: '0',
+                maxAssociations: '1'
+            });
+            var state = createState(interaction, 'custom');
+            var $interaction;
+
+            AssociateInteractionStateQuestion.prototype.initForm.call(state);
+            $interaction = state.widget.$container.find('.qti-interaction');
+
+            assert.strictEqual(
+                state.widget.$form.find('input[name="position"]:checked').val(),
+                'left',
+                'selects left in the form'
+            );
+            assert.strictEqual(interaction.attr('class'), 'custom qti-choices-left', 'normalizes the model to left');
+            assert.ok($interaction.hasClass('qti-choices-left'), 'applies left to the authoring canvas');
+            assert.notOk($interaction.hasClass('qti-choices-top'), 'does not apply the new-interaction default');
         });
     });
 
