@@ -46,10 +46,7 @@ define([
     const _config = {
         renderingThrottle: 1000,
         mediaPlayerMimeType: mediaMimeFilters,
-        fileFilters:
-            'image/jpeg,image/png,image/gif,image/svg+xml,' +
-            mediaMimeFilters +
-            ',application/pdf'
+        fileFilters: mediaMimeFilters
     };
 
     const ObjectStateActive = stateFactory.extend(
