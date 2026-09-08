@@ -50,6 +50,7 @@ define([
             const config = itemCreator.getConfig() || {};
             const properties = config.properties || {};
             const itemUri = properties.uri || '';
+            const mentionsEnabled = properties.itemCommentsMentionsEnabled === true;
             const plugin = this;
 
             const store = itemCommentsStoreFactory({
@@ -62,7 +63,8 @@ define([
 
             const panel = commentsPanelFactory({
                 renderTo: $commentsHost,
-                store: store
+                store: store,
+                mentionsEnabled: mentionsEnabled
             });
 
             function updateCountLabel() {
