@@ -30,6 +30,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\tao\model\TaskOrchestrator\TaskOrchestratorEmailService;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorInterface;
@@ -331,6 +332,10 @@ class QtiCreator extends tao_actions_CommonModule
         );
 
         $config->setProperty('mediaSourcesUrl', $mediaSourcesUrl);
+        $config->setProperty(
+            'itemCommentsMentionsEnabled',
+            $this->getPsrContainer()->get(TaskOrchestratorEmailService::class)->isConfigured()
+        );
 
         //initialize all registered hooks:
         $hookClasses = HookRegistry::getRegistry()->getMap();
