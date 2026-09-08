@@ -206,9 +206,10 @@ img.dragging.ui-draggable-dragging {
             border-right: 1px solid $uiGeneralContentBorder;
         }
         .menu-right {
-            @include simple-flex-box(195px);
+            @include simple-flex-box(var(--authoring-right-panel-width, 210px));
+
             border-left: 1px solid $uiGeneralContentBorder;
-            max-width: 195px;
+            max-width: var(--authoring-right-panel-width, 210px);
             overflow: hidden;
             box-sizing: border-box;
 
@@ -363,6 +364,7 @@ body.solar-design #item-editor-scope .item-editor-sidebar .tool-group .panel .sc
         }
     }
     &.right-bar {
+        @include simple-flex-box(var(--authoring-right-panel-width, 210px));
         .item-editor-sidebar {
             border-left: 1px solid $uiGeneralContentBg;
         }
