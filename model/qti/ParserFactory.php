@@ -76,6 +76,8 @@ class ParserFactory
     protected $item = null;
     protected $attributeMap = ['lang' => 'xml:lang'];
     protected $xpath;
+    /** @var array<string, string> Resolved namespace prefixes keyed by URI fragment */
+    private $namespacePrefixCache = [];
 
     public function __construct(DOMDocument $data)
     {
@@ -478,6 +480,10 @@ class ParserFactory
 
     public function findNamespace($nsFragment)
     {
+        if (array_key_exists($nsFragment, $this->namespacePrefixCache)) {
+            return $this->namespacePrefixCache[$nsFragment];
+        }
+
         $returnValue = '';
 
         if (is_null($this->item)) {
@@ -498,19 +504,19 @@ class ParserFactory
                     break;
                 }
             }
-            if ($returnValue === '') {
+            // Serialise at most once per lookup — never inside the recursive walk.
+            if ($returnValue === '' && strpos($this->data->saveXML(), $nsFragment) !== false) {
                 $returnValue = $this->recursivelyFindNamespace($this->data, $nsFragment);
             }
         }
+
+        $this->namespacePrefixCache[$nsFragment] = $returnValue;
+
         return $returnValue;
     }
 
     private function recursivelyFindNamespace($element, $nsFragment)
     {
-        if (strpos($this->data->saveXML(), $nsFragment) === false) {
-            return '';
-        }
-
         $returnValue = '';
 
         foreach ($element->childNodes as $child) {
@@ -560,6 +566,7 @@ class ParserFactory
         $this->logDebug('Started parsing of QTI item' . (isset($itemId) ? ' ' . $itemId : ''), ['TAOITEMS']);
 
         //create the item instance
+        $this->namespacePrefixCache = [];
         $this->item = new Item($this->extractAttributes($data));
 
         //load xml ns and schema locations

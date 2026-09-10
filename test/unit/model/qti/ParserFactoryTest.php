@@ -423,4 +423,89 @@ XML;
 
         return [$parser, $method, $dom->documentElement->firstChild];
     }
+
+    public function testFindNamespaceWithXIncludeOnlyInSchemaLocationIsCached(): void
+    {
+        $choices = '';
+        for ($i = 0; $i < 40; $i++) {
+            $choices .= sprintf(
+                '<simpleChoice identifier="choice_%d">Label %d</simpleChoice>',
+                $i,
+                $i
+            );
+        }
+
+        $xml = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem
+        xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd http://www.w3.org/2001/XInclude https://www.imsglobal.org/xsd/w3/2001/XInclude.xsd"
+        identifier="inf577_no_xi" title="INF-577 no xi" adaptive="false" timeDependent="false">
+    <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier"/>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
+    <itemBody>
+        <choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1">
+            {$choices}
+        </choiceInteraction>
+    </itemBody>
+</assessmentItem>
+XML;
+
+        $dom = new DOMDocument();
+        $dom->loadXML($xml);
+
+        $parser = new ParserFactory($dom);
+        $this->logger->expects($this->atLeastOnce())->method('debug');
+        $parser->setLogger($this->logger);
+
+        $item = $parser->load();
+        self::assertInstanceOf(Item::class, $item);
+
+        $method = (new ReflectionClass($parser))->getMethod('findNamespace');
+        $method->setAccessible(true);
+
+        $started = hrtime(true);
+        for ($i = 0; $i < 500; $i++) {
+            self::assertSame('', $method->invoke($parser, 'XInclude'));
+        }
+        $elapsedMs = (hrtime(true) - $started) / 1e6;
+
+        self::assertLessThan(
+            200.0,
+            $elapsedMs,
+            sprintf('findNamespace took %.1f ms for 500 cached lookups', $elapsedMs)
+        );
+    }
+
+    public function testFindNamespaceReturnsXiPrefixWhenDeclared(): void
+    {
+        $xml = <<<'XML'
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem
+        xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:xi="http://www.w3.org/2001/XInclude"
+        xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd http://www.w3.org/2001/XInclude https://www.imsglobal.org/xsd/w3/2001/XInclude.xsd"
+        identifier="inf577_with_xi" title="INF-577 with xi" adaptive="false" timeDependent="false">
+    <itemBody>
+        <div><p>ok</p></div>
+    </itemBody>
+</assessmentItem>
+XML;
+
+        $dom = new DOMDocument();
+        $dom->loadXML($xml);
+
+        $parser = new ParserFactory($dom);
+        $this->logger->expects($this->atLeastOnce())->method('debug');
+        $parser->setLogger($this->logger);
+        $parser->load();
+
+        $method = (new ReflectionClass($parser))->getMethod('findNamespace');
+        $method->setAccessible(true);
+
+        self::assertSame('xi', $method->invoke($parser, 'XInclude'));
+        self::assertSame('xi', $method->invoke($parser, 'XInclude'));
+    }
 }
