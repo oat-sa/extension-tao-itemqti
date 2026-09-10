@@ -27,6 +27,7 @@ use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\taoQtiItem\model\FeatureFlag\UniqueNumericQtiIdentifierClientConfig;
 use oat\taoQtiItem\model\FeatureFlag\UniqueNumericQtiIdentifierQtiCreator;
+use oat\taoQtiItem\model\FeatureFlag\WirisTrialModeClientConfig;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -55,6 +56,10 @@ class FeatureFlagQtiIdentifierServiceProvider implements ContainerServiceProvide
             )
             ->public();
 
+        $services
+            ->set(WirisTrialModeClientConfig::class)
+            ->public();
+
         $services->get(FeatureFlagConfigSwitcher::class)
             ->call(
                 'addClientConfigHandler',
@@ -67,6 +72,11 @@ class FeatureFlagQtiIdentifierServiceProvider implements ContainerServiceProvide
                     'taoQtiItem',
                     'qtiCreator',
                     UniqueNumericQtiIdentifierQtiCreator::class
+                ]
+            )->call(
+                'addClientConfigHandler',
+                [
+                    WirisTrialModeClientConfig::class,
                 ]
             );
     }

@@ -38,7 +38,29 @@
     <div class="panel">
         <button class="btn-info small block popup-btn" data-control="latex">{{__ "Large editor"}}</button>
         {{#if wirisMath}}
-            <button class="btn-info small block wiris-popup-btn">Wiris Math</button>
+            <button
+                type="button"
+                class="btn-info small block wiris-popup-btn"
+                title="{{__ "MathType"}}"
+                aria-label="{{__ "MathType"}}"
+            >
+                <img
+                    class="wiris-popup-btn-logo wiris-popup-btn-logo-light"
+                    src="{{mathtypeLogoLight}}"
+                    alt=""
+                />
+                <img
+                    class="wiris-popup-btn-logo wiris-popup-btn-logo-dark"
+                    src="{{mathtypeLogoDark}}"
+                    alt=""
+                />
+            </button>
+            {{#if wirisTrialMode}}
+            <div class="feedback-info">
+                <strong>{{__ "MathType availability"}}</strong>
+                <p>{{__ "MathType is currently enabled for your organization. Depending on usage, a separate licence may be required. Contact your account administrator for more information."}}</p>
+            </div>
+            {{/if}}
         {{else}}
             <button class="btn-info small block popup-btn" data-control="latexWysiwyg">{{__ "WYSIWYG editor"}}</button>
         {{/if}}

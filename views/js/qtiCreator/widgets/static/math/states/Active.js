@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 - 2026 (original work) Open Assessment Technologies SA;
  */
 define([
     'jquery',
@@ -33,6 +33,8 @@ define([
     'ui/tooltip',
     'context',
     'taoQtiItem/lib/mathml2latex',
+    'taoQtiItem/qtiCreator/widgets/static/math/helpers/wirisTrialMode',
+    'module',
     'taoQtiItem/lib/wirisplugin-generic'
 ], function(
     $,
@@ -51,7 +53,9 @@ define([
     mathJax,
     tooltip,
     context,
-    mathMLToLaTeX
+    mathMLToLaTeX,
+    wirisTrialModeHelper,
+    module
 ){
     'use strict';
 
@@ -88,7 +92,11 @@ define([
             $popupsContainer,
             areaBroker = this.widget.getAreaBroker(),
             wirisMathPathFlag = context.featureFlags && context.featureFlags.FEATURE_FLAG_WIRIS_MATH_PATH,
-            wirisMathEnabled = _.isUndefined(wirisMathPathFlag) ? true : wirisMathPathFlag;
+            wirisMathEnabled = _.isUndefined(wirisMathPathFlag) ? true : wirisMathPathFlag,
+            wirisTrialMode = wirisTrialModeHelper.shouldShowWirisTrialNotice(
+                wirisMathEnabled,
+                (module.config() || {}).wirisTrialMode
+            );
 
         if(!tex.trim() && mathML.trim()){
             editMode = 'mathml';
@@ -99,7 +107,10 @@ define([
             editMode : editMode,
             latex : tex,
             mathml : mathML,
-            wirisMath : wirisMathEnabled
+            wirisMath : wirisMathEnabled,
+            wirisTrialMode : wirisTrialMode,
+            mathtypeLogoLight : (context.root_url || '/') + 'taoQtiItem/views/img/qtiIconsPng/mathtype-logo-light.png',
+            mathtypeLogoDark : (context.root_url || '/') + 'taoQtiItem/views/img/qtiIconsPng/mathtype-logo-dark.png'
         }));
 
         if(mathJax){

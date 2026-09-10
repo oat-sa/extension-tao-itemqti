@@ -141,6 +141,7 @@ define([
                     propertyPanel: $container.find('#item-editor-item-widget-bar'),
                     itemPanel: $container.find('#item-editor-scroll-inner'),
                     itemPropertyPanel: $container.find('#sidebar-right-item-properties'),
+                    itemCommentsPanel: $container.find('#item-editor-item-comments-bar'),
                     itemStylePanel: $container.find('#item-style-editor-bar'),
                     modalContainer: $container.find('#modal-container'),
                     elementPropertyPanel: $container.find('#item-editor-body-element-property-bar .panel')

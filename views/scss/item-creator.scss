@@ -181,12 +181,6 @@ img.dragging.ui-draggable-dragging {
     }
 }
 
-#appearance-trigger {
-    .icon-item {
-        display:none;
-    }
-}
-
 #item-editor-widget-bar {
     display: none;
 }
@@ -212,8 +206,17 @@ img.dragging.ui-draggable-dragging {
             border-right: 1px solid $uiGeneralContentBorder;
         }
         .menu-right {
-            @include simple-flex-box(195px);
+            @include simple-flex-box(var(--authoring-right-panel-width, 210px));
+
             border-left: 1px solid $uiGeneralContentBorder;
+            max-width: var(--authoring-right-panel-width, 210px);
+            overflow: hidden;
+            box-sizing: border-box;
+
+            &#item-editor-item-mode-tabs,
+            &#item-editor-item-mode-tabs.action-group {
+                padding: 0;
+            }
         }
         .menu {
             @include simple-flex-box(auto);
@@ -361,6 +364,7 @@ body.solar-design #item-editor-scope .item-editor-sidebar .tool-group .panel .sc
         }
     }
     &.right-bar {
+        @include simple-flex-box(var(--authoring-right-panel-width, 210px));
         .item-editor-sidebar {
             border-left: 1px solid $uiGeneralContentBg;
         }
