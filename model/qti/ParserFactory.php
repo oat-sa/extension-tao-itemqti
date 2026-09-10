@@ -107,6 +107,7 @@ class ParserFactory
      */
     public function setItem(Item $item)
     {
+        $this->namespacePrefixCache = [];
         $this->item = $item;
     }
 
@@ -525,7 +526,6 @@ class ParserFactory
                     break;
                 }
             }
-            // Serialise at most once per lookup — never inside the recursive walk.
             if ($returnValue === '' && strpos($this->data->saveXML(), $nsFragment) !== false) {
                 $returnValue = $this->recursivelyFindNamespace($this->data, $nsFragment);
             }
