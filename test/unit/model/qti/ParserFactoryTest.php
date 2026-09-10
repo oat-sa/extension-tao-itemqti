@@ -440,8 +440,14 @@ XML;
 <assessmentItem
         xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd http://www.w3.org/2001/XInclude https://www.imsglobal.org/xsd/w3/2001/XInclude.xsd"
-        identifier="inf577_no_xi" title="INF-577 no xi" adaptive="false" timeDependent="false">
+        xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2
+            http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd
+            http://www.w3.org/2001/XInclude
+            https://www.imsglobal.org/xsd/w3/2001/XInclude.xsd"
+        identifier="ns_lookup_no_xi"
+        title="Namespace lookup without xi"
+        adaptive="false"
+        timeDependent="false">
     <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier"/>
     <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
     <itemBody>
@@ -486,8 +492,14 @@ XML;
         xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:xi="http://www.w3.org/2001/XInclude"
-        xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd http://www.w3.org/2001/XInclude https://www.imsglobal.org/xsd/w3/2001/XInclude.xsd"
-        identifier="inf577_with_xi" title="INF-577 with xi" adaptive="false" timeDependent="false">
+        xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2
+            http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd
+            http://www.w3.org/2001/XInclude
+            https://www.imsglobal.org/xsd/w3/2001/XInclude.xsd"
+        identifier="ns_lookup_with_xi"
+        title="Namespace lookup with xi"
+        adaptive="false"
+        timeDependent="false">
     <itemBody>
         <div><p>ok</p></div>
     </itemBody>
