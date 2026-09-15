@@ -49,6 +49,7 @@ define(['lodash', 'ui/areaBroker'], function (_, areaBroker) {
         'contentCreatorPanel',
         'propertyPanel',
         'itemPropertyPanel',
+        'itemCommentsPanel',
         'elementPropertyPanel',
         'itemStylePanel',
         'modalContainer'
