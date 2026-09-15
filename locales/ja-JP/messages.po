@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-09-08 09:21\n"
+"PO-Revision-Date: 2026-09-15 05:30\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -1186,7 +1186,7 @@ msgid "Layout"
 msgstr "レイアウト"
 
 msgid "leave empty"
-msgstr "{ruby}選{rt}えら{/rt}{/ruby}ばない "
+msgstr "空のままにする"
 
 msgid "Left"
 msgstr "左"
