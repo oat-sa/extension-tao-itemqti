@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-09-08 09:21\n"
+"PO-Revision-Date: 2026-09-16 05:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -474,7 +474,7 @@ msgid "Congruent"
 msgstr "合同"
 
 msgid "Constraints"
-msgstr "選択肢の解答数制限"
+msgstr "解答条件"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "ビデオまたはオーディオファイルの再生パラメータ（オートスタート、ループ）を制御し、それが再生された回数を報告します"
@@ -1186,7 +1186,7 @@ msgid "Layout"
 msgstr "レイアウト"
 
 msgid "leave empty"
-msgstr "{ruby}選{rt}えら{/rt}{/ruby}ばない "
+msgstr "空のままにする"
 
 msgid "Left"
 msgstr "左"
@@ -1454,7 +1454,7 @@ msgid "Ordered"
 msgstr "注文済み"
 
 msgid "Orientation"
-msgstr "選択肢の並び方"
+msgstr "配置方向"
 
 msgid "Other constraints"
 msgstr "複数解答設定"
