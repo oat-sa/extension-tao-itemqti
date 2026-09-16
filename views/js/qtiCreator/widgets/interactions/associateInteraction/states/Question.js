@@ -49,7 +49,7 @@ define([
                 _.indexOf(choicesPositions, classToken.replace(choicesPositionClassPrefix, '')) !== -1;
         });
 
-        return positionClass ? positionClass.replace(choicesPositionClassPrefix, '') : 'top';
+        return positionClass ? positionClass.replace(choicesPositionClassPrefix, '') : 'left';
     };
 
     var normalizePositionClass = function normalizePositionClass(className, position) {
