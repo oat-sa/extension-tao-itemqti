@@ -78,7 +78,11 @@ module.exports = function (grunt) {
                         'lib/handlebars/moduleWriter': `${root}/taoQtiItem/views/build/moduleWriter`
                     },
                     require('./paths.json')
-                )
+                ),
+                babelPreTransform: {
+                    enabled: true,
+                    exclude: []
+                }
             }
         }
     });
@@ -207,6 +211,8 @@ module.exports = function (grunt) {
         const extension = grunt.option('extension') || grunt.option('e');
         const selectedId = grunt.option('identifier') || grunt.option('i');
         const type = grunt.option('type');
+        const options = this.options();
+        const preTransformedModuleCache = {};
         let models, manifests, compileTasks;
 
         if (!extension) {
@@ -222,6 +228,9 @@ module.exports = function (grunt) {
 
         if (selectedId) {
             grunt.log.writeln(`Only searching portable element "${selectedId}"`);
+        }
+        if (options.babelPreTransform?.enabled) {
+            grunt.log.writeln('Using babelPreTransform');
         }
 
         models = type ? portableModels.filter(model => model.type === type) : portableModels;
@@ -284,6 +293,37 @@ module.exports = function (grunt) {
                         // Add the path to the given extension for portableLib resolution
                         config.paths[extension] = `${root}/${extension}/views/js`;
                         config.paths[model.id] = model.basePath;
+
+                        // Babel pre-transform is invoked on file read,
+                        // because rJs optimizer cannot parse many ES2015+ syntaxes.
+                        config.onBuildRead = function (moduleName, path, contents) {
+                            if (!options.babelPreTransform?.enabled) {
+                                return contents;
+                            }
+                            const isExcluded = babelPreTransform.exclude?.some(pattern => moduleName.includes(pattern));
+                            if (path.endsWith('.js') && !isExcluded) {
+                                if (preTransformedModuleCache[moduleName]) {
+                                    return preTransformedModuleCache[moduleName];
+                                }
+                                try {
+                                    const result = babel.transformSync(contents, {
+                                        presets: [
+                                            ['@babel/preset-env', {
+                                                targets: { esmodules: true } // this target offers a good balance between syntax support and bundle size
+                                            }]
+                                        ],
+                                        sourceType: 'script',
+                                        compact: false,
+                                        comments: false
+                                    });
+                                    preTransformedModuleCache[moduleName] = result.code;
+                                    return result.code;
+                                } catch (err) {
+                                    console.warn(`Babel transform failed for ${moduleName}:`, err);
+                                    return contents;  // fallback to original on error
+                                }
+                            }
+                        };
 
                         requirejs.optimize(
                             config,
