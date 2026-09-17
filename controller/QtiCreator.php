@@ -36,7 +36,6 @@ use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorInterface;
 use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorProxy;
 use oat\tao\model\media\MediaService;
 use oat\tao\model\TaoOntology;
-use oat\taoDeliverConnect\model\TaskOrchestrator\TaskOrchestratorEmailService;
 use oat\taoItems\model\event\ItemCreatedEvent;
 use oat\taoItems\model\media\ItemMediaResolver;
 use oat\taoQtiItem\helpers\Authoring;
@@ -332,10 +331,6 @@ class QtiCreator extends tao_actions_CommonModule
         );
 
         $config->setProperty('mediaSourcesUrl', $mediaSourcesUrl);
-        $config->setProperty(
-            'itemCommentsMentionsEnabled',
-            $this->getPsrContainer()->get(TaskOrchestratorEmailService::class)->isConfigured()
-        );
 
         //initialize all registered hooks:
         $hookClasses = HookRegistry::getRegistry()->getMap();
