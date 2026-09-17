@@ -13,7 +13,3 @@ composer.lock
 node_modules
 /views/js/mathjax
 .DS_Store
-
-# Local agent working notes / editor agent config; never commit
-.ai/
-.cursor/
