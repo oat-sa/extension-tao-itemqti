@@ -29,7 +29,7 @@ use oat\tao\helpers\Template;
                     <span class="tab-label menu-label"><?= __('Properties') ?></span>
                 </span>
             </li>
-            <?php if (get_data('itemCommentsEnabled')): ?>
+            <?php if (!empty(get_data('config')['properties']['itemCommentsEnabled'])): ?>
             <li role="tab" data-tab="comments" class="btn-info small" aria-selected="false"
                 data-label="<?= __('Comments') ?>" title="<?= __('Comments') ?>" aria-label="<?= __('Comments') ?>">
                 <span class="li-inner">
