@@ -300,7 +300,7 @@ module.exports = function (grunt) {
                             if (!options.babelPreTransform?.enabled) {
                                 return contents;
                             }
-                            const isExcluded = babelPreTransform.exclude?.some(pattern => moduleName.includes(pattern));
+                            const isExcluded = options.babelPreTransform.exclude?.some(pattern => moduleName.includes(pattern));
                             if (path.endsWith('.js') && !isExcluded) {
                                 if (preTransformedModuleCache[moduleName]) {
                                     return preTransformedModuleCache[moduleName];
