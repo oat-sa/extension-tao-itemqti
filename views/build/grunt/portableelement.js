@@ -323,6 +323,7 @@ module.exports = function (grunt) {
                                     return contents;  // fallback to original on error
                                 }
                             }
+                            return contents;
                         };
 
                         requirejs.optimize(
