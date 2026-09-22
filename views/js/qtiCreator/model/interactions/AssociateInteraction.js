@@ -18,6 +18,7 @@ define([
             };
         },
         afterCreate : function(){
+            this.addClass('qti-choices-top');
             this.createChoice();
             this.createChoice();
             this.createResponse({
@@ -47,5 +48,4 @@ define([
     });
     return Interaction.extend(methods);
 });
-
 
