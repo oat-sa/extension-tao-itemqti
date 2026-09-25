@@ -13,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA
  *
  * Copyright (c) 2013-2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
@@ -30,7 +30,6 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
-use oat\tao\model\TaskOrchestrator\TaskOrchestratorEmailService;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorInterface;
@@ -326,10 +325,6 @@ class QtiCreator extends tao_actions_CommonModule
         );
 
         $config->setProperty('mediaSourcesUrl', $mediaSourcesUrl);
-        $config->setProperty(
-            'itemCommentsMentionsEnabled',
-            $this->getPsrContainer()->get(TaskOrchestratorEmailService::class)->isConfigured()
-        );
 
         //initialize all registered hooks:
         $hookClasses = HookRegistry::getRegistry()->getMap();
