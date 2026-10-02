@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-09-08 09:21\n"
+"PO-Revision-Date: 2026-09-28 02:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -285,7 +285,7 @@ msgid "Attempting to inject \"%s\" metadata values for target \"%s\" with metada
 msgstr "メタデータインジェクタ\"%s\"でターゲット \"%s\" のメタデータ値 \"%s\" を挿入しようとしています。"
 
 msgid "Authoring view remains tabular. Preview and delivery use non-tabular mode."
-msgstr "ビューの作成は表形式のままです。プレビューと配信は非表形式モードを使用します。"
+msgstr "オーサリング画面は表形式のまま維持されます。プレビューおよびテスト配信時のみ非表形式（D&D）が適用されます。"
 
 msgid "Autostart"
 msgstr "自動再生"
@@ -474,7 +474,7 @@ msgid "Congruent"
 msgstr "合同"
 
 msgid "Constraints"
-msgstr "選択肢の解答数制限"
+msgstr "解答条件"
 
 msgid "Control the playing parameters (auto-start, loop) of a video or audio file and report the number of time it has been played."
 msgstr "ビデオまたはオーディオファイルの再生パラメータ（オートスタート、ループ）を制御し、それが再生された回数を報告します"
@@ -1186,7 +1186,7 @@ msgid "Layout"
 msgstr "レイアウト"
 
 msgid "leave empty"
-msgstr "{ruby}選{rt}えら{/rt}{/ruby}ばない "
+msgstr "空のままにする"
 
 msgid "Left"
 msgstr "左"
@@ -1403,7 +1403,7 @@ msgid "No value set"
 msgstr "何もセットされていません"
 
 msgid "Non-tabular"
-msgstr "Non-tabular"
+msgstr "非表形式（D&D）"
 
 msgid "None"
 msgstr "なし"
@@ -1454,7 +1454,7 @@ msgid "Ordered"
 msgstr "注文済み"
 
 msgid "Orientation"
-msgstr "選択肢の並び方"
+msgstr "配置方向"
 
 msgid "Other constraints"
 msgstr "複数解答設定"
@@ -2042,10 +2042,10 @@ msgid "Table headings"
 msgstr "表の見出し"
 
 msgid "Tabular"
-msgstr "テーブル"
+msgstr "表形式"
 
 msgid "Tabular uses a table layout. Non-tabular uses choices and buckets in preview and delivery."
-msgstr "表形式では、テーブルレイアウトを使用します。非表形式では、プレビューと配信に選択肢とバケットを使用します。"
+msgstr "表形式：テーブルレイアウトを使用。非表形式（D&D）：選択肢と配置エリアが使用されます（プレビューおよび受験画面）。"
 
 msgid "Tangent"
 msgstr "tan"
