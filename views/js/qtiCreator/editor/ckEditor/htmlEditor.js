@@ -30,6 +30,7 @@ define([
     'taoQtiItem/qtiCreator/helper/languages',
     'taoQtiItem/qtiCreator/helper/elementSupport',
     'taoQtiItem/qtiCreator/helper/rubyTagCleaner',
+    'tao/ckeditor/wproofreaderBootstrap',
 ], function (
     _,
     __,
