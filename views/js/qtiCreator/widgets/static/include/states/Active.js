@@ -63,6 +63,7 @@ define([
                 appendContainer: options.mediaManager.appendContainer,
                 mediaSourcesUrl: `${options.mediaManager.mediaSourcesUrl}?exclude=local`,
                 browseUrl: options.mediaManager.browseUrl,
+                searchUrl: options.mediaManager.searchUrl,
                 uploadUrl: options.mediaManager.uploadUrl,
                 deleteUrl: options.mediaManager.deleteUrl,
                 downloadUrl: options.mediaManager.downloadUrl,
@@ -74,6 +75,7 @@ define([
                     filters: 'application/qti+xml'
                 },
                 pathParam: 'path',
+                currentAsset: $href.val() || undefined,
                 select: function (e, files) {
                     let file;
 
