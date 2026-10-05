@@ -18,7 +18,12 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define(['lodash', 'ui/ckeditor/ckConfigurator', 'mathJax'], function(_, ckConfigurator, mathJax) {
+define([
+    'lodash',
+    'ui/ckeditor/ckConfigurator',
+    'mathJax',
+    'tao/ckeditor/scaytBootstrap'
+], function(_, ckConfigurator, mathJax, scaytBootstrap) {
     'use strict';
 
     var _defaults = {
@@ -30,6 +35,8 @@ define(['lodash', 'ui/ckeditor/ckConfigurator', 'mathJax'], function(_, ckConfig
         horizontalRule: true,
         furiganaPlugin: true
     };
+
+    _.assign(_defaults, scaytBootstrap.getCkeditorConfig());
 
     /**
      * Generate a configuration object for CKEDITOR

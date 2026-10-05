@@ -30,6 +30,7 @@ define([
     'taoQtiItem/qtiCreator/helper/languages',
     'taoQtiItem/qtiCreator/helper/elementSupport',
     'taoQtiItem/qtiCreator/helper/rubyTagCleaner',
+    'tao/ckeditor/scaytBootstrap',
 ], function (
     _,
     __,
@@ -44,7 +45,8 @@ define([
     featureFlag,
     languages,
     elementSupportHelper,
-    rubyTagCleaner
+    rubyTagCleaner,
+    scaytBootstrap
 ) {
     'use strict';
 
@@ -62,6 +64,60 @@ define([
 
     //prevent auto inline editor creation:
     CKEditor.disableAutoInline = true;
+
+    // TEMPORARY TRACE (BOSAN-375 SCAYT evaluation, revert before merge):
+    // records editor focus/blur and SCAYT create/destroy across reloads so a
+    // real-click session can be audited afterwards. Cap 200 entries.
+    var scaytTraceWrapped = false;
+    function scaytTraceHook() {
+        try {
+            var key = 'tao-scayt-trace';
+            var push = function (msg) {
+                try {
+                    var log = JSON.parse(window.localStorage.getItem(key) || '[]');
+                    log.push(new Date().toISOString().slice(14, 23) + ' ' + msg);
+                    window.localStorage.setItem(key, JSON.stringify(log.slice(-200)));
+                } catch (ignored) {}
+            };
+            if (!scaytTraceWrapped && window.CKEDITOR && window.CKEDITOR.plugins && window.CKEDITOR.plugins.scayt) {
+                scaytTraceWrapped = true;
+                var plugin = window.CKEDITOR.plugins.scayt;
+                if (plugin.createScayt && !plugin.createScayt.__traced) {
+                    var origCreate = plugin.createScayt;
+                    var wrappedCreate = function (editor) {
+                        push('createScayt(' + (editor && editor.name ? editor.name.slice(0, 24) : '?') + ')');
+                        return origCreate.apply(this, arguments);
+                    };
+                    wrappedCreate.__traced = true;
+                    plugin.createScayt = wrappedCreate;
+                }
+                if (plugin.destroy && !plugin.destroy.__traced) {
+                    var origDestroy = plugin.destroy;
+                    var wrappedDestroy = function (editor) {
+                        push('destroy(' + (editor && editor.name ? editor.name.slice(0, 24) : '?') + ')');
+                        return origDestroy.apply(this, arguments);
+                    };
+                    wrappedDestroy.__traced = true;
+                    plugin.destroy = wrappedDestroy;
+                }
+            }
+            var editorNames = window.CKEDITOR && window.CKEDITOR.instances
+                ? Object.keys(window.CKEDITOR.instances)
+                : [];
+            editorNames.forEach(function (name) {
+                var editor = window.CKEDITOR.instances[name];
+                if (editor && !editor.__scaytTraced) {
+                    editor.__scaytTraced = true;
+                    editor.on('focus', function () {
+                        push(name.slice(0, 24) + ' focus readOnly=' + editor.readOnly);
+                    });
+                    editor.on('blur', function () {
+                        push(name.slice(0, 24) + ' blur hasScayt=' + (!!editor.scayt));
+                    });
+                }
+            });
+        } catch (ignored) {}
+    }
 
     /**
      * @param {JQuery} $editable - the element to be transformed into an editor
@@ -81,6 +137,10 @@ define([
             $toolbarArea = areaBroker && areaBroker.getToolbarArea && areaBroker.getToolbarArea();
 
         options = _.defaults(options, _defaults);
+
+        // SCAYT (BOSAN-375): register the vendored plugin; CKEditor is
+        // guaranteed present here, editors pick it up via extraPlugins.
+        scaytBootstrap.registerScayt();
 
         const isHiddenPlugin = pluginName => !features.isVisible(`taoQtiItem/creator/content/plugin/${pluginName}`);
 
@@ -278,7 +338,9 @@ define([
             }
         };
 
-        return CKEditor.inline($editable[0], ckConfig);
+        var createdEditor = CKEditor.inline($editable[0], ckConfig);
+        scaytTraceHook();
+        return createdEditor;
     }
 
     /**
