@@ -45,7 +45,8 @@ define([
     featureFlag,
     languages,
     elementSupportHelper,
-    rubyTagCleaner
+    rubyTagCleaner,
+    wproofreaderBootstrap
 ) {
     'use strict';
 
@@ -63,6 +64,26 @@ define([
 
     //prevent auto inline editor creation:
     CKEditor.disableAutoInline = true;
+
+    // SPIKE (BOSAN-202, SCAYT evaluation): register the vendored plugin once
+    // CKEditor is guaranteed present (editor build time), then editors pick it
+    // up through extraPlugins at creation.
+    var scaytRegistered = false;
+    function registerScaytSpike() {
+        if (!wproofreaderBootstrap.scaytSpike || scaytRegistered) {
+            return;
+        }
+        scaytRegistered = true;
+        try {
+            // require.toUrl may return the path with or without .js plus the
+            // cache buster (?buster=...): normalize to the plugin directory.
+            var pluginFile = window.require && window.require.toUrl('tao/ckeditor/scayt/plugin');
+            var pluginDir = String(pluginFile).split('?')[0].replace(/\/plugin(\.js)?$/, '/');
+            CKEditor.plugins.addExternal('scayt', pluginDir);
+        } catch (err) {
+            window.console && window.console.error('SCAYT spike registration failed', err);
+        }
+    }
 
     /**
      * @param {JQuery} $editable - the element to be transformed into an editor
@@ -82,6 +103,8 @@ define([
             $toolbarArea = areaBroker && areaBroker.getToolbarArea && areaBroker.getToolbarArea();
 
         options = _.defaults(options, _defaults);
+
+        registerScaytSpike();
 
         const isHiddenPlugin = pluginName => !features.isVisible(`taoQtiItem/creator/content/plugin/${pluginName}`);
 

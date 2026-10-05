@@ -38,6 +38,17 @@ define([
 
     _.assign(_defaults, wproofreaderBootstrap.getCkeditorConfig());
 
+    // SPIKE (BOSAN-202, SCAYT evaluation): native SCAYT plugin instead of the
+    // WProofreader bundle when ?scayt=1. Demo service, English only.
+    if (wproofreaderBootstrap.scaytSpike) {
+        _.assign(_defaults, {
+            extraPlugins: 'scayt',
+            scayt_autoStartup: true,
+            scayt_sLang: 'en_US',
+            scayt_elementsToIgnore: 'style,script,math,pre,code'
+        });
+    }
+
     /**
      * Generate a configuration object for CKEDITOR
      *
