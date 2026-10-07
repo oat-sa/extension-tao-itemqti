@@ -374,7 +374,9 @@ define([
                 //the renderers' widgets do not handle async yet, so we rely on this event
                 //TODO ready should be triggered once every renderer's widget is done (ie. promisify everything)
                 $(document).on('ready.qti-widget', (e, elt) => {
-                    if (elt.element.qtiClass === 'assessmentItem') {
+                    // The WProofreader bundle triggers bare `ready` on document;
+                    // jQuery namespace matching delivers those here with no payload.
+                    if (elt && elt.element && elt.element.qtiClass === 'assessmentItem') {
                         this.trigger('ready');
                     }
                 });
