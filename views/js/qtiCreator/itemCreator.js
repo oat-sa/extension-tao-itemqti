@@ -374,7 +374,7 @@ define([
                 //the renderers' widgets do not handle async yet, so we rely on this event
                 //TODO ready should be triggered once every renderer's widget is done (ie. promisify everything)
                 $(document).on('ready.qti-widget', (e, elt) => {
-                    if (elt && elt.element && elt.element.qtiClass === 'assessmentItem') {
+                    if (elt.element.qtiClass === 'assessmentItem') {
                         this.trigger('ready');
                     }
                 });
