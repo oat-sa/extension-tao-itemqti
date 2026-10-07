@@ -56,6 +56,7 @@ define([
      * @see http://docs.ckeditor.com/#!/api/CKEDITOR.config
      */
     var getConfig = function(editor, toolbarType, options){
+        wproofreaderBootstrap.start();
         return ckConfigurator.getConfig(editor, toolbarType, _.defaults(options || {}, _defaults));
     };
 

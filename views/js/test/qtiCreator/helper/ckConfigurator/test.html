@@ -16,6 +16,14 @@
             QUnit.config.autostart = false;
 
             require(['/tao/ClientConfig/config'], function(){
+                require.config({
+                    config: {
+                        'tao/ckeditor/wproofreaderBootstrap': {
+                            enabled: true,
+                            serviceId: 'test'
+                        }
+                    }
+                });
 
                 require(['taoQtiItem/test/qtiCreator/helper/ckConfigurator/test'], function () {
 
