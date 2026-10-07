@@ -36,9 +36,10 @@ define([
     QUnit.module('ckConfigurator WProofreader merge');
 
     QUnit.test('supplied WProofreader key is merged into the editor config', function (assert) {
-        assert.expect(1);
+        assert.expect(2);
         withCkeditorStub(function () {
             var expected = wproofreaderBootstrap.getCkeditorConfig().disableNativeSpellChecker;
+            assert.strictEqual(typeof expected, 'boolean', 'provider supplies the key');
             var config = qtiCkConfigurator.getConfig(editorStub, 'inline', {});
             assert.strictEqual(
                 config.disableNativeSpellChecker,
@@ -59,9 +60,10 @@ define([
     });
 
     QUnit.test('explicit options take precedence over the merged WProofreader key', function (assert) {
-        assert.expect(1);
+        assert.expect(2);
         withCkeditorStub(function () {
             var merged = wproofreaderBootstrap.getCkeditorConfig().disableNativeSpellChecker;
+            assert.strictEqual(typeof merged, 'boolean', 'provider supplies the key');
             var config = qtiCkConfigurator.getConfig(editorStub, 'inline', {
                 disableNativeSpellChecker: !merged
             });
