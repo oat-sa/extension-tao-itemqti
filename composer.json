@@ -69,7 +69,7 @@
         "oat-sa/generis": ">=17.0.0",
         "oat-sa/lib-tao-qti": "^7.8.1",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
-        "oat-sa/tao-core": ">=56.9.4"
+        "oat-sa/tao-core": "dev-feat/BOSAN-375/spell-check"
     },
     "autoload": {
         "psr-4": {
