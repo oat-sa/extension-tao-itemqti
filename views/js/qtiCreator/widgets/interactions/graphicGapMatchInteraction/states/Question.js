@@ -36,11 +36,14 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicGapMatch',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/associableHotspot',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/gapImg',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/gapText',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/graphicGapMatch.adder',
 
     'taoQtiItem/qtiCreator/helper/panel',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/resourceManager',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapTextInteractionSupport',
     'ui/mediasizer'
 ], function (
     $,
@@ -57,10 +60,13 @@ define([
     formTpl,
     choiceFormTpl,
     gapImgFormTpl,
+    gapTextFormTpl,
     mediaTlbTpl,
+    graphicGapMatchAdderTpl,
     panel,
     resourceManager,
-    bgImage
+    bgImage,
+    ensureGapTextSupport
 ) {
     'use strict';
 
@@ -110,6 +116,8 @@ define([
         var interaction = widget.element;
         var options = widget.options;
         var paper = interaction.paper;
+
+        ensureGapTextSupport(interaction);
 
         var gapImgSelectorOptions = _.clone(options);
         gapImgSelectorOptions.title = gapImgSelectorOptions.title
@@ -166,8 +174,9 @@ define([
         widget._editor.create();
 
         _.forEach(interaction.getGapImgs(), setUpGapImg);
+        _.forEach(interaction.getGapTexts(), setUpGapText);
 
-        createGapImgAddOption();
+        createGapAddOption();
 
         // stop the question mode on resize to keep the coordinate system coherent,
         // even in responsive (the side bar behaves weirdly)
@@ -176,40 +185,204 @@ define([
         });
 
         /**
-         * Create the 'add option' button
+         * Create the 'add option' control with image / text gap menu
          */
-        function createGapImgAddOption() {
+        function createGapAddOption() {
             const $gapList = $('ul.source', widget.$original);
+            const $flyoutHost = $gapList.closest('.image-editor.solid');
+            const $positionHost = $flyoutHost.length ? $flyoutHost : widget.$container;
             const $addOption =
                 $('<li class="empty add-option">' +
                     '<div><span class="icon-add"></span></div>' +
                     '</li>');
+            const $menuFlyout = $(
+                '<div class="graphic-gap-add-options-flyout" aria-hidden="true">' +
+                    graphicGapMatchAdderTpl() +
+                    '</div>'
+            );
 
-            $addOption.on('click', function () {
-                let gapImgObj = interaction.createGapImg({});
-                gapImgObj.object.removeAttr('type');
+            widget.$container.find('.graphic-gap-add-options-flyout').remove();
+            widget.$container.off('click.gapAddOption');
 
-                // on successful upload
-                $addOption.on('selected.upload', function (e, args) {
-                    $addOption.off('selected.upload');
+            function positionGapAddMenu() {
+                if (!$addOption.length || !$addOption[0].getBoundingClientRect) {
+                    return;
+                }
 
-                    const size = args.size;
-                    let height, width;
+                const buttonRect = $addOption[0].getBoundingClientRect();
+                const hostRect = $positionHost[0].getBoundingClientRect();
 
-                    if (size) {
-                        height = args.size.height;
-                        width = args.size.width;
-                    }
-
-                    gapImgObj.object.attr('data', args.selected.file);
-                    gapImgObj.object.attr('type', args.selected.mime);
-                    gapImgObj.object.attr('width', width);
-                    gapImgObj.object.attr('height', height);
-                    setUpGapImg(gapImgObj);
+                $menuFlyout.css({
+                    top: buttonRect.top - hostRect.top + $positionHost.scrollTop(),
+                    left: buttonRect.left - hostRect.left + $addOption.outerWidth() + 4
                 });
-                resourceManager($addOption, gapImgSelectorOptions);
+            }
+
+            function hideGapAddMenu() {
+                $menuFlyout.removeClass('is-visible').attr('aria-hidden', 'true');
+                $(document).off('click.graphicGapAddOption');
+            }
+
+            function showGapAddMenu() {
+                positionGapAddMenu();
+                $menuFlyout.addClass('is-visible').attr('aria-hidden', 'false');
+
+                setTimeout(function () {
+                    $(document).on('click.graphicGapAddOption', function (e) {
+                        if ($(e.target).closest('.graphic-gap-add-options-flyout', widget.$container).length) {
+                            return;
+                        }
+                        if ($(e.target).closest('ul.source > li.add-option.empty', widget.$container).length) {
+                            return;
+                        }
+                        hideGapAddMenu();
+                    });
+                }, 0);
+            }
+
+            widget.$container.on('click.gapAddOption', 'ul.source > li.add-option.empty', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                if ($menuFlyout.hasClass('is-visible')) {
+                    hideGapAddMenu();
+                } else {
+                    showGapAddMenu();
+                }
             });
+
+            widget.$container.on(
+                'click.gapAddOption',
+                '.graphic-gap-add-options-flyout [data-role=add-gap-img]',
+                function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    hideGapAddMenu();
+
+                    const $addBtn = $gapList.find('li.add-option.empty');
+                    let gapImgObj = interaction.createGapImg({});
+                    gapImgObj.object.removeAttr('type');
+
+                    $addBtn.off('selected.upload').on('selected.upload', function (e, args) {
+                        $addBtn.off('selected.upload');
+
+                        const size = args.size;
+                        let height, width;
+
+                        if (size) {
+                            height = args.size.height;
+                            width = args.size.width;
+                        }
+
+                        gapImgObj.object.attr('data', args.selected.file);
+                        gapImgObj.object.attr('type', args.selected.mime);
+                        gapImgObj.object.attr('width', width);
+                        gapImgObj.object.attr('height', height);
+                        setUpGapImg(gapImgObj);
+                    });
+                    resourceManager($addBtn, gapImgSelectorOptions);
+                }
+            );
+
+            widget.$container.on(
+                'click.gapAddOption',
+                '.graphic-gap-add-options-flyout [data-role=add-gap-text]',
+                function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    hideGapAddMenu();
+                    unbindMinMaxThresholdListeners();
+                    setUpGapText(interaction.createGapText());
+                }
+            );
+
+            $(window).on('resize.graphicGapAddOption', positionGapAddMenu);
+
+            $positionHost.append($menuFlyout);
             $addOption.appendTo($gapList);
+        }
+
+        function getGapTextPlainLabel(gapText) {
+            const body = gapText.getBody && gapText.getBody();
+
+            if (!body || !body.get) {
+                return '';
+            }
+
+            return $('<div/>')
+                .html(body.get('body') || '')
+                .text()
+                .trim();
+        }
+
+        function updateGapTextTileLabel($gapTextBox, label) {
+            $gapTextBox.children().not('.mini-tlb').remove();
+            $gapTextBox.prepend($('<span class="gap-text-label"/>').text(label || ''));
+        }
+
+        function setGapTextPlainLabel(gapText, label) {
+            const normalizedLabel = label || '';
+
+            gapText.body(normalizedLabel);
+
+            const $gapTextBox = $(`[data-serial="${gapText.serial}"]`, $('ul.source', widget.$original));
+
+            if ($gapTextBox.length) {
+                updateGapTextTileLabel($gapTextBox, normalizedLabel);
+            }
+        }
+
+        /**
+         * Insert and setup the gap text choice
+         *
+         * @param {Object} gapTextObj
+         */
+        function setUpGapText(gapTextObj) {
+            unbindMinMaxThresholdListeners();
+
+            const $gapList = $('ul.source', widget.$original),
+                $addOption = $gapList.find('li.add-option.empty'),
+                $deleteBtn = $(mediaTlbTpl());
+            let $gapTextBox = $gapList.find(`[data-serial="${gapTextObj.serial}"]`);
+
+            if (!$gapTextBox.length) {
+                const $placeholder = $('<li/>');
+
+                $placeholder.insertBefore($addOption);
+                gapTextObj.render({}, $placeholder);
+                $gapTextBox = $gapList.find(`[data-serial="${gapTextObj.serial}"]`);
+            }
+
+            updateGapTextTileLabel($gapTextBox, getGapTextPlainLabel(gapTextObj));
+
+            $('.active', $gapList).removeClass('active');
+            $gapTextBox.addClass('active');
+            enterGapTextForm(gapTextObj.serial);
+
+            $deleteBtn
+                .appendTo($gapTextBox)
+                .show()
+                .click(function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    $gapTextBox.remove();
+                    interaction.removeGapText(gapTextObj);
+                });
+
+            $gapTextBox.off('click.gapText').on('click.gapText', function (e) {
+                if ($(e.target).closest('.mini-tlb').length) {
+                    return;
+                }
+
+                if ($gapTextBox.hasClass('active')) {
+                    $gapTextBox.removeClass('active');
+                    leaveChoiceForm();
+                } else {
+                    $('.active', $gapList).removeClass('active');
+                    $gapTextBox.addClass('active');
+                    enterGapTextForm(gapTextObj.serial);
+                }
+            });
         }
 
         /**
@@ -219,7 +392,7 @@ define([
          */
         function setUpGapImg(gapImgObj) {
             const $gapList = $('ul.source', widget.$original),
-                $addOption = $('.empty', $gapList),
+                $addOption = $gapList.find('li.add-option.empty'),
                 $deleteBtn = $(mediaTlbTpl());
             let $gapImgBox = $(`[data-serial="${gapImgObj.serial}"]`, $gapList);
 
@@ -263,6 +436,8 @@ define([
             var element, bbox, callbacks;
 
             if (choice) {
+                unbindMinMaxThresholdListeners();
+
                 //get shape bounding box
                 element = interaction.paper.getById(serial);
                 bbox = element.getBBox();
@@ -297,8 +472,8 @@ define([
                         var self = this;
 
                         //the range matches the number of choices
-                        widget.on('choiceCreated choiceDeleted', function (data) {
-                            if (data.interaction.serial === interaction.serial) {
+                        widget.on('choiceCreated.minMaxThresholds choiceDeleted.minMaxThresholds', function (data) {
+                            if (data.interaction.serial === interaction.serial && self.is('rendered')) {
                                 self.updateThresholds(1, _.size(interaction.getChoices()));
                             }
                         });
@@ -335,7 +510,17 @@ define([
          * Leave the choice form
          * @private
          */
+        function unbindMinMaxThresholdListeners() {
+            const stateName = widget.getCurrentState().name;
+            const eventSuffix = `.qti-widget.${widget.serial}.${stateName}`;
+
+            $(document).off(`choiceCreated.minMaxThresholds${eventSuffix}`);
+            $(document).off(`choiceDeleted.minMaxThresholds${eventSuffix}`);
+        }
+
         function leaveChoiceForm() {
+            unbindMinMaxThresholdListeners();
+
             if ($formChoicePanel.css('display') !== 'none') {
                 panel.openSections($formInteractionPanel.children('section'));
                 $formChoicePanel.hide();
@@ -357,6 +542,8 @@ define([
                 $mediaSizer;
 
             if (gapImg) {
+                unbindMinMaxThresholdListeners();
+
                 $choiceForm.empty().html(
                     gapImgFormTpl({
                         identifier: gapImg.id(),
@@ -388,8 +575,8 @@ define([
                         var self = this;
 
                         //the range is matching the number of choices (not the number of gap img)
-                        widget.on('choiceCreated choiceDeleted', function (data) {
-                            if (data.interaction.serial === interaction.serial) {
+                        widget.on('choiceCreated.minMaxThresholds choiceDeleted.minMaxThresholds', function (data) {
+                            if (data.interaction.serial === interaction.serial && self.is('rendered')) {
                                 self.updateThresholds(1, _.size(interaction.getChoices()));
                             }
                         });
@@ -491,6 +678,87 @@ define([
                 }
             }
         }
+
+        /**
+         * Set up the gapText form
+         * @private
+         * @param {String} serial - the gapText serial
+         */
+        function enterGapTextForm(serial) {
+            let callbacks,
+                gapText = interaction.getGapText(serial);
+
+            if (gapText) {
+                unbindMinMaxThresholdListeners();
+
+                $choiceForm.empty().html(
+                    gapTextFormTpl({
+                        identifier: gapText.id(),
+                        serial: serial,
+                        label: getGapTextPlainLabel(gapText)
+                    })
+                );
+                $choiceForm.append(
+                    '<div class="panel min-max-panel"><h3>' +
+                        __('Max. number of matches') +
+                        ' </h3></div>' +
+                        '<div class="response-matchmax-info gapText hidden"><p class="feedback-info">' +
+                        __(
+                            'The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score.'
+                        ) +
+                        '</p></div>'
+                );
+
+                minMaxComponentFactory($choiceForm.find('.min-max-panel'), {
+                    min: {
+                        fieldName: 'matchMin',
+                        value: _.parseInt(gapText.attr('matchMin')) || 0,
+                        helpMessage: __(
+                            'The minimum number of choices this choice must be associated with to form a valid response.'
+                        )
+                    },
+                    max: {
+                        fieldName: 'matchMax',
+                        value: _.parseInt(gapText.attr('matchMax')) || 0,
+                        helpMessage: __('The maximum number of choices this choice may be associated with.')
+                    },
+                    upperThreshold: _.size(interaction.getChoices())
+                })
+                    .on('render', function () {
+                        var self = this;
+
+                        widget.on('choiceCreated.minMaxThresholds choiceDeleted.minMaxThresholds', function (data) {
+                            if (data.interaction.serial === interaction.serial && self.is('rendered')) {
+                                self.updateThresholds(1, _.size(interaction.getChoices()));
+                            }
+                        });
+                        widget.infinityMatchMax('gapText', gapText);
+                    })
+                    .on('change', function () {
+                        widget.infinityMatchMax('gapText', gapText);
+                    });
+
+                formElement.initWidget($choiceForm);
+
+                callbacks = formElement.getMinMaxAttributeCallbacks('matchMin', 'matchMax');
+                callbacks.identifier = identifierHelper.updateChoiceIdentifier;
+                formElement.setChangeCallbacks($choiceForm, gapText, callbacks);
+
+                $choiceForm.find('[name=gapTextLabel]').on('change input', function () {
+                    setGapTextPlainLabel(gapText, $(this).val());
+                });
+
+                $formChoicePanel.show();
+                panel.openSections($formChoicePanel.children('section'));
+                panel.closeSections($formInteractionPanel.children('section'));
+
+                $choiceForm.find('[name=gapTextLabel]').focus();
+
+                if (typeof window.scroll === 'function') {
+                    window.scroll(0, $choiceForm.offset().top);
+                }
+            }
+        }
     }
 
     /**
@@ -500,12 +768,19 @@ define([
         var widget = this.widget;
         var interaction = widget.element;
         var paper = interaction.paper;
-        var valid = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices) && !_.isEmpty(interaction.getGapImgs());
+
+        ensureGapTextSupport(interaction);
+
+        var hasGapChoices =
+            !_.isEmpty(interaction.getGapImgs()) || !_.isEmpty(interaction.getGapTexts());
+        var valid = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices) && hasGapChoices;
 
         widget.isValid(
             'graphicGapMatchInteraction',
             valid,
-            __('A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image.')
+            __(
+                'A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap choice (image or text).'
+            )
         );
 
         if (!paper) {
@@ -513,16 +788,21 @@ define([
         }
 
         $(window).off('resize.changestate');
+        $(document).off('click.graphicGapAddOption');
 
         if (widget._editor) {
             widget._editor.destroy();
         }
 
+        widget.$container.off('click.gapAddOption');
+        $('.graphic-gap-add-options-flyout', widget.$container).remove();
+        $(window).off('resize.graphicGapAddOption');
+
         //remove gapImg placeholder
         $('ul.source .empty', widget.$original).remove();
 
-        //restore gapImg appearance
-        widget.$container.find('.qti-gapImg').removeClass('active').find('.mini-tlb').remove();
+        //restore gap choice appearance
+        widget.$container.find('.qti-gapImg, .qti-gapText').removeClass('active').find('.mini-tlb').remove();
         $('.image-editor.solid, .block-listing.source', widget.$container).css('min-width', 0);
     }
 

@@ -28,8 +28,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicInteraction/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/states/states',
-    'taoQtiItem/qtiCommonRenderer/helpers/Graphic'
-], function ($, _, __, hider, Widget, GraphicWidget, states, GraphicHelper) {
+    'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapTextInteractionSupport'
+], function ($, _, __, hider, Widget, GraphicWidget, states, GraphicHelper, ensureGapTextSupport) {
     'use strict';
 
     /**
@@ -61,7 +62,7 @@ define([
             if (paper) {
                 this.element.paper = paper;
                 this.createChoices();
-                this.createGapImgs();
+                this.createGapChoices();
             }
         },
 
@@ -116,17 +117,35 @@ define([
         },
 
         /**
-         * Create the gap images
+         * Create the gap images and gap texts in the source bay
          */
-        createGapImgs: function () {
+        createGapChoices: function () {
             const interaction = this.element;
             const $container = this.$original;
             const $gapList = $('ul.source', $container);
+
+            ensureGapTextSupport(interaction);
 
             $gapList.empty();
             _.forEach(interaction.gapImgs, function (gapImg) {
                 $gapList.append(gapImg.render());
             });
+            _.forEach(interaction.getGapTexts(), function (gapText) {
+                $gapList.append(gapText.render());
+            });
+        },
+
+        /**
+         * @deprecated use createGapChoices
+         */
+        createGapImgs: function () {
+            this.createGapChoices();
+        },
+
+        getGraphicGapSourceChoices: function () {
+            const interaction = this.element;
+            ensureGapTextSupport(interaction);
+            return _.assign({}, interaction.getGapImgs(), interaction.getGapTexts());
         },
 
         /**
@@ -143,7 +162,7 @@ define([
             const choiceMatchMax = choice && parseInt(choice.attr('matchMax'), 10);
 
             let isInfinityMatchMax = isInfinitePair;
-            const checkTemplates = ['hotspot', 'gapImg'].includes(template);
+            const checkTemplates = ['hotspot', 'gapImg', 'gapText'].includes(template);
             if (choiceMatchMax && checkTemplates) {
                 isInfinityMatchMax = false;
             } else if (isInfinitePair && checkTemplates) {
@@ -186,7 +205,7 @@ define([
 
         calculatePossiblePairs(interaction) {
             const pairs = [];
-            const matchSet1 = this.getMatchMaxOrderedChoices(interaction.getGapImgs());
+            const matchSet1 = this.getMatchMaxOrderedChoices(this.getGraphicGapSourceChoices());
             const matchSet2 = this.getMatchMaxOrderedChoices(interaction.getChoices());
 
             _.forEach(matchSet1, choice1 => _.forEach(matchSet2, choice2 => pairs.push([choice1.id, choice2.id])));

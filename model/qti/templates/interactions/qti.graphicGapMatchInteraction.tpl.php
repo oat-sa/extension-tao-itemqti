@@ -25,5 +25,6 @@
 <?php endif?>
 <?=get_data('object')?>
 <?=get_data('gapImgs')?>
+<?=get_data('gapTexts')?>
 <?=get_data('choices')?>
 </<?=get_data('tag')?>>
