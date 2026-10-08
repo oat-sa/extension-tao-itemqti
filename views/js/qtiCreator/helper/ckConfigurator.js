@@ -61,6 +61,7 @@ define([
     };
 
     return {
-        getConfig : getConfig
+        getConfig : getConfig,
+        getCkeditorConfig: wproofreaderBootstrap.getCkeditorConfig
     };
 });
