@@ -62,8 +62,9 @@ define([
     QUnit.module('ckConfigurator WProofreader merge');
 
     QUnit.test('native spellcheck remains enabled until WProofreader starts', function (assert) {
-        assert.expect(2);
+        assert.expect(3);
         withEditorStubs(function () {
+            assert.strictEqual(wproofreaderBootstrap.enabled, true, 'service ID enables WProofreader');
             var expected = wproofreaderBootstrap.getCkeditorConfig().disableNativeSpellChecker;
             assert.strictEqual(expected, false, 'native spellcheck stays enabled');
             var config = qtiCkConfigurator.getConfig(editorStub, 'inline', {});
