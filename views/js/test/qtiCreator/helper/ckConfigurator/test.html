@@ -19,7 +19,13 @@
                 require.config({
                     config: {
                         'tao/ckeditor/wproofreaderBootstrap': {
-                            serviceId: 'test'
+                            spellCheckConfig: {
+                                enabled: true,
+                                providerId: 'wproofreader',
+                                providerConfig: {
+                                    serviceId: 'test'
+                                }
+                            }
                         }
                     }
                 });
