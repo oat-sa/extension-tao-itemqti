@@ -18,7 +18,12 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define(['lodash', 'ui/ckeditor/ckConfigurator', 'mathJax'], function(_, ckConfigurator, mathJax) {
+define([
+    'lodash',
+    'ui/ckeditor/ckConfigurator',
+    'mathJax',
+    'tao/ckeditor/wproofreaderBootstrap'
+], function(_, ckConfigurator, mathJax, wproofreaderBootstrap) {
     'use strict';
 
     var _defaults = {
@@ -30,6 +35,8 @@ define(['lodash', 'ui/ckeditor/ckConfigurator', 'mathJax'], function(_, ckConfig
         horizontalRule: true,
         furiganaPlugin: true
     };
+
+    _.assign(_defaults, wproofreaderBootstrap.getCkeditorConfig());
 
     /**
      * Generate a configuration object for CKEDITOR
@@ -49,10 +56,12 @@ define(['lodash', 'ui/ckeditor/ckConfigurator', 'mathJax'], function(_, ckConfig
      * @see http://docs.ckeditor.com/#!/api/CKEDITOR.config
      */
     var getConfig = function(editor, toolbarType, options){
+        wproofreaderBootstrap.start();
         return ckConfigurator.getConfig(editor, toolbarType, _.defaults(options || {}, _defaults));
     };
 
     return {
-        getConfig : getConfig
+        getConfig : getConfig,
+        getCkeditorConfig: wproofreaderBootstrap.getCkeditorConfig
     };
 });

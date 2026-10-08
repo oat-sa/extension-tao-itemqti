@@ -121,7 +121,7 @@ define([
             }
         }
 
-        const ckConfig = {
+        const ckConfig = _.assign({
             dtdMode: 'qti',
             autoParagraph: false,
             removePlugins: removePlugins.join(','),
@@ -276,7 +276,7 @@ define([
                     //@todo : we may add some processing on the editor after paste
                 }
             }
-        };
+        }, ckConfigurator.getCkeditorConfig());
 
         return CKEditor.inline($editable[0], ckConfig);
     }
