@@ -16,6 +16,17 @@ define([
     _.extend(methods, editableInteraction);
     _.extend(methods, {
 
+        /**
+         * Set the default values for the model
+         * @returns {Object} the default attributes
+         */
+        getDefaultAttributes : function(){
+            return {
+                maxAssociations : 0,
+                minAssociations : 0
+            };
+        },
+
 
         /**
          * Once the interaction model is created,
@@ -89,4 +100,3 @@ define([
     });
     return Interaction.extend(methods);
 });
-
