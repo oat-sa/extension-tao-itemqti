@@ -11,8 +11,9 @@ define([
     'taoQtiItem/qtiCreator/model/choices/GapText',
     'taoQtiItem/qtiCreator/model/choices/AssociableHotspot',
     'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiItem/helper/rendererConfig',
     'i18n'
-], function($, _, editable, editableInteraction, Interaction, GapImg, GapText, AssociableHotspot, Element, __){
+], function($, _, editable, editableInteraction, Interaction, GapImg, GapText, AssociableHotspot, Element, rendererConfig, __){
     "use strict";
     var methods = {};
     _.extend(methods, editable);
@@ -89,6 +90,53 @@ define([
                 });
             }
             return choice;
+        },
+
+        getComposingElements : function(){
+            var serial,
+                elts = Interaction.prototype.getComposingElements.call(this);
+
+            if(!this.gapTexts){
+                this.gapTexts = {};
+            }
+            for (serial in this.gapTexts) {
+                elts[serial] = this.gapTexts[serial];
+                elts = _.extend(elts, this.gapTexts[serial].getComposingElements());
+            }
+            return elts;
+        },
+
+        find : function(serial){
+            var found = Interaction.prototype.find.call(this, serial);
+
+            if (!found && this.gapTexts && this.gapTexts[serial]) {
+                found = { parent: this, element: this.gapTexts[serial] };
+            }
+            return found;
+        },
+
+        render : function(){
+            var serial,
+                args = rendererConfig.getOptionsFromArguments(arguments),
+                renderer = args.renderer || this.getRenderer(),
+                extraData = {
+                    gapTexts: []
+                };
+
+            var gapTexts = this.getGapTexts();
+            for (serial in gapTexts) {
+                if (Element.isA(gapTexts[serial], 'choice')) {
+                    extraData.gapTexts.push(gapTexts[serial].render({}, null, '', renderer));
+                }
+            }
+
+            return Interaction.prototype.render.call(
+                this,
+                _.merge(extraData, args.data || {}),
+                args.placeholder,
+                args.subclass,
+                renderer
+            );
         },
 
         toArray : function(){

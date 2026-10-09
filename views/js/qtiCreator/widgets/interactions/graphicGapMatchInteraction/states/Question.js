@@ -37,7 +37,6 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/associableHotspot',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/gapImg',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/gapText',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/graphicGapMatch.adder',
 
     'taoQtiItem/qtiCreator/helper/panel',
@@ -61,7 +60,6 @@ define([
     choiceFormTpl,
     gapImgFormTpl,
     gapTextFormTpl,
-    mediaTlbTpl,
     graphicGapMatchAdderTpl,
     panel,
     resourceManager,
@@ -303,21 +301,218 @@ define([
         }
 
         function getGapTextPlainLabel(gapText) {
-            const body = gapText.getBody && gapText.getBody();
-
-            if (!body || !body.get) {
+            if (!gapText || typeof gapText.body !== 'function') {
                 return '';
             }
 
             return $('<div/>')
-                .html(body.get('body') || '')
+                .html(gapText.body() || '')
                 .text()
                 .trim();
         }
 
+        function copyElementAttributes($from, $to) {
+            $.each($from[0].attributes, function () {
+                $to.attr(this.name, this.value);
+            });
+        }
+
+        /**
+         * Authoring-only wrapper: gap option (60x60) stays separate; delete sits underneath in the host.
+         *
+         * @param {jQuery} $gapElement
+         * @returns {{$host: jQuery, $option: jQuery}}
+         */
+        function ensureGraphicGapOptionHost($gapElement) {
+            var $host, $option;
+
+            if ($gapElement.hasClass('graphic-gap-option-host')) {
+                $host = $gapElement;
+                $option = $host.children('.graphic-gap-option-body').first();
+                return { $host: $host, $option: $option };
+            }
+
+            if ($gapElement.parent().hasClass('graphic-gap-option-host')) {
+                return { $host: $gapElement.parent(), $option: $gapElement };
+            }
+
+            $host = $('<li class="graphic-gap-option-host"/>');
+            $option = $('<div class="graphic-gap-option-body"/>');
+            copyElementAttributes($gapElement, $option);
+            $option.append($gapElement.children().not('.graphic-gap-option-delete'));
+            $host.append($option);
+            $gapElement.replaceWith($host);
+
+            $option.find('.mini-tlb, .graphic-gap-option-delete').remove();
+
+            return { $host: $host, $option: $option };
+        }
+
+        function unwrapGraphicGapOptionHosts($root) {
+            $('li.graphic-gap-option-host', $root).each(function () {
+                var $host = $(this),
+                    $option = $host.children('.graphic-gap-option-body').first(),
+                    $li = $('<li/>');
+
+                if (!$option.length) {
+                    $host.remove();
+                    return;
+                }
+
+                $host.find('.graphic-gap-option-delete').remove();
+                copyElementAttributes($option, $li);
+                $li.append($option.contents());
+                $host.replaceWith($li);
+            });
+        }
+
+        function createGraphicGapOptionDeleteButton() {
+            return $('<button type="button" class="graphic-gap-option-delete"/>')
+                .attr('title', __('Delete'))
+                .append($('<span class="icon-bin" aria-hidden="true"/>'));
+        }
+
+        /**
+         * @param {jQuery} $gapBox
+         * @param {Function} onDelete
+         * @returns {jQuery}
+         */
+        function attachGraphicGapOptionDeleteButton($host, onDelete) {
+            $host.find('.graphic-gap-option-body .graphic-gap-option-delete').remove();
+
+            var $deleteBtn = $host.children('.graphic-gap-option-delete');
+
+            if (!$deleteBtn.length) {
+                $deleteBtn = createGraphicGapOptionDeleteButton();
+                $host.append($deleteBtn);
+            }
+
+            $deleteBtn.off('click.graphicGapDelete').on('click.graphicGapDelete', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                onDelete();
+            });
+
+            return $deleteBtn;
+        }
+
+        function syncGapTextLabelHeight($gapTextBox) {
+            const $wrap = $gapTextBox.find('.gap-text-label-wrap');
+            const $textarea = $gapTextBox.find('.gap-text-label');
+            const wrapEl = $wrap[0];
+            let availableHeight;
+
+            if (!$wrap.length || !$textarea.length || !wrapEl) {
+                return;
+            }
+
+            availableHeight = wrapEl.clientHeight;
+
+            if (window.getComputedStyle) {
+                const wrapStyles = window.getComputedStyle(wrapEl);
+
+                availableHeight -= parseFloat(wrapStyles.paddingTop) || 0;
+                availableHeight -= parseFloat(wrapStyles.paddingBottom) || 0;
+            }
+
+            $textarea.css('height', `${Math.max(0, Math.floor(availableHeight))}px`);
+        }
+
+        function centerGapTextLabelInTile($gapTextBox) {
+            const $textarea = $gapTextBox.find('.gap-text-label');
+
+            if (!$textarea.length) {
+                return;
+            }
+
+            syncGapTextLabelHeight($gapTextBox);
+
+            $textarea.css({
+                paddingTop: 0,
+                paddingBottom: 0
+            });
+
+            const diff = $textarea[0].clientHeight - $textarea[0].scrollHeight;
+
+            if (diff > 0) {
+                $textarea.css('paddingTop', `${Math.floor(diff / 2)}px`);
+            }
+        }
+
         function updateGapTextTileLabel($gapTextBox, label) {
-            $gapTextBox.children().not('.mini-tlb').remove();
-            $gapTextBox.prepend($('<span class="gap-text-label"/>').text(label || ''));
+            $gapTextBox.empty();
+
+            const $wrap = $('<div class="gap-text-label-wrap"/>');
+            const $textarea = $('<textarea class="gap-text-label"/>')
+                .attr('aria-label', __('Label'))
+                .val(label || '');
+
+            $wrap.append($textarea);
+            $gapTextBox.append($wrap);
+
+            requestAnimationFrame(function () {
+                centerGapTextLabelInTile($gapTextBox);
+            });
+        }
+
+        /**
+         * Inline label editing on the gap text tile (kept in sync with the side panel).
+         *
+         * @param {jQuery} $gapTextBox
+         * @param {String} serial
+         */
+        function bindGapTextInlineLabel($gapTextBox, serial) {
+            if ($gapTextBox.data('gapTextInlineBound')) {
+                return;
+            }
+
+            $gapTextBox.data('gapTextInlineBound', true);
+
+            $gapTextBox.on('click.gapTextInline mousedown.gapTextInline', '.gap-text-label', function (e) {
+                e.stopPropagation();
+            });
+
+            $gapTextBox.on('focus.gapTextInline', '.gap-text-label', function () {
+                if ($gapTextBox.hasClass('active')) {
+                    return;
+                }
+
+                $('.active', $('ul.source', widget.$original)).removeClass('active');
+                $gapTextBox.addClass('active');
+                enterGapTextForm(serial);
+            });
+
+            $gapTextBox.on('input.gapTextInline change.gapTextInline blur.gapTextInline', '.gap-text-label', function () {
+                const gapText = interaction.getGapText(serial);
+                const value = $(this).val();
+
+                if (!gapText) {
+                    return;
+                }
+
+                gapText.body(value || '');
+
+                if (widget._editingGapTextSerial === serial) {
+                    $choiceForm.find('[name=gapTextLabel]').val(value);
+                }
+
+                centerGapTextLabelInTile($gapTextBox);
+            });
+        }
+
+        function syncGapTextLabelFromForm() {
+            const serial = widget._editingGapTextSerial;
+            const $labelInput = $choiceForm.find('[name=gapTextLabel]');
+
+            if (!serial || !$labelInput.length) {
+                return;
+            }
+
+            const gapText = interaction.getGapText(serial);
+
+            if (gapText) {
+                setGapTextPlainLabel(gapText, $labelInput.val());
+            }
         }
 
         function setGapTextPlainLabel(gapText, label) {
@@ -328,7 +523,16 @@ define([
             const $gapTextBox = $(`[data-serial="${gapText.serial}"]`, $('ul.source', widget.$original));
 
             if ($gapTextBox.length) {
-                updateGapTextTileLabel($gapTextBox, normalizedLabel);
+                const $inlineLabel = $gapTextBox.find('.gap-text-label');
+
+                if ($inlineLabel.length && $inlineLabel.is('input, textarea')) {
+                    if (document.activeElement !== $inlineLabel[0]) {
+                        $inlineLabel.val(normalizedLabel);
+                        centerGapTextLabelInTile($gapTextBox);
+                    }
+                } else {
+                    updateGapTextTileLabel($gapTextBox, normalizedLabel);
+                }
             }
         }
 
@@ -341,8 +545,7 @@ define([
             unbindMinMaxThresholdListeners();
 
             const $gapList = $('ul.source', widget.$original),
-                $addOption = $gapList.find('li.add-option.empty'),
-                $deleteBtn = $(mediaTlbTpl());
+                $addOption = $gapList.find('li.add-option.empty');
             let $gapTextBox = $gapList.find(`[data-serial="${gapTextObj.serial}"]`);
 
             if (!$gapTextBox.length) {
@@ -353,28 +556,30 @@ define([
                 $gapTextBox = $gapList.find(`[data-serial="${gapTextObj.serial}"]`);
             }
 
+            $gapTextBox.addClass('qti-gapText');
+
+            const gapTextHost = ensureGraphicGapOptionHost($gapTextBox);
+
+            $gapTextBox = gapTextHost.$option;
             updateGapTextTileLabel($gapTextBox, getGapTextPlainLabel(gapTextObj));
+            bindGapTextInlineLabel($gapTextBox, gapTextObj.serial);
 
             $('.active', $gapList).removeClass('active');
             $gapTextBox.addClass('active');
             enterGapTextForm(gapTextObj.serial);
 
-            $deleteBtn
-                .appendTo($gapTextBox)
-                .show()
-                .click(function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    $gapTextBox.remove();
-                    interaction.removeGapText(gapTextObj);
-                });
+            attachGraphicGapOptionDeleteButton(gapTextHost.$host, function () {
+                gapTextHost.$host.remove();
+                interaction.removeGapText(gapTextObj);
+            });
 
             $gapTextBox.off('click.gapText').on('click.gapText', function (e) {
-                if ($(e.target).closest('.mini-tlb').length) {
+                if ($(e.target).closest('.graphic-gap-option-delete').length) {
                     return;
                 }
 
                 if ($gapTextBox.hasClass('active')) {
+                    syncGapTextLabelFromForm();
                     $gapTextBox.removeClass('active');
                     leaveChoiceForm();
                 } else {
@@ -392,28 +597,28 @@ define([
          */
         function setUpGapImg(gapImgObj) {
             const $gapList = $('ul.source', widget.$original),
-                $addOption = $gapList.find('li.add-option.empty'),
-                $deleteBtn = $(mediaTlbTpl());
+                $addOption = $gapList.find('li.add-option.empty');
             let $gapImgBox = $(`[data-serial="${gapImgObj.serial}"]`, $gapList);
 
             if (!$gapImgBox.length) {
                 $gapImgBox = $(gapImgObj.render()).insertBefore($addOption);
             }
 
-            //manage gap deletion
-            $deleteBtn
-                .appendTo($gapImgBox)
-                .show()
-                .click(function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    $gapImgBox.remove();
-                    interaction.removeGapImg(gapImgObj);
-                });
+            const gapImgHost = ensureGraphicGapOptionHost($gapImgBox);
+
+            $gapImgBox = gapImgHost.$option;
+
+            attachGraphicGapOptionDeleteButton(gapImgHost.$host, function () {
+                gapImgHost.$host.remove();
+                interaction.removeGapImg(gapImgObj);
+            });
 
             enterGapImgForm(gapImgObj.serial);
 
-            $gapImgBox.off('click').on('click', function () {
+            $gapImgBox.off('click.gapImg').on('click.gapImg', function (e) {
+                if ($(e.target).closest('.graphic-gap-option-delete').length) {
+                    return;
+                }
                 if ($gapImgBox.hasClass('active')) {
                     $gapImgBox.removeClass('active');
                     leaveChoiceForm();
@@ -436,6 +641,7 @@ define([
             var element, bbox, callbacks;
 
             if (choice) {
+                syncGapTextLabelFromForm();
                 unbindMinMaxThresholdListeners();
 
                 //get shape bounding box
@@ -519,6 +725,8 @@ define([
         }
 
         function leaveChoiceForm() {
+            syncGapTextLabelFromForm();
+            widget._editingGapTextSerial = null;
             unbindMinMaxThresholdListeners();
 
             if ($formChoicePanel.css('display') !== 'none') {
@@ -542,6 +750,7 @@ define([
                 $mediaSizer;
 
             if (gapImg) {
+                syncGapTextLabelFromForm();
                 unbindMinMaxThresholdListeners();
 
                 $choiceForm.empty().html(
@@ -689,7 +898,10 @@ define([
                 gapText = interaction.getGapText(serial);
 
             if (gapText) {
+                syncGapTextLabelFromForm();
                 unbindMinMaxThresholdListeners();
+
+                widget._editingGapTextSerial = serial;
 
                 $choiceForm.empty().html(
                     gapTextFormTpl({
@@ -744,7 +956,7 @@ define([
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 formElement.setChangeCallbacks($choiceForm, gapText, callbacks);
 
-                $choiceForm.find('[name=gapTextLabel]').on('change input', function () {
+                $choiceForm.find('[name=gapTextLabel]').on('change input blur', function () {
                     setGapTextPlainLabel(gapText, $(this).val());
                 });
 
@@ -752,10 +964,16 @@ define([
                 panel.openSections($formChoicePanel.children('section'));
                 panel.closeSections($formInteractionPanel.children('section'));
 
-                $choiceForm.find('[name=gapTextLabel]').focus();
+                const $tileLabel = $(`[data-serial="${serial}"] .gap-text-label`, $('ul.source', widget.$original));
 
-                if (typeof window.scroll === 'function') {
-                    window.scroll(0, $choiceForm.offset().top);
+                if ($tileLabel.length) {
+                    $tileLabel.focus();
+                } else {
+                    $choiceForm.find('[name=gapTextLabel]').focus();
+
+                    if (typeof window.scroll === 'function') {
+                        window.scroll(0, $choiceForm.offset().top);
+                    }
                 }
             }
         }
@@ -803,6 +1021,7 @@ define([
 
         //restore gap choice appearance
         widget.$container.find('.qti-gapImg, .qti-gapText').removeClass('active').find('.mini-tlb').remove();
+        unwrapGraphicGapOptionHosts(widget.$original);
         $('.image-editor.solid, .block-listing.source', widget.$container).css('min-width', 0);
     }
 

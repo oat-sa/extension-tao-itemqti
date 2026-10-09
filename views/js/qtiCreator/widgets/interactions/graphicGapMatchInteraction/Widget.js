@@ -132,6 +132,7 @@ define([
             });
             _.forEach(interaction.getGapTexts(), function (gapText) {
                 $gapList.append(gapText.render());
+                $gapList.find(`[data-serial="${gapText.serial}"]`).addClass('qti-gapText');
             });
         },
 
