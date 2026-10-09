@@ -20,11 +20,6 @@
     <input type="hidden" name="type" value="{{type}}" />
 </div>
 <hr/>
-<div class="panel min-max-panel">
-    <h3>{{__ "Number of associations"}}</h3>
-</div>
-
-<hr/>
 <div class="panel position-panel">
     <h3>{{__ 'Choices position'}}</h3>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span>
@@ -56,4 +51,9 @@
             {{__ 'Right'}}
         </label>
     </div>
+</div>
+
+<hr/>
+<div class="panel min-max-panel">
+    <h3>{{__ "Number of associations"}}</h3>
 </div>
