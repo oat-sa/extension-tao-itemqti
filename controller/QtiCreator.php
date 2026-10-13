@@ -55,6 +55,7 @@ use tao_helpers_File;
 use tao_helpers_Http;
 use tao_helpers_Uri;
 use taoItems_models_classes_ItemsService;
+use tao_models_classes_LanguageService;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item
@@ -174,6 +175,7 @@ class QtiCreator extends tao_actions_CommonModule
             $lang = taoItems_models_classes_ItemsService::singleton()->getSessionLg();
             $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
             $itemResource = new core_kernel_classes_Resource($itemUri);
+            $language = $itemResource->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_LANGUAGE));
 
             // do not resolve xinclude here, leave it to the client side
             $item = Service::singleton()->getDataItemByRdfItem($itemResource, $lang, false);
@@ -181,6 +183,9 @@ class QtiCreator extends tao_actions_CommonModule
             $returnValue['itemData'] = $item
                 ? $item->toArray()
                 : ['identifier' => $this->getItemIdentifier($itemResource)];
+            $returnValue['language'] = $language instanceof core_kernel_classes_Resource
+                ? tao_models_classes_LanguageService::singleton()->getCode($language)
+                : null;
 
             $availableLangs = \tao_helpers_I18n::getAvailableLangsByUsage(
                 new core_kernel_classes_Resource(TaoOntology::PROPERTY_STANCE_LANGUAGE_USAGE_DATA)
@@ -211,6 +216,16 @@ class QtiCreator extends tao_actions_CommonModule
                     $this->getItemIdentifierValidator()->validate($item);
 
                     $returnValue['success'] = $itemService->saveDataItemToRdfItem($item, $rdfItem);
+
+                    if ($returnValue['success']) {
+                        $language = tao_models_classes_LanguageService::singleton()->getLanguageByCode(
+                            $item->getAttributeValue('xml:lang')
+                        );
+
+                        if ($language instanceof core_kernel_classes_Resource) {
+                            $rdfItem->setPropertyValue($this->getProperty(TaoOntology::PROPERTY_LANGUAGE), $language);
+                        }
+                    }
 
                     $this->getEventManager()->trigger(new ResourceUpdated($rdfItem));
                     $this->getUpdatedItemEventDispatcher()->dispatch($item, $rdfItem);

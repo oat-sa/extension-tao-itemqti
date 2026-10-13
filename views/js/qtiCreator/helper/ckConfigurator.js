@@ -39,6 +39,17 @@ define([
     _.assign(_defaults, wproofreaderBootstrap.getCkeditorConfig());
 
     /**
+     * Apply the WProofreader dictionary matching the QTI item language.
+     * @param {String} itemLanguage
+     * @returns {void}
+     * @example setSpellcheckLanguage('fr-FR'); // WProofreader receives 'fr_FR'
+     */
+    function setSpellcheckLanguage(itemLanguage) {
+        var normalizedLanguage = _.trim(String(itemLanguage || '')).replace(/-/g, '_');
+        wproofreaderBootstrap.setLanguage(normalizedLanguage);
+    }
+
+    /**
      * Generate a configuration object for CKEDITOR
      *
      * @param editor instance of ckeditor
@@ -52,16 +63,19 @@ define([
      * @param {Boolean} [options.qtiInclude] - enables the qtiInclude plugin
      * @param {Boolean} [options.underline] - enables the underline plugin
      * @param {Boolean} [options.mathJax] - enables the mathJax plugin
+     * @param {String} [itemLanguage] - QTI item language
      *
      * @see http://docs.ckeditor.com/#!/api/CKEDITOR.config
      */
-    var getConfig = function(editor, toolbarType, options){
+    function getConfig(editor, toolbarType, options, itemLanguage){
+        setSpellcheckLanguage(itemLanguage);
         wproofreaderBootstrap.start();
         return ckConfigurator.getConfig(editor, toolbarType, _.defaults(options || {}, _defaults));
-    };
+    }
 
     return {
         getConfig : getConfig,
-        getCkeditorConfig: wproofreaderBootstrap.getCkeditorConfig
+        getCkeditorConfig: wproofreaderBootstrap.getCkeditorConfig,
+        setSpellcheckLanguage: setSpellcheckLanguage
     };
 });

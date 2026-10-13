@@ -21,13 +21,14 @@ define([
     'i18n',
     'services/features',
     'taoQtiItem/qtiCreator/helper/languages',
+    'taoQtiItem/qtiCreator/helper/ckConfigurator',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Active',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/item',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier',
     'select2'
-], function (_, __, features, languages, stateFactory, Active, formTpl, formElement, qtiIdentifier) {
+], function (_, __, features, languages, ckConfigurator, stateFactory, Active, formTpl, formElement, qtiIdentifier) {
     'use strict';
 
     // These classes are supported for removing the instructions.
@@ -46,7 +47,8 @@ define([
             const item = _widget.element;
             const $form = _widget.$form;
             const areaBroker = this.widget.getAreaBroker();
-            const $itemBody = _widget.$container.find('.qti-itemBody');
+            const $itemContainer = _widget.$container;
+            const $itemBody = $itemContainer.find('.qti-itemBody');
 
             const showIdentifier = features.isVisible('taoQtiItem/creator/item/property/identifier');
             const disableIdentifier = qtiIdentifier.isDisabled;
@@ -81,6 +83,7 @@ define([
 
             //build form:
             const initialXmlLang = item.attr('xml:lang');
+            $itemContainer.attr('lang', initialXmlLang || '');
             $form.html(
                 formTpl({
                     serial: item.getSerial(),
@@ -128,6 +131,8 @@ define([
                 },
                 'xml:lang': function langChange(i, lang) {
                     item.attr('xml:lang', lang);
+                    $itemContainer.attr('lang', lang || '');
+                    ckConfigurator.setSpellcheckLanguage(lang);
                     languages.isRTLbyLanguageCode(lang).then(isRTL => {
                         if (isRTL) {
                             item.bdy.attr('dir', 'rtl');
