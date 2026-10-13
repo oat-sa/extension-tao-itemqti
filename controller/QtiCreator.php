@@ -217,6 +217,16 @@ class QtiCreator extends tao_actions_CommonModule
 
                     $returnValue['success'] = $itemService->saveDataItemToRdfItem($item, $rdfItem);
 
+                    if ($returnValue['success']) {
+                        $language = tao_models_classes_LanguageService::singleton()->getLanguageByCode(
+                            $item->getAttributeValue('xml:lang')
+                        );
+
+                        if ($language instanceof core_kernel_classes_Resource) {
+                            $rdfItem->setPropertyValue($this->getProperty(TaoOntology::PROPERTY_LANGUAGE), $language);
+                        }
+                    }
+
                     $this->getEventManager()->trigger(new ResourceUpdated($rdfItem));
                     $this->getUpdatedItemEventDispatcher()->dispatch($item, $rdfItem);
                 } catch (QtiModelException $e) {
