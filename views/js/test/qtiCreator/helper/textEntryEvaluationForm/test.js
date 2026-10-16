@@ -320,4 +320,121 @@ define([
             'forward runs for synced widgets and the originating answer-state widget'
         );
     });
+
+    QUnit.test('evaluateAsUmfi checkbox change syncs other answer-state widgets', function (assert) {
+        const item = {};
+        const interaction = {
+            getRootElement: function getRootElement() {
+                return item;
+            }
+        };
+        const sourceWidget = {
+            element: interaction,
+            getCurrentState: function getCurrentState() {
+                return { name: 'answer' };
+            },
+            _textEntryEvaluationConfig: {
+                evaluateAsUmfi: false,
+                allowLexicalFieldsOnScoring: false,
+                caseSensitive: false,
+                lexicalGroups: []
+            }
+        };
+        const otherAnswerWidget = {
+            getCurrentState: function getCurrentState() {
+                return { name: 'answer' };
+            }
+        };
+        const initCalls = [];
+        const forwardCalls = [];
+        const $responseForm = $(
+            '<div class="response-form">' +
+                '<input type="checkbox" name="evaluateAsUmfi" />' +
+                '<input type="checkbox" name="allowLexicalFieldsOnScoring" />' +
+                '<div class="text-entry-evaluation-expanded hidden"></div>' +
+                '<div class="lexical-field-groups"></div>' +
+                '</div>'
+        );
+
+        this.restoreGetItemTextEntries = evaluationHelper.getItemTextEntries;
+        this.restorePersistEvaluationConfig = evaluationHelper.persistEvaluationConfig;
+        this.restoreInitResponseForm = answerStateHelper.initResponseForm;
+        this.restoreForward = answerStateHelper.forward;
+
+        evaluationHelper.getItemTextEntries = function getItemTextEntries() {
+            return [textEntryWithWidget(otherAnswerWidget), textEntryWithWidget(sourceWidget)];
+        };
+        evaluationHelper.persistEvaluationConfig = function persistEvaluationConfig() {};
+
+        answerStateHelper.initResponseForm = function initResponseForm(widget) {
+            initCalls.push(widget);
+        };
+        answerStateHelper.forward = function forward(widget) {
+            forwardCalls.push(widget);
+        };
+
+        textEntryEvaluationForm.bindEvents($responseForm, sourceWidget, { skipInitialRender: true });
+        $responseForm.find('input[name="evaluateAsUmfi"]').prop('checked', true).trigger('change');
+
+        assert.deepEqual(initCalls, [otherAnswerWidget]);
+        assert.deepEqual(forwardCalls, [otherAnswerWidget, sourceWidget]);
+        textEntryEvaluationForm.unbindEvents($responseForm, sourceWidget);
+    });
+
+    QUnit.test('syncConfigFromForm uses evaluateAsUmfi snapshot before mutating cached config', function (assert) {
+        const item = {};
+        const interaction = {
+            getRootElement: function getRootElement() {
+                return item;
+            }
+        };
+        const sourceWidget = {
+            element: interaction,
+            getCurrentState: function getCurrentState() {
+                return { name: 'answer' };
+            },
+            _textEntryEvaluationConfig: {
+                evaluateAsUmfi: false,
+                allowLexicalFieldsOnScoring: false,
+                caseSensitive: false,
+                lexicalGroups: []
+            }
+        };
+        const otherAnswerWidget = {
+            getCurrentState: function getCurrentState() {
+                return { name: 'answer' };
+            }
+        };
+        const initCalls = [];
+        const forwardCalls = [];
+        const $responseForm = $(
+            '<div class="response-form">' +
+                '<input type="checkbox" name="evaluateAsUmfi" checked="checked" />' +
+                '<input type="checkbox" name="allowLexicalFieldsOnScoring" />' +
+                '<div class="lexical-field-groups"></div>' +
+                '</div>'
+        );
+
+        this.restoreGetItemTextEntries = evaluationHelper.getItemTextEntries;
+        this.restorePersistEvaluationConfig = evaluationHelper.persistEvaluationConfig;
+        this.restoreInitResponseForm = answerStateHelper.initResponseForm;
+        this.restoreForward = answerStateHelper.forward;
+
+        evaluationHelper.getItemTextEntries = function getItemTextEntries() {
+            return [textEntryWithWidget(otherAnswerWidget), textEntryWithWidget(sourceWidget)];
+        };
+        evaluationHelper.persistEvaluationConfig = function persistEvaluationConfig() {};
+
+        answerStateHelper.initResponseForm = function initResponseForm(widget) {
+            initCalls.push(widget);
+        };
+        answerStateHelper.forward = function forward(widget) {
+            forwardCalls.push(widget);
+        };
+
+        textEntryEvaluationForm.syncConfigFromForm($responseForm, sourceWidget);
+
+        assert.deepEqual(initCalls, [otherAnswerWidget]);
+        assert.deepEqual(forwardCalls, [otherAnswerWidget, sourceWidget]);
+    });
 });

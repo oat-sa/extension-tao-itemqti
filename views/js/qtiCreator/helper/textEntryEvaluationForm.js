@@ -188,12 +188,19 @@ define([
     /**
      * @param {Object} widget
      * @param {Object} config
+     * @param {{previousEvaluateAsUmfi?: boolean}} [options]
      */
-    const setConfig = function setConfig(widget, config) {
+    const setConfig = function setConfig(widget, config, options) {
         const previousConfig = widget._textEntryEvaluationConfig;
+        const priorEvaluateAsUmfi =
+            options && !_.isUndefined(options.previousEvaluateAsUmfi)
+                ? options.previousEvaluateAsUmfi
+                : _.isPlainObject(previousConfig)
+                  ? previousConfig.evaluateAsUmfi
+                  : false;
         const umfiChanged =
             !_.isUndefined(config.evaluateAsUmfi) &&
-            !!(_.isPlainObject(previousConfig) ? previousConfig.evaluateAsUmfi : false) !== !!config.evaluateAsUmfi;
+            !!priorEvaluateAsUmfi !== !!config.evaluateAsUmfi;
 
         widget._textEntryEvaluationConfig = config;
         evaluationHelper.persistEvaluationConfig(widget.element, config);
@@ -429,6 +436,7 @@ define([
      */
     const syncConfigFromForm = function syncConfigFromForm($responseForm, widget) {
         const config = getConfig(widget);
+        const previousEvaluateAsUmfi = config.evaluateAsUmfi;
         const $evaluateAsUmfi = $responseForm.find('input[name="evaluateAsUmfi"]');
 
         if ($evaluateAsUmfi.length) {
@@ -443,7 +451,7 @@ define([
             existingGroups: config.lexicalGroups
         });
 
-        setConfig(widget, config);
+        setConfig(widget, config, { previousEvaluateAsUmfi });
     };
 
     /**
@@ -688,6 +696,7 @@ define([
         $responseForm.on(`change${NS}`, 'input[name="evaluateAsUmfi"]', function () {
             const enabled = $(this).prop('checked');
             const config = getConfig(widget);
+            const previousEvaluateAsUmfi = config.evaluateAsUmfi;
 
             config.evaluateAsUmfi = enabled;
 
@@ -697,7 +706,7 @@ define([
                 $responseForm.find('input[name="allowLexicalFieldsOnScoring"]').prop('checked', false);
             }
 
-            setConfig(widget, config);
+            setConfig(widget, config, { previousEvaluateAsUmfi });
             toggleDetails($responseForm, enabled);
             refreshLexicalFields($responseForm, widget);
         });
