@@ -140,12 +140,79 @@ define([
     };
 
     /**
+     * Refresh response UI on other text entries in the answer state (UMFI toggle).
+     *
+     * @param {Object} interaction
+     * @param {{excludeWidget?: Object}} [options]
+     */
+    const syncOpenTextEntryWidgetStates = function syncOpenTextEntryWidgetStates(interaction, options) {
+        // answerState.js lists this module in its define() (getTplData, bindEvents). If we also
+        // import answerState at the top level, RequireJS loads both factories in a cycle and
+        // answerState can receive textEntryEvaluationForm as undefined → getTplData crash on
+        // the second text entry Response tab. require() here runs only after both modules exist.
+        const answerStateHelper = require('taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState');
+        const excludeWidget = options && options.excludeWidget;
+        const item = interaction.getRootElement();
+        const sampleInteraction = {
+            getRootElement: function getRootElement() {
+                return item;
+            }
+        };
+
+        _.forEach(evaluationHelper.getItemTextEntries(sampleInteraction), textEntry => {
+            const widget = textEntry.data && textEntry.data('widget');
+
+            if (!widget || !_.isFunction(widget.getCurrentState)) {
+                return;
+            }
+
+            const currentState = widget.getCurrentState();
+
+            if (!currentState || currentState.name !== 'answer') {
+                return;
+            }
+
+            if (
+                excludeWidget &&
+                (widget === excludeWidget ||
+                    (widget.element && excludeWidget.element && widget.element === excludeWidget.element))
+            ) {
+                return;
+            }
+
+            answerStateHelper.initResponseForm(widget);
+            answerStateHelper.forward(widget);
+        });
+    };
+
+    /**
      * @param {Object} widget
      * @param {Object} config
      */
     const setConfig = function setConfig(widget, config) {
+        const previousConfig = widget._textEntryEvaluationConfig;
+        const umfiChanged =
+            !_.isUndefined(config.evaluateAsUmfi) &&
+            !!(_.isPlainObject(previousConfig) ? previousConfig.evaluateAsUmfi : false) !== !!config.evaluateAsUmfi;
+
         widget._textEntryEvaluationConfig = config;
         evaluationHelper.persistEvaluationConfig(widget.element, config);
+
+        if (!umfiChanged) {
+            return;
+        }
+
+        syncOpenTextEntryWidgetStates(widget.element, { excludeWidget: widget });
+
+        if (_.isFunction(widget.getCurrentState)) {
+            const currentState = widget.getCurrentState();
+
+            if (currentState && currentState.name === 'answer') {
+                const answerStateHelper = require('taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState');
+
+                answerStateHelper.forward(widget);
+            }
+        }
     };
 
     /**
@@ -886,6 +953,7 @@ define([
         getTplData,
         bindEvents,
         unbindEvents,
+        setConfig,
         syncConfigFromForm,
         flushOpenForms,
         readChipVariantsFromGroup,

@@ -15,7 +15,12 @@
  *
  * Copyright (c) 2026 (original work) Open Assessment Technologies SA ;
  */
-define(['jquery', 'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm'], function ($, textEntryEvaluationForm) {
+define([
+    'jquery',
+    'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm',
+    'taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper',
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/answerState'
+], function ($, textEntryEvaluationForm, evaluationHelper, answerStateHelper) {
     'use strict';
 
     QUnit.module('textEntryEvaluationForm');
@@ -162,5 +167,157 @@ define(['jquery', 'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm'], funct
 
         assert.strictEqual(groups[0].canonical, 'Pear');
         assert.deepEqual(groups[0].synonyms, ['Pear', 'apples']);
+    });
+
+    QUnit.module('textEntryEvaluationForm.setConfig syncOpenTextEntryWidgetStates', {
+        afterEach: function () {
+            if (this.restoreGetItemTextEntries) {
+                evaluationHelper.getItemTextEntries = this.restoreGetItemTextEntries;
+            }
+
+            if (this.restorePersistEvaluationConfig) {
+                evaluationHelper.persistEvaluationConfig = this.restorePersistEvaluationConfig;
+            }
+
+            if (this.restoreInitResponseForm) {
+                answerStateHelper.initResponseForm = this.restoreInitResponseForm;
+            }
+
+            if (this.restoreForward) {
+                answerStateHelper.forward = this.restoreForward;
+            }
+        }
+    });
+
+    /**
+     * @param {Object|null} widget
+     * @returns {Object}
+     */
+    const textEntryWithWidget = function textEntryWithWidget(widget) {
+        return {
+            data: function data(key) {
+                if (key === 'widget') {
+                    return widget;
+                }
+
+                return undefined;
+            }
+        };
+    };
+
+    QUnit.test('setConfig skips widget sync when evaluateAsUmfi is unchanged', function (assert) {
+        const answerWidget = {
+            getCurrentState: function getCurrentState() {
+                return { name: 'answer' };
+            }
+        };
+        const item = {};
+        const interaction = {
+            getRootElement: function getRootElement() {
+                return item;
+            }
+        };
+        const initCalls = [];
+        const forwardCalls = [];
+
+        this.restoreGetItemTextEntries = evaluationHelper.getItemTextEntries;
+        this.restorePersistEvaluationConfig = evaluationHelper.persistEvaluationConfig;
+        this.restoreInitResponseForm = answerStateHelper.initResponseForm;
+        this.restoreForward = answerStateHelper.forward;
+
+        evaluationHelper.getItemTextEntries = function getItemTextEntries() {
+            return [textEntryWithWidget(answerWidget)];
+        };
+        evaluationHelper.persistEvaluationConfig = function persistEvaluationConfig() {};
+
+        answerStateHelper.initResponseForm = function initResponseForm(widget) {
+            initCalls.push(widget);
+        };
+        answerStateHelper.forward = function forward(widget) {
+            forwardCalls.push(widget);
+        };
+
+        textEntryEvaluationForm.setConfig(
+            {
+                element: interaction,
+                _textEntryEvaluationConfig: { evaluateAsUmfi: true }
+            },
+            {
+                evaluateAsUmfi: true,
+                lexicalGroups: [{ identifier: 'GROUP_1', canonical: 'a', synonyms: ['a'] }]
+            }
+        );
+
+        assert.deepEqual(initCalls, [], 'lexical edits do not rebuild open response forms');
+        assert.deepEqual(forwardCalls, [], 'lexical edits do not re-run answer forward');
+    });
+
+    QUnit.test('setConfig syncs other answer-state widgets when evaluateAsUmfi changes', function (assert) {
+        const item = {};
+        const interaction = {
+            getRootElement: function getRootElement() {
+                return item;
+            }
+        };
+        const sourceWidget = {
+            element: interaction,
+            getCurrentState: function getCurrentState() {
+                return { name: 'answer' };
+            }
+        };
+        const otherAnswerWidget = {
+            getCurrentState: function getCurrentState() {
+                return { name: 'answer' };
+            }
+        };
+        const correctWidget = {
+            getCurrentState: function getCurrentState() {
+                return { name: 'correct' };
+            }
+        };
+        const noStateWidget = {};
+        const initCalls = [];
+        const forwardCalls = [];
+
+        this.restoreGetItemTextEntries = evaluationHelper.getItemTextEntries;
+        this.restorePersistEvaluationConfig = evaluationHelper.persistEvaluationConfig;
+        this.restoreInitResponseForm = answerStateHelper.initResponseForm;
+        this.restoreForward = answerStateHelper.forward;
+
+        evaluationHelper.getItemTextEntries = function getItemTextEntries() {
+            return [
+                textEntryWithWidget(noStateWidget),
+                textEntryWithWidget(null),
+                textEntryWithWidget(correctWidget),
+                textEntryWithWidget(otherAnswerWidget),
+                textEntryWithWidget(sourceWidget)
+            ];
+        };
+        evaluationHelper.persistEvaluationConfig = function persistEvaluationConfig() {};
+
+        answerStateHelper.initResponseForm = function initResponseForm(widget) {
+            initCalls.push(widget);
+        };
+        answerStateHelper.forward = function forward(widget) {
+            forwardCalls.push(widget);
+        };
+
+        sourceWidget._textEntryEvaluationConfig = { evaluateAsUmfi: false };
+
+        textEntryEvaluationForm.setConfig(sourceWidget, {
+            evaluateAsUmfi: true,
+            lexicalGroups: []
+        });
+
+        assert.deepEqual(
+            initCalls,
+            [otherAnswerWidget],
+            'initResponseForm runs for other answer-state widgets only'
+        );
+        assert.deepEqual(
+            forwardCalls,
+            [otherAnswerWidget, sourceWidget],
+            'forward runs for synced widgets and the originating answer-state widget'
+        );
     });
 });
