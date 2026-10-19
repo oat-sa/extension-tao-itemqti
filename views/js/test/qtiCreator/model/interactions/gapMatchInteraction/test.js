@@ -26,6 +26,7 @@ define([
     'taoQtiItem/qtiCreator/model/interactions/GraphicGapMatchInteraction',
     'json!taoQtiItem/test/samples/json/gapmatch-text-sam.json',
     'json!taoQtiItem/test/samples/json/airports-tags.json',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/gapMatch',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicGapMatch',
     'lib/jquery.mockjax/jquery.mockjax'
 ], function (
@@ -35,6 +36,7 @@ define([
     GraphicGapMatchInteraction,
     gapMatchJson,
     graphicGapMatchJson,
+    gapMatchFormTpl,
     graphicGapMatchFormTpl
 ) {
     'use strict';
@@ -332,6 +334,19 @@ define([
         assert.equal($positionInputs.filter('[value="left"]').length, 1, 'Left option is available');
         assert.equal($positionInputs.filter('[value="right"]').length, 1, 'Right option is available');
         assert.ok($positionInputs.filter('[value="bottom"]').prop('checked'), 'The current position is selected');
+    });
+
+    QUnit.test('gap match form exposes number of associations controls', function (assert) {
+        var $form = $(gapMatchFormTpl({
+            shuffle: false,
+            position: 'left',
+            enabledFeatures: {
+                shuffleChoices: true
+            }
+        }));
+
+        assert.expect(1);
+        assert.equal($form.find('.min-max-panel').length, 1, 'The form contains the Number of associations panel');
     });
 
     QUnit.test('graphic gap match form falls back to default choices position', function (assert) {
