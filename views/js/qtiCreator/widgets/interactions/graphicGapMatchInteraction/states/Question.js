@@ -216,7 +216,12 @@ define([
 
                 const triggerRect = $trigger[0].getBoundingClientRect();
                 const hostRect = $positionHost[0].getBoundingClientRect();
-                const gapAboveTrigger = 2;
+                const gapRaw = window
+                    .getComputedStyle($menuFlyout[0])
+                    .getPropertyValue('--ggm-add-menu-trigger-gap')
+                    .trim();
+                const gapParsed = parseFloat(gapRaw);
+                const gapAboveTrigger = Number.isFinite(gapParsed) ? gapParsed : 8;
                 const flyoutWidth = $menuFlyout.outerWidth() || 144;
                 const flyoutHeight = $menuFlyout.outerHeight() || 80;
 
@@ -332,13 +337,24 @@ define([
                 return '';
             }
 
-            return $('<div/>')
-                .html(gapText.body() || '')
-                .text()
-                .trim();
+            return normalizeGapTextTileLabel(
+                $('<div/>')
+                    .html(gapText.body() || '')
+                    .text()
+                    .trim()
+            );
         }
 
-        const GAP_TEXT_MIN_ROWS = 2;
+        function normalizeGapTextTileLabel(label) {
+            const normalizedLabel = (label || '').trim();
+
+            if (!normalizedLabel || normalizedLabel === __('New label')) {
+                return '';
+            }
+
+            return normalizedLabel;
+        }
+
         const GAP_TEXT_MAX_ROWS = 4;
 
         function getGapTextLineHeightPx($textarea) {
@@ -355,39 +371,43 @@ define([
                 return lineHeight;
             }
 
-            const fontSize = parseFloat(styles.fontSize) || 11;
+            const fontSize = parseFloat(styles.fontSize) || 14;
 
-            return fontSize * 1.2;
+            return fontSize * 1.25;
+        }
+
+        function getGapTextLineCount(textareaEl, lineHeightPx) {
+            const value = textareaEl.value || '';
+            const hardLines = value.split('\n').length;
+            let wrappedLines = 0;
+
+            textareaEl.style.height = `${lineHeightPx}px`;
+            wrappedLines = Math.max(1, Math.ceil(textareaEl.scrollHeight / lineHeightPx));
+
+            return Math.max(hardLines, wrappedLines);
         }
 
         function syncGapTextLabelHeight($gapTextBox) {
             const $textarea = $gapTextBox.find('.gap-text-label');
             const textareaEl = $textarea[0];
-            let lineHeight;
-            let minHeight;
-            let maxHeight;
-            let scrollHeight;
+            let lineHeightPx;
+            let lineCount;
             let nextHeight;
+            let maxHeight;
 
             if (!$textarea.length || !textareaEl) {
                 return;
             }
 
-            lineHeight = getGapTextLineHeightPx($textarea);
-            minHeight = Math.ceil(lineHeight * GAP_TEXT_MIN_ROWS);
-            maxHeight = Math.ceil(lineHeight * GAP_TEXT_MAX_ROWS);
-
-            $textarea.css({
-                height: 'auto',
-                overflowY: 'hidden'
-            });
-
-            scrollHeight = textareaEl.scrollHeight;
-            nextHeight = Math.min(maxHeight, Math.max(minHeight, scrollHeight));
+            lineHeightPx = Math.ceil(getGapTextLineHeightPx($textarea));
+            maxHeight = lineHeightPx * GAP_TEXT_MAX_ROWS;
+            lineCount = getGapTextLineCount(textareaEl, lineHeightPx);
+            lineCount = Math.min(GAP_TEXT_MAX_ROWS, Math.max(1, lineCount));
+            nextHeight = lineCount * lineHeightPx;
 
             $textarea.css({
                 height: `${nextHeight}px`,
-                overflowY: scrollHeight > maxHeight ? 'auto' : 'hidden'
+                overflowY: lineCount >= GAP_TEXT_MAX_ROWS && textareaEl.scrollHeight > maxHeight ? 'auto' : 'hidden'
             });
         }
 
@@ -401,7 +421,9 @@ define([
             const $wrap = $('<div class="gap-text-label-wrap"/>');
             const $textarea = $('<textarea class="gap-text-label"/>')
                 .attr('aria-label', __('Label'))
-                .val(label || '');
+                .attr('placeholder', __('Enter text'))
+                .attr('rows', 1)
+                .val(normalizeGapTextTileLabel(label));
 
             $wrap.append($textarea);
             $gapTextBox.append($wrap);
@@ -429,16 +451,16 @@ define([
             });
 
             $gapTextBox.on('focus.gapTextInline', '.gap-text-label', function () {
-                if ($gapTextBox.hasClass('active')) {
-                    return;
+                if (!$gapTextBox.hasClass('active')) {
+                    $('.active', $('ul.source', widget.$original)).removeClass('active');
+                    $gapTextBox.addClass('active');
+                    enterGapTextForm(serial);
                 }
 
-                $('.active', $('ul.source', widget.$original)).removeClass('active');
-                $gapTextBox.addClass('active');
-                enterGapTextForm(serial);
+                centerGapTextLabelInTile($gapTextBox);
             });
 
-            $gapTextBox.on('input.gapTextInline change.gapTextInline blur.gapTextInline', '.gap-text-label', function () {
+            $gapTextBox.on('input.gapTextInline change.gapTextInline', '.gap-text-label', function () {
                 const gapText = interaction.getGapText(serial);
                 const value = $(this).val();
 
@@ -452,6 +474,10 @@ define([
                     $choiceForm.find('[name=gapTextLabel]').val(value);
                 }
 
+                centerGapTextLabelInTile($gapTextBox);
+            });
+
+            $gapTextBox.on('blur.gapTextInline', '.gap-text-label', function () {
                 centerGapTextLabelInTile($gapTextBox);
             });
         }

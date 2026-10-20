@@ -2,66 +2,109 @@
 @import "../qti/graphic-functions";
 
 $ggm-choice-size: 60px;
-$ggm-gap-option-delete-height: 22px;
-$ggm-option-slot-height: $ggm-choice-size + $ggm-gap-option-delete-height;
-$ggm-bay-pad: $ggm-option-slot-height + 8px;
+$ggm-bay-pad: 72px;
 $ggm-top-bay-offset: -130px;
+$ggm-text-choice-width: 112px;
+$ggm-text-font-size: 14px;
+$ggm-text-line-height: 1.25;
+$ggm-text-line-height-px: ceil($ggm-text-font-size * $ggm-text-line-height);
+$ggm-text-min-rows: 2;
+$ggm-text-max-rows: 4;
+$ggm-text-body-min-height: ceil($ggm-text-font-size * $ggm-text-line-height * $ggm-text-min-rows) + 4px;
+$ggm-text-body-max-height: ceil($ggm-text-font-size * $ggm-text-line-height * $ggm-text-max-rows) + 4px;
+$ggm-side-bay-width: max($ggm-bay-pad, $ggm-text-choice-width + 8px);
+$ggm-add-menu-width: 144px;
+$ggm-add-menu-height: 80px;
+$ggm-add-menu-trigger-gap: 8px;
+$ggm-add-menu-border-color: #a4bbc5;
 
 .qti-graphicGapMatchInteraction {
 
     .image-editor.solid {
         position: relative;
+        overflow: visible;
     }
 
     .graphic-gap-add-options-flyout {
+        --ggm-add-menu-trigger-gap: #{$ggm-add-menu-trigger-gap};
         position: absolute;
         z-index: 25;
+        user-select: none;
         display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 4px;
+        flex-direction: column;
+        align-items: stretch;
+        width: $ggm-add-menu-width;
+        height: $ggm-add-menu-height;
+        min-height: $ggm-add-menu-height;
+        padding: 0;
+        gap: 0;
+        border: 1px solid $ggm-add-menu-border-color;
+        border-radius: 2px;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        box-sizing: border-box;
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
-        transform: translateX(-8px);
         transition: opacity 0.18s ease, transform 0.22s ease, visibility 0s linear 0.22s;
 
         .graphic-gap-add-options {
             display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 4px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0;
+            margin: 0 !important;
+            height: 100%;
         }
 
         .add-gap-type {
-            flex: 0 0 60px;
-            width: 60px;
-            height: 60px;
             display: flex;
+            flex-direction: row;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: 1px solid #ccc;
-            background: #fff;
+            justify-content: flex-start;
+            gap: 6px;
+            width: 100%;
+            flex: 1 1 50%;
+            min-height: 0;
+            margin: 0;
+            padding: 0 8px 0 6px;
             box-sizing: border-box;
-            text-align: center;
-            padding: 4px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+            border: 0;
+            border-radius: 3px;
+            background: transparent;
+            color: inherit;
+            text-align: left;
+            font: inherit;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
 
-            &.add-option {
-                position: static;
-                margin: 0;
-                overflow: visible;
+            &:hover,
+            &:focus {
+                background-color: lighten($info, 48%);
+                outline: none;
             }
 
-            &:hover {
-                background: #f0f0f0;
+            [class^="icon-"],
+            [class*=" icon-"] {
+                flex: 0 0 auto;
+                display: inline-block;
+                position: static;
+                top: auto;
+                left: auto;
+                width: auto;
+                height: auto;
+                margin: 0;
+                color: $info;
+                line-height: 1;
+
+                @include font-size(16);
             }
 
             .add-gap-type-label {
-                font-size: 11px;
-                line-height: 1.2;
-                word-break: break-word;
+                flex: 1 1 auto;
+                font-size: 12px;
+                line-height: 1.25;
             }
         }
 
@@ -69,7 +112,6 @@ $ggm-top-bay-offset: -130px;
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
-            transform: translateX(0);
             transition: opacity 0.18s ease, transform 0.22s ease, visibility 0s;
         }
     }
@@ -80,150 +122,93 @@ $ggm-top-bay-offset: -130px;
         }
 
         &.empty, &.placeholder {
-            margin: 0 3px 0 0 !important;
-            width: $ggm-choice-size;
-            height: $ggm-option-slot-height;
-            max-height: $ggm-option-slot-height;
+            margin: 0 3px 3px 0 !important;
+            width: 60px;
+            height: 60px;
+            max-height: 60px;
         }
 
-        &.add-option.empty {
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-            justify-content: flex-start;
-
-            > div {
-                flex: 0 0 $ggm-choice-size;
-                width: 100%;
-                height: $ggm-choice-size;
-                max-height: $ggm-choice-size;
-            }
-
-            &::after {
-                content: '';
-                flex: 0 0 $ggm-gap-option-delete-height;
-                width: 100%;
-            }
-        }
-
-        &.graphic-gap-option-host {
-            display: flex;
-            flex-direction: column;
-            flex: 0 0 $ggm-choice-size;
-            align-items: stretch;
-            width: $ggm-choice-size !important;
-            max-width: $ggm-choice-size !important;
-            min-width: $ggm-choice-size;
-            height: $ggm-option-slot-height;
-            max-height: $ggm-option-slot-height;
-            margin: 0 3px 0 0;
-            padding: 0;
-            overflow: visible;
-            border: 0;
-            background: transparent;
+        &.qti-gapText {
+            position: relative;
+            width: $ggm-text-choice-width !important;
+            min-width: $ggm-text-choice-width;
+            max-width: $ggm-text-choice-width !important;
+            height: $ggm-text-body-max-height;
+            max-height: $ggm-text-body-max-height;
+            overflow: hidden;
             box-sizing: border-box;
-            float: none;
+            border: 1px solid $itemCreatorAddOptionBorderColor !important;
+            background: $itemCreatorAddOptionBgColor;
+            box-shadow: none !important;
+            word-break: break-word;
+            font-size: $ggm-text-font-size;
+            line-height: $ggm-text-line-height;
 
-            > .graphic-gap-option-body {
-                position: relative;
+            &.active {
+                border: 1px solid $itemCreatorAddOptionBorderColor;
+                box-shadow: none;
+            }
+
+            .gap-text-label-wrap {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                min-width: 0;
+                min-height: 0;
+                padding: 2px;
+                box-sizing: border-box;
+            }
+
+            .gap-text-label {
                 display: block;
-                flex: 0 0 $ggm-choice-size;
+                flex: 0 1 auto;
                 width: 100%;
-                height: $ggm-choice-size;
-                max-height: $ggm-choice-size;
-                overflow: hidden;
-                box-sizing: border-box;
-                border: 1px solid darken($uiClickableDefaultBg, 18%);
-                background: #fff;
-
-                &.active {
-                    border-color: $colorBrand;
-                }
-            }
-
-            .graphic-gap-option-delete {
-                display: flex;
-                flex: 0 0 $ggm-gap-option-delete-height;
-                align-items: center;
-                justify-content: center;
-                width: 100%;
-                height: $ggm-gap-option-delete-height;
+                min-width: 0;
+                min-inline-size: 0 !important;
+                max-inline-size: none !important;
+                min-height: $ggm-text-line-height-px;
+                height: $ggm-text-line-height-px;
+                max-height: $ggm-text-body-max-height;
                 margin: 0;
-                padding: 0;
-                border: 0;
-                border-radius: 0;
-                background: $colorError;
-                color: $colorLight;
-                cursor: pointer;
-                line-height: 1;
+                padding: 0 !important;
+                overflow-x: hidden;
+                resize: none;
+                border: 0 !important;
+                background: transparent !important;
+                color: inherit;
+                font-size: $ggm-text-font-size;
+                line-height: $ggm-text-line-height;
+                text-align: center;
+                outline: none !important;
+                box-shadow: none !important;
                 box-sizing: border-box;
+                appearance: none;
+                caret-color: $info;
+                white-space: pre-wrap;
+                word-wrap: break-word;
+                overflow-wrap: anywhere;
 
-                .icon-bin {
-                    @include font-size(14);
+                &:focus,
+                &:focus-visible {
+                    border: 0 !important;
+                    outline: none !important;
+                    box-shadow: none !important;
+                    background: transparent !important;
                 }
 
-                &:hover,
-                &:focus {
-                    background: darken($colorError, 8%);
-                    color: $colorLight;
-                    outline: none;
-                }
-            }
-
-            > .graphic-gap-option-body.qti-gapText {
-                word-break: break-word;
-                font-size: 10px;
-                line-height: 1.15;
-
-                .gap-text-label-wrap {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    bottom: 0;
-                    left: 0;
-                    z-index: 0;
-                    display: flex;
-                    flex-direction: column;
-                    min-width: 0;
-                    min-height: 0;
-                    padding: 2px;
-                    box-sizing: border-box;
-                }
-
-                .gap-text-label {
-                    display: block;
-                    flex: 1 1 0;
-                    width: 100%;
-                    min-width: 0;
-                    min-height: 0;
-                    margin: 0;
-                    padding: 0;
-                    overflow-x: hidden;
-                    overflow-y: auto;
-                    resize: none;
-                    border: 0;
-                    background: transparent;
-                    color: inherit;
-                    font: inherit;
-                    line-height: inherit;
-                    text-align: center;
-                    outline: none;
-                    box-sizing: border-box;
-                    white-space: pre-wrap;
-                    word-wrap: break-word;
-                    overflow-wrap: anywhere;
-
-                    &::placeholder {
-                        color: transparent;
-                    }
+                &::placeholder {
+                    color: whiten($info, 0.35);
+                    opacity: 1;
                 }
             }
 
-            > .graphic-gap-option-body.qti-gapImg {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
         }
 
         &.qti-choice:not(.qti-gapImg):not(.qti-gapText):not(.add-option):not(.empty) {
@@ -266,14 +251,13 @@ $ggm-top-bay-offset: -130px;
 
 .widget-box .qti-graphicGapMatchInteraction {
     position: relative;
+    overflow: visible;
 
     .graphic-gap-add-options-flyout {
         z-index: 1001;
     }
 }
 
-// Fixed thumbnail tiles in authoring so tall/wide uploads stay compact.
-// Authored object size is unchanged; authoring only shows a compact preview.
 @mixin ggm-fixed-choice-tile {
     flex: 0 0 auto;
     width: $ggm-choice-size;
@@ -307,56 +291,28 @@ $ggm-top-bay-offset: -130px;
 }
 
 .widget-box .qti-graphicGapMatchInteraction {
-    ul.source {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-items: stretch;
-        box-sizing: border-box;
-        height: $ggm-bay-pad;
-        min-height: $ggm-bay-pad;
-        max-height: $ggm-bay-pad;
-        margin: 0 !important;
-        padding: 4px 3px !important;
-        overflow-x: auto;
-        overflow-y: hidden;
-    }
-
-    ul.source > li {
-        display: flex;
-        flex-direction: column;
-        flex: 0 0 auto;
-        width: $ggm-choice-size !important;
-        min-width: $ggm-choice-size;
-        max-width: $ggm-choice-size !important;
-        height: $ggm-option-slot-height !important;
-        max-height: $ggm-option-slot-height !important;
-        margin: 0 3px 0 0;
-        box-sizing: border-box;
-        float: none;
-    }
-
     &.qti-choices-top,
     &.qti-choices-bottom,
     &.qti-choices-left,
     &.qti-choices-right {
-        ul.source > li:not(.graphic-gap-option-host):not(.add-option) {
+        ul.source > li {
             @include ggm-fixed-choice-tile;
-            height: $ggm-option-slot-height !important;
-            max-height: $ggm-option-slot-height !important;
-            overflow: visible;
+        }
+    }
 
-            > img,
-            > .qti-gapImg,
-            > object {
-                flex: 0 0 $ggm-choice-size;
-                max-height: $ggm-choice-size !important;
-            }
+    &.qti-choices-top,
+    &.qti-choices-bottom {
+        ul.source {
+            display: flex;
+            flex-direction: row;
+            max-height: $ggm-bay-pad;
+            overflow-x: auto;
+            overflow-y: hidden;
+            flex-wrap: nowrap;
+            align-items: center;
 
-            &::after {
-                content: '';
-                flex: 0 0 $ggm-gap-option-delete-height;
-                width: 100%;
+            &.graphic-gap-add-menu-open {
+                overflow: visible;
             }
         }
     }
@@ -371,15 +327,17 @@ $ggm-top-bay-offset: -130px;
     &.qti-choices-left,
     &.qti-choices-right {
         ul.source {
-            flex-direction: column;
-            width: $ggm-choice-size + 8px;
-            max-width: $ggm-choice-size + 8px;
-            height: auto;
-            min-height: 0;
+            width: $ggm-side-bay-width;
+            max-width: $ggm-side-bay-width;
             max-height: 100%;
             overflow-x: hidden;
             overflow-y: auto;
-            align-items: stretch;
+            flex-wrap: nowrap;
+            align-items: center;
+
+            &.graphic-gap-add-menu-open {
+                overflow: visible;
+            }
         }
     }
 
@@ -396,7 +354,6 @@ $ggm-top-bay-offset: -130px;
     }
 }
 
-// Sleep (unfocused): pull top choices closer; focused keeps $ggm-top-bay-offset (-130px).
 .widget-box.edit-sleep .qti-graphicGapMatchInteraction.qti-choices-top ul.source {
     top: -84px;
     left: -6px;

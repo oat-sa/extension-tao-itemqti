@@ -192,9 +192,8 @@ define([
             var gapText = new GapText();
 
             this.addGapText(gapText);
-            gapText
-                .body(text || __('New label'))
-                .buildIdentifier('gaptext');
+            gapText.body(text || '');
+            gapText.buildIdentifier('gaptext');
 
             if(this.getRenderer()){
                 gapText.setRenderer(this.getRenderer());
