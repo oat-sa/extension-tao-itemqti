@@ -37,6 +37,7 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/associableHotspot',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/gapImg',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/gapText',
+    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/graphicGapMatch.adder',
 
     'taoQtiItem/qtiCreator/helper/panel',
@@ -60,6 +61,7 @@ define([
     choiceFormTpl,
     gapImgFormTpl,
     gapTextFormTpl,
+    mediaTlbTpl,
     graphicGapMatchAdderTpl,
     panel,
     resourceManager,
@@ -190,7 +192,7 @@ define([
             const $flyoutHost = $gapList.closest('.image-editor.solid');
             const $positionHost = $flyoutHost.length ? $flyoutHost : widget.$container;
             const $addOption =
-                $('<li class="empty add-option">' +
+                $('<li class="empty add-option" aria-haspopup="menu" aria-expanded="false">' +
                     '<div><span class="icon-add"></span></div>' +
                     '</li>');
             const $menuFlyout = $(
@@ -202,28 +204,53 @@ define([
             widget.$container.find('.graphic-gap-add-options-flyout').remove();
             widget.$container.off('click.gapAddOption');
 
+            /**
+             * Position flyout on the image editor host, centered on the add-option trigger.
+             */
             function positionGapAddMenu() {
-                if (!$addOption.length || !$addOption[0].getBoundingClientRect) {
+                const $trigger = $gapList.find('li.add-option.empty').first();
+
+                if (!$trigger.length || !$positionHost.length) {
                     return;
                 }
 
-                const buttonRect = $addOption[0].getBoundingClientRect();
+                const triggerRect = $trigger[0].getBoundingClientRect();
                 const hostRect = $positionHost[0].getBoundingClientRect();
+                const gapAboveTrigger = 2;
+                const flyoutWidth = $menuFlyout.outerWidth() || 144;
+                const flyoutHeight = $menuFlyout.outerHeight() || 80;
 
                 $menuFlyout.css({
-                    top: buttonRect.top - hostRect.top + $positionHost.scrollTop(),
-                    left: buttonRect.left - hostRect.left + $addOption.outerWidth() + 4
+                    top:
+                        triggerRect.top -
+                        hostRect.top +
+                        $positionHost.scrollTop() -
+                        flyoutHeight -
+                        gapAboveTrigger,
+                    left:
+                        triggerRect.left -
+                        hostRect.left +
+                        $positionHost.scrollLeft() +
+                        triggerRect.width / 2 -
+                        flyoutWidth / 2,
+                    right: '',
+                    bottom: ''
                 });
             }
 
             function hideGapAddMenu() {
                 $menuFlyout.removeClass('is-visible').attr('aria-hidden', 'true');
+                $addOption.attr('aria-expanded', 'false');
+                $gapList.removeClass('graphic-gap-add-menu-open');
                 $(document).off('click.graphicGapAddOption');
             }
 
             function showGapAddMenu() {
-                positionGapAddMenu();
+                $gapList.addClass('graphic-gap-add-menu-open');
                 $menuFlyout.addClass('is-visible').attr('aria-hidden', 'false');
+                positionGapAddMenu();
+                window.requestAnimationFrame(positionGapAddMenu);
+                $addOption.attr('aria-expanded', 'true');
 
                 setTimeout(function () {
                     $(document).on('click.graphicGapAddOption', function (e) {
@@ -311,132 +338,61 @@ define([
                 .trim();
         }
 
-        function copyElementAttributes($from, $to) {
-            $.each($from[0].attributes, function () {
-                $to.attr(this.name, this.value);
-            });
-        }
+        const GAP_TEXT_MIN_ROWS = 2;
+        const GAP_TEXT_MAX_ROWS = 4;
 
-        /**
-         * Authoring-only wrapper: gap option (60x60) stays separate; delete sits underneath in the host.
-         *
-         * @param {jQuery} $gapElement
-         * @returns {{$host: jQuery, $option: jQuery}}
-         */
-        function ensureGraphicGapOptionHost($gapElement) {
-            var $host, $option;
+        function getGapTextLineHeightPx($textarea) {
+            const textareaEl = $textarea[0];
 
-            if ($gapElement.hasClass('graphic-gap-option-host')) {
-                $host = $gapElement;
-                $option = $host.children('.graphic-gap-option-body').first();
-                return { $host: $host, $option: $option };
+            if (!textareaEl || !window.getComputedStyle) {
+                return 13;
             }
 
-            if ($gapElement.parent().hasClass('graphic-gap-option-host')) {
-                return { $host: $gapElement.parent(), $option: $gapElement };
+            const styles = window.getComputedStyle(textareaEl);
+            const lineHeight = parseFloat(styles.lineHeight);
+
+            if (!Number.isNaN(lineHeight) && lineHeight > 0) {
+                return lineHeight;
             }
 
-            $host = $('<li class="graphic-gap-option-host"/>');
-            $option = $('<div class="graphic-gap-option-body"/>');
-            copyElementAttributes($gapElement, $option);
-            $option.append($gapElement.children().not('.graphic-gap-option-delete'));
-            $host.append($option);
-            $gapElement.replaceWith($host);
+            const fontSize = parseFloat(styles.fontSize) || 11;
 
-            $option.find('.mini-tlb, .graphic-gap-option-delete').remove();
-
-            return { $host: $host, $option: $option };
-        }
-
-        function unwrapGraphicGapOptionHosts($root) {
-            $('li.graphic-gap-option-host', $root).each(function () {
-                var $host = $(this),
-                    $option = $host.children('.graphic-gap-option-body').first(),
-                    $li = $('<li/>');
-
-                if (!$option.length) {
-                    $host.remove();
-                    return;
-                }
-
-                $host.find('.graphic-gap-option-delete').remove();
-                copyElementAttributes($option, $li);
-                $li.append($option.contents());
-                $host.replaceWith($li);
-            });
-        }
-
-        function createGraphicGapOptionDeleteButton() {
-            return $('<button type="button" class="graphic-gap-option-delete"/>')
-                .attr('title', __('Delete'))
-                .append($('<span class="icon-bin" aria-hidden="true"/>'));
-        }
-
-        /**
-         * @param {jQuery} $gapBox
-         * @param {Function} onDelete
-         * @returns {jQuery}
-         */
-        function attachGraphicGapOptionDeleteButton($host, onDelete) {
-            $host.find('.graphic-gap-option-body .graphic-gap-option-delete').remove();
-
-            var $deleteBtn = $host.children('.graphic-gap-option-delete');
-
-            if (!$deleteBtn.length) {
-                $deleteBtn = createGraphicGapOptionDeleteButton();
-                $host.append($deleteBtn);
-            }
-
-            $deleteBtn.off('click.graphicGapDelete').on('click.graphicGapDelete', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                onDelete();
-            });
-
-            return $deleteBtn;
+            return fontSize * 1.2;
         }
 
         function syncGapTextLabelHeight($gapTextBox) {
-            const $wrap = $gapTextBox.find('.gap-text-label-wrap');
             const $textarea = $gapTextBox.find('.gap-text-label');
-            const wrapEl = $wrap[0];
-            let availableHeight;
+            const textareaEl = $textarea[0];
+            let lineHeight;
+            let minHeight;
+            let maxHeight;
+            let scrollHeight;
+            let nextHeight;
 
-            if (!$wrap.length || !$textarea.length || !wrapEl) {
+            if (!$textarea.length || !textareaEl) {
                 return;
             }
 
-            availableHeight = wrapEl.clientHeight;
+            lineHeight = getGapTextLineHeightPx($textarea);
+            minHeight = Math.ceil(lineHeight * GAP_TEXT_MIN_ROWS);
+            maxHeight = Math.ceil(lineHeight * GAP_TEXT_MAX_ROWS);
 
-            if (window.getComputedStyle) {
-                const wrapStyles = window.getComputedStyle(wrapEl);
+            $textarea.css({
+                height: 'auto',
+                overflowY: 'hidden'
+            });
 
-                availableHeight -= parseFloat(wrapStyles.paddingTop) || 0;
-                availableHeight -= parseFloat(wrapStyles.paddingBottom) || 0;
-            }
+            scrollHeight = textareaEl.scrollHeight;
+            nextHeight = Math.min(maxHeight, Math.max(minHeight, scrollHeight));
 
-            $textarea.css('height', `${Math.max(0, Math.floor(availableHeight))}px`);
+            $textarea.css({
+                height: `${nextHeight}px`,
+                overflowY: scrollHeight > maxHeight ? 'auto' : 'hidden'
+            });
         }
 
         function centerGapTextLabelInTile($gapTextBox) {
-            const $textarea = $gapTextBox.find('.gap-text-label');
-
-            if (!$textarea.length) {
-                return;
-            }
-
             syncGapTextLabelHeight($gapTextBox);
-
-            $textarea.css({
-                paddingTop: 0,
-                paddingBottom: 0
-            });
-
-            const diff = $textarea[0].clientHeight - $textarea[0].scrollHeight;
-
-            if (diff > 0) {
-                $textarea.css('paddingTop', `${Math.floor(diff / 2)}px`);
-            }
         }
 
         function updateGapTextTileLabel($gapTextBox, label) {
@@ -545,7 +501,8 @@ define([
             unbindMinMaxThresholdListeners();
 
             const $gapList = $('ul.source', widget.$original),
-                $addOption = $gapList.find('li.add-option.empty');
+                $addOption = $gapList.find('li.add-option.empty'),
+                $deleteBtn = $(mediaTlbTpl());
             let $gapTextBox = $gapList.find(`[data-serial="${gapTextObj.serial}"]`);
 
             if (!$gapTextBox.length) {
@@ -557,10 +514,6 @@ define([
             }
 
             $gapTextBox.addClass('qti-gapText');
-
-            const gapTextHost = ensureGraphicGapOptionHost($gapTextBox);
-
-            $gapTextBox = gapTextHost.$option;
             updateGapTextTileLabel($gapTextBox, getGapTextPlainLabel(gapTextObj));
             bindGapTextInlineLabel($gapTextBox, gapTextObj.serial);
 
@@ -568,13 +521,18 @@ define([
             $gapTextBox.addClass('active');
             enterGapTextForm(gapTextObj.serial);
 
-            attachGraphicGapOptionDeleteButton(gapTextHost.$host, function () {
-                gapTextHost.$host.remove();
-                interaction.removeGapText(gapTextObj);
-            });
+            $deleteBtn
+                .appendTo($gapTextBox)
+                .show()
+                .click(function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    $gapTextBox.remove();
+                    interaction.removeGapText(gapTextObj);
+                });
 
             $gapTextBox.off('click.gapText').on('click.gapText', function (e) {
-                if ($(e.target).closest('.graphic-gap-option-delete').length) {
+                if ($(e.target).closest('.mini-tlb').length) {
                     return;
                 }
 
@@ -597,26 +555,28 @@ define([
          */
         function setUpGapImg(gapImgObj) {
             const $gapList = $('ul.source', widget.$original),
-                $addOption = $gapList.find('li.add-option.empty');
+                $addOption = $gapList.find('li.add-option.empty'),
+                $deleteBtn = $(mediaTlbTpl());
             let $gapImgBox = $(`[data-serial="${gapImgObj.serial}"]`, $gapList);
 
             if (!$gapImgBox.length) {
                 $gapImgBox = $(gapImgObj.render()).insertBefore($addOption);
             }
 
-            const gapImgHost = ensureGraphicGapOptionHost($gapImgBox);
-
-            $gapImgBox = gapImgHost.$option;
-
-            attachGraphicGapOptionDeleteButton(gapImgHost.$host, function () {
-                gapImgHost.$host.remove();
-                interaction.removeGapImg(gapImgObj);
-            });
+            $deleteBtn
+                .appendTo($gapImgBox)
+                .show()
+                .click(function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    $gapImgBox.remove();
+                    interaction.removeGapImg(gapImgObj);
+                });
 
             enterGapImgForm(gapImgObj.serial);
 
             $gapImgBox.off('click.gapImg').on('click.gapImg', function (e) {
-                if ($(e.target).closest('.graphic-gap-option-delete').length) {
+                if ($(e.target).closest('.mini-tlb').length) {
                     return;
                 }
                 if ($gapImgBox.hasClass('active')) {
@@ -1014,6 +974,7 @@ define([
 
         widget.$container.off('click.gapAddOption');
         $('.graphic-gap-add-options-flyout', widget.$container).remove();
+        $('ul.source', widget.$original).removeClass('graphic-gap-add-menu-open');
         $(window).off('resize.graphicGapAddOption');
 
         //remove gapImg placeholder
@@ -1021,7 +982,6 @@ define([
 
         //restore gap choice appearance
         widget.$container.find('.qti-gapImg, .qti-gapText').removeClass('active').find('.mini-tlb').remove();
-        unwrapGraphicGapOptionHosts(widget.$original);
         $('.image-editor.solid, .block-listing.source', widget.$container).css('min-width', 0);
     }
 
