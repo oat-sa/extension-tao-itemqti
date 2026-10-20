@@ -17,6 +17,7 @@
            id="gapTextLabel"
            name="gapTextLabel"
            value="{{label}}"
+           maxlength="350"
            placeholder="{{__ 'Enter label text'}}"
            data-validate="$notEmpty;">
 </div>

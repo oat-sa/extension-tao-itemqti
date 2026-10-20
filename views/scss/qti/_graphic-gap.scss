@@ -82,6 +82,13 @@
             line-height: normal;
         }
 
+        ul.source > li.qti-gapText {
+            width: auto;
+            min-width: 75px;
+            max-width: 150px;
+            flex-shrink: 0;
+        }
+
         ul.source .qti-gapImg img {
             width: auto !important;
             height: auto !important;
@@ -211,6 +218,16 @@
             min-height: 30px;
             min-width: 30px;
             border-radius: 2px;
+            box-sizing: border-box;
+
+            &:not(.qti-gapText) {
+                line-height: normal;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0;
+                margin: 0 !important;
+            }
 
             &:after {
                 @include gapimg-overlay;
@@ -233,6 +250,64 @@
         img {
             display: block;
         }
+
+        &.qti-gapText.placed {
+            line-height: 1.25;
+            @include font-size(14);
+            padding: 2px 4px;
+            overflow: visible;
+            box-sizing: border-box;
+            border: 1px solid #3e7da7 !important;
+            background-color: #e7eff4;
+            color: darken($info, 12%);
+            text-align: center;
+            opacity: 1;
+
+            &:after {
+                border-top-width: 1px;
+                background: #e7eff4;
+            }
+
+            .placed-gap-text-label {
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                word-break: break-word;
+                overflow-wrap: anywhere;
+                width: 100%;
+                max-height: 100%;
+                pointer-events: none;
+            }
+
+            .placed-gap-text-tooltip {
+                display: none;
+                position: absolute;
+                z-index: 10001;
+                left: 0;
+                top: calc(100% + 4px);
+                min-width: 120px;
+                max-width: min(280px, 90vw);
+                padding: 8px 10px;
+                border-radius: 2px;
+                background: #334955;
+                color: #f4f7f9;
+                @include font-size(12);
+                line-height: 1.35;
+                text-align: left;
+                white-space: normal;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+                pointer-events: none;
+            }
+
+            @media (hover: hover) {
+                &:hover .placed-gap-text-tooltip,
+                &:focus-within .placed-gap-text-tooltip {
+                    display: block;
+                }
+            }
+        }
     }
 
     @media (hover: hover) {
@@ -243,6 +318,12 @@
             &:before {
                 @include gapimg-icon;
                 @include icon-result-nok;
+            }
+        }
+
+        .placed-fillers:not(.selectable) .qti-gapText.placed:not(.dragged):not(.no-hover):hover {
+            &:after {
+                background: #e7eff4;
             }
         }
     }

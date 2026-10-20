@@ -29,8 +29,9 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/graphicInteraction/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/states/states',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
-    'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapTextInteractionSupport'
-], function ($, _, __, hider, Widget, GraphicWidget, states, GraphicHelper, ensureGapTextSupport) {
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapTextInteractionSupport',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapTextTileLayout'
+], function ($, _, __, hider, Widget, GraphicWidget, states, GraphicHelper, ensureGapTextSupport, gapTextTileLayout) {
     'use strict';
 
     /**
@@ -134,6 +135,7 @@ define([
                 $gapList.append(gapText.render());
                 $gapList.find(`[data-serial="${gapText.serial}"]`).addClass('qti-gapText');
             });
+            gapTextTileLayout.syncAllGapTextTilesInList($gapList);
         },
 
         /**

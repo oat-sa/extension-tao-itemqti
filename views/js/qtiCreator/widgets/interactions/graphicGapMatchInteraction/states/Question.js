@@ -44,6 +44,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/resourceManager',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapTextInteractionSupport',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapTextTileLayout',
     'ui/mediasizer'
 ], function (
     $,
@@ -66,7 +67,8 @@ define([
     panel,
     resourceManager,
     bgImage,
-    ensureGapTextSupport
+    ensureGapTextSupport,
+    gapTextTileLayout
 ) {
     'use strict';
 
@@ -117,7 +119,13 @@ define([
         var options = widget.options;
         var paper = interaction.paper;
 
+        const GAP_TEXT_MAX_CHARS = 350;
+
         ensureGapTextSupport(interaction);
+
+        function centerGapTextLabelInTile($gapTextBox) {
+            gapTextTileLayout.syncGapTextTileSize($gapTextBox);
+        }
 
         var gapImgSelectorOptions = _.clone(options);
         gapImgSelectorOptions.title = gapImgSelectorOptions.title
@@ -322,7 +330,7 @@ define([
                     e.stopPropagation();
                     hideGapAddMenu();
                     unbindMinMaxThresholdListeners();
-                    setUpGapText(interaction.createGapText());
+                    setUpGapText(interaction.createGapText(), { autoFocus: true });
                 }
             );
 
@@ -355,64 +363,14 @@ define([
             return normalizedLabel;
         }
 
-        const GAP_TEXT_MAX_ROWS = 4;
-
-        function getGapTextLineHeightPx($textarea) {
-            const textareaEl = $textarea[0];
-
-            if (!textareaEl || !window.getComputedStyle) {
-                return 13;
-            }
-
-            const styles = window.getComputedStyle(textareaEl);
-            const lineHeight = parseFloat(styles.lineHeight);
-
-            if (!Number.isNaN(lineHeight) && lineHeight > 0) {
-                return lineHeight;
-            }
-
-            const fontSize = parseFloat(styles.fontSize) || 14;
-
-            return fontSize * 1.25;
-        }
-
-        function getGapTextLineCount(textareaEl, lineHeightPx) {
-            const value = textareaEl.value || '';
-            const hardLines = value.split('\n').length;
-            let wrappedLines = 0;
-
-            textareaEl.style.height = `${lineHeightPx}px`;
-            wrappedLines = Math.max(1, Math.ceil(textareaEl.scrollHeight / lineHeightPx));
-
-            return Math.max(hardLines, wrappedLines);
-        }
-
-        function syncGapTextLabelHeight($gapTextBox) {
-            const $textarea = $gapTextBox.find('.gap-text-label');
-            const textareaEl = $textarea[0];
-            let lineHeightPx;
-            let lineCount;
-            let nextHeight;
-            let maxHeight;
-
-            if (!$textarea.length || !textareaEl) {
+        function finishGapTextEditing($gapTextBox) {
+            if (!$gapTextBox.hasClass('active')) {
                 return;
             }
 
-            lineHeightPx = Math.ceil(getGapTextLineHeightPx($textarea));
-            maxHeight = lineHeightPx * GAP_TEXT_MAX_ROWS;
-            lineCount = getGapTextLineCount(textareaEl, lineHeightPx);
-            lineCount = Math.min(GAP_TEXT_MAX_ROWS, Math.max(1, lineCount));
-            nextHeight = lineCount * lineHeightPx;
-
-            $textarea.css({
-                height: `${nextHeight}px`,
-                overflowY: lineCount >= GAP_TEXT_MAX_ROWS && textareaEl.scrollHeight > maxHeight ? 'auto' : 'hidden'
-            });
-        }
-
-        function centerGapTextLabelInTile($gapTextBox) {
-            syncGapTextLabelHeight($gapTextBox);
+            syncGapTextLabelFromInline($gapTextBox);
+            $gapTextBox.removeClass('active');
+            leaveChoiceForm();
         }
 
         function updateGapTextTileLabel($gapTextBox, label) {
@@ -423,6 +381,7 @@ define([
                 .attr('aria-label', __('Label'))
                 .attr('placeholder', __('Enter text'))
                 .attr('rows', 1)
+                .attr('maxlength', GAP_TEXT_MAX_CHARS)
                 .val(normalizeGapTextTileLabel(label));
 
             $wrap.append($textarea);
@@ -462,10 +421,17 @@ define([
 
             $gapTextBox.on('input.gapTextInline change.gapTextInline', '.gap-text-label', function () {
                 const gapText = interaction.getGapText(serial);
-                const value = $(this).val();
+                let value = $(this).val();
 
                 if (!gapText) {
                     return;
+                }
+
+                value = (value || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+                if (value.length > GAP_TEXT_MAX_CHARS) {
+                    value = value.slice(0, GAP_TEXT_MAX_CHARS);
+                    $(this).val(value);
                 }
 
                 gapText.body(value || '');
@@ -477,13 +443,68 @@ define([
                 centerGapTextLabelInTile($gapTextBox);
             });
 
+            $gapTextBox.on('paste.gapTextInline', '.gap-text-label', function () {
+                const $textarea = $(this);
+
+                window.requestAnimationFrame(function () {
+                    window.requestAnimationFrame(function () {
+                        centerGapTextLabelInTile($gapTextBox);
+                        $textarea.trigger('input');
+                    });
+                });
+            });
+
+            $gapTextBox.on('keydown.gapTextInline', '.gap-text-label', function (e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    $(this).blur();
+                }
+            });
+
             $gapTextBox.on('blur.gapTextInline', '.gap-text-label', function () {
                 centerGapTextLabelInTile($gapTextBox);
+                window.setTimeout(function () {
+                    if (!$gapTextBox.find('.gap-text-label').is(':focus')) {
+                        finishGapTextEditing($gapTextBox);
+                    }
+                }, 0);
             });
+        }
+
+        function syncGapTextLabelFromInline($gapTextBox) {
+            const serial = $gapTextBox.attr('data-serial');
+            const gapText = serial ? interaction.getGapText(serial) : null;
+            const $inlineLabel = $gapTextBox.find('.gap-text-label');
+
+            if (!gapText || !$inlineLabel.length) {
+                return;
+            }
+
+            const value = $inlineLabel.val() || '';
+
+            setGapTextPlainLabel(gapText, value);
+
+            if (widget._editingGapTextSerial === serial) {
+                const $labelInput = $choiceForm.find('[name=gapTextLabel]');
+
+                if ($labelInput.length) {
+                    $labelInput.val(value);
+                }
+            }
         }
 
         function syncGapTextLabelFromForm() {
             const serial = widget._editingGapTextSerial;
+            const $gapTextBox = serial
+                ? $(`[data-serial="${serial}"]`, $('ul.source', widget.$original))
+                : $();
+            const $inlineLabel = $gapTextBox.find('.gap-text-label');
+
+            if (serial && $inlineLabel.length) {
+                syncGapTextLabelFromInline($gapTextBox);
+                return;
+            }
+
             const $labelInput = $choiceForm.find('[name=gapTextLabel]');
 
             if (!serial || !$labelInput.length) {
@@ -522,8 +543,10 @@ define([
          * Insert and setup the gap text choice
          *
          * @param {Object} gapTextObj
+         * @param {Object} [options]
+         * @param {Boolean} [options.autoFocus]
          */
-        function setUpGapText(gapTextObj) {
+        function setUpGapText(gapTextObj, options) {
             unbindMinMaxThresholdListeners();
 
             const $gapList = $('ul.source', widget.$original),
@@ -558,20 +581,32 @@ define([
                 });
 
             $gapTextBox.off('click.gapText').on('click.gapText', function (e) {
-                if ($(e.target).closest('.mini-tlb').length) {
+                if ($(e.target).closest('.mini-tlb').length || $(e.target).closest('.gap-text-label').length) {
                     return;
                 }
 
                 if ($gapTextBox.hasClass('active')) {
-                    syncGapTextLabelFromForm();
-                    $gapTextBox.removeClass('active');
-                    leaveChoiceForm();
+                    finishGapTextEditing($gapTextBox);
                 } else {
                     $('.active', $gapList).removeClass('active');
                     $gapTextBox.addClass('active');
                     enterGapTextForm(gapTextObj.serial);
+                    $gapTextBox.find('.gap-text-label').focus();
                 }
             });
+
+            if (options && options.autoFocus) {
+                window.requestAnimationFrame(function () {
+                    centerGapTextLabelInTile($gapTextBox);
+                    const $textarea = $gapTextBox.find('.gap-text-label');
+                    const textareaEl = $textarea[0];
+
+                    if (textareaEl) {
+                        $textarea.focus();
+                        textareaEl.setSelectionRange(textareaEl.value.length, textareaEl.value.length);
+                    }
+                });
+            }
         }
 
         /**
@@ -1008,6 +1043,7 @@ define([
 
         //restore gap choice appearance
         widget.$container.find('.qti-gapImg, .qti-gapText').removeClass('active').find('.mini-tlb').remove();
+        gapTextTileLayout.syncAllGapTextTilesInList($('ul.source', widget.$original));
         $('.image-editor.solid, .block-listing.source', widget.$container).css('min-width', 0);
     }
 

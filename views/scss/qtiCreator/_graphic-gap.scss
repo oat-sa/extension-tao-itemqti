@@ -4,15 +4,13 @@
 $ggm-choice-size: 60px;
 $ggm-bay-pad: 72px;
 $ggm-top-bay-offset: -130px;
-$ggm-text-choice-width: 112px;
+$ggm-text-choice-min-width: 75px;
+$ggm-text-choice-max-width: 150px;
+$ggm-text-choice-min-height: 60px;
 $ggm-text-font-size: 14px;
 $ggm-text-line-height: 1.25;
 $ggm-text-line-height-px: ceil($ggm-text-font-size * $ggm-text-line-height);
-$ggm-text-min-rows: 2;
-$ggm-text-max-rows: 4;
-$ggm-text-body-min-height: ceil($ggm-text-font-size * $ggm-text-line-height * $ggm-text-min-rows) + 4px;
-$ggm-text-body-max-height: ceil($ggm-text-font-size * $ggm-text-line-height * $ggm-text-max-rows) + 4px;
-$ggm-side-bay-width: max($ggm-bay-pad, $ggm-text-choice-width + 8px);
+$ggm-side-bay-width: max($ggm-bay-pad, $ggm-text-choice-max-width + 8px);
 $ggm-add-menu-width: 144px;
 $ggm-add-menu-height: 80px;
 $ggm-add-menu-trigger-gap: 8px;
@@ -117,6 +115,11 @@ $ggm-add-menu-border-color: #a4bbc5;
     }
 
     ul.source > li {
+        // Keep gap image, gap text and the add-option tile on the same top edge:
+        // generic choice listing rules add a top margin that .qti-gapImg overrides.
+        margin-top: 0 !important;
+        vertical-align: top;
+
         img {
             height: auto;
         }
@@ -130,12 +133,15 @@ $ggm-add-menu-border-color: #a4bbc5;
 
         &.qti-gapText {
             position: relative;
-            width: $ggm-text-choice-width !important;
-            min-width: $ggm-text-choice-width;
-            max-width: $ggm-text-choice-width !important;
-            height: $ggm-text-body-max-height;
-            max-height: $ggm-text-body-max-height;
-            overflow: hidden;
+            flex: 0 0 auto !important;
+            flex-shrink: 0 !important;
+            width: $ggm-text-choice-min-width;
+            min-width: $ggm-text-choice-min-width;
+            max-width: $ggm-text-choice-max-width;
+            height: auto;
+            min-height: $ggm-text-choice-min-height;
+            max-height: none;
+            overflow: visible;
             box-sizing: border-box;
             border: 1px solid $itemCreatorAddOptionBorderColor !important;
             background: $itemCreatorAddOptionBgColor;
@@ -147,6 +153,10 @@ $ggm-add-menu-border-color: #a4bbc5;
             &.active {
                 border: 1px solid $itemCreatorAddOptionBorderColor;
                 box-shadow: none;
+
+                .gap-text-label-wrap {
+                    justify-content: flex-start;
+                }
             }
 
             .gap-text-label-wrap {
@@ -174,8 +184,8 @@ $ggm-add-menu-border-color: #a4bbc5;
                 min-inline-size: 0 !important;
                 max-inline-size: none !important;
                 min-height: $ggm-text-line-height-px;
-                height: $ggm-text-line-height-px;
-                max-height: $ggm-text-body-max-height;
+                height: auto;
+                max-height: none;
                 margin: 0;
                 padding: 0 !important;
                 overflow-x: hidden;
@@ -295,8 +305,20 @@ $ggm-add-menu-border-color: #a4bbc5;
     &.qti-choices-bottom,
     &.qti-choices-left,
     &.qti-choices-right {
-        ul.source > li {
+        ul.source > li:not(.qti-gapText) {
             @include ggm-fixed-choice-tile;
+        }
+
+        ul.source > li.qti-gapText {
+            flex: 0 0 auto !important;
+            flex-shrink: 0 !important;
+            width: auto !important;
+            min-width: $ggm-text-choice-min-width !important;
+            max-width: $ggm-text-choice-max-width !important;
+            min-height: $ggm-text-choice-min-height;
+            max-height: none;
+            overflow: visible;
+            line-height: normal;
         }
     }
 
@@ -305,11 +327,11 @@ $ggm-add-menu-border-color: #a4bbc5;
         ul.source {
             display: flex;
             flex-direction: row;
-            max-height: $ggm-bay-pad;
+            max-height: none;
             overflow-x: auto;
-            overflow-y: hidden;
+            overflow-y: visible;
             flex-wrap: nowrap;
-            align-items: center;
+            align-items: flex-start;
 
             &.graphic-gap-add-menu-open {
                 overflow: visible;
