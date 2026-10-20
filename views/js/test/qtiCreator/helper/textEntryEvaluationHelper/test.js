@@ -168,6 +168,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
 
         assert.strictEqual(firstEntry.attr('data-item-type'), 'umfi-closed');
         assert.strictEqual(firstEntry.attr('data-umfi-values'), '[]');
+        assert.strictEqual(firstEntry.attr('data-case-sensitive'), 'true');
         assert.strictEqual(evaluationHelper.isUmfiEnabled(secondEntry), true);
 
         evaluationHelper.setAllowLexicalFieldsOnScoring(firstEntry, true);
@@ -325,7 +326,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
 
         assert.strictEqual(originalFirst.attr('data-item-type'), 'umfi-open');
         assert.ok(originalFirst.attr('data-umfi-values'));
-        assert.strictEqual(originalFirst.attr('data-case-sensitive'), 'false');
+        assert.strictEqual(originalFirst.attr('data-case-sensitive'), 'true');
         assert.strictEqual(originalFirst.attr('data-allow-lexical-fields-on-scoring'), 'true');
         assert.strictEqual(insertedBefore.attr('data-item-type'), undefined);
 
@@ -339,7 +340,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
             insertedBefore.attr('data-umfi-values'),
             '[{"group":"APPLE_FOUND","canonical":"apple","variants":["apple","apples"]}]'
         );
-        assert.strictEqual(insertedBefore.attr('data-case-sensitive'), 'false');
+        assert.strictEqual(insertedBefore.attr('data-case-sensitive'), 'true');
         assert.strictEqual(insertedBefore.attr('data-allow-lexical-fields-on-scoring'), 'true');
         assert.strictEqual(originalFirst.attr('data-item-type'), undefined);
         assert.strictEqual(originalFirst.attr('data-umfi-values'), undefined);
@@ -602,6 +603,39 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.strictEqual(groups[0].id, 'FRANCE_FOUND');
     });
 
+    QUnit.test('isCaseSensitive is true for UMFI and false otherwise', assert => {
+        const textEntry = createTextEntry(null);
+
+        textEntry.attr('data-item-type', 'umfi-closed');
+        textEntry.attr('data-case-sensitive', 'false');
+        createItem([textEntry]);
+
+        assert.strictEqual(evaluationHelper.isCaseSensitive(textEntry), true);
+
+        textEntry.removeAttr('data-item-type');
+        textEntry.removeAttr('data-case-sensitive');
+
+        assert.strictEqual(evaluationHelper.isCaseSensitive(textEntry), false);
+    });
+
+    QUnit.test('persistEvaluationConfig upgrades legacy UMFI caseSensitive false to true', assert => {
+        const textEntry = createTextEntry(null);
+
+        textEntry.attr('responseIdentifier', 'RESPONSE');
+        textEntry.attr('data-item-type', 'umfi-closed');
+        textEntry.attr('data-case-sensitive', 'false');
+        createItem([textEntry]);
+
+        evaluationHelper.persistEvaluationConfig(textEntry, {
+            evaluateAsUmfi: true,
+            caseSensitive: false,
+            lexicalGroups: []
+        });
+
+        assert.strictEqual(textEntry.attr('data-case-sensitive'), 'true');
+        assert.strictEqual(evaluationHelper.getEvaluationConfig(textEntry).caseSensitive, true);
+    });
+
     QUnit.test('getEvaluationConfig reads lexical groups and case sensitivity', assert => {
         const textEntry = createTextEntry(null);
         const item = createItem([textEntry]);
@@ -653,6 +687,8 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.ok(item.getOutcomeDeclaration('APPLE_FOUND'));
         assert.strictEqual(item.getOutcomeDeclaration('SCORE').attr('normalMaximum'), 1);
         assert.strictEqual(firstEntry.attr('data-umfi-rp-managed'), 'true');
+        assert.strictEqual(firstEntry.attr('data-case-sensitive'), 'true');
+        assert.ok(item.responseProcessing.xml.indexOf('caseSensitive="true"') > -1);
     });
 
     QUnit.test('persistEvaluationConfig refreshes custom responseProcessing xml', assert => {
