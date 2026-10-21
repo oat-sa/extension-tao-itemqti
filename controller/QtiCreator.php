@@ -28,6 +28,8 @@ use core_kernel_classes_Resource;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManager;
+use oat\tao\model\ClientLibConfigRegistry;
+use oat\tao\model\featureFlag\WProofreaderClientConfigHandler;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\TaskOrchestrator\TaskOrchestratorEmailService;
@@ -137,6 +139,16 @@ class QtiCreator extends tao_actions_CommonModule
         $item = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('instance')));
 
         $config = $this->getCreatorConfig($item);
+
+        $clientConfigs = ($this->getPsrContainer()->get(WProofreaderClientConfigHandler::class))(
+            $this->getPsrContainer()->get(ClientLibConfigRegistry::class)->getMap()
+        );
+        if (isset($clientConfigs['tao/ckeditor/wproofreaderBootstrap']['spellCheckConfig'])) {
+            $config->setProperty(
+                'spellCheckConfig',
+                $clientConfigs['tao/ckeditor/wproofreaderBootstrap']['spellCheckConfig']
+            );
+        }
 
         $this->setData('config', $config->toArray());
         $this->setView('QtiCreator/index.tpl');

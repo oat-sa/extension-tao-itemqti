@@ -34,7 +34,8 @@ define([
     'taoQtiItem/qtiCreator/plugins/loader',
     'tpl!taoQtiItem/qtiCreator/tpl/layout/interactionsPanel',
     'tpl!taoQtiItem/qtiCreator/tpl/layout/itemPanel',
-    'tpl!taoQtiItem/qtiCreator/tpl/layout/propertiesPanel'
+    'tpl!taoQtiItem/qtiCreator/tpl/layout/propertiesPanel',
+    'tao/ckeditor/wproofreaderBootstrap'
 ], function (
     $,
     _,
@@ -47,7 +48,8 @@ define([
     pluginLoader,
     interactionsPanelTpl,
     itemPanelTpl,
-    propertiesPanelTpl
+    propertiesPanelTpl,
+    wproofreaderBootstrap
 ) {
     'use strict';
 
@@ -94,6 +96,10 @@ define([
             //TODO move module config away from controllers
             const config = module.config();
             const logger = loggerFactory('controller/creator');
+
+            if (config && config.properties && config.properties.spellCheckConfig) {
+                wproofreaderBootstrap.configure(config.properties.spellCheckConfig);
+            }
 
             /**
              * Report errors
