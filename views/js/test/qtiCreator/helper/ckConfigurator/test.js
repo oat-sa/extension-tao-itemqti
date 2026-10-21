@@ -83,20 +83,56 @@ define([
 
     QUnit.test('starts WProofreader when configuring a QTI editor', function (assert) {
         var originalStart = wproofreaderBootstrap.start;
+        var originalSetLanguage = wproofreaderBootstrap.setLanguage;
         var startCalls = 0;
+        var calls = [];
 
-        assert.expect(1);
+        assert.expect(2);
         wproofreaderBootstrap.start = function () {
             startCalls++;
+            calls.push('start');
+        };
+        wproofreaderBootstrap.setLanguage = function (lang) {
+            calls.push(lang);
         };
         withCkeditorStub(function () {
             try {
-                qtiCkConfigurator.getConfig(editorStub, 'inline', {});
+                qtiCkConfigurator.getConfig(editorStub, 'inline', {}, 'fr-FR');
                 assert.strictEqual(startCalls, 1, 'provider startup is tied to editor configuration');
+                assert.deepEqual(calls, ['fr_FR', 'start'], 'item language is configured before provider startup');
             } finally {
                 wproofreaderBootstrap.start = originalStart;
+                wproofreaderBootstrap.setLanguage = originalSetLanguage;
             }
         });
+    });
+
+    QUnit.test('normalizes TAO item languages without inventing a fallback', function (assert) {
+        var originalSetLanguage = wproofreaderBootstrap.setLanguage;
+        var cases = [
+            ['en', 'en'],
+            ['en-US', 'en_US'],
+            ['fr-FR', 'fr_FR'],
+            ['nl-NL', 'nl_NL'],
+            ['de-DE', 'de_DE'],
+            ['nl-BE', 'nl_BE'],
+            ['pt-BR', 'pt_BR'],
+            ['ar-arb', 'ar_arb'],
+            [null, '']
+        ];
+
+        assert.expect(cases.length);
+        wproofreaderBootstrap.setLanguage = function (actual) {
+            assert.strictEqual(actual, cases.shift()[1], 'normalized language is passed to WProofreader');
+        };
+
+        try {
+            ['en', 'en-US', 'fr-FR', 'nl-NL', 'de-DE', 'nl-BE', 'pt-BR', 'ar-arb', null].forEach(function (itemLanguage) {
+                qtiCkConfigurator.setSpellcheckLanguage(itemLanguage);
+            });
+        } finally {
+            wproofreaderBootstrap.setLanguage = originalSetLanguage;
+        }
     });
 
     QUnit.test('unrelated defaults and custom options survive the merge', function (assert) {
