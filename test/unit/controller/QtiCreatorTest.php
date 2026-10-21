@@ -17,16 +17,17 @@ use Psr\Container\ContainerInterface;
 
 class QtiCreatorTest extends TestCase
 {
-    public function testEditorReceivesTenantSpellcheckConfiguration(): void
-    {
+    /**
+     * @dataProvider tenantConfigurationProvider
+     */
+    public function testEditorReceivesTenantSpellcheckConfiguration(
+        array $providers,
+        array $expectedSpellcheckConfig
+    ): void {
         $configurationService = $this->createMock(ConfigurationService::class);
         $configurationService->expects(self::once())->method('fetch')
             ->with('spellchecker.external_providers', 'tenant-id')
-            ->willReturn([[
-                'providerName' => 'wproofreader',
-                'enabled' => true,
-                'config' => ['serviceId' => 'tenant-service-id'],
-            ]]);
+            ->willReturn($providers);
         $session = $this->createMock(\common_session_Session::class);
         $session->method('getUserRoles')->willReturn([TaoRoles::BACK_OFFICE]);
         $sessionService = $this->createMock(SessionService::class);
@@ -35,7 +36,11 @@ class QtiCreatorTest extends TestCase
         $handler = new WProofreaderClientConfigHandler($configurationService, $sessionService);
         $registry = $this->createMock(ClientLibConfigRegistry::class);
         $registry->method('getMap')->willReturn([
-            'tao/ckeditor/wproofreaderBootstrap' => ['spellCheckConfig' => ['providerId' => 'native']],
+            'tao/ckeditor/wproofreaderBootstrap' => ['spellCheckConfig' => [
+                'enabled' => true,
+                'providerId' => 'wproofreader',
+                'providerConfig' => ['serviceId' => 'installed-service-id'],
+            ]],
         ]);
         $container = $this->createMock(ContainerInterface::class);
         $container->method('get')->willReturnMap([
@@ -54,13 +59,36 @@ class QtiCreatorTest extends TestCase
         $subject->method('getEventManager')->willReturn($this->createMock(EventManager::class));
         $subject->expects(self::once())->method('setData')->with(
             'config',
-            self::callback(static fn (array $config): bool => $config['properties']['spellCheckConfig'] === [
-                'enabled' => true,
-                'providerId' => 'wproofreader',
-                'providerConfig' => ['serviceId' => 'tenant-service-id'],
-            ])
+            self::callback(
+                static fn (array $config): bool =>
+                    $config['properties']['spellCheckConfig'] === $expectedSpellcheckConfig
+            )
         );
 
         $subject->index();
+    }
+
+    public function tenantConfigurationProvider(): array
+    {
+        $provider = [
+            'providerName' => 'wproofreader',
+            'enabled' => true,
+            'config' => ['serviceId' => 'tenant-service-id'],
+        ];
+        $nativeConfig = [
+            'enabled' => true,
+            'providerId' => 'native',
+            'providerConfig' => [],
+        ];
+
+        return [
+            'enabled provider' => [[$provider], [
+                'enabled' => true,
+                'providerId' => 'wproofreader',
+                'providerConfig' => ['serviceId' => 'tenant-service-id'],
+            ]],
+            'disabled provider' => [[array_replace($provider, ['enabled' => false])], $nativeConfig],
+            'absent provider' => [[], $nativeConfig],
+        ];
     }
 }
