@@ -79,6 +79,10 @@ define([
         const widget = (options.data || {}).widget,
             areaBroker = widget && widget.getAreaBroker && widget.getAreaBroker(),
             $toolbarArea = areaBroker && areaBroker.getToolbarArea && areaBroker.getToolbarArea();
+        const rootElement = widget && widget.element && _.isFunction(widget.element.getRootElement)
+            ? widget.element.getRootElement()
+            : null;
+        const itemLanguage = rootElement && rootElement.attr('xml:lang');
 
         options = _.defaults(options, _defaults);
 
@@ -121,7 +125,7 @@ define([
             }
         }
 
-        const ckConfig = {
+        const ckConfig = _.assign({
             dtdMode: 'qti',
             autoParagraph: false,
             removePlugins: removePlugins.join(','),
@@ -270,13 +274,13 @@ define([
                         ckConfig.mathJax = options.mathJax;
                     }
 
-                    e.editor.config = ckConfigurator.getConfig(e.editor, toolbarType, ckConfig);
+                    e.editor.config = ckConfigurator.getConfig(e.editor, toolbarType, ckConfig, itemLanguage);
                 },
                 afterPaste: function () {
                     //@todo : we may add some processing on the editor after paste
                 }
             }
-        };
+        }, ckConfigurator.getCkeditorConfig());
 
         return CKEditor.inline($editable[0], ckConfig);
     }
