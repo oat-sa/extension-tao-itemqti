@@ -1,0 +1,63 @@
+{
+    "name": "@oat-sa/tao-item-runner-qti",
+    "version": "2.11.4",
+    "displayName": "TAO Item Runner QTI",
+    "description": "TAO QTI Item Runner modules",
+    "files": [
+        "dist",
+        "src"
+    ],
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "test": "npx qunit-testrunner",
+        "test:keepAlive": "npx qunit-testrunner --keepalive --port 5300",
+        "test:cov": "npm run build:cov && npx qunit-testrunner --cov",
+        "coverage": "nyc report",
+        "coverage:html": "nyc report --reporter=lcov && open-cli coverage/lcov-report/index.html",
+        "coverage:clover": "nyc report --reporter=clover",
+        "build": "rollup --config ./build/rollup.config.js",
+        "build:watch": "rollup --config ./build/rollup.config.js --watch",
+        "build:cov": "rollup --config ./build/rollup.config.js --environment COVERAGE",
+        "lint:src": "eslint -c .eslintrc.js src",
+        "lint:test": "eslint -c .eslintrc.js test",
+        "lint:report": "eslint -c .eslintrc.js --output-file eslint_report.json --format json . | true"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/oat-sa/tao-item-runner-qti-fe.git"
+    },
+    "keywords": [
+        "tao",
+        "item",
+        "runner",
+        "qti",
+        "fe",
+        "frontend"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "engines": {
+        "node": ">=14.15.0",
+        "npm": ">=8.3.0"
+    },
+    "license": "GPL-2.0",
+    "bugs": {
+        "url": "https://github.com/oat-sa/tao-item-runner-qti-fe/issues"
+    },
+    "homepage": "https://github.com/oat-sa/tao-item-runner-qti-fe#readme",
+    "overrides": {
+        "@babel/traverse": "^7.28.5",
+        "istanbul-lib-instrument": "^6.0.3",
+        "rollup-plugin-handlebars-plus": {
+            "handlebars": "~4.7.9"
+        }
+    },
+    "browserslist": [
+        "extends @oat-sa/browserslist-config-tao"
+    ],
+    "prettier": "@oat-sa/prettier-config",
+    "yalcSig": "c857fd9344e389a42906e1fb8b17f9da"
+}

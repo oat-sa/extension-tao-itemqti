@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "@oat-sa/tao-item-runner-qti": {
+      "signature": "c857fd9344e389a42906e1fb8b17f9da",
+      "file": true,
+      "replaced": "^2.11.3"
+    }
+  }
+}

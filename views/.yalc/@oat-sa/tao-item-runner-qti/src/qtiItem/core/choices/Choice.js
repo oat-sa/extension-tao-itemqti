@@ -1,0 +1,24 @@
+import IdentifiedElement from 'taoQtiItem/qtiItem/core/IdentifiedElement';
+
+var Choice = IdentifiedElement.extend({
+    init: function(serial, attributes) {
+        this._super(serial, attributes);
+    },
+    is: function(qtiClass) {
+        return qtiClass === 'choice' || this._super(qtiClass);
+    },
+    getInteraction: function() {
+        var found,
+            ret = null,
+            item = this.getRootElement();
+        if (item) {
+            found = item.find(this.serial);
+            if (found) {
+                ret = found.parent;
+            }
+        }
+        return ret;
+    }
+});
+
+export default Choice;

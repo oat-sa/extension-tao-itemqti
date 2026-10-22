@@ -1,0 +1,1 @@
+{{#if block}}<span data-serial="{{serial}}" data-qti-class="math"{{#if attributes.xml:lang}} lang="{{attributes.xml:lang}}"{{/if}}><math display="block">{{{raw}}}</math></span>{{else}}<span data-serial="{{serial}}" data-qti-class="math"{{#if attributes.xml:lang}} lang="{{attributes.xml:lang}}"{{/if}}><math>{{{raw}}}</math></span>{{/if}}

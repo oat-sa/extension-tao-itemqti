@@ -1,0 +1,132 @@
+{
+    "basic": {
+        "stroke": "#8D949E",
+        "stroke-width": 2,
+        "stroke-dasharray": "",
+        "stroke-linejoin": "round",
+        "fill": "#cccccc",
+        "fill-opacity": 0.5,
+        "cursor": "pointer"
+    },
+    "hover": {
+        "stroke": "#3E7DA7",
+        "fill": "#0E5D91",
+        "fill-opacity": 0.3
+    },
+    "selectable": {
+        "stroke-dasharray": "-",
+        "stroke": "#3E7DA7",
+        "fill": "#cccccc",
+        "fill-opacity": 0.5
+    },
+    "active": {
+        "stroke": "#3E7DA7",
+        "stroke-dasharray": "",
+        "fill": "#0E5D91",
+        "fill-opacity": 0.5
+    },
+    "error": {
+        "stroke": "#C74155",
+        "stroke-dasharray": "",
+        "fill-opacity": 0.5,
+        "fill": "#661728"
+    },
+    "success": {
+        "stroke": "#C74155",
+        "stroke-dasharray": "",
+        "fill": "#0E914B",
+        "fill-opacity": 0.5
+    },
+    "layer": {
+        "fill": "#ffffff",
+        "opacity": 0,
+        "cursor": "pointer"
+    },
+    "creator": {
+        "fill-opacity": 0.5,
+        "stroke": "#3E7DA7",
+        "stroke-dasharray": "",
+        "fill": "#0E5D91",
+        "cursor": "pointer"
+    },
+    "imageset-rect-stroke": {
+        "fill": "#ffffff",
+        "stroke": "#666666",
+        "stroke-width": 1,
+        "stroke-linejoin": "round",
+        "cursor": "pointer"
+    },
+    "imageset-rect-no-stroke": {
+        "fill": "#ffffff",
+        "stroke": "#ffffff",
+        "stroke-width": 2,
+        "stroke-linejoin": "round",
+        "cursor": "pointer"
+    },
+    "imageset-img": {
+        "cursor": "pointer"
+    },
+    "order-text": {
+        "fill": "#ffffff",
+        "stroke": "#000000",
+        "stroke-width": 0.7,
+        "font-family": "sans-serif",
+        "font-weight": "bold",
+        "font-size": 22,
+        "cursor": "pointer"
+    },
+    "score-text-default": {
+        "stroke": "#444444",
+        "stroke-width": 0.5,
+        "font-family": "sans-serif",
+        "font-weight": "normal",
+        "font-size": 20,
+        "cursor": "pointer"
+    },
+    "score-text": {
+        "stroke": "#000000",
+        "stroke-width": 0.5,
+        "font-family": "sans-serif",
+        "font-weight": "normal",
+        "font-size": 20,
+        "cursor": "pointer"
+    },
+    "small-text": {
+        "stroke": "#000000",
+        "stroke-width": 0.5,
+        "font-family": "sans-serif",
+        "font-weight": "normal",
+        "font-size": 16,
+        "cursor": "pointer"
+    },
+    "layer-pos-text": {
+        "stroke": "#333",
+        "stroke-width": 0.5,
+        "font-family": "sans-serif",
+        "font-weight": "normal",
+        "font-size": 14
+    },
+    "target": {
+        "path": "m 18,8.4143672 -1.882582,0 C 15.801891,4.9747852 13.071059,2.2344961 9.63508,1.9026738 L 9.63508,0 8.2305176,0 l 0,1.9026387 C 4.7947148,2.2343027 2.0637246,4.9746621 1.7481973,8.4143672 l -1.7481973,0 0,1.4045625 1.754877,0 c 0.3460429,3.4066753 3.0632871,6.1119843 6.4756406,6.4413813 l 0,1.739689 1.4045624,0 0,-1.739725 c 3.412547,-0.329537 6.129633,-3.034793 6.475641,-6.4413453 l 1.889279,0 z m -8.36492,6.5188648 0,-4.064673 -1.4045624,0 0,4.063882 C 5.5511016,14.612555 3.4232695,12.494619 3.0864551,9.8189297 l 4.0449512,0 0,-1.4045625 -4.0546368,0 C 3.3788672,5.6984941 5.5228887,3.5393379 8.2305176,3.2161113 l 0,3.9153125 1.4045624,0 0,-3.9160859 c 2.711162,0.3203965 4.858576,2.4808887 5.160955,5.1990293 l -3.927441,0 0,1.4045625 3.917773,0 C 14.449289,12.496957 12.318363,14.616158 9.63508,14.933232 z",
+        "fill": "#0E914B",
+        "width": 1,
+        "stroke-width": 0,
+        "cursor": "pointer"
+    },
+    "target-hover": {
+        "fill": "#3E7DA7",
+        "fill-opacity": 1
+    },
+    "target-success": {
+        "fill": "#0E914B",
+        "fill-opacity": 1
+    },
+    "close": {
+        "path": "M9.71875 8.20312L13.5938 12.0625C13.6875 12.1562 13.7344 12.2708 13.7344 12.4062C13.7344 12.5312 13.6875 12.6354 13.5938 12.7188L12.5625 13.75C12.4688 13.8438 12.3594 13.8906 12.2344 13.8906C12.1094 13.8906 12 13.8438 11.9062 13.75L8.03125 9.875L4.17188 13.75C4.07812 13.8438 3.96354 13.8906 3.82812 13.8906C3.70312 13.8906 3.59896 13.8438 3.51562 13.75L2.48438 12.7188C2.39062 12.6354 2.34375 12.5312 2.34375 12.4062C2.34375 12.2708 2.39062 12.1562 2.48438 12.0625L6.35938 8.20312L2.48438 4.32812C2.39062 4.23438 2.34375 4.125 2.34375 4C2.34375 3.86458 2.39062 3.75521 2.48438 3.67188L3.51562 2.64062C3.59896 2.54688 3.70312 2.5 3.82812 2.5C3.96354 2.5 4.07812 2.54688 4.17188 2.64062L8.03125 6.51562L11.9062 2.64062C12 2.54688 12.1094 2.5 12.2344 2.5C12.3594 2.5 12.4688 2.54688 12.5625 2.64062L13.5938 3.67188C13.6875 3.75521 13.7344 3.86458 13.7344 4C13.7344 4.125 13.6875 4.23438 13.5938 4.32812L9.71875 8.20312Z"
+    },
+    "touch-circle": {
+        "fill": "none",
+        "stroke": "#3E7DA7",
+        "stroke-width": 2
+    }
+}
