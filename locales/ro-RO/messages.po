@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-08-13 08:57\n"
+"PO-Revision-Date: 2026-10-23 14:58\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -145,6 +145,9 @@ msgstr "Adăugați o alegere"
 
 msgid "Add else feedback"
 msgstr "Adăugați alte păreri"
+
+msgid "Add file(s)"
+msgstr "Adaugă fișier(e)"
 
 msgid "Add level"
 msgstr ""
@@ -448,6 +451,12 @@ msgstr "Selector culoare"
 
 msgid "Column separator"
 msgstr "Separator coloană"
+
+msgid "Comments"
+msgstr "Comentarii"
+
+msgid "Comments apply to the whole item."
+msgstr "Comentariile se aplică la întregul element."
 
 msgid "Common Interactions"
 msgstr "Interacţiuni frecvente"
@@ -1283,6 +1292,15 @@ msgstr "MathJax nu este instalat."
 
 msgid "MathML"
 msgstr "MathML"
+
+msgid "MathType"
+msgstr "Matematică"
+
+msgid "MathType availability"
+msgstr "Disponibilitatea MathType"
+
+msgid "MathType is currently enabled for your organization. Depending on usage, a separate licence may be required. Contact your account administrator for more information."
+msgstr "MathType este momentan activat pentru organizația dvs. În funcție de utilizare, poate fi necesară o licență separată. Contactați administratorul contului dvs. pentru mai multe informații."
 
 msgid "Max"
 msgstr "Maxim"
@@ -2196,6 +2214,9 @@ msgstr "Numărul maxim de asocieri este nelimitat."
 
 msgid "The maximum number of associations that the candidate is allowed to make."
 msgstr "Numărul maxim de asociații pe care candidatul poate să le facă."
+
+msgid "The maximum number of associations that the candidate is required to make to form a valid response."
+msgstr "Numărul maxim de asociații pe care candidatul trebuie să le facă pentru a forma un răspuns valabil."
 
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "Numărul maxim de opțiuni pe care candidatul poate să le selecteze."
