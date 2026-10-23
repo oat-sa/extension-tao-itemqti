@@ -7,10 +7,11 @@ $ggm-top-bay-offset: -130px;
 $ggm-text-choice-min-width: 75px;
 $ggm-text-choice-max-width: 150px;
 $ggm-text-choice-min-height: 60px;
+$ggm-text-choice-inner-padding: 8px;
 $ggm-text-font-size: 14px;
 $ggm-text-line-height: 1.25;
 $ggm-text-line-height-px: ceil($ggm-text-font-size * $ggm-text-line-height);
-$ggm-side-bay-width: max($ggm-bay-pad, $ggm-text-choice-max-width + 8px);
+$ggm-side-bay-width: $ggm-bay-pad;
 $ggm-add-menu-width: 144px;
 $ggm-add-menu-height: 80px;
 $ggm-add-menu-trigger-gap: 8px;
@@ -21,6 +22,28 @@ $ggm-add-menu-border-color: #a4bbc5;
     .image-editor.solid {
         position: relative;
         overflow: visible;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    ul.block-listing.horizontal.source {
+        min-width: 0;
+    }
+
+    &.qti-choices-left,
+    &.qti-choices-right {
+        ul.block-listing.horizontal.source,
+        ul.source {
+            width: $ggm-bay-pad !important;
+            max-width: $ggm-bay-pad !important;
+        }
+
+        ul.source > li.qti-gapText,
+        ul.source > li.qti-gapImg.qti-gapText {
+            width: $ggm-choice-size !important;
+            min-width: $ggm-choice-size !important;
+            max-width: $ggm-choice-size !important;
+        }
     }
 
     .graphic-gap-add-options-flyout {
@@ -131,33 +154,34 @@ $ggm-add-menu-border-color: #a4bbc5;
             max-height: 60px;
         }
 
-        &.qti-gapText {
+        &.qti-gapText,
+        &.qti-gapImg.qti-gapText {
+            // Override .block-listing > li { padding: 5px }; inner inset uses $ggm-text-choice-inner-padding.
+            padding: 0 !important;
+            line-height: $ggm-text-line-height !important;
+            min-width: $ggm-text-choice-min-width !important;
+            text-align: center;
+
+            &::after,
+            &::before {
+                content: none !important;
+            }
             position: relative;
             flex: 0 0 auto !important;
             flex-shrink: 0 !important;
             width: $ggm-text-choice-min-width;
             min-width: $ggm-text-choice-min-width;
             max-width: $ggm-text-choice-max-width;
-            height: auto;
+            height: $ggm-text-choice-min-height;
             min-height: $ggm-text-choice-min-height;
-            max-height: none;
-            overflow: visible;
+            max-height: $ggm-text-choice-min-height;
+            overflow: hidden;
             box-sizing: border-box;
-            border: 1px solid $itemCreatorAddOptionBorderColor !important;
-            background: $itemCreatorAddOptionBgColor;
+            // Border / hover / active: shared with .qti-gapImg in qti/_graphic-gap.scss
             box-shadow: none !important;
             word-break: break-word;
             font-size: $ggm-text-font-size;
             line-height: $ggm-text-line-height;
-
-            &.active {
-                border: 1px solid $itemCreatorAddOptionBorderColor;
-                box-shadow: none;
-
-                .gap-text-label-wrap {
-                    justify-content: flex-start;
-                }
-            }
 
             .gap-text-label-wrap {
                 position: absolute;
@@ -168,27 +192,29 @@ $ggm-add-menu-border-color: #a4bbc5;
                 z-index: 0;
                 display: flex;
                 flex-direction: column;
-                align-items: center;
-                justify-content: center;
+                align-items: stretch;
+                justify-content: flex-start;
                 min-width: 0;
                 min-height: 0;
-                padding: 2px;
+                padding: $ggm-text-choice-inner-padding;
                 box-sizing: border-box;
+                overflow: hidden;
             }
 
             .gap-text-label {
                 display: block;
-                flex: 0 1 auto;
+                flex: 1 1 auto;
                 width: 100%;
                 min-width: 0;
                 min-inline-size: 0 !important;
                 max-inline-size: none !important;
-                min-height: $ggm-text-line-height-px;
-                height: auto;
-                max-height: none;
+                min-height: 0;
+                height: 100%;
+                max-height: 100%;
                 margin: 0;
                 padding: 0 !important;
                 overflow-x: hidden;
+                overflow-y: auto;
                 resize: none;
                 border: 0 !important;
                 background: transparent !important;
@@ -216,6 +242,23 @@ $ggm-add-menu-border-color: #a4bbc5;
                 &::placeholder {
                     color: whiten($info, 0.35);
                     opacity: 1;
+                }
+            }
+
+            &.gap-text-tile-expanded {
+                height: auto;
+                max-height: none;
+                overflow: visible;
+
+                .gap-text-label-wrap {
+                    overflow: visible;
+                }
+
+                .gap-text-label {
+                    flex: 0 1 auto;
+                    height: auto;
+                    max-height: none;
+                    overflow-y: hidden;
                 }
             }
 
@@ -266,6 +309,45 @@ $ggm-add-menu-border-color: #a4bbc5;
     .graphic-gap-add-options-flyout {
         z-index: 1001;
     }
+
+    // Top bay in-flow (no negative top); keep image-sidebar visible (absolute, left offset).
+    &.qti-choices-top {
+        overflow: visible;
+
+        .image-editor.solid {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            overflow: visible;
+            min-height: 0;
+        }
+
+        .image-sidebar {
+            z-index: 1002;
+        }
+
+        ul.block-listing.horizontal.source,
+        ul.source {
+            position: relative;
+            top: auto !important;
+            left: auto !important;
+            order: -1;
+            flex: 0 0 auto;
+            width: 100%;
+            max-width: 100%;
+            margin: 0 0 5px;
+            z-index: 1;
+        }
+
+        .main-image-box {
+            flex: 0 0 auto;
+            order: 0;
+        }
+
+        .placed-fillers {
+            order: 0;
+        }
+    }
 }
 
 @mixin ggm-fixed-choice-tile {
@@ -300,25 +382,49 @@ $ggm-add-menu-border-color: #a4bbc5;
     }
 }
 
+@mixin ggm-gap-text-content-height-tile {
+    flex: 0 0 auto !important;
+    flex-shrink: 0 !important;
+    width: auto !important;
+    min-width: $ggm-text-choice-min-width !important;
+    max-width: $ggm-text-choice-max-width !important;
+    height: auto !important;
+    min-height: $ggm-text-choice-min-height !important;
+    max-height: none !important;
+    overflow: hidden;
+    line-height: normal;
+
+    .gap-text-label-wrap {
+        position: relative;
+        overflow: visible;
+    }
+
+    .gap-text-label {
+        flex: 0 1 auto;
+        height: auto;
+        max-height: none;
+        overflow-y: hidden;
+    }
+}
+
+.widget-box:not(.edit-question) .qti-graphicGapMatchInteraction {
+    ul.source > li.qti-gapText {
+        @include ggm-fixed-choice-tile;
+    }
+}
+
 .widget-box .qti-graphicGapMatchInteraction {
     &.qti-choices-top,
-    &.qti-choices-bottom,
+    &.qti-choices-bottom {
+        ul.source > li:not(.qti-gapText) {
+            @include ggm-fixed-choice-tile;
+        }
+    }
+
     &.qti-choices-left,
     &.qti-choices-right {
         ul.source > li:not(.qti-gapText) {
             @include ggm-fixed-choice-tile;
-        }
-
-        ul.source > li.qti-gapText {
-            flex: 0 0 auto !important;
-            flex-shrink: 0 !important;
-            width: auto !important;
-            min-width: $ggm-text-choice-min-width !important;
-            max-width: $ggm-text-choice-max-width !important;
-            min-height: $ggm-text-choice-min-height;
-            max-height: none;
-            overflow: visible;
-            line-height: normal;
         }
     }
 
@@ -328,44 +434,34 @@ $ggm-add-menu-border-color: #a4bbc5;
             display: flex;
             flex-direction: row;
             max-height: none;
+            min-width: 0;
             overflow-x: auto;
             overflow-y: visible;
+            -webkit-overflow-scrolling: touch;
             flex-wrap: nowrap;
             align-items: flex-start;
-
-            &.graphic-gap-add-menu-open {
-                overflow: visible;
-            }
-        }
-    }
-
-    &.qti-choices-top {
-        ul.source {
-            top: $ggm-top-bay-offset;
-            left: -8px;
         }
     }
 
     &.qti-choices-left,
     &.qti-choices-right {
         ul.source {
-            width: $ggm-side-bay-width;
-            max-width: $ggm-side-bay-width;
+            width: $ggm-bay-pad !important;
+            max-width: $ggm-bay-pad !important;
             max-height: 100%;
             overflow-x: hidden;
             overflow-y: auto;
             flex-wrap: nowrap;
             align-items: center;
-
-            &.graphic-gap-add-menu-open {
-                overflow: visible;
-            }
         }
     }
 
     &.qti-choices-left {
+        ul.block-listing.horizontal.source,
         ul.source {
+            top: 214px;
             left: -$ggm-bay-pad - 8px;
+            z-index: 1001;
         }
     }
 
@@ -376,7 +472,69 @@ $ggm-add-menu-border-color: #a4bbc5;
     }
 }
 
-.widget-box.edit-sleep .qti-graphicGapMatchInteraction.qti-choices-top ul.source {
-    top: -84px;
-    left: -6px;
+.widget-box.edit-sleep .qti-graphicGapMatchInteraction.qti-choices-top {
+    ul.block-listing.horizontal.source,
+    ul.source {
+        top: auto !important;
+        left: auto !important;
+    }
+}
+
+.widget-box.edit-question .qti-graphicGapMatchInteraction {
+    &.qti-choices-top,
+    &.qti-choices-bottom,
+    &.qti-choices-left,
+    &.qti-choices-right {
+        ul.block-listing.horizontal.source,
+        ul.source {
+            max-height: none;
+            overflow-y: visible;
+            align-items: flex-start;
+        }
+
+        ul.source > li.qti-gapText,
+        ul.source > li.qti-gapText.gap-text-tile-expanded {
+            @include ggm-gap-text-content-height-tile;
+        }
+    }
+
+    &.qti-choices-left,
+    &.qti-choices-right {
+        ul.source > li.qti-gapText,
+        ul.source > li.qti-gapText.gap-text-tile-expanded {
+            width: $ggm-choice-size !important;
+            min-width: $ggm-choice-size !important;
+            max-width: $ggm-choice-size !important;
+        }
+    }
+}
+
+.widget-box:not(.edit-question) .qti-graphicGapMatchInteraction {
+    &.qti-choices-top,
+    &.qti-choices-bottom {
+        ul.source {
+            max-height: $ggm-bay-pad;
+            overflow-y: hidden;
+        }
+    }
+}
+
+// Source bay: inner label must not steal hover/clicks from the tile (li), like gapImg on <img>.
+.widget-box .qti-graphicGapMatchInteraction ul.source > li.qti-gapText {
+    .gap-text-label-wrap,
+    .gap-text-label {
+        pointer-events: none;
+    }
+
+    &.active .gap-text-label-wrap,
+    &.active .gap-text-label {
+        pointer-events: auto;
+    }
+}
+
+.widget-box:not(.edit-question) .qti-graphicGapMatchInteraction ul.source > li.qti-gapText {
+    &.active .gap-text-label-wrap,
+    &.active .gap-text-label {
+        pointer-events: none;
+    }
 }
