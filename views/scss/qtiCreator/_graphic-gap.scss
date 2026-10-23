@@ -155,24 +155,11 @@ $ggm-add-menu-border-color: #a4bbc5;
             max-height: $ggm-text-choice-min-height;
             overflow: hidden;
             box-sizing: border-box;
-            // Source bay: match gapImg — no visible idle border; brand on hover/active only.
-            border: 1px solid transparent !important;
-            background: white();
+            // Border / hover / active: shared with .qti-gapImg in qti/_graphic-gap.scss
             box-shadow: none !important;
             word-break: break-word;
             font-size: $ggm-text-font-size;
             line-height: $ggm-text-line-height;
-
-            @media (hover: hover) {
-                &:not(.active):not(.dragged):hover {
-                    border-color: $colorBrand !important;
-                }
-            }
-
-            &.active:not(.dragged) {
-                border-color: $colorBrand !important;
-                box-shadow: none;
-            }
 
             .gap-text-label-wrap {
                 position: absolute;
