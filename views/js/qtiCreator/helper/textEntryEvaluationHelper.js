@@ -368,7 +368,7 @@ define([
             }
 
             if (!primaryTextEntry.attr(DATA_CASE_SENSITIVE)) {
-                primaryTextEntry.attr(DATA_CASE_SENSITIVE, 'false');
+                primaryTextEntry.attr(DATA_CASE_SENSITIVE, 'true');
             }
         } else {
             clearUmfiResponseProcessing(interaction);
@@ -1186,9 +1186,7 @@ define([
      * @returns {boolean}
      */
     const isCaseSensitive = function isCaseSensitive(interaction) {
-        const primaryTextEntry = getPrimaryTextEntryForInteraction(interaction);
-
-        return !!(primaryTextEntry && primaryTextEntry.attr(DATA_CASE_SENSITIVE) === 'true');
+        return isUmfiEnabled(interaction);
     };
 
     /**
@@ -1256,12 +1254,12 @@ define([
             setLexicalGroups(interaction, config.lexicalGroups);
         }
 
-        if (!_.isUndefined(config.caseSensitive)) {
-            setCaseSensitive(interaction, config.caseSensitive);
-        }
-
         if (!_.isUndefined(config.allowLexicalFieldsOnScoring)) {
             setAllowLexicalFieldsOnScoring(interaction, config.allowLexicalFieldsOnScoring);
+        }
+
+        if (isUmfiEnabled(interaction)) {
+            setCaseSensitive(interaction, true);
         }
 
         syncResponseProcessing(interaction, {
