@@ -11,7 +11,7 @@ $ggm-text-choice-inner-padding: 8px;
 $ggm-text-font-size: 14px;
 $ggm-text-line-height: 1.25;
 $ggm-text-line-height-px: ceil($ggm-text-font-size * $ggm-text-line-height);
-$ggm-side-bay-width: max($ggm-bay-pad, $ggm-text-choice-max-width + 8px);
+$ggm-side-bay-width: $ggm-bay-pad;
 $ggm-add-menu-width: 144px;
 $ggm-add-menu-height: 80px;
 $ggm-add-menu-trigger-gap: 8px;
@@ -28,6 +28,22 @@ $ggm-add-menu-border-color: #a4bbc5;
 
     ul.block-listing.horizontal.source {
         min-width: 0;
+    }
+
+    &.qti-choices-left,
+    &.qti-choices-right {
+        ul.block-listing.horizontal.source,
+        ul.source {
+            width: $ggm-bay-pad !important;
+            max-width: $ggm-bay-pad !important;
+        }
+
+        ul.source > li.qti-gapText,
+        ul.source > li.qti-gapImg.qti-gapText {
+            width: $ggm-choice-size !important;
+            min-width: $ggm-choice-size !important;
+            max-width: $ggm-choice-size !important;
+        }
     }
 
     .graphic-gap-add-options-flyout {
@@ -293,6 +309,45 @@ $ggm-add-menu-border-color: #a4bbc5;
     .graphic-gap-add-options-flyout {
         z-index: 1001;
     }
+
+    // Top bay in-flow (no negative top); keep image-sidebar visible (absolute, left offset).
+    &.qti-choices-top {
+        overflow: visible;
+
+        .image-editor.solid {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            overflow: visible;
+            min-height: 0;
+        }
+
+        .image-sidebar {
+            z-index: 1002;
+        }
+
+        ul.block-listing.horizontal.source,
+        ul.source {
+            position: relative;
+            top: auto !important;
+            left: auto !important;
+            order: -1;
+            flex: 0 0 auto;
+            width: 100%;
+            max-width: 100%;
+            margin: 0 0 5px;
+            z-index: 1;
+        }
+
+        .main-image-box {
+            flex: 0 0 auto;
+            order: 0;
+        }
+
+        .placed-fillers {
+            order: 0;
+        }
+    }
 }
 
 @mixin ggm-fixed-choice-tile {
@@ -327,42 +382,49 @@ $ggm-add-menu-border-color: #a4bbc5;
     }
 }
 
+@mixin ggm-gap-text-content-height-tile {
+    flex: 0 0 auto !important;
+    flex-shrink: 0 !important;
+    width: auto !important;
+    min-width: $ggm-text-choice-min-width !important;
+    max-width: $ggm-text-choice-max-width !important;
+    height: auto !important;
+    min-height: $ggm-text-choice-min-height !important;
+    max-height: none !important;
+    overflow: hidden;
+    line-height: normal;
+
+    .gap-text-label-wrap {
+        position: relative;
+        overflow: visible;
+    }
+
+    .gap-text-label {
+        flex: 0 1 auto;
+        height: auto;
+        max-height: none;
+        overflow-y: hidden;
+    }
+}
+
+.widget-box:not(.edit-question) .qti-graphicGapMatchInteraction {
+    ul.source > li.qti-gapText {
+        @include ggm-fixed-choice-tile;
+    }
+}
+
 .widget-box .qti-graphicGapMatchInteraction {
     &.qti-choices-top,
-    &.qti-choices-bottom,
+    &.qti-choices-bottom {
+        ul.source > li:not(.qti-gapText) {
+            @include ggm-fixed-choice-tile;
+        }
+    }
+
     &.qti-choices-left,
     &.qti-choices-right {
         ul.source > li:not(.qti-gapText) {
             @include ggm-fixed-choice-tile;
-        }
-
-        ul.source > li.qti-gapText {
-            flex: 0 0 auto !important;
-            flex-shrink: 0 !important;
-            width: auto !important;
-            min-width: $ggm-text-choice-min-width !important;
-            max-width: $ggm-text-choice-max-width !important;
-            height: $ggm-text-choice-min-height !important;
-            min-height: $ggm-text-choice-min-height !important;
-            max-height: $ggm-text-choice-min-height !important;
-            overflow: hidden;
-            line-height: normal;
-        }
-
-        ul.source > li.qti-gapText.gap-text-tile-expanded {
-            height: auto !important;
-            max-height: none !important;
-            overflow: visible;
-
-            .gap-text-label-wrap {
-                overflow: visible;
-            }
-
-            .gap-text-label {
-                flex: 0 1 auto;
-                height: auto;
-                max-height: none;
-            }
         }
     }
 
@@ -381,18 +443,11 @@ $ggm-add-menu-border-color: #a4bbc5;
         }
     }
 
-    &.qti-choices-top {
-        ul.source {
-            top: $ggm-top-bay-offset;
-            left: -8px;
-        }
-    }
-
     &.qti-choices-left,
     &.qti-choices-right {
         ul.source {
-            width: $ggm-side-bay-width;
-            max-width: $ggm-side-bay-width;
+            width: $ggm-bay-pad !important;
+            max-width: $ggm-bay-pad !important;
             max-height: 100%;
             overflow-x: hidden;
             overflow-y: auto;
@@ -402,8 +457,11 @@ $ggm-add-menu-border-color: #a4bbc5;
     }
 
     &.qti-choices-left {
+        ul.block-listing.horizontal.source,
         ul.source {
+            top: 214px;
             left: -$ggm-bay-pad - 8px;
+            z-index: 1001;
         }
     }
 
@@ -414,9 +472,51 @@ $ggm-add-menu-border-color: #a4bbc5;
     }
 }
 
-.widget-box.edit-sleep .qti-graphicGapMatchInteraction.qti-choices-top ul.source {
-    top: -84px;
-    left: -6px;
+.widget-box.edit-sleep .qti-graphicGapMatchInteraction.qti-choices-top {
+    ul.block-listing.horizontal.source,
+    ul.source {
+        top: auto !important;
+        left: auto !important;
+    }
+}
+
+.widget-box.edit-question .qti-graphicGapMatchInteraction {
+    &.qti-choices-top,
+    &.qti-choices-bottom,
+    &.qti-choices-left,
+    &.qti-choices-right {
+        ul.block-listing.horizontal.source,
+        ul.source {
+            max-height: none;
+            overflow-y: visible;
+            align-items: flex-start;
+        }
+
+        ul.source > li.qti-gapText,
+        ul.source > li.qti-gapText.gap-text-tile-expanded {
+            @include ggm-gap-text-content-height-tile;
+        }
+    }
+
+    &.qti-choices-left,
+    &.qti-choices-right {
+        ul.source > li.qti-gapText,
+        ul.source > li.qti-gapText.gap-text-tile-expanded {
+            width: $ggm-choice-size !important;
+            min-width: $ggm-choice-size !important;
+            max-width: $ggm-choice-size !important;
+        }
+    }
+}
+
+.widget-box:not(.edit-question) .qti-graphicGapMatchInteraction {
+    &.qti-choices-top,
+    &.qti-choices-bottom {
+        ul.source {
+            max-height: $ggm-bay-pad;
+            overflow-y: hidden;
+        }
+    }
 }
 
 // Source bay: inner label must not steal hover/clicks from the tile (li), like gapImg on <img>.

@@ -25,6 +25,7 @@ $ggm-text-choice-inner-padding: 8px;
 
     ul.source {
         width: 100%;
+        max-width: 100%;
         margin: 10px auto;
         padding: 3px !important;
         clear: both;
@@ -67,6 +68,26 @@ $ggm-text-choice-inner-padding: 8px;
             -webkit-overflow-scrolling: touch;
             min-width: 0;
         }
+
+        ul.source > li.qti-gapText {
+            width: auto;
+            min-width: 75px;
+            max-width: 150px;
+            height: 60px;
+            min-height: 60px;
+            max-height: 60px;
+            flex-shrink: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+            text-align: center;
+            @include font-size(14);
+            line-height: 1.25;
+            box-sizing: border-box;
+            position: relative;
+            cursor: pointer;
+        }
     }
 
     &.qti-choices-top {
@@ -99,27 +120,6 @@ $ggm-text-choice-inner-padding: 8px;
             line-height: normal;
         }
 
-        ul.source > li.qti-gapText {
-            width: auto;
-            min-width: 75px;
-            max-width: 150px;
-            height: 60px;
-            min-height: 60px;
-            max-height: 60px;
-            flex-shrink: 0;
-            overflow-x: hidden;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            word-break: break-word;
-            overflow-wrap: anywhere;
-            text-align: center;
-            @include font-size(14);
-            line-height: 1.25;
-            box-sizing: border-box;
-            position: relative;
-            cursor: pointer;
-        }
-
         ul.source .qti-gapImg img {
             width: auto !important;
             height: auto !important;
@@ -132,6 +132,7 @@ $ggm-text-choice-inner-padding: 8px;
 
     &.qti-choices-left,
     &.qti-choices-right {
+        ul.block-listing.horizontal.source,
         ul.source {
             position: absolute;
             top: 2px;
@@ -147,13 +148,21 @@ $ggm-text-choice-inner-padding: 8px;
             max-width: 124px;
             margin: 0;
             padding: 5px !important;
+
+            > li.qti-gapText {
+                width: 60px;
+                min-width: 60px;
+                max-width: 60px;
+            }
         }
     }
 
     &.qti-choices-left {
+        ul.block-listing.horizontal.source,
         ul.source {
             top: 214px;
             left: -120px;
+            z-index: 1001;
         }
     }
 

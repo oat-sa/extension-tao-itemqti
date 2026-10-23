@@ -183,6 +183,7 @@ define([
 
         _.forEach(interaction.getGapImgs(), setUpGapImg);
         _.forEach(interaction.getGapTexts(), setUpGapText);
+        gapTextTileLayout.syncAllGapTextTilesInList($('ul.source', widget.$original));
 
         createGapAddOption();
 
@@ -1106,7 +1107,11 @@ define([
 
         bgImage.setChangeCallbacks(widget, formElement, {
             position: function (interaction, value) {
+                const $gapList = $('ul.source', widget.$original);
+
                 applyPosition(value);
+                $gapList.find('li.qti-gapText').removeClass('active gap-text-tile-expanded');
+                gapTextTileLayout.syncAllGapTextTilesInList($gapList);
             }
         });
     };
