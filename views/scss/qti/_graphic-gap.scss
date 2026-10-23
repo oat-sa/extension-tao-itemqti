@@ -41,6 +41,23 @@ $ggm-text-choice-inner-padding: 8px;
                 background-color: $colorBrandLight;
             }
         }
+
+        // Source-bay gap text: no idle border; brand border on hover/active only (like gapImg selection UX).
+        > li.qti-gapText:not(.add-option):not(.placed),
+        > li.qti-gapImg.qti-gapText:not(.add-option):not(.placed) {
+            border: 1px solid transparent !important;
+            background: white();
+
+            @media (hover: hover) {
+                &:not(.active):not(.dragged):hover {
+                    border-color: $colorBrand !important;
+                }
+            }
+
+            &.active:not(.dragged) {
+                border-color: $colorBrand !important;
+            }
+        }
     }
 
     // Keep top/bottom choice bay on the physical left in both LTR and RTL
@@ -89,7 +106,34 @@ $ggm-text-choice-inner-padding: 8px;
             width: auto;
             min-width: 75px;
             max-width: 150px;
+            height: 60px;
+            min-height: 60px;
+            max-height: 60px;
             flex-shrink: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+            text-align: center;
+            @include font-size(14);
+            line-height: 1.25;
+            box-sizing: border-box;
+            position: relative;
+            cursor: pointer;
+
+            border: 1px solid transparent !important;
+            background: white();
+
+            @media (hover: hover) {
+                &:not(.active):not(.dragged):hover {
+                    border-color: $colorBrand !important;
+                }
+            }
+
+            &.active:not(.dragged) {
+                border-color: $colorBrand !important;
+            }
         }
 
         ul.source .qti-gapImg img {
@@ -140,6 +184,21 @@ $ggm-text-choice-inner-padding: 8px;
         position: absolute;
         top: 2px;
         left: 2px;
+    }
+
+    ul.source > li.qti-gapImg.qti-gapText:not(.add-option):not(.placed) {
+        line-height: 1.25;
+        min-width: 75px;
+        width: auto;
+        max-width: 150px;
+        padding: 0 !important;
+        border: 1px solid transparent !important;
+        background: white();
+
+        &::after,
+        &::before {
+            content: none !important;
+        }
     }
 
     .qti-gapImg {
@@ -261,29 +320,38 @@ $ggm-text-choice-inner-padding: 8px;
             flex-direction: column;
             align-items: stretch;
             justify-content: flex-start;
-            padding: $ggm-text-choice-inner-padding;
+            padding: 0;
+            margin: 0 !important;
             overflow: hidden;
             box-sizing: border-box;
-            border: 1px solid #3e7da7 !important;
+            border-color: $colorLight !important;
             background-color: #e7eff4;
             color: darken($info, 12%);
             text-align: center;
             opacity: 1;
 
+            // Match placed gapImg chrome (brand header bar + remove affordance on hover).
             &:after {
-                border-top-width: 1px;
-                background: #e7eff4;
+                opacity: 1;
+            }
+
+            &:before {
+                content: none;
             }
 
             .placed-gap-text-label {
-                display: block;
+                display: flex;
                 flex: 1 1 auto;
+                align-items: center;
+                justify-content: center;
                 min-height: 0;
                 white-space: pre-wrap;
                 word-break: break-word;
                 overflow-wrap: anywhere;
                 width: 100%;
                 max-height: 100%;
+                padding: 22px $ggm-text-choice-inner-padding $ggm-text-choice-inner-padding;
+                box-sizing: border-box;
                 overflow-x: hidden;
                 overflow-y: auto;
                 pointer-events: auto;
@@ -331,7 +399,12 @@ $ggm-text-choice-inner-padding: 8px;
 
         .placed-fillers:not(.selectable) .qti-gapText.placed:not(.dragged):not(.no-hover):hover {
             &:after {
-                background: #e7eff4;
+                opacity: 1;
+            }
+
+            &:before {
+                @include gapimg-icon;
+                @include icon-result-nok;
             }
         }
     }
@@ -364,12 +437,40 @@ $ggm-text-choice-inner-padding: 8px;
     }
 }
 
-.widget-box .qti-graphicGapMatchInteraction .qti-gapImg {
-    &.selectable,
-    &.active {
-        &:after,
-        &:before {
-            content: none;
+// Item editor (Question + Response): source-bay hover/selection border-only, like legacy gapImg UX.
+.widget-box .qti-graphicGapMatchInteraction ul.source {
+    > li.qti-gapText:not(.add-option):not(.placed),
+    > li.qti-gapImg.qti-gapText:not(.add-option):not(.placed) {
+        border: 1px solid transparent !important;
+        background: white();
+    }
+
+    > li.qti-gapImg.selectable:not(.active):not(.qti-gapText),
+    > li.qti-gapText:not(.add-option):not(.active),
+    > li.qti-gapImg.qti-gapText:not(.add-option):not(.active) {
+        @media (hover: hover) {
+            &:hover {
+                border-color: $colorBrand !important;
+            }
+        }
+    }
+
+    > li.qti-gapImg.active:not(.dragged),
+    > li.qti-gapText:not(.add-option):not(.placed).active:not(.dragged),
+    > li.qti-gapImg.qti-gapText:not(.add-option):not(.placed).active:not(.dragged) {
+        border-color: $colorBrand !important;
+    }
+}
+
+.widget-box .qti-graphicGapMatchInteraction {
+    ul.source > li.qti-gapText,
+    .qti-gapImg {
+        &.selectable,
+        &.active {
+            &:after,
+            &:before {
+                content: none;
+            }
         }
     }
 }

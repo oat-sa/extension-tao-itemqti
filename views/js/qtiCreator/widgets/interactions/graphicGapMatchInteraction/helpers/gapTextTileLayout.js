@@ -214,7 +214,7 @@ define(['jquery', 'i18n'], function ($, __) {
                     minHeight: '0',
                     maxHeight: '100%',
                     overflowX: 'hidden',
-                    overflowY: 'hidden'
+                    overflowY: 'auto'
                 });
             }
         }

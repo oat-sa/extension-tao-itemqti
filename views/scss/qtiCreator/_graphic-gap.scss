@@ -132,9 +132,18 @@ $ggm-add-menu-border-color: #a4bbc5;
             max-height: 60px;
         }
 
-        &.qti-gapText {
+        &.qti-gapText,
+        &.qti-gapImg.qti-gapText {
             // Override .block-listing > li { padding: 5px }; inner inset uses $ggm-text-choice-inner-padding.
             padding: 0 !important;
+            line-height: $ggm-text-line-height !important;
+            min-width: $ggm-text-choice-min-width !important;
+            text-align: center;
+
+            &::after,
+            &::before {
+                content: none !important;
+            }
             position: relative;
             flex: 0 0 auto !important;
             flex-shrink: 0 !important;
@@ -146,15 +155,22 @@ $ggm-add-menu-border-color: #a4bbc5;
             max-height: $ggm-text-choice-min-height;
             overflow: hidden;
             box-sizing: border-box;
-            border: 1px solid $itemCreatorAddOptionBorderColor !important;
-            background: $itemCreatorAddOptionBgColor;
+            // Source bay: match gapImg — no visible idle border; brand on hover/active only.
+            border: 1px solid transparent !important;
+            background: white();
             box-shadow: none !important;
             word-break: break-word;
             font-size: $ggm-text-font-size;
             line-height: $ggm-text-line-height;
 
-            &.active {
-                border: 1px solid $itemCreatorAddOptionBorderColor;
+            @media (hover: hover) {
+                &:not(.active):not(.dragged):hover {
+                    border-color: $colorBrand !important;
+                }
+            }
+
+            &.active:not(.dragged) {
+                border-color: $colorBrand !important;
                 box-shadow: none;
             }
 
@@ -189,7 +205,7 @@ $ggm-add-menu-border-color: #a4bbc5;
                 margin: 0;
                 padding: 0 !important;
                 overflow-x: hidden;
-                overflow-y: hidden;
+                overflow-y: auto;
                 resize: none;
                 border: 0 !important;
                 background: transparent !important;
@@ -233,6 +249,7 @@ $ggm-add-menu-border-color: #a4bbc5;
                     flex: 0 1 auto;
                     height: auto;
                     max-height: none;
+                    overflow-y: hidden;
                 }
             }
 
@@ -413,4 +430,24 @@ $ggm-add-menu-border-color: #a4bbc5;
 .widget-box.edit-sleep .qti-graphicGapMatchInteraction.qti-choices-top ul.source {
     top: -84px;
     left: -6px;
+}
+
+// Source bay: inner label must not steal hover/clicks from the tile (li), like gapImg on <img>.
+.widget-box .qti-graphicGapMatchInteraction ul.source > li.qti-gapText {
+    .gap-text-label-wrap,
+    .gap-text-label {
+        pointer-events: none;
+    }
+
+    &.active .gap-text-label-wrap,
+    &.active .gap-text-label {
+        pointer-events: auto;
+    }
+}
+
+.widget-box:not(.edit-question) .qti-graphicGapMatchInteraction ul.source > li.qti-gapText {
+    &.active .gap-text-label-wrap,
+    &.active .gap-text-label {
+        pointer-events: none;
+    }
 }

@@ -133,7 +133,9 @@ define([
             });
             _.forEach(interaction.getGapTexts(), function (gapText) {
                 $gapList.append(gapText.render());
-                const $gapTextBox = $gapList.find(`[data-serial="${gapText.serial}"]`).addClass('qti-gapText');
+                const $gapTextBox = $gapList
+                    .find(`[data-serial="${gapText.serial}"]`)
+                    .addClass('qti-gapImg qti-gapText selectable');
 
                 gapTextTileLayout.mountGapTextTileFromModel($gapTextBox, gapText);
             });

@@ -553,7 +553,7 @@ define([
                 $gapTextBox = $gapList.find(`[data-serial="${gapTextObj.serial}"]`);
             }
 
-            $gapTextBox.addClass('qti-gapText');
+            $gapTextBox.addClass('qti-gapImg qti-gapText selectable');
             updateGapTextTileLabel($gapTextBox, getGapTextPlainLabel(gapTextObj));
             bindGapTextInlineLabel($gapTextBox, gapTextObj.serial);
 
