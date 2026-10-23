@@ -53,7 +53,9 @@ class GapMatchInteraction extends ContainerInteraction
         return array_merge(
             parent::getUsedAttributes(),
             [
-            'oat\\taoQtiItem\\model\\qti\\attribute\\Shuffle'
+            'oat\\taoQtiItem\\model\\qti\\attribute\\Shuffle',
+            'oat\\taoQtiItem\\model\\qti\\attribute\\MaxAssociations',
+            'oat\\taoQtiItem\\model\\qti\\attribute\\MinAssociations'
                 ]
         );
     }
