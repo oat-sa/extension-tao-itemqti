@@ -1,5 +1,8 @@
 @import 'inc/bootstrap';
 
+// Keep in sync with $ggm-text-choice-inner-padding in qtiCreator/_graphic-gap.scss
+$ggm-text-choice-inner-padding: 8px;
+
 .qti-graphicGapMatchInteraction {
     @mixin gapimg-overlay {
         content: '';
@@ -254,8 +257,12 @@
         &.qti-gapText.placed {
             line-height: 1.25;
             @include font-size(14);
-            padding: 2px 4px;
-            overflow: visible;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            padding: $ggm-text-choice-inner-padding;
+            overflow: hidden;
             box-sizing: border-box;
             border: 1px solid #3e7da7 !important;
             background-color: #e7eff4;
@@ -269,16 +276,17 @@
             }
 
             .placed-gap-text-label {
-                display: -webkit-box;
-                -webkit-box-orient: vertical;
-                -webkit-line-clamp: 3;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                display: block;
+                flex: 1 1 auto;
+                min-height: 0;
+                white-space: pre-wrap;
                 word-break: break-word;
                 overflow-wrap: anywhere;
                 width: 100%;
                 max-height: 100%;
-                pointer-events: none;
+                overflow-x: hidden;
+                overflow-y: auto;
+                pointer-events: auto;
             }
 
             .placed-gap-text-tooltip {

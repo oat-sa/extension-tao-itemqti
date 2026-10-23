@@ -119,7 +119,7 @@ define([
         var options = widget.options;
         var paper = interaction.paper;
 
-        const GAP_TEXT_MAX_CHARS = 350;
+        const GAP_TEXT_MAX_CHARS = gapTextTileLayout.GAP_TEXT_MAX_CHARS;
 
         ensureGapTextSupport(interaction);
 
@@ -232,20 +232,30 @@ define([
                 const gapAboveTrigger = Number.isFinite(gapParsed) ? gapParsed : 8;
                 const flyoutWidth = $menuFlyout.outerWidth() || 144;
                 const flyoutHeight = $menuFlyout.outerHeight() || 80;
+                const hostScrollTop = $positionHost.scrollTop();
+                const hostScrollLeft = $positionHost.scrollLeft();
+                const triggerTop = triggerRect.top - hostRect.top + hostScrollTop;
+                const triggerLeft = triggerRect.left - hostRect.left + hostScrollLeft;
+                const topAboveTrigger = triggerTop - flyoutHeight - gapAboveTrigger;
+                const topBelowTrigger = triggerTop + triggerRect.height + gapAboveTrigger;
+                const minTop = hostScrollTop;
+                const maxTop = hostScrollTop + Math.max($positionHost.innerHeight() - flyoutHeight, 0);
+                const minLeft = hostScrollLeft;
+                const maxLeft = hostScrollLeft + Math.max($positionHost.innerWidth() - flyoutWidth, 0);
+                let top = topAboveTrigger;
+
+                if (top < minTop && topBelowTrigger <= maxTop) {
+                    top = topBelowTrigger;
+                }
+
+                top = Math.min(Math.max(top, minTop), maxTop);
+
+                const centeredLeft = triggerLeft + triggerRect.width / 2 - flyoutWidth / 2;
+                const left = Math.min(Math.max(centeredLeft, minLeft), maxLeft);
 
                 $menuFlyout.css({
-                    top:
-                        triggerRect.top -
-                        hostRect.top +
-                        $positionHost.scrollTop() -
-                        flyoutHeight -
-                        gapAboveTrigger,
-                    left:
-                        triggerRect.left -
-                        hostRect.left +
-                        $positionHost.scrollLeft() +
-                        triggerRect.width / 2 -
-                        flyoutWidth / 2,
+                    top,
+                    left,
                     right: '',
                     bottom: ''
                 });
@@ -341,26 +351,11 @@ define([
         }
 
         function getGapTextPlainLabel(gapText) {
-            if (!gapText || typeof gapText.body !== 'function') {
-                return '';
-            }
-
-            return normalizeGapTextTileLabel(
-                $('<div/>')
-                    .html(gapText.body() || '')
-                    .text()
-                    .trim()
-            );
+            return gapTextTileLayout.getPlainLabelFromGapText(gapText);
         }
 
         function normalizeGapTextTileLabel(label) {
-            const normalizedLabel = (label || '').trim();
-
-            if (!normalizedLabel || normalizedLabel === __('New label')) {
-                return '';
-            }
-
-            return normalizedLabel;
+            return gapTextTileLayout.normalizeGapTextTileLabel(label);
         }
 
         function finishGapTextEditing($gapTextBox) {
@@ -374,18 +369,8 @@ define([
         }
 
         function updateGapTextTileLabel($gapTextBox, label) {
-            $gapTextBox.empty();
-
-            const $wrap = $('<div class="gap-text-label-wrap"/>');
-            const $textarea = $('<textarea class="gap-text-label"/>')
-                .attr('aria-label', __('Label'))
-                .attr('placeholder', __('Enter text'))
-                .attr('rows', 1)
-                .attr('maxlength', GAP_TEXT_MAX_CHARS)
-                .val(normalizeGapTextTileLabel(label));
-
-            $wrap.append($textarea);
-            $gapTextBox.append($wrap);
+            gapTextTileLayout.mountGapTextTileLabel($gapTextBox, label);
+            $gapTextBox.find('.gap-text-label').prop('readonly', false);
 
             requestAnimationFrame(function () {
                 centerGapTextLabelInTile($gapTextBox);
@@ -519,7 +504,11 @@ define([
         }
 
         function setGapTextPlainLabel(gapText, label) {
-            const normalizedLabel = label || '';
+            let normalizedLabel = label || '';
+
+            if (normalizedLabel.length > GAP_TEXT_MAX_CHARS) {
+                normalizedLabel = normalizedLabel.slice(0, GAP_TEXT_MAX_CHARS);
+            }
 
             gapText.body(normalizedLabel);
 
@@ -529,8 +518,10 @@ define([
                 const $inlineLabel = $gapTextBox.find('.gap-text-label');
 
                 if ($inlineLabel.length && $inlineLabel.is('input, textarea')) {
-                    if (document.activeElement !== $inlineLabel[0]) {
+                    if ($inlineLabel.val() !== normalizedLabel) {
                         $inlineLabel.val(normalizedLabel);
+                    }
+                    if (document.activeElement !== $inlineLabel[0]) {
                         centerGapTextLabelInTile($gapTextBox);
                     }
                 } else {

@@ -7,6 +7,7 @@ $ggm-top-bay-offset: -130px;
 $ggm-text-choice-min-width: 75px;
 $ggm-text-choice-max-width: 150px;
 $ggm-text-choice-min-height: 60px;
+$ggm-text-choice-inner-padding: 8px;
 $ggm-text-font-size: 14px;
 $ggm-text-line-height: 1.25;
 $ggm-text-line-height-px: ceil($ggm-text-font-size * $ggm-text-line-height);
@@ -132,16 +133,18 @@ $ggm-add-menu-border-color: #a4bbc5;
         }
 
         &.qti-gapText {
+            // Override .block-listing > li { padding: 5px }; inner inset uses $ggm-text-choice-inner-padding.
+            padding: 0 !important;
             position: relative;
             flex: 0 0 auto !important;
             flex-shrink: 0 !important;
             width: $ggm-text-choice-min-width;
             min-width: $ggm-text-choice-min-width;
             max-width: $ggm-text-choice-max-width;
-            height: auto;
+            height: $ggm-text-choice-min-height;
             min-height: $ggm-text-choice-min-height;
-            max-height: none;
-            overflow: visible;
+            max-height: $ggm-text-choice-min-height;
+            overflow: hidden;
             box-sizing: border-box;
             border: 1px solid $itemCreatorAddOptionBorderColor !important;
             background: $itemCreatorAddOptionBgColor;
@@ -153,10 +156,6 @@ $ggm-add-menu-border-color: #a4bbc5;
             &.active {
                 border: 1px solid $itemCreatorAddOptionBorderColor;
                 box-shadow: none;
-
-                .gap-text-label-wrap {
-                    justify-content: flex-start;
-                }
             }
 
             .gap-text-label-wrap {
@@ -168,27 +167,29 @@ $ggm-add-menu-border-color: #a4bbc5;
                 z-index: 0;
                 display: flex;
                 flex-direction: column;
-                align-items: center;
-                justify-content: center;
+                align-items: stretch;
+                justify-content: flex-start;
                 min-width: 0;
                 min-height: 0;
-                padding: 2px;
+                padding: $ggm-text-choice-inner-padding;
                 box-sizing: border-box;
+                overflow: hidden;
             }
 
             .gap-text-label {
                 display: block;
-                flex: 0 1 auto;
+                flex: 1 1 auto;
                 width: 100%;
                 min-width: 0;
                 min-inline-size: 0 !important;
                 max-inline-size: none !important;
-                min-height: $ggm-text-line-height-px;
-                height: auto;
-                max-height: none;
+                min-height: 0;
+                height: 100%;
+                max-height: 100%;
                 margin: 0;
                 padding: 0 !important;
                 overflow-x: hidden;
+                overflow-y: hidden;
                 resize: none;
                 border: 0 !important;
                 background: transparent !important;
@@ -216,6 +217,22 @@ $ggm-add-menu-border-color: #a4bbc5;
                 &::placeholder {
                     color: whiten($info, 0.35);
                     opacity: 1;
+                }
+            }
+
+            &.gap-text-tile-expanded {
+                height: auto;
+                max-height: none;
+                overflow: visible;
+
+                .gap-text-label-wrap {
+                    overflow: visible;
+                }
+
+                .gap-text-label {
+                    flex: 0 1 auto;
+                    height: auto;
+                    max-height: none;
                 }
             }
 
@@ -315,10 +332,27 @@ $ggm-add-menu-border-color: #a4bbc5;
             width: auto !important;
             min-width: $ggm-text-choice-min-width !important;
             max-width: $ggm-text-choice-max-width !important;
-            min-height: $ggm-text-choice-min-height;
-            max-height: none;
-            overflow: visible;
+            height: $ggm-text-choice-min-height !important;
+            min-height: $ggm-text-choice-min-height !important;
+            max-height: $ggm-text-choice-min-height !important;
+            overflow: hidden;
             line-height: normal;
+        }
+
+        ul.source > li.qti-gapText.gap-text-tile-expanded {
+            height: auto !important;
+            max-height: none !important;
+            overflow: visible;
+
+            .gap-text-label-wrap {
+                overflow: visible;
+            }
+
+            .gap-text-label {
+                flex: 0 1 auto;
+                height: auto;
+                max-height: none;
+            }
         }
     }
 
