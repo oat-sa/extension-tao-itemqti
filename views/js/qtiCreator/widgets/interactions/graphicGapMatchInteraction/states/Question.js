@@ -577,17 +577,35 @@ define([
             })
         );
 
+        minMaxComponentFactory($form.find('.min-max-panel'), {
+            min: {
+                fieldName: 'minAssociations',
+                value: _.parseInt(interaction.attr('minAssociations')) || 0,
+                toggler: false,
+                helpMessage: __('The minimum number of associations that the candidate is required to make to form a valid response.')
+            },
+            max: {
+                fieldName: 'maxAssociations',
+                value: _.parseInt(interaction.attr('maxAssociations')) || 0,
+                toggler: false,
+                helpMessage: __('The maximum number of associations that the candidate is required to make to form a valid response.')
+            },
+            lowerThreshold: 0,
+            upperThreshold: 100
+        });
+
         imageSelector($form, options);
 
         formElement.initWidget($form);
 
+        var callbacks = formElement.getMinMaxAttributeCallbacks('minAssociations', 'maxAssociations');
+        callbacks.position = function (interaction, value) {
+            applyPosition(value);
+        };
+
         bgImage.setupImage(widget);
 
-        bgImage.setChangeCallbacks(widget, formElement, {
-            position: function (interaction, value) {
-                applyPosition(value);
-            }
-        });
+        bgImage.setChangeCallbacks(widget, formElement, callbacks);
     };
 
     return GraphicGapMatchInteractionStateQuestion;
