@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-08-13 08:57\n"
+"PO-Revision-Date: 2026-10-23 14:58\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && (n%100>19 || n%100<11) ? 0 : (n%10>=2 && n%10<=9) && (n%100>19 || n%100<11) ? 1 : n%1!=0 ? 2: 3);\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -145,6 +145,9 @@ msgstr "Pridėti pasirinkimą"
 
 msgid "Add else feedback"
 msgstr "Pridėti kitą atsiliepimą"
+
+msgid "Add file(s)"
+msgstr "Pridėti failą(–us)"
 
 msgid "Add level"
 msgstr ""
@@ -447,6 +450,12 @@ msgid "Color Picker"
 msgstr "Spalvos Pasirinkimas"
 
 msgid "Column separator"
+msgstr ""
+
+msgid "Comments"
+msgstr ""
+
+msgid "Comments apply to the whole item."
 msgstr ""
 
 msgid "Common Interactions"
@@ -1282,6 +1291,15 @@ msgid "MathJax is not installed."
 msgstr "MathJax neįdiegtas."
 
 msgid "MathML"
+msgstr ""
+
+msgid "MathType"
+msgstr ""
+
+msgid "MathType availability"
+msgstr ""
+
+msgid "MathType is currently enabled for your organization. Depending on usage, a separate licence may be required. Contact your account administrator for more information."
 msgstr ""
 
 msgid "Max"
@@ -2196,6 +2214,9 @@ msgstr "Maksimalus kiekis ryšių yra neribojamas."
 
 msgid "The maximum number of associations that the candidate is allowed to make."
 msgstr "Maksimalus kiekis ryšių, kurių kandidatui leidžiama sudaryti."
+
+msgid "The maximum number of associations that the candidate is required to make to form a valid response."
+msgstr ""
 
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "Maksimalus kiekis variantų, kurį kandidatui leidžiama pasirinkti."
