@@ -19,6 +19,7 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/qtiItem/core/Loader',
+    'taoQtiItem/qtiItem/core/Element',
     'taoQtiItem/qtiCreator/model/Item',
     'taoQtiItem/qtiCreator/model/qtiClasses',
     'taoQtiItem/qtiItem/helper/itemScore',
@@ -26,8 +27,27 @@ define([
     'taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier',
     'taoQtiItem/qtiCreator/helper/languages',
     'taoQtiItem/qtiCreator/helper/itemIdentifier'
-], function ($, _, Loader, Item, qtiClasses, itemScoreHelper, request, qtiIdentifier, languages, itemIdentifier) {
+], function ($, _, Loader, Element, Item, qtiClasses, itemScoreHelper, request, qtiIdentifier, languages, itemIdentifier) {
     'use strict';
+
+    /**
+     * Bundled qtiItem core may omit graphicGapMatch gapText hydration.
+     */
+    const CreatorLoader = Loader.extend({
+        buildInteractionChoices(interaction, data) {
+            Loader.prototype.buildInteractionChoices.call(this, interaction, data);
+
+            if (Element.isA(interaction, 'graphicGapMatchInteraction') && data.gapTexts) {
+                for (const serial in data.gapTexts) {
+                    const gapText = this.buildElement(data.gapTexts[serial]);
+
+                    if (gapText && typeof interaction.addGapText === 'function') {
+                        interaction.addGapText(gapText);
+                    }
+                }
+            }
+        }
+    });
     const decodeHtml = function (str) {
         const map = {
             '&amp;': '&',
@@ -73,7 +93,7 @@ define([
                     }
 
                     if (!containsOnlyIdentifier(data.itemData) && data.itemData.qtiClass === 'assessmentItem') {
-                        const loader = new Loader().setClassesLocation(qtiClasses);
+                        const loader = new CreatorLoader().setClassesLocation(qtiClasses);
                         const itemData = data.itemData;
 
                         loader.loadItemData(itemData, function (loadedItem) {
