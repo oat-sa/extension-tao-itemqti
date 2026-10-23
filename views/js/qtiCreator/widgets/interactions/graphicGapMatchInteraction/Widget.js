@@ -89,10 +89,23 @@ define([
          * @param {Number} newSize - the interaction size
          * @param {Number} [factor=1] - scaling factor
          */
+        syncGapListWidth: function (newSize) {
+            const $gapList = $('ul.source', this.$original);
+
+            if (newSize) {
+                $gapList.css({
+                    width: `${newSize}px`,
+                    'max-width': `${newSize}px`
+                });
+            }
+        },
+
         scaleGapList: function (newSize, factor) {
             const $container = this.$original;
             const $gapList = $('ul.source', $container);
-            $gapList.css('max-width', `${newSize}px`);
+
+            this.syncGapListWidth(newSize);
+
             if (factor && factor !== 1) {
                 $gapList.find('img').each(function () {
                     const $img = $(this);
@@ -104,14 +117,18 @@ define([
             if (this.element.paper) {
                 const interaction = this.element;
                 const choices = interaction.getChoices();
+                const backgroundWidth = interaction.object.attr('width');
+
                 _.forEach(choices, choice => {
+                    const shape = interaction.paper.getById(choice.serial);
+
+                    if (!shape) {
+                        return;
+                    }
+
                     choice.attr(
                         'coords',
-                        GraphicHelper.qtiCoords(
-                            interaction.paper.getById(choice.serial),
-                            interaction.paper,
-                            interaction.object.attr('width')
-                        )
+                        GraphicHelper.qtiCoords(shape, interaction.paper, backgroundWidth)
                     );
                 });
             }
@@ -140,6 +157,11 @@ define([
                 gapTextTileLayout.mountGapTextTileFromModel($gapTextBox, gapText);
             });
             gapTextTileLayout.syncAllGapTextTilesInList($gapList);
+
+            const $mainImageBox = $('.main-image-box', $container);
+            if ($mainImageBox.length) {
+                this.syncGapListWidth($mainImageBox.width());
+            }
         },
 
         /**

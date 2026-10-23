@@ -234,6 +234,7 @@ define([
                 const flyoutHeight = $menuFlyout.outerHeight() || 80;
                 const hostScrollTop = $positionHost.scrollTop();
                 const hostScrollLeft = $positionHost.scrollLeft();
+                // Viewport rects already include ul.source scroll; offset only by the positioning host.
                 const triggerTop = triggerRect.top - hostRect.top + hostScrollTop;
                 const triggerLeft = triggerRect.left - hostRect.left + hostScrollLeft;
                 const topAboveTrigger = triggerTop - flyoutHeight - gapAboveTrigger;
@@ -265,14 +266,22 @@ define([
                 $menuFlyout.removeClass('is-visible').attr('aria-hidden', 'true');
                 $addOption.attr('aria-expanded', 'false');
                 $gapList.removeClass('graphic-gap-add-menu-open');
+                $gapList.off('scroll.gapAddMenu');
                 $(document).off('click.graphicGapAddOption');
             }
 
             function showGapAddMenu() {
+                const savedScrollLeft = $gapList.scrollLeft();
+
                 $gapList.addClass('graphic-gap-add-menu-open');
+                $gapList.scrollLeft(savedScrollLeft);
                 $menuFlyout.addClass('is-visible').attr('aria-hidden', 'false');
                 positionGapAddMenu();
-                window.requestAnimationFrame(positionGapAddMenu);
+                window.requestAnimationFrame(function () {
+                    $gapList.scrollLeft(savedScrollLeft);
+                    positionGapAddMenu();
+                });
+                $gapList.on('scroll.gapAddMenu', positionGapAddMenu);
                 $addOption.attr('aria-expanded', 'true');
 
                 setTimeout(function () {

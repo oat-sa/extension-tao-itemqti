@@ -29,6 +29,8 @@ $ggm-text-choice-inner-padding: 8px;
         padding: 3px !important;
         clear: both;
         min-height: 60px;
+        box-sizing: border-box;
+        min-width: 0;
         border: 2px dashed transparent;
 
         &.selectable {
@@ -53,6 +55,20 @@ $ggm-text-choice-inner-padding: 8px;
         }
     }
 
+    &.qti-choices-top,
+    &.qti-choices-bottom {
+        ul.source {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            align-items: flex-start;
+            overflow-x: auto;
+            overflow-y: visible;
+            -webkit-overflow-scrolling: touch;
+            min-width: 0;
+        }
+    }
+
     &.qti-choices-top {
         ul.source {
             position: absolute;
@@ -64,10 +80,6 @@ $ggm-text-choice-inner-padding: 8px;
 
             box-sizing: border-box;
             clear: none;
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            align-items: flex-start;
             width: auto;
             max-width: none;
             margin: 0;
@@ -81,6 +93,7 @@ $ggm-text-choice-inner-padding: 8px;
     &.qti-choices-right {
         ul.source > li {
             float: none;
+            flex: 0 0 auto;
             box-sizing: border-box;
             width: 110px;
             line-height: normal;
