@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-08-13 08:57\n"
+"PO-Revision-Date: 2026-10-23 14:58\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -145,6 +145,9 @@ msgstr "Auswahlmöglichkeit hinzufügen"
 
 msgid "Add else feedback"
 msgstr "Sonst-Feedback hinzufügen"
+
+msgid "Add file(s)"
+msgstr "Datei(en) hinzufügen"
 
 msgid "Add level"
 msgstr "Level hinzufügen"
@@ -448,6 +451,12 @@ msgstr "Farbauswahl"
 
 msgid "Column separator"
 msgstr "Spaltentrennzeichen"
+
+msgid "Comments"
+msgstr "Kommentare"
+
+msgid "Comments apply to the whole item."
+msgstr "Kommentare gelten für das gesamte Element."
 
 msgid "Common Interactions"
 msgstr "Allgemeine Interaktionen"
@@ -1283,6 +1292,15 @@ msgstr "MathJax ist nicht installiert."
 
 msgid "MathML"
 msgstr "MathML"
+
+msgid "MathType"
+msgstr "MathType"
+
+msgid "MathType availability"
+msgstr "MathType Verfügbarkeit"
+
+msgid "MathType is currently enabled for your organization. Depending on usage, a separate licence may be required. Contact your account administrator for more information."
+msgstr "MathType ist derzeit für Ihre Organisation aktiviert. Abhängig von der Nutzung kann eine separate Lizenz erforderlich sein. Kontaktieren Sie Ihren Kontoadministrator für weitere Informationen."
 
 msgid "Max"
 msgstr "Maximum"
@@ -2196,6 +2214,9 @@ msgstr "Die maximale Anzahl der Assoziationen ist unbegrenzt."
 
 msgid "The maximum number of associations that the candidate is allowed to make."
 msgstr "Die maximale Anzahl der Assoziationen die der Kandidat herstellen darf."
+
+msgid "The maximum number of associations that the candidate is required to make to form a valid response."
+msgstr "Die maximale Anzahl von Verbänden, die der Kandidat machen muss, um eine gültige Antwort zu finden."
 
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "Die maximale Anzahl der Antworten die ein Kandidat auswählen darf."
