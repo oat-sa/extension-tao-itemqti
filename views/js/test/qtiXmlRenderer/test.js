@@ -9,7 +9,8 @@ define([
     'json!taoQtiItem/test/samples/json/choice-custom.json',
     'json!taoQtiItem/test/samples/json/choice-feedback.json',
     'json!taoQtiItem/test/samples/json/choice-feedback-complex.json',
-    'json!taoQtiItem/test/samples/json/rivals.json'
+    'json!taoQtiItem/test/samples/json/rivals.json',
+    'json!taoQtiItem/test/samples/json/graphic-gap-match-gap-text.json'
 ], function(
 
     Loader,
@@ -21,7 +22,8 @@ define([
     item_custom,
     item_feedback,
     item_feedback_complex,
-    item_rivals
+    item_rivals,
+    item_graphic_gap_match_gap_text
 ) {
 
     function minXml(xml) {
@@ -385,6 +387,45 @@ define([
                         responseIdentifier + ' reverse is exported'
                     );
                 }
+
+                ready();
+            }, this.getLoadedClasses());
+        });
+    });
+
+    QUnit.test('graphic gap match exports gapText in QTI XML', function(assert) {
+        var ready = assert.async();
+        var loader = new Loader();
+        var renderer = new Renderer({
+            shuffleChoices: false,
+            runtimeContext: {
+                runtime_base_www: '/taoQtiItem/test/samples/test_base_www/',
+                root_url: '',
+                debug: true
+            }
+        });
+
+        loader.loadItemData(item_graphic_gap_match_gap_text, function(item) {
+            assert.ok(Element.isA(item, 'assessmentItem'), 'graphic gap match gapText fixture item loaded');
+
+            renderer.load(function() {
+                var xml;
+                var doc;
+                var interaction;
+                var gapTexts;
+                var gapText;
+
+                item.setRenderer(renderer);
+                xml = item.render();
+                doc = new DOMParser().parseFromString(xml, 'application/xml');
+                interaction = doc.getElementsByTagName('graphicGapMatchInteraction')[0];
+
+                assert.ok(interaction, 'graphicGapMatchInteraction is exported');
+                gapTexts = interaction.getElementsByTagName('gapText');
+                assert.equal(gapTexts.length, 1, 'one gapText is exported');
+                gapText = gapTexts[0];
+                assert.equal(gapText.getAttribute('identifier'), 'GLA', 'gapText identifier is exported');
+                assert.equal(gapText.textContent, 'Glasgow', 'gapText label is exported');
 
                 ready();
             }, this.getLoadedClasses());

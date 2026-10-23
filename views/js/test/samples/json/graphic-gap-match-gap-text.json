@@ -1,0 +1,153 @@
+{
+    "identifier": "graphicGapMatchGapText",
+    "serial": "item_graphic_gap_match_gap_text",
+    "qtiClass": "assessmentItem",
+    "attributes": {
+        "identifier": "graphicGapMatchGapText",
+        "title": "Graphic gap match with text gaps",
+        "label": "",
+        "adaptive": false,
+        "timeDependent": false,
+        "toolName": "TAO",
+        "toolVersion": "3.0"
+    },
+    "body": {
+        "serial": "container_graphic_gap_match_gap_text_body",
+        "body": "<p>Match labels to hotspots.</p>{{interaction_graphic_gap_match_gap_text}}",
+        "elements": {
+            "interaction_graphic_gap_match_gap_text": {
+                "serial": "interaction_graphic_gap_match_gap_text",
+                "qtiClass": "graphicGapMatchInteraction",
+                "attributes": {
+                    "responseIdentifier": "RESPONSE"
+                },
+                "choices": {
+                    "choice_associablehotspot_a": {
+                        "identifier": "A",
+                        "serial": "choice_associablehotspot_a",
+                        "qtiClass": "associableHotspot",
+                        "attributes": {
+                            "identifier": "A",
+                            "fixed": false,
+                            "matchMax": 1,
+                            "matchMin": 0,
+                            "shape": "rect",
+                            "coords": "12,108,39,121"
+                        }
+                    }
+                },
+                "prompt": {
+                    "serial": "container_prompt_graphic_gap_match_gap_text",
+                    "body": "Match labels to hotspots.",
+                    "elements": [],
+                    "debug": {
+                        "relatedItem": "item_graphic_gap_match_gap_text"
+                    }
+                },
+                "object": {
+                    "serial": "object_graphic_gap_match_gap_text",
+                    "qtiClass": "object",
+                    "attributes": {
+                        "data": "images/ukairtags.png",
+                        "type": "image/png",
+                        "width": 206,
+                        "height": 280
+                    }
+                },
+                "gapImgs": {
+                    "choice_gapimg_edi": {
+                        "identifier": "EDI",
+                        "serial": "choice_gapimg_edi",
+                        "qtiClass": "gapImg",
+                        "attributes": {
+                            "identifier": "EDI",
+                            "fixed": false,
+                            "matchMax": "1"
+                        },
+                        "object": {
+                            "serial": "object_gapimg_edi",
+                            "qtiClass": "object",
+                            "attributes": {
+                                "data": "images/EDI.png",
+                                "type": "image/png",
+                                "width": 14,
+                                "height": 9
+                            },
+                            "_alt": "EDI"
+                        }
+                    }
+                },
+                "gapTexts": {
+                    "choice_gaptext_gla": {
+                        "identifier": "GLA",
+                        "serial": "choice_gaptext_gla",
+                        "qtiClass": "gapText",
+                        "attributes": {
+                            "identifier": "GLA",
+                            "fixed": false,
+                            "matchMax": "1",
+                            "matchMin": 0
+                        },
+                        "body": {
+                            "serial": "container_gaptext_gla",
+                            "body": "Glasgow",
+                            "elements": {},
+                            "debug": {
+                                "relatedItem": "item_graphic_gap_match_gap_text"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "debug": {
+            "relatedItem": "item_graphic_gap_match_gap_text"
+        }
+    },
+    "namespaces": {
+        "xml": "http://www.w3.org/XML/1998/namespace",
+        "xsi": "http://www.w3.org/2001/XMLSchema-instance",
+        "": "http://www.imsglobal.org/xsd/imsqti_v2p1"
+    },
+    "stylesheets": [],
+    "outcomes": {
+        "outcomedeclaration_score": {
+            "identifier": "SCORE",
+            "serial": "outcomedeclaration_score",
+            "qtiClass": "outcomeDeclaration",
+            "attributes": {
+                "identifier": "SCORE",
+                "cardinality": "single",
+                "baseType": "float"
+            },
+            "defaultValue": null
+        }
+    },
+    "responses": {
+        "responsedeclaration_response": {
+            "identifier": "RESPONSE",
+            "serial": "responsedeclaration_response",
+            "qtiClass": "responseDeclaration",
+            "attributes": {
+                "identifier": "RESPONSE",
+                "cardinality": "multiple",
+                "baseType": "directedPair"
+            },
+            "correctResponses": [
+                "GLA A"
+            ],
+            "mapping": [],
+            "areaMapping": [],
+            "howMatch": "http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct",
+            "feedbackRules": []
+        }
+    },
+    "feedbacks": [],
+    "responseProcessing": {
+        "serial": "response_processing_match_correct",
+        "qtiClass": "responseProcessing",
+        "attributes": [],
+        "processingType": "template",
+        "template": "http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"
+    }
+}
