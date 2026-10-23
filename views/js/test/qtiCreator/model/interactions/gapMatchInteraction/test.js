@@ -337,13 +337,14 @@ define([
     });
 
     QUnit.test('gap match form exposes number of associations controls', function (assert) {
-        var $form = $(gapMatchFormTpl({
+        var html = gapMatchFormTpl({
             shuffle: false,
             position: 'left',
             enabledFeatures: {
                 shuffleChoices: true
             }
-        }));
+        });
+        var $form = $('<div />').html(html);
 
         assert.expect(1);
         assert.equal($form.find('.min-max-panel').length, 1, 'The form contains the Number of associations panel');
