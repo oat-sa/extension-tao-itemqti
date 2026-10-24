@@ -19,6 +19,24 @@ $ggm-add-menu-border-color: #a4bbc5;
 
 .qti-graphicGapMatchInteraction {
 
+    &:not(.qti-choices-left):not(.qti-choices-right) {
+        .image-editor.solid {
+            float: none !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box;
+        }
+
+        ul.block-listing.horizontal.source,
+        ul.source {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            justify-content: flex-start;
+        }
+    }
+
     .image-editor.solid {
         position: relative;
         overflow: visible;
