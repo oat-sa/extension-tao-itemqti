@@ -799,6 +799,10 @@ define(['jquery', 'lodash', 'raphael', 'scale.raphael'], function ($, _, raphael
          * @returns {String} the QTI coords
          */
         qtiCoords: function qtiCoords(element, paper, width) {
+            if (!element) {
+                return '';
+            }
+
             const mapper = raph2qtiCoordsMapper[element.type];
             let result = '';
             const factor = paper && width ? width / paper.w : 1;

@@ -50,31 +50,46 @@ const _gapFillerUsages = {};
 const PLACED_GAP_TEXT_MIN_WIDTH = 75;
 const PLACED_GAP_TEXT_MAX_WIDTH = 150;
 const PLACED_GAP_TEXT_MIN_HEIGHT = 60;
-const PLACED_GAP_TEXT_MAX_HEIGHT = 60;
 
 /**
- * Width: up to gap-option max (source tile), shrink to fit hotspot, never below min (overflow OK).
+ * Match the source-bay gap text tile size (authoring + delivery).
  *
- * @param {Object} bbox - Raphael shape bounding box (paper coords)
+ * Source tiles are sized in CSS pixels; placed fillers use paper coords with
+ * `scale * paperSize` for on-screen pixels. Divide by scale so the placed tile
+ * matches the source bay visually.
+ *
  * @param {JQuery} $sourceTile - gap text choice in the source bay
+ * @param {number} scale - interaction.paper.scale
  * @returns {{width: number, height: number}}
  */
-const _getPlacedGapTextTileSize = function _getPlacedGapTextTileSize(bbox, $sourceTile) {
-    const optionMaxWidth = Math.min(
-        PLACED_GAP_TEXT_MAX_WIDTH,
-        Math.max(PLACED_GAP_TEXT_MIN_WIDTH, Math.ceil($sourceTile.outerWidth()) || PLACED_GAP_TEXT_MAX_WIDTH)
+const _getPlacedGapTextTileSize = function _getPlacedGapTextTileSize($sourceTile, scale) {
+    const safeScale = scale > 0 ? scale : 1;
+    const sourceWidthPx = Math.ceil($sourceTile.outerWidth()) || PLACED_GAP_TEXT_MIN_WIDTH;
+    const sourceHeightPx = Math.ceil($sourceTile.outerHeight()) || PLACED_GAP_TEXT_MIN_HEIGHT;
+    const clampedWidthPx = Math.max(
+        PLACED_GAP_TEXT_MIN_WIDTH,
+        Math.min(PLACED_GAP_TEXT_MAX_WIDTH, sourceWidthPx)
     );
-    const optionMaxHeight = Math.min(
-        PLACED_GAP_TEXT_MAX_HEIGHT,
-        Math.max(PLACED_GAP_TEXT_MIN_HEIGHT, Math.ceil($sourceTile.outerHeight()) || PLACED_GAP_TEXT_MAX_HEIGHT)
-    );
-    const hotspotWidth = bbox && bbox.width ? Math.ceil(bbox.width) : optionMaxWidth;
-    const hotspotHeight = bbox && bbox.height ? Math.ceil(bbox.height) : optionMaxHeight;
+    const clampedHeightPx = Math.max(PLACED_GAP_TEXT_MIN_HEIGHT, sourceHeightPx);
 
     return {
-        width: Math.max(PLACED_GAP_TEXT_MIN_WIDTH, Math.min(optionMaxWidth, hotspotWidth)),
-        height: Math.max(PLACED_GAP_TEXT_MIN_HEIGHT, Math.min(optionMaxHeight, hotspotHeight))
+        width: clampedWidthPx / safeScale,
+        height: clampedHeightPx / safeScale
     };
+};
+
+/**
+ * @param {JQuery} $sourceTile
+ * @returns {string}
+ */
+const _getGapTextLabelFromSourceTile = function _getGapTextLabelFromSourceTile($sourceTile) {
+    const $textarea = $sourceTile.find('.gap-text-label');
+
+    if ($textarea.length) {
+        return ($textarea.val() || '').trim();
+    }
+
+    return $sourceTile.text().trim();
 };
 
 /**
@@ -141,12 +156,12 @@ const _applyPlacedGapTextTilePosition = function _applyPlacedGapTextTilePosition
 
     const css = {
         top: `${scale * tilePosition.top}px`,
-        left: `${scale * tilePosition.left}px`
+        left: `${scale * tilePosition.left}px`,
+        width: `${scale * width}px`,
+        height: `${scale * height}px`
     };
 
     if (!$placedFiller.hasClass('qti-gapText')) {
-        css.width = `${scale * width}px`;
-        css.height = `${scale * height}px`;
         css.lineHeight = 'normal';
         css.display = 'flex';
         css.alignItems = 'center';
@@ -180,6 +195,29 @@ const dragOptions = {
         endOnly: false,
         elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
     }
+};
+
+const _applySourceListLayout = function _applySourceListLayout($gapList) {
+    const listCss = {
+        display: 'flex',
+        flexWrap: 'nowrap',
+        alignItems: 'flex-start',
+        overflowX: 'auto',
+        overflowY: 'hidden',
+        width: '100%',
+        maxWidth: '100%',
+        minWidth: 0,
+        boxSizing: 'border-box',
+        marginLeft: 0,
+        marginRight: 0,
+        textAlign: 'left',
+        justifyContent: 'flex-start'
+    };
+
+    $gapList.css(listCss);
+    $gapList.children('li').css({
+        flex: '0 0 auto'
+    });
 };
 
 /**
@@ -406,7 +444,7 @@ const _selectShape = function _selectShape(interaction, element, gapFillerId, tr
 
     //lookup for the active element
     const $container = containerHelper.get(interaction);
-    const $gapList = $('ul', $container);
+    const $gapList = $('ul.source', $container);
     const $placedFillersContainer = $('.placed-fillers', $container);
 
     if (typeof trackResponse === 'undefined') {
@@ -443,10 +481,10 @@ const _selectShape = function _selectShape(interaction, element, gapFillerId, tr
             let tilePosition;
 
             if (isTextFiller) {
-                const tileSize = _getPlacedGapTextTileSize(bbox, $active);
+                const tileSize = _getPlacedGapTextTileSize($active, scale);
                 originalWidth = tileSize.width;
                 originalHeight = tileSize.height;
-                fullGapTextLabel = $active.text().trim();
+                fullGapTextLabel = _getGapTextLabelFromSourceTile($active);
             } else {
                 originalWidth = parseInt($img.attr('width'), 10) || 0;
                 originalHeight = parseInt($img.attr('height'), 10) || 0;
@@ -605,9 +643,17 @@ const _selectShape = function _selectShape(interaction, element, gapFillerId, tr
     }
 };
 
+function _resolveSourceGapFillerTarget($target) {
+    const $gapFiller = $target.closest('li.qti-gapImg, li.qti-gapText');
+
+    return $gapFiller.length ? $gapFiller : $target;
+}
+
 function _setActiveGapState(interaction, $target) {
     const $container = containerHelper.get(interaction);
-    const $gapList = $('ul', $container);
+    const $gapList = $('ul.source', $container);
+
+    $target = _resolveSourceGapFillerTarget($target);
 
     $gapList.children('li').removeClass('active');
     if (!$target.hasClass('placed')) {
@@ -615,10 +661,13 @@ function _setActiveGapState(interaction, $target) {
     }
     _shapesSelectable(interaction);
 
+    $(document.body).off('click.graphic-gap-match');
     $(document.body).on('click.graphic-gap-match', function (e) {
         if (
             !$container.get(0).contains(e.target) ||
-            (!e.target.closest('.qti-gapImg') && !e.target.closest('.main-image-box'))
+            (!e.target.closest('.qti-gapImg') &&
+                !e.target.closest('.qti-gapText') &&
+                !e.target.closest('.main-image-box'))
         ) {
             _setInactiveGapState(interaction, $target);
         }
@@ -751,7 +800,7 @@ const _renderGapFillersList = function _renderGapFillersList(interaction, $gapLi
             .draggable(
                 _.assign({}, dragOptions, {
                     onstart: function (e) {
-                        const $target = $(e.target);
+                        const $target = _resolveSourceGapFillerTarget($(e.target));
                         _setActiveGapState(interaction, $target);
                         $target.addClass('dragged');
 
@@ -783,6 +832,8 @@ const _renderGapFillersList = function _renderGapFillersList(interaction, $gapLi
     }
 
     function toggleActiveGapState($target) {
+        $target = _resolveSourceGapFillerTarget($target);
+
         if (!$target.hasClass('disabled')) {
             if ($target.hasClass('active')) {
                 _setInactiveGapState(interaction, $target);
@@ -820,6 +871,24 @@ const render = function render(interaction) {
             isDragAndDropEnabled = self.getOption('enableDragAndDrop').graphicGapMatch;
         }
 
+        const sourcePosition = interaction.attr('data-position') || '';
+        const usesSideSourceList =
+            sourcePosition === 'left' ||
+            sourcePosition === 'right' ||
+            $container.hasClass('qti-choices-left') ||
+            $container.hasClass('qti-choices-right');
+        const usesHorizontalSourceList = !usesSideSourceList;
+
+        if (usesHorizontalSourceList) {
+            $container.find('.image-editor').css({
+                float: 'none',
+                width: '100%',
+                maxWidth: '100%',
+                boxSizing: 'border-box'
+            });
+            _applySourceListLayout($gapList);
+        }
+
         $container.off('resized.qti-widget.resolve').one('resized.qti-widget.resolve', resolve);
 
         //create the paper
@@ -830,7 +899,14 @@ const render = function render(interaction) {
             imgId: 'bg-image-' + interaction.serial,
             container: $container,
             resize: function (newWidth, factor, newHeight) {
-                $gapList.css('max-width', newWidth + 'px');
+                if (usesHorizontalSourceList) {
+                    _applySourceListLayout($gapList);
+                } else {
+                    $gapList.css({
+                        width: `${newWidth}px`,
+                        maxWidth: `${newWidth}px`
+                    });
+                }
                 if (factor !== 1) {
                     $gapList.find('img').each(function () {
                         const $img = $(this);
