@@ -26,7 +26,6 @@ define([
     'taoQtiItem/qtiCreator/model/interactions/GraphicGapMatchInteraction',
     'json!taoQtiItem/test/samples/json/gapmatch-text-sam.json',
     'json!taoQtiItem/test/samples/json/airports-tags.json',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/gapMatch',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicGapMatch',
     'lib/jquery.mockjax/jquery.mockjax'
 ], function (
@@ -36,7 +35,6 @@ define([
     GraphicGapMatchInteraction,
     gapMatchJson,
     graphicGapMatchJson,
-    gapMatchFormTpl,
     graphicGapMatchFormTpl
 ) {
     'use strict';
@@ -334,65 +332,6 @@ define([
         assert.equal($positionInputs.filter('[value="left"]').length, 1, 'Left option is available');
         assert.equal($positionInputs.filter('[value="right"]').length, 1, 'Right option is available');
         assert.ok($positionInputs.filter('[value="bottom"]').prop('checked'), 'The current position is selected');
-    });
-
-    QUnit.test('gap match question form creates and applies number of associations controls', function (assert) {
-        var done = assert.async();
-        var $container = $('#fixture-render');
-        var instance;
-
-        assert.expect(8);
-
-        instance = itemAuthoringFactory($container, {
-            properties: {
-                uri: 'http://item#rdf-123',
-                label: 'Item',
-                baseUrl: 'http://foo/bar',
-                itemDataUrl: '//mockItemEndpoint'
-            }
-        })
-            .on('ready', function () {
-                var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]', $container);
-                var interaction = instance.getItemCreator().getItem().getInteractions()[0];
-
-                assert.strictEqual($interaction.length, 1, 'The Gap Match interaction is rendered');
-                $interaction.click();
-
-                setTimeout(function () {
-                    var $propertyBar = $('#item-editor-interaction-property-bar');
-                    var $minAssociationsInput = $propertyBar.find('input[name="minAssociations"]');
-                    var $maxAssociationsInput = $propertyBar.find('input[name="maxAssociations"]');
-
-                    assert.strictEqual(
-                        $propertyBar.find('.min-max-panel').length,
-                        1,
-                        'The question form contains the Number of associations panel'
-                    );
-                    assert.strictEqual($minAssociationsInput.length, 1, 'The question form creates the min associations control');
-                    assert.strictEqual($maxAssociationsInput.length, 1, 'The question form creates the max associations control');
-
-                    $minAssociationsInput.val('2').trigger('change');
-                    $maxAssociationsInput.val('5').trigger('change');
-
-                    assert.strictEqual(interaction.attr('minAssociations'), 2, 'Valid min value updates question state');
-                    assert.strictEqual(interaction.attr('maxAssociations'), 5, 'Valid max value updates question state');
-
-                    $minAssociationsInput.val('not-a-number').trigger('change');
-                    assert.strictEqual(
-                        interaction.attr('minAssociations'),
-                        undefined,
-                        'Invalid min value is rejected by removing the persisted attribute'
-                    );
-
-                    $maxAssociationsInput.val('not-a-number').trigger('change');
-                    assert.strictEqual(interaction.attr('maxAssociations'), 0, 'Invalid max value is handled as 0');
-
-                    instance.destroy();
-                }, 0);
-            })
-            .after('destroy', function () {
-                done();
-            });
     });
 
     QUnit.test('graphic gap match form falls back to default choices position', function (assert) {

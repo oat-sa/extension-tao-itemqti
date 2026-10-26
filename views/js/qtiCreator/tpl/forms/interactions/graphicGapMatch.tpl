@@ -52,8 +52,3 @@
         </label>
     </div>
 </div>
-
-<hr/>
-<div class="panel min-max-panel">
-    <h3>{{__ "Number of associations"}}</h3>
-</div>

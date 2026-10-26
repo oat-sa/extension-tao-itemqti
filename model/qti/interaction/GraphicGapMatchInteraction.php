@@ -23,6 +23,7 @@
 namespace oat\taoQtiItem\model\qti\interaction;
 
 use oat\taoQtiItem\model\qti\choice\GapImg;
+use oat\taoQtiItem\model\qti\choice\GapText;
 use oat\taoQtiItem\model\qti\QtiObject;
 use oat\taoQtiItem\model\qti\choice\Choice;
 
@@ -47,6 +48,7 @@ class GraphicGapMatchInteraction extends GraphicInteraction
     protected static $choiceClass = 'oat\\taoQtiItem\\model\\qti\\choice\\AssociableHotspot';
     protected static $baseType = 'directedPair';
     protected $gapImgs = [];
+    protected $gapTexts = [];
 
     /**
      *
@@ -69,6 +71,17 @@ class GraphicGapMatchInteraction extends GraphicInteraction
         return $returnValue;
     }
 
+    public function createGapText($content = '')
+    {
+        $gapText = new GapText();
+        if ($content !== '') {
+            $gapText->setContent((string) $content);
+        }
+        $this->addGapText($gapText);
+
+        return $gapText;
+    }
+
     public function addGapImg(GapImg $gapImg)
     {
         $this->gapImgs[$gapImg->getSerial()] = $gapImg;
@@ -78,15 +91,30 @@ class GraphicGapMatchInteraction extends GraphicInteraction
         }
     }
 
+    public function addGapText(GapText $gapText)
+    {
+        $this->gapTexts[$gapText->getSerial()] = $gapText;
+        $relatedItem = $this->getRelatedItem();
+        if (!is_null($relatedItem)) {
+            $gapText->setRelatedItem($relatedItem);
+        }
+    }
+
     public function getGapImgs()
     {
         return $this->gapImgs;
+    }
+
+    public function getGapTexts()
+    {
+        return $this->gapTexts;
     }
 
     public function getIdentifiedElements()
     {
         $returnValue = parent::getIdentifiedElements();
         $returnValue->addMultiple($this->getGapImgs());
+        $returnValue->addMultiple($this->getGapTexts());
         return $returnValue;
     }
 
@@ -95,6 +123,11 @@ class GraphicGapMatchInteraction extends GraphicInteraction
         $data = parent::toArray($filterVariableContent, $filtered);
         $data['gapImgs'] = $this->getArraySerializedElementCollection(
             $this->getGapImgs(),
+            $filterVariableContent,
+            $filtered
+        );
+        $data['gapTexts'] = $this->getArraySerializedElementCollection(
+            $this->getGapTexts(),
             $filterVariableContent,
             $filtered
         );
@@ -114,6 +147,10 @@ class GraphicGapMatchInteraction extends GraphicInteraction
         foreach ($this->getGapImgs() as $gapImg) {
             $variables['gapImgs'] .= $gapImg->toQTI();
         }
+        $variables['gapTexts'] = '';
+        foreach ($this->getGapTexts() as $gapText) {
+            $variables['gapTexts'] .= $gapText->toQTI();
+        }
         return $variables;
     }
 
@@ -127,6 +164,12 @@ class GraphicGapMatchInteraction extends GraphicInteraction
                 $returnValue = $gapImgs[$serial];
             }
         }
+        if (is_null($returnValue)) {
+            $gapTexts = $this->getGapTexts();
+            if (isset($gapTexts[$serial])) {
+                $returnValue = $gapTexts[$serial];
+            }
+        }
         return $returnValue;
     }
 
@@ -134,6 +177,8 @@ class GraphicGapMatchInteraction extends GraphicInteraction
     {
         if ($choice instanceof GapImg) {
             unset($this->gapImgs[$choice->getSerial()]);
+        } elseif ($choice instanceof GapText) {
+            unset($this->gapTexts[$choice->getSerial()]);
         } else {
             parent::removeChoice($choice);
         }
