@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "@oat-sa/tao-item-runner": "^1.0.0",
-        "@oat-sa/tao-item-runner-qti": "dev-feat/AUT-4704/graphic-gap-match-gap-text as 2.11.3"
+        "@oat-sa/tao-item-runner-qti": "git+https://github.com/oat-sa/tao-item-runner-qti-fe.git#feat/AUT-4704/graphic-gap-match-gap-text"
     }
 }
