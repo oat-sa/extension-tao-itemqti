@@ -71,7 +71,7 @@ define([
                 });
 
 
-            resourceManager($upload, options);
+            resourceManager($upload, Object.assign({}, options, { currentAsset: $src.val() || undefined }));
 
         };
 
