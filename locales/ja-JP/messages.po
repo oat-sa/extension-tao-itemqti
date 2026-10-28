@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-10-27 04:31\n"
+"PO-Revision-Date: 2026-10-28 04:27\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -1297,10 +1297,10 @@ msgid "MathType"
 msgstr "MathType"
 
 msgid "MathType availability"
-msgstr "MathType available"
+msgstr "MathTypeの利用可否"
 
 msgid "MathType is currently enabled for your organization. Depending on usage, a separate licence may be required. Contact your account administrator for more information."
-msgstr "MathTypeは現在組織で有効になっています。使用状況によっては、別のライセンスが必要になる場合があります。詳細についてはアカウント管理者にお問い合わせください。"
+msgstr "MathTypeは、現在あなたの組織で有効になっています。使用状況によっては、別のライセンスが必要になる場合があります。詳細についてはアカウント管理者にお問い合わせください。"
 
 msgid "Max"
 msgstr "最大"
@@ -2216,7 +2216,7 @@ msgid "The maximum number of associations that the candidate is allowed to make.
 msgstr "受験者が解答できる組合せの最大数"
 
 msgid "The maximum number of associations that the candidate is required to make to form a valid response."
-msgstr "有効な応答を形成するために候補者が必要とされる関連の最大数。"
+msgstr "受験者が有効な解答を作成するために必要な関連付けの最大数。"
 
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "受験者が選択できる選択肢の最大数"
