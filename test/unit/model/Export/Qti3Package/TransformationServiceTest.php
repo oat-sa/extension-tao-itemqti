@@ -133,6 +133,37 @@ class TransformationServiceTest extends TestCase
         );
     }
 
+    public function testTransformMathInInlineChoiceAndResponseProcessingTemplate(): void
+    {
+        $oldDoc = new DOMDocument();
+        $oldDoc->loadXML(
+            '<assessmentItem>
+                <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>
+                <itemBody><p>Pick
+                    <inlineChoiceInteraction responseIdentifier="RESPONSE">
+                        <inlineChoice identifier="a"><m:math><m:mrow><m:mi>x</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow></m:math></inlineChoice>
+                    </inlineChoiceInteraction>
+                </p></itemBody>
+            </assessmentItem>'
+        );
+
+        $newDoc = new DOMDocument();
+        $newRoot = $newDoc->createElement('qti-assessment-item');
+        $newDoc->appendChild($newRoot);
+
+        $this->service->transformChildren($oldDoc->documentElement, $newRoot, $newDoc);
+        $xml = $newDoc->saveXML();
+
+        self::assertStringContainsString(
+            'template="https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/match_correct.xml"',
+            $xml
+        );
+        self::assertStringContainsString('<math xmlns="http://www.w3.org/1998/Math/MathML">', $xml);
+        self::assertStringContainsString('<qti-inline-choice identifier="a">', $xml);
+        self::assertStringNotContainsString('m:math', $xml);
+        self::assertStringNotContainsString('qti_v2p1', $xml);
+    }
+
     /**
      * @dataProvider elementNameProvider
      */

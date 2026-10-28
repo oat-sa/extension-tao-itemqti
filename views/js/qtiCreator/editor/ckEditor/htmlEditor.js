@@ -551,8 +551,16 @@ define([
                 listenToWidgetCreation();
                 containerWidget.changeState('sleep');
             } else if (Element.isA(containerWidget.element, 'choice')) {
-                listenToWidgetCreation();
-                containerWidget.changeState('question');
+                const currentState = containerWidget.getCurrentState && containerWidget.getCurrentState();
+                if (currentState && currentState.name === 'question') {
+                    // choices whose editor lives in question state (gapText, inlineChoice)
+                    // are already there: changeState('question') is a no-op and no
+                    // widgetCreated event will fire, so activate the inner widget directly
+                    innerWidget.changeState('active');
+                } else {
+                    listenToWidgetCreation();
+                    containerWidget.changeState('question');
+                }
             } else if (Element.isA(containerWidget.element, 'table')) {
                 listenToWidgetCreation();
                 containerWidget.changeState('sleep');

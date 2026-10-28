@@ -115,10 +115,25 @@ class TransformationService
                         }
                     }
 
-                    $targetElement->setAttribute($attrName, $attribute->value);
+                    $targetElement->setAttribute($attrName, $this->transformAttributeValue($sourceElement, $attribute));
                 }
             }
         }
+    }
+
+    private function transformAttributeValue(DOMElement $sourceElement, DOMAttr $attribute): string
+    {
+        // QTI 2.x response processing template URIs are not valid QTI 3.0 template
+        // references; map the standard templates to their canonical QTI 3.0 URIs.
+        if ($sourceElement->nodeName === 'responseProcessing' && $attribute->nodeName === 'template') {
+            $template = basename(rtrim($attribute->value, '/'));
+            $template = preg_replace('/\.xml$/', '', $template) ?? $template;
+            if (in_array($template, ['match_correct', 'map_response', 'map_response_point'], true)) {
+                return 'https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/' . $template . '.xml';
+            }
+        }
+
+        return $attribute->value;
     }
 
     public function createQtiElementName(string $nodeName): string

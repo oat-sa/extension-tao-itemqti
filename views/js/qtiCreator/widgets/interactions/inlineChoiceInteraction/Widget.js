@@ -37,6 +37,13 @@ define([
         this.$choiceOptionForm = options.choiceOptionForm;
         _.forEach(this.element.getChoices(), choice => {
             this.buildChoice(choice);
+
+            //the choice markup only enters the DOM when this widget is built
+            //(see buildContainer), which happens after the choices have already
+            //been post-rendered by the interaction. Elements contained in the
+            //choice body (e.g. math) therefore still need their widgets built,
+            //now that their containers can be found in the document.
+            choice.getBody().postRender({}, '', this.element.getRenderer());
         });
 
         //remove toolbar title, because it is too large

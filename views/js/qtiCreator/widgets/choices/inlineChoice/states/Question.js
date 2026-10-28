@@ -79,8 +79,7 @@ define([
                 qtiImage: false,
                 qtiInclude: false,
                 enterMode: CKEditor.ENTER_BR,
-                shieldInnerContent: false,
-                mathJax: false,
+                shieldInnerContent: true,
                 furiganaPlugin: true,
                 on: {
                     key: function (evt) {
@@ -119,6 +118,11 @@ define([
             .off('keyup.qti-widget');
 
         this.widget.$container.find('.editable-container').removeAttr('data-html-editable');
+
+        // actually destroy the CKEditor instance (as gapText/simpleChoice do),
+        // otherwise re-entering question state never rebuilds it and inner
+        // widgets (e.g. math) are never re-created/activatable
+        htmlEditor.destroyEditor(this.widget.$container);
     };
 
     return ChoiceStateQuestion;
