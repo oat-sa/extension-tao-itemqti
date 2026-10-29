@@ -555,11 +555,6 @@ define([
             } else if (Element.isA(containerWidget.element, 'choice')) {
                 const currentState = containerWidget.getCurrentState && containerWidget.getCurrentState();
                 if (currentState && (currentState.name === 'question' || currentState.name === 'choice')) {
-                    // choices whose editor lives in question state (gapText, inlineChoice)
-                    // are already there (focusing the editor moves them to the choice
-                    // sub-state): changeState('question') only pops that sub-state, no
-                    // widget is rebuilt and no widgetCreated event will fire, so activate
-                    // the inner widget directly
                     innerWidget.changeState('active');
                 } else {
                     listenToWidgetCreation();
@@ -706,9 +701,6 @@ define([
 
                             //before destroying, ensure that data is stored
                             if (_.isFunction(options.change)) {
-                                //options.change is usually throttled: cancel any pending
-                                //trailing invocation so this save runs now, synchronously,
-                                //instead of overwriting the body after teardown
                                 if (_.isFunction(options.change.cancel)) {
                                     options.change.cancel();
                                 }
