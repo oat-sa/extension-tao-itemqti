@@ -502,10 +502,14 @@ XML;
         $dom = new DOMDocument();
         $dom->loadXML($xml);
         $xsd = dirname(__DIR__, 4) . '/model/qti/data/qtiv2p2p4/imsqti_v2p2p4.xsd';
-        libxml_use_internal_errors(true);
-        libxml_clear_errors();
-        $valid = $dom->schemaValidate($xsd);
-        $errors = array_map(static fn ($e) => trim($e->message), libxml_get_errors());
+        $previousUseInternalErrors = libxml_use_internal_errors(true);
+        try {
+            libxml_clear_errors();
+            $valid = $dom->schemaValidate($xsd);
+            $errors = array_map(static fn ($e) => trim($e->message), libxml_get_errors());
+        } finally {
+            libxml_use_internal_errors($previousUseInternalErrors);
+        }
         self::assertTrue($valid, implode(' | ', $errors));
         self::assertStringContainsString('math', $xml);
     }

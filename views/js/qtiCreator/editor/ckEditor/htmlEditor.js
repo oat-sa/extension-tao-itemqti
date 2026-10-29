@@ -552,10 +552,12 @@ define([
                 containerWidget.changeState('sleep');
             } else if (Element.isA(containerWidget.element, 'choice')) {
                 const currentState = containerWidget.getCurrentState && containerWidget.getCurrentState();
-                if (currentState && currentState.name === 'question') {
+                if (currentState && (currentState.name === 'question' || currentState.name === 'choice')) {
                     // choices whose editor lives in question state (gapText, inlineChoice)
-                    // are already there: changeState('question') is a no-op and no
-                    // widgetCreated event will fire, so activate the inner widget directly
+                    // are already there (focusing the editor moves them to the choice
+                    // sub-state): changeState('question') only pops that sub-state, no
+                    // widget is rebuilt and no widgetCreated event will fire, so activate
+                    // the inner widget directly
                     innerWidget.changeState('active');
                 } else {
                     listenToWidgetCreation();

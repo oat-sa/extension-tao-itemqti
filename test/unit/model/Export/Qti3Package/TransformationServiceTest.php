@@ -137,7 +137,7 @@ class TransformationServiceTest extends TestCase
     {
         $oldDoc = new DOMDocument();
         $oldDoc->loadXML(
-            '<assessmentItem>
+            '<assessmentItem xmlns:m="http://www.w3.org/1998/Math/MathML">
                 <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>
                 <itemBody><p>Pick
                     <inlineChoiceInteraction responseIdentifier="RESPONSE">
@@ -162,6 +162,50 @@ class TransformationServiceTest extends TestCase
         self::assertStringContainsString('<qti-inline-choice identifier="a">', $xml);
         self::assertStringNotContainsString('m:math', $xml);
         self::assertStringNotContainsString('qti_v2p1', $xml);
+    }
+
+    /**
+     * @dataProvider responseProcessingTemplateProvider
+     */
+    public function testTransformResponseProcessingTemplate(string $template, string $expected): void
+    {
+        $oldDoc = new DOMDocument();
+        $oldDoc->loadXML(
+            '<assessmentItem><responseProcessing template="' . $template . '"/></assessmentItem>'
+        );
+
+        $newDoc = new DOMDocument();
+        $newRoot = $newDoc->createElement('qti-assessment-item');
+        $newDoc->appendChild($newRoot);
+
+        $this->service->transformChildren($oldDoc->documentElement, $newRoot, $newDoc);
+
+        self::assertStringContainsString('template="' . $expected . '"', $newDoc->saveXML());
+    }
+
+    public function responseProcessingTemplateProvider(): array
+    {
+        $canonical = 'https://purl.imsglobal.org/spec/qti/v3p0/rptemplates/';
+
+        return [
+            'qti 2.1 template uri' => [
+                'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct',
+                $canonical . 'match_correct.xml',
+            ],
+            'qti 2.2 template uri' => [
+                'https://www.imsglobal.org/question/qti_v2p2/rptemplates/map_response',
+                $canonical . 'map_response.xml',
+            ],
+            'qti 3.0 template uri' => [
+                $canonical . 'map_response_point.xml',
+                $canonical . 'map_response_point.xml',
+            ],
+            'bare template name' => ['match_correct', $canonical . 'match_correct.xml'],
+            'custom template uri' => [
+                'https://example.org/scoring/match_correct.xml',
+                'https://example.org/scoring/match_correct.xml',
+            ],
+        ];
     }
 
     /**

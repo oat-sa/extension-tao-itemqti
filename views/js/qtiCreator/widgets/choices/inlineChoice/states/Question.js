@@ -114,15 +114,19 @@ define([
         this.widget.$container
             .find('.editable-content')
             .removeAttr('contenteditable')
-            .removeAttr('data-html-editable')
             .off('keyup.qti-widget');
-
-        this.widget.$container.find('.editable-container').removeAttr('data-html-editable');
 
         // actually destroy the CKEditor instance (as gapText/simpleChoice do),
         // otherwise re-entering question state never rebuilds it and inner
-        // widgets (e.g. math) are never re-created/activatable
+        // widgets (e.g. math) are never re-created/activatable.
+        // This must happen before data-html-editable is removed, because
+        // htmlEditor.destroyEditor() locates the editor through that attribute.
         htmlEditor.destroyEditor(this.widget.$container);
+
+        this.widget.$container
+            .find('.editable-content')
+            .removeAttr('data-html-editable');
+        this.widget.$container.find('.editable-container').removeAttr('data-html-editable');
     };
 
     return ChoiceStateQuestion;
