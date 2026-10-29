@@ -87,7 +87,18 @@ define(['taoQtiItem/qtiXmlRenderer/helper/synonymGroupResponseProcessingGenerato
             ]
         });
 
-        assert.equal(generator.getMaxScore(weightedConfig), 5);
+        assert.equal(generator.getMaxScore(weightedConfig), 3);
+
+        const moreGroupsThanInputs = generator.normalizeConfig({
+            interactions: ['R1', 'R2'],
+            synonymGroups: [
+                { id: 'A_FOUND', synonyms: ['a'] },
+                { id: 'B_FOUND', synonyms: ['b'] },
+                { id: 'C_FOUND', synonyms: ['c'] }
+            ]
+        });
+
+        assert.equal(generator.getMaxScore(moreGroupsThanInputs), 2);
 
         const withThresholds = generator.normalizeConfig({
             interactions: ['R1', 'R2', 'R3', 'R4'],
@@ -114,7 +125,7 @@ define(['taoQtiItem/qtiXmlRenderer/helper/synonymGroupResponseProcessingGenerato
         assert.ok(xml.indexOf('identifier="SPAIN_FOUND"') > -1);
         assert.ok(xml.indexOf('identifier="SCORE"') > -1);
         assert.ok(xml.indexOf('identifier="MAXSCORE"') > -1);
-        assert.ok(xml.indexOf('<value>3</value>') > -1, 'MAXSCORE equals number of groups');
+        assert.ok(xml.indexOf('<value>3</value>') > -1, 'MAXSCORE equals achievable score for inputs and groups');
     });
 
     QUnit.test('escapes special characters in synonyms', assert => {
