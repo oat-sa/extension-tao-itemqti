@@ -141,7 +141,9 @@ class TransformationServiceTest extends TestCase
                 <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>
                 <itemBody><p>Pick
                     <inlineChoiceInteraction responseIdentifier="RESPONSE">
-                        <inlineChoice identifier="a"><m:math><m:mrow><m:mi>x</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow></m:math></inlineChoice>
+                        <inlineChoice identifier="a">
+                            <m:math><m:mrow><m:mi>x</m:mi><m:mo>=</m:mo><m:mn>1</m:mn></m:mrow></m:math>
+                        </inlineChoice>
                     </inlineChoiceInteraction>
                 </p></itemBody>
             </assessmentItem>'

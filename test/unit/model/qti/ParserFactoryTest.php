@@ -530,7 +530,8 @@ XML;
 <assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:m="http://www.w3.org/2010/Math/MathML"
-    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2
+        http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd"
     identifier="nonref-gap-match" title="Non-reference Gap Match" adaptive="false" timeDependent="false">
   <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="directedPair">
     <correctResponse><value>txtA gapA</value><value>txtB gapB</value></correctResponse>
@@ -539,8 +540,12 @@ XML;
   <itemBody>
     <p>Classify each expression.</p>
     <gapMatchInteraction responseIdentifier="RESPONSE" maxAssociations="2">
-      <gapText identifier="txtA" matchMax="1"><m:math><m:mfrac><m:mi>x</m:mi><m:mn>2</m:mn></m:mfrac></m:math></gapText>
-      <gapText identifier="txtB" matchMax="1">plain <m:math><m:msup><m:mi>y</m:mi><m:mn>3</m:mn></m:msup></m:math></gapText>
+      <gapText identifier="txtA" matchMax="1">
+        <m:math><m:mfrac><m:mi>x</m:mi><m:mn>2</m:mn></m:mfrac></m:math>
+      </gapText>
+      <gapText identifier="txtB" matchMax="1">plain
+        <m:math><m:msup><m:mi>y</m:mi><m:mn>3</m:mn></m:msup></m:math>
+      </gapText>
       <div><table><tbody>
         <tr><td><p><gap identifier="gapA"/></p></td><td><p><gap identifier="gapB"/></p></td></tr>
       </tbody></table></div>
@@ -557,7 +562,8 @@ XML;
 <?xml version="1.0" encoding="UTF-8"?>
 <qti-assessment-item xmlns="http://www.imsglobal.org/xsd/imsqtiasi_v3p0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqtiasi_v3p0 https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_asiv3p0_v1p0.xsd"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqtiasi_v3p0
+        https://purl.imsglobal.org/spec/qti/v3p0/schema/xsd/imsqti_asiv3p0_v1p0.xsd"
     identifier="nonref-gap-match-3" title="Non-reference Gap Match 3" adaptive="false" time-dependent="false">
   <qti-response-declaration identifier="RESPONSE" cardinality="multiple" base-type="directedPair">
     <qti-correct-response><qti-value>txtA gapA</qti-value><qti-value>txtB gapB</qti-value></qti-correct-response>
@@ -566,8 +572,14 @@ XML;
   <qti-item-body>
     <p>Classify each expression.</p>
     <qti-gap-match-interaction response-identifier="RESPONSE" max-associations="2">
-      <qti-gap-text identifier="txtA" match-max="1"><math xmlns="http://www.w3.org/1998/Math/MathML" alttext="x over 2"><mfrac><mi>x</mi><mn>2</mn></mfrac></math></qti-gap-text>
-      <qti-gap-text identifier="txtB" match-max="1"><math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mi>y</mi><mn>3</mn></msup></math></qti-gap-text>
+      <qti-gap-text identifier="txtA" match-max="1">
+        <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="x over 2">
+          <mfrac><mi>x</mi><mn>2</mn></mfrac>
+        </math>
+      </qti-gap-text>
+      <qti-gap-text identifier="txtB" match-max="1">
+        <math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mi>y</mi><mn>3</mn></msup></math>
+      </qti-gap-text>
       <div><table><tbody>
         <tr><td><p><qti-gap identifier="gapA"/></p></td><td><p><qti-gap identifier="gapB"/></p></td></tr>
       </tbody></table></div>
@@ -585,7 +597,8 @@ XML;
 <assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:m="http://www.w3.org/2010/Math/MathML"
-    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2
+        http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd"
     identifier="nonref-inline-choice" title="Non-reference Inline Choice" adaptive="false" timeDependent="false">
   <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier">
     <correctResponse><value>optB</value></correctResponse>
@@ -593,8 +606,12 @@ XML;
   <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
   <itemBody>
     <p>Pick: <inlineChoiceInteraction responseIdentifier="RESPONSE">
-      <inlineChoice identifier="optA"><m:math><m:mrow><m:mi>p</m:mi><m:mo>+</m:mo><m:mn>1</m:mn></m:mrow></m:math></inlineChoice>
-      <inlineChoice identifier="optB">value <m:math><m:mrow><m:mi>p</m:mi><m:mo>-</m:mo><m:mn>1</m:mn></m:mrow></m:math></inlineChoice>
+      <inlineChoice identifier="optA">
+        <m:math><m:mrow><m:mi>p</m:mi><m:mo>+</m:mo><m:mn>1</m:mn></m:mrow></m:math>
+      </inlineChoice>
+      <inlineChoice identifier="optB">value
+        <m:math><m:mrow><m:mi>p</m:mi><m:mo>-</m:mo><m:mn>1</m:mn></m:mrow></m:math>
+      </inlineChoice>
     </inlineChoiceInteraction></p>
   </itemBody>
   <responseProcessing template="http://www.imsglobal.org/question/qti_v2p2/rptemplates/match_correct"/>

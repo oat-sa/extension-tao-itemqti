@@ -704,6 +704,12 @@ define([
 
                             //before destroying, ensure that data is stored
                             if (_.isFunction(options.change)) {
+                                //options.change is usually throttled: cancel any pending
+                                //trailing invocation so this save runs now, synchronously,
+                                //instead of overwriting the body after teardown
+                                if (_.isFunction(options.change.cancel)) {
+                                    options.change.cancel();
+                                }
                                 const rawData = editor.getData();
                                 const cleanedData = rubyTagCleaner.clean(rawData);
                                 options.change.call(editor, _htmlEncode(cleanedData));
