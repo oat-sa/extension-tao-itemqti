@@ -11,7 +11,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2015-2026 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
@@ -180,23 +180,25 @@ define([
                     $editable.data('editor-options', options);
 
                     //need to debounce the callback to prevent the changes made by undo to trigger the event change twice
-                    editor.on(
-                        'change',
-                        _.debounce(
-                            function markupChanged() {
-                                _detectWidgetDeletion($editable, widgets, editor);
-                                if (_.isFunction(options.change)) {
-                                    const rawData = editor.getData();
-                                    const cleanedData = rubyTagCleaner.clean(rawData);
-                                    options.change.call(editor, _htmlEncode(cleanedData));
-                                }
-                            },
-                            100,
-                            {
-                                leading: true
+                    const onMarkupChanged = _.debounce(
+                        function markupChanged() {
+                            _detectWidgetDeletion($editable, widgets, editor);
+                            if (_.isFunction(options.change)) {
+                                const rawData = editor.getData();
+                                const cleanedData = rubyTagCleaner.clean(rawData);
+                                options.change.call(editor, _htmlEncode(cleanedData));
                             }
-                        )
+                        },
+                        100,
+                        {
+                            leading: true
+                        }
                     );
+                    editor.on('change', onMarkupChanged);
+                    editor.on('beforeDestroy', function () {
+                        editor.removeListener('change', onMarkupChanged);
+                        onMarkupChanged.cancel();
+                    });
                     if (options.on) {
                         Object.entries(options.on).forEach(([eventName, handler]) => {
                             editor.on(eventName, handler);

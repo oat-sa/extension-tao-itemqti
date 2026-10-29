@@ -11,7 +11,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2026 (original work) Open Assessment Technologies SA
  */
@@ -51,6 +51,42 @@ define(['jquery', 'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor'], function 
     }
 
     QUnit.module('restoreEditableThenFocus');
+
+    QUnit.test('destroy cancels a queued editor change while preserving the final flush', function (assert) {
+        const done = assert.async();
+        const $container = $(
+            '<div data-html-editable-container="true">' +
+                '<div data-html-editable="true">Keep this content</div></div>'
+        ).appendTo('#qunit-fixture');
+        let changes = 0;
+
+        htmlEditor.buildEditor($container, {
+            autofocus: false,
+            shieldInnerContent: false,
+            change: function () {
+                changes++;
+            }
+        }).then(function () {
+            const editor = $container.find('[data-html-editable]').data('editor');
+            editor.fire('change');
+            editor.fire('change');
+            const beforeDestroy = changes;
+
+            return htmlEditor.destroyEditor($container).then(function () {
+                assert.strictEqual(editor.status, 'destroyed', 'the real editor was destroyed');
+                assert.ok(changes > beforeDestroy, 'the final content flush still ran');
+                const afterDestroy = changes;
+
+                setTimeout(function () {
+                    assert.strictEqual(changes, afterDestroy, 'no queued change runs after destruction');
+                    done();
+                }, 200);
+            });
+        }).catch(function (error) {
+            assert.ok(false, error.message);
+            done();
+        });
+    });
 
     QUnit.test('readOnly true: restores contenteditable before _focus', function (assert) {
         assert.expect(4);
