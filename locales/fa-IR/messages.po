@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-08-13 08:57\n"
+"PO-Revision-Date: 2026-10-23 14:59\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fa\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -144,6 +144,9 @@ msgid "Add choice"
 msgstr ""
 
 msgid "Add else feedback"
+msgstr ""
+
+msgid "Add file(s)"
 msgstr ""
 
 msgid "Add level"
@@ -447,6 +450,12 @@ msgid "Color Picker"
 msgstr ""
 
 msgid "Column separator"
+msgstr ""
+
+msgid "Comments"
+msgstr ""
+
+msgid "Comments apply to the whole item."
 msgstr ""
 
 msgid "Common Interactions"
@@ -1281,6 +1290,15 @@ msgid "MathJax is not installed."
 msgstr ""
 
 msgid "MathML"
+msgstr ""
+
+msgid "MathType"
+msgstr ""
+
+msgid "MathType availability"
+msgstr ""
+
+msgid "MathType is currently enabled for your organization. Depending on usage, a separate licence may be required. Contact your account administrator for more information."
 msgstr ""
 
 msgid "Max"
@@ -2194,6 +2212,9 @@ msgid "The maximum number of association is unlimited."
 msgstr ""
 
 msgid "The maximum number of associations that the candidate is allowed to make."
+msgstr ""
+
+msgid "The maximum number of associations that the candidate is required to make to form a valid response."
 msgstr ""
 
 msgid "The maximum number of choices that the candidate is allowed to select."

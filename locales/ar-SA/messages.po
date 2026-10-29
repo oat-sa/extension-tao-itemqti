@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-08-13 08:57\n"
+"PO-Revision-Date: 2026-10-23 14:58\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -145,6 +145,9 @@ msgstr "إضافة خيار"
 
 msgid "Add else feedback"
 msgstr "إضافة ملاحظات أخرى"
+
+msgid "Add file(s)"
+msgstr "أضف ملفات"
 
 msgid "Add level"
 msgstr "إضافة مستوى"
@@ -448,6 +451,12 @@ msgstr "أداة انتقاء اللون"
 
 msgid "Column separator"
 msgstr "فاصل الأعمدة"
+
+msgid "Comments"
+msgstr "تعليقات"
+
+msgid "Comments apply to the whole item."
+msgstr "وتنطبق التعليقات على البند بأكمله."
 
 msgid "Common Interactions"
 msgstr "التفاعلات المشتركة"
@@ -1283,6 +1292,15 @@ msgstr "MathJax غير مثبت."
 
 msgid "MathML"
 msgstr "MathML"
+
+msgid "MathType"
+msgstr "MathType"
+
+msgid "MathType availability"
+msgstr "توفر MathType"
+
+msgid "MathType is currently enabled for your organization. Depending on usage, a separate licence may be required. Contact your account administrator for more information."
+msgstr "MathType مفعل حاليًا لمؤسستك. اعتمادًا على الاستخدام، قد تكون هناك حاجة إلى ترخيص منفصل. اتصل بمسؤول حسابك لمزيد من المعلومات."
 
 msgid "Max"
 msgstr "الأعلى"
@@ -2196,6 +2214,9 @@ msgstr "الحد الأقصى لعدد الروابط غير محدود."
 
 msgid "The maximum number of associations that the candidate is allowed to make."
 msgstr "الحد الأقصى لعدد الروابط التي يُسمح للمرشح بإنشائها."
+
+msgid "The maximum number of associations that the candidate is required to make to form a valid response."
+msgstr "الحد الأقصى لعدد الرابطات التي يتعين على المرشح إجراؤها لتكوين رد صحيح."
 
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "الحد الأقصى لعدد الاختيارات التي يُسمح للمرشح بتحديدها."
