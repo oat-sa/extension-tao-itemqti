@@ -225,18 +225,26 @@ define([
 
             if (!$gapImgBox.length) {
                 $gapImgBox = $(gapImgObj.render()).insertBefore($addOption);
+            } else {
+                //re-render the choice so a replaced image shows up without saving the item
+                const $img = $(gapImgObj.render()).find('img');
+                if ($img.length) {
+                    $gapImgBox.find('img').replaceWith($img);
+                }
             }
 
             //manage gap deletion
-            $deleteBtn
-                .appendTo($gapImgBox)
-                .show()
-                .click(function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    $gapImgBox.remove();
-                    interaction.removeGapImg(gapImgObj);
-                });
+            if (!$gapImgBox.find('.mini-tlb').length) {
+                $deleteBtn
+                    .appendTo($gapImgBox)
+                    .show()
+                    .click(function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        $gapImgBox.remove();
+                        interaction.removeGapImg(gapImgObj);
+                    });
+            }
 
             enterGapImgForm(gapImgObj.serial);
 
@@ -440,6 +448,7 @@ define([
                 };
 
                 // Wait for image to load before initializing mediasizer
+                $gapImgElem.off('load');
                 if ($gapImgElem.get(0) && $gapImgElem.get(0).complete) {
                     initMediasizer();
                 } else {
