@@ -32,7 +32,9 @@ define([
     _.extend(methods, {
         getDefaultAttributes : function(){
             return {
-                shuffle : false
+                shuffle : false,
+                maxAssociations : 0,
+                minAssociations : 0
             };
         },
         afterCreate : function(){
@@ -136,4 +138,3 @@ define([
     });
     return Interaction.extend(methods);
 });
-

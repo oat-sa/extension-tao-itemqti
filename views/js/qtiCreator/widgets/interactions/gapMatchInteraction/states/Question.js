@@ -25,6 +25,7 @@ define([
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiCreator/widgets/component/minMax/minMax',
     'taoQtiItem/qtiCreator/widgets/helpers/content',
     'taoQtiItem/qtiCreator/widgets/helpers/selectionWrapper',
     'taoQtiItem/qtiCreator/model/choices/GapText',
@@ -42,6 +43,7 @@ define([
     htmlEditor,
     gridContentHelper,
     formElement,
+    minMaxComponentFactory,
     htmlContentHelper,
     selectionWrapper,
     Choice,
@@ -332,14 +334,32 @@ define([
             }
         }));
 
+        minMaxComponentFactory($form.find('.min-max-panel'), {
+            min: {
+                fieldName: 'minAssociations',
+                value: _.parseInt(interaction.attr('minAssociations')) || 0,
+                toggler: false,
+                helpMessage: __('The minimum number of associations that the candidate is required to make to form a valid response.')
+            },
+            max: {
+                fieldName: 'maxAssociations',
+                value: _.parseInt(interaction.attr('maxAssociations')) || 0,
+                toggler: false,
+                helpMessage: __('The maximum number of associations that the candidate is required to make to form a valid response.')
+            },
+            lowerThreshold: 0,
+            upperThreshold: 100
+        });
+
         formElement.initWidget($form);
 
-        formElement.setChangeCallbacks($form, interaction, {
-            shuffle : formElement.getAttributeChangeCallback(),
-            position : function(interaction, value){
+        var callbacks = formElement.getMinMaxAttributeCallbacks('minAssociations', 'maxAssociations');
+        callbacks.shuffle = formElement.getAttributeChangeCallback();
+        callbacks.position = function(interaction, value){
                 applyPosition(value);
-            }
-        });
+            };
+
+        formElement.setChangeCallbacks($form, interaction, callbacks);
 
     };
 

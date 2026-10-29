@@ -19,9 +19,10 @@ define([
     'jquery',
     'lodash',
     'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiItem/helper/response',
     'taoQtiItem/qtiCreator/editor/gridEditor/content',
     'taoQtiItem/qtiXmlRenderer/helper/synonymGroupResponseProcessingGenerator'
-], function ($, _, Element, contentHelper, synonymGroupGenerator) {
+], function ($, _, Element, responseHelper, contentHelper, synonymGroupGenerator) {
     'use strict';
 
     const UMFI_ITEM_TYPE = 'umfi-closed';
@@ -343,6 +344,81 @@ define([
     };
 
     /**
+     * Clear map-response entries without ResponseDeclaration.removeMapEntry — that
+     * path updates the property panel and requires response.renderer.
+     *
+     * @param {Object} response
+     */
+    const clearMapResponseDeclaration = function clearMapResponseDeclaration(response) {
+        if (!response) {
+            return;
+        }
+
+        if (response.mapEntries && _.isObject(response.mapEntries)) {
+            _.forEach(_.keys(response.mapEntries), mapKey => {
+                delete response.mapEntries[mapKey];
+            });
+        }
+
+        if (response.mappingAttributes && _.isObject(response.mappingAttributes)) {
+            _.forEach(_.keys(response.mappingAttributes), name => {
+                if (_.isFunction(response.removeMappingAttribute)) {
+                    response.removeMappingAttribute(name);
+                } else {
+                    delete response.mappingAttributes[name];
+                }
+            });
+        }
+    };
+
+    /**
+     * Drop map-response state left from OMFI / map-response authoring before UMFI
+     * owns response declarations and custom response processing.
+     *
+     * @param {Object} interaction
+     */
+    const resetLegacyTextEntryProcessing = function resetLegacyTextEntryProcessing(interaction) {
+        const item =
+            interaction && _.isFunction(interaction.getRootElement) ? interaction.getRootElement() : null;
+        const primaryTextEntry = getPrimaryTextEntryForInteraction(interaction);
+
+        _.forEach(getItemTextEntries(interaction), textEntry => {
+            const response = _.isFunction(textEntry.getResponseDeclaration)
+                ? textEntry.getResponseDeclaration()
+                : null;
+
+            clearMapResponseDeclaration(response);
+        });
+
+        if (!item || !primaryTextEntry || !_.isFunction(primaryTextEntry.attr)) {
+            return;
+        }
+
+        if (primaryTextEntry.attr(DATA_SCORING_MODEL_RP_MANAGED) !== 'true') {
+            return;
+        }
+
+        switchResponseProcessingToTemplateDriven(item.responseProcessing, interaction);
+
+        if (_.isFunction(item.removeOutcome)) {
+            item.removeOutcome(TEMP_SCORE_OUTCOME);
+        }
+
+        const scoreOutcome = _.isFunction(item.getOutcomeDeclaration)
+            ? item.getOutcomeDeclaration('SCORE')
+            : null;
+
+        if (scoreOutcome && _.isFunction(scoreOutcome.removeAttr)) {
+            scoreOutcome.removeAttr('normalMaximum');
+            scoreOutcome.removeAttr('normalMinimum');
+        }
+
+        if (_.isFunction(primaryTextEntry.removeAttr)) {
+            primaryTextEntry.removeAttr(DATA_SCORING_MODEL_RP_MANAGED);
+        }
+    };
+
+    /**
      * @param {Object} interaction
      * @param {boolean} enabled
      */
@@ -356,6 +432,8 @@ define([
         }
 
         if (enabled) {
+            resetLegacyTextEntryProcessing(interaction);
+
             primaryTextEntry.attr(
                 DATA_ITEM_TYPE,
                 primaryTextEntry.attr(DATA_ALLOW_LEXICAL_FIELDS) === 'true'
@@ -411,6 +489,34 @@ define([
             .filter(Boolean)
             .uniq()
             .value();
+    };
+
+    /**
+     * Keep each text-entry response declaration aligned with its lexical field.
+     * Variants are used by response processing, while only the canonical field
+     * value is the correct response for the corresponding input. When there are
+     * more text entries than lexicon fields, canonicals repeat in creation order.
+     *
+     * @param {Object} interaction
+     * @param {Object[]} lexicalGroups
+     */
+    const syncCorrectResponses = function syncCorrectResponses(interaction, lexicalGroups) {
+        const groupsInCreationOrder = getScorableLexicalGroups(lexicalGroups.slice().reverse());
+
+        if (!groupsInCreationOrder.length) {
+            return;
+        }
+
+        _.forEach(getItemTextEntries(interaction), (textEntry, index) => {
+            const group = groupsInCreationOrder[index % groupsInCreationOrder.length];
+            const response = _.isFunction(textEntry.getResponseDeclaration)
+                ? textEntry.getResponseDeclaration()
+                : null;
+
+            if (group && group.canonical && response && _.isFunction(response.setCorrect)) {
+                response.setCorrect(group.canonical);
+            }
+        });
     };
 
     /**
@@ -739,8 +845,20 @@ define([
         }
 
         const config = getEvaluationConfig(sampleInteraction);
+        const usesMapResponse = hasMapResponseTextEntryTemplate(sampleInteraction);
 
-        if (!config.evaluateAsUmfi) {
+        if (usesMapResponse || !config.evaluateAsUmfi) {
+            if (
+                usesMapResponse ||
+                config.evaluateAsUmfi === false ||
+                isUmfiEnabled(sampleInteraction) ||
+                hasUmfiCustomResponseProcessingXml(item)
+            ) {
+                teardownUmfiScoring(sampleInteraction);
+            } else {
+                resetTextEntryTemplatesFromCustomUnlessMapResponse(sampleInteraction);
+            }
+
             return;
         }
 
@@ -764,6 +882,148 @@ define([
         const fromUmfiValues = _.map(parseDataUmfiValues(primaryTextEntry.attr(DATA_UMFI_VALUES)), 'id');
 
         return _.uniq(_.filter(fromManagedAttr.concat(fromUmfiValues), Boolean));
+    };
+
+    /**
+     * @param {Object} response
+     * @returns {boolean}
+     */
+    const isMapResponseTemplate = function isMapResponseTemplate(response) {
+        return (
+            responseHelper.isUsingTemplate(response, 'MAP_RESPONSE') ||
+            responseHelper.isUsingTemplate(response, 'MAP_RESPONSE_POINT')
+        );
+    };
+
+    /**
+     * @param {Object} response
+     * @returns {string|null}
+     */
+    const getMapResponseTemplateName = function getMapResponseTemplateName(response) {
+        if (responseHelper.isUsingTemplate(response, 'MAP_RESPONSE_POINT')) {
+            return 'MAP_RESPONSE_POINT';
+        }
+
+        if (responseHelper.isUsingTemplate(response, 'MAP_RESPONSE')) {
+            return 'MAP_RESPONSE';
+        }
+
+        return null;
+    };
+
+    /**
+     * @param {Object} interaction
+     * @returns {Array<{response: Object, templateName: string}>}
+     */
+    const snapshotMapResponseTemplates = function snapshotMapResponseTemplates(interaction) {
+        return _.compact(
+            _.map(getItemTextEntries(interaction), textEntry => {
+                const response = _.isFunction(textEntry.getResponseDeclaration)
+                    ? textEntry.getResponseDeclaration()
+                    : null;
+                const templateName = response && getMapResponseTemplateName(response);
+
+                if (!response || !templateName) {
+                    return null;
+                }
+
+                return { response, templateName };
+            })
+        );
+    };
+
+    /**
+     * @param {Array<{response: Object, templateName: string}>} snapshots
+     */
+    const restoreMapResponseTemplates = function restoreMapResponseTemplates(snapshots) {
+        _.forEach(snapshots, entry => {
+            if (entry.response && _.isFunction(entry.response.setTemplate) && entry.templateName) {
+                entry.response.setTemplate(entry.templateName);
+            }
+        });
+    };
+
+    /**
+     * ResponseProcessing.setProcessingType('templateDriven') resets every response to MATCH_CORRECT.
+     *
+     * @param {Object} rp
+     * @param {Object} interaction
+     */
+    const switchResponseProcessingToTemplateDriven = function switchResponseProcessingToTemplateDriven(rp, interaction) {
+        if (!rp) {
+            return;
+        }
+
+        const mapResponseTemplates = snapshotMapResponseTemplates(interaction);
+
+        if (_.isFunction(rp.setProcessingType)) {
+            rp.setProcessingType('templateDriven');
+        } else {
+            rp.processingType = 'templateDriven';
+        }
+
+        rp.xml = '';
+        restoreMapResponseTemplates(mapResponseTemplates);
+    };
+
+    /**
+     * @param {Object} interaction
+     * @returns {boolean}
+     */
+    const hasMapResponseTextEntryTemplate = function hasMapResponseTextEntryTemplate(interaction) {
+        return _.some(getItemTextEntries(interaction), textEntry => {
+            const response = _.isFunction(textEntry.getResponseDeclaration)
+                ? textEntry.getResponseDeclaration()
+                : null;
+
+            return response && isMapResponseTemplate(response);
+        });
+    };
+
+    /**
+     * UMFI sets response templates to CUSTOM; template-driven map-response rendering cannot serialize CUSTOM.
+     *
+     * @param {Object} interaction
+     */
+    const resetTextEntryTemplatesFromCustomUnlessMapResponse = function resetTextEntryTemplatesFromCustomUnlessMapResponse(
+        interaction
+    ) {
+        _.forEach(getItemTextEntries(interaction), textEntry => {
+            const response = _.isFunction(textEntry.getResponseDeclaration)
+                ? textEntry.getResponseDeclaration()
+                : null;
+
+            if (!response || !_.isFunction(response.setTemplate) || isMapResponseTemplate(response)) {
+                return;
+            }
+
+            if (responseHelper.isUsingTemplate(response, 'CUSTOM')) {
+                response.setTemplate('MATCH_CORRECT');
+            }
+        });
+    };
+
+    /**
+     * @param {Object} item
+     * @returns {boolean}
+     */
+    const hasUmfiCustomResponseProcessingXml = function hasUmfiCustomResponseProcessingXml(item) {
+        const rp = item && item.responseProcessing;
+        const xml = rp && rp.xml;
+
+        if (!rp || rp.processingType !== 'custom' || !_.isString(xml) || !xml.trim()) {
+            return false;
+        }
+
+        return xml.indexOf('<stringMatch') > -1 || xml.indexOf('_FOUND') > -1;
+    };
+
+    /**
+     * @param {Object} interaction
+     */
+    const teardownUmfiScoring = function teardownUmfiScoring(interaction) {
+        setUmfiEnabled(interaction, false);
+        resetTextEntryTemplatesFromCustomUnlessMapResponse(interaction);
     };
 
     /**
@@ -802,24 +1062,15 @@ define([
         const wasRpManaged =
             primaryTextEntry.attr(DATA_RP_MANAGED) === 'true' ||
             isUmfiEnabled(interaction) ||
-            parseDataUmfiValues(primaryTextEntry.attr(DATA_UMFI_VALUES)).length > 0;
+            parseDataUmfiValues(primaryTextEntry.attr(DATA_UMFI_VALUES)).length > 0 ||
+            hasUmfiCustomResponseProcessingXml(item);
 
         _.forEach(getManagedGroupOutcomeIds(item, primaryTextEntry), id => {
             item.removeOutcome(id);
         });
 
         if (wasRpManaged) {
-            const rp = item.responseProcessing;
-
-            if (rp && _.isFunction(rp.setProcessingType) && rp.processingType === 'custom') {
-                rp.setProcessingType('templateDriven');
-            } else if (rp) {
-                rp.processingType = 'templateDriven';
-            }
-
-            if (rp) {
-                rp.xml = '';
-            }
+            switchResponseProcessingToTemplateDriven(item.responseProcessing, interaction);
 
             item.removeOutcome('MAXSCORE');
             item.removeOutcome(TEMP_SCORE_OUTCOME);
@@ -828,6 +1079,7 @@ define([
 
         primaryTextEntry.removeAttr(DATA_MANAGED_OUTCOMES);
         primaryTextEntry.removeAttr(DATA_RP_MANAGED);
+        resetTextEntryTemplatesFromCustomUnlessMapResponse(interaction);
     };
 
     /**
@@ -845,6 +1097,8 @@ define([
             return;
         }
 
+        syncCorrectResponses(interaction, lexicalGroups);
+
         if (!scorableGroups.length) {
             const previousManaged = parseJsonStringArray(primaryTextEntry.attr(DATA_MANAGED_OUTCOMES));
 
@@ -855,17 +1109,7 @@ define([
             primaryTextEntry.attr(DATA_MANAGED_OUTCOMES, '[]');
 
             if (primaryTextEntry.attr(DATA_RP_MANAGED) === 'true') {
-                const rp = item.responseProcessing;
-
-                if (rp && _.isFunction(rp.setProcessingType) && rp.processingType === 'custom') {
-                    rp.setProcessingType('templateDriven');
-                } else if (rp) {
-                    rp.processingType = 'templateDriven';
-                }
-
-                if (rp) {
-                    rp.xml = '';
-                }
+                switchResponseProcessingToTemplateDriven(item.responseProcessing, interaction);
 
                 item.removeOutcome('MAXSCORE');
                 item.removeOutcome(TEMP_SCORE_OUTCOME);
