@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-10-23 14:58\n"
+"PO-Revision-Date: 2026-10-29 08:11\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro\n"
@@ -102,13 +102,13 @@ msgid "A choice must be selected"
 msgstr "Trebuie selectată o alegere"
 
 msgid "A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image."
-msgstr ""
+msgstr "O interacțiune grafică care se potrivește cu decalajul necesită o imagine de fundal, cel puțin un punct fierbinte și cel puțin o imagine lacunară."
 
 msgid "A human interpretation of the variable's value."
 msgstr "O interpretare umană a valorii variabilei."
 
 msgid "A Lexical Field groups a canonical answer and optional variants into a single expected response. The canonical value is stored in the item data and used for response processing; only additional variants are listed here. Group identifiers are assigned automatically."
-msgstr ""
+msgstr "Un câmp Lexical grupează un răspuns canonic şi variante opţionale într-un singur răspuns aşteptat. Valoarea canonică este stocată în datele elementului și utilizată pentru prelucrarea răspunsurilor; doar variante suplimentare sunt enumerate aici. Identificatorii de grup sunt alocați automat."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
 msgstr "O componentă QTI nu este suportată. Sistemul a returnat următoarea eroare: %s\n"
@@ -150,10 +150,10 @@ msgid "Add file(s)"
 msgstr "Adaugă fișier(e)"
 
 msgid "Add level"
-msgstr ""
+msgstr "Adaugă nivel"
 
 msgid "Add lexical field"
-msgstr ""
+msgstr "Adaugă câmp lexic"
 
 msgid "Add new column"
 msgstr "Adaugă o coloană nouă"
@@ -168,7 +168,7 @@ msgid "Add Style Sheet"
 msgstr "Adaugă foaie de stil"
 
 msgid "Add variant"
-msgstr ""
+msgstr "Adaugă variantă"
 
 msgid "after"
 msgstr "după"
