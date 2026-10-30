@@ -16,8 +16,36 @@
  * Copyright (c) 2026 (original work) Open Assessment Technologies SA
  */
 
-define(['jquery', 'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor'], function ($, htmlEditor) {
+define([
+    'jquery',
+    'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
+    'util/url',
+    'lib/jquery.mockjax/jquery.mockjax'
+], function ($, htmlEditor, urlUtil) {
     'use strict';
+
+    // htmlEditor.buildEditor() fetches the available languages; there is no
+    // back end in the test environment, so mock that request (same pattern as
+    // in the languages helper test)
+    $.mockjaxSettings.logger = null;
+    $.mockjaxSettings.responseTime = 1;
+    $.mockjax([
+        {
+            url: urlUtil.route('index', 'Languages', 'tao'),
+            responseText: {
+                success: true,
+                data: [
+                    {
+                        uri: 'http://www.tao.lu/ontologies/tao.rdf#langen-gb',
+                        code: 'en-gb',
+                        label: 'english (united kingdom)',
+                        orientation: 'ltr'
+                    }
+                ]
+            },
+            status: 200
+        }
+    ]);
 
     function createFakeEditor(readOnly, onFocus) {
         const editableHost = {
