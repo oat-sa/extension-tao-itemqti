@@ -202,7 +202,15 @@ define([
             !_.isUndefined(config.evaluateAsUmfi) &&
             !!priorEvaluateAsUmfi !== !!config.evaluateAsUmfi;
 
+        evaluationHelper.persistEvaluationConfig(widget.element, config);
+
+        const persisted = evaluationHelper.getEvaluationConfig(widget.element);
+
+        config.caseSensitive = persisted.caseSensitive;
+        config.evaluateAsUmfi = persisted.evaluateAsUmfi;
+        config.allowLexicalFieldsOnScoring = persisted.allowLexicalFieldsOnScoring;
         widget._textEntryEvaluationConfig = config;
+
         evaluationHelper.persistEvaluationConfig(widget.element, config);
 
         if (!umfiChanged) {
