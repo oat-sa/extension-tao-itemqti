@@ -380,7 +380,7 @@ define([
             widgets[elt.serial] = widget.rebuild({
                 context: $container,
                 ready: function (widgetInner) {
-                    if (options.restoreState) {
+                    if (options.restoreState && widgetInner.element === elt) {
                         //restore current state
                         widgetInner.changeState(currentState);
                     }

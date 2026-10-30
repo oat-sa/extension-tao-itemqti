@@ -80,6 +80,55 @@ define([
 
     QUnit.module('restoreEditableThenFocus');
 
+    QUnit.test('editor initialization restores only the rebuilt widget state, not its descendants', function (assert) {
+        const done = assert.async();
+        const $container = $(
+            '<div data-html-editable-container="true">' +
+                '<div data-html-editable="true">Nested widgets</div></div>'
+        ).appendTo('#qunit-fixture');
+        const ownerStates = [];
+        const descendantStates = [];
+        const element = { serial: 'owner' };
+        const descendant = {
+            element: { serial: 'descendant' },
+            changeState: function (state) {
+                descendantStates.push(state);
+            }
+        };
+        const rebuilt = {
+            element: element,
+            changeState: function (state) {
+                ownerStates.push(state);
+            }
+        };
+        element.data = function () {
+            return {
+                getCurrentState: function () {
+                    return { name: 'question' };
+                },
+                rebuild: function (options) {
+                    // Recursive postRender invokes the same ready callback for descendants.
+                    options.ready(descendant);
+                    options.ready(rebuilt);
+                    return rebuilt;
+                }
+            };
+        };
+
+        htmlEditor.buildEditor($container, {
+            autofocus: false,
+            shieldInnerContent: false,
+            data: { container: { elements: { owner: element } } }
+        }).then(function () {
+            assert.deepEqual(ownerStates, ['question'], 'the rebuilt owner regains its state');
+            assert.deepEqual(descendantStates, [], 'descendants do not inherit the owner state');
+            return htmlEditor.destroyEditor($container);
+        }).then(done).catch(function (error) {
+            assert.ok(false, error.message);
+            done();
+        });
+    });
+
     QUnit.test('destroy cancels a queued editor change while preserving the final flush', function (assert) {
         const done = assert.async();
         const $container = $(
