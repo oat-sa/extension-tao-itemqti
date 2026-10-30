@@ -11,13 +11,41 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2026 (original work) Open Assessment Technologies SA
  */
 
-define(['jquery', 'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor'], function ($, htmlEditor) {
+define([
+    'jquery',
+    'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor',
+    'util/url',
+    'lib/jquery.mockjax/jquery.mockjax'
+], function ($, htmlEditor, urlUtil) {
     'use strict';
+
+    // htmlEditor.buildEditor() fetches the available languages; there is no
+    // back end in the test environment, so mock that request (same pattern as
+    // in the languages helper test)
+    $.mockjaxSettings.logger = null;
+    $.mockjaxSettings.responseTime = 1;
+    $.mockjax([
+        {
+            url: urlUtil.route('index', 'Languages', 'tao'),
+            responseText: {
+                success: true,
+                data: [
+                    {
+                        uri: 'http://www.tao.lu/ontologies/tao.rdf#langen-gb',
+                        code: 'en-gb',
+                        label: 'english (united kingdom)',
+                        orientation: 'ltr'
+                    }
+                ]
+            },
+            status: 200
+        }
+    ]);
 
     function createFakeEditor(readOnly, onFocus) {
         const editableHost = {
@@ -51,6 +79,91 @@ define(['jquery', 'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor'], function 
     }
 
     QUnit.module('restoreEditableThenFocus');
+
+    QUnit.test('editor initialization restores only the rebuilt widget state, not its descendants', function (assert) {
+        const done = assert.async();
+        const $container = $(
+            '<div data-html-editable-container="true">' +
+                '<div data-html-editable="true">Nested widgets</div></div>'
+        ).appendTo('#qunit-fixture');
+        const ownerStates = [];
+        const descendantStates = [];
+        const element = { serial: 'owner' };
+        const descendant = {
+            element: { serial: 'descendant' },
+            changeState: function (state) {
+                descendantStates.push(state);
+            }
+        };
+        const rebuilt = {
+            element: element,
+            changeState: function (state) {
+                ownerStates.push(state);
+            }
+        };
+        element.data = function () {
+            return {
+                getCurrentState: function () {
+                    return { name: 'question' };
+                },
+                rebuild: function (options) {
+                    // Recursive postRender invokes the same ready callback for descendants.
+                    options.ready(descendant);
+                    options.ready(rebuilt);
+                    return rebuilt;
+                }
+            };
+        };
+
+        htmlEditor.buildEditor($container, {
+            autofocus: false,
+            shieldInnerContent: false,
+            data: { container: { elements: { owner: element } } }
+        }).then(function () {
+            assert.deepEqual(ownerStates, ['question'], 'the rebuilt owner regains its state');
+            assert.deepEqual(descendantStates, [], 'descendants do not inherit the owner state');
+            return htmlEditor.destroyEditor($container);
+        }).then(done).catch(function (error) {
+            assert.ok(false, error.message);
+            done();
+        });
+    });
+
+    QUnit.test('destroy cancels a queued editor change while preserving the final flush', function (assert) {
+        const done = assert.async();
+        const $container = $(
+            '<div data-html-editable-container="true">' +
+                '<div data-html-editable="true">Keep this content</div></div>'
+        ).appendTo('#qunit-fixture');
+        let changes = 0;
+
+        htmlEditor.buildEditor($container, {
+            autofocus: false,
+            shieldInnerContent: false,
+            change: function () {
+                changes++;
+            }
+        }).then(function () {
+            const editor = $container.find('[data-html-editable]').data('editor');
+            editor.fire('change');
+            editor.fire('change');
+            const beforeDestroy = changes;
+
+            return htmlEditor.destroyEditor($container).then(function () {
+                assert.strictEqual(editor.status, 'destroyed', 'the real editor was destroyed');
+                assert.ok(changes > beforeDestroy, 'the final content flush still ran');
+                const afterDestroy = changes;
+
+                setTimeout(function () {
+                    assert.strictEqual(changes, afterDestroy, 'no queued change runs after destruction');
+                    done();
+                }, 200);
+            });
+        }).catch(function (error) {
+            assert.ok(false, error.message);
+            done();
+        });
+    });
 
     QUnit.test('readOnly true: restores contenteditable before _focus', function (assert) {
         assert.expect(4);

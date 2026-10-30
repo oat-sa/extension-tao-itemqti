@@ -195,7 +195,12 @@ class ParserFactory
 
         // parse the remaining tables, those that does not contain any interaction.
         //warning: parse table elements before any other because table may contain them!
-        $tableNodes = $this->queryXPath(".//*[not(ancestor::*[name()='table']) and name()='table']", $data);
+        // In a ContainerGap the table is layout around {{gap}} placeholders: extracting it
+        // as a Table element would hide those placeholders from the gap container and
+        // fail its integrity check, so keep the table as raw markup in the gap body.
+        $tableNodes = $container instanceof ContainerGap
+            ? []
+            : $this->queryXPath(".//*[not(ancestor::*[name()='table']) and name()='table']", $data);
         foreach ($tableNodes as $tableNode) {
             $table = $this->buildTable($tableNode);
             if (!is_null($table)) {

@@ -19,6 +19,42 @@ define([
             htmlEditor.buildEditor = originalBuildEditor;
         });
 
+        QUnit.test('editor enables maths and shields inner math widgets', function (assert) {
+            let capturedOptions;
+            const $container = $(
+                '<div>' +
+                    '<div class="editable-container">' +
+                        '<div class="editable-content"></div>' +
+                    '</div>' +
+                '</div>'
+            );
+            const widget = {
+                element: {
+                    getBody: function () {
+                        return {};
+                    }
+                },
+                $container: $container,
+                changeState: function () {}
+            };
+
+            htmlEditor.hasEditor = function () {
+                return false;
+            };
+            htmlEditor.buildEditor = function ($editableContainer, options) {
+                capturedOptions = options;
+            };
+
+            InlineChoiceQuestionState.prototype.buildEditor.call({
+                widget: widget
+            });
+
+            assert.expect(3);
+            assert.ok(capturedOptions, 'editor options are passed to htmlEditor');
+            assert.notStrictEqual(capturedOptions.mathJax, false, 'mathJax is not disabled, so the maths button is available');
+            assert.strictEqual(capturedOptions.shieldInnerContent, true, 'inner content is shielded, so existing math widgets can be activated');
+        });
+
         function getKeyHandler(assert) {
             const $container = $(
                 '<div>' +
