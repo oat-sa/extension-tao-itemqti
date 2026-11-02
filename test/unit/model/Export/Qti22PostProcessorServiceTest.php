@@ -54,6 +54,7 @@ XML;
 <?xml version="1.0" encoding="UTF-8"?>
 <assessmentItem
     xmlns="http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0"
+    xmlns:qh5="http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     identifier="{$identifier}">
     <itemBody/>
