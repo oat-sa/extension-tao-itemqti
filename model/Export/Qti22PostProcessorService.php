@@ -71,6 +71,8 @@ class Qti22PostProcessorService
         $xpath = new DOMXPath($dom);
         $this->registerAllNamespaces($dom, $xpath);
 
+        $this->fixItemIdentifier($dom);
+
         // Apply removal rules
         foreach ($this->removalRules as $expr => $attrs) {
             $nodes = $xpath->query($expr);
@@ -104,6 +106,30 @@ class Qti22PostProcessorService
         $this->updateSchemaLocation($dom);
 
         return $dom->saveXML();
+    }
+
+    /**
+     * The item identifier type is an NCName: internally used identifiers
+     * (e.g. zero-padded numeric ones) are not valid as-is and must be mapped
+     * to a valid identifier on export.
+     */
+    private function fixItemIdentifier(DOMDocument $dom): void
+    {
+        $root = $dom->documentElement;
+
+        if ($root === null || !$root->hasAttribute('identifier')) {
+            return;
+        }
+
+        $identifier = preg_replace('/[^A-Za-z0-9._-]/', '-', $root->getAttribute('identifier')) ?? '';
+
+        if ($identifier === '') {
+            $identifier = 'item';
+        } elseif (preg_match('/^[A-Za-z_]/', $identifier) !== 1) {
+            $identifier = 'item-' . $identifier;
+        }
+
+        $root->setAttribute('identifier', $identifier);
     }
 
     /**

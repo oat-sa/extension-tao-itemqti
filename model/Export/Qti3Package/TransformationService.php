@@ -123,6 +123,13 @@ class TransformationService
 
     private function transformAttributeValue(DOMElement $sourceElement, DOMAttr $attribute): string
     {
+        // The QTI 3.0 IdentifierDType is an NCName: internally used identifiers
+        // (e.g. zero-padded numeric ones) are not valid as-is and must be mapped
+        // to a valid identifier on export.
+        if ($sourceElement->nodeName === 'assessmentItem' && $attribute->nodeName === 'identifier') {
+            return $this->transformItemIdentifier($attribute->value);
+        }
+
         // QTI 2.x response processing template URIs are not valid QTI 3.0 template
         // references; map the standard templates to their canonical QTI 3.0 URIs.
         // Only bare template names and the known standard template URIs are
@@ -138,6 +145,21 @@ class TransformationService
         }
 
         return $attribute->value;
+    }
+
+    private function transformItemIdentifier(string $identifier): string
+    {
+        $identifier = preg_replace('/[^A-Za-z0-9._-]/', '-', $identifier) ?? '';
+
+        if ($identifier === '') {
+            return 'item';
+        }
+
+        if (preg_match('/^[A-Za-z_]/', $identifier) !== 1) {
+            return 'item-' . $identifier;
+        }
+
+        return $identifier;
     }
 
     public function createQtiElementName(string $nodeName): string

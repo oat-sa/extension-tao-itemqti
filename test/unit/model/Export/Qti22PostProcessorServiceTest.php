@@ -45,6 +45,35 @@ XML;
         $this->assertStringNotContainsString('showFigure="true"', $result);
     }
 
+    /**
+     * @dataProvider itemIdentifierProvider
+     */
+    public function testItemContentPostProcessingFixesItemIdentifier(string $identifier, string $expected): void
+    {
+        $input = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem
+    xmlns="http://www.imsglobal.org/xsd/imsqtiv2p2_html5_v1p0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    identifier="{$identifier}">
+    <itemBody/>
+</assessmentItem>
+XML;
+
+        $result = $this->service->itemContentPostProcessing($input);
+
+        $this->assertStringContainsString('identifier="' . $expected . '"', $result);
+    }
+
+    public function itemIdentifierProvider(): array
+    {
+        return [
+            'numeric identifier' => ['000000095', 'item-000000095'],
+            'valid identifier' => ['my-item_1.2', 'my-item_1.2'],
+            'identifier with spaces' => ['my item', 'my-item'],
+        ];
+    }
+
     public function testItemContentPostProcessingUpdatesSchemaLocations(): void
     {
         $input = <<<XML

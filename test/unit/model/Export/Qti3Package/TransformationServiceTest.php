@@ -211,6 +211,34 @@ class TransformationServiceTest extends TestCase
     }
 
     /**
+     * @dataProvider itemIdentifierProvider
+     */
+    public function testTransformItemIdentifier(string $identifier, string $expected): void
+    {
+        $oldDoc = new DOMDocument();
+        $oldDoc->loadXML(
+            '<assessmentItem identifier="' . $identifier . '" title="Item"><itemBody/></assessmentItem>'
+        );
+
+        $newDoc = new DOMDocument();
+        $newRoot = $newDoc->createElement('qti-assessment-item');
+        $newDoc->appendChild($newRoot);
+
+        $this->service->transformAttributes($oldDoc->documentElement, $newRoot);
+
+        self::assertSame($expected, $newRoot->getAttribute('identifier'));
+    }
+
+    public function itemIdentifierProvider(): array
+    {
+        return [
+            'numeric identifier' => ['000000095', 'item-000000095'],
+            'valid identifier' => ['my-item_1.2', 'my-item_1.2'],
+            'identifier with spaces' => ['my item', 'my-item'],
+        ];
+    }
+
+    /**
      * @dataProvider elementNameProvider
      */
     public function testElementNameConversion(string $input, string $expected): void
