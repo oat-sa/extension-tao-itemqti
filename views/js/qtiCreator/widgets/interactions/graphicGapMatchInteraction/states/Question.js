@@ -18,6 +18,16 @@
  */
 
 /**
+ * Graphic gap match interaction — Question (authoring) state.
+ *
+ * Responsibilities in this module:
+ * - Raphael shape editor for associable hotspots (drop targets on the background image)
+ * - Gap choices in ul.source: gapImg (image) and gapText (label), with choice property panel
+ * - Interaction-level form (background image, choice bay position)
+ *
+ * Gap text tiles, add-choice flyout, and gap-text form logic live in sibling helpers under
+ * ../helpers/; this file wires them into the state lifecycle.
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -36,15 +46,15 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/graphicGapMatch',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/associableHotspot',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/gapImg',
-    'tpl!taoQtiItem/qtiCreator/tpl/forms/choices/gapText',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
-    'tpl!taoQtiItem/qtiCreator/tpl/toolbars/graphicGapMatch.adder',
 
     'taoQtiItem/qtiCreator/helper/panel',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/resourceManager',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapTextInteractionSupport',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapTextTileLayout',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapAddOptionControl',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapTextQuestionAuthoring',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/minMaxThresholdListeners',
     'ui/mediasizer'
 ], function (
     $,
@@ -61,26 +71,28 @@ define([
     formTpl,
     choiceFormTpl,
     gapImgFormTpl,
-    gapTextFormTpl,
     mediaTlbTpl,
-    graphicGapMatchAdderTpl,
     panel,
-    resourceManager,
     bgImage,
     ensureGapTextSupport,
-    gapTextTileLayout
+    gapTextTileLayout,
+    gapAddOptionControl,
+    createGapTextQuestionAuthoring,
+    minMaxThresholdListeners
 ) {
     'use strict';
 
     var GraphicGapMatchInteractionStateQuestion;
 
     /**
-     * Apply size changes manually to mediasizer's target.
+     * Apply mediasizer dimensions to the gap choice image in the source list.
+     * Writes the chosen pixel width and height to the img width/height attributes (stored on the QTI object).
+     * Sets CSS width and height to those values multiplied by factor so the preview matches the scaled canvas.
      *
-     * @param {Object} params
-     * @param {number} factor
-     * @param {number} naturalHeight
-     * @param {number} naturalWidth
+     * @param {Object} params - mediasizer event data ($target, width, height)
+     * @param {number} factor - interaction preview scale (same as for associable hotspots)
+     * @param {number} naturalHeight - used when params.height is missing
+     * @param {number} naturalWidth - used when params.width is missing
      */
     function applyMediasizerValues(params, factor, naturalHeight, naturalWidth) {
         factor = factor || 1;
@@ -93,11 +105,7 @@ define([
             height = naturalHeight;
         }
 
-        // The mediasizer target maintains a height and width (i.e. attributes)
-        // but is displayed according to a factor (i.e. styles). This matches
-        // the behavior of hotspots.
-        // This is because resize events utilize factor to adjust images, thus,
-        // the target's dimensions need to be maintained.
+        // Resize handlers scale by factor: keep QTI width/height on attributes, apply factor only in CSS (same as hotspots).
         params.$target
             .css({
                 width: width * factor,
@@ -108,7 +116,7 @@ define([
     }
 
     /**
-     * Question State initialization: set up side bar, editors and shape factory
+     * Enter Question state: shape editor, existing gap choices, add control, choice property forms.
      */
     function initQuestionState() {
         var $choiceForm, $formChoicePanel, $formInteractionPanel;
@@ -118,14 +126,10 @@ define([
         var interaction = widget.element;
         var options = widget.options;
         var paper = interaction.paper;
+        var gapTextAuthoring;
 
-        const GAP_TEXT_MAX_CHARS = gapTextTileLayout.GAP_TEXT_MAX_CHARS;
-
+        // Creator model exposes gapText; bundled qtiItem core may not — shim before any getGapTexts calls.
         ensureGapTextSupport(interaction);
-
-        function centerGapTextLabelInTile($gapTextBox) {
-            gapTextTileLayout.syncGapTextTileSize($gapTextBox);
-        }
 
         var gapImgSelectorOptions = _.clone(options);
         gapImgSelectorOptions.title = gapImgSelectorOptions.title
@@ -133,6 +137,7 @@ define([
             : __('Please select a choice picture for your interaction from the resource manager. \
                   You can add new files from your computer with the button "Add file(s)".');
 
+        // Graphic widget not rendered yet (e.g. missing background); nothing to edit on canvas.
         if (!paper) {
             return;
         }
@@ -141,7 +146,35 @@ define([
         $formInteractionPanel = $('#item-editor-interaction-property-bar');
         $formChoicePanel = $('#item-editor-choice-property-bar');
 
-        //instantiate the shape editor, attach it to the widget to retrieve it during the exit phase
+        /** Drop widget listeners that update matchMin/matchMax upper bound when hotspots are added/removed. */
+        function unbindMinMaxThresholdListeners() {
+            minMaxThresholdListeners.unbind(widget);
+        }
+
+        /** Close choice property panel and persist pending gap text label edits. */
+        function leaveChoiceForm() {
+            gapTextAuthoring.syncGapTextLabelFromForm();
+            gapTextAuthoring.clearEditingSerial();
+            unbindMinMaxThresholdListeners();
+
+            if ($formChoicePanel.css('display') !== 'none') {
+                panel.openSections($formInteractionPanel.children('section'));
+                $formChoicePanel.hide();
+                $choiceForm.empty();
+            }
+        }
+
+        gapTextAuthoring = createGapTextQuestionAuthoring({
+            widget,
+            interaction,
+            $choiceForm,
+            $formChoicePanel,
+            $formInteractionPanel,
+            leaveChoiceForm,
+            unbindMinMaxThresholdListeners
+        });
+
+        // Shape editor draws hotspots on interaction.paper; shape.id is set to the new choice serial in shapeCreated.
         widget._editor = shapeEditor(widget, {
             shapeCreated: function (shape, type) {
                 var newChoice = interaction.createChoice({
@@ -149,7 +182,6 @@ define([
                     coords: GraphicHelper.qtiCoords(shape)
                 });
 
-                //link the shape to the choice
                 shape.id = newChoice.serial;
             },
             shapeRemoved: function (id) {
@@ -167,6 +199,7 @@ define([
                 if (choice) {
                     choice.attr('coords', GraphicHelper.qtiCoords(shape));
 
+                    // While hotspot form is open, keep x/y/width/height fields in sync with canvas drag/resize.
                     if ($left && $left.length) {
                         bbox = shape.getBBox();
                         $left.val(parseInt(bbox.x, 10));
@@ -178,424 +211,30 @@ define([
             }
         });
 
-        //and create an instance
         widget._editor.create();
 
+        // Re-bind UI for choices loaded from item XML (each setUp* opens that choice's property form last-wins).
         _.forEach(interaction.getGapImgs(), setUpGapImg);
-        _.forEach(interaction.getGapTexts(), setUpGapText);
+        _.forEach(interaction.getGapTexts(), gapTextAuthoring.setUpGapText);
         gapTextTileLayout.syncAllGapTextTilesInList($('ul.source', widget.$original));
 
-        createGapAddOption();
+        // "+" in source list: flyout to add gapImg (resource manager) or gapText (see gapAddOptionControl.js).
+        gapAddOptionControl.install({
+            widget,
+            interaction,
+            gapImgSelectorOptions,
+            setUpGapImg,
+            onBeforeAddGapText: unbindMinMaxThresholdListeners,
+            setUpGapText: gapTextAuthoring.setUpGapText
+        });
 
-        // stop the question mode on resize to keep the coordinate system coherent,
-        // even in responsive (the side bar behaves weirdly)
+        // Window resize breaks hotspot coordinate sync; leave Question via Sleep and re-enter cleanly.
         $(window).on('resize.changestate', function () {
             widget.changeState('sleep');
         });
 
         /**
-         * Create the 'add option' control with image / text gap menu
-         */
-        function createGapAddOption() {
-            const $gapList = $('ul.source', widget.$original);
-            const $flyoutHost = $gapList.closest('.image-editor.solid');
-            const $positionHost = $flyoutHost.length ? $flyoutHost : widget.$container;
-            const $addOption =
-                $('<li class="empty add-option" aria-haspopup="menu" aria-expanded="false">' +
-                    '<div><span class="icon-add"></span></div>' +
-                    '</li>');
-            const $menuFlyout = $(
-                '<div class="graphic-gap-add-options-flyout" aria-hidden="true">' +
-                    graphicGapMatchAdderTpl() +
-                    '</div>'
-            );
-
-            widget.$container.find('.graphic-gap-add-options-flyout').remove();
-            widget.$container.off('click.gapAddOption');
-
-            /**
-             * Position flyout on the image editor host, centered on the add-option trigger.
-             */
-            function positionGapAddMenu() {
-                const $trigger = $gapList.find('li.add-option.empty').first();
-
-                if (!$trigger.length || !$positionHost.length) {
-                    return;
-                }
-
-                const triggerRect = $trigger[0].getBoundingClientRect();
-                const hostRect = $positionHost[0].getBoundingClientRect();
-                const gapRaw = window
-                    .getComputedStyle($menuFlyout[0])
-                    .getPropertyValue('--ggm-add-menu-trigger-gap')
-                    .trim();
-                const gapParsed = parseFloat(gapRaw);
-                const gapAboveTrigger = Number.isFinite(gapParsed) ? gapParsed : 8;
-                const flyoutWidth = $menuFlyout.outerWidth() || 144;
-                const flyoutHeight = $menuFlyout.outerHeight() || 80;
-                const hostScrollTop = $positionHost.scrollTop();
-                const hostScrollLeft = $positionHost.scrollLeft();
-                // Viewport rects already include ul.source scroll; offset only by the positioning host.
-                const triggerTop = triggerRect.top - hostRect.top + hostScrollTop;
-                const triggerLeft = triggerRect.left - hostRect.left + hostScrollLeft;
-                const topAboveTrigger = triggerTop - flyoutHeight - gapAboveTrigger;
-                const topBelowTrigger = triggerTop + triggerRect.height + gapAboveTrigger;
-                const minTop = hostScrollTop;
-                const maxTop = hostScrollTop + Math.max($positionHost.innerHeight() - flyoutHeight, 0);
-                const minLeft = hostScrollLeft;
-                const maxLeft = hostScrollLeft + Math.max($positionHost.innerWidth() - flyoutWidth, 0);
-                let top = topAboveTrigger;
-
-                if (top < minTop && topBelowTrigger <= maxTop) {
-                    top = topBelowTrigger;
-                }
-
-                top = Math.min(Math.max(top, minTop), maxTop);
-
-                const centeredLeft = triggerLeft + triggerRect.width / 2 - flyoutWidth / 2;
-                const left = Math.min(Math.max(centeredLeft, minLeft), maxLeft);
-
-                $menuFlyout.css({
-                    top,
-                    left,
-                    right: '',
-                    bottom: ''
-                });
-            }
-
-            function hideGapAddMenu() {
-                $menuFlyout.removeClass('is-visible').attr('aria-hidden', 'true');
-                $addOption.attr('aria-expanded', 'false');
-                $gapList.removeClass('graphic-gap-add-menu-open');
-                $gapList.off('scroll.gapAddMenu');
-                $(document).off('click.graphicGapAddOption');
-            }
-
-            function showGapAddMenu() {
-                const savedScrollLeft = $gapList.scrollLeft();
-
-                $gapList.addClass('graphic-gap-add-menu-open');
-                $gapList.scrollLeft(savedScrollLeft);
-                $menuFlyout.addClass('is-visible').attr('aria-hidden', 'false');
-                positionGapAddMenu();
-                window.requestAnimationFrame(function () {
-                    $gapList.scrollLeft(savedScrollLeft);
-                    positionGapAddMenu();
-                });
-                $gapList.on('scroll.gapAddMenu', positionGapAddMenu);
-                $addOption.attr('aria-expanded', 'true');
-
-                setTimeout(function () {
-                    $(document).on('click.graphicGapAddOption', function (e) {
-                        if ($(e.target).closest('.graphic-gap-add-options-flyout', widget.$container).length) {
-                            return;
-                        }
-                        if ($(e.target).closest('ul.source > li.add-option.empty', widget.$container).length) {
-                            return;
-                        }
-                        hideGapAddMenu();
-                    });
-                }, 0);
-            }
-
-            widget.$container.on('click.gapAddOption', 'ul.source > li.add-option.empty', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-
-                if ($menuFlyout.hasClass('is-visible')) {
-                    hideGapAddMenu();
-                } else {
-                    showGapAddMenu();
-                }
-            });
-
-            widget.$container.on(
-                'click.gapAddOption',
-                '.graphic-gap-add-options-flyout [data-role=add-gap-img]',
-                function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    hideGapAddMenu();
-
-                    const $addBtn = $gapList.find('li.add-option.empty');
-                    let gapImgObj = interaction.createGapImg({});
-                    gapImgObj.object.removeAttr('type');
-
-                    $addBtn.off('selected.upload').on('selected.upload', function (e, args) {
-                        $addBtn.off('selected.upload');
-
-                        const size = args.size;
-                        let height, width;
-
-                        if (size) {
-                            height = args.size.height;
-                            width = args.size.width;
-                        }
-
-                        gapImgObj.object.attr('data', args.selected.file);
-                        gapImgObj.object.attr('type', args.selected.mime);
-                        gapImgObj.object.attr('width', width);
-                        gapImgObj.object.attr('height', height);
-                        setUpGapImg(gapImgObj);
-                    });
-                    resourceManager($addBtn, gapImgSelectorOptions);
-                }
-            );
-
-            widget.$container.on(
-                'click.gapAddOption',
-                '.graphic-gap-add-options-flyout [data-role=add-gap-text]',
-                function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    hideGapAddMenu();
-                    unbindMinMaxThresholdListeners();
-                    setUpGapText(interaction.createGapText(), { autoFocus: true });
-                }
-            );
-
-            $(window).on('resize.graphicGapAddOption', positionGapAddMenu);
-
-            $positionHost.append($menuFlyout);
-            $addOption.appendTo($gapList);
-        }
-
-        function getGapTextPlainLabel(gapText) {
-            return gapTextTileLayout.getPlainLabelFromGapText(gapText);
-        }
-
-        function normalizeGapTextTileLabel(label) {
-            return gapTextTileLayout.normalizeGapTextTileLabel(label);
-        }
-
-        function updateGapTextTileLabel($gapTextBox, label) {
-            gapTextTileLayout.mountGapTextTileLabel($gapTextBox, label);
-            $gapTextBox.find('.gap-text-label').prop('readonly', false);
-
-            requestAnimationFrame(function () {
-                centerGapTextLabelInTile($gapTextBox);
-            });
-        }
-
-        /**
-         * Inline label editing on the gap text tile (kept in sync with the side panel).
-         *
-         * @param {jQuery} $gapTextBox
-         * @param {String} serial
-         */
-        function bindGapTextInlineLabel($gapTextBox, serial) {
-            if ($gapTextBox.data('gapTextInlineBound')) {
-                return;
-            }
-
-            $gapTextBox.data('gapTextInlineBound', true);
-
-            $gapTextBox.on('click.gapTextInline mousedown.gapTextInline', '.gap-text-label', function (e) {
-                e.stopPropagation();
-            });
-
-            $gapTextBox.on('focus.gapTextInline', '.gap-text-label', function () {
-                if (!$gapTextBox.hasClass('active')) {
-                    $('.active', $('ul.source', widget.$original)).removeClass('active');
-                    $gapTextBox.addClass('active');
-                    enterGapTextForm(serial);
-                }
-
-                centerGapTextLabelInTile($gapTextBox);
-            });
-
-            $gapTextBox.on('input.gapTextInline change.gapTextInline', '.gap-text-label', function () {
-                const gapText = interaction.getGapText(serial);
-                let value = $(this).val();
-
-                if (!gapText) {
-                    return;
-                }
-
-                value = (value || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
-
-                if (value.length > GAP_TEXT_MAX_CHARS) {
-                    value = value.slice(0, GAP_TEXT_MAX_CHARS);
-                    $(this).val(value);
-                }
-
-                gapText.body(value || '');
-
-                if (widget._editingGapTextSerial === serial) {
-                    $choiceForm.find('[name=gapTextLabel]').val(value);
-                }
-
-                centerGapTextLabelInTile($gapTextBox);
-            });
-
-            $gapTextBox.on('paste.gapTextInline', '.gap-text-label', function () {
-                const $textarea = $(this);
-
-                window.requestAnimationFrame(function () {
-                    window.requestAnimationFrame(function () {
-                        centerGapTextLabelInTile($gapTextBox);
-                        $textarea.trigger('input');
-                    });
-                });
-            });
-
-            $gapTextBox.on('keydown.gapTextInline', '.gap-text-label', function (e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    $(this).blur();
-                }
-            });
-
-            $gapTextBox.on('blur.gapTextInline', '.gap-text-label', function () {
-                centerGapTextLabelInTile($gapTextBox);
-                syncGapTextLabelFromInline($gapTextBox);
-            });
-        }
-
-        function syncGapTextLabelFromInline($gapTextBox) {
-            const serial = $gapTextBox.attr('data-serial');
-            const gapText = serial ? interaction.getGapText(serial) : null;
-            const $inlineLabel = $gapTextBox.find('.gap-text-label');
-
-            if (!gapText || !$inlineLabel.length) {
-                return;
-            }
-
-            const value = $inlineLabel.val() || '';
-
-            setGapTextPlainLabel(gapText, value);
-
-            if (widget._editingGapTextSerial === serial) {
-                const $labelInput = $choiceForm.find('[name=gapTextLabel]');
-
-                if ($labelInput.length) {
-                    $labelInput.val(value);
-                }
-            }
-        }
-
-        function syncGapTextLabelFromForm() {
-            const serial = widget._editingGapTextSerial;
-            const $gapTextBox = serial
-                ? $(`[data-serial="${serial}"]`, $('ul.source', widget.$original))
-                : $();
-            const $inlineLabel = $gapTextBox.find('.gap-text-label');
-
-            if (serial && $inlineLabel.length) {
-                syncGapTextLabelFromInline($gapTextBox);
-                return;
-            }
-
-            const $labelInput = $choiceForm.find('[name=gapTextLabel]');
-
-            if (!serial || !$labelInput.length) {
-                return;
-            }
-
-            const gapText = interaction.getGapText(serial);
-
-            if (gapText) {
-                setGapTextPlainLabel(gapText, $labelInput.val());
-            }
-        }
-
-        function setGapTextPlainLabel(gapText, label) {
-            let normalizedLabel = label || '';
-
-            if (normalizedLabel.length > GAP_TEXT_MAX_CHARS) {
-                normalizedLabel = normalizedLabel.slice(0, GAP_TEXT_MAX_CHARS);
-            }
-
-            gapText.body(normalizedLabel);
-
-            const $gapTextBox = $(`[data-serial="${gapText.serial}"]`, $('ul.source', widget.$original));
-
-            if ($gapTextBox.length) {
-                const $inlineLabel = $gapTextBox.find('.gap-text-label');
-
-                if ($inlineLabel.length && $inlineLabel.is('input, textarea')) {
-                    if ($inlineLabel.val() !== normalizedLabel) {
-                        $inlineLabel.val(normalizedLabel);
-                    }
-                    if (document.activeElement !== $inlineLabel[0]) {
-                        centerGapTextLabelInTile($gapTextBox);
-                    }
-                } else {
-                    updateGapTextTileLabel($gapTextBox, normalizedLabel);
-                }
-            }
-        }
-
-        /**
-         * Insert and setup the gap text choice
-         *
-         * @param {Object} gapTextObj
-         * @param {Object} [options]
-         * @param {Boolean} [options.autoFocus]
-         */
-        function setUpGapText(gapTextObj, options) {
-            unbindMinMaxThresholdListeners();
-
-            const $gapList = $('ul.source', widget.$original),
-                $addOption = $gapList.find('li.add-option.empty'),
-                $deleteBtn = $(mediaTlbTpl());
-            let $gapTextBox = $gapList.find(`[data-serial="${gapTextObj.serial}"]`);
-
-            if (!$gapTextBox.length) {
-                const $placeholder = $('<li/>');
-
-                $placeholder.insertBefore($addOption);
-                gapTextObj.render({}, $placeholder);
-                $gapTextBox = $gapList.find(`[data-serial="${gapTextObj.serial}"]`);
-            }
-
-            $gapTextBox.addClass('qti-gapImg qti-gapText selectable');
-            updateGapTextTileLabel($gapTextBox, getGapTextPlainLabel(gapTextObj));
-            bindGapTextInlineLabel($gapTextBox, gapTextObj.serial);
-
-            enterGapTextForm(gapTextObj.serial);
-
-            $deleteBtn
-                .appendTo($gapTextBox)
-                .show()
-                .click(function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    $gapTextBox.remove();
-                    interaction.removeGapText(gapTextObj);
-                });
-
-            $gapTextBox.off('click.gapText').on('click.gapText', function (e) {
-                if ($(e.target).closest('.mini-tlb').length || $(e.target).closest('.gap-text-label').length) {
-                    return;
-                }
-
-                if ($gapTextBox.hasClass('active')) {
-                    $gapTextBox.removeClass('active');
-                    leaveChoiceForm();
-                } else {
-                    $('.active', $gapList).removeClass('active');
-                    $gapTextBox.addClass('active');
-                    enterGapTextForm(gapTextObj.serial);
-                }
-            });
-
-            if (options && options.autoFocus) {
-                window.requestAnimationFrame(function () {
-                    centerGapTextLabelInTile($gapTextBox);
-                    const $textarea = $gapTextBox.find('.gap-text-label');
-                    const textareaEl = $textarea[0];
-
-                    if (textareaEl) {
-                        $textarea.focus();
-                        textareaEl.setSelectionRange(textareaEl.value.length, textareaEl.value.length);
-                    }
-                });
-            }
-        }
-
-        /**
-         * Insert and setup the gap image
+         * Render or refresh a gapImg tile in ul.source, wire delete, and show its property form.
          *
          * @param {Object} gapImgObj
          */
@@ -605,6 +244,7 @@ define([
                 $deleteBtn = $(mediaTlbTpl());
             let $gapImgBox = $(`[data-serial="${gapImgObj.serial}"]`, $gapList);
 
+            // New choices sit before the persistent "add option" row at the end of the list.
             if (!$gapImgBox.length) {
                 $gapImgBox = $(gapImgObj.render()).insertBefore($addOption);
             }
@@ -637,20 +277,20 @@ define([
         }
 
         /**
-         * Set up the choice form
+         * Associable hotspot selected on canvas — show geometry + matchMin/matchMax in choice property panel.
          *
          * @private
-         * @param {String} serial - the choice serial
+         * @param {String} serial - associableHotspot serial (also the id of the matching shape on interaction.paper)
          */
         function enterChoiceForm(serial) {
             var choice = interaction.getChoice(serial);
             var element, bbox, callbacks;
 
             if (choice) {
-                syncGapTextLabelFromForm();
+                // Switching choice type: flush gap text label before replacing choice form HTML.
+                gapTextAuthoring.syncGapTextLabelFromForm();
                 unbindMinMaxThresholdListeners();
 
-                //get shape bounding box
                 element = interaction.paper.getById(serial);
                 bbox = element.getBBox();
 
@@ -666,7 +306,6 @@ define([
                     })
                 );
 
-                //controls match min/max for the choices (the shapes)
                 minMaxComponentFactory($choiceForm.find('.min-max-panel'), {
                     min: {
                         fieldName: 'matchMin',
@@ -683,23 +322,16 @@ define([
                     .on('render', function () {
                         var self = this;
 
-                        //the range matches the number of choices
-                        widget.on('choiceCreated.minMaxThresholds choiceDeleted.minMaxThresholds', function (data) {
-                            if (data.interaction.serial === interaction.serial && self.is('rendered')) {
-                                self.updateThresholds(1, _.size(interaction.getChoices()));
-                            }
-                        });
-                        // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+                        // upperThreshold = number of hotspots; changes when author draws or deletes shapes.
+                        minMaxThresholdListeners.bindChoiceCountThresholds(self, widget, interaction);
                         widget.infinityMatchMax('hotspot', choice);
                     })
                     .on('change', function () {
-                        // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
                         widget.infinityMatchMax('hotspot', choice);
                     });
 
                 formElement.initWidget($choiceForm);
 
-                //init data validation and binding
                 callbacks = formElement.getMinMaxAttributeCallbacks('matchMin', 'matchMax');
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
@@ -710,7 +342,7 @@ define([
                 panel.openSections($formChoicePanel.children('section'));
                 panel.closeSections($formInteractionPanel.children('section'));
 
-                //change the nodes bound to the position fields
+                // Bound for shapeChange so dragging/resizing updates the form without re-entering.
                 $left = $('input[name=x]', $choiceForm);
                 $top = $('input[name=y]', $choiceForm);
                 $width = $('input[name=width]', $choiceForm);
@@ -719,33 +351,10 @@ define([
         }
 
         /**
-         * Leave the choice form
+         * Gap image selected in source bay — image picker, mediasizer, matchMin/matchMax in choice panel.
+         *
          * @private
-         */
-        function unbindMinMaxThresholdListeners() {
-            const stateName = widget.getCurrentState().name;
-            const eventSuffix = `.qti-widget.${widget.serial}.${stateName}`;
-
-            $(document).off(`choiceCreated.minMaxThresholds${eventSuffix}`);
-            $(document).off(`choiceDeleted.minMaxThresholds${eventSuffix}`);
-        }
-
-        function leaveChoiceForm() {
-            syncGapTextLabelFromForm();
-            widget._editingGapTextSerial = null;
-            unbindMinMaxThresholdListeners();
-
-            if ($formChoicePanel.css('display') !== 'none') {
-                panel.openSections($formInteractionPanel.children('section'));
-                $formChoicePanel.hide();
-                $choiceForm.empty();
-            }
-        }
-
-        /**
-         * Set up the gapImg form
-         * @private
-         * @param {String} serial - the gapImg serial
+         * @param {String} serial - gapImg serial
          */
         function enterGapImgForm(serial) {
             let callbacks,
@@ -756,7 +365,7 @@ define([
                 $mediaSizer;
 
             if (gapImg) {
-                syncGapTextLabelFromForm();
+                gapTextAuthoring.syncGapTextLabelFromForm();
                 unbindMinMaxThresholdListeners();
 
                 $choiceForm.empty().html(
@@ -772,7 +381,7 @@ define([
                     })
                 );
 
-                //controls the match min/max for the gap images
+                // matchMin/matchMax refer to associations with hotspots; upper bound is hotspot count, not gap count.
                 minMaxComponentFactory($choiceForm.find('.min-max-panel'), {
                     min: {
                         fieldName: 'matchMin',
@@ -789,30 +398,21 @@ define([
                     .on('render', function () {
                         var self = this;
 
-                        //the range is matching the number of choices (not the number of gap img)
-                        widget.on('choiceCreated.minMaxThresholds choiceDeleted.minMaxThresholds', function (data) {
-                            if (data.interaction.serial === interaction.serial && self.is('rendered')) {
-                                self.updateThresholds(1, _.size(interaction.getChoices()));
-                            }
-                        });
-                        // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+                        minMaxThresholdListeners.bindChoiceCountThresholds(self, widget, interaction);
+                        // Warn when matchMax is 0 (unlimited) and scoring pairs assume a finite cap.
                         widget.infinityMatchMax('gapImg', gapImg);
                     })
                     .on('change', function () {
-                        // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
                         widget.infinityMatchMax('gapImg', gapImg);
                     });
 
-                // <li/> that will contain the image
                 $gapImgBox = $(`li[data-serial="${gapImg.serial}"]`);
 
                 $gapImgElem = $gapImgBox.find('img');
 
-                //init media sizer
+                // Mediasizer targets the preview img in ul.source, not the form thumbnail (applyToMedium: false).
                 $mediaSizer = $choiceForm.find('.media-sizer-panel').on('create.mediasizer', function (e, params) {
-                    // On creation, mediasizer uses style properties to set
-                    // width and height, but our image needs to use the
-                    // it's attributes to set and resize properly.
+                    // On init, mediasizer reads CSS size; QTI logical size is on width/height attributes (TAO-3263).
                     params.width = $gapImgElem.attr('width');
                     params.height = $gapImgElem.attr('height');
                     applyMediasizerValues(
@@ -824,8 +424,7 @@ define([
                 });
 
                 initMediasizer = function () {
-                    // Hack to manually set mediasizer to use gapImg's height
-                    // and width attributes (instead of it's style properties).
+                    // Align jQuery layout dimensions with QTI attributes before mediasizer reads the target.
                     $gapImgElem.width($gapImgElem.attr('width'));
                     $gapImgElem.height($gapImgElem.attr('height'));
 
@@ -835,13 +434,12 @@ define([
                         showSync: false,
                         responsive: false,
                         parentSelector: $gapImgBox,
-                        // needs to be done on.sizechange.mediasizer to take in account the scale factor
                         applyToMedium: false,
                         maxWidth: interaction.object.attr('width')
                     });
                 };
 
-                // Wait for image to load before initializing mediasizer
+                // Mediasizer needs natural dimensions; wait for the choice image to load if necessary.
                 if ($gapImgElem.get(0) && $gapImgElem.get(0).complete) {
                     initMediasizer();
                 } else {
@@ -852,17 +450,15 @@ define([
 
                 formElement.initWidget($choiceForm);
 
-                // bind callbacks to ms
-                // init data validation and binding
                 callbacks = formElement.getMinMaxAttributeCallbacks('matchMin', 'matchMax');
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
                 callbacks.data = function (element, value) {
                     gapImg.object.attr('data', value);
+                    // Re-render source tile after resource manager picks a new file.
                     setUpGapImg(gapImg);
                 };
 
-                // callbacks
                 $mediaSizer.on('sizechange.mediasizer', function (e, params) {
                     applyMediasizerValues(
                         params,
@@ -871,6 +467,7 @@ define([
                         $gapImgElem.get(0).naturalWidth
                     );
 
+                    // Persist logical size on the QTI object nested under gapImg (export / reload).
                     gapImg.object.attr('width', params.width);
                     gapImg.object.attr('height', params.height);
                 });
@@ -893,92 +490,10 @@ define([
                 }
             }
         }
-
-        /**
-         * Set up the gapText form
-         * @private
-         * @param {String} serial - the gapText serial
-         */
-        function enterGapTextForm(serial) {
-            let callbacks,
-                gapText = interaction.getGapText(serial);
-
-            if (gapText) {
-                syncGapTextLabelFromForm();
-                unbindMinMaxThresholdListeners();
-
-                widget._editingGapTextSerial = serial;
-
-                $choiceForm.empty().html(
-                    gapTextFormTpl({
-                        identifier: gapText.id(),
-                        serial: serial,
-                        label: getGapTextPlainLabel(gapText)
-                    })
-                );
-                $choiceForm.append(
-                    '<div class="panel min-max-panel"><h3>' +
-                        __('Max. number of matches') +
-                        ' </h3></div>' +
-                        '<div class="response-matchmax-info gapText hidden"><p class="feedback-info">' +
-                        __(
-                            'The MAXSCORE of this item is removed because the current interaction settings allow an infinite value to the score.'
-                        ) +
-                        '</p></div>'
-                );
-
-                minMaxComponentFactory($choiceForm.find('.min-max-panel'), {
-                    min: {
-                        fieldName: 'matchMin',
-                        value: _.parseInt(gapText.attr('matchMin')) || 0,
-                        helpMessage: __(
-                            'The minimum number of choices this choice must be associated with to form a valid response.'
-                        )
-                    },
-                    max: {
-                        fieldName: 'matchMax',
-                        value: _.parseInt(gapText.attr('matchMax')) || 0,
-                        helpMessage: __('The maximum number of choices this choice may be associated with.')
-                    },
-                    upperThreshold: _.size(interaction.getChoices())
-                })
-                    .on('render', function () {
-                        var self = this;
-
-                        widget.on('choiceCreated.minMaxThresholds choiceDeleted.minMaxThresholds', function (data) {
-                            if (data.interaction.serial === interaction.serial && self.is('rendered')) {
-                                self.updateThresholds(1, _.size(interaction.getChoices()));
-                            }
-                        });
-                        widget.infinityMatchMax('gapText', gapText);
-                    })
-                    .on('change', function () {
-                        widget.infinityMatchMax('gapText', gapText);
-                    });
-
-                formElement.initWidget($choiceForm);
-
-                callbacks = formElement.getMinMaxAttributeCallbacks('matchMin', 'matchMax');
-                callbacks.identifier = identifierHelper.updateChoiceIdentifier;
-                formElement.setChangeCallbacks($choiceForm, gapText, callbacks);
-
-                $choiceForm.find('[name=gapTextLabel]').on('change input blur', function () {
-                    setGapTextPlainLabel(gapText, $(this).val());
-                });
-
-                $formChoicePanel.show();
-                panel.openSections($formChoicePanel.children('section'));
-                panel.closeSections($formInteractionPanel.children('section'));
-
-                if (typeof window.scroll === 'function') {
-                    window.scroll(0, $choiceForm.offset().top);
-                }
-            }
-        }
     }
 
     /**
-     * Exit the question state, leave the room cleaned up
+     * Leave Question state: validate interaction, tear down editors/handlers, reset source bay for Sleep/Preview.
      */
     function exitQuestionState() {
         var widget = this.widget;
@@ -987,6 +502,7 @@ define([
 
         ensureGapTextSupport(interaction);
 
+        // Valid item: background image, at least one hotspot, at least one draggable gap (image or text).
         var hasGapChoices =
             !_.isEmpty(interaction.getGapImgs()) || !_.isEmpty(interaction.getGapTexts());
         var valid = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices) && hasGapChoices;
@@ -1004,21 +520,17 @@ define([
         }
 
         $(window).off('resize.changestate');
-        $(document).off('click.graphicGapAddOption');
+        minMaxThresholdListeners.unbind(widget);
 
         if (widget._editor) {
             widget._editor.destroy();
         }
 
-        widget.$container.off('click.gapAddOption');
-        $('.graphic-gap-add-options-flyout', widget.$container).remove();
-        $('ul.source', widget.$original).removeClass('graphic-gap-add-menu-open');
-        $(window).off('resize.graphicGapAddOption');
+        gapAddOptionControl.teardown(widget);
 
-        //remove gapImg placeholder
+        // Remove authoring-only "+" row; preview states render the source list without it.
         $('ul.source .empty', widget.$original).remove();
 
-        //restore gap choice appearance
         widget.$container.find('.qti-gapImg, .qti-gapText').removeClass('active').find('.mini-tlb').remove();
         gapTextTileLayout.syncAllGapTextTilesInList($('ul.source', widget.$original));
         $('.image-editor.solid, .block-listing.source', widget.$container).css('min-width', 0);
@@ -1032,7 +544,8 @@ define([
     GraphicGapMatchInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
 
     /**
-     * Initialize the form linked to the interaction
+     * Required override for InteractionStateQuestion: runs on Question state enter before widget.$form is shown.
+     * Renders graphicGapMatch formTpl into widget.$form and binds background image + choice-bay position fields.
      */
     GraphicGapMatchInteractionStateQuestion.prototype.initForm = function () {
         var widget = this.widget;
@@ -1046,9 +559,12 @@ define([
             return match ? match[1] : 'left';
         };
         var normalizeClass = function normalizeClass(className, position) {
-            var classes = (className || '').split(/\s+/).filter(Boolean).filter(function (c) {
-                return !/^qti-choices-\S+$/.test(c);
-            });
+            var classes = (className || '')
+                .split(/\s+/)
+                .filter(Boolean)
+                .filter(function (c) {
+                    return !/^qti-choices-\S+$/.test(c);
+                });
 
             classes.push('qti-choices-' + position);
 
@@ -1086,6 +602,7 @@ define([
                 const $gapList = $('ul.source', widget.$original);
 
                 applyPosition(value);
+                // Bay position changes available width; recalculate gapText tile sizes (see gapTextTileLayout.js).
                 $gapList.find('li.qti-gapText').removeClass('active gap-text-tile-expanded');
                 gapTextTileLayout.syncAllGapTextTilesInList($gapList);
             }
