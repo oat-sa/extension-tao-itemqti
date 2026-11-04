@@ -419,7 +419,7 @@ define([
                     $(this).val(value);
                 }
 
-                gapText.body(value || '');
+                setGapTextPlainLabel(gapText, value);
 
                 if (widget._editingGapTextSerial === serial) {
                     $choiceForm.find('[name=gapTextLabel]').val(value);
@@ -506,7 +506,7 @@ define([
                 normalizedLabel = normalizedLabel.slice(0, GAP_TEXT_MAX_CHARS);
             }
 
-            gapText.body(normalizedLabel);
+            gapText.body(_.escape(normalizedLabel));
 
             const $gapTextBox = $(`[data-serial="${gapText.serial}"]`, $('ul.source', widget.$original));
 
