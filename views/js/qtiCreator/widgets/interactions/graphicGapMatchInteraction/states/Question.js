@@ -368,16 +368,6 @@ define([
             return gapTextTileLayout.normalizeGapTextTileLabel(label);
         }
 
-        function finishGapTextEditing($gapTextBox) {
-            if (!$gapTextBox.hasClass('active')) {
-                return;
-            }
-
-            syncGapTextLabelFromInline($gapTextBox);
-            $gapTextBox.removeClass('active');
-            leaveChoiceForm();
-        }
-
         function updateGapTextTileLabel($gapTextBox, label) {
             gapTextTileLayout.mountGapTextTileLabel($gapTextBox, label);
             $gapTextBox.find('.gap-text-label').prop('readonly', false);
@@ -458,11 +448,7 @@ define([
 
             $gapTextBox.on('blur.gapTextInline', '.gap-text-label', function () {
                 centerGapTextLabelInTile($gapTextBox);
-                window.setTimeout(function () {
-                    if (!$gapTextBox.find('.gap-text-label').is(':focus')) {
-                        finishGapTextEditing($gapTextBox);
-                    }
-                }, 0);
+                syncGapTextLabelFromInline($gapTextBox);
             });
         }
 
@@ -567,8 +553,6 @@ define([
             updateGapTextTileLabel($gapTextBox, getGapTextPlainLabel(gapTextObj));
             bindGapTextInlineLabel($gapTextBox, gapTextObj.serial);
 
-            $('.active', $gapList).removeClass('active');
-            $gapTextBox.addClass('active');
             enterGapTextForm(gapTextObj.serial);
 
             $deleteBtn
@@ -587,12 +571,12 @@ define([
                 }
 
                 if ($gapTextBox.hasClass('active')) {
-                    finishGapTextEditing($gapTextBox);
+                    $gapTextBox.removeClass('active');
+                    leaveChoiceForm();
                 } else {
                     $('.active', $gapList).removeClass('active');
                     $gapTextBox.addClass('active');
                     enterGapTextForm(gapTextObj.serial);
-                    $gapTextBox.find('.gap-text-label').focus();
                 }
             });
 
@@ -986,16 +970,8 @@ define([
                 panel.openSections($formChoicePanel.children('section'));
                 panel.closeSections($formInteractionPanel.children('section'));
 
-                const $tileLabel = $(`[data-serial="${serial}"] .gap-text-label`, $('ul.source', widget.$original));
-
-                if ($tileLabel.length) {
-                    $tileLabel.focus();
-                } else {
-                    $choiceForm.find('[name=gapTextLabel]').focus();
-
-                    if (typeof window.scroll === 'function') {
-                        window.scroll(0, $choiceForm.offset().top);
-                    }
+                if (typeof window.scroll === 'function') {
+                    window.scroll(0, $choiceForm.offset().top);
                 }
             }
         }
