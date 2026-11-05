@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"
+    identifier="graphicGapMatchGapText" title="Graphic gap match with text gaps" adaptive="false" timeDependent="false">
+    <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="directedPair">
+        <correctResponse>
+            <value>GLA A</value>
+        </correctResponse>
+    </responseDeclaration>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
+    <itemBody>
+        <graphicGapMatchInteraction responseIdentifier="RESPONSE">
+            <prompt>Match labels to hotspots.</prompt>
+            <object type="image/png" data="images/ukairtags.png" width="206" height="280"/>
+            <gapText identifier="GLA" matchMax="1">Glasgow</gapText>
+            <gapImg identifier="EDI" matchMax="1">
+                <object type="image/png" data="images/EDI.png" width="14" height="9"/>
+            </gapImg>
+            <associableHotspot identifier="A" matchMax="1" shape="rect" coords="12,108,39,121"/>
+        </graphicGapMatchInteraction>
+    </itemBody>
+    <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct"/>
+</assessmentItem>
