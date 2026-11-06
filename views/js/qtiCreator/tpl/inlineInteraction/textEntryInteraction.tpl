@@ -14,7 +14,7 @@
                 <tr data-edit="correct">
                     <td data-text>
                         <div class="instruction-container"></div>
-                        <input type="text" name="correct" value="{{text}}" /></td>
+                        <input type="text" name="correct" value="{{text}}" class="text-entry-authoring-spellcheck" /></td>
                     <td class="mini-tlb" colspan="2">
                     </td>
                 </tr>
@@ -30,7 +30,7 @@
                 <tr data-edit="custom">
                     <td colspan="3">
                         <!-- Input solely provides visual in response state -->
-                        <input type="text" />
+                        <input type="text" class="text-entry-authoring-spellcheck" />
                     </td>
                 </tr>
                 <tr data-edit="norp">
