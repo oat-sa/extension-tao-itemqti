@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-08-13 08:57\n"
+"PO-Revision-Date: 2026-10-23 14:58\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -145,6 +145,9 @@ msgstr "Añadir un archivo zip que contiene elementos QTI"
 
 msgid "Add else feedback"
 msgstr "Añadir otra retroalimentación"
+
+msgid "Add file(s)"
+msgstr "Añadir archivo(s)"
 
 msgid "Add level"
 msgstr "Añadir nivel"
@@ -448,6 +451,12 @@ msgstr "Selector de color"
 
 msgid "Column separator"
 msgstr "Separador de columnas"
+
+msgid "Comments"
+msgstr "Comentarios"
+
+msgid "Comments apply to the whole item."
+msgstr "Los comentarios se aplican a todo el artículo."
 
 msgid "Common Interactions"
 msgstr "Interacciones comunes"
@@ -1283,6 +1292,15 @@ msgstr "MathJax no esta instalada."
 
 msgid "MathML"
 msgstr "MathML"
+
+msgid "MathType"
+msgstr "Tipo de matemático"
+
+msgid "MathType availability"
+msgstr "Disponibilidad de MathType"
+
+msgid "MathType is currently enabled for your organization. Depending on usage, a separate licence may be required. Contact your account administrator for more information."
+msgstr "MathType está actualmente habilitado para su organización. Dependiendo del uso, puede ser necesaria una licencia independiente. Póngase en contacto con el administrador de su cuenta para obtener más información."
 
 msgid "Max"
 msgstr "Máximo"
@@ -2196,6 +2214,9 @@ msgstr "El número máximo de asociaciones es ilimitado."
 
 msgid "The maximum number of associations that the candidate is allowed to make."
 msgstr "El argumento manifiesto debe ser una instancia del DOMDocument."
+
+msgid "The maximum number of associations that the candidate is required to make to form a valid response."
+msgstr "El número máximo de asociaciones que el candidato debe hacer para formar una respuesta válida."
 
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "El número máximo de opciones que se permite al candidato seleccionar."
