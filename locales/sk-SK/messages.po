@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-08-13 08:57\n"
+"PO-Revision-Date: 2026-10-23 14:58\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -145,6 +145,9 @@ msgstr "Pridať možnosť"
 
 msgid "Add else feedback"
 msgstr "Pridať ďalšiu spätnú väzbu"
+
+msgid "Add file(s)"
+msgstr "Pridať súbor(y)"
 
 msgid "Add level"
 msgstr "Pridať úroveň"
@@ -448,6 +451,12 @@ msgstr "Výber farby"
 
 msgid "Column separator"
 msgstr "Oddeľovač stĺpcov"
+
+msgid "Comments"
+msgstr "Komentáre"
+
+msgid "Comments apply to the whole item."
+msgstr "Komentáre sa vzťahujú na celý produkt."
 
 msgid "Common Interactions"
 msgstr "Bežné interakcie"
@@ -1283,6 +1292,15 @@ msgstr "MathJax nie je nainštalovaný."
 
 msgid "MathML"
 msgstr "MathML"
+
+msgid "MathType"
+msgstr "Matematický typ"
+
+msgid "MathType availability"
+msgstr "Dostupnosť MathType"
+
+msgid "MathType is currently enabled for your organization. Depending on usage, a separate licence may be required. Contact your account administrator for more information."
+msgstr "MathType je momentálne vo vašej organizácii povolený. V závislosti od použitia môže byť potrebná samostatná licencia. Ďalšie informácie získate od správcu účtu."
 
 msgid "Max"
 msgstr "Maximum"
@@ -2196,6 +2214,9 @@ msgstr "Maximálny počet asociácií je neobmedzený."
 
 msgid "The maximum number of associations that the candidate is allowed to make."
 msgstr "Maximálny počet asociácií, ktoré môže účastník testu vytvoriť."
+
+msgid "The maximum number of associations that the candidate is required to make to form a valid response."
+msgstr "Maximálny počet asociácií, ktoré musí kandidát vytvoriť, aby vytvoril platnú odpoveď."
 
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "Maximálny počet možností, ktoré môže účastník testu vybrať."
