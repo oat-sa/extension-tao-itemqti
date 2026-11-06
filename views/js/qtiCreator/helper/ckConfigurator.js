@@ -18,7 +18,12 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define(['lodash', 'ui/ckeditor/ckConfigurator', 'mathJax'], function(_, ckConfigurator, mathJax) {
+define([
+    'lodash',
+    'ui/ckeditor/ckConfigurator',
+    'mathJax',
+    'tao/ckeditor/wproofreaderBootstrap'
+], function(_, ckConfigurator, mathJax, wproofreaderBootstrap) {
     'use strict';
 
     var _defaults = {
@@ -30,6 +35,19 @@ define(['lodash', 'ui/ckeditor/ckConfigurator', 'mathJax'], function(_, ckConfig
         horizontalRule: true,
         furiganaPlugin: true
     };
+
+    _.assign(_defaults, wproofreaderBootstrap.getCkeditorConfig());
+
+    /**
+     * Apply the WProofreader dictionary matching the QTI item language.
+     * @param {String} itemLanguage
+     * @returns {void}
+     * @example setSpellcheckLanguage('fr-FR'); // WProofreader receives 'fr_FR'
+     */
+    function setSpellcheckLanguage(itemLanguage) {
+        var normalizedLanguage = _.trim(String(itemLanguage || '')).replace(/-/g, '_');
+        wproofreaderBootstrap.setLanguage(normalizedLanguage);
+    }
 
     /**
      * Generate a configuration object for CKEDITOR
@@ -45,14 +63,19 @@ define(['lodash', 'ui/ckeditor/ckConfigurator', 'mathJax'], function(_, ckConfig
      * @param {Boolean} [options.qtiInclude] - enables the qtiInclude plugin
      * @param {Boolean} [options.underline] - enables the underline plugin
      * @param {Boolean} [options.mathJax] - enables the mathJax plugin
+     * @param {String} [itemLanguage] - QTI item language
      *
      * @see http://docs.ckeditor.com/#!/api/CKEDITOR.config
      */
-    var getConfig = function(editor, toolbarType, options){
+    function getConfig(editor, toolbarType, options, itemLanguage){
+        setSpellcheckLanguage(itemLanguage);
+        wproofreaderBootstrap.start();
         return ckConfigurator.getConfig(editor, toolbarType, _.defaults(options || {}, _defaults));
-    };
+    }
 
     return {
-        getConfig : getConfig
+        getConfig : getConfig,
+        getCkeditorConfig: wproofreaderBootstrap.getCkeditorConfig,
+        setSpellcheckLanguage: setSpellcheckLanguage
     };
 });
