@@ -3,9 +3,10 @@ define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Map',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
+    'taoQtiItem/qtiCreator/helper/wproofreaderTextEntryAuthoring',
     'tpl!taoQtiItem/qtiCreator/tpl/inlineInteraction/textEntry',
     'lodash'
-], function($, stateFactory, Map, formElement, optionTpl, _){
+], function($, stateFactory, Map, formElement, textEntryWsc, optionTpl, _){
 
     var _getRelatedTextKey = function($elt){
         return $elt.closest('tr').find('input[name=text]').val();
@@ -103,6 +104,7 @@ define([
             $addOption.before($newOption);
 
             preventNullMapEntries();
+            textEntryWsc.attachInScope($newOption);
         };
 
         var preventNullMapEntries = function(){
@@ -121,6 +123,8 @@ define([
         _.forIn(response.mapEntries, function(score, text){
             appendOption(text, score);
         });
+
+        textEntryWsc.attachInScope($container);
 
         $container.on('click.map', '[data-role=delete-option]', function(){
 

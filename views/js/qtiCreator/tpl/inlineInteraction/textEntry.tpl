@@ -1,5 +1,5 @@
 <tr class="" data-edit="map">
-    <td data-text><input type="text" name="text" value="{{text}}" data-old-text="{{text}}"/></td>
+    <td data-text><input type="text" name="text" value="{{text}}" data-old-text="{{text}}" class="text-entry-authoring-spellcheck"/></td>
     <td class="mini-tlb" colspan="2">
         <label>
             <input name="correct" type="radio" {{#if correct}}checked="checked"{{/if}} />

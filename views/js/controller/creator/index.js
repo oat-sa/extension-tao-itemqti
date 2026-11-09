@@ -11,7 +11,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2016-2024 (original work) Open Assessment Technologies SA ;
  *
@@ -34,7 +34,8 @@ define([
     'taoQtiItem/qtiCreator/plugins/loader',
     'tpl!taoQtiItem/qtiCreator/tpl/layout/interactionsPanel',
     'tpl!taoQtiItem/qtiCreator/tpl/layout/itemPanel',
-    'tpl!taoQtiItem/qtiCreator/tpl/layout/propertiesPanel'
+    'tpl!taoQtiItem/qtiCreator/tpl/layout/propertiesPanel',
+    'tao/ckeditor/wproofreaderBootstrap'
 ], function (
     $,
     _,
@@ -47,7 +48,8 @@ define([
     pluginLoader,
     interactionsPanelTpl,
     itemPanelTpl,
-    propertiesPanelTpl
+    propertiesPanelTpl,
+    wproofreaderBootstrap
 ) {
     'use strict';
 
@@ -94,6 +96,10 @@ define([
             //TODO move module config away from controllers
             const config = module.config();
             const logger = loggerFactory('controller/creator');
+
+            if (config && config.properties && config.properties.spellCheckConfig) {
+                wproofreaderBootstrap.configure(config.properties.spellCheckConfig);
+            }
 
             /**
              * Report errors
