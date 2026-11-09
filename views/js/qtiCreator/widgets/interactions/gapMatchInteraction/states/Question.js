@@ -89,9 +89,6 @@ define([
             //init text wrapper
             self.initGapCreator();
 
-            //hack : prevent ckeditor from removing empty spans
-            $container.find('.gapmatch-content').html('...');
-
             var $editable = $editableContainer.find('[data-html-editable]');
             if ($editable.length && $editable.html()) {
                 var content = $editable.html();
@@ -122,9 +119,6 @@ define([
                 qtiInclude: false,
                 flushDeletingWidgetsOnDestroy: true
             });
-
-            //restore gaps
-            $container.find('.gapmatch-content').empty();
         }
     };
 
@@ -134,14 +128,8 @@ define([
             $flowContainer = $container.find('.qti-flow-container'),
             $editable = $container.find('.qti-flow-container [data-html-editable]');
 
-        //hack : prevent ckeditor from removing empty spans
-        $container.find('.gapmatch-content').html('...');
-
         //search and destroy the editor
         htmlEditor.destroyEditor($flowContainer);
-
-        //restore gaps
-        $container.find('.gapmatch-content').empty();
 
         //remove toolbar
         $flowContainer.find('.mini-tlb[data-role=cke-launcher-tlb]').remove();
