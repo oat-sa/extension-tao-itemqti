@@ -25,6 +25,7 @@ namespace oat\taoQtiItem\model\qti\metadata\ontology;
 use core_kernel_classes_Property as Property;
 use core_kernel_classes_Resource as Resource;
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\TaoOntology;
 use oat\taoBackOffice\model\lists\ListService;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 use tao_helpers_form_elements_Readonly as ReadOnlyWidget;
@@ -102,7 +103,9 @@ class MappedMetadataInjector
 
     private function isInjectableProperty(array $mappedProperties, string $mappedPath): bool
     {
-        return isset($mappedProperties[$mappedPath]) && $mappedProperties[$mappedPath] instanceof Property;
+        return isset($mappedProperties[$mappedPath])
+            && $mappedProperties[$mappedPath] instanceof Property
+            && $mappedProperties[$mappedPath]->getUri() !== TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES;
     }
 
     private function setListValue(Property $property, Resource $resource, SimpleMetadataValue $metadataValue): void

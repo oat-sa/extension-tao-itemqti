@@ -27,6 +27,7 @@ use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\Lists\Business\Domain\Value;
+use oat\tao\model\TaoOntology;
 use oat\taoBackOffice\model\lists\ListService;
 use oat\taoQtiItem\model\qti\metadata\ontology\MappedMetadataInjector;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
@@ -130,5 +131,34 @@ class MappedMetadataInjectorTest extends TestCase
         $resourceMock->method('getPropertyValues')->willReturn([]);
 
         $this->subject->inject($mappedProperties, $metadataValues, $resourceMock);
+    }
+
+    public function testInjectSkipsTranslatedIntoLanguages(): void
+    {
+        $propertyMock = $this->createMock(core_kernel_classes_Property::class);
+        $simpleMetadataValue = $this->createMock(SimpleMetadataValue::class);
+        $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
+
+        $propertyMock
+            ->method('getUri')
+            ->willReturn(TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES);
+
+        $simpleMetadataValue
+            ->method('getPath')
+            ->willReturn([TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES]);
+
+        $resourceMock
+            ->expects($this->never())
+            ->method('removePropertyValues');
+
+        $resourceMock
+            ->expects($this->never())
+            ->method('setPropertyValue');
+
+        $this->subject->inject(
+            [TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES => $propertyMock],
+            [$simpleMetadataValue],
+            $resourceMock
+        );
     }
 }
