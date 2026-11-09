@@ -60,7 +60,7 @@ use oat\tao\helpers\Template;
 <script>
 requirejs.config({
    config: {
-       'taoQtiItem/controller/creator/index' : <?= json_encode(get_data('config')) ?>
+       'taoQtiItem/controller/creator/index' : <?= json_encode(get_data('config'), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>
    }
 });
 </script>

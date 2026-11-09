@@ -17,14 +17,16 @@
  */
 define([
     'jquery',
+    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/interactions/states/Question',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
     'taoQtiItem/qtiCommonRenderer/helpers/patternMask',
+    'taoQtiItem/qtiCreator/helper/wproofreaderTextEntryAuthoring',
     'tpl!taoQtiItem/qtiCreator/tpl/forms/interactions/textEntry',
     'services/features'
-], function($, __, stateFactory, Question, formElement, patternMaskHelper, formTpl, features){
+], function($, _, __, stateFactory, Question, formElement, patternMaskHelper, textEntryWsc, formTpl, features){
     'use strict';
 
     var TextEntryInteractionStateQuestion = stateFactory.extend(Question);
@@ -74,6 +76,10 @@ define([
         }));
 
         formElement.initWidget($form);
+
+        _.defer(function () {
+            textEntryWsc.attachInScope($form);
+        });
 
         $inputs = {
             maxLength : $form.find('[name="maxLength"]'),

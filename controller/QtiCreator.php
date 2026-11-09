@@ -13,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2013-2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
@@ -28,6 +28,8 @@ use core_kernel_classes_Resource;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManager;
+use oat\tao\model\ClientLibConfigRegistry;
+use oat\tao\model\featureFlag\WProofreaderClientConfigHandler;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\TaskOrchestrator\TaskOrchestratorEmailService;
@@ -55,6 +57,7 @@ use tao_helpers_File;
 use tao_helpers_Http;
 use tao_helpers_Uri;
 use taoItems_models_classes_ItemsService;
+use tao_models_classes_LanguageService;
 
 /**
  * QtiCreator Controller provide actions to edit a QTI item
@@ -137,6 +140,16 @@ class QtiCreator extends tao_actions_CommonModule
 
         $config = $this->getCreatorConfig($item);
 
+        $clientConfigs = ($this->getPsrContainer()->get(WProofreaderClientConfigHandler::class))(
+            $this->getPsrContainer()->get(ClientLibConfigRegistry::class)->getMap()
+        );
+        if (isset($clientConfigs['tao/ckeditor/wproofreaderBootstrap']['spellCheckConfig'])) {
+            $config->setProperty(
+                'spellCheckConfig',
+                $clientConfigs['tao/ckeditor/wproofreaderBootstrap']['spellCheckConfig']
+            );
+        }
+
         $this->setData('config', $config->toArray());
         $this->setView('QtiCreator/index.tpl');
 
@@ -174,6 +187,7 @@ class QtiCreator extends tao_actions_CommonModule
             $lang = taoItems_models_classes_ItemsService::singleton()->getSessionLg();
             $itemUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
             $itemResource = new core_kernel_classes_Resource($itemUri);
+            $language = $itemResource->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_LANGUAGE));
 
             // do not resolve xinclude here, leave it to the client side
             $item = Service::singleton()->getDataItemByRdfItem($itemResource, $lang, false);
@@ -181,6 +195,9 @@ class QtiCreator extends tao_actions_CommonModule
             $returnValue['itemData'] = $item
                 ? $item->toArray()
                 : ['identifier' => $this->getItemIdentifier($itemResource)];
+            $returnValue['language'] = $language instanceof core_kernel_classes_Resource
+                ? tao_models_classes_LanguageService::singleton()->getCode($language)
+                : null;
 
             $availableLangs = \tao_helpers_I18n::getAvailableLangsByUsage(
                 new core_kernel_classes_Resource(TaoOntology::PROPERTY_STANCE_LANGUAGE_USAGE_DATA)
@@ -211,6 +228,16 @@ class QtiCreator extends tao_actions_CommonModule
                     $this->getItemIdentifierValidator()->validate($item);
 
                     $returnValue['success'] = $itemService->saveDataItemToRdfItem($item, $rdfItem);
+
+                    if ($returnValue['success']) {
+                        $language = tao_models_classes_LanguageService::singleton()->getLanguageByCode(
+                            $item->getAttributeValue('xml:lang')
+                        );
+
+                        if ($language instanceof core_kernel_classes_Resource) {
+                            $rdfItem->setPropertyValue($this->getProperty(TaoOntology::PROPERTY_LANGUAGE), $language);
+                        }
+                    }
 
                     $this->getEventManager()->trigger(new ResourceUpdated($rdfItem));
                     $this->getUpdatedItemEventDispatcher()->dispatch($item, $rdfItem);
