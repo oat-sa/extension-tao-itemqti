@@ -28,8 +28,10 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicInteraction/Widget',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/states/states',
-    'taoQtiItem/qtiCommonRenderer/helpers/Graphic'
-], function ($, _, __, hider, Widget, GraphicWidget, states, GraphicHelper) {
+    'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapTextInteractionSupport',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapTextTileLayout'
+], function ($, _, __, hider, Widget, GraphicWidget, states, GraphicHelper, ensureGapTextSupport, gapTextTileLayout) {
     'use strict';
 
     /**
@@ -61,7 +63,7 @@ define([
             if (paper) {
                 this.element.paper = paper;
                 this.createChoices();
-                this.createGapImgs();
+                this.createGapChoices();
             }
         },
 
@@ -87,10 +89,23 @@ define([
          * @param {Number} newSize - the interaction size
          * @param {Number} [factor=1] - scaling factor
          */
+        syncGapListWidth: function (newSize) {
+            const $gapList = $('ul.source', this.$original);
+
+            if (newSize) {
+                $gapList.css({
+                    width: `${newSize}px`,
+                    'max-width': `${newSize}px`
+                });
+            }
+        },
+
         scaleGapList: function (newSize, factor) {
             const $container = this.$original;
             const $gapList = $('ul.source', $container);
-            $gapList.css('max-width', `${newSize}px`);
+
+            this.syncGapListWidth(newSize);
+
             if (factor && factor !== 1) {
                 $gapList.find('img').each(function () {
                     const $img = $(this);
@@ -102,31 +117,64 @@ define([
             if (this.element.paper) {
                 const interaction = this.element;
                 const choices = interaction.getChoices();
+                const backgroundWidth = interaction.object.attr('width');
+
                 _.forEach(choices, choice => {
+                    const shape = interaction.paper.getById(choice.serial);
+
+                    if (!shape) {
+                        return;
+                    }
+
                     choice.attr(
                         'coords',
-                        GraphicHelper.qtiCoords(
-                            interaction.paper.getById(choice.serial),
-                            interaction.paper,
-                            interaction.object.attr('width')
-                        )
+                        GraphicHelper.qtiCoords(shape, interaction.paper, backgroundWidth)
                     );
                 });
             }
         },
 
         /**
-         * Create the gap images
+         * Create the gap images and gap texts in the source bay
          */
-        createGapImgs: function () {
+        createGapChoices: function () {
             const interaction = this.element;
             const $container = this.$original;
             const $gapList = $('ul.source', $container);
+
+            ensureGapTextSupport(interaction);
 
             $gapList.empty();
             _.forEach(interaction.gapImgs, function (gapImg) {
                 $gapList.append(gapImg.render());
             });
+            _.forEach(interaction.getGapTexts(), function (gapText) {
+                $gapList.append(gapText.render());
+                const $gapTextBox = $gapList
+                    .find(`[data-serial="${gapText.serial}"]`)
+                    .addClass('qti-gapImg qti-gapText selectable');
+
+                gapTextTileLayout.mountGapTextTileFromModel($gapTextBox, gapText);
+            });
+            gapTextTileLayout.syncAllGapTextTilesInList($gapList);
+
+            const $mainImageBox = $('.main-image-box', $container);
+            if ($mainImageBox.length) {
+                this.syncGapListWidth($mainImageBox.width());
+            }
+        },
+
+        /**
+         * @deprecated use createGapChoices
+         */
+        createGapImgs: function () {
+            this.createGapChoices();
+        },
+
+        getGraphicGapSourceChoices: function () {
+            const interaction = this.element;
+            ensureGapTextSupport(interaction);
+            return _.assign({}, interaction.getGapImgs(), interaction.getGapTexts());
         },
 
         /**
@@ -143,7 +191,7 @@ define([
             const choiceMatchMax = choice && parseInt(choice.attr('matchMax'), 10);
 
             let isInfinityMatchMax = isInfinitePair;
-            const checkTemplates = ['hotspot', 'gapImg'].includes(template);
+            const checkTemplates = ['hotspot', 'gapImg', 'gapText'].includes(template);
             if (choiceMatchMax && checkTemplates) {
                 isInfinityMatchMax = false;
             } else if (isInfinitePair && checkTemplates) {
@@ -186,7 +234,7 @@ define([
 
         calculatePossiblePairs(interaction) {
             const pairs = [];
-            const matchSet1 = this.getMatchMaxOrderedChoices(interaction.getGapImgs());
+            const matchSet1 = this.getMatchMaxOrderedChoices(this.getGraphicGapSourceChoices());
             const matchSet2 = this.getMatchMaxOrderedChoices(interaction.getChoices());
 
             _.forEach(matchSet1, choice1 => _.forEach(matchSet2, choice2 => pairs.push([choice1.id, choice2.id])));
