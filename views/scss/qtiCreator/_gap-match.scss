@@ -68,6 +68,20 @@
             .qti-choice {
                 margin-top: 3px;
 
+                // keep the choice toolbar at the tile corner, above the answer content
+                > .mini-tlb {
+                    z-index: 1001;
+                }
+
+                // place the active math toolbar right next to the choice toolbar
+                // (choice content fills the tile, so the math right edge is the tile right edge);
+                // z-index beats the html-editable shield (999) covering the math widget
+                .widget-math .mini-tlb {
+                    top: -6px !important;
+                    right: 0px !important;
+                    z-index: 1000;
+                }
+
                 .mini-tlb {
                     margin-bottom: 0;
                     height: 31px;
