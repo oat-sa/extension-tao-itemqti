@@ -27,6 +27,7 @@ use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\Lists\Business\Domain\Value;
+use oat\tao\model\TaoOntology;
 use oat\taoBackOffice\model\lists\ListService;
 use oat\taoQtiItem\model\qti\metadata\ontology\MappedMetadataInjector;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
@@ -130,5 +131,81 @@ class MappedMetadataInjectorTest extends TestCase
         $resourceMock->method('getPropertyValues')->willReturn([]);
 
         $this->subject->inject($mappedProperties, $metadataValues, $resourceMock);
+    }
+
+    /**
+     * @dataProvider translationWorkflowPropertiesProvider
+     */
+    public function testInjectSkipsTranslationWorkflowProperties(string $propertyUri): void
+    {
+        $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
+
+        $resourceMock
+            ->expects($this->never())
+            ->method('removePropertyValues');
+
+        $resourceMock
+            ->expects($this->never())
+            ->method('setPropertyValue');
+
+        $this->subject->inject(
+            [$propertyUri => $this->createPropertyMock($propertyUri)],
+            [$this->createMetadataValueMock($propertyUri)],
+            $resourceMock
+        );
+    }
+
+    public function translationWorkflowPropertiesProvider(): array
+    {
+        return [
+            'translation type' => [TaoOntology::PROPERTY_TRANSLATION_TYPE],
+            'translation status' => [TaoOntology::PROPERTY_TRANSLATION_STATUS],
+            'translation progress' => [TaoOntology::PROPERTY_TRANSLATION_PROGRESS],
+            'translation original resource' => [TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI],
+            'translated into languages' => [TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES],
+        ];
+    }
+
+    public function testInjectKeepsLanguage(): void
+    {
+        $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
+        $resourceMock->method('getPropertyValues')->willReturn([]);
+
+        $this->ontologyMock
+            ->method('getResource')
+            ->willReturn($resourceMock);
+
+        $resourceMock
+            ->expects($this->once())
+            ->method('setPropertyValue');
+
+        $this->subject->inject(
+            [TaoOntology::PROPERTY_LANGUAGE => $this->createPropertyMock(TaoOntology::PROPERTY_LANGUAGE)],
+            [$this->createMetadataValueMock(TaoOntology::PROPERTY_LANGUAGE)],
+            $resourceMock
+        );
+    }
+
+    private function createPropertyMock(string $propertyUri): core_kernel_classes_Property
+    {
+        $propertyMock = $this->createMock(core_kernel_classes_Property::class);
+        $propertyMock
+            ->method('getUri')
+            ->willReturn($propertyUri);
+
+        return $propertyMock;
+    }
+
+    private function createMetadataValueMock(string $propertyUri): SimpleMetadataValue
+    {
+        $metadataValueMock = $this->createMock(SimpleMetadataValue::class);
+        $metadataValueMock
+            ->method('getPath')
+            ->willReturn([$propertyUri]);
+        $metadataValueMock
+            ->method('getValue')
+            ->willReturn('value');
+
+        return $metadataValueMock;
     }
 }
