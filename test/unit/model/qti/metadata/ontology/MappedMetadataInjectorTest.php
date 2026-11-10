@@ -27,7 +27,6 @@ use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\Lists\Business\Domain\Value;
-use oat\tao\model\TaoOntology;
 use oat\taoBackOffice\model\lists\ListService;
 use oat\taoQtiItem\model\qti\metadata\ontology\MappedMetadataInjector;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
@@ -36,6 +35,9 @@ use PHPUnit\Framework\TestCase;
 
 class MappedMetadataInjectorTest extends TestCase
 {
+    private const FORBIDDEN_PROPERTY_URI = 'http://example.com/forbidden-property';
+    private const ALLOWED_PROPERTY_URI = 'http://example.com/allowed-property';
+
     /** @var ListService|MockObject */
     private ListService $listServiceMock;
 
@@ -133,11 +135,10 @@ class MappedMetadataInjectorTest extends TestCase
         $this->subject->inject($mappedProperties, $metadataValues, $resourceMock);
     }
 
-    /**
-     * @dataProvider translationWorkflowPropertiesProvider
-     */
-    public function testInjectSkipsTranslationWorkflowProperties(string $propertyUri): void
+    public function testInjectSkipsForbiddenProperties(): void
     {
+        $this->subject->addForbiddenProperties([self::FORBIDDEN_PROPERTY_URI]);
+
         $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
 
         $resourceMock
@@ -149,25 +150,16 @@ class MappedMetadataInjectorTest extends TestCase
             ->method('setPropertyValue');
 
         $this->subject->inject(
-            [$propertyUri => $this->createPropertyMock($propertyUri)],
-            [$this->createMetadataValueMock($propertyUri)],
+            [self::FORBIDDEN_PROPERTY_URI => $this->createPropertyMock(self::FORBIDDEN_PROPERTY_URI)],
+            [$this->createMetadataValueMock(self::FORBIDDEN_PROPERTY_URI)],
             $resourceMock
         );
     }
 
-    public function translationWorkflowPropertiesProvider(): array
+    public function testInjectSetsPropertiesThatAreNotForbidden(): void
     {
-        return [
-            'translation type' => [TaoOntology::PROPERTY_TRANSLATION_TYPE],
-            'translation status' => [TaoOntology::PROPERTY_TRANSLATION_STATUS],
-            'translation progress' => [TaoOntology::PROPERTY_TRANSLATION_PROGRESS],
-            'translation original resource' => [TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI],
-            'translated into languages' => [TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES],
-        ];
-    }
+        $this->subject->addForbiddenProperties([self::FORBIDDEN_PROPERTY_URI]);
 
-    public function testInjectKeepsLanguage(): void
-    {
         $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
         $resourceMock->method('getPropertyValues')->willReturn([]);
 
@@ -180,8 +172,8 @@ class MappedMetadataInjectorTest extends TestCase
             ->method('setPropertyValue');
 
         $this->subject->inject(
-            [TaoOntology::PROPERTY_LANGUAGE => $this->createPropertyMock(TaoOntology::PROPERTY_LANGUAGE)],
-            [$this->createMetadataValueMock(TaoOntology::PROPERTY_LANGUAGE)],
+            [self::ALLOWED_PROPERTY_URI => $this->createPropertyMock(self::ALLOWED_PROPERTY_URI)],
+            [$this->createMetadataValueMock(self::ALLOWED_PROPERTY_URI)],
             $resourceMock
         );
     }

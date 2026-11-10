@@ -25,7 +25,6 @@ namespace oat\taoQtiItem\model\qti\metadata\ontology;
 use core_kernel_classes_Property as Property;
 use core_kernel_classes_Resource as Resource;
 use oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\TaoOntology;
 use oat\taoBackOffice\model\lists\ListService;
 use oat\taoQtiItem\model\qti\metadata\simple\SimpleMetadataValue;
 use tao_helpers_form_elements_Readonly as ReadOnlyWidget;
@@ -34,19 +33,17 @@ class MappedMetadataInjector
 {
     use OntologyAwareTrait;
 
-    private const TRANSLATION_WORKFLOW_PROPERTIES = [
-        TaoOntology::PROPERTY_TRANSLATION_TYPE,
-        TaoOntology::PROPERTY_TRANSLATION_STATUS,
-        TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
-        TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI,
-        TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES,
-    ];
-
     private ListService $listService;
+    private array $forbiddenProperties = [];
 
     public function __construct(ListService $listService)
     {
         $this->listService = $listService;
+    }
+
+    public function addForbiddenProperties(array $propertyUris): void
+    {
+        $this->forbiddenProperties = array_merge($this->forbiddenProperties, $propertyUris);
     }
 
     public function inject(array $mappedProperties, array $metadataValues, Resource $resource): void
@@ -113,7 +110,7 @@ class MappedMetadataInjector
     {
         return isset($mappedProperties[$mappedPath])
             && $mappedProperties[$mappedPath] instanceof Property
-            && !in_array($mappedProperties[$mappedPath]->getUri(), self::TRANSLATION_WORKFLOW_PROPERTIES, true);
+            && !in_array($mappedProperties[$mappedPath]->getUri(), $this->forbiddenProperties, true);
     }
 
     private function setListValue(Property $property, Resource $resource, SimpleMetadataValue $metadataValue): void
