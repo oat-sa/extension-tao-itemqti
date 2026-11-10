@@ -29,6 +29,7 @@ define([
     'taoQtiItem/qtiCreator/helper/qtiElements',
     'taoQtiItem/qtiCreator/helper/xmlRenderer',
     'taoQtiItem/qtiCreator/helper/textEntryEvaluationForm',
+    'taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper',
     'taoQtiItem/qtiCreator/helper/scoringModelForm',
     'taoQtiItem/qtiCreator/helper/scoringModelHelper',
     'taoQtiItem/qtiCreator/widgets/helpers/featureFlags',
@@ -50,6 +51,7 @@ define([
     qtiElements,
     xmlRenderer,
     textEntryEvaluationForm,
+    textEntryEvaluationHelper,
     scoringModelForm,
     scoringModelHelper,
     featureFlags,
@@ -160,6 +162,13 @@ define([
                 break;
         }
 
+        if (
+            interaction.qtiClass === 'textEntryInteraction' &&
+            textEntryEvaluationHelper.isUmfiEnabled(interaction)
+        ) {
+            delete templates.MAP_RESPONSE;
+        }
+
         if ((rp.processingType === 'templateDriven' && !allowCustomTemplate) || !features.isVisible('taoQtiItem/creator/interaction/response/responseProcessing/custom')) {
             delete templates.CUSTOM;
         } else {
@@ -175,7 +184,18 @@ define([
          * @param {Object} widget
          */
         forward: function forward(widget) {
-            const response = widget.element.getResponseDeclaration();
+            const interaction = widget.element;
+            const response = interaction.getResponseDeclaration();
+
+            if (
+                interaction.qtiClass === 'textEntryInteraction' &&
+                textEntryEvaluationHelper.isUmfiEnabled(interaction)
+            ) {
+                textEntryEvaluationHelper.ensureUmfiResponseTemplates(interaction);
+                widget.changeState('custom');
+                return;
+            }
+
             if (responseHelper.isUsingTemplate(response, 'MATCH_CORRECT')) {
                 widget.changeState('correct');
             } else if (

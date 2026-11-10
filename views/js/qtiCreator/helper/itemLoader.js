@@ -77,6 +77,10 @@ define([
                         const itemData = data.itemData;
 
                         loader.loadItemData(itemData, function (loadedItem) {
+                            if (data.language) {
+                                loadedItem.attr('xml:lang', data.language);
+                            }
+
                             //hack to fix #2652
                             if (loadedItem.isEmpty()) {
                                 loadedItem.body('');
@@ -113,6 +117,10 @@ define([
                         });
                     } else {
                         const newItem = new Item().id(data.itemData.identifier).attr('title', config.label);
+
+                        if (data.language) {
+                            newItem.attr('xml:lang', data.language);
+                        }
 
                         newItem.createResponseProcessing();
 

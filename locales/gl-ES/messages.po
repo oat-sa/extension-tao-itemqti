@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-08-13 08:57\n"
+"PO-Revision-Date: 2026-10-23 14:58\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: gl\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -144,6 +144,9 @@ msgid "Add choice"
 msgstr ""
 
 msgid "Add else feedback"
+msgstr ""
+
+msgid "Add file(s)"
 msgstr ""
 
 msgid "Add level"
@@ -448,6 +451,12 @@ msgstr ""
 
 msgid "Column separator"
 msgstr ""
+
+msgid "Comments"
+msgstr "Comentarios"
+
+msgid "Comments apply to the whole item."
+msgstr "Os comentarios aplícanse a todo o elemento."
 
 msgid "Common Interactions"
 msgstr ""
@@ -1282,6 +1291,15 @@ msgstr ""
 
 msgid "MathML"
 msgstr ""
+
+msgid "MathType"
+msgstr "Tipo matemático"
+
+msgid "MathType availability"
+msgstr "Dispoñibilidade de MathType"
+
+msgid "MathType is currently enabled for your organization. Depending on usage, a separate licence may be required. Contact your account administrator for more information."
+msgstr "MathType está activado actualmente para a súa organización. Dependendo do uso, pode ser necesaria unha licenza independente. Póñase en contacto co administrador da súa conta para obter máis información."
 
 msgid "Max"
 msgstr ""
@@ -2195,6 +2213,9 @@ msgstr ""
 
 msgid "The maximum number of associations that the candidate is allowed to make."
 msgstr ""
+
+msgid "The maximum number of associations that the candidate is required to make to form a valid response."
+msgstr "O número máximo de asociacións que o candidato debe facer para formar unha resposta válida."
 
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr ""

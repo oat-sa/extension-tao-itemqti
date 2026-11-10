@@ -55,6 +55,7 @@ define([
     'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapAddOptionControl',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapTextQuestionAuthoring',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/minMaxThresholdListeners',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapImgList',
     'ui/mediasizer'
 ], function (
     $,
@@ -78,7 +79,8 @@ define([
     gapTextTileLayout,
     gapAddOptionControl,
     createGapTextQuestionAuthoring,
-    minMaxThresholdListeners
+    minMaxThresholdListeners,
+    gapImgList
 ) {
     'use strict';
 
@@ -247,17 +249,19 @@ define([
             // New choices sit before the persistent "add option" row at the end of the list.
             if (!$gapImgBox.length) {
                 $gapImgBox = $(gapImgObj.render()).insertBefore($addOption);
+            } else {
+                //re-render the choice so a replaced image shows up without saving the item
+                gapImgList.refreshThumbnail($gapImgBox, gapImgObj);
             }
 
-            $deleteBtn
-                .appendTo($gapImgBox)
-                .show()
-                .click(function (e) {
+            if (gapImgList.ensureToolbar($gapImgBox, $deleteBtn)) {
+                $deleteBtn.click(function (e) {
                     e.preventDefault();
                     e.stopPropagation();
                     $gapImgBox.remove();
                     interaction.removeGapImg(gapImgObj);
                 });
+            }
 
             enterGapImgForm(gapImgObj.serial);
 
@@ -439,12 +443,7 @@ define([
                     });
                 };
 
-                // Mediasizer needs natural dimensions; wait for the choice image to load if necessary.
-                if ($gapImgElem.get(0) && $gapImgElem.get(0).complete) {
-                    initMediasizer();
-                } else {
-                    $gapImgElem.one('load', initMediasizer);
-                }
+                gapImgList.initWhenLoaded($gapImgElem, initMediasizer);
 
                 imageSelector($choiceForm, gapImgSelectorOptions);
 

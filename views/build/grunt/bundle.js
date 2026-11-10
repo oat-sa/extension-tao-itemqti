@@ -39,6 +39,13 @@ module.exports = function (grunt) {
                             name: 'taoQtiItem',
                             default: true,
                             babel: true,
+                            //tao extension modules must stay external: they are provided at
+                            //runtime by the tao extension and must not be duplicated here
+                            //(the bundler rejects inlining foreign extension modules)
+                            exclude: [
+                                'tao/ckeditor/wproofreaderBootstrap',
+                                'tao/ckeditor/wproofreaderExclude'
+                            ],
                             //we need to list the dependencies manually, since the
                             //sources contains tests in subfolders
                             include: [
