@@ -1,1 +1,1 @@
-{"Here you can provide scoring aspects for manual scoring\/marking, e.g. CONTENT, GRAMMAR, SPELLING":"Here you can provide scoring aspects for manual scoring\/marking, e.g. CONTENT, GRAMMAR, SPELLING","Wrap image left":"Left","Wrap image right":"Right"}
+{"translations":{"add criteria":"Add criteria","Here you can provide scoring aspects for manual scoring\/marking, e.g. CONTENT, GRAMMAR, SPELLING":"Here you can provide scoring aspects for manual scoring\/marking, e.g. CONTENT, GRAMMAR, SPELLING","Wrap image left":"Left","Wrap image right":"Right"}}
