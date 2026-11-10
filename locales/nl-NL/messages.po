@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-08-13 08:57\n"
+"PO-Revision-Date: 2026-10-23 14:58\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -145,6 +145,9 @@ msgstr "Voeg een keuze toe"
 
 msgid "Add else feedback"
 msgstr "Voeg andere feedback toe"
+
+msgid "Add file(s)"
+msgstr "Voeg bestand(en) toe"
 
 msgid "Add level"
 msgstr "Niveau toevoegen"
@@ -448,6 +451,12 @@ msgstr "Kleurkiezer"
 
 msgid "Column separator"
 msgstr "Scheidingsteken voor kolommen"
+
+msgid "Comments"
+msgstr "Opmerkingen"
+
+msgid "Comments apply to the whole item."
+msgstr "Opmerkingen zijn van toepassing op het hele item."
 
 msgid "Common Interactions"
 msgstr "Gemeenschappelijke interacties"
@@ -1283,6 +1292,15 @@ msgstr "MathJax is niet geïnstalleerd"
 
 msgid "MathML"
 msgstr "mathML"
+
+msgid "MathType"
+msgstr "Wiskunde type"
+
+msgid "MathType availability"
+msgstr "Wiskunde type"
+
+msgid "MathType is currently enabled for your organization. Depending on usage, a separate licence may be required. Contact your account administrator for more information."
+msgstr "MathType is momenteel ingeschakeld voor uw organisatie. Afhankelijk van het gebruik is er mogelijk een aparte licentie vereist. Neem contact op met uw accountbeheerder voor meer informatie."
 
 msgid "Max"
 msgstr "Max."
@@ -2196,6 +2214,9 @@ msgstr "Het maximum aantal voor associatie is oneindig."
 
 msgid "The maximum number of associations that the candidate is allowed to make."
 msgstr "Het maximum aantal associaties dat een kandidaat mag maken."
+
+msgid "The maximum number of associations that the candidate is required to make to form a valid response."
+msgstr "Het maximale aantal associaties dat de kandidaat nodig heeft om een geldig antwoord te vormen."
 
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "Het maximum aantal keuzen dat een kandidaat mag selecteren."

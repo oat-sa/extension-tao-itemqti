@@ -11,21 +11,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 define([
     'jquery',
+    'lodash',
     'i18n',
     'taoQtiItem/qtiCreator/widgets/helpers/stringResponse',
     'taoQtiItem/qtiCreator/widgets/states/factory',
     'taoQtiItem/qtiCreator/widgets/states/Correct',
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
+    'taoQtiItem/qtiCreator/helper/wproofreaderTextEntryAuthoring',
     'util/locale',
     'util/converter'
-], function ($, __, stringResponseHelper, stateFactory, Correct, instructionMgr, locale, converter) {
+], function ($, _, __, stringResponseHelper, stateFactory, Correct, instructionMgr, textEntryWsc, locale, converter) {
     'use strict';
 
     function setErrorNotification(submitButton, element, baseType) {
@@ -67,6 +69,10 @@ define([
         } else {
             $correctInput.focus().val(correctResponse);
         }
+
+        _.defer(function () {
+            textEntryWsc.attachInScope($container);
+        });
 
         $responseForm.on('change', '#responseBaseType',function () {
             if ($(this).val() === 'float') {

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-08-13 08:57\n"
+"PO-Revision-Date: 2026-10-29 08:11\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -102,13 +102,13 @@ msgid "A choice must be selected"
 msgstr "Trebuie selectată o alegere"
 
 msgid "A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image."
-msgstr ""
+msgstr "O interacțiune grafică care se potrivește cu decalajul necesită o imagine de fundal, cel puțin un punct fierbinte și cel puțin o imagine lacunară."
 
 msgid "A human interpretation of the variable's value."
 msgstr "O interpretare umană a valorii variabilei."
 
 msgid "A Lexical Field groups a canonical answer and optional variants into a single expected response. The canonical value is stored in the item data and used for response processing; only additional variants are listed here. Group identifiers are assigned automatically."
-msgstr ""
+msgstr "Un câmp Lexical grupează un răspuns canonic şi variante opţionale într-un singur răspuns aşteptat. Valoarea canonică este stocată în datele elementului și utilizată pentru prelucrarea răspunsurilor; doar variante suplimentare sunt enumerate aici. Identificatorii de grup sunt alocați automat."
 
 msgid "A QTI component is not supported. The system returned the following error: %s\n"
 msgstr "O componentă QTI nu este suportată. Sistemul a returnat următoarea eroare: %s\n"
@@ -146,11 +146,14 @@ msgstr "Adăugați o alegere"
 msgid "Add else feedback"
 msgstr "Adăugați alte păreri"
 
+msgid "Add file(s)"
+msgstr "Adaugă fișier(e)"
+
 msgid "Add level"
-msgstr ""
+msgstr "Adaugă nivel"
 
 msgid "Add lexical field"
-msgstr ""
+msgstr "Adaugă câmp lexic"
 
 msgid "Add new column"
 msgstr "Adaugă o coloană nouă"
@@ -165,7 +168,7 @@ msgid "Add Style Sheet"
 msgstr "Adaugă foaie de stil"
 
 msgid "Add variant"
-msgstr ""
+msgstr "Adaugă variantă"
 
 msgid "after"
 msgstr "după"
@@ -448,6 +451,12 @@ msgstr "Selector culoare"
 
 msgid "Column separator"
 msgstr "Separator coloană"
+
+msgid "Comments"
+msgstr "Comentarii"
+
+msgid "Comments apply to the whole item."
+msgstr "Comentariile se aplică la întregul element."
 
 msgid "Common Interactions"
 msgstr "Interacţiuni frecvente"
@@ -1283,6 +1292,15 @@ msgstr "MathJax nu este instalat."
 
 msgid "MathML"
 msgstr "MathML"
+
+msgid "MathType"
+msgstr "Matematică"
+
+msgid "MathType availability"
+msgstr "Disponibilitatea MathType"
+
+msgid "MathType is currently enabled for your organization. Depending on usage, a separate licence may be required. Contact your account administrator for more information."
+msgstr "MathType este momentan activat pentru organizația dvs. În funcție de utilizare, poate fi necesară o licență separată. Contactați administratorul contului dvs. pentru mai multe informații."
 
 msgid "Max"
 msgstr "Maxim"
@@ -2196,6 +2214,9 @@ msgstr "Numărul maxim de asocieri este nelimitat."
 
 msgid "The maximum number of associations that the candidate is allowed to make."
 msgstr "Numărul maxim de asociații pe care candidatul poate să le facă."
+
+msgid "The maximum number of associations that the candidate is required to make to form a valid response."
+msgstr "Numărul maxim de asociații pe care candidatul trebuie să le facă pentru a forma un răspuns valabil."
 
 msgid "The maximum number of choices that the candidate is allowed to select."
 msgstr "Numărul maxim de opțiuni pe care candidatul poate să le selecteze."

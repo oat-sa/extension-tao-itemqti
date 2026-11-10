@@ -167,22 +167,31 @@ define([
     };
 
     /**
+     * Upper bound when at most one synonym group can match per text entry.
+     *
      * @param {SynonymGroupResponseProcessingConfig} config
      * @returns {number}
      */
-    const getGroupSumMaxScore = function getGroupSumMaxScore(config) {
+    const getAchievableMaxScore = function getAchievableMaxScore(config) {
         const groups = (config && config.synonymGroups) || [];
+        const interactionCount = ((config && config.interactions) || []).length;
 
-        return _.reduce(
-            groups,
-            (total, group) => total + (_.isUndefined(group.maxScore) ? 1 : Number(group.maxScore)),
-            0
-        );
+        if (!groups.length || !interactionCount) {
+            return 0;
+        }
+
+        return _.chain(groups)
+            .map(group => (_.isUndefined(group.maxScore) ? 1 : Number(group.maxScore)))
+            .sortBy()
+            .reverse()
+            .take(interactionCount)
+            .sum()
+            .value();
     };
 
     /**
      * When thresholds are configured, MAXSCORE is the highest threshold score.
-     * Otherwise it is the sum of group maxScore values.
+     * Otherwise it is the achievable sum of group scores (limited by input count).
      *
      * @param {SynonymGroupResponseProcessingConfig} config
      * @returns {number}
@@ -197,7 +206,7 @@ define([
             });
         }
 
-        return getGroupSumMaxScore(normalized);
+        return getAchievableMaxScore(normalized);
     };
 
     /**

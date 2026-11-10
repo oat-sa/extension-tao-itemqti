@@ -168,6 +168,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
 
         assert.strictEqual(firstEntry.attr('data-item-type'), 'umfi-closed');
         assert.strictEqual(firstEntry.attr('data-umfi-values'), '[]');
+        assert.strictEqual(firstEntry.attr('data-case-sensitive'), 'true');
         assert.strictEqual(evaluationHelper.isUmfiEnabled(secondEntry), true);
 
         evaluationHelper.setAllowLexicalFieldsOnScoring(firstEntry, true);
@@ -325,7 +326,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
 
         assert.strictEqual(originalFirst.attr('data-item-type'), 'umfi-open');
         assert.ok(originalFirst.attr('data-umfi-values'));
-        assert.strictEqual(originalFirst.attr('data-case-sensitive'), 'false');
+        assert.strictEqual(originalFirst.attr('data-case-sensitive'), 'true');
         assert.strictEqual(originalFirst.attr('data-allow-lexical-fields-on-scoring'), 'true');
         assert.strictEqual(insertedBefore.attr('data-item-type'), undefined);
 
@@ -339,7 +340,7 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
             insertedBefore.attr('data-umfi-values'),
             '[{"group":"APPLE_FOUND","canonical":"apple","variants":["apple","apples"]}]'
         );
-        assert.strictEqual(insertedBefore.attr('data-case-sensitive'), 'false');
+        assert.strictEqual(insertedBefore.attr('data-case-sensitive'), 'true');
         assert.strictEqual(insertedBefore.attr('data-allow-lexical-fields-on-scoring'), 'true');
         assert.strictEqual(originalFirst.attr('data-item-type'), undefined);
         assert.strictEqual(originalFirst.attr('data-umfi-values'), undefined);
@@ -602,6 +603,39 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.strictEqual(groups[0].id, 'FRANCE_FOUND');
     });
 
+    QUnit.test('isCaseSensitive is true for UMFI and false otherwise', assert => {
+        const textEntry = createTextEntry(null);
+
+        textEntry.attr('data-item-type', 'umfi-closed');
+        textEntry.attr('data-case-sensitive', 'false');
+        createItem([textEntry]);
+
+        assert.strictEqual(evaluationHelper.isCaseSensitive(textEntry), true);
+
+        textEntry.removeAttr('data-item-type');
+        textEntry.removeAttr('data-case-sensitive');
+
+        assert.strictEqual(evaluationHelper.isCaseSensitive(textEntry), false);
+    });
+
+    QUnit.test('persistEvaluationConfig upgrades legacy UMFI caseSensitive false to true', assert => {
+        const textEntry = createTextEntry(null);
+
+        textEntry.attr('responseIdentifier', 'RESPONSE');
+        textEntry.attr('data-item-type', 'umfi-closed');
+        textEntry.attr('data-case-sensitive', 'false');
+        createItem([textEntry]);
+
+        evaluationHelper.persistEvaluationConfig(textEntry, {
+            evaluateAsUmfi: true,
+            caseSensitive: false,
+            lexicalGroups: []
+        });
+
+        assert.strictEqual(textEntry.attr('data-case-sensitive'), 'true');
+        assert.strictEqual(evaluationHelper.getEvaluationConfig(textEntry).caseSensitive, true);
+    });
+
     QUnit.test('getEvaluationConfig reads lexical groups and case sensitivity', assert => {
         const textEntry = createTextEntry(null);
         const item = createItem([textEntry]);
@@ -653,6 +687,188 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.ok(item.getOutcomeDeclaration('APPLE_FOUND'));
         assert.strictEqual(item.getOutcomeDeclaration('SCORE').attr('normalMaximum'), 1);
         assert.strictEqual(firstEntry.attr('data-umfi-rp-managed'), 'true');
+        assert.strictEqual(firstEntry.attr('data-case-sensitive'), 'true');
+        assert.ok(item.responseProcessing.xml.indexOf('caseSensitive="true"') > -1);
+    });
+
+    QUnit.test('uses the first lexical fields in creation order for correct responses', assert => {
+        const firstEntry = createTextEntry(null);
+        const secondEntry = createTextEntry(null);
+        const responseDeclarations = [
+            {
+                correct: null,
+                setCorrect: function (value) {
+                    this.correct = Array.isArray(value) ? value : [value];
+                },
+                getCorrect: function () {
+                    return this.correct;
+                }
+            },
+            {
+                correct: null,
+                setCorrect: function (value) {
+                    this.correct = Array.isArray(value) ? value : [value];
+                },
+                getCorrect: function () {
+                    return this.correct;
+                }
+            }
+        ];
+
+        firstEntry.attr('responseIdentifier', 'RESPONSE');
+        secondEntry.attr('responseIdentifier', 'RESPONSE_1');
+        firstEntry.getResponseDeclaration = function () {
+            return responseDeclarations[0];
+        };
+        secondEntry.getResponseDeclaration = function () {
+            return responseDeclarations[1];
+        };
+
+        createItem([firstEntry, secondEntry]);
+
+        evaluationHelper.persistEvaluationConfig(firstEntry, {
+            evaluateAsUmfi: true,
+            lexicalGroups: [
+                { identifier: 'GROUP_3', canonical: 'test3', synonyms: ['test3', 'variant3'] },
+                { identifier: 'GROUP_2', canonical: 'test2', synonyms: ['test2', 'variant2'] },
+                { identifier: 'GROUP_1', canonical: 'test1', synonyms: ['test1', 'variant1'] }
+            ]
+        });
+
+        assert.deepEqual(responseDeclarations[0].getCorrect(), ['test1']);
+        assert.deepEqual(responseDeclarations[1].getCorrect(), ['test2']);
+    });
+
+    QUnit.test('reuses lexical fields in creation order when there are more text entries', assert => {
+        const entries = [createTextEntry(null), createTextEntry(null), createTextEntry(null)];
+        const responseDeclarations = entries.map(() => ({
+            correct: null,
+            setCorrect: function (value) {
+                this.correct = Array.isArray(value) ? value : [value];
+            },
+            getCorrect: function () {
+                return this.correct;
+            }
+        }));
+
+        entries[0].attr('responseIdentifier', 'RESPONSE');
+        entries[1].attr('responseIdentifier', 'RESPONSE_1');
+        entries[2].attr('responseIdentifier', 'RESPONSE_2');
+        entries.forEach((entry, index) => {
+            entry.getResponseDeclaration = function () {
+                return responseDeclarations[index];
+            };
+        });
+
+        createItem(entries);
+
+        evaluationHelper.persistEvaluationConfig(entries[0], {
+            evaluateAsUmfi: true,
+            lexicalGroups: [
+                { identifier: 'GROUP_2', canonical: '222', synonyms: ['222'] },
+                { identifier: 'GROUP_1', canonical: '111', synonyms: ['111'] }
+            ]
+        });
+
+        assert.deepEqual(responseDeclarations[0].getCorrect(), ['111']);
+        assert.deepEqual(responseDeclarations[1].getCorrect(), ['222']);
+        assert.deepEqual(responseDeclarations[2].getCorrect(), ['111']);
+    });
+
+    QUnit.test('enabling UMFI clears map-response mapping from text entry declarations', assert => {
+        const firstEntry = createTextEntry(null);
+        const secondEntry = createTextEntry(null);
+        const createResponseDeclaration = function createResponseDeclaration() {
+            const declaration = {
+                mapEntries: {},
+                mappingAttributes: {},
+                correct: null,
+                setCorrect: function (value) {
+                    this.correct = Array.isArray(value) ? value : [value];
+                },
+                getCorrect: function () {
+                    return this.correct;
+                },
+                setMapEntry: function (mapKey, mappedValue) {
+                    this.mapEntries[mapKey] = mappedValue;
+                },
+                removeMapEntry: function (mapKey) {
+                    delete this.mapEntries[mapKey];
+                },
+                removeMapEntries: function () {
+                    const self = this;
+
+                    Object.keys(this.mapEntries).forEach(function (mapKey) {
+                        self.removeMapEntry(mapKey);
+                    });
+                },
+                setMappingAttribute: function (name, value) {
+                    this.mappingAttributes[name] = value;
+                },
+                removeMappingAttribute: function (name) {
+                    delete this.mappingAttributes[name];
+                }
+            };
+
+            return declaration;
+        };
+        const firstResponse = createResponseDeclaration();
+        const secondResponse = createResponseDeclaration();
+
+        firstEntry.attr('responseIdentifier', 'RESPONSE');
+        secondEntry.attr('responseIdentifier', 'RESPONSE_1');
+        firstEntry.getResponseDeclaration = function () {
+            return firstResponse;
+        };
+        secondEntry.getResponseDeclaration = function () {
+            return secondResponse;
+        };
+
+        secondResponse.setMapEntry('test1', 0);
+        secondResponse.setMapEntry('test434', 0);
+        secondResponse.setMappingAttribute('defaultValue', 0);
+
+        createItem([firstEntry, secondEntry]);
+
+        evaluationHelper.persistEvaluationConfig(firstEntry, {
+            evaluateAsUmfi: true,
+            // Newest group first (same order as data-umfi-values after authoring).
+            lexicalGroups: [
+                { identifier: 'GROUP_2', canonical: 'test22', synonyms: ['test22'] },
+                { identifier: 'GROUP_1', canonical: 'test11', synonyms: ['test11'] }
+            ]
+        });
+
+        assert.deepEqual(firstResponse.mapEntries, {});
+        assert.deepEqual(secondResponse.mapEntries, {});
+        assert.deepEqual(secondResponse.mappingAttributes, {});
+        assert.deepEqual(firstResponse.getCorrect(), ['test11']);
+        assert.deepEqual(secondResponse.getCorrect(), ['test22']);
+    });
+
+    QUnit.test('UMFI max score is limited by text entry count when there are more lexical groups', assert => {
+        const firstEntry = createTextEntry(null);
+        const secondEntry = createTextEntry(null);
+
+        firstEntry.attr('responseIdentifier', 'RESPONSE');
+        secondEntry.attr('responseIdentifier', 'RESPONSE_1');
+
+        const item = createItem([firstEntry, secondEntry]);
+
+        evaluationHelper.persistEvaluationConfig(firstEntry, {
+            evaluateAsUmfi: true,
+            lexicalGroups: [
+                { identifier: 'GROUP_3', canonical: 'test33', synonyms: ['test33'] },
+                { identifier: 'GROUP_2', canonical: 'test22', synonyms: ['test22'] },
+                { identifier: 'GROUP_1', canonical: 'test11', synonyms: ['test11'] }
+            ]
+        });
+
+        assert.ok(item.getOutcomeDeclaration('GROUP_3_FOUND'));
+        assert.ok(item.getOutcomeDeclaration('GROUP_2_FOUND'));
+        assert.ok(item.getOutcomeDeclaration('GROUP_1_FOUND'));
+        assert.strictEqual(item.getOutcomeDeclaration('SCORE').attr('normalMaximum'), 2);
+        assert.strictEqual(item.getOutcomeDeclaration('MAXSCORE').defaultValue, 2);
     });
 
     QUnit.test('persistEvaluationConfig refreshes custom responseProcessing xml', assert => {
@@ -757,7 +973,11 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
 
         assert.ok(item.getOutcomeDeclaration('APPLE_FOUND'));
         assert.ok(item.getOutcomeDeclaration('BANANA_FOUND'));
-        assert.strictEqual(item.getOutcomeDeclaration('SCORE').attr('normalMaximum'), 2);
+        assert.strictEqual(
+            item.getOutcomeDeclaration('SCORE').attr('normalMaximum'),
+            1,
+            'one text entry caps achievable max score at 1 even with two lexical groups'
+        );
         assert.ok(item.responseProcessing.xml.indexOf('APPLE_FOUND') > -1);
         assert.ok(item.responseProcessing.xml.indexOf('BANANA_FOUND') > -1);
 
@@ -956,5 +1176,61 @@ define(['taoQtiItem/qtiCreator/helper/textEntryEvaluationHelper'], function (eva
         assert.ok(item.getOutcomeDeclaration('TEMP_SCORE'));
         assert.strictEqual(item.getOutcomeDeclaration('SCORE').attr('normalMaximum'), 1);
         assert.strictEqual(item.getOutcomeDeclaration('MAXSCORE').defaultValue, 1);
+    });
+
+    QUnit.test('ensurePersistedBeforeSave tears down UMFI when map-response is configured', assert => {
+        const mapResponseTemplateUri = 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response';
+        const textEntry = createTextEntry(null);
+        const responseDeclaration = {
+            template: mapResponseTemplateUri,
+            mapEntries: { apple: 1 },
+            setTemplate: function (template) {
+                if (template === 'MAP_RESPONSE') {
+                    this.template = mapResponseTemplateUri;
+                    return;
+                }
+
+                this.template = template;
+            }
+        };
+
+        textEntry.attr('responseIdentifier', 'RESPONSE');
+        textEntry.getResponseDeclaration = function () {
+            return responseDeclaration;
+        };
+
+        const item = createItem([textEntry]);
+
+        item.responseProcessing.setProcessingType = function (processingType) {
+            if (this.processingType === 'custom' && processingType === 'templateDriven') {
+                responseDeclaration.setTemplate('MATCH_CORRECT');
+            }
+
+            this.processingType = processingType;
+        };
+
+        textEntry.attr('data-item-type', 'umfi-closed');
+        textEntry.attr('data-umfi-values', '[{"group":"APPLE_FOUND","canonical":"apple","variants":["apple"]}]');
+        textEntry.attr('data-umfi-rp-managed', 'true');
+        item.responseProcessing.processingType = 'custom';
+        item.responseProcessing.xml =
+            '<responseProcessing><responseCondition><responseIf><stringMatch caseSensitive="false">' +
+            '<variable identifier="RESPONSE"/><baseValue baseType="string">apple</baseValue></stringMatch>' +
+            '<setOutcomeValue identifier="APPLE_FOUND"><baseValue baseType="integer">1</baseValue></setOutcomeValue>' +
+            '</responseIf></responseCondition></responseProcessing>';
+        item.createOutcomeDeclaration({
+            identifier: 'APPLE_FOUND',
+            cardinality: 'single',
+            baseType: 'integer'
+        }).buildIdentifier('APPLE_FOUND');
+
+        evaluationHelper.ensurePersistedBeforeSave(item);
+
+        assert.strictEqual(textEntry.attr('data-item-type'), undefined);
+        assert.strictEqual(textEntry.attr('data-umfi-values'), undefined);
+        assert.strictEqual(item.responseProcessing.processingType, 'templateDriven');
+        assert.strictEqual(item.responseProcessing.xml, '');
+        assert.strictEqual(item.getOutcomeDeclaration('APPLE_FOUND'), null);
+        assert.strictEqual(responseDeclaration.template, mapResponseTemplateUri);
     });
 });
