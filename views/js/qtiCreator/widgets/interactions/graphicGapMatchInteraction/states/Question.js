@@ -18,6 +18,16 @@
  */
 
 /**
+ * Graphic gap match interaction — Question (authoring) state.
+ *
+ * Responsibilities in this module:
+ * - Raphael shape editor for associable hotspots (drop targets on the background image)
+ * - Gap choices in ul.source: gapImg (image) and gapText (label), with choice property panel
+ * - Interaction-level form (background image, choice bay position)
+ *
+ * Gap text tiles, add-choice flyout, and gap-text form logic live in sibling helpers under
+ * ../helpers/; this file wires them into the state lifecycle.
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -39,8 +49,12 @@ define([
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/media',
 
     'taoQtiItem/qtiCreator/helper/panel',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/resourceManager',
     'taoQtiItem/qtiCreator/widgets/interactions/helpers/bgImage',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapTextInteractionSupport',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapTextTileLayout',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapAddOptionControl',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapTextQuestionAuthoring',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/minMaxThresholdListeners',
     'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapImgList',
     'ui/mediasizer'
 ], function (
@@ -60,8 +74,12 @@ define([
     gapImgFormTpl,
     mediaTlbTpl,
     panel,
-    resourceManager,
     bgImage,
+    ensureGapTextSupport,
+    gapTextTileLayout,
+    gapAddOptionControl,
+    createGapTextQuestionAuthoring,
+    minMaxThresholdListeners,
     gapImgList
 ) {
     'use strict';
@@ -69,12 +87,14 @@ define([
     var GraphicGapMatchInteractionStateQuestion;
 
     /**
-     * Apply size changes manually to mediasizer's target.
+     * Apply mediasizer dimensions to the gap choice image in the source list.
+     * Writes the chosen pixel width and height to the img width/height attributes (stored on the QTI object).
+     * Sets CSS width and height to those values multiplied by factor so the preview matches the scaled canvas.
      *
-     * @param {Object} params
-     * @param {number} factor
-     * @param {number} naturalHeight
-     * @param {number} naturalWidth
+     * @param {Object} params - mediasizer event data ($target, width, height)
+     * @param {number} factor - interaction preview scale (same as for associable hotspots)
+     * @param {number} naturalHeight - used when params.height is missing
+     * @param {number} naturalWidth - used when params.width is missing
      */
     function applyMediasizerValues(params, factor, naturalHeight, naturalWidth) {
         factor = factor || 1;
@@ -87,11 +107,7 @@ define([
             height = naturalHeight;
         }
 
-        // The mediasizer target maintains a height and width (i.e. attributes)
-        // but is displayed according to a factor (i.e. styles). This matches
-        // the behavior of hotspots.
-        // This is because resize events utilize factor to adjust images, thus,
-        // the target's dimensions need to be maintained.
+        // Resize handlers scale by factor: keep QTI width/height on attributes, apply factor only in CSS (same as hotspots).
         params.$target
             .css({
                 width: width * factor,
@@ -102,7 +118,7 @@ define([
     }
 
     /**
-     * Question State initialization: set up side bar, editors and shape factory
+     * Enter Question state: shape editor, existing gap choices, add control, choice property forms.
      */
     function initQuestionState() {
         var $choiceForm, $formChoicePanel, $formInteractionPanel;
@@ -112,6 +128,10 @@ define([
         var interaction = widget.element;
         var options = widget.options;
         var paper = interaction.paper;
+        var gapTextAuthoring;
+
+        // Creator model exposes gapText; bundled qtiItem core may not — shim before any getGapTexts calls.
+        ensureGapTextSupport(interaction);
 
         var gapImgSelectorOptions = _.clone(options);
         gapImgSelectorOptions.title = gapImgSelectorOptions.title
@@ -119,6 +139,7 @@ define([
             : __('Please select a choice picture for your interaction from the resource manager. \
                   You can add new files from your computer with the button "Add file(s)".');
 
+        // Graphic widget not rendered yet (e.g. missing background); nothing to edit on canvas.
         if (!paper) {
             return;
         }
@@ -127,7 +148,35 @@ define([
         $formInteractionPanel = $('#item-editor-interaction-property-bar');
         $formChoicePanel = $('#item-editor-choice-property-bar');
 
-        //instantiate the shape editor, attach it to the widget to retrieve it during the exit phase
+        /** Drop widget listeners that update matchMin/matchMax upper bound when hotspots are added/removed. */
+        function unbindMinMaxThresholdListeners() {
+            minMaxThresholdListeners.unbind(widget);
+        }
+
+        /** Close choice property panel and persist pending gap text label edits. */
+        function leaveChoiceForm() {
+            gapTextAuthoring.syncGapTextLabelFromForm();
+            gapTextAuthoring.clearEditingSerial();
+            unbindMinMaxThresholdListeners();
+
+            if ($formChoicePanel.css('display') !== 'none') {
+                panel.openSections($formInteractionPanel.children('section'));
+                $formChoicePanel.hide();
+                $choiceForm.empty();
+            }
+        }
+
+        gapTextAuthoring = createGapTextQuestionAuthoring({
+            widget,
+            interaction,
+            $choiceForm,
+            $formChoicePanel,
+            $formInteractionPanel,
+            leaveChoiceForm,
+            unbindMinMaxThresholdListeners
+        });
+
+        // Shape editor draws hotspots on interaction.paper; shape.id is set to the new choice serial in shapeCreated.
         widget._editor = shapeEditor(widget, {
             shapeCreated: function (shape, type) {
                 var newChoice = interaction.createChoice({
@@ -135,7 +184,6 @@ define([
                     coords: GraphicHelper.qtiCoords(shape)
                 });
 
-                //link the shape to the choice
                 shape.id = newChoice.serial;
             },
             shapeRemoved: function (id) {
@@ -153,6 +201,7 @@ define([
                 if (choice) {
                     choice.attr('coords', GraphicHelper.qtiCoords(shape));
 
+                    // While hotspot form is open, keep x/y/width/height fields in sync with canvas drag/resize.
                     if ($left && $left.length) {
                         bbox = shape.getBBox();
                         $left.val(parseInt(bbox.x, 10));
@@ -164,67 +213,40 @@ define([
             }
         });
 
-        //and create an instance
         widget._editor.create();
 
+        // Re-bind UI for choices loaded from item XML (each setUp* opens that choice's property form last-wins).
         _.forEach(interaction.getGapImgs(), setUpGapImg);
+        _.forEach(interaction.getGapTexts(), gapTextAuthoring.setUpGapText);
+        gapTextTileLayout.syncAllGapTextTilesInList($('ul.source', widget.$original));
 
-        createGapImgAddOption();
+        // "+" in source list: flyout to add gapImg (resource manager) or gapText (see gapAddOptionControl.js).
+        gapAddOptionControl.install({
+            widget,
+            interaction,
+            gapImgSelectorOptions,
+            setUpGapImg,
+            onBeforeAddGapText: unbindMinMaxThresholdListeners,
+            setUpGapText: gapTextAuthoring.setUpGapText
+        });
 
-        // stop the question mode on resize to keep the coordinate system coherent,
-        // even in responsive (the side bar behaves weirdly)
+        // Window resize breaks hotspot coordinate sync; leave Question via Sleep and re-enter cleanly.
         $(window).on('resize.changestate', function () {
             widget.changeState('sleep');
         });
 
         /**
-         * Create the 'add option' button
-         */
-        function createGapImgAddOption() {
-            const $gapList = $('ul.source', widget.$original);
-            const $addOption =
-                $('<li class="empty add-option">' +
-                    '<div><span class="icon-add"></span></div>' +
-                    '</li>');
-
-            $addOption.on('click', function () {
-                let gapImgObj = interaction.createGapImg({});
-                gapImgObj.object.removeAttr('type');
-
-                // on successful upload
-                $addOption.on('selected.upload', function (e, args) {
-                    $addOption.off('selected.upload');
-
-                    const size = args.size;
-                    let height, width;
-
-                    if (size) {
-                        height = args.size.height;
-                        width = args.size.width;
-                    }
-
-                    gapImgObj.object.attr('data', args.selected.file);
-                    gapImgObj.object.attr('type', args.selected.mime);
-                    gapImgObj.object.attr('width', width);
-                    gapImgObj.object.attr('height', height);
-                    setUpGapImg(gapImgObj);
-                });
-                resourceManager($addOption, gapImgSelectorOptions);
-            });
-            $addOption.appendTo($gapList);
-        }
-
-        /**
-         * Insert and setup the gap image
+         * Render or refresh a gapImg tile in ul.source, wire delete, and show its property form.
          *
          * @param {Object} gapImgObj
          */
         function setUpGapImg(gapImgObj) {
             const $gapList = $('ul.source', widget.$original),
-                $addOption = $('.empty', $gapList),
+                $addOption = $gapList.find('li.add-option.empty'),
                 $deleteBtn = $(mediaTlbTpl());
             let $gapImgBox = $(`[data-serial="${gapImgObj.serial}"]`, $gapList);
 
+            // New choices sit before the persistent "add option" row at the end of the list.
             if (!$gapImgBox.length) {
                 $gapImgBox = $(gapImgObj.render()).insertBefore($addOption);
             } else {
@@ -232,7 +254,6 @@ define([
                 gapImgList.refreshThumbnail($gapImgBox, gapImgObj);
             }
 
-            //manage gap deletion
             if (gapImgList.ensureToolbar($gapImgBox, $deleteBtn)) {
                 $deleteBtn.click(function (e) {
                     e.preventDefault();
@@ -244,7 +265,10 @@ define([
 
             enterGapImgForm(gapImgObj.serial);
 
-            $gapImgBox.off('click').on('click', function () {
+            $gapImgBox.off('click.gapImg').on('click.gapImg', function (e) {
+                if ($(e.target).closest('.mini-tlb').length) {
+                    return;
+                }
                 if ($gapImgBox.hasClass('active')) {
                     $gapImgBox.removeClass('active');
                     leaveChoiceForm();
@@ -257,17 +281,20 @@ define([
         }
 
         /**
-         * Set up the choice form
+         * Associable hotspot selected on canvas — show geometry + matchMin/matchMax in choice property panel.
          *
          * @private
-         * @param {String} serial - the choice serial
+         * @param {String} serial - associableHotspot serial (also the id of the matching shape on interaction.paper)
          */
         function enterChoiceForm(serial) {
             var choice = interaction.getChoice(serial);
             var element, bbox, callbacks;
 
             if (choice) {
-                //get shape bounding box
+                // Switching choice type: flush gap text label before replacing choice form HTML.
+                gapTextAuthoring.syncGapTextLabelFromForm();
+                unbindMinMaxThresholdListeners();
+
                 element = interaction.paper.getById(serial);
                 bbox = element.getBBox();
 
@@ -283,7 +310,6 @@ define([
                     })
                 );
 
-                //controls match min/max for the choices (the shapes)
                 minMaxComponentFactory($choiceForm.find('.min-max-panel'), {
                     min: {
                         fieldName: 'matchMin',
@@ -300,23 +326,16 @@ define([
                     .on('render', function () {
                         var self = this;
 
-                        //the range matches the number of choices
-                        widget.on('choiceCreated choiceDeleted', function (data) {
-                            if (data.interaction.serial === interaction.serial) {
-                                self.updateThresholds(1, _.size(interaction.getChoices()));
-                            }
-                        });
-                        // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+                        // upperThreshold = number of hotspots; changes when author draws or deletes shapes.
+                        minMaxThresholdListeners.bindChoiceCountThresholds(self, widget, interaction);
                         widget.infinityMatchMax('hotspot', choice);
                     })
                     .on('change', function () {
-                        // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
                         widget.infinityMatchMax('hotspot', choice);
                     });
 
                 formElement.initWidget($choiceForm);
 
-                //init data validation and binding
                 callbacks = formElement.getMinMaxAttributeCallbacks('matchMin', 'matchMax');
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
@@ -327,7 +346,7 @@ define([
                 panel.openSections($formChoicePanel.children('section'));
                 panel.closeSections($formInteractionPanel.children('section'));
 
-                //change the nodes bound to the position fields
+                // Bound for shapeChange so dragging/resizing updates the form without re-entering.
                 $left = $('input[name=x]', $choiceForm);
                 $top = $('input[name=y]', $choiceForm);
                 $width = $('input[name=width]', $choiceForm);
@@ -336,21 +355,10 @@ define([
         }
 
         /**
-         * Leave the choice form
+         * Gap image selected in source bay — image picker, mediasizer, matchMin/matchMax in choice panel.
+         *
          * @private
-         */
-        function leaveChoiceForm() {
-            if ($formChoicePanel.css('display') !== 'none') {
-                panel.openSections($formInteractionPanel.children('section'));
-                $formChoicePanel.hide();
-                $choiceForm.empty();
-            }
-        }
-
-        /**
-         * Set up the gapImg form
-         * @private
-         * @param {String} serial - the gapImg serial
+         * @param {String} serial - gapImg serial
          */
         function enterGapImgForm(serial) {
             let callbacks,
@@ -361,6 +369,9 @@ define([
                 $mediaSizer;
 
             if (gapImg) {
+                gapTextAuthoring.syncGapTextLabelFromForm();
+                unbindMinMaxThresholdListeners();
+
                 $choiceForm.empty().html(
                     gapImgFormTpl({
                         identifier: gapImg.id(),
@@ -374,7 +385,7 @@ define([
                     })
                 );
 
-                //controls the match min/max for the gap images
+                // matchMin/matchMax refer to associations with hotspots; upper bound is hotspot count, not gap count.
                 minMaxComponentFactory($choiceForm.find('.min-max-panel'), {
                     min: {
                         fieldName: 'matchMin',
@@ -391,30 +402,21 @@ define([
                     .on('render', function () {
                         var self = this;
 
-                        //the range is matching the number of choices (not the number of gap img)
-                        widget.on('choiceCreated choiceDeleted', function (data) {
-                            if (data.interaction.serial === interaction.serial) {
-                                self.updateThresholds(1, _.size(interaction.getChoices()));
-                            }
-                        });
-                        // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
+                        minMaxThresholdListeners.bindChoiceCountThresholds(self, widget, interaction);
+                        // Warn when matchMax is 0 (unlimited) and scoring pairs assume a finite cap.
                         widget.infinityMatchMax('gapImg', gapImg);
                     })
                     .on('change', function () {
-                        // display warning message in case matchMax is set to 0 (infinite) and pair is higher that 0
                         widget.infinityMatchMax('gapImg', gapImg);
                     });
 
-                // <li/> that will contain the image
                 $gapImgBox = $(`li[data-serial="${gapImg.serial}"]`);
 
                 $gapImgElem = $gapImgBox.find('img');
 
-                //init media sizer
+                // Mediasizer targets the preview img in ul.source, not the form thumbnail (applyToMedium: false).
                 $mediaSizer = $choiceForm.find('.media-sizer-panel').on('create.mediasizer', function (e, params) {
-                    // On creation, mediasizer uses style properties to set
-                    // width and height, but our image needs to use the
-                    // it's attributes to set and resize properly.
+                    // On init, mediasizer reads CSS size; QTI logical size is on width/height attributes (TAO-3263).
                     params.width = $gapImgElem.attr('width');
                     params.height = $gapImgElem.attr('height');
                     applyMediasizerValues(
@@ -426,8 +428,7 @@ define([
                 });
 
                 initMediasizer = function () {
-                    // Hack to manually set mediasizer to use gapImg's height
-                    // and width attributes (instead of it's style properties).
+                    // Align jQuery layout dimensions with QTI attributes before mediasizer reads the target.
                     $gapImgElem.width($gapImgElem.attr('width'));
                     $gapImgElem.height($gapImgElem.attr('height'));
 
@@ -437,30 +438,26 @@ define([
                         showSync: false,
                         responsive: false,
                         parentSelector: $gapImgBox,
-                        // needs to be done on.sizechange.mediasizer to take in account the scale factor
                         applyToMedium: false,
                         maxWidth: interaction.object.attr('width')
                     });
                 };
 
-                // Wait for image to load before initializing mediasizer
                 gapImgList.initWhenLoaded($gapImgElem, initMediasizer);
 
                 imageSelector($choiceForm, gapImgSelectorOptions);
 
                 formElement.initWidget($choiceForm);
 
-                // bind callbacks to ms
-                // init data validation and binding
                 callbacks = formElement.getMinMaxAttributeCallbacks('matchMin', 'matchMax');
                 callbacks.identifier = identifierHelper.updateChoiceIdentifier;
                 callbacks.fixed = formElement.getAttributeChangeCallback();
                 callbacks.data = function (element, value) {
                     gapImg.object.attr('data', value);
+                    // Re-render source tile after resource manager picks a new file.
                     setUpGapImg(gapImg);
                 };
 
-                // callbacks
                 $mediaSizer.on('sizechange.mediasizer', function (e, params) {
                     applyMediasizerValues(
                         params,
@@ -469,6 +466,7 @@ define([
                         $gapImgElem.get(0).naturalWidth
                     );
 
+                    // Persist logical size on the QTI object nested under gapImg (export / reload).
                     gapImg.object.attr('width', params.width);
                     gapImg.object.attr('height', params.height);
                 });
@@ -494,18 +492,26 @@ define([
     }
 
     /**
-     * Exit the question state, leave the room cleaned up
+     * Leave Question state: validate interaction, tear down editors/handlers, reset source bay for Sleep/Preview.
      */
     function exitQuestionState() {
         var widget = this.widget;
         var interaction = widget.element;
         var paper = interaction.paper;
-        var valid = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices) && !_.isEmpty(interaction.getGapImgs());
+
+        ensureGapTextSupport(interaction);
+
+        // Valid item: background image, at least one hotspot, at least one draggable gap (image or text).
+        var hasGapChoices =
+            !_.isEmpty(interaction.getGapImgs()) || !_.isEmpty(interaction.getGapTexts());
+        var valid = !!interaction.object.attr('data') && !_.isEmpty(interaction.choices) && hasGapChoices;
 
         widget.isValid(
             'graphicGapMatchInteraction',
             valid,
-            __('A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap image.')
+            __(
+                'A graphic gap match interaction requires a background image, at least one hotspot, and at least one gap choice (image or text).'
+            )
         );
 
         if (!paper) {
@@ -513,16 +519,19 @@ define([
         }
 
         $(window).off('resize.changestate');
+        minMaxThresholdListeners.unbind(widget);
 
         if (widget._editor) {
             widget._editor.destroy();
         }
 
-        //remove gapImg placeholder
+        gapAddOptionControl.teardown(widget);
+
+        // Remove authoring-only "+" row; preview states render the source list without it.
         $('ul.source .empty', widget.$original).remove();
 
-        //restore gapImg appearance
-        widget.$container.find('.qti-gapImg').removeClass('active').find('.mini-tlb').remove();
+        widget.$container.find('.qti-gapImg, .qti-gapText').removeClass('active').find('.mini-tlb').remove();
+        gapTextTileLayout.syncAllGapTextTilesInList($('ul.source', widget.$original));
         $('.image-editor.solid, .block-listing.source', widget.$container).css('min-width', 0);
     }
 
@@ -534,7 +543,8 @@ define([
     GraphicGapMatchInteractionStateQuestion = stateFactory.extend(Question, initQuestionState, exitQuestionState);
 
     /**
-     * Initialize the form linked to the interaction
+     * Required override for InteractionStateQuestion: runs on Question state enter before widget.$form is shown.
+     * Renders graphicGapMatch formTpl into widget.$form and binds background image + choice-bay position fields.
      */
     GraphicGapMatchInteractionStateQuestion.prototype.initForm = function () {
         var widget = this.widget;
@@ -548,9 +558,12 @@ define([
             return match ? match[1] : 'left';
         };
         var normalizeClass = function normalizeClass(className, position) {
-            var classes = (className || '').split(/\s+/).filter(Boolean).filter(function (c) {
-                return !/^qti-choices-\S+$/.test(c);
-            });
+            var classes = (className || '')
+                .split(/\s+/)
+                .filter(Boolean)
+                .filter(function (c) {
+                    return !/^qti-choices-\S+$/.test(c);
+                });
 
             classes.push('qti-choices-' + position);
 
@@ -577,35 +590,22 @@ define([
             })
         );
 
-        minMaxComponentFactory($form.find('.min-max-panel'), {
-            min: {
-                fieldName: 'minAssociations',
-                value: _.parseInt(interaction.attr('minAssociations')) || 0,
-                toggler: false,
-                helpMessage: __('The minimum number of associations that the candidate is required to make to form a valid response.')
-            },
-            max: {
-                fieldName: 'maxAssociations',
-                value: _.parseInt(interaction.attr('maxAssociations')) || 0,
-                toggler: false,
-                helpMessage: __('The maximum number of associations that the candidate is required to make to form a valid response.')
-            },
-            lowerThreshold: 0,
-            upperThreshold: 100
-        });
-
         imageSelector($form, options);
 
         formElement.initWidget($form);
 
-        var callbacks = formElement.getMinMaxAttributeCallbacks('minAssociations', 'maxAssociations');
-        callbacks.position = function (interaction, value) {
-            applyPosition(value);
-        };
-
         bgImage.setupImage(widget);
 
-        bgImage.setChangeCallbacks(widget, formElement, callbacks);
+        bgImage.setChangeCallbacks(widget, formElement, {
+            position: function (interaction, value) {
+                const $gapList = $('ul.source', widget.$original);
+
+                applyPosition(value);
+                // Bay position changes available width; recalculate gapText tile sizes (see gapTextTileLayout.js).
+                $gapList.find('li.qti-gapText').removeClass('active gap-text-tile-expanded');
+                gapTextTileLayout.syncAllGapTextTilesInList($gapList);
+            }
+        });
     };
 
     return GraphicGapMatchInteractionStateQuestion;

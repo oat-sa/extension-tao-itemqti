@@ -30,8 +30,9 @@ define([
     'taoQtiItem/qtiCommonRenderer/helpers/instructions/instructionManager',
     'taoQtiItem/qtiCommonRenderer/helpers/Graphic',
     'taoQtiItem/qtiCommonRenderer/helpers/PciResponse',
-    'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm'
-], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, scoringFormFactory){
+    'taoQtiItem/qtiCreator/widgets/interactions/helpers/pairScoringForm',
+    'taoQtiItem/qtiCreator/widgets/interactions/graphicGapMatchInteraction/helpers/gapTextTileLayout'
+], function($, _, __, stateFactory, Map, commonRenderer, instructionMgr, graphicHelper, PciResponse, scoringFormFactory, gapTextTileLayout){
     'use strict';
 
     var removeGapFillers = function removeGapFillers(interaction){
@@ -139,6 +140,8 @@ define([
 
         //use the common Renderer
         commonRenderer.render.call(interaction.getRenderer(), interaction);
+
+        gapTextTileLayout.syncAllGapTextTilesInList($('ul.source', widget.$original));
 
         //change the display of the gaps
         showChoicesId(interaction);
