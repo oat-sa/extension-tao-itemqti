@@ -808,6 +808,13 @@ class ParserFactory
                                 $myInteraction->addGapImg($choice);
                             }
                         }
+                        $choiceNodes = $this->queryXPath("*[name(.)='gapText']", $data);
+                        foreach ($choiceNodes as $choiceNode) {
+                            $choice = $this->buildChoice($choiceNode);
+                            if (!is_null($choice)) {
+                                $myInteraction->addGapText($choice);
+                            }
+                        }
                         // no break
                     default:
                         //parse, extract and build the choice nodes contained in the interaction
