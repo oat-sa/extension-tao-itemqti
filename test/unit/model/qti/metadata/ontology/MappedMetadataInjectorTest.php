@@ -35,6 +35,9 @@ use PHPUnit\Framework\TestCase;
 
 class MappedMetadataInjectorTest extends TestCase
 {
+    private const FORBIDDEN_PROPERTY_URI = 'http://example.com/forbidden-property';
+    private const ALLOWED_PROPERTY_URI = 'http://example.com/allowed-property';
+
     /** @var ListService|MockObject */
     private ListService $listServiceMock;
 
@@ -130,5 +133,71 @@ class MappedMetadataInjectorTest extends TestCase
         $resourceMock->method('getPropertyValues')->willReturn([]);
 
         $this->subject->inject($mappedProperties, $metadataValues, $resourceMock);
+    }
+
+    public function testInjectSkipsForbiddenProperties(): void
+    {
+        $this->subject->addForbiddenProperties([self::FORBIDDEN_PROPERTY_URI]);
+
+        $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
+
+        $resourceMock
+            ->expects($this->never())
+            ->method('removePropertyValues');
+
+        $resourceMock
+            ->expects($this->never())
+            ->method('setPropertyValue');
+
+        $this->subject->inject(
+            [self::FORBIDDEN_PROPERTY_URI => $this->createPropertyMock(self::FORBIDDEN_PROPERTY_URI)],
+            [$this->createMetadataValueMock(self::FORBIDDEN_PROPERTY_URI)],
+            $resourceMock
+        );
+    }
+
+    public function testInjectSetsPropertiesThatAreNotForbidden(): void
+    {
+        $this->subject->addForbiddenProperties([self::FORBIDDEN_PROPERTY_URI]);
+
+        $resourceMock = $this->createMock(core_kernel_classes_Resource::class);
+        $resourceMock->method('getPropertyValues')->willReturn([]);
+
+        $this->ontologyMock
+            ->method('getResource')
+            ->willReturn($resourceMock);
+
+        $resourceMock
+            ->expects($this->once())
+            ->method('setPropertyValue');
+
+        $this->subject->inject(
+            [self::ALLOWED_PROPERTY_URI => $this->createPropertyMock(self::ALLOWED_PROPERTY_URI)],
+            [$this->createMetadataValueMock(self::ALLOWED_PROPERTY_URI)],
+            $resourceMock
+        );
+    }
+
+    private function createPropertyMock(string $propertyUri): core_kernel_classes_Property
+    {
+        $propertyMock = $this->createMock(core_kernel_classes_Property::class);
+        $propertyMock
+            ->method('getUri')
+            ->willReturn($propertyUri);
+
+        return $propertyMock;
+    }
+
+    private function createMetadataValueMock(string $propertyUri): SimpleMetadataValue
+    {
+        $metadataValueMock = $this->createMock(SimpleMetadataValue::class);
+        $metadataValueMock
+            ->method('getPath')
+            ->willReturn([$propertyUri]);
+        $metadataValueMock
+            ->method('getValue')
+            ->willReturn('value');
+
+        return $metadataValueMock;
     }
 }
