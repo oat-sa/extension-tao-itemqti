@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2026.09\n"
-"PO-Revision-Date: 2026-08-12T18:09:29\n"
+"PO-Revision-Date: 2026-11-12T18:09:29\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: en-US\n"
