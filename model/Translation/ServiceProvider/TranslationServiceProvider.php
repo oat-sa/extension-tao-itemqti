@@ -32,6 +32,7 @@ use oat\tao\model\Translation\Service\TranslationCreationService;
 use oat\tao\model\Translation\Service\TranslationUniqueIdSetter;
 use oat\taoQtiItem\model\qti\Identifier\Service\QtiIdentifierSetter;
 use oat\taoQtiItem\model\qti\Service;
+use oat\taoQtiItem\model\qti\metadata\ontology\MappedMetadataInjector;
 use oat\taoQtiItem\model\Translation\Service\QtiLanguageRetriever;
 use oat\taoQtiItem\model\Translation\Service\QtiLanguageSetter;
 use oat\taoQtiItem\model\Translation\Service\ResourceTranslatableStatusHandler;
@@ -114,6 +115,21 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 [
                     TaoOntology::CLASS_URI_ITEM,
                     service(ResourceTranslatableStatusHandler::class),
+                ]
+            );
+
+        $services
+            ->get(MappedMetadataInjector::class)
+            ->call(
+                'addForbiddenProperties',
+                [
+                    [
+                        TaoOntology::PROPERTY_TRANSLATION_TYPE,
+                        TaoOntology::PROPERTY_TRANSLATION_STATUS,
+                        TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
+                        TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI,
+                        TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES,
+                    ],
                 ]
             );
     }

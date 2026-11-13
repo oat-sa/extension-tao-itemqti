@@ -34,10 +34,16 @@ class MappedMetadataInjector
     use OntologyAwareTrait;
 
     private ListService $listService;
+    private array $forbiddenProperties = [];
 
     public function __construct(ListService $listService)
     {
         $this->listService = $listService;
+    }
+
+    public function addForbiddenProperties(array $propertyUris): void
+    {
+        $this->forbiddenProperties = array_merge($this->forbiddenProperties, $propertyUris);
     }
 
     public function inject(array $mappedProperties, array $metadataValues, Resource $resource): void
@@ -102,7 +108,9 @@ class MappedMetadataInjector
 
     private function isInjectableProperty(array $mappedProperties, string $mappedPath): bool
     {
-        return isset($mappedProperties[$mappedPath]) && $mappedProperties[$mappedPath] instanceof Property;
+        return isset($mappedProperties[$mappedPath])
+            && $mappedProperties[$mappedPath] instanceof Property
+            && !in_array($mappedProperties[$mappedPath]->getUri(), $this->forbiddenProperties, true);
     }
 
     private function setListValue(Property $property, Resource $resource, SimpleMetadataValue $metadataValue): void
