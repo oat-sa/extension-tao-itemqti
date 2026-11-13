@@ -1,1 +1,1 @@
-{"translations":{"add criteria":"Add criteria","Wrap image left":"Left","Wrap image right":"Right"},"pluralForms":"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"}
+{"translations":[],"pluralForms":"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"}
