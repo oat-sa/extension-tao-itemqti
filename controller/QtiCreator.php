@@ -32,7 +32,6 @@ use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\featureFlag\WProofreaderClientConfigHandler;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
-use oat\tao\model\TaskOrchestrator\TaskOrchestratorEmailService;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\IdentifierGenerator\Generator\IdentifierGeneratorInterface;
@@ -353,10 +352,10 @@ class QtiCreator extends tao_actions_CommonModule
         );
 
         $config->setProperty('mediaSourcesUrl', $mediaSourcesUrl);
-        $config->setProperty(
-            'itemCommentsMentionsEnabled',
-            $this->getPsrContainer()->get(TaskOrchestratorEmailService::class)->isConfigured()
-        );
+        $clientConfig = $this->getPsrContainer()->get(ClientLibConfigRegistry::class)->getMap();
+        $mentionsEnabled = $clientConfig['taoQtiItem/controller/creator/index']['properties']['itemCommentsMentionsEnabled']
+            ?? false;
+        $config->setProperty('itemCommentsMentionsEnabled', $mentionsEnabled === true);
 
         //initialize all registered hooks:
         $hookClasses = HookRegistry::getRegistry()->getMap();
