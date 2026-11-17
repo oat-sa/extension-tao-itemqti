@@ -1,8 +1,9 @@
 define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/choices/inlineChoice/states/Question',
+    'taoQtiItem/qtiCreator/widgets/choices/helpers/formElement',
     'taoQtiItem/qtiCreator/editor/ckEditor/htmlEditor'
-], function ($, InlineChoiceQuestionState, htmlEditor) {
+], function ($, InlineChoiceQuestionState, formElement, htmlEditor) {
     'use strict';
 
     QUnit.module('qtiCreator/widgets/choices/inlineChoice/states/Question', function (hooks) {
@@ -17,6 +18,139 @@ define([
         hooks.afterEach(function () {
             htmlEditor.hasEditor = originalHasEditor;
             htmlEditor.buildEditor = originalBuildEditor;
+        });
+
+        QUnit.test('initShufflePinToggle skips when interaction is missing', function (assert) {
+            const $container = $(
+                '<div class="qti-choice">' +
+                    '<span data-role="shuffle-pin" class="icon-shuffle"></span>' +
+                '</div>'
+            );
+
+            assert.expect(1);
+            formElement.initShufflePinToggle({
+                $container: $container,
+                element: {
+                    getInteraction: function () {
+                        return null;
+                    }
+                },
+                on: function () {
+                    throw new Error('should not subscribe to attributeChange');
+                }
+            });
+            assert.ok(true, 'returns without throwing when interaction is missing');
+        });
+
+        function initDeleteWidget(options) {
+            const $container = $('<tr class="qti-choice widget-inlineChoice"></tr>');
+            $container.addClass(options.containerClass);
+            $container.append(options.toolbarHtml);
+            let changeStateArg;
+            const widget = {
+                $container: $container,
+                element: {
+                    serial: options.choiceSerial
+                },
+                changeState: function (state) {
+                    changeStateArg = state;
+                }
+            };
+
+            formElement.initDelete(widget);
+
+            return {
+                widget: widget,
+                getChangeState: function () {
+                    return changeStateArg;
+                },
+                triggerDeleteMousedown: function () {
+                    $container.find('[data-role="delete"]').trigger('mousedown');
+                }
+            };
+        }
+
+        QUnit.test('initDelete deletes the choice from edit-question row toolbar', function (assert) {
+            const harness = initDeleteWidget({
+                containerClass: 'edit-question',
+                choiceSerial: 'choice-1',
+                toolbarHtml:
+                    '<td class="mini-tlb">' +
+                        '<span data-role="delete" class="icon-bin"></span>' +
+                    '</td>'
+            });
+
+            harness.triggerDeleteMousedown();
+            assert.strictEqual(harness.getChangeState(), 'deleting');
+        });
+
+        QUnit.test('initDelete ignores delete on another widget toolbar', function (assert) {
+            const harness = initDeleteWidget({
+                containerClass: 'edit-question',
+                choiceSerial: 'choice-1',
+                toolbarHtml:
+                    '<td class="mini-tlb" data-for="other-serial">' +
+                        '<span data-role="delete" class="icon-bin"></span>' +
+                    '</td>'
+            });
+
+            harness.triggerDeleteMousedown();
+            assert.strictEqual(harness.getChangeState(), undefined);
+        });
+
+        QUnit.test('createToolbar skips binding when interaction is missing', function (assert) {
+            const $container = $('<tr class="qti-choice"><td></td><td class="mini-tlb"></td></tr>');
+            const widget = {
+                $container: $container,
+                element: {
+                    serial: 'choice-1',
+                    getInteraction: function () {
+                        return null;
+                    }
+                }
+            };
+
+            InlineChoiceQuestionState.prototype.createToolbar.call({ widget: widget });
+            assert.strictEqual($container.data('inlineChoiceToolbarBound'), undefined);
+        });
+
+        QUnit.test('createToolbar binds once and can bind again after marker reset', function (assert) {
+            const $container = $(
+                '<tr class="qti-choice">' +
+                    '<td></td>' +
+                    '<td class="mini-tlb"><span data-role="delete" class="icon-bin"></span></td>' +
+                '</tr>'
+            );
+            const widget = {
+                $container: $container,
+                element: {
+                    serial: 'choice-1',
+                    getInteraction: function () {
+                        return { attr: function () {}, serial: 'interaction-1' };
+                    }
+                }
+            };
+            let deleteClicks = 0;
+            const originalInitDelete = formElement.initDelete;
+            formElement.initDelete = function () {
+                deleteClicks++;
+                originalInitDelete.apply(this, arguments);
+            };
+
+            try {
+                InlineChoiceQuestionState.prototype.createToolbar.call({ widget: widget });
+                assert.ok($container.data('inlineChoiceToolbarBound'), 'first createToolbar binds toolbar');
+                assert.strictEqual(deleteClicks, 1, 'initDelete runs on first bind');
+
+                InlineChoiceQuestionState.prototype.createToolbar.call({ widget: widget });
+                assert.strictEqual(deleteClicks, 1, 'initDelete does not run again while marker is set');
+
+                $container.removeData('inlineChoiceToolbarBound');
+                InlineChoiceQuestionState.prototype.createToolbar.call({ widget: widget });
+                assert.strictEqual(deleteClicks, 2, 'initDelete runs again after marker reset');
+            } finally {
+                formElement.initDelete = originalInitDelete;
+            }
         });
 
         QUnit.test('editor enables maths and shields inner math widgets', function (assert) {

@@ -36,6 +36,7 @@ define([
         },
         function exitStateQuestion() {
             this.destroyEditor();
+            this.widget.$container.removeData('inlineChoiceToolbarBound');
         }
     );
 
@@ -43,8 +44,16 @@ define([
         const _widget = this.widget,
             $toolbar = _widget.$container.find('td:last');
 
-        //set toolbar button behaviour:
-        if(features.isVisible('taoQtiItem/creator/interaction/inlineChoice/property/shuffle')) {
+        if (!$toolbar.length || !_widget.element || !_widget.element.getInteraction()) {
+            return $toolbar;
+        }
+
+        if (_widget.$container.data('inlineChoiceToolbarBound')) {
+            return $toolbar;
+        }
+        _widget.$container.data('inlineChoiceToolbarBound', true);
+
+        if (features.isVisible('taoQtiItem/creator/interaction/inlineChoice/property/shuffle')) {
             formElement.initShufflePinToggle(_widget);
         }
 
