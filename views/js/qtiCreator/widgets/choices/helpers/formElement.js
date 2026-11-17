@@ -20,8 +20,12 @@ define(['jquery'], function ($) {
         initShufflePinToggle: function (widget) {
             const $container = widget.$container,
                 choice = widget.element,
-                interaction = choice.getInteraction(),
+                interaction = choice && choice.getInteraction(),
                 $shuffleToggle = $container.find('[data-role="shuffle-pin"]');
+
+            if (!choice || !interaction || !$shuffleToggle.length) {
+                return;
+            }
 
             const pinIcon = function ($icon) {
                 $icon.removeClass('icon-shuffle').addClass('icon-pin');
@@ -74,9 +78,10 @@ define(['jquery'], function ($) {
         initDelete: function (widget) {
             const $container = widget.$container;
 
-            $container.find('[data-role="delete"]').on('mousedown', function (e) {
+            $container.find('[data-role="delete"]').off('mousedown.deleteChoice').on('mousedown.deleteChoice', function (e) {
                 if (
                     $container.hasClass('edit-choice') ||
+                    ($container.hasClass('edit-question') && !$(e.target).closest('.mini-tlb').data('for')) ||
                     $(e.target).closest('.mini-tlb').data('for') === widget.element.serial
                 ) {
                     // condition prevent removing choice in case user deliting inner element (math, image)
