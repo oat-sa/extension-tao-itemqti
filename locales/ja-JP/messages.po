@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-11-13 14:22\n"
+"PO-Revision-Date: 2026-11-19 08:51\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -1889,7 +1889,7 @@ msgid "Select height of block based on container height"
 msgstr "コンテナの高さに基づいてブロックの高さを選択"
 
 msgid "Select height of passage base of container height"
-msgstr "コンテナの高さを選択"
+msgstr "コンテナ（表示枠）の高さに対するパッセージの高さを選択"
 
 msgid "Select height of text block base of container height"
 msgstr "テキストブロックの高さを選択"
@@ -2264,7 +2264,7 @@ msgid "The principle identifier of the item. This identifier must have a corresp
 msgstr "アイテムの主要識別子。この識別子は、アイテムのメタデータに対応するエントリがなければならない。"
 
 msgid "The purpose for which the rubric is intended to be used. As a reading passage for multiple items, or instructions for a particular section, for example."
-msgstr "ルーブリックの使用目的：例えば、複数アイテムの導線として、または特定のセクションの指示として。"
+msgstr "ルーブリックを使用する目的（例：複数アイテムの読解パッセージ、特定セクションの指示文など）。"
 
 msgid "The QTI class \"%1$s\" located at line \"%2$d\" is currently not supported."
 msgstr "\"%2$d\"の行にあるQTIクラス \"%1$s\"は現在サポートされていません。"
