@@ -353,8 +353,8 @@ class QtiCreator extends tao_actions_CommonModule
 
         $config->setProperty('mediaSourcesUrl', $mediaSourcesUrl);
         $clientConfig = $this->getPsrContainer()->get(ClientLibConfigRegistry::class)->getMap();
-        $mentionsEnabled = $clientConfig['taoQtiItem/controller/creator/index']['properties']['itemCommentsMentionsEnabled']
-            ?? false;
+        $creatorProperties = $clientConfig['taoQtiItem/controller/creator/index']['properties'] ?? [];
+        $mentionsEnabled = $creatorProperties['itemCommentsMentionsEnabled'] ?? false;
         $config->setProperty('itemCommentsMentionsEnabled', $mentionsEnabled === true);
 
         //initialize all registered hooks:
