@@ -2530,3 +2530,23 @@ msgstr "少なくとも%sつ，最大%sつまで選べます"
 msgid "Your item has been saved"
 msgstr "アイテムが保存されました"
 
+msgid "Add file(s)"
+msgstr "ファイル追加"
+
+msgid "Comments"
+msgstr "コメント"
+
+msgid "Comments apply to the whole item."
+msgstr "コメントはアイテム全体に適用"
+
+msgid "MathType"
+msgstr "MathType"
+
+msgid "MathType availability"
+msgstr "MathTypeは利用可能です"
+
+msgid "MathType is currently enabled for your organization. Depending on usage, a separate licence may be required. Contact your account administrator for more information."
+msgstr "MathTypeは現在、あなたの組織で有効になっています。使用状況によっては、別途ライセンスが必要になる場合があります。詳細についてはアカウント管理者にお問い合わせください。"
+
+msgid "The maximum number of associations that the candidate is required to make to form a valid response."
+msgstr "受験者に求める関連付けの最大数"
