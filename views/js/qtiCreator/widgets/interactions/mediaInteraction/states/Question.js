@@ -262,6 +262,9 @@ define([
             }
             //init data change callbacks
             const callbacks = {
+                alt: function (boundInteraction, value) {
+                    interaction.object.description(value);
+                },
                 autostart: function autostart(boundInteraction, attrValue, attrName) {
                     interaction.attr(attrName, attrValue);
                     if (attrValue === false) {
@@ -432,6 +435,9 @@ define([
                 formTpl({
                     //tpl data for the interaction
                     isAudio: isAudio,
+                    isVideo: /^video\//.test(interaction.object.attr('type')),
+                    serial: interaction.object.getSerial(),
+                    alt: interaction.object.description(),
                     isFlaAvailable: isFlaAvailable,
                     isCompactAppearanceAvailable: isCompactAppearanceAvailable,
                     autostart: !!interaction.attr('autostart'),

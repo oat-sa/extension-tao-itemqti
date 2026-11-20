@@ -11,7 +11,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
  *
@@ -20,7 +20,7 @@ define([
     'lodash',
     'jquery',
     'core/promise',
-    'taoQtiItem/qtiItem/core/Loader',
+    'taoQtiItem/qtiCreator/model/Loader',
     'taoQtiItem/qtiCreator/model/Container',
     'taoQtiItem/qtiCreator/model/Item',
     'taoQtiItem/qtiCreator/model/helper/event',
@@ -55,12 +55,33 @@ define([
         //detect math ns :
         var mathNs = 'm';//for 'http://www.w3.org/1998/Math/MathML'
 
+        const $source = $container.clone();
+        const fallbackAttribute = 'data-tao-object-fallback';
+        const serializer = new XMLSerializer();
+        $source.find('object').each(function () {
+            // Keep fallback opaque to the runner parser, which otherwise discards it.
+            const fallback = Array.from(this.childNodes, node => serializer.serializeToString(node))
+                .join('').replace(/ xmlns="http:\/\/www.w3.org\/1999\/xhtml"/g, '');
+            $(this).attr(fallbackAttribute, fallback).empty();
+        });
+
         //parse qti xml content to build a data object
-        var data = simpleParser.parse($container.clone(), {
+        const data = simpleParser.parse($source, {
             ns : {
                 math : mathNs
             }
         });
+
+        function restoreFallback(element) {
+            if (element && typeof element === 'object') {
+                if (element.qtiClass === 'object' && typeof element.attributes[fallbackAttribute] === 'string') {
+                    element._alt = element.attributes[fallbackAttribute];
+                    delete element.attributes[fallbackAttribute];
+                }
+                _.forEach(element, restoreFallback);
+            }
+        }
+        restoreFallback(data);
 
         if(data.body){
             return data.body;
