@@ -7,6 +7,20 @@
         </label>
     </div>
 
+    {{#if isVideo}}
+        <div class="panel video-alt-text-panel">
+            <label for="{{serial}}-alt">{{__ 'Alt Text'}}</label>
+            <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+            <div class="tooltip-content">{{__ 'Briefly describe the visual content.'}}</div>
+            <textarea id="{{serial}}-alt" name="alt" data-alt-text rows="5"
+                aria-describedby="{{serial}}-alt-feedback" placeholder="{{__ 'Briefly describe the visual content.'}}">{{alt}}</textarea>
+            <div id="{{serial}}-alt-feedback" class="alt-text-feedback">
+                <span data-role="alt-text-limit" hidden>{{__ 'Character limit reached'}}</span>
+                <span class="alt-text-counter"><span data-role="alt-text-count">0</span> / 200</span>
+            </div>
+        </div>
+    {{/if}}
+
     {{#unless isAudio}}
         <h3 class="media-sizer-panel-label">{{__ 'Size and position'}}</h3>
         <div class="panel media-sizer-panel">

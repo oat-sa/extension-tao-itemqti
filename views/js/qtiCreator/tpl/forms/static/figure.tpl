@@ -6,11 +6,15 @@
     <button class="btn-info small block" data-role="upload-trigger">{{__ 'Select image'}}</button>
 </div>
 
-<div class="panel">
+<div class="panel alt-text-panel">
     <label for="alt">{{__ "Alt Text"}}</label>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content">{{__ 'The text to be displayed if the image is not available.'}}</div>
-    <input type="text" name="alt" value="{{alt}}" placeholder="e.g. House with a garden"/>
+    <input id="alt" type="text" name="alt" value="{{alt}}" data-alt-text aria-describedby="alt-feedback" placeholder="e.g. House with a garden"/>
+    <div id="alt-feedback" class="alt-text-feedback">
+        <span data-role="alt-text-limit" hidden>{{__ 'Character limit reached'}}</span>
+        <span class="alt-text-counter"><span data-role="alt-text-count">0</span> / 200</span>
+    </div>
 </div>
 
 <div class="change-alt-modal-feedback modal">
