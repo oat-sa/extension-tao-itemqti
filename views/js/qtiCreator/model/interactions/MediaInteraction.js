@@ -1,14 +1,18 @@
 define([
     'lodash',
+    'taoQtiItem/qtiCreator/model/Object',
     'taoQtiItem/qtiCreator/model/mixin/editable',
     'taoQtiItem/qtiCreator/model/mixin/editableInteraction',
     'taoQtiItem/qtiItem/core/interactions/MediaInteraction'
-], function(_, editable, editableInteraction, Interaction){
+], function(_, QtiObject, editable, editableInteraction, Interaction){
     "use strict";
     var methods = {};
     _.extend(methods, editable);
     _.extend(methods, editableInteraction);
     _.extend(methods, {
+        initObject: function (object) {
+            this._super(object || new QtiObject());
+        },
         getDefaultAttributes : function(){
 
             //var defAtt = interaction.getDefaultAttributes();
@@ -46,5 +50,4 @@ define([
     });
     return Interaction.extend(methods);
 });
-
 

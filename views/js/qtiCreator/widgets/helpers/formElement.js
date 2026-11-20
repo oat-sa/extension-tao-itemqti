@@ -11,7 +11,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA;
  *
@@ -25,6 +25,7 @@ define([
     'lodash',
     'i18n',
     'taoQtiItem/qtiItem/core/Element',
+    'taoQtiItem/qtiCreator/helper/altText',
     'util/dom',
     'ui/incrementer',
     'ui/tooltip',
@@ -32,7 +33,7 @@ define([
     'ui/inplacer',
     'ui/groupvalidator',
     'taoQtiItem/qtiCreator/widgets/helpers/validators'
-], function ($, _, __, Element, dom, spinner, tooltip, select2) {
+], function ($, _, __, Element, altText, dom, spinner, tooltip, select2) {
     'use strict';
 
     /**
@@ -166,6 +167,36 @@ define([
             spinner($form);
             tooltip.lookup($form);
             select2($form);
+            $form.find('[data-alt-text]').each(function () {
+                const $input = $(this);
+                const $feedback = $input.siblings('.alt-text-feedback');
+                const updateCounter = function () {
+                    if ($input.data('altTextComposing')) {
+                        return;
+                    }
+                    $input.val(altText.truncate($input.val(), $input));
+                    const length = Array.from($input.val()).length;
+                    if (length < altText.maxLength) {
+                        $input.removeData('altTextTruncatedFrom');
+                    }
+                    const originalLength = $input.data('altTextTruncatedFrom');
+                    $feedback.find('[data-role="alt-text-count"]').text(length);
+                    $feedback.toggleClass('limit-reached', length >= altText.maxLength);
+                    $feedback.find('[data-role="alt-text-limit"]')
+                        .text(originalLength ?
+                            __('Alternative text was truncated from %d to %d characters.', originalLength, altText.maxLength) :
+                            __('Character limit reached'))
+                        .prop('hidden', length < altText.maxLength);
+                };
+                $input.off('.altText')
+                    .on('input.altText change.altText alttextupdate.altText', updateCounter)
+                    .on('compositionstart.altText', () => $input.data('altTextComposing', true))
+                    .on('compositionend.altText', () => {
+                        $input.removeData('altTextComposing');
+                        $input.trigger('input');
+                    });
+                updateCounter();
+            });
         },
 
         /**
@@ -180,6 +211,9 @@ define([
          */
         setChangeCallbacks: function ($form, element, attributes, options) {
             const applyCallback = function applyCallback(name, value, $elt) {
+                if ($elt.data('altTextComposing')) {
+                    return;
+                }
                 const cb = attributes && attributes[name];
                 if (_.isFunction(cb)) {
                     cb.call($elt[0], element, value, name);
@@ -231,6 +265,20 @@ define([
             });
 
             $form.off('.databinding');
+            $form.find('[data-alt-text]').each(function () {
+                const $input = $(this);
+                const target = altText.getTarget(element);
+                if (target) {
+                    const originalLength = target.data('altTextTruncatedFrom');
+                    if (originalLength) {
+                        $input.data('altTextTruncatedFrom', originalLength).triggerHandler('alttextupdate');
+                    }
+                    if ($input.data('altTextTruncatedFrom')) {
+                        applyCallback($input.attr('name'), $input.val(), $input);
+                    }
+                }
+            });
+            $form.on('input.databinding', 'input[data-alt-text]', callbackSimple);
             $form.on(
                 'change.databinding keyup.databinding',
                 ':checkbox, :radio, select, :text:not([data-validate]), :hidden:not([data-validate])',

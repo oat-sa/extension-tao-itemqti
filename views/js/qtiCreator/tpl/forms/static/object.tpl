@@ -8,6 +8,18 @@
     </div>
 </div>
 
+<div class="panel video-alt-text-panel" {{#unless isVideo}}style="display: none;"{{/unless}}>
+    <label for="{{serial}}-alt">{{__ 'Alt Text'}}</label>
+    <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
+    <div class="tooltip-content">{{__ 'Briefly describe the visual content.'}}</div>
+    <textarea id="{{serial}}-alt" name="alt" data-alt-text rows="5"
+        aria-describedby="{{serial}}-alt-feedback" placeholder="{{__ 'Briefly describe the visual content.'}}">{{alt}}</textarea>
+    <div id="{{serial}}-alt-feedback" class="alt-text-feedback">
+        <span data-role="alt-text-limit" hidden>{{__ 'Character limit reached'}}</span>
+        <span class="alt-text-counter"><span data-role="alt-text-count">0</span> / 200</span>
+    </div>
+</div>
+
 <div class="panel size-panel">
     <div>
         <label for="width" class="spinner">Width</label>

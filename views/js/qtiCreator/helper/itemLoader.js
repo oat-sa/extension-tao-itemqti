@@ -11,22 +11,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA ;
  */
 define([
     'jquery',
     'lodash',
-    'taoQtiItem/qtiItem/core/Loader',
+    'taoQtiItem/qtiCreator/model/Loader',
     'taoQtiItem/qtiCreator/model/Item',
     'taoQtiItem/qtiCreator/model/qtiClasses',
     'taoQtiItem/qtiItem/helper/itemScore',
     'core/dataProvider/request',
     'taoQtiItem/qtiCreator/widgets/helpers/qtiIdentifier',
     'taoQtiItem/qtiCreator/helper/languages',
+    'taoQtiItem/qtiCreator/helper/altText',
     'taoQtiItem/qtiCreator/helper/itemIdentifier'
-], function ($, _, Loader, Item, qtiClasses, itemScoreHelper, request, qtiIdentifier, languages, itemIdentifier) {
+], function ($, _, Loader, Item, qtiClasses, itemScoreHelper, request, qtiIdentifier, languages, altText, itemIdentifier) {
     'use strict';
     const decodeHtml = function (str) {
         const map = {
@@ -113,6 +114,12 @@ define([
                                 }
                             }
 
+                            try {
+                                altText.normalize(loadedItem);
+                            } catch (error) {
+                                callback(null, this.getLoadedClasses(), error);
+                                return;
+                            }
                             callback(loadedItem, this.getLoadedClasses());
                         });
                     } else {
