@@ -165,7 +165,9 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
                         : $this->getUniqueAssetDirectoryByLink($mediaSource, $link);
 
                     $replacement = $this->copyAssetFile($stream, $basePath, $baseName, $replacementList);
-                    $this->addAssetStylesheetToZip($link, dirname($baseName), $basePath);
+                    if (!$this->isStyleSheetAsset($mediaSource, $link)) {
+                        $this->addAssetStylesheetToZip($link, dirname($baseName), $basePath);
+                    }
                     $replacementList[$assetUrl] = $replacement;
                 }
             } catch (tao_models_classes_FileNotFoundException $e) {
@@ -388,6 +390,29 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         return self::ASSETS_DIRECTORY_NAME
             . DIRECTORY_SEPARATOR
             . $mediaSource->getFileInfo($link)['link'];
+    }
+
+    private function isStyleSheetAsset(MediaBrowser $mediaSource, string $link): bool
+    {
+        try {
+            $fileInfo = $mediaSource->getFileInfo($link);
+        } catch (\Throwable $exception) {
+            return false;
+        }
+
+        $mime = strtolower(trim(explode(';', (string) ($fileInfo['mime'] ?? ''))[0]));
+
+        if ($mime === 'text/css') {
+            return true;
+        }
+
+        if ($mime !== '') {
+            return false;
+        }
+
+        $assetLink = (string) ($fileInfo['link'] ?? $fileInfo['filePath'] ?? $link);
+
+        return strtolower(substr($assetLink, -4)) === '.css';
     }
 
     private function buildAssetStylesheetPath(string $basepath, string $baseDirectoryName, string $fileName): string
