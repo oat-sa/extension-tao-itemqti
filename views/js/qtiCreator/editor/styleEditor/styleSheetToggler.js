@@ -20,15 +20,22 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'uri',
+    'util/url',
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'taoQtiItem/qtiCreator/model/Stylesheet',
     'tpl!taoQtiItem/qtiCreator/tpl/notifications/genericFeedbackPopup',
     'ui/dialog/confirm',
-    'ui/resourcemgr'
-], function ($, _, __, styleEditor, Stylesheet, genericFeedbackPopup, confirmDialog) {
+    'ui/resourcemgr',
+    'jquery.fileDownload'
+], function ($, _, __, uri, urlUtil, styleEditor, Stylesheet, genericFeedbackPopup, confirmDialog) {
     'use strict';
 
     var $doc = $(document);
+    var MEDIA_MANAGER_PREFIX = 'taomedia://mediamanager/';
+    var normalizeMime = function (mime) {
+        return String(mime || '').split(';')[0].trim().toLowerCase();
+    };
 
     var styleSheetToggler = (function () {
         var init = function (itemConfig) {
@@ -81,8 +88,9 @@ define([
                 uploader.resourcemgr({
                     className: 'stylesheets',
                     appendContainer: '#mediaManager',
-                    path: '/',
-                    root: 'local',
+                    mediaSourcesUrl: itemConfig.mediaSourcesUrl,
+                    searchUrl: itemConfig.searchUrl,
+                    hideCriteria: true,
                     browseUrl: itemConfig.getFilesUrl,
                     uploadUrl: itemConfig.fileUploadUrl,
                     deleteUrl: itemConfig.fileDeleteUrl,
@@ -97,17 +105,72 @@ define([
                     select(e, files) {
                         const l = files.length;
                         for (let i = 0; i < l; i++) {
+                            if (normalizeMime(files[i].mime) !== 'text/css') {
+                                _createInfoBox({
+                                    message: __('Only CSS stylesheets can be added to the item.'),
+                                    type: 'error'
+                                });
+                                continue;
+                            }
                             styleEditor.addStylesheet(files[i].file);
                         }
                     },
                     hooks: {
                         deleteFile(file) {
-                            const filePath = [file];
-                            if (file.startsWith('/')) {
-                                filePath.push(file.substring(1));
+                            const cssRes = String(file).replace(/^\/+/, '');
+                            const $style = $('#style-sheet-toggler')
+                                .find('[data-css-res]')
+                                .filter(function () {
+                                    return String($(this).attr('data-css-res')).replace(/^\/+/, '') === cssRes;
+                                });
+
+                            if (file.startsWith(MEDIA_MANAGER_PREFIX)) {
+                                if (!$style.length) {
+                                    const assetUri = uri.decode(String(file).slice(MEDIA_MANAGER_PREFIX.length));
+
+                                    return new Promise((resolve, reject) => {
+                                        $.getJSON(urlUtil.route('index', 'ResourceRelations', 'tao'), {
+                                            type: 'media',
+                                            sourceId: assetUri
+                                        })
+                                            .done(response => {
+                                                const relations = response && response.data && response.data.relations;
+                                                const count = relations ? relations.length : 0;
+
+                                                if (count > 0) {
+                                                    confirmDialog(
+                                                        __(
+                                                            'This stylesheet is used in %s item(s). Remove it from those items before deleting it.'
+                                                        ).replace('%s', count),
+                                                        () => reject(),
+                                                        () => reject()
+                                                    );
+                                                } else {
+                                                    resolve();
+                                                }
+                                            })
+                                            .fail(() => resolve());
+                                    });
+                                }
+
+                                return new Promise((resolve, reject) => {
+                                    confirmDialog(
+                                        __(
+                                            'This stylesheet is stored in the Media Library. Removing it from the item only removes the association, the file stays in the library. The item will be automatically saved after the removal, continue?'
+                                        ),
+                                        () => {
+                                            deleteStylesheet($style);
+
+                                            $('#item-editor-panel')
+                                                .trigger('beforesave.qti-creator')
+                                                .trigger('save.qti-creator');
+                                            reject();
+                                        },
+                                        () => reject()
+                                    );
+                                });
                             }
 
-                            const $style = cssToggler.find(filePath.map(path => `[data-css-res="${path}"]`).join(', '));
                             if ($style.length) {
                                 return new Promise((resolve, reject) => {
                                     confirmDialog(
@@ -175,7 +238,46 @@ define([
              * @param {Object} trigger
              */
             const downloadStylesheet = function (trigger) {
-                styleEditor.download(getContext(trigger).cssUri);
+                const context = getContext(trigger);
+                const cssUri = context.cssUri;
+
+                if (cssUri.startsWith(MEDIA_MANAGER_PREFIX)) {
+                    const assetUri = uri.decode(cssUri.substring(MEDIA_MANAGER_PREFIX.length));
+                    const route = urlUtil.route('getFile', 'MediaManager', 'taoMediaManager', { uri: assetUri });
+                    const label = String(context.label || '').trim();
+                    const fileName = label
+                        ? /\.css$/i.test(label)
+                            ? label
+                            : `${label}.css`
+                        : 'stylesheet.css';
+
+                    fetch(route, { credentials: 'same-origin' })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(String(response.status));
+                            }
+                            return response.blob();
+                        })
+                        .then(blob => {
+                            const url = URL.createObjectURL(blob);
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.download = fileName;
+                            document.body.appendChild(link);
+                            link.click();
+                            link.remove();
+                            URL.revokeObjectURL(url);
+                        })
+                        .catch(() => {
+                            _createInfoBox({
+                                message: __('There was a problem downloading your CSS, please try again.'),
+                                type: 'error'
+                            });
+                        });
+                    return;
+                }
+
+                styleEditor.download(cssUri);
             };
 
             /**

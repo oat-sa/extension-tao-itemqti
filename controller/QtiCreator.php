@@ -48,6 +48,8 @@ use oat\taoQtiItem\model\HookRegistry;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\event\UpdatedItemEventDispatcher;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
+use oat\taoQtiItem\model\qti\exception\StylesheetNotCssException;
+use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\parser\XmlToItemParser;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\validator\ItemIdentifierValidator;
@@ -226,6 +228,7 @@ class QtiCreator extends tao_actions_CommonModule
 
                     $item = $this->getXmlToItemParser()->parseAndSanitize($xml);
                     $this->getItemIdentifierValidator()->validate($item);
+                    $this->assertStyleSheetsAreCss($item, $rdfItem);
 
                     $returnValue['success'] = $itemService->saveDataItemToRdfItem($item, $rdfItem);
 
@@ -248,6 +251,13 @@ class QtiCreator extends tao_actions_CommonModule
                         'type' => 'Error',
                         'message' => $e->getUserMessage()
                     ];
+                } catch (StylesheetNotCssException $e) {
+                    $this->logError($e->getMessage());
+                    $returnValue = [
+                        'success' => false,
+                        'type' => 'Error',
+                        'message' => $e->getUserMessage()
+                    ];
                 } catch (common_exception_Error $e) {
                     $this->logError(sprintf('Item XML is not valid: %s', $e->getMessage()));
                     $returnValue = [
@@ -260,6 +270,44 @@ class QtiCreator extends tao_actions_CommonModule
         }
 
         $this->returnJson($returnValue);
+    }
+
+    private function assertStyleSheetsAreCss(Item $item, core_kernel_classes_Resource $rdfItem): void
+    {
+        $lang = $item->getAttributeValue('xml:lang');
+
+        foreach ($item->getStylesheets() as $stylesheet) {
+            $href = (string) $stylesheet->getAttributeValue('href');
+
+            if (strpos($href, 'taomedia://mediamanager/') !== 0) {
+                continue;
+            }
+
+            try {
+                $resolver = new ItemMediaResolver($rdfItem, $lang);
+                $asset = $resolver->resolve($href);
+                $source = $asset->getMediaSource();
+                $info = $source->getFileInfo($asset->getMediaIdentifier());
+            } catch (\Throwable $e) {
+                $this->logWarning(
+                    sprintf('Unable to resolve stylesheet "%s" while saving item: %s', $href, $e->getMessage())
+                );
+                continue;
+            }
+
+            $mime = isset($info['mime']) ? explode(';', (string) $info['mime'])[0] : '';
+            $mime = strtolower(trim($mime));
+
+            if ($mime !== 'text/css') {
+                $displayName = basename((string) parse_url($href, PHP_URL_PATH));
+
+                if (!empty($info['name'])) {
+                    $displayName = $info['name'];
+                }
+
+                throw new StylesheetNotCssException($displayName);
+            }
+        }
     }
 
     public function getFile()

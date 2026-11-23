@@ -30,6 +30,7 @@ use oat\taoQtiItem\model\qti\Img;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\parser\ElementReferencesExtractor;
 use oat\taoQtiItem\model\qti\QtiObject;
+use oat\taoQtiItem\model\qti\Stylesheet;
 use oat\taoQtiItem\model\qti\XInclude;
 
 class UpdatedItemEventDispatcher extends ConfigurableService
@@ -38,6 +39,7 @@ class UpdatedItemEventDispatcher extends ConfigurableService
     private const OBJECT_ELEMENT_REFERENCES_KEY = 'objectElementReferences';
     private const IMG_ELEMENT_REFERENCES_KEY = 'imgElementReferences';
     private const TEXT_READER_ELEMENT_REFERENCES_KEY = 'textReaderElementReferences';
+    private const STYLESHEET_ELEMENT_REFERENCES_KEY = 'stylesheetElementReferences';
 
     public function dispatch(Item $qtiItem, core_kernel_classes_Resource $rdfItem): void
     {
@@ -48,6 +50,7 @@ class UpdatedItemEventDispatcher extends ConfigurableService
             self::OBJECT_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, QtiObject::class, 'data'),
             self::IMG_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, Img::class, 'src'),
             self::TEXT_READER_ELEMENT_REFERENCES_KEY => $extractor->extractTextReaderReferences($qtiItem),
+            self::STYLESHEET_ELEMENT_REFERENCES_KEY => $extractor->extract($qtiItem, Stylesheet::class, 'href'),
         ];
 
         $this->getEventManager()
