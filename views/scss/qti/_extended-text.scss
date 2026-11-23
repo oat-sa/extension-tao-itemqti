@@ -1,6 +1,8 @@
 @import 'inc/bootstrap';
 
 .qti-extendedTextInteraction {
+    position: relative; /* for .shadow-container */
+
     .text-container {
         min-block-size: 50px;
 
