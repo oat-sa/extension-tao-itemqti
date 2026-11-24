@@ -590,22 +590,40 @@ define([
             })
         );
 
+        minMaxComponentFactory($form.find('.min-max-panel'), {
+            min: {
+                fieldName: 'minAssociations',
+                value: _.parseInt(interaction.attr('minAssociations')) || 0,
+                toggler: false,
+                helpMessage: __('The minimum number of associations that the candidate is required to make to form a valid response.')
+            },
+            max: {
+                fieldName: 'maxAssociations',
+                value: _.parseInt(interaction.attr('maxAssociations')) || 0,
+                toggler: false,
+                helpMessage: __('The maximum number of associations that the candidate is allowed to make.')
+            },
+            lowerThreshold: 0,
+            upperThreshold: 100
+        });
+
         imageSelector($form, options);
 
         formElement.initWidget($form);
 
         bgImage.setupImage(widget);
 
-        bgImage.setChangeCallbacks(widget, formElement, {
-            position: function (interaction, value) {
-                const $gapList = $('ul.source', widget.$original);
+        var callbacks = formElement.getMinMaxAttributeCallbacks('minAssociations', 'maxAssociations');
+        callbacks.position = function (interaction, value) {
+            const $gapList = $('ul.source', widget.$original);
 
-                applyPosition(value);
-                // Bay position changes available width; recalculate gapText tile sizes (see gapTextTileLayout.js).
-                $gapList.find('li.qti-gapText').removeClass('active gap-text-tile-expanded');
-                gapTextTileLayout.syncAllGapTextTilesInList($gapList);
-            }
-        });
+            applyPosition(value);
+            // Bay position changes available width; recalculate gapText tile sizes (see gapTextTileLayout.js).
+            $gapList.find('li.qti-gapText').removeClass('active gap-text-tile-expanded');
+            gapTextTileLayout.syncAllGapTextTilesInList($gapList);
+        };
+
+        bgImage.setChangeCallbacks(widget, formElement, callbacks);
     };
 
     return GraphicGapMatchInteractionStateQuestion;
