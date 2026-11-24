@@ -588,6 +588,48 @@ define(['taoQtiItem/qtiCreator/widgets/component/minMax/minMax'], function(minMa
         });
     });
 
+    QUnit.test('sync values keeps min when max is unlimited', function(assert) {
+        var ready = assert.async();
+        var container = document.getElementById('qunit-fixture');
+
+        assert.expect(6);
+
+        minMaxComponentFactory(container, {
+            min: {
+                fieldName: 'minAssociations',
+                value: 3,
+                toggler: false
+            },
+            max: {
+                fieldName: 'maxAssociations',
+                value: 0,
+                toggler: false
+            },
+            syncValues: true,
+            lowerThreshold: 0,
+            upperThreshold: 100
+        })
+            .on('render', function() {
+                assert.equal(this.getMinValue(), 3, 'min stays positive on init when max is unlimited');
+                assert.equal(this.getMaxValue(), 0, 'max stays at 0 on init');
+
+                this.setMaxValue(0);
+                this.syncValues('max');
+                assert.equal(this.getMinValue(), 3, 'min is not lowered when max is set to unlimited');
+
+                this.setMinValue(4);
+                this.syncValues('min');
+                assert.equal(this.getMinValue(), 4, 'min can be increased above unlimited max');
+                assert.equal(this.getMaxValue(), 0, 'max stays unlimited when min increases');
+
+                this.setMaxValue(2);
+                this.syncValues('max');
+                assert.equal(this.getMinValue(), 2, 'min is adjusted when max becomes a finite cap');
+
+                ready();
+            });
+    });
+
     QUnit.module('Visual test');
 
     QUnit.test('Rendering', function(assert) {

@@ -149,6 +149,23 @@ define([
     });
 
     $.mockjax({
+        url: /mockItemUnlimitedMaxAssociationsEndpoint/,
+        status: 200,
+        response: function () {
+            var itemData = $.extend(true, {}, gapMatchJson);
+            var interaction = itemData.body.elements.interaction_gapmatchinteraction_547dd4d24d2d0146858817;
+
+            interaction.attributes.minAssociations = 3;
+            interaction.attributes.maxAssociations = 0;
+
+            this.responseText = {
+                itemIdentifier: 'item-1',
+                itemData: itemData
+            };
+        }
+    });
+
+    $.mockjax({
         url: /mockGraphicGapMatchInvalidPositionEndpoint/,
         status: 200,
         response: function () {
@@ -399,6 +416,48 @@ define([
 
                     $maxAssociationsInput.val('not-a-number').trigger('change');
                     assert.strictEqual(interaction.attr('maxAssociations'), 0, 'Invalid max value is handled as 0');
+
+                    instance.destroy();
+                }, 0);
+            })
+            .after('destroy', function () {
+                done();
+            });
+    });
+
+    QUnit.test('gap match question form keeps min when max associations is unlimited', function (assert) {
+        var done = assert.async();
+        var $container = $('#fixture-render');
+        var instance;
+
+        assert.expect(5);
+
+        instance = itemAuthoringFactory($container, {
+            properties: {
+                uri: 'http://item#rdf-123',
+                label: 'Item',
+                baseUrl: 'http://foo/bar',
+                itemDataUrl: '//mockItemUnlimitedMaxAssociationsEndpoint'
+            }
+        })
+            .on('ready', function () {
+                var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]', $container);
+                var interaction = instance.getItemCreator().getItem().getInteractions()[0];
+
+                $interaction.click();
+
+                setTimeout(function () {
+                    var $propertyBar = $('#item-editor-interaction-property-bar');
+                    var $minAssociationsInput = $propertyBar.find('input[name="minAssociations"]');
+                    var $maxAssociationsInput = $propertyBar.find('input[name="maxAssociations"]');
+
+                    assert.strictEqual(interaction.attr('minAssociations'), 3, 'Interaction keeps positive min on form open');
+                    assert.strictEqual(interaction.attr('maxAssociations'), 0, 'Interaction keeps unlimited max on form open');
+                    assert.strictEqual($minAssociationsInput.val(), '3', 'Min field shows stored min when max is unlimited');
+                    assert.strictEqual($maxAssociationsInput.val(), '0', 'Max field shows unlimited value');
+
+                    $maxAssociationsInput.val('0').trigger('change');
+                    assert.strictEqual(interaction.attr('minAssociations'), 3, 'Setting max to unlimited does not lower min');
 
                     instance.destroy();
                 }, 0);
