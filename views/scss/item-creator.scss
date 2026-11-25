@@ -20,6 +20,23 @@ $itemCreatorSeparatorBar: whiten($info, 0.1);
 
 $itemCreatorSeparatorSize: 36px;
 
+.video-alt-text-panel, .alt-text-panel {
+    textarea {
+        resize: vertical;
+    }
+    .alt-text-feedback {
+        display: flex;
+        justify-content: space-between;
+        color: $textColor;
+        &.limit-reached {
+            color: $error;
+        }
+    }
+    .alt-text-counter {
+        margin-left: auto;
+    }
+}
+
 // @todo this a temporary solution, see taoQtiItem/views/js/qtiCreator/editor/gridEditor/draggable.js, createDraggable()
 span.dragging, img.dragging.ui-draggable-dragging {
     opacity: 0.8 !important;
@@ -1878,4 +1895,3 @@ body, #mediaManager {
 }
 
 @import "inc/solar/creator";
-

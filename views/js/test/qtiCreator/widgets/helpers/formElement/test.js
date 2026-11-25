@@ -11,7 +11,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk St # 960789 Boston, MA 02196 USA.
  *
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
@@ -19,8 +19,11 @@
 define([
     'jquery',
     'taoQtiItem/qtiCreator/widgets/helpers/formElement',
-    'taoQtiItem/qtiItem/core/Element'
-], function ($, formElement, Element) {
+    'taoQtiItem/qtiItem/core/Element',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/static/img',
+    'tpl!taoQtiItem/qtiCreator/tpl/forms/static/figure',
+    'taoQtiItem/qtiCreator/model/Img'
+], function ($, formElement, Element, imgFormTpl, figureFormTpl, Img) {
     'use strict';
 
     const elementFactory = function (interactionType) {
@@ -50,6 +53,78 @@ define([
     };
 
     QUnit.module('formElement');
+
+    [imgFormTpl, figureFormTpl].forEach(function (template, index) {
+        QUnit.test(`${index ? 'Figure' : 'Image'} alternative text truncates with visible feedback`, function (assert) {
+            const longText = 'é'.repeat(212);
+            const $form = $('<div>').html(template({ alt: longText }));
+            const $input = $form.find('input[name=alt]');
+            const $feedback = $input.siblings('.alt-text-feedback');
+            formElement.initWidget($form);
+            assert.strictEqual($input.length, 1, 'Existing image input remains available for resource selection');
+            assert.strictEqual($input.val(), 'é'.repeat(200), 'Oversized descriptions are truncated');
+            assert.strictEqual($feedback.find('[data-role="alt-text-count"]').text(), '200', 'Truncated value is counted');
+            assert.ok($feedback.hasClass('limit-reached'), 'Counter uses the red warning state');
+            assert.notOk($feedback.find('[data-role="alt-text-limit"]').prop('hidden'), 'Limit message is shown');
+            assert.strictEqual($feedback.find('[data-role="alt-text-limit"]').text(), 'Alternative text was truncated from 212 to 200 characters.');
+            assert.ok($input[0].checkValidity(), 'The corrected value is valid');
+            $input.val('é🌍<&').trigger('input');
+            assert.strictEqual($feedback.find('[data-role="alt-text-count"]').text(), '4', 'Unicode input updates the count');
+            assert.notOk($feedback.hasClass('limit-reached'), 'Warning clears below the threshold');
+            assert.ok($feedback.find('[data-role="alt-text-limit"]').prop('hidden'), 'Message clears below the threshold');
+            $input.val('x'.repeat(200)).trigger('change');
+            assert.strictEqual($feedback.find('[data-role="alt-text-count"]').text(), '200', 'Resource-picker changes update the counter');
+            assert.ok($feedback.hasClass('limit-reached'), 'Warning appears at the threshold');
+            $input.val('').trigger('input');
+            assert.strictEqual($feedback.find('[data-role="alt-text-count"]').text(), '0', 'Clearing resets the counter');
+            assert.notOk($feedback.hasClass('limit-reached'));
+            $form.remove();
+        });
+    });
+
+    QUnit.test('alternative text counter truncates at 200 Unicode code points', function (assert) {
+        const $form = $('<div><textarea data-alt-text></textarea>' +
+            '<div class="alt-text-feedback"><span data-role="alt-text-limit" hidden>Character limit reached</span>' +
+            '<span data-role="alt-text-count"></span></div></div>');
+        const $input = $form.find('textarea');
+        const $feedback = $form.find('.alt-text-feedback');
+        formElement.initWidget($form);
+
+        ['', 'é🌍<&"\'', 'x'.repeat(199), 'x'.repeat(200), 'x'.repeat(212), ''].forEach(function (value) {
+            $input.val(value).trigger('input');
+            const limited = Array.from(value).slice(0, 200).join('');
+            const length = Array.from(limited).length;
+            assert.strictEqual($feedback.find('[data-role="alt-text-count"]').text(), String(length));
+            assert.strictEqual($feedback.hasClass('limit-reached'), length >= 200);
+            assert.strictEqual($feedback.find('[data-role="alt-text-limit"]').prop('hidden'), length < 200);
+            assert.strictEqual($input.val(), limited, 'Only the first 200 code points are kept');
+            assert.ok($input[0].checkValidity(), 'Truncation leaves a valid value');
+        });
+        $form.remove();
+    });
+
+    QUnit.test('typing, picker metadata and IME keep image alternative text and model consistent', function (assert) {
+        const image = new Img('bounded_image_input', { src: 'image.png', alt: '' });
+        const $form = $('<div>').html(imgFormTpl({ alt: '' }));
+        const $input = $form.find('input[name=alt]');
+        formElement.initWidget($form);
+        formElement.setChangeCallbacks($form, image, { alt: formElement.getAttributeChangeCallback(true) });
+        $input.val('🌍'.repeat(201)).trigger('input');
+        assert.strictEqual(image.attr('alt'), '🌍'.repeat(200), 'Paste updates the model without waiting for blur');
+        image.attr('alt', 'é'.repeat(5000));
+        $input.val(image.attr('alt')).trigger('change');
+        assert.strictEqual(image.attr('alt'), 'é'.repeat(200), 'Picker-style model and field assignment is reconciled');
+        assert.ok($form.find('[data-role="alt-text-limit"]').text().includes('5000'));
+        $input.trigger('compositionstart').val(`${'x'.repeat(199)}🌍🌍`).trigger('input').trigger('keyup');
+        assert.strictEqual($input.val(), `${'x'.repeat(199)}🌍🌍`, 'Composition is not interrupted');
+        assert.strictEqual(image.attr('alt'), 'é'.repeat(200), 'Partial composition is not saved into the model');
+        $input.trigger('compositionend');
+        assert.strictEqual(image.attr('alt'), `${'x'.repeat(199)}🌍`, 'Completed composition is bounded safely');
+        assert.strictEqual($input.val(), image.attr('alt'));
+        $input.val('').trigger('input');
+        assert.strictEqual(image.attr('alt'), '', 'Clearing remains supported');
+        $form.remove();
+    });
 
     QUnit.test('module', function (assert) {
         assert.expect(2);

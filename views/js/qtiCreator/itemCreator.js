@@ -45,6 +45,8 @@ define([
     'taoQtiItem/qtiCreator/editor/styleEditor/styleEditor',
     'taoQtiItem/qtiCreator/helper/textEntryEvaluationSave',
     'taoQtiItem/qtiCreator/helper/scoringModelSave',
+    'taoQtiItem/qtiCreator/helper/altText',
+    'ui/feedback',
     'handlebars',
     'text!taoQtiItem/qtiCreator/tpl/partials/scrollingToggle.tpl',
     'text!taoQtiItem/qtiCreator/tpl/partials/scrollingSelect.tpl'
@@ -67,6 +69,8 @@ define([
     styleEditor,
     textEntryEvaluationSave,
     scoringModelSave,
+    altText,
+    feedback,
     handlebars,
     scrollingToggle,
     scrollingSelect
@@ -96,9 +100,9 @@ define([
                     perInteractionRp,
                     identifierGenerationStrategy
                 },
-                item => {
+                (item, loadedClasses, error) => {
                     if (!item) {
-                        reject(new Error('Unable to load the item'));
+                        return reject(error || new Error('Unable to load the item'));
                     }
 
                     //set useful data :
@@ -148,6 +152,8 @@ define([
         let itemCreator;
         const qtiCreatorContext = qtiCreatorContextFactory();
         const plugins = {};
+        let altTextWarning;
+        let destroyed = false;
 
         /**
          * Run a method in all plugins
@@ -219,6 +225,7 @@ define([
                  */
                 this.on('save', silent => {
                     const item = this.getItem();
+                    let truncatedCount = 0;
                     const itemWidget = item.data('widget');
                     const invalidElements = item.data('invalid') || {};
 
@@ -241,14 +248,25 @@ define([
                                 )
                             )
                         )
-                        .then(() => styleEditor.save())
+                        .then(() => {
+                            altText.normalize(item);
+                            truncatedCount = item.data('altTextTruncated') || 0;
+                            return styleEditor.save();
+                        })
                         .then(() => itemWidget.save())
                         .then(() => this.trigger('updateTranslations'))
                         .then(() => {
-                            if (!silent) {
+                            if (!silent && !truncatedCount) {
                                 this.trigger('success', __('Your item has been saved'));
                             }
                             this.trigger('saved');
+                            if (truncatedCount && !destroyed) {
+                                altTextWarning = feedback(areaBroker.getContainer(), { timeout: -1, popup: false })
+                                    .warning(
+                                        __('%d alternative text(s) were truncated to 200 characters and saved.'),
+                                        [truncatedCount]
+                                    );
+                            }
                         })
                         .catch(err => this.trigger('error', err));
                 });
@@ -279,6 +297,24 @@ define([
                         });
 
                         this.item = item;
+                        this.on('ready.altText', () => {
+                            this.off('ready.altText');
+                            const count = item.data('altTextTruncated');
+                            if (count && !destroyed) {
+                                altTextWarning = feedback(areaBroker.getContainer(), { timeout: -1, popup: false })
+                                    .warning(
+                                        __('%d alternative text(s) were truncated to 200 characters. Save the item to keep these changes.'),
+                                        [count]
+                                    );
+                            }
+                        });
+                        this.on('saved.altText', () => {
+                            altText.clear(item);
+                            if (altTextWarning) {
+                                altTextWarning.destroy();
+                                altTextWarning = null;
+                            }
+                        });
                         return true;
                     })
                     .then(() => {
@@ -429,7 +465,12 @@ define([
              * @returns {itemCreator} chains
              */
             destroy() {
+                destroyed = true;
                 $(document).off('.qti-widget');
+                if (altTextWarning) {
+                    altTextWarning.destroy();
+                    altTextWarning = null;
+                }
 
                 pluginRun('destroy')
                     .then(() => qtiCreatorContext.destroy())

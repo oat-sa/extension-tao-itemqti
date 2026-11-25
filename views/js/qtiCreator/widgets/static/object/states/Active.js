@@ -261,7 +261,9 @@ define([
             formTpl({
                 baseUrl: baseUrl || '',
                 src: qtiObject.attr('data'),
-                alt: qtiObject.attr('alt'),
+                serial: qtiObject.getSerial(),
+                alt: qtiObject.description(),
+                isVideo: /^video\//.test(qtiObject.attr('type')),
                 height: qtiObject.attr('height'),
                 width: qtiObject.attr('width'),
                 isAudio,
@@ -313,6 +315,7 @@ define([
                     clearMediaSize();
                     $container.removeData('ui.previewer');
                     hideShowPanels(qtiObject.attr('type'));
+                    $form.find('.video-alt-text-panel').toggle(/^video\//.test(qtiObject.attr('type')));
                     inlineHelper.togglePlaceholder(_widget);
                     refreshRendering(_widget);
                 }
@@ -336,7 +339,7 @@ define([
                 refreshRendering(_widget);
             },
             alt: function (object, value) {
-                qtiObject.attr('alt', value);
+                qtiObject.description(value);
             },
             align: function (object, value) {
                 inlineHelper.positionFloat(_widget, value);
