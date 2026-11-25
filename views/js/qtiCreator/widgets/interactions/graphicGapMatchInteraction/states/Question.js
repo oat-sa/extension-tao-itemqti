@@ -590,6 +590,16 @@ define([
             })
         );
 
+        var callbacks = formElement.getMinMaxAttributeCallbacks('minAssociations', 'maxAssociations');
+        callbacks.position = function (interaction, value) {
+            const $gapList = $('ul.source', widget.$original);
+
+            applyPosition(value);
+            // Bay position changes available width; recalculate gapText tile sizes (see gapTextTileLayout.js).
+            $gapList.find('li.qti-gapText').removeClass('active gap-text-tile-expanded');
+            gapTextTileLayout.syncAllGapTextTilesInList($gapList);
+        };
+
         minMaxComponentFactory($form.find('.min-max-panel'), {
             min: {
                 fieldName: 'minAssociations',
@@ -605,6 +615,12 @@ define([
             },
             lowerThreshold: 0,
             upperThreshold: 100
+        }).on('change', function () {
+            var minMaxComponent = this;
+            var $maxInput = minMaxComponent.getElement().find('[name="maxAssociations"]');
+
+            callbacks.minAssociations(interaction, minMaxComponent.getMinValue(), 'minAssociations');
+            callbacks.maxAssociations.call($maxInput[0], interaction, minMaxComponent.getMaxValue(), 'maxAssociations');
         });
 
         imageSelector($form, options);
@@ -612,16 +628,6 @@ define([
         formElement.initWidget($form);
 
         bgImage.setupImage(widget);
-
-        var callbacks = formElement.getMinMaxAttributeCallbacks('minAssociations', 'maxAssociations');
-        callbacks.position = function (interaction, value) {
-            const $gapList = $('ul.source', widget.$original);
-
-            applyPosition(value);
-            // Bay position changes available width; recalculate gapText tile sizes (see gapTextTileLayout.js).
-            $gapList.find('li.qti-gapText').removeClass('active gap-text-tile-expanded');
-            gapTextTileLayout.syncAllGapTextTilesInList($gapList);
-        };
 
         bgImage.setChangeCallbacks(widget, formElement, callbacks);
     };
