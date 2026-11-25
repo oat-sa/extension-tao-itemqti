@@ -166,6 +166,57 @@ define([
     });
 
     $.mockjax({
+        url: /mockItemFiniteMaxAssociationsEndpoint/,
+        status: 200,
+        response: function () {
+            var itemData = $.extend(true, {}, gapMatchJson);
+            var interaction = itemData.body.elements.interaction_gapmatchinteraction_547dd4d24d2d0146858817;
+
+            interaction.attributes.minAssociations = 3;
+            interaction.attributes.maxAssociations = 5;
+
+            this.responseText = {
+                itemIdentifier: 'item-1',
+                itemData: itemData
+            };
+        }
+    });
+
+    $.mockjax({
+        url: /mockGraphicGapMatchUnlimitedMaxAssociationsEndpoint/,
+        status: 200,
+        response: function () {
+            var itemData = $.extend(true, {}, graphicGapMatchJson);
+            var interaction = itemData.body.elements.interaction_graphicgapmatchinteraction_547dd6fb53c17021201802;
+
+            interaction.attributes.minAssociations = 3;
+            interaction.attributes.maxAssociations = 0;
+
+            this.responseText = {
+                itemIdentifier: 'item-1',
+                itemData: itemData
+            };
+        }
+    });
+
+    $.mockjax({
+        url: /mockGraphicGapMatchFiniteMaxAssociationsEndpoint/,
+        status: 200,
+        response: function () {
+            var itemData = $.extend(true, {}, graphicGapMatchJson);
+            var interaction = itemData.body.elements.interaction_graphicgapmatchinteraction_547dd6fb53c17021201802;
+
+            interaction.attributes.minAssociations = 3;
+            interaction.attributes.maxAssociations = 5;
+
+            this.responseText = {
+                itemIdentifier: 'item-1',
+                itemData: itemData
+            };
+        }
+    });
+
+    $.mockjax({
         url: /mockGraphicGapMatchInvalidPositionEndpoint/,
         status: 200,
         response: function () {
@@ -425,7 +476,51 @@ define([
             });
     });
 
-    QUnit.test('gap match question form keeps min when max associations is unlimited', function (assert) {
+    QUnit.test('gap match question form keeps min when max changes from finite to unlimited', function (assert) {
+        var done = assert.async();
+        var $container = $('#fixture-render');
+        var instance;
+
+        assert.expect(6);
+
+        instance = itemAuthoringFactory($container, {
+            properties: {
+                uri: 'http://item#rdf-123',
+                label: 'Item',
+                baseUrl: 'http://foo/bar',
+                itemDataUrl: '//mockItemFiniteMaxAssociationsEndpoint'
+            }
+        })
+            .on('ready', function () {
+                var $interaction = $('.qti-interaction[data-qti-class="gapMatchInteraction"]', $container);
+                var interaction = instance.getItemCreator().getItem().getInteractions()[0];
+
+                $interaction.click();
+
+                setTimeout(function () {
+                    var $propertyBar = $('#item-editor-interaction-property-bar');
+                    var $minAssociationsInput = $propertyBar.find('input[name="minAssociations"]');
+                    var $maxAssociationsInput = $propertyBar.find('input[name="maxAssociations"]');
+
+                    assert.strictEqual(interaction.attr('minAssociations'), 3, 'Interaction loads positive minAssociations');
+                    assert.strictEqual(interaction.attr('maxAssociations'), 5, 'Interaction loads finite maxAssociations');
+                    assert.strictEqual($minAssociationsInput.val(), '3', 'Min field shows the stored finite min');
+                    assert.strictEqual($maxAssociationsInput.val(), '5', 'Max field shows the stored finite max');
+
+                    $maxAssociationsInput.val('0').trigger('change');
+
+                    assert.strictEqual(interaction.attr('maxAssociations'), 0, 'Max becomes unlimited in the model');
+                    assert.strictEqual(interaction.attr('minAssociations'), 3, 'Min is not lowered when max becomes unlimited');
+
+                    instance.destroy();
+                }, 0);
+            })
+            .after('destroy', function () {
+                done();
+            });
+    });
+
+    QUnit.test('gap match question form allows min edits when max is unlimited', function (assert) {
         var done = assert.async();
         var $container = $('#fixture-render');
         var instance;
@@ -456,8 +551,98 @@ define([
                     assert.strictEqual($minAssociationsInput.val(), '3', 'Min field shows stored min when max is unlimited');
                     assert.strictEqual($maxAssociationsInput.val(), '0', 'Max field shows unlimited value');
 
+                    $minAssociationsInput.val('4').trigger('change');
+
+                    assert.strictEqual(interaction.attr('minAssociations'), 4, 'Min can increase while max stays unlimited');
+
+                    instance.destroy();
+                }, 0);
+            })
+            .after('destroy', function () {
+                done();
+            });
+    });
+
+    QUnit.test('graphic gap match question form keeps min when max changes from finite to unlimited', function (assert) {
+        var done = assert.async();
+        var $container = $('#fixture-render');
+        var instance;
+
+        assert.expect(6);
+
+        instance = itemAuthoringFactory($container, {
+            properties: {
+                uri: 'http://item#rdf-123',
+                label: 'Item',
+                baseUrl: 'http://foo/bar',
+                itemDataUrl: '//mockGraphicGapMatchFiniteMaxAssociationsEndpoint'
+            }
+        })
+            .on('ready', function () {
+                var $interaction = $('.qti-graphicGapMatchInteraction', $container);
+                var interaction = instance.getItemCreator().getItem().getInteractions()[0];
+
+                assert.strictEqual($interaction.length, 1, 'The graphic gap match interaction is rendered');
+                $interaction.click();
+
+                setTimeout(function () {
+                    var $propertyBar = $('#item-editor-interaction-property-bar');
+                    var $minAssociationsInput = $propertyBar.find('input[name="minAssociations"]');
+                    var $maxAssociationsInput = $propertyBar.find('input[name="maxAssociations"]');
+
+                    assert.strictEqual(
+                        $propertyBar.find('.min-max-panel').length,
+                        1,
+                        'The graphic gap match question form exposes Number of associations controls'
+                    );
+                    assert.strictEqual(interaction.attr('minAssociations'), 3, 'Graphic gap match loads positive minAssociations');
+                    assert.strictEqual(interaction.attr('maxAssociations'), 5, 'Graphic gap match loads finite maxAssociations');
+
                     $maxAssociationsInput.val('0').trigger('change');
-                    assert.strictEqual(interaction.attr('minAssociations'), 3, 'Setting max to unlimited does not lower min');
+
+                    assert.strictEqual(interaction.attr('maxAssociations'), 0, 'Graphic gap match max becomes unlimited');
+                    assert.strictEqual(interaction.attr('minAssociations'), 3, 'Graphic gap match min is preserved');
+
+                    instance.destroy();
+                }, 0);
+            })
+            .after('destroy', function () {
+                done();
+            });
+    });
+
+    QUnit.test('graphic gap match question form allows min edits when max is unlimited', function (assert) {
+        var done = assert.async();
+        var $container = $('#fixture-render');
+        var instance;
+
+        assert.expect(4);
+
+        instance = itemAuthoringFactory($container, {
+            properties: {
+                uri: 'http://item#rdf-123',
+                label: 'Item',
+                baseUrl: 'http://foo/bar',
+                itemDataUrl: '//mockGraphicGapMatchUnlimitedMaxAssociationsEndpoint'
+            }
+        })
+            .on('ready', function () {
+                var $interaction = $('.qti-graphicGapMatchInteraction', $container);
+                var interaction = instance.getItemCreator().getItem().getInteractions()[0];
+
+                $interaction.click();
+
+                setTimeout(function () {
+                    var $propertyBar = $('#item-editor-interaction-property-bar');
+                    var $minAssociationsInput = $propertyBar.find('input[name="minAssociations"]');
+
+                    assert.strictEqual(interaction.attr('minAssociations'), 3, 'Graphic gap match keeps positive min on form open');
+                    assert.strictEqual(interaction.attr('maxAssociations'), 0, 'Graphic gap match keeps unlimited max on form open');
+
+                    $minAssociationsInput.val('4').trigger('change');
+
+                    assert.strictEqual(interaction.attr('minAssociations'), 4, 'Graphic gap match min can increase with unlimited max');
+                    assert.strictEqual(interaction.attr('maxAssociations'), 0, 'Graphic gap match max stays unlimited');
 
                     instance.destroy();
                 }, 0);

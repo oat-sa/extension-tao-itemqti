@@ -588,11 +588,11 @@ define(['taoQtiItem/qtiCreator/widgets/component/minMax/minMax'], function(minMa
         });
     });
 
-    QUnit.test('sync values keeps min when max is unlimited', function(assert) {
+    QUnit.test('sync values keeps min when max is unlimited on init', function(assert) {
         var ready = assert.async();
         var container = document.getElementById('qunit-fixture');
 
-        assert.expect(6);
+        assert.expect(2);
 
         minMaxComponentFactory(container, {
             min: {
@@ -612,20 +612,74 @@ define(['taoQtiItem/qtiCreator/widgets/component/minMax/minMax'], function(minMa
             .on('render', function() {
                 assert.equal(this.getMinValue(), 3, 'min stays positive on init when max is unlimited');
                 assert.equal(this.getMaxValue(), 0, 'max stays at 0 on init');
+                ready();
+            });
+    });
+
+    QUnit.test('sync values keeps min when max changes from finite to unlimited', function(assert) {
+        var ready = assert.async();
+        var container = document.getElementById('qunit-fixture');
+
+        assert.expect(6);
+
+        minMaxComponentFactory(container, {
+            min: {
+                fieldName: 'minAssociations',
+                value: 3,
+                toggler: false
+            },
+            max: {
+                fieldName: 'maxAssociations',
+                value: 5,
+                toggler: false
+            },
+            syncValues: true,
+            lowerThreshold: 0,
+            upperThreshold: 100
+        })
+            .on('render', function() {
+                assert.equal(this.getMinValue(), 3, 'min starts at the stored finite-min value');
+                assert.equal(this.getMaxValue(), 5, 'max starts at the stored finite cap');
 
                 this.setMaxValue(0);
                 this.syncValues('max');
-                assert.equal(this.getMinValue(), 3, 'min is not lowered when max is set to unlimited');
+                assert.equal(this.getMinValue(), 3, 'min is preserved when max becomes unlimited');
+                assert.equal(this.getMaxValue(), 0, 'max becomes unlimited');
 
                 this.setMinValue(4);
                 this.syncValues('min');
-                assert.equal(this.getMinValue(), 4, 'min can be increased above unlimited max');
-                assert.equal(this.getMaxValue(), 0, 'max stays unlimited when min increases');
+                assert.equal(this.getMinValue(), 4, 'min can change while max stays unlimited');
+                assert.equal(this.getMaxValue(), 0, 'max remains unlimited after min changes');
+                ready();
+            });
+    });
 
+    QUnit.test('sync values still reconciles min when max becomes a finite cap', function(assert) {
+        var ready = assert.async();
+        var container = document.getElementById('qunit-fixture');
+
+        assert.expect(2);
+
+        minMaxComponentFactory(container, {
+            min: {
+                fieldName: 'minAssociations',
+                value: 3,
+                toggler: false
+            },
+            max: {
+                fieldName: 'maxAssociations',
+                value: 0,
+                toggler: false
+            },
+            syncValues: true,
+            lowerThreshold: 0,
+            upperThreshold: 100
+        })
+            .on('render', function() {
                 this.setMaxValue(2);
                 this.syncValues('max');
                 assert.equal(this.getMinValue(), 2, 'min is adjusted when max becomes a finite cap');
-
+                assert.equal(this.getMaxValue(), 2, 'max is stored as the new finite cap');
                 ready();
             });
     });
