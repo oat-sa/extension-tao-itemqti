@@ -45,6 +45,33 @@ define([
         });
     }
 
+    /**
+     * minMax association fields render in _.defer; wait before driving the property form.
+     *
+     * @param {jQuery} $propertyBar
+     * @param {Function} cb
+     */
+    function whenAssociationMinMaxInputsReady($propertyBar, cb) {
+        var attempts = 0;
+
+        (function poll() {
+            var $maxInput = $propertyBar.find('.min-max input[name="maxAssociations"]');
+
+            if ($maxInput.length) {
+                cb($propertyBar);
+                return;
+            }
+
+            attempts += 1;
+            if (attempts > 50) {
+                cb($propertyBar);
+                return;
+            }
+
+            setTimeout(poll, 20);
+        })();
+    }
+
     function assertPromptReadyInQuestionState(assert, $interaction, $promptContainer, $prompt) {
         var $widget = $interaction.closest('.widget-box');
         var $editable;
@@ -568,7 +595,7 @@ define([
         var $container = $('#fixture-render');
         var instance;
 
-        assert.expect(6);
+        assert.expect(7);
 
         instance = itemAuthoringFactory($container, {
             properties: {
@@ -585,8 +612,7 @@ define([
                 assert.strictEqual($interaction.length, 1, 'The graphic gap match interaction is rendered');
                 $interaction.click();
 
-                setTimeout(function () {
-                    var $propertyBar = $('#item-editor-interaction-property-bar');
+                whenAssociationMinMaxInputsReady($('#item-editor-interaction-property-bar'), function ($propertyBar) {
                     var $minAssociationsInput = $propertyBar.find('input[name="minAssociations"]');
                     var $maxAssociationsInput = $propertyBar.find('input[name="maxAssociations"]');
 
@@ -597,6 +623,7 @@ define([
                     );
                     assert.strictEqual(interaction.attr('minAssociations'), 3, 'Graphic gap match loads positive minAssociations');
                     assert.strictEqual(interaction.attr('maxAssociations'), 5, 'Graphic gap match loads finite maxAssociations');
+                    assert.strictEqual($maxAssociationsInput.val(), '5', 'Max field shows the stored finite max');
 
                     $maxAssociationsInput.val('0').trigger('change');
 
@@ -604,7 +631,7 @@ define([
                     assert.strictEqual(interaction.attr('minAssociations'), 3, 'Graphic gap match min is preserved');
 
                     instance.destroy();
-                }, 0);
+                });
             })
             .after('destroy', function () {
                 done();
@@ -616,7 +643,7 @@ define([
         var $container = $('#fixture-render');
         var instance;
 
-        assert.expect(4);
+        assert.expect(5);
 
         instance = itemAuthoringFactory($container, {
             properties: {
@@ -632,12 +659,13 @@ define([
 
                 $interaction.click();
 
-                setTimeout(function () {
-                    var $propertyBar = $('#item-editor-interaction-property-bar');
+                whenAssociationMinMaxInputsReady($('#item-editor-interaction-property-bar'), function ($propertyBar) {
                     var $minAssociationsInput = $propertyBar.find('input[name="minAssociations"]');
+                    var $maxAssociationsInput = $propertyBar.find('input[name="maxAssociations"]');
 
                     assert.strictEqual(interaction.attr('minAssociations'), 3, 'Graphic gap match keeps positive min on form open');
                     assert.strictEqual(interaction.attr('maxAssociations'), 0, 'Graphic gap match keeps unlimited max on form open');
+                    assert.strictEqual($maxAssociationsInput.val(), '0', 'Max field shows unlimited value');
 
                     $minAssociationsInput.val('4').trigger('change');
 
@@ -645,7 +673,7 @@ define([
                     assert.strictEqual(interaction.attr('maxAssociations'), 0, 'Graphic gap match max stays unlimited');
 
                     instance.destroy();
-                }, 0);
+                });
             })
             .after('destroy', function () {
                 done();
