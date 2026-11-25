@@ -40,6 +40,7 @@ use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementException;
 use oat\taoQtiItem\model\portableElement\exception\PortableElementInvalidModelException;
 use oat\taoQtiItem\model\qti\asset\AssetManager;
+use oat\taoQtiItem\model\qti\asset\handler\CssAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\LocalAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\PortableAssetHandler;
 use oat\taoQtiItem\model\qti\asset\handler\SharedStimulusAssetHandler;
@@ -667,6 +668,12 @@ class ImportService extends ConfigurableService
                         ->setSharedFiles($sharedFiles)
                         ->setTargetClassPath($mediaClassPath);
                     $itemAssetManager->loadAssetHandler($sharedStimulusHandler);
+
+                    $cssHandler = new CssAssetHandler();
+                    $cssHandler->setServiceLocator($this->getServiceLocator());
+                    $cssHandler->setQtiModel($qtiModel);
+                    $cssHandler->setTargetClassPath($mediaClassPath);
+                    $itemAssetManager->loadAssetHandler($cssHandler);
                 } else {
                     $handler = new StimulusHandler();
                     $handler->setQtiItem($qtiModel);

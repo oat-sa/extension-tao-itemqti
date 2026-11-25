@@ -26,11 +26,12 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'uri',
     'util/urlParser',
     'core/promise',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/cssToggler',
     'jquery.fileDownload'
-], function ($, _, __, UrlParser, Promise, cssTpl) {
+], function ($, _, __, uri, UrlParser, Promise, cssTpl) {
     'use strict';
 
     let itemRequestConfig;
@@ -59,6 +60,15 @@ define([
      */
     const _basename = function (path) {
         return path.substring(path.lastIndexOf('/') + 1);
+    };
+
+    const MEDIA_MANAGER_PREFIX = 'taomedia://mediamanager/';
+    const LIBRARY_LABEL_LENGTH = 12;
+
+    const _shortLibraryLabel = function (href) {
+        const identifier = uri.decode(String(href).slice(MEDIA_MANAGER_PREFIX.length));
+
+        return identifier.slice(-LIBRARY_LABEL_LENGTH);
     };
 
     // stylesheet as object
@@ -245,8 +255,9 @@ define([
      * Add a single stylesheet, the custom stylesheet will be loaded as object
      *
      * @param {String | Object} stylesheet
+     * @param {String} [label]
      */
-    const addStylesheet = function (stylesheet) {
+    const addStylesheet = function (stylesheet, label) {
         let listEntry, fileName;
         const loadStylesheet = function (link, stylesheetLoad, isLocal, isValid) {
             // in the given scenario we cannot test whether a remote stylesheet really exists
@@ -254,7 +265,10 @@ define([
             const isInvalidLocal = isLocal && !isValid,
                 tplData = {
                     path: stylesheetLoad.attr('href'),
-                    label: stylesheetLoad.attr('title') || fileName,
+                    label:
+                        itemRequestConfig.stylesheetLabels[stylesheetLoad.attr('href')] ||
+                        stylesheetLoad.attr('title') ||
+                        fileName,
                     title: common.title,
                     deleteTxt: common.deleteTxt,
                     downloadTxt: common.downloadTxt,
@@ -304,9 +318,16 @@ define([
         // argument is uri
         if (_.isString(stylesheet)) {
             stylesheet = currentItem.createStyleSheet(stylesheet);
+
+            if (_.isString(label) && label !== '') {
+                stylesheet.attr('title', label);
+            }
         }
 
-        fileName = _basename(stylesheet.attr('href'));
+        const href = stylesheet.attr('href');
+        fileName = String(href).indexOf(MEDIA_MANAGER_PREFIX) === 0
+            ? _shortLibraryLabel(href)
+            : _basename(href);
         // link with cache buster
         const link = (function () {
             const _link = $(stylesheet.render()),
@@ -406,7 +427,8 @@ define([
         itemRequestConfig = {
             uri: config.uri,
             lang: config.lang,
-            baseUrl: config.baseUrl
+            baseUrl: config.baseUrl,
+            stylesheetLabels: (config && config.stylesheetLabels) || {}
         };
 
         removeOrphanedStylesheets();

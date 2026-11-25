@@ -97,6 +97,8 @@ define([
                                 loadedItem.data('languagesList', languagesList);
                             }
 
+                            loadedItem.stylesheetLabels = data.stylesheetLabels || {};
+
                             const { responseProcessing: { processingType } = {} } = loadedItem;
                             if (!config.perInteractionRp && processingType === 'templateDriven') {
                                 const { responses = {}, responseProcessing: { data, responseRules = [] } = {} } =

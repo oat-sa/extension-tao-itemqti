@@ -36,6 +36,20 @@ define([
     var normalizeMime = function (mime) {
         return String(mime || '').split(';')[0].trim().toLowerCase();
     };
+    var getFileLabel = function (e, file) {
+        if (file && typeof file.label === 'string' && file.label.trim()) {
+            return file.label.trim();
+        }
+        if (file && typeof file.name === 'string' && file.name.trim()) {
+            return file.name.trim();
+        }
+
+        return $(e.target)
+            .closest('tr')
+            .find('.files-label .desc')
+            .text()
+            .trim();
+    };
 
     var styleSheetToggler = (function () {
         var init = function (itemConfig) {
@@ -56,6 +70,19 @@ define([
                 }, 4000);
 
                 return $messageBox;
+            };
+
+            const getAssetName = function (label) {
+                return String(label || '')
+                    .split(/[\\/]/)
+                    .pop()
+                    .trim();
+            };
+
+            const getPathPrefix = function (label) {
+                const value = String(label || '');
+                const index = Math.max(value.lastIndexOf('/'), value.lastIndexOf('\\'));
+                return index === -1 ? '' : value.slice(0, index + 1);
             };
 
             var cssToggler = $('#style-sheet-toggler'),
@@ -104,6 +131,9 @@ define([
                     pathParam: 'path',
                     select(e, files) {
                         const l = files.length;
+                        const items = [];
+                        const assetUris = [];
+
                         for (let i = 0; i < l; i++) {
                             if (normalizeMime(files[i].mime) !== 'text/css') {
                                 _createInfoBox({
@@ -112,8 +142,51 @@ define([
                                 });
                                 continue;
                             }
-                            styleEditor.addStylesheet(files[i].file);
+
+                            const source = files[i].file;
+                            const item = {
+                                source,
+                                pickerLabel: getFileLabel(e, files[i])
+                            };
+
+                            if (typeof source === 'string' && source.startsWith(MEDIA_MANAGER_PREFIX)) {
+                                item.assetUri = uri.decode(source.slice(MEDIA_MANAGER_PREFIX.length));
+                                assetUris.push(item.assetUri);
+                            }
+
+                            items.push(item);
                         }
+
+                        const attachAll = displayNames => {
+                            items.forEach(item => {
+                                const name = item.assetUri
+                                    ? displayNames[item.assetUri] || item.pickerLabel
+                                    : item.pickerLabel;
+
+                                styleEditor.addStylesheet(item.source, name);
+                            });
+                        };
+
+                        if (!assetUris.length) {
+                            attachAll({});
+                            return;
+                        }
+
+                        // the creator can switch items while this request is in flight; never attach to another one
+                        const selectedForItem = itemConfig.uri;
+                        const isSameItem = () => itemConfig.uri === selectedForItem;
+                        const attachIfSameItem = displayNames => {
+                            if (isSameItem()) {
+                                attachAll(displayNames);
+                            }
+                        };
+
+                        $.getJSON(
+                            urlUtil.route('getAssetDisplayNames', 'QtiCreator', 'taoQtiItem'),
+                            { uris: assetUris }
+                        )
+                            .done(response => attachIfSameItem(response || {}))
+                            .fail(() => attachIfSameItem({}));
                     },
                     hooks: {
                         deleteFile(file) {
@@ -149,7 +222,15 @@ define([
                                                     resolve();
                                                 }
                                             })
-                                            .fail(() => resolve());
+                                            .fail(() => {
+                                                confirmDialog(
+                                                    __(
+                                                        'This stylesheet cannot be deleted right now: its usage cannot be verified. Nothing was deleted, please try again.'
+                                                    ),
+                                                    () => reject(),
+                                                    () => reject()
+                                                );
+                                            });
                                     });
                                 }
 
@@ -228,6 +309,11 @@ define([
              */
             const initLabelEditor = function (trigger) {
                 var context = getContext(trigger);
+
+                if (String(context.cssUri || '').indexOf(MEDIA_MANAGER_PREFIX) === 0) {
+                    context.input.val(getAssetName(context.labelBox.text()));
+                }
+
                 context.labelBox.hide();
                 context.input.show();
             };
@@ -245,10 +331,11 @@ define([
                     const assetUri = uri.decode(cssUri.substring(MEDIA_MANAGER_PREFIX.length));
                     const route = urlUtil.route('getFile', 'MediaManager', 'taoMediaManager', { uri: assetUri });
                     const label = String(context.label || '').trim();
-                    const fileName = label
-                        ? /\.css$/i.test(label)
-                            ? label
-                            : `${label}.css`
+                    const baseName = label.split(/[\\/]/).pop().trim();
+                    const fileName = baseName
+                        ? /\.css$/i.test(baseName)
+                            ? baseName
+                            : `${baseName}.css`
                         : 'stylesheet.css';
 
                     fetch(route, { credentials: 'same-origin' })
@@ -286,8 +373,116 @@ define([
              * @returns {Boolean}
              */
             const saveLabel = function (trigger) {
-                var context = getContext(trigger),
-                    title = $.trim(context.input.val());
+                const context = getContext(trigger);
+                const cssUri = String(context.cssUri || '');
+                const title = $.trim(context.input.val());
+
+                if (cssUri.indexOf(MEDIA_MANAGER_PREFIX) === 0) {
+                    const assetUri = uri.decode(cssUri.slice(MEDIA_MANAGER_PREFIX.length));
+                    const displayLabel = $.trim(context.labelBox.text());
+                    const currentLabel = getAssetName(displayLabel);
+                    const nextLabel = $.trim(context.input.val());
+
+                    const restoreInput = function () {
+                        context.input.val(currentLabel);
+                        context.input.hide();
+                        context.labelBox.show();
+                    };
+
+                    if (!nextLabel) {
+                        _createInfoBox({
+                            message: __('The name cannot be empty.'),
+                            type: 'error'
+                        });
+                        restoreInput();
+                        return false;
+                    }
+
+                    if (nextLabel.indexOf('/') !== -1 || nextLabel.indexOf('\\') !== -1) {
+                        _createInfoBox({
+                            message: __('The name cannot contain a slash: the folder is not part of the name.'),
+                            type: 'error'
+                        });
+                        restoreInput();
+                        return false;
+                    }
+
+                    if (nextLabel === currentLabel) {
+                        context.input.val(displayLabel);
+                        context.input.hide();
+                        context.labelBox.show();
+                        return true;
+                    }
+
+                    const rename = function () {
+                        $.ajax({
+                            url: urlUtil.route('renameAsset', 'MediaManager', 'taoMediaManager'),
+                            type: 'POST',
+                            dataType: 'json',
+                            data: { uri: assetUri, label: nextLabel }
+                        })
+                            .done(response => {
+                                if (response && response.success) {
+                                    const stored = String(response.label || nextLabel);
+                                    const display = getPathPrefix(displayLabel) + stored;
+                                    context.input.val(display);
+                                    context.labelBox.text(display);
+                                    context.input.hide();
+                                    context.labelBox.show();
+                                } else {
+                                    _createInfoBox({
+                                        message:
+                                            response && response.message
+                                                ? response.message
+                                                : __(
+                                                      'The stylesheet could not be renamed, please try again.'
+                                                  ),
+                                        type: 'error'
+                                    });
+                                    restoreInput();
+                                }
+                            })
+                            .fail(() => {
+                                _createInfoBox({
+                                    message: __('The stylesheet could not be renamed, please try again.'),
+                                    type: 'error'
+                                });
+                                restoreInput();
+                            });
+                    };
+
+                    $.getJSON(urlUtil.route('index', 'ResourceRelations', 'tao'), {
+                        type: 'media',
+                        sourceId: assetUri
+                    })
+                        .done(response => {
+                            const relations = response && response.data && response.data.relations;
+                            const count = relations ? relations.length : 0;
+
+                            if (count > 0) {
+                                confirmDialog(
+                                    __(
+                                        'This stylesheet is used in %s item(s). Renaming it changes the name everywhere it is used. Continue?'
+                                    ).replace('%s', count),
+                                    rename,
+                                    restoreInput
+                                );
+                            } else {
+                                rename();
+                            }
+                        })
+                        .fail(() => {
+                            _createInfoBox({
+                                message: __(
+                                    'The stylesheet cannot be renamed right now: its usage cannot be verified. Nothing was changed, please try again.'
+                                ),
+                                type: 'error'
+                            });
+                            restoreInput();
+                        });
+
+                    return false;
+                }
 
                 if (!title) {
                     context.stylesheetObj.attr('title', '');
@@ -317,8 +512,10 @@ define([
                     }
                 } else {
                     // all other styles are handled via their link element
+                    const isLibrary = String(context.cssUri).indexOf(MEDIA_MANAGER_PREFIX) === 0;
+                    const matchValue = isLibrary ? context.cssUri : context.label;
                     const linkDom = Object.values(document.styleSheets).find(
-                        sheet => typeof sheet.href === 'string' && sheet.href.includes(context.label)
+                        sheet => typeof sheet.href === 'string' && sheet.href.includes(matchValue)
                     );
                     if (context.isDisabled) {
                         linkDom.disabled = false;

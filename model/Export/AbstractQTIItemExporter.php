@@ -162,7 +162,7 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
                     $baseName = ($mediaSource instanceof LocalItemSource)
                         ? $link
-                        : $this->getUniqueAssetDirectoryByLink($mediaSource, $link);
+                        : $this->getUniqueAssetDirectoryByLink($mediaSource, $link, $replacementList);
 
                     $replacement = $this->copyAssetFile($stream, $basePath, $baseName, $replacementList);
                     if (!$this->isStyleSheetAsset($mediaSource, $link)) {
@@ -385,11 +385,39 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         }
     }
 
-    private function getUniqueAssetDirectoryByLink(MediaBrowser $mediaSource, string $link): string
+    private function getUniqueAssetDirectoryByLink(
+        MediaBrowser $mediaSource,
+        string $link,
+        array $usedPaths = []
+    ): string {
+        $fileInfo = $mediaSource->getFileInfo($link);
+        $identifierName = self::ASSETS_DIRECTORY_NAME . DIRECTORY_SEPARATOR . $fileInfo['link'];
+
+        if (!$this->isStyleSheetInfo($fileInfo, $link)) {
+            return $identifierName;
+        }
+
+        $label = $this->sanitizeAssetLabel((string) ($fileInfo['name'] ?? ''));
+
+        if ($label === '') {
+            return $identifierName;
+        }
+
+        if (strtolower(substr($label, -4)) !== '.css') {
+            $label .= '.css';
+        }
+
+        $packagedName = self::ASSETS_DIRECTORY_NAME . DIRECTORY_SEPARATOR . $label;
+
+        return in_array($packagedName, $usedPaths, true) ? $identifierName : $packagedName;
+    }
+
+    private function sanitizeAssetLabel(string $label): string
     {
-        return self::ASSETS_DIRECTORY_NAME
-            . DIRECTORY_SEPARATOR
-            . $mediaSource->getFileInfo($link)['link'];
+        $label = basename(str_replace('\\', '/', trim($label)));
+        $label = preg_replace('/[^A-Za-z0-9._-]+/', '-', $label);
+
+        return is_string($label) ? $label : '';
     }
 
     private function isStyleSheetAsset(MediaBrowser $mediaSource, string $link): bool
@@ -400,6 +428,11 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
             return false;
         }
 
+        return $this->isStyleSheetInfo($fileInfo, $link);
+    }
+
+    private function isStyleSheetInfo(array $fileInfo, string $link): bool
+    {
         $mime = strtolower(trim(explode(';', (string) ($fileInfo['mime'] ?? ''))[0]));
 
         if ($mime === 'text/css') {
