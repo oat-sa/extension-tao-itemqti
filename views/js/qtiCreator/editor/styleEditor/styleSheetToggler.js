@@ -435,6 +435,9 @@ define([
                                     context.input.hide();
                                     context.labelBox.show();
                                     context.li.removeAttr('data-unnamed');
+                                    if (itemConfig.properties && itemConfig.properties.stylesheetLabels) {
+                                        itemConfig.properties.stylesheetLabels[context.cssUri] = display;
+                                    }
                                 } else {
                                     _createInfoBox({
                                         message:
@@ -448,9 +451,16 @@ define([
                                     restoreInput();
                                 }
                             })
-                            .fail(() => {
+                            .fail(xhr => {
+                                const serverMessage =
+                                    xhr && xhr.responseJSON && xhr.responseJSON.message
+                                        ? xhr.responseJSON.message
+                                        : null;
+
                                 _createInfoBox({
-                                    message: __('The stylesheet could not be renamed, please try again.'),
+                                    message:
+                                        serverMessage ||
+                                        __('The stylesheet could not be renamed, please try again.'),
                                     type: 'error'
                                 });
                                 restoreInput();

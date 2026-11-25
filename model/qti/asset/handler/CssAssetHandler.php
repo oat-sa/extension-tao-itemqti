@@ -40,7 +40,6 @@ class CssAssetHandler implements AssetHandler
     use OntologyAwareTrait;
     use ServiceLocatorAwareTrait;
 
-    private const CANDIDATE_LIMIT = 20;
     private const MIME_TYPE = 'text/css';
 
     /** @var MediaManagement */
@@ -210,7 +209,6 @@ class CssAssetHandler implements AssetHandler
             self::MIME_TYPE
         );
         $queryBuilder->setCriteria($criteria);
-        $queryBuilder->setLimit(self::CANDIDATE_LIMIT);
 
         $result = $complexSearch->getGateway()->search($queryBuilder);
 

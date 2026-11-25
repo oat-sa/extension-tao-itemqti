@@ -22,6 +22,23 @@ class QtiCreatorStyleSheetGuardTest extends TestCase
 {
     use ServiceManagerMockTrait;
 
+    /** @var ServiceManager */
+    private $originalServiceManager;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->originalServiceManager = ServiceManager::getServiceManager();
+    }
+
+    protected function tearDown(): void
+    {
+        ServiceManager::setServiceManager($this->originalServiceManager);
+
+        parent::tearDown();
+    }
+
     /**
      * @dataProvider nonLibraryStylesheetProvider
      */
