@@ -68,6 +68,10 @@ class CssAssetHandlerTest extends TestCase
     {
         parent::setUp();
 
+        if (!interface_exists(TaoMediaOntology::class)) {
+            $this->markTestSkipped('The media manager extension is not installed.');
+        }
+
         $this->originalServiceManager = ServiceManager::getServiceManager();
         $this->mediaSource = $this->createMock(MediaManagement::class);
         $this->search = $this->createMock(ComplexSearchService::class);
