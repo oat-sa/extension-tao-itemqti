@@ -172,9 +172,9 @@ define([
                             return;
                         }
 
-                        // the creator can switch items while this request is in flight; never attach to another one
-                        const selectedForItem = itemConfig.uri;
-                        const isSameItem = () => itemConfig.uri === selectedForItem;
+                        // the editor can be re-initialised for another item while this request is in flight
+                        const selectedItem = styleEditor.getItem();
+                        const isSameItem = () => styleEditor.getItem() === selectedItem;
                         const attachIfSameItem = displayNames => {
                             if (isSameItem()) {
                                 attachAll(displayNames);
