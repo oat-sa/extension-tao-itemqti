@@ -24,7 +24,15 @@ define(['taoQtiItem/qtiCreator/widgets/Widget'], function(Widget){
 
         //follow interaction state change
         this.beforeStateInit(function(e, element, state){
-            
+            const currentState = _this.getCurrentState();
+
+            if(element.is('interaction')
+                && element.getSerial() === _this.interaction.getSerial()
+                && currentState
+                && currentState.name === 'deleting'){
+                return;
+            }
+
             if(element.is('interaction')
                 && element.getSerial() === _this.interaction.getSerial()
                 && state.name !== _this.getCurrentState().name){
@@ -44,6 +52,12 @@ define(['taoQtiItem/qtiCreator/widgets/Widget'], function(Widget){
         });
         
         this.beforeStateExit(function(e, element, state){
+            const currentState = _this.getCurrentState();
+
+            if(currentState && currentState.name === 'deleting'){
+                return;
+            }
+
             if(element.is('interaction')
                 && element.getSerial() === _this.interaction.getSerial()
                 && state.name === 'choice'){
