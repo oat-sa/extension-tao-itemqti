@@ -600,6 +600,12 @@ define([
             gapTextTileLayout.syncAllGapTextTilesInList($gapList);
         };
 
+        imageSelector($form, options);
+
+        formElement.initWidget($form);
+
+        bgImage.setupImage(widget);
+
         minMaxComponentFactory($form.find('.min-max-panel'), {
             min: {
                 fieldName: 'minAssociations',
@@ -615,21 +621,10 @@ define([
             },
             lowerThreshold: 0,
             upperThreshold: 100
-        }).on('change', function () {
-            var minMaxComponent = this;
-            var $maxInput = minMaxComponent.getElement().find('[name="maxAssociations"]');
-
-            callbacks.minAssociations(interaction, minMaxComponent.getMinValue(), 'minAssociations');
-            callbacks.maxAssociations.call($maxInput[0], interaction, minMaxComponent.getMaxValue(), 'maxAssociations');
+        }).on('render', function () {
+            // minMax renders in _.defer; bind form callbacks once association fields exist (gap match order).
+            bgImage.setChangeCallbacks(widget, formElement, callbacks);
         });
-
-        imageSelector($form, options);
-
-        formElement.initWidget($form);
-
-        bgImage.setupImage(widget);
-
-        bgImage.setChangeCallbacks(widget, formElement, callbacks);
     };
 
     return GraphicGapMatchInteractionStateQuestion;
