@@ -311,7 +311,9 @@ define([
                 var context = getContext(trigger);
 
                 if (String(context.cssUri || '').indexOf(MEDIA_MANAGER_PREFIX) === 0) {
-                    context.input.val(getAssetName(context.labelBox.text()));
+                    context.input.val(
+                        context.li.attr('data-unnamed') === 'true' ? '' : getAssetName(context.labelBox.text())
+                    );
                 }
 
                 context.labelBox.hide();
@@ -332,11 +334,14 @@ define([
                     const route = urlUtil.route('getFile', 'MediaManager', 'taoMediaManager', { uri: assetUri });
                     const label = String(context.label || '').trim();
                     const baseName = label.split(/[\\/]/).pop().trim();
-                    const fileName = baseName
-                        ? /\.css$/i.test(baseName)
-                            ? baseName
-                            : `${baseName}.css`
-                        : 'stylesheet.css';
+                    const fileName =
+                        context.li.attr('data-unnamed') === 'true'
+                            ? 'stylesheet.css'
+                            : baseName
+                              ? /\.css$/i.test(baseName)
+                                  ? baseName
+                                  : `${baseName}.css`
+                              : 'stylesheet.css';
 
                     fetch(route, { credentials: 'same-origin' })
                         .then(response => {
@@ -429,6 +434,7 @@ define([
                                     context.labelBox.text(display);
                                     context.input.hide();
                                     context.labelBox.show();
+                                    context.li.removeAttr('data-unnamed');
                                 } else {
                                     _createInfoBox({
                                         message:

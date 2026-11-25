@@ -26,12 +26,11 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'uri',
     'util/urlParser',
     'core/promise',
     'tpl!taoQtiItem/qtiCreator/tpl/toolbars/cssToggler',
     'jquery.fileDownload'
-], function ($, _, __, uri, UrlParser, Promise, cssTpl) {
+], function ($, _, __, UrlParser, Promise, cssTpl) {
     'use strict';
 
     let itemRequestConfig;
@@ -63,13 +62,6 @@ define([
     };
 
     const MEDIA_MANAGER_PREFIX = 'taomedia://mediamanager/';
-    const LIBRARY_LABEL_LENGTH = 12;
-
-    const _shortLibraryLabel = function (href) {
-        const identifier = uri.decode(String(href).slice(MEDIA_MANAGER_PREFIX.length));
-
-        return identifier.slice(-LIBRARY_LABEL_LENGTH);
-    };
 
     // stylesheet as object
     let style = {};
@@ -258,17 +250,14 @@ define([
      * @param {String} [label]
      */
     const addStylesheet = function (stylesheet, label) {
-        let listEntry, fileName;
+        let listEntry, fileName, knownLabel, isUnnamed;
         const loadStylesheet = function (link, stylesheetLoad, isLocal, isValid) {
             // in the given scenario we cannot test whether a remote stylesheet really exists
             // this would require to pipe all remote css via php curl
             const isInvalidLocal = isLocal && !isValid,
                 tplData = {
                     path: stylesheetLoad.attr('href'),
-                    label:
-                        itemRequestConfig.stylesheetLabels[stylesheetLoad.attr('href')] ||
-                        stylesheetLoad.attr('title') ||
-                        fileName,
+                    label: knownLabel || __('Unnamed stylesheet'),
                     title: common.title,
                     deleteTxt: common.deleteTxt,
                     downloadTxt: common.downloadTxt,
@@ -277,6 +266,11 @@ define([
 
             // create list entry
             listEntry = $(cssTpl(tplData));
+
+            // keep the placeholder out of the rename flow by flagging the row
+            if (isUnnamed) {
+                listEntry.attr('data-unnamed', 'true');
+            }
 
             listEntry.data('stylesheetObj', stylesheetLoad);
 
@@ -324,10 +318,12 @@ define([
             }
         }
 
-        const href = stylesheet.attr('href');
-        fileName = String(href).indexOf(MEDIA_MANAGER_PREFIX) === 0
-            ? _shortLibraryLabel(href)
-            : _basename(href);
+        const href = String(stylesheet.attr('href') || '');
+        const isLibrary = href.indexOf(MEDIA_MANAGER_PREFIX) === 0;
+        // local stylesheets still carry their file name in the href, library ones carry only a resource uri
+        fileName = isLibrary ? '' : _basename(href);
+        knownLabel = itemRequestConfig.stylesheetLabels[href] || stylesheet.attr('title') || fileName;
+        isUnnamed = !knownLabel && isLibrary;
         // link with cache buster
         const link = (function () {
             const _link = $(stylesheet.render()),
