@@ -418,8 +418,12 @@ define([
 
                     const minValue = this.getMinValue();
                     const maxValue = this.getMaxValue();
+                    const maxIsUnlimited =
+                        maxValue === 0 &&
+                        ((config.max.toggler !== true && this.getLowerThreshold(fields.max) === 0) ||
+                            (config.max.toggler === true && !this.isFieldEnabled(fields.max)));
 
-                    if (minValue > 0 && maxValue >= 0) {
+                    if (minValue > 0 && maxValue >= 0 && !maxIsUnlimited) {
                         if (fromField === fields.max && minValue > maxValue) {
                             _.isNumber(maxValue) && this.isFieldEnabled('min') && this.setMinValue(maxValue);
                         }
