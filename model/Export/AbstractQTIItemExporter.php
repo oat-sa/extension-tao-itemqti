@@ -162,10 +162,12 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
 
                     $baseName = ($mediaSource instanceof LocalItemSource)
                         ? $link
-                        : $this->getUniqueAssetDirectoryByLink($mediaSource, $link);
+                        : $this->getUniqueAssetDirectoryByLink($mediaSource, $link, $replacementList);
 
                     $replacement = $this->copyAssetFile($stream, $basePath, $baseName, $replacementList);
-                    $this->addAssetStylesheetToZip($link, dirname($baseName), $basePath);
+                    if (!$this->isStyleSheetAsset($mediaSource, $link)) {
+                        $this->addAssetStylesheetToZip($link, dirname($baseName), $basePath);
+                    }
                     $replacementList[$assetUrl] = $replacement;
                 }
             } catch (tao_models_classes_FileNotFoundException $e) {
@@ -383,11 +385,67 @@ abstract class AbstractQTIItemExporter extends taoItems_models_classes_ItemExpor
         }
     }
 
-    private function getUniqueAssetDirectoryByLink(MediaBrowser $mediaSource, string $link): string
+    private function getUniqueAssetDirectoryByLink(
+        MediaBrowser $mediaSource,
+        string $link,
+        array $usedPaths = []
+    ): string {
+        $fileInfo = $mediaSource->getFileInfo($link);
+        $identifierName = self::ASSETS_DIRECTORY_NAME . DIRECTORY_SEPARATOR . $fileInfo['link'];
+
+        if (!$this->isStyleSheetInfo($fileInfo, $link)) {
+            return $identifierName;
+        }
+
+        $label = $this->sanitizeAssetLabel((string) ($fileInfo['name'] ?? ''));
+
+        if ($label === '') {
+            return $identifierName;
+        }
+
+        if (strtolower(substr($label, -4)) !== '.css') {
+            $label .= '.css';
+        }
+
+        $packagedName = self::ASSETS_DIRECTORY_NAME . DIRECTORY_SEPARATOR . $label;
+
+        return in_array($packagedName, $usedPaths, true) ? $identifierName : $packagedName;
+    }
+
+    private function sanitizeAssetLabel(string $label): string
     {
-        return self::ASSETS_DIRECTORY_NAME
-            . DIRECTORY_SEPARATOR
-            . $mediaSource->getFileInfo($link)['link'];
+        $label = basename(str_replace('\\', '/', trim($label)));
+        $label = preg_replace('/[^A-Za-z0-9._-]+/', '-', $label);
+
+        return is_string($label) ? $label : '';
+    }
+
+    private function isStyleSheetAsset(MediaBrowser $mediaSource, string $link): bool
+    {
+        try {
+            $fileInfo = $mediaSource->getFileInfo($link);
+        } catch (\Throwable $exception) {
+            return false;
+        }
+
+        return $this->isStyleSheetInfo($fileInfo, $link);
+    }
+
+    private function isStyleSheetInfo(array $fileInfo, string $link): bool
+    {
+        $mime = strtolower(trim(explode(';', (string) ($fileInfo['mime'] ?? ''))[0]));
+
+        if ($mime === 'text/css') {
+            return true;
+        }
+
+        if ($mime !== '') {
+            return false;
+        }
+
+        $assetLink = (string) ($fileInfo['link'] ?? $fileInfo['filePath'] ?? $link);
+
+        return strtolower(substr($assetLink, -4)) === '.css';
     }
 
     private function buildAssetStylesheetPath(string $basepath, string $baseDirectoryName, string $fileName): string

@@ -30,6 +30,7 @@ use oat\taoQtiItem\model\qti\Img;
 use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\parser\ElementReferencesExtractor;
 use oat\taoQtiItem\model\qti\QtiObject;
+use oat\taoQtiItem\model\qti\Stylesheet;
 use oat\taoQtiItem\model\qti\XInclude;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\test\TestCase;
@@ -80,18 +81,20 @@ class UpdatedItemEventDispatcherTest extends TestCase
                         'includeElementReferences' => $ids,
                         'objectElementReferences' => $ids,
                         'imgElementReferences' => $ids,
+                        'stylesheetElementReferences' => [4],
                         'textReaderElementReferences' => [],
                     ]
                 )
             );
 
         $this->referencesExtractor
-            ->expects($this->exactly(3))
+            ->expects($this->exactly(4))
             ->method('extract')
             ->willReturnMap([
                 [$item, XInclude::class, 'href', $ids],
                 [$item, QtiObject::class, 'data', $ids],
                 [$item, Img::class, 'src', $ids],
+                [$item, Stylesheet::class, 'href', [4]],
             ]);
         $this->referencesExtractor
             ->expects($this->once())

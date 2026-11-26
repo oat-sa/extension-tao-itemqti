@@ -29,6 +29,7 @@ use oat\taoItems\model\event\ItemUpdatedEvent;
 use oat\taoQtiItem\model\qti\event\UpdatedItemEventDispatcher;
 use oat\taoQtiItem\model\qti\parser\ElementReferencesExtractor;
 use oat\taoQtiItem\model\qti\QtiObject;
+use oat\taoQtiItem\model\qti\Stylesheet;
 use oat\taoQtiItem\model\qti\XInclude;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -80,15 +81,17 @@ class UpdatedItemEventDispatcherTest extends TestCase
         $dataValue = ['data-value 1', 'data-value 2'];
         $srcValue = ['src-value 1', 'src-value 2'];
         $textReaderValue = ['text-reader-value 1', 'text-reader-value 2'];
+        $stylesheetValue = ['stylesheet-value 1'];
 
         $this->referencesExtractor
-            ->expects($this->exactly(3))
+            ->expects($this->exactly(4))
             ->method('extract')
             ->willReturnMap(
                 [
                     [$this->qtiItem, XInclude::class, 'href', $hrefValue],
                     [$this->qtiItem, QtiObject::class, 'data', $dataValue],
                     [$this->qtiItem, Img::class, 'src', $srcValue],
+                    [$this->qtiItem, Stylesheet::class, 'href', $stylesheetValue],
                 ]
             );
         $this->referencesExtractor
@@ -107,6 +110,7 @@ class UpdatedItemEventDispatcherTest extends TestCase
                         'includeElementReferences' => $hrefValue,
                         'objectElementReferences' => $dataValue,
                         'imgElementReferences' => $srcValue,
+                        'stylesheetElementReferences' => $stylesheetValue,
                         'textReaderElementReferences' => $textReaderValue,
                     ]
                 )

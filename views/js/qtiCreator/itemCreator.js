@@ -272,6 +272,8 @@ define([
                             return;
                         }
 
+                        config.properties.stylesheetLabels = item.stylesheetLabels || {};
+
                         _.forEach(item.getComposingElements(), element => {
                             if (element.is('customInteraction')) {
                                 usedCustomInteractionIds.push(element.typeIdentifier);

@@ -24,6 +24,7 @@ namespace oat\taoQtiItem\controller;
 
 use common_exception_BadRequest;
 use common_exception_Error;
+use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
@@ -41,6 +42,7 @@ use oat\tao\model\media\MediaService;
 use oat\tao\model\TaoOntology;
 use oat\taoItems\model\event\ItemCreatedEvent;
 use oat\taoItems\model\media\ItemMediaResolver;
+use oat\taoMediaManager\model\TaoMediaOntology;
 use oat\taoQtiItem\helpers\Authoring;
 use oat\taoQtiItem\model\CreatorConfig;
 use oat\taoQtiItem\model\event\ItemCreatorLoad;
@@ -48,6 +50,8 @@ use oat\taoQtiItem\model\HookRegistry;
 use oat\taoQtiItem\model\ItemModel;
 use oat\taoQtiItem\model\qti\event\UpdatedItemEventDispatcher;
 use oat\taoQtiItem\model\qti\exception\QtiModelException;
+use oat\taoQtiItem\model\qti\exception\StylesheetNotCssException;
+use oat\taoQtiItem\model\qti\Item;
 use oat\taoQtiItem\model\qti\parser\XmlToItemParser;
 use oat\taoQtiItem\model\qti\Service;
 use oat\taoQtiItem\model\qti\validator\ItemIdentifierValidator;
@@ -177,10 +181,61 @@ class QtiCreator extends tao_actions_CommonModule
         $this->returnJson($mediaSources);
     }
 
+    public function getAssetDisplayNames(): void
+    {
+        $displayNames = [];
+
+        $mediaSourceClass = \oat\taoMediaManager\model\MediaSource::class;
+        if (
+            !class_exists($mediaSourceClass)
+            || !\common_ext_ExtensionsManager::singleton()->isEnabled('taoMediaManager')
+        ) {
+            $this->returnJson($displayNames);
+            return;
+        }
+
+        $uris = $this->getRequestParameter('uris');
+        if (is_string($uris)) {
+            $uris = [$uris];
+        }
+        if (!is_array($uris)) {
+            $uris = [];
+        }
+
+        try {
+            $mediaSource = new $mediaSourceClass();
+
+            foreach ($uris as $uri) {
+                if (!is_string($uri) || $uri === '') {
+                    continue;
+                }
+
+                try {
+                    $fileInfo = $mediaSource->getFileInfo($uri);
+
+                    if (!isset($fileInfo['name']) || $fileInfo['name'] === '') {
+                        continue;
+                    }
+
+                    $displayNames[$uri] = $this->getStylesheetDisplayName(
+                        new core_kernel_classes_Resource($uri)
+                    );
+                } catch (\Throwable $e) {
+                    continue;
+                }
+            }
+        } catch (\Throwable $e) {
+            $displayNames = [];
+        }
+
+        $this->returnJson($displayNames);
+    }
+
     public function getItemData()
     {
         $returnValue = [
-            'itemData' => null
+            'itemData' => null,
+            'stylesheetLabels' => []
         ];
 
         if ($this->hasRequestParameter('uri')) {
@@ -203,6 +258,42 @@ class QtiCreator extends tao_actions_CommonModule
                 new core_kernel_classes_Resource(TaoOntology::PROPERTY_STANCE_LANGUAGE_USAGE_DATA)
             );
             $returnValue['languagesList'] = $availableLangs;
+
+            $mediaSourceClass = \oat\taoMediaManager\model\MediaSource::class;
+            if (
+                $item
+                && class_exists($mediaSourceClass)
+                && \common_ext_ExtensionsManager::singleton()->isEnabled('taoMediaManager')
+            ) {
+                try {
+                    $mediaSource = new $mediaSourceClass();
+
+                    foreach ($item->getStylesheets() as $stylesheet) {
+                        $href = (string) $stylesheet->getAttributeValue('href');
+
+                        if (strpos($href, $mediaSourceClass::SCHEME_NAME) !== 0) {
+                            continue;
+                        }
+
+                        try {
+                            $uri = tao_helpers_Uri::decode(
+                                substr($href, strlen($mediaSourceClass::SCHEME_NAME))
+                            );
+                            $fileInfo = $mediaSource->getFileInfo($uri);
+
+                            if (isset($fileInfo['name']) && $fileInfo['name'] !== '') {
+                                $returnValue['stylesheetLabels'][$href] = $this->getStylesheetDisplayName(
+                                    new core_kernel_classes_Resource($uri)
+                                );
+                            }
+                        } catch (\Throwable $e) {
+                            continue;
+                        }
+                    }
+                } catch (\Throwable $e) {
+                    $returnValue['stylesheetLabels'] = [];
+                }
+            }
         }
 
         $this->returnJson($returnValue);
@@ -226,6 +317,7 @@ class QtiCreator extends tao_actions_CommonModule
 
                     $item = $this->getXmlToItemParser()->parseAndSanitize($xml);
                     $this->getItemIdentifierValidator()->validate($item);
+                    $this->assertStyleSheetsAreCss($item, $rdfItem);
 
                     $returnValue['success'] = $itemService->saveDataItemToRdfItem($item, $rdfItem);
 
@@ -248,6 +340,13 @@ class QtiCreator extends tao_actions_CommonModule
                         'type' => 'Error',
                         'message' => $e->getUserMessage()
                     ];
+                } catch (StylesheetNotCssException $e) {
+                    $this->logError($e->getMessage());
+                    $returnValue = [
+                        'success' => false,
+                        'type' => 'Error',
+                        'message' => $e->getUserMessage()
+                    ];
                 } catch (common_exception_Error $e) {
                     $this->logError(sprintf('Item XML is not valid: %s', $e->getMessage()));
                     $returnValue = [
@@ -260,6 +359,60 @@ class QtiCreator extends tao_actions_CommonModule
         }
 
         $this->returnJson($returnValue);
+    }
+
+    private function assertStyleSheetsAreCss(Item $item, core_kernel_classes_Resource $rdfItem): void
+    {
+        $lang = $item->getAttributeValue('xml:lang');
+
+        foreach ($item->getStylesheets() as $stylesheet) {
+            $href = (string) $stylesheet->getAttributeValue('href');
+
+            if (strpos($href, 'taomedia://mediamanager/') !== 0) {
+                continue;
+            }
+
+            try {
+                $resolver = new ItemMediaResolver($rdfItem, $lang);
+                $asset = $resolver->resolve($href);
+                $source = $asset->getMediaSource();
+                $info = $source->getFileInfo($asset->getMediaIdentifier());
+            } catch (\Throwable $e) {
+                $this->logWarning(
+                    sprintf('Unable to resolve stylesheet "%s" while saving item: %s', $href, $e->getMessage())
+                );
+                continue;
+            }
+
+            $mime = isset($info['mime']) ? explode(';', (string) $info['mime'])[0] : '';
+            $mime = strtolower(trim($mime));
+
+            if ($mime === 'text/css') {
+                continue;
+            }
+
+            if ($mime === '' && $this->isCssAssetLink($info, $href)) {
+                continue;
+            }
+
+            $displayName = basename((string) parse_url($href, PHP_URL_PATH));
+
+            if (!empty($info['name'])) {
+                $displayName = $info['name'];
+            }
+
+            throw new StylesheetNotCssException($displayName);
+        }
+    }
+
+    /**
+     * Assets stored by older imports may carry no MIME type; the extension is then the only hint.
+     */
+    private function isCssAssetLink(array $info, string $href): bool
+    {
+        $link = (string) ($info['link'] ?? $info['filePath'] ?? $href);
+
+        return strtolower(substr($link, -4)) === '.css';
     }
 
     public function getFile()
@@ -368,6 +521,59 @@ class QtiCreator extends tao_actions_CommonModule
         $config->init();
 
         return $config;
+    }
+
+    private function getStylesheetDisplayName(core_kernel_classes_Resource $resource): string
+    {
+        $label = (string) $resource->getLabel();
+        $rootUri = TaoMediaOntology::CLASS_URI_MEDIA_ROOT;
+
+        $buildChain = function (core_kernel_classes_Class $class, array $visited) use (&$buildChain, $rootUri) {
+            $classUri = $class->getUri();
+
+            if (isset($visited[$classUri])) {
+                return null;
+            }
+            $visited[$classUri] = true;
+
+            if ($classUri === $rootUri) {
+                return [(string) $class->getLabel()];
+            }
+
+            foreach ($class->getParentClasses(false) as $parent) {
+                if (!$parent instanceof core_kernel_classes_Class) {
+                    continue;
+                }
+
+                $chain = $buildChain($parent, $visited);
+
+                if ($chain !== null) {
+                    $chain[] = (string) $class->getLabel();
+                    return $chain;
+                }
+            }
+
+            return null;
+        };
+
+        try {
+            foreach ($resource->getTypes() as $type) {
+                if (!$type instanceof core_kernel_classes_Class) {
+                    continue;
+                }
+
+                $chain = $buildChain($type, []);
+
+                if ($chain !== null) {
+                    $chain[] = $label;
+                    return implode('/', $chain);
+                }
+            }
+        } catch (\Throwable $e) {
+            // A broken class hierarchy must never prevent the caller from getting a name.
+        }
+
+        return $label;
     }
 
     private function getUpdatedItemEventDispatcher(): UpdatedItemEventDispatcher
