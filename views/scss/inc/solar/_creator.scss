@@ -252,9 +252,31 @@ body.solar-design {
                             & > .panel {
                                 padding: 8px 0;
                             }
-                            .min-max {
-                                label {
+                            &.min-max-panel .min-max {
+                                display: block;
+                                width: 100%;
+
+                                > div {
+                                    position: relative;
+                                    width: 100%;
+                                    box-sizing: border-box;
+                                    padding-right: 22px;
+                                    line-height: var(--label-height, 22px);
+                                }
+
+                                label.spinner {
+                                    margin-bottom: 0;
+                                }
+
+                                label:not(.spinner) {
                                     margin-bottom: 16px;
+                                }
+
+                                .icon-help.tooltipstered {
+                                    float: none;
+                                    position: absolute;
+                                    right: 0;
+                                    top: 4px;
                                 }
                             }
                         }

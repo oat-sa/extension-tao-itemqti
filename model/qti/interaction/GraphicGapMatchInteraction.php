@@ -50,6 +50,17 @@ class GraphicGapMatchInteraction extends GraphicInteraction
     protected $gapImgs = [];
     protected $gapTexts = [];
 
+    protected function getUsedAttributes(): array
+    {
+        return array_merge(
+            parent::getUsedAttributes(),
+            [
+                'oat\\taoQtiItem\\model\\qti\\attribute\\MaxAssociations',
+                'oat\\taoQtiItem\\model\\qti\\attribute\\MinAssociations',
+            ]
+        );
+    }
+
     /**
      *
      * @return oat\taoQtiItem\model\qti\choice\Choice
