@@ -588,6 +588,38 @@ body.solar-design #item-editor-scope .item-editor-sidebar .tool-group .panel .sc
     .min-max-panel .spinner {
         min-width: 90px;
     }
+    .tool-group .panel.min-max-panel .min-max {
+        display: block;
+        width: 100%;
+
+        > div {
+            position: relative;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 7px;
+            padding-right: 22px;
+            line-height: 22px;
+        }
+
+        .icon-help.tooltipstered {
+            float: none;
+            position: absolute;
+            right: 0;
+            top: 4px;
+            cursor: pointer;
+        }
+
+        label.spinner {
+            vertical-align: middle;
+            margin-bottom: 0;
+        }
+
+        input[type="text"] {
+            width: auto;
+            min-width: 0;
+            vertical-align: middle;
+        }
+    }
     .incrementer.large{
         min-width: 55px !important;
     }
