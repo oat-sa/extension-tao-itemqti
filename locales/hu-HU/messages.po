@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-11-13 08:50\n"
+"PO-Revision-Date: 2026-11-27 13:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: hu\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -149,6 +149,9 @@ msgstr "Egyéb visszajelzés hozzáadása"
 msgid "Add file(s)"
 msgstr "Fájl(ok) hozzáadása"
 
+msgid "Add image gap"
+msgstr "Képköz hozzáadása"
+
 msgid "Add level"
 msgstr "Szint hozzáadása"
 
@@ -166,6 +169,9 @@ msgstr "Új sor hozzáadása"
 
 msgid "Add Style Sheet"
 msgstr "Stíluslap hozzáadása"
+
+msgid "Add text gap"
+msgstr "Szövegköz hozzáadása"
 
 msgid "Add variant"
 msgstr "Változat hozzáadása"
@@ -776,6 +782,12 @@ msgstr "Adjon meg egy kiválasztott MIME-típust"
 msgid "Enter choices…"
 msgstr "Választási lehetőségek megadása…"
 
+msgid "Enter label text"
+msgstr "Írja be a címke szövegét"
+
+msgid "Enter text"
+msgstr "Írjon be szöveget"
+
 msgid "Enter tooltip content"
 msgstr "Eszközleírás tartalmának megadása"
 
@@ -1018,6 +1030,9 @@ msgstr "Képfelirat"
 
 msgid "Image caption not enabled when position is set to inline"
 msgstr "A képfelirat nem engedélyezett, ha a pozíció beágyazottra van állítva."
+
+msgid "Image choice"
+msgstr "Képválasztás"
 
 msgid "Import"
 msgstr "Importálás"
@@ -1395,6 +1410,9 @@ msgstr "negatív"
 #, tao-public
 msgid "New item"
 msgstr "Új elem"
+
+msgid "New label"
+msgstr "Új címke"
 
 msgid "No"
 msgstr "Nem"
@@ -2086,6 +2104,9 @@ msgstr "Szövegblokk CSS osztály"
 msgid "Text Block Properties"
 msgstr "Szövegblokk tulajdonságai"
 
+msgid "Text choice"
+msgstr "Szövegválasztás"
+
 msgid "Text color"
 msgstr "Szöveg színe"
 
@@ -2289,6 +2310,9 @@ msgstr "Az alakzat szélessége pixelben. Ez az érték méretezhető, ha a hát
 
 msgid "The target must be an instance of DOMDocument"
 msgstr "A célnak a DOMDocument egy példányának kell lennie."
+
+msgid "The text displayed on this draggable gap choice."
+msgstr "A húzható résválasztáson megjelenített szöveg."
 
 msgid "The text to be displayed below the image."
 msgstr "A kép alatt megjelenítendő szöveg."
