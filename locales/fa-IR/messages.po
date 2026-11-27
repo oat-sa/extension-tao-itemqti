@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-11-13 08:51\n"
+"PO-Revision-Date: 2026-11-27 13:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fa\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -149,6 +149,9 @@ msgstr ""
 msgid "Add file(s)"
 msgstr ""
 
+msgid "Add image gap"
+msgstr ""
+
 msgid "Add level"
 msgstr ""
 
@@ -165,6 +168,9 @@ msgid "Add new row"
 msgstr ""
 
 msgid "Add Style Sheet"
+msgstr ""
+
+msgid "Add text gap"
 msgstr ""
 
 msgid "Add variant"
@@ -776,6 +782,12 @@ msgstr ""
 msgid "Enter choices…"
 msgstr ""
 
+msgid "Enter label text"
+msgstr ""
+
+msgid "Enter text"
+msgstr ""
+
 msgid "Enter tooltip content"
 msgstr ""
 
@@ -1017,6 +1029,9 @@ msgid "Image caption"
 msgstr ""
 
 msgid "Image caption not enabled when position is set to inline"
+msgstr ""
+
+msgid "Image choice"
 msgstr ""
 
 msgid "Import"
@@ -1393,6 +1408,9 @@ msgstr ""
 
 #, tao-public
 msgid "New item"
+msgstr ""
+
+msgid "New label"
 msgstr ""
 
 msgid "No"
@@ -2085,6 +2103,9 @@ msgstr ""
 msgid "Text Block Properties"
 msgstr ""
 
+msgid "Text choice"
+msgstr ""
+
 msgid "Text color"
 msgstr ""
 
@@ -2287,6 +2308,9 @@ msgid "The shape width in pixels. This value may be scaled when the background i
 msgstr ""
 
 msgid "The target must be an instance of DOMDocument"
+msgstr ""
+
+msgid "The text displayed on this draggable gap choice."
 msgstr ""
 
 msgid "The text to be displayed below the image."
