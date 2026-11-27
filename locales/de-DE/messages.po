@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-11-13 08:50\n"
+"PO-Revision-Date: 2026-11-27 13:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -149,6 +149,9 @@ msgstr "Sonst-Feedback hinzufügen"
 msgid "Add file(s)"
 msgstr "Datei(en) hinzufügen"
 
+msgid "Add image gap"
+msgstr "Bildunterschied hinzufügen"
+
 msgid "Add level"
 msgstr "Level hinzufügen"
 
@@ -166,6 +169,9 @@ msgstr "Neue Zeile hinzufügen"
 
 msgid "Add Style Sheet"
 msgstr "Stilvorlage hinzufügen"
+
+msgid "Add text gap"
+msgstr "Textunterschied hinzufügen"
 
 msgid "Add variant"
 msgstr "Variante hinzufügen"
@@ -776,6 +782,12 @@ msgstr "Geben Sie einen ausgewählten MIME-Typ ein"
 msgid "Enter choices…"
 msgstr "Geben Sie Auswahlmöglichkeiten ein…"
 
+msgid "Enter label text"
+msgstr "Labeltext eingeben"
+
+msgid "Enter text"
+msgstr "Text eingeben"
+
 msgid "Enter tooltip content"
 msgstr "Tooltip-Inhalt eingeben"
 
@@ -1018,6 +1030,9 @@ msgstr "Bildunterschrift"
 
 msgid "Image caption not enabled when position is set to inline"
 msgstr "Bildunterschrift ist nicht aktiviert, wenn die Position auf 'Inline' gesetzt ist"
+
+msgid "Image choice"
+msgstr "Bildauswahl"
 
 msgid "Import"
 msgstr "Importieren"
@@ -1395,6 +1410,9 @@ msgstr "negativ"
 #, tao-public
 msgid "New item"
 msgstr "Neues Element"
+
+msgid "New label"
+msgstr "Neue Bezeichnung"
 
 msgid "No"
 msgstr "Nein"
@@ -2086,6 +2104,9 @@ msgstr "Textblock-CSS-Klasse"
 msgid "Text Block Properties"
 msgstr "Textblock-Eigenschaften"
 
+msgid "Text choice"
+msgstr "Textauswahl"
+
 msgid "Text color"
 msgstr "Textfarbe"
 
@@ -2289,6 +2310,9 @@ msgstr "Die Breite der Form in Pixel. Dieser Wert wird möglicherweiße skaliert
 
 msgid "The target must be an instance of DOMDocument"
 msgstr "Das Ziel muss eine Instanz eines DOMDocument sein"
+
+msgid "The text displayed on this draggable gap choice."
+msgstr "Der Text, der auf dieser ziehbaren Lückenauswahl angezeigt wird."
 
 msgid "The text to be displayed below the image."
 msgstr "Der Text, der unter dem Bild angezeigt werden soll."
