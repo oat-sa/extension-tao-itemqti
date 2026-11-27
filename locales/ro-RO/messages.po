@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-11-13 08:50\n"
+"PO-Revision-Date: 2026-11-27 13:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -149,6 +149,9 @@ msgstr "Adăugați alte păreri"
 msgid "Add file(s)"
 msgstr "Adaugă fișier(e)"
 
+msgid "Add image gap"
+msgstr "Adaugă decalaj de imagine"
+
 msgid "Add level"
 msgstr "Adaugă nivel"
 
@@ -166,6 +169,9 @@ msgstr "Adaugă un rând nou"
 
 msgid "Add Style Sheet"
 msgstr "Adaugă foaie de stil"
+
+msgid "Add text gap"
+msgstr "Adăugați un decalaj de text"
 
 msgid "Add variant"
 msgstr "Adaugă variantă"
@@ -776,6 +782,12 @@ msgstr "Introduceți un tip MIM selectat"
 msgid "Enter choices…"
 msgstr "Introduceți opțiunile…"
 
+msgid "Enter label text"
+msgstr "Introduceți textul etichetei"
+
+msgid "Enter text"
+msgstr "Introduceți textul"
+
 msgid "Enter tooltip content"
 msgstr "Introduceți conținutul vârfului de instrumente"
 
@@ -1018,6 +1030,9 @@ msgstr "Legendă imagine"
 
 msgid "Image caption not enabled when position is set to inline"
 msgstr "Legenda imaginii nu este activată când poziţia este setată pe linie"
+
+msgid "Image choice"
+msgstr "Alegerea imaginii"
 
 msgid "Import"
 msgstr "Importă"
@@ -1395,6 +1410,9 @@ msgstr "negativ"
 #, tao-public
 msgid "New item"
 msgstr "Element nou"
+
+msgid "New label"
+msgstr "Etichetă nouă"
 
 msgid "No"
 msgstr "Nr"
@@ -2086,6 +2104,9 @@ msgstr "Clasa CSS pentru bloc text"
 msgid "Text Block Properties"
 msgstr "Proprietăți bloc text"
 
+msgid "Text choice"
+msgstr "Alegerea textului"
+
 msgid "Text color"
 msgstr "Culoare text"
 
@@ -2289,6 +2310,9 @@ msgstr "Lățimea formei în pixeli. Această valoare poate fi scalată atunci c
 
 msgid "The target must be an instance of DOMDocument"
 msgstr "Obiectivul trebuie să fie un exemplu de DOMDocument"
+
+msgid "The text displayed on this draggable gap choice."
+msgstr "Textul afișat pe această alegere fără încărcătură."
 
 msgid "The text to be displayed below the image."
 msgstr "Textul care va fi afișat sub imagine."
