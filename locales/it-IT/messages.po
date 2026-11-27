@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-11-13 08:50\n"
+"PO-Revision-Date: 2026-11-27 13:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -149,6 +149,9 @@ msgstr "Aggiungi ulteriore feedback"
 msgid "Add file(s)"
 msgstr "Aggiungi file"
 
+msgid "Add image gap"
+msgstr "Aggiungi spazio immagine"
+
 msgid "Add level"
 msgstr "Aggiungi livello"
 
@@ -166,6 +169,9 @@ msgstr ""
 
 msgid "Add Style Sheet"
 msgstr "Aggiungi foglio di stile"
+
+msgid "Add text gap"
+msgstr "Aggiungi vuoto di testo"
 
 msgid "Add variant"
 msgstr "Aggiungi variante"
@@ -776,6 +782,12 @@ msgstr ""
 msgid "Enter choices…"
 msgstr ""
 
+msgid "Enter label text"
+msgstr "Inserisci il testo dell'etichetta"
+
+msgid "Enter text"
+msgstr "Inserisci testo"
+
 msgid "Enter tooltip content"
 msgstr ""
 
@@ -1018,6 +1030,9 @@ msgstr ""
 
 msgid "Image caption not enabled when position is set to inline"
 msgstr ""
+
+msgid "Image choice"
+msgstr "Scelta immagine"
 
 msgid "Import"
 msgstr "Importa"
@@ -1394,6 +1409,9 @@ msgstr ""
 #, tao-public
 msgid "New item"
 msgstr "Nuovo item"
+
+msgid "New label"
+msgstr "Nuova etichetta"
 
 msgid "No"
 msgstr ""
@@ -2085,6 +2103,9 @@ msgstr ""
 msgid "Text Block Properties"
 msgstr "Proprietà del blocco di testo"
 
+msgid "Text choice"
+msgstr "Scelta testo"
+
 msgid "Text color"
 msgstr "Colore testo"
 
@@ -2288,6 +2309,9 @@ msgstr "La larghezza della forma in pixel. Questo valore può essere messo in sc
 
 msgid "The target must be an instance of DOMDocument"
 msgstr "L'obiettivo deve essere un'istanza di DOMDocument"
+
+msgid "The text displayed on this draggable gap choice."
+msgstr "Il testo visualizzato su questa scelta di gap trascinabile."
 
 msgid "The text to be displayed below the image."
 msgstr ""

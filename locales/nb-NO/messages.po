@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-11-13 08:51\n"
+"PO-Revision-Date: 2026-11-27 13:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nb_NO\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -149,6 +149,9 @@ msgstr "Legg til annen tilbakemelding"
 msgid "Add file(s)"
 msgstr "Legg til fil(er)"
 
+msgid "Add image gap"
+msgstr "Legg til bildeåpning"
+
 msgid "Add level"
 msgstr "Legg til nivå"
 
@@ -166,6 +169,9 @@ msgstr ""
 
 msgid "Add Style Sheet"
 msgstr "Legg til stilark"
+
+msgid "Add text gap"
+msgstr "Legge til tekstgap"
 
 msgid "Add variant"
 msgstr "Legg til variant"
@@ -776,6 +782,12 @@ msgstr "Skriv inn en valgt MIME-type"
 msgid "Enter choices…"
 msgstr "Gå til valg…"
 
+msgid "Enter label text"
+msgstr "Skriv inn etiketttekst"
+
+msgid "Enter text"
+msgstr "Skriv inn tekst"
+
 msgid "Enter tooltip content"
 msgstr "Gå til verktøykasseinhold"
 
@@ -1018,6 +1030,9 @@ msgstr ""
 
 msgid "Image caption not enabled when position is set to inline"
 msgstr ""
+
+msgid "Image choice"
+msgstr "Bilde valg"
 
 msgid "Import"
 msgstr "Importer"
@@ -1394,6 +1409,9 @@ msgstr ""
 #, tao-public
 msgid "New item"
 msgstr "Ny oppgave"
+
+msgid "New label"
+msgstr "Ny etikett"
 
 msgid "No"
 msgstr "Nei"
@@ -2085,6 +2103,9 @@ msgstr "Tekstboks CSS mappe"
 msgid "Text Block Properties"
 msgstr "Tekstboks egenskaper"
 
+msgid "Text choice"
+msgstr "Velg tekst"
+
 msgid "Text color"
 msgstr "Tekstfarge"
 
@@ -2288,6 +2309,9 @@ msgstr "Formbredden i piksler. Denne verdien kan skaleres når bakgrunnsbildest�
 
 msgid "The target must be an instance of DOMDocument"
 msgstr "Målet må være en forekomst av DOMDocumentet"
+
+msgid "The text displayed on this draggable gap choice."
+msgstr "Teksten vises på dette flyttbare gapet."
 
 msgid "The text to be displayed below the image."
 msgstr ""

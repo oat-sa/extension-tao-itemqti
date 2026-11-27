@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-11-13 08:51\n"
+"PO-Revision-Date: 2026-11-27 13:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && (n%100>19 || n%100<11) ? 0 : (n%10>=2 && n%10<=9) && (n%100>19 || n%100<11) ? 1 : n%1!=0 ? 2: 3);\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -149,6 +149,9 @@ msgstr "Pridėti kitą atsiliepimą"
 msgid "Add file(s)"
 msgstr "Pridėti failą(–us)"
 
+msgid "Add image gap"
+msgstr ""
+
 msgid "Add level"
 msgstr ""
 
@@ -166,6 +169,9 @@ msgstr ""
 
 msgid "Add Style Sheet"
 msgstr "Pridėti Stiliaus Lapą"
+
+msgid "Add text gap"
+msgstr ""
 
 msgid "Add variant"
 msgstr ""
@@ -776,6 +782,12 @@ msgstr "Įveskite pasirinktiną MIME-tipą"
 msgid "Enter choices…"
 msgstr "Įveskite variantus…"
 
+msgid "Enter label text"
+msgstr ""
+
+msgid "Enter text"
+msgstr ""
+
 msgid "Enter tooltip content"
 msgstr ""
 
@@ -1017,6 +1029,9 @@ msgid "Image caption"
 msgstr ""
 
 msgid "Image caption not enabled when position is set to inline"
+msgstr ""
+
+msgid "Image choice"
 msgstr ""
 
 msgid "Import"
@@ -1395,6 +1410,9 @@ msgstr "negatyvus"
 #, tao-public
 msgid "New item"
 msgstr "Kurti klausimą"
+
+msgid "New label"
+msgstr ""
 
 msgid "No"
 msgstr "Ne"
@@ -2086,6 +2104,9 @@ msgstr "Teksto Bloko CSS Klasė"
 msgid "Text Block Properties"
 msgstr "Teksto Bloko Savybės"
 
+msgid "Text choice"
+msgstr ""
+
 msgid "Text color"
 msgstr "Teksto spalva"
 
@@ -2289,6 +2310,9 @@ msgstr "Formos plotis pikseliais. Ši reikšmė gali būti keičiama, kai fono p
 
 msgid "The target must be an instance of DOMDocument"
 msgstr "Tikslas privalo būti DOMDocument instancija"
+
+msgid "The text displayed on this draggable gap choice."
+msgstr ""
 
 msgid "The text to be displayed below the image."
 msgstr ""

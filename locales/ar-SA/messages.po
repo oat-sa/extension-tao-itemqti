@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-11-13 08:51\n"
+"PO-Revision-Date: 2026-11-27 13:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -149,6 +149,9 @@ msgstr "إضافة ملاحظات أخرى"
 msgid "Add file(s)"
 msgstr "أضف ملفات"
 
+msgid "Add image gap"
+msgstr "إضافة فجوة في الصورة"
+
 msgid "Add level"
 msgstr "إضافة مستوى"
 
@@ -166,6 +169,9 @@ msgstr "أضف صفا جديدا"
 
 msgid "Add Style Sheet"
 msgstr "أضف ورقة الأنماط"
+
+msgid "Add text gap"
+msgstr "إضافة فجوة نصية"
 
 msgid "Add variant"
 msgstr "إضافة متغير"
@@ -776,6 +782,12 @@ msgstr "أدخل نوع MIME محدد"
 msgid "Enter choices…"
 msgstr "أدخل الاختيارات ..."
 
+msgid "Enter label text"
+msgstr "أدخل نص التسمية"
+
+msgid "Enter text"
+msgstr "أدخل النص"
+
 msgid "Enter tooltip content"
 msgstr "أدخل محتوى تلميح الأداة"
 
@@ -1018,6 +1030,9 @@ msgstr "شرح الصورة"
 
 msgid "Image caption not enabled when position is set to inline"
 msgstr "لم يتم تمكين وصف الصورة عندما يتم تعيين الموضع على الخط"
+
+msgid "Image choice"
+msgstr "اختيار الصورة"
 
 msgid "Import"
 msgstr "استورد"
@@ -1395,6 +1410,9 @@ msgstr "نفي"
 #, tao-public
 msgid "New item"
 msgstr "بند جديد"
+
+msgid "New label"
+msgstr "تسمية جديدة"
 
 msgid "No"
 msgstr "لا"
@@ -2086,6 +2104,9 @@ msgstr "فئة CSS نص كتلة  صفحات التنسيق النمطية"
 msgid "Text Block Properties"
 msgstr "خصائص كتلة النص"
 
+msgid "Text choice"
+msgstr "اختيار النص"
+
 msgid "Text color"
 msgstr "لون النص"
 
@@ -2289,6 +2310,9 @@ msgstr "عرض الشكل بالبكسل. يمكن تغيير حجم هذه ال
 
 msgid "The target must be an instance of DOMDocument"
 msgstr "يجب أن يكون الهدف مثيل DOMDocument"
+
+msgid "The text displayed on this draggable gap choice."
+msgstr "النص المعروض على خيار هذه الفجوة القابلة للسحب."
 
 msgid "The text to be displayed below the image."
 msgstr "النص الذي سيتم عرضه تحت الصورة."

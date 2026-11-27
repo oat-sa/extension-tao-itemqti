@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-11-13 14:22\n"
+"PO-Revision-Date: 2026-11-27 13:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
-"X-Poedit-KeywordsList: __\n"
+"X-Poedit-KeywordsList: __,__p:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Crowdin-Project: tao-open-source\n"
@@ -149,6 +149,9 @@ msgstr "他のフィードバックを追加"
 msgid "Add file(s)"
 msgstr "ファイル追加"
 
+msgid "Add image gap"
+msgstr "画像ギャップを追加"
+
 msgid "Add level"
 msgstr "レベルを追加"
 
@@ -166,6 +169,9 @@ msgstr "行の追加"
 
 msgid "Add Style Sheet"
 msgstr "スタイルシート追加"
+
+msgid "Add text gap"
+msgstr "テキストギャップを追加"
 
 msgid "Add variant"
 msgstr "バリエーションを追加"
@@ -776,6 +782,12 @@ msgstr "MINEタイプを選択"
 msgid "Enter choices…"
 msgstr "- 選択 -"
 
+msgid "Enter label text"
+msgstr "ラベルテキストを入力"
+
+msgid "Enter text"
+msgstr "テキストを入力"
+
 msgid "Enter tooltip content"
 msgstr "Tips内容"
 
@@ -1018,6 +1030,9 @@ msgstr "画像キャプション"
 
 msgid "Image caption not enabled when position is set to inline"
 msgstr "位置がインラインに設定されている場合、画像キャプションは有効になりません"
+
+msgid "Image choice"
+msgstr "画像の選択"
 
 msgid "Import"
 msgstr "インポート"
@@ -1395,6 +1410,9 @@ msgstr "ネガティブ"
 #, tao-public
 msgid "New item"
 msgstr "新規アイテム"
+
+msgid "New label"
+msgstr "新しいラベル"
 
 msgid "No"
 msgstr "いいえ"
@@ -1889,7 +1907,7 @@ msgid "Select height of block based on container height"
 msgstr "コンテナの高さに基づいてブロックの高さを選択"
 
 msgid "Select height of passage base of container height"
-msgstr "コンテナの高さを選択"
+msgstr "コンテナ（表示枠）の高さに対するパッセージの高さを選択"
 
 msgid "Select height of text block base of container height"
 msgstr "テキストブロックの高さを選択"
@@ -2086,6 +2104,9 @@ msgstr "文字ブロックCSSクラス"
 msgid "Text Block Properties"
 msgstr "文字ブロックプロパティ"
 
+msgid "Text choice"
+msgstr "テキストの選択"
+
 msgid "Text color"
 msgstr "文字色"
 
@@ -2264,7 +2285,7 @@ msgid "The principle identifier of the item. This identifier must have a corresp
 msgstr "アイテムの主要識別子。この識別子は、アイテムのメタデータに対応するエントリがなければならない。"
 
 msgid "The purpose for which the rubric is intended to be used. As a reading passage for multiple items, or instructions for a particular section, for example."
-msgstr "ルーブリックの使用目的：例えば、複数アイテムの導線として、または特定のセクションの指示として。"
+msgstr "ルーブリックを使用する目的（例：複数アイテムの読解パッセージ、特定セクションの指示文など）。"
 
 msgid "The QTI class \"%1$s\" located at line \"%2$d\" is currently not supported."
 msgstr "\"%2$d\"の行にあるQTIクラス \"%1$s\"は現在サポートされていません。"
@@ -2289,6 +2310,9 @@ msgstr "ピクセル単位の図形の幅。この値は、背景画像のサイ
 
 msgid "The target must be an instance of DOMDocument"
 msgstr "ターゲットはのDOMDocumentのインスタンスである必要があります"
+
+msgid "The text displayed on this draggable gap choice."
+msgstr "このドラッグ可能なギャップの選択肢に表示されるテキスト。"
 
 msgid "The text to be displayed below the image."
 msgstr "画像の下に表示されるテキスト。"
